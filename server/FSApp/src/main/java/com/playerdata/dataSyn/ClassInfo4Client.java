@@ -16,6 +16,7 @@ import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.dataSyn.json.FieldInfo;
+import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class ClassInfo4Client {
@@ -73,9 +74,9 @@ public class ClassInfo4Client {
 		}
 	}
 	
-	public String toJson(Object target) throws Exception{
+	public String toJson(Object target, JsonOpt jsonOpt) throws Exception{
 		
-		JSONObject clientData = toJsonObject( target);
+		JSONObject clientData = toJsonObject( target, jsonOpt);
 		String json = null;
 		if(clientData!=null){
 			json = clientData.toJSONString();
@@ -84,14 +85,18 @@ public class ClassInfo4Client {
 		return json;
 	}
 	
-	public JSONObject toJsonObject(Object target) throws Exception{
+	public JSONObject toJsonObject(Object target, JsonOpt jsonOpt) throws Exception{
 		
 		JSONObject clientData = new JSONObject();
 
 		for (FieldInfo fieldTmp : clientFiledList) {
-			Object jsonValue = fieldTmp.toJson(target);
+			Object jsonValue = fieldTmp.toJson(target, jsonOpt);
 			if(jsonValue!=null){
-				clientData.put(fieldTmp.getName(), jsonValue);
+				
+				String sName = jsonOpt.getShort(fieldTmp.getName());
+				
+				clientData.put(sName, jsonValue);
+				
 			}
 		}
 		
@@ -102,9 +107,9 @@ public class ClassInfo4Client {
 	}
 	
 
-	public String toJson(Object target, List<String> fieldList) throws Exception{
+	public String toJson(Object target, List<String> fieldList, JsonOpt jsonOpt) throws Exception{
 		
-		JSONObject clientData = toJsonObject( target, fieldList);
+		JSONObject clientData = toJsonObject( target, fieldList,jsonOpt);
 		String json = null;
 		if(clientData!=null){
 			json = clientData.toJSONString();
@@ -112,15 +117,16 @@ public class ClassInfo4Client {
 		
 		return json;
 	}
-	public JSONObject toJsonObject(Object target, List<String> fieldList) throws Exception{
+	public JSONObject toJsonObject(Object target, List<String> fieldList, JsonOpt jsonOpt) throws Exception{
 		
 		JSONObject clientData = new JSONObject();
 
 		for (FieldInfo fieldTmp : clientFiledList) {
 			if(fieldList.contains(fieldTmp.getName())){
-				Object jsonValue = fieldTmp.toJson(target);
+				Object jsonValue = fieldTmp.toJson(target,jsonOpt);
 				if(jsonValue!=null){
-					clientData.put(fieldTmp.getName(), jsonValue);
+					String sName = jsonOpt.getShort(fieldTmp.getName());
+					clientData.put(sName, jsonValue);
 				}				
 			}
 		}

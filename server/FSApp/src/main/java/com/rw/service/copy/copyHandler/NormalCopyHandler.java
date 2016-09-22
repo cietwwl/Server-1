@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.randomBoss.RandomBossMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
@@ -114,6 +115,9 @@ public class NormalCopyHandler {
 		// 任务--完成副本--章节星数--完成章节
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Section_Star);
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Section);
+		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player);
 
 		TagBattleClearingResult.Builder tagBattleClearingResult = TagBattleClearingResult.newBuilder(); // 战斗结算返回的信息...
 		tagBattleClearingResult.addAllUpHeroId(listUpHero);// 升级英雄ID...
@@ -148,6 +152,9 @@ public class NormalCopyHandler {
 
 		// 同步日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, times);
+		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player);
 
 		// 黑市或者神秘商店
 		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);

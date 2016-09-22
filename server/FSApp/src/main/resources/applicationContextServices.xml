@@ -113,8 +113,11 @@
      			
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UI_DATA" value-ref="userFightingGrowthService" />
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UPGRADE" value-ref="userFightingGrowthService" />
+
      			<entry key="MSG_GROUP_COMPETITION" value-ref="groupCompetitionService" />
      			<entry key="MSG_GROUP_COMPETITION_GET_DATA" value-ref="groupCompetitionDataService" />
+
+     			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
 			</map>
 		</property>
 	</bean>
@@ -205,4 +208,6 @@
 	<bean id="groupCompetitionService" class="com.playerdata.groupcompetition.service.GroupCompetitionService" />
 	<bean id="groupCompetitionDataService" class="com.playerdata.groupcompetition.service.GroupCompetitionGetDataService" />
 
+	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
+	
 </beans>  

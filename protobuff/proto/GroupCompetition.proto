@@ -17,6 +17,10 @@ enum GCRequestType{
 	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
 	GetMatchView = 9; // 获取对阵信息
 	GetSelectionData = 10; // 获取海选信息
+	CreateTeam = 11; // 创建队伍
+	AdjustTeamMember = 12; // 调整队伍阵容
+	InviteMember = 13; // 邀请成员
+	KickMember = 14; // 剔除成员
 }
 
 enum GCResultType {
@@ -32,6 +36,7 @@ message CommonReqMsg{
 
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
+	optional fixed32 matchId = 2; // 请求的赛事id，当reqType为LiveMsg和PlaybackMsg的时候，需要发送这个数据
 }
 
 message CommonGetDataRspMsg {
@@ -138,5 +143,32 @@ message SelectionGroupData {
 	required string name = 2; // 帮派的名字
 	required fixed64 fighting = 3; // 帮派的战斗力
 	required fixed32 upNum = 4; // 排名变化的数据（负数表示下降，正数表示上升）
+}
+
+// 队伍请求，返回CommonRsp
+message TeamRequest {
+	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+	repeated string heroId = 2; // 整容的英雄id
+}
+
+// 加入队伍请求，返回CommonRsp
+message JoinTeamReq {
+	required fixed32 teamId = 1; // 队伍id
+}
+
+// 队员请求，返回CommonRsp
+message TeamMemberRequest {
+	required GCRequestType reqType = 1; // 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+	required string targetUserId = 2; // 目标的userId
+}
+
+// 准备状态请求，返回CommonRsp
+message TeamStatusRequest {
+	required bool ready = 1; // 是否准备（true为确认准备，false为取消准备）
+}
+
+message CommonRsp {
+	required GCResultType resultType = 1;
+	optional string tips = 2;
 }
 
