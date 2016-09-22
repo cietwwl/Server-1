@@ -73,6 +73,8 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 				break;
 			case BUY_TIMES:
 				result = mHandler.buyBattleTimes(player, request);
+			case ADD_ROBOT:
+				result = mHandler.buyBattleTimes(player, request);
 			default:
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
