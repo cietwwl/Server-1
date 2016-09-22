@@ -175,6 +175,7 @@ public class GambleDropHistory {
 		if (isGuarantee){
 			GambleLogicHelper.logTrace(trace,"isGuarantee trigger clearHistory");
 			clearGuaranteeRecord(groupRec,dropPlan, trace);
+			System.out.println("guarantee trigger!");
 		}else{
 			List<String> history = groupRec.getChargeGambleHistory();
 			int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);//寻找当前保底次数
