@@ -32,6 +32,7 @@ message CommonReqMsg{
 
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
+	optional fixed32 matchId = 2; //赛事ID
 }
 
 message CommonGetDataRspMsg {
