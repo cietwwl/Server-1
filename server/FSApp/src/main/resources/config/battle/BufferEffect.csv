@@ -14,6 +14,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 201012041,,201012041,,,,,,,,,
 204001011,,204001011,,500016_begin,bind_root,0.5,500016_loop,bind_root,500016_end,bind_root,0.5
 204001012,,204001012,,500016_begin,bind_root,0.5,500016_loop,bind_root,500016_end,bind_root,0.5
+404001012,,404001012,,500016_begin,bind_root,0.5,500016_loop,bind_root,500016_end,bind_root,0.5
 204001031,,204001031,物防,,,,,,,,
 204001041,,204001041,,,,,,,,,
 204005011,,204005011,,,,,500016_loop,bind_root,500016_end,bind_root,0.5
