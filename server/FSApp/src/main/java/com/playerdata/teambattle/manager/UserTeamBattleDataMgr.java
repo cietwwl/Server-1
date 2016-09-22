@@ -14,6 +14,7 @@ import com.playerdata.teambattle.data.TeamHardInfo;
 import com.playerdata.teambattle.data.TeamMember;
 import com.playerdata.teambattle.data.UserTeamBattleData;
 import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
+import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.playerdata.teambattle.enums.TBMemberState;
 
 public class UserTeamBattleDataMgr {
@@ -39,27 +40,64 @@ public class UserTeamBattleDataMgr {
 	
 	/**
 	 * 离开队伍（主动离开，切换队伍，被踢）
+	 * 不能是机器人
 	 * @param userID
 	 */
 	public void leaveTeam(String userID){
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userID);
-		if(StringUtils.isBlank(utbData.getTeamID())) return;
+		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())) {
+			return;
+		}
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-		if(teamItem != null) {
-			synchronized (teamItem) {
-				TeamMember self = teamItem.findMember(userID);
-				if(null != self){
-					if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
-						teamItem.removeMember(self);
-						TBTeamItemMgr.getInstance().changeTeamSelectable(teamItem);
-						if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
-							TBTeamItemHolder.getInstance().synData(teamItem);
-						}
+		leaveTeam(userID, teamItem);
+		utbData.clearCurrentTeam();
+	}
+	
+	/**
+	 * 离开队伍（主动离开，切换队伍，被踢）
+	 * 支持机器人
+	 * @param userID
+	 * @param eamId
+	 */
+	public void leaveTeam(String userID, String teamId){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userID);
+		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())) {
+			//判断是不是机器人离队
+			StaticMemberTeamInfo robotInfo = getRobotStaticTeamInfo(userID);
+			if(null == robotInfo){
+				return;
+			}
+			//机器人离队
+			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(teamId);
+			leaveTeam(userID, teamItem);
+		}else{
+			//玩家离队
+			leaveTeam(userID);
+		}
+	}
+	
+	/**
+	 * 离开队伍
+	 * （无论机器人还是真实玩家）
+	 * @param userID
+	 * @param teamItem
+	 */
+	private void leaveTeam(String userID, TBTeamItem teamItem){
+		if(null == teamItem || StringUtils.isBlank(userID)){
+			return ;
+		}
+		synchronized (teamItem) {
+			TeamMember self = teamItem.findMember(userID);
+			if(null != self){
+				if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
+					teamItem.removeMember(self);
+					TBTeamItemMgr.getInstance().changeTeamSelectable(teamItem);
+					if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
+						TBTeamItemHolder.getInstance().synData(teamItem);
 					}
 				}
 			}
 		}
-		utbData.clearCurrentTeam();
 	}
 	
 	public void dailyReset(Player player){
@@ -102,5 +140,9 @@ public class UserTeamBattleDataMgr {
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
 		if(null == teamItem) return false;
 		return teamItem.isFull();
+	}
+	
+	public StaticMemberTeamInfo getRobotStaticTeamInfo(String robotId){
+		return new StaticMemberTeamInfo();
 	}
 }
