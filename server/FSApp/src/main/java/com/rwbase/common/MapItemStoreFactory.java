@@ -26,6 +26,7 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
+import com.playerdata.groupcompetition.quiz.GCompUserQuizItem;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.teambattle.data.TBTeamItem;
@@ -149,6 +150,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<EmbattleInfo> embattleInfoItemCache;
 
 	private static MapItemStoreCache<TBTeamItem> teamBattleItemCache;
+	
+	private static MapItemStoreCache<GCompUserQuizItem> groupCompQuizItemCache;
 
 	private static MapItemStoreCache<MagicEquipFetterRecord> magicEquipFetterCache;
 
@@ -285,6 +288,8 @@ public class MapItemStoreFactory {
 		groupFightRewardItemCache = createForPerload(GFFinalRewardItem.class, "userID", heroCapacity);
 
 		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
+		
+		register(groupCompQuizItemCache = new MapItemStoreCache<GCompUserQuizItem>(GCompUserQuizItem.class, "userID", heroCapacity));
 
 		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity);
 
@@ -603,6 +608,15 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<TBTeamItem> getTBTeamItemCache() {
 		return teamBattleItemCache;
+	}
+	
+	/**
+	 * 获取争霸赛个人竞猜的缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<GCompUserQuizItem> getGCompQuizItemCache() {
+		return groupCompQuizItemCache;
 	}
 
 	/**
