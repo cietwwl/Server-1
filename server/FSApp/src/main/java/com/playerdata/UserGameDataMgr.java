@@ -1,6 +1,9 @@
 package com.playerdata;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import sun.print.resources.serviceui;
 
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
@@ -55,6 +58,10 @@ public class UserGameDataMgr {
 		tableUserOther.setBuyCoinTimes(0);
 		tableUserOther.setBuySkillTimes(0);
 		tableUserOther.setBuyPowerTimes(0);
+		
+		tableUserOther.setRandomBossFightCount(0);//重置随机boss的战斗次数
+		tableUserOther.setKillBossRewardCount(0);
+		tableUserOther.setCreateBossCount(0);
 		userGameDataHolder.update(player);
 	}
 
@@ -921,5 +928,45 @@ public class UserGameDataMgr {
 			return result;
 
 		return old >= count;
+	}
+	
+	public List<String> getRandomBossIDs(){
+		return userGameDataHolder.get().getRandomBossIds();
+	}
+	
+	public int getFightRandomBossCount(){
+		return userGameDataHolder.get().getRandomBossFightCount();
+	}
+	
+	public int getKillBossRewardCount(){
+		return userGameDataHolder.get().getKillBossRewardCount();
+	}
+	
+	public int getCreateBossCount(){
+		return userGameDataHolder.get().getCreateBossCount();
+	}
+	
+	public void increaseRandomBossFightCount(){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getRandomBossFightCount();
+		data.setRandomBossFightCount(count + 1);
+		userGameDataHolder.update(player);
+	}
+	
+	
+	public void addRandomBoss(String id){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getCreateBossCount();
+		data.setCreateBossCount(count + 1);
+		List<String> list = data.getRandomBossIds();
+		list.add(id);
+		userGameDataHolder.update(player);
+	}
+	
+	public void increaseBossRewardCount(){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getKillBossRewardCount();
+		data.setKillBossRewardCount(count + 1);
+		userGameDataHolder.update(player);
 	}
 }
