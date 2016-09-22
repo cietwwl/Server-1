@@ -1,10 +1,16 @@
 package com.playerdata.groupcompetition.rank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
+import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 
@@ -21,25 +27,38 @@ public class ScoreInfoInPrepareMgr {
 	 * @param player
 	 * @param latestTime
 	 */
-	public void getFightInfoInScene(Player player, long latestTime) {
+	public void getFightInfoInScene(Player player) {
 		String groupId = GroupHelper.getUserGroupId(player.getUserId());
 		Long sceneId = PrepareAreaMgr.getInstance().getGroupScene(groupId);
 		if(null == sceneId){
 			return;
 		}
-		GCompMemberMgr.getInstance().getArrayCopyOfAllMembers();
-		
-		
-		
-		
+		List<GCompMixRankData> rankDatas = new ArrayList<GCompMixRankData>();
+		List<GCompMember> gcMemsInfo = GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(groupId);
+		for(GCompMember mem : gcMemsInfo){
+			GCompMixRankData data = new GCompMixRankData(mem.getUserId(), mem.getUserName(), mem.getScore(), mem.getTotalWinTimes(), mem.getMaxContinueWins());
+			rankDatas.add(data);
+		}
+		if(!rankDatas.isEmpty()){
+			ClientDataSynMgr.synDataList(player, rankDatas, eSynType.GCompFightInfoInScene, eSynOpType.UPDATE_LIST);
+		}
 	}
 	
-	public void updateNewScoreRecord(GCompMixRankData mixRankData){
-		String groupId = GroupHelper.getUserGroupId(mixRankData.getUserId());
+	/**
+	 * 有战斗数据更新的时候，给备战区的人同步
+	 * @param player
+	 */
+	public void updateNewScoreRecord(Player player){
+		String groupId = GroupHelper.getUserGroupId(player.getUserId());
 		Long sceneId = PrepareAreaMgr.getInstance().getGroupScene(groupId);
 		if(null == sceneId){
 			return;
 		}
-		DataAutoSynMgr.getInstance().synDataToPlayersInScene(sceneId, eSynType.GCompFightInfoInScene, mixRankData);
+		GCompMember groupMember = GCompMemberMgr.getInstance().getGCompMember(groupId, player.getUserId());
+		if(null == groupMember){
+			return;
+		}
+		GCompMixRankData data = new GCompMixRankData(groupMember.getUserId(), groupMember.getUserName(), groupMember.getScore(), groupMember.getTotalWinTimes(), groupMember.getMaxContinueWins());
+		DataAutoSynMgr.getInstance().synDataToPlayersInScene(sceneId, eSynType.GCompFightInfoInScene, data);
 	}
 }

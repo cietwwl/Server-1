@@ -71,9 +71,8 @@ message CommonRspMsg{
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
 	optional ParaForLiveMsg livePara = 2;	//赛事直播（和回放）的参数
-	optional ParaForScoreInScene ScorePara = 3;	//同屏界面请求积分、连胜等信息的参数
-	optional ParaForGetRank getRankPara = 4;	//获取排行榜的参数
-	optional fixed32 matchId = 5; // 请求更新积分的matchId（reqType == GCRequestType.GetNewestScore）
+	optional ParaForGetRank getRankPara = 3;	//获取排行榜的参数
+	optional fixed32 matchId = 4; // 请求更新积分的matchId（reqType == GCRequestType.GetNewestScore）
 }
 
 message CommonGetDataRspMsg {
@@ -230,11 +229,6 @@ message TeamStatusChange {
 message ParaForLiveMsg{
 	required fixed32 matchId = 1;		//赛事阶段的id
 	optional fixed64 latestTime = 2;	//赛事记录最新的时间(LeaveLivePage的时候，不需要这个参数)
-}
-
-// 同屏内请求
-message ParaForScoreInScene{
-	required fixed64 latestTime = 1;	//积分等信息的最新时间
 }
 
 // 获取排行榜的参数
