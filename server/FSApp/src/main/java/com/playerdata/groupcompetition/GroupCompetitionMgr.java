@@ -2,6 +2,7 @@ package com.playerdata.groupcompetition;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -235,6 +236,15 @@ public class GroupCompetitionMgr {
 		this._dataHolder.update();
 	}
 	
+	public List<String> getCurrentRelativeGroupIds() {
+		GroupCompetitionGlobalData globalData = _dataHolder.get();
+		if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
+			GCompEventsGlobalData eventsGlobalData = globalData.getCurrentEventsData();
+			return eventsGlobalData.getCurrentRelativeGroupIds();
+		}
+		return Collections.emptyList();
+	}
+	
 	public void updateEventsStatus(GCompEventsStatus status) {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		globalData.getCurrentEventsData().setCurrentStatus(status);
@@ -253,10 +263,26 @@ public class GroupCompetitionMgr {
 	
 	/**
 	 * 
+	 * 获取当前的阶段类型
+	 * 
 	 * @return
 	 */
 	public GCompStageType getCurrentStageType() {
 		return this._dataHolder.get().getCurrentStageType();
+	}
+	
+	/**
+	 * 
+	 * 获取当前的赛事的阶段
+	 * 
+	 * @return
+	 */
+	public GCompEventsStatus getCurrentEventsStatus() {
+		GCompEventsGlobalData eventsData = this._dataHolder.get().getCurrentEventsData();
+		if (eventsData != null && eventsData.getCurrentEventsType() != null) {
+			return eventsData.getCurrentStatus();
+		}
+		return GCompEventsStatus.NONE;
 	}
 	
 	/**

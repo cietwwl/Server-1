@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.stageimpl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -8,8 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
-import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
-import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -27,6 +26,8 @@ import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 /**
  * 
  * 帮会争霸：赛事阶段
+ * 管理不同赛事之间的切换（16强 ---> 8强 ---> 4强 ---> 决赛）
+ * 管理具体赛事的状态切换（备战 ---> 组队战 ---> 休息 ---> 个人战）
  * 
  * @author CHEN.P
  *
@@ -35,34 +36,33 @@ public class GCompEventsStage implements IGCompStage {
 	
 	private static final java.text.SimpleDateFormat _dateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
-	private GCEventsType _currentEventsType; // 当前的比赛状态
-	private GCompEvents _events; // 争霸赛事
-	private EventsTypeControlTask _eventsTypeControlTask; // 赛事类型控制任务
+	private GCEventsType _currentEventsType; // 当前的赛事类型
+	private GCompEvents _events; // 当前的争霸赛事
+	private EventsTypeSwitcher _eventsTypeSwitcher; // 赛事类型的切换器
 	private EventStatusSwitcher _eventStatusSwitcher; // 当前赛事的状态切换
 	private boolean _stageEnd; // 阶段是否已经结束
 	private long _stageEndTime; // 本阶段结束的时间
-	private String _stageCfgId;
+	private String _stageCfgId; // 阶段的配置id
 	
 	public GCompEventsStage(GroupCompetitionStageCfg cfg) {
-		_eventsTypeControlTask = new EventsTypeControlTask(this);
+		_eventsTypeSwitcher = new EventsTypeSwitcher(this);
 		_eventStatusSwitcher = new EventStatusSwitcher();
 		_stageCfgId = cfg.getCfgId();
 	}
 	
-	private void fireEventsStart() {
-		GCTeamDataMgr.getInstance().onEventsStart(this._currentEventsType); // 通知赛事开始
-		GCOnlineMemberMgr.getInstance().onEventsStart(this._currentEventsType);
-		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(this._currentEventsType.chineseName));
+	private void beforeEventsStart(GCEventsType eventsType, List<String> groupIds) {
+		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
 	}
 	
-	private void submitEventsStatusSwitchTask() {
+	private void scheduleEventsStatusSwitchTask() {
+		// 提交赛事控制任务
 		long endTimeMillis = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(_events.getCurrentStatus().getLastMinutes());
-		System.err.println("提交赛事状态控制任务！当前状态：" + _events.getCurrentStatus() + "，deadLine：" + _dateFormatter.format(new Date(endTimeMillis)));
+		GCompUtil.log("---------- 提交赛事状态控制任务！当前状态：{}， deadLine：{} ---------", _events.getCurrentStatus(), _dateFormatter.format(new Date(endTimeMillis)));
 		GCompCommonTask.scheduleCommonTask(_eventStatusSwitcher, this, endTimeMillis); // 结束的时效任务，等待回调
 	}
 	
-	private void moveToEventsType(GCEventsType eventsType, List<String> groupIds) {
-		// 移到下一个赛事
+	private void startEvents(GCEventsType eventsType, List<String> groupIds, List<String> loseGroupIds) {
+		// 切换到某个赛事类型
 		List<IReadOnlyPair<Integer, Integer>> againstInfo;
 		if(this._currentEventsType == null) {
 			// 初赛
@@ -70,22 +70,57 @@ public class GCompEventsStage implements IGCompStage {
 		} else {
 			againstInfo = Collections.emptyList();
 		}
-		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
+		if(eventsType == GCEventsType.FINAL) {	
+			groupIds = new ArrayList<String>(groupIds);
+			groupIds.addAll(loseGroupIds);
+		}
+		this.beforeEventsStart(eventsType, groupIds);
 		_currentEventsType = eventsType;
 		_events = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo).build();
 		_events.start();
-		this.submitEventsStatusSwitchTask();
-		this.fireEventsStart();
+		scheduleEventsStatusSwitchTask(); // 具体赛事的状态切换任务
+	}
+	
+	/**
+	 * 
+	 * 创建一个赛事开始通知的时效任务
+	 * 
+	 * @param groupIds
+	 * @param eventsType
+	 * @return 是否在隔天开始
+	 */
+	private boolean scheduleEventsTypeSwitcher(List<String> groupIds, List<String> loseGroupIds, GCEventsType eventsType) {
+		boolean startOnNextDay = false;
+		GroupCompetitionStageCfg cfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(_stageCfgId);
+		GCompEventsStageContext context = new GCompEventsStageContext(groupIds, loseGroupIds, eventsType);
+		Calendar instance = Calendar.getInstance();
+		IReadOnlyPair<Integer, Integer> timeInfos = cfg.getStartTimeInfo();
+		instance.set(Calendar.HOUR_OF_DAY, timeInfos.getT1());
+		if (timeInfos.getT2() > 0) {
+			instance.set(Calendar.MINUTE, timeInfos.getT2());
+		} else {
+			instance.set(Calendar.MINUTE, 0);
+		}
+		instance.set(Calendar.SECOND, 0);
+		long millis = instance.getTimeInMillis();
+		if (millis < System.currentTimeMillis()) {
+			// 如果是过了，则跨一天
+			instance.add(Calendar.DAY_OF_YEAR, 1);
+			startOnNextDay = true;
+		}
+		GCompUtil.log("---------- 帮派争霸-赛事阶段-创建赛事类型控制任务, 赛事类型：{}，deadline：{}，groupIds : {} ----------", eventsType, _dateFormatter.format(instance.getTime()), groupIds);
+		GCompCommonTask.scheduleCommonTask(_eventsTypeSwitcher, context, instance.getTimeInMillis()); // 提交一个定时任务，到了赛事正式开始的时间，会初始化
+		return startOnNextDay;
 	}
 	
 	/**
 	 * 通知本轮赛事结束
 	 */
-	private void evnetsEnd() {
+	private void onEventsTypeEnd() {
 		this._events.onEnd();
 		if (this._currentEventsType.hasNext()) {
 			// 推进到下一轮赛事
-			this.createEventsTypeControlTask(this._events.getWinGroups(), _currentEventsType.getNext());
+			this.scheduleEventsTypeSwitcher(this._events.getWinGroups(), this._events.getLoseGroups(), _currentEventsType.getNext());
 		} else {
 			// 赛事阶段结束
 			this.allEventsFinished();
@@ -93,18 +128,19 @@ public class GCompEventsStage implements IGCompStage {
 	}
 	
 	private void switchEventsStatus() {
+		// 切换某场具体赛事的状态
 		boolean success = this._events.switchToNextStatus();
 		if (!success) {
-			this.evnetsEnd();
+			this.onEventsTypeEnd();
 		} else {
-			this.submitEventsStatusSwitchTask();
+			this.scheduleEventsStatusSwitchTask();
 		}
 	}
 	
 	private void allEventsFinished() {
 		// 所有的赛事完结
 		this._stageEnd = true;
-		System.err.println("所有的赛事已经完结！");
+		GCompUtil.log("所有的赛事已经完结！");
 	}
 	
 	/**
@@ -136,38 +172,6 @@ public class GCompEventsStage implements IGCompStage {
 		return currentDateTime.getTimeInMillis();
 	}
 	
-	/**
-	 * 
-	 * 创建一个赛事开始通知的时效任务
-	 * 
-	 * @param groupIds
-	 * @param eventsType
-	 * @return 是否在隔天开始
-	 */
-	private boolean createEventsTypeControlTask(List<String> groupIds, GCEventsType eventsType) {
-		boolean startOnNextDay = false;
-		GroupCompetitionStageCfg cfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(_stageCfgId);
-		GCompEventsStageContext context = new GCompEventsStageContext(groupIds, eventsType);
-		Calendar instance = Calendar.getInstance();
-		IReadOnlyPair<Integer, Integer> timeInfos = cfg.getStartTimeInfo();
-		instance.set(Calendar.HOUR_OF_DAY, timeInfos.getT1());
-		if (timeInfos.getT2() > 0) {
-			instance.set(Calendar.MINUTE, timeInfos.getT2());
-		} else {
-			instance.set(Calendar.MINUTE, 0);
-		}
-		instance.set(Calendar.SECOND, 0);
-		long millis = instance.getTimeInMillis();
-		if (millis < System.currentTimeMillis()) {
-			// 如果是过了，则跨一天
-			instance.add(Calendar.DAY_OF_YEAR, 1);
-			startOnNextDay = true;
-		}
-		System.err.println("----------帮派争霸-赛事阶段-创建赛事类型控制任务, 赛事类型：" + eventsType + "，deadline : " + _dateFormatter.format(instance.getTime()) + ", groupIds : " + groupIds +  "--------");
-		GCompCommonTask.scheduleCommonTask(_eventsTypeControlTask, context, instance.getTimeInMillis()); // 提交一个定时任务，到了赛事正式开始的时间，会初始化
-		return startOnNextDay;
-	}
-	
 	@Override
 	public String getStageCfgId() {
 		return _stageCfgId;
@@ -183,9 +187,9 @@ public class GCompEventsStage implements IGCompStage {
 		} else {
 			startType = GCEventsType.TOP_8;
 		}
-//		boolean startOnNextDay = this.createEventsTypeControlTask(topCountGroups, startType);
-		GCompMatchDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据
-		this.moveToEventsType(startType, topCountGroups);
+		GCompMatchDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
+		List<String> loseGroupIds = Collections.emptyList();
+		this.startEvents(startType, topCountGroups, loseGroupIds); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsStage());
 	}
@@ -197,7 +201,7 @@ public class GCompEventsStage implements IGCompStage {
 	
 	@Override
 	public void onStageEnd() {
-		System.err.println("收到stageEnd事件！");
+		GCompUtil.log("收到stageEnd事件！");
 	}
 	
 	@Override
@@ -212,35 +216,20 @@ public class GCompEventsStage implements IGCompStage {
 	 * @author CHEN.P
 	 *
 	 */
-	private static class EventsTypeControlTask implements IConsumer<GCompEventsStageContext> {
+	private static class EventsTypeSwitcher implements IConsumer<GCompEventsStageContext> {
 
 		private GCompEventsStage _stage;
 		
-		public EventsTypeControlTask(GCompEventsStage pStage) {
+		public EventsTypeSwitcher(GCompEventsStage pStage) {
 			this._stage = pStage;
 		}
 		
 		@Override
 		public void accept(GCompEventsStageContext context) {
-			_stage.moveToEventsType(context.getStatus(), context.getGroupIds());
+			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds());
 		}
 		
 	}
-	
-//	private static class EventsEndControlTask implements IConsumer<Boolean> {
-//
-//		private GCEventsStage _stage;
-//		
-//		public EventsEndControlTask(GCEventsStage pStage) {
-//			this._stage = pStage;
-//		}
-//		
-//		@Override
-//		public void accept(Boolean present) {
-//			_stage.evnetsEnd();
-//		}
-//		
-//	}
 	
 	private static class EventStatusSwitcher implements IConsumer<GCompEventsStage> {
 		

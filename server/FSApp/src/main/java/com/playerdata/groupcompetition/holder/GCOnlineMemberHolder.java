@@ -82,6 +82,10 @@ public class GCOnlineMemberHolder {
 		}
 	}
 	
+	void addOnlineMemberList(String groupId) {
+		_dao.addOnlineMemberList(groupId, new ArrayList<GCompOnlineMember>());
+	}
+	
 	void reset() {
 		this._dao.reset();
 	}

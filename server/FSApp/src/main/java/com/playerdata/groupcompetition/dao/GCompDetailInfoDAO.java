@@ -27,6 +27,6 @@ public class GCompDetailInfoDAO {
 	}
 	
 	public void addDetailInfo(GCompDetailInfo info) {
-		
+		_dataMap.put(info.getMatchId(), info);
 	}
 }
