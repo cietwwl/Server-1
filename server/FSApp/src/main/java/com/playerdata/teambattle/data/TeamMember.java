@@ -2,6 +2,7 @@ package com.playerdata.teambattle.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.bm.robot.RandomData;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.teambattle.enums.TBMemberState;
@@ -24,6 +25,9 @@ public class TeamMember {
 	
 	@IgnoreSynField
 	private boolean isRobot = false;
+	
+	@IgnoreSynField
+	private RandomData randomData;
 
 	public String getUserID() {
 		return userID;
@@ -72,4 +76,13 @@ public class TeamMember {
 	public void setRobot(boolean isRobot) {
 		this.isRobot = isRobot;
 	}
+
+	public RandomData getRandomData() {
+		return randomData;
+	}
+
+	public void setRandomData(RandomData randomData) {
+		this.randomData = randomData;
+	}
+	
 }
