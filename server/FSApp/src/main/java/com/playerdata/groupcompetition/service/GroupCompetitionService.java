@@ -53,14 +53,12 @@ public class GroupCompetitionService implements FsService<CommonReqMsg, GCReques
 
 	@Override
 	public CommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
 		CommonReqMsg msgRequest = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
 		return msgRequest;
 	}
 
 	@Override
 	public GCRequestType getMsgType(CommonReqMsg request) {
-		// TODO Auto-generated method stub
 		return request.getReqType();
 	}
 }

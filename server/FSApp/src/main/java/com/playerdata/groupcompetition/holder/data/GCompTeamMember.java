@@ -1,23 +1,23 @@
 package com.playerdata.groupcompetition.holder.data;
 
+import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.team.TeamInfo;
 
 @SynClass
-public class GCompTeamMemberSynData {
+public class GCompTeamMember {
 
 	private boolean isLeader;
-	private TeamInfo teamInfo;
+	private ArmyInfoSimple teamInfo;
 	
 	public boolean isLeader() {
 		return this.isLeader;
 	}
 	
 	public String getUserId() {
-		return teamInfo.getUuid();
+		return teamInfo.getPlayer().getId();
 	}
 	
-	public TeamInfo getTeamInfo() {
+	public ArmyInfoSimple getTeamInfo() {
 		return teamInfo;
 	}
 }

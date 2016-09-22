@@ -3,6 +3,7 @@ package com.playerdata.groupcompetition.holder;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
 public class GCTeamDataMgr {
@@ -19,8 +20,9 @@ public class GCTeamDataMgr {
 		
 	}
 	
-	public void onEventsStart(GCEventsType eventsType) {
+	public void onEventsStart(GCEventsType eventsType, List<? extends IGCAgainst> againsts) {
 		this._dataHolder.clearTeamData();
+		this._dataHolder.createTeamData(againsts);
 	}
 	
 	public void sendTeamData(int matchId, Player player) {

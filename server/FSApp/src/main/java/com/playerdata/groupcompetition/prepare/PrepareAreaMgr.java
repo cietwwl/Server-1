@@ -11,6 +11,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynType;
@@ -38,9 +39,9 @@ public class PrepareAreaMgr {
 	 * @param position
 	 */
 	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
-		String groupId = "9899";
 		informPreparePosition(player, gcRsp, position);
 		if(gcRsp.getRstType() == GCResultType.SUCCESS){
+			String groupId = GroupHelper.getGroupId(player);
 			long sceneId = groupScene.get(groupId);
 			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
 			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
@@ -59,8 +60,22 @@ public class PrepareAreaMgr {
 	 * @param position
 	 */
 	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
-		//String groupId = GroupHelper.getGroupId(player);
-		String groupId = "9899";
+		String groupId = GroupHelper.getGroupId(player);
+		if (GroupCompetitionMgr.getInstance().getCurrentStageType() != GCompStageType.EVENTS) {
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("当前不是赛事阶段！");
+			return;
+		}
+		switch (GroupCompetitionMgr.getInstance().getCurrentEventsStatus()) {
+		case FINISH:
+		case NONE:
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("当前不是比赛状态！");
+			return;
+		default:
+			break;
+		}
+//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("请先加入帮派");
@@ -84,8 +99,8 @@ public class PrepareAreaMgr {
 	 * @param gcRsp
 	 */
 	public void leavePrepareArea(Player player, Builder gcRsp) {
-		//String groupId = GroupHelper.getGroupId(player);
-		String groupId = "9899";
+		String groupId = GroupHelper.getGroupId(player);
+//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("没有帮派");
@@ -108,8 +123,8 @@ public class PrepareAreaMgr {
 	 * @param idList
 	 */
 	public void applyUsersBaseInfo(Player player, Builder gcRsp, List<String> idList) {
-		//String groupId = GroupHelper.getGroupId(player);
-		String groupId = "9899";
+		String groupId = GroupHelper.getGroupId(player);
+//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("请先加入帮派");
@@ -146,9 +161,7 @@ public class PrepareAreaMgr {
 	 * 备战阶段开始
 	 * 为每个帮派生成一个备战区
 	 */
-	public void prepareStart(){
-		List<String> prepareGroups = getPrepareGroups();
-		prepareGroups.add("9899");
+	public void prepareStart(List<String> prepareGroups){
 		if(null == prepareGroups || prepareGroups.isEmpty()){
 			return;
 		}
@@ -175,12 +188,12 @@ public class PrepareAreaMgr {
 		groupScene = null;
 	}
 	
-	/*
-	 * 获取有备战资格的帮派
-	 */
-	public List<String> getPrepareGroups(){
-		return new ArrayList<String>();
-	}
+//	/*
+//	 * 获取有备战资格的帮派
+//	 */
+//	public List<String> getPrepareGroups(){
+//		return new ArrayList<String>();
+//	}
 	
 	/**
 	 * 获取指定玩家的详细信息

@@ -31,18 +31,17 @@ public class GCOnlineMemberDAO {
 		}
 	}
 	
+	public void addOnlineMemberList(String groupId, List<GCompOnlineMember> list) {
+		this.addGroup(groupId);
+	}
+	
 	public List<GCompOnlineMember> getOnlineMembers(String groupId) {
 		return _dataMap.get(groupId);
 	}
 	
 	public void addOnlineMembers(String groupId, GCompOnlineMember member) {
 		List<GCompOnlineMember> members = _dataMap.get(groupId);
-		if (members == null) {
-			members = this.addGroup(groupId);
-			synchronized (members) {
-				members.add(member);
-			}
-		}
+		members.add(member);
 	}
 	
 	public GCompOnlineMember removeOnlineMember(String groupId, String userId) {

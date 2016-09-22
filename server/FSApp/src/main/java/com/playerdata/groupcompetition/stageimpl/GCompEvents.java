@@ -6,13 +6,16 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
-import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
+import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
+import com.playerdata.groupcompetition.holder.GCTeamDataMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
+import com.playerdata.groupcompetition.util.GCompTips;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
@@ -66,7 +69,7 @@ public class GCompEvents {
 		int beginPos = GCompUtil.computeBeginIndex(eventsType); // 计算开始索引
 		IReadOnlyPair<Integer, Integer> pair;
 		String groupId1, groupId2; // 临时变量
-		for (int i = 0, size = againsts.size(); i < size; i++) {
+		for (int i = 0, size = againsts.size(); i < size; i++, beginPos++) {
 			pair = againsts.get(i); // 对阵安排
 			// 有可能会轮空；对阵信息是从1开始，而list的索引是从0开始，所以要-1
 			groupId1 = this.getSafely(pair.getT1() - 1, groupIds);
@@ -80,11 +83,29 @@ public class GCompEvents {
 		eventsData.setAgainsts(againstList);
 		eventsData.setCurrentStatus(GCompEventsStatus.NONE);
 		eventsData.setEventsType(eventsType);
+		eventsData.setRelativeGroupIds(groupIds);
 		GCompMatchDataMgr.getInstance().addEvents(eventsData, eventsType);
+	}
+	
+	private void fireEventsStart() {
+		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(_type);
+		GCTeamDataMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
+		GCOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
+		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {
 		GroupCompetitionMgr.getInstance().updateEventsStatus(status);
+		switch (status) {
+		case PREPARE:
+			PrepareAreaMgr.getInstance().prepareStart(GCompMatchDataMgr.getInstance().getEventsData(_type).getRelativeGroupIds());
+			break;
+		case FINISH:
+			PrepareAreaMgr.getInstance().prepareEnd();
+			break;
+		default:
+			break;
+		}
 	}
 	
 	/**
@@ -114,6 +135,7 @@ public class GCompEvents {
 	 * 赛事开始
 	 */
 	public void start() {
+		this.fireEventsStart();
 		this.switchToNextStatus();
 	}
 	
@@ -124,21 +146,36 @@ public class GCompEvents {
 		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
 		List<GCompAgainst> list = eventsData.getAgainsts();
 		List<String> winGroupIds = new ArrayList<String>(list.size());
+		List<String> loseGroupIds = new ArrayList<String>(list.size());
 		for (int i = 0, size = list.size(); i < size; i++) {
-			IGCAgainst against = list.get(i);
+			GCompAgainst against = list.get(i);
 			IGCGroup groupA = against.getGroupA();
 			IGCGroup groupB = against.getGroupB();
+			String winGroupId;
+			String loseGroupId;
 			if (StringUtils.isEmpty(groupA.getGroupId())) {
 				// 帮派B轮空
-				winGroupIds.add(groupB.getGroupId());
+				winGroupId = groupB.getGroupId();
+				loseGroupId = groupA.getGroupId();
 			} else if (StringUtils.isEmpty(groupB.getGroupId())) {
 				// 帮派A轮空
-				winGroupIds.add(groupA.getGroupId());
+				winGroupId = groupA.getGroupId();
+				loseGroupId = groupB.getGroupId();
 			} else {
-				winGroupIds.add(groupA.getGCompScore() > groupB.getGCompScore() ? groupA.getGroupId() : groupB.getGroupId());
+				if(groupA.getGCompScore() >= groupB.getGCompScore()) {
+					winGroupId = groupA.getGroupId();
+					loseGroupId = groupB.getGroupId();
+				} else {
+					winGroupId = groupB.getGroupId();
+					loseGroupId = groupB.getGroupId();
+				}
 			}
+			winGroupIds.add(winGroupId);
+			loseGroupIds.add(loseGroupId);
+			against.setWinner(winGroupId);
 		}
 		eventsData.setWinGroupIds(winGroupIds);
+		eventsData.setLostGroupIds(loseGroupIds);
 	}
 	
 	/**
@@ -150,6 +187,15 @@ public class GCompEvents {
 	public List<String> getWinGroups() {
 		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
 		return eventsData.getWinGroupIds();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getLoseGroups() {
+		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
+		return eventsData.getLoseGroupIds();
 	}
 	
 	/**

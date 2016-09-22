@@ -18,10 +18,10 @@ public class GCompMatchDataMgr {
 	
 	private GCompMatchDataHolder _dataHolder = GCompMatchDataHolder.getInstance();
 	
-	public void onEventStageStart(GCEventsType type) {
+	public void onEventStageStart(GCEventsType startEventsType) {
 		GCompMatchSynData synData = _dataHolder.get();
 		synData.clear();
-		synData.setMatchNumType(type);
+		synData.setMatchNumType(startEventsType);
 	}
 	
 	/**

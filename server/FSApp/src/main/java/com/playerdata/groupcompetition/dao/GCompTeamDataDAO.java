@@ -1,8 +1,8 @@
 package com.playerdata.groupcompetition.dao;
 
-import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamData;
+import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamHolder;
 import com.playerdata.groupcompetition.dao.pojo.GCompMatchTeamData;
-import com.playerdata.groupcompetition.holder.data.GCompTeamSynData;
+import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
 public class GCompTeamDataDAO {
@@ -19,8 +19,8 @@ public class GCompTeamDataDAO {
 		_matchTeamData.clear();
 	}
 	
-	public void addGroupTeamData(int matchId, GCompGroupTeamData groupTeamData) {
-		this._matchTeamData.addGroupTeamData(matchId, groupTeamData);
+	public void addGroupTeamData(int matchId, GCompGroupTeamHolder groupTeamData) {
+		this._matchTeamData.addGroupTeamHolder(matchId, groupTeamData);
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class GCompTeamDataDAO {
 	 * @param matchId
 	 * @param data
 	 */
-	public void addTeam(GCEventsType eventsType, int matchId, String groupId, GCompTeamSynData data) {
+	public void addTeam(GCEventsType eventsType, int matchId, String groupId, GCompTeam data) {
 		_matchTeamData.getGroupTeamData(matchId).addTeamData(groupId, data);
 	}
 	
@@ -43,8 +43,8 @@ public class GCompTeamDataDAO {
 	 * @param userId
 	 * @return
 	 */
-	public GCompTeamSynData getTeamData(int matchId, String userId) {
-		GCompGroupTeamData groupTeamData = _matchTeamData.getGroupTeamData(matchId);
+	public GCompTeam getTeamData(int matchId, String userId) {
+		GCompGroupTeamHolder groupTeamData = _matchTeamData.getGroupTeamData(matchId);
 		return groupTeamData.getTeamData(userId);
 	}
 }

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 
 public class GCompEventsData {
 
@@ -15,6 +15,10 @@ public class GCompEventsData {
 	private GCompEventsStatus _currentStatus = GCompEventsStatus.NONE; // 赛事的当前状态
 	private List<String> _winGroupIds;
 	private List<String> _winGroupIdsRO;
+	private List<String> _loseGroupIds;
+	private List<String> _loseGroupIdsRO;
+	private List<String> _relativeGroupIds;
+	private List<String> _relativeGroupIdsRO;
 	
 	void setEventsType(GCEventsType pEventsType) {
 		this._eventsType = pEventsType;
@@ -48,5 +52,23 @@ public class GCompEventsData {
 	
 	public List<String> getWinGroupIds() {
 		return _winGroupIdsRO;
+	}
+	
+	void setLostGroupIds(List<String> groupIds) {
+		this._loseGroupIds = new ArrayList<String>(groupIds);
+		this._loseGroupIdsRO = Collections.unmodifiableList(_loseGroupIds);
+	}
+	
+	public List<String> getLoseGroupIds() {
+		return _loseGroupIdsRO;
+	}
+	
+	void setRelativeGroupIds(List<String> groupIds) {
+		this._relativeGroupIds = new ArrayList<String>(groupIds);
+		this._relativeGroupIdsRO = Collections.unmodifiableList(_relativeGroupIds);
+	}
+	
+	public List<String> getRelativeGroupIds() {
+		return _relativeGroupIdsRO;
 	}
 }

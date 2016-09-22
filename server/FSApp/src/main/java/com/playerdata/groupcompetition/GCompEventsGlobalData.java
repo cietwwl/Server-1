@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ class GCompEventsGlobalData {
 	private long _heldTime; // 举办的时间
 	@JsonProperty("2")
 	private Map<GCEventsType, List<String>> _relativeGroups = new HashMap<GCEventsType, List<String>>(); // 参与的帮派
+	private Map<GCEventsType, List<String>> _relativeGroupsRO = new HashMap<GCEventsType, List<String>>();
 	@JsonProperty("3")
 	private GCEventsType _currentEventsType; // 当前的赛事阶段（16强，8强。。。）
 	@JsonProperty("4")
@@ -47,12 +49,18 @@ class GCompEventsGlobalData {
 		this._heldTime = _heldTime;
 	}
 
-	public Map<GCEventsType, List<String>> getRelativeGroups() {
-		return _relativeGroups;
+	public List<String> getCurrentRelativeGroupIds() {
+		return _relativeGroupsRO.get(_currentEventsType);
+	}
+	
+	public List<String> getRelativeGroupIds(GCEventsType eventsType) {
+		return _relativeGroupsRO.get(eventsType);
 	}
 
 	public void addRelativeGroups(GCEventsType type, List<String> relativeGroups) {
-		this._relativeGroups.put(type, new ArrayList<String>(relativeGroups));
+		List<String> groupIds = new ArrayList<String>(relativeGroups);
+		this._relativeGroups.put(type, groupIds);
+		this._relativeGroupsRO.put(type, Collections.unmodifiableList(groupIds));
 	}
 
 	public GCEventsType getCurrentEventsType() {
