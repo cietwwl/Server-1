@@ -118,6 +118,10 @@ enum Command {
 	
 	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
 	MSG_GROUP_COMPETITION_GET_DATA = 217; // 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
+	MSG_GROUP_COMPETITION_TEAM_REQ = 218; // 帮派争霸：队伍请求（对应GroupCompetition.proto里的TeamRequest）
+	MSG_GROUP_JOIN_TEAM_REQ = 219; // 帮派争霸：加入队伍（对应GroupCompetition.proto里的JoinTeamReq）
+	MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ = 220; // 帮派争霸：队伍成员请求（对应GroupCompetition.proto里的TeamMemberRequest）
+	MSG_GROUP_COMPETITION_TEAM_STATUS_REQ = 221; // 帮派争霸：队伍准备状态请求（对应GroupCompetition.proto里的TeamStatusRequest）
 	
 
 	MSG_FEEDBACK = 995;//客服功能
