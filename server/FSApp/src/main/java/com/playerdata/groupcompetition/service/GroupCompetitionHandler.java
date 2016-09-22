@@ -8,6 +8,7 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
@@ -19,6 +20,7 @@ import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg;
 import com.rwproto.GroupCompetitionProto.CommonReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonRsp;
@@ -183,6 +185,18 @@ public class GroupCompetitionHandler {
 			// 成功才有数据
 			GCompMatchDataMgr.getInstance().sendMatchData(player);
 		}
+		return builder.build().toByteString();
+	}
+	
+	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
+		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getMatchId(), player);
+		GCResultType resultType ;
+		if(success) {
+			resultType = GCResultType.SUCCESS;
+		} else {
+			resultType = GCResultType.DATA_ERROR;
+		}
+		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNoMatchDetailData() : null);
 		return builder.build().toByteString();
 	}
 	

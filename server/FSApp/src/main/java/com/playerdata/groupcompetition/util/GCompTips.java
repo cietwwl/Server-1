@@ -10,6 +10,7 @@ public class GCompTips {
 	private static String tipsYouAreNotInGroup = "你不属于任何帮派";
 	private static String tipsHeroCountInvalidate = "上阵英雄数量不足！";
 	private static String tipsYourGroupNotInMatch = "你所在的帮派没有进入[{}]赛事中";
+	private static String tipsNoMatchDetailData = "没有当次赛事的详细信息！";
 	
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
@@ -41,5 +42,9 @@ public class GCompTips {
 
 	public static String getTipsYourGroupNotInMatch(String eventsName) {
 		return GCompUtil.format(tipsYourGroupNotInMatch, eventsName);
+	}
+
+	public static String getTipsNoMatchDetailData() {
+		return tipsNoMatchDetailData;
 	}
 }
