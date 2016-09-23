@@ -876,13 +876,21 @@ public final class MsgDef {
      */
     MSG_GROUP_COMPETITION_QUIZ_SYN(114, 225),
     /**
+     * <code>MSG_GROUP_COMPETITION_BATTLE = 226;</code>
+     *
+     * <pre>
+     *帮派争霸：战斗处理
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_BATTLE(115, 226),
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(115, 995),
+    MSG_FEEDBACK(116, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -890,7 +898,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(116, 996),
+    MSG_SDK_VERIFY(117, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -898,7 +906,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(117, 997),
+    MSG_NUMERIC_ANALYSIS(118, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -906,7 +914,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(118, 998),
+    MSG_PLATFORMGS(119, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -914,7 +922,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(119, 999),
+    MSG_GAMEPRESS(120, 999),
     ;
 
     /**
@@ -1780,6 +1788,14 @@ public final class MsgDef {
      */
     public static final int MSG_GROUP_COMPETITION_QUIZ_SYN_VALUE = 225;
     /**
+     * <code>MSG_GROUP_COMPETITION_BATTLE = 226;</code>
+     *
+     * <pre>
+     *帮派争霸：战斗处理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_BATTLE_VALUE = 226;
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
@@ -1940,6 +1956,7 @@ public final class MsgDef {
         case 223: return MSG_GROUP_COMPETITION_TEAM_STATUS_REQ;
         case 224: return MSG_GROUP_COMPETITION_QUIZ;
         case 225: return MSG_GROUP_COMPETITION_QUIZ_SYN;
+        case 226: return MSG_GROUP_COMPETITION_BATTLE;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -2005,7 +2022,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\213\026\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\256\026\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2073,10 +2090,11 @@ public final class MsgDef {
       "COMPETITION_TEAM_MEMBER_REQ\020\336\001\022*\n%MSG_GR" +
       "OUP_COMPETITION_TEAM_STATUS_REQ\020\337\001\022\037\n\032MS" +
       "G_GROUP_COMPETITION_QUIZ\020\340\001\022#\n\036MSG_GROUP" +
-      "_COMPETITION_QUIZ_SYN\020\341\001\022\021\n\014MSG_FEEDBACK" +
-      "\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_",
-      "ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_" +
-      "GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "_COMPETITION_QUIZ_SYN\020\341\001\022!\n\034MSG_GROUP_CO" +
+      "MPETITION_BATTLE\020\342\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023",
+      "\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALY" +
+      "SIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEP" +
+      "RESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

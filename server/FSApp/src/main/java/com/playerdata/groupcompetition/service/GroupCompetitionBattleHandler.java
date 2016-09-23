@@ -191,7 +191,7 @@ public class GroupCompetitionBattleHandler {
 					continue;
 				}
 
-				p.SendMsg(Command.MSG_ACTIVITY_COUNTTYPE, pushByteString);
+				p.SendMsg(Command.MSG_GROUP_COMPETITION_BATTLE, pushByteString);
 			}
 		}
 
