@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
+import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompTips;
@@ -91,7 +92,16 @@ public class GCompEvents {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
+		GCompQuizMgr.getInstance().groupCompEventsStart();
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
+	}
+	
+	private void fireEventsEnd() {
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
+		List<GCompAgainst> againsts = eventsData.getAgainsts();
+		for (GCompAgainst against : againsts) {
+			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
+		}
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {
@@ -172,10 +182,11 @@ public class GCompEvents {
 			}
 			winGroupIds.add(winGroupId);
 			loseGroupIds.add(loseGroupId);
-			against.setWinner(winGroupId);
+			against.setWinGroupId(winGroupId);
 		}
 		eventsData.setWinGroupIds(winGroupIds);
 		eventsData.setLostGroupIds(loseGroupIds);
+		this.fireEventsEnd();
 	}
 	
 	/**
