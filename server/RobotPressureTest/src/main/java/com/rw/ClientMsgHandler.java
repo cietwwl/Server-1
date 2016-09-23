@@ -222,6 +222,15 @@ public abstract class ClientMsgHandler {
 					case USE_GROUP_COPY_DATA:
 						getClient().getGroupCopyUserData().syn(msgDataSyn);
 						break;
+					case GCompSelfGuess:
+						getClient().getUserQuizItemHolder().syn(msgDataSyn);
+						break;
+					case GCompSelfGuessDetail:
+						getClient().getQuizEventItemHolder().syn(msgDataSyn);
+						break;
+					case GCompCanGuessItem:
+						getClient().getQuizEventItemHolder().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
