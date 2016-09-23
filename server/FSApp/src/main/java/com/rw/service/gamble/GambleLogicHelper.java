@@ -11,8 +11,10 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.rw.service.gamble.datamodel.GambleAdwardItem;
 import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
+import com.rw.service.gamble.datamodel.GambleHistoryRecord;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.gamble.datamodel.GambleOnePlanDropData;
 import com.rw.service.gamble.datamodel.GamblePlanCfg;
@@ -36,7 +38,6 @@ import com.rwproto.GambleServiceProtos.GambleData;
 import com.rwproto.GambleServiceProtos.GambleRequest;
 import com.rwproto.GambleServiceProtos.GambleResponse;
 import com.rwproto.GambleServiceProtos.GambleResponse.Builder;
-import com.rwproto.GambleServiceProtos.GambleRewardData;
 import com.rwproto.GambleServiceProtos.ItemPreviewData;
 import com.rwproto.GambleServiceProtos.PreviewData;
 import com.rwproto.MsgDef.Command;
@@ -202,8 +203,9 @@ public class GambleLogicHelper {
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();
 		GambleRecord record = gambleRecords.getOrCreate(player.getUserId());
 		GambleDropHistory historyRecord = record.getHistory(dropType);
+		GambleHistoryRecord historyByGroup = record.getByGroup(planCfg);
 
-		GambleOnePlanDropData result = new GambleOnePlanDropData(historyRecord,planCfg);
+		GambleOnePlanDropData result = new GambleOnePlanDropData(historyRecord,planCfg,historyByGroup);
 		return result;
 	}
 	
@@ -224,7 +226,7 @@ public class GambleLogicHelper {
 	 * @param defaultModelId
 	 * @return
 	 */
-	public static boolean add2DropList(ArrayList<GambleRewardData> dropList, int slotCount, String itemModelId,String uid, String planIdStr,String defaultModelId) {
+	public static boolean add2DropList(ArrayList<GambleAdwardItem> dropList, int slotCount, String itemModelId,String uid, String planIdStr,String defaultModelId) {
 		//检查是否具有有效的佣兵配置
 		if (StringUtils.isBlank(itemModelId)){
 			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效=%s，配置id:%s,",itemModelId, planIdStr));
@@ -252,10 +254,12 @@ public class GambleLogicHelper {
 			}
 		}
 		
-		GambleRewardData.Builder rewardData = GambleRewardData.newBuilder();
+		//GambleRewardData.Builder rewardData = GambleRewardData.newBuilder();
+		GambleAdwardItem rewardData = new GambleAdwardItem();
 		rewardData.setItemId(itemModelId);
 		rewardData.setItemNum(slotCount);
-		dropList.add(rewardData.build());
+		//dropList.add(rewardData.build());
+		dropList.add(rewardData);
 		return true;
 	}
 
@@ -273,6 +277,9 @@ public class GambleLogicHelper {
 		if (StringUtils.isNotBlank(heroModelId)){
 			if (heroModelId.indexOf("_") != -1){
 				RoleCfg roleCfg = RoleCfgDAO.getInstance().getConfig(heroModelId);
+				if (roleCfg == null){
+					System.out.println(heroModelId+" not found");
+				}
 				return roleCfg != null;
 			}
 		}
@@ -442,10 +449,10 @@ public class GambleLogicHelper {
 		}
 	}
 	
-	public static boolean testHasHero(ArrayList<GambleRewardData> dropList, StringBuilder trace, int gamblePlanId,String uid) {
+	public static boolean testHasHero(ArrayList<GambleAdwardItem> dropList, StringBuilder trace, int gamblePlanId,String uid) {
 		if (gamblePlanId == 5){//钻石十连抽
 			boolean hasHero = false;
-			for (GambleRewardData item : dropList) {
+			for (GambleAdwardItem item : dropList) {
 				String heroId=item.getItemId();
 				if (GambleLogicHelper.isValidHeroId(heroId)){
 					hasHero = true;
@@ -462,10 +469,12 @@ public class GambleLogicHelper {
 				if (isValidHeroId(hero)){
 					//特殊容错：从配置选一个有效的保底英雄替换了最后一个英雄
 					dropList.remove(dropList.size()-1);
-					GambleRewardData.Builder b = GambleRewardData.newBuilder();
+					//GambleRewardData.Builder b = GambleRewardData.newBuilder();
+					GambleAdwardItem b = new GambleAdwardItem();
 					b.setItemId(hero);
 					b.setItemNum(1);
-					dropList.add(b.build());
+					//dropList.add(b.build());
+					dropList.add(b);
 				}
 			}
 			return !hasHero;
@@ -473,9 +482,9 @@ public class GambleLogicHelper {
 		return true;
 	}
 	
-	public static void logTrace(StringBuilder trace, GambleDropHistory historyRecord) {
+	public static void logTrace(StringBuilder trace, GambleDropHistory historyRecord,GambleHistoryRecord groupRec) {
 		if (trace != null){
-			trace.append("historyRecord:").append(historyRecord.toDebugString());
+			trace.append("historyRecord:").append(historyRecord.toDebugString(groupRec));
 		}
 	}
 }

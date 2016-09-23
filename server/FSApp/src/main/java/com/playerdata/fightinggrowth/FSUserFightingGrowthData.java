@@ -4,6 +4,10 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 

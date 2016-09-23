@@ -4,9 +4,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.BeanCopyer;
 import com.playerdata.Hero;
+import com.playerdata.army.ArmyHero;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
 
 /**
@@ -29,6 +31,22 @@ public class ArmyHeroSimple {
 	private CurAttrData curAttrData = new CurAttrData();
 	private int fighting;
 	
+	public static ArmyHeroSimple  newInstance(ArmyHero armyhero) {
+		
+		ArmyHeroSimple armyHeroSimple = new ArmyHeroSimple();
+		RoleBaseInfoIF roleBaseInfo = armyhero.getRoleBaseInfo();
+		
+		BeanCopyer.copy(roleBaseInfo, armyHeroSimple);
+		AttrData totalAttrData = armyhero.getAttrData();
+		armyHeroSimple.curAttrData.setMaxLife(totalAttrData .getLife());
+		armyHeroSimple.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
+		armyHeroSimple.curAttrData.setCurLife(totalAttrData.getLife());
+		armyHeroSimple.curAttrData.setCurEnergy(0);
+		armyHeroSimple.curAttrData.setId(roleBaseInfo.getId());
+		armyHeroSimple.fighting = armyhero.getFighting();
+		
+		return armyHeroSimple;		
+	}
 	public static ArmyHeroSimple  newInstance(Hero hero) {
 		AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
 //		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
