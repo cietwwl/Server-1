@@ -11,7 +11,7 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 /**
- * 个人压标信息
+ * 个人竞猜信息
  * @author aken
  */
 @SynClass
@@ -31,9 +31,6 @@ public class GCompUserQuizItem implements IMapItem{
 	
 	@CombineSave
 	private String groupId;  //竞猜的帮派
-	
-	@CombineSave
-	private int result = 0;		//竞猜结果->0:还没出结果；1：猜对；-1：猜错
 	
 	@CombineSave
 	private boolean isGetReward = false;	//是否已经领取过奖励
@@ -80,14 +77,6 @@ public class GCompUserQuizItem implements IMapItem{
 
 	public void setGroupId(String groupId) {
 		this.groupId = groupId;
-	}
-
-	public int getResult() {
-		return result;
-	}
-
-	public void setResult(int result) {
-		this.result = result;
 	}
 
 	public boolean isGetReward() {
