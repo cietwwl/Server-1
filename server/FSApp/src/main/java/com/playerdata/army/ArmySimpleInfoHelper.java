@@ -21,7 +21,7 @@ public class ArmySimpleInfoHelper {
 		ArmyInfoSimple armyInfoSimple = new ArmyInfoSimple();
 		ArmyHero player = armyInfo.getPlayer();
 		armyInfoSimple.setPlayer(ArmyHeroSimple.newInstance(player));
-		armyInfoSimple.setPlayerName(armyInfo.getPlayerHeadImage());
+		armyInfoSimple.setPlayerName(armyInfo.getPlayerName());
 		armyInfoSimple.setPlayerHeadImage(armyInfo.getPlayerHeadImage());
 		armyInfoSimple.setArmyMagic(armyInfo.getArmyMagic());
 

@@ -141,8 +141,7 @@ public class TeamBattleHandler {
 	}
 	public ByteString addRobot(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
-		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		
+		tbRsp.setRstType(TBResultType.SUCCESS);
 		
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		
@@ -152,10 +151,13 @@ public class TeamBattleHandler {
 				String hardID = teamItem.getHardID();
 				String copyId = utbData.getEnimyMap().get(hardID);
 				TeamMatchData matchTeamArmy = TeamMatchMgr.getInstance().newMatchTeamArmy(player, copyId);				
-				
-				try {
-					TBTeamItemMgr.getInstance().addRobot(player, teamItem, matchTeamArmy.toStaticMemberTeamInfo(), matchTeamArmy.getRandomData());
-				} catch (JoinTeamException e) {
+				if(matchTeamArmy!=null){					
+					try {
+						TBTeamItemMgr.getInstance().addRobot(player, teamItem, matchTeamArmy.toStaticMemberTeamInfo(), matchTeamArmy.getRandomData());
+					} catch (JoinTeamException e) {
+						tbRsp.setRstType(TBResultType.DATA_ERROR);
+					}
+				}else{					
 					tbRsp.setRstType(TBResultType.DATA_ERROR);
 				}
 			}else{
@@ -163,7 +165,6 @@ public class TeamBattleHandler {
 			}
 		}		
 		
-		tbBM.buyBattleTimes(player, tbRsp, msgTBRequest.getHardID());
 		return tbRsp.build().toByteString();
 	}
 }

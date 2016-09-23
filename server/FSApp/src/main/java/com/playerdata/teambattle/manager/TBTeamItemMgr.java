@@ -116,7 +116,7 @@ public class TBTeamItemMgr{
 	}
 	
 	private void setTeamMemberTeams(TBTeamItem teamItem){
-		if(null == teamItem || !teamItem.needRefreshTeamMembers()) return;
+		if(null == teamItem) return;
 		List<StaticMemberTeamInfo> memTeams = new ArrayList<StaticMemberTeamInfo>();
 		List<TeamMember> members = teamItem.getMembers();
 		for(TeamMember member : members){
@@ -126,6 +126,9 @@ public class TBTeamItemMgr{
 				memTeams.add(teamInfo);
 			}else{
 				UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
+				if(utbMemData==null){
+					System.out.println("tt");
+				}
 				synchronized (utbMemData) {
 					if(utbMemData.getSelfTeamInfo() == null){
 						Player player = PlayerMgr.getInstance().find(member.getUserID());
@@ -236,6 +239,7 @@ public class TBTeamItemMgr{
 		tMem.setUserName(robot.getUserStaticTeam().getPlayerName());
 		tMem.setState(TBMemberState.Ready);
 		tMem.setRandomData(randomData);
+		tMem.setRobot(true);
 		synchronized (canJionTeam) {
 			if(!canJionTeam.addMember(tMem)){
 				throw new JoinTeamException("加入失败");

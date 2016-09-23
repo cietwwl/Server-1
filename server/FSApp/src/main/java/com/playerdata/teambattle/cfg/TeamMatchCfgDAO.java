@@ -14,7 +14,7 @@ public class TeamMatchCfgDAO extends CfgCsvDao<TeamMatchCfg> {
 
 	@Override
 	public Map<String, TeamMatchCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("teamBattle/team.csv",TeamMatchCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("teamBattle/teamMatch.csv",TeamMatchCfg.class);
 		Collection<TeamMatchCfg> vals = cfgCacheMap.values();
 		for (TeamMatchCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();

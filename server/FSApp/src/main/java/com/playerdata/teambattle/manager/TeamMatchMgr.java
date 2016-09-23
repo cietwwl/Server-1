@@ -51,6 +51,16 @@ public class TeamMatchMgr {
 		
 		return teamMatchData;
 	}
+
+
+	public ArmyInfo getArmyInfo(RandomData randomData) {
+		TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData.asData());	
+		ArmyInfo armyInfo = null;
+		if(robotTeamInfo!=null){
+			armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(robotTeamInfo);					
+		}
+		return armyInfo;
+	}
 	
 
 
