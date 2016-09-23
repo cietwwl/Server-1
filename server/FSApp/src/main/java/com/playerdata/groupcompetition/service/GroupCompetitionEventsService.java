@@ -8,6 +8,7 @@ import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.TeamMemberRequest;
 import com.rwproto.GroupCompetitionProto.TeamRequest;
 import com.rwproto.MsgDef.Command;
@@ -29,10 +30,12 @@ public class GroupCompetitionEventsService implements FsService<GeneratedMessage
 		if (cmd != null) {
 			switch (cmd) {
 			case MSG_GROUP_COMPETITION_TEAM_REQ:
-				break;
+				return GroupCompetitionHandler.getInstance().teamRequest(player, (TeamRequest)request);
 			case MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ:
 				break;
 			case MSG_GROUP_COMPETITION_TEAM_STATUS_REQ:
+				break;
+			case MSG_GROUP_JOIN_TEAM_REQ:
 				break;
 			default:
 				break;
@@ -50,6 +53,8 @@ public class GroupCompetitionEventsService implements FsService<GeneratedMessage
 			return TeamMemberRequest.parseFrom(request.getBody().getSerializedContent());
 		case MSG_GROUP_COMPETITION_TEAM_STATUS_REQ:
 			return TeamMemberRequest.parseFrom(request.getBody().getSerializedContent());
+		case MSG_GROUP_JOIN_TEAM_REQ:
+			return JoinTeamReq.parseFrom(request.getBody().getSerializedContent());
 		default:
 			return null;
 		}

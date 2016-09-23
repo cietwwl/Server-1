@@ -12,7 +12,7 @@ import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
@@ -154,7 +154,7 @@ public class GroupCompetitionMgr {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
 			try {
-				int matchId = GCompMatchDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsData().getCurrentEventsType());
+				int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsData().getCurrentEventsType());
 				if (matchId > 0) {
 					GCompTeamMgr.getInstance().sendTeamData(matchId, player);
 					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);

@@ -1,20 +1,20 @@
 package com.playerdata.groupcompetition.dao;
 
-import com.playerdata.groupcompetition.holder.data.GCompMatchSynData;
+import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
-public class GCompMatchDataDAO {
+public class GCompEventsDataDAO {
 
-	private static final GCompMatchDataDAO _instance = new GCompMatchDataDAO();
+	private static final GCompEventsDataDAO _instance = new GCompEventsDataDAO();
 
-	public static final GCompMatchDataDAO getInstance() {
+	public static final GCompEventsDataDAO getInstance() {
 		return _instance;
 	}
 	
-	private final GCompMatchSynData _synData = new GCompMatchSynData();
+	private final GCompEventsSynData _synData = new GCompEventsSynData();
 	
-	public GCompMatchSynData get() {
+	public GCompEventsSynData get() {
 		return _synData;
 	}
 	

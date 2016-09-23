@@ -9,7 +9,7 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
@@ -183,7 +183,7 @@ public class GroupCompetitionHandler {
 		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotMatchStageNow() : null);
 		if (resultType == GCResultType.SUCCESS) {
 			// 成功才有数据
-			GCompMatchDataMgr.getInstance().sendMatchData(player);
+			GCompEventsDataMgr.getInstance().sendMatchData(player);
 		}
 		return builder.build().toByteString();
 	}
@@ -200,8 +200,12 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
-	public ByteString createTeam(Player player, TeamRequest teamRequest) {
-		IReadOnlyPair<Boolean, String> createResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
-		return this.createCommonRsp(createResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, createResult.getT2()).toByteString();
+	public ByteString teamRequest(Player player, TeamRequest teamRequest) {
+		if (teamRequest.getReqType() == GCRequestType.CreateTeam) {
+			IReadOnlyPair<Boolean, String> createResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
+			return this.createCommonRsp(createResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, createResult.getT2()).toByteString();
+		} else {
+			return ByteString.EMPTY;
+		}
 	}
 }

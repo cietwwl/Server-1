@@ -10,13 +10,13 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 @SynClass
 public class GCompSelectionData {
 
-	private List<GCompMatchSynData> lastMatches;
+	private List<GCompEventsSynData> lastMatches;
 	private GCEventsType lastMatchNumType;
 	private List<GCGroup> historyChampion;
 	
 	public static GCompSelectionData createNew() {
 		GCompSelectionData data = new GCompSelectionData();
-		data.lastMatches = new ArrayList<GCompMatchSynData>();
+		data.lastMatches = new ArrayList<GCompEventsSynData>();
 		data.lastMatchNumType = GCEventsType.TOP_16;
 		data.historyChampion = new ArrayList<GCGroup>();
 		return data;
@@ -30,7 +30,7 @@ public class GCompSelectionData {
 		this.lastMatchNumType = eventsType;
 	}
 	
-	public void addLastMatches(List<GCompMatchSynData> dataList) {
+	public void addLastMatches(List<GCompEventsSynData> dataList) {
 		lastMatches.addAll(dataList);
 	}
 }

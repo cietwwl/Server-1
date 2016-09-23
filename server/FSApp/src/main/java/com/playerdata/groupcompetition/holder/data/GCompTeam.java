@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.holder.data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -17,6 +18,19 @@ public class GCompTeam implements IGCUnit {
 
 	private String teamId; // 队伍的id
 	private List<GCompTeamMember> members; // 队伍的成员
+	
+	public static GCompTeam createNewTeam(String teamId, GCompTeamMember leader, GCompTeamMember... members) {
+		GCompTeam team = new GCompTeam();
+		team.teamId = teamId;
+		team.members = new ArrayList<GCompTeamMember>();
+		team.members.add(leader);
+		if (members != null && members.length > 0) {
+			for (int i = 0; i < members.length; i++) {
+				team.members.add(members[i]);
+			}
+		}
+		return team;
+	}
 	
 	/**
 	 * 

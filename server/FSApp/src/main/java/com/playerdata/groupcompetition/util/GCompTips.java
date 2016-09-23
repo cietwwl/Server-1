@@ -11,6 +11,10 @@ public class GCompTips {
 	private static String tipsHeroCountInvalidate = "上阵英雄数量不足！";
 	private static String tipsYourGroupNotInMatch = "你所在的帮派没有进入[{}]赛事中";
 	private static String tipsNoMatchDetailData = "没有当次赛事的详细信息！";
+	private static String tipsYouAreInTeam = "你已经在队伍里面了！";
+	private static String tipsTeamMustIncludeMainRole = "出战阵容必须包含主角！";
+	private static String tipsNotAllHeroExists = "部分英雄不存在！";
+	private static String tipsCreateTeamSuccess = "创建队伍成功";
 	
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
@@ -47,4 +51,21 @@ public class GCompTips {
 	public static String getTipsNoMatchDetailData() {
 		return tipsNoMatchDetailData;
 	}
+
+	public static String getTipsYouAreInTeam() {
+		return tipsYouAreInTeam;
+	}
+
+	public static String getTipsArmyMustIncludeMainRole() {
+		return tipsTeamMustIncludeMainRole;
+	}
+
+	public static String getTipsNotAllHeroExists() {
+		return tipsNotAllHeroExists;
+	}
+
+	public static String getTipsCreateTeamSuccess() {
+		return tipsCreateTeamSuccess;
+	}
+	
 }

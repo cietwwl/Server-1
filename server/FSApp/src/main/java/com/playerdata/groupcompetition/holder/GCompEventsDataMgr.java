@@ -3,23 +3,23 @@ package com.playerdata.groupcompetition.holder;
 import java.util.List;
 
 import com.playerdata.Player;
-import com.playerdata.groupcompetition.holder.data.GCompMatchSynData;
+import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
-public class GCompMatchDataMgr {
+public class GCompEventsDataMgr {
 	
-	private static GCompMatchDataMgr _instance = new GCompMatchDataMgr();
+	private static GCompEventsDataMgr _instance = new GCompEventsDataMgr();
 	
-	public static GCompMatchDataMgr getInstance() {
+	public static GCompEventsDataMgr getInstance() {
 		return _instance;
 	}
 	
-	private GCompMatchDataHolder _dataHolder = GCompMatchDataHolder.getInstance();
+	private GCompEventsDataHolder _dataHolder = GCompEventsDataHolder.getInstance();
 	
 	public void onEventStageStart(GCEventsType startEventsType) {
-		GCompMatchSynData synData = _dataHolder.get();
+		GCompEventsSynData synData = _dataHolder.get();
 		synData.clear();
 		synData.setMatchNumType(startEventsType);
 	}

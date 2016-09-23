@@ -8,24 +8,30 @@ import com.playerdata.groupcompetition.dao.GCompTeamDataDAO;
 import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamHolder;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
+import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GCTeamDataHolder {
+public class GCompTeamHolder {
 
-	private static final GCTeamDataHolder _instance = new GCTeamDataHolder();
+	private static final GCompTeamHolder _instance = new GCompTeamHolder();
 	
-	public static final GCTeamDataHolder getInstance() {
+	public static final GCompTeamHolder getInstance() {
 		return _instance;
 	}
 	
 	private GCompTeamDataDAO _dao;
 	
-	protected GCTeamDataHolder() {
+	protected GCompTeamHolder() {
 		this._dao = GCompTeamDataDAO.getInstance();
 	}
 	
-	private GCompTeam get(int matchId, String userId) {
+	void addTeam(Player player, GCEventsType eventsType, int matchId, String groupId, GCompTeam data)  {
+		_dao.addTeam(eventsType, matchId, groupId, data);
+		ClientDataSynMgr.synData(player, data, eSynType.GCompTeamHolder, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	GCompTeam get(int matchId, String userId) {
 		// 获取user所属的队伍
 		return _dao.getTeamData(matchId, userId);
 	}

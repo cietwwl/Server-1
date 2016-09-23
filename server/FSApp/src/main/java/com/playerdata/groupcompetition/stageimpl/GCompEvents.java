@@ -11,7 +11,7 @@ import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
-import com.playerdata.groupcompetition.holder.GCompMatchDataMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
@@ -84,11 +84,11 @@ public class GCompEvents {
 		eventsData.setCurrentStatus(GCompEventsStatus.NONE);
 		eventsData.setEventsType(eventsType);
 		eventsData.setRelativeGroupIds(groupIds);
-		GCompMatchDataMgr.getInstance().addEvents(eventsData, eventsType);
+		GCompEventsDataMgr.getInstance().addEvents(eventsData, eventsType);
 	}
 	
 	private void fireEventsStart() {
-		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(_type);
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
@@ -98,7 +98,7 @@ public class GCompEvents {
 		GroupCompetitionMgr.getInstance().updateEventsStatus(status);
 		switch (status) {
 		case PREPARE:
-			PrepareAreaMgr.getInstance().prepareStart(GCompMatchDataMgr.getInstance().getEventsData(_type).getRelativeGroupIds());
+			PrepareAreaMgr.getInstance().prepareStart(GCompEventsDataMgr.getInstance().getEventsData(_type).getRelativeGroupIds());
 			break;
 		case FINISH:
 			PrepareAreaMgr.getInstance().prepareEnd();
@@ -115,7 +115,7 @@ public class GCompEvents {
 	 * @return true=切换成功，false=没有下个状态
 	 */
 	boolean switchToNextStatus() {
-		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
 		GCompEventsStatus nextStatus = eventsData.getCurrentStatus().getNextStatus();
 		if (nextStatus != null) {
 			eventsData.setCurrentStatus(nextStatus);
@@ -143,7 +143,7 @@ public class GCompEvents {
 	 * 赛事结束
 	 */
 	public void onEnd() {
-		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
 		List<GCompAgainst> list = eventsData.getAgainsts();
 		List<String> winGroupIds = new ArrayList<String>(list.size());
 		List<String> loseGroupIds = new ArrayList<String>(list.size());
@@ -185,7 +185,7 @@ public class GCompEvents {
 	 * @return
 	 */
 	public List<String> getWinGroups() {
-		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
 		return eventsData.getWinGroupIds();
 	}
 	
@@ -194,7 +194,7 @@ public class GCompEvents {
 	 * @return
 	 */
 	public List<String> getLoseGroups() {
-		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
 		return eventsData.getLoseGroupIds();
 	}
 	
@@ -205,7 +205,7 @@ public class GCompEvents {
 	 * @return
 	 */
 	public GCompEventsStatus getCurrentStatus() {
-		GCompEventsData eventsData = GCompMatchDataMgr.getInstance().getEventsData(this._type);
+		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
 		return eventsData.getCurrentStatus();
 	}
 	
