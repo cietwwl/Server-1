@@ -20,10 +20,10 @@ public enum UserFeaturesEnum {
 	lxsg("13"),//炼息
 	celestial_PengLaiIsland("14"),//幻境_蓬莱
 	celestial_KunLunWonderLand("15"),//幻境_昆仑
-	teamBattle("15"),//心魔
-	tower("16"),//万仙
-	battleTower("17"),//封神
-	magicSecert("18");//法宝秘境
+	teamBattle("16"),//心魔
+	tower("17"),//万仙
+	battleTower("18"),//封神
+	magicSecert("19");//法宝秘境
 	
 	
 	

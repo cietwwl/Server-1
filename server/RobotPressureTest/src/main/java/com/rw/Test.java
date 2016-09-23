@@ -14,7 +14,7 @@ public class Test {
 //		 robot.playerMagicSecret();
 //		 robot.testTaoist();
 //		 System.out.println(robot.testCopyJbzd(1));
-		 Robot robot = createRobot("tmpdllen"+ 912);
+		 Robot robot = createRobot("tmpdllen"+ 913);
 		 if(robot == null){
 		 }else{
 			 //boolean issucc = robot.startTBCreateTeam();

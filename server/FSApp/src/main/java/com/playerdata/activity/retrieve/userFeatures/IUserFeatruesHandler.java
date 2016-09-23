@@ -21,6 +21,7 @@ public interface IUserFeatruesHandler {
 	 * @param userId
 	 * @param dao
 	 * @return 负责隔天刷新时，将旧的当天功能数据生成对应的新的活动找回数据；
+	 * 因为部分奖励和消耗是根据用户等级+vip变化的，需要此时根据自身获得对应的normal-perfect的cfg再获得对应的功能的相关数据；
 	 */
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem,String userId,RewardBackCfgDAO dao);
 	

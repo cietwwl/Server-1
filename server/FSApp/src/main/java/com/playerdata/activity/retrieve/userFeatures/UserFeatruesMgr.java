@@ -15,7 +15,25 @@ import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBattleTower;
 import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBreakfast;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBuyPowerFive;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBuyPowerFour;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBuyPowerOne;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBuyPowerThree;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBuyPowerTwo;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesCeletriKunlun;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesCeletriPenglai;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesDinner;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesJbzd;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesLunch;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesLxsg;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesMagicSecret;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesPower;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesSupper;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesTeamBattle;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesTower;
+import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesWorship;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 
@@ -41,6 +59,24 @@ public class UserFeatruesMgr {
 	
 	private UserFeatruesMgr(){
 		featruesHandlerMap.put(UserFeaturesEnum.breakfast, new UserFeatruesBreakfast());
+		featruesHandlerMap.put(UserFeaturesEnum.lunch, new UserFeatruesLunch());
+		featruesHandlerMap.put(UserFeaturesEnum.dinner, new UserFeatruesDinner());
+		featruesHandlerMap.put(UserFeaturesEnum.supper, new UserFeatruesSupper());
+		featruesHandlerMap.put(UserFeaturesEnum.power, new UserFeatruesPower());
+		featruesHandlerMap.put(UserFeaturesEnum.worship, new UserFeatruesWorship());
+		featruesHandlerMap.put(UserFeaturesEnum.buyPowerOne, new UserFeatruesBuyPowerOne());
+		featruesHandlerMap.put(UserFeaturesEnum.buyPowerTwo, new UserFeatruesBuyPowerTwo());
+		featruesHandlerMap.put(UserFeaturesEnum.buyPowerThree, new UserFeatruesBuyPowerThree());
+		featruesHandlerMap.put(UserFeaturesEnum.buyPowerFour, new UserFeatruesBuyPowerFour());
+		featruesHandlerMap.put(UserFeaturesEnum.buyPowerFive, new UserFeatruesBuyPowerFive());
+		featruesHandlerMap.put(UserFeaturesEnum.jbzd, new UserFeatruesJbzd());
+		featruesHandlerMap.put(UserFeaturesEnum.lxsg, new UserFeatruesLxsg());
+		featruesHandlerMap.put(UserFeaturesEnum.celestial_KunLunWonderLand, new UserFeatruesCeletriKunlun());
+		featruesHandlerMap.put(UserFeaturesEnum.celestial_PengLaiIsland, new UserFeatruesCeletriPenglai());
+		featruesHandlerMap.put(UserFeaturesEnum.teamBattle, new UserFeatruesTeamBattle());
+		featruesHandlerMap.put(UserFeaturesEnum.tower, new UserFeatruesTower());
+		featruesHandlerMap.put(UserFeaturesEnum.battleTower, new UserFeatruesBattleTower());
+		featruesHandlerMap.put(UserFeaturesEnum.magicSecert, new UserFeatruesMagicSecret());
 	}
 	
 	public List<RewardBackTodaySubItem> doCreat(Player player){

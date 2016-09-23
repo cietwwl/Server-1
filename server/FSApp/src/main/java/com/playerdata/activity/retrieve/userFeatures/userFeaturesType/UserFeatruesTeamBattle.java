@@ -7,12 +7,9 @@ import com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
 import com.playerdata.activity.retrieve.userFeatures.IUserFeatruesHandler;
-import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
-import com.rwbase.dao.copypve.CopyInfoCfgDAO;
-import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
 
 public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 
