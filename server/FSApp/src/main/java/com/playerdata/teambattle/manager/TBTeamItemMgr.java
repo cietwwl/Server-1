@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.robot.RandomData;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
@@ -115,16 +116,19 @@ public class TBTeamItemMgr{
 	}
 	
 	private void setTeamMemberTeams(TBTeamItem teamItem){
-		if(null == teamItem || !teamItem.needRefreshTeamMembers()) return;
+		if(null == teamItem) return;
 		List<StaticMemberTeamInfo> memTeams = new ArrayList<StaticMemberTeamInfo>();
 		List<TeamMember> members = teamItem.getMembers();
 		for(TeamMember member : members){
 			if(member.isRobot()){
 				//TODO 根据robotId获取
-				StaticMemberTeamInfo teamInfo = UserTeamBattleDataMgr.getInstance().getRobotStaticTeamInfo(member.getUserID());
+				StaticMemberTeamInfo teamInfo = UserTeamBattleDataMgr.getInstance().getRobotStaticTeamInfo(member);
 				memTeams.add(teamInfo);
 			}else{
 				UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
+				if(utbMemData==null){
+					System.out.println("tt");
+				}
 				synchronized (utbMemData) {
 					if(utbMemData.getSelfTeamInfo() == null){
 						Player player = PlayerMgr.getInstance().find(member.getUserID());
@@ -229,11 +233,13 @@ public class TBTeamItemMgr{
 	 * @param robot
 	 * @throws JoinTeamException
 	 */
-	public void addRobot(Player player, TBTeamItem canJionTeam, StaticMemberTeamInfo robot) throws JoinTeamException {
+	public void addRobot(Player player, TBTeamItem canJionTeam, StaticMemberTeamInfo robot, RandomData randomData) throws JoinTeamException {
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(robot.getUserID());
 		tMem.setUserName(robot.getUserStaticTeam().getPlayerName());
 		tMem.setState(TBMemberState.Ready);
+		tMem.setRandomData(randomData);
+		tMem.setRobot(true);
 		synchronized (canJionTeam) {
 			if(!canJionTeam.addMember(tMem)){
 				throw new JoinTeamException("加入失败");
