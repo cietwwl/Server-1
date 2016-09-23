@@ -7,12 +7,17 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
+@SynClass
 public class FSUserFightingGrowthData {
 
 	@JsonProperty("1")
 	@Id
+	@IgnoreSynField
 	private String userId; // 所属的玩家的UserId
 	@JsonProperty("2")
 	private String _currentTitleKey; // 当前的称号等级

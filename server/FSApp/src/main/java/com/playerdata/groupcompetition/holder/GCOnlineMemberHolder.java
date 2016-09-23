@@ -82,6 +82,16 @@ public class GCOnlineMemberHolder {
 		}
 	}
 	
+	public GCompOnlineMember getOnlineMember(Player player, String groupId) {
+		List<GCompOnlineMember> onlineMembers = _dao.getOnlineMembers(groupId);
+		for(GCompOnlineMember member : onlineMembers) {
+			if(member.getUserId().equals(player.getUserId())) {
+				return member;
+			}
+		}
+		return null;
+	}
+	
 	void addOnlineMemberList(String groupId) {
 		_dao.addOnlineMemberList(groupId, new ArrayList<GCompOnlineMember>());
 	}

@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.dao;
 
-import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamHolder;
+import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamMgr;
 import com.playerdata.groupcompetition.dao.pojo.GCompMatchTeamData;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -19,7 +19,7 @@ public class GCompTeamDataDAO {
 		_matchTeamData.clear();
 	}
 	
-	public void addGroupTeamData(int matchId, GCompGroupTeamHolder groupTeamData) {
+	public void addGroupTeamData(int matchId, GCompGroupTeamMgr groupTeamData) {
 		this._matchTeamData.addGroupTeamHolder(matchId, groupTeamData);
 	}
 	
@@ -43,8 +43,19 @@ public class GCompTeamDataDAO {
 	 * @param userId
 	 * @return
 	 */
-	public GCompTeam getTeamData(int matchId, String userId) {
-		GCompGroupTeamHolder groupTeamData = _matchTeamData.getGroupTeamData(matchId);
-		return groupTeamData.getTeamData(userId);
+	public GCompTeam getTeamOfUser(int matchId, String userId, String groupId) {
+		GCompGroupTeamMgr groupTeamData = _matchTeamData.getGroupTeamData(matchId);
+		return groupTeamData.getTeamData(userId, groupId);
+	}
+	
+	/**
+	 * 
+	 * @param matchId
+	 * @param teamId
+	 * @return
+	 */
+	public GCompTeam getTeamDataByTeamId(int matchId, String teamId) {
+		GCompGroupTeamMgr groupTeamMgr = _matchTeamData.getGroupTeamData(matchId);
+		return groupTeamMgr.getTeamData(teamId);
 	}
 }
