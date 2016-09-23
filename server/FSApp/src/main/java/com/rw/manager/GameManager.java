@@ -128,7 +128,9 @@ public class GameManager {
 
 		if (ServerSwitch.isOpenTargetSell()) {
 			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
-			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), connectTimeOutMillis, heartBeatInterval);
+			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
+					zoneInfo.getBenefitLocalPort(),
+					connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化

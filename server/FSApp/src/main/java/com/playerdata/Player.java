@@ -33,6 +33,7 @@ import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
@@ -59,7 +60,6 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
-import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
@@ -204,8 +204,8 @@ public class Player implements PlayerIF {
 
 		Player fresh = new Player(userId, false);
 		// 楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
-		fresh.setZoneLoginInfo(zoneLoginInfo2);			
-		
+		fresh.setZoneLoginInfo(zoneLoginInfo2);
+
 		fresh.initMgr();
 		return fresh;
 	}
@@ -255,28 +255,25 @@ public class Player implements PlayerIF {
 		this.userId = userId;
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-		}else{
+		} else {
 			MapItemStoreFactory.preloadIntegration(userId, getLevel());
-			
+
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
-		//TODO 标记1
+		// TODO 标记1
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
-		
-		
-		
-		
+
 		if (!initMgr) {
 			// MapItemStoreFactory.notifyPlayerCreated(userId);
-			//TODO 标记2
+			// TODO 标记2
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
-			//TODO 标记3
+			// TODO 标记3
 			notifyCreated();
-		} 
-		//TODO 标记4
+		}
+		// TODO 标记4
 		RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
 
 		// 这两个mgr一定要初始化
@@ -430,6 +427,9 @@ public class Player implements PlayerIF {
 					UserGroupSecretBaseDataMgr.getMgr().synData(player);
 					// 推送帮派秘境的Team信息
 					GroupSecretTeamDataMgr.getMgr().synData(player);
+
+					// 为了处理掉线的情况，这里要处理一下帮派争霸的数据
+					GCompMatchDataHolder.getHolder().synPlayerMatchData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -761,7 +761,7 @@ public class Player implements PlayerIF {
 		if (exp < 0) {
 			exp = 0;
 		}
-//		getMainRoleHero().getRoleBaseInfoMgr().setExp(exp);
+		// getMainRoleHero().getRoleBaseInfoMgr().setExp(exp);
 		FSHeroBaseInfoMgr.getInstance().setExp(getMainRoleHero(), exp);
 	}
 
@@ -815,11 +815,11 @@ public class Player implements PlayerIF {
 			}
 			addPower(addpower);
 			this.level = newLevel;
-//			mainRoleHero.SetHeroLevel(newLevel);
+			// mainRoleHero.SetHeroLevel(newLevel);
 			FSHeroBaseInfoMgr.getInstance().setLevel(mainRoleHero, newLevel);
 			userDataMgr.setLevel(newLevel);
 			MagicChapterInfoHolder.getInstance().synAllData(this);
-			getTaskMgr().checkAndAddList();			
+			getTaskMgr().checkAndAddList();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
@@ -879,7 +879,7 @@ public class Player implements PlayerIF {
 		} else {
 			Hero mainRoleHero = getMainRoleHero();
 			int fightbeforelevelup = getHeroMgr().getFightingTeam(this);
-//			mainRoleHero.SetHeroLevel(newLevel);
+			// mainRoleHero.SetHeroLevel(newLevel);
 			FSHeroBaseInfoMgr.getInstance().setLevel(mainRoleHero, newLevel);
 			userDataMgr.setLevel(newLevel);
 			mainRoleHero.save();
@@ -1033,7 +1033,7 @@ public class Player implements PlayerIF {
 	 * 升星
 	 */
 	public void setStarLevel(int starLevel) {
-//		getMainRoleHero().getRoleBaseInfoMgr().setStarLevel(starLevel);
+		// getMainRoleHero().getRoleBaseInfoMgr().setStarLevel(starLevel);
 		FSHeroBaseInfoMgr.getInstance().setStarLevel(getMainRoleHero(), starLevel);
 	}
 
@@ -1107,7 +1107,7 @@ public class Player implements PlayerIF {
 
 	public void setTemplateId(String templateId) {
 		if (templateId != null) {
-//			getMainRoleHero().getRoleBaseInfoMgr().setTemplateId(templateId);
+			// getMainRoleHero().getRoleBaseInfoMgr().setTemplateId(templateId);
 			FSHeroBaseInfoMgr.getInstance().setTemplateId(getMainRoleHero(), templateId);
 
 			// 通知一下监听的人，修改对应数据
@@ -1120,7 +1120,7 @@ public class Player implements PlayerIF {
 
 	public void SetModelId(int modelId) {
 		if (modelId > 0) {
-//			getMainRoleHero().getRoleBaseInfoMgr().setModelId(modelId);
+			// getMainRoleHero().getRoleBaseInfoMgr().setModelId(modelId);
 			FSHeroBaseInfoMgr.getInstance().setModelId(getMainRoleHero(), modelId);
 			RankingMgr.getInstance().onPlayerChange(this);
 		}
