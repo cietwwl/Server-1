@@ -116,8 +116,9 @@ public class UserGroupCopyMapRecordHolder {
 	public void resetFightCount() {
 		GroupCopyMapCfgDao mapCfgDAO = GroupCopyMapCfgDao.getInstance();
 		List<UserGroupCopyMapRecord> list = getItemList();
+		GroupCopyMapCfgDao instance = GroupCopyMapCfgDao.getInstance();
 		for (UserGroupCopyMapRecord record : list) {
-			GroupCopyMapCfg cfg = mapCfgDAO.getCfgById(record.getChaterID());
+			GroupCopyMapCfg cfg = instance.getCfgById(record.getChaterID());
 			record.setLeftFightCount(cfg.getEnterCount());
 		}
 		update();

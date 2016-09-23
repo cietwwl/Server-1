@@ -79,7 +79,7 @@ public final class RobotHeroBuilder {
 			}
 		}
 
-		return getRobotTeamInfo(robotId, new BuildRoleInfo(userId, "NonMainRole", null, null, 0, roleModelIdList), false);
+		return getRobotTeamInfo(new BuildRoleInfo(userId, "NonMainRole", null, null, 0, roleModelIdList), false, RandomData.newInstance(robotId));
 	}
 
 	private static RobotHeroCfg getRandomRobotHeroCfg(RobotEntryCfg robotCfg) {
@@ -301,28 +301,42 @@ public final class RobotHeroBuilder {
 	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
 	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
 
+	
+
 	/**
 	 * 获取角色信息
 	 * 
 	 * @param robotId
 	 * @return
 	 */
-	public static TeamInfo getRobotTeamInfo(int robotId) {
-		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getRobotCfg(String.valueOf(robotId));
+	public static TeamInfo getRobotTeamInfo(int robotId) {		
+		
+		return getRobotTeamInfo(RandomData.newInstance(robotId));
+	}
+	/**
+	 * 获取角色信息
+	 * 
+	 * @param robotId
+	 * @return
+	 */
+	public static TeamInfo getRobotTeamInfo(RandomData randomData) {
+		
+		
+		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getRobotCfg(randomData.getRobotId());
 		if (angelRobotCfg == null) {
 			return null;
 		}
 
-		Random r = new Random();
 		// 随机一个职业
 		ECareer[] values = ECareer.values();
-		ECareer careerType = values[RobotHelper.getRandomIndex(r, values.length)];
+		ECareer careerType = values[randomData.getCareer(values.length)];
 		// 获取性别
-		int sex = RobotHelper.getRandomIndex(r, 2);
+		int sex = randomData.getSex(2);
 		// 星级
 		int[] starArr = angelRobotCfg.getStar();
 		int star = starArr[RobotHelper.getRandomIndex(starArr.length)];
 		// 获取英雄模版
+		
 		int career = careerType.getValue();
 		RoleCfg roleCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
 		if (roleCfg == null) {
@@ -330,13 +344,31 @@ public final class RobotHeroBuilder {
 		}
 
 		// 默认给个名字
-		String name = fNameArr[RobotHelper.getRandomIndex(r, fNameArr.length)] + sNameArr[RobotHelper.getRandomIndex(r, sNameArr.length)];
+		String name = fNameArr[randomData.getfName(fNameArr.length)] + sNameArr[randomData.getsName(sNameArr.length)];
 
+		List<Integer> heroTmpIdList = getHeroIdList(angelRobotCfg, roleCfg, randomData);
+
+		String robotUserId = randomData.getRobotUserId(roleCfg);
+
+		String headImage;
+		if (sex == ESex.Men.getOrder()) {
+			headImage = "10001";
+		} else {
+			headImage = "10002";
+		}
+
+		BuildRoleInfo roleInfo = new BuildRoleInfo(robotUserId, name, headImage, "", career, heroTmpIdList);
+		
+		return getRobotTeamInfo(roleInfo, true, randomData);
+	}
+
+	private static List<Integer> getHeroIdList(RobotEntryCfg angelRobotCfg, RoleCfg roleCfg, RandomData randomData) {
+		
 		List<Integer> heroTmpIdList = new ArrayList<Integer>();
 		heroTmpIdList.add(roleCfg.getModelId());
 		// 阵容组合
 		List<String> heroGroupId = angelRobotCfg.getHeroGroupId();
-		String heroTeamId = heroGroupId.get(RobotHelper.getRandomIndex(r, heroGroupId.size()));
+		String heroTeamId = heroGroupId.get(randomData.getHeroTeam(heroGroupId.size()));
 
 		List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroTeamId);
 		if (heroCfgList == null) {
@@ -344,7 +376,7 @@ public final class RobotHeroBuilder {
 			return null;
 		}
 
-		RobotHeroCfg heroCfg = heroCfgList.get(RobotHelper.getRandomIndex(r, heroCfgList.size()));
+		RobotHeroCfg heroCfg = heroCfgList.get(randomData.getHeroCfg(heroCfgList.size()));
 		if (heroCfg == null) {
 			GameLog.error("生成机器人", "未知角色Id", String.format("[%s]机器人阵容组合找不到RobotHeroCfg", heroTeamId));
 			return null;
@@ -369,20 +401,10 @@ public final class RobotHeroBuilder {
 		if (!StringUtils.isEmpty(fourthHeroId)) {
 			heroTmpIdList.add(Integer.valueOf(fourthHeroId));
 		}
-
-		StringBuilder sb = new StringBuilder();
-		sb.append(roleCfg.getModelId()).append("_").append(System.currentTimeMillis());// 模拟生成一个角色Id，modelId_时间
-
-		String headImage;
-		if (sex == ESex.Men.getOrder()) {
-			headImage = "10001";
-		} else {
-			headImage = "10002";
-		}
-
-		return getRobotTeamInfo(robotId, new BuildRoleInfo(sb.toString(), name, headImage, "", career, heroTmpIdList), true);
+		return heroTmpIdList;
 	}
 
+	
 	/**
 	 * 获取机器人
 	 * 
@@ -391,7 +413,17 @@ public final class RobotHeroBuilder {
 	 * @return
 	 */
 	public static TeamInfo getRobotTeamInfo(int robotId, BuildRoleInfo roleInfo, boolean needMainRole) {
-		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getRobotCfg(String.valueOf(robotId));
+		return  getRobotTeamInfo( roleInfo, needMainRole, RandomData.newInstance(robotId));
+	}
+	/**
+	 * 获取机器人
+	 * 
+	 * @param robotId
+	 * @param roleInfo
+	 * @return
+	 */
+	public static TeamInfo getRobotTeamInfo(BuildRoleInfo roleInfo, boolean needMainRole, RandomData randomData) {
+		RobotEntryCfg robotCfg = RobotCfgDAO.getInstance().getRobotCfg(randomData.getRobotId());
 		if (robotCfg == null) {
 			return null;
 		}
@@ -400,19 +432,19 @@ public final class RobotHeroBuilder {
 		List<Integer> heroTmpIdList = roleInfo == null ? null : roleInfo.getHeroTmpIdList();
 
 		int[] level = robotCfg.getLevel();
-		int mainRoleLevel = level[RobotHelper.getRandomIndex(new Random(), level.length)];
+		int mainRoleLevel = level[randomData.getMainRoleLevel(level.length)];
 
 		// 阵容信息
 		TeamInfo teamInfo = new TeamInfo();
 		if (needMainRole) {
 			// ----------------------------------------主角信息
-			buildMainRole(robotCfg, teamInfo, roleInfo, mainRoleLevel);
+			buildMainRole(robotCfg, teamInfo, roleInfo, mainRoleLevel, randomData);
 		}
 
 		// ----------------------------------------额外属性
 		teamInfo.setExtraId(robotCfg.getExtraAttrId());
 		// ----------------------------------------法宝信息
-		ArmyMagic magic = buildMagic(robotCfg, mainRoleLevel);
+		ArmyMagic magic = buildMagic(robotCfg, mainRoleLevel,randomData);
 		teamInfo.setMagic(magic);
 		int finalMagicId = magic.getModelId();
 		int magicLevel = magic.getLevel();
@@ -430,7 +462,9 @@ public final class RobotHeroBuilder {
 		}
 
 		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
-		checkHeroSize(hasList, robotCfg);
+		if(randomData.isDoHeroMakeUp()){
+			checkHeroSize(hasList, robotCfg);
+		}
 
 		int heroSize = hasList.size();
 		List<HeroInfo> heroInfoList = new ArrayList<HeroInfo>(heroSize);
@@ -487,6 +521,7 @@ public final class RobotHeroBuilder {
 
 		teamInfo.setHero(heroInfoList);
 		teamInfo.setTeamFighting(fighting);
+		teamInfo.setRandomData(randomData);
 
 		return teamInfo;
 	}
@@ -501,18 +536,17 @@ public final class RobotHeroBuilder {
 	 * 
 	 * @return 返回构造的主角的等级
 	 */
-	private static int buildMainRole(RobotEntryCfg robotCfg, TeamInfo teamInfo, BuildRoleInfo roleInfo, int mainRoleLevel) {
+	private static int buildMainRole(RobotEntryCfg robotCfg, TeamInfo teamInfo, BuildRoleInfo roleInfo, int mainRoleLevel, RandomData randomData ) {
 		String userId = roleInfo == null ? null : roleInfo.getUserId();
 		String robotName = roleInfo == null ? null : roleInfo.getRobotName();
 		String groupName = roleInfo == null ? null : roleInfo.getGroupName();
 		String headId = roleInfo == null ? null : roleInfo.getHeadId();
 		int career = roleInfo == null ? 0 : roleInfo.getCareer();
 
-		Random r = new Random();
 		// ----------------------------------------主角基础信息
 		// Vip等级
 		int[] vipLevel = robotCfg.getVipLevel();
-		teamInfo.setVip(vipLevel[RobotHelper.getRandomIndex(r, vipLevel.length)]);
+		teamInfo.setVip(vipLevel[randomData.getVipLevel(vipLevel.length)]);
 		// 名字
 		teamInfo.setName(robotName);
 		// 设置职业
@@ -540,16 +574,15 @@ public final class RobotHeroBuilder {
 	 * @param mainRoleLevel
 	 * @return
 	 */
-	private static ArmyMagic buildMagic(RobotEntryCfg robotCfg, int mainRoleLevel) {
-		Random r = new Random();
+	private static ArmyMagic buildMagic(RobotEntryCfg robotCfg, int mainRoleLevel, RandomData randomData) {
 		ArmyMagic magicInfo = new ArmyMagic();
 		// 法宝Id
 		int[] magicId = robotCfg.getMagicId();
-		int finalMagicId = magicId[RobotHelper.getRandomIndex(r, magicId.length)];
+		int finalMagicId = magicId[randomData.getMagicId(magicId.length)];
 		magicInfo.setModelId(finalMagicId);
 		// 法宝等级
 		int[] magicLevelArray = robotCfg.getMagicLevel();
-		int magicLevel = magicLevelArray[RobotHelper.getRandomIndex(r, magicLevelArray.length)];
+		int magicLevel = magicLevelArray[randomData.getMagicLevel(magicLevelArray.length)];
 		magicLevel = magicLevel > mainRoleLevel ? mainRoleLevel : magicLevel;
 		magicInfo.setLevel(magicLevel);
 		return magicInfo;
@@ -563,6 +596,7 @@ public final class RobotHeroBuilder {
 	 */
 	private static void checkHeroSize(List<Integer> heroTmpIdList, RobotEntryCfg angelRobotCfg) {
 		Random r = new Random();
+		
 		int heroSize = heroTmpIdList == null ? 0 : heroTmpIdList.size();
 		if (heroSize < 5) {
 			int needSize = 5 - heroSize;// 需要随机的数量

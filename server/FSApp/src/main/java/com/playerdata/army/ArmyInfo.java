@@ -1,5 +1,6 @@
 package com.playerdata.army;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -24,6 +25,13 @@ public class ArmyInfo {
 	private ArmyFashion armyFashion;
 	@IgnoreEncodeField
 	private String vCode;  //校验用
+
+	
+	
+	public ArmyInfo() {
+		super();
+		this.heroList = new ArrayList<ArmyHero>();
+	}
 
 	public List<ArmyHero> getHeroList() {
 		return heroList;

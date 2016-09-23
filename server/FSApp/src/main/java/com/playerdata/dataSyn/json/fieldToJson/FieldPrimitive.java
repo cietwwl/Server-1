@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 
 public class FieldPrimitive implements IFieldToJson{
 
@@ -16,7 +17,7 @@ public class FieldPrimitive implements IFieldToJson{
 	}
 
 	@Override
-	public String toJson(Object target) throws Exception {
+	public String toJson(Object target, JsonOpt jsonOpt) throws Exception {
 		Object objectValue = field.get(target);
 		if(objectValue == null){
 			return null;
@@ -31,7 +32,7 @@ public class FieldPrimitive implements IFieldToJson{
 			sendToClient =!StringUtils.equals(strValue, "0");
 		}
 		
-		return sendToClient?strValue:null;
+		return sendToClient?jsonOpt.getShort(strValue):null;
 	}
 
 	
