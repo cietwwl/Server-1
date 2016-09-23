@@ -20,6 +20,7 @@ public class GambleDropHistory {
 	private boolean firstChargeGamble = true;
 	
 	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
+	private int lookbackNumber;// 历史记录序列中保底检查的位置
 	private boolean passFreeExclusiveCheck = false;
 	private boolean passChargeExclusiveCheck = false;
 	
@@ -74,6 +75,14 @@ public class GambleDropHistory {
 
 	public void setChargeGuaranteePlanIndex(int chargeGuaranteePlanIndex) {
 		this.chargeGuaranteePlanIndex = chargeGuaranteePlanIndex;
+	}
+
+	public int getLookbackNumber() {
+		return lookbackNumber;
+	}
+
+	public void setLookbackNumber(int lookbackNumber) {
+		this.lookbackNumber = lookbackNumber;
 	}
 
 	public long getLastFreeGambleTime() {
@@ -180,6 +189,9 @@ public class GambleDropHistory {
 			List<String> history = groupRec.getChargeGambleHistory();
 			int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);//寻找当前保底次数
 			int historySize = history.size();
+			if (lookbackNumber < historySize){
+				historySize = lookbackNumber;
+			}
 			if (historySize >= checkNum){// 超出当前保底次数，清理历史并调整保底次数数组的索引
 				GambleLogicHelper.logTrace(trace,"exceed check number trigger clearHistory");
 				clearGuaranteeRecord(groupRec,dropPlan, trace);
@@ -189,7 +201,10 @@ public class GambleDropHistory {
 
 	private void clearGuaranteeRecord(GambleHistoryRecord groupRec,IDropGambleItemPlan dropPlan, StringBuilder trace) {
 		GambleLogicHelper.logTrace(trace,this,groupRec);
-		groupRec.getChargeGambleHistory().clear();
+		List<String> history = groupRec.getChargeGambleHistory();
+		if (history.size() >= 20){//TODO 获取最大的历史记录数值
+			history.clear();
+		}
 		increaseGuaranteePlanIndex(dropPlan.getLastCheckIndex());
 	}	
 	/**
@@ -202,7 +217,13 @@ public class GambleDropHistory {
 	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan,GambleHistoryRecord groupRec) {
 		List<String> history = groupRec.getChargeGambleHistory();
 		int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);
-		int historySize = history.size();
+		int historySize = lookbackNumber;
+		if (lookbackNumber > history.size()){
+			//如果历史记录的大小比需要检查的历史数量要少！
+			historySize = history.size();
+			System.out.println("lookbackNumber:"+lookbackNumber+",historySize:"+historySize);
+		}
+		
 		if (historySize < checkNum - 1) {
 			return false;
 		}
@@ -227,17 +248,26 @@ public class GambleDropHistory {
 		if (chargeGuaranteePlanIndex<lastIndex){
 			chargeGuaranteePlanIndex++;
 		}
+		lookbackNumber = 0;
 	}
 
 	@JsonIgnore
 	public void add(boolean isFree, String itemModel, int itemCount,GambleHistoryRecord groupRec) {
+		add(isFree,itemModel,itemCount,groupRec,false);
+	}
+	
+	public void add(boolean isFree, String itemModel, int itemCount,GambleHistoryRecord groupRec,boolean ignoreThisCount) {
 		List<String> history = groupRec.getChargeGambleHistory();
 		history.add(itemModel);
 		if (isFree) {
 			freeCount++;
 			lastFreeGambleTime = System.currentTimeMillis();
-		} 
-
+		}
+		
+		if (!ignoreThisCount){
+			lookbackNumber++;
+		}
+		
 		firstChargeGamble = false;
 		addExclusiveHistory(isFree,itemModel,groupRec);
 	}
@@ -312,12 +342,11 @@ public class GambleDropHistory {
 	/**
 	 * 移动 保底检索次数的索引
 	 */
-	public void increaseCount(IDropGambleItemPlan dropPlan,int oldCount,int incrCount) {
+	public void increaseCount(IDropGambleItemPlan dropPlan,int incrCount) {
 		int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);//寻找当前保底次数
-		int tmp = oldCount;
 		for (int i = 0; i < incrCount; i++) {
-			tmp++;
-			if (tmp >= checkNum){
+			lookbackNumber++;
+			if (lookbackNumber >= checkNum){
 				increaseGuaranteePlanIndex(dropPlan.getLastCheckIndex());
 				checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);//寻找当前保底次数
 			}

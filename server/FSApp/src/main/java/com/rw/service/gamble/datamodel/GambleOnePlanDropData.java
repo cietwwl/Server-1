@@ -25,11 +25,17 @@ public class GambleOnePlanDropData {
 	 */
 	public int getGuaranteeLeftCount(){
 		if (planCfg.getDropItemCount() == 1){
-			int size = groupRec.getChargeGambleHistory().size();
+			//int size = groupRec.getChargeGambleHistory().size();
+			int number = historyRecord.getLookbackNumber();
 			int guaranteePlanIndex = historyRecord.getChargeGuaranteePlanIndex();
 			IDropGambleItemPlan dropPlan = planCfg.getChargePlan();
+			//特殊规则，钻石单抽的首抽不能记录在保底次数中
+			if (planCfg.getKey() == 5 && historyRecord.isFirstChargeGamble()){
+				return 0;
+			}
 			int guaranteeCheckNum = dropPlan.getCheckNum(guaranteePlanIndex);
-			return guaranteeCheckNum > size ? guaranteeCheckNum - size - 1 : 0;
+			return guaranteeCheckNum > number ? guaranteeCheckNum - number - 1 : 0;
+			//return guaranteeCheckNum > size ? guaranteeCheckNum - size - 1 : 0;
 		}else{
 			return -1;
 		}

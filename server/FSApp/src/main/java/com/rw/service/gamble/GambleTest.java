@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 import com.common.HPCUtil;
+import com.common.RefBool;
 import com.rw.service.gamble.datamodel.GambleAdwardItem;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
 import com.rw.service.gamble.datamodel.GambleHistoryRecord;
@@ -135,6 +136,7 @@ public class GambleTest {
 		}
 	}
 
+	private static RefBool hasFirst = new RefBool();
 	private static HashMap<String, Integer> simulateGamble(String userId, int gamblePlanId, int playerLevel,
 			Random ranGen, GambleDropHistory historyRecord, StringBuilder trace, GambleHandler coreLogic,
 			GambleHistoryRecord historyByGroup, ArrayList<GambleAdwardItem> dropList) {
@@ -152,7 +154,7 @@ public class GambleTest {
 		HashMap<String, Integer> result = new HashMap<String, Integer>();
 		dropList.clear();
 		coreLogic.coreLogic(gamblePlanId, planIdStr, planCfg, dropList, userId, historyRecord, historyByGroup, dropPlan,
-				isFree, ranGen, defaultItem, trace);
+				isFree, ranGen, defaultItem, trace,hasFirst);
 		for (GambleAdwardItem item : dropList) {
 			result.put(item.getItemId(), item.getItemNum());
 		}

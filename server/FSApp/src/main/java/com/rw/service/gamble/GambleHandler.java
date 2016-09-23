@@ -7,6 +7,7 @@ import java.util.Random;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.HPCUtil;
+import com.common.RefBool;
 import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -97,7 +98,7 @@ public class GambleHandler {
 		GambleRecord record = gambleRecords.getOrCreate(userId);
 		GambleDropHistory historyRecord = record.getHistory(gamblePlanId);
 		GambleHistoryRecord historyByGroup = record.getByGroup(planCfg);
-		final int oldCount = historyByGroup.getChargeGambleHistory().size();
+//		final int oldCount = historyByGroup.getChargeGambleHistory().size();
 		IDropGambleItemPlan dropPlan;//免费或者收费方案组
 		boolean isFree = historyRecord.canUseFree(planCfg);
 		
@@ -114,11 +115,12 @@ public class GambleHandler {
 		String defaultItem = String.valueOf(planCfg.getGoods());
 		
 		setContext(player);
+		RefBool hasFirst = new RefBool();
 		StringBuilder trace = gamblePlanId ==5 ? new StringBuilder() : null;
 
 		// start core logic
 		dropPlan = coreLogic(gamblePlanId, planIdStr, planCfg, dropList, userId, historyRecord, historyByGroup,
-				dropPlan, isFree, ranGen, defaultItem,trace);
+				dropPlan, isFree, ranGen, defaultItem,trace,hasFirst);
 		
 		clearContext();
 
@@ -129,7 +131,11 @@ public class GambleHandler {
 			}
 		}
 		
-		record.adjustCountOfSameGroup(planCfg,dropPlan,oldCount, dropList.size());
+		int adjustCount = dropList.size();
+		if (hasFirst.value && adjustCount >0){
+			adjustCount--;
+		}
+		record.adjustCountOfSameGroup(planCfg,dropPlan, adjustCount);
 		
 		//必掉经验丹，个数跟掉落物品个数一样
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
@@ -199,7 +205,7 @@ public class GambleHandler {
 	public IDropGambleItemPlan coreLogic(int gamblePlanId, String planIdStr, GamblePlanCfg planCfg,
 			ArrayList<GambleAdwardItem> dropList, String userId, GambleDropHistory historyRecord,
 			GambleHistoryRecord historyByGroup, IDropGambleItemPlan dropPlan, boolean isFree, Random ranGen,
-			String defaultItem,StringBuilder trace) {
+			String defaultItem,StringBuilder trace,RefBool hasFirst) {
 		// 保证热点随机种子初始化
 		if (planCfg.getHotCount() > 0 && historyRecord.getHotCheckThreshold() <= 0){
 			historyRecord.GenerateHotCheckCount(getRandom(), planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
@@ -222,8 +228,9 @@ public class GambleHandler {
 				//return SetError(response,player,String.format("首抽配置无效，配置:%s", planIdStr),"首抽未配置");
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
 			}else if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel,userId,planIdStr,defaultItem)){
-				historyRecord.add(isFree,itemModel,slotCount.value,historyByGroup);
+				historyRecord.add(isFree,itemModel,slotCount.value,historyByGroup,true);
 				historyRecord.clearGuaranteeHistory(false,dropPlan,trace,historyByGroup);
+				hasFirst.value = true;
 			}
 		}
 

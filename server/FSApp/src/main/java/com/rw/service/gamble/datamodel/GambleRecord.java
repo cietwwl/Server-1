@@ -82,7 +82,8 @@ public class GambleRecord {
 	 * @param planCfg
 	 * @param count
 	 */
-	public void adjustCountOfSameGroup(GamblePlanCfg planCfg,IDropGambleItemPlan dropPlan,int oldCount,int incrCount){
+	public void adjustCountOfSameGroup(GamblePlanCfg planCfg,IDropGambleItemPlan dropPlan,int incrCount){
+		if (incrCount <= 0) return;
 		int mainKey = planCfg.getKey();
 		List<GamblePlanCfg> lst = GamblePlanCfgHelper.getInstance().getCfgOfSameGroup(planCfg);
 		for (GamblePlanCfg cfg : lst) {
@@ -90,7 +91,7 @@ public class GambleRecord {
 				continue;
 			}
 			GambleDropHistory his = getHistory(cfg.getDropType());
-			his.increaseCount(dropPlan,oldCount,incrCount);
+			his.increaseCount(dropPlan,incrCount);
 		}
 	}
 }
