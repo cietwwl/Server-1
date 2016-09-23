@@ -23,6 +23,7 @@ import com.playerdata.GambleMgr;
 import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.gamble.GambleTest;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -61,7 +62,7 @@ public class Server {
 
 			//初始化每日热点数据
 			GambleMgr.resetWhenStart();
-			//GambleTest.Test();
+			GambleTest.Test();
 
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			
