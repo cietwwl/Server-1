@@ -652,8 +652,11 @@ public class BILogMgr {
 			StringBuilder sbAttachList = new StringBuilder();
 			StringBuilder sbAttachAttr = new StringBuilder();
 			int index = 0;
-			if (split.length > 1) {
+			if (split.length > 0) {
 				for (String value : split) {
+					if(StringUtils.isEmpty(value)){
+						continue;
+					}
 					String[] split2 = value.split("~");
 					if (split2.length > 1) {
 						int model = Integer.parseInt(split2[0]);
