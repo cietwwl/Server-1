@@ -289,7 +289,7 @@ public class MapItemStoreFactory {
 
 		register(teamBattleItemCache = new MapItemStoreCache<TBTeamItem>(TBTeamItem.class, "hardID", heroCapacity));
 		
-//		register(groupCompQuizItemCache = new MapItemStoreCache<GCompUserQuizItem>(GCompUserQuizItem.class, "userID", heroCapacity));
+		register(groupCompQuizItemCache = new MapItemStoreCache<GCompUserQuizItem>(GCompUserQuizItem.class, "userID", heroCapacity));
 
 		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity);
 

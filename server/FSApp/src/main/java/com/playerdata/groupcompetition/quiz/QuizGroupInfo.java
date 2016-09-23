@@ -1,11 +1,13 @@
 package com.playerdata.groupcompetition.quiz;
 
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
 /**
  * 可被竞猜的帮派信息
  * @author aken
  */
+@SynClass
 public class QuizGroupInfo {
 
 	private String groupId;

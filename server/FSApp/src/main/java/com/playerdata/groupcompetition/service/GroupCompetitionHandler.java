@@ -14,9 +14,9 @@ import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
+import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
-import com.playerdata.teambattle.data.TeamMember;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
@@ -29,13 +29,14 @@ import com.rwproto.GroupCompetitionProto.CommonRsp;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
-import com.rwproto.GroupCompetitionProto.JoinTeamReq;
+import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
+import com.rwproto.GroupCompetitionProto.ReqNewGuess;
+import com.rwproto.GroupCompetitionProto.RspAllGuessInfo;
+import com.rwproto.GroupCompetitionProto.RsqNewGuess;
 import com.rwproto.GroupCompetitionProto.SelectionGroupData;
 import com.rwproto.GroupCompetitionProto.SelectionRspData;
-import com.rwproto.GroupCompetitionProto.TeamInvitation;
 import com.rwproto.GroupCompetitionProto.TeamMemberRequest;
 import com.rwproto.GroupCompetitionProto.TeamRequest;
-import com.rwproto.MsgDef.Command;
 
 public class GroupCompetitionHandler {
 
@@ -135,6 +136,16 @@ public class GroupCompetitionHandler {
 		}
 		return builder.build();
 	}
+	
+	private ByteString inviteMember(Player player, TeamMemberRequest request) {
+		Player targetPlayer = PlayerMgr.getInstance().find(request.getTargetUserId());
+		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().inviteMember(player, targetPlayer);
+		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	private ByteString kickMember(Player player, TeamMemberRequest request) {
+		return null;
+	}
 
 	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
@@ -206,6 +217,18 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
+	public ByteString haveNewGuess(Player player, ReqNewGuess request) {
+		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
+		GCompQuizMgr.getInstance().createNewGuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
+		return gcRsp.build().toByteString();
+	}
+	
+	public ByteString getCanGuessMatch(Player player, ReqAllGuessInfo request) {
+		RspAllGuessInfo.Builder gcRsp = RspAllGuessInfo.newBuilder();
+		GCompQuizMgr.getInstance().getCanGuizMatch(player, gcRsp);
+		return gcRsp.build().toByteString();
+	}
+	
 	/**
 	 * 
 	 * 处理玩家创建队伍或者调整队伍阵容
@@ -227,29 +250,6 @@ public class GroupCompetitionHandler {
 			return ByteString.EMPTY;
 		}
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
-	}
-	
-	/**
-	 * 
-	 * 处理玩家请求加入队伍
-	 * 
-	 * @param player
-	 * @param joinRequest
-	 * @return
-	 */
-	public ByteString joinTeamRequest(Player player, JoinTeamReq joinRequest) {
-		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().joinTeam(player, joinRequest.getTeamId(), joinRequest.getHeroIdList());
-		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
-	}
-	
-	private ByteString inviteMember(Player player, TeamMemberRequest request) {
-		Player targetPlayer = PlayerMgr.getInstance().find(request.getTargetUserId());
-		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().inviteMember(player, targetPlayer);
-		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
-	}
-	
-	private ByteString kickMember(Player player, TeamMemberRequest request) {
-		return null;
 	}
 	
 	public ByteString teamMemberRequest(Player player, TeamMemberRequest request) {

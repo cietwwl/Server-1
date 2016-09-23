@@ -1,0 +1,61 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCompetitionBattleProto";
+
+package groupCompetition;
+
+//请求消息的类型
+enum GCBattleReqType{
+	BATTLE_START = 1;//请求战斗开始
+	UPLOAD_HP_INFO = 2;//上传生命信息
+	BATTLE_END = 3;//请求结束战斗
+	PUSH_HP_INFO = 4;//血量信息推送消息
+}
+
+//战斗结果
+enum GCBattleResult{
+	NONE = 0;//主要是用于某些需要返回值的情况
+	WIN = 1;//胜
+	LOSE = 2;//负
+	DRAW = 3;//平
+}
+
+//请求战斗开始的响应消息
+message GCBattleStartRspMsg{
+	required string mineArmyInfo = 1;//自己的ArmyInfo
+	required string enemyArmyInfo = 2;//敌人的ArmyInfo
+}
+
+//上传血量信息的请求消息
+message GCUploadHpInfoReqMsg{
+	required float mineHpPercent = 1;//自己的血量变化
+	required float enemyHpPercent = 2;//敌人的血量变化
+}
+
+//战斗结果上传的请求消息
+message GCBattleEndReqMsg{
+	required GCBattleResult result = 1;//战斗结果
+}
+
+//推送的血量变化的信息
+message GCPushHpInfoRspMsg{
+	required int32 index = 1;//更新血量的对战的Index
+	required float mineHpPercent = 2;//自己的血量变化
+	required float enemyHpPercent = 3;//敌人的血量变化
+}
+
+//通用请求消息
+message GCBattleCommonReqMsg{
+	required GCBattleReqType reqType = 1;//请求的类型
+	optional GCUploadHpInfoReqMsg uploadHpInfoReq = 2;//上传血量信息
+	optional GCBattleEndReqMsg battleEndReq = 3;//战斗结果上传的信息
+}
+
+//通用的响应消息
+message GCBattleCommonRspMsg{
+	required GCBattleReqType reqType = 1;//请求的类型
+	required bool isSuccess = 2;//是否成功
+	optional string tipMsg = 3;//提示消息
+	optional GCBattleStartRspMsg battleStartRsp = 4;//战斗开始的响应消息
+	optional GCPushHpInfoRspMsg pushHpInfoRsp = 5;//推送的血量变化信息
+}

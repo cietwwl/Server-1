@@ -188,13 +188,6 @@ public class PrepareAreaMgr {
 		groupScene = null;
 	}
 	
-//	/*
-//	 * 获取有备战资格的帮派
-//	 */
-//	public List<String> getPrepareGroups(){
-//		return new ArrayList<String>();
-//	}
-	
 	/**
 	 * 获取指定玩家的详细信息
 	 * （用于前端显示人物）

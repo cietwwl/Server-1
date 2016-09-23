@@ -21,6 +21,10 @@ enum GCRequestType{
 	SetTeamReady = 12; // 设置准备状态
 	CancelTeamReady = 13; // 取消准备状态
 	LeaveTeam = 14; // 离开队伍
+	InviteMember = 15; // 邀请成员
+	KickMember = 16; // 剔除成员
+	CreateTeam = 17; // 创建队伍
+	AdjustTeamMember = 18; // 调整队伍成员
 }
 
 enum GCResultType {
@@ -37,6 +41,14 @@ message CommonReqMsg{
 
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
+	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+}
+
+message CommonGetDataRspMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	required GCResultType rstType = 2; // 请求结果
+	optional string tipMsg = 3; // 提示消息
+	optional SelectionRspData selectionData = 4; // 海选信息（对于GCRequestType.GetSelectionData可用）
 }
 
 message CommonRspMsg{
@@ -87,7 +99,7 @@ message GroupInfo{
 	optional float betRate = 4; //赔率
 }
 
-//请求竞猜
+//请求竞猜（请求同步当前可竞猜数据）
 message ReqAllGuessInfo{
 	required GCRequestType reqType = 1; //请求类型
 }
@@ -95,7 +107,6 @@ message ReqAllGuessInfo{
 //回应赛事竞猜
 message RspAllGuessInfo{
 	required GCResultType rstType = 1; //是否成功处理
-	repeated MatchGuessInfo guessInfo = 2;
 }
 
 //请求押注
