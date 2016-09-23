@@ -13,7 +13,31 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rwbase.dao.item.pojo.ItemData;
 
-class ArmySimpleInfoHelper {
+public class ArmySimpleInfoHelper {
+	
+	public static ArmyInfoSimple fromArmyInfo(ArmyInfo armyInfo){
+	
+
+		ArmyInfoSimple armyInfoSimple = new ArmyInfoSimple();
+		ArmyHero player = armyInfo.getPlayer();
+		armyInfoSimple.setPlayer(ArmyHeroSimple.newInstance(player));
+		armyInfoSimple.setPlayerName(armyInfo.getPlayerName());
+		armyInfoSimple.setPlayerHeadImage(armyInfo.getPlayerHeadImage());
+		armyInfoSimple.setArmyMagic(armyInfo.getArmyMagic());
+
+		List<ArmyHeroSimple> heroList = new ArrayList<ArmyHeroSimple>();
+		for (ArmyHero armyHeroTmp : armyInfo.getHeroList()) {
+			heroList.add(ArmyHeroSimple.newInstance(armyHeroTmp));
+		}
+		armyInfoSimple.setHeroList(heroList);
+		
+		int teamFighting = getTeamFighting(armyInfoSimple);
+		armyInfoSimple.setTeamFighting(teamFighting);
+		return armyInfoSimple;
+		
+	}
+	
+
 
 	public static ArmyInfoSimple getSimpleInfo(String playerId,List<String> heroIdList) {
 

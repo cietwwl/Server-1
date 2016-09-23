@@ -8,6 +8,8 @@ import com.bm.rank.groupCompetition.scoreRank.GCompScoreItem;
 import com.bm.rank.groupCompetition.scoreRank.GCompScoreRankMgr;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinItem;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinRankMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.util.GCEventsType;
 
 
 public class GCompRankMgr {
@@ -23,7 +25,7 @@ public class GCompRankMgr {
 	 * 并清空当前的排行榜
 	 * @param stageId
 	 */
-	public void stageEnd(GCompFightStage stage){
+	public void stageEnd(GCEventsType stage){
 		List<GCompKillItem> killRank = GCompKillRankMgr.stageEnd();
 		GCompRankReordData killRecord = new GCompRankReordData();
 		killRecord.setRankID(getRecordId(stage, GCompRankType.Kill));
@@ -47,7 +49,7 @@ public class GCompRankMgr {
 	 * 争霸赛开始时，需要清空争霸赛的历史排行榜
 	 */
 	public void competitionStart(){
-		for(GCompFightStage stage : GCompFightStage.values()){
+		for(GCEventsType stage : GCEventsType.values()){
 			for(GCompRankType rankType : GCompRankType.values()){
 				GCompRankReordDAO.getInstance().delete(getRecordId(stage, rankType));
 			}
@@ -59,11 +61,11 @@ public class GCompRankMgr {
 	 * @param stageId
 	 * @return 
 	 */
-	public List<GCompKillItem> getKillRank(GCompFightStage stage){
-		if(getCurrentStage() == stage){
+	public List<GCompKillItem> getKillRank(GCEventsType currentEvent){
+		if(getCurrentStage() == currentEvent){
 			return GCompKillRankMgr.getKillRankList();
 		}
-		GCompRankReordData record = GCompRankReordDAO.getInstance().get(getRecordId(stage, GCompRankType.Kill));
+		GCompRankReordData record = GCompRankReordDAO.getInstance().get(getRecordId(currentEvent, GCompRankType.Kill));
 		if(null == record){
 			return null;
 		}
@@ -75,11 +77,11 @@ public class GCompRankMgr {
 	 * @param stageId
 	 * @return 
 	 */
-	public List<GCompContinueWinItem> getWinRank(GCompFightStage stage){
-		if(getCurrentStage() == stage){
+	public List<GCompContinueWinItem> getWinRank(GCEventsType currentEvent){
+		if(getCurrentStage() == currentEvent){
 			return GCompContinueWinRankMgr.getContinueWinRankList();
 		}
-		GCompRankReordData record = GCompRankReordDAO.getInstance().get(getRecordId(stage, GCompRankType.Win));
+		GCompRankReordData record = GCompRankReordDAO.getInstance().get(getRecordId(currentEvent, GCompRankType.Win));
 		if(null == record){
 			return null;
 		}
@@ -91,23 +93,22 @@ public class GCompRankMgr {
 	 * @param stageId
 	 * @return 
 	 */
-	public List<GCompScoreItem> getScoreRank(GCompFightStage stage){
-		if(getCurrentStage() == stage){
+	public List<GCompScoreItem> getScoreRank(GCEventsType currentEvent){
+		if(getCurrentStage() == currentEvent){
 			return GCompScoreRankMgr.getScoreRankList();
 		}
-		GCompRankReordData record = GCompRankReordDAO.getInstance().get(getRecordId(stage, GCompRankType.Score));
+		GCompRankReordData record = GCompRankReordDAO.getInstance().get(getRecordId(currentEvent, GCompRankType.Score));
 		if(null == record){
 			return null;
 		}
 		return record.getScoreRecord();
 	}
 	
-	public String getRecordId(GCompFightStage stage, GCompRankType type){
+	public String getRecordId(GCEventsType stage, GCompRankType type){
 		return stage.toString() + "_" + type.toString();
 	}
 	
-	public GCompFightStage getCurrentStage(){
-		//TODO 需要另外实现
-		return GCompFightStage.Final;
+	public GCEventsType getCurrentStage(){
+		return GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 }

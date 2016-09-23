@@ -6,6 +6,11 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
+import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
+import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
@@ -14,22 +19,14 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompUserQuizItemHolder {
 	
-	final private eSynType synType = eSynType.GFBiddingData;
+	final private eSynType selfQuizSynType = eSynType.GCompSelfGuess;
+	final private eSynType quizDetailSynType = eSynType.GCompSelfGuessDetail;
+	final private eSynType canQuizSynType = eSynType.GCompCanGuessItem;
 	
 	private static GCompUserQuizItemHolder instance = new GCompUserQuizItemHolder();
 
 	public static GCompUserQuizItemHolder getInstance() {
 		return instance;
-	}
-
-	/**
-	 * 更新个人的竞猜信息
-	 * @param player
-	 * @param item
-	 */
-	public void updateItem(Player player, GCompUserQuizItem item){
-		getItemStore(player.getUserId()).updateItem(item);
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	/**
@@ -74,8 +71,62 @@ public class GCompUserQuizItemHolder {
 				eventList.add(quizEventItem);
 			}
 		}
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
-		ClientDataSynMgr.synDataList(player, eventList, synType, eSynOpType.UPDATE_LIST);
+		if(!itemList.isEmpty()){
+			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
+		}else{
+			GCompUserQuizItem testItem = new GCompUserQuizItem();
+			testItem.setId(player.getUserId() + "_" + 123);
+			testItem.setCoinCount(1000);
+			testItem.setMatchId(123);
+			testItem.setGroupId("99998");
+			testItem.setUserID(player.getUserId());
+			itemList.add(testItem);
+			
+			QuizGroupInfo groupA = new QuizGroupInfo("groupId001", "groupName001", "groupIcon001", 10.0f);
+			QuizGroupInfo groupB = new QuizGroupInfo("groupId002", "groupName002", "groupIcon002", 10.0f);
+			GCQuizEventItem eventItem1 = new GCQuizEventItem();
+			eventItem1.setBaseCoin(50000);
+			eventItem1.setMatchId(123);
+			eventItem1.setWinGroupId("");
+			eventItem1.setGroupA(groupA);
+			eventItem1.setGroupB(groupB);
+			eventList.add(eventItem1);
+			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
+		}
+	}
+	
+	/**
+	 * 同步所有可竞猜的项
+	 * @param player
+	 */
+	public void synCanQuizItem(Player player){
+		List<GCQuizEventItem> itemList =  getCurrentFightForQuiz();
+		if(itemList != null && !itemList.isEmpty()) {
+			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
+		}else{
+			QuizGroupInfo groupA = new QuizGroupInfo("groupId001", "groupName001", "groupIcon001", 10.0f);
+			QuizGroupInfo groupB = new QuizGroupInfo("groupId002", "groupName002", "groupIcon002", 10.0f);
+			GCQuizEventItem eventItem1 = new GCQuizEventItem();
+			eventItem1.setBaseCoin(50000);
+			eventItem1.setMatchId(123);
+			eventItem1.setWinGroupId("");
+			eventItem1.setGroupA(groupA);
+			eventItem1.setGroupB(groupB);
+			itemList.add(eventItem1);
+			
+			QuizGroupInfo groupC = new QuizGroupInfo("groupId003", "groupName003", "groupIcon003", 10.0f);
+			QuizGroupInfo groupD = new QuizGroupInfo("groupId004", "groupName004", "groupIcon004", 10.0f);
+			GCQuizEventItem eventItem2 = new GCQuizEventItem();
+			eventItem2.setBaseCoin(50000);
+			eventItem2.setMatchId(124);
+			eventItem2.setWinGroupId("");
+			eventItem2.setGroupA(groupC);
+			eventItem2.setGroupB(groupD);
+			itemList.add(eventItem2);
+			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
+		}
 	}
 	
 	/**
@@ -111,6 +162,25 @@ public class GCompUserQuizItemHolder {
 		return cache.getMapItemStore(userId, GCompUserQuizItem.class);
 	}
 
+	/**
+	 * 获取当前阶段可以竞猜的项目
+	 * @return
+	 */
+	private List<GCQuizEventItem> getCurrentFightForQuiz(){
+		List<GCQuizEventItem> result = new ArrayList<GCQuizEventItem>();
+		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
+		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
+		if(null == envetsData) return result;
+		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
+		for(GCompAgainst against :currentAgainst){
+			GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(against.getId());
+			if(null != quizEvent){
+				result.add(quizEvent);
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * 获取当前赛事是第几届
 	 * @return

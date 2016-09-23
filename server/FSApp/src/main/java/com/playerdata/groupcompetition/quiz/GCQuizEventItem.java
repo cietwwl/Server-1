@@ -1,32 +1,47 @@
 package com.playerdata.groupcompetition.quiz;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.data.IGCGroup;
+import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 /**
  * 竞猜的项目
  * @author aken
  */
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
+@Table(name = "gc_quiz_event")
 public class GCQuizEventItem {
 	
+	@Id
 	private int matchId;
 	
+	@CombineSave
 	private QuizGroupInfo groupA;
 	
+	@CombineSave
 	private QuizGroupInfo groupB;
 	
+	@CombineSave
 	private int baseCoin;
 	
+	@CombineSave
 	private String winGroupId;
 	
 	@IgnoreSynField
+	@CombineSave
 	private boolean isFinalRate = false;
 	
 	@IgnoreSynField
+	@NonSave
 	public static float DEFAULT_RATE = 1.1f;
 
 	public GCQuizEventItem(){	}

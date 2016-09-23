@@ -1,6 +1,5 @@
 package com.playerdata.groupcompetition.quiz;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +12,9 @@ import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.RsqNewGuess.Builder;
 
 /**
  * 赛事竞猜管理类
@@ -27,53 +29,56 @@ public class GCompQuizMgr {
 	}
 	
 	/**
-	 * 
+	 * 发起一个竞猜
 	 * @param player
-	 * @param matchId 比赛的id
-	 * @param groupId	所押的帮派id
-	 * @param coinCount 竞猜金额（需要在外层读完配置传进来）
-	 * @return 如果已经竞猜过，返回false（其它返回true）
+	 * @param gcRsp
+	 * @param matchId
+	 * @param groupId
+	 * @param coin
 	 */
-	public boolean quizForCompetion(Player player, int matchId, String groupId, int coinCount){
-		boolean haveQuized = GCompUserQuizItemHolder.getInstance().containsItem(player, matchId);
-		if(haveQuized) {
-			return false;
-		}
-		GCompUserQuizItem item = new GCompUserQuizItem();
-		item.setId(GCompUserQuizItem.conbineId(player.getUserId(), matchId));
-		item.setGroupId(groupId);
-		item.setMatchId(matchId);
-		item.setCoinCount(coinCount);
-		item.setUserID(player.getUserId());
-		item.setSessionId(GCompUserQuizItemHolder.getCurrentSessionID());
-		GCompUserQuizItemHolder.getInstance().addItem(player, item);
-		GCompUserQuizItemHolder.getInstance().synAllData(player);
-		//上面记录玩家的竞猜
-		//下面统计某个帮派被竞猜的总人数和总金额
+	public void createNewGuiz(Player player, Builder gcRsp, int matchId, String groupId, int coin) {
 		GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(matchId);
-		QuizGroupInfo quizGroup = quizEvent.getQuizGroupInfo(groupId);
-		quizGroup.addTotalPlayer();
-		quizGroup.addTotalCoin(coinCount);
-		GroupQuizEventItemDAO.getInstance().update(quizEvent);
-		return true;
-	}
-	
-	/**
-	 * 获取当前阶段可以竞猜的项目
-	 * @return
-	 */
-	public List<GCQuizEventItem> getCurrentFightForQuiz(){
-		List<GCQuizEventItem> result = new ArrayList<GCQuizEventItem>();
-		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
-		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
-		for(GCompAgainst against :currentAgainst){
-			GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(against.getId());
-			if(null != quizEvent){
-				result.add(quizEvent);
-			}
+		if(null == quizEvent) {
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("竞猜项目不存在");
+			return;
 		}
-		return result;
+		if(StringUtils.isNotBlank(quizEvent.getWinGroupId())){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("胜负已分，无法竞猜");
+			return;
+		}
+		QuizGroupInfo quizGroup = quizEvent.getQuizGroupInfo(groupId);
+		if(null == quizGroup){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("竞猜过程中，帮派数据有误");
+			return;
+		}
+		boolean enoughCoin = player.getItemBagMgr().checkEnoughItem(eSpecialItemId.Coin.getValue(), coin);
+		if(!enoughCoin){
+			gcRsp.setRstType(GCResultType.COIN_NOT_ENOUGH);
+			gcRsp.setTipMsg("金币不足");
+			return;
+		}
+		boolean quizResult = quizForCompetion(player, matchId, groupId, coin);
+		if(!quizResult){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("竞猜失败");
+			return;
+		}
+		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -coin);
+		GCompUserQuizItemHolder.getInstance().synAllData(player);
+		gcRsp.setRstType(GCResultType.SUCCESS);
+	}
+
+	/**
+	 * 获取当前的可竞猜项目
+	 * @param player
+	 * @param gcRsp
+	 */
+	public void getCanGuizMatch(Player player, com.rwproto.GroupCompetitionProto.RspAllGuessInfo.Builder gcRsp) {
+		GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
+		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 	
 	/**
@@ -139,5 +144,37 @@ public class GCompQuizMgr {
 			}
 			item.setGetReward(true);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param matchId 比赛的id
+	 * @param groupId	所押的帮派id
+	 * @param coinCount 竞猜金额（需要在外层读完配置传进来）
+	 * @return 如果已经竞猜过，返回false（其它返回true）
+	 */
+	private boolean quizForCompetion(Player player, int matchId, String groupId, int coinCount){
+		boolean haveQuized = GCompUserQuizItemHolder.getInstance().containsItem(player, matchId);
+		if(haveQuized) {
+			return false;
+		}
+		GCompUserQuizItem item = new GCompUserQuizItem();
+		item.setId(GCompUserQuizItem.conbineId(player.getUserId(), matchId));
+		item.setGroupId(groupId);
+		item.setMatchId(matchId);
+		item.setCoinCount(coinCount);
+		item.setUserID(player.getUserId());
+		item.setSessionId(GCompUserQuizItemHolder.getCurrentSessionID());
+		GCompUserQuizItemHolder.getInstance().addItem(player, item);
+		GCompUserQuizItemHolder.getInstance().synAllData(player);
+		//上面记录玩家的竞猜
+		//下面统计某个帮派被竞猜的总人数和总金额
+		GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(matchId);
+		QuizGroupInfo quizGroup = quizEvent.getQuizGroupInfo(groupId);
+		quizGroup.addTotalPlayer();
+		quizGroup.addTotalCoin(coinCount);
+		GroupQuizEventItemDAO.getInstance().update(quizEvent);
+		return true;
 	}
 }
