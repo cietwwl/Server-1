@@ -12,6 +12,7 @@ import com.bm.rank.group.createtime.GroupCreateTimeComparable;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumComparable;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -321,6 +322,7 @@ public class GroupRankHelper {
 		GroupRankHelper.removeRankEntry(groupId, RankType.GROUP_BASE_RANK);// 从基础榜中移除
 		GroupRankHelper.removeRankEntry(groupId, RankType.GROUP_CREATE_TIME_RANK);// 从创建时间榜中移除
 		GroupRankHelper.removeRankEntry(groupId, RankType.GROUP_MEMBER_NUM_RANK);// 从成员数量帮中移除
+		GCompFightingRankMgr.removeGroup(groupId);	//从帮派战力排行榜中删除
 	}
 
 	/**
