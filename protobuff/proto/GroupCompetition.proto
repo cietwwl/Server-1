@@ -17,6 +17,9 @@ enum GCRequestType{
 	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
 	GetMatchView = 9; // 获取对阵信息
 	GetSelectionData = 10; // 获取海选信息
+	SetTeamReady = 11; // 设置准备状态
+	CancelTeamReady = 12; // 取消准备状态
+	LeaveTeam = 13; // 离开队伍
 }
 
 enum GCResultType {
@@ -118,3 +121,51 @@ message PlayerBaseInfo{
 	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 }
 
+// 海选响应数据
+message SelectionRspData {
+	repeated SelectionGroupData rankings = 1; // 海选排名的帮派信息
+	optional SelectionGroupData ownGroupData = 2; // 自身帮派的信息
+	required fixed64 selectionEndTime = 3; // 海选结束时间
+}
+
+// 海选的帮派数据
+message SelectionGroupData {
+	required fixed32 ranking = 1; // 帮派的排名（-1=未上榜）
+	required string name = 2; // 帮派的名字
+	required fixed64 fighting = 3; // 帮派的战斗力
+	required fixed32 upNum = 4; // 排名变化的数据（负数表示下降，正数表示上升）
+}
+
+// 队伍请求，返回CommonRsp
+message TeamRequest {
+	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+	repeated string heroId = 2; // 整容的英雄id
+}
+
+// 加入队伍请求，返回CommonRsp
+message JoinTeamReq {
+	required string teamId = 1; // 队伍id
+	repeated string heroId = 2; // 英雄id
+}
+
+// 队员请求，返回CommonRsp，如果是GCRequestType.InviteMember，目标user会收到TeamInvitation
+message TeamMemberRequest {
+	required GCRequestType reqType = 1; // 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+	required string targetUserId = 2; // 目标的userId
+}
+
+// 准备状态请求，返回CommonRsp
+message TeamStatusRequest {
+	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+}
+
+// 队伍邀请
+message TeamInvitation {
+	required string teamId = 1; // 队伍id
+	required string tips = 2; // 提示消息
+}
+
+message CommonRsp {
+	required GCResultType resultType = 1;
+	optional string tips = 2;
+}
