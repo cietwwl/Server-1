@@ -1,14 +1,23 @@
-﻿syntax = "proto2";
+syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "GroupCompetitionBattleProto";
 
 package groupCompetition;
 
+//请求消息的类型
 enum GCBattleReqType{
 	BATTLE_START = 1;//请求战斗开始
 	UPLOAD_HP_INFO = 2;//上传生命信息
 	BATTLE_END = 3;//请求结束战斗
 	PUSH_HP_INFO = 4;//血量信息推送消息
+}
+
+//战斗结果
+enum GCBattleResult{
+	NONE = 0;//主要是用于某些需要返回值的情况
+	WIN = 1;//胜
+	LOSE = 2;//负
+	DRAW = 3;//平
 }
 
 //请求战斗开始的响应消息
@@ -25,7 +34,7 @@ message GCUploadHpInfoReqMsg{
 
 //战斗结果上传的请求消息
 message GCBattleEndReqMsg{
-	required bool isWin = 1;//是否成功了
+	required GCBattleResult result = 1;//战斗结果
 }
 
 //推送的血量变化的信息

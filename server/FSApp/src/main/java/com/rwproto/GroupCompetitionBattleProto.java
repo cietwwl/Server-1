@@ -10,6 +10,10 @@ public final class GroupCompetitionBattleProto {
   }
   /**
    * Protobuf enum {@code groupCompetition.GCBattleReqType}
+   *
+   * <pre>
+   *请求消息的类型
+   * </pre>
    */
   public enum GCBattleReqType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -138,6 +142,142 @@ public final class GroupCompetitionBattleProto {
     }
 
     // @@protoc_insertion_point(enum_scope:groupCompetition.GCBattleReqType)
+  }
+
+  /**
+   * Protobuf enum {@code groupCompetition.GCBattleResult}
+   *
+   * <pre>
+   *战斗结果
+   * </pre>
+   */
+  public enum GCBattleResult
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>NONE = 0;</code>
+     *
+     * <pre>
+     *主要是用于某些需要返回值的情况
+     * </pre>
+     */
+    NONE(0, 0),
+    /**
+     * <code>WIN = 1;</code>
+     *
+     * <pre>
+     *胜
+     * </pre>
+     */
+    WIN(1, 1),
+    /**
+     * <code>LOSE = 2;</code>
+     *
+     * <pre>
+     *负
+     * </pre>
+     */
+    LOSE(2, 2),
+    /**
+     * <code>DRAW = 3;</code>
+     *
+     * <pre>
+     *平
+     * </pre>
+     */
+    DRAW(3, 3),
+    ;
+
+    /**
+     * <code>NONE = 0;</code>
+     *
+     * <pre>
+     *主要是用于某些需要返回值的情况
+     * </pre>
+     */
+    public static final int NONE_VALUE = 0;
+    /**
+     * <code>WIN = 1;</code>
+     *
+     * <pre>
+     *胜
+     * </pre>
+     */
+    public static final int WIN_VALUE = 1;
+    /**
+     * <code>LOSE = 2;</code>
+     *
+     * <pre>
+     *负
+     * </pre>
+     */
+    public static final int LOSE_VALUE = 2;
+    /**
+     * <code>DRAW = 3;</code>
+     *
+     * <pre>
+     *平
+     * </pre>
+     */
+    public static final int DRAW_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static GCBattleResult valueOf(int value) {
+      switch (value) {
+        case 0: return NONE;
+        case 1: return WIN;
+        case 2: return LOSE;
+        case 3: return DRAW;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<GCBattleResult>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<GCBattleResult>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<GCBattleResult>() {
+            public GCBattleResult findValueByNumber(int number) {
+              return GCBattleResult.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionBattleProto.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final GCBattleResult[] VALUES = values();
+
+    public static GCBattleResult valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private GCBattleResult(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:groupCompetition.GCBattleResult)
   }
 
   public interface GCBattleStartRspMsgOrBuilder
@@ -1455,23 +1595,23 @@ public final class GroupCompetitionBattleProto {
   public interface GCBattleEndReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required bool isWin = 1;
+    // required .groupCompetition.GCBattleResult result = 1;
     /**
-     * <code>required bool isWin = 1;</code>
+     * <code>required .groupCompetition.GCBattleResult result = 1;</code>
      *
      * <pre>
-     *是否成功了
+     *战斗结果
      * </pre>
      */
-    boolean hasIsWin();
+    boolean hasResult();
     /**
-     * <code>required bool isWin = 1;</code>
+     * <code>required .groupCompetition.GCBattleResult result = 1;</code>
      *
      * <pre>
-     *是否成功了
+     *战斗结果
      * </pre>
      */
-    boolean getIsWin();
+    com.rwproto.GroupCompetitionBattleProto.GCBattleResult getResult();
   }
   /**
    * Protobuf type {@code groupCompetition.GCBattleEndReqMsg}
@@ -1529,8 +1669,14 @@ public final class GroupCompetitionBattleProto {
               break;
             }
             case 8: {
-              bitField0_ |= 0x00000001;
-              isWin_ = input.readBool();
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionBattleProto.GCBattleResult value = com.rwproto.GroupCompetitionBattleProto.GCBattleResult.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                result_ = value;
+              }
               break;
             }
           }
@@ -1573,39 +1719,39 @@ public final class GroupCompetitionBattleProto {
     }
 
     private int bitField0_;
-    // required bool isWin = 1;
-    public static final int ISWIN_FIELD_NUMBER = 1;
-    private boolean isWin_;
+    // required .groupCompetition.GCBattleResult result = 1;
+    public static final int RESULT_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionBattleProto.GCBattleResult result_;
     /**
-     * <code>required bool isWin = 1;</code>
+     * <code>required .groupCompetition.GCBattleResult result = 1;</code>
      *
      * <pre>
-     *是否成功了
+     *战斗结果
      * </pre>
      */
-    public boolean hasIsWin() {
+    public boolean hasResult() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required bool isWin = 1;</code>
+     * <code>required .groupCompetition.GCBattleResult result = 1;</code>
      *
      * <pre>
-     *是否成功了
+     *战斗结果
      * </pre>
      */
-    public boolean getIsWin() {
-      return isWin_;
+    public com.rwproto.GroupCompetitionBattleProto.GCBattleResult getResult() {
+      return result_;
     }
 
     private void initFields() {
-      isWin_ = false;
+      result_ = com.rwproto.GroupCompetitionBattleProto.GCBattleResult.NONE;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasIsWin()) {
+      if (!hasResult()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1617,7 +1763,7 @@ public final class GroupCompetitionBattleProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBool(1, isWin_);
+        output.writeEnum(1, result_.getNumber());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1630,7 +1776,7 @@ public final class GroupCompetitionBattleProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(1, isWin_);
+          .computeEnumSize(1, result_.getNumber());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1752,7 +1898,7 @@ public final class GroupCompetitionBattleProto {
 
       public Builder clear() {
         super.clear();
-        isWin_ = false;
+        result_ = com.rwproto.GroupCompetitionBattleProto.GCBattleResult.NONE;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -1785,7 +1931,7 @@ public final class GroupCompetitionBattleProto {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.isWin_ = isWin_;
+        result.result_ = result_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1802,15 +1948,15 @@ public final class GroupCompetitionBattleProto {
 
       public Builder mergeFrom(com.rwproto.GroupCompetitionBattleProto.GCBattleEndReqMsg other) {
         if (other == com.rwproto.GroupCompetitionBattleProto.GCBattleEndReqMsg.getDefaultInstance()) return this;
-        if (other.hasIsWin()) {
-          setIsWin(other.getIsWin());
+        if (other.hasResult()) {
+          setResult(other.getResult());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasIsWin()) {
+        if (!hasResult()) {
           
           return false;
         }
@@ -1836,51 +1982,54 @@ public final class GroupCompetitionBattleProto {
       }
       private int bitField0_;
 
-      // required bool isWin = 1;
-      private boolean isWin_ ;
+      // required .groupCompetition.GCBattleResult result = 1;
+      private com.rwproto.GroupCompetitionBattleProto.GCBattleResult result_ = com.rwproto.GroupCompetitionBattleProto.GCBattleResult.NONE;
       /**
-       * <code>required bool isWin = 1;</code>
+       * <code>required .groupCompetition.GCBattleResult result = 1;</code>
        *
        * <pre>
-       *是否成功了
+       *战斗结果
        * </pre>
        */
-      public boolean hasIsWin() {
+      public boolean hasResult() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required bool isWin = 1;</code>
+       * <code>required .groupCompetition.GCBattleResult result = 1;</code>
        *
        * <pre>
-       *是否成功了
+       *战斗结果
        * </pre>
        */
-      public boolean getIsWin() {
-        return isWin_;
+      public com.rwproto.GroupCompetitionBattleProto.GCBattleResult getResult() {
+        return result_;
       }
       /**
-       * <code>required bool isWin = 1;</code>
+       * <code>required .groupCompetition.GCBattleResult result = 1;</code>
        *
        * <pre>
-       *是否成功了
+       *战斗结果
        * </pre>
        */
-      public Builder setIsWin(boolean value) {
+      public Builder setResult(com.rwproto.GroupCompetitionBattleProto.GCBattleResult value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
         bitField0_ |= 0x00000001;
-        isWin_ = value;
+        result_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool isWin = 1;</code>
+       * <code>required .groupCompetition.GCBattleResult result = 1;</code>
        *
        * <pre>
-       *是否成功了
+       *战斗结果
        * </pre>
        */
-      public Builder clearIsWin() {
+      public Builder clearResult() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        isWin_ = false;
+        result_ = com.rwproto.GroupCompetitionBattleProto.GCBattleResult.NONE;
         onChanged();
         return this;
       }
@@ -4912,24 +5061,27 @@ public final class GroupCompetitionBattleProto {
       "petition\"B\n\023GCBattleStartRspMsg\022\024\n\014mineA" +
       "rmyInfo\030\001 \002(\t\022\025\n\renemyArmyInfo\030\002 \002(\t\"E\n\024" +
       "GCUploadHpInfoReqMsg\022\025\n\rmineHpPercent\030\001 " +
-      "\002(\002\022\026\n\016enemyHpPercent\030\002 \002(\002\"\"\n\021GCBattleE" +
-      "ndReqMsg\022\r\n\005isWin\030\001 \002(\010\"R\n\022GCPushHpInfoR" +
-      "spMsg\022\r\n\005index\030\001 \002(\005\022\025\n\rmineHpPercent\030\002 " +
-      "\002(\002\022\026\n\016enemyHpPercent\030\003 \002(\002\"\306\001\n\024GCBattle" +
-      "CommonReqMsg\0222\n\007reqType\030\001 \002(\0162!.groupCom" +
-      "petition.GCBattleReqType\022?\n\017uploadHpInfo",
-      "Req\030\002 \001(\0132&.groupCompetition.GCUploadHpI" +
-      "nfoReqMsg\0229\n\014battleEndReq\030\003 \001(\0132#.groupC" +
-      "ompetition.GCBattleEndReqMsg\"\351\001\n\024GCBattl" +
-      "eCommonRspMsg\0222\n\007reqType\030\001 \002(\0162!.groupCo" +
-      "mpetition.GCBattleReqType\022\021\n\tisSuccess\030\002" +
-      " \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022=\n\016battleStartRsp\030\004" +
-      " \001(\0132%.groupCompetition.GCBattleStartRsp" +
-      "Msg\022;\n\rpushHpInfoRsp\030\005 \001(\0132$.groupCompet" +
-      "ition.GCPushHpInfoRspMsg*Y\n\017GCBattleReqT" +
-      "ype\022\020\n\014BATTLE_START\020\001\022\022\n\016UPLOAD_HP_INFO\020",
-      "\002\022\016\n\nBATTLE_END\020\003\022\020\n\014PUSH_HP_INFO\020\004B*\n\013c" +
-      "om.rwprotoB\033GroupCompetitionBattleProto"
+      "\002(\002\022\026\n\016enemyHpPercent\030\002 \002(\002\"E\n\021GCBattleE" +
+      "ndReqMsg\0220\n\006result\030\001 \002(\0162 .groupCompetit" +
+      "ion.GCBattleResult\"R\n\022GCPushHpInfoRspMsg" +
+      "\022\r\n\005index\030\001 \002(\005\022\025\n\rmineHpPercent\030\002 \002(\002\022\026" +
+      "\n\016enemyHpPercent\030\003 \002(\002\"\306\001\n\024GCBattleCommo" +
+      "nReqMsg\0222\n\007reqType\030\001 \002(\0162!.groupCompetit",
+      "ion.GCBattleReqType\022?\n\017uploadHpInfoReq\030\002" +
+      " \001(\0132&.groupCompetition.GCUploadHpInfoRe" +
+      "qMsg\0229\n\014battleEndReq\030\003 \001(\0132#.groupCompet" +
+      "ition.GCBattleEndReqMsg\"\351\001\n\024GCBattleComm" +
+      "onRspMsg\0222\n\007reqType\030\001 \002(\0162!.groupCompeti" +
+      "tion.GCBattleReqType\022\021\n\tisSuccess\030\002 \002(\010\022" +
+      "\016\n\006tipMsg\030\003 \001(\t\022=\n\016battleStartRsp\030\004 \001(\0132" +
+      "%.groupCompetition.GCBattleStartRspMsg\022;" +
+      "\n\rpushHpInfoRsp\030\005 \001(\0132$.groupCompetition" +
+      ".GCPushHpInfoRspMsg*Y\n\017GCBattleReqType\022\020",
+      "\n\014BATTLE_START\020\001\022\022\n\016UPLOAD_HP_INFO\020\002\022\016\n\n" +
+      "BATTLE_END\020\003\022\020\n\014PUSH_HP_INFO\020\004*7\n\016GCBatt" +
+      "leResult\022\010\n\004NONE\020\000\022\007\n\003WIN\020\001\022\010\n\004LOSE\020\002\022\010\n" +
+      "\004DRAW\020\003B*\n\013com.rwprotoB\033GroupCompetition" +
+      "BattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4953,7 +5105,7 @@ public final class GroupCompetitionBattleProto {
           internal_static_groupCompetition_GCBattleEndReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_GCBattleEndReqMsg_descriptor,
-              new java.lang.String[] { "IsWin", });
+              new java.lang.String[] { "Result", });
           internal_static_groupCompetition_GCPushHpInfoRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_groupCompetition_GCPushHpInfoRspMsg_fieldAccessorTable = new
