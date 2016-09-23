@@ -2,6 +2,7 @@ package com.playerdata.groupcompetition.matching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +56,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 	private int memberCountOfCurrent;
 	private long intervalMillis;
 	private final Random random = new Random();
+	private final int maxLvOfGame = 60;
 	
 	AgainstMatchingTask(int pAgainstId, String pIdOfGroupA, String pIdOfGroupB) {
 		groupMatchingDatas = new HashMap<String, GroupMatchingData>(2, 1.5f);
@@ -237,6 +239,18 @@ class AgainstMatchingTask implements IGameTimerTask {
 		int size = groupMatchingData.getRandomMatchingSize();
 		if (size > 0) {
 			list = groupMatchingData.pollRandomMatchingData(size > maxMemberSize ? maxMemberSize : size);
+//			if (list.size() > 0) {
+//				// 检查是否有人不在线
+//				RandomMatchingData data;
+//				for (Iterator<RandomMatchingData> itr = list.iterator(); itr.hasNext();) {
+//					data = itr.next();
+//					if (!PlayerMgr.getInstance().isOnline(data.getUserId())) {
+//						// 不在线
+//						groupMatchingData.turnBackRandomMatchingData(data);
+//						itr.remove();
+//					}
+//				}
+//			}
 		} else {
 			list = new ArrayList<RandomMatchingData>();
 		}
@@ -278,6 +292,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 		List<RandomMatchingData> listOfGroupMatchingDataB;
 		LinkedList<GCompMember> allMemberOfGroupA = this.getAllMembersOfGroup(idOfGroupA);
 		LinkedList<GCompMember> allMemberOfGroupB = this.getAllMembersOfGroup(idOfGroupB);
+		if (allMemberOfGroupA.size() < maxMemberCount || allMemberOfGroupB.size() < maxMemberCount) {
+			// 少于3人不进入随机匹配
+			return;
+		}
 		while (groupMatchingDataA.getRandomMatchingSize() > 0 || groupMatchingDataB.getRandomMatchingSize() > 0) {
 			listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount, false);
 			listOfGroupMatchingDataB = this.getRandomMatchingDataList(groupMatchingDataB, allMemberOfGroupB, maxMemberCount, listOfGroupMatchingDataA.size() > 0);
@@ -354,11 +372,30 @@ class AgainstMatchingTask implements IGameTimerTask {
 		return true;
 	}
 	
+	private MatchingData pollMatchingData(GroupMatchingData againstGroupMatchingData, int maxLv, int minLv) {
+		MatchingData data;
+		for (int i = maxLv + 1; i-- > minLv;) {
+			data = againstGroupMatchingData.pollMatchingByLv(i);
+			if (data != null) {
+				synchronized (data) {
+					if (data.isCancel()) {
+						// 取消了
+						continue;
+					}/* else if (!GCompTeamMgr.getInstance().isAllOnline(againstId, data.getTeamId())) {
+						continue;
+					}*/ else {
+						// 设置匹配上的标识
+						data.setMatched(true);
+						return data;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
 	private void processMatching() {
 //		GCompUtil.log("帮派争霸，常规匹配开始，帮派：{}", this.groupMatchingDatas.keySet());
-//		if(this.groupMatchingDatas.keySet().contains("10011")) {
-//			System.out.println();
-//		}
 		Queue<MatchingData> queue = this.submitQueue;
 		if (queue.size() > 0) {
 			GroupMatchingData myGroupMatchingData;
@@ -379,30 +416,29 @@ class AgainstMatchingTask implements IGameTimerTask {
 							matched.add(md);
 							myGroupMatchingData.removeMatchingData(md);
 							continue;
-						}
+						} /*else if (!GCompTeamMgr.getInstance().isAllOnline(againstId, md.getTeamId())) {
+							// 有人不在线
+							continue;
+						}*/
 						againstGroupMatchingData = groupMatchingDatas.get(myGroupMatchingData.getAgainstGroupId());
 						dataMatched = null;
-						for (int i = 0; i < maxMatchingLvFloating; i++) {
-							dataMatched = againstGroupMatchingData.pollMatchingByLv(md.getLv() + i);
-							if (dataMatched != null) {
-								synchronized (dataMatched) {
-									if (dataMatched.isCancel()) {
-										// 取消了
-										continue;
-									} else {
-										// 设置匹配上的标识
-										dataMatched.setMatched(true);
-										break;
-									}
-								}
-							}
+						int minLv = md.getLv() - maxMatchingLvFloating;
+						int maxLv = md.getLv() + maxMatchingLvFloating;
+						if (maxLv > this.maxLvOfGame) {
+							// 大于最大等级
+							maxLv = this.maxLvOfGame;
+						}
+						if((dataMatched = this.pollMatchingData(againstGroupMatchingData, md.getLv(), minLv)) == null) { // 向下匹配
+							// 向上匹配
+							dataMatched = this.pollMatchingData(againstGroupMatchingData, maxLv, md.getLv());
 						}
 						if (dataMatched == null) {
 							if (isNotTimeout(currentMillis, md.getDeadline())) {
 								// 没有超时，等待下一轮
 								continue;
 							}
-							dataMatched = againstGroupMatchingData.pollBeginWithMaxLv();
+							// 从最高等级开始匹配
+							dataMatched = this.pollMatchingData(againstGroupMatchingData, maxLvOfGame, 1);
 						}
 						// 再次确认有没有匹配到人
 						if (dataMatched == null) {

@@ -472,6 +472,13 @@ public interface HeroMgr {
 	
 	/**
 	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int getFightingTeam(String userId);
+	
+	/**
+	 * 
 	 * 获取所有英雄的总战斗力
 	 * 
 	 * @param userId
@@ -516,6 +523,14 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<Hero> getMaxFightingHeros(PlayerIF player);
+	
+	/**
+	 * 获取战斗力最大的四个英雄
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Hero> getMaxFightingHeros(String userId);
 	
 	/**
 	 * 

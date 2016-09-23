@@ -12,6 +12,7 @@ public class CfgOpenLevelLimit {
 	  private int maxLevel; //最大等级
 	  private String des; //描述
 	  private int checkPointID; //开放关卡
+	  private int vip;//vip等级
 	  private com.rwproto.MsgDef.Command serviceId; //请求ID(程序配置，策划不要修改)
 	  private String submoduleId; //请求控制参数(程序配置，策划不要修改)
 
@@ -65,5 +66,13 @@ public class CfgOpenLevelLimit {
 	}
 	public void setDes(String des) {
 		this.des = des;
+	}
+
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
 	}
 }

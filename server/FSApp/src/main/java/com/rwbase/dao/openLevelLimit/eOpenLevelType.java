@@ -55,6 +55,13 @@ public enum eOpenLevelType {
 	FIX_Exp_EQUIP_4(57), // 左下神装开放等级
 	FIX_Exp_EQUIP_5(58), // 右下神装开放等级
 	TARGET_SELL(59),//精准营销
+	
+	Sport_Store(62),   	//幻境商店
+	Arena_Store(63),   	//竞技场商店
+	Peak_Store(64),		//巅峰竞技商店
+	Union_Store(65),	//帮派商店
+	Tower_Store(66),	//仙阵商店
+	Waken_Store(67),	//觉醒商店
 	;
 
 	private int order;

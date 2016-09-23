@@ -4,6 +4,7 @@ import javax.persistence.Id;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.hero.core.FSHeroMgr;
 
 @SynClass
 public class GCompOnlineMember {
@@ -22,7 +23,7 @@ public class GCompOnlineMember {
 		this.id = player.getUserId();
 		this.userId = player.getUserId();
 		this.userName = player.getUserName();
-		this.power = player.getUserGameDataMgr().getFightingAll();
+		this.power = FSHeroMgr.getInstance().getFightingAll(player);
 		this.lv = player.getLevel();
 		this.headIcon = player.getHeadImage();
 		this.inTeam = false;

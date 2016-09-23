@@ -803,6 +803,7 @@ public class GroupMemberManagerHandler {
 
 		commonRsp.setIsSuccess(true);
 		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
+		GroupCompetitionMgr.getInstance().notifyGroupMemberLeave(group, playerId);
 		return commonRsp.build().toByteString();
 	}
 }
