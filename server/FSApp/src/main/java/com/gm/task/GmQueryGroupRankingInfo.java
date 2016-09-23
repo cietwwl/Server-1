@@ -24,6 +24,7 @@ import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
@@ -94,29 +95,12 @@ public class GmQueryGroupRankingInfo implements IGmTask{
 		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
 
 		String localgroupName = groupData.getGroupName();
-		int groupLv = groupData.getGroupLevel();
-		int groupExp = groupData.getGroupExp();
-		int supplies = groupData.getSupplies();
-		String groupResourceName = getGroupResourceName(groupId);
-		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		int groupMemberSize = memberMgr.getGroupMemberSize();
-
-		GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupLv);
-		int maxMemberSize = levelTemplate.getMaxMemberLimit();
-		String groupNum = groupMemberSize + "/" + maxMemberSize;
-		String groupNotice = groupData.getAnnouncement();
-		long teamFight = getGroupFight(memberMgr);
-
+		
+		int rankIndex = GroupRankHelper.getGroupRankIndex(groupId);
 		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("rank", rankIndex);
 		map.put("teamId", groupId);
 		map.put("teamName", localgroupName);
-		map.put("lev", groupLv);
-		map.put("exp", groupExp);
-		map.put("teamEquip", supplies);
-		map.put("teamFight", teamFight);
-		map.put("teamNum", groupNum);
-		map.put("teamNotice", groupNotice);
-		map.put("teamTown", groupResourceName);
 
 		response.addResult(map);
 	}
@@ -125,29 +109,5 @@ public class GmQueryGroupRankingInfo implements IGmTask{
 		String groupId = GroupBM.getGroupId(groupName);
 		
 		queryGroupById(groupId, response);
-	}
-	
-	private long getGroupFight(GroupMemberMgr memberMgr){
-		List<? extends GroupMemberDataIF> memberSortList = memberMgr.getMemberSortList(null);
-		long totalFight = 0;
-		for (GroupMemberDataIF groupMemberDataIF : memberSortList) {
-			totalFight += groupMemberDataIF.getFighting();
-		}
-		return totalFight;
-	}
-	
-	public String getGroupResourceName(String groupId){
-		Iterable<GFightOnlineResourceCfg> iterateAllCfg = GFightOnlineResourceCfgDAO.getInstance().getIterateAllCfg();
-		for (Iterator<GFightOnlineResourceCfg> iterator = iterateAllCfg.iterator(); iterator.hasNext();) {
-			GFightOnlineResourceCfg cfg = iterator.next();
-			int resID = cfg.getResID();
-			GFightOnlineResourceData gFightOnlineResourceData = GFightOnlineResourceHolder.getInstance().get(resID);
-			if (gFightOnlineResourceData != null && gFightOnlineResourceData.getOwnerGroupID() != null 
-					&& gFightOnlineResourceData.getOwnerGroupID().equals(groupId)) {
-				return cfg.getResName();
-			}
-		}
-		return "";
-		
 	}
 }
