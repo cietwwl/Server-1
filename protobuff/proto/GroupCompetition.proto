@@ -17,14 +17,16 @@ enum GCRequestType{
 	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
 	GetMatchView = 9; // 获取对阵信息
 	GetSelectionData = 10; // 获取海选信息
-	SetTeamReady = 11; // 设置准备状态
-	CancelTeamReady = 12; // 取消准备状态
-	LeaveTeam = 13; // 离开队伍
+	GetCanGuessMatch = 11;	//获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+	SetTeamReady = 12; // 设置准备状态
+	CancelTeamReady = 13; // 取消准备状态
+	LeaveTeam = 14; // 离开队伍
 }
 
 enum GCResultType {
 	SUCCESS = 1; //成功
 	DATA_ERROR = 2; //数据异常
+	COIN_NOT_ENOUGH = 3;	//金币不足
 }
 
 message CommonReqMsg{
@@ -60,6 +62,7 @@ message LiveAndPlaybackInfo{
 message ReqLiveAndPlaybackMsg{
 	required GCRequestType reqType = 1; //请求类型
 }
+
 //回应赛事直播
 message RspLiveAndPlaybackMsg{
 	required GCResultType rstType = 1; //是否成功处理
@@ -98,13 +101,15 @@ message RspAllGuessInfo{
 //请求押注
 message ReqNewGuess{
 	required GCRequestType reqType = 1; //请求类型
-	required string groupId = 2; //帮派id
-	required int32 coin = 3; //押注金币
+	required int32 matchId = 2;		//比赛的id
+	required string groupId = 3; //帮派id
+	required int32 coin = 4; //押注金币（有可能是配置id，而不是具体金额）
 }
 
 //回应押注
 message RsqNewGuess{
 	required GCResultType rstType = 1; //是否成功处理
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
 }
 
 //用于同屏的玩家基本信息

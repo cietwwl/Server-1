@@ -41,6 +41,7 @@ import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
 import com.playerdata.teambattle.enums.TBMemberState;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
+import com.playerdata.teambattle.manager.TeamMatchMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
@@ -427,10 +428,11 @@ public class TeamBattleBM {
 			return;
 		}
 		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName()) + "\n" + inviteContent;
+		String extraInfo = player.getUserName() + "_" + cfg.getName();
 		switch (inviteType) {
 		case 1:
 			//世界邀请
-			ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "");
+			ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo);
 			break;
 		case 2:
 			//公会邀请
@@ -444,14 +446,14 @@ public class TeamBattleBM {
 						if(!StringUtils.equals(mem.getUserId(), player.getUserId())) memIDs.add(mem.getUserId());
 					}
 					if(!memIDs.isEmpty()){
-						ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "", memIDs);
+						ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, memIDs);
 					}
 				}
 			}
 			break;
 		case 3:
 			//好友邀请
-			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "", inviteUsers);
+			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, inviteUsers);
 			break;
 		default:
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
@@ -509,9 +511,18 @@ public class TeamBattleBM {
 			TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		}
 		for(StaticMemberTeamInfo teamInfoSimple : teamItem.getTeamMembers()){
-			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
-			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
-			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
+			ArmyInfo army = null;
+			if(!StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())){				
+				TeamMember memTmp = teamItem.findMember(teamInfoSimple.getUserID());
+				if(memTmp.isRobot()){
+					army = TeamMatchMgr.getInstance().getArmyInfo(memTmp.getRandomData());
+				}else{					
+					army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
+				}
+				if(army!=null){					
+					tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
+				}
+			}
 		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}

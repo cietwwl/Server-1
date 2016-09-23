@@ -57,6 +57,9 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 		}
 		
 		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		if(list == null){
+			return;
+		}
 		
 		String strAdd = "";
 		String strDel = "";

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.util.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthWayInfoCfgDAO;
@@ -16,6 +17,8 @@ import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthWayInfoCfg;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.FightGrowthProto.UpgradeItemRequired;
 import com.rwproto.FightGrowthProto.UserFightingGrowthSynData;
 import com.rwproto.FightGrowthProto.UserFightingGrowthWaySynData;
@@ -176,5 +179,17 @@ public class FSUserFightingGrowthHolder {
 		UserFightingGrowthSynData synData = this.createFightingGrowthSynData(player);
 //		ClientDataSynMgr.synData(player, synData, eSynType.FIGHTING_GROWTH_DATA, eSynOpType.UPDATE_SINGLE);
 		player.SendMsg(Command.MSG_FIGHTING_PUSH_DATA, synData.toByteString());
+		this.synFightingTitleBaseData(player);
+	}
+	
+	/**
+	 * 
+	 * 同步战力提升基础数据
+	 * 
+	 * @param player
+	 */
+	public void synFightingTitleBaseData(Player player) {
+		FSUserFightingGrowthData data = this.getUserFightingGrowthData(player);
+		ClientDataSynMgr.synData(player, data, eSynType.FIGHTING_GROWTH_DATA, eSynOpType.UPDATE_SINGLE);
 	}
 }

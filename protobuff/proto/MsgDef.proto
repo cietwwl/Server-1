@@ -116,7 +116,7 @@ enum Command {
 	MSG_RANDOM_BOSS = 214;     //随机boss
 	MSG_WORLD_BOSS = 215;      //世界boss
 	
-	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
+	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛同屏
 	MSG_GROUP_COMPETITION_GET_DATA = 217; // 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
 	MSG_GROUP_COMPETITION_TEAM_REQ = 218; // 帮派争霸：队伍请求（对应GroupCompetition.proto里的TeamRequest）
 	MSG_GROUP_JOIN_TEAM_REQ = 219; // 帮派争霸：加入队伍（对应GroupCompetition.proto里的JoinTeamReq）
@@ -127,6 +127,9 @@ enum Command {
 	
 	MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ = 222; // 帮派争霸：队伍成员请求（对应GroupCompetition.proto里的TeamMemberRequest）
 	MSG_GROUP_COMPETITION_TEAM_STATUS_REQ = 223; // 帮派争霸：队伍准备状态请求（对应GroupCompetition.proto里的TeamStatusRequest）
+	MSG_GROUP_COMPETITION_QUIZ = 224;	//帮派争霸:竞猜（对应GroupCompetition.proto里的ReqNewGuess）
+	MSG_GROUP_COMPETITION_QUIZ_SYN = 225;	//帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
+	MSG_GROUP_COMPETITION_BATTLE = 226;//帮派争霸：战斗处理
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
