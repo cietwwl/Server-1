@@ -1,13 +1,13 @@
 package com.bm.targetSell.param;
 
-import com.bm.targetSell.net.ITargetSellMsgHandler;
+import com.bm.targetSell.net.ITargetSellMsgExcutor;
 
 /**
  * 5001心跳参数
  * @author Alex
  * 2016年9月17日 下午4:44:02
  */
-public class TargetSellHeartBeatParam implements ITargetSellMsgHandler {
+public class TargetSellHeartBeatParam implements ITargetSellMsgExcutor {
 
 	private String appId;
 	
@@ -37,7 +37,7 @@ public class TargetSellHeartBeatParam implements ITargetSellMsgHandler {
 
 
 	@Override
-	public void handlerMsg(int msgType) {
+	public void excuteMsg(int msgType) {
 		
 	}
 

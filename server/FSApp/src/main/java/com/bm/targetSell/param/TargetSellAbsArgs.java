@@ -38,7 +38,7 @@ public class TargetSellAbsArgs extends TargetSellHeartBeatParam {
 	
 	
 	@Override
-	public void handlerMsg(int msgType) {
+	public void excuteMsg(int msgType) {
 		TargetSellManager.getInstance().pushRoleAttrOrCleanItems(this, msgType);
 	}
 	

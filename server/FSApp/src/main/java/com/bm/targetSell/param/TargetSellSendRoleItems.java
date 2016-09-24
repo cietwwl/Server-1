@@ -33,7 +33,7 @@ public class TargetSellSendRoleItems extends TargetSellAbsArgs {
 	}
 
 	@Override
-	public void handlerMsg(int msgType) {
+	public void excuteMsg(int msgType) {
 		TargetSellManager.getInstance().updateRoleItems(this);
 	}
 

@@ -1,10 +1,10 @@
 package com.bm.targetSell.net;
 
-public interface ITargetSellMsgHandler {
+public interface ITargetSellMsgExcutor {
 
 	/**
 	 * 处理消息
 	 * @param msgType
 	 */
-	public void handlerMsg(int msgType);
+	public void excuteMsg(int msgType);
 }

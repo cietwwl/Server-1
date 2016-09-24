@@ -35,7 +35,7 @@ public class BenefitSystemMsgService {
 		int type = sellData.getOpType();
 		try {
 			
-			ITargetSellMsgHandler args = null;
+			ITargetSellMsgExcutor args = null;
 			switch (type) {
 			case TargetSellOpType.OPTYPE_5003:
 			case TargetSellOpType.OPTYPE_5005:
@@ -67,7 +67,7 @@ public class BenefitSystemMsgService {
 				return;
 			}
 			
-			args.handlerMsg(type);
+			args.excuteMsg(type);
 			
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellMsgService[doTask]", "解析精准服推送到的消息出现异常", e);

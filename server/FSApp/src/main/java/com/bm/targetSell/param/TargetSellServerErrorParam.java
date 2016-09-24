@@ -71,7 +71,7 @@ public class TargetSellServerErrorParam extends TargetSellHeartBeatParam {
 
 
 	@Override
-	public void handlerMsg(int msgType) {
+	public void excuteMsg(int msgType) {
 		//精准服返回的错误信息，只要记录下就可以了
 	}
 
