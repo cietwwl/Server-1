@@ -25,6 +25,13 @@ enum GCRequestType{
 	KickMember = 16; // 剔除成员
 	CreateTeam = 17; // 创建队伍
 	AdjustTeamMember = 18; // 调整队伍成员
+	StartMatching = 19; // 开始匹配
+}
+
+enum TeamStatusType {
+	Kicked = 1; // 被踢
+	BecomeLeader = 2; // 成为队长
+	CanMatch = 3; // 可匹配
 }
 
 enum GCResultType {
@@ -175,7 +182,8 @@ message TeamStatusRequest {
 	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
 }
 
-// 队伍邀请
+// 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+// 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
 message TeamInvitation {
 	required string teamId = 1; // 队伍id
 	required string tips = 2; // 提示消息
@@ -184,4 +192,9 @@ message TeamInvitation {
 message CommonRsp {
 	required GCResultType resultType = 1;
 	optional string tips = 2;
+}
+
+// 队伍状态发生变化
+message TeamStatusChange {
+	required TeamStatusType status = 1;
 }
