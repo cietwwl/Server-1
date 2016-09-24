@@ -868,13 +868,45 @@ public final class MsgDef {
      */
     MSG_GROUP_COMPETITION_QUIZ(113, 224),
     /**
+     * <code>MSG_GROUP_COMPETITION_QUIZ_SYN = 225;</code>
+     *
+     * <pre>
+     *帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_QUIZ_SYN(114, 225),
+    /**
+     * <code>MSG_GROUP_COMPETITION_BATTLE = 226;</code>
+     *
+     * <pre>
+     *帮派争霸：战斗处理
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_BATTLE(115, 226),
+    /**
+     * <code>MSG_GROUP_COMPETITION_NOTIFY_KICK = 227;</code>
+     *
+     * <pre>
+     * 帮派争霸：通知被踢出队伍（发送一个empty的body即可）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_NOTIFY_KICK(116, 227),
+    /**
+     * <code>MSG_GROUP_COMPETITION_BECOME_LEADER = 228;</code>
+     *
+     * <pre>
+     * 帮派争霸：服务器通知某个成员变成队长（发送一个empty的body）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_BECOME_LEADER(117, 228),
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(114, 995),
+    MSG_FEEDBACK(118, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -882,7 +914,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(115, 996),
+    MSG_SDK_VERIFY(119, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -890,7 +922,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(116, 997),
+    MSG_NUMERIC_ANALYSIS(120, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -898,7 +930,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(117, 998),
+    MSG_PLATFORMGS(121, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -906,7 +938,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(118, 999),
+    MSG_GAMEPRESS(122, 999),
     ;
 
     /**
@@ -1764,6 +1796,38 @@ public final class MsgDef {
      */
     public static final int MSG_GROUP_COMPETITION_QUIZ_VALUE = 224;
     /**
+     * <code>MSG_GROUP_COMPETITION_QUIZ_SYN = 225;</code>
+     *
+     * <pre>
+     *帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_QUIZ_SYN_VALUE = 225;
+    /**
+     * <code>MSG_GROUP_COMPETITION_BATTLE = 226;</code>
+     *
+     * <pre>
+     *帮派争霸：战斗处理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_BATTLE_VALUE = 226;
+    /**
+     * <code>MSG_GROUP_COMPETITION_NOTIFY_KICK = 227;</code>
+     *
+     * <pre>
+     * 帮派争霸：通知被踢出队伍（发送一个empty的body即可）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_NOTIFY_KICK_VALUE = 227;
+    /**
+     * <code>MSG_GROUP_COMPETITION_BECOME_LEADER = 228;</code>
+     *
+     * <pre>
+     * 帮派争霸：服务器通知某个成员变成队长（发送一个empty的body）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_BECOME_LEADER_VALUE = 228;
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
@@ -1923,6 +1987,10 @@ public final class MsgDef {
         case 222: return MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ;
         case 223: return MSG_GROUP_COMPETITION_TEAM_STATUS_REQ;
         case 224: return MSG_GROUP_COMPETITION_QUIZ;
+        case 225: return MSG_GROUP_COMPETITION_QUIZ_SYN;
+        case 226: return MSG_GROUP_COMPETITION_BATTLE;
+        case 227: return MSG_GROUP_COMPETITION_NOTIFY_KICK;
+        case 228: return MSG_GROUP_COMPETITION_BECOME_LEADER;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1988,7 +2056,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\346\025\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\200\027\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2055,10 +2123,14 @@ public final class MsgDef {
       "\n\025MSG_ACTIVITY_RETRIEVE\020\335\001\022*\n%MSG_GROUP_" +
       "COMPETITION_TEAM_MEMBER_REQ\020\336\001\022*\n%MSG_GR" +
       "OUP_COMPETITION_TEAM_STATUS_REQ\020\337\001\022\037\n\032MS" +
-      "G_GROUP_COMPETITION_QUIZ\020\340\001\022\021\n\014MSG_FEEDB" +
-      "ACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMER" +
-      "IC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rM",
-      "SG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
+      "G_GROUP_COMPETITION_QUIZ\020\340\001\022#\n\036MSG_GROUP" +
+      "_COMPETITION_QUIZ_SYN\020\341\001\022!\n\034MSG_GROUP_CO" +
+      "MPETITION_BATTLE\020\342\001\022&\n!MSG_GROUP_COMPETI",
+      "TION_NOTIFY_KICK\020\343\001\022(\n#MSG_GROUP_COMPETI" +
+      "TION_BECOME_LEADER\020\344\001\022\021\n\014MSG_FEEDBACK\020\343\007" +
+      "\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANA" +
+      "LYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAM" +
+      "EPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
