@@ -48,12 +48,14 @@ message CommonReqMsg{
 
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
+	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
 }
 
-message CommonRspMsg{
-	required GCResultType rstType = 1; //是否成功处理
-	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
-	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
+message CommonGetDataRspMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	required GCResultType rstType = 2; // 请求结果
+	optional string tipMsg = 3; // 提示消息
+	optional SelectionRspData selectionData = 4; // 海选信息（对于GCRequestType.GetSelectionData可用）
 }
 
 message AreaPosition{

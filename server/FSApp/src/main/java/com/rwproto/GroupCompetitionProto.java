@@ -1607,6 +1607,24 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+
+    // optional fixed32 matchId = 2;
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    boolean hasMatchId();
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    int getMatchId();
   }
   /**
    * Protobuf type {@code groupCompetition.CommonGetDataReqMsg}
@@ -1668,6 +1686,11 @@ public final class GroupCompetitionProto {
                 bitField0_ |= 0x00000001;
                 reqType_ = value;
               }
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              matchId_ = input.readFixed32();
               break;
             }
           }
@@ -1734,8 +1757,33 @@ public final class GroupCompetitionProto {
       return reqType_;
     }
 
+    // optional fixed32 matchId = 2;
+    public static final int MATCHID_FIELD_NUMBER = 2;
+    private int matchId_;
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    public boolean hasMatchId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    public int getMatchId() {
+      return matchId_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      matchId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1756,6 +1804,9 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, reqType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFixed32(2, matchId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1768,6 +1819,10 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(2, matchId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1887,6 +1942,8 @@ public final class GroupCompetitionProto {
         super.clear();
         reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
         bitField0_ = (bitField0_ & ~0x00000001);
+        matchId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1919,6 +1976,10 @@ public final class GroupCompetitionProto {
           to_bitField0_ |= 0x00000001;
         }
         result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.matchId_ = matchId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1937,6 +1998,9 @@ public final class GroupCompetitionProto {
         if (other == com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.getDefaultInstance()) return this;
         if (other.hasReqType()) {
           setReqType(other.getReqType());
+        }
+        if (other.hasMatchId()) {
+          setMatchId(other.getMatchId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2021,6 +2085,55 @@ public final class GroupCompetitionProto {
         return this;
       }
 
+      // optional fixed32 matchId = 2;
+      private int matchId_ ;
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public boolean hasMatchId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public int getMatchId() {
+        return matchId_;
+      }
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public Builder setMatchId(int value) {
+        bitField0_ |= 0x00000002;
+        matchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public Builder clearMatchId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        matchId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:groupCompetition.CommonGetDataReqMsg)
     }
 
@@ -2032,118 +2145,117 @@ public final class GroupCompetitionProto {
     // @@protoc_insertion_point(class_scope:groupCompetition.CommonGetDataReqMsg)
   }
 
-  public interface CommonRspMsgOrBuilder
+  public interface CommonGetDataRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .groupCompetition.GCResultType rstType = 1;
+    // required .groupCompetition.GCRequestType reqType = 1;
     /**
-     * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     *是否成功处理
+     * 请求的类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+
+    // required .groupCompetition.GCResultType rstType = 2;
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
      * </pre>
      */
     boolean hasRstType();
     /**
-     * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
      *
      * <pre>
-     *是否成功处理
+     * 请求结果
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCResultType getRstType();
 
-    // optional string tipMsg = 2;
+    // optional string tipMsg = 3;
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *提示消息，可以是成功，也可以是失败的提示消息
+     * 提示消息
      * </pre>
      */
     boolean hasTipMsg();
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *提示消息，可以是成功，也可以是失败的提示消息
+     * 提示消息
      * </pre>
      */
     java.lang.String getTipMsg();
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *提示消息，可以是成功，也可以是失败的提示消息
+     * 提示消息
      * </pre>
      */
     com.google.protobuf.ByteString
         getTipMsgBytes();
 
-    // repeated .groupCompetition.PlayerBaseInfo players = 3;
+    // optional .groupCompetition.SelectionRspData selectionData = 4;
     /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
      *
      * <pre>
-     *同屏玩家的基本信息
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
      * </pre>
      */
-    java.util.List<com.rwproto.GroupCompetitionProto.PlayerBaseInfo> 
-        getPlayersList();
+    boolean hasSelectionData();
     /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
      *
      * <pre>
-     *同屏玩家的基本信息
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
      * </pre>
      */
-    com.rwproto.GroupCompetitionProto.PlayerBaseInfo getPlayers(int index);
+    com.rwproto.GroupCompetitionProto.SelectionRspData getSelectionData();
     /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
      *
      * <pre>
-     *同屏玩家的基本信息
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
      * </pre>
      */
-    int getPlayersCount();
-    /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-     *
-     * <pre>
-     *同屏玩家的基本信息
-     * </pre>
-     */
-    java.util.List<? extends com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder> 
-        getPlayersOrBuilderList();
-    /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-     *
-     * <pre>
-     *同屏玩家的基本信息
-     * </pre>
-     */
-    com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder getPlayersOrBuilder(
-        int index);
+    com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder getSelectionDataOrBuilder();
   }
   /**
-   * Protobuf type {@code groupCompetition.CommonRspMsg}
+   * Protobuf type {@code groupCompetition.CommonGetDataRspMsg}
    */
-  public static final class CommonRspMsg extends
+  public static final class CommonGetDataRspMsg extends
       com.google.protobuf.GeneratedMessage
-      implements CommonRspMsgOrBuilder {
-    // Use CommonRspMsg.newBuilder() to construct.
-    private CommonRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements CommonGetDataRspMsgOrBuilder {
+    // Use CommonGetDataRspMsg.newBuilder() to construct.
+    private CommonGetDataRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private CommonRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private CommonGetDataRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final CommonRspMsg defaultInstance;
-    public static CommonRspMsg getDefaultInstance() {
+    private static final CommonGetDataRspMsg defaultInstance;
+    public static CommonGetDataRspMsg getDefaultInstance() {
       return defaultInstance;
     }
 
-    public CommonRspMsg getDefaultInstanceForType() {
+    public CommonGetDataRspMsg getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -2153,7 +2265,7 @@ public final class GroupCompetitionProto {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private CommonRspMsg(
+    private CommonGetDataRspMsg(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2178,26 +2290,42 @@ public final class GroupCompetitionProto {
             }
             case 8: {
               int rawValue = input.readEnum();
-              com.rwproto.GroupCompetitionProto.GCResultType value = com.rwproto.GroupCompetitionProto.GCResultType.valueOf(rawValue);
+              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
                 bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCResultType value = com.rwproto.GroupCompetitionProto.GCResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
                 rstType_ = value;
               }
               break;
             }
-            case 18: {
-              bitField0_ |= 0x00000002;
+            case 26: {
+              bitField0_ |= 0x00000004;
               tipMsg_ = input.readBytes();
               break;
             }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                players_ = new java.util.ArrayList<com.rwproto.GroupCompetitionProto.PlayerBaseInfo>();
-                mutable_bitField0_ |= 0x00000004;
+            case 34: {
+              com.rwproto.GroupCompetitionProto.SelectionRspData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = selectionData_.toBuilder();
               }
-              players_.add(input.readMessage(com.rwproto.GroupCompetitionProto.PlayerBaseInfo.PARSER, extensionRegistry));
+              selectionData_ = input.readMessage(com.rwproto.GroupCompetitionProto.SelectionRspData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(selectionData_);
+                selectionData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -2208,83 +2336,104 @@ public final class GroupCompetitionProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          players_ = java.util.Collections.unmodifiableList(players_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRspMsg_descriptor;
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupCompetitionProto.CommonRspMsg.class, com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder.class);
+              com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<CommonRspMsg> PARSER =
-        new com.google.protobuf.AbstractParser<CommonRspMsg>() {
-      public CommonRspMsg parsePartialFrom(
+    public static com.google.protobuf.Parser<CommonGetDataRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<CommonGetDataRspMsg>() {
+      public CommonGetDataRspMsg parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CommonRspMsg(input, extensionRegistry);
+        return new CommonGetDataRspMsg(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<CommonRspMsg> getParserForType() {
+    public com.google.protobuf.Parser<CommonGetDataRspMsg> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required .groupCompetition.GCResultType rstType = 1;
-    public static final int RSTTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.GroupCompetitionProto.GCResultType rstType_;
+    // required .groupCompetition.GCRequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
     /**
-     * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     *是否成功处理
+     * 请求的类型
      * </pre>
      */
-    public boolean hasRstType() {
+    public boolean hasReqType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     *是否成功处理
+     * 请求的类型
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+      return reqType_;
+    }
+
+    // required .groupCompetition.GCResultType rstType = 2;
+    public static final int RSTTYPE_FIELD_NUMBER = 2;
+    private com.rwproto.GroupCompetitionProto.GCResultType rstType_;
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
+     * </pre>
+     */
+    public boolean hasRstType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
      * </pre>
      */
     public com.rwproto.GroupCompetitionProto.GCResultType getRstType() {
       return rstType_;
     }
 
-    // optional string tipMsg = 2;
-    public static final int TIPMSG_FIELD_NUMBER = 2;
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
     private java.lang.Object tipMsg_;
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *提示消息，可以是成功，也可以是失败的提示消息
+     * 提示消息
      * </pre>
      */
     public boolean hasTipMsg() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *提示消息，可以是成功，也可以是失败的提示消息
+     * 提示消息
      * </pre>
      */
     public java.lang.String getTipMsg() {
@@ -2302,10 +2451,10 @@ public final class GroupCompetitionProto {
       }
     }
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
-     *提示消息，可以是成功，也可以是失败的提示消息
+     * 提示消息
      * </pre>
      */
     public com.google.protobuf.ByteString
@@ -2322,78 +2471,61 @@ public final class GroupCompetitionProto {
       }
     }
 
-    // repeated .groupCompetition.PlayerBaseInfo players = 3;
-    public static final int PLAYERS_FIELD_NUMBER = 3;
-    private java.util.List<com.rwproto.GroupCompetitionProto.PlayerBaseInfo> players_;
+    // optional .groupCompetition.SelectionRspData selectionData = 4;
+    public static final int SELECTIONDATA_FIELD_NUMBER = 4;
+    private com.rwproto.GroupCompetitionProto.SelectionRspData selectionData_;
     /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
      *
      * <pre>
-     *同屏玩家的基本信息
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
      * </pre>
      */
-    public java.util.List<com.rwproto.GroupCompetitionProto.PlayerBaseInfo> getPlayersList() {
-      return players_;
+    public boolean hasSelectionData() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
      *
      * <pre>
-     *同屏玩家的基本信息
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
      * </pre>
      */
-    public java.util.List<? extends com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder> 
-        getPlayersOrBuilderList() {
-      return players_;
+    public com.rwproto.GroupCompetitionProto.SelectionRspData getSelectionData() {
+      return selectionData_;
     }
     /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
      *
      * <pre>
-     *同屏玩家的基本信息
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
      * </pre>
      */
-    public int getPlayersCount() {
-      return players_.size();
-    }
-    /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-     *
-     * <pre>
-     *同屏玩家的基本信息
-     * </pre>
-     */
-    public com.rwproto.GroupCompetitionProto.PlayerBaseInfo getPlayers(int index) {
-      return players_.get(index);
-    }
-    /**
-     * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-     *
-     * <pre>
-     *同屏玩家的基本信息
-     * </pre>
-     */
-    public com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder getPlayersOrBuilder(
-        int index) {
-      return players_.get(index);
+    public com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder getSelectionDataOrBuilder() {
+      return selectionData_;
     }
 
     private void initFields() {
+      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
       rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
       tipMsg_ = "";
-      players_ = java.util.Collections.emptyList();
+      selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       if (!hasRstType()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getPlayersCount(); i++) {
-        if (!getPlayers(i).isInitialized()) {
+      if (hasSelectionData()) {
+        if (!getSelectionData().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2406,13 +2538,16 @@ public final class GroupCompetitionProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, rstType_.getNumber());
+        output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTipMsgBytes());
+        output.writeEnum(2, rstType_.getNumber());
       }
-      for (int i = 0; i < players_.size(); i++) {
-        output.writeMessage(3, players_.get(i));
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, selectionData_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2425,15 +2560,19 @@ public final class GroupCompetitionProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, rstType_.getNumber());
+          .computeEnumSize(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTipMsgBytes());
+          .computeEnumSize(2, rstType_.getNumber());
       }
-      for (int i = 0; i < players_.size(); i++) {
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, players_.get(i));
+          .computeBytesSize(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, selectionData_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2447,53 +2586,53 @@ public final class GroupCompetitionProto {
       return super.writeReplace();
     }
 
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(byte[] data)
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(java.io.InputStream input)
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseDelimitedFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupCompetitionProto.CommonRspMsg parseFrom(
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -2502,7 +2641,7 @@ public final class GroupCompetitionProto {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.CommonRspMsg prototype) {
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -2514,24 +2653,24 @@ public final class GroupCompetitionProto {
       return builder;
     }
     /**
-     * Protobuf type {@code groupCompetition.CommonRspMsg}
+     * Protobuf type {@code groupCompetition.CommonGetDataRspMsg}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupCompetitionProto.CommonRspMsgOrBuilder {
+       implements com.rwproto.GroupCompetitionProto.CommonGetDataRspMsgOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRspMsg_descriptor;
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupCompetitionProto.CommonRspMsg.class, com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder.class);
+                com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCompetitionProto.CommonRspMsg.newBuilder()
+      // Construct using com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2543,7 +2682,7 @@ public final class GroupCompetitionProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getPlayersFieldBuilder();
+          getSelectionDataFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2552,16 +2691,18 @@ public final class GroupCompetitionProto {
 
       public Builder clear() {
         super.clear();
-        rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
         bitField0_ = (bitField0_ & ~0x00000001);
-        tipMsg_ = "";
+        rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000002);
-        if (playersBuilder_ == null) {
-          players_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (selectionDataBuilder_ == null) {
+          selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
         } else {
-          playersBuilder_.clear();
+          selectionDataBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2571,41 +2712,44 @@ public final class GroupCompetitionProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRspMsg_descriptor;
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
       }
 
-      public com.rwproto.GroupCompetitionProto.CommonRspMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupCompetitionProto.CommonRspMsg.getDefaultInstance();
+      public com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.getDefaultInstance();
       }
 
-      public com.rwproto.GroupCompetitionProto.CommonRspMsg build() {
-        com.rwproto.GroupCompetitionProto.CommonRspMsg result = buildPartial();
+      public com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg build() {
+        com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.GroupCompetitionProto.CommonRspMsg buildPartial() {
-        com.rwproto.GroupCompetitionProto.CommonRspMsg result = new com.rwproto.GroupCompetitionProto.CommonRspMsg(this);
+      public com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg buildPartial() {
+        com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg result = new com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.rstType_ = rstType_;
+        result.reqType_ = reqType_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.rstType_ = rstType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         result.tipMsg_ = tipMsg_;
-        if (playersBuilder_ == null) {
-          if (((bitField0_ & 0x00000004) == 0x00000004)) {
-            players_ = java.util.Collections.unmodifiableList(players_);
-            bitField0_ = (bitField0_ & ~0x00000004);
-          }
-          result.players_ = players_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (selectionDataBuilder_ == null) {
+          result.selectionData_ = selectionData_;
         } else {
-          result.players_ = playersBuilder_.build();
+          result.selectionData_ = selectionDataBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -2613,61 +2757,45 @@ public final class GroupCompetitionProto {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupCompetitionProto.CommonRspMsg) {
-          return mergeFrom((com.rwproto.GroupCompetitionProto.CommonRspMsg)other);
+        if (other instanceof com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.CommonRspMsg other) {
-        if (other == com.rwproto.GroupCompetitionProto.CommonRspMsg.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg other) {
+        if (other == com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
         if (other.hasRstType()) {
           setRstType(other.getRstType());
         }
         if (other.hasTipMsg()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
-        if (playersBuilder_ == null) {
-          if (!other.players_.isEmpty()) {
-            if (players_.isEmpty()) {
-              players_ = other.players_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-            } else {
-              ensurePlayersIsMutable();
-              players_.addAll(other.players_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.players_.isEmpty()) {
-            if (playersBuilder_.isEmpty()) {
-              playersBuilder_.dispose();
-              playersBuilder_ = null;
-              players_ = other.players_;
-              bitField0_ = (bitField0_ & ~0x00000004);
-              playersBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getPlayersFieldBuilder() : null;
-            } else {
-              playersBuilder_.addAllMessages(other.players_);
-            }
-          }
+        if (other.hasSelectionData()) {
+          mergeSelectionData(other.getSelectionData());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
         if (!hasRstType()) {
           
           return false;
         }
-        for (int i = 0; i < getPlayersCount(); i++) {
-          if (!getPlayers(i).isInitialized()) {
+        if (hasSelectionData()) {
+          if (!getSelectionData().isInitialized()) {
             
             return false;
           }
@@ -2679,11 +2807,11 @@ public final class GroupCompetitionProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.GroupCompetitionProto.CommonRspMsg parsedMessage = null;
+        com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupCompetitionProto.CommonRspMsg) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -2694,75 +2822,127 @@ public final class GroupCompetitionProto {
       }
       private int bitField0_;
 
-      // required .groupCompetition.GCResultType rstType = 1;
-      private com.rwproto.GroupCompetitionProto.GCResultType rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      // required .groupCompetition.GCRequestType reqType = 1;
+      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
       /**
-       * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       *是否成功处理
+       * 请求的类型
        * </pre>
        */
-      public boolean hasRstType() {
+      public boolean hasReqType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       *是否成功处理
+       * 请求的类型
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        onChanged();
+        return this;
+      }
+
+      // required .groupCompetition.GCResultType rstType = 2;
+      private com.rwproto.GroupCompetitionProto.GCResultType rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      /**
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+       *
+       * <pre>
+       * 请求结果
+       * </pre>
+       */
+      public boolean hasRstType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+       *
+       * <pre>
+       * 请求结果
        * </pre>
        */
       public com.rwproto.GroupCompetitionProto.GCResultType getRstType() {
         return rstType_;
       }
       /**
-       * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
        *
        * <pre>
-       *是否成功处理
+       * 请求结果
        * </pre>
        */
       public Builder setRstType(com.rwproto.GroupCompetitionProto.GCResultType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000001;
+        bitField0_ |= 0x00000002;
         rstType_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required .groupCompetition.GCResultType rstType = 1;</code>
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
        *
        * <pre>
-       *是否成功处理
+       * 请求结果
        * </pre>
        */
       public Builder clearRstType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         onChanged();
         return this;
       }
 
-      // optional string tipMsg = 2;
+      // optional string tipMsg = 3;
       private java.lang.Object tipMsg_ = "";
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *提示消息，可以是成功，也可以是失败的提示消息
+       * 提示消息
        * </pre>
        */
       public boolean hasTipMsg() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *提示消息，可以是成功，也可以是失败的提示消息
+       * 提示消息
        * </pre>
        */
       public java.lang.String getTipMsg() {
@@ -2777,10 +2957,10 @@ public final class GroupCompetitionProto {
         }
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *提示消息，可以是成功，也可以是失败的提示消息
+       * 提示消息
        * </pre>
        */
       public com.google.protobuf.ByteString
@@ -2797,10 +2977,10 @@ public final class GroupCompetitionProto {
         }
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *提示消息，可以是成功，也可以是失败的提示消息
+       * 提示消息
        * </pre>
        */
       public Builder setTipMsg(
@@ -2808,29 +2988,29 @@ public final class GroupCompetitionProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         tipMsg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *提示消息，可以是成功，也可以是失败的提示消息
+       * 提示消息
        * </pre>
        */
       public Builder clearTipMsg() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         tipMsg_ = getDefaultInstance().getTipMsg();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
-       *提示消息，可以是成功，也可以是失败的提示消息
+       * 提示消息
        * </pre>
        */
       public Builder setTipMsgBytes(
@@ -2838,333 +3018,174 @@ public final class GroupCompetitionProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         tipMsg_ = value;
         onChanged();
         return this;
       }
 
-      // repeated .groupCompetition.PlayerBaseInfo players = 3;
-      private java.util.List<com.rwproto.GroupCompetitionProto.PlayerBaseInfo> players_ =
-        java.util.Collections.emptyList();
-      private void ensurePlayersIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          players_ = new java.util.ArrayList<com.rwproto.GroupCompetitionProto.PlayerBaseInfo>(players_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupCompetitionProto.PlayerBaseInfo, com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder, com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder> playersBuilder_;
-
+      // optional .groupCompetition.SelectionRspData selectionData = 4;
+      private com.rwproto.GroupCompetitionProto.SelectionRspData selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionRspData, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder, com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder> selectionDataBuilder_;
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public java.util.List<com.rwproto.GroupCompetitionProto.PlayerBaseInfo> getPlayersList() {
-        if (playersBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(players_);
+      public boolean hasSelectionData() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionRspData getSelectionData() {
+        if (selectionDataBuilder_ == null) {
+          return selectionData_;
         } else {
-          return playersBuilder_.getMessageList();
+          return selectionDataBuilder_.getMessage();
         }
       }
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public int getPlayersCount() {
-        if (playersBuilder_ == null) {
-          return players_.size();
-        } else {
-          return playersBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public com.rwproto.GroupCompetitionProto.PlayerBaseInfo getPlayers(int index) {
-        if (playersBuilder_ == null) {
-          return players_.get(index);
-        } else {
-          return playersBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public Builder setPlayers(
-          int index, com.rwproto.GroupCompetitionProto.PlayerBaseInfo value) {
-        if (playersBuilder_ == null) {
+      public Builder setSelectionData(com.rwproto.GroupCompetitionProto.SelectionRspData value) {
+        if (selectionDataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensurePlayersIsMutable();
-          players_.set(index, value);
+          selectionData_ = value;
           onChanged();
         } else {
-          playersBuilder_.setMessage(index, value);
+          selectionDataBuilder_.setMessage(value);
         }
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public Builder setPlayers(
-          int index, com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder builderForValue) {
-        if (playersBuilder_ == null) {
-          ensurePlayersIsMutable();
-          players_.set(index, builderForValue.build());
+      public Builder setSelectionData(
+          com.rwproto.GroupCompetitionProto.SelectionRspData.Builder builderForValue) {
+        if (selectionDataBuilder_ == null) {
+          selectionData_ = builderForValue.build();
           onChanged();
         } else {
-          playersBuilder_.setMessage(index, builderForValue.build());
+          selectionDataBuilder_.setMessage(builderForValue.build());
         }
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public Builder addPlayers(com.rwproto.GroupCompetitionProto.PlayerBaseInfo value) {
-        if (playersBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+      public Builder mergeSelectionData(com.rwproto.GroupCompetitionProto.SelectionRspData value) {
+        if (selectionDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              selectionData_ != com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance()) {
+            selectionData_ =
+              com.rwproto.GroupCompetitionProto.SelectionRspData.newBuilder(selectionData_).mergeFrom(value).buildPartial();
+          } else {
+            selectionData_ = value;
           }
-          ensurePlayersIsMutable();
-          players_.add(value);
           onChanged();
         } else {
-          playersBuilder_.addMessage(value);
+          selectionDataBuilder_.mergeFrom(value);
         }
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public Builder addPlayers(
-          int index, com.rwproto.GroupCompetitionProto.PlayerBaseInfo value) {
-        if (playersBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensurePlayersIsMutable();
-          players_.add(index, value);
+      public Builder clearSelectionData() {
+        if (selectionDataBuilder_ == null) {
+          selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
           onChanged();
         } else {
-          playersBuilder_.addMessage(index, value);
+          selectionDataBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public Builder addPlayers(
-          com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder builderForValue) {
-        if (playersBuilder_ == null) {
-          ensurePlayersIsMutable();
-          players_.add(builderForValue.build());
-          onChanged();
+      public com.rwproto.GroupCompetitionProto.SelectionRspData.Builder getSelectionDataBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getSelectionDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder getSelectionDataOrBuilder() {
+        if (selectionDataBuilder_ != null) {
+          return selectionDataBuilder_.getMessageOrBuilder();
         } else {
-          playersBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public Builder addPlayers(
-          int index, com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder builderForValue) {
-        if (playersBuilder_ == null) {
-          ensurePlayersIsMutable();
-          players_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          playersBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public Builder addAllPlayers(
-          java.lang.Iterable<? extends com.rwproto.GroupCompetitionProto.PlayerBaseInfo> values) {
-        if (playersBuilder_ == null) {
-          ensurePlayersIsMutable();
-          super.addAll(values, players_);
-          onChanged();
-        } else {
-          playersBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public Builder clearPlayers() {
-        if (playersBuilder_ == null) {
-          players_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000004);
-          onChanged();
-        } else {
-          playersBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public Builder removePlayers(int index) {
-        if (playersBuilder_ == null) {
-          ensurePlayersIsMutable();
-          players_.remove(index);
-          onChanged();
-        } else {
-          playersBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder getPlayersBuilder(
-          int index) {
-        return getPlayersFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder getPlayersOrBuilder(
-          int index) {
-        if (playersBuilder_ == null) {
-          return players_.get(index);  } else {
-          return playersBuilder_.getMessageOrBuilder(index);
+          return selectionData_;
         }
       }
       /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
        *
        * <pre>
-       *同屏玩家的基本信息
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
        * </pre>
        */
-      public java.util.List<? extends com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder> 
-           getPlayersOrBuilderList() {
-        if (playersBuilder_ != null) {
-          return playersBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(players_);
-        }
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder addPlayersBuilder() {
-        return getPlayersFieldBuilder().addBuilder(
-            com.rwproto.GroupCompetitionProto.PlayerBaseInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder addPlayersBuilder(
-          int index) {
-        return getPlayersFieldBuilder().addBuilder(
-            index, com.rwproto.GroupCompetitionProto.PlayerBaseInfo.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .groupCompetition.PlayerBaseInfo players = 3;</code>
-       *
-       * <pre>
-       *同屏玩家的基本信息
-       * </pre>
-       */
-      public java.util.List<com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder> 
-           getPlayersBuilderList() {
-        return getPlayersFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.GroupCompetitionProto.PlayerBaseInfo, com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder, com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder> 
-          getPlayersFieldBuilder() {
-        if (playersBuilder_ == null) {
-          playersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.GroupCompetitionProto.PlayerBaseInfo, com.rwproto.GroupCompetitionProto.PlayerBaseInfo.Builder, com.rwproto.GroupCompetitionProto.PlayerBaseInfoOrBuilder>(
-                  players_,
-                  ((bitField0_ & 0x00000004) == 0x00000004),
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionRspData, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder, com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder> 
+          getSelectionDataFieldBuilder() {
+        if (selectionDataBuilder_ == null) {
+          selectionDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCompetitionProto.SelectionRspData, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder, com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder>(
+                  selectionData_,
                   getParentForChildren(),
                   isClean());
-          players_ = null;
+          selectionData_ = null;
         }
-        return playersBuilder_;
+        return selectionDataBuilder_;
       }
 
-      // @@protoc_insertion_point(builder_scope:groupCompetition.CommonRspMsg)
+      // @@protoc_insertion_point(builder_scope:groupCompetition.CommonGetDataRspMsg)
     }
 
     static {
-      defaultInstance = new CommonRspMsg(true);
+      defaultInstance = new CommonGetDataRspMsg(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:groupCompetition.CommonRspMsg)
+    // @@protoc_insertion_point(class_scope:groupCompetition.CommonGetDataRspMsg)
   }
 
   public interface AreaPositionOrBuilder
@@ -19663,10 +19684,10 @@ public final class GroupCompetitionProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupCompetition_CommonRspMsg_descriptor;
+    internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable;
+      internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_AreaPosition_descriptor;
   private static
@@ -19781,73 +19802,75 @@ public final class GroupCompetitionProto {
       "g\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GC" +
       "RequestType\0220\n\010position\030\002 \001(\0132\036.groupCom" +
       "petition.AreaPosition\022\025\n\rplayersIdList\030\003" +
-      " \003(\t\"G\n\023CommonGetDataReqMsg\0220\n\007reqType\030\001" +
-      " \002(\0162\037.groupCompetition.GCRequestType\"\202\001" +
-      "\n\014CommonRspMsg\022/\n\007rstType\030\001 \002(\0162\036.groupC" +
-      "ompetition.GCResultType\022\016\n\006tipMsg\030\002 \001(\t\022" +
-      "1\n\007players\030\003 \003(\0132 .groupCompetition.Play",
-      "erBaseInfo\"$\n\014AreaPosition\022\t\n\001x\030\001 \002(\002\022\t\n" +
-      "\001y\030\002 \002(\002\"c\n\023LiveAndPlaybackInfo\022\014\n\004test\030" +
-      "\001 \002(\t\022\023\n\013continueWin\030\002 \002(\005\022\025\n\rpersonalSc" +
-      "ore\030\003 \002(\005\022\022\n\ngroupScore\030\004 \002(\005\"I\n\025ReqLive" +
-      "AndPlaybackMsg\0220\n\007reqType\030\001 \002(\0162\037.groupC" +
-      "ompetition.GCRequestType\"}\n\025RspLiveAndPl" +
-      "aybackMsg\022/\n\007rstType\030\001 \002(\0162\036.groupCompet" +
-      "ition.GCResultType\0223\n\004msgs\030\002 \003(\0132%.group" +
-      "Competition.LiveAndPlaybackInfo\"\222\001\n\016Matc" +
-      "hGuessInfo\022\017\n\007session\030\001 \002(\005\022\014\n\004topN\030\002 \002(",
-      "\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006groups\030\004 \003(\0132\033.gr" +
-      "oupCompetition.GroupInfo\022\020\n\010guessNum\030\005 \002" +
-      "(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tGroupInfo\022\017\n\007gro" +
-      "upId\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\021\n\tgroupNa" +
-      "me\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002\"C\n\017ReqAllGuess" +
-      "Info\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition" +
-      ".GCRequestType\"w\n\017RspAllGuessInfo\022/\n\007rst" +
-      "Type\030\001 \002(\0162\036.groupCompetition.GCResultTy" +
-      "pe\0223\n\tguessInfo\030\002 \003(\0132 .groupCompetition" +
-      ".MatchGuessInfo\"o\n\013ReqNewGuess\0220\n\007reqTyp",
-      "e\030\001 \002(\0162\037.groupCompetition.GCRequestType" +
-      "\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId\030\003 \002(\t\022\014\n\004co" +
-      "in\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007rstType\030\001 \002(\016" +
-      "2\036.groupCompetition.GCResultType\022\016\n\006tipM" +
-      "sg\030\002 \001(\t\"\335\001\n\016PlayerBaseInfo\022\016\n\006userId\030\001 " +
-      "\002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n\007" +
-      "imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 \002" +
-      "(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030\010" +
-      " \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionUsage\030\n " +
-      "\001(\0132\033.FashionService.FashionUsed\"\240\001\n\020Sel",
-      "ectionRspData\0226\n\010rankings\030\001 \003(\0132$.groupC" +
-      "ompetition.SelectionGroupData\022:\n\014ownGrou" +
-      "pData\030\002 \001(\0132$.groupCompetition.Selection" +
-      "GroupData\022\030\n\020selectionEndTime\030\003 \002(\006\"T\n\022S" +
-      "electionGroupData\022\017\n\007ranking\030\001 \002(\007\022\014\n\004na" +
-      "me\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005upNum\030\004 \002(" +
-      "\007\"O\n\013TeamRequest\0220\n\007reqType\030\001 \002(\0162\037.grou" +
-      "pCompetition.GCRequestType\022\016\n\006heroId\030\002 \003" +
-      "(\t\"-\n\013JoinTeamReq\022\016\n\006teamId\030\001 \002(\t\022\016\n\006her" +
-      "oId\030\002 \003(\t\"[\n\021TeamMemberRequest\0220\n\007reqTyp",
-      "e\030\001 \002(\0162\037.groupCompetition.GCRequestType" +
-      "\022\024\n\014targetUserId\030\002 \002(\t\"E\n\021TeamStatusRequ" +
-      "est\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition." +
-      "GCRequestType\".\n\016TeamInvitation\022\016\n\006teamI" +
-      "d\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommonRsp\0222\n\nre" +
-      "sultType\030\001 \002(\0162\036.groupCompetition.GCResu" +
-      "ltType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChange" +
-      "\0220\n\006status\030\001 \002(\0162 .groupCompetition.Team" +
-      "StatusType*\367\002\n\rGCRequestType\022\024\n\020EnterPre" +
-      "pareArea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025Info",
-      "rmPreparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013Play" +
-      "backMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n" +
-      "\022GetPlayersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022" +
-      "\024\n\020GetSelectionData\020\n\022\024\n\020GetCanGuessMatc" +
-      "h\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017CancelTeamReady" +
-      "\020\r\022\r\n\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nK" +
-      "ickMember\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTea" +
-      "mMember\020\022\022\021\n\rStartMatching\020\023*<\n\016TeamStat" +
-      "usType\022\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010" +
-      "CanMatch\020\003*@\n\014GCResultType\022\013\n\007SUCCESS\020\001\022",
-      "\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$\n\013" +
-      "com.rwprotoB\025GroupCompetitionProto"
+      " \003(\t\"X\n\023CommonGetDataReqMsg\0220\n\007reqType\030\001" +
+      " \002(\0162\037.groupCompetition.GCRequestType\022\017\n" +
+      "\007matchId\030\002 \001(\007\"\303\001\n\023CommonGetDataRspMsg\0220" +
+      "\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCReq" +
+      "uestType\022/\n\007rstType\030\002 \002(\0162\036.groupCompeti",
+      "tion.GCResultType\022\016\n\006tipMsg\030\003 \001(\t\0229\n\rsel" +
+      "ectionData\030\004 \001(\0132\".groupCompetition.Sele" +
+      "ctionRspData\"$\n\014AreaPosition\022\t\n\001x\030\001 \002(\002\022" +
+      "\t\n\001y\030\002 \002(\002\"c\n\023LiveAndPlaybackInfo\022\014\n\004tes" +
+      "t\030\001 \002(\t\022\023\n\013continueWin\030\002 \002(\005\022\025\n\rpersonal" +
+      "Score\030\003 \002(\005\022\022\n\ngroupScore\030\004 \002(\005\"I\n\025ReqLi" +
+      "veAndPlaybackMsg\0220\n\007reqType\030\001 \002(\0162\037.grou" +
+      "pCompetition.GCRequestType\"}\n\025RspLiveAnd" +
+      "PlaybackMsg\022/\n\007rstType\030\001 \002(\0162\036.groupComp" +
+      "etition.GCResultType\0223\n\004msgs\030\002 \003(\0132%.gro",
+      "upCompetition.LiveAndPlaybackInfo\"\222\001\n\016Ma" +
+      "tchGuessInfo\022\017\n\007session\030\001 \002(\005\022\014\n\004topN\030\002 " +
+      "\002(\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006groups\030\004 \003(\0132\033." +
+      "groupCompetition.GroupInfo\022\020\n\010guessNum\030\005" +
+      " \002(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tGroupInfo\022\017\n\007g" +
+      "roupId\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\021\n\tgroup" +
+      "Name\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002\"C\n\017ReqAllGue" +
+      "ssInfo\0220\n\007reqType\030\001 \002(\0162\037.groupCompetiti" +
+      "on.GCRequestType\"w\n\017RspAllGuessInfo\022/\n\007r" +
+      "stType\030\001 \002(\0162\036.groupCompetition.GCResult",
+      "Type\0223\n\tguessInfo\030\002 \003(\0132 .groupCompetiti" +
+      "on.MatchGuessInfo\"o\n\013ReqNewGuess\0220\n\007reqT" +
+      "ype\030\001 \002(\0162\037.groupCompetition.GCRequestTy" +
+      "pe\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId\030\003 \002(\t\022\014\n\004" +
+      "coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007rstType\030\001 \002" +
+      "(\0162\036.groupCompetition.GCResultType\022\016\n\006ti" +
+      "pMsg\030\002 \001(\t\"\335\001\n\016PlayerBaseInfo\022\016\n\006userId\030" +
+      "\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017" +
+      "\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006" +
+      " \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll",
+      "\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionUsage\030" +
+      "\n \001(\0132\033.FashionService.FashionUsed\"\240\001\n\020S" +
+      "electionRspData\0226\n\010rankings\030\001 \003(\0132$.grou" +
+      "pCompetition.SelectionGroupData\022:\n\014ownGr" +
+      "oupData\030\002 \001(\0132$.groupCompetition.Selecti" +
+      "onGroupData\022\030\n\020selectionEndTime\030\003 \002(\006\"T\n" +
+      "\022SelectionGroupData\022\017\n\007ranking\030\001 \002(\007\022\014\n\004" +
+      "name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005upNum\030\004 " +
+      "\002(\007\"O\n\013TeamRequest\0220\n\007reqType\030\001 \002(\0162\037.gr" +
+      "oupCompetition.GCRequestType\022\016\n\006heroId\030\002",
+      " \003(\t\"-\n\013JoinTeamReq\022\016\n\006teamId\030\001 \002(\t\022\016\n\006h" +
+      "eroId\030\002 \003(\t\"[\n\021TeamMemberRequest\0220\n\007reqT" +
+      "ype\030\001 \002(\0162\037.groupCompetition.GCRequestTy" +
+      "pe\022\024\n\014targetUserId\030\002 \002(\t\"E\n\021TeamStatusRe" +
+      "quest\0220\n\007reqType\030\001 \002(\0162\037.groupCompetitio" +
+      "n.GCRequestType\".\n\016TeamInvitation\022\016\n\006tea" +
+      "mId\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommonRsp\0222\n\n" +
+      "resultType\030\001 \002(\0162\036.groupCompetition.GCRe" +
+      "sultType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChan" +
+      "ge\0220\n\006status\030\001 \002(\0162 .groupCompetition.Te",
+      "amStatusType*\367\002\n\rGCRequestType\022\024\n\020EnterP" +
+      "repareArea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025In" +
+      "formPreparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013Pl" +
+      "aybackMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022" +
+      "\026\n\022GetPlayersBaseInfo\020\010\022\020\n\014GetMatchView\020" +
+      "\t\022\024\n\020GetSelectionData\020\n\022\024\n\020GetCanGuessMa" +
+      "tch\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017CancelTeamRea" +
+      "dy\020\r\022\r\n\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n" +
+      "\nKickMember\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustT" +
+      "eamMember\020\022\022\021\n\rStartMatching\020\023*<\n\016TeamSt",
+      "atusType\022\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014" +
+      "\n\010CanMatch\020\003*@\n\014GCResultType\022\013\n\007SUCCESS\020" +
+      "\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$" +
+      "\n\013com.rwprotoB\025GroupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -19865,13 +19888,13 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonGetDataReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", });
-          internal_static_groupCompetition_CommonRspMsg_descriptor =
+              new java.lang.String[] { "ReqType", "MatchId", });
+          internal_static_groupCompetition_CommonGetDataRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(2);
-          internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable = new
+          internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupCompetition_CommonRspMsg_descriptor,
-              new java.lang.String[] { "RstType", "TipMsg", "Players", });
+              internal_static_groupCompetition_CommonGetDataRspMsg_descriptor,
+              new java.lang.String[] { "ReqType", "RstType", "TipMsg", "SelectionData", });
           internal_static_groupCompetition_AreaPosition_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_groupCompetition_AreaPosition_fieldAccessorTable = new
