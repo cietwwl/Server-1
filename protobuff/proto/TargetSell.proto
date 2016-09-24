@@ -11,7 +11,7 @@ enum RequestType{
 
 message TargetSellReqMsg{
 	required RequestType reqType = 1;
-	required string itemGroupId = 2;
+	required int32 itemGroupId = 2;
 }
 
 message TargetSellRespMsg{
@@ -23,4 +23,5 @@ message TargetSellRespMsg{
 //服务器通知客户端更新优惠积分
 message UpdateBenefitScore{
 	required int32 score = 1;//当前积分
+	required int64 nextRefreshTime = 2;//下次刷新时间
 }

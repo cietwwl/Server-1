@@ -18,15 +18,15 @@ import com.rw.fsutil.util.fastjson.FastJsonUtil;
  *
  * 2016年8月25日 下午9:58:34
  */
-public class TargetSellMsgService {
+public class BenefitSystemMsgService {
 	
-	private static TargetSellMsgService handler = new TargetSellMsgService();
+	private static BenefitSystemMsgService handler = new BenefitSystemMsgService();
 
-	public static TargetSellMsgService getHandler(){
+	public static BenefitSystemMsgService getHandler(){
 		return handler;
 	}
 	
-	private TargetSellMsgService() {
+	private BenefitSystemMsgService() {
 	}
 	
 	public void doTask(String jsonStr){

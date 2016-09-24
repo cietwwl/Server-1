@@ -33,7 +33,9 @@ public class BenefitItems {
 	/**标题*/
 	private String title;
 
-	
+	/**剩余领取次数*/
+	@IgnoreSynField
+	private int pushCount;
 	
 	
 	public int getItemGroupId() {
@@ -82,6 +84,14 @@ public class BenefitItems {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getPushCount() {
+		return pushCount;
+	}
+
+	public void setPushCount(int pushCount) {
+		this.pushCount = pushCount;
 	}
 	
 	

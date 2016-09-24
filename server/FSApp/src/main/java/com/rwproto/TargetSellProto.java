@@ -119,20 +119,15 @@ public final class TargetSellProto {
      */
     com.rwproto.TargetSellProto.RequestType getReqType();
 
-    // required string itemGroupId = 2;
+    // required int32 itemGroupId = 2;
     /**
-     * <code>required string itemGroupId = 2;</code>
+     * <code>required int32 itemGroupId = 2;</code>
      */
     boolean hasItemGroupId();
     /**
-     * <code>required string itemGroupId = 2;</code>
+     * <code>required int32 itemGroupId = 2;</code>
      */
-    java.lang.String getItemGroupId();
-    /**
-     * <code>required string itemGroupId = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getItemGroupIdBytes();
+    int getItemGroupId();
   }
   /**
    * Protobuf type {@code TargetSell.TargetSellReqMsg}
@@ -196,9 +191,9 @@ public final class TargetSellProto {
               }
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
-              itemGroupId_ = input.readBytes();
+              itemGroupId_ = input.readInt32();
               break;
             }
           }
@@ -257,52 +252,25 @@ public final class TargetSellProto {
       return reqType_;
     }
 
-    // required string itemGroupId = 2;
+    // required int32 itemGroupId = 2;
     public static final int ITEMGROUPID_FIELD_NUMBER = 2;
-    private java.lang.Object itemGroupId_;
+    private int itemGroupId_;
     /**
-     * <code>required string itemGroupId = 2;</code>
+     * <code>required int32 itemGroupId = 2;</code>
      */
     public boolean hasItemGroupId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string itemGroupId = 2;</code>
+     * <code>required int32 itemGroupId = 2;</code>
      */
-    public java.lang.String getItemGroupId() {
-      java.lang.Object ref = itemGroupId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          itemGroupId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string itemGroupId = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getItemGroupIdBytes() {
-      java.lang.Object ref = itemGroupId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        itemGroupId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getItemGroupId() {
+      return itemGroupId_;
     }
 
     private void initFields() {
       reqType_ = com.rwproto.TargetSellProto.RequestType.CHARGE_ITEM;
-      itemGroupId_ = "";
+      itemGroupId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -328,7 +296,7 @@ public final class TargetSellProto {
         output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getItemGroupIdBytes());
+        output.writeInt32(2, itemGroupId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -345,7 +313,7 @@ public final class TargetSellProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getItemGroupIdBytes());
+          .computeInt32Size(2, itemGroupId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -465,7 +433,7 @@ public final class TargetSellProto {
         super.clear();
         reqType_ = com.rwproto.TargetSellProto.RequestType.CHARGE_ITEM;
         bitField0_ = (bitField0_ & ~0x00000001);
-        itemGroupId_ = "";
+        itemGroupId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -523,9 +491,7 @@ public final class TargetSellProto {
           setReqType(other.getReqType());
         }
         if (other.hasItemGroupId()) {
-          bitField0_ |= 0x00000002;
-          itemGroupId_ = other.itemGroupId_;
-          onChanged();
+          setItemGroupId(other.getItemGroupId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -598,76 +564,35 @@ public final class TargetSellProto {
         return this;
       }
 
-      // required string itemGroupId = 2;
-      private java.lang.Object itemGroupId_ = "";
+      // required int32 itemGroupId = 2;
+      private int itemGroupId_ ;
       /**
-       * <code>required string itemGroupId = 2;</code>
+       * <code>required int32 itemGroupId = 2;</code>
        */
       public boolean hasItemGroupId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string itemGroupId = 2;</code>
+       * <code>required int32 itemGroupId = 2;</code>
        */
-      public java.lang.String getItemGroupId() {
-        java.lang.Object ref = itemGroupId_;
-        if (!(ref instanceof java.lang.String)) {
-          java.lang.String s = ((com.google.protobuf.ByteString) ref)
-              .toStringUtf8();
-          itemGroupId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public int getItemGroupId() {
+        return itemGroupId_;
       }
       /**
-       * <code>required string itemGroupId = 2;</code>
+       * <code>required int32 itemGroupId = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getItemGroupIdBytes() {
-        java.lang.Object ref = itemGroupId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          itemGroupId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string itemGroupId = 2;</code>
-       */
-      public Builder setItemGroupId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
+      public Builder setItemGroupId(int value) {
+        bitField0_ |= 0x00000002;
         itemGroupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string itemGroupId = 2;</code>
+       * <code>required int32 itemGroupId = 2;</code>
        */
       public Builder clearItemGroupId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        itemGroupId_ = getDefaultInstance().getItemGroupId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string itemGroupId = 2;</code>
-       */
-      public Builder setItemGroupIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        itemGroupId_ = value;
+        itemGroupId_ = 0;
         onChanged();
         return this;
       }
@@ -1441,6 +1366,24 @@ public final class TargetSellProto {
      * </pre>
      */
     int getScore();
+
+    // required int64 nextRefreshTime = 2;
+    /**
+     * <code>required int64 nextRefreshTime = 2;</code>
+     *
+     * <pre>
+     *下次刷新时间
+     * </pre>
+     */
+    boolean hasNextRefreshTime();
+    /**
+     * <code>required int64 nextRefreshTime = 2;</code>
+     *
+     * <pre>
+     *下次刷新时间
+     * </pre>
+     */
+    long getNextRefreshTime();
   }
   /**
    * Protobuf type {@code TargetSell.UpdateBenefitScore}
@@ -1500,6 +1443,11 @@ public final class TargetSellProto {
             case 8: {
               bitField0_ |= 0x00000001;
               score_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              nextRefreshTime_ = input.readInt64();
               break;
             }
           }
@@ -1566,8 +1514,33 @@ public final class TargetSellProto {
       return score_;
     }
 
+    // required int64 nextRefreshTime = 2;
+    public static final int NEXTREFRESHTIME_FIELD_NUMBER = 2;
+    private long nextRefreshTime_;
+    /**
+     * <code>required int64 nextRefreshTime = 2;</code>
+     *
+     * <pre>
+     *下次刷新时间
+     * </pre>
+     */
+    public boolean hasNextRefreshTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 nextRefreshTime = 2;</code>
+     *
+     * <pre>
+     *下次刷新时间
+     * </pre>
+     */
+    public long getNextRefreshTime() {
+      return nextRefreshTime_;
+    }
+
     private void initFields() {
       score_ = 0;
+      nextRefreshTime_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1575,6 +1548,10 @@ public final class TargetSellProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasScore()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNextRefreshTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1588,6 +1565,9 @@ public final class TargetSellProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, score_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, nextRefreshTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1600,6 +1580,10 @@ public final class TargetSellProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, score_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, nextRefreshTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1723,6 +1707,8 @@ public final class TargetSellProto {
         super.clear();
         score_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        nextRefreshTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -1755,6 +1741,10 @@ public final class TargetSellProto {
           to_bitField0_ |= 0x00000001;
         }
         result.score_ = score_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.nextRefreshTime_ = nextRefreshTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1774,12 +1764,19 @@ public final class TargetSellProto {
         if (other.hasScore()) {
           setScore(other.getScore());
         }
+        if (other.hasNextRefreshTime()) {
+          setNextRefreshTime(other.getNextRefreshTime());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasScore()) {
+          
+          return false;
+        }
+        if (!hasNextRefreshTime()) {
           
           return false;
         }
@@ -1854,6 +1851,55 @@ public final class TargetSellProto {
         return this;
       }
 
+      // required int64 nextRefreshTime = 2;
+      private long nextRefreshTime_ ;
+      /**
+       * <code>required int64 nextRefreshTime = 2;</code>
+       *
+       * <pre>
+       *下次刷新时间
+       * </pre>
+       */
+      public boolean hasNextRefreshTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 nextRefreshTime = 2;</code>
+       *
+       * <pre>
+       *下次刷新时间
+       * </pre>
+       */
+      public long getNextRefreshTime() {
+        return nextRefreshTime_;
+      }
+      /**
+       * <code>required int64 nextRefreshTime = 2;</code>
+       *
+       * <pre>
+       *下次刷新时间
+       * </pre>
+       */
+      public Builder setNextRefreshTime(long value) {
+        bitField0_ |= 0x00000002;
+        nextRefreshTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 nextRefreshTime = 2;</code>
+       *
+       * <pre>
+       *下次刷新时间
+       * </pre>
+       */
+      public Builder clearNextRefreshTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        nextRefreshTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:TargetSell.UpdateBenefitScore)
     }
 
@@ -1891,13 +1937,13 @@ public final class TargetSellProto {
     java.lang.String[] descriptorData = {
       "\n\020TargetSell.proto\022\nTargetSell\"Q\n\020Target" +
       "SellReqMsg\022(\n\007reqType\030\001 \002(\0162\027.TargetSell" +
-      ".RequestType\022\023\n\013itemGroupId\030\002 \002(\t\"a\n\021Tar" +
+      ".RequestType\022\023\n\013itemGroupId\030\002 \002(\005\"a\n\021Tar" +
       "getSellRespMsg\022(\n\007reqType\030\001 \002(\0162\027.Target" +
       "Sell.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\017\n\007t" +
-      "ipsMsg\030\003 \001(\t\"#\n\022UpdateBenefitScore\022\r\n\005sc" +
-      "ore\030\001 \002(\005*,\n\013RequestType\022\017\n\013CHARGE_ITEM\020" +
-      "\001\022\014\n\010GET_ITEM\020\002B\036\n\013com.rwprotoB\017TargetSe" +
-      "llProto"
+      "ipsMsg\030\003 \001(\t\"<\n\022UpdateBenefitScore\022\r\n\005sc" +
+      "ore\030\001 \002(\005\022\027\n\017nextRefreshTime\030\002 \002(\003*,\n\013Re" +
+      "questType\022\017\n\013CHARGE_ITEM\020\001\022\014\n\010GET_ITEM\020\002" +
+      "B\036\n\013com.rwprotoB\017TargetSellProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1921,7 +1967,7 @@ public final class TargetSellProto {
           internal_static_TargetSell_UpdateBenefitScore_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TargetSell_UpdateBenefitScore_descriptor,
-              new java.lang.String[] { "Score", });
+              new java.lang.String[] { "Score", "NextRefreshTime", });
           return null;
         }
       };

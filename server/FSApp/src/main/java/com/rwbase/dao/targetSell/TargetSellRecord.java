@@ -1,6 +1,6 @@
 package com.rwbase.dao.targetSell;
 
-import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
@@ -16,13 +16,16 @@ public class TargetSellRecord {
 	
 	private int benefitScore;
 	
-	private List<BenefitItems> rewardItems;
+	private Map<Integer, BenefitItems> itemMap;
 	
 	
 	/**下次清除积分时间*/
 	private long nextClearScoreTime;
 
 
+	/**已经领取的道具<道具组id,还可领取次数>*/
+	private Map<Integer, Integer> recieveMap;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -43,15 +46,6 @@ public class TargetSellRecord {
 	}
 
 
-	public List<BenefitItems> getRewardItems() {
-		return rewardItems;
-	}
-
-
-	public void setRewardItems(List<BenefitItems> rewardItems) {
-		this.rewardItems = rewardItems;
-	}
-
 
 	public long getNextClearScoreTime() {
 		return nextClearScoreTime;
@@ -60,6 +54,26 @@ public class TargetSellRecord {
 
 	public void setNextClearScoreTime(long nextClearScoreTime) {
 		this.nextClearScoreTime = nextClearScoreTime;
+	}
+
+
+	public Map<Integer, BenefitItems> getItemMap() {
+		return itemMap;
+	}
+
+
+	public void setItemMap(Map<Integer, BenefitItems> itemMap) {
+		this.itemMap = itemMap;
+	}
+
+
+	public Map<Integer, Integer> getRecieveMap() {
+		return recieveMap;
+	}
+
+
+	public void setRecieveMap(Map<Integer, Integer> recieveMap) {
+		this.recieveMap = recieveMap;
 	}
 	
 	

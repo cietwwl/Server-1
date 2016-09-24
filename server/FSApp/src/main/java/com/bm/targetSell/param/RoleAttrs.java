@@ -9,7 +9,17 @@ public class RoleAttrs {
 	
 	private int charge;
 	
-	private int power;
+	//五人战力
+	private int teamPower;
+	
+	//全员战力
+	private int allPower;
+	
+	//创建时间
+	private long createTime;
+	
+	//上次登录时间
+	private long lastLoginTime;
 
 	
 	public RoleAttrs() {
@@ -39,13 +49,38 @@ public class RoleAttrs {
 		this.charge = charge;
 	}
 
-	public int getPower() {
-		return power;
+	public int getTeamPower() {
+		return teamPower;
 	}
 
-	public void setPower(int power) {
-		this.power = power;
+	public void setTeamPower(int teamPower) {
+		this.teamPower = teamPower;
 	}
-	
+
+	public int getAllPower() {
+		return allPower;
+	}
+
+	public void setAllPower(int allPower) {
+		this.allPower = allPower;
+	}
+
+	public long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
+	}
+
+	public long getLastLoginTime() {
+		return lastLoginTime;
+	}
+
+	public void setLastLoginTime(long lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
+	}
+
+
 	
 }

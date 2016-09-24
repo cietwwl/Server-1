@@ -1,6 +1,5 @@
 package com.bm.targetSell.param;
 
-import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.net.ITargetSellMsgHandler;
 
 /**
