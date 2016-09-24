@@ -125,6 +125,46 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     LeaveTeam(13, 14),
+    /**
+     * <code>InviteMember = 15;</code>
+     *
+     * <pre>
+     * 邀请成员
+     * </pre>
+     */
+    InviteMember(14, 15),
+    /**
+     * <code>KickMember = 16;</code>
+     *
+     * <pre>
+     * 剔除成员
+     * </pre>
+     */
+    KickMember(15, 16),
+    /**
+     * <code>CreateTeam = 17;</code>
+     *
+     * <pre>
+     * 创建队伍
+     * </pre>
+     */
+    CreateTeam(16, 17),
+    /**
+     * <code>AdjustTeamMember = 18;</code>
+     *
+     * <pre>
+     * 调整队伍成员
+     * </pre>
+     */
+    AdjustTeamMember(17, 18),
+    /**
+     * <code>StartMatching = 19;</code>
+     *
+     * <pre>
+     * 开始匹配
+     * </pre>
+     */
+    StartMatching(18, 19),
     ;
 
     /**
@@ -239,6 +279,46 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int LeaveTeam_VALUE = 14;
+    /**
+     * <code>InviteMember = 15;</code>
+     *
+     * <pre>
+     * 邀请成员
+     * </pre>
+     */
+    public static final int InviteMember_VALUE = 15;
+    /**
+     * <code>KickMember = 16;</code>
+     *
+     * <pre>
+     * 剔除成员
+     * </pre>
+     */
+    public static final int KickMember_VALUE = 16;
+    /**
+     * <code>CreateTeam = 17;</code>
+     *
+     * <pre>
+     * 创建队伍
+     * </pre>
+     */
+    public static final int CreateTeam_VALUE = 17;
+    /**
+     * <code>AdjustTeamMember = 18;</code>
+     *
+     * <pre>
+     * 调整队伍成员
+     * </pre>
+     */
+    public static final int AdjustTeamMember_VALUE = 18;
+    /**
+     * <code>StartMatching = 19;</code>
+     *
+     * <pre>
+     * 开始匹配
+     * </pre>
+     */
+    public static final int StartMatching_VALUE = 19;
 
 
     public final int getNumber() { return value; }
@@ -259,6 +339,11 @@ public final class GroupCompetitionProto {
         case 12: return SetTeamReady;
         case 13: return CancelTeamReady;
         case 14: return LeaveTeam;
+        case 15: return InviteMember;
+        case 16: return KickMember;
+        case 17: return CreateTeam;
+        case 18: return AdjustTeamMember;
+        case 19: return StartMatching;
         default: return null;
       }
     }
@@ -308,6 +393,121 @@ public final class GroupCompetitionProto {
     }
 
     // @@protoc_insertion_point(enum_scope:groupCompetition.GCRequestType)
+  }
+
+  /**
+   * Protobuf enum {@code groupCompetition.TeamStatusType}
+   */
+  public enum TeamStatusType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>Kicked = 1;</code>
+     *
+     * <pre>
+     * 被踢
+     * </pre>
+     */
+    Kicked(0, 1),
+    /**
+     * <code>BecomeLeader = 2;</code>
+     *
+     * <pre>
+     * 成为队长
+     * </pre>
+     */
+    BecomeLeader(1, 2),
+    /**
+     * <code>CanMatch = 3;</code>
+     *
+     * <pre>
+     * 可匹配
+     * </pre>
+     */
+    CanMatch(2, 3),
+    ;
+
+    /**
+     * <code>Kicked = 1;</code>
+     *
+     * <pre>
+     * 被踢
+     * </pre>
+     */
+    public static final int Kicked_VALUE = 1;
+    /**
+     * <code>BecomeLeader = 2;</code>
+     *
+     * <pre>
+     * 成为队长
+     * </pre>
+     */
+    public static final int BecomeLeader_VALUE = 2;
+    /**
+     * <code>CanMatch = 3;</code>
+     *
+     * <pre>
+     * 可匹配
+     * </pre>
+     */
+    public static final int CanMatch_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static TeamStatusType valueOf(int value) {
+      switch (value) {
+        case 1: return Kicked;
+        case 2: return BecomeLeader;
+        case 3: return CanMatch;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<TeamStatusType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<TeamStatusType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<TeamStatusType>() {
+            public TeamStatusType findValueByNumber(int number) {
+              return TeamStatusType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final TeamStatusType[] VALUES = values();
+
+    public static TeamStatusType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private TeamStatusType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:groupCompetition.TeamStatusType)
   }
 
   /**
@@ -400,7 +600,7 @@ public final class GroupCompetitionProto {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.GroupCompetitionProto.getDescriptor().getEnumTypes().get(1);
+      return com.rwproto.GroupCompetitionProto.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final GCResultType[] VALUES = values();
@@ -17774,7 +17974,8 @@ public final class GroupCompetitionProto {
    * Protobuf type {@code groupCompetition.TeamInvitation}
    *
    * <pre>
-   * 队伍邀请
+   * 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+   * 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
    * </pre>
    */
   public static final class TeamInvitation extends
@@ -18114,7 +18315,8 @@ public final class GroupCompetitionProto {
      * Protobuf type {@code groupCompetition.TeamInvitation}
      *
      * <pre>
-     * 队伍邀请
+     * 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+     * 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
      * </pre>
      */
     public static final class Builder extends
@@ -19029,6 +19231,427 @@ public final class GroupCompetitionProto {
     // @@protoc_insertion_point(class_scope:groupCompetition.CommonRsp)
   }
 
+  public interface TeamStatusChangeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.TeamStatusType status = 1;
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    boolean hasStatus();
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    com.rwproto.GroupCompetitionProto.TeamStatusType getStatus();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.TeamStatusChange}
+   *
+   * <pre>
+   * 队伍状态发生变化
+   * </pre>
+   */
+  public static final class TeamStatusChange extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamStatusChangeOrBuilder {
+    // Use TeamStatusChange.newBuilder() to construct.
+    private TeamStatusChange(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamStatusChange(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamStatusChange defaultInstance;
+    public static TeamStatusChange getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamStatusChange getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamStatusChange(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.TeamStatusType value = com.rwproto.GroupCompetitionProto.TeamStatusType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                status_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.TeamStatusChange.class, com.rwproto.GroupCompetitionProto.TeamStatusChange.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamStatusChange> PARSER =
+        new com.google.protobuf.AbstractParser<TeamStatusChange>() {
+      public TeamStatusChange parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamStatusChange(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamStatusChange> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.TeamStatusType status = 1;
+    public static final int STATUS_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.TeamStatusType status_;
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    public com.rwproto.GroupCompetitionProto.TeamStatusType getStatus() {
+      return status_;
+    }
+
+    private void initFields() {
+      status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasStatus()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, status_.getNumber());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, status_.getNumber());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.TeamStatusChange prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.TeamStatusChange}
+     *
+     * <pre>
+     * 队伍状态发生变化
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.TeamStatusChangeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.TeamStatusChange.class, com.rwproto.GroupCompetitionProto.TeamStatusChange.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.TeamStatusChange.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusChange getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.TeamStatusChange.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusChange build() {
+        com.rwproto.GroupCompetitionProto.TeamStatusChange result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusChange buildPartial() {
+        com.rwproto.GroupCompetitionProto.TeamStatusChange result = new com.rwproto.GroupCompetitionProto.TeamStatusChange(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.status_ = status_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.TeamStatusChange) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.TeamStatusChange)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.TeamStatusChange other) {
+        if (other == com.rwproto.GroupCompetitionProto.TeamStatusChange.getDefaultInstance()) return this;
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasStatus()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.TeamStatusChange parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.TeamStatusChange) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.TeamStatusType status = 1;
+      private com.rwproto.GroupCompetitionProto.TeamStatusType status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public com.rwproto.GroupCompetitionProto.TeamStatusType getStatus() {
+        return status_;
+      }
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public Builder setStatus(com.rwproto.GroupCompetitionProto.TeamStatusType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.TeamStatusChange)
+    }
+
+    static {
+      defaultInstance = new TeamStatusChange(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.TeamStatusChange)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_CommonReqMsg_descriptor;
   private static
@@ -19139,6 +19762,11 @@ public final class GroupCompetitionProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_CommonRsp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_TeamStatusChange_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -19204,17 +19832,22 @@ public final class GroupCompetitionProto {
       "GCRequestType\".\n\016TeamInvitation\022\016\n\006teamI" +
       "d\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommonRsp\0222\n\nre" +
       "sultType\030\001 \002(\0162\036.groupCompetition.GCResu" +
-      "ltType\022\014\n\004tips\030\002 \001(\t*\234\002\n\rGCRequestType\022\024" +
-      "\n\020EnterPrepareArea\020\001\022\024\n\020LeavePrepareArea" +
-      "\020\002\022\031\n\025InformPreparePosition\020\003\022\013\n\007LiveMsg" +
-      "\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010New",
-      "Guess\020\007\022\026\n\022GetPlayersBaseInfo\020\010\022\020\n\014GetMa" +
-      "tchView\020\t\022\024\n\020GetSelectionData\020\n\022\024\n\020GetCa" +
-      "nGuessMatch\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017Cance" +
-      "lTeamReady\020\r\022\r\n\tLeaveTeam\020\016*@\n\014GCResultT" +
-      "ype\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN" +
-      "_NOT_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompe" +
-      "titionProto"
+      "ltType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamStatusChange" +
+      "\0220\n\006status\030\001 \002(\0162 .groupCompetition.Team" +
+      "StatusType*\367\002\n\rGCRequestType\022\024\n\020EnterPre" +
+      "pareArea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025Info",
+      "rmPreparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013Play" +
+      "backMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n" +
+      "\022GetPlayersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022" +
+      "\024\n\020GetSelectionData\020\n\022\024\n\020GetCanGuessMatc" +
+      "h\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017CancelTeamReady" +
+      "\020\r\022\r\n\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nK" +
+      "ickMember\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTea" +
+      "mMember\020\022\022\021\n\rStartMatching\020\023*<\n\016TeamStat" +
+      "usType\022\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010" +
+      "CanMatch\020\003*@\n\014GCResultType\022\013\n\007SUCCESS\020\001\022",
+      "\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$\n\013" +
+      "com.rwprotoB\025GroupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -19353,6 +19986,12 @@ public final class GroupCompetitionProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonRsp_descriptor,
               new java.lang.String[] { "ResultType", "Tips", });
+          internal_static_groupCompetition_TeamStatusChange_descriptor =
+            getDescriptor().getMessageTypes().get(22);
+          internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_TeamStatusChange_descriptor,
+              new java.lang.String[] { "Status", });
           return null;
         }
       };
