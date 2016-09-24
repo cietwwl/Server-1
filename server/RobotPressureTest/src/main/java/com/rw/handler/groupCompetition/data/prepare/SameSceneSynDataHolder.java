@@ -3,6 +3,7 @@ package com.rw.handler.groupCompetition.data.prepare;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -15,7 +16,7 @@ public class SameSceneSynDataHolder {
 		return instance;
 	}
 	
-	private  Map<String, SameSceneSynData> list = new HashMap<String, SameSceneSynData>();
+	private  Map<String, PositionInfo> list = new HashMap<String, PositionInfo>();
 	
 	private SynDataListHolder<SameSceneSynData> listHolder = new SynDataListHolder<SameSceneSynData>(SameSceneSynData.class);
 	
@@ -25,11 +26,19 @@ public class SameSceneSynDataHolder {
 		List<SameSceneSynData> itemList = listHolder.getItemList();
 		for (int i = 0, size = itemList.size(); i < size; i++) {
 			SameSceneSynData ugfData = itemList.get(i);
-			list.put(ugfData.getId(), ugfData);
+			for(Entry<String, PositionInfo> entry : ugfData.getSynData().entrySet()){
+				list.put(entry.getKey(), entry.getValue());
+			}
+			List<String> removeList = ugfData.getRemoveMembers();
+			if(null != removeList){
+				for(String removeId : ugfData.getRemoveMembers()){
+					list.remove(removeId);
+				}
+			}
 		}
 	}
 	
-	public SameSceneSynData getUserGFData(String userID){
+	public PositionInfo getUserGFData(String userID){
 		return list.get(userID);
 	}
 }
