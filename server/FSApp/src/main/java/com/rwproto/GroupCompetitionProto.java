@@ -93,6 +93,78 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     GetSelectionData(9, 10),
+    /**
+     * <code>GetCanGuessMatch = 11;</code>
+     *
+     * <pre>
+     *获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+     * </pre>
+     */
+    GetCanGuessMatch(10, 11),
+    /**
+     * <code>SetTeamReady = 12;</code>
+     *
+     * <pre>
+     * 设置准备状态
+     * </pre>
+     */
+    SetTeamReady(11, 12),
+    /**
+     * <code>CancelTeamReady = 13;</code>
+     *
+     * <pre>
+     * 取消准备状态
+     * </pre>
+     */
+    CancelTeamReady(12, 13),
+    /**
+     * <code>LeaveTeam = 14;</code>
+     *
+     * <pre>
+     * 离开队伍
+     * </pre>
+     */
+    LeaveTeam(13, 14),
+    /**
+     * <code>InviteMember = 15;</code>
+     *
+     * <pre>
+     * 邀请成员
+     * </pre>
+     */
+    InviteMember(14, 15),
+    /**
+     * <code>KickMember = 16;</code>
+     *
+     * <pre>
+     * 剔除成员
+     * </pre>
+     */
+    KickMember(15, 16),
+    /**
+     * <code>CreateTeam = 17;</code>
+     *
+     * <pre>
+     * 创建队伍
+     * </pre>
+     */
+    CreateTeam(16, 17),
+    /**
+     * <code>AdjustTeamMember = 18;</code>
+     *
+     * <pre>
+     * 调整队伍成员
+     * </pre>
+     */
+    AdjustTeamMember(17, 18),
+    /**
+     * <code>StartMatching = 19;</code>
+     *
+     * <pre>
+     * 开始匹配
+     * </pre>
+     */
+    StartMatching(18, 19),
     ;
 
     /**
@@ -175,6 +247,78 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int GetSelectionData_VALUE = 10;
+    /**
+     * <code>GetCanGuessMatch = 11;</code>
+     *
+     * <pre>
+     *获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+     * </pre>
+     */
+    public static final int GetCanGuessMatch_VALUE = 11;
+    /**
+     * <code>SetTeamReady = 12;</code>
+     *
+     * <pre>
+     * 设置准备状态
+     * </pre>
+     */
+    public static final int SetTeamReady_VALUE = 12;
+    /**
+     * <code>CancelTeamReady = 13;</code>
+     *
+     * <pre>
+     * 取消准备状态
+     * </pre>
+     */
+    public static final int CancelTeamReady_VALUE = 13;
+    /**
+     * <code>LeaveTeam = 14;</code>
+     *
+     * <pre>
+     * 离开队伍
+     * </pre>
+     */
+    public static final int LeaveTeam_VALUE = 14;
+    /**
+     * <code>InviteMember = 15;</code>
+     *
+     * <pre>
+     * 邀请成员
+     * </pre>
+     */
+    public static final int InviteMember_VALUE = 15;
+    /**
+     * <code>KickMember = 16;</code>
+     *
+     * <pre>
+     * 剔除成员
+     * </pre>
+     */
+    public static final int KickMember_VALUE = 16;
+    /**
+     * <code>CreateTeam = 17;</code>
+     *
+     * <pre>
+     * 创建队伍
+     * </pre>
+     */
+    public static final int CreateTeam_VALUE = 17;
+    /**
+     * <code>AdjustTeamMember = 18;</code>
+     *
+     * <pre>
+     * 调整队伍成员
+     * </pre>
+     */
+    public static final int AdjustTeamMember_VALUE = 18;
+    /**
+     * <code>StartMatching = 19;</code>
+     *
+     * <pre>
+     * 开始匹配
+     * </pre>
+     */
+    public static final int StartMatching_VALUE = 19;
 
 
     public final int getNumber() { return value; }
@@ -191,6 +335,15 @@ public final class GroupCompetitionProto {
         case 8: return GetPlayersBaseInfo;
         case 9: return GetMatchView;
         case 10: return GetSelectionData;
+        case 11: return GetCanGuessMatch;
+        case 12: return SetTeamReady;
+        case 13: return CancelTeamReady;
+        case 14: return LeaveTeam;
+        case 15: return InviteMember;
+        case 16: return KickMember;
+        case 17: return CreateTeam;
+        case 18: return AdjustTeamMember;
+        case 19: return StartMatching;
         default: return null;
       }
     }
@@ -243,6 +396,121 @@ public final class GroupCompetitionProto {
   }
 
   /**
+   * Protobuf enum {@code groupCompetition.TeamStatusType}
+   */
+  public enum TeamStatusType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>Kicked = 1;</code>
+     *
+     * <pre>
+     * 被踢
+     * </pre>
+     */
+    Kicked(0, 1),
+    /**
+     * <code>BecomeLeader = 2;</code>
+     *
+     * <pre>
+     * 成为队长
+     * </pre>
+     */
+    BecomeLeader(1, 2),
+    /**
+     * <code>CanMatch = 3;</code>
+     *
+     * <pre>
+     * 可匹配
+     * </pre>
+     */
+    CanMatch(2, 3),
+    ;
+
+    /**
+     * <code>Kicked = 1;</code>
+     *
+     * <pre>
+     * 被踢
+     * </pre>
+     */
+    public static final int Kicked_VALUE = 1;
+    /**
+     * <code>BecomeLeader = 2;</code>
+     *
+     * <pre>
+     * 成为队长
+     * </pre>
+     */
+    public static final int BecomeLeader_VALUE = 2;
+    /**
+     * <code>CanMatch = 3;</code>
+     *
+     * <pre>
+     * 可匹配
+     * </pre>
+     */
+    public static final int CanMatch_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static TeamStatusType valueOf(int value) {
+      switch (value) {
+        case 1: return Kicked;
+        case 2: return BecomeLeader;
+        case 3: return CanMatch;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<TeamStatusType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<TeamStatusType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<TeamStatusType>() {
+            public TeamStatusType findValueByNumber(int number) {
+              return TeamStatusType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.getDescriptor().getEnumTypes().get(1);
+    }
+
+    private static final TeamStatusType[] VALUES = values();
+
+    public static TeamStatusType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private TeamStatusType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:groupCompetition.TeamStatusType)
+  }
+
+  /**
    * Protobuf enum {@code groupCompetition.GCResultType}
    */
   public enum GCResultType
@@ -263,6 +531,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     DATA_ERROR(1, 2),
+    /**
+     * <code>COIN_NOT_ENOUGH = 3;</code>
+     *
+     * <pre>
+     *金币不足
+     * </pre>
+     */
+    COIN_NOT_ENOUGH(2, 3),
     ;
 
     /**
@@ -281,6 +557,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int DATA_ERROR_VALUE = 2;
+    /**
+     * <code>COIN_NOT_ENOUGH = 3;</code>
+     *
+     * <pre>
+     *金币不足
+     * </pre>
+     */
+    public static final int COIN_NOT_ENOUGH_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -289,6 +573,7 @@ public final class GroupCompetitionProto {
       switch (value) {
         case 1: return SUCCESS;
         case 2: return DATA_ERROR;
+        case 3: return COIN_NOT_ENOUGH;
         default: return null;
       }
     }
@@ -315,7 +600,7 @@ public final class GroupCompetitionProto {
     }
     public static final com.google.protobuf.Descriptors.EnumDescriptor
         getDescriptor() {
-      return com.rwproto.GroupCompetitionProto.getDescriptor().getEnumTypes().get(1);
+      return com.rwproto.GroupCompetitionProto.getDescriptor().getEnumTypes().get(2);
     }
 
     private static final GCResultType[] VALUES = values();
@@ -1300,451 +1585,6 @@ public final class GroupCompetitionProto {
     }
 
     // @@protoc_insertion_point(class_scope:groupCompetition.CommonReqMsg)
-  }
-
-  public interface CommonGetDataReqMsgOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-
-    // required .groupCompetition.GCRequestType reqType = 1;
-    /**
-     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-     *
-     * <pre>
-     * 请求的类型
-     * </pre>
-     */
-    boolean hasReqType();
-    /**
-     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-     *
-     * <pre>
-     * 请求的类型
-     * </pre>
-     */
-    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
-  }
-  /**
-   * Protobuf type {@code groupCompetition.CommonGetDataReqMsg}
-   */
-  public static final class CommonGetDataReqMsg extends
-      com.google.protobuf.GeneratedMessage
-      implements CommonGetDataReqMsgOrBuilder {
-    // Use CommonGetDataReqMsg.newBuilder() to construct.
-    private CommonGetDataReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
-      super(builder);
-      this.unknownFields = builder.getUnknownFields();
-    }
-    private CommonGetDataReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final CommonGetDataReqMsg defaultInstance;
-    public static CommonGetDataReqMsg getDefaultInstance() {
-      return defaultInstance;
-    }
-
-    public CommonGetDataReqMsg getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
-      return this.unknownFields;
-    }
-    private CommonGetDataReqMsg(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                reqType_ = value;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.Builder.class);
-    }
-
-    public static com.google.protobuf.Parser<CommonGetDataReqMsg> PARSER =
-        new com.google.protobuf.AbstractParser<CommonGetDataReqMsg>() {
-      public CommonGetDataReqMsg parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new CommonGetDataReqMsg(input, extensionRegistry);
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CommonGetDataReqMsg> getParserForType() {
-      return PARSER;
-    }
-
-    private int bitField0_;
-    // required .groupCompetition.GCRequestType reqType = 1;
-    public static final int REQTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
-    /**
-     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-     *
-     * <pre>
-     * 请求的类型
-     * </pre>
-     */
-    public boolean hasReqType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-     *
-     * <pre>
-     * 请求的类型
-     * </pre>
-     */
-    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
-      return reqType_;
-    }
-
-    private void initFields() {
-      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-
-      if (!hasReqType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, reqType_.getNumber());
-      }
-      getUnknownFields().writeTo(output);
-    }
-
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, reqType_.getNumber());
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input);
-    }
-    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
-    }
-
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code groupCompetition.CommonGetDataReqMsg}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupCompetitionProto.CommonGetDataReqMsgOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.Builder.class);
-      }
-
-      // Construct using com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-
-      public Builder clear() {
-        super.clear();
-        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
-      }
-
-      public com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg getDefaultInstanceForType() {
-        return com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.getDefaultInstance();
-      }
-
-      public com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg build() {
-        com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg buildPartial() {
-        com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg result = new com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.reqType_ = reqType_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg) {
-          return mergeFrom((com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg other) {
-        if (other == com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.getDefaultInstance()) return this;
-        if (other.hasReqType()) {
-          setReqType(other.getReqType());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        if (!hasReqType()) {
-          
-          return false;
-        }
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg) e.getUnfinishedMessage();
-          throw e;
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      // required .groupCompetition.GCRequestType reqType = 1;
-      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
-      /**
-       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-       *
-       * <pre>
-       * 请求的类型
-       * </pre>
-       */
-      public boolean hasReqType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-       *
-       * <pre>
-       * 请求的类型
-       * </pre>
-       */
-      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
-        return reqType_;
-      }
-      /**
-       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-       *
-       * <pre>
-       * 请求的类型
-       * </pre>
-       */
-      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        reqType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
-       *
-       * <pre>
-       * 请求的类型
-       * </pre>
-       */
-      public Builder clearReqType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:groupCompetition.CommonGetDataReqMsg)
-    }
-
-    static {
-      defaultInstance = new CommonGetDataReqMsg(true);
-      defaultInstance.initFields();
-    }
-
-    // @@protoc_insertion_point(class_scope:groupCompetition.CommonGetDataReqMsg)
   }
 
   public interface CommonRspMsgOrBuilder
@@ -2880,6 +2720,1607 @@ public final class GroupCompetitionProto {
     }
 
     // @@protoc_insertion_point(class_scope:groupCompetition.CommonRspMsg)
+  }
+
+  public interface CommonGetDataReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.GCRequestType reqType = 1;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+
+    // optional fixed32 matchId = 2;
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    boolean hasMatchId();
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    int getMatchId();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.CommonGetDataReqMsg}
+   */
+  public static final class CommonGetDataReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements CommonGetDataReqMsgOrBuilder {
+    // Use CommonGetDataReqMsg.newBuilder() to construct.
+    private CommonGetDataReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private CommonGetDataReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final CommonGetDataReqMsg defaultInstance;
+    public static CommonGetDataReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public CommonGetDataReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CommonGetDataReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              matchId_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<CommonGetDataReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<CommonGetDataReqMsg>() {
+      public CommonGetDataReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CommonGetDataReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CommonGetDataReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.GCRequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+      return reqType_;
+    }
+
+    // optional fixed32 matchId = 2;
+    public static final int MATCHID_FIELD_NUMBER = 2;
+    private int matchId_;
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    public boolean hasMatchId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional fixed32 matchId = 2;</code>
+     *
+     * <pre>
+     * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+     * </pre>
+     */
+    public int getMatchId() {
+      return matchId_;
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      matchId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFixed32(2, matchId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(2, matchId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.CommonGetDataReqMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.CommonGetDataReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        matchId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg build() {
+        com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg buildPartial() {
+        com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg result = new com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.matchId_ = matchId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg other) {
+        if (other == com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasMatchId()) {
+          setMatchId(other.getMatchId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.GCRequestType reqType = 1;
+      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 matchId = 2;
+      private int matchId_ ;
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public boolean hasMatchId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public int getMatchId() {
+        return matchId_;
+      }
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public Builder setMatchId(int value) {
+        bitField0_ |= 0x00000002;
+        matchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 matchId = 2;</code>
+       *
+       * <pre>
+       * 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+       * </pre>
+       */
+      public Builder clearMatchId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        matchId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.CommonGetDataReqMsg)
+    }
+
+    static {
+      defaultInstance = new CommonGetDataReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.CommonGetDataReqMsg)
+  }
+
+  public interface CommonGetDataRspMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.GCRequestType reqType = 1;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+
+    // required .groupCompetition.GCResultType rstType = 2;
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
+     * </pre>
+     */
+    boolean hasRstType();
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCResultType getRstType();
+
+    // optional string tipMsg = 3;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
+
+    // optional .groupCompetition.SelectionRspData selectionData = 4;
+    /**
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+     *
+     * <pre>
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
+     * </pre>
+     */
+    boolean hasSelectionData();
+    /**
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+     *
+     * <pre>
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.SelectionRspData getSelectionData();
+    /**
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+     *
+     * <pre>
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder getSelectionDataOrBuilder();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.CommonGetDataRspMsg}
+   */
+  public static final class CommonGetDataRspMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements CommonGetDataRspMsgOrBuilder {
+    // Use CommonGetDataRspMsg.newBuilder() to construct.
+    private CommonGetDataRspMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private CommonGetDataRspMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final CommonGetDataRspMsg defaultInstance;
+    public static CommonGetDataRspMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public CommonGetDataRspMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CommonGetDataRspMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCResultType value = com.rwproto.GroupCompetitionProto.GCResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                rstType_ = value;
+              }
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              tipMsg_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              com.rwproto.GroupCompetitionProto.SelectionRspData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = selectionData_.toBuilder();
+              }
+              selectionData_ = input.readMessage(com.rwproto.GroupCompetitionProto.SelectionRspData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(selectionData_);
+                selectionData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<CommonGetDataRspMsg> PARSER =
+        new com.google.protobuf.AbstractParser<CommonGetDataRspMsg>() {
+      public CommonGetDataRspMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CommonGetDataRspMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CommonGetDataRspMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.GCRequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+      return reqType_;
+    }
+
+    // required .groupCompetition.GCResultType rstType = 2;
+    public static final int RSTTYPE_FIELD_NUMBER = 2;
+    private com.rwproto.GroupCompetitionProto.GCResultType rstType_;
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
+     * </pre>
+     */
+    public boolean hasRstType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+     *
+     * <pre>
+     * 请求结果
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCResultType getRstType() {
+      return rstType_;
+    }
+
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 3;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional .groupCompetition.SelectionRspData selectionData = 4;
+    public static final int SELECTIONDATA_FIELD_NUMBER = 4;
+    private com.rwproto.GroupCompetitionProto.SelectionRspData selectionData_;
+    /**
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+     *
+     * <pre>
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
+     * </pre>
+     */
+    public boolean hasSelectionData() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+     *
+     * <pre>
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.SelectionRspData getSelectionData() {
+      return selectionData_;
+    }
+    /**
+     * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+     *
+     * <pre>
+     * 海选信息（对于GCRequestType.GetSelectionData可用）
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder getSelectionDataOrBuilder() {
+      return selectionData_;
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      tipMsg_ = "";
+      selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRstType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (hasSelectionData()) {
+        if (!getSelectionData().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeEnum(2, rstType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, selectionData_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, rstType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, selectionData_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.CommonGetDataRspMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.CommonGetDataRspMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.class, com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getSelectionDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (selectionDataBuilder_ == null) {
+          selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
+        } else {
+          selectionDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg build() {
+        com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg buildPartial() {
+        com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg result = new com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.rstType_ = rstType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.tipMsg_ = tipMsg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (selectionDataBuilder_ == null) {
+          result.selectionData_ = selectionData_;
+        } else {
+          result.selectionData_ = selectionDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg other) {
+        if (other == com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasRstType()) {
+          setRstType(other.getRstType());
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000004;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
+        }
+        if (other.hasSelectionData()) {
+          mergeSelectionData(other.getSelectionData());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasRstType()) {
+          
+          return false;
+        }
+        if (hasSelectionData()) {
+          if (!getSelectionData().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.GCRequestType reqType = 1;
+      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        onChanged();
+        return this;
+      }
+
+      // required .groupCompetition.GCResultType rstType = 2;
+      private com.rwproto.GroupCompetitionProto.GCResultType rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      /**
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+       *
+       * <pre>
+       * 请求结果
+       * </pre>
+       */
+      public boolean hasRstType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+       *
+       * <pre>
+       * 请求结果
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCResultType getRstType() {
+        return rstType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+       *
+       * <pre>
+       * 请求结果
+       * </pre>
+       */
+      public Builder setRstType(com.rwproto.GroupCompetitionProto.GCResultType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        rstType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType rstType = 2;</code>
+       *
+       * <pre>
+       * 请求结果
+       * </pre>
+       */
+      public Builder clearRstType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        onChanged();
+        return this;
+      }
+
+      // optional string tipMsg = 3;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 3;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional .groupCompetition.SelectionRspData selectionData = 4;
+      private com.rwproto.GroupCompetitionProto.SelectionRspData selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionRspData, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder, com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder> selectionDataBuilder_;
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public boolean hasSelectionData() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionRspData getSelectionData() {
+        if (selectionDataBuilder_ == null) {
+          return selectionData_;
+        } else {
+          return selectionDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public Builder setSelectionData(com.rwproto.GroupCompetitionProto.SelectionRspData value) {
+        if (selectionDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          selectionData_ = value;
+          onChanged();
+        } else {
+          selectionDataBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public Builder setSelectionData(
+          com.rwproto.GroupCompetitionProto.SelectionRspData.Builder builderForValue) {
+        if (selectionDataBuilder_ == null) {
+          selectionData_ = builderForValue.build();
+          onChanged();
+        } else {
+          selectionDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public Builder mergeSelectionData(com.rwproto.GroupCompetitionProto.SelectionRspData value) {
+        if (selectionDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              selectionData_ != com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance()) {
+            selectionData_ =
+              com.rwproto.GroupCompetitionProto.SelectionRspData.newBuilder(selectionData_).mergeFrom(value).buildPartial();
+          } else {
+            selectionData_ = value;
+          }
+          onChanged();
+        } else {
+          selectionDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public Builder clearSelectionData() {
+        if (selectionDataBuilder_ == null) {
+          selectionData_ = com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
+          onChanged();
+        } else {
+          selectionDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionRspData.Builder getSelectionDataBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getSelectionDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder getSelectionDataOrBuilder() {
+        if (selectionDataBuilder_ != null) {
+          return selectionDataBuilder_.getMessageOrBuilder();
+        } else {
+          return selectionData_;
+        }
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionRspData selectionData = 4;</code>
+       *
+       * <pre>
+       * 海选信息（对于GCRequestType.GetSelectionData可用）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionRspData, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder, com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder> 
+          getSelectionDataFieldBuilder() {
+        if (selectionDataBuilder_ == null) {
+          selectionDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCompetitionProto.SelectionRspData, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder, com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder>(
+                  selectionData_,
+                  getParentForChildren(),
+                  isClean());
+          selectionData_ = null;
+        }
+        return selectionDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.CommonGetDataRspMsg)
+    }
+
+    static {
+      defaultInstance = new CommonGetDataRspMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.CommonGetDataRspMsg)
   }
 
   public interface AreaPositionOrBuilder
@@ -9452,9 +10893,27 @@ public final class GroupCompetitionProto {
      */
     com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
 
-    // required string groupId = 2;
+    // required int32 matchId = 2;
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    boolean hasMatchId();
+    /**
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    int getMatchId();
+
+    // required string groupId = 3;
+    /**
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9462,7 +10921,7 @@ public final class GroupCompetitionProto {
      */
     boolean hasGroupId();
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9470,7 +10929,7 @@ public final class GroupCompetitionProto {
      */
     java.lang.String getGroupId();
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9479,20 +10938,20 @@ public final class GroupCompetitionProto {
     com.google.protobuf.ByteString
         getGroupIdBytes();
 
-    // required int32 coin = 3;
+    // required int32 coin = 4;
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     boolean hasCoin();
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     int getCoin();
@@ -9563,13 +11022,18 @@ public final class GroupCompetitionProto {
               }
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
+              matchId_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
               groupId_ = input.readBytes();
               break;
             }
-            case 24: {
-              bitField0_ |= 0x00000004;
+            case 32: {
+              bitField0_ |= 0x00000008;
               coin_ = input.readInt32();
               break;
             }
@@ -9637,21 +11101,45 @@ public final class GroupCompetitionProto {
       return reqType_;
     }
 
-    // required string groupId = 2;
-    public static final int GROUPID_FIELD_NUMBER = 2;
+    // required int32 matchId = 2;
+    public static final int MATCHID_FIELD_NUMBER = 2;
+    private int matchId_;
+    /**
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    public boolean hasMatchId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 matchId = 2;</code>
+     *
+     * <pre>
+     *比赛的id
+     * </pre>
+     */
+    public int getMatchId() {
+      return matchId_;
+    }
+
+    // required string groupId = 3;
+    public static final int GROUPID_FIELD_NUMBER = 3;
     private java.lang.Object groupId_;
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
      * </pre>
      */
     public boolean hasGroupId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9672,7 +11160,7 @@ public final class GroupCompetitionProto {
       }
     }
     /**
-     * <code>required string groupId = 2;</code>
+     * <code>required string groupId = 3;</code>
      *
      * <pre>
      *帮派id
@@ -9692,24 +11180,24 @@ public final class GroupCompetitionProto {
       }
     }
 
-    // required int32 coin = 3;
-    public static final int COIN_FIELD_NUMBER = 3;
+    // required int32 coin = 4;
+    public static final int COIN_FIELD_NUMBER = 4;
     private int coin_;
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     public boolean hasCoin() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required int32 coin = 3;</code>
+     * <code>required int32 coin = 4;</code>
      *
      * <pre>
-     *押注金币
+     *押注金币（有可能是配置id，而不是具体金额）
      * </pre>
      */
     public int getCoin() {
@@ -9718,6 +11206,7 @@ public final class GroupCompetitionProto {
 
     private void initFields() {
       reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      matchId_ = 0;
       groupId_ = "";
       coin_ = 0;
     }
@@ -9727,6 +11216,10 @@ public final class GroupCompetitionProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMatchId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -9749,10 +11242,13 @@ public final class GroupCompetitionProto {
         output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getGroupIdBytes());
+        output.writeInt32(2, matchId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, coin_);
+        output.writeBytes(3, getGroupIdBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, coin_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -9769,11 +11265,15 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getGroupIdBytes());
+          .computeInt32Size(2, matchId_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, coin_);
+          .computeBytesSize(3, getGroupIdBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, coin_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -9897,10 +11397,12 @@ public final class GroupCompetitionProto {
         super.clear();
         reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
         bitField0_ = (bitField0_ & ~0x00000001);
-        groupId_ = "";
+        matchId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
-        coin_ = 0;
+        groupId_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        coin_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -9936,9 +11438,13 @@ public final class GroupCompetitionProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.groupId_ = groupId_;
+        result.matchId_ = matchId_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
+        }
+        result.groupId_ = groupId_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
         }
         result.coin_ = coin_;
         result.bitField0_ = to_bitField0_;
@@ -9960,8 +11466,11 @@ public final class GroupCompetitionProto {
         if (other.hasReqType()) {
           setReqType(other.getReqType());
         }
+        if (other.hasMatchId()) {
+          setMatchId(other.getMatchId());
+        }
         if (other.hasGroupId()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           groupId_ = other.groupId_;
           onChanged();
         }
@@ -9974,6 +11483,10 @@ public final class GroupCompetitionProto {
 
       public final boolean isInitialized() {
         if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasMatchId()) {
           
           return false;
         }
@@ -10059,20 +11572,69 @@ public final class GroupCompetitionProto {
         return this;
       }
 
-      // required string groupId = 2;
+      // required int32 matchId = 2;
+      private int matchId_ ;
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public boolean hasMatchId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public int getMatchId() {
+        return matchId_;
+      }
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public Builder setMatchId(int value) {
+        bitField0_ |= 0x00000002;
+        matchId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 matchId = 2;</code>
+       *
+       * <pre>
+       *比赛的id
+       * </pre>
+       */
+      public Builder clearMatchId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        matchId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string groupId = 3;
       private java.lang.Object groupId_ = "";
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
        * </pre>
        */
       public boolean hasGroupId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10090,7 +11652,7 @@ public final class GroupCompetitionProto {
         }
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10110,7 +11672,7 @@ public final class GroupCompetitionProto {
         }
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10121,26 +11683,26 @@ public final class GroupCompetitionProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         groupId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
        * </pre>
        */
       public Builder clearGroupId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         groupId_ = getDefaultInstance().getGroupId();
         onChanged();
         return this;
       }
       /**
-       * <code>required string groupId = 2;</code>
+       * <code>required string groupId = 3;</code>
        *
        * <pre>
        *帮派id
@@ -10151,56 +11713,56 @@ public final class GroupCompetitionProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         groupId_ = value;
         onChanged();
         return this;
       }
 
-      // required int32 coin = 3;
+      // required int32 coin = 4;
       private int coin_ ;
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public boolean hasCoin() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public int getCoin() {
         return coin_;
       }
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public Builder setCoin(int value) {
-        bitField0_ |= 0x00000004;
+        bitField0_ |= 0x00000008;
         coin_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 coin = 3;</code>
+       * <code>required int32 coin = 4;</code>
        *
        * <pre>
-       *押注金币
+       *押注金币（有可能是配置id，而不是具体金额）
        * </pre>
        */
       public Builder clearCoin() {
-        bitField0_ = (bitField0_ & ~0x00000004);
+        bitField0_ = (bitField0_ & ~0x00000008);
         coin_ = 0;
         onChanged();
         return this;
@@ -10237,6 +11799,33 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCResultType getRstType();
+
+    // optional string tipMsg = 2;
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
   }
   /**
    * Protobuf type {@code groupCompetition.RsqNewGuess}
@@ -10304,6 +11893,11 @@ public final class GroupCompetitionProto {
               }
               break;
             }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              tipMsg_ = input.readBytes();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10368,8 +11962,64 @@ public final class GroupCompetitionProto {
       return rstType_;
     }
 
+    // optional string tipMsg = 2;
+    public static final int TIPMSG_FIELD_NUMBER = 2;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 2;</code>
+     *
+     * <pre>
+     *提示消息，可以是成功，也可以是失败的提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10390,6 +12040,9 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeEnum(1, rstType_.getNumber());
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTipMsgBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -10402,6 +12055,10 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(1, rstType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10525,6 +12182,8 @@ public final class GroupCompetitionProto {
         super.clear();
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -10557,6 +12216,10 @@ public final class GroupCompetitionProto {
           to_bitField0_ |= 0x00000001;
         }
         result.rstType_ = rstType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10575,6 +12238,11 @@ public final class GroupCompetitionProto {
         if (other == com.rwproto.GroupCompetitionProto.RsqNewGuess.getDefaultInstance()) return this;
         if (other.hasRstType()) {
           setRstType(other.getRstType());
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000002;
+          tipMsg_ = other.tipMsg_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10655,6 +12323,104 @@ public final class GroupCompetitionProto {
       public Builder clearRstType() {
         bitField0_ = (bitField0_ & ~0x00000001);
         rstType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        onChanged();
+        return this;
+      }
+
+      // optional string tipMsg = 2;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 2;</code>
+       *
+       * <pre>
+       *提示消息，可以是成功，也可以是失败的提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tipMsg_ = value;
         onChanged();
         return this;
       }
@@ -12599,21 +14365,6469 @@ public final class GroupCompetitionProto {
     // @@protoc_insertion_point(class_scope:groupCompetition.PlayerBaseInfo)
   }
 
+  public interface SelectionRspDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .groupCompetition.SelectionGroupData rankings = 1;
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCompetitionProto.SelectionGroupData> 
+        getRankingsList();
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.SelectionGroupData getRankings(int index);
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    int getRankingsCount();
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> 
+        getRankingsOrBuilderList();
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder getRankingsOrBuilder(
+        int index);
+
+    // optional .groupCompetition.SelectionGroupData ownGroupData = 2;
+    /**
+     * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+     *
+     * <pre>
+     * 自身帮派的信息
+     * </pre>
+     */
+    boolean hasOwnGroupData();
+    /**
+     * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+     *
+     * <pre>
+     * 自身帮派的信息
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.SelectionGroupData getOwnGroupData();
+    /**
+     * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+     *
+     * <pre>
+     * 自身帮派的信息
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder getOwnGroupDataOrBuilder();
+
+    // required fixed64 selectionEndTime = 3;
+    /**
+     * <code>required fixed64 selectionEndTime = 3;</code>
+     *
+     * <pre>
+     * 海选结束时间
+     * </pre>
+     */
+    boolean hasSelectionEndTime();
+    /**
+     * <code>required fixed64 selectionEndTime = 3;</code>
+     *
+     * <pre>
+     * 海选结束时间
+     * </pre>
+     */
+    long getSelectionEndTime();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.SelectionRspData}
+   *
+   * <pre>
+   * 海选响应数据
+   * </pre>
+   */
+  public static final class SelectionRspData extends
+      com.google.protobuf.GeneratedMessage
+      implements SelectionRspDataOrBuilder {
+    // Use SelectionRspData.newBuilder() to construct.
+    private SelectionRspData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SelectionRspData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SelectionRspData defaultInstance;
+    public static SelectionRspData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SelectionRspData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SelectionRspData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                rankings_ = new java.util.ArrayList<com.rwproto.GroupCompetitionProto.SelectionGroupData>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              rankings_.add(input.readMessage(com.rwproto.GroupCompetitionProto.SelectionGroupData.PARSER, extensionRegistry));
+              break;
+            }
+            case 18: {
+              com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = ownGroupData_.toBuilder();
+              }
+              ownGroupData_ = input.readMessage(com.rwproto.GroupCompetitionProto.SelectionGroupData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(ownGroupData_);
+                ownGroupData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 25: {
+              bitField0_ |= 0x00000002;
+              selectionEndTime_ = input.readFixed64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          rankings_ = java.util.Collections.unmodifiableList(rankings_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionRspData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionRspData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.SelectionRspData.class, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SelectionRspData> PARSER =
+        new com.google.protobuf.AbstractParser<SelectionRspData>() {
+      public SelectionRspData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SelectionRspData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SelectionRspData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // repeated .groupCompetition.SelectionGroupData rankings = 1;
+    public static final int RANKINGS_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.GroupCompetitionProto.SelectionGroupData> rankings_;
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCompetitionProto.SelectionGroupData> getRankingsList() {
+      return rankings_;
+    }
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> 
+        getRankingsOrBuilderList() {
+      return rankings_;
+    }
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    public int getRankingsCount() {
+      return rankings_.size();
+    }
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.SelectionGroupData getRankings(int index) {
+      return rankings_.get(index);
+    }
+    /**
+     * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+     *
+     * <pre>
+     * 海选排名的帮派信息
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder getRankingsOrBuilder(
+        int index) {
+      return rankings_.get(index);
+    }
+
+    // optional .groupCompetition.SelectionGroupData ownGroupData = 2;
+    public static final int OWNGROUPDATA_FIELD_NUMBER = 2;
+    private com.rwproto.GroupCompetitionProto.SelectionGroupData ownGroupData_;
+    /**
+     * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+     *
+     * <pre>
+     * 自身帮派的信息
+     * </pre>
+     */
+    public boolean hasOwnGroupData() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+     *
+     * <pre>
+     * 自身帮派的信息
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.SelectionGroupData getOwnGroupData() {
+      return ownGroupData_;
+    }
+    /**
+     * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+     *
+     * <pre>
+     * 自身帮派的信息
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder getOwnGroupDataOrBuilder() {
+      return ownGroupData_;
+    }
+
+    // required fixed64 selectionEndTime = 3;
+    public static final int SELECTIONENDTIME_FIELD_NUMBER = 3;
+    private long selectionEndTime_;
+    /**
+     * <code>required fixed64 selectionEndTime = 3;</code>
+     *
+     * <pre>
+     * 海选结束时间
+     * </pre>
+     */
+    public boolean hasSelectionEndTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required fixed64 selectionEndTime = 3;</code>
+     *
+     * <pre>
+     * 海选结束时间
+     * </pre>
+     */
+    public long getSelectionEndTime() {
+      return selectionEndTime_;
+    }
+
+    private void initFields() {
+      rankings_ = java.util.Collections.emptyList();
+      ownGroupData_ = com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance();
+      selectionEndTime_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasSelectionEndTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getRankingsCount(); i++) {
+        if (!getRankings(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasOwnGroupData()) {
+        if (!getOwnGroupData().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < rankings_.size(); i++) {
+        output.writeMessage(1, rankings_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(2, ownGroupData_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFixed64(3, selectionEndTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < rankings_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, rankings_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, ownGroupData_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed64Size(3, selectionEndTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionRspData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.SelectionRspData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.SelectionRspData}
+     *
+     * <pre>
+     * 海选响应数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.SelectionRspDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionRspData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionRspData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.SelectionRspData.class, com.rwproto.GroupCompetitionProto.SelectionRspData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.SelectionRspData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getRankingsFieldBuilder();
+          getOwnGroupDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (rankingsBuilder_ == null) {
+          rankings_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          rankingsBuilder_.clear();
+        }
+        if (ownGroupDataBuilder_ == null) {
+          ownGroupData_ = com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance();
+        } else {
+          ownGroupDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        selectionEndTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionRspData_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.SelectionRspData getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.SelectionRspData build() {
+        com.rwproto.GroupCompetitionProto.SelectionRspData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.SelectionRspData buildPartial() {
+        com.rwproto.GroupCompetitionProto.SelectionRspData result = new com.rwproto.GroupCompetitionProto.SelectionRspData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (rankingsBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            rankings_ = java.util.Collections.unmodifiableList(rankings_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.rankings_ = rankings_;
+        } else {
+          result.rankings_ = rankingsBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (ownGroupDataBuilder_ == null) {
+          result.ownGroupData_ = ownGroupData_;
+        } else {
+          result.ownGroupData_ = ownGroupDataBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.selectionEndTime_ = selectionEndTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.SelectionRspData) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.SelectionRspData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.SelectionRspData other) {
+        if (other == com.rwproto.GroupCompetitionProto.SelectionRspData.getDefaultInstance()) return this;
+        if (rankingsBuilder_ == null) {
+          if (!other.rankings_.isEmpty()) {
+            if (rankings_.isEmpty()) {
+              rankings_ = other.rankings_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRankingsIsMutable();
+              rankings_.addAll(other.rankings_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rankings_.isEmpty()) {
+            if (rankingsBuilder_.isEmpty()) {
+              rankingsBuilder_.dispose();
+              rankingsBuilder_ = null;
+              rankings_ = other.rankings_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              rankingsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRankingsFieldBuilder() : null;
+            } else {
+              rankingsBuilder_.addAllMessages(other.rankings_);
+            }
+          }
+        }
+        if (other.hasOwnGroupData()) {
+          mergeOwnGroupData(other.getOwnGroupData());
+        }
+        if (other.hasSelectionEndTime()) {
+          setSelectionEndTime(other.getSelectionEndTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasSelectionEndTime()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getRankingsCount(); i++) {
+          if (!getRankings(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasOwnGroupData()) {
+          if (!getOwnGroupData().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.SelectionRspData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.SelectionRspData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .groupCompetition.SelectionGroupData rankings = 1;
+      private java.util.List<com.rwproto.GroupCompetitionProto.SelectionGroupData> rankings_ =
+        java.util.Collections.emptyList();
+      private void ensureRankingsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          rankings_ = new java.util.ArrayList<com.rwproto.GroupCompetitionProto.SelectionGroupData>(rankings_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionGroupData, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder, com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> rankingsBuilder_;
+
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCompetitionProto.SelectionGroupData> getRankingsList() {
+        if (rankingsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rankings_);
+        } else {
+          return rankingsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public int getRankingsCount() {
+        if (rankingsBuilder_ == null) {
+          return rankings_.size();
+        } else {
+          return rankingsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData getRankings(int index) {
+        if (rankingsBuilder_ == null) {
+          return rankings_.get(index);
+        } else {
+          return rankingsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder setRankings(
+          int index, com.rwproto.GroupCompetitionProto.SelectionGroupData value) {
+        if (rankingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRankingsIsMutable();
+          rankings_.set(index, value);
+          onChanged();
+        } else {
+          rankingsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder setRankings(
+          int index, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder builderForValue) {
+        if (rankingsBuilder_ == null) {
+          ensureRankingsIsMutable();
+          rankings_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          rankingsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder addRankings(com.rwproto.GroupCompetitionProto.SelectionGroupData value) {
+        if (rankingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRankingsIsMutable();
+          rankings_.add(value);
+          onChanged();
+        } else {
+          rankingsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder addRankings(
+          int index, com.rwproto.GroupCompetitionProto.SelectionGroupData value) {
+        if (rankingsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRankingsIsMutable();
+          rankings_.add(index, value);
+          onChanged();
+        } else {
+          rankingsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder addRankings(
+          com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder builderForValue) {
+        if (rankingsBuilder_ == null) {
+          ensureRankingsIsMutable();
+          rankings_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rankingsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder addRankings(
+          int index, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder builderForValue) {
+        if (rankingsBuilder_ == null) {
+          ensureRankingsIsMutable();
+          rankings_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rankingsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder addAllRankings(
+          java.lang.Iterable<? extends com.rwproto.GroupCompetitionProto.SelectionGroupData> values) {
+        if (rankingsBuilder_ == null) {
+          ensureRankingsIsMutable();
+          super.addAll(values, rankings_);
+          onChanged();
+        } else {
+          rankingsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder clearRankings() {
+        if (rankingsBuilder_ == null) {
+          rankings_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          rankingsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public Builder removeRankings(int index) {
+        if (rankingsBuilder_ == null) {
+          ensureRankingsIsMutable();
+          rankings_.remove(index);
+          onChanged();
+        } else {
+          rankingsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder getRankingsBuilder(
+          int index) {
+        return getRankingsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder getRankingsOrBuilder(
+          int index) {
+        if (rankingsBuilder_ == null) {
+          return rankings_.get(index);  } else {
+          return rankingsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> 
+           getRankingsOrBuilderList() {
+        if (rankingsBuilder_ != null) {
+          return rankingsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rankings_);
+        }
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder addRankingsBuilder() {
+        return getRankingsFieldBuilder().addBuilder(
+            com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder addRankingsBuilder(
+          int index) {
+        return getRankingsFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .groupCompetition.SelectionGroupData rankings = 1;</code>
+       *
+       * <pre>
+       * 海选排名的帮派信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder> 
+           getRankingsBuilderList() {
+        return getRankingsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionGroupData, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder, com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> 
+          getRankingsFieldBuilder() {
+        if (rankingsBuilder_ == null) {
+          rankingsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCompetitionProto.SelectionGroupData, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder, com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder>(
+                  rankings_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          rankings_ = null;
+        }
+        return rankingsBuilder_;
+      }
+
+      // optional .groupCompetition.SelectionGroupData ownGroupData = 2;
+      private com.rwproto.GroupCompetitionProto.SelectionGroupData ownGroupData_ = com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionGroupData, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder, com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> ownGroupDataBuilder_;
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public boolean hasOwnGroupData() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData getOwnGroupData() {
+        if (ownGroupDataBuilder_ == null) {
+          return ownGroupData_;
+        } else {
+          return ownGroupDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public Builder setOwnGroupData(com.rwproto.GroupCompetitionProto.SelectionGroupData value) {
+        if (ownGroupDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ownGroupData_ = value;
+          onChanged();
+        } else {
+          ownGroupDataBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public Builder setOwnGroupData(
+          com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder builderForValue) {
+        if (ownGroupDataBuilder_ == null) {
+          ownGroupData_ = builderForValue.build();
+          onChanged();
+        } else {
+          ownGroupDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public Builder mergeOwnGroupData(com.rwproto.GroupCompetitionProto.SelectionGroupData value) {
+        if (ownGroupDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              ownGroupData_ != com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance()) {
+            ownGroupData_ =
+              com.rwproto.GroupCompetitionProto.SelectionGroupData.newBuilder(ownGroupData_).mergeFrom(value).buildPartial();
+          } else {
+            ownGroupData_ = value;
+          }
+          onChanged();
+        } else {
+          ownGroupDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public Builder clearOwnGroupData() {
+        if (ownGroupDataBuilder_ == null) {
+          ownGroupData_ = com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance();
+          onChanged();
+        } else {
+          ownGroupDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder getOwnGroupDataBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getOwnGroupDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder getOwnGroupDataOrBuilder() {
+        if (ownGroupDataBuilder_ != null) {
+          return ownGroupDataBuilder_.getMessageOrBuilder();
+        } else {
+          return ownGroupData_;
+        }
+      }
+      /**
+       * <code>optional .groupCompetition.SelectionGroupData ownGroupData = 2;</code>
+       *
+       * <pre>
+       * 自身帮派的信息
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCompetitionProto.SelectionGroupData, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder, com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder> 
+          getOwnGroupDataFieldBuilder() {
+        if (ownGroupDataBuilder_ == null) {
+          ownGroupDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCompetitionProto.SelectionGroupData, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder, com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder>(
+                  ownGroupData_,
+                  getParentForChildren(),
+                  isClean());
+          ownGroupData_ = null;
+        }
+        return ownGroupDataBuilder_;
+      }
+
+      // required fixed64 selectionEndTime = 3;
+      private long selectionEndTime_ ;
+      /**
+       * <code>required fixed64 selectionEndTime = 3;</code>
+       *
+       * <pre>
+       * 海选结束时间
+       * </pre>
+       */
+      public boolean hasSelectionEndTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required fixed64 selectionEndTime = 3;</code>
+       *
+       * <pre>
+       * 海选结束时间
+       * </pre>
+       */
+      public long getSelectionEndTime() {
+        return selectionEndTime_;
+      }
+      /**
+       * <code>required fixed64 selectionEndTime = 3;</code>
+       *
+       * <pre>
+       * 海选结束时间
+       * </pre>
+       */
+      public Builder setSelectionEndTime(long value) {
+        bitField0_ |= 0x00000004;
+        selectionEndTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed64 selectionEndTime = 3;</code>
+       *
+       * <pre>
+       * 海选结束时间
+       * </pre>
+       */
+      public Builder clearSelectionEndTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        selectionEndTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.SelectionRspData)
+    }
+
+    static {
+      defaultInstance = new SelectionRspData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.SelectionRspData)
+  }
+
+  public interface SelectionGroupDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required fixed32 ranking = 1;
+    /**
+     * <code>required fixed32 ranking = 1;</code>
+     *
+     * <pre>
+     * 帮派的排名（-1=未上榜）
+     * </pre>
+     */
+    boolean hasRanking();
+    /**
+     * <code>required fixed32 ranking = 1;</code>
+     *
+     * <pre>
+     * 帮派的排名（-1=未上榜）
+     * </pre>
+     */
+    int getRanking();
+
+    // required string name = 2;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 帮派的名字
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 帮派的名字
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 帮派的名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // required fixed64 fighting = 3;
+    /**
+     * <code>required fixed64 fighting = 3;</code>
+     *
+     * <pre>
+     * 帮派的战斗力
+     * </pre>
+     */
+    boolean hasFighting();
+    /**
+     * <code>required fixed64 fighting = 3;</code>
+     *
+     * <pre>
+     * 帮派的战斗力
+     * </pre>
+     */
+    long getFighting();
+
+    // required fixed32 upNum = 4;
+    /**
+     * <code>required fixed32 upNum = 4;</code>
+     *
+     * <pre>
+     * 排名变化的数据（负数表示下降，正数表示上升）
+     * </pre>
+     */
+    boolean hasUpNum();
+    /**
+     * <code>required fixed32 upNum = 4;</code>
+     *
+     * <pre>
+     * 排名变化的数据（负数表示下降，正数表示上升）
+     * </pre>
+     */
+    int getUpNum();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.SelectionGroupData}
+   *
+   * <pre>
+   * 海选的帮派数据
+   * </pre>
+   */
+  public static final class SelectionGroupData extends
+      com.google.protobuf.GeneratedMessage
+      implements SelectionGroupDataOrBuilder {
+    // Use SelectionGroupData.newBuilder() to construct.
+    private SelectionGroupData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private SelectionGroupData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final SelectionGroupData defaultInstance;
+    public static SelectionGroupData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public SelectionGroupData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private SelectionGroupData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 13: {
+              bitField0_ |= 0x00000001;
+              ranking_ = input.readFixed32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 25: {
+              bitField0_ |= 0x00000004;
+              fighting_ = input.readFixed64();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              upNum_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionGroupData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionGroupData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.SelectionGroupData.class, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<SelectionGroupData> PARSER =
+        new com.google.protobuf.AbstractParser<SelectionGroupData>() {
+      public SelectionGroupData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new SelectionGroupData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<SelectionGroupData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required fixed32 ranking = 1;
+    public static final int RANKING_FIELD_NUMBER = 1;
+    private int ranking_;
+    /**
+     * <code>required fixed32 ranking = 1;</code>
+     *
+     * <pre>
+     * 帮派的排名（-1=未上榜）
+     * </pre>
+     */
+    public boolean hasRanking() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required fixed32 ranking = 1;</code>
+     *
+     * <pre>
+     * 帮派的排名（-1=未上榜）
+     * </pre>
+     */
+    public int getRanking() {
+      return ranking_;
+    }
+
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 帮派的名字
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 帮派的名字
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 2;</code>
+     *
+     * <pre>
+     * 帮派的名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required fixed64 fighting = 3;
+    public static final int FIGHTING_FIELD_NUMBER = 3;
+    private long fighting_;
+    /**
+     * <code>required fixed64 fighting = 3;</code>
+     *
+     * <pre>
+     * 帮派的战斗力
+     * </pre>
+     */
+    public boolean hasFighting() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required fixed64 fighting = 3;</code>
+     *
+     * <pre>
+     * 帮派的战斗力
+     * </pre>
+     */
+    public long getFighting() {
+      return fighting_;
+    }
+
+    // required fixed32 upNum = 4;
+    public static final int UPNUM_FIELD_NUMBER = 4;
+    private int upNum_;
+    /**
+     * <code>required fixed32 upNum = 4;</code>
+     *
+     * <pre>
+     * 排名变化的数据（负数表示下降，正数表示上升）
+     * </pre>
+     */
+    public boolean hasUpNum() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required fixed32 upNum = 4;</code>
+     *
+     * <pre>
+     * 排名变化的数据（负数表示下降，正数表示上升）
+     * </pre>
+     */
+    public int getUpNum() {
+      return upNum_;
+    }
+
+    private void initFields() {
+      ranking_ = 0;
+      name_ = "";
+      fighting_ = 0L;
+      upNum_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasRanking()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasFighting()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUpNum()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFixed32(1, ranking_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFixed64(3, fighting_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFixed32(4, upNum_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(1, ranking_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed64Size(3, fighting_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(4, upNum_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.SelectionGroupData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.SelectionGroupData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.SelectionGroupData}
+     *
+     * <pre>
+     * 海选的帮派数据
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.SelectionGroupDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionGroupData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionGroupData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.SelectionGroupData.class, com.rwproto.GroupCompetitionProto.SelectionGroupData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.SelectionGroupData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        ranking_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        fighting_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        upNum_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_SelectionGroupData_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData build() {
+        com.rwproto.GroupCompetitionProto.SelectionGroupData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.SelectionGroupData buildPartial() {
+        com.rwproto.GroupCompetitionProto.SelectionGroupData result = new com.rwproto.GroupCompetitionProto.SelectionGroupData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.ranking_ = ranking_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.fighting_ = fighting_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.upNum_ = upNum_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.SelectionGroupData) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.SelectionGroupData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.SelectionGroupData other) {
+        if (other == com.rwproto.GroupCompetitionProto.SelectionGroupData.getDefaultInstance()) return this;
+        if (other.hasRanking()) {
+          setRanking(other.getRanking());
+        }
+        if (other.hasName()) {
+          bitField0_ |= 0x00000002;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasFighting()) {
+          setFighting(other.getFighting());
+        }
+        if (other.hasUpNum()) {
+          setUpNum(other.getUpNum());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasRanking()) {
+          
+          return false;
+        }
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasFighting()) {
+          
+          return false;
+        }
+        if (!hasUpNum()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.SelectionGroupData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.SelectionGroupData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required fixed32 ranking = 1;
+      private int ranking_ ;
+      /**
+       * <code>required fixed32 ranking = 1;</code>
+       *
+       * <pre>
+       * 帮派的排名（-1=未上榜）
+       * </pre>
+       */
+      public boolean hasRanking() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required fixed32 ranking = 1;</code>
+       *
+       * <pre>
+       * 帮派的排名（-1=未上榜）
+       * </pre>
+       */
+      public int getRanking() {
+        return ranking_;
+      }
+      /**
+       * <code>required fixed32 ranking = 1;</code>
+       *
+       * <pre>
+       * 帮派的排名（-1=未上榜）
+       * </pre>
+       */
+      public Builder setRanking(int value) {
+        bitField0_ |= 0x00000001;
+        ranking_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 ranking = 1;</code>
+       *
+       * <pre>
+       * 帮派的排名（-1=未上榜）
+       * </pre>
+       */
+      public Builder clearRanking() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        ranking_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 帮派的名字
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 帮派的名字
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 帮派的名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 帮派的名字
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 帮派的名字
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 2;</code>
+       *
+       * <pre>
+       * 帮派的名字
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required fixed64 fighting = 3;
+      private long fighting_ ;
+      /**
+       * <code>required fixed64 fighting = 3;</code>
+       *
+       * <pre>
+       * 帮派的战斗力
+       * </pre>
+       */
+      public boolean hasFighting() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required fixed64 fighting = 3;</code>
+       *
+       * <pre>
+       * 帮派的战斗力
+       * </pre>
+       */
+      public long getFighting() {
+        return fighting_;
+      }
+      /**
+       * <code>required fixed64 fighting = 3;</code>
+       *
+       * <pre>
+       * 帮派的战斗力
+       * </pre>
+       */
+      public Builder setFighting(long value) {
+        bitField0_ |= 0x00000004;
+        fighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed64 fighting = 3;</code>
+       *
+       * <pre>
+       * 帮派的战斗力
+       * </pre>
+       */
+      public Builder clearFighting() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        fighting_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 upNum = 4;
+      private int upNum_ ;
+      /**
+       * <code>required fixed32 upNum = 4;</code>
+       *
+       * <pre>
+       * 排名变化的数据（负数表示下降，正数表示上升）
+       * </pre>
+       */
+      public boolean hasUpNum() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required fixed32 upNum = 4;</code>
+       *
+       * <pre>
+       * 排名变化的数据（负数表示下降，正数表示上升）
+       * </pre>
+       */
+      public int getUpNum() {
+        return upNum_;
+      }
+      /**
+       * <code>required fixed32 upNum = 4;</code>
+       *
+       * <pre>
+       * 排名变化的数据（负数表示下降，正数表示上升）
+       * </pre>
+       */
+      public Builder setUpNum(int value) {
+        bitField0_ |= 0x00000008;
+        upNum_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 upNum = 4;</code>
+       *
+       * <pre>
+       * 排名变化的数据（负数表示下降，正数表示上升）
+       * </pre>
+       */
+      public Builder clearUpNum() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        upNum_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.SelectionGroupData)
+    }
+
+    static {
+      defaultInstance = new SelectionGroupData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.SelectionGroupData)
+  }
+
+  public interface TeamRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.GCRequestType reqType = 1;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+
+    // repeated string heroId = 2;
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getHeroIdList();
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    int getHeroIdCount();
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    java.lang.String getHeroId(int index);
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeroIdBytes(int index);
+  }
+  /**
+   * Protobuf type {@code groupCompetition.TeamRequest}
+   *
+   * <pre>
+   * 队伍请求，返回CommonRsp
+   * </pre>
+   */
+  public static final class TeamRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamRequestOrBuilder {
+    // Use TeamRequest.newBuilder() to construct.
+    private TeamRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamRequest defaultInstance;
+    public static TeamRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                heroId_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              heroId_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(heroId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.TeamRequest.class, com.rwproto.GroupCompetitionProto.TeamRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamRequest> PARSER =
+        new com.google.protobuf.AbstractParser<TeamRequest>() {
+      public TeamRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.GCRequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+      return reqType_;
+    }
+
+    // repeated string heroId = 2;
+    public static final int HEROID_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList heroId_;
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getHeroIdList() {
+      return heroId_;
+    }
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    public int getHeroIdCount() {
+      return heroId_.size();
+    }
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    public java.lang.String getHeroId(int index) {
+      return heroId_.get(index);
+    }
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 整容的英雄id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeroIdBytes(int index) {
+      return heroId_.getByteString(index);
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      for (int i = 0; i < heroId_.size(); i++) {
+        output.writeBytes(2, heroId_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < heroId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(heroId_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getHeroIdList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.TeamRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.TeamRequest}
+     *
+     * <pre>
+     * 队伍请求，返回CommonRsp
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.TeamRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.TeamRequest.class, com.rwproto.GroupCompetitionProto.TeamRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.TeamRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamRequest_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamRequest getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.TeamRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamRequest build() {
+        com.rwproto.GroupCompetitionProto.TeamRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamRequest buildPartial() {
+        com.rwproto.GroupCompetitionProto.TeamRequest result = new com.rwproto.GroupCompetitionProto.TeamRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              heroId_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.heroId_ = heroId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.TeamRequest) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.TeamRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.TeamRequest other) {
+        if (other == com.rwproto.GroupCompetitionProto.TeamRequest.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (!other.heroId_.isEmpty()) {
+          if (heroId_.isEmpty()) {
+            heroId_ = other.heroId_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureHeroIdIsMutable();
+            heroId_.addAll(other.heroId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.TeamRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.TeamRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.GCRequestType reqType = 1;
+      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        onChanged();
+        return this;
+      }
+
+      // repeated string heroId = 2;
+      private com.google.protobuf.LazyStringList heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureHeroIdIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroId_ = new com.google.protobuf.LazyStringArrayList(heroId_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getHeroIdList() {
+        return java.util.Collections.unmodifiableList(heroId_);
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public int getHeroIdCount() {
+        return heroId_.size();
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public java.lang.String getHeroId(int index) {
+        return heroId_.get(index);
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeroIdBytes(int index) {
+        return heroId_.getByteString(index);
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public Builder setHeroId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public Builder addHeroId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public Builder addAllHeroId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureHeroIdIsMutable();
+        super.addAll(values, heroId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public Builder clearHeroId() {
+        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 整容的英雄id
+       * </pre>
+       */
+      public Builder addHeroIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.TeamRequest)
+    }
+
+    static {
+      defaultInstance = new TeamRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.TeamRequest)
+  }
+
+  public interface JoinTeamReqOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string teamId = 1;
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    boolean hasTeamId();
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    java.lang.String getTeamId();
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTeamIdBytes();
+
+    // repeated string heroId = 2;
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getHeroIdList();
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    int getHeroIdCount();
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    java.lang.String getHeroId(int index);
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeroIdBytes(int index);
+  }
+  /**
+   * Protobuf type {@code groupCompetition.JoinTeamReq}
+   *
+   * <pre>
+   * 加入队伍请求，返回CommonRsp
+   * </pre>
+   */
+  public static final class JoinTeamReq extends
+      com.google.protobuf.GeneratedMessage
+      implements JoinTeamReqOrBuilder {
+    // Use JoinTeamReq.newBuilder() to construct.
+    private JoinTeamReq(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private JoinTeamReq(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final JoinTeamReq defaultInstance;
+    public static JoinTeamReq getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public JoinTeamReq getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private JoinTeamReq(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              teamId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                heroId_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              heroId_.add(input.readBytes());
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(heroId_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_JoinTeamReq_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_JoinTeamReq_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.JoinTeamReq.class, com.rwproto.GroupCompetitionProto.JoinTeamReq.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<JoinTeamReq> PARSER =
+        new com.google.protobuf.AbstractParser<JoinTeamReq>() {
+      public JoinTeamReq parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new JoinTeamReq(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<JoinTeamReq> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string teamId = 1;
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private java.lang.Object teamId_;
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public boolean hasTeamId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public java.lang.String getTeamId() {
+      java.lang.Object ref = teamId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          teamId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTeamIdBytes() {
+      java.lang.Object ref = teamId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        teamId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated string heroId = 2;
+    public static final int HEROID_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList heroId_;
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getHeroIdList() {
+      return heroId_;
+    }
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public int getHeroIdCount() {
+      return heroId_.size();
+    }
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public java.lang.String getHeroId(int index) {
+      return heroId_.get(index);
+    }
+    /**
+     * <code>repeated string heroId = 2;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeroIdBytes(int index) {
+      return heroId_.getByteString(index);
+    }
+
+    private void initFields() {
+      teamId_ = "";
+      heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTeamId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getTeamIdBytes());
+      }
+      for (int i = 0; i < heroId_.size(); i++) {
+        output.writeBytes(2, heroId_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getTeamIdBytes());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < heroId_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(heroId_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getHeroIdList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.JoinTeamReq parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.JoinTeamReq prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.JoinTeamReq}
+     *
+     * <pre>
+     * 加入队伍请求，返回CommonRsp
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.JoinTeamReqOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_JoinTeamReq_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_JoinTeamReq_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.JoinTeamReq.class, com.rwproto.GroupCompetitionProto.JoinTeamReq.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.JoinTeamReq.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        teamId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_JoinTeamReq_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.JoinTeamReq getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.JoinTeamReq.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.JoinTeamReq build() {
+        com.rwproto.GroupCompetitionProto.JoinTeamReq result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.JoinTeamReq buildPartial() {
+        com.rwproto.GroupCompetitionProto.JoinTeamReq result = new com.rwproto.GroupCompetitionProto.JoinTeamReq(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.teamId_ = teamId_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroId_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              heroId_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.heroId_ = heroId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.JoinTeamReq) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.JoinTeamReq)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.JoinTeamReq other) {
+        if (other == com.rwproto.GroupCompetitionProto.JoinTeamReq.getDefaultInstance()) return this;
+        if (other.hasTeamId()) {
+          bitField0_ |= 0x00000001;
+          teamId_ = other.teamId_;
+          onChanged();
+        }
+        if (!other.heroId_.isEmpty()) {
+          if (heroId_.isEmpty()) {
+            heroId_ = other.heroId_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureHeroIdIsMutable();
+            heroId_.addAll(other.heroId_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTeamId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.JoinTeamReq parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.JoinTeamReq) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string teamId = 1;
+      private java.lang.Object teamId_ = "";
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public boolean hasTeamId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public java.lang.String getTeamId() {
+        java.lang.Object ref = teamId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          teamId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTeamIdBytes() {
+        java.lang.Object ref = teamId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          teamId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder setTeamId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder clearTeamId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        teamId_ = getDefaultInstance().getTeamId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder setTeamIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated string heroId = 2;
+      private com.google.protobuf.LazyStringList heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureHeroIdIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroId_ = new com.google.protobuf.LazyStringArrayList(heroId_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getHeroIdList() {
+        return java.util.Collections.unmodifiableList(heroId_);
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public int getHeroIdCount() {
+        return heroId_.size();
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public java.lang.String getHeroId(int index) {
+        return heroId_.get(index);
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeroIdBytes(int index) {
+        return heroId_.getByteString(index);
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder setHeroId(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder addHeroId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder addAllHeroId(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureHeroIdIsMutable();
+        super.addAll(values, heroId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder clearHeroId() {
+        heroId_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string heroId = 2;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder addHeroIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureHeroIdIsMutable();
+        heroId_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.JoinTeamReq)
+    }
+
+    static {
+      defaultInstance = new JoinTeamReq(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.JoinTeamReq)
+  }
+
+  public interface TeamMemberRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.GCRequestType reqType = 1;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+
+    // required string targetUserId = 2;
+    /**
+     * <code>required string targetUserId = 2;</code>
+     *
+     * <pre>
+     * 目标的userId
+     * </pre>
+     */
+    boolean hasTargetUserId();
+    /**
+     * <code>required string targetUserId = 2;</code>
+     *
+     * <pre>
+     * 目标的userId
+     * </pre>
+     */
+    java.lang.String getTargetUserId();
+    /**
+     * <code>required string targetUserId = 2;</code>
+     *
+     * <pre>
+     * 目标的userId
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTargetUserIdBytes();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.TeamMemberRequest}
+   *
+   * <pre>
+   * 队员请求，返回CommonRsp，如果是GCRequestType.InviteMember，目标user会收到TeamInvitation
+   * </pre>
+   */
+  public static final class TeamMemberRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamMemberRequestOrBuilder {
+    // Use TeamMemberRequest.newBuilder() to construct.
+    private TeamMemberRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamMemberRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamMemberRequest defaultInstance;
+    public static TeamMemberRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamMemberRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamMemberRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              targetUserId_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamMemberRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamMemberRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.TeamMemberRequest.class, com.rwproto.GroupCompetitionProto.TeamMemberRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamMemberRequest> PARSER =
+        new com.google.protobuf.AbstractParser<TeamMemberRequest>() {
+      public TeamMemberRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamMemberRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamMemberRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.GCRequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+      return reqType_;
+    }
+
+    // required string targetUserId = 2;
+    public static final int TARGETUSERID_FIELD_NUMBER = 2;
+    private java.lang.Object targetUserId_;
+    /**
+     * <code>required string targetUserId = 2;</code>
+     *
+     * <pre>
+     * 目标的userId
+     * </pre>
+     */
+    public boolean hasTargetUserId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string targetUserId = 2;</code>
+     *
+     * <pre>
+     * 目标的userId
+     * </pre>
+     */
+    public java.lang.String getTargetUserId() {
+      java.lang.Object ref = targetUserId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          targetUserId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string targetUserId = 2;</code>
+     *
+     * <pre>
+     * 目标的userId
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTargetUserIdBytes() {
+      java.lang.Object ref = targetUserId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        targetUserId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      targetUserId_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTargetUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTargetUserIdBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTargetUserIdBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamMemberRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.TeamMemberRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.TeamMemberRequest}
+     *
+     * <pre>
+     * 队员请求，返回CommonRsp，如果是GCRequestType.InviteMember，目标user会收到TeamInvitation
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.TeamMemberRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamMemberRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamMemberRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.TeamMemberRequest.class, com.rwproto.GroupCompetitionProto.TeamMemberRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.TeamMemberRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        targetUserId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamMemberRequest_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamMemberRequest getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.TeamMemberRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamMemberRequest build() {
+        com.rwproto.GroupCompetitionProto.TeamMemberRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamMemberRequest buildPartial() {
+        com.rwproto.GroupCompetitionProto.TeamMemberRequest result = new com.rwproto.GroupCompetitionProto.TeamMemberRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.targetUserId_ = targetUserId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.TeamMemberRequest) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.TeamMemberRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.TeamMemberRequest other) {
+        if (other == com.rwproto.GroupCompetitionProto.TeamMemberRequest.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasTargetUserId()) {
+          bitField0_ |= 0x00000002;
+          targetUserId_ = other.targetUserId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasTargetUserId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.TeamMemberRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.TeamMemberRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.GCRequestType reqType = 1;
+      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        onChanged();
+        return this;
+      }
+
+      // required string targetUserId = 2;
+      private java.lang.Object targetUserId_ = "";
+      /**
+       * <code>required string targetUserId = 2;</code>
+       *
+       * <pre>
+       * 目标的userId
+       * </pre>
+       */
+      public boolean hasTargetUserId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string targetUserId = 2;</code>
+       *
+       * <pre>
+       * 目标的userId
+       * </pre>
+       */
+      public java.lang.String getTargetUserId() {
+        java.lang.Object ref = targetUserId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          targetUserId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string targetUserId = 2;</code>
+       *
+       * <pre>
+       * 目标的userId
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTargetUserIdBytes() {
+        java.lang.Object ref = targetUserId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          targetUserId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string targetUserId = 2;</code>
+       *
+       * <pre>
+       * 目标的userId
+       * </pre>
+       */
+      public Builder setTargetUserId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        targetUserId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string targetUserId = 2;</code>
+       *
+       * <pre>
+       * 目标的userId
+       * </pre>
+       */
+      public Builder clearTargetUserId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        targetUserId_ = getDefaultInstance().getTargetUserId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string targetUserId = 2;</code>
+       *
+       * <pre>
+       * 目标的userId
+       * </pre>
+       */
+      public Builder setTargetUserIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        targetUserId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.TeamMemberRequest)
+    }
+
+    static {
+      defaultInstance = new TeamMemberRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.TeamMemberRequest)
+  }
+
+  public interface TeamStatusRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.GCRequestType reqType = 1;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * </pre>
+     */
+    boolean hasReqType();
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * </pre>
+     */
+    com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.TeamStatusRequest}
+   *
+   * <pre>
+   * 准备状态请求，返回CommonRsp
+   * </pre>
+   */
+  public static final class TeamStatusRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamStatusRequestOrBuilder {
+    // Use TeamStatusRequest.newBuilder() to construct.
+    private TeamStatusRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamStatusRequest(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamStatusRequest defaultInstance;
+    public static TeamStatusRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamStatusRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamStatusRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCRequestType value = com.rwproto.GroupCompetitionProto.GCRequestType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                reqType_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusRequest_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.TeamStatusRequest.class, com.rwproto.GroupCompetitionProto.TeamStatusRequest.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamStatusRequest> PARSER =
+        new com.google.protobuf.AbstractParser<TeamStatusRequest>() {
+      public TeamStatusRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamStatusRequest(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamStatusRequest> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.GCRequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCRequestType reqType_;
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * </pre>
+     */
+    public boolean hasReqType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+     *
+     * <pre>
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+     * </pre>
+     */
+    public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+      return reqType_;
+    }
+
+    private void initFields() {
+      reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, reqType_.getNumber());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, reqType_.getNumber());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.TeamStatusRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.TeamStatusRequest}
+     *
+     * <pre>
+     * 准备状态请求，返回CommonRsp
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.TeamStatusRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusRequest_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.TeamStatusRequest.class, com.rwproto.GroupCompetitionProto.TeamStatusRequest.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.TeamStatusRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusRequest_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusRequest getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.TeamStatusRequest.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusRequest build() {
+        com.rwproto.GroupCompetitionProto.TeamStatusRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusRequest buildPartial() {
+        com.rwproto.GroupCompetitionProto.TeamStatusRequest result = new com.rwproto.GroupCompetitionProto.TeamStatusRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.reqType_ = reqType_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.TeamStatusRequest) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.TeamStatusRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.TeamStatusRequest other) {
+        if (other == com.rwproto.GroupCompetitionProto.TeamStatusRequest.getDefaultInstance()) return this;
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.TeamStatusRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.TeamStatusRequest) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.GCRequestType reqType = 1;
+      private com.rwproto.GroupCompetitionProto.GCRequestType reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * </pre>
+       */
+      public boolean hasReqType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * </pre>
+       */
+      public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
+        return reqType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * </pre>
+       */
+      public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        reqType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
+       *
+       * <pre>
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+       * </pre>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.TeamStatusRequest)
+    }
+
+    static {
+      defaultInstance = new TeamStatusRequest(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.TeamStatusRequest)
+  }
+
+  public interface TeamInvitationOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string teamId = 1;
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    boolean hasTeamId();
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    java.lang.String getTeamId();
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTeamIdBytes();
+
+    // required string tips = 2;
+    /**
+     * <code>required string tips = 2;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    boolean hasTips();
+    /**
+     * <code>required string tips = 2;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    java.lang.String getTips();
+    /**
+     * <code>required string tips = 2;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipsBytes();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.TeamInvitation}
+   *
+   * <pre>
+   * 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+   * 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
+   * </pre>
+   */
+  public static final class TeamInvitation extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamInvitationOrBuilder {
+    // Use TeamInvitation.newBuilder() to construct.
+    private TeamInvitation(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamInvitation(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamInvitation defaultInstance;
+    public static TeamInvitation getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamInvitation getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamInvitation(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              teamId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              tips_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamInvitation_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamInvitation_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.TeamInvitation.class, com.rwproto.GroupCompetitionProto.TeamInvitation.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamInvitation> PARSER =
+        new com.google.protobuf.AbstractParser<TeamInvitation>() {
+      public TeamInvitation parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamInvitation(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamInvitation> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string teamId = 1;
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private java.lang.Object teamId_;
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public boolean hasTeamId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public java.lang.String getTeamId() {
+      java.lang.Object ref = teamId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          teamId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTeamIdBytes() {
+      java.lang.Object ref = teamId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        teamId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string tips = 2;
+    public static final int TIPS_FIELD_NUMBER = 2;
+    private java.lang.Object tips_;
+    /**
+     * <code>required string tips = 2;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    public boolean hasTips() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string tips = 2;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    public java.lang.String getTips() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tips_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string tips = 2;</code>
+     *
+     * <pre>
+     * 提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipsBytes() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tips_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      teamId_ = "";
+      tips_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTeamId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTips()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getTeamIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTipsBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getTeamIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTipsBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamInvitation parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.TeamInvitation prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.TeamInvitation}
+     *
+     * <pre>
+     * 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+     * 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.TeamInvitationOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamInvitation_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamInvitation_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.TeamInvitation.class, com.rwproto.GroupCompetitionProto.TeamInvitation.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.TeamInvitation.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        teamId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tips_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamInvitation_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamInvitation getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.TeamInvitation.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamInvitation build() {
+        com.rwproto.GroupCompetitionProto.TeamInvitation result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamInvitation buildPartial() {
+        com.rwproto.GroupCompetitionProto.TeamInvitation result = new com.rwproto.GroupCompetitionProto.TeamInvitation(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.teamId_ = teamId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tips_ = tips_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.TeamInvitation) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.TeamInvitation)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.TeamInvitation other) {
+        if (other == com.rwproto.GroupCompetitionProto.TeamInvitation.getDefaultInstance()) return this;
+        if (other.hasTeamId()) {
+          bitField0_ |= 0x00000001;
+          teamId_ = other.teamId_;
+          onChanged();
+        }
+        if (other.hasTips()) {
+          bitField0_ |= 0x00000002;
+          tips_ = other.tips_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTeamId()) {
+          
+          return false;
+        }
+        if (!hasTips()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.TeamInvitation parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.TeamInvitation) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string teamId = 1;
+      private java.lang.Object teamId_ = "";
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public boolean hasTeamId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public java.lang.String getTeamId() {
+        java.lang.Object ref = teamId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          teamId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTeamIdBytes() {
+        java.lang.Object ref = teamId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          teamId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder setTeamId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder clearTeamId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        teamId_ = getDefaultInstance().getTeamId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder setTeamIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string tips = 2;
+      private java.lang.Object tips_ = "";
+      /**
+       * <code>required string tips = 2;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public boolean hasTips() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string tips = 2;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public java.lang.String getTips() {
+        java.lang.Object ref = tips_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tips_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string tips = 2;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipsBytes() {
+        java.lang.Object ref = tips_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tips_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string tips = 2;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public Builder setTips(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string tips = 2;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public Builder clearTips() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tips_ = getDefaultInstance().getTips();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string tips = 2;</code>
+       *
+       * <pre>
+       * 提示消息
+       * </pre>
+       */
+      public Builder setTipsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.TeamInvitation)
+    }
+
+    static {
+      defaultInstance = new TeamInvitation(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.TeamInvitation)
+  }
+
+  public interface CommonRspOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.GCResultType resultType = 1;
+    /**
+     * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+     */
+    boolean hasResultType();
+    /**
+     * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+     */
+    com.rwproto.GroupCompetitionProto.GCResultType getResultType();
+
+    // optional string tips = 2;
+    /**
+     * <code>optional string tips = 2;</code>
+     */
+    boolean hasTips();
+    /**
+     * <code>optional string tips = 2;</code>
+     */
+    java.lang.String getTips();
+    /**
+     * <code>optional string tips = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getTipsBytes();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.CommonRsp}
+   */
+  public static final class CommonRsp extends
+      com.google.protobuf.GeneratedMessage
+      implements CommonRspOrBuilder {
+    // Use CommonRsp.newBuilder() to construct.
+    private CommonRsp(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private CommonRsp(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final CommonRsp defaultInstance;
+    public static CommonRsp getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public CommonRsp getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private CommonRsp(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.GCResultType value = com.rwproto.GroupCompetitionProto.GCResultType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                resultType_ = value;
+              }
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              tips_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRsp_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRsp_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.CommonRsp.class, com.rwproto.GroupCompetitionProto.CommonRsp.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<CommonRsp> PARSER =
+        new com.google.protobuf.AbstractParser<CommonRsp>() {
+      public CommonRsp parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new CommonRsp(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CommonRsp> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.GCResultType resultType = 1;
+    public static final int RESULTTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.GCResultType resultType_;
+    /**
+     * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+     */
+    public boolean hasResultType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+     */
+    public com.rwproto.GroupCompetitionProto.GCResultType getResultType() {
+      return resultType_;
+    }
+
+    // optional string tips = 2;
+    public static final int TIPS_FIELD_NUMBER = 2;
+    private java.lang.Object tips_;
+    /**
+     * <code>optional string tips = 2;</code>
+     */
+    public boolean hasTips() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string tips = 2;</code>
+     */
+    public java.lang.String getTips() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tips_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tips = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTipsBytes() {
+      java.lang.Object ref = tips_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tips_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      resultType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      tips_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasResultType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, resultType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getTipsBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, resultType_.getNumber());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getTipsBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.CommonRsp parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.CommonRsp prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.CommonRsp}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.CommonRspOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRsp_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRsp_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.CommonRsp.class, com.rwproto.GroupCompetitionProto.CommonRsp.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.CommonRsp.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        resultType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        tips_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_CommonRsp_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonRsp getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.CommonRsp.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonRsp build() {
+        com.rwproto.GroupCompetitionProto.CommonRsp result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.CommonRsp buildPartial() {
+        com.rwproto.GroupCompetitionProto.CommonRsp result = new com.rwproto.GroupCompetitionProto.CommonRsp(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.resultType_ = resultType_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.tips_ = tips_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.CommonRsp) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.CommonRsp)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.CommonRsp other) {
+        if (other == com.rwproto.GroupCompetitionProto.CommonRsp.getDefaultInstance()) return this;
+        if (other.hasResultType()) {
+          setResultType(other.getResultType());
+        }
+        if (other.hasTips()) {
+          bitField0_ |= 0x00000002;
+          tips_ = other.tips_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasResultType()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.CommonRsp parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.CommonRsp) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.GCResultType resultType = 1;
+      private com.rwproto.GroupCompetitionProto.GCResultType resultType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+      /**
+       * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+       */
+      public boolean hasResultType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+       */
+      public com.rwproto.GroupCompetitionProto.GCResultType getResultType() {
+        return resultType_;
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+       */
+      public Builder setResultType(com.rwproto.GroupCompetitionProto.GCResultType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        resultType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.GCResultType resultType = 1;</code>
+       */
+      public Builder clearResultType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        resultType_ = com.rwproto.GroupCompetitionProto.GCResultType.SUCCESS;
+        onChanged();
+        return this;
+      }
+
+      // optional string tips = 2;
+      private java.lang.Object tips_ = "";
+      /**
+       * <code>optional string tips = 2;</code>
+       */
+      public boolean hasTips() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string tips = 2;</code>
+       */
+      public java.lang.String getTips() {
+        java.lang.Object ref = tips_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tips_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTipsBytes() {
+        java.lang.Object ref = tips_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tips_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tips = 2;</code>
+       */
+      public Builder setTips(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 2;</code>
+       */
+      public Builder clearTips() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        tips_ = getDefaultInstance().getTips();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tips = 2;</code>
+       */
+      public Builder setTipsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        tips_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.CommonRsp)
+    }
+
+    static {
+      defaultInstance = new CommonRsp(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.CommonRsp)
+  }
+
+  public interface TeamStatusChangeOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .groupCompetition.TeamStatusType status = 1;
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    boolean hasStatus();
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    com.rwproto.GroupCompetitionProto.TeamStatusType getStatus();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.TeamStatusChange}
+   *
+   * <pre>
+   * 队伍状态发生变化
+   * </pre>
+   */
+  public static final class TeamStatusChange extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamStatusChangeOrBuilder {
+    // Use TeamStatusChange.newBuilder() to construct.
+    private TeamStatusChange(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamStatusChange(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamStatusChange defaultInstance;
+    public static TeamStatusChange getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamStatusChange getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamStatusChange(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              int rawValue = input.readEnum();
+              com.rwproto.GroupCompetitionProto.TeamStatusType value = com.rwproto.GroupCompetitionProto.TeamStatusType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(1, rawValue);
+              } else {
+                bitField0_ |= 0x00000001;
+                status_ = value;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.TeamStatusChange.class, com.rwproto.GroupCompetitionProto.TeamStatusChange.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamStatusChange> PARSER =
+        new com.google.protobuf.AbstractParser<TeamStatusChange>() {
+      public TeamStatusChange parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamStatusChange(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamStatusChange> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .groupCompetition.TeamStatusType status = 1;
+    public static final int STATUS_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCompetitionProto.TeamStatusType status_;
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+     */
+    public com.rwproto.GroupCompetitionProto.TeamStatusType getStatus() {
+      return status_;
+    }
+
+    private void initFields() {
+      status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasStatus()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeEnum(1, status_.getNumber());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(1, status_.getNumber());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.TeamStatusChange parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.TeamStatusChange prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.TeamStatusChange}
+     *
+     * <pre>
+     * 队伍状态发生变化
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.TeamStatusChangeOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.TeamStatusChange.class, com.rwproto.GroupCompetitionProto.TeamStatusChange.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.TeamStatusChange.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_TeamStatusChange_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusChange getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.TeamStatusChange.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusChange build() {
+        com.rwproto.GroupCompetitionProto.TeamStatusChange result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.TeamStatusChange buildPartial() {
+        com.rwproto.GroupCompetitionProto.TeamStatusChange result = new com.rwproto.GroupCompetitionProto.TeamStatusChange(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.status_ = status_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.TeamStatusChange) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.TeamStatusChange)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.TeamStatusChange other) {
+        if (other == com.rwproto.GroupCompetitionProto.TeamStatusChange.getDefaultInstance()) return this;
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasStatus()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.TeamStatusChange parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.TeamStatusChange) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .groupCompetition.TeamStatusType status = 1;
+      private com.rwproto.GroupCompetitionProto.TeamStatusType status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public com.rwproto.GroupCompetitionProto.TeamStatusType getStatus() {
+        return status_;
+      }
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public Builder setStatus(com.rwproto.GroupCompetitionProto.TeamStatusType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000001;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .groupCompetition.TeamStatusType status = 1;</code>
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        status_ = com.rwproto.GroupCompetitionProto.TeamStatusType.Kicked;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.TeamStatusChange)
+    }
+
+    static {
+      defaultInstance = new TeamStatusChange(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.TeamStatusChange)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_CommonReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_CommonReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_CommonRspMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_CommonGetDataReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupCompetition_CommonRspMsg_descriptor;
+    internal_static_groupCompetition_CommonGetDataRspMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable;
+      internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_AreaPosition_descriptor;
   private static
@@ -12669,6 +20883,51 @@ public final class GroupCompetitionProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_PlayerBaseInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_SelectionRspData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_SelectionRspData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_SelectionGroupData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_SelectionGroupData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_TeamRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_TeamRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_JoinTeamReq_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_JoinTeamReq_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_TeamMemberRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_TeamMemberRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_TeamStatusRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_TeamStatusRequest_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_TeamInvitation_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_TeamInvitation_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_CommonRsp_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_CommonRsp_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_TeamStatusChange_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -12683,48 +20942,79 @@ public final class GroupCompetitionProto {
       "g\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GC" +
       "RequestType\0220\n\010position\030\002 \001(\0132\036.groupCom" +
       "petition.AreaPosition\022\025\n\rplayersIdList\030\003" +
-      " \003(\t\"G\n\023CommonGetDataReqMsg\0220\n\007reqType\030\001" +
-      " \002(\0162\037.groupCompetition.GCRequestType\"\202\001" +
-      "\n\014CommonRspMsg\022/\n\007rstType\030\001 \002(\0162\036.groupC" +
-      "ompetition.GCResultType\022\016\n\006tipMsg\030\002 \001(\t\022" +
-      "1\n\007players\030\003 \003(\0132 .groupCompetition.Play",
-      "erBaseInfo\"$\n\014AreaPosition\022\t\n\001x\030\001 \002(\002\022\t\n" +
-      "\001y\030\002 \002(\002\"c\n\023LiveAndPlaybackInfo\022\014\n\004test\030" +
-      "\001 \002(\t\022\023\n\013continueWin\030\002 \002(\005\022\025\n\rpersonalSc" +
-      "ore\030\003 \002(\005\022\022\n\ngroupScore\030\004 \002(\005\"I\n\025ReqLive" +
-      "AndPlaybackMsg\0220\n\007reqType\030\001 \002(\0162\037.groupC" +
-      "ompetition.GCRequestType\"}\n\025RspLiveAndPl" +
-      "aybackMsg\022/\n\007rstType\030\001 \002(\0162\036.groupCompet" +
-      "ition.GCResultType\0223\n\004msgs\030\002 \003(\0132%.group" +
-      "Competition.LiveAndPlaybackInfo\"\222\001\n\016Matc" +
-      "hGuessInfo\022\017\n\007session\030\001 \002(\005\022\014\n\004topN\030\002 \002(",
-      "\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006groups\030\004 \003(\0132\033.gr" +
-      "oupCompetition.GroupInfo\022\020\n\010guessNum\030\005 \002" +
-      "(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tGroupInfo\022\017\n\007gro" +
-      "upId\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\021\n\tgroupNa" +
-      "me\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002\"C\n\017ReqAllGuess" +
-      "Info\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition" +
-      ".GCRequestType\"w\n\017RspAllGuessInfo\022/\n\007rst" +
-      "Type\030\001 \002(\0162\036.groupCompetition.GCResultTy" +
-      "pe\0223\n\tguessInfo\030\002 \003(\0132 .groupCompetition" +
-      ".MatchGuessInfo\"^\n\013ReqNewGuess\0220\n\007reqTyp",
-      "e\030\001 \002(\0162\037.groupCompetition.GCRequestType" +
-      "\022\017\n\007groupId\030\002 \002(\t\022\014\n\004coin\030\003 \002(\005\">\n\013RsqNe" +
-      "wGuess\022/\n\007rstType\030\001 \002(\0162\036.groupCompetiti" +
-      "on.GCResultType\"\335\001\n\016PlayerBaseInfo\022\016\n\006us" +
-      "erId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 " +
-      "\002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003" +
-      "sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fighti" +
-      "ngAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fashionU" +
-      "sage\030\n \001(\0132\033.FashionService.FashionUsed*" +
-      "\320\001\n\rGCRequestType\022\024\n\020EnterPrepareArea\020\001\022",
-      "\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPreparePo" +
-      "sition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014" +
-      "\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayers" +
-      "BaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelec" +
-      "tionData\020\n*+\n\014GCResultType\022\013\n\007SUCCESS\020\001\022" +
-      "\016\n\nDATA_ERROR\020\002B$\n\013com.rwprotoB\025GroupCom" +
-      "petitionProto"
+      " \003(\t\"\202\001\n\014CommonRspMsg\022/\n\007rstType\030\001 \002(\0162\036" +
+      ".groupCompetition.GCResultType\022\016\n\006tipMsg" +
+      "\030\002 \001(\t\0221\n\007players\030\003 \003(\0132 .groupCompetiti" +
+      "on.PlayerBaseInfo\"X\n\023CommonGetDataReqMsg" +
+      "\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCR",
+      "equestType\022\017\n\007matchId\030\002 \001(\007\"\303\001\n\023CommonGe" +
+      "tDataRspMsg\0220\n\007reqType\030\001 \002(\0162\037.groupComp" +
+      "etition.GCRequestType\022/\n\007rstType\030\002 \002(\0162\036" +
+      ".groupCompetition.GCResultType\022\016\n\006tipMsg" +
+      "\030\003 \001(\t\0229\n\rselectionData\030\004 \001(\0132\".groupCom" +
+      "petition.SelectionRspData\"$\n\014AreaPositio" +
+      "n\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\"c\n\023LiveAndPlayba" +
+      "ckInfo\022\014\n\004test\030\001 \002(\t\022\023\n\013continueWin\030\002 \002(" +
+      "\005\022\025\n\rpersonalScore\030\003 \002(\005\022\022\n\ngroupScore\030\004" +
+      " \002(\005\"I\n\025ReqLiveAndPlaybackMsg\0220\n\007reqType",
+      "\030\001 \002(\0162\037.groupCompetition.GCRequestType\"" +
+      "}\n\025RspLiveAndPlaybackMsg\022/\n\007rstType\030\001 \002(" +
+      "\0162\036.groupCompetition.GCResultType\0223\n\004msg" +
+      "s\030\002 \003(\0132%.groupCompetition.LiveAndPlayba" +
+      "ckInfo\"\222\001\n\016MatchGuessInfo\022\017\n\007session\030\001 \002" +
+      "(\005\022\014\n\004topN\030\002 \002(\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006gr" +
+      "oups\030\004 \003(\0132\033.groupCompetition.GroupInfo\022" +
+      "\020\n\010guessNum\030\005 \002(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tG" +
+      "roupInfo\022\017\n\007groupId\030\001 \002(\t\022\021\n\tgroupIcon\030\002" +
+      " \002(\t\022\021\n\tgroupName\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002",
+      "\"C\n\017ReqAllGuessInfo\0220\n\007reqType\030\001 \002(\0162\037.g" +
+      "roupCompetition.GCRequestType\"w\n\017RspAllG" +
+      "uessInfo\022/\n\007rstType\030\001 \002(\0162\036.groupCompeti" +
+      "tion.GCResultType\0223\n\tguessInfo\030\002 \003(\0132 .g" +
+      "roupCompetition.MatchGuessInfo\"o\n\013ReqNew" +
+      "Guess\0220\n\007reqType\030\001 \002(\0162\037.groupCompetitio" +
+      "n.GCRequestType\022\017\n\007matchId\030\002 \002(\005\022\017\n\007grou" +
+      "pId\030\003 \002(\t\022\014\n\004coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/" +
+      "\n\007rstType\030\001 \002(\0162\036.groupCompetition.GCRes" +
+      "ultType\022\016\n\006tipMsg\030\002 \001(\t\"\335\001\n\016PlayerBaseIn",
+      "fo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005" +
+      "level\030\003 \002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005" +
+      " \002(\005\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023" +
+      "\n\013fightingAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014" +
+      "fashionUsage\030\n \001(\0132\033.FashionService.Fash" +
+      "ionUsed\"\240\001\n\020SelectionRspData\0226\n\010rankings" +
+      "\030\001 \003(\0132$.groupCompetition.SelectionGroup" +
+      "Data\022:\n\014ownGroupData\030\002 \001(\0132$.groupCompet" +
+      "ition.SelectionGroupData\022\030\n\020selectionEnd" +
+      "Time\030\003 \002(\006\"T\n\022SelectionGroupData\022\017\n\007rank",
+      "ing\030\001 \002(\007\022\014\n\004name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(" +
+      "\006\022\r\n\005upNum\030\004 \002(\007\"O\n\013TeamRequest\0220\n\007reqTy" +
+      "pe\030\001 \002(\0162\037.groupCompetition.GCRequestTyp" +
+      "e\022\016\n\006heroId\030\002 \003(\t\"-\n\013JoinTeamReq\022\016\n\006team" +
+      "Id\030\001 \002(\t\022\016\n\006heroId\030\002 \003(\t\"[\n\021TeamMemberRe" +
+      "quest\0220\n\007reqType\030\001 \002(\0162\037.groupCompetitio" +
+      "n.GCRequestType\022\024\n\014targetUserId\030\002 \002(\t\"E\n" +
+      "\021TeamStatusRequest\0220\n\007reqType\030\001 \002(\0162\037.gr" +
+      "oupCompetition.GCRequestType\".\n\016TeamInvi" +
+      "tation\022\016\n\006teamId\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\t",
+      "CommonRsp\0222\n\nresultType\030\001 \002(\0162\036.groupCom" +
+      "petition.GCResultType\022\014\n\004tips\030\002 \001(\t\"D\n\020T" +
+      "eamStatusChange\0220\n\006status\030\001 \002(\0162 .groupC" +
+      "ompetition.TeamStatusType*\367\002\n\rGCRequestT" +
+      "ype\022\024\n\020EnterPrepareArea\020\001\022\024\n\020LeavePrepar" +
+      "eArea\020\002\022\031\n\025InformPreparePosition\020\003\022\013\n\007Li" +
+      "veMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010AllGuess\020\006\022\014" +
+      "\n\010NewGuess\020\007\022\026\n\022GetPlayersBaseInfo\020\010\022\020\n\014" +
+      "GetMatchView\020\t\022\024\n\020GetSelectionData\020\n\022\024\n\020" +
+      "GetCanGuessMatch\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017",
+      "CancelTeamReady\020\r\022\r\n\tLeaveTeam\020\016\022\020\n\014Invi" +
+      "teMember\020\017\022\016\n\nKickMember\020\020\022\016\n\nCreateTeam" +
+      "\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n\rStartMatchin" +
+      "g\020\023*<\n\016TeamStatusType\022\n\n\006Kicked\020\001\022\020\n\014Bec" +
+      "omeLeader\020\002\022\014\n\010CanMatch\020\003*@\n\014GCResultTyp" +
+      "e\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_N" +
+      "OT_ENOUGH\020\003B$\n\013com.rwprotoB\025GroupCompeti" +
+      "tionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -12737,84 +21027,144 @@ public final class GroupCompetitionProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonReqMsg_descriptor,
               new java.lang.String[] { "ReqType", "Position", "PlayersIdList", });
-          internal_static_groupCompetition_CommonGetDataReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupCompetition_CommonGetDataReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", });
           internal_static_groupCompetition_CommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(1);
           internal_static_groupCompetition_CommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonRspMsg_descriptor,
               new java.lang.String[] { "RstType", "TipMsg", "Players", });
-          internal_static_groupCompetition_AreaPosition_descriptor =
+          internal_static_groupCompetition_CommonGetDataReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_CommonGetDataReqMsg_descriptor,
+              new java.lang.String[] { "ReqType", "MatchId", });
+          internal_static_groupCompetition_CommonGetDataRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
+          internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_CommonGetDataRspMsg_descriptor,
+              new java.lang.String[] { "ReqType", "RstType", "TipMsg", "SelectionData", });
+          internal_static_groupCompetition_AreaPosition_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_groupCompetition_AreaPosition_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_AreaPosition_descriptor,
               new java.lang.String[] { "X", "Y", });
           internal_static_groupCompetition_LiveAndPlaybackInfo_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_groupCompetition_LiveAndPlaybackInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_LiveAndPlaybackInfo_descriptor,
               new java.lang.String[] { "Test", "ContinueWin", "PersonalScore", "GroupScore", });
           internal_static_groupCompetition_ReqLiveAndPlaybackMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_groupCompetition_ReqLiveAndPlaybackMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_ReqLiveAndPlaybackMsg_descriptor,
               new java.lang.String[] { "ReqType", });
           internal_static_groupCompetition_RspLiveAndPlaybackMsg_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_groupCompetition_RspLiveAndPlaybackMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_RspLiveAndPlaybackMsg_descriptor,
               new java.lang.String[] { "RstType", "Msgs", });
           internal_static_groupCompetition_MatchGuessInfo_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_groupCompetition_MatchGuessInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_MatchGuessInfo_descriptor,
               new java.lang.String[] { "Session", "TopN", "GroupNum", "Groups", "GuessNum", "HasGuess", });
           internal_static_groupCompetition_GroupInfo_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_groupCompetition_GroupInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_GroupInfo_descriptor,
               new java.lang.String[] { "GroupId", "GroupIcon", "GroupName", "BetRate", });
           internal_static_groupCompetition_ReqAllGuessInfo_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_groupCompetition_ReqAllGuessInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_ReqAllGuessInfo_descriptor,
               new java.lang.String[] { "ReqType", });
           internal_static_groupCompetition_RspAllGuessInfo_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_groupCompetition_RspAllGuessInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_RspAllGuessInfo_descriptor,
               new java.lang.String[] { "RstType", "GuessInfo", });
           internal_static_groupCompetition_ReqNewGuess_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_groupCompetition_ReqNewGuess_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_ReqNewGuess_descriptor,
-              new java.lang.String[] { "ReqType", "GroupId", "Coin", });
+              new java.lang.String[] { "ReqType", "MatchId", "GroupId", "Coin", });
           internal_static_groupCompetition_RsqNewGuess_descriptor =
-            getDescriptor().getMessageTypes().get(12);
+            getDescriptor().getMessageTypes().get(13);
           internal_static_groupCompetition_RsqNewGuess_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_RsqNewGuess_descriptor,
-              new java.lang.String[] { "RstType", });
+              new java.lang.String[] { "RstType", "TipMsg", });
           internal_static_groupCompetition_PlayerBaseInfo_descriptor =
-            getDescriptor().getMessageTypes().get(13);
+            getDescriptor().getMessageTypes().get(14);
           internal_static_groupCompetition_PlayerBaseInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_PlayerBaseInfo_descriptor,
               new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "ModelId", "FashionUsage", });
+          internal_static_groupCompetition_SelectionRspData_descriptor =
+            getDescriptor().getMessageTypes().get(15);
+          internal_static_groupCompetition_SelectionRspData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_SelectionRspData_descriptor,
+              new java.lang.String[] { "Rankings", "OwnGroupData", "SelectionEndTime", });
+          internal_static_groupCompetition_SelectionGroupData_descriptor =
+            getDescriptor().getMessageTypes().get(16);
+          internal_static_groupCompetition_SelectionGroupData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_SelectionGroupData_descriptor,
+              new java.lang.String[] { "Ranking", "Name", "Fighting", "UpNum", });
+          internal_static_groupCompetition_TeamRequest_descriptor =
+            getDescriptor().getMessageTypes().get(17);
+          internal_static_groupCompetition_TeamRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_TeamRequest_descriptor,
+              new java.lang.String[] { "ReqType", "HeroId", });
+          internal_static_groupCompetition_JoinTeamReq_descriptor =
+            getDescriptor().getMessageTypes().get(18);
+          internal_static_groupCompetition_JoinTeamReq_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_JoinTeamReq_descriptor,
+              new java.lang.String[] { "TeamId", "HeroId", });
+          internal_static_groupCompetition_TeamMemberRequest_descriptor =
+            getDescriptor().getMessageTypes().get(19);
+          internal_static_groupCompetition_TeamMemberRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_TeamMemberRequest_descriptor,
+              new java.lang.String[] { "ReqType", "TargetUserId", });
+          internal_static_groupCompetition_TeamStatusRequest_descriptor =
+            getDescriptor().getMessageTypes().get(20);
+          internal_static_groupCompetition_TeamStatusRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_TeamStatusRequest_descriptor,
+              new java.lang.String[] { "ReqType", });
+          internal_static_groupCompetition_TeamInvitation_descriptor =
+            getDescriptor().getMessageTypes().get(21);
+          internal_static_groupCompetition_TeamInvitation_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_TeamInvitation_descriptor,
+              new java.lang.String[] { "TeamId", "Tips", });
+          internal_static_groupCompetition_CommonRsp_descriptor =
+            getDescriptor().getMessageTypes().get(22);
+          internal_static_groupCompetition_CommonRsp_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_CommonRsp_descriptor,
+              new java.lang.String[] { "ResultType", "Tips", });
+          internal_static_groupCompetition_TeamStatusChange_descriptor =
+            getDescriptor().getMessageTypes().get(23);
+          internal_static_groupCompetition_TeamStatusChange_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_TeamStatusChange_descriptor,
+              new java.lang.String[] { "Status", });
           return null;
         }
       };

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.robot.RandomData;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
@@ -115,30 +116,39 @@ public class TBTeamItemMgr{
 	}
 	
 	private void setTeamMemberTeams(TBTeamItem teamItem){
-		if(null == teamItem || !teamItem.needRefreshTeamMembers()) return;
+		if(null == teamItem) return;
 		List<StaticMemberTeamInfo> memTeams = new ArrayList<StaticMemberTeamInfo>();
 		List<TeamMember> members = teamItem.getMembers();
 		for(TeamMember member : members){
-			UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
-			synchronized (utbMemData) {
-				if(utbMemData.getSelfTeamInfo() == null){
-					Player player = PlayerMgr.getInstance().find(member.getUserID());
-					if(player == null) continue;
-					List<Hero> heros = player.getHeroMgr().getMaxFightingHeros(player);
-					List<String> heroIDs = new ArrayList<String>();
-					Map<String, Integer> heroPosMap = new HashMap<String, Integer>();
-					for(int i = 1; i < heros.size(); i++){
-						heroIDs.add(heros.get(i).getId());
-						heroPosMap.put(heros.get(i).getId(), i);
-					}
-					StaticMemberTeamInfo teamInfo = new StaticMemberTeamInfo();
-					teamInfo.setUserID(member.getUserID());
-					teamInfo.setHeroPosMap(heroPosMap);
-					teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", (heroIDs.isEmpty() ? null : heroIDs)));
-					utbMemData.setSelfTeamInfo(teamInfo);
+			if(member.isRobot()){
+				//TODO 根据robotId获取
+				StaticMemberTeamInfo teamInfo = UserTeamBattleDataMgr.getInstance().getRobotStaticTeamInfo(member);
+				memTeams.add(teamInfo);
+			}else{
+				UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
+				if(utbMemData==null){
+					System.out.println("tt");
 				}
+				synchronized (utbMemData) {
+					if(utbMemData.getSelfTeamInfo() == null){
+						Player player = PlayerMgr.getInstance().find(member.getUserID());
+						if(player == null) continue;
+						List<Hero> heros = player.getHeroMgr().getMaxFightingHeros(player);
+						List<String> heroIDs = new ArrayList<String>();
+						Map<String, Integer> heroPosMap = new HashMap<String, Integer>();
+						for(int i = 1; i < heros.size(); i++){
+							heroIDs.add(heros.get(i).getId());
+							heroPosMap.put(heros.get(i).getId(), i);
+						}
+						StaticMemberTeamInfo teamInfo = new StaticMemberTeamInfo();
+						teamInfo.setUserID(member.getUserID());
+						teamInfo.setHeroPosMap(heroPosMap);
+						teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", (heroIDs.isEmpty() ? null : heroIDs)));
+						utbMemData.setSelfTeamInfo(teamInfo);
+					}
+				}
+				memTeams.add(utbMemData.getSelfTeamInfo());
 			}
-			memTeams.add(utbMemData.getSelfTeamInfo());
 		}
 		teamItem.setTeamMembers(memTeams);
 	}
@@ -179,35 +189,6 @@ public class TBTeamItemMgr{
 		throw new JoinTeamException("加入失败");
 	}
 	
-//	public  TBTeamItem getOneCanJionTeam(String userID, String hardID){
-//		List<TBTeamItem> jionAble = new ArrayList<TBTeamItem>();
-//		Enumeration<TBTeamItem> itemEnum = TBTeamItemHolder.getInstance().getItemStore(hardID).getEnum();
-//		while(itemEnum.hasMoreElements()){
-//			TBTeamItem item = itemEnum.nextElement();
-//			synchronized (item) {
-//				//不能加入自己已经打过的队伍
-//				if(null != item.findMember(userID)) continue;
-//				if(item.isCanFreeJion() && !item.isSelecting() && !item.isFull()){
-//					jionAble.add(item);
-//				}
-//			}
-//		}
-//		if(jionAble.size() == 0) return null;
-//		for(int i = 0; i < jionAble.size() && i < 5; i++){
-//			// 该循环一般只会执行一次(只有当发生并发问题的时候会有多次执行)
-//			int index = (int)(Math.random() * jionAble.size());
-//			TBTeamItem result = jionAble.get(index);
-//			synchronized (result) {
-//				//再判断一次，是防止检索其它的时候，队伍数据有变化
-//				if(result.isCanFreeJion() && !result.isSelecting() && !result.isFull()){
-//					result.setSelecting(true);
-//					return result;
-//				}
-//			}
-//		}
-//		return null;
-//	}
-	
 	public boolean removeTeam(TBTeamItem teamItem){
 		synchronized (teamItem) {
 			if(!teamItem.removeAble()) return false;
@@ -241,6 +222,30 @@ public class TBTeamItemMgr{
 		utbData.setMemPos("");
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		UserTeamBattleDataHolder.getInstance().synData(player);
+		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
+		changeTeamSelectable(canJionTeam);
+	}
+	
+	/**
+	 * 队伍中添加一个机器人
+	 * @param player
+	 * @param canJionTeam
+	 * @param robot
+	 * @throws JoinTeamException
+	 */
+	public void addRobot(Player player, TBTeamItem canJionTeam, StaticMemberTeamInfo robot, RandomData randomData) throws JoinTeamException {
+		TeamMember tMem = new TeamMember();
+		tMem.setUserID(robot.getUserID());
+		tMem.setUserName(robot.getUserStaticTeam().getPlayerName());
+		tMem.setState(TBMemberState.Ready);
+		tMem.setRandomData(randomData);
+		tMem.setRobot(true);
+		synchronized (canJionTeam) {
+			if(!canJionTeam.addMember(tMem)){
+				throw new JoinTeamException("加入失败");
+			}
+			TBTeamItemHolder.getInstance().updateTeam(canJionTeam);
+		}
 		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
 		changeTeamSelectable(canJionTeam);
 	}

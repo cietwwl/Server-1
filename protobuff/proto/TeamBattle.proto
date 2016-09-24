@@ -20,6 +20,7 @@ enum TBRequestType{
 	SCORE_EXCHANGE = 13;	//积分兑换奖励
 	SAVE_MEMBER_POSITION = 14;	//保存成员上阵顺序
 	BUY_TIMES = 15;		//购买挑战次数
+	ADD_ROBOT=16;		//请求机器人
 }
 
 enum TBResultType {
@@ -28,6 +29,7 @@ enum TBResultType {
 	DIAMOND_NOT_ENOUGH = 3;	//钻石不足
 	VIP_NOT_ENOUGH = 4;	//VIP等级不足
 }
+
 
 message TeamBattleReqMsg{
 	required TBRequestType reqType = 1; //请求功能协议类型

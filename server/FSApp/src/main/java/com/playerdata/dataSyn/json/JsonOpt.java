@@ -20,6 +20,8 @@ public class JsonOpt {
 	@IgnoreSynField
 	private boolean doOpt = false;
 	
+	private boolean open = false;
+	
 	@IgnoreSynField
 	private static JsonOpt noOptInstance = new JsonOpt();
 	
@@ -33,7 +35,7 @@ public class JsonOpt {
 	}
 	
 	public String getShort(String target){
-		if(!doOpt || target == null){
+		if(!open || !doOpt || target == null){
 			return target;
 		}
 		

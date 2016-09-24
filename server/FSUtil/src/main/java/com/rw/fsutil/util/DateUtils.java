@@ -316,6 +316,23 @@ public class DateUtils {
 	}
 
 	/**
+	 * 获取当天5点的重置时间点
+	 * @return
+	 */
+	public static long getCurrentDayResetTime(){
+		Calendar c = getCalendar();
+		long curTime = System.currentTimeMillis();
+		c.setTimeInMillis(curTime);
+		// 重置时间
+		c.set(Calendar.HOUR_OF_DAY, 5);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTimeInMillis();
+	}
+	
+	
+	/**
 	 * 相隔的天数,因为都设置为了0的时分秒，所以是相对意义上的
 	 * 
 	 * @param earyDay

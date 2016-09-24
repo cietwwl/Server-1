@@ -49,6 +49,9 @@ public class GameBehaviorMgr {
 	@SuppressWarnings("unchecked")
 	public void setMapId(Player player, int mapId){
 		List<Object> param = (List<Object>)DataEventRecorder.getParam();
+		if(param == null){
+			return;
+		}
 		param.add(mapId);
 	}
 

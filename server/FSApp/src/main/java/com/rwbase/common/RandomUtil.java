@@ -52,4 +52,8 @@ public class RandomUtil {
 	public static int nextInt(int range){
 		return RandomUtils.nextInt(range);
 	}
+	
+	public static void main(String[] args){
+		System.out.println(getRandonIndexWithoutProb(1));
+	}
 }

@@ -17,11 +17,27 @@ enum GCRequestType{
 	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
 	GetMatchView = 9; // 获取对阵信息
 	GetSelectionData = 10; // 获取海选信息
+	GetCanGuessMatch = 11;	//获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+	SetTeamReady = 12; // 设置准备状态
+	CancelTeamReady = 13; // 取消准备状态
+	LeaveTeam = 14; // 离开队伍
+	InviteMember = 15; // 邀请成员
+	KickMember = 16; // 剔除成员
+	CreateTeam = 17; // 创建队伍
+	AdjustTeamMember = 18; // 调整队伍成员
+	StartMatching = 19; // 开始匹配
+}
+
+enum TeamStatusType {
+	Kicked = 1; // 被踢
+	BecomeLeader = 2; // 成为队长
+	CanMatch = 3; // 可匹配
 }
 
 enum GCResultType {
 	SUCCESS = 1; //成功
 	DATA_ERROR = 2; //数据异常
+	COIN_NOT_ENOUGH = 3;	//金币不足
 }
 
 message CommonReqMsg{
@@ -30,14 +46,22 @@ message CommonReqMsg{
 	repeated string playersIdList = 3;	//请求同屏玩家的基本信息（list<string>）
 }
 
-message CommonGetDataReqMsg {
-	required GCRequestType reqType = 1; // 请求的类型
-}
-
 message CommonRspMsg{
 	required GCResultType rstType = 1; //是否成功处理
 	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
 	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
+}
+
+message CommonGetDataReqMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+}
+
+message CommonGetDataRspMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	required GCResultType rstType = 2; // 请求结果
+	optional string tipMsg = 3; // 提示消息
+	optional SelectionRspData selectionData = 4; // 海选信息（对于GCRequestType.GetSelectionData可用）
 }
 
 message AreaPosition{
@@ -57,6 +81,7 @@ message LiveAndPlaybackInfo{
 message ReqLiveAndPlaybackMsg{
 	required GCRequestType reqType = 1; //请求类型
 }
+
 //回应赛事直播
 message RspLiveAndPlaybackMsg{
 	required GCResultType rstType = 1; //是否成功处理
@@ -95,13 +120,15 @@ message RspAllGuessInfo{
 //请求押注
 message ReqNewGuess{
 	required GCRequestType reqType = 1; //请求类型
-	required string groupId = 2; //帮派id
-	required int32 coin = 3; //押注金币
+	required int32 matchId = 2;		//比赛的id
+	required string groupId = 3; //帮派id
+	required int32 coin = 4; //押注金币（有可能是配置id，而不是具体金额）
 }
 
 //回应押注
 message RsqNewGuess{
 	required GCResultType rstType = 1; //是否成功处理
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
 }
 
 //用于同屏的玩家基本信息
@@ -118,3 +145,57 @@ message PlayerBaseInfo{
 	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 }
 
+// 海选响应数据
+message SelectionRspData {
+	repeated SelectionGroupData rankings = 1; // 海选排名的帮派信息
+	optional SelectionGroupData ownGroupData = 2; // 自身帮派的信息
+	required fixed64 selectionEndTime = 3; // 海选结束时间
+}
+
+// 海选的帮派数据
+message SelectionGroupData {
+	required fixed32 ranking = 1; // 帮派的排名（-1=未上榜）
+	required string name = 2; // 帮派的名字
+	required fixed64 fighting = 3; // 帮派的战斗力
+	required fixed32 upNum = 4; // 排名变化的数据（负数表示下降，正数表示上升）
+}
+
+// 队伍请求，返回CommonRsp
+message TeamRequest {
+	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+	repeated string heroId = 2; // 整容的英雄id
+}
+
+// 加入队伍请求，返回CommonRsp
+message JoinTeamReq {
+	required string teamId = 1; // 队伍id
+	repeated string heroId = 2; // 英雄id
+}
+
+// 队员请求，返回CommonRsp，如果是GCRequestType.InviteMember，目标user会收到TeamInvitation
+message TeamMemberRequest {
+	required GCRequestType reqType = 1; // 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+	required string targetUserId = 2; // 目标的userId
+}
+
+// 准备状态请求，返回CommonRsp
+message TeamStatusRequest {
+	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+}
+
+// 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+// 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
+message TeamInvitation {
+	required string teamId = 1; // 队伍id
+	required string tips = 2; // 提示消息
+}
+
+message CommonRsp {
+	required GCResultType resultType = 1;
+	optional string tips = 2;
+}
+
+// 队伍状态发生变化
+message TeamStatusChange {
+	required TeamStatusType status = 1;
+}

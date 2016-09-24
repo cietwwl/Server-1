@@ -1,12 +1,24 @@
 package com.playerdata.teambattle.service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.teambattle.bm.TeamBattleBM;
+import com.playerdata.teambattle.data.TBTeamItem;
+import com.playerdata.teambattle.data.TeamMember;
+import com.playerdata.teambattle.data.UserTeamBattleData;
+import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
+import com.playerdata.teambattle.dataException.JoinTeamException;
 import com.playerdata.teambattle.dataForClient.TBArmyHerosInfo;
+import com.playerdata.teambattle.enums.TBMemberState;
+import com.playerdata.teambattle.manager.TBTeamItemMgr;
+import com.playerdata.teambattle.manager.TeamMatchData;
+import com.playerdata.teambattle.manager.TeamMatchMgr;
+import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
 
@@ -125,6 +137,34 @@ public class TeamBattleHandler {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
 		tbBM.buyBattleTimes(player, tbRsp, msgTBRequest.getHardID());
+		return tbRsp.build().toByteString();
+	}
+	public ByteString addRobot(Player player, TeamBattleReqMsg msgTBRequest) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		tbRsp.setRstType(TBResultType.SUCCESS);
+		
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		
+		if(StringUtils.isNotBlank(utbData.getTeamID())){
+			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+			if(teamItem!=null){
+				String hardID = teamItem.getHardID();
+				String copyId = utbData.getEnimyMap().get(hardID);
+				TeamMatchData matchTeamArmy = TeamMatchMgr.getInstance().newMatchTeamArmy(player, copyId);				
+				if(matchTeamArmy!=null){					
+					try {
+						TBTeamItemMgr.getInstance().addRobot(player, teamItem, matchTeamArmy.toStaticMemberTeamInfo(), matchTeamArmy.getRandomData());
+					} catch (JoinTeamException e) {
+						tbRsp.setRstType(TBResultType.DATA_ERROR);
+					}
+				}else{					
+					tbRsp.setRstType(TBResultType.DATA_ERROR);
+				}
+			}else{
+				tbRsp.setRstType(TBResultType.DATA_ERROR);
+			}
+		}		
+		
 		return tbRsp.build().toByteString();
 	}
 }
