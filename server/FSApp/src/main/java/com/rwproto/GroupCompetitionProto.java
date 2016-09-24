@@ -18624,7 +18624,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
      * </pre>
      */
     boolean hasReqType();
@@ -18632,7 +18632,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
      * </pre>
      */
     com.rwproto.GroupCompetitionProto.GCRequestType getReqType();
@@ -18750,7 +18750,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
      * </pre>
      */
     public boolean hasReqType() {
@@ -18760,7 +18760,7 @@ public final class GroupCompetitionProto {
      * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
      *
      * <pre>
-     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+     * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
      * </pre>
      */
     public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
@@ -19012,7 +19012,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
        * </pre>
        */
       public boolean hasReqType() {
@@ -19022,7 +19022,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
        * </pre>
        */
       public com.rwproto.GroupCompetitionProto.GCRequestType getReqType() {
@@ -19032,7 +19032,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
        * </pre>
        */
       public Builder setReqType(com.rwproto.GroupCompetitionProto.GCRequestType value) {
@@ -19048,7 +19048,7 @@ public final class GroupCompetitionProto {
        * <code>required .groupCompetition.GCRequestType reqType = 1;</code>
        *
        * <pre>
-       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+       * 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
        * </pre>
        */
       public Builder clearReqType() {
