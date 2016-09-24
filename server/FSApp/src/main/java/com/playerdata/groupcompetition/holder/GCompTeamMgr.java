@@ -24,6 +24,8 @@ import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GroupCompetitionProto.TeamInvitation;
+import com.rwproto.GroupCompetitionProto.TeamStatusChange;
+import com.rwproto.GroupCompetitionProto.TeamStatusType;
 import com.rwproto.MsgDef.Command;
 
 public class GCompTeamMgr {
@@ -132,12 +134,8 @@ public class GCompTeamMgr {
 		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ, invitationBuilder.build().toByteString());
 	}
 	
-	private void sendKickNotice(Player targetPlayer) {
-		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_NOTIFY_KICK, ByteString.EMPTY);
-	}
-	
-	private void sendNotifyNewLeader(Player player) {
-		player.SendMsg(Command.MSG_GROUP_COMPETITION_BECOME_LEADER, ByteString.EMPTY);
+	private void sendKickNotice(Player targetPlayer, TeamStatusType type) {
+		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, TeamStatusChange.newBuilder().setStatus(type).build().toByteString());
 	}
 	
 	public void onEventsStart(GCEventsType eventsType, List<? extends IGCAgainst> againsts) {
@@ -344,7 +342,7 @@ public class GCompTeamMgr {
 		if(teamMember != null) {
 			result.setT1(true);
 			team.removeTeamMember(teamMember);
-			sendKickNotice(PlayerMgr.getInstance().find(targetUserId));
+			sendKickNotice(PlayerMgr.getInstance().find(targetUserId), TeamStatusType.Kicked);
 			List<GCompTeamMember> members = team.getMembers();
 			if(members.size() == 1) {
 				_dataHolder.update(player, team);
@@ -398,7 +396,7 @@ public class GCompTeamMgr {
 			// 转移队长
 			GCompTeamMember newLeader = members.get(0);
 			newLeader.setLeader(true);
-			sendNotifyNewLeader(PlayerMgr.getInstance().find(newLeader.getUserId()));
+			sendKickNotice(PlayerMgr.getInstance().find(newLeader.getUserId()), TeamStatusType.BecomeLeader);
 			_dataHolder.synToAllMembers(team);
 		}
 		
