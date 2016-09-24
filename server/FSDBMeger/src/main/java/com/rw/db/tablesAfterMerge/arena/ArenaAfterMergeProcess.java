@@ -54,10 +54,9 @@ public class ArenaAfterMergeProcess extends AbsAfterMergeProcess {
 
 			List<ArenaExt> query = DBMgr.getInstance().query(dbInfo.getDBName(), sql, new Object[] {}, ArenaExt.class);
 			
-			if(query == null || query.size() <= 0){
+			if (query == null || query.size() <= 0) {
 				continue;
 			}
-
 			Map<Integer, List<ArenaExt>> map = new LinkedHashMap<Integer, List<ArenaExt>>();
 
 			for (ArenaExt arenaExt : query) {
@@ -82,15 +81,16 @@ public class ArenaAfterMergeProcess extends AbsAfterMergeProcess {
 
 				Collections.sort(list, comparator);
 				for (ArenaExt arenaExt : list) {
-					arenaExt.setRanking(order);
 					ArenaExtAttribute arenaExtAttribute = arenaExt.getExtension();
-					String primary_key = arenaExt.getPrimary_key();
+					long id = arenaExt.getId();
+					String key = String.valueOf(id);
 					if (currentTime - arenaExt.getLastLoginTime() > ConstantValue.ARENA_EXPIRE_TIME) {
-						deleteMap.put(primary_key, arenaExt);
+						deleteMap.put(key, arenaExt);
 					} else {
+						arenaExt.setRanking(order);
 						arenaExtAttribute.setRankLevel(order);
 						order++;
-						updateMap.put(primary_key, arenaExt);
+						updateMap.put(key, arenaExt);
 					}
 				}
 			}

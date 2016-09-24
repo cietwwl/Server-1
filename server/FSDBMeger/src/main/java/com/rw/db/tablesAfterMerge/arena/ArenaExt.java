@@ -5,16 +5,19 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.rw.db.dao.annotation.NonSave;
+import com.rw.db.dao.annotation.ReadNotWrite;
 import com.rw.db.dao.annotation.SaveAsJson;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "ranking_swap")
 public class ArenaExt {
-	private long id;
 	@Id
+	private long id;
 	private String primary_key;
 	private int type;
 	private int ranking;
+	@ReadNotWrite
 	private long lastLoginTime;
 	@SaveAsJson
 	private ArenaExtAttribute extension;

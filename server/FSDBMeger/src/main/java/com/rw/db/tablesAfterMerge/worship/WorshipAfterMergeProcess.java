@@ -27,8 +27,8 @@ public class WorshipAfterMergeProcess extends AbsAfterMergeProcess{
 		String sql = "delete from ranking where type = ";
 		
 		for (Integer type : TypeList) {
-			sql+= type;
-			DBMgr.getInstance().update(dbInfo.getDBName(), sql);
+			String tempsql= sql + type;
+			DBMgr.getInstance().update(dbInfo.getDBName(), tempsql);
 		}
 		
 		long end = System.currentTimeMillis();

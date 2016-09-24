@@ -19,6 +19,7 @@ import org.codehaus.jackson.type.JavaType;
 import com.rw.db.dao.annotation.CombineSave;
 import com.rw.db.dao.annotation.FieldEntry;
 import com.rw.db.dao.annotation.NonSave;
+import com.rw.db.dao.annotation.ReadNotWrite;
 import com.rw.db.dao.annotation.SaveAsJson;
 import com.rw.utils.jackson.JsonUtil;
 
@@ -133,7 +134,9 @@ public class ClassInfo {
 				combinSaveList.add(fieldEntry);
 			} else {
 				singleFields.add(fieldEntry);
-				insertColumns.add(fieldName);
+				if (!field.isAnnotationPresent(ReadNotWrite.class)) {
+					insertColumns.add(fieldName);
+				}
 				if (ownerColumnName != null && ownerColumnName.equals(fieldName)) {
 					if (ownerField != null) {
 						throw new ExceptionInInitializerError("多于一个ownerId字段：" + tableName + "," + ownerField.field + "," + fieldEntry.field);
@@ -141,7 +144,7 @@ public class ClassInfo {
 					ownerField = fieldEntry;
 				} else {
 					selectColumns.add(fieldName);
-					if (!isPrimaryKey) {
+					if (!isPrimaryKey && !field.isAnnotationPresent(ReadNotWrite.class)) {
 						updateColumns.add(fieldName);
 					}
 				}

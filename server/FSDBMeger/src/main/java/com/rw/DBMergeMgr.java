@@ -114,6 +114,7 @@ public class DBMergeMgr {
 		
 		long endT= System.currentTimeMillis();
 		DBLog.LogInfo("Merge finish", "Merge finish! Total cost time:" + (endT - startT));
+		System.exit(0);
 	}
 
 	private void init() {
@@ -189,6 +190,7 @@ public class DBMergeMgr {
 			DruidDataSource backupOriDataSource = JdbcTemplateFactory.newDataSource(Backup_OriginalDB.getUrl(), Backup_OriginalDB.getUsername(), Backup_OriginalDB.getPassword(), 100);
 			
 			DBMgr.getInstance().addRawSqlJdbcMap(Backup_OriginalDB.getDBName(), backupOriDataSource);
+			
 			DruidDataSource backupTarDataSource = JdbcTemplateFactory.newDataSource(Backup_TargetDB.getUrl(), Backup_TargetDB.getUsername(), Backup_TargetDB.getPassword(), 100);
 			
 			DBMgr.getInstance().addRawSqlJdbcMap(Backup_TargetDB.getDBName(), backupTarDataSource);
