@@ -22,7 +22,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 public class BenefitSystemMsgAdapter {
 
 	
-	private final Socket socket;
+	private Socket socket;
 	
 	private DataOutputStream output;
 	
@@ -38,15 +38,20 @@ public class BenefitSystemMsgAdapter {
 	public BenefitSystemMsgAdapter(String host, int port, int timeoutMillis) {
 		remoteAddress = new InetSocketAddress(host, port);
 		this.timeoutMillis = timeoutMillis;
-		this.socket = new Socket();
+		this.socket = createSocket();
+		startReciver();
+	}
+	
+	private Socket createSocket(){
+		Socket socket = new Socket();
 		try {
 			//不监视连接是否有效，这样会不主动断开连接
-			this.socket.setKeepAlive(false);
-			this.socket.setTcpNoDelay(true);
+			socket.setKeepAlive(false);
+			socket.setTcpNoDelay(true);
 		} catch (SocketException e) {
 			e.printStackTrace();
 		}
-		startReciver();
+		return socket;
 	}
 	
 	public boolean isAvaliable(){
@@ -57,6 +62,7 @@ public class BenefitSystemMsgAdapter {
 	public boolean connect(){
 		System.out.println("================try to connet target sell server~");
 		try {
+			this.socket = createSocket();//重新创建一个
 			socket.connect(remoteAddress , timeoutMillis);//这个会阻塞,到超时或连接成功
 			this.output = new DataOutputStream(socket.getOutputStream());
 			this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
@@ -64,7 +70,7 @@ public class BenefitSystemMsgAdapter {
 			connectComplete.compareAndSet(false, true);
 			return true;
 		} catch (Exception e) {
-			GameLog.error("TargetSell", "BenefitSystemMsgAdapter[connect]", "连接精准营销服失败", e);
+			GameLog.error("TargetSell", "BenefitSystemMsgAdapter[connect]", "连接精准营销服失败", null);
 			connectComplete.compareAndSet(true, false);
 			return false;
 		}
@@ -122,6 +128,7 @@ public class BenefitSystemMsgAdapter {
 							
 						} catch (IOException e) {
 							GameLog.error("TargetSell", "BenefitSystemMsgReciver[startReciver]", "读取精准营销消息异常", e);
+							connectComplete.compareAndSet(true, false);
 						}
 					}
 				}

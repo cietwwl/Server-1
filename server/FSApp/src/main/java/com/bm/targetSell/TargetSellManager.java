@@ -14,6 +14,7 @@ import javax.management.timer.Timer;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.bm.targetSell.net.BenefitMsgController;
 import com.bm.targetSell.net.TargetSellOpType;
 import com.bm.targetSell.param.RoleAttrs;
 import com.bm.targetSell.param.TargetSellAbsArgs;
@@ -83,12 +84,10 @@ public class TargetSellManager {
 	//前置记录有效时间,如果超过这个时间就当作是其他的充值
 	private static final long VALIABLE_TIME = 1 * Timer.ONE_MINUTE;
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
-	/**与精准服通讯心跳*/
-	public final String HeartBeatContent;
+	
 	
 	private TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
-		HeartBeatContent = getHeartBeatMsgData();
 	}
 	
 	public static TargetSellManager getInstance(){
@@ -123,7 +122,7 @@ public class TargetSellManager {
 	}
 	
 	
-	private <T extends TargetSellAbsArgs> T iniCommonParam(T p, String channelID, String userID, String account){
+	public <T extends TargetSellAbsArgs> T iniCommonParam(T p, String channelID, String userID, String account){
 		if(p == null){
 			return null;
 		}
@@ -138,7 +137,7 @@ public class TargetSellManager {
 	 * 获取心跳消息参数
 	 * @return
 	 */
-	private String getHeartBeatMsgData() {
+	public String getHeartBeatMsgData() {
 		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5001);
 		TargetSellHeartBeatParam param = new TargetSellHeartBeatParam();
 		param = initDefaultParam(param);
@@ -615,6 +614,7 @@ public class TargetSellManager {
 			@Override
 			public void run() {
 				//TODO 这里接入发送接口
+				BenefitMsgController.getInstance().addMsg(content);
 			}
 		});
 	}
