@@ -1,6 +1,10 @@
 package com.playerdata.activity.retrieve.userFeatures.userFeaturesType;
 
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
+import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
+import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
+import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO;
 import com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
@@ -10,6 +14,8 @@ import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copypve.CopyInfoCfgDAO;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class UserFeatruesJbzd implements IUserFeatruesHandler{
 	//比较挫，找时间5抽1；此类型判断打过次数，不考虑需要付费的重置
@@ -25,9 +31,38 @@ public class UserFeatruesJbzd implements IUserFeatruesHandler{
 	}
 
 	@Override
-	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, String userId, RewardBackCfgDAO dao) {
-		// TODO Auto-generated method stub
+	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
+		int level = player.getLevel();
+		if(level >= dao.checkIsOpen(eOpenLevelType.TRIAL, player)){			
+			todaySubItem.setMaxCount(CopyInfoCfgDAO.getInstance().getCfgById(UserFeatruesMgr.jbzd+"").getCount());			
+		}else{
+			todaySubItem.setMaxCount(0);
+		}
 		return null;
+	}
+
+	@Override
+	public String getNorReward(NormalRewardsCfg cfg,RewardBackSubItem subItem) {
+		// TODO Auto-generated method stub
+		return cfg.getJubaoNorRewards();
+	}
+
+	@Override
+	public String getPerReward(PerfectRewardsCfg cfg,RewardBackSubItem subItem) {
+		// TODO Auto-generated method stub
+		return cfg.getJubaoPerRewards();
+	}
+
+	@Override
+	public int getNorCost(NormalRewardsCfg cfg) {
+		// TODO Auto-generated method stub
+		return cfg.getJubaoNorCost();
+	}
+
+	@Override
+	public int getPerCost(PerfectRewardsCfg cfg) {
+		// TODO Auto-generated method stub
+		return cfg.getJubaoPerCost();
 	}
 
 }

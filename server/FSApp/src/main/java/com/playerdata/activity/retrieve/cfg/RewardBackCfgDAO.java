@@ -27,35 +27,35 @@ public class RewardBackCfgDAO extends CfgCsvDao<RewardBackCfg>{
 
 
 	private void parse(RewardBackCfg cfgTmp) {
-		String normalrewards = cfgTmp.getNormalRewards();		
-		if(StringUtils.equals("-1", normalrewards)){
-			
-		}else{
-			HashMap<Integer, Integer> normalRewardsMap = new HashMap<Integer, Integer>();
-			String[] normalreward = normalrewards.split(";");
-			for(String idAndCount : normalreward){
-				String[] temp = idAndCount.split(":");
-				String id = temp[0];
-				String count = temp[1];
-				normalRewardsMap.put(Integer.parseInt(id), Integer.parseInt(count));
-			}
-			cfgTmp.setNormalRewardsMap(normalRewardsMap);			
-		}
-		
-		String perfectrewards = cfgTmp.getPerfectRewards();
-		if(StringUtils.equals("-1", perfectrewards)){
-			
-		}else{
-			HashMap<Integer, Integer> perfectRewardsMap = new HashMap<Integer, Integer>();
-			String[] perfectReward = perfectrewards.split(";");
-			for(String idAndCount : perfectReward){
-				String[] temp = idAndCount.split(":");
-				String id = temp[0];
-				String count = temp[1];
-				perfectRewardsMap.put(Integer.parseInt(id), Integer.parseInt(count));				
-			}
-			cfgTmp.setPerfectRewardsMap(perfectRewardsMap);
-		}		
+//		String normalrewards = cfgTmp.getNormalRewards();		
+//		if(StringUtils.equals("-1", normalrewards)){
+//			
+//		}else{
+//			HashMap<Integer, Integer> normalRewardsMap = new HashMap<Integer, Integer>();
+//			String[] normalreward = normalrewards.split(";");
+//			for(String idAndCount : normalreward){
+//				String[] temp = idAndCount.split(":");
+//				String id = temp[0];
+//				String count = temp[1];
+//				normalRewardsMap.put(Integer.parseInt(id), Integer.parseInt(count));
+//			}
+//			cfgTmp.setNormalRewardsMap(normalRewardsMap);			
+//		}
+//		
+//		String perfectrewards = cfgTmp.getPerfectRewards();
+//		if(StringUtils.equals("-1", perfectrewards)){
+//			
+//		}else{
+//			HashMap<Integer, Integer> perfectRewardsMap = new HashMap<Integer, Integer>();
+//			String[] perfectReward = perfectrewards.split(";");
+//			for(String idAndCount : perfectReward){
+//				String[] temp = idAndCount.split(":");
+//				String id = temp[0];
+//				String count = temp[1];
+//				perfectRewardsMap.put(Integer.parseInt(id), Integer.parseInt(count));				
+//			}
+//			cfgTmp.setPerfectRewardsMap(perfectRewardsMap);
+//		}		
 	}
 
 	

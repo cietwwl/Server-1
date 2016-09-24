@@ -12,7 +12,7 @@ public class RewardBackCfg {
 	
 	private String normalRewards;
 	
-	private HashMap<Integer, Integer> normalRewardsMap = new HashMap<Integer, Integer>();
+//	private HashMap<Integer, Integer> normalRewardsMap = new HashMap<Integer, Integer>();
 	
 	private int normalCostType;	
 	
@@ -24,7 +24,7 @@ public class RewardBackCfg {
 	
 	private String perfectRewards;
 	
-	private HashMap<Integer, Integer> perfectRewardsMap = new HashMap<Integer, Integer>();
+//	private HashMap<Integer, Integer> perfectRewardsMap = new HashMap<Integer, Integer>();
 	
 	private int perfectCostType;	
 	
@@ -58,13 +58,13 @@ public class RewardBackCfg {
 		this.normalRewards = normalRewards;
 	}
 
-	public HashMap<Integer, Integer> getNormalRewardsMap() {
-		return normalRewardsMap;
-	}
-
-	public void setNormalRewardsMap(HashMap<Integer, Integer> normalRewardsMap) {
-		this.normalRewardsMap = normalRewardsMap;
-	}
+//	public HashMap<Integer, Integer> getNormalRewardsMap() {
+//		return normalRewardsMap;
+//	}
+//
+//	public void setNormalRewardsMap(HashMap<Integer, Integer> normalRewardsMap) {
+//		this.normalRewardsMap = normalRewardsMap;
+//	}
 
 	public int getNormalCostType() {
 		return normalCostType;
@@ -82,13 +82,13 @@ public class RewardBackCfg {
 		this.perfectRewards = perfectRewards;
 	}
 
-	public HashMap<Integer, Integer> getPerfectRewardsMap() {
-		return perfectRewardsMap;
-	}
-
-	public void setPerfectRewardsMap(HashMap<Integer, Integer> perfectRewardsMap) {
-		this.perfectRewardsMap = perfectRewardsMap;
-	}
+//	public HashMap<Integer, Integer> getPerfectRewardsMap() {
+//		return perfectRewardsMap;
+//	}
+//
+//	public void setPerfectRewardsMap(HashMap<Integer, Integer> perfectRewardsMap) {
+//		this.perfectRewardsMap = perfectRewardsMap;
+//	}
 
 	public int getPerfectCostType() {
 		return perfectCostType;

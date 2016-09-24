@@ -10,6 +10,11 @@ import org.apache.commons.lang.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
+import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
+import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
+import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO;
+import com.playerdata.activity.retrieve.cfg.RewardBackCfg;
 import com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO;
 import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
@@ -36,28 +41,37 @@ import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatru
 import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesWorship;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copypve.pojo.CopyInfoCfg;
-
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class UserFeatruesMgr {
+	// 日常任务的早午晚编号
 	private static final int dailyTaskBreakfast = 10002;
 	private static final int dailyTasklunch = 10001;
 	private static final int dailyTaskdinner = 10003;
 	private static final int dailyTasksupper = 10004;
-	
+	// 逻辑得到copy,copylevel，最后得到copyinfo才能判断时哪种幻境
 	public static final int jbzd = 1;
 	public static final int lxsg = 2;
-	public static final int celestial_kunlun = 3;//逻辑得到copy,copylevel，最后得到copyinfo才能判断时哪种幻境
+	public static final int celestial_kunlun = 3;
 	public static final int celestial_penglai = 4;
-	
+	//活动表里的体力购买字段
+	public static final int buyPowerOne = 1;
+	public static final int buyPowerTwo = 4;
+	public static final int buyPowerThree = 7;
+	public static final int buyPowerFour = 10;
+	public static final int buyPowerFive = 13;
+	public static final int buyPowerLength = 3;
+
 	private static UserFeatruesMgr instance = new UserFeatruesMgr();
-	
-	public static UserFeatruesMgr getInstance(){
+
+	public static UserFeatruesMgr getInstance() {
 		return instance;
 	}
-	
+
 	private Map<UserFeaturesEnum, IUserFeatruesHandler> featruesHandlerMap = new HashMap<UserFeaturesEnum, IUserFeatruesHandler>();
-	
-	private UserFeatruesMgr(){
+
+	private UserFeatruesMgr() {
 		featruesHandlerMap.put(UserFeaturesEnum.breakfast, new UserFeatruesBreakfast());
 		featruesHandlerMap.put(UserFeaturesEnum.lunch, new UserFeatruesLunch());
 		featruesHandlerMap.put(UserFeaturesEnum.dinner, new UserFeatruesDinner());
@@ -78,118 +92,265 @@ public class UserFeatruesMgr {
 		featruesHandlerMap.put(UserFeaturesEnum.battleTower, new UserFeatruesBattleTower());
 		featruesHandlerMap.put(UserFeaturesEnum.magicSecert, new UserFeatruesMagicSecret());
 	}
-	
-	public List<RewardBackTodaySubItem> doCreat(Player player){
-		List<RewardBackTodaySubItem> subItemList = new ArrayList<RewardBackTodaySubItem>();		
-		for(Map.Entry<UserFeaturesEnum, IUserFeatruesHandler> entry : featruesHandlerMap.entrySet()){
-			RewardBackTodaySubItem  subItem = new RewardBackTodaySubItem();
-			subItem = creatSubItem(player,entry.getKey(),entry.getValue());
+
+	public List<RewardBackTodaySubItem> doCreat(Player player) {
+		List<RewardBackTodaySubItem> subItemList = new ArrayList<RewardBackTodaySubItem>();
+		for (Map.Entry<UserFeaturesEnum, IUserFeatruesHandler> entry : featruesHandlerMap.entrySet()) {
+			RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
+			subItem = creatSubItem(player, entry.getKey(), entry.getValue());
 			subItemList.add(subItem);
-		}		
+		}
 		return subItemList;
 	}
-	
-	private RewardBackTodaySubItem creatSubItem(Player player,UserFeaturesEnum iEnum,IUserFeatruesHandler iUserFeatruesHandler){
-		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();		
-		if(iUserFeatruesHandler != null){
+
+	private RewardBackTodaySubItem creatSubItem(Player player, UserFeaturesEnum iEnum, IUserFeatruesHandler iUserFeatruesHandler) {
+		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
+		if (iUserFeatruesHandler != null) {
 			subItem = iUserFeatruesHandler.doEvent(player);
 		}
 		return subItem;
 	}
 
-	public List<RewardBackSubItem> doFresh(String userId,List<RewardBackTodaySubItem> subTodayItemList) {
-		RewardBackCfgDAO rewardBackCfgDAO = RewardBackCfgDAO.getInstance();
-		List<RewardBackSubItem> subItemList = new ArrayList<RewardBackSubItem>();
-		for(RewardBackTodaySubItem todaySubItem : subTodayItemList){
-			UserFeaturesEnum iEnum = UserFeaturesEnum.getById(todaySubItem.getId());
-			if(iEnum == null){
-				continue;
-			}
-			RewardBackSubItem subItem = new RewardBackSubItem();
-			subItem = featruesHandlerMap.get(iEnum).doFresh(todaySubItem,userId,rewardBackCfgDAO);
-			subItemList.add(subItem);
-		}		
-		return subItemList;
+	// 玩家触发功能计数
+	public void doFinish(Player player, UserFeaturesEnum iEnum) {
+		doFinishFinally(player, iEnum, 1);
 	}
 
-	public void doFinish(Player player,UserFeaturesEnum iEnum){		
-		doFinishFinally(player,iEnum,1);		
-	}	
+	// 带参数的计数
+	public void doFinishOfCount(Player player, UserFeaturesEnum iEnum, int count) {
+		doFinishFinally(player, iEnum, count);
+	}
 
-	//带参数的计数
-	public void doFinishOfCount(Player player,UserFeaturesEnum iEnum,int count){		
-		doFinishFinally(player,iEnum,count);
-	}	
-	
 	private void doFinishFinally(Player player, UserFeaturesEnum iEnum, int count) {
 		ActivityRetrieveTypeHolder dataholder = ActivityRetrieveTypeHolder.getInstance();
 		String userId = player.getUserId();
 		RewardBackTodaySubItem subItem = null;
 		RewardBackItem item = dataholder.getItem(userId);
 		List<RewardBackTodaySubItem> todaySubitemList = item.getTodaySubitemList();
-		
-		for(RewardBackTodaySubItem temp : todaySubitemList){
-			if(StringUtils.equals(temp.getId(), iEnum.getId())){
+
+		for (RewardBackTodaySubItem temp : todaySubitemList) {
+			if (StringUtils.equals(temp.getId(), iEnum.getId())) {
 				subItem = temp;
 				break;
 			}
 		}
-		if(subItem == null){
-			//当天没生成活动数据，但功能又跑进来了
+		if (subItem == null) {
+			// 当天没生成活动数据，但功能又跑进来了
 			GameLog.error(LogModule.ComActivityRetrieve, userId, "当天没生成活动数据，但功能又跑进来了", null);
 			return;
 		}
-		
-		if(subItem.getMaxCount() > subItem.getCount()){
-			int tmp = subItem.getCount() ;
-			tmp = tmp + count > subItem.getMaxCount() ? subItem.getMaxCount() : tmp + count;
-			subItem.setCount(tmp);
-			dataholder.updateItem(player, item);
-		}else{
-			//可能策划配错表；可能此功能可打10次，但只对前五进行找回
-		}		
+
+		int tmp = subItem.getCount()+ count;
+		subItem.setCount(tmp);
+		dataholder.updateItem(player, item);
 	}
 
-	/**完成日常任务时判断下是否为早午晚餐等*/
+	/** 完成日常任务时判断下是否为早午晚餐等 */
 	public void checkDailyTask(Player player, int id) {
-		if(id == dailyTaskBreakfast){
+		if (id == dailyTaskBreakfast) {
 			doFinish(player, UserFeaturesEnum.breakfast);
-		}else if(id == dailyTasklunch){
+		} else if (id == dailyTasklunch) {
 			doFinish(player, UserFeaturesEnum.lunch);
-		}else if(id == dailyTaskdinner){
+		} else if (id == dailyTaskdinner) {
 			doFinish(player, UserFeaturesEnum.dinner);
-		}else if(id == dailyTasksupper){
+		} else if (id == dailyTasksupper) {
 			doFinish(player, UserFeaturesEnum.supper);
 		}
 	}
 
-	/*完成生存幻境是判断是哪一种，蛋疼的一笔*/
+	/* 完成生存幻境是判断是哪一种，蛋疼的一笔 */
 	public void checkCelestial(Player player, CopyCfg copyCfg) {
 		CopyInfoCfg infoCfg = player.getCopyDataMgr().getCopyInfoCfgByLevelID(String.valueOf(copyCfg.getLevelID()));
-		if(infoCfg == null){
+		if (infoCfg == null) {
 			return;
 		}
-		if(infoCfg.getId() == celestial_kunlun){
+		if (infoCfg.getId() == celestial_kunlun) {
 			doFinish(player, UserFeaturesEnum.celestial_KunLunWonderLand);
-		}else if(infoCfg.getId() == celestial_penglai){
+		} else if (infoCfg.getId() == celestial_penglai) {
 			doFinish(player, UserFeaturesEnum.celestial_PengLaiIsland);
-		}			
+		}
 	}
-	
-	/**五档买体,传入买体成功后的当日已买次数;策划要改就加字段*/
+
+	/** 五档买体,传入买体成功后的当日已买次数;策划要改就加字段 */
 	public void buyPower(Player player, int buyPowerCount) {
-		if(buyPowerCount >= 1&& buyPowerCount <=3){
+		if (buyPowerCount >= buyPowerOne && buyPowerCount < buyPowerTwo) {
 			doFinish(player, UserFeaturesEnum.buyPowerOne);
-		}else if(buyPowerCount >= 4&& buyPowerCount <=6){
+		} else if (buyPowerCount >= buyPowerTwo && buyPowerCount < buyPowerThree) {
 			doFinish(player, UserFeaturesEnum.buyPowerTwo);
-		}else if(buyPowerCount >= 7&& buyPowerCount <=9){
+		} else if (buyPowerCount >= buyPowerThree && buyPowerCount < buyPowerFour) {
 			doFinish(player, UserFeaturesEnum.buyPowerThree);
-		}else if(buyPowerCount >= 10&& buyPowerCount <=12){
+		} else if (buyPowerCount >= buyPowerFour && buyPowerCount < buyPowerFive) {
 			doFinish(player, UserFeaturesEnum.buyPowerFour);
-		}else if(buyPowerCount >= 13&& buyPowerCount <=15){
+		} else if (buyPowerCount >= buyPowerFive && buyPowerCount < buyPowerFive + buyPowerLength) {
 			doFinish(player, UserFeaturesEnum.buyPowerFive);
-		}		
+		}
 	}
+
+	/**
+	 * 
+	 * @param userId
+	 * @param subTodayItemList
+	 * @return 负责隔天刷新时，将旧的当天功能数据生成对应的新的活动找回数据；
+	 */
+	public List<RewardBackSubItem> doFresh(Player player, List<RewardBackTodaySubItem> subTodayItemList) {
+		RewardBackCfgDAO Dao = RewardBackCfgDAO.getInstance();
+		NormalRewardsCfgDAO norDAO = NormalRewardsCfgDAO.getInstance();
+		PerfectRewardsCfgDAO perDAO = PerfectRewardsCfgDAO.getInstance();
+		List<RewardBackSubItem> subItemList = new ArrayList<RewardBackSubItem>();
+		CfgOpenLevelLimitDAO limitDao = CfgOpenLevelLimitDAO.getInstance();
+		int level = player.getLevel();
+		int vip = player.getVip();
+		for (RewardBackTodaySubItem todaySubItem : subTodayItemList) {
+			UserFeaturesEnum iEnum = UserFeaturesEnum.getById(todaySubItem.getId());
+			if (iEnum == null) {
+				continue;
+			}
+			featruesHandlerMap.get(iEnum).doFresh(todaySubItem, player,limitDao);
+			RewardBackSubItem subItem = new RewardBackSubItem();
+			subItem = doFresh(iEnum, todaySubItem, level, vip, Dao, norDAO, perDAO);
+			subItemList.add(subItem);
+		}
+		return subItemList;
+	}
+
+	/**
+	 * @param todaySubItem
+	 * @param userId
+	 * @param dao
+	 * @return 将一个子功能的昨日完成度数据转化为今日每日找回活动数据
+	 */
+	private RewardBackSubItem doFresh(UserFeaturesEnum ienum, RewardBackTodaySubItem todaySubItem, int level, int vip, RewardBackCfgDAO dao, NormalRewardsCfgDAO normalDao, PerfectRewardsCfgDAO perfectDao) {
+		RewardBackCfg cfg = dao.getCfgById(todaySubItem.getId() + "");
+		RewardBackSubItem subItem = new RewardBackSubItem();
+		subItem.setId(Integer.parseInt(todaySubItem.getId()));
+		subItem.setMaxCount(todaySubItem.getMaxCount());
+		subItem.setCount(todaySubItem.getCount());
+
+		if(cfg == null){
+			//创建时遍历枚举,没使用cfg；此处没有cfg
+			return subItem;
+		}
+		subItem.setNormalType(cfg.getNormalCostType());
+		subItem.setPerfectType(cfg.getPerfectCostType());
+
+		setReward(ienum, subItem, cfg, level, vip, normalDao, perfectDao);
+		setCost(ienum, subItem, cfg, level, vip, normalDao, perfectDao);
+		subItem.setIstaken(false);
+		return subItem;
+	}
+
 	
+	/**
+	 * 因为部分奖励和消耗是根据用户等级+vip变化的，需要此时根据自身获得对应的normal-perfect的cfg再获得对应的功能的相关数据；
+	 * 设置子功能的奖励和消耗，但有些是主表没有的
+	 * 
+	 * @param subItem
+	 * @param cfg
+	 * @param level
+	 * @param vip
+	 * @param norDao
+	 * @param perDao
+	 */
+	private void setReward(UserFeaturesEnum ienum, RewardBackSubItem subItem, RewardBackCfg cfg, int level, int vip, NormalRewardsCfgDAO norDao, PerfectRewardsCfgDAO perDao) {
+		if (StringUtils.equals("-1", cfg.getNormalRewards())||StringUtils.equals("-2", cfg.getNormalRewards())) {
+			setNorRewardByLevelAndVip(ienum,subItem, level, vip, norDao);
+		} else {
+			subItem.setNormalReward(cfg.getNormalRewards());
+		}
+		if (StringUtils.equals("-1", cfg.getPerfectRewards())||StringUtils.equals("-2", cfg.getPerfectRewards())) {
+			setPerRewardByLevelAndVip(ienum,subItem, level, vip, perDao);
+		} else {
+			subItem.setPerfectReward(cfg.getPerfectRewards());
+		}
+	}
+
+	/**
+	 * 根据level vip 从perDao里拿完美找回的奖励
+	 * 
+	 * @param subItem
+	 * @param level
+	 * @param vip
+	 * @param perDao
+	 */
+	private void setPerRewardByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, PerfectRewardsCfgDAO perDao) {
+		HashMap<Integer, PerfectRewardsCfg> map = perDao.get_levelCfgMapping().get(level);
+		if(map == null){
+			return;
+		}		
+		PerfectRewardsCfg cfg = map.get(vip);
+		if(cfg == null){
+			return;
+		}
+		String reward = featruesHandlerMap.get(ienum).getPerReward(cfg,subItem);
+		subItem.setPerfectReward(reward);	
+	}	
+
+	/**
+	 * 根据level vip 从norDao里拿普通找回的奖励
+	 * 
+	 * @param subItem
+	 * @param level
+	 * @param vip
+	 * @param norDao
+	 */
+	private void setNorRewardByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, NormalRewardsCfgDAO norDao) {
+		HashMap<Integer, NormalRewardsCfg> map = norDao.get_levelCfgMapping().get(level);
+		if(map == null){
+			return;
+		}		
+		NormalRewardsCfg cfg = map.get(vip);
+		if(cfg == null){
+			return;
+		}
+		String reward = featruesHandlerMap.get(ienum).getNorReward(cfg,subItem);
+		subItem.setNormalReward(reward);		
+	}	
 	
+	private void setCost(UserFeaturesEnum ienum, RewardBackSubItem subItem, RewardBackCfg cfg, int level, int vip, NormalRewardsCfgDAO normalDao, PerfectRewardsCfgDAO perfectDao) {
+
+		
+		
+		if (-1==cfg.getNormalCost()||cfg.getNormalCost() == -2) {
+			setNorCostByLevelAndVip(ienum,subItem, level, vip, normalDao);
+		} else {
+			subItem.setNormalCost(cfg.getNormalCost());
+		}
+		if (-1==cfg.getPerfectCost()||cfg.getPerfectCost() == -2) {
+			setPerCostByLevelAndVip(ienum,subItem, level, vip, perfectDao);
+		} else {
+			subItem.setPerfectCost(cfg.getPerfectCost());
+		}
+		
+	}
+
+	private void setPerCostByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, PerfectRewardsCfgDAO perfectDao) {
+		HashMap<Integer, PerfectRewardsCfg> map = perfectDao.get_levelCfgMapping().get(level);
+		if(map == null){
+			return;
+		}		
+		PerfectRewardsCfg cfg = map.get(vip);
+		if(cfg == null){
+			return;
+		}
+		int cost = featruesHandlerMap.get(ienum).getPerCost(cfg);
+		subItem.setPerfectCost(cost);
+		
+	}
+
+	private void setNorCostByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, NormalRewardsCfgDAO normalDao) {
+		HashMap<Integer, NormalRewardsCfg> map = normalDao.get_levelCfgMapping().get(level);
+		if(map == null){
+			return;
+		}		
+		NormalRewardsCfg cfg = map.get(vip);
+		if(cfg == null){
+			return;
+		}
+		int cost = featruesHandlerMap.get(ienum).getNorCost(cfg);
+		subItem.setNormalCost(cost);
+		
+	}
+
+
+
 }

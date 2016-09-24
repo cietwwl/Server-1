@@ -94,7 +94,7 @@ public class ActivityRetrieveTypeMgr {
 		for(RewardBackItem item : itemList){
 			if(ActivityTypeHelper.isNewDayHourOfActivity(5, item.getLastSingleTime())){
 				List<RewardBackSubItem> subItemList = new ArrayList<RewardBackSubItem>();
-				subItemList = UserFeatruesMgr.getInstance().doFresh(player.getUserId(),item.getTodaySubitemList());
+				subItemList = UserFeatruesMgr.getInstance().doFresh(player,item.getTodaySubitemList());
 				item.setSubList(subItemList);
 				List<RewardBackTodaySubItem> subTodayItemList = new ArrayList<RewardBackTodaySubItem>();
 				subTodayItemList = UserFeatruesMgr.getInstance().doCreat(player);
@@ -177,7 +177,7 @@ public class ActivityRetrieveTypeMgr {
 			Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 			map.put(type, -tmp);
 			player.getItemBagMgr().useLikeBoxItem(null, null, map);	
-			
+//			player.getItemBagMgr().useItemByCfgId(id, entry.getValue());
 			String[] reward = rewards.split(";");
 			for(String tmpreward : reward){
 				String[] str = tmpreward.split(":");
