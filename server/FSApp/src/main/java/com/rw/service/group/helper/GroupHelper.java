@@ -98,6 +98,9 @@ public class GroupHelper {
 
 		UserGroupAttributeDataIF userGroupAttributeData = player
 				.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if(userGroupAttributeData == null){
+			return false;
+		}
 		String groupId = userGroupAttributeData.getGroupId();
 		return !StringUtils.isEmpty(groupId);
 	}

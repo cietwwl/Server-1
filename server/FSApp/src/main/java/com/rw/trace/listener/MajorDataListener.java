@@ -17,6 +17,9 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		MajorData newRecord = event.getCurrentRecord();
 		
 		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		if(list == null){
+			return;
+		}
 		
 		//记录游戏币的变动日志
 		long oldCoin = oldRecord.getCoin();

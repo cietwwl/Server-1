@@ -5,14 +5,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import com.common.RefParam;
 import com.playerdata.Player;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.assistant.cfg.AssistantCfg;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 import com.rwbase.dao.assistant.cfg.AssistantCfgDao;
 import com.rwbase.dao.assistant.pojo.AssistantData;
 import com.rwbase.dao.assistant.pojo.AssistantDataHolder;
-import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class AssistantMgr {
 
@@ -55,7 +56,17 @@ public class AssistantMgr {
 		AssistantData assistantData = assistantDataHolder.get();
 		ArrayList<AssistantCfg> activeEventList = assistantData.getCfgList();
 		activeEventList.clear();
+		CfgOpenLevelLimitDAO helper = CfgOpenLevelLimitDAO.getInstance();
+		RefParam<String> outtip = new RefParam<String>();
+		
 		for (IAssistantCheck iAssistantCheck : checkList) {
+			eOpenLevelType openType = iAssistantCheck.getOpenType();
+			if (openType != null){
+				if (!helper.isOpen(openType, player,outtip)) {
+					continue;
+				}
+			}
+			
 			AssistantEventID assistantEvent = iAssistantCheck.doCheck(player);
 			if (assistantEvent != null) {
 				AssistantCfg cfgById = AssistantCfgDao.getInstance().getCfgById(assistantEvent);

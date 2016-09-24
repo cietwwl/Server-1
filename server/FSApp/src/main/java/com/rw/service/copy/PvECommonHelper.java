@@ -10,6 +10,7 @@ import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
@@ -21,6 +22,9 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
 import com.rwbase.dao.copy.cfg.BuyLevelCfgDAO;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.pojo.CopyData;
@@ -45,7 +49,8 @@ public class PvECommonHelper {
 		for (String heroId : heroIdList) {
 //			Hero hero = player.getHeroMgr().getHeroById(heroId);
 			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
-			int addHeroExp = hero.addHeroExp(copyCfg.getHeroExp());
+//			int addHeroExp = hero.addHeroExp(copyCfg.getHeroExp());
+			int addHeroExp = player.getHeroMgr().addHeroExp(hero, copyCfg.getHeroExp());
 			if (hero != null && addHeroExp == 1) {
 				listUpHero.add(heroId);
 			}
@@ -84,24 +89,87 @@ public class PvECommonHelper {
 		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
 		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
 		
+		List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
+		if(multipleCoin - 1 >= 0.001f || multipleCoin - 1 <= -0.001f){
+			PrivilegeDescItem privDescItem_Coin = new PrivilegeDescItem(eSpecialItemId.Coin.getValue(), multipleCoin - 1);
+			totalPriv.add(privDescItem_Coin);
+		}
+		if(multiplePlayerExp - 1 >= 0.001f || multiplePlayerExp - 1 <= -0.001f){
+			PrivilegeDescItem privDescItem_Exp = new PrivilegeDescItem(eSpecialItemId.PlayerExp.getValue(), multiplePlayerExp - 1);
+			totalPriv.add(privDescItem_Exp);
+		}
+		if(CopyCfgDAO.getInstance().isNormalOrElite(copyCfg)){
+			List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+			if(null != privList && !privList.isEmpty()){
+				totalPriv.addAll(privList);
+			}
+		}
+		ArrayList<ItemInfo> dropItem = new ArrayList<ItemInfo>();
+		ItemInfo exp = new ItemInfo(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp());
+		ItemInfo coin = new ItemInfo(eSpecialItemId.Coin.getValue(), copyCfg.getCoin());
+		dropItem.add(exp);
+		dropItem.add(coin);
+		if(!totalPriv.isEmpty()){
+			System.currentTimeMillis();
+			ArrayList<ItemInfo> dropItemUnderBuff = new ArrayList<ItemInfo>();
+			for(ItemInfo iteminfo : dropItem){
+				ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, totalPriv);
+				dropItemUnderBuff.add(ItemPrivilegeFactory.getItemInfo(newItemIF));
+			}
+			dropItem = dropItemUnderBuff;
+		}
+		player.getItemBagMgr().addItem(dropItem);
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower())*multiplePower);
-		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiplePlayerExp);
-		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin()*multipleCoin);
+//		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiplePlayerExp);
+//		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin()*multipleCoin);		
 	}
+	
 	/**副本扫荡经验增加*/
 	public static void addPlayerAttr4Sweep(Player player, CopyCfg copyCfg, int times) {
 //		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 1);
 //		int multiplecoin = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 2);
 		
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 		int multiplePower = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Power.getValue());
 		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
 		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
 		
+		List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
+		if(multipleCoin - 1 >= 0.001f || multipleCoin - 1 <= -0.001f){
+			PrivilegeDescItem privDescItem_Coin = new PrivilegeDescItem(eSpecialItemId.Coin.getValue(), multipleCoin - 1);
+			totalPriv.add(privDescItem_Coin);
+		}
+		if(multiplePlayerExp - 1 >= 0.001f || multiplePlayerExp - 1 <= -0.001f){
+			PrivilegeDescItem privDescItem_Exp = new PrivilegeDescItem(eSpecialItemId.PlayerExp.getValue(), multiplePlayerExp - 1);
+			totalPriv.add(privDescItem_Exp);
+		}
+		if(CopyCfgDAO.getInstance().isNormalOrElite(copyCfg)){
+			List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+			if(null != privList && !privList.isEmpty()){
+				totalPriv.addAll(privList);
+			}
+		}
 		
+		ArrayList<ItemInfo> dropItem = new ArrayList<ItemInfo>();
+		ItemInfo exp = new ItemInfo(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp());
+		ItemInfo coin = new ItemInfo(eSpecialItemId.Coin.getValue(), copyCfg.getCoin());
+		dropItem.add(exp);
+		dropItem.add(coin);
+		
+		if(!totalPriv.isEmpty()){
+			ArrayList<ItemInfo> dropItemUnderBuff = new ArrayList<ItemInfo>();
+			for(ItemInfo iteminfo : dropItem){
+				ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, totalPriv);
+				ItemInfo newItem = ItemPrivilegeFactory.getItemInfo(newItemIF);
+				newItem.setItemNum(newItem.getItemNum() * times);
+				dropItemUnderBuff.add(newItem);
+			}
+			dropItem = dropItemUnderBuff;
+		}
+		player.getItemBagMgr().addItem(dropItem);
 		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times*multiplePower);
-		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiplePlayerExp);
-		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times*multipleCoin);
+//		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiplePlayerExp);
+//		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times*multipleCoin);
 	}
 
 	public static List<TagSweepInfo> gainSweepRewards(Player player, int times, CopyCfg copyCfg) {

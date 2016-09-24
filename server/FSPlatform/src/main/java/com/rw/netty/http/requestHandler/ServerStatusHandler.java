@@ -1,5 +1,9 @@
 package com.rw.netty.http.requestHandler;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.rw.account.ZoneInfoCache;
 import com.rw.platform.PlatformFactory;
 import com.rw.platform.PlatformService;
@@ -14,13 +18,21 @@ public class ServerStatusHandler {
 		int onlineNum = serverBaseDataResponse.getOnlineNum();
 		int status = serverBaseDataResponse.getStatus();
 		
-		ZoneInfoCache zoneInfo = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
-		if(zoneInfo == null){
+		ResponseObject result = new ResponseObject();
+		
+		Map<Integer, ZoneInfoCache> map = PlatformFactory.getPlatformService().getZoneInfoBySubZoneId(zoneId);
+		if (map == null || map.size() <= 0) {
 			PlatformFactory.getPlatformService().initZoneCache();
+			result.setSuccess(false);
+			return result;
 		}
 		
-		refreshZoneInfo(zoneInfo, onlineNum, status);
-		ResponseObject result = new ResponseObject();
+		for (Iterator<Entry<Integer, ZoneInfoCache>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, ZoneInfoCache> entry = iterator.next();
+			ZoneInfoCache zoneInfo = entry.getValue();
+			refreshZoneInfo(zoneInfo, onlineNum, status);
+		}
+		
 		result.setSuccess(true);
 		return result;
 	}

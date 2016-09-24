@@ -3,6 +3,7 @@ package com.playerdata.fightinggrowth.fightingfunc;
 import java.util.List;
 
 import com.playerdata.Hero;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.GemFightingCfgDAO;
 import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
@@ -25,7 +26,7 @@ public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Inte
 
 	@Override
 	public Integer apply(Hero hero) {
-		List<String> gemIdList = hero.getInlayMgr().getInlayGemList(hero.getPlayer(), hero.getId());
+		List<String> gemIdList = hero.getInlayMgr().getInlayGemList(FSHeroMgr.getInstance().getOwnerOfHero(hero), hero.getId());
 		GemCfg gemCfg;
 		OneToOneTypeFightingCfg gemFightingCfg;
 		int fighting = 0;

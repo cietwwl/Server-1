@@ -11,6 +11,8 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.MagicMgr;
 import com.playerdata.Player;
 import com.playerdata.SkillMgr;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -18,8 +20,8 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
 
@@ -66,7 +68,7 @@ public class GMHeroBase {
 		if (level > maxLevel) {
 			level = maxLevel;
 		}
-		hero.gmEditHeroLevel(level);
+		FSHeroMgr.getInstance().gmEditHeroLevel(hero, level);
 	}
 
 	/**
@@ -83,13 +85,15 @@ public class GMHeroBase {
 		if (star > maxStar) {
 			star = maxStar;
 		}
-		hero.setStarLevel(star);
+//		hero.setStarLevel(star);
+		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, star);
 		return star;
 	}
 	
 	public static void gmUpdateTemplateId(int sex, int carrer, int startLevel, Hero hero){
 		RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, carrer, startLevel);
-		hero.setTemplateId(cfg.getRoleId());
+//		hero.setTemplateId(cfg.getRoleId());
+		FSHeroBaseInfoMgr.getInstance().setTemplateId(hero, cfg.getRoleId());
 	}
 	
 	/**
@@ -102,8 +106,9 @@ public class GMHeroBase {
 		if(qualityId.equals("")){
 			return;
 		}
-		hero.setQualityId(qualityId);
-		hero.gmCheckActiveSkill();
+//		hero.setQualityId(qualityId);
+		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, qualityId);
+		FSHeroMgr.getInstance().gmCheckActiveSkill(hero);
 	}
 	
 	/**

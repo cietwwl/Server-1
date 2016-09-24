@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.common.IHeroAction;
 import com.playerdata.EquipMgr;
+import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
 import com.playerdata.Player;
 import com.playerdata.SkillMgr;
@@ -69,7 +70,7 @@ public class FSHeroThirdPartyDataMgr {
 		return _instance;
 	}
 
-	void marqueeMsg(Player player, FSHero hero, int type, int num) {
+	void marqueeMsg(Player player, Hero hero, int type, int num) {
 		if (hero.getRoleType() == eRoleType.Player) {
 			if (type == marqueeStar) {
 				MainMsgHandler.getInstance().sendPmdZjsx(player, num);
@@ -94,14 +95,14 @@ public class FSHeroThirdPartyDataMgr {
 		_skillMgr.activeSkill(player, heroId, level, quality);
 	}
 	
-	void fireHeroLevelChangeEvent(Player player, FSHero hero, int preLv) {
+	void fireHeroLevelChangeEvent(Player player, Hero hero, int preLv) {
 		UserEventMgr.getInstance().heroUpGradeVitality(player, hero.getLevel());
 		if (preLv != hero.getLevel()) {
 			FettersBM.whenHeroChange(player, hero.getModeId());
 		}
 	}
 	
-	void fireStarLevelChangeEvent(Player player, FSHero hero, int preStar) {
+	void fireStarLevelChangeEvent(Player player, Hero hero, int preStar) {
 		if (preStar != hero.getStarLevel()) {
 			FettersBM.whenHeroChange(player, hero.getModeId());
 		}
@@ -110,7 +111,7 @@ public class FSHeroThirdPartyDataMgr {
 		player.getUserGameDataMgr().notifySingleStarChange(hero.getStarLevel(), preStar);
 	}
 	
-	void fireQualityChangeEvent(Player player, FSHero hero, String preQualityId) {
+	void fireQualityChangeEvent(Player player, Hero hero, String preQualityId) {
 		FettersBM.whenHeroChange(player, hero.getModeId());
 		RoleQualityCfg cfg = RoleQualityCfgDAO.getInstance().getConfig(hero.getQualityId());
 		if(cfg == null) {
@@ -121,7 +122,7 @@ public class FSHeroThirdPartyDataMgr {
 		player.getFresherActivityMgr().doCheck(eActivityType.A_HeroGrade);
 	}
 	
-	void fireHeroAddedEvent(Player player, FSHero hero) {
+	void fireHeroAddedEvent(Player player, Hero hero) {
 		player.getTempAttribute().setHeroFightingChanged();
 		FettersBM.whenHeroChange(player, hero.getModeId());
 		player.getUserGameDataMgr().increaseFightingAll(hero.getFighting());
@@ -144,7 +145,8 @@ public class FSHeroThirdPartyDataMgr {
 		player.getUserTmpGameDataFlag().setSynFightingAll(true);
 	}
 	
-	public void notifyFirstInit(Player player, FSHero hero) {
+	public void notifyFirstInit(FSHero hero) {
+		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
 		_initingHeroIds.add(hero.getId());
 		_skillMgr.init(hero);
 		_inlayMgr.init(hero);
@@ -177,7 +179,7 @@ public class FSHeroThirdPartyDataMgr {
 		return _fixExpEquipMgr;
 	}
 	
-	public void notifySync(Player player, FSHero hero, int version) {
+	public void notifySync(Player player, Hero hero, int version) {
 		_skillMgr.syncAllSkill(player, hero.getId(), version);
 		_inlayMgr.syncAllInlay(player, hero.getId(), version);
 		_equipMgr.syncAllEquip(player, hero.getId(), version);

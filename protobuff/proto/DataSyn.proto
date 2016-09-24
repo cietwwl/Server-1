@@ -97,6 +97,7 @@ enum eSynType	//数据同步类型
 	ActivityFortuneCatType = 74;//活动，招财猫
 	ActivityLimitHeroType = 75;//活动，限时神将
 	ActivityDailyRechargeType = 76; //每日充值活动
+	ActivityRetrieveType = 77;//每日找回活动
 
 	QuestionList = 80; //反馈问题列表	
 	GFBiddingData = 81;	//在线帮战个人压标数据
@@ -120,11 +121,27 @@ enum eSynType	//数据同步类型
 	WB_RANK_DATA = 96;//世界boss排行数据
 	GC_PREPARE_POSITION = 97;	//帮派争霸赛，备战区的位置信息同步
 	FIGHTING_GROWTH_DATA = 98; // 战力提升数据
+
+	GCompBase = 100; //帮派争霸基本信息
+	GCompAudition = 101; //帮派争霸海选
+	GCompDetailInfo = 102; //帮派争霸直播
+	GCompFightingRecord = 103; //帮派争霸战斗记录
+	GCompMatch = 104; //帮派争霸对阵信息
+	GCompOnlineMember = 105; //帮派争霸在线成员
+	GCompTeamHolder = 106; //帮派争霸组队
+	
+	BENEFIT_SELL_DATA = 107;//精准营销数据
+	
+	ACHIEVEMENT_DATA = 108;//成就数据
+	GCompSelfGuess = 109;	//玩家个人竞猜的项（只包含基本信息）--登录同步
+	GCompSelfGuessDetail = 110;	//玩家竞猜的项的详细信息（包括两个对战帮派的基本信息）--登录同步
+	GCompCanGuessItem = 111;	//和110用的相同的结构，但表示的是，当前可以竞猜的项（请求同步）
 }
 
 message MsgDataSynList
 {
     repeated MsgDataSyn msgDataSyn = 3;				//同步数列表
+
 }
 
 message DataSynVersion{
@@ -143,6 +160,7 @@ message MsgDataSyn
     repeated SynData SynData = 3;				//同步数据
     optional int32 version=4;					//数据版本号
     optional string groupId=5;                  //有分组的时候要传这个参数，前台对应要用 SynDataGroupListHolder
+    optional string optMap=6;					//长转短映射表
 }
 
 

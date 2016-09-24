@@ -3,6 +3,7 @@ package com.playerdata.dataSyn.json.fieldToJson;
 import java.lang.reflect.Field;
 
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 
 public class FieldString implements IFieldToJson{
 
@@ -13,13 +14,13 @@ public class FieldString implements IFieldToJson{
 	}
 
 	@Override
-	public String toJson(Object target) throws Exception {
+	public String toJson(Object target, JsonOpt JsonOpt) throws Exception {
 		Object objectValue = field.get(target);
 		if(objectValue == null){
 			return null;
 		}
 		
-		return (String)objectValue;
+		return JsonOpt.getShort((String)objectValue);
 	}
 
 	@Override

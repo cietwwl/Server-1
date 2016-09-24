@@ -312,6 +312,14 @@
 	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
 	<!-- 技能监听Id修改配置表  -->
 	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
+	<!-- 技能监听的配置表 -->
+	<bean class="com.rwbase.dao.skill.SkillListenerCfgDAO"  init-method="init" />
+	
+	<!-- 随机boss -->
+	<bean class="com.rwbase.dao.randomBoss.cfg.RandomBossCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.randomBoss.cfg.RBServerCfgDao" init-method="init" />
+	
+	<bean class="com.playerdata.teambattle.cfg.TeamMatchCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

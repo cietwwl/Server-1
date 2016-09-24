@@ -4,40 +4,38 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.common.HPCUtil;
-import com.common.RefInt;
-import com.log.GameLog;
-import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
-import com.rw.service.gamble.datamodel.GambleDropGroup;
+import com.common.RefBool;
+import com.rw.service.gamble.datamodel.GambleAdwardItem;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
-import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
+import com.rw.service.gamble.datamodel.GambleHistoryRecord;
 import com.rw.service.gamble.datamodel.GamblePlanCfg;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
-import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gamble.datamodel.IDropGambleItemPlan;
-import com.rwbase.dao.role.RoleCfgDAO;
-import com.rwbase.dao.role.pojo.RoleCfg;
 
 public class GambleTest {
+	private static boolean TestGamble = false;
 	/**
 	 * 仅用于概率测试，请不要调用 测试概率，统计一百万次的情况下，免费/收费的掉落情况，存放在一个文本里面，需要纪录测试时间和配置版本
 	 */
 	public static void Test() {
+		if (!TestGamble) return;
 		System.out.println("Gamble Test Start...");
 
 		isTesting = true;
 		Random ranGen = HPCUtil.getRandom();
 		String userId = "测试概率脚本";
 
-		findBug(5, 1, userId, 10000 * 10000, ranGen, 6);
+		GambleHandler coreLogic = GambleHandler.getInstance();
+		ArrayList<GambleAdwardItem> dropList = new ArrayList<GambleAdwardItem>(10);
+
+		findBug(5, 1, userId, 10000 * 10000, ranGen, 6, coreLogic,dropList);
 
 		int[] gambleTimes = { 10, 10, 10, 20, 30, 50, 100, 100, 100 * 10000, 1000 * 10000 };
 		Iterable<GamblePlanCfg> allCfgs = GamblePlanCfgHelper.getInstance().getIterateAllCfg();
@@ -47,8 +45,8 @@ public class GambleTest {
 			int playerLevel = cfg.getLevelStart();// playerLevel
 			for (int index = 0; index < gambleTimes.length; index++) {
 				int gambleTime = gambleTimes[index];
-				testOneCfg(gamblePlanId, playerLevel, userId, gambleTime, true, ranGen, cfgKey);
-				testOneCfg(gamblePlanId, playerLevel, userId, gambleTime, false, ranGen, cfgKey);
+				testOneCfg(gamblePlanId, playerLevel, userId, gambleTime, true, ranGen, cfgKey, coreLogic,dropList);
+				testOneCfg(gamblePlanId, playerLevel, userId, gambleTime, false, ranGen, cfgKey, coreLogic,dropList);
 			}
 		}
 		isTesting = false;
@@ -62,11 +60,14 @@ public class GambleTest {
 		return isTesting;
 	}
 
-	private static void findBug(int gamblePlanId, int playerLevel, String userId, int gambleTime, Random ranGen, int cfgKey) {
+	private static void findBug(int gamblePlanId, int playerLevel, String userId, int gambleTime, Random ranGen,
+			int cfgKey, GambleHandler coreLogic, ArrayList<GambleAdwardItem> dropList) {
 		GambleDropHistory historyRecord = new GambleDropHistory();// 临时数据不写入数据库
+		GambleHistoryRecord historyByGroup = new GambleHistoryRecord();
 		for (int i = 0; i < gambleTime; i++) {
 			StringBuilder trace = new StringBuilder();
-			HashMap<String, Integer> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord, trace);
+			HashMap<String, Integer> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord,
+					trace, coreLogic, historyByGroup,dropList);
 			test(result, trace);
 		}
 	}
@@ -82,12 +83,15 @@ public class GambleTest {
 			}
 		}
 		if (!hasHero) {
-			System.out.println("bug:" + trace.toString());
+			System.out.println("bug: no hero in ten continue gamble");
+			System.out.println(trace.toString());
 		}
 	}
 
-	private static void testOneCfg(int gamblePlanId, int playerLevel, String userId, int gambleTime, boolean isFree, Random ranGen, int cfgKey) {
+	private static void testOneCfg(int gamblePlanId, int playerLevel, String userId, int gambleTime, boolean isFree,
+			Random ranGen, int cfgKey, GambleHandler coreLogic, ArrayList<GambleAdwardItem> dropList) {
 		GambleDropHistory historyRecord = new GambleDropHistory();// 临时数据不写入数据库
+		GambleHistoryRecord historyByGroup = new GambleHistoryRecord();
 		HashMap<String, Integer> collector = new HashMap<String, Integer>();
 		long startTime = System.currentTimeMillis();
 		for (int i = 0; i < gambleTime; i++) {
@@ -98,7 +102,9 @@ public class GambleTest {
 				historyRecord.setFreeCount(0);
 				historyRecord.setLastFreeGambleTime(0);
 			}
-			HashMap<String, Integer> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord, null);
+
+			HashMap<String, Integer> result = simulateGamble(userId, gamblePlanId, playerLevel, ranGen, historyRecord,
+					null, coreLogic, historyByGroup,dropList);
 			merge(collector, result);
 		}
 		long endTime = System.currentTimeMillis();
@@ -106,7 +112,9 @@ public class GambleTest {
 		FileOutputStream fos;
 		try {
 			String freeTip = isFree ? "free" : "charge";
-			File resultFile = new File("GambleTest_" + gambleTime + "_" + cfgKey + "_" + freeTip + ".txt");
+			File resultFile = new File("GambleProbability/GambleTest_" + gambleTime + "_" + cfgKey + "_" + freeTip + ".txt");
+			resultFile.getParentFile().mkdirs();
+
 			fos = new FileOutputStream(resultFile);
 			PrintWriter logger = new PrintWriter(new OutputStreamWriter(fos, "UTF-8"));
 			logger.println("use time:" + (endTime - startTime) + "ms");
@@ -128,6 +136,32 @@ public class GambleTest {
 		}
 	}
 
+	private static RefBool hasFirst = new RefBool();
+	private static HashMap<String, Integer> simulateGamble(String userId, int gamblePlanId, int playerLevel,
+			Random ranGen, GambleDropHistory historyRecord, StringBuilder trace, GambleHandler coreLogic,
+			GambleHistoryRecord historyByGroup, ArrayList<GambleAdwardItem> dropList) {
+		String planIdStr = String.valueOf(gamblePlanId);
+		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(gamblePlanId, playerLevel);
+		boolean isFree = historyRecord.canUseFree(planCfg);
+		String defaultItem = String.valueOf(planCfg.getGoods());
+		IDropGambleItemPlan dropPlan;// 免费或者收费方案组
+		if (isFree) {// 使用免费方案
+			dropPlan = planCfg.getFreePlan();
+		} else {// 使用收费方案
+			dropPlan = planCfg.getChargePlan();
+		}
+
+		HashMap<String, Integer> result = new HashMap<String, Integer>();
+		dropList.clear();
+		coreLogic.coreLogic(gamblePlanId, planIdStr, planCfg, dropList, userId, historyRecord, historyByGroup, dropPlan,
+				isFree, ranGen, defaultItem, trace,hasFirst);
+		for (GambleAdwardItem item : dropList) {
+			result.put(item.getItemId(), item.getItemNum());
+		}
+
+		return result;
+	}
+
 	private static void merge(HashMap<String, Integer> collector, HashMap<String, Integer> result) {
 		Set<Entry<String, Integer>> added = result.entrySet();
 		for (Entry<String, Integer> entry : added) {
@@ -142,37 +176,21 @@ public class GambleTest {
 		}
 	}
 
-	private static void logTrace(StringBuilder trace, String log) {
-		GambleLogicHelper.logTrace(trace, log);
-	}
-
-	private static void logTrace(StringBuilder trace, String log, List<String> checkHistory) {
-		GambleLogicHelper.logTrace(trace, log, checkHistory);
-	}
-
-	private static HashMap<String, Integer> simulateGamble(String userId, int gamblePlanId, int playerLevel, Random ranGen, GambleDropHistory historyRecord, StringBuilder trace) {
-		String planIdStr = String.valueOf(gamblePlanId);
+	/*
+	private static HashMap<String, Integer> coreLogic(String userId, Random ranGen, GambleDropHistory historyRecord,
+			StringBuilder trace, String planIdStr, GamblePlanCfg planCfg, boolean isFree, String defaultItem,
+			IDropGambleItemPlan dropPlan) {
 		RefInt slotCount = new RefInt();
 
-		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(gamblePlanId, playerLevel);
-		boolean isFree = historyRecord.canUseFree(planCfg);
 		logTrace(trace, "isFree:" + isFree);
 		// 保证热点随机种子初始化
 		if (planCfg.getHotCount() > 0 && historyRecord.getHotCheckThreshold() <= 0) {
 			historyRecord.GenerateHotCheckCount(ranGen, planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
 		}
-		IDropGambleItemPlan dropPlan;// 免费或者收费方案组
-		if (isFree) {// 使用免费方案
-			dropPlan = planCfg.getFreePlan();
-		} else {// 使用收费方案
-			dropPlan = planCfg.getChargePlan();
-		}
 
-		HashMap<String, Integer> dropList = new HashMap<String, Integer>();
 		RefInt dropListCount = new RefInt();
 
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
-		String defaultItem = String.valueOf(planCfg.getGoods());
 		int firstDropItemId = isFree ? planCfg.getFreeFirstDrop() : planCfg.getChargeFirstDrop();
 		boolean isFirstTime = historyRecord.isChargeGambleFirstTime();
 
@@ -184,7 +202,8 @@ public class GambleTest {
 				// return SetError(response,player,String.format("首抽配置无效，配置:%s",
 				// planIdStr),"首抽未配置");
 				GameLog.error("钓鱼台", userId, String.format("首抽配置无效，配置:%s", planIdStr));
-			} else if (add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem, dropListCount)) {
+			} else if (add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem,
+					dropListCount)) {
 				historyRecord.add(isFree, itemModel, slotCount.value);
 			}
 		}
@@ -200,18 +219,21 @@ public class GambleTest {
 			if (historyRecord.getHotHistoryCount() < historyRecord.getHotCheckThreshold() - 1) {
 				// 用热点组生成N个英雄
 				int hotPlanId = hotGambleConfig.getTodayHotPlanId();
-				GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
+				GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId,
+						GambleHandler.HotHeroPoolSize, errDefaultModelId);
 				int hotCount = 0;
 				while (hotCount < planCfg.getHotCount()) {
 					String itemModel = hotPlan.getRandomDrop(ranGen, slotCount);
-					if (!add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, errDefaultModelId, dropListCount)) {
+					if (!add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, errDefaultModelId,
+							dropListCount)) {
 						GameLog.error("钓鱼台", userId, "热点英雄配置有问题");
 					}
 					hotCount++;
 				}
 			} else {
 				// 使用热点保底英雄
-				if (add2DropList(dropList, slotCount.value, heroId, userId, planIdStr, errDefaultModelId, dropListCount)) {
+				if (add2DropList(dropList, slotCount.value, heroId, userId, planIdStr, errDefaultModelId,
+						dropListCount)) {
 					historyRecord.resetHotHistory(ranGen, planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
 				}
 			}
@@ -241,7 +263,8 @@ public class GambleTest {
 				} else {
 					// 有错误，减少最大抽卡数量
 					maxCount--;
-					GameLog.error("钓鱼台", userId, "严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree + ",plan key:" + planCfg.getKey());
+					GameLog.error("钓鱼台", userId,
+							"严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree + ",plan key:" + planCfg.getKey());
 				}
 
 			} else {
@@ -250,15 +273,16 @@ public class GambleTest {
 				logTrace(trace, "checkHistory:", checkHistory);
 				GambleDropGroup tmpGroup = null;
 				if (historyRecord.checkGuarantee(isFree, dropPlan)) {
-					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory,selectedDropGroupIndex);
+					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory, selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:true,tmpGroup=", tmpGroup);
 				} else {
-					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory,selectedDropGroupIndex);
+					tmpGroup = dropPlan.getOrdinaryGroup(ranGen, checkHistory, selectedDropGroupIndex);
 					logTrace(trace, "checkGuarantee:false,tmpGroup=", tmpGroup);
 				}
 
 				if (tmpGroup == null) {
-					GameLog.error("钓鱼台", userId, "严重错误,无法去重,history:" + checkHistory + ",isFree:" + isFree + ",plan key:" + planCfg.getKey());
+					GameLog.error("钓鱼台", userId, "严重错误,无法去重,history:" + checkHistory + ",isFree:" + isFree
+							+ ",plan key:" + planCfg.getKey());
 					maxCount--;
 					continue;
 				}
@@ -272,7 +296,8 @@ public class GambleTest {
 				} else {
 					// 有错误，减少最大抽卡数量
 					maxCount--;
-					GameLog.error("钓鱼台", userId, "严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree + ",plan key:" + planCfg.getKey());
+					GameLog.error("钓鱼台", userId,
+							"严重错误,抽卡失败,itemModel:" + itemModel + ",isFree:" + isFree + ",plan key:" + planCfg.getKey());
 				}
 			}
 
@@ -281,11 +306,20 @@ public class GambleTest {
 		return dropList;
 	}
 
+	private static void logTrace(StringBuilder trace, String log) {
+		GambleLogicHelper.logTrace(trace, log);
+	}
+
+	private static void logTrace(StringBuilder trace, String log, List<String> checkHistory) {
+		GambleLogicHelper.logTrace(trace, log, checkHistory);
+	}
+
 	private static void logTrace(StringBuilder trace, String log, GambleDropGroup tmpGroup) {
 		GambleLogicHelper.logTrace(trace, log, tmpGroup);
 	}
 
-	private static boolean add2DropList(HashMap<String, Integer> dropList, int slotCount, String itemModelId, String uid, String planIdStr, String defaultModelId, RefInt dropListCount) {
+	private static boolean add2DropList(HashMap<String, Integer> dropList, int slotCount, String itemModelId,
+			String uid, String planIdStr, String defaultModelId, RefInt dropListCount) {
 		if (StringUtils.isBlank(itemModelId)) {
 			GameLog.error("钓鱼台", uid, String.format("配置物品ID无效，配置:%s", planIdStr));
 			itemModelId = defaultModelId;
@@ -321,5 +355,5 @@ public class GambleTest {
 		dropListCount.value++;
 		return true;
 	}
-
+*/
 }

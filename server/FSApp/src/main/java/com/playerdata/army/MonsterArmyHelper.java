@@ -3,6 +3,8 @@ package com.playerdata.army;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.common.BeanCopyer;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
@@ -42,14 +44,24 @@ public class MonsterArmyHelper {
 		return data;
 	}
 
-	private static List<SkillItem> getSkillList(MonsterCfg monster) {
-		List<String> tempList = new ArrayList<String>();
-		tempList.add(monster.getSkill01());
-		tempList.add(monster.getSkill02());
-		tempList.add(monster.getSkill03());
-		tempList.add(monster.getSkill04());
-		tempList.add(monster.getSkill05());
-
+	private static List<SkillItem> getSkillList(MonsterCfg monster){
+        List<String> tempList = new ArrayList<String>();
+        if(StringUtils.isNotBlank(monster.getSkill01())){
+        	tempList.add(monster.getSkill01());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill02())){
+        	tempList.add(monster.getSkill02());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill03())){
+        	tempList.add(monster.getSkill03());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill04())){
+        	tempList.add(monster.getSkill04());
+        }
+        if(StringUtils.isNotBlank(monster.getSkill05())){
+        	tempList.add(monster.getSkill05());
+        }
+        
 		return createSkillItems(tempList);
 	}
 
@@ -61,7 +73,8 @@ public class MonsterArmyHelper {
 
 	private static RoleBaseInfo getRoleBaseInfo(MonsterCfg monster) {
 		RoleBaseInfo roleInfo = new RoleBaseInfo();
-		BeanCopyer.copy(monster, roleInfo);
+		roleInfo.setId(monster.getId());
+		roleInfo.setTemplateId(monster.getId());
 		return roleInfo;
 	}
 }

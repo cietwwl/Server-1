@@ -194,4 +194,7 @@ public class UserDataMgr implements PlayerEventListener{
 		this.entranceId = entranceId;
 	}
 
+	
+
+
 }
