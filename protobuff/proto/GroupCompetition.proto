@@ -58,12 +58,6 @@ message CommonGetDataRspMsg {
 	optional SelectionRspData selectionData = 4; // 海选信息（对于GCRequestType.GetSelectionData可用）
 }
 
-message CommonRspMsg{
-	required GCResultType rstType = 1; //是否成功处理
-	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
-	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
-}
-
 message AreaPosition{
 	required float x = 1;
 	required float y = 2;
@@ -106,7 +100,7 @@ message GroupInfo{
 	optional float betRate = 4; //赔率
 }
 
-//请求竞猜（请求同步当前可竞猜数据）
+//请求竞猜
 message ReqAllGuessInfo{
 	required GCRequestType reqType = 1; //请求类型
 }
@@ -114,6 +108,7 @@ message ReqAllGuessInfo{
 //回应赛事竞猜
 message RspAllGuessInfo{
 	required GCResultType rstType = 1; //是否成功处理
+	repeated MatchGuessInfo guessInfo = 2;
 }
 
 //请求押注
