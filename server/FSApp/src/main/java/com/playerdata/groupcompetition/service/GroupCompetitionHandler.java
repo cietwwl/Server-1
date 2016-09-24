@@ -29,6 +29,7 @@ import com.rwproto.GroupCompetitionProto.CommonRsp;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
 import com.rwproto.GroupCompetitionProto.RspAllGuessInfo;
@@ -37,6 +38,7 @@ import com.rwproto.GroupCompetitionProto.SelectionGroupData;
 import com.rwproto.GroupCompetitionProto.SelectionRspData;
 import com.rwproto.GroupCompetitionProto.TeamMemberRequest;
 import com.rwproto.GroupCompetitionProto.TeamRequest;
+import com.rwproto.GroupCompetitionProto.TeamStatusRequest;
 
 public class GroupCompetitionHandler {
 
@@ -136,16 +138,6 @@ public class GroupCompetitionHandler {
 		}
 		return builder.build();
 	}
-	
-	private ByteString inviteMember(Player player, TeamMemberRequest request) {
-		Player targetPlayer = PlayerMgr.getInstance().find(request.getTargetUserId());
-		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().inviteMember(player, targetPlayer);
-		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
-	}
-	
-	private ByteString kickMember(Player player, TeamMemberRequest request) {
-		return null;
-	}
 
 	public ByteString enterPrepareArea(Player player, CommonReqMsg request) {
 		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
@@ -183,7 +175,13 @@ public class GroupCompetitionHandler {
 		return resultType;
 	}
 	
-	// 获取海选信息
+	/**
+	 * 
+	 * 获取海选信息
+	 * 
+	 * @param player
+	 * @return
+	 */
 	public ByteString getSelectionData(Player player) {
 		GCResultType resultType = this.checkStageValidate(GCompStageType.SELECTION);
 		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotSelectionStageNow() : null);
@@ -194,7 +192,13 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
-	// 获取赛事对阵
+	/**
+	 * 
+	 * 获取赛事对阵
+	 * 
+	 * @param player
+	 * @return
+	 */
 	public ByteString getMatchData(Player player) {
 		GCResultType resultType = this.checkStageValidate(GCompStageType.EVENTS);
 		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotMatchStageNow() : null);
@@ -205,6 +209,14 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
+	/**
+	 * 
+	 * 获取赛事的详细信息
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
 	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
 		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getMatchId(), player);
 		GCResultType resultType ;
@@ -252,14 +264,66 @@ public class GroupCompetitionHandler {
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
+	/**
+	 * 
+	 * 成员操作：处理{@link GCRequestType#InviteMember}和{@link GCRequestType#KickMember}
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
 	public ByteString teamMemberRequest(Player player, TeamMemberRequest request) {
+		IReadOnlyPair<Boolean, String> processResult;
 		switch (request.getReqType()) {
 		case InviteMember:
-			return inviteMember(player, request);
+			processResult = GCompTeamMgr.getInstance().inviteMember(player, PlayerMgr.getInstance().find(player.getUserId()));
+			break;
 		case KickMember:
-			return this.kickMember(player, request);
+			processResult = GCompTeamMgr.getInstance().kickMember(player, request.getTargetUserId());
+			break;
 		default:
 			return ByteString.EMPTY;
 		}
+		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	/**
+	 * 
+	 * 加入队伍
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
+	public ByteString joinTeamRequest(Player player, JoinTeamReq request) {
+		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().joinTeam(player, request.getTeamId(), request.getHeroIdList());
+		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
+	}
+	
+	/**
+	 * 
+	 * 队员状态操作：处理{@link GCRequestType#LeaveTeam}、{@link GCRequestType#SetTeamReady}以及{@link GCRequestType#CancelTeamReady}
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
+	public ByteString teamStatusRequest(Player player, TeamStatusRequest request) {
+		IReadOnlyPair<Boolean, String> processResult;
+		switch (request.getReqType()) {
+		case LeaveTeam: // 离开队伍
+			processResult = GCompTeamMgr.getInstance().leaveTeam(player);
+			break;
+		case SetTeamReady: // 设置准备状态
+			processResult = GCompTeamMgr.getInstance().switchMemberStatus(player, true);
+			break;
+		case CancelTeamReady: // 取消准备状态
+			processResult = GCompTeamMgr.getInstance().switchMemberStatus(player, false);
+			break;
+		case StartMatching: // 开始匹配
+		default:
+			return ByteString.EMPTY;
+		}
+		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 }

@@ -21,6 +21,10 @@ public class GCompTeam {
 	private List<GCompTeamMember> members; // 队伍的成员
 	@IgnoreSynField
 	private List<GCompTeamMember> membersRO;
+	@IgnoreSynField
+	private boolean matching; // 是否正在匹配中
+	@IgnoreSynField
+	private boolean inBattle; // 是否正在战斗中
 	
 	public static GCompTeam createNewTeam(String teamId, GCompTeamMember leader, GCompTeamMember... members) {
 		GCompTeam team = new GCompTeam();
@@ -59,5 +63,29 @@ public class GCompTeam {
 		synchronized(members) {
 			members.add(member);
 		}
+	}
+	
+	public void removeTeamMember(GCompTeamMember member) {
+		synchronized(members) {
+			members.remove(member);
+		}
+	}
+	
+	public boolean isMatching() {
+		return matching;
+	}
+	
+	public void setMatching(boolean value) {
+		synchronized (members) {
+			this.matching = value;
+		}
+	}
+	
+	public boolean isInBattle() {
+		return inBattle;
+	}
+	
+	public void setInBattle(boolean value) {
+		this.inBattle = value;
 	}
 }

@@ -27,6 +27,11 @@ public class GCompGroupTeamMgr {
 		return _teamDatas.get(teamId);
 	}
 	
+	public void removeTeam(String groupId, String teamId) {
+		GCompTeam team = this._teamDatas.remove(teamId);
+		this._teamDatasByGroup.get(groupId).remove(team);
+	}
+	
 	
 	public GCompTeam getTeamData(String userId, String groupId) {
 		List<GCompTeam> teams = _teamDatasByGroup.get(groupId);

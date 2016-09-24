@@ -11,6 +11,7 @@ import com.rw.service.FsService;
 import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.TeamMemberRequest;
 import com.rwproto.GroupCompetitionProto.TeamRequest;
+import com.rwproto.GroupCompetitionProto.TeamStatusRequest;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.Request;
 
@@ -21,7 +22,8 @@ public class GroupCompetitionEventsService implements FsService<GeneratedMessage
 	static {
 		cmdMap.put(TeamRequest.class, Command.MSG_GROUP_COMPETITION_TEAM_REQ);
 		cmdMap.put(TeamMemberRequest.class, Command.MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ);
-		cmdMap.put(TeamMemberRequest.class, Command.MSG_GROUP_COMPETITION_TEAM_STATUS_REQ);
+		cmdMap.put(TeamStatusRequest.class, Command.MSG_GROUP_COMPETITION_TEAM_STATUS_REQ);
+		cmdMap.put(JoinTeamReq.class, Command.MSG_GROUP_JOIN_TEAM_REQ);
 	}
 	
 	@Override
@@ -30,13 +32,13 @@ public class GroupCompetitionEventsService implements FsService<GeneratedMessage
 		if (cmd != null) {
 			switch (cmd) {
 			case MSG_GROUP_COMPETITION_TEAM_REQ:
-				return GroupCompetitionHandler.getInstance().teamRequest(player, (TeamRequest)request);
+				return GroupCompetitionHandler.getInstance().teamRequest(player, (TeamRequest) request);
 			case MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ:
-				break;
+				return GroupCompetitionHandler.getInstance().teamMemberRequest(player, (TeamMemberRequest) request);
 			case MSG_GROUP_COMPETITION_TEAM_STATUS_REQ:
-				break;
+				return GroupCompetitionHandler.getInstance().teamStatusRequest(player, (TeamStatusRequest) request);
 			case MSG_GROUP_JOIN_TEAM_REQ:
-				break;
+				return GroupCompetitionHandler.getInstance().joinTeamRequest(player, (JoinTeamReq) request);
 			default:
 				break;
 			}

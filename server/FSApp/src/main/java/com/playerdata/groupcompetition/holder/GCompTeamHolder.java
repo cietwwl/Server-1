@@ -1,13 +1,16 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCompTeamDataDAO;
 import com.playerdata.groupcompetition.dao.pojo.GCompGroupTeamMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
+import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -21,6 +24,9 @@ public class GCompTeamHolder {
 		return _instance;
 	}
 	
+	private static final eSynType synType = eSynType.GCompTeamHolder;
+	private static final eSynOpType synOpType = eSynOpType.UPDATE_SINGLE;
+	
 	private GCompTeamDataDAO _dao;
 	
 	protected GCompTeamHolder() {
@@ -29,7 +35,7 @@ public class GCompTeamHolder {
 	
 	void addTeam(Player player, GCEventsType eventsType, int matchId, String groupId, GCompTeam data)  {
 		_dao.addTeam(eventsType, matchId, groupId, data);
-		ClientDataSynMgr.synData(player, data, eSynType.GCompTeamHolder, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.synData(player, data, synType, synOpType);
 	}
 	
 	/**
@@ -59,6 +65,10 @@ public class GCompTeamHolder {
 	void clearTeamData() {
 		_dao.clearMatchTeamData();
 	}
+	
+	void removeTeam(int matchId, String groupId, GCompTeam team) {
+		_dao.removeTeamData(matchId, groupId, team);
+	}
 
 	void createTeamData(List<? extends IGCAgainst> againsts) {
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -73,12 +83,25 @@ public class GCompTeamHolder {
 		if (groupId != null && groupId.length() > 0) {
 			GCompTeam synData = this.getTeamOfUser(matchId, player.getUserId(), groupId);
 			if (synData != null) {
-				ClientDataSynMgr.synData(player, synData, eSynType.GCompTeamHolder, eSynOpType.UPDATE_SINGLE);
+				ClientDataSynMgr.synData(player, synData, synType, synOpType);
 			}
 		}
 	}
 	
-	public void synToAll(GCompTeam data, List<Player> players) {
-		ClientDataSynMgr.synDataMutiple(players, data, eSynType.GCompTeamHolder, eSynOpType.UPDATE_SINGLE);
+	public void synToAllMembers(GCompTeam data) {
+		List<GCompTeamMember> members = data.getMembers();
+		if (members.size() == 1) {
+			ClientDataSynMgr.synData(PlayerMgr.getInstance().find(members.get(0).getUserId()), data, synType, synOpType);
+		} else {
+			List<Player> players = new ArrayList<Player>();
+			for (GCompTeamMember member : members) {
+				players.add(PlayerMgr.getInstance().find(member.getUserId()));
+			}
+			ClientDataSynMgr.synDataMutiple(players, data, synType, synOpType);
+		}
+	}
+	
+	public void update(Player player, GCompTeam data) {
+		ClientDataSynMgr.synData(player, data, synType, synOpType);
 	}
 }

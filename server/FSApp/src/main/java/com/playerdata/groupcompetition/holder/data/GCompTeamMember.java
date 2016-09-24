@@ -14,12 +14,17 @@ public class GCompTeamMember {
 	 * 战斗的结果，默认是未开战
 	 */
 	private GCompBattleResult result = GCompBattleResult.NonStart;
+	private boolean isReady; // 是否准备好
 
 	public GCompTeamMember(boolean pIsLeader, ArmyInfoSimple pTeamInfo) {
 		this.isLeader = pIsLeader;
 		this.teamInfo = pTeamInfo;
 	}
 
+	public void setLeader(boolean value) {
+		this.isLeader = value;
+	}
+	
 	public boolean isLeader() {
 		return this.isLeader;
 	}
@@ -48,5 +53,13 @@ public class GCompTeamMember {
 	 */
 	public void setResult(GCompBattleResult result) {
 		this.result = result;
+	}
+	
+	public boolean isReady() {
+		return isReady;
+	}
+	
+	public void setReady(boolean value) {
+		this.isReady = value;
 	}
 }
