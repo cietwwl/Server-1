@@ -87,6 +87,7 @@ public class GCompQuizMgr {
 	public void groupCompEventsStart(){
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
+		final int currentSession = 1;
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
 		for(GCompAgainst against :currentAgainst){
 			IGCGroup groupA = against.getGroupA();
@@ -97,7 +98,7 @@ public class GCompQuizMgr {
 			int baseCoin = 50;
 			float initRate = 10.0f;
 			GCQuizEventItem.DEFAULT_RATE = 1.1f;
-			GCQuizEventItem quizEvent = new GCQuizEventItem(against.getId(), baseCoin, groupA, groupB, initRate);
+			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, against.getId(), baseCoin, groupA, groupB, initRate);
 			GroupQuizEventItemDAO.getInstance().update(quizEvent);
 		}
 	}

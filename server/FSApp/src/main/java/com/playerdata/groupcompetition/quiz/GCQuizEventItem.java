@@ -36,6 +36,9 @@ public class GCQuizEventItem {
 	@CombineSave
 	private String winGroupId;
 	
+	@CombineSave
+	private int sessionId;	//第几届
+	
 	@IgnoreSynField
 	@CombineSave
 	private boolean isFinalRate = false;
@@ -46,7 +49,8 @@ public class GCQuizEventItem {
 
 	public GCQuizEventItem(){	}
 	
-	public GCQuizEventItem(int matchId, int baseCoin, IGCGroup groupA, IGCGroup groupB, float initRate){
+	public GCQuizEventItem(int sessionId, int matchId, int baseCoin, IGCGroup groupA, IGCGroup groupB, float initRate){
+		this.sessionId = sessionId;
 		this.matchId = matchId;
 		this.baseCoin = baseCoin;
 		this.groupA = new QuizGroupInfo(groupA.getGroupId(), groupA.getGroupName(), groupA.getIcon(), initRate);
