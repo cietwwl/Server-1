@@ -81,7 +81,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 203002042,,203002042,,,,,,,,,
 203002043,,203002043,,,,,,,,,
 201005011,,201005011,,,,,,,,,
-201005021,,201005021,,,,,fx_201005_skill02_loop,bind_hp,,,
+201005021,,201005021,,,,,fx_201005_skill02_loop,upper,,,
 201005031,,201005031,,,,,,,,,
 204004011,,204004011,,,,,,,,,
 204004021,,204004021,,,,,fx_204004_skill02buff_loop,bind_hp,,,
