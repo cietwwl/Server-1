@@ -8,11 +8,6 @@ import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class UserGFightOnlineHolder {
-	private static UserGFightOnlineHolder instance = new UserGFightOnlineHolder();
-	
-	public static UserGFightOnlineHolder getInstance() {
-		return instance;
-	}
 	
 	private  Map<String, UserGFightOnlineData> list = new HashMap<String, UserGFightOnlineData>();
 	

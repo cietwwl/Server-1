@@ -8,11 +8,6 @@ import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GCompUserQuizItemHolder {
-	private static GCompUserQuizItemHolder instance = new GCompUserQuizItemHolder();
-	
-	public static GCompUserQuizItemHolder getInstance() {
-		return instance;
-	}
 	
 	private  Map<Integer, GCompUserQuizItem> list = new HashMap<Integer, GCompUserQuizItem>();
 	

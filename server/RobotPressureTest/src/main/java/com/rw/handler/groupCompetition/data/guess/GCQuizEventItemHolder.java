@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.rw.Client;
 import com.rw.common.RobotLog;
 import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -23,7 +24,7 @@ public class GCQuizEventItemHolder {
 	
 	private SynDataListHolder<GCQuizEventItem> listHolder = new SynDataListHolder<GCQuizEventItem>(GCQuizEventItem.class);
 	
-	public void syn(MsgDataSyn msgDataSyn, boolean isSelfDetail) {
+	public void syn(Client client, MsgDataSyn msgDataSyn, boolean isSelfDetail) {
 		listHolder.Syn(msgDataSyn);
 		// 更新数据
 		List<GCQuizEventItem> itemList = listHolder.getItemList();
@@ -32,7 +33,7 @@ public class GCQuizEventItemHolder {
 			if(isSelfDetail){
 				if(StringUtils.isNotBlank(ugfData.getWinGroupId())){
 					//竞猜已经出结果
-					GCompUserQuizItem userQuizItem = GCompUserQuizItemHolder.getInstance().getUserQuizData(ugfData.getMatchId());
+					GCompUserQuizItem userQuizItem = client.getUserQuizItemHolder().getUserQuizData(ugfData.getMatchId());
 					if(null != userQuizItem){
 						if(StringUtils.equals(ugfData.getWinGroupId(), userQuizItem.getGroupId())){
 							RobotLog.info(String.format("GCQuizEventItemHolder[get] syn 玩家[%s]竞猜[%s]成功，奖励已通过邮件发放", userQuizItem.getUserID(), userQuizItem.getMatchId()));

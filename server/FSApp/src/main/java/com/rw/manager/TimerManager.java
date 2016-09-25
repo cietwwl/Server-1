@@ -52,7 +52,7 @@ public class TimerManager {
 		final long MINUTE = 60 * SECOND;
 		final long MINUTE_10 = 10 * MINUTE;
 		final long HOUR = 60 * MINUTE;
-		final long MICROSECOND = 10;	//10毫秒
+		final long MICROSECOND = 30;	//30毫秒
 
 		time10MicroSecondOp = new TimeSpanOpHelper(new ITimeOp() {
 

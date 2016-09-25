@@ -226,10 +226,13 @@ public abstract class ClientMsgHandler {
 						getClient().getUserQuizItemHolder().syn(msgDataSyn);
 						break;
 					case GCompSelfGuessDetail:
-						getClient().getQuizEventItemHolder().syn(msgDataSyn, true);
+						getClient().getQuizEventItemHolder().syn(getClient(), msgDataSyn, true);
 						break;
 					case GCompCanGuessItem:
-						getClient().getQuizEventItemHolder().syn(msgDataSyn, false);
+						getClient().getQuizEventItemHolder().syn(getClient(), msgDataSyn, false);
+						break;
+					case GC_PREPARE_POSITION:
+						getClient().getSameSceneSynDataHolder().syn(msgDataSyn);
 						break;
 					case GCompBase:
 						getClient().getGCompBaseInfoHolder().syn(msgDataSyn);
