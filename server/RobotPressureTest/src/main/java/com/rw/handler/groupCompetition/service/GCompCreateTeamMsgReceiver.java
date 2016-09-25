@@ -27,7 +27,7 @@ public class GCompCreateTeamMsgReceiver implements MsgReciver {
 				return false;
 			}
 			if (!rsp.getResultType().equals(GFResultType.SUCCESS)) {
-				RobotLog.fail("GroupCompetitionHandler[send] createGCompTeam服务器返回不成功 ");
+				RobotLog.fail("GroupCompetitionHandler[send] createGCompTeam服务器返回不成功，提示信息： " + rsp.getTips());
 				return true;
 			}
 		} catch(InvalidProtocolBufferException e) {

@@ -7,7 +7,6 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
-import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
@@ -36,6 +35,7 @@ public class GroupCompSameSceneHandler {
 	 */
 	public boolean informPreparePosition(Client client) {
 		Random rd = new Random();
+		if(rd.nextInt(5) > 0) return true;
 		AreaPosition.Builder areaBuilder = AreaPosition.newBuilder();
 		areaBuilder.setX((pxMax - pxMin) * rd.nextFloat() + pxMin);
 		areaBuilder.setY((pyMax - pyMin) * rd.nextFloat() + pyMin);
@@ -58,7 +58,7 @@ public class GroupCompSameSceneHandler {
 						return false;
 					}
 					GCResultType result = rsp.getRstType();
-					if (!result.equals(GFResultType.SUCCESS)) {
+					if (!result.equals(GCResultType.SUCCESS)) {
 						RobotLog.info("GroupCompSameSceneHandler[send] informPreparePosition服务器返回不成功:" + rsp.getTipMsg());
 						return true;
 					}
