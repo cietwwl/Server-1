@@ -104,11 +104,11 @@ public class GroupCompetitionHandler {
 	}
 	
 	public boolean requestRandomMatching(Client client) {
-		return this.sendTeamRequestCommand(client, GCRequestType.StartRandomMatching, null, new GCompCreateTeamMsgReceiver());
+		return this.sendTeamRequestCommand(client, GCRequestType.StartRandomMatching, null, new GCompRandomMatchingMsgReceiver());
 	}
 	
 	public boolean requestPersonalMatching(Client client) {
-		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, null, new GCompCreateTeamMsgReceiver());
+		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, null, new GCompPersonalMatchingMsgReceiver());
 	}
 	
 	public boolean requestInviteMember(Client client) {
@@ -131,6 +131,8 @@ public class GroupCompetitionHandler {
 				RobotLog.info("GroupCompetitionHandler#requestInviteMember，找不到合适的邀请对象！");
 				return false;
 			}
+		} else {
+			RobotLog.info("GroupCompetitionHandler#requestInviteMember，没有在线成员！");
 		}
 		return true;
 	}

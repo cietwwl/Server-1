@@ -374,7 +374,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			// 有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
 			return;
 		}							
-		System.out.println(userId);
 		String tmpReward = subCfg.getReward();
 		String emaiId = subCfg.getEmailId();//
 		targetItem.setReward(tmpReward);
