@@ -225,7 +225,7 @@ public class MagicEquipFetterMgr {
 		
 		for (MagicEquipConditionCfg cfg : cfgList) {
 			//判断一下羁绊是不是合适主角英雄，因为英雄会转职
-			if(Integer.parseInt(cfg.getHeroModelID()) != modelId){
+			if(cfg.getHeroModelID() != modelId){
 				continue;
 			}
 			

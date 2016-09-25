@@ -39,7 +39,7 @@ CHANGE_INFO_SUCCEED,,CHANGE_INFO_SUCCEED,变更成功
 51,,51,主角{1}级开启
 52,,52,"重置关卡进入次数需要花费{1}钻石
 是否继续？（今日已重置{2}次）"
-53,,53,今日已重置{1}次，重置次数不足，提升VIP等级可获得更多次数
+53,,53,今日已重置{1}次，重置次数不足，提升贵族等级可获得更多次数
 54,,54,今日次数耗尽
 61,,61,61~70邮件相关
 62,,62,关闭
@@ -59,7 +59,7 @@ JINHUA_ATTACK_ADD,,JINHUA_ATTACK_ADD,（攻击+
 JINHUA_TIPO_ADD,,JINHUA_TIPO_ADD,（物理+
 JINHUA_JINGSHEN_ADD,,JINHUA_JINGSHEN_ADD,（法术+
 FAN_KUO_HAO,,FAN_KUO_HAO,）
-VIP_NOT_ENOUGH,,VIP_NOT_ENOUGH,vip等级不足
+VIP_NOT_ENOUGH,,VIP_NOT_ENOUGH,贵族等级不足
 CAN_EQUIP,,CAN_EQUIP,可装备
 CAN_COMPOSE,,CAN_COMPOSE,可合成
 CANNOT_EQUIP,,CANNOT_EQUIP,未装备
@@ -93,9 +93,9 @@ WORSHIP_POWER_SPILL,,WORSHIP_POWER_SPILL,你的体力已达到上限，是否继
 66,,66,花费[1]钻石，变更性别与职业。变更后返还已穿装备。是否继续？
 SECRET_ENTER_LIMIT,,SECRET_ENTER_LIMIT,加入帮派才能进入帮派秘境
 INLAY_Level,,INLAY_Level,英雄等级不足
-ARENA_MODETIMES_TIP,,ARENA_MODETIMES_TIP,"购买次数已满，请前往升级Vip,以获得更多次数！"
+ARENA_MODETIMES_TIP,,ARENA_MODETIMES_TIP,"购买次数已满，请前往升级贵族等级,以获得更多次数！"
 ARENA_BATTLETIMES_CONSUME_TIP,,ARENA_BATTLETIMES_CONSUME_TIP,是否花费{0}钻石购买竞技场门票？
-ARENA_BATTLETIMES_RESET,,ARENA_BATTLETIMES_RESET,需要VIP等级3才能重置竞技场 ，是否前往充值？
+ARENA_BATTLETIMES_RESET,,ARENA_BATTLETIMES_RESET,需要贵族等级3才能重置竞技场 ，是否前往充值？
 BATTLETOWERDTIP,,BATTLETOWERDTIP,"1.封神台通关任意层或进行扫荡或挑战将会有几率触发神秘BOSS，攻打神秘BOSS，不消耗任何资源
 2.神秘BOSS在每天扫荡或挑战封神台时，必然会出现一次，最多出现3次
 3.每个神秘BOSS都非常特殊，需要适合的英雄去挑战
@@ -146,8 +146,8 @@ MAGIC_QUALITY_S,,,神器
 NewGuide_NonTargetTip,,,请按照指示操作
 ArenaScoreRule_Tip,,,胜利：积分+{0}  失败：积分+{1}
 ArenaScore_Tip,,,在竞技场与对手战斗皆可获得积分，每天5:00重置.
-PVERestTip1,,,重置次数不足，提升VIP等级可获取更多次数
-PVERestTip2,,,重置次数不足，提升VIP等级可获取更多次数。（今日已重置{0}次）
+PVERestTip1,,,重置次数不足，提升贵族等级可获取更多次数
+PVERestTip2,,,重置次数不足，提升贵族等级可获取更多次数。（今日已重置{0}次）
 PVERestTip3,,,重置关卡进入次数需要花费{0}钻石，是否重置？(今日已重置{1}次)
 PVERestTip4,,,钻石不足，是否充值？
 NET_WAIT_TIP,,,正在拼命加载中
@@ -272,8 +272,8 @@ GroupCopyRule,,,"
 19，若发生插队的时间距离下次分配时间不足1小时，则该战利品延迟一次分配。"
 GambleLeftGuarantee,,,再买{0}个后必送{1}
 GambleBuyGuarantee,,,本次必送{0}
-GambleCoinPreviewTitle,,,低级经验丹购买奖励预览
-GambleGoldPreviewTitle,,,中级经验丹购买奖励预览
+GambleCoinPreviewTitle,,,低级经验丹购买——英雄奖励预览
+GambleGoldPreviewTitle,,,中级经验丹购买——英雄奖励预览
 FashionEnableEffect,,,收集{0}件服饰(已激活)
 FashionDisableEffect,,,收集{0}件服饰(未激活)
 TeamBattleRule,,,"1.组队战每天5点重置，重置时刷新可挑战的英雄列表，解散所有玩家的队伍
@@ -288,8 +288,8 @@ TeamBattleRule,,,"1.组队战每天5点重置，重置时刷新可挑战的英�
 10.自己完成战斗后，每有1名其他队友完成战斗，可获得额外奖励，奖励通过邮件发放"
 TeamBattleMail,,,自己完成战斗后，每有1名其他队友完成战斗，可额外获得{0}奖励（邮件发放）
 TeamBattleScore,,,完成当前战斗可获得{0}驱魔币
-TeamBattleOpenBuyTips,,,{0}开启购买心魔录功能，充值可提升VIP等级
-TeamBattleBuyTips,,,今日心魔录购买次数已用完，提升VIP等级可以增加购买次数
+TeamBattleOpenBuyTips,,,{0}开启购买心魔录功能，充值可提升贵族等级
+TeamBattleBuyTips,,,今日心魔录购买次数已用完，提升贵族等级可以增加购买次数
 TeamBattleTips,,,今日心魔录购买次数已用完，大神，您已经无法再增加购买次数
 GroupCopyOpenTips,,GroupCopyOpenTips,帮主、副帮主可开启
 GroupCopyNoPriceItemTips,,GroupCopyNoPriceItemTips,没有可分配的战利品
@@ -313,21 +313,21 @@ BossWasKilled,,BossWasKilled,魔神已经被击杀
 RandomBossRule,,RandomBossRule,"
 [ffbb00]魔神讨伐规则[-]
 
-1.通关与扫荡各关卡，既有几率触发魔神讨伐事件。
+[2f2f2f]1.通关与扫荡各关卡，既有几率触发魔神讨伐事件。[-]
 
-2.成功讨伐魔神后，可以获得丰厚奖励。
+[2f2f2f]2.讨伐魔神，可以获得丰厚奖励。[-]
 
-3.魔神讨伐可以邀请好友与帮派成员前来帮忙，同时也可以受邀讨伐其他人的魔神。
+[2f2f2f]3.魔神讨伐可以邀请好友与帮派成员前来帮忙，同时也可以受邀讨伐其他人的魔神。[-]
 
-4.因为精力有限，每天的奖励次数也有限制，要记得查看界面上的剩余次数。
+[2f2f2f]4.因为精力有限，每天的奖励次数也有限制，要记得查看界面上的剩余次数。[-]
 
-5.若在规定时间内没有成功讨伐，魔神会逃走。
+[2f2f2f]5.若在规定时间内没有成功讨伐，魔神会逃走。[-]
 
 [ffbb00]魔神讨伐奖励[-]
 
-1.只要参与讨伐战斗，即可获得奖励！
+[2f2f2f]1.只要参与讨伐战斗，即可获得奖励！[-]
 
-2.魔神的发现者与魔神的最后击杀者会获得额外的奖励！
+[2f2f2f]2.魔神的发现者与魔神的最后击杀者会获得额外的奖励！[-]
 "
 FightUpNoNextTitle,,FightUpNoNextTitle,已晋级到最高等级称号
 NotOpenAtLevelAtCopy,,NotOpenAtLevelAtCopy,主角 {0} 级并且通关“{2}-{3} {4}” {1} 开启

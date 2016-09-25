@@ -1,95 +1,92 @@
 package com.bm.targetSell.net;
 
 import java.util.List;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.targetSell.TargetSellManager;
-import com.log.GameLog;
-import com.rw.fsutil.dao.cache.SimpleCache;
+import com.rw.fsutil.shutdown.IShutdownHandler;
+import com.rw.fsutil.shutdown.ShutdownService;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
-
-public class BenefitMsgController{
+public class BenefitMsgController {
 
 	private static BenefitMsgController controller = new BenefitMsgController();
-	
-	//等待发送的消息容器,如果消费者的效率低于生成效率，此容器会一直增长,后面要进行优化
-	private ConcurrentLinkedQueue<String> msgQueue = new ConcurrentLinkedQueue<String>();
 
-	private BenefitSystemMsgAdapter msgSender;
-	
+	private ThreadPoolExecutor excutor;
+
+	private BenefitSystemMsgAdapter msgAdapter;
+
 	private AtomicBoolean shutDown = new AtomicBoolean(false);
-	
-	
+
 	private BenefitMsgController() {
 	}
 
-
-
-	public static BenefitMsgController getInstance(){
+	public static BenefitMsgController getInstance() {
 		return controller;
 	}
-	
-	public void init(String removeIp, int port, int localPort, int timeoutMillis,int priod){
-		msgSender = new BenefitSystemMsgAdapter(removeIp, port, localPort, timeoutMillis);
-		
+
+	public void init(String removeIp, int port, int localPort, int timeoutMillis, int priod) {
+
+		excutor = new ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(300));
+		// 设置饱和策略,达到上限放弃最旧的
+		excutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
+
+		msgAdapter = new BenefitSystemMsgAdapter(removeIp, port,localPort, timeoutMillis);
+
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
-		
-		scanQueue();
-	}
 
+		ShutdownService.registerShutdownService(new IShutdownHandler() {
 
-	//启动消息消费者线程
-	private void scanQueue(){
-		
-		new Thread(new Runnable() {
-			
 			@Override
-			public void run() {
-				
-				while (!shutDown.get()) {
-					
-					String element = msgQueue.poll();//
-					if(element == null){
-						continue;
-					}
-					if(msgSender.isAvaliable()){
-						msgSender.sendMsg(element);
-					}
-				}
-			
-				
+			public void notifyShutdown() {
+				shutDownNotify();
 			}
-		}).start();
+		});
 	}
-	
-	public void shutDownNotify(){
+
+	private void shutDownNotify() {
 		shutDown.compareAndSet(false, true);
-		if (msgSender != null) {
-			msgSender.shutdown();
+
+		if (excutor != null) {
+			excutor.shutdown();
+			try {
+				excutor.awaitTermination(30L, TimeUnit.SECONDS);
+			} catch (InterruptedException e) {
+
+			} finally {
+				// 无论最后出现什么异常还是要关闭socket
+				msgAdapter.shutdown();
+			}
 		}
 	}
 
-	
-	
-	public void addMsg(String content) {
-		msgQueue.add(content);
-	}
-	
-	
+	public void addMsg(final String content) {
 
-	//心跳任务
-	private class HeartBeatTask implements IGameTimerTask{
+		excutor.execute(new Runnable() {
+
+			@Override
+			public void run() {
+				if (msgAdapter.isAvaliable()) {
+					msgAdapter.sendMsg(content);
+				}
+
+			}
+		});
+
+	}
+
+	// 心跳任务
+	private class HeartBeatTask implements IGameTimerTask {
 
 		private int interval;
-		
-		
-		
+
 		public HeartBeatTask(int interval) {
 			this.interval = interval;
 		}
@@ -100,38 +97,32 @@ public class BenefitMsgController{
 		}
 
 		@Override
-		public Object onTimeSignal(FSGameTimeSignal timeSignal)
-				throws Exception {
-			if(shutDown.get()){
+		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
+			if (shutDown.get()) {
 				return null;
 			}
-			int size = msgQueue.size();
-			GameLog.info("TargetSell", "watch task", "current wait for sending msg count:" + size);
 			FSGameTimerMgr.getInstance().submitSecondTask(this, interval);
-			if(!msgSender.isAvaliable()){
-				//还没有连接成功，这个时候进行重新连接
-				msgSender.connect();
+			if (!msgAdapter.isAvaliable()) {
+				// 还没有连接成功，这个时候进行重新连接
+				msgAdapter.connect();
 				return null;
 			}
-			if(msgQueue.isEmpty()){
-				String heartBeatData = TargetSellManager.getInstance().getHeartBeatMsgData();
-				//发送心跳消息
-				msgSender.sendMsg(heartBeatData);
-				return null;
-			}
-			
-			
+
+			String heartBeatData = TargetSellManager.getInstance().getHeartBeatMsgData();
+			// 发送心跳消息
+			msgAdapter.sendMsg(heartBeatData);
 			return null;
+
 		}
 
 		@Override
 		public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
-			
+
 		}
 
 		@Override
 		public void rejected(RejectedExecutionException e) {
-			
+
 		}
 
 		@Override
@@ -143,9 +134,7 @@ public class BenefitMsgController{
 		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
-		
+
 	}
 
-
-	
 }
