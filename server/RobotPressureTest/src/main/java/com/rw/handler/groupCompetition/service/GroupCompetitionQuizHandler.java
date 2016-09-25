@@ -8,7 +8,6 @@ import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItem;
-import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
@@ -76,7 +75,7 @@ public class GroupCompetitionQuizHandler {
 	}
 	
 	private boolean quizForCompetion(Client client){
-		GCQuizEventItem canQuizItem = GCQuizEventItemHolder.getInstance().getCanQuizItem();
+		GCQuizEventItem canQuizItem = client.getQuizEventItemHolder().getCanQuizItem();
 		if(null == canQuizItem){
 			return true;
 		}
