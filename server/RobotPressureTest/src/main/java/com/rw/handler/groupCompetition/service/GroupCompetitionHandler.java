@@ -28,8 +28,6 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 public class GroupCompetitionHandler {
-
-	public static final int[] quizCountArr = {100000, 200000, 500000};
 	
 	private static final long inviteTimeoutMillis = 10000;
 	
@@ -54,6 +52,13 @@ public class GroupCompetitionHandler {
 	private int checkTimesToOpen = 20; // 检查次数
 	
 	private GroupCompetitionHandler() {
+		groupNames.add("12301");
+		groupNames.add("12302");
+		groupNames.add("12309");
+		groupNames.add("12311");
+		groupNames.add("12314");
+		groupNames.add("12317");
+		groupNames.add("12320");
 		groupNames.add("亞洲");
 		groupNames.add("北美洲");
 		groupNames.add("大洋洲");
@@ -227,7 +232,7 @@ public class GroupCompetitionHandler {
 			} else { // 已经在备战区
 				boolean result = true;
 				if (!client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
-					result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+					//result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
 				}
 				if (result) {
 					switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {

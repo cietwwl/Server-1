@@ -20,8 +20,10 @@ public class SameSceneSynDataHolder {
 		List<SameSceneSynData> itemList = listHolder.getItemList();
 		for (int i = 0, size = itemList.size(); i < size; i++) {
 			SameSceneSynData ugfData = itemList.get(i);
-			for(Entry<String, PositionInfo> entry : ugfData.getSynData().entrySet()){
-				list.put(entry.getKey(), entry.getValue());
+			if(null != ugfData.getSynData()){
+				for(Entry<String, PositionInfo> entry : ugfData.getSynData().entrySet()){
+					list.put(entry.getKey(), entry.getValue());
+				}
 			}
 			List<String> removeList = ugfData.getRemoveMembers();
 			if(null != removeList){
