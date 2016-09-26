@@ -1,6 +1,9 @@
 package com.rwbase.dao.targetSell;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
@@ -11,12 +14,12 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class TargetSellRecord {
 
-	
+	@Id
 	private String userId;
 	
 	private int benefitScore;
-	
-	private Map<Integer, BenefitItems> itemMap;
+	//key = itemGroupID
+	private Map<Integer, BenefitItems> itemMap = new HashMap<Integer, BenefitItems>();
 	
 	
 	/**下次清除积分时间*/

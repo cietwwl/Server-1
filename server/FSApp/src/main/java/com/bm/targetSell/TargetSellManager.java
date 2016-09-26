@@ -12,6 +12,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.management.timer.Timer;
 
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bm.targetSell.net.BenefitMsgController;
@@ -83,6 +85,7 @@ public class TargetSellManager {
 
 	//前置记录有效时间,如果超过这个时间就当作是其他的充值
 	private static final long VALIABLE_TIME = 1 * Timer.ONE_MINUTE;
+	
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
 	
 	
@@ -191,7 +194,10 @@ public class TargetSellManager {
 		dataDao.update(record);
 		
 		//通知前端
-		player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime()));
+		if(record.getItemMap() != null && !record.getItemMap().isEmpty()){
+			
+			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime()));
+		}
 	}
 	
 	/**
@@ -237,7 +243,7 @@ public class TargetSellManager {
 	public void checkBenefitScoreAndSynData(Player player){
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
 //		applyRoleBenefitItem(player);
-		pushRoleAttrsData(player, null);
+		pushRoleAllAttrsData(player, null);
 		long nowTime = System.currentTimeMillis();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
@@ -246,6 +252,9 @@ public class TargetSellManager {
 		
 		//检查一下物品是否已经超时
 		Map<Integer, BenefitItems> map = record.getItemMap();
+		if(map == null || map.isEmpty()){
+			return;
+		}
 		Map<Integer, BenefitItems> searchMap = new HashMap<Integer, BenefitItems>(map);
 		int currentSecnd = (int) (nowTime / 1000);
 		for (Iterator<Entry<Integer, BenefitItems>> itr = searchMap.entrySet().iterator(); itr.hasNext();) {
@@ -258,12 +267,15 @@ public class TargetSellManager {
 
 		
 		if(nowTime >= record.getNextClearScoreTime()){
-			//到达清0时间，购买物品重置并设置下次清0时间
+			//到达清0时间，自动购买物品重置并设置下次清0时间
 			//TODO 这里还要添加自动购买物品的逻辑,如果还没有开放不购买
-			if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TARGET_SELL, player)){
-				
+//			if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TARGET_SELL, player)){
+//				
+//			}
+			List<ItemInfo> list = autoBuy(record);
+			if(!list.isEmpty()){
+				player.getItemBagMgr().addItem(list);
 			}
-			
 			//-------------------重置--------------------------------
 			record.setBenefitScore(0);
 			record.setNextClearScoreTime(getNextRefreshTimeMils());
@@ -278,25 +290,40 @@ public class TargetSellManager {
 	}
 	
 	/**
-	 * 自动领取物品，这里还要完善领取逻辑
+	 * 自动领取物品,物品自动添加入背包
 	 * @param record
+	 * @return 
 	 */
-	private void autoBuy(TargetSellRecord record){
+	private List<ItemInfo> autoBuy(TargetSellRecord record){
 		Map<Integer, BenefitItems> itemMap = record.getItemMap();
 		if(itemMap.isEmpty()){
-			return;
+			return Collections.emptyList();
 		}
+		Map<Integer, Integer> recieveMap = record.getRecieveMap();
 		List<BenefitItems> itemList = new ArrayList<BenefitItems>(itemMap.values());
 		Collections.sort(itemList, Item_Comparetor);
 		List<ItemInfo> addItems = new ArrayList<ItemInfo>();
 		int score = record.getBenefitScore();
 		for (BenefitItems i : itemList) {
+			
+			boolean add = false;
 			if(i.getRecharge() <= score){
-				score -= i.getRecharge();
-				addItems.addAll(tranfer2ItemInfo(i));
 				
+				Integer integer = recieveMap.get(i.getItemGroupId());
+				if(integer == null || integer > 0){
+					recieveMap.put(i.getItemGroupId(), i.getPushCount() - 1);
+					add = true;
+				}
+				
+				if(add){
+					score -= i.getRecharge();
+					addItems.addAll(tranfer2ItemInfo(i));
+					itemMap.remove(i.getItemGroupId());
+				}
 			}
 		}
+		
+		return addItems;
 	}
 
 	/**
@@ -338,20 +365,21 @@ public class TargetSellManager {
 	 */
 	public void updateRoleItems(TargetSellSendRoleItems itemData) {
 		TargetSellRecord record = dataDao.get(itemData.getRoleId());
-		if(record == null){
-			record = new TargetSellRecord();
-			record.setBenefitScore(0);
-			record.setNextClearScoreTime(getNextRefreshTimeMils());
-			record.setItemMap(new HashMap<Integer, BenefitItems>());
-			record.setUserId(itemData.getRoleId());
-			dataDao.commit(record);
-		}
 		Map<Integer, BenefitItems> map = new HashMap<Integer, BenefitItems>();
 		for (BenefitItems i : itemData.getItems()) {
 			map.put(i.getItemGroupId(), i);
 		}
-		record.setItemMap(map);
-		dataDao.update(record);
+		if(record == null){
+			record = new TargetSellRecord();
+			record.setBenefitScore(0);
+			record.setNextClearScoreTime(getNextRefreshTimeMils());
+			record.setItemMap(map);
+			record.setUserId(itemData.getRoleId());
+			dataDao.commit(record);
+		}else{
+			record.setItemMap(map);
+			dataDao.update(record);
+		}
 		
 		//更新到前端
 		synData(itemData.getRoleId(), record);
@@ -382,7 +410,7 @@ public class TargetSellManager {
 		switch (msgType) {
 		case TargetSellOpType.OPTYPE_5003:
 			Player player = PlayerMgr.getInstance().find(data.getRoleId());
-			pushRoleAttrsData(player, data);
+			pushRoleAllAttrsData(player, data);
 			break;
 		case TargetSellOpType.OPTYPE_5005:
 			cleanRoleAllBenefitItems(data);
@@ -394,14 +422,14 @@ public class TargetSellManager {
 	
 	
 	/**
-	 * 推送玩家所有属性
+	 * 推送玩家所有属性 
 	 * @param player
 	 * @param data 
 	 */
-	public void pushRoleAttrsData(Player player, TargetSellAbsArgs data){
+	public void pushRoleAllAttrsData(Player player, TargetSellAbsArgs data){
 		try {
 			
-			TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5003);
+			TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
 			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
 			
 			User user = UserDataDao.getInstance().getByUserId(player.getUserId());
@@ -588,7 +616,7 @@ public class TargetSellManager {
 	 */
 	public ByteString roleChargeItem(Player player, TargetSellReqMsg request) {
 		TargetSellRespMsg.Builder respMsg = TargetSellRespMsg.newBuilder();
-				
+		respMsg.setReqType(request.getReqType());
 		int id = request.getItemGroupId();
 		//检查一下是否存在道具组ID
 		TargetSellRecord record = dataDao.get(player.getUserId());
@@ -655,7 +683,8 @@ public class TargetSellManager {
 //		TargetSellHeartBeatParam p = JSONObject.toJavaObject(t.getArgs(), TargetSellHeartBeatParam.class);
 //		
 //		System.out.println(t.getOpType()+"_"+t.getSign()+"_" + p.getAppId());
-		
+		int tt = 2^10;
+		System.out.println(tt);
 
 	}
 

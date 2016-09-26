@@ -115,6 +115,8 @@
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UPGRADE" value-ref="userFightingGrowthService" />
      			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
      			
+     			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -205,4 +207,5 @@
 
 	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
 	
+	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
 </beans>  

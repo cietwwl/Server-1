@@ -1,14 +1,14 @@
 package com.bm.targetSell.net;
 
-import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.log.GameLog;
@@ -26,7 +26,7 @@ public class BenefitSystemMsgAdapter {
 	
 	private DataOutputStream output;
 	
-	private BufferedReader reader;
+	private DataInputStream reader;
 
 	private final SocketAddress remoteAddress;
 	
@@ -35,6 +35,7 @@ public class BenefitSystemMsgAdapter {
 	private BenefitSystemMsgService msgService = BenefitSystemMsgService.getHandler();
 	private AtomicBoolean shutDown = new AtomicBoolean(false);
 	private AtomicBoolean connectComplete = new AtomicBoolean(false);
+	
 	public BenefitSystemMsgAdapter(String host, int port, int timeoutMillis) {
 		remoteAddress = new InetSocketAddress(host, port);
 		this.timeoutMillis = timeoutMillis;
@@ -45,7 +46,7 @@ public class BenefitSystemMsgAdapter {
 	private Socket createSocket(){
 		Socket socket = new Socket();
 		try {
-			//不监视连接是否有效，这样会不主动断开连接
+			//不监视连接是否有效，这样不会监听主动重连
 			socket.setKeepAlive(false);
 			socket.setTcpNoDelay(true);
 		} catch (SocketException e) {
@@ -65,15 +66,15 @@ public class BenefitSystemMsgAdapter {
 			this.socket = createSocket();//重新创建一个
 			socket.connect(remoteAddress , timeoutMillis);//这个会阻塞,到超时或连接成功
 			this.output = new DataOutputStream(socket.getOutputStream());
-			this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"UTF-8"));
+			this.reader = new DataInputStream(socket.getInputStream());
 			System.out.println("BenefitSystemMsgAdapter.connect() sucess~~");
 			connectComplete.compareAndSet(false, true);
-			return true;
+			
 		} catch (Exception e) {
-			GameLog.error("TargetSell", "BenefitSystemMsgAdapter[connect]", "连接精准营销服失败", null);
-			connectComplete.compareAndSet(true, false);
-			return false;
+			GameLog.error("TargetSell", "BenefitSystemMsgAdapter[connect]", "连接精准营销服失败,msg:" + e.getMessage(), null);
+			closeSocket();
 		}
+		return connectComplete.get();
 	}
 	
 	public void sendMsg(String content){
@@ -81,26 +82,52 @@ public class BenefitSystemMsgAdapter {
 			if(!isAvaliable()){
 				return;
 			}
-			content += "\n";
-			output.write(content.getBytes("UTF-8"));
+			
+			output.write(dataFormat(content));
 			output.flush();
 			System.out.println("发送消息到精准服：" + content);
 		} catch (Exception e) {
 			e.printStackTrace();
+			closeSocket();
 		}
 	}
 	
+	/**
+	 * <pre>
+	 * 格式化数据，添加包头
+	 * 包头计算：包头(4字节)int=content长度^13542(4字节)
+	 * </pre>
+	 * @param content
+	 * @return
+	 * @throws UnsupportedEncodingException 
+	 */
+	private byte[] dataFormat(String content) throws UnsupportedEncodingException{
+		byte[] contentBytes = content.getBytes("utf-8");
+		int contentLenght = contentBytes.length;
+		ByteBuffer dataBuffer = ByteBuffer.allocate(4 + contentLenght);//创建数据包，大小为包头长度+包体长度
+		//添加包头
+		int header = contentLenght ^ 13542;
+		dataBuffer.putInt(header);
+		dataBuffer.put(contentBytes);
+		return dataBuffer.array();
+	}
+	
+	/**
+	 * 拆包获取包体内容
+	 * @param headerContent 包头内容
+	 * @return
+	 * @throws IOException 
+	 */
+	private String decodeData(int headerContent) throws IOException{
+		int bodyLen = headerContent ^ 13542;
+		byte[] temp = new byte[bodyLen];
+		reader.read(temp);
+		return new String(temp,"utf-8");
+	}
 	
 	public void shutdown(){
-		try {
-			shutDown.compareAndSet(false, true);
-			reader.close();
-			output.close();
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new RuntimeException("关闭与精准服连接时出异常");
-		}
+		shutDown.compareAndSet(false, true);
+		closeSocket();
 	}
 	
 	
@@ -116,26 +143,57 @@ public class BenefitSystemMsgAdapter {
 						System.out.println("~~~~~~~~~~~~~~~~check remote msg");
 						try {
 							
-							final String reString = reader.readLine();//这个会阻塞
+							String reString = null;//这个会阻塞
 							
-							GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+							int len = 0;//收到的数据包头内容
+							
+							while ((len = reader.readInt()) != -1) {
 								
-								@Override
-								public void run() {
-									msgService.doTask(reString);
-								}
-							});
+								reString = decodeData(len);
+								
+								System.out.println("recv response :" + reString);
+								GameWorldFactory.getGameWorld().asynExecute(new ResponseTask(reString));
+							}
+							
 							
 						} catch (IOException e) {
-							GameLog.error("TargetSell", "BenefitSystemMsgReciver[startReciver]", "读取精准营销消息异常", e);
-							connectComplete.compareAndSet(true, false);
+							GameLog.error("TargetSell", "BenefitSystemMsgReciver[startReciver]", "读取精准营销消息异常", null);
+							closeSocket();
 						}
 					}
 				}
 			}
 		}).start();
 	}
+	
+	private void closeSocket(){
+		try {
+			reader.close();
+			output.close();
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 
+	private class ResponseTask implements Runnable{
+
+		private String content;
+		
+		
+		
+		public ResponseTask(String content) {
+			this.content = content;
+		}
+
+
+
+		@Override
+		public void run() {
+			msgService.doTask(content);
+		}
+		
+	}
 		
 }

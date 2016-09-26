@@ -1,5 +1,8 @@
 package com.bm.targetSell.listener;
 
+import com.bm.targetSell.TargetSellManager;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rwbase.dao.user.User;
@@ -15,17 +18,21 @@ public class UserDataListener implements SingleChangedListener<User>{
 	public void notifyDataChanged(SignleChangedEvent<User> event) {
 		User oldRecord = event.getOldRecord();
 		User currentRecord = event.getCurrentRecord();
+		Player player = PlayerMgr.getInstance().find(currentRecord.getUserId());
 		if(oldRecord.getLevel() != currentRecord.getLevel()){
 			System.err.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  old level:" + oldRecord.getLevel() 
 					+", new level:" + currentRecord.getLevel());
+			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
 		}
 		if(oldRecord.getExp() != currentRecord.getExp()){
 			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()
 					+ ",new exp"+ currentRecord.getExp());
+			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
 		}
 		if(oldRecord.getVip() != currentRecord.getVip()){
 			System.err.println("role vip change @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ old vip:" + oldRecord.getVip() 
 					+ ",new vip:" + currentRecord.getVip());
+			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
 		}
 	}
 

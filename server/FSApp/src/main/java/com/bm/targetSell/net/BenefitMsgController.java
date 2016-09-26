@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import com.bm.targetSell.SimpleFixSizeQueue;
 import com.bm.targetSell.TargetSellManager;
 import com.log.GameLog;
 import com.rwbase.common.timer.IGameTimerTask;
@@ -20,7 +18,7 @@ public class BenefitMsgController{
 	private static BenefitMsgController controller = new BenefitMsgController();
 	
 	//等待发送的消息容器,如果消费者的效率低于生成效率，此容器会一直增长,后面要进行优化
-	private SimpleFixSizeQueue<String> msgQueue = new SimpleFixSizeQueue<String>(30);
+	private ConcurrentLinkedQueue<String> msgQueue = new ConcurrentLinkedQueue<String>();
 
 	
 
@@ -57,7 +55,7 @@ public class BenefitMsgController{
 				
 				while (!shutDown.get()) {
 					
-					String element = msgQueue.poll();
+					String element = msgQueue.poll();//
 					if(element == null){
 						continue;
 					}
