@@ -27,8 +27,8 @@ public class BeforeMergeMgr {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void loadProcessTable() {
 		try {
-//			TableList.add(new UserTableProcesser());
-//			TableList.add(new GroupDataTableProcesser());
+			TableList.add(new UserTableProcesser());
+			TableList.add(new GroupDataTableProcesser());
 			TableList.add(new RankingTableProcesser());
 		} catch (Exception ex) {
 			DBLog.LogError("BeforeMegerMgr", ex.getMessage());
