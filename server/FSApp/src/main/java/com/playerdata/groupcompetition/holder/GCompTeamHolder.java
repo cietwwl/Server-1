@@ -104,4 +104,8 @@ public class GCompTeamHolder {
 	public void update(Player player, GCompTeam data) {
 		ClientDataSynMgr.synData(player, data, synType, synOpType);
 	}
+	
+	public void synRemove(Player player, GCompTeam data) {
+		ClientDataSynMgr.synData(player, data, synType, eSynOpType.REMOVE_SINGLE);
+	}
 }

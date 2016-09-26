@@ -16,8 +16,32 @@ import com.playerdata.dataSyn.annotation.SynClass;
  */
 @SynClass
 public class GCompTeam {
+	
+	/**
+	 * 
+	 * 队伍类型
+	 * 
+	 * @author CHEN.P
+	 *
+	 */
+	public static enum GCompTeamType {
+		/**
+		 * 多人玩家队伍
+		 */
+		MULTIPLE_PLAYERS(1),
+		/**
+		 * 单人玩家队伍
+		 */
+		SINGLE_PLAYER(2),
+		;
+		public final int sign;
+		private GCompTeamType(int pSign) {
+			this.sign = pSign;
+		}
+	}
 
 	private String teamId; // 队伍的id
+
 	private List<GCompTeamMember> members; // 队伍的成员
 	@IgnoreSynField
 	private List<GCompTeamMember> membersRO;
@@ -25,18 +49,26 @@ public class GCompTeam {
 	private boolean matching; // 是否正在匹配中
 	@IgnoreSynField
 	private boolean inBattle; // 是否正在战斗中
+	@SuppressWarnings("unused")
+	private String leaderId; // 队长的id，需要同步到客户端
+	private int lv; // 等级，取队长等级
+	private int battleTimes;
+	private GCompTeamType teamType;
 	
-	public static GCompTeam createNewTeam(String teamId, GCompTeamMember leader, GCompTeamMember... members) {
+	public static GCompTeam createNewTeam(String teamId, GCompTeamType pType, GCompTeamMember leader, GCompTeamMember... members) {
 		GCompTeam team = new GCompTeam();
 		team.teamId = teamId;
 		team.members = new ArrayList<GCompTeamMember>();
 		team.members.add(leader);
 		team.membersRO = Collections.unmodifiableList(team.members);
+		team.lv = leader.getArmyInfo().getPlayer().getLevel();
 		if (members != null && members.length > 0) {
 			for (int i = 0; i < members.length; i++) {
 				team.members.add(members[i]);
 			}
 		}
+		team.leaderId = leader.getUserId();
+		team.teamType = pType;
 		return team;
 	}
 	
@@ -87,5 +119,30 @@ public class GCompTeam {
 	
 	public void setInBattle(boolean value) {
 		this.inBattle = value;
+	}
+	
+	public void setLeaderId(String pLeaderId) {
+		this.leaderId = pLeaderId;
+	}
+
+	public int getLv() {
+		return lv;
+	}
+	
+	public void addBattleTimes() {
+		this.battleTimes++;
+	}
+	
+	public int getBattleTimes() {
+		return battleTimes;
+	}
+	
+	public boolean isPersonal() {
+		return GCompTeamType.MULTIPLE_PLAYERS == this.teamType;
+	}
+	
+	@Override
+	public String toString() {
+		return "GCompTeam [teamId=" + teamId + ", members=" + members + "]";
 	}
 }

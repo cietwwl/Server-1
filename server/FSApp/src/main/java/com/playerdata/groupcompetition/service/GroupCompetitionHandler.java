@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
+import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
@@ -84,7 +85,7 @@ public class GroupCompetitionHandler {
 				if (index < gCompFightingItemList.size()) {
 					fightingItem = gCompFightingItemList.get(index);
 				} else {
-					fightingItem = GCompFightingRankMgr.getFightingRankList().get(index);
+					fightingItem = GCompFightingRankMgr.getFightingRankList().get(index - 1);
 				}
 				ownGroupData = this.createSelectionGroupData(fightingItem, index);
 			} else {
@@ -255,8 +256,20 @@ public class GroupCompetitionHandler {
 		case CreateTeam:
 			processResult = GCompTeamMgr.getInstance().createTeam(player, teamRequest.getHeroIdList());
 			break;
-		case AdjustTeamMember:
+		case AdjustTeamMember: // P2DO 未调试
 			processResult = GCompTeamMgr.getInstance().updateHeros(player, teamRequest.getHeroIdList());
+			break;
+		case StartRandomMatching: // 随机匹配 // P2DO 未调试
+			processResult = GCompTeamMgr.getInstance().randomMatching(player, teamRequest.getHeroIdList());
+			break;
+		case CancelRandomMatching: // 取消随机匹配 // P2DO 未调试
+			processResult = GCompTeamMgr.getInstance().cancelRandomMatching(player);
+			break;
+		case PersonalMatching: // 个人匹配 // P2DO 未调试
+			processResult = GCompTeamMgr.getInstance().personalMatching(player, teamRequest.getHeroIdList());
+			break;
+		case PersonalCancelMatching: // 取消个人匹配 // P2DO 未调试
+			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
 			break;
 		default:
 			return ByteString.EMPTY;
@@ -276,9 +289,9 @@ public class GroupCompetitionHandler {
 		IReadOnlyPair<Boolean, String> processResult;
 		switch (request.getReqType()) {
 		case InviteMember:
-			processResult = GCompTeamMgr.getInstance().inviteMember(player, PlayerMgr.getInstance().find(player.getUserId()));
+			processResult = GCompTeamMgr.getInstance().inviteMember(player, PlayerMgr.getInstance().find(request.getTargetUserId()));
 			break;
-		case KickMember:
+		case KickMember: //P2DO 未调试
 			processResult = GCompTeamMgr.getInstance().kickMember(player, request.getTargetUserId());
 			break;
 		default:
@@ -314,13 +327,18 @@ public class GroupCompetitionHandler {
 		case LeaveTeam: // 离开队伍
 			processResult = GCompTeamMgr.getInstance().leaveTeam(player);
 			break;
-		case SetTeamReady: // 设置准备状态
+		case SetTeamReady: // 设置准备状态 // P2DO 未调试
 			processResult = GCompTeamMgr.getInstance().switchMemberStatus(player, true);
 			break;
-		case CancelTeamReady: // 取消准备状态
+		case CancelTeamReady: // 取消准备状态 // P2DO 未调试
 			processResult = GCompTeamMgr.getInstance().switchMemberStatus(player, false);
 			break;
-		case StartMatching: // 开始匹配
+		case StartMatching: // 开始匹配 // P2DO 未调试
+			processResult = GCompTeamMgr.getInstance().startTeamMatching(player);
+			break;
+		case CancelMatching: // 取消匹配 // P2DO 未调试
+			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
+			break;
 		default:
 			return ByteString.EMPTY;
 		}

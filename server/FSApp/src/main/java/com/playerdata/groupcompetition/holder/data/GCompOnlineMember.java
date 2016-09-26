@@ -39,4 +39,11 @@ public class GCompOnlineMember {
 	public String getHeadIcon() {
 		return headIcon;
 	}
+
+	@Override
+	public String toString() {
+		return "GCompOnlineMember [userId=" + userId + ", userName=" + userName + ", lv=" + lv + "]";
+	}
+	
+	
 }

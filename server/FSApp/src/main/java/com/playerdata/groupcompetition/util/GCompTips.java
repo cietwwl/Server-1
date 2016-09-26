@@ -4,6 +4,7 @@ public class GCompTips {
 
 	private static String tipsNotSelectionStageNow = "当前不是海选阶段";
 	private static String tipsNotMatchStageNow = "当前不是赛事阶段";
+	private static String tipsNotTeamEventsNow = "当前不是组队战阶段";
 	private static String tipsEnterSelectionStage = "帮派争霸进入海选阶段!";
 	private static String tipsEnterEventsStage = "帮派争霸进入赛事阶段!";
 	private static String tipsEnterEventsType = "帮派争霸进入[%s]赛事！";
@@ -27,13 +28,25 @@ public class GCompTips {
 	private static String tipsTargetNotInYourTeam = "对方不在你的队伍中！";
 	private static String tipsTeamIsMatchingCannotLeave = "队伍正在匹配中，不能离开队伍";
 	private static String tipsTeamIsMatchingCannotCancelReady = "队伍正在匹配中，不能取消准备状态";
-	
+	private static String tipsCannotInviteYourselft = "不能邀请自己！";
+	private static String tipsTeamMemberCountIsNotMax = "队伍未满员不能开始匹配！";
+	private static String tipsTeamIsMatching = "队伍正在匹配中，无须重复操作！";
+	private static String tipsTeamIsNotMatching = "队伍没有在匹配中！";
+	private static String tipsTeamIsInBattle = "队伍正在战斗中！";
+	private static String tipsCannotKickYourself = "不能踢除自己";
+	private static String tipsYouAreInRandomMatching = "您正在随机匹配中！";
+	private static String tipsYouAreNotInRandomMatching = "您并没有在随机匹配中！";
+
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
 	}
 
 	public static String getTipsNotMatchStageNow() {
 		return tipsNotMatchStageNow;
+	}
+	
+	public static String getTipsNotTeamEventsNow() {
+		return tipsNotTeamEventsNow;
 	}
 	
 	public static String getTipsEnterSelectionStage() {
@@ -127,5 +140,36 @@ public class GCompTips {
 	public static String getTipsTeamIsMatchingCannotCancelReady() {
 		return tipsTeamIsMatchingCannotCancelReady;
 	}
+
+	public static String getTipsCannotInviteYourselft() {
+		return tipsCannotInviteYourselft;
+	}
+
+	public static String getTipsTeamMemberCountIsNotMax() {
+		return tipsTeamMemberCountIsNotMax;
+	}
+
+	public static String getTipsTeamIsMatching() {
+		return tipsTeamIsMatching;
+	}
+
+	public static String getTipsTeamIsInBattle() {
+		return tipsTeamIsInBattle;
+	}
+
+	public static String getTipsCannotKickYourself() {
+		return tipsCannotKickYourself;
+	}
+
+	public static String getTipsTeamIsNotMatching() {
+		return tipsTeamIsNotMatching;
+	}
 	
+	public static String getTipsYouAreNotInRandomMatching() {
+		return tipsYouAreNotInRandomMatching;
+	}
+
+	public static String getTipsYouAreInRandomMatching() {
+		return tipsYouAreInRandomMatching;
+	}
 }

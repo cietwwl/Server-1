@@ -8,7 +8,9 @@ import com.playerdata.groupcompetition.util.GCompBattleResult;
 public class GCompTeamMember {
 
 	private boolean isLeader;
-	private ArmyInfoSimple teamInfo;
+	@SuppressWarnings("unused")
+	private String userId; // 玩家id，需要同步到客户端
+	private ArmyInfoSimple armyInfo;
 
 	/**
 	 * 战斗的结果，默认是未开战
@@ -18,7 +20,8 @@ public class GCompTeamMember {
 
 	public GCompTeamMember(boolean pIsLeader, ArmyInfoSimple pTeamInfo) {
 		this.isLeader = pIsLeader;
-		this.teamInfo = pTeamInfo;
+		this.armyInfo = pTeamInfo;
+		this.userId = pTeamInfo.getPlayer().getId();
 	}
 
 	public void setLeader(boolean value) {
@@ -30,11 +33,11 @@ public class GCompTeamMember {
 	}
 
 	public String getUserId() {
-		return teamInfo.getPlayer().getId();
+		return armyInfo.getPlayer().getId();
 	}
 
-	public ArmyInfoSimple getTeamInfo() {
-		return teamInfo;
+	public ArmyInfoSimple getArmyInfo() {
+		return armyInfo;
 	}
 
 	/**

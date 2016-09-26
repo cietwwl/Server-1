@@ -56,4 +56,8 @@ public class GCOnlineMemberMgr {
 			_dataHolder.addOnlineMemberList(relativeGroupIds.get(i));
 		}
 	}
+	
+	public void onEventsEnd(GCEventsType type) {
+		this._dataHolder.onEventsEnd();
+	}
 }

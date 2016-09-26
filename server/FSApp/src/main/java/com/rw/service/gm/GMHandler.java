@@ -221,6 +221,7 @@ public class GMHandler {
 		funcCallBackMap.put("MGCS".toLowerCase(), "moveGroupCompStage");
 		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
+		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1513,6 +1514,12 @@ public class GMHandler {
 		if (heroIds.isEmpty()) {
 			return false;
 		}
+		GCRequestType reqType;
+		if(arrCommandContents[0].equals("1")) {
+			reqType = GCRequestType.CreateTeam;
+		} else {
+			reqType = GCRequestType.AdjustTeamMember;
+		}
 		int size = heroIds.size();
 		heroIds = new ArrayList<String>(heroIds.subList(0, size > 4 ? 4 : size));
 		heroIds.add(player.getUserId());
@@ -1522,7 +1529,40 @@ public class GMHandler {
 		headerBuilder.setUserId(player.getUserId());
 		requestBuilder.setHeader(headerBuilder.build());
 		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
-		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.TeamRequest.newBuilder().setReqType(GCRequestType.CreateTeam).addAllHeroId(heroIds).build().toByteString());
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.TeamRequest.newBuilder().setReqType(reqType).addAllHeroId(heroIds).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean GCompTeamAction(String[] arrCommandContents, Player player) {
+		List<String> heroIds = player.getHeroMgr().getHeroIdList(player);
+		if (heroIds.isEmpty()) {
+			return false;
+		}
+		int type = Integer.parseInt(arrCommandContents[0]);
+		GCRequestType reqType;
+		switch(type) {
+		case 1:
+			reqType = GCRequestType.SetTeamReady;
+			break;
+		case 2:
+			reqType = GCRequestType.CancelTeamReady;
+			break;
+		default:
+		case 3:
+			reqType = GCRequestType.StartMatching;
+			break;
+		}
+		int size = heroIds.size();
+		heroIds = new ArrayList<String>(heroIds.subList(0, size > 4 ? 4 : size));
+		heroIds.add(player.getUserId());
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_TEAM_STATUS_REQ);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.TeamStatusRequest.newBuilder().setReqType(reqType).build().toByteString());
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
