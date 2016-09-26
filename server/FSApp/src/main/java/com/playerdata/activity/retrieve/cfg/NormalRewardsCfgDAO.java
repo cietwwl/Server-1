@@ -20,6 +20,8 @@ public class NormalRewardsCfgDAO extends CfgCsvDao<NormalRewardsCfg> {
 //	private HashMap<Integer, NormalRewardsCfg> _vipCfgMapping = new HashMap<Integer, NormalRewardsCfg>();
 	private HashMap<Integer, HashMap<Integer, NormalRewardsCfg>> _levelCfgMapping = new HashMap<Integer, HashMap<Integer,NormalRewardsCfg>>();
 	
+	
+	
 	@Override
 	protected Map<String, NormalRewardsCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("rewardBack/NorRewardsList.csv", NormalRewardsCfg.class);
