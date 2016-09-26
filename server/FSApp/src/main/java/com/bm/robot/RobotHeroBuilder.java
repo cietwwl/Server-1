@@ -12,6 +12,8 @@ import com.bm.arena.RobotHelper;
 import com.bm.arena.RobotHeroCfg;
 import com.bm.arena.RobotHeroCfgDAO;
 import com.bm.arena.RobotManager;
+import com.bm.robot.cfg.RobotFNameCfgDAO;
+import com.bm.robot.cfg.RobotSNameCfgDAO;
 import com.log.GameLog;
 import com.playerdata.FightingCalculator;
 import com.playerdata.army.ArmyMagic;
@@ -298,8 +300,8 @@ public final class RobotHeroBuilder {
 		return RandomUtil.nextInt(len);
 	}
 
-	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
-	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
+//	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
+//	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
 
 	
 
@@ -344,7 +346,9 @@ public final class RobotHeroBuilder {
 		}
 
 		// 默认给个名字
-		String name = fNameArr[randomData.getfName(fNameArr.length)] + sNameArr[randomData.getsName(sNameArr.length)];
+		String fName = RobotFNameCfgDAO.getInstance().get(randomData.getfName(RobotFNameCfgDAO.getInstance().getSize()));
+		String sName = RobotSNameCfgDAO.getInstance().get(randomData.getsName(RobotSNameCfgDAO.getInstance().getSize()));
+		String name = fName + sName;
 
 		List<Integer> heroTmpIdList = getHeroIdList(angelRobotCfg, roleCfg, randomData);
 
