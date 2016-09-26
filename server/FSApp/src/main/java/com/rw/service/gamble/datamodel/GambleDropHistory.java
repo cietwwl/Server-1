@@ -184,7 +184,7 @@ public class GambleDropHistory {
 		if (isGuarantee){
 			GambleLogicHelper.logTrace(trace,"isGuarantee trigger clearHistory");
 			clearGuaranteeRecord(groupRec,dropPlan, trace);
-			System.out.println("guarantee trigger!");
+			//System.out.println("guarantee trigger!");
 		}else{
 			List<String> history = groupRec.getChargeGambleHistory();
 			int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);//寻找当前保底次数
@@ -203,7 +203,9 @@ public class GambleDropHistory {
 		GambleLogicHelper.logTrace(trace,this,groupRec);
 		List<String> history = groupRec.getChargeGambleHistory();
 		if (history.size() >= 20){//TODO 获取最大的历史记录数值
-			history.clear();
+			while (history.size() > 20){
+				history.remove(0);
+			}
 		}
 		increaseGuaranteePlanIndex(dropPlan.getLastCheckIndex());
 	}	
@@ -234,6 +236,7 @@ public class GambleDropHistory {
 		}
 		
 		//检查最后(checkNum - 1)个历史!
+		historySize = history.size();
 		for (int i = historySize-1; i > historySize - checkNum; i--){
 			String itemModelId  = history.get(i);
 			if (dropPlan.checkInList(itemModelId)) {
