@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -23,6 +24,8 @@ import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.publicdata.PublicData;
+import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserGameDataHolder;
 
@@ -190,4 +193,27 @@ public class ActivityRetrieveTypeMgr {
 		}
 		return result;
 	}	
+	
+	public void freshPowerTime(Player player){
+		ActivityRetrieveTypeHolder dataHolder = ActivityRetrieveTypeHolder.getInstance();
+		RewardBackItem item = dataHolder.getItem(player.getUserId());
+		item.setLastAddPowerTime(System.currentTimeMillis());
+		dataHolder.updateItem(player, item);		
+	}
+		
+	public void addPowerTime(Player player){
+		ActivityRetrieveTypeHolder dataHolder = ActivityRetrieveTypeHolder.getInstance();
+		RewardBackItem item = dataHolder.getItem(player.getUserId());
+		long lastTime = item.getLastAddPowerTime();
+		long now = System.currentTimeMillis();
+		long flowTime = now - lastTime;// 流失的时间
+		long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
+		int recoverTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME);
+		int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
+		if(addValue > 0){
+			item.setLastAddPowerTime(now);
+			UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power,addValue);
+		}
+	}
+	
 }

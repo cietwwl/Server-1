@@ -23,7 +23,9 @@ import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
-
+	
+	public static final int[] idArr = {170101,170201,170301,170401,170501,170601};
+	
 	@Override
 	public RewardBackTodaySubItem doEvent(Player player) {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
@@ -32,7 +34,7 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		int tmp = 0;
 		subItem.setMaxCount(tmp);
 		HashMap<Integer, TeamBattleRecord> map = new HashMap<Integer, TeamBattleRecord>();
-		for(Integer id : UserFeatruesMgr.idArr){
+		for(Integer id : idArr){
 			TeamBattleRecord record = new TeamBattleRecord();
 			record.setId(id);
 			record.setMaxCount(2);
@@ -85,22 +87,22 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
 		HashMap<Integer, Integer> rewardHashMap  = new HashMap<Integer, Integer>();
 		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
-			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo1NorRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo2NorRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo3NorRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo4NorRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo5NorRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo6NorRewards());
 			}
 		}
@@ -127,22 +129,22 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
 		HashMap<Integer, Integer> rewardHashMap  = new HashMap<Integer, Integer>();
 		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
-			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo1PerRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo2PerRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo3PerRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo4PerRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo5PerRewards());
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				add(rewardHashMap,cfg.getXinmo6PerRewards());
 			}
 		}
@@ -171,22 +173,22 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		int cost = 0;
 		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
 		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
-			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo1NorCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo2NorCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo3NorCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo4NorCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo5NorCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo6NorCost();
 			}
 		}		
@@ -198,22 +200,22 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		int cost = 0;
 		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
 		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
-			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo1PerCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo2PerCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo3PerCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo4PerCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo5PerCost();
 			}
-			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+			if(entry.getKey() == idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
 				cost += cfg.getXinmo6PerCost();
 			}
 		}		

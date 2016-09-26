@@ -24,6 +24,9 @@ public class RewardBackItem implements IMapItem{
 	private long lastSingleTime;//上一次触发隔日的登陆或5点刷新时间
 	
 	@CombineSave
+	private long lastAddPowerTime;//上一次增加找回体力的时间
+	
+	@CombineSave
 	private List<RewardBackTodaySubItem> todaySubitemList = new ArrayList<RewardBackTodaySubItem>();
 	
 	@CombineSave
@@ -79,6 +82,16 @@ public class RewardBackItem implements IMapItem{
 
 	public void setSubList(List<RewardBackSubItem> subList) {
 		this.subList = subList;
+	}
+
+
+	public long getLastAddPowerTime() {
+		return lastAddPowerTime;
+	}
+
+
+	public void setLastAddPowerTime(long lastAddPowerTime) {
+		this.lastAddPowerTime = lastAddPowerTime;
 	}
 	
 	

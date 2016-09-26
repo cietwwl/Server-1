@@ -38,7 +38,8 @@ public class UserFeatruesCeletriKunlun implements IUserFeatruesHandler{
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
 		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.CELETRIAL, player)&&todaySubItem.getMaxCount() > 0){			
+		int openLevel = dao.checkIsOpen(eOpenLevelType.CELETRIAL, player);//部分功能当天不开放的话返回-1，必须加多一个判断
+		if(level >= openLevel&&openLevel > 1&&todaySubItem.getMaxCount() > 0){			
 			todaySubItem.setMaxCount(CopyInfoCfgDAO.getInstance().getCfgById(UserFeatruesMgr.celestial_kunlun+"").getCount());			
 		}else{
 			todaySubItem.setMaxCount(0);

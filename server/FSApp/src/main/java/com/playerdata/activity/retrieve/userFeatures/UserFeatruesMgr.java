@@ -64,7 +64,7 @@ public class UserFeatruesMgr {
 	public static final int buyPowerFive = 13;
 	public static final int buyPowerLength = 3;
 	
-	public static final int[] idArr = {170101,170201,170301,170401,170501,170601};
+	
 
 	private static UserFeatruesMgr instance = new UserFeatruesMgr();
 
