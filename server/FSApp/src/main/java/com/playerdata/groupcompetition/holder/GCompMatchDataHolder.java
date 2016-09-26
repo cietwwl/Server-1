@@ -42,14 +42,17 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addTeamMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
-		GCompMatchData data = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
+		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
+		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
 
-		String matchId = data.getMatchId();
+		String myMatchId = myMatchData.getMatchId();
+		String enemyMatchId = enemyMatchData.getMatchId();
 
-		matchDataMap.put(matchId, data);
+		matchDataMap.put(myMatchId, myMatchData);
+		matchDataMap.put(enemyMatchId, enemyMatchData);
 
-		recordUserId2MatchInfo(myTeam, data);
-		recordUserId2MatchInfo(enemyTeam, data);
+		recordUserId2MatchInfo(myMatchData);
+		recordUserId2MatchInfo(enemyMatchData);
 	}
 
 	/**
@@ -59,14 +62,17 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addPersonalMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
-		GCompMatchData data = GCompMatchData.createPersonalMatchData(myTeam, enemyTeam);
+		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
+		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
 
-		String matchId = data.getMatchId();
+		String myMatchId = myMatchData.getMatchId();
+		String enemyMatchId = enemyMatchData.getMatchId();
 
-		matchDataMap.put(matchId, data);
+		matchDataMap.put(myMatchId, myMatchData);
+		matchDataMap.put(enemyMatchId, enemyMatchData);
 
-		recordUserId2MatchInfo(myTeam, data);
-		recordUserId2MatchInfo(enemyTeam, data);
+		recordUserId2MatchInfo(myMatchData);
+		recordUserId2MatchInfo(enemyMatchData);
 	}
 
 	/**
@@ -75,10 +81,10 @@ public class GCompMatchDataHolder {
 	 * @param team
 	 * @param data
 	 */
-	private void recordUserId2MatchInfo(GCompTeam team, GCompMatchData data) {
+	private void recordUserId2MatchInfo(GCompMatchData data) {
 		String matchId = data.getMatchId();
 
-		List<GCompTeamMember> members = team.getMembers();
+		List<GCompTeamMember> members = data.getMyTeam().getMembers();
 
 		for (int i = 0, size = members.size(); i < size; i++) {
 			GCompTeamMember member = members.get(i);
