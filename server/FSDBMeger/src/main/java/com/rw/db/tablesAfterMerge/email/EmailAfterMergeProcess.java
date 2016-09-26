@@ -92,7 +92,7 @@ public class EmailAfterMergeProcess extends AbsAfterMergeProcess{
 			Entry<String, RenameInfo> entry = iterator.next();
 			RenameInfo renameInfo = entry.getValue();
 			String groupId = renameInfo.getId();
-			String sql = "select userId, groupId from group_member where groupId = "+groupId+" and job = 1";
+			String sql = "select userId, groupId from group_member where groupId = "+groupId+" and post = 1";
 			
 			
 			List<GroupMemberInfo> query = DBMgr.getInstance().query(dbInfo.getDBName(), sql, new Object[]{}, GroupMemberInfo.class);
