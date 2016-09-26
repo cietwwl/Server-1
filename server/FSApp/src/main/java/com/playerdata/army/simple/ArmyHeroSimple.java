@@ -2,7 +2,7 @@ package com.playerdata.army.simple;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.common.BeanCopyer;
+import com.common.beanCopy.FastBeanCopyer;
 import com.playerdata.Hero;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.CurAttrData;
@@ -36,7 +36,7 @@ public class ArmyHeroSimple {
 		ArmyHeroSimple armyHeroSimple = new ArmyHeroSimple();
 		RoleBaseInfoIF roleBaseInfo = armyhero.getRoleBaseInfo();
 		
-		BeanCopyer.copy(roleBaseInfo, armyHeroSimple);
+		FastBeanCopyer.getInstance().copy(roleBaseInfo, armyHeroSimple);
 		AttrData totalAttrData = armyhero.getAttrData();
 		armyHeroSimple.curAttrData.setMaxLife(totalAttrData .getLife());
 		armyHeroSimple.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
@@ -53,7 +53,7 @@ public class ArmyHeroSimple {
 		
 		ArmyHeroSimple armyHero = new ArmyHeroSimple();
 //		BeanCopyer.copy(baseInfo, armyHero);	
-		BeanCopyer.copy(hero, armyHero);
+		FastBeanCopyer.getInstance().copy(hero, armyHero);
 		armyHero.curAttrData.setMaxLife(totalAttrData.getLife());
 		armyHero.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
 		armyHero.curAttrData.setCurLife(totalAttrData.getLife());
@@ -104,4 +104,27 @@ public class ArmyHeroSimple {
 	public int getFighting() {
 		return fighting;
 	}
+	
+	
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setModeId(int modeId) {
+		this.modeId = modeId;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public void setStarLevel(int starLevel) {
+		this.starLevel = starLevel;
+	}
+	public void setQualityId(String qualityId) {
+		this.qualityId = qualityId;
+	}
+	public void setFighting(int fighting) {
+		this.fighting = fighting;
+	}
+	
+	
 }

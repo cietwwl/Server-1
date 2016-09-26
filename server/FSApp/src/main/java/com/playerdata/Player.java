@@ -1059,7 +1059,7 @@ public class Player implements PlayerIF {
 	}
 
 	public int getCareer() {
-		return getMainRoleHero().getCareer();
+		return getMainRoleHero().getCareerType();
 	}
 
 	public String getTemplateId() {
