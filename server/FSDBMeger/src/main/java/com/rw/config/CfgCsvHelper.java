@@ -12,7 +12,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.commons.lang3.StringUtils;
 
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 
 public class CfgCsvHelper {
 	public static <T> Map<String, T> readCsv2Map(String configFileName, Class<T> clazzP){

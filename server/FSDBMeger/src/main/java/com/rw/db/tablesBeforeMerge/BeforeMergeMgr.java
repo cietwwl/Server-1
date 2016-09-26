@@ -8,7 +8,7 @@ import java.util.Map;
 import com.rw.db.DBInfo;
 import com.rw.db.TableInfo;
 import com.rw.db.annotation.BPTableName;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.CommonUtils;
 
 public class BeforeMergeMgr {

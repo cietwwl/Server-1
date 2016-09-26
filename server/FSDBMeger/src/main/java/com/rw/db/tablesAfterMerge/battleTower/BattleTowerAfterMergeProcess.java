@@ -10,7 +10,7 @@ import com.rw.db.DBInfo;
 import com.rw.db.dao.DBMgr;
 import com.rw.db.dao.kv.DataKvEntity;
 import com.rw.db.tablesAfterMerge.AbsAfterMergeProcess;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.CommonUtils;
 import com.rw.utils.jackson.JsonUtil;
 

@@ -8,7 +8,7 @@ import java.util.List;
 import com.rw.DBMergeMgr;
 import com.rw.db.DBInfo;
 import com.rw.db.TableInfo;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.thread.DBThreadFactory;
 import com.rw.utils.ShellUtils;
 

@@ -25,7 +25,7 @@ import com.rw.db.tables.info.RenameInfo;
 import com.rw.db.tablesAfterMerge.AfterMergeMgr;
 import com.rw.db.tablesBeforeMerge.BeforeMergeMgr;
 import com.rw.db.tablesMerge.MegerMgr;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.FileUtils;
 import com.rw.utils.SpringContextUtil;
 

@@ -12,7 +12,7 @@ import com.rw.db.DBInfo;
 import com.rw.db.TableInfo;
 import com.rw.db.dao.DBMgr;
 import com.rw.db.dao.JdbcTemplateFactory;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.DBTypeDictionary;
 import com.rw.utils.SpringContextUtil;
 

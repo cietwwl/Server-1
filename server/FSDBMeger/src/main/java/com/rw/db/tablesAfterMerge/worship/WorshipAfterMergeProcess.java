@@ -6,7 +6,7 @@ import java.util.List;
 import com.rw.db.DBInfo;
 import com.rw.db.dao.DBMgr;
 import com.rw.db.tablesAfterMerge.AbsAfterMergeProcess;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 
 public class WorshipAfterMergeProcess extends AbsAfterMergeProcess{
 
