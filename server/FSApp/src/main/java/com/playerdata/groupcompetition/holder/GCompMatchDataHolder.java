@@ -5,10 +5,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.holder.data.GCompMatchData;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 /**
  * @Author HC
@@ -44,16 +48,8 @@ public class GCompMatchDataHolder {
 
 		matchDataMap.put(matchId, data);
 
-		List<GCompTeamMember> members = myTeam.getMembers();
-		for (int i = 0, size = members.size(); i < size; i++) {
-			GCompTeamMember member = members.get(i);
-			if (member == null) {
-				continue;
-			}
-
-			String userId = member.getUserId();
-			userId2MatchId.put(userId, matchId);
-		}
+		recordUserId2MatchInfo(myTeam, data);
+		recordUserId2MatchInfo(enemyTeam, data);
 	}
 
 	/**
@@ -69,7 +65,21 @@ public class GCompMatchDataHolder {
 
 		matchDataMap.put(matchId, data);
 
-		List<GCompTeamMember> members = myTeam.getMembers();
+		recordUserId2MatchInfo(myTeam, data);
+		recordUserId2MatchInfo(enemyTeam, data);
+	}
+
+	/**
+	 * 记录并同步数据
+	 * 
+	 * @param team
+	 * @param data
+	 */
+	private void recordUserId2MatchInfo(GCompTeam team, GCompMatchData data) {
+		String matchId = data.getMatchId();
+
+		List<GCompTeamMember> members = team.getMembers();
+
 		for (int i = 0, size = members.size(); i < size; i++) {
 			GCompTeamMember member = members.get(i);
 			if (member == null) {
@@ -78,6 +88,8 @@ public class GCompMatchDataHolder {
 
 			String userId = member.getUserId();
 			userId2MatchId.put(userId, matchId);
+
+			synData(userId, data);
 		}
 	}
 
@@ -142,5 +154,15 @@ public class GCompMatchDataHolder {
 		}
 
 		return matchDataMap.get(matchId);
+	}
+
+	/**
+	 * 同步匹配的数据
+	 * 
+	 * @param userId
+	 * @param data
+	 */
+	private void synData(String userId, GCompMatchData data) {
+		ClientDataSynMgr.synData(PlayerMgr.getInstance().find(userId), data, eSynType.GCompMatch, eSynOpType.UPDATE_SINGLE);
 	}
 }
