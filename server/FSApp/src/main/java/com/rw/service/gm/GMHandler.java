@@ -627,7 +627,7 @@ public class GMHandler {
 			return false;
 		}
 		if (player != null) {
-			ChargeMgr.getInstance().buyMonthCard(player, null);
+//			ChargeMgr.getInstance().buyMonthCard(player, null);
 			return true;
 		}
 		return false;
