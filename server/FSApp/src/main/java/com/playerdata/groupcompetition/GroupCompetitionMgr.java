@@ -98,11 +98,15 @@ public class GroupCompetitionMgr {
 //				this.continueOldStageController(data);
 //				break;
 //			case EVENTS:
-//				// TODO 处理赛事阶段期间停服，然后起服
+//				// P2DO 处理赛事阶段期间停服，然后起服
 //				break;
 //			default:
 //				break;
 //			}
+			if (data.getCurrentEventsData() != null) {
+				data.getCurrentEventsData().reset();
+			}
+			data.setCurrentStageType(GCompStageType.SELECTION);
 			this.continueOldStageController(data); // 测试：现在先默认重新开始
 		} else {
 			// 没有举办过

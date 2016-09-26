@@ -220,9 +220,10 @@ public class GCompTeamMgr {
 		return _dataHolder.getTeamByTeamId(matchId, teamId);
 	}
 	
-	private void updateHersInternal(Player player, GCompTeamMember teamMember, List<String> heroIds, Pair<Boolean, String> result) {
+	private void updateHerosInternal(Player player, GCompTeamMember teamMember, List<String> heroIds, Pair<Boolean, String> result) {
 		ArmyInfoSimple ais = teamMember.getArmyInfo();
 		List<String> heroIdList = ais.getHeroIdList();
+		heroIdList.add(player.getUserId());
 		boolean updateMagic = player.getMagic().getModelId() != teamMember.getArmyInfo().getArmyMagic().getModelId();
 		boolean needUpdate = updateMagic;
 		if(heroIdList.size() != heroIds.size() || (heroIdList.size() == heroIds.size() && !heroIdList.containsAll(heroIds))) {
@@ -250,6 +251,7 @@ public class GCompTeamMgr {
 	 * @param newHeroIds
 	 */
 	public IReadOnlyPair<Boolean, String> updateHeros(Player player, List<String> newHeroIds) {
+		GCompUtil.log("更新英雄，playerId：{}，英雄列表：{}", player.getUserId(), newHeroIds);
 		Pair<Boolean, String> result = Pair.Create(false, null);
 
 		if (!checkTeamHeroIds(player, newHeroIds, result)) {
@@ -263,7 +265,7 @@ public class GCompTeamMgr {
 		
 		GCompTeam team = this._dataHolder.getTeamOfUser(matchAndGroupInfo.getT2(), player.getUserId(), matchAndGroupInfo.getT1());
 		GCompTeamMember teamMember = team.getTeamMember(player.getUserId());
-		this.updateHersInternal(player, teamMember, newHeroIds, result);
+		this.updateHerosInternal(player, teamMember, newHeroIds, result);
 		
 		
 		_dataHolder.synToAllMembers(team);
@@ -718,7 +720,7 @@ public class GCompTeamMgr {
 			result.setT2(GCompTips.getTipsTeamIsInBattle());
 			return result;
 		} else {
-			this.updateHersInternal(player, team.getMembers().get(0), heroIds, result);
+			this.updateHerosInternal(player, team.getMembers().get(0), heroIds, result);
 			if(!result.getT1()) {
 				return result;
 			}
