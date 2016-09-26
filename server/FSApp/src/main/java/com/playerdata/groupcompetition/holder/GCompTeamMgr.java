@@ -478,6 +478,7 @@ public class GCompTeamMgr {
 			sendTeamStatus(PlayerMgr.getInstance().find(newLeader.getUserId()), TeamStatusType.BecomeLeader);
 			_dataHolder.synToAllMembers(team);
 		}
+		result.setT1(true);
 		
 		return result;
 	}

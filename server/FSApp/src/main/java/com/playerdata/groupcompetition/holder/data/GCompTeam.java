@@ -54,6 +54,7 @@ public class GCompTeam {
 	private int lv; // 等级，取队长等级
 	private int battleTimes;
 	private GCompTeamType teamType;
+	private String descr;
 	
 	public static GCompTeam createNewTeam(String teamId, GCompTeamType pType, GCompTeamMember leader, GCompTeamMember... members) {
 		GCompTeam team = new GCompTeam();
@@ -69,6 +70,7 @@ public class GCompTeam {
 		}
 		team.leaderId = leader.getUserId();
 		team.teamType = pType;
+		team.descr = "GCompTeam [teamId=" + teamId + ", teamType=" + pType + " , members=" + team.members + "]";
 		return team;
 	}
 	
@@ -143,6 +145,6 @@ public class GCompTeam {
 	
 	@Override
 	public String toString() {
-		return "GCompTeam [teamId=" + teamId + ", members=" + members + "]";
+		return descr;
 	}
 }

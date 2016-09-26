@@ -19,6 +19,7 @@ import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
@@ -275,6 +276,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
+		GCompUtil.log("帮派争霸，teamRequest，请求类型 : {}, 结果：{}, {}", teamRequest.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
@@ -298,6 +300,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
+		GCompUtil.log("帮派争霸，teamMemberRequest，请求类型 : {}, 结果：{}, {}", request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
@@ -343,6 +346,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
+		GCompUtil.log("帮派争霸，teamStatusRequest，请求类型 : {}, 结果：{}, {}", request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	

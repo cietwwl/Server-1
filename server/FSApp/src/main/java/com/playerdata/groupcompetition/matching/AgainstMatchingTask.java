@@ -214,10 +214,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 		GCompUtil.log("---------- 帮派争霸，随机匹配开始，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
 		gmd1.beforeRandomMatching();
 		gmd2.beforeRandomMatching();
-		int maxMemberCount = GCompCommonConfig.getMaxMemberCountOfTeam();
-		if (gmd1.getRandomMatchingSize() < maxMemberCount || gmd2.getRandomMatchingSize() < maxMemberCount) {
+		if (gmd1.getRandomMatchingSize() == 0 && gmd2.getRandomMatchingSize() == 0) {
 			return;
 		}
+		int maxMemberCount = GCompCommonConfig.getMaxMemberCountOfTeam();
 		int sizeOfGmd1 = gmd1.getRandomMatchingSize();
 		int sizeOfGmd2 = gmd2.getRandomMatchingSize();
 		List<RandomMatchingData> listOfGmd1;
