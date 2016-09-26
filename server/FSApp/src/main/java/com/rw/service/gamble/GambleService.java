@@ -8,26 +8,37 @@ import com.rwproto.GambleServiceProtos.EGambleRequestType;
 import com.rwproto.GambleServiceProtos.GambleRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class GambleService implements FsService {
+public class GambleService implements FsService<GambleRequest, EGambleRequestType> {
 
-	public ByteString doTask(Request request, Player pPlayer) {
+	@Override
+	public ByteString doTask(GambleRequest request, Player pPlayer) {
 		ByteString result = null;
 		try {
-			GambleRequest gambleRequest = GambleRequest.parseFrom(request.getBody().getSerializedContent());
-			EGambleRequestType requestType = gambleRequest.getRequestType();
+			EGambleRequestType requestType = request.getRequestType();
 			switch (requestType) {
 			case GAMBLE:
-				result = GambleHandler.getInstance().gamble(GambleLogicHelper.ConvertRequest(gambleRequest), pPlayer);
+				result = GambleHandler.getInstance().gamble(GambleLogicHelper.ConvertRequest(request), pPlayer);
 				break;
 			case GAMBLE_GET:
-				result = GambleHandler.getInstance().gambleData(gambleRequest, pPlayer);
+				result = GambleHandler.getInstance().gambleData(request, pPlayer);
 				break;
 			default:
 				break;
 			}
-		} catch (InvalidProtocolBufferException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	@Override
+	public GambleRequest parseMsg(Request request) throws InvalidProtocolBufferException {
+		GambleRequest gambleRequest = GambleRequest.parseFrom(request.getBody().getSerializedContent());
+		return gambleRequest;
+	}
+
+	@Override
+	public EGambleRequestType getMsgType(GambleRequest request) {
+		return request.getRequestType();
 	}
 }

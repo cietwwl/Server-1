@@ -9,6 +9,7 @@
 	<bean class="com.rw.service.friend.datamodel.RecommandConditionCfgDAO"  init-method="init" />
 	<bean class="com.rw.service.friend.datamodel.RecommandCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.attribute.AttributeLanguageCfgDAO"  init-method="init" />
+	<bean class="com.rw.shareCfg.ChineseStringHelper"  init-method="init" />
 	
 	<bean class="com.bm.arena.ArenaRankCfgDAO"  init-method="init" />
 	<bean class="com.bm.arena.ArenaScoreCfgDAO"  init-method="init" />
@@ -138,8 +139,8 @@
 	<bean class="com.rw.service.Privilege.datamodel.storePrivilegeHelper"  init-method="init" />
 	<bean class="com.rw.service.Privilege.datamodel.storePrivilegePropertiesHelper"  init-method="init" />
 	
-	<bean class="com.rwbase.dao.worship.CfgWorshipRandomRewardHelper"  init-method="init" />
-	<bean class="com.rwbase.dao.worship.CfgWorshipRankdomSchemeHelper"  init-method="init" />
+	<!-- <bean class="com.rwbase.dao.worship.CfgWorshipRandomRewardHelper"  init-method="init" /> -->
+	<!-- <bean class="com.rwbase.dao.worship.CfgWorshipRankdomSchemeHelper"  init-method="init" /> -->
 	<bean class="com.rwbase.dao.worship.CfgWorshipRewardHelper"  init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupDonateCfgDAO" init-method="init" />
@@ -149,17 +150,17 @@
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.group.pojo.cfg.dao.GroupSkillAttributeCfgDAO" init-method="init" />
 	
-	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao" init-method="init" />
-	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao" init-method="init" />
-	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao" init-method="init" />
-	<bean class="com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.groupCopy.cfg.GroupCopyMailCfgDao" init-method="init" />
 	
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerConfigCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerRewardCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerFloorCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battletower.pojo.cfg.dao.BattleTowerBossCfgDao"  init-method="init" />
 
-	<bean class="com.rwbase.dao.anglearray.pojo.cfg.dao.AngleArrayMatchCfgCsvDao"  init-method="init" />
+	<bean class="com.rwbase.dao.angelarray.pojo.cfg.dao.AngelArrayMatchCfgCsvDao"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
@@ -197,8 +198,17 @@
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO"  init-method="init" />
 	
 	
+	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroBoxCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroRankCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
@@ -241,6 +251,7 @@
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMainRoleRecoveryCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretLevelGetResCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretMemberAdditionCfgDAO"  init-method="init" />
 	
 	<!-- 在线帮战 -->
 	<bean class="com.playerdata.groupFightOnline.cfg.GFightBiddingCfgDAO"  init-method="init" />
@@ -253,17 +264,65 @@
 	<bean class="com.playerdata.teambattle.cfg.MonsterCombinationDAO"  init-method="init" />
 	<bean class="com.playerdata.teambattle.cfg.TeamCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.teambattle.cfg.TeamStoreCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.teambattle.cfg.TBBuyCostCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.sign.SignStatisticsCfgDAO"  init-method="init" />
 	<!-- 怪物 -->
-	<bean class="com.monster.cfg.CopyMonsterCfgDao"  init-method="init" />
 	<bean class="com.rwbase.dao.battle.pojo.BattleCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.battleVerify.MonsterCfgDao" init-method="init" />
 	
 	<bean class="com.rwbase.dao.store.WakenLotteryDrawCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao"  init-method="init" />
 	<!-- 竞技场机器人 -->
 	<bean class="com.rwbase.dao.arena.RobotExtraAttributeCfgDAO" init-method="init" />
+	<!-- 背包容量配置表  -->
+	<bean class="com.rwbase.dao.item.ItemBagCapacityCfgDAO" init-method="init" />
+	<!-- 玩家战力提升称号配置表 -->
+	<bean class="com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO" init-method="init" />
+	<!-- 玩家战力提升获取途径配置表 -->
+	<bean class="com.rwbase.dao.fightinggrowth.FSUserFightingGrowthWayInfoCfgDAO" init-method="init" />
+	<!--  玩家每个等级的期望英雄数量配置表 -->
+	<bean class="com.rwbase.dao.fighting.ExpectedHeroStatusCfgDAO" init-method="init" />
+	<!--  神器等级战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipLevelFightingCfgDAO" init-method="init" />
+	<!--  神器品质战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipQualityFightingCfgDAO" init-method="init" />
+	<!--  神器星级战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipStarFightingCfgDAO" init-method="init" />
+	<!--  宝石战斗力配置表 -->
+	<bean class="com.rwbase.dao.fighting.GemFightingCfgDAO" init-method="init" />
+	<!--  帮派技能战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.GroupSkillFightingCfgDAO" init-method="init" />
+	<!--  法宝等级战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicLevelFightingCfgDAO" init-method="init" />
+	<!--  法宝品质战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicQualityFightingCfgDAO" init-method="init" />
+	<!--  技能战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.SkillFightingCfgDAO" init-method="init" />
+	<!--  神器羁绊战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FixEquipFetterFightingCfgDAO" init-method="init" />
+	<!--  英雄羁绊战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.HeroFetterFightingCfgDAO" init-method="init" />
+	<!--  法宝羁绊战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicFetterFightingCfgDAO" init-method="init" />
+	<!-- 道术战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.TaoistFightingCfgDAO" init-method="init" />
+	<!-- 时装战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
+	<!-- 技能监听Id修改配置表  -->
+	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
+	<!-- 技能监听的配置表 -->
+	<bean class="com.rwbase.dao.skill.SkillListenerCfgDAO"  init-method="init" />
+	
+	<!-- 随机boss -->
+	<bean class="com.rwbase.dao.randomBoss.cfg.RandomBossCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.randomBoss.cfg.RBServerCfgDao" init-method="init" />
+	
+	<bean class="com.playerdata.teambattle.cfg.TeamMatchCfgDAO" init-method="init" />
+	
+	<bean class="com.bm.robot.cfg.RobotFNameCfgDAO" init-method="init" />
+	<bean class="com.bm.robot.cfg.RobotSNameCfgDAO" init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

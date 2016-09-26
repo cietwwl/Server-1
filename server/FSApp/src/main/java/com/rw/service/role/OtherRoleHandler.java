@@ -10,11 +10,12 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.readonly.HeroIF;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.dao.equipment.EquipItemIF;
+import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.pojo.SkillIF;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwproto.EquipProtos.EquipAttrData;
@@ -76,8 +77,10 @@ public class OtherRoleHandler {
 		Hero mainPHero = null;
 		List<Hero> heroList = null;
 		List<Hero> tempHeroList = new ArrayList<Hero>();
-		Enumeration<? extends HeroIF> pHeroMap = player.getHeroMgr()
-				.getHerosEnumeration();
+//		Enumeration<? extends HeroIF> pHeroMap = player.getHeroMgr()
+//				.getHerosEnumeration();
+		Enumeration<? extends Hero> pHeroMap = player.getHeroMgr()
+				.getHerosEnumeration(player);
 		while (pHeroMap.hasMoreElements()) { // 佣兵信息的遍历
 			Hero pHero = (Hero) pHeroMap.nextElement();
 			if (!pHero.isMainRole()) {
@@ -87,12 +90,14 @@ public class OtherRoleHandler {
 			}
 		}
 
-		HeroIF mainRoleHero = player.getMainRoleHero();
+		Hero mainRoleHero = player.getMainRoleHero();
 		otherRoleAttr.setTemplateId(mainRoleHero.getTemplateId());
 		otherRoleAttr.setFighting(mainRoleHero.getFighting());
 
+//		List<? extends EquipItemIF> equipList = player.getEquipMgr()
+//				.getEquipList(mainRoleHero.getHeroData().getId());
 		List<? extends EquipItemIF> equipList = player.getEquipMgr()
-				.getEquipList();
+				.getEquipList(mainRoleHero.getId());
 		ItemDataIF itemDataIFfb = player.getMagic();
 		if (itemDataIFfb != null) {
 
@@ -132,8 +137,8 @@ public class OtherRoleHandler {
 			otherRoleAttr.addEquipInfo(tagItem);
 		}
 
-		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList();// player.getSkillMgr().getTableSkill().getSkillLIst();
-
+//		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getHeroData().getId());// player.getSkillMgr().getTableSkill().getSkillLIst();
+		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getId());
 		for (int j = 0; j < skillList.size(); j++) {
 
 			SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
@@ -153,20 +158,27 @@ public class OtherRoleHandler {
 
 		heroList.add(0, mainPHero);
 
+		RoleCfg roleCfg;
 		for (Hero hero : heroList) {
+			roleCfg = FSHeroMgr.getInstance().getHeroCfg(hero);
 			OtherHero.Builder otherHero = OtherHero.newBuilder();
-			otherHero.setHeroId(hero.getHeroData().getTemplateId());
-			otherHero.setModeId(String.valueOf(hero.getHeroData().getModeId()));
-			if (hero.getHeroCfg().getImageId() != null) {
-				otherHero.setIcon(hero.getHeroCfg().getImageId());
+			otherHero.setHeroId(hero.getTemplateId());
+			otherHero.setModeId(String.valueOf(hero.getModeId()));
+//			if (hero.getHeroCfg().getImageId() != null) {
+//				otherHero.setIcon(hero.getHeroCfg().getImageId());
+//			}
+			if(roleCfg.getImageId() != null) {
+				otherHero.setIcon(roleCfg.getImageId());
 			}
 			otherHero.setLevel(hero.getLevel());
 			otherHero.setQualityId(hero.getQualityId());
-			otherHero.setName(hero.getHeroCfg().getName());
-			otherHero.setStarLevel(hero.getHeroCfg().getStarLevel());
+//			otherHero.setName(hero.getHeroCfg().getName());
+//			otherHero.setStarLevel(hero.getHeroCfg().getStarLevel());
+			otherHero.setName(roleCfg.getName());
+			otherHero.setStarLevel(roleCfg.getStarLevel());
 			otherHero.setFighting(hero.getFighting());
 
-			skillList = hero.getSkillMgr().getSkillList();
+			skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 			for (int j = 0; j < skillList.size(); j++) {
 
 				SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
@@ -178,7 +190,7 @@ public class OtherRoleHandler {
 			}
 
 			List<? extends EquipItemIF> heroequipList = hero.getEquipMgr()
-					.getEquipList();
+					.getEquipList(hero.getUUId());
 
 			if (itemDataIFfb != null && hero.isMainRole()) {
 				EquipData.Builder tagItem = EquipData.newBuilder();
@@ -230,9 +242,13 @@ public class OtherRoleHandler {
 
 		@Override
 		public int compare(Hero o1, Hero o2) {
-			if (o1.GetHeroQuality() > o2.GetHeroQuality()) {
+			RoleCfg o1Cfg = FSHeroMgr.getInstance().getHeroCfg(o1);
+			RoleCfg o2Cfg = FSHeroMgr.getInstance().getHeroCfg(o2);
+			int o1Quality = FSHeroMgr.getInstance().getHeroQuality(o1);
+			int o2Quality = FSHeroMgr.getInstance().getHeroQuality(o2);
+			if (o1Quality > o2Quality) {
 				return -1;
-			} else if (o1.GetHeroQuality() < o2.GetHeroQuality()) {
+			} else if (o1Quality < o2Quality) {
 				return 1;
 			}
 
@@ -242,10 +258,9 @@ public class OtherRoleHandler {
 				return 1;
 			}
 
-			if (o1.getHeroCfg().getStarLevel() > o2.getHeroCfg().getStarLevel()) {
+			if (o1Cfg.getStarLevel() > o2Cfg.getStarLevel()) {
 				return -1;
-			} else if (o1.getHeroCfg().getStarLevel() < o2.getHeroCfg()
-					.getStarLevel()) {
+			} else if (o1Cfg.getStarLevel() < o2Cfg.getStarLevel()) {
 				return 1;
 			}
 
@@ -255,10 +270,9 @@ public class OtherRoleHandler {
 				return 1;
 			}
 
-			if (o1.getHeroCfg().getModelId() > o2.getHeroCfg().getModelId()) {
+			if (o1Cfg.getModelId() > o2Cfg.getModelId()) {
 				return 1;
-			} else if (o1.getHeroCfg().getModelId() < o2.getHeroCfg()
-					.getModelId()) {
+			} else if (o1Cfg.getModelId() < o2Cfg.getModelId()) {
 				return -1;
 			}
 

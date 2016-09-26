@@ -331,6 +331,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     survivalResetCnt(10, 11),
+    /**
+     * <code>teamBattleTimes = 12;</code>
+     *
+     * <pre>
+     * 购买心魔录次数
+     * </pre>
+     */
+    teamBattleTimes(11, 12),
     ;
 
     /**
@@ -421,6 +429,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     public static final int survivalResetCnt_VALUE = 11;
+    /**
+     * <code>teamBattleTimes = 12;</code>
+     *
+     * <pre>
+     * 购买心魔录次数
+     * </pre>
+     */
+    public static final int teamBattleTimes_VALUE = 12;
 
 
     public final int getNumber() { return value; }
@@ -438,6 +454,7 @@ public final class PrivilegeProtos {
         case 9: return expResetCnt;
         case 10: return survivalTimeDec;
         case 11: return survivalResetCnt;
+        case 12: return teamBattleTimes;
         default: return null;
       }
     }
@@ -897,6 +914,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     getSweepTicketNum(2, 3),
+    /**
+     * <code>isAllowReport = 4;</code>
+     *
+     * <pre>
+     *开启举报玩家权限
+     * </pre>
+     */
+    isAllowReport(3, 4),
     ;
 
     /**
@@ -923,6 +948,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     public static final int getSweepTicketNum_VALUE = 3;
+    /**
+     * <code>isAllowReport = 4;</code>
+     *
+     * <pre>
+     *开启举报玩家权限
+     * </pre>
+     */
+    public static final int isAllowReport_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -932,6 +965,7 @@ public final class PrivilegeProtos {
         case 1: return buyPowerCount;
         case 2: return useCoinTransCount;
         case 3: return getSweepTicketNum;
+        case 4: return isAllowReport;
         default: return null;
       }
     }
@@ -1152,6 +1186,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     isAllowReplenish(3, 4),
+    /**
+     * <code>isAllowVipHeadIcon = 5;</code>
+     *
+     * <pre>
+     *VIP头像框
+     * </pre>
+     */
+    isAllowVipHeadIcon(4, 5),
     ;
 
     /**
@@ -1186,6 +1228,14 @@ public final class PrivilegeProtos {
      * </pre>
      */
     public static final int isAllowReplenish_VALUE = 4;
+    /**
+     * <code>isAllowVipHeadIcon = 5;</code>
+     *
+     * <pre>
+     *VIP头像框
+     * </pre>
+     */
+    public static final int isAllowVipHeadIcon_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -1196,6 +1246,7 @@ public final class PrivilegeProtos {
         case 2: return isAllowBuyFashion;
         case 3: return isAllowSoulBox;
         case 4: return isAllowReplenish;
+        case 5: return isAllowVipHeadIcon;
         default: return null;
       }
     }
@@ -5722,29 +5773,31 @@ public final class PrivilegeProtos {
       "esetArena\020\002\022\022\n\016arenaRewardAdd\020\003\022\025\n\021arena" +
       "ChallengeDec\020\004*A\n\027PeakArenaPrivilegeName" +
       "s\022\020\n\014peakMaxCount\020\001\022\024\n\020isAllowResetPeak\020" +
-      "\002*\360\001\n\021PvePrivilegeNames\022\021\n\rmaxResetCount",
+      "\002*\205\002\n\021PvePrivilegeNames\022\021\n\rmaxResetCount",
       "\020\001\022\020\n\014sweepTimeDec\020\002\022\024\n\020arrayMaxResetCnt" +
       "\020\003\022\024\n\020warfareRewardAdd\020\004\022\023\n\017warfareReset" +
       "Cnt\020\005\022\023\n\017treasureTimeDec\020\006\022\024\n\020treasureRe" +
       "setCnt\020\007\022\016\n\nexpTimeDec\020\010\022\017\n\013expResetCnt\020" +
       "\t\022\023\n\017survivalTimeDec\020\n\022\024\n\020survivalResetC" +
-      "nt\020\013*A\n\023GroupPrivilegeNames\022\017\n\013donateCou" +
-      "nt\020\001\022\031\n\025mysteryChallengeCount\020\002*\235\001\n\023Stor" +
-      "ePrivilegeNames\022\032\n\026isOpenBlackmarketStor" +
-      "e\020\001\022\026\n\022isOpenMysteryStore\020\002\022\027\n\023storeFree" +
-      "RefreshCnt\020\003\022\036\n\032mysteryStoreFreeRefreshC",
-      "nt\020\004\022\031\n\025bmstoreFreeRefreshCnt\020\005*c\n\022CopyP" +
-      "rivilegeNames\022\021\n\rcopyRewardAdd\020\001\022\023\n\017isAl" +
-      "lowTenSweep\020\002\022\022\n\016eliteRewardAdd\020\003\022\021\n\reli" +
-      "teResetCnt\020\004*V\n\023LoginPrivilegeNames\022\021\n\rb" +
-      "uyPowerCount\020\001\022\025\n\021useCoinTransCount\020\002\022\025\n" +
-      "\021getSweepTicketNum\020\003*g\n\022HeroPrivilegeNam" +
+      "nt\020\013\022\023\n\017teamBattleTimes\020\014*A\n\023GroupPrivil" +
+      "egeNames\022\017\n\013donateCount\020\001\022\031\n\025mysteryChal" +
+      "lengeCount\020\002*\235\001\n\023StorePrivilegeNames\022\032\n\026" +
+      "isOpenBlackmarketStore\020\001\022\026\n\022isOpenMyster" +
+      "yStore\020\002\022\027\n\023storeFreeRefreshCnt\020\003\022\036\n\032mys",
+      "teryStoreFreeRefreshCnt\020\004\022\031\n\025bmstoreFree" +
+      "RefreshCnt\020\005*c\n\022CopyPrivilegeNames\022\021\n\rco" +
+      "pyRewardAdd\020\001\022\023\n\017isAllowTenSweep\020\002\022\022\n\016el" +
+      "iteRewardAdd\020\003\022\021\n\reliteResetCnt\020\004*i\n\023Log" +
+      "inPrivilegeNames\022\021\n\rbuyPowerCount\020\001\022\025\n\021u" +
+      "seCoinTransCount\020\002\022\025\n\021getSweepTicketNum\020" +
+      "\003\022\021\n\risAllowReport\020\004*g\n\022HeroPrivilegeNam" +
       "es\022\022\n\016skillThreshold\020\001\022\030\n\024isAllowBuySkil" +
       "lPoint\020\002\022\020\n\014skillTimeDec\020\003\022\021\n\risAllowAtt" +
-      "ach\020\004*i\n\025GeneralPrivilegeNames\022\017\n\013battle" +
-      "Speed\020\001\022\025\n\021isAllowBuyFashion\020\002\022\022\n\016isAllo",
-      "wSoulBox\020\003\022\024\n\020isAllowReplenish\020\004B\036\n\013com." +
-      "rwprotoB\017PrivilegeProtos"
+      "ach\020\004*\201\001\n\025GeneralPrivilegeNames\022\017\n\013battl",
+      "eSpeed\020\001\022\025\n\021isAllowBuyFashion\020\002\022\022\n\016isAll" +
+      "owSoulBox\020\003\022\024\n\020isAllowReplenish\020\004\022\026\n\022isA" +
+      "llowVipHeadIcon\020\005B\036\n\013com.rwprotoB\017Privil" +
+      "egeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

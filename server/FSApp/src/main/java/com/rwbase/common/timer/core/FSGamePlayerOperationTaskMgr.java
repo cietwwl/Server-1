@@ -10,12 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.rwbase.common.timer.FSDailyTaskType;
-import com.rwbase.common.timer.FSMinuteTaskType;
+import com.rwbase.common.timer.FSPlayerDailyTaskType;
+import com.rwbase.common.timer.FSPlayerMinuteTaskType;
 import com.rwbase.common.timer.IPlayerGatherer;
 import com.rwbase.common.timer.IPlayerOperable;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwbase.gameworld.GameWorldKey;
 
 public class FSGamePlayerOperationTaskMgr {
 	
@@ -25,7 +23,7 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private static FSGamePlayerOperationTaskMgr _instance = new FSGamePlayerOperationTaskMgr(); // 單例
 	
-	private static IPlayerGatherer _allPlayerGatherer = new FSGameAllPlayerGather(); // 所有玩家的收集器
+//	private static IPlayerGatherer _allPlayerGatherer = new FSGameAllPlayerGather(); // 所有玩家的收集器
 	private static IPlayerGatherer _onlinePlayerGatherer = new FSGameOnlinePlayerGather(); // 在線玩家收集器
 	
 	public static FSGamePlayerOperationTaskMgr getInstance() {
@@ -75,7 +73,7 @@ public class FSGamePlayerOperationTaskMgr {
 		int key = calculateKey(hourOfDay, minute);
 		FSGamePlayerOperationDailyTask dailyTask = _dailyTaskInstanceMap.get(key);
 		if (dailyTask == null) {
-			dailyTask = new FSGamePlayerOperationDailyTask(hourOfDay, minute, _allPlayerGatherer, true);
+			dailyTask = new FSGamePlayerOperationDailyTask(hourOfDay, minute, new FSGameAllPlayerGather(), true);
 			if (submit) {
 				FSGameTimerMgr.getInstance().submitDayTask(dailyTask, hourOfDay, minute);
 			}
@@ -86,13 +84,13 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private void loadPlayerDailyOperator() throws Exception {
 		// 加載預設的每日任務
-		FSDailyTaskType[] allValues = FSDailyTaskType.values();
+		FSPlayerDailyTaskType[] allValues = FSPlayerDailyTaskType.values();
 		List<Integer> alreadyAddTypes = new ArrayList<Integer>();
 		for (int i = 0; i < allValues.length; i++) {
-			FSDailyTaskType type = allValues[i];
+			FSPlayerDailyTaskType type = allValues[i];
 			if (alreadyAddTypes.contains(type.getType())) {
 				// 判斷任務類型是否重複
-				throw new RuntimeException("重複的每日任務類型：" + type.getType());
+				throw new RuntimeException("重复的玩家每日任务类型：" + type.getType());
 			}
 			alreadyAddTypes.add(type.getType());
 			Class<? extends IPlayerOperable> clazz = type.getClassOfTask();
@@ -103,10 +101,10 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private void loadMinuteTask() throws Exception {
 		// 加載預設的整分任務
-		FSMinuteTaskType[] allValues = FSMinuteTaskType.values();
+		FSPlayerMinuteTaskType[] allValues = FSPlayerMinuteTaskType.values();
 		List<Integer> alreadyAddTypes = new ArrayList<Integer>();
 		for(int i = 0; i < allValues.length; i++) {
-			FSMinuteTaskType type = allValues[i];
+			FSPlayerMinuteTaskType type = allValues[i];
 			if(alreadyAddTypes.contains(type.getType())) {
 				throw new RuntimeException("重複的整分任務類型：" + type.getType());
 			}
@@ -135,16 +133,15 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	void serverStartComplete() throws Exception {
 		// 服務器啟動完成的通知
-		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.TIMER_DATA);
-		if(attribute != null && (attribute = attribute.trim()).length() > 0) {
-			FSGameTimerSaveData.parseData(attribute);
-		}
 		if (FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis() > 0) {
 			// 檢查所有超時的任務
 			Calendar lastShutdownCalendar = Calendar.getInstance();
 			lastShutdownCalendar.setTimeInMillis(FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis());
-			for (Iterator<FSGamePlayerOperationDailyTask> itr = _dailyTaskInstanceMap.values().iterator(); itr.hasNext();) {
-				itr.next().manualExecute(lastShutdownCalendar, 0);
+			for (Iterator<Map.Entry<Integer, FSGamePlayerOperationDailyTask>> itr = _dailyTaskInstanceMap.entrySet().iterator(); itr.hasNext();) {
+				Map.Entry<Integer, FSGamePlayerOperationDailyTask> entry = itr.next();
+				if (FSGameTimerSaveData.getInstance().getLastExecuteTimeOfPlayerTask(entry.getKey()) > 0) {
+					entry.getValue().manualExecute(lastShutdownCalendar);
+				}
 			}
 		}
 		for (Iterator<FSGamePlayerOperationDailyTask> itr = _dailyTaskInstanceMap.values().iterator(); itr.hasNext();) {
@@ -161,7 +158,7 @@ public class FSGamePlayerOperationTaskMgr {
 		_minuteTaskInstance.notifyPlayerLogin(player);
 	}
 	
-	void changeExecuteTimeOfDailyTask(FSDailyTaskType type, int newHourOfDay, int newMinute) {
+	void changeExecuteTimeOfDailyTask(FSPlayerDailyTaskType type, int newHourOfDay, int newMinute) {
 		// 改變某個類型的每日時效任務的執行時間
 		if(newHourOfDay > FSGameTimer.MAX_HOUR_OF_DAY || newHourOfDay < FSGameTimer.MIN_HOUR_OF_DAY) {
 			throw new RuntimeException("非法的newHourOfDay：" + newHourOfDay);
@@ -182,18 +179,10 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	private static class FSGameAllPlayerGather implements IPlayerGatherer {
 
-		private List<Player> _list;
-		
 		@Override
 		public List<Player> gatherPlayers() {
 			Map<String, Player> map = PlayerMgr.getInstance().getAllPlayer();
-			if(_list == null) {
-				_list = new ArrayList<Player>(map.values());
-			} else {
-				_list.clear();
-				_list.addAll(map.values());
-			}
-			return _list;
+			return new ArrayList<Player>(map.values());
 		}
 		
 	}

@@ -2,11 +2,17 @@ package com.playerdata.activity.redEnvelopeType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
+import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeHelper;
+import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
+import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -30,15 +36,17 @@ public class ActivityRedEnvelopeItemHolder{
 	 * 获取用户已经拥有的时装
 	 */
 	public List<ActivityRedEnvelopeTypeItem> getItemList(String userId)	
-	{
-		
+	{		
+		ActivityRedEnvelopeTypeCfgDAO dao = ActivityRedEnvelopeTypeCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeItem> itemList = new ArrayList<ActivityRedEnvelopeTypeItem>();
 		Enumeration<ActivityRedEnvelopeTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem) mapEnum.nextElement();			
+			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem) mapEnum.nextElement();	
+			if(dao.getCfgById(item.getCfgId()) == null){
+				continue;
+			}
 			itemList.add(item);
-		}
-		
+		}		
 		return itemList;
 	}
 	
@@ -52,7 +60,8 @@ public class ActivityRedEnvelopeItemHolder{
 	}
 	
 	public ActivityRedEnvelopeTypeItem getItem(String userId){
-		return getItemStore(userId).getItem(userId);
+		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
+		return getItemStore(userId).getItem(itemId);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){
@@ -73,31 +82,40 @@ public class ActivityRedEnvelopeItemHolder{
 		return addSuccess;
 	}
 	
-	public boolean addItemList(Player player, List<ActivityRedEnvelopeTypeItem> itemList){
-		try {
-			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
-			}
-			return addSuccess;
-		} catch (DuplicatedKeyException e) {
-			//handle..
-			e.printStackTrace();
-			return false;
-		}
-	}
-	
-
-	
 	public void synAllData(Player player){
-		List<ActivityRedEnvelopeTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityRedEnvelopeTypeItem> itemList = getItemList(player.getUserId());		
+		Iterator<ActivityRedEnvelopeTypeItem> it = itemList.iterator();
+		while(it.hasNext()){
+			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem)it.next();
+			if(ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				removeItem(player, item);
+				it.remove();
+			}
+		}	
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityRedEnvelopeTypeItem> cache = MapItemStoreFactory.getActivityRedEnvelopeTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityRedEnvelopeTypeItem.class);
+	}
+
+	public boolean addItemList(Player player, List<ActivityRedEnvelopeTypeItem> addItemList) {
+		try {
+			boolean addSuccess = getItemStore(player.getUserId()).addItem(
+					addItemList);
+			if (addSuccess) {
+				ClientDataSynMgr.updateDataList(player,
+						getItemList(player.getUserId()), synType,
+						eSynOpType.UPDATE_LIST);
+			}
+			return addSuccess;
+		} catch (DuplicatedKeyException e) {
+			// handle..
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 }

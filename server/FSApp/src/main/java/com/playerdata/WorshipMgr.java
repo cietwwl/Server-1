@@ -1,9 +1,12 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CountDownLatch;
 
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
@@ -12,6 +15,7 @@ import com.rw.service.Email.EmailUtils;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.worship.WorshipHandler;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.worship.CfgWorshipRewardHelper;
 import com.rwbase.dao.worship.TableWorship;
@@ -27,21 +31,19 @@ import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
 public class WorshipMgr {
-	private static WorshipMgr _instance;
+	public static final int MAX_RECORD_COUNT = 50;//数据库保存记录的上限
+	private static WorshipMgr _instance = new WorshipMgr();
+	
 	public static WorshipMgr getInstance(){
-		if(_instance == null){
-			_instance = new WorshipMgr();
-		}
 		return _instance;
 	}
 	
 	private TableWorshipDAO worshipDao = TableWorshipDAO.getInstance();
 	
-	private Map<ECareer, String> successEmailMap = new HashMap<ECareer, String>();//得到第一名
-	private Map<ECareer, String> failEmailMap = new HashMap<ECareer, String>();//失去第一名
+
 	
 	/**重新排行，第一名排行数据改变*/
-	public void changeFirstRanking(RankType rankingType){
+	public synchronized void changeFirstRanking(RankType rankingType){
 		ECareer career;
 		switch(rankingType){
 			case WARRIOR_ARENA_DAILY:
@@ -63,14 +65,10 @@ public class WorshipMgr {
 		if(career == ECareer.None){
 			return;
 		}
+		
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
-			tableWorship = new TableWorship();
-			tableWorship.setCareer(career.getValue());
-		}
 		sendWorshipReward(career);
-		tableWorship.setWorshipItemList(new ArrayList<WorshipItem>());
-		tableWorship.setWorshippersList(new ArrayList<String>());
+		tableWorship.clear();
 		worshipDao.update(tableWorship);
 		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
 	}
@@ -82,65 +80,36 @@ public class WorshipMgr {
 		if(info == null){
 			return;
 		}
-		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getWorshipRewardCfg(WorshipHandler.BY_WORSHIPPERS_KEY);
+		int size = getWorshipList(career).size();
+		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getByWorshipRewardCfgByCount(size);
 		if(cfg == null){
 			return;
 		}
-		String reward = "";
-		int size = getWorshipList(career).size();
-		if(size > 0){
-			reward = cfg.getRewardType() + "~" + cfg.getRewardCount() * size;
-		}
-		
-		WorshipItemData rewardData = WorshipUtils.getRandomRewardData(cfg.getRandomScheme());		
-		if(rewardData != null){
-			reward += "," + rewardData.getItemId() + "~" + rewardData.getCount();			
-		}
-		EmailUtils.sendEmail(info.getUserId(), "10019", reward);
+		String reward = cfg.getRewardStr();
+		EmailData emailData = EmailUtils.createEmailData("10019", reward, new ArrayList<String>());
+		String content = String.format(emailData.getContent(), size);
+		emailData.setContent(content);
+		EmailUtils.sendEmail(info.getUserId(), emailData);
 	}
 	
-	/**发送成为第一名邮件*/
-	public void sendSuccessEmail(ECareer career, String userId){
-		if(successEmailMap.size() == 0){
-			successEmailMap.put(ECareer.Warrior, "10011");
-			successEmailMap.put(ECareer.SwordsMan, "10012");
-			successEmailMap.put(ECareer.Magican, "10013");
-			successEmailMap.put(ECareer.Priest, "10014");
-		}
-		EmailUtils.sendEmail(userId, successEmailMap.get(career));
-	}
-	
-	/**发送失去第一名邮件*/
-	public void sendFailEmail(ECareer career, String userId){
-		if(failEmailMap.size() == 0){
-			failEmailMap.put(ECareer.Warrior, "10015");
-			failEmailMap.put(ECareer.SwordsMan, "10016");
-			failEmailMap.put(ECareer.Magican, "10017");
-			failEmailMap.put(ECareer.Priest, "10018");
-		}
-		EmailUtils.sendEmail(userId, failEmailMap.get(career));
-	}
-	
+
 	/**是否可以膜拜*/
 	public boolean isWorship(Player player){
 		return DateUtils.isResetTime(5, 0, 0, player.getUserGameDataMgr().getLastWorshipTime());
 	}
 	
 	/**添加膜拜者*/
-	public void addWorshippers(ECareer career, Player player, WorshipItemData rewardData){
+	public synchronized void addWorshippers(ECareer career, Player player, WorshipItemData rewardData){
 		if(career == null || career == ECareer.None || player == null){
 			return;
 		}
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
-			tableWorship = new TableWorship();
-			tableWorship.setCareer(career.getValue());
+		List<WorshipItem> list = tableWorship.getWorshipItemList();
+		if(list.size() >= MAX_RECORD_COUNT){
+			Collections.sort(list, WorshipUtils.comparator);
+			tableWorship.remove(list.get(list.size() - 1));
 		}
-		if(tableWorship.getWorshipItemList().size() >= 50){
-			return;
-		}
-		tableWorship.getWorshippersList().add(player.getUserId());
-		tableWorship.getWorshipItemList().add(WorshipUtils.playerInfoToWorshipItem(player, rewardData));
+		tableWorship.add(WorshipUtils.playerInfoToWorshipItem(player, rewardData));
 		worshipDao.update(tableWorship);
 	}
 	
@@ -183,10 +152,20 @@ public class WorshipMgr {
 	/**推送被膜拜者*/
 	public void pushByWorshiped(Player player){
 		if(player != null){
-			player.SendMsg(Command.MSG_Worship, getByWorshipedInfo());
+			player.SendMsg(Command.MSG_Worship, getWorshipState(player));
 		}
 	}
 	
+	private ByteString getWorshipState(Player player) {
+		List<WorshipInfo> list = getByWorshipedList();
+		WorshipResponse.Builder response = WorshipResponse.newBuilder();
+		response.setRequestType(EWorshipRequestType.WORSHIP_STATE);
+		response.setResultType(EWorshipResultType.SUCCESS);
+		response.setCanWorship(isWorship(player));
+		response.addAllByWorshippedList(list);
+		return response.build().toByteString();
+	}
+
 	public ByteString getByWorshipedInfo(){
 		List<WorshipInfo> list = getByWorshipedList();
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
@@ -208,4 +187,6 @@ public class WorshipMgr {
 		}
 		return list;
 	}
+
+	
 }

@@ -6,6 +6,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 
 import com.log.GameLog;
 import com.rw.controler.FsNettyControler;
+import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.RequestProtos.Request;
@@ -68,7 +69,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 				long current = System.currentTimeMillis();
 				if (current - session.getLastRecvMsgMillis() > UserChannelMgr.RECONNECT_TIME) {
 					ctx.close();
-					GameLog.info("session idle", ctx.channel().remoteAddress().toString(), "session has not command:" + UserChannelMgr.getCtxInfo(ctx));
+					GameLog.info("session idle", ctx.channel().remoteAddress().toString(), "idle timeout:" + UserChannelMgr.getCtxInfo(ctx));
 				}
 			}
 		}
@@ -79,6 +80,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		System.out.println("close connection:" + UserChannelMgr.getCtxInfo(ctx));
 		super.channelUnregistered(ctx);
 		UserChannelMgr.closeSession(ctx);
+		DataEventRecorder.endAndPollCollections();
+		
 	}
 
 }

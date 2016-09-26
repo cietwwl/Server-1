@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.enu.EHeroQuality;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
@@ -64,14 +65,15 @@ public class FrshActCheckHeroGrade implements IFrshActCheckTask{
 	}
 	
 	private Map<Integer, Integer> getHeroQualityMap(Player player){
-		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration(player);
 		Map<Integer, Integer> qualityMap = new HashMap<Integer, Integer>();
 		EHeroQuality[] qualityValue = EHeroQuality.getAllValue();
 		//统计当前英雄各品质的个数
 		for (Enumeration e = herosEnumeration; herosEnumeration
 				.hasMoreElements();) {
 			Hero hero = (Hero) e.nextElement();
-			int heroQuality = hero.GetHeroQuality();
+			int heroQuality = FSHeroMgr.getInstance().getHeroQuality(hero);
 			
 			for (EHeroQuality eHeroQuality : qualityValue) {
 				if(heroQuality >= eHeroQuality.ordinal()){

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.bm.login.AccoutBM;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
@@ -15,12 +14,11 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.UserGameDataMgr;
-import com.rw.manager.GameManager;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
-import com.rwbase.dao.user.accountInfo.TableAccount;
 
 public class GmUserDetailInfo implements IGmTask {
 
@@ -75,9 +73,10 @@ public class GmUserDetailInfo implements IGmTask {
 			map.put("channel", zoneRegInfo.getRegChannelId());
 		}
 		map.put("vipLevel", player.getVip());
-		map.put("fight", player.getHeroMgr().getFightingAll());
-		//map.put("faction_id", player.getGuildUserMgr().getGuildId());
-		map.put("faction_id", "");
+		map.put("fight", player.getHeroMgr().getFightingAll(player));
+		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String faction_id = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupId();
+		map.put("faction_id", faction_id);
 		String carrer = ECareer.getCarrer(player.getCareer());
 		map.put("job", carrer);
 		

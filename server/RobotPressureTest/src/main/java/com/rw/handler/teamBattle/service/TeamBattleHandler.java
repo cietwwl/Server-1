@@ -1,5 +1,7 @@
 package com.rw.handler.teamBattle.service;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -31,19 +33,16 @@ public class TeamBattleHandler {
 	 * @param client
 	 * @return
 	 */
-	public boolean startTBCreateTeam(Client client){
-		boolean result = synTeamBattle(client);
-		if (!result) {
-			RobotLog.fail("startTBCreateTeam[send]组队同步数据反馈结果=" + result);
-			return result;
-		}
+	private boolean startTBCreateTeam(Client client){
+		boolean result = true;
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
-		if(null != utbData.getTeamID() && !utbData.getTeamID().isEmpty()) {
-			if(null != UserTeamBattleDataHolder.getInstance().getCurrentHardID() &&
-					utbData.getTeamID().split("_")[0].equals(UserTeamBattleDataHolder.getInstance().getCurrentHardID())){
-				RobotLog.info("startTBCreateTeam[send]玩家已经有队伍，不能再创建或加入队伍");
-				return true;
-			}
+		if(null == utbData){
+			RobotLog.fail("startTBCreateTeam[send]玩家数据同步不成功");
+			return true;
+		}
+		if(StringUtils.isNotBlank(utbData.getTeamID())) {
+			RobotLog.info("startTBCreateTeam[send]玩家已经有队伍，不能再创建或加入队伍");
+			return true;
 		}
 		int rankKey = 1;//(int)(Math.random() * 3);
 		if(0 == rankKey){
@@ -74,10 +73,14 @@ public class TeamBattleHandler {
 			return result;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
-		if(null == utbData.getTeamID() || utbData.getTeamID().isEmpty()) {
+		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())) {
 			return startTBCreateTeam(client);
 		}
 		TBTeamItem teamItem = TBTeamItemHolder.getInstance().getTeamData();
+		if(null == teamItem){
+			RobotLog.fail("startTBFight[send]队伍数据同步失败");
+			return false;
+		}
 		if(teamItem.getMembers().size() < 3){
 			RobotLog.info("startTBFight[send]组队队伍人数没有满员，不能开战");
 			return true;

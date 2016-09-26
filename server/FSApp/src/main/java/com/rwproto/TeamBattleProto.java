@@ -125,6 +125,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     SAVE_MEMBER_POSITION(13, 14),
+    /**
+     * <code>BUY_TIMES = 15;</code>
+     *
+     * <pre>
+     *购买挑战次数
+     * </pre>
+     */
+    BUY_TIMES(14, 15),
+    /**
+     * <code>ADD_ROBOT = 16;</code>
+     *
+     * <pre>
+     *请求机器人
+     * </pre>
+     */
+    ADD_ROBOT(15, 16),
     ;
 
     /**
@@ -239,6 +255,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     public static final int SAVE_MEMBER_POSITION_VALUE = 14;
+    /**
+     * <code>BUY_TIMES = 15;</code>
+     *
+     * <pre>
+     *购买挑战次数
+     * </pre>
+     */
+    public static final int BUY_TIMES_VALUE = 15;
+    /**
+     * <code>ADD_ROBOT = 16;</code>
+     *
+     * <pre>
+     *请求机器人
+     * </pre>
+     */
+    public static final int ADD_ROBOT_VALUE = 16;
 
 
     public final int getNumber() { return value; }
@@ -259,6 +291,8 @@ public final class TeamBattleProto {
         case 12: return INFORM_FIGHT_RESULT;
         case 13: return SCORE_EXCHANGE;
         case 14: return SAVE_MEMBER_POSITION;
+        case 15: return BUY_TIMES;
+        case 16: return ADD_ROBOT;
         default: return null;
       }
     }
@@ -331,6 +365,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     DATA_ERROR(1, 2),
+    /**
+     * <code>DIAMOND_NOT_ENOUGH = 3;</code>
+     *
+     * <pre>
+     *钻石不足
+     * </pre>
+     */
+    DIAMOND_NOT_ENOUGH(2, 3),
+    /**
+     * <code>VIP_NOT_ENOUGH = 4;</code>
+     *
+     * <pre>
+     *VIP等级不足
+     * </pre>
+     */
+    VIP_NOT_ENOUGH(3, 4),
     ;
 
     /**
@@ -349,6 +399,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     public static final int DATA_ERROR_VALUE = 2;
+    /**
+     * <code>DIAMOND_NOT_ENOUGH = 3;</code>
+     *
+     * <pre>
+     *钻石不足
+     * </pre>
+     */
+    public static final int DIAMOND_NOT_ENOUGH_VALUE = 3;
+    /**
+     * <code>VIP_NOT_ENOUGH = 4;</code>
+     *
+     * <pre>
+     *VIP等级不足
+     * </pre>
+     */
+    public static final int VIP_NOT_ENOUGH_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -357,6 +423,8 @@ public final class TeamBattleProto {
       switch (value) {
         case 1: return SUCCESS;
         case 2: return DATA_ERROR;
+        case 3: return DIAMOND_NOT_ENOUGH;
+        case 4: return VIP_NOT_ENOUGH;
         default: return null;
       }
     }
@@ -4235,16 +4303,18 @@ public final class TeamBattleProto {
       "ontent\030\016 \001(\t\"q\n\020TeamBattleRspMsg\022)\n\007rstT" +
       "ype\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006t",
       "ipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJoi" +
-      "n\030\004 \001(\010*\254\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BA" +
+      "n\030\004 \001(\010*\312\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BA" +
       "TTLE\020\001\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_" +
       "TEAM_INFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEA" +
       "M\020\005\022\016\n\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026" +
       "\n\022SET_TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMBE" +
       "R\020\t\022\021\n\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022" +
       "\027\n\023INFORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHAN" +
-      "GE\020\r\022\030\n\024SAVE_MEMBER_POSITION\020\016*+\n\014TBResu" +
-      "ltType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013c",
-      "om.rwprotoB\017TeamBattleProto"
+      "GE\020\r\022\030\n\024SAVE_MEMBER_POSITION\020\016\022\r\n\tBUY_TI" +
+      "MES\020\017\022\r\n\tADD_ROBOT\020\020*W\n\014TBResultType\022\013\n\007",
+      "SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\026\n\022DIAMOND_NOT" +
+      "_ENOUGH\020\003\022\022\n\016VIP_NOT_ENOUGH\020\004B\036\n\013com.rwp" +
+      "rotoB\017TeamBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

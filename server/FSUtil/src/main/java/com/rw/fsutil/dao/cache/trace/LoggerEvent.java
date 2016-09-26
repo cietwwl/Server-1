@@ -2,13 +2,13 @@ package com.rw.fsutil.dao.cache.trace;
 
 import com.rw.fsutil.dao.cache.CacheLoggerPriority;
 import com.rw.fsutil.dao.cache.CacheStackTrace;
-import com.rw.fsutil.dao.cache.record.LoggerWriteEvent;
+import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 
 public class LoggerEvent {
 
 	public final CacheLoggerPriority priority;
 	public final String content;
-	public final LoggerWriteEvent aysnEvent;
+	public final DataLoggerRecord aysnEvent;
 	public final Throwable t;
 	public final long time;
 	public final String threadName;
@@ -41,7 +41,7 @@ public class LoggerEvent {
 		this.aysnEvent = null;
 	}
 
-	public LoggerEvent(CacheLoggerPriority priority, LoggerWriteEvent aysnEvent, String content, CacheStackTrace trace) {
+	public LoggerEvent(CacheLoggerPriority priority, DataLoggerRecord aysnEvent, String content, CacheStackTrace trace) {
 		this.priority = priority;
 		this.content = content;
 		this.t = null;

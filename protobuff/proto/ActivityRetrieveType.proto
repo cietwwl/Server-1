@@ -1,0 +1,27 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ActivityRetrieveTypeProto";
+
+package activityRetrieveType;
+
+
+enum RequestType{
+
+	RETRIEVE = 1;//找回
+
+}
+
+message ActivityCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+	optional string activityId = 2; //id编号，尽量以服务器的枚举为准，策划不要轻易改
+	optional int32 type = 3;  //找回类型，0普通，1完美
+
+}
+
+
+message ActivityCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+
+}

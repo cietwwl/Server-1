@@ -60,7 +60,7 @@ message ArmyHurtStruct{
 	required string roleName = 2;
 	required int32 lv = 3;
 	required int64 killTime = 4; //击杀时间
-	required int32 damage = 5;
+	required int64 damage = 5;
 	
 }
 

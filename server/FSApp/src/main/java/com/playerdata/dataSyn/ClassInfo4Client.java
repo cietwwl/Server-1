@@ -3,7 +3,6 @@ package com.playerdata.dataSyn;
 import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +10,13 @@ import javax.persistence.Id;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.dataSyn.json.FieldInfo;
+import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class ClassInfo4Client {
@@ -58,7 +59,7 @@ public class ClassInfo4Client {
 				this.idField = field;
 			} 
 			if(!field.isAnnotationPresent(IgnoreSynField.class)){
-				field.setAccessible(true);
+				field.setAccessible(true);			
 				clientFiledList.add(new FieldInfo(field));	
 			}
 		}
@@ -73,42 +74,66 @@ public class ClassInfo4Client {
 		}
 	}
 	
-	
-	public String toJson(Object target) throws Exception{
+	public String toJson(Object target, JsonOpt jsonOpt) throws Exception{
 		
-		Map<String, String> clientData = new HashMap<String, String>();
+		JSONObject clientData = toJsonObject( target, jsonOpt);
+		String json = null;
+		if(clientData!=null){
+			json = clientData.toJSONString();
+		}
+		
+		return json;
+	}
+	
+	public JSONObject toJsonObject(Object target, JsonOpt jsonOpt) throws Exception{
+		
+		JSONObject clientData = new JSONObject();
 
 		for (FieldInfo fieldTmp : clientFiledList) {
-			String jsonValue = fieldTmp.toJson(target);
-			if(StringUtils.isNotBlank(jsonValue)){
-				clientData.put(fieldTmp.getName(), jsonValue);
+			Object jsonValue = fieldTmp.toJson(target, jsonOpt);
+			if(jsonValue!=null){
+				
+				String sName = jsonOpt.getShort(fieldTmp.getName());
+				
+				clientData.put(sName, jsonValue);
+				
 			}
 		}
-		String jsonData =null;
+		
 		if(clientData.size()>0){
-			jsonData = JsonUtil.writeValue(clientData);
+			return clientData;
 		}
-		return jsonData;
+		return null;
 	}
 	
 
-	public String toJson(Object target, List<String> fieldList) throws Exception{
+	public String toJson(Object target, List<String> fieldList, JsonOpt jsonOpt) throws Exception{
 		
-		Map<String, String> clientData = new HashMap<String, String>();
+		JSONObject clientData = toJsonObject( target, fieldList,jsonOpt);
+		String json = null;
+		if(clientData!=null){
+			json = clientData.toJSONString();
+		}
+		
+		return json;
+	}
+	public JSONObject toJsonObject(Object target, List<String> fieldList, JsonOpt jsonOpt) throws Exception{
+		
+		JSONObject clientData = new JSONObject();
 
 		for (FieldInfo fieldTmp : clientFiledList) {
 			if(fieldList.contains(fieldTmp.getName())){
-				String jsonValue = fieldTmp.toJson(target);
-				if(StringUtils.isNotBlank(jsonValue)){
-					clientData.put(fieldTmp.getName(), jsonValue);
+				Object jsonValue = fieldTmp.toJson(target,jsonOpt);
+				if(jsonValue!=null){
+					String sName = jsonOpt.getShort(fieldTmp.getName());
+					clientData.put(sName, jsonValue);
 				}				
 			}
 		}
-		String jsonData =null;
 		if(clientData.size()>0){
-			jsonData = JsonUtil.writeValue(clientData);
+			return clientData;
 		}
-		return jsonData;
+		return null;
 	}
 	
 	public Object fromJson(String json){	
@@ -133,6 +158,4 @@ public class ClassInfo4Client {
 	
 		return target;
 	}
-
-
 }

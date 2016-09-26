@@ -30,15 +30,14 @@ public class UserEventGoldSpendRedEnvelopeHandler  implements IUserEventHandler{
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				ActivityRedEnvelopeTypeCfg Cfg = ActivityRedEnvelopeTypeCfgDAO.getInstance().getCfgById(ActivityRedEnvelopeTypeEnum.redEnvelope.getCfgId());
-				boolean isBetween = ActivityRedEnvelopeTypeMgr.getInstance().isOpen(Cfg);
+				boolean isBetween = ActivityRedEnvelopeTypeMgr.getInstance().isOpen();
 				if(isBetween){
 					ActivityRedEnvelopeTypeMgr.getInstance().addCount(player, Integer.parseInt(params.toString()));
 
 					}				
 				}
 			@Override
-			public void logError(Player player,Throwable ex) {
+			public void logError(Player player,Exception ex) {
 				StringBuilder reason = new StringBuilder(ActivityRedEnvelopeTypeEnum.redEnvelope.toString()).append(" error");				
 				GameLog.error(LogModule.ComActivityRedEnvelope, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						

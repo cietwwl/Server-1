@@ -2,13 +2,20 @@ package com.playerdata.activity.exChangeType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
+import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -35,9 +42,24 @@ public class ActivityExchangeTypeItemHolder{
 	{
 		
 		List<ActivityExchangeTypeItem> itemList = new ArrayList<ActivityExchangeTypeItem>();
-		Enumeration<ActivityExchangeTypeItem> mapEnum = getItemStore(userId).getEnum();
+		MapItemStore<ActivityExchangeTypeItem> itemStore = getItemStore(userId);
+		Enumeration<ActivityExchangeTypeItem> mapEnum = itemStore.getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();			
+			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();
+			List<ActivityExchangeTypeCfg> typeCfgList = ActivityExchangeTypeCfgDAO.getInstance().isCfgByEnumIdEmpty(item.getEnumId());
+			if(typeCfgList == null||typeCfgList.isEmpty()){
+				continue;//配置表已经被策划删除,又不添加下一期的同类型活动orz...
+			}
+			boolean isRight = false;
+			for(ActivityExchangeTypeCfg cfg: typeCfgList){
+				if(StringUtils.equals(cfg.getId(), item.getCfgId())){
+					isRight = true;
+				}
+			}
+			if(!isRight){//如果为false；则说明已经生成的数据，他对应的老配置表被改了枚举类型
+				itemStore.removeItem(item.getId());
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -53,15 +75,6 @@ public class ActivityExchangeTypeItemHolder{
 		String itemId = ActivityExChangeTypeHelper.getItemId(userId, exChangeTypeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
 	
 	public boolean addItem(Player player, ActivityExchangeTypeItem item){
 	
@@ -94,12 +107,20 @@ public class ActivityExchangeTypeItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityExchangeTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityExchangeTypeItem> itemList = getItemList(player.getUserId());		
+//		Iterator<ActivityExchangeTypeItem> it = itemList.iterator();
+//		while(it.hasNext()){
+//			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem)it.next();
+//			if(ActivityExchangeTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+////				removeItem(player, item);
+//				it.remove();
+//			}
+//		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityExchangeTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityExchangeTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityExchangeTypeItem> cache = MapItemStoreFactory.getActivityExchangeTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityExchangeTypeItem.class);
 	}

@@ -648,13 +648,37 @@ public final class MsgDef {
      */
     MSG_CHAT_SET_CURRENT_TARGET(85, 190),
     /**
+     * <code>MSG_FIGHTING_GROWTH_REQUEST_UI_DATA = 191;</code>
+     *
+     * <pre>
+     * 首页战力成长：请求UI数据（带一个empty的body即可）
+     * </pre>
+     */
+    MSG_FIGHTING_GROWTH_REQUEST_UI_DATA(86, 191),
+    /**
+     * <code>MSG_FIGHTING_GROWTH_REQUEST_UPGRADE = 192;</code>
+     *
+     * <pre>
+     * 首页战力成长：请求晋级（带一个empty的body即可）
+     * </pre>
+     */
+    MSG_FIGHTING_GROWTH_REQUEST_UPGRADE(87, 192),
+    /**
+     * <code>MSG_FIGHTING_PUSH_DATA = 193;</code>
+     *
+     * <pre>
+     * 首页战力成长：推送更新的数据
+     * </pre>
+     */
+    MSG_FIGHTING_PUSH_DATA(88, 193),
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
      *道术系统
      * </pre>
      */
-    MSG_TAOIST(86, 200),
+    MSG_TAOIST(89, 200),
     /**
      * <code>MSG_FIX_EQUIP = 201;</code>
      *
@@ -662,7 +686,7 @@ public final class MsgDef {
      *专属装备
      * </pre>
      */
-    MSG_FIX_EQUIP(87, 201),
+    MSG_FIX_EQUIP(90, 201),
     /**
      * <code>MSG_GROUP_SECRET = 202;</code>
      *
@@ -670,7 +694,7 @@ public final class MsgDef {
      *帮派秘境
      * </pre>
      */
-    MSG_GROUP_SECRET(88, 202),
+    MSG_GROUP_SECRET(91, 202),
     /**
      * <code>MSG_MAGIC_SECRET = 203;</code>
      *
@@ -678,7 +702,7 @@ public final class MsgDef {
      *法宝秘境
      * </pre>
      */
-    MSG_MAGIC_SECRET(89, 203),
+    MSG_MAGIC_SECRET(92, 203),
     /**
      * <code>MSG_GROUP_SECRET_MATCH = 204;</code>
      *
@@ -686,7 +710,7 @@ public final class MsgDef {
      *帮派秘境探索
      * </pre>
      */
-    MSG_GROUP_SECRET_MATCH(90, 204),
+    MSG_GROUP_SECRET_MATCH(93, 204),
     /**
      * <code>MSG_GROUP_FIGHT_ONLINE = 205;</code>
      *
@@ -694,7 +718,7 @@ public final class MsgDef {
      *在线帮战
      * </pre>
      */
-    MSG_GROUP_FIGHT_ONLINE(91, 205),
+    MSG_GROUP_FIGHT_ONLINE(94, 205),
     /**
      * <code>MSG_RED_POINT_SERVICE = 206;</code>
      *
@@ -702,11 +726,11 @@ public final class MsgDef {
      *红点扩展点击传送
      * </pre>
      */
-    MSG_RED_POINT_SERVICE(92, 206),
+    MSG_RED_POINT_SERVICE(95, 206),
     /**
      * <code>MSG_TEAM_BATTLE = 207;</code>
      */
-    MSG_TEAM_BATTLE(93, 207),
+    MSG_TEAM_BATTLE(96, 207),
     /**
      * <code>MSG_ONE_KEY_REWARD = 208;</code>
      *
@@ -714,7 +738,159 @@ public final class MsgDef {
      *一键领取奖励
      * </pre>
      */
-    MSG_ONE_KEY_REWARD(94, 208),
+    MSG_ONE_KEY_REWARD(97, 208),
+    /**
+     * <code>MSG_BATTLE_COMMON = 209;</code>
+     *
+     * <pre>
+     *保存客户端阵容到服务器
+     * </pre>
+     */
+    MSG_BATTLE_COMMON(98, 209),
+    /**
+     * <code>MSG_ACTIVITY_FORTUNECAT_TYPE = 210;</code>
+     *
+     * <pre>
+     *通用活动招财猫
+     * </pre>
+     */
+    MSG_ACTIVITY_FORTUNECAT_TYPE(99, 210),
+    /**
+     * <code>MSG_ACTIVITY_LimitHero_TYPE = 211;</code>
+     *
+     * <pre>
+     *通用活动限时神将
+     * </pre>
+     */
+    MSG_ACTIVITY_LimitHero_TYPE(100, 211),
+    /**
+     * <code>MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    MSG_ACTIVITY_DAILY_CHARGE_TYPE(101, 212),
+    /**
+     * <code>MSG_SYN_DATA_SERVICE = 213;</code>
+     *
+     * <pre>
+     *数据同步请求服务
+     * </pre>
+     */
+    MSG_SYN_DATA_SERVICE(102, 213),
+    /**
+     * <code>MSG_RANDOM_BOSS = 214;</code>
+     *
+     * <pre>
+     *随机boss
+     * </pre>
+     */
+    MSG_RANDOM_BOSS(103, 214),
+    /**
+     * <code>MSG_WORLD_BOSS = 215;</code>
+     *
+     * <pre>
+     *世界boss
+     * </pre>
+     */
+    MSG_WORLD_BOSS(104, 215),
+    /**
+     * <code>MSG_GROUP_COMPETITION = 216;</code>
+     *
+     * <pre>
+     *帮派争霸赛同屏
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION(105, 216),
+    /**
+     * <code>MSG_GROUP_COMPETITION_GET_DATA = 217;</code>
+     *
+     * <pre>
+     * 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_GET_DATA(106, 217),
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_REQ = 218;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍请求（对应GroupCompetition.proto里的TeamRequest）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_TEAM_REQ(107, 218),
+    /**
+     * <code>MSG_GROUP_JOIN_TEAM_REQ = 219;</code>
+     *
+     * <pre>
+     * 帮派争霸：加入队伍（对应GroupCompetition.proto里的JoinTeamReq）
+     * </pre>
+     */
+    MSG_GROUP_JOIN_TEAM_REQ(108, 219),
+    /**
+     * <code>MSG_BENEFIT_ITEM = 220;</code>
+     *
+     * <pre>
+     *精准营销消息协议
+     * </pre>
+     */
+    MSG_BENEFIT_ITEM(109, 220),
+    /**
+     * <code>MSG_ACTIVITY_RETRIEVE = 221;</code>
+     *
+     * <pre>
+     *每日找回
+     * </pre>
+     */
+    MSG_ACTIVITY_RETRIEVE(110, 221),
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ = 222;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍成员请求（对应GroupCompetition.proto里的TeamMemberRequest）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ(111, 222),
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_STATUS_REQ = 223;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍准备状态请求（对应GroupCompetition.proto里的TeamStatusRequest）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_TEAM_STATUS_REQ(112, 223),
+    /**
+     * <code>MSG_GROUP_COMPETITION_QUIZ = 224;</code>
+     *
+     * <pre>
+     *帮派争霸:竞猜（对应GroupCompetition.proto里的ReqNewGuess）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_QUIZ(113, 224),
+    /**
+     * <code>MSG_GROUP_COMPETITION_QUIZ_SYN = 225;</code>
+     *
+     * <pre>
+     *帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_QUIZ_SYN(114, 225),
+    /**
+     * <code>MSG_GROUP_COMPETITION_BATTLE = 226;</code>
+     *
+     * <pre>
+     *帮派争霸：战斗处理
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_BATTLE(115, 226),
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE = 227;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍状态发生变化，服务器推送给客户端，发送GroupCompetition.proto里的TeamStatusChange
+     * </pre>
+     */
+    MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE(116, 227),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -722,7 +898,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(95, 995),
+    MSG_FEEDBACK(117, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -730,7 +906,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(96, 996),
+    MSG_SDK_VERIFY(118, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -738,7 +914,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(97, 997),
+    MSG_NUMERIC_ANALYSIS(119, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -746,7 +922,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(98, 998),
+    MSG_PLATFORMGS(120, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -754,7 +930,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(99, 999),
+    MSG_GAMEPRESS(121, 999),
     ;
 
     /**
@@ -1392,6 +1568,30 @@ public final class MsgDef {
      */
     public static final int MSG_CHAT_SET_CURRENT_TARGET_VALUE = 190;
     /**
+     * <code>MSG_FIGHTING_GROWTH_REQUEST_UI_DATA = 191;</code>
+     *
+     * <pre>
+     * 首页战力成长：请求UI数据（带一个empty的body即可）
+     * </pre>
+     */
+    public static final int MSG_FIGHTING_GROWTH_REQUEST_UI_DATA_VALUE = 191;
+    /**
+     * <code>MSG_FIGHTING_GROWTH_REQUEST_UPGRADE = 192;</code>
+     *
+     * <pre>
+     * 首页战力成长：请求晋级（带一个empty的body即可）
+     * </pre>
+     */
+    public static final int MSG_FIGHTING_GROWTH_REQUEST_UPGRADE_VALUE = 192;
+    /**
+     * <code>MSG_FIGHTING_PUSH_DATA = 193;</code>
+     *
+     * <pre>
+     * 首页战力成长：推送更新的数据
+     * </pre>
+     */
+    public static final int MSG_FIGHTING_PUSH_DATA_VALUE = 193;
+    /**
      * <code>MSG_TAOIST = 200;</code>
      *
      * <pre>
@@ -1459,6 +1659,158 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_ONE_KEY_REWARD_VALUE = 208;
+    /**
+     * <code>MSG_BATTLE_COMMON = 209;</code>
+     *
+     * <pre>
+     *保存客户端阵容到服务器
+     * </pre>
+     */
+    public static final int MSG_BATTLE_COMMON_VALUE = 209;
+    /**
+     * <code>MSG_ACTIVITY_FORTUNECAT_TYPE = 210;</code>
+     *
+     * <pre>
+     *通用活动招财猫
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_FORTUNECAT_TYPE_VALUE = 210;
+    /**
+     * <code>MSG_ACTIVITY_LimitHero_TYPE = 211;</code>
+     *
+     * <pre>
+     *通用活动限时神将
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_LimitHero_TYPE_VALUE = 211;
+    /**
+     * <code>MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;</code>
+     *
+     * <pre>
+     *每日充值活动
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_DAILY_CHARGE_TYPE_VALUE = 212;
+    /**
+     * <code>MSG_SYN_DATA_SERVICE = 213;</code>
+     *
+     * <pre>
+     *数据同步请求服务
+     * </pre>
+     */
+    public static final int MSG_SYN_DATA_SERVICE_VALUE = 213;
+    /**
+     * <code>MSG_RANDOM_BOSS = 214;</code>
+     *
+     * <pre>
+     *随机boss
+     * </pre>
+     */
+    public static final int MSG_RANDOM_BOSS_VALUE = 214;
+    /**
+     * <code>MSG_WORLD_BOSS = 215;</code>
+     *
+     * <pre>
+     *世界boss
+     * </pre>
+     */
+    public static final int MSG_WORLD_BOSS_VALUE = 215;
+    /**
+     * <code>MSG_GROUP_COMPETITION = 216;</code>
+     *
+     * <pre>
+     *帮派争霸赛同屏
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_VALUE = 216;
+    /**
+     * <code>MSG_GROUP_COMPETITION_GET_DATA = 217;</code>
+     *
+     * <pre>
+     * 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_GET_DATA_VALUE = 217;
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_REQ = 218;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍请求（对应GroupCompetition.proto里的TeamRequest）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_TEAM_REQ_VALUE = 218;
+    /**
+     * <code>MSG_GROUP_JOIN_TEAM_REQ = 219;</code>
+     *
+     * <pre>
+     * 帮派争霸：加入队伍（对应GroupCompetition.proto里的JoinTeamReq）
+     * </pre>
+     */
+    public static final int MSG_GROUP_JOIN_TEAM_REQ_VALUE = 219;
+    /**
+     * <code>MSG_BENEFIT_ITEM = 220;</code>
+     *
+     * <pre>
+     *精准营销消息协议
+     * </pre>
+     */
+    public static final int MSG_BENEFIT_ITEM_VALUE = 220;
+    /**
+     * <code>MSG_ACTIVITY_RETRIEVE = 221;</code>
+     *
+     * <pre>
+     *每日找回
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_RETRIEVE_VALUE = 221;
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ = 222;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍成员请求（对应GroupCompetition.proto里的TeamMemberRequest）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ_VALUE = 222;
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_STATUS_REQ = 223;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍准备状态请求（对应GroupCompetition.proto里的TeamStatusRequest）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_TEAM_STATUS_REQ_VALUE = 223;
+    /**
+     * <code>MSG_GROUP_COMPETITION_QUIZ = 224;</code>
+     *
+     * <pre>
+     *帮派争霸:竞猜（对应GroupCompetition.proto里的ReqNewGuess）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_QUIZ_VALUE = 224;
+    /**
+     * <code>MSG_GROUP_COMPETITION_QUIZ_SYN = 225;</code>
+     *
+     * <pre>
+     *帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_QUIZ_SYN_VALUE = 225;
+    /**
+     * <code>MSG_GROUP_COMPETITION_BATTLE = 226;</code>
+     *
+     * <pre>
+     *帮派争霸：战斗处理
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_BATTLE_VALUE = 226;
+    /**
+     * <code>MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE = 227;</code>
+     *
+     * <pre>
+     * 帮派争霸：队伍状态发生变化，服务器推送给客户端，发送GroupCompetition.proto里的TeamStatusChange
+     * </pre>
+     */
+    public static final int MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE_VALUE = 227;
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1591,6 +1943,9 @@ public final class MsgDef {
         case 188: return MSG_GROUP_COPY_CMD;
         case 189: return MSG_CHAT_REQUEST_PRIVATE_CHATS;
         case 190: return MSG_CHAT_SET_CURRENT_TARGET;
+        case 191: return MSG_FIGHTING_GROWTH_REQUEST_UI_DATA;
+        case 192: return MSG_FIGHTING_GROWTH_REQUEST_UPGRADE;
+        case 193: return MSG_FIGHTING_PUSH_DATA;
         case 200: return MSG_TAOIST;
         case 201: return MSG_FIX_EQUIP;
         case 202: return MSG_GROUP_SECRET;
@@ -1600,6 +1955,25 @@ public final class MsgDef {
         case 206: return MSG_RED_POINT_SERVICE;
         case 207: return MSG_TEAM_BATTLE;
         case 208: return MSG_ONE_KEY_REWARD;
+        case 209: return MSG_BATTLE_COMMON;
+        case 210: return MSG_ACTIVITY_FORTUNECAT_TYPE;
+        case 211: return MSG_ACTIVITY_LimitHero_TYPE;
+        case 212: return MSG_ACTIVITY_DAILY_CHARGE_TYPE;
+        case 213: return MSG_SYN_DATA_SERVICE;
+        case 214: return MSG_RANDOM_BOSS;
+        case 215: return MSG_WORLD_BOSS;
+        case 216: return MSG_GROUP_COMPETITION;
+        case 217: return MSG_GROUP_COMPETITION_GET_DATA;
+        case 218: return MSG_GROUP_COMPETITION_TEAM_REQ;
+        case 219: return MSG_GROUP_JOIN_TEAM_REQ;
+        case 220: return MSG_BENEFIT_ITEM;
+        case 221: return MSG_ACTIVITY_RETRIEVE;
+        case 222: return MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ;
+        case 223: return MSG_GROUP_COMPETITION_TEAM_STATUS_REQ;
+        case 224: return MSG_GROUP_COMPETITION_QUIZ;
+        case 225: return MSG_GROUP_COMPETITION_QUIZ_SYN;
+        case 226: return MSG_GROUP_COMPETITION_BATTLE;
+        case 227: return MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -1665,7 +2039,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\375\020\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\335\026\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -1711,16 +2085,34 @@ public final class MsgDef {
       "\020\271\001\022\031\n\024MSG_GROUP_COPY_ADMIN\020\272\001\022\032\n\025MSG_GR" +
       "OUP_COPY_BATTLE\020\273\001\022\027\n\022MSG_GROUP_COPY_CMD" +
       "\020\274\001\022#\n\036MSG_CHAT_REQUEST_PRIVATE_CHATS\020\275\001" +
-      "\022 \n\033MSG_CHAT_SET_CURRENT_TARGET\020\276\001\022\017\n\nMS" +
-      "G_TAOIST\020\310\001\022\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_G" +
-      "ROUP_SECRET\020\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\033\n" +
-      "\026MSG_GROUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_",
-      "FIGHT_ONLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE" +
-      "\020\316\001\022\024\n\017MSG_TEAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY" +
-      "_REWARD\020\320\001\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_SDK" +
-      "_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n" +
-      "\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025" +
-      "\n\013com.rwprotoB\006MsgDef"
+      "\022 \n\033MSG_CHAT_SET_CURRENT_TARGET\020\276\001\022(\n#MS" +
+      "G_FIGHTING_GROWTH_REQUEST_UI_DATA\020\277\001\022(\n#" +
+      "MSG_FIGHTING_GROWTH_REQUEST_UPGRADE\020\300\001\022\033" +
+      "\n\026MSG_FIGHTING_PUSH_DATA\020\301\001\022\017\n\nMSG_TAOIS",
+      "T\020\310\001\022\022\n\rMSG_FIX_EQUIP\020\311\001\022\025\n\020MSG_GROUP_SE" +
+      "CRET\020\312\001\022\025\n\020MSG_MAGIC_SECRET\020\313\001\022\033\n\026MSG_GR" +
+      "OUP_SECRET_MATCH\020\314\001\022\033\n\026MSG_GROUP_FIGHT_O" +
+      "NLINE\020\315\001\022\032\n\025MSG_RED_POINT_SERVICE\020\316\001\022\024\n\017" +
+      "MSG_TEAM_BATTLE\020\317\001\022\027\n\022MSG_ONE_KEY_REWARD" +
+      "\020\320\001\022\026\n\021MSG_BATTLE_COMMON\020\321\001\022!\n\034MSG_ACTIV" +
+      "ITY_FORTUNECAT_TYPE\020\322\001\022 \n\033MSG_ACTIVITY_L" +
+      "imitHero_TYPE\020\323\001\022#\n\036MSG_ACTIVITY_DAILY_C" +
+      "HARGE_TYPE\020\324\001\022\031\n\024MSG_SYN_DATA_SERVICE\020\325\001" +
+      "\022\024\n\017MSG_RANDOM_BOSS\020\326\001\022\023\n\016MSG_WORLD_BOSS",
+      "\020\327\001\022\032\n\025MSG_GROUP_COMPETITION\020\330\001\022#\n\036MSG_G" +
+      "ROUP_COMPETITION_GET_DATA\020\331\001\022#\n\036MSG_GROU" +
+      "P_COMPETITION_TEAM_REQ\020\332\001\022\034\n\027MSG_GROUP_J" +
+      "OIN_TEAM_REQ\020\333\001\022\025\n\020MSG_BENEFIT_ITEM\020\334\001\022\032" +
+      "\n\025MSG_ACTIVITY_RETRIEVE\020\335\001\022*\n%MSG_GROUP_" +
+      "COMPETITION_TEAM_MEMBER_REQ\020\336\001\022*\n%MSG_GR" +
+      "OUP_COMPETITION_TEAM_STATUS_REQ\020\337\001\022\037\n\032MS" +
+      "G_GROUP_COMPETITION_QUIZ\020\340\001\022#\n\036MSG_GROUP" +
+      "_COMPETITION_QUIZ_SYN\020\341\001\022!\n\034MSG_GROUP_CO" +
+      "MPETITION_BATTLE\020\342\001\022-\n(MSG_GROUP_COMPETI",
+      "TION_TEAM_STATUS_CHANGE\020\343\001\022\021\n\014MSG_FEEDBA" +
+      "CK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERI" +
+      "C_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMS" +
+      "G_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

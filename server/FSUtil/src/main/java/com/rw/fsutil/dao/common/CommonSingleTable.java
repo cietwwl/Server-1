@@ -37,28 +37,28 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 		this.deleteSql = "delete from " + currentName + " where " + idFieldName + "=?";
 		this.updateSql = "update " + currentName + " set " + updateFields.toString() + " where " + idFieldName + " = ?";
 		this.insertSql = "insert into " + currentName + "(" + insertFields.toString() + ") values (" + insertHolds.toString() + ")";
-
-	}
-
-	public void insert(final List<T> list) throws DuplicatedKeyException, Exception {
-		super.insert(insertSql, list);
 	}
 
 	public boolean insert(String key, T target) throws DuplicatedKeyException, Exception {
-		return super.insert(insertSql, key, target);
+		return super.insert(insertSql, key, target, null);
 	}
 
 	public boolean delete(String id) throws DataNotExistException, Exception {
 		return super.update(deleteSql, id) > 0;
 	}
 
-	public boolean updateToDB(String key, T target) throws Exception{
+	public boolean updateToDB(String key, T target) throws Exception {
 		return super.updateToDB(updateSql, key, target);
 	}
 
 	public T load(String key) throws DataNotExistException, Exception {
 		List<T> resultList = template.query(selectSql, rowMapper, key);
-		return resultList.size() > 0 ? resultList.get(0) : null;
+		// return resultList.size() > 0 ? resultList.get(0) : null;
+		if (resultList.size() > 0) {
+			return resultList.get(0);
+		} else {
+			throw new DataNotExistException(key);
+		}
 	}
 
 	@Deprecated
@@ -93,14 +93,14 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 	@Deprecated
 	public List<T> findByKey(String key, Object value) throws Exception {
 		// 获得表名
-		String tableName = classInfoPojo.getTableName();
+		String tableName = classInfo.getTableName();
 		String sql = "select * from " + tableName + " where " + key + "=?";
 		List<T> resultList = template.query(sql, rowMapper, value);
 		return resultList;
 	}
 
 	public String getTableName() {
-		return classInfoPojo.getTableName();
+		return classInfo.getTableName();
 	}
 
 }

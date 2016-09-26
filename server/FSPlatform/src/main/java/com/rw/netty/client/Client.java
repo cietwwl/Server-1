@@ -185,6 +185,9 @@ public class Client  implements Runnable{
 				if (gsMsg != null) {
 					if (channel == null || !channel.isActive()) {
 						Connect(gsMsg.getHost(), gsMsg.getPort());
+						if(channel == null){
+							return;
+						}
 					}
 					String currentAddress = channel.remoteAddress().toString();
 					if ((currentAddress.indexOf(gsMsg.getHost()) == -1 && currentAddress.indexOf(gsMsg.getPort()) == -1) || !channel.isOpen()) {

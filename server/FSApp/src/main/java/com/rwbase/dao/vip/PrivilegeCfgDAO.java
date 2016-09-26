@@ -9,7 +9,6 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.common.enu.EPrivilegeDef;
-import com.rwbase.dao.version.VersionConfigDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 
 public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{
@@ -50,8 +49,8 @@ public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{
 		return allCfgs;
 	}
 	
-	public int getDef(int vip,EPrivilegeDef def){
 		int value = 0;
+		public int getDef(int vip,EPrivilegeDef def){
 		PrivilegeCfg cfg = getCfg(vip);
 		if (cfg == null)return value;
 		switch (def) {
@@ -135,6 +134,9 @@ public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{
 			break;
 		case BATTLE_TOWER_TIMES:
 			value = cfg.getBattleTowerResetTimes();
+			break;
+		case ISALLOW_REPORT:
+			value = cfg.getIsAllowReport();
 			break;
 		default:
 			break;

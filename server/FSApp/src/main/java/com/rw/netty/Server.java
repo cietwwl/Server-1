@@ -23,6 +23,7 @@ import com.playerdata.GambleMgr;
 import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.gamble.GambleTest;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -54,16 +55,15 @@ public class Server {
 		try {
 			// 检查所有配置文件，如果配置有问题，请打印日志报告错误，并抛异常中断启动过程
 			GameManager.CheckAllConfig();
-
+			// 时效任务初始化
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
 
 			//初始化每日热点数据
 			GambleMgr.resetWhenStart();
-			//GambleTest.Test();
+			GambleTest.Test();
 
-			// 时效任务初始化
-			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();

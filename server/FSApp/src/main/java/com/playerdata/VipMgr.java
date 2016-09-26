@@ -78,6 +78,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		tableVip.addPrivilege(EPrivilegeDef.THIRD_CHESTS_OPEN,GetMaxPrivilege(EPrivilegeDef.THIRD_CHESTS_OPEN));
 		tableVip.addPrivilege(EPrivilegeDef.FASHION_BUY_OPEN,GetMaxPrivilege(EPrivilegeDef.FASHION_BUY_OPEN));
 		tableVip.addPrivilege(EPrivilegeDef.RESIGN_OPEN,GetMaxPrivilege(EPrivilegeDef.RESIGN_OPEN));
+		tableVip.addPrivilege(EPrivilegeDef.ISALLOW_REPORT,GetMaxPrivilege(EPrivilegeDef.ISALLOW_REPORT));
 		
 	}
 	private void refreshVar(TableVip tableVip){
@@ -137,7 +138,7 @@ public class VipMgr implements IPrivilegeProvider, VipMgrIF,PlayerEventListener{
 		
 		int value = GetMaxPrivilege(EPrivilegeDef.SKILL_POINT_COUNT) - GetPrivilegeInCfg(m_oldVip, EPrivilegeDef.SKILL_POINT_COUNT);
 		if(value >0){
-			m_pPlayer.getMainRoleHero().getSkillMgr().updateSkillPointTime(EPrivilegeDef.SKILL_POINT_COUNT,value);
+			m_pPlayer.getMainRoleHero().getSkillMgr().updateSkillPointTime(m_pPlayer, EPrivilegeDef.SKILL_POINT_COUNT,value);
 		}
 	}
 	

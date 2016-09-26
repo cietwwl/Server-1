@@ -1,0 +1,201 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GroupCompetitionProto";
+import "FashionService.proto";
+
+package groupCompetition;
+
+
+enum GCRequestType{
+	EnterPrepareArea = 1;	//进入备战区
+	LeavePrepareArea = 2;	//离开备战区
+	InformPreparePosition = 3;	//通知备战区的位置
+	LiveMsg = 4; //赛事直播
+	PlaybackMsg = 5; //赛事回放
+	AllGuess = 6; //所有竞猜信息
+	NewGuess = 7; //发起新的竞猜
+	GetPlayersBaseInfo = 8;	//获取同屏玩家的基本信息
+	GetMatchView = 9; // 获取对阵信息
+	GetSelectionData = 10; // 获取海选信息
+	GetCanGuessMatch = 11;	//获取所有当前的可以竞猜的项目（以数据同步的方式返回）
+	SetTeamReady = 12; // 设置准备状态
+	CancelTeamReady = 13; // 取消准备状态
+	LeaveTeam = 14; // 离开队伍
+	InviteMember = 15; // 邀请成员
+	KickMember = 16; // 剔除成员
+	CreateTeam = 17; // 创建队伍
+	AdjustTeamMember = 18; // 调整队伍成员
+	StartMatching = 19; // 开始匹配
+}
+
+enum TeamStatusType {
+	Kicked = 1; // 被踢
+	BecomeLeader = 2; // 成为队长
+	CanMatch = 3; // 可匹配
+}
+
+enum GCResultType {
+	SUCCESS = 1; //成功
+	DATA_ERROR = 2; //数据异常
+	COIN_NOT_ENOUGH = 3;	//金币不足
+}
+
+message CommonReqMsg{
+	required GCRequestType reqType = 1;		//请求功能协议类型
+	optional AreaPosition position = 2;		//玩家当前在备战区的位置
+	repeated string playersIdList = 3;	//请求同屏玩家的基本信息（list<string>）
+}
+
+message CommonRspMsg{
+	required GCResultType rstType = 1; //是否成功处理
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
+	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
+}
+
+message CommonGetDataReqMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+}
+
+message CommonGetDataRspMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	required GCResultType rstType = 2; // 请求结果
+	optional string tipMsg = 3; // 提示消息
+	optional SelectionRspData selectionData = 4; // 海选信息（对于GCRequestType.GetSelectionData可用）
+}
+
+message AreaPosition{
+	required float x = 1;
+	required float y = 2;
+}
+
+//赛事直播回放
+message LiveAndPlaybackInfo{
+	required string test = 1; //内容
+	required int32 continueWin = 2; //连胜
+	required int32 personalScore = 3; //个人积分
+	required int32 groupScore = 4; //帮派积分
+}
+
+//请求赛事直播
+message ReqLiveAndPlaybackMsg{
+	required GCRequestType reqType = 1; //请求类型
+}
+
+//回应赛事直播
+message RspLiveAndPlaybackMsg{
+	required GCResultType rstType = 1; //是否成功处理
+	repeated LiveAndPlaybackInfo msgs = 2; //消息列表:个人战有1条，组队战有3条
+}
+
+//赛事竞猜
+message MatchGuessInfo{
+	required int32 session = 1; //第几届
+	required int32 topN = 2; //几强
+	required int32 groupNum = 3; //第几组
+	repeated GroupInfo groups = 4; //两个帮派的信息
+	required int32 guessNum = 5; //竞猜人数
+	required bool hasGuess = 6; //是否参与竞猜了
+}
+
+//帮派信息
+message GroupInfo{
+	required string groupId = 1; //帮派id
+	required string groupIcon = 2; //帮派图标
+	required string groupName = 3; //帮派名字
+	optional float betRate = 4; //赔率
+}
+
+//请求竞猜
+message ReqAllGuessInfo{
+	required GCRequestType reqType = 1; //请求类型
+}
+
+//回应赛事竞猜
+message RspAllGuessInfo{
+	required GCResultType rstType = 1; //是否成功处理
+	repeated MatchGuessInfo guessInfo = 2;
+}
+
+//请求押注
+message ReqNewGuess{
+	required GCRequestType reqType = 1; //请求类型
+	required int32 matchId = 2;		//比赛的id
+	required string groupId = 3; //帮派id
+	required int32 coin = 4; //押注金币（有可能是配置id，而不是具体金额）
+}
+
+//回应押注
+message RsqNewGuess{
+	required GCResultType rstType = 1; //是否成功处理
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
+}
+
+//用于同屏的玩家基本信息
+message PlayerBaseInfo{
+	required string userId = 1;//玩家ID
+	required string userName = 2;//玩家名字
+	required int32 level = 3;//玩家等级
+	required string imageId = 4;//头像ID
+	required int32 career = 5;//职业
+	required int32 sex = 6;//性别
+	required int32 careerLevel = 7;//职业等级
+	required int32 fightingAll = 8;//总战斗力
+	optional int32 modelId = 9;//模型ID
+	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+}
+
+// 海选响应数据
+message SelectionRspData {
+	repeated SelectionGroupData rankings = 1; // 海选排名的帮派信息
+	optional SelectionGroupData ownGroupData = 2; // 自身帮派的信息
+	required fixed64 selectionEndTime = 3; // 海选结束时间
+}
+
+// 海选的帮派数据
+message SelectionGroupData {
+	required fixed32 ranking = 1; // 帮派的排名（-1=未上榜）
+	required string name = 2; // 帮派的名字
+	required fixed64 fighting = 3; // 帮派的战斗力
+	required fixed32 upNum = 4; // 排名变化的数据（负数表示下降，正数表示上升）
+}
+
+// 队伍请求，返回CommonRsp
+message TeamRequest {
+	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+	repeated string heroId = 2; // 整容的英雄id
+}
+
+// 加入队伍请求，返回CommonRsp
+message JoinTeamReq {
+	required string teamId = 1; // 队伍id
+	repeated string heroId = 2; // 英雄id
+}
+
+// 队员请求，返回CommonRsp，如果是GCRequestType.InviteMember，目标user会收到TeamInvitation
+message TeamMemberRequest {
+	required GCRequestType reqType = 1; // 请求类型（仅限GCRequestType.InviteMember和GCRequestType.KickMember）
+	required string targetUserId = 2; // 目标的userId
+}
+
+// 准备状态请求，返回CommonRsp
+message TeamStatusRequest {
+	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+}
+
+// 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+// 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
+message TeamInvitation {
+	required string teamId = 1; // 队伍id
+	required string tips = 2; // 提示消息
+}
+
+message CommonRsp {
+	required GCResultType resultType = 1;
+	optional string tips = 2;
+}
+
+// 队伍状态发生变化
+message TeamStatusChange {
+	required TeamStatusType status = 1;
+}

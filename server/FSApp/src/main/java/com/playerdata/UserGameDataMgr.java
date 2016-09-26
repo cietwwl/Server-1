@@ -1,6 +1,9 @@
 package com.playerdata;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import sun.print.resources.serviceui;
 
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
@@ -9,9 +12,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rw.service.log.BILogMgr;
-import com.rw.service.log.template.ItemChangedEventType_1;
-import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
@@ -58,6 +58,10 @@ public class UserGameDataMgr {
 		tableUserOther.setBuyCoinTimes(0);
 		tableUserOther.setBuySkillTimes(0);
 		tableUserOther.setBuyPowerTimes(0);
+		
+		tableUserOther.setRandomBossFightCount(0);//重置随机boss的战斗次数
+		tableUserOther.setKillBossRewardCount(0);
+		tableUserOther.setCreateBossCount(0);
 		userGameDataHolder.update(player);
 	}
 
@@ -171,16 +175,11 @@ public class UserGameDataMgr {
 	// }
 
 	public int addCoin(int nValue) {
-		UserGameData tableUserOther = userGameDataHolder.get();
 		MajorData marjorData = majorDataHolder.getMarjorData();
 		if (marjorData.getCoin() + nValue >= 0) {
 			marjorData.setCoin(marjorData.getCoin() + nValue);
 			majorDataHolder.addCoin(player, marjorData);
 
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logCoinChanged(player, scenceId, type_1, type_2, nValue, marjorData.getCoin());
 			if (nValue < 0) {
 				UserEventMgr.getInstance().coinSpendDaily(player, -nValue);
 			}
@@ -321,10 +320,6 @@ public class UserGameDataMgr {
 		majordata.setGiftGold(majordata.getGiftGold() + value);
 		majordata.updateGold();
 
-		String scenceId = null;// 暂时留空
-		ItemChangedEventType_1 type_1 = null; // 暂时留空
-		ItemChangedEventType_2 type_2 = null;// 暂时留空
-		BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, value, majordata.getGiftGold());
 
 		return 0;
 	}
@@ -389,10 +384,6 @@ public class UserGameDataMgr {
 			result = -1;
 		}
 		if (result == 0) {
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
 			UserEventMgr.getInstance().UseGold(player, -value);
 		}
 		return result;
@@ -422,13 +413,7 @@ public class UserGameDataMgr {
 		} else {
 			result = -1;
 		}
-		if (result == 0) {
-			String scenceId = null;// 暂时留空
-			ItemChangedEventType_1 type_1 = null; // 暂时留空
-			ItemChangedEventType_2 type_2 = null;// 暂时留空
-			BILogMgr.getInstance().logGiftGoldChanged(player, scenceId, type_1, type_2, giftGoldChanged, majordata.getGiftGold());
-			// UserEventMgr.getInstance().UseGold(player, -value);
-		}
+		
 		return result;
 	}
 
@@ -767,9 +752,66 @@ public class UserGameDataMgr {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
 	}
 	
+	public int getFightingAll() {
+		return this.userGameDataHolder.get().getFightingAll();
+	}
+	
+	public void setFightingAll(int fightingAll) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.setFightingAll(fightingAll);
+		if (pre != gameData.getFightingAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
 	public void setMapAnimationState(MapAnimationState animationState){
 		userGameDataHolder.get().setMapAnimationState(animationState);
 		userGameDataHolder.update(player);
+	}
+
+	public void notifySingleFightingChange(int newSingleValue, int preSingleValue) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.notifySingleFightingChange(newSingleValue, preSingleValue);
+		if (pre != gameData.getFightingAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void increaseFightingAll(int value) {
+		this.userGameDataHolder.get().increaseFightingAll(value);
+		this.userGameDataHolder.update(player);
+	}
+	
+	public int getStarAll() {
+		return userGameDataHolder.get().getStarAll();
+	}
+	
+	public void setStarAll(int pStarAll) {
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getStarAll();
+		gameData.setStarAll(pStarAll);
+		if (pre != gameData.getStarAll()) {
+			this.userGameDataHolder.update(player);
+		}
+	}
+	
+	public void increaseStarAll(int value) {
+		this.userGameDataHolder.get().increaseStarAll(value);
+		this.userGameDataHolder.update(player);
+	}
+	
+	public void notifySingleStarChange(int newStarLv, int preStarLv) {
+		if(newStarLv == preStarLv) {
+			return;
+		}
+		UserGameData gameData = this.userGameDataHolder.get();
+		int pre = gameData.getFightingAll();
+		gameData.notifySingleStarChange(newStarLv, preStarLv);
+		if (pre != gameData.getStarAll()) {
+			this.userGameDataHolder.update(player);
+		}
 	}
 
 	/**
@@ -886,5 +928,45 @@ public class UserGameDataMgr {
 			return result;
 
 		return old >= count;
+	}
+	
+	public List<String> getRandomBossIDs(){
+		return userGameDataHolder.get().getRandomBossIds();
+	}
+	
+	public int getFightRandomBossCount(){
+		return userGameDataHolder.get().getRandomBossFightCount();
+	}
+	
+	public int getKillBossRewardCount(){
+		return userGameDataHolder.get().getKillBossRewardCount();
+	}
+	
+	public int getCreateBossCount(){
+		return userGameDataHolder.get().getCreateBossCount();
+	}
+	
+	public void increaseRandomBossFightCount(){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getRandomBossFightCount();
+		data.setRandomBossFightCount(count + 1);
+		userGameDataHolder.update(player);
+	}
+	
+	
+	public void addRandomBoss(String id){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getCreateBossCount();
+		data.setCreateBossCount(count + 1);
+		List<String> list = data.getRandomBossIds();
+		list.add(id);
+		userGameDataHolder.update(player);
+	}
+	
+	public void increaseBossRewardCount(){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getKillBossRewardCount();
+		data.setKillBossRewardCount(count + 1);
+		userGameDataHolder.update(player);
 	}
 }

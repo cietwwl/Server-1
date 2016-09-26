@@ -5,9 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeHelper;
+import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.DateUtils;
@@ -25,7 +31,9 @@ public final class ActivityRateTypeCfgDAO extends
 	public static ActivityRateTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityRateTypeCfgDAO.class);
 	}
-
+	
+	private HashMap<String, List<ActivityRateTypeCfg>> cfgMapByEnumid ;
+	
 	@Override
 	public Map<String, ActivityRateTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(
@@ -35,6 +43,12 @@ public final class ActivityRateTypeCfgDAO extends
 			parseTimeByHour(cfgTmp);
 			parseCopyTypeAndespecialEnum(cfgTmp);
 		}
+		
+		HashMap<String, List<ActivityRateTypeCfg>> cfgMapByEnumidTemp = new HashMap<String, List<ActivityRateTypeCfg>>();
+		for(ActivityRateTypeCfg cfg : cfgCacheMap.values()){
+			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgMapByEnumidTemp);
+		}
+		this.cfgMapByEnumid = cfgMapByEnumidTemp;		
 		return cfgCacheMap;
 	}
 
@@ -57,13 +71,6 @@ public final class ActivityRateTypeCfgDAO extends
 			map.put(Integer.parseInt(copytypeOrEspecial[0]), especialList);			
 		}
 		cfgTmp.setCopyTypeMap(map);
-//		for(Map.Entry<Integer, List<Integer>> entry:map.entrySet()){
-//			StringBuffer str = new StringBuffer();
-//			for(Integer especial : entry.getValue()){
-//				str.append(especial).append("#");
-//			}
-//			System.out.println(entry.getKey() + " value =" + str);
-//		}
 	}
 
 	private void parseTimeByHour(ActivityRateTypeCfg cfgTmp) {
@@ -79,9 +86,6 @@ public final class ActivityRateTypeCfgDAO extends
 				timebyHour
 						.setEndhour(Integer.parseInt(substartAndEndlist[1]) / 100);
 				timeList.add(timebyHour);
-				// System.out.println("activityrate.." + cfgTmp.getTitle() +
-				// " start=" +timebyHour.getStarthour() + " end=" +
-				// timebyHour.getEndhour());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -102,16 +106,14 @@ public final class ActivityRateTypeCfgDAO extends
 
 
 	public ActivityRateTypeItem newItem(Player player,
-			ActivityRateTypeEnum typeEnum) {
-
-		String cfgId = typeEnum.getCfgId();
-		ActivityRateTypeCfg cfgById = getCfgById(cfgId);
+			ActivityRateTypeCfg cfgById) {
 		if (cfgById != null) {
 			ActivityRateTypeItem item = new ActivityRateTypeItem();
 			String itemId = ActivityRateTypeHelper.getItemId(
-					player.getUserId(), typeEnum);
+					player.getUserId(), ActivityRateTypeEnum.getById(cfgById.getEnumId()));
 			item.setId(itemId);
-			item.setCfgId(cfgId);
+			item.setCfgId(cfgById.getId());
+			item.setEnumId(cfgById.getEnumId());
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());
 			item.setMultiple(cfgById.getMultiple());
@@ -121,5 +123,44 @@ public final class ActivityRateTypeCfgDAO extends
 		}
 
 	}
+	
+	/**
+	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
+	 */
+	public ActivityRateTypeCfg getCfgByEnumId(ActivityRateTypeItem item) {
+		List<ActivityRateTypeCfg> cfgList = cfgMapByEnumid.get(item.getEnumId());
+		if(cfgList == null || cfgList.isEmpty()){
+			return null;
+		}
+		List<ActivityRateTypeCfg> cfgListByEnumID = new ArrayList<ActivityRateTypeCfg>();
+		for(ActivityRateTypeCfg cfg : cfgList){
+			if(!StringUtils.equals(item.getCfgId(), cfg.getId())){
+				cfgListByEnumID.add(cfg);				
+			}			
+		}
+		ActivityRateTypeMgr activityRateTypeMgr = ActivityRateTypeMgr.getInstance();
+		List<ActivityRateTypeCfg> cfgListIsOpen = new ArrayList<ActivityRateTypeCfg>();
+		for(ActivityRateTypeCfg cfg : cfgListByEnumID){
+			if(activityRateTypeMgr.isOpen(cfg)){
+				cfgListIsOpen.add(cfg);
+			}			
+		}
+		
+		if(cfgListIsOpen.size() > 1){
+			GameLog.error(LogModule.ComActivityRate, null, "发现了两个以上开放的活动,活动枚举为="+ item.getCfgId(), null);
+			return null;
+		}else if(cfgListIsOpen.size() == 1){
+			return cfgListIsOpen.get(0);
+		}		
+		return null;
+	}
 
+	public boolean hasCfgByEnumId(String enumId){
+		List<ActivityRateTypeCfg> cfgList = cfgMapByEnumid.get(enumId);
+		if(cfgList == null || cfgList.isEmpty()){
+			return false;
+		}
+		return true;		
+	}
+	
 }

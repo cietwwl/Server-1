@@ -26,7 +26,7 @@ public class ActivityComResult {
 		
 		ActivityComResult activityComResult = new ActivityComResult();
 		activityComResult.setSuccess(success);
-		
+		activityComResult.setReason("");
 		return activityComResult;
 	}
 	

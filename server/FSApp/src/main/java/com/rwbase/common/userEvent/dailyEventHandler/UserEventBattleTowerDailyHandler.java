@@ -3,73 +3,62 @@ package com.rwbase.common.userEvent.dailyEventHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
-import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
-public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
+public class UserEventBattleTowerDailyHandler implements IUserEventHandler {
 
-	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
-	
-	public UserEventBattleTowerDailyHandler(){
-		init();	
+
+	public UserEventBattleTowerDailyHandler() {
+		init();
 	}
-	
+
 	private void init() {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				boolean isBetweendays = ActivityDailyTypeMgr
-						.getInstance()
-						.isOpen(ActivityDailyTypeSubCfgDAO
-								.getInstance()
-								.getById(
-										ActivityDailyTypeEnum.BattleTowerDaily
-												.getCfgId()));
-				boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
+				ActivityDailyTypeSubCfgDAO instance = ActivityDailyTypeSubCfgDAO
+						.getInstance();
+				if (!instance.isOpenAndLevelEnough(
+						player.getLevel(),
+						instance.getCfgMapByEnumid(ActivityDailyTypeEnum.BattleTowerDaily
+								.getCfgId()))) {
+					return;
+				}
 				int addcount = 0;
 				ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder
 						.getInstance();
 				ActivityDailyTypeItem dataItem = dataHolder.getItem(player
 						.getUserId());
-				
-					ActivityDailyTypeSubItem subItem = ActivityDailyTypeMgr.getInstance().getbyDailyCountTypeEnum(player,
-								ActivityDailyTypeEnum.BattleTowerDaily,dataItem);
-				if(subItem != null){
-					// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
-					addcount = Integer.parseInt(params.toString()) - subItem.getCount();
-				}else{
-					addcount =  Integer.parseInt(params.toString());
-				}
-				if (isBetweendays&&isLevelEnough) {
-					ActivityDailyTypeMgr.getInstance().addCount(player,
-							ActivityDailyTypeEnum.BattleTowerDaily,
-							addcount);
 
+				ActivityDailyTypeSubItem subItem = ActivityDailyTypeMgr
+						.getInstance().getbyDailyCountTypeEnum(player,
+								ActivityDailyTypeEnum.BattleTowerDaily,
+								dataItem);
+				if (subItem != null) {
+					// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
+					addcount = Integer.parseInt(params.toString())
+							- subItem.getCount();
+				} else {
+					addcount = Integer.parseInt(params.toString());
 				}
+				ActivityDailyTypeMgr.getInstance().addCount(player,
+						ActivityDailyTypeEnum.BattleTowerDaily, addcount);
 			}
 
 			@Override
-			public void logError(Player player, Throwable ex) {
+			public void logError(Player player, Exception ex) {
 				StringBuilder reason = new StringBuilder(
 						ActivityDailyTypeEnum.BattleTowerDaily.toString())
 						.append(" error");
@@ -79,15 +68,14 @@ public class UserEventBattleTowerDailyHandler implements IUserEventHandler{
 		});
 
 	}
-	
-	
+
 	@Override
 	public void doEvent(Player player, Object params) {
-		
+
 		for (UserEventHandleTask userEventHandleTask : eventTaskList) {
-			userEventHandleTask.doWrapAction(player, params);	
+			userEventHandleTask.doWrapAction(player, params);
 		}
-		
+
 	}
 
 }

@@ -63,7 +63,6 @@ import com.rwbase.common.userEvent.vitalityTypeTwoEventHandler.UserEventWarfareD
 import com.rwproto.BattleTowerServiceProtos.EKeyType;
 
 public class UserEventMgr {
-	private static final String Player = null;
 
 
 	private static UserEventMgr instance = new UserEventMgr();

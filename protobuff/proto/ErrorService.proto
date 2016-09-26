@@ -21,4 +21,5 @@ enum ErrorType {
 	CONFIG_ERROR = -16;//配置错误
 	NOT_ENOUGH_SKILL_POINT = -17;//技能点不足
 	NOT_CONFORM_CONDITIONS = -18;//条件不符合
+	FUNCTION_NOT_OPEN = -19;//根据openlevellimit.csv 功能未开放
 }

@@ -11,8 +11,10 @@ enum ERequestType	//请求
 	BATTLE_CLEARING = 5;			//战斗结算
 	BATTLE_ITEMS_BACK = 6; 			//战斗物品结算
 	GM_SETLEVEL = 7;				//GM设定关卡命令
-	GET_GIFT = 8;				//领取宝箱
-	Map_Animation = 9;		//副本动画
+	GET_GIFT = 8;					//领取宝箱
+	Map_Animation = 9;				//副本动画
+	GET_COPY_BOX = 10;              //领取关卡宝箱。客户端发送参数：MapGiftRequest：地图id,关卡id
+	GET_GOD_BOX = 11;               //领取天尊锦囊，客户端发送参数：GodGiftRequest: 地图id
 }
 
 enum EBattleStatus	//战斗状态
@@ -49,6 +51,7 @@ message MsgCopyRequest
     optional TagBattleData tagBattleData = 3;				//副本战斗结算数据块
 	optional MapGiftRequest mapGiftRequest = 4;				//副本宝箱	
 	optional MapAnimationState mapAnima = 5;				//副本章节动画
+	optional GodGiftRequest godGift = 6;                 //请求领取天尊锦囊
 }
 
 message MsgCopyResponse
@@ -65,6 +68,7 @@ message MsgCopyResponse
 	optional int32 copyCount = 10;										//剩余次数
 	optional int32 unendingWar = 11;									//战绩点 
 	optional string eSpecialItemIdList = 12; 							//战前所获得的经验货币结果返回，以"eSpecialItemId.power.getvalue,num"的形式记录下"类型,值"
+	
 }
 
 message MapAnimationState{
@@ -110,3 +114,11 @@ message FortuneResult //聚宝之地结算数据
 	optional int32 killMonsterCount = 4; //击杀小财神个数
 	optional int32 deductGoldCount = 5; //被吸取的金币
 }
+
+
+message GodGiftRequest  //请求天尊锦囊数据
+{
+	required int32 mapID = 1;
+}
+
+

@@ -14,6 +14,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.IPlayerGatherer;
@@ -75,20 +76,38 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 	}
 	
 	protected final List<FSGameTimeSignal> execute(Collection<FSGamePlayerOperationSubTask> taskList) {
+		if (this.operationList.isEmpty()) {
+			return Collections.emptyList();
+		}
 		List<FSGameTimeSignal> list = new ArrayList<FSGameTimeSignal>(operationList.size());
-		List<Player> allPlayers = Collections.unmodifiableList(this.defaultPlayerGatherer.gatherPlayers());
+		List<Player> allPlayers = this.defaultPlayerGatherer.gatherPlayers();
+		List<Player> allPlayersRO = Collections.unmodifiableList(allPlayers);
+		List<FSGameTimeSignal> tasksUsingAllPlayers = new ArrayList<FSGameTimeSignal>();
 		FSGamePlayerOperationSubTask subTask;
 		for (Iterator<FSGamePlayerOperationSubTask> itr = taskList.iterator(); itr.hasNext();) {
 			subTask = itr.next();
+			boolean usingAll = false;
 			if (subTask._operator instanceof IPlayerGatherer) {
 				// 如果operator同时是IPlayerGatherer的实例，则按照他的规则来获取player
 				subTask._players = ((IPlayerGatherer) subTask._operator).gatherPlayers();
 			} else {
-				subTask._players = allPlayers;
+				subTask._players = allPlayersRO;
+				usingAll = true;
 			}
 			// 提交一个毫秒时效任务，多线程执行，尽量不影响其他operator的执行
-			FSGameTimeSignal signal = FSGameTimerMgr.getTimerInstance().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS);
+			FSGameTimeSignal signal = FSGameTimerMgr.getTimerInstance().newTimeSignal(subTask, 0, TimeUnit.MILLISECONDS, false);
 			list.add(signal);
+			if (usingAll) {
+				tasksUsingAllPlayers.add(signal);
+			}
+		}
+		if (tasksUsingAllPlayers.size() > 0) {
+			AllPlayerMonitorTask monitor = new AllPlayerMonitorTask();
+			monitor._monitorList = tasksUsingAllPlayers;
+			monitor._monitorPlayers = allPlayers;
+			FSGameTimerMgr.getTimerInstance().newTimeSignal(monitor, 0, TimeUnit.MILLISECONDS, false);
+		} else {
+			allPlayers.clear();
 		}
 		return list;
 	}
@@ -152,8 +171,12 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 			if (player.isRobot()) {
 				return;
 			}
-			this._operator.operate(player);
-			this._lastExecutePlayers.add(player.getUserId());
+			try {
+				this._operator.operate(player);
+				this._lastExecutePlayers.add(player.getUserId());
+			} catch (Exception e) {
+				GameLog.error("FSGamePlayerOperationSubTask", "executeSingle", "执行出现错误！playerId：" + player.getUserId() + ", operator=" + _operator.getClass());
+			}
 		}
 		
 		void playerLogin(Player player) {
@@ -202,7 +225,59 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 			this._executing.getAndSet(false);
 			this._players = null;
 			if(_needRecordData) {
-				FSGameTimerSaveData.getInstance().updateLastExecuteTimeOfTask(_operatorType, System.currentTimeMillis());
+				FSGameTimerSaveData.getInstance().updateLastExecuteTimeOfPlayerTask(_operatorType, System.currentTimeMillis());
+			}
+			return "DONE";
+		}
+
+		@Override
+		public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
+			
+		}
+
+		@Override
+		public void rejected(RejectedExecutionException e) {
+			
+		}
+
+		@Override
+		public boolean isContinue() {
+			return false;
+		}
+
+		@Override
+		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
+			return null;
+		}
+		
+	}
+	
+	protected static class AllPlayerMonitorTask implements IGameTimerTask {
+		
+		private List<FSGameTimeSignal> _monitorList;
+		private List<Player> _monitorPlayers;
+
+		@Override
+		public String getName() {
+			return "AllPlayerMonitorTask@" + this.hashCode();
+		}
+
+		@Override
+		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
+			if (_monitorList != null && _monitorList.size() > 0) {
+				while (_monitorList.size() > 0) {
+					for (Iterator<FSGameTimeSignal> itr = _monitorList.iterator(); itr.hasNext();) {
+						if (itr.next().isDone()) {
+							itr.remove();
+						}
+					}
+					if (Thread.currentThread().isInterrupted()) {
+						Thread.currentThread().interrupt();
+						break;
+					}
+				}
+				GameLog.info("FSGamePlayerOperationTask", "onTimeSignal", "清理monitorPlayers！清理前的size=" + _monitorPlayers.size());
+				_monitorPlayers.clear();
 			}
 			return "DONE";
 		}

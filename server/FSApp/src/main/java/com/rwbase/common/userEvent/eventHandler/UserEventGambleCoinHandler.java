@@ -11,41 +11,44 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
-public class UserEventGambleCoinHandler implements IUserEventHandler{
+public class UserEventGambleCoinHandler implements IUserEventHandler {
 
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
-	
-	public UserEventGambleCoinHandler(){
-		init();	
+
+	public UserEventGambleCoinHandler() {
+		init();
 	}
-	
-	private void init(){
+
+	private void init() {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleCoin.getCfgId()));
-				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.GambleCoin.getCfgId()));
-				if(isBetweendays&&isLevelEnough){					
-					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GambleCoin,Integer.parseInt(params.toString()));	
-					}
+				if (ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(
+						player.getLevel(), ActivityCountTypeEnum.GambleCoin)) {
+					ActivityCountTypeMgr.getInstance().addCount(player,
+							ActivityCountTypeEnum.GambleCoin,
+							Integer.parseInt(params.toString()));
 				}
+			}
+
 			@Override
-			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.GambleCoin.toString()).append(" error");				
-				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
-			}						
+			public void logError(Player player, Exception ex) {
+				StringBuilder reason = new StringBuilder(
+						ActivityCountTypeEnum.GambleCoin.toString())
+						.append(" error");
+				GameLog.error(LogModule.UserEvent,
+						"userId:" + player.getUserId(), reason.toString(), ex);
+			}
 		});
 	}
-	
-	
+
 	@Override
 	public void doEvent(Player player, Object params) {
-		
-		for (UserEventHandleTask userEventHandleTask : eventTaskList) {
-			userEventHandleTask.doWrapAction(player, params);	
-		}
-		
-	}
 
+		for (UserEventHandleTask userEventHandleTask : eventTaskList) {
+			userEventHandleTask.doWrapAction(player, params);
+		}
+
+	}
 
 }

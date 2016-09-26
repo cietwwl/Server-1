@@ -11,6 +11,7 @@ import com.rwbase.common.enu.eSpecialItemId;
 public class GamblePlanCfg extends BaseConfig {
 	private int key;
 	private int dropType;//抽卡分类
+	private int guaranteeGroupIndex;//保底次数分组
 	private String levelSegment;//等级分段
 	private int goods; // 购买道具(一个经验丹)
 	private int freeFirstDrop; // 免费首抽必掉方案(gambleDropCfg组ID)
@@ -60,7 +61,7 @@ public class GamblePlanCfg extends BaseConfig {
 		openVipLevel=Integer.parseInt(cond[1]);
 		freePlan = new DropGamblePlan(guaranteeFreeCheckList, ordinaryFreePlan, guaranteeFreePlan, guaranteeCheckNum,freeExclusiveCount,dropItemCount == 1);
 		chargePlan = new DropGamblePlan(guaranteeCheckList, ordinaryPlan, guaranteePlan, guaranteeCheckNum,chargeExclusiveCount,dropItemCount == 1);
-
+		
 		if (hotCount > 0){
 			RefInt i1=new RefInt();
 			RefInt i2=new RefInt();
@@ -95,6 +96,14 @@ public class GamblePlanCfg extends BaseConfig {
 		maxCheckCount = Math.max(freePlan.getMaxCheckNum(),chargePlan.getMaxCheckNum());
 		int distinctCount = Math.max(freeExclusiveCount,chargeExclusiveCount);
 		maxCheckCount = Math.max(distinctCount, maxCheckCount);
+	}
+
+	public String getGuaranteeCheckNum() {
+		return guaranteeCheckNum;
+	}
+
+	public int getGuaranteeGroupIndex() {
+		return guaranteeGroupIndex;
 	}
 
 	public int getMaxCheckCount() {

@@ -1,12 +1,17 @@
 package com.common.serverdata;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.TreeMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatRecord;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroRankRecord;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.rw.fsutil.dao.annotation.CombineSave;
@@ -29,6 +34,16 @@ public class ServerCommonData {
 	
 	@CombineSave
 	private long gfLastRefreshTime = 0;		//帮战上次刷新时间
+	
+	@CombineSave
+	private HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord = new HashMap<Integer, ActivityFortuneCatRecord>();	//记录最近的三个摇奖
+	
+	
+	//临时存一下，稍后分割出去
+	@CombineSave
+	private List<ActivityLimitHeroRankRecord> activityLimitHeroRankRecord = new ArrayList<ActivityLimitHeroRankRecord>();
+//	private TreeMap<Integer, ActivityLimitHeroRankRecord> activityLimitHeroRankRecord = new TreeMap<Integer, ActivityLimitHeroRankRecord>();	//记录最近的三个摇奖
+		
 	
 	public String getId() {
 		return id;
@@ -68,8 +83,8 @@ public class ServerCommonData {
 
 	public void setTeamBattleEnimyMap(HashMap<String, String> teamBattleEnimyMap) {
 		this.teamBattleEnimyMap = teamBattleEnimyMap;
-	}
-
+	}	
+	
 	public void teamBattleDailyReset(){
 		teamBattleEnimyMap.clear();
 		for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
@@ -77,4 +92,32 @@ public class ServerCommonData {
 			teamBattleEnimyMap.put(cfg.getId(), cfg.getListOfHero()[index]);
 		}
 	}
+
+	public HashMap<Integer, ActivityFortuneCatRecord> getActivityFortuneCatRecord() {
+		return activityFortuneCatRecord;
+	}
+
+	public void setActivityFortuneCatRecord(
+			HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord) {
+		this.activityFortuneCatRecord = activityFortuneCatRecord;
+	}
+
+	public List<ActivityLimitHeroRankRecord> getActivityLimitHeroRankRecord() {
+		return activityLimitHeroRankRecord;
+	}
+
+	public void setActivityLimitHeroRankRecord(
+			List<ActivityLimitHeroRankRecord> activityLimitHeroRankRecord) {
+		this.activityLimitHeroRankRecord = activityLimitHeroRankRecord;
+	}
+
+	
+
+	
+
+	
+
+
+	
+	
 }

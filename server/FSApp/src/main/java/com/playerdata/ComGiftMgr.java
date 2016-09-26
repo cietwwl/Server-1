@@ -1,15 +1,20 @@
 package com.playerdata;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.tools.ant.taskdefs.Replace;
 
 import com.alibaba.druid.util.StringUtils;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.rw.fsutil.util.StringUtil;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.log.template.maker.LogTemplateMaker;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
@@ -20,7 +25,7 @@ import com.rwbase.dao.gift.ComGiftCfgDAO;
 
 
 public class ComGiftMgr {
-	
+	private final static int MAKEUPEMAIL = 10055;
 	private static ComGiftMgr c_instance = new ComGiftMgr();
 	
 	public static ComGiftMgr getInstance() {
@@ -37,11 +42,18 @@ public class ComGiftMgr {
 		}
 		Set<String> keyset = giftcfg.getGiftMap().keySet();
 		Iterator<String> iterable = keyset.iterator();
-		while(iterable.hasNext()){
+//		while(iterable.hasNext()){
+//			String giftid = iterable.next();
+//			int count = giftcfg.getGiftMap().get(giftid);
+//			player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
+//		}
+		List<ItemInfo> list = new ArrayList<ItemInfo>(keyset.size());
+		while (iterable.hasNext()) {
 			String giftid = iterable.next();
 			int count = giftcfg.getGiftMap().get(giftid);
-			player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
+			list.add(new ItemInfo(Integer.parseInt(giftid), count));
 		}
+		player.getItemBagMgr().addItem(list);
 	}
 	
 	/**
@@ -54,7 +66,11 @@ public class ComGiftMgr {
 	 */
 	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid ,String mark){
 		boolean isadd = false;		
-		String sb = makegiftToMailStr(giftid);		
+		String sb = makegiftToMailStr(giftid);	
+		if(sb == null||StringUtils.isEmpty(sb)){
+			GameLog.error("comgiftmgr-邮件", player.getUserId(), "没有传入奖励", null);
+			return false;
+		}
 		isadd = addRewardToEmail(player,sb,emailid,mark);
 		return isadd;
 	}
@@ -68,7 +84,11 @@ public class ComGiftMgr {
 	 */
 	public boolean addtagInfoTOEmail(Player player, String tagInfo  ,String emailid ,String mark){
 		boolean isadd = false;		
-		String sb = makeTagInfoToMailStr(tagInfo);	
+		String sb = makeTagInfoToMailStr(tagInfo);
+		if(sb == null||StringUtils.isEmpty(sb)){
+			GameLog.error("comgiftmgr-邮件", player.getUserId(), "没有传入奖励", null);
+			return false;
+		}
 		isadd = addRewardToEmail(player,sb,emailid,mark);
 		return isadd;
 	}
@@ -100,7 +120,11 @@ public class ComGiftMgr {
 			}			
 		}
 		
-		String sb = makeTagInfoToMailStr(newTmp.toString());			
+		String sb = makeTagInfoToMailStr(newTmp.toString());	
+		if(sb == null||StringUtils.isEmpty(sb)){
+			GameLog.error("comgiftmgr-邮件", player.getUserId(), "没有传入奖励", null);
+			return false;
+		}
 		isadd = addRewardToEmail(player,sb,emailid,mark);
 		return isadd;
 	}
@@ -108,6 +132,9 @@ public class ComGiftMgr {
 	
 	private boolean addRewardToEmail(Player player,String rewardStr,String emailid ,String mark){
 		boolean isadd = false;
+		if(StringUtils.isEmpty(emailid)){
+			emailid = MAKEUPEMAIL+"";
+		}
 		EmailCfg cfg = EmailCfgDAO.getInstance().getEmailCfg(emailid);	
 		EmailData emailData = new EmailData();
 		if(cfg != null){
@@ -134,9 +161,9 @@ public class ComGiftMgr {
 		if(StringUtils.isEmpty(mark)||StringUtils.isEmpty(str)){
 			return str;
 		}
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~comgift.str="+ str + " mark=" + mark);
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~comgift.str="+ str + " mark=" + mark);
 		String newstr = str.replace("{0}", mark);
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~comgift.newstr="+ str + " mark=" + mark);
+//		System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~comgift.newstr="+ str + " mark=" + mark);
 		return newstr;
 	}
 

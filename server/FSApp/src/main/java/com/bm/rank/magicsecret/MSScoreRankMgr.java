@@ -78,7 +78,7 @@ public class MSScoreRankMgr {
 	/**
 	 * 发放法宝秘境每日排行奖励
 	 */
-	public static void dispatchMSDailyReward() {
+	public static void dispatchMSDailyReward(long exeTime) {
 		long lastRefreshTime = 0;
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(null != scdData) lastRefreshTime = scdData.getMsLastRefreshTime();
@@ -89,12 +89,13 @@ public class MSScoreRankMgr {
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
 		try {
 			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
-			int rewardCfgCount = MagicScoreRankCfgDAO.getInstance().getEntryCount();
+			MagicScoreRankCfgDAO scoreRankCfgDAO = MagicScoreRankCfgDAO.getInstance();
+			int rewardCfgCount = scoreRankCfgDAO.getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
 				int startRank = 1;
 				if (i != 1)
-					startRank = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
-				MagicScoreRankCfg rewardCfg = MagicScoreRankCfgDAO.getInstance().getCfgById(String.valueOf(i));
+					startRank = scoreRankCfgDAO.getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				MagicScoreRankCfg rewardCfg = scoreRankCfgDAO.getCfgById(String.valueOf(i));
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
 					dispatchingRank = j;
@@ -107,7 +108,7 @@ public class MSScoreRankMgr {
 			}
 			
 			if(null != scdData) {
-				scdData.setMsLastRefreshTime(System.currentTimeMillis());
+				scdData.setMsLastRefreshTime(exeTime);
 				ServerCommonDataHolder.getInstance().update(scdData);
 			}
 		} catch (Exception ex) {

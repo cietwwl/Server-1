@@ -1,10 +1,14 @@
 package com.playerdata.activity.VitalityType.cfg;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
@@ -24,10 +28,16 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		return SpringContextUtil.getBean(ActivityVitalitySubCfgDAO.class);
 	}
 
+	private HashMap<String, List<ActivityVitalitySubCfg>> subCfgListMap ;
 	
 	@Override
 	public Map<String, ActivityVitalitySubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeSubCfg.csv", ActivityVitalitySubCfg.class);			
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityVitalityTypeSubCfg.csv", ActivityVitalitySubCfg.class);	
+		HashMap<String, List<ActivityVitalitySubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityVitalitySubCfg>>();
+		for(ActivityVitalitySubCfg subCfg: cfgCacheMap.values()){
+			ActivityTypeHelper.add(subCfg, subCfg.getType(), subCfgListMapTmp);
+		}
+		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;
 	}
 	
@@ -45,73 +55,82 @@ public final class ActivityVitalitySubCfgDAO extends CfgCsvDao<ActivityVitalityS
 		return target;		
 	}
 	
-	private ActivityVitalitySubCfg getViatlityTwo(String subId) {
-		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
-		ActivityVitalityCfg cfg = null;
-		for(ActivityVitalityCfg cfgtmp : cfgList){
-			if(StringUtils.equals(ActivityVitalityTypeEnum.VitalityTwo.getCfgId(),cfgtmp.getId() )){
-				cfg = cfgtmp;
-				break;						
-			}
-		}
-		if(cfg == null){
-			return null;
-		}
-		if (!ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
-			// 活动未开启,不计数
-			return null;
-		}
-		ActivityVitalitySubCfg target = null;
-		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
-		for (ActivityVitalitySubCfg subcfg : allCfg) {
-			if (StringUtils.equals(subcfg.getType(), subId)&&subcfg.getDay() == -1) {
-				target = subcfg;
-				break;
-			}
-		}		
-		return target;
-	}
-	
-	
-	
 	private ActivityVitalitySubCfg getVitalityOne(String subId) {
-		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
-		ActivityVitalityCfg cfg = null;
-		for(ActivityVitalityCfg cfgtmp : cfgList){
-			if(StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(),cfgtmp.getId() )){
-				cfg = cfgtmp;
-				break;						
-			}
-		}
-		if(cfg == null){
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(ActivityVitalityTypeEnum.Vitality.getCfgId());
+		if(cfgList == null){
 			return null;
 		}
-		if (!ActivityVitalityTypeMgr.getInstance().isOpen(cfg)) {
-			// 活动未开启,不计数
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
+		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
+		for(ActivityVitalityCfg cfg : cfgList){
+			if (activityVitalityTypeMgr.isOpen(cfg)) {
+				openCfgList.add(cfg);
+			}			
+		}
+		if(openCfgList.size() > 1){
+			GameLog.error(LogModule.ComActivityVitality, null, "单一功能event同时触发了多个cfg,eventenum=" + subId, null);
 			return null;
 		}
-		int day = ActivityVitalityCfgDAO.getInstance().getday() ;
-		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
-		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
-		for (ActivityVitalitySubCfg subcfg : allCfg) {
-			if (StringUtils.equals(subcfg.getType(), subId) && subcfg.getDay() == day) {
+		if(openCfgList.isEmpty()){
+			return null;
+		}
+		ActivityVitalityCfg cfg = openCfgList.get(0);		
+		int day = ActivityVitalityCfgDAO.getInstance().getday(cfg) ;
+		ActivityVitalitySubCfg target = null;
+		List<ActivityVitalitySubCfg> subCfgListByType = subCfgListMap.get(subId);
+		if(subCfgListByType == null){
+			return target;
+		}
+		for (ActivityVitalitySubCfg subcfg : subCfgListByType) {
+			if (StringUtils.equals(subcfg.getType(), subId)
+					&& subcfg.getDay() == day
+					&& StringUtils.equals(cfg.getId(), subcfg.getActiveType()
+							+ "")) {
 				target = subcfg;
 				break;
 			}
 		}
 		return target;
 	}
-
-
-	//根据传入的id来获得子活动
-	public ActivityVitalitySubCfg getById(String subId){
-		ActivityVitalitySubCfg target = new ActivityVitalitySubCfg();
-		List<ActivityVitalitySubCfg> allCfg = getAllCfg();
-		for (ActivityVitalitySubCfg cfg : allCfg) {
-			if(StringUtils.equals(cfg.getId(), subId)){
-				target = cfg;
-				break;
+	
+	private ActivityVitalitySubCfg getViatlityTwo(String subId) {
+		List<ActivityVitalityCfg> cfgList = ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(ActivityVitalityTypeEnum.VitalityTwo.getCfgId());
+		if(cfgList == null){
+			return null;
+		}
+		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
+		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
+		for(ActivityVitalityCfg cfg : cfgList){
+			if (activityVitalityTypeMgr.isOpen(cfg)) {
+				openCfgList.add(cfg);
+			}			
+		}
+		if(openCfgList.size() > 1){
+			GameLog.error(LogModule.ComActivityVitality, null, "单一功能event同时触发了多个cfg,eventenum=" + subId, null);
+			return null;
+		}
+		if(openCfgList.isEmpty()){
+			return null;
+		}
+		ActivityVitalityCfg cfg = openCfgList.get(0);	
+		ActivityVitalitySubCfg target = null;
+		List<ActivityVitalitySubCfg> subCfgListByType = subCfgListMap.get(subId);
+		if(subCfgListByType == null){
+			return target;
+		}
+		for (ActivityVitalitySubCfg subcfg : subCfgListByType) {
+			if (!StringUtils.equals(subcfg.getType(), subId)) {
+				continue;				
 			}
+			if(subcfg.getDay() != -1){
+				continue;
+			}
+			if(!StringUtils.equals(cfg.getId(), subcfg.getActiveType()+ "")){
+				continue;
+			}			
+			target = subcfg;
+			break;
+			
 		}		
 		return target;
 	}

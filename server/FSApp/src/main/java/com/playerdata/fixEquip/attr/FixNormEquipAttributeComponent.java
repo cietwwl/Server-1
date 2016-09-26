@@ -29,7 +29,7 @@ public class FixNormEquipAttributeComponent extends AbstractAttributeCalc {
 		Builder attrSetBuilder = AttributeSet.newBuilder();
 
 		if (!player.isRobot()) {
-			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())) {
+			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player)) {
 
 				String ownerId = hero.getUUId();
 				List<AttributeItem> attrItems_level = hero.getFixNormEquipMgr().levelToAttrItems(ownerId);
@@ -39,7 +39,7 @@ public class FixNormEquipAttributeComponent extends AbstractAttributeCalc {
 				attrSetBuilder.addAttribute(attrItems_quality);
 			}
 
-			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())) {
+			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player)) {
 
 				String ownerId = hero.getUUId();
 				List<AttributeItem> attrItems_star = hero.getFixNormEquipMgr().starToAttrItems(ownerId);
@@ -48,7 +48,7 @@ public class FixNormEquipAttributeComponent extends AbstractAttributeCalc {
 			}
 		} else {
 			String userId = player.getUserId();
-			List<FixNormEquipDataItem> fixNormEquipList = ArenaRobotDataMgr.getMgr().getFixNormEquipList(userId, hero.getModelId());
+			List<FixNormEquipDataItem> fixNormEquipList = ArenaRobotDataMgr.getMgr().getFixNormEquipList(userId, hero.getModeId());
 			if (fixNormEquipList != null && !fixNormEquipList.isEmpty()) {
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipLevelAttr(userId, fixNormEquipList).values()));
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixNormEquipLevelAttr(userId, fixNormEquipList).values()));

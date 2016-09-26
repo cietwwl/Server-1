@@ -2,11 +2,13 @@ package com.playerdata.activity.VitalityType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
+import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -37,7 +39,10 @@ public class ActivityVitalityItemHolder{
 		List<ActivityVitalityTypeItem> itemList = new ArrayList<ActivityVitalityTypeItem>();
 		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();			
+			ActivityVitalityTypeItem item = (ActivityVitalityTypeItem) mapEnum.nextElement();	
+			if(ActivityVitalityCfgDAO.getInstance().getCfgListByEnumId(item.getEnumId()).isEmpty()){
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -56,17 +61,8 @@ public class ActivityVitalityItemHolder{
 	public ActivityVitalityTypeItem getItem(String userId, ActivityVitalityTypeEnum acVitalityTypeEnum){
 		String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
 		return getItemStore(userId).getItem(itemId);
-	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
-	
+	}	
+
 	public boolean addItem(Player player, ActivityVitalityTypeItem item){
 	
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
@@ -88,22 +84,15 @@ public class ActivityVitalityItemHolder{
 			e.printStackTrace();
 			return false;
 		}
-	}
-	
-//	public boolean removeitem(Player player,ActivityCountTypeEnum type){
-//		
-//		String uidAndId = ActivityCountTypeHelper.getItemId(player.getUserId(), type);
-//		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
-//		return addSuccess;
-//	}
-//	
+	}	
+
 	public void synAllData(Player player){
-		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityVitalityTypeItem> itemList = getItemList(player.getUserId());	
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityVitalityTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityVitalityTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityVitalityTypeItem> cache = MapItemStoreFactory.getActivityVitalityItemCache();
 		return cache.getMapItemStore(userId, ActivityVitalityTypeItem.class);
 	}

@@ -82,6 +82,8 @@ public abstract class AbstractPrivilegeConfigHelper<PrivilegeNameEnum extends En
 				combinator = FloatPropertyWriter.getShareInstance();
 			} else if (fieldType == double.class || fieldType == Double.class) {
 				combinator = DoublePropertyWriter.getShareInstance();
+			} else if (fieldType == String.class) {
+				combinator = StringPropertyWriter.getShareInstance();
 			}else{
 				throw new RuntimeException("无效属性类型，必须是整数或者布尔类型! "+headers[i]+":"+fieldType.getName());
 			}

@@ -1,11 +1,9 @@
 package com.playerdata.activity.redEnvelopeType;
 
-import org.apache.commons.lang3.StringUtils;
 
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
 
 public enum ActivityRedEnvelopeTypeEnum {
-	redEnvelope("501");
+	redEnvelope("40001");
 	
 	private String cfgId;
 	private ActivityRedEnvelopeTypeEnum(String cfgId){
@@ -15,17 +13,12 @@ public enum ActivityRedEnvelopeTypeEnum {
 	public String getCfgId(){
 		return cfgId;
 	}
-
-	public static ActivityRedEnvelopeTypeEnum getById(String id) {
-		ActivityRedEnvelopeTypeEnum target = null;
-		for (ActivityRedEnvelopeTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(id, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
-	}
 	
+	public static ActivityRedEnvelopeTypeEnum getById(String cfgId) {
+		if (redEnvelope.cfgId.equals(cfgId)) {
+			return redEnvelope;
+		} else {
+			return null;
+		}
+	}
 }

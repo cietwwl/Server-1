@@ -1,11 +1,13 @@
 package com.playerdata.army;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.ClassInfo4Client;
-import com.playerdata.dataSyn.DataSynClassInfoMgr;
+import com.playerdata.dataEncode.DataEncoder;
+import com.playerdata.dataEncode.annotation.IgnoreEncodeField;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
@@ -21,6 +23,15 @@ public class ArmyInfo {
 	private String playerHeadImage;
 	private String guildName;
 	private ArmyFashion armyFashion;
+	@IgnoreEncodeField
+	private String vCode;  //校验用
+
+	
+	
+	public ArmyInfo() {
+		super();
+		this.heroList = new ArrayList<ArmyHero>();
+	}
 
 	public List<ArmyHero> getHeroList() {
 		return heroList;
@@ -82,11 +93,13 @@ public class ArmyInfo {
 	public void setArmyFashion(ArmyFashion armyFashion) {
 		this.armyFashion = armyFashion;
 	}
-
-	public String toJson() throws Exception {
-		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(ArmyInfo.class);
-		String jsonData = serverClassInfo.toJson(this);
+	public String toJson() throws Exception {		
+		String jsonData = ClientDataSynMgr.toClientData(this);
 		return jsonData;
+	}
+	
+	public void genVCode(){
+		vCode = DataEncoder.encodeArmyInfo(this);		
 	}
 
 	public static void main(String[] args) throws Exception {

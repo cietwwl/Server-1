@@ -2,11 +2,15 @@ package com.playerdata.activity.dailyDiscountType.data;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
+import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -34,8 +38,12 @@ public class ActivityDailyDiscountTypeItemHolder{
 		
 		List<ActivityDailyDiscountTypeItem> itemList = new ArrayList<ActivityDailyDiscountTypeItem>();
 		Enumeration<ActivityDailyDiscountTypeItem> mapEnum = getItemStore(userId).getEnum();
+		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		while (mapEnum.hasMoreElements()) {
-			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem) mapEnum.nextElement();			
+			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem) mapEnum.nextElement();		
+			if(activityDailyDiscountTypeCfgDAO.isCfgByItemEmuidEmpty(item.getEnumId())){
+				continue;
+			}
 			itemList.add(item);
 		}
 		
@@ -51,15 +59,6 @@ public class ActivityDailyDiscountTypeItemHolder{
 		String itemId=ActivityDailyDiscountTypeHelper.getItemId(userId, countTypeEnum);
 		return getItemStore(userId).getItem(itemId);
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
 	
 	public boolean addItem(Player player, ActivityDailyDiscountTypeItem item){
 	
@@ -93,12 +92,19 @@ public class ActivityDailyDiscountTypeItemHolder{
 //	}
 //	
 	public void synAllData(Player player){
-		List<ActivityDailyDiscountTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityDailyDiscountTypeItem> itemList = getItemList(player.getUserId());		
+//		Iterator<ActivityDailyDiscountTypeItem> it = itemList.iterator();
+//		while(it.hasNext()){
+//			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem)it.next();
+//			if(ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+//				it.remove();
+//			}
+//		}
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityDailyDiscountTypeItem> cache = MapItemStoreFactory.getActivityDailyDiscountTypeItemCache();
 		MapItemStore<ActivityDailyDiscountTypeItem> map = cache.getMapItemStore(userId, ActivityDailyDiscountTypeItem.class);
 		return map;

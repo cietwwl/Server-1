@@ -6,18 +6,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bm.randomBoss.RandomBossMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
@@ -87,6 +92,13 @@ public class DataSynVersionHolder {
 
 		synNotInVersion(player);
 	}
+	public void synByClientVersion(Player player, eSynType synTypeTmp,  int clientVerion) {
+		
+		PlayerDataMgr playerDataMgr = versionMap.get(synTypeTmp);
+		
+		playerDataMgr.syn(player, clientVerion);
+		
+	}
 
 	public void synAll(Player player) {
 
@@ -142,7 +154,8 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.USER_HEROS, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				player.getHeroMgr().synAllHeroToClient(version);
+//				player.getHeroMgr().synAllHeroToClient(version);
+				player.getHeroMgr().synAllHeroToClient(player, version);
 			}
 		}));
 		orderList.add(eSynType.USER_HEROS);
@@ -278,6 +291,14 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyDiscountType);
+		
+		versionMap.put(eSynType.ActivityDailyRechargeType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				ActivityDailyRechargeTypeMgr.getInstance().synData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityDailyRechargeType);
 
 		versionMap.put(eSynType.MagicSecretData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -312,6 +333,28 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityRedEnvelopeType);
 		
+		versionMap.put(eSynType.ActivityFortuneCatType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityFortuneCatTypeMgr.getInstance().synFortuneCatTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityFortuneCatType);
+		
+		
+		
+		
+		
+		versionMap.put(eSynType.ActivityLimitHeroType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityLimitHeroTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityLimitHeroType);
+		
+		
+		
 		versionMap.put(eSynType.GFightOnlinePersonalData, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
@@ -328,6 +371,17 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MAGICEQUIP_FETTER);
+		
+		
+		versionMap.put(eSynType.RANDOM_BOSS_DATA, new PlayerDataMgr(new RecordSynchronization() {
+			
+			@Override
+			public void synAllData(Player player, int version) {
+				RandomBossMgr.getInstance().checkAndSynRandomBossData(player);
+			}
+		}));
+		orderList.add(eSynType.RANDOM_BOSS_DATA);
+		
 		
 //		
 //		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
@@ -398,5 +452,13 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.EmbattleInfo);
+		
+		versionMap.put(eSynType.FIGHTING_GROWTH_DATA, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				FSuserFightingGrowthMgr.getInstance().synFightingTitleData(player);
+			}
+		}));
+		orderList.add(eSynType.FIGHTING_GROWTH_DATA);
 	}
 }

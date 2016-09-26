@@ -86,17 +86,20 @@ public class GFBiddingItemMgr {
 	 * @return
 	 */
 	public boolean removeAllPersonalBid(Player player){
+		GFightBiddingCfgDAO fgBidCfgDao = GFightBiddingCfgDAO.getInstance();
 		for(GFightOnlineResourceCfg resCfg : GFightOnlineResourceCfgDAO.getInstance().getAllCfg()){
 			GFightOnlineResourceData resData = GFightOnlineResourceMgr.getInstance().get(resCfg.getResID());
 			if(resData == null || GFResourceState.FIGHT.equals(resData.getState())) continue;	
 			GFBiddingItem item = GFBiddingItemHolder.getInstance().getItem(player, resCfg.getResID());
 			if(item != null){
-				GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(item.getRateID()));
+				GFightBiddingCfg bidCfg = fgBidCfgDao.getCfgById(String.valueOf(item.getRateID()));
 				if(null != bidCfg){
-					for(ItemInfo bidCostItem : bidCfg.getBidCost()){
-						player.getItemBagMgr().addItem(bidCostItem.getItemID(), bidCostItem.getItemNum());
-						GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
-					}
+//					for(ItemInfo bidCostItem : bidCfg.getBidCost()){
+//						player.getItemBagMgr().addItem(bidCostItem.getItemID(), bidCostItem.getItemNum());
+//						GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
+//					}
+					player.getItemBagMgr().addItem(bidCfg.getBidCost());
+					GFBiddingItemHolder.getInstance().removeItem(player, resCfg.getResID());
 				}
 			}
 		}

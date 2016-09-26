@@ -36,6 +36,9 @@ public class FixExpEquipDataItem implements  IMapItem {
 	@CombineSave
 	private int slot;
 	
+	@CombineSave
+	private int storedExp; //升级剩余的经验
+	
 	public String getId() {
 		return id;
 	}
@@ -85,6 +88,14 @@ public class FixExpEquipDataItem implements  IMapItem {
 	}
 	public void setSlot(int slot) {
 		this.slot = slot;
+	}
+	
+	
+	public int getStoredExp() {
+		return storedExp;
+	}
+	public void setStoredExp(int storedExp) {
+		this.storedExp = storedExp;
 	}
 	public String getQualityPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());

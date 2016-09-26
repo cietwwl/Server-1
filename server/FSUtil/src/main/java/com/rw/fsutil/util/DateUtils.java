@@ -87,13 +87,13 @@ public class DateUtils {
 	}
 
 	public static long getHour(long now, int hour) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Date(now));
+		Calendar cal = getCalendar();
+		cal.setTimeInMillis(now);
 		cal.set(Calendar.HOUR_OF_DAY, hour);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-		return cal.getTime().getTime();
+		return cal.getTimeInMillis();
 	}
 
 	public static SimpleDateFormat getDateFormat() {
@@ -286,6 +286,23 @@ public class DateUtils {
 		return resetTimeMillis;
 	}
 
+	/**
+	 * 获取当天5点的重置时间点
+	 * @return
+	 */
+	public static long getCurrentDayResetTime(){
+		Calendar c = getCalendar();
+		long curTime = System.currentTimeMillis();
+		c.setTimeInMillis(curTime);
+		// 重置时间
+		c.set(Calendar.HOUR_OF_DAY, 5);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTimeInMillis();
+	}
+	
+	
 	/**
 	 * 相隔的天数,因为都设置为了0的时分秒，所以是相对意义上的
 	 * 

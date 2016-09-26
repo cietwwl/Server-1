@@ -8,6 +8,7 @@ import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
@@ -45,7 +46,7 @@ public class ChargeMgr {
 	
 	public boolean isValid(Player player,ChargeTypeEnum monthCardType){
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();		
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		if(dataItem == null){
 //			GameLog.error("chargemgr", player.getUserId(), "数据库没数据就设置月卡特权");
 			return false;
@@ -185,6 +186,7 @@ public class ChargeMgr {
 			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
 			
 			if(success){
+				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}else{
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
@@ -353,9 +355,9 @@ public class ChargeMgr {
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
 		
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId(),ActivityTimeCardTypeEnum.Month);
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
 		if(dataItem == null){//首次读取创建记录
-			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player,ActivityTimeCardTypeEnum.Month);
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player);
 			if(dataItem != null){
 				dataHolder.addItem(player, dataItem);
 				}

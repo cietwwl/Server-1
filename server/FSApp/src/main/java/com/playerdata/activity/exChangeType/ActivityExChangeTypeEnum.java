@@ -1,13 +1,11 @@
 package com.playerdata.activity.exChangeType;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.HashMap;
 
-public enum ActivityExChangeTypeEnum{	// implements TypeIdentification
-	DragonBoatFestival("901"),
-	MidAutumnFestival("902"),
-	ExChangeActive("951");
-
-
+public enum ActivityExChangeTypeEnum{	// implements TypeIdentification	
+	ExChangeActive("60001"),
+	MidAutumnFestival("60002"),
+	DragonBoatFestival("60003");
 	
 	
 	
@@ -21,17 +19,19 @@ public enum ActivityExChangeTypeEnum{	// implements TypeIdentification
 	}
 	
 	
-	public static ActivityExChangeTypeEnum getById(String cfgId){
-		ActivityExChangeTypeEnum target = null;
-		for (ActivityExChangeTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
+	private static HashMap<String, ActivityExChangeTypeEnum> map;
+
+	static {
+		ActivityExChangeTypeEnum[] array = values();
+		map = new HashMap<String, ActivityExChangeTypeEnum>();
+		for (int i = 0; i < array.length; i++) {
+			ActivityExChangeTypeEnum typeEnum = array[i];
+			map.put(typeEnum.getCfgId(), typeEnum);
+		}
 	}
 
+	public static ActivityExChangeTypeEnum getById(String cfgId) {
+		return map.get(cfgId);
+	}
 	
 }

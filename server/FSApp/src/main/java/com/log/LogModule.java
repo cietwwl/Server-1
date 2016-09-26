@@ -20,14 +20,18 @@ public enum LogModule {
 	ComActivityDailyCount("通用活动_DailyCountType"),
 	ComActivityRate("通用活动_RateType"),
 	ComActivityTimeCount("通用活动_TimeCountType"),	
+	ComActivityTimeCard("通用活动_TimeCard"),
 	ComActivityExchange("通用活动_ExchangeType"),
+	ComActivityDailyRecharge("通用活动_DailyRechargeType"),
 	
 	ComActivityDate("通用活动_DateType"),
 	ComActivityRank("通用活动_RankType"),
 	ComActivityVitality("通用活动_VitalityType"),
 	ComActivityDailyDisCount("通用活动_DailyDisCountType"),
 	ComActivityRedEnvelope("通用活动_RedEnvelope"),
+	ComActivityFortuneCat("通用活动_FortuneCat"),
 	
+	ComActivityLimitHero("通用活动_LimitHero"),
 	
 	FixEquip("专属装备"),
 	GroupChamp("帮派竞技"),
@@ -37,7 +41,10 @@ public enum LogModule {
 	RedPoint("红点"),
 	GroupCopy("帮派副本"),
 	TeamBattle("组队副本"),
-	BattleVerify("战斗校验")
+	BattleVerify("战斗校验"),
+	DataEncode("加密校验"),
+	DataSynService("数据同步服务"),
+	GameWorld("公用对象模块")
 	;
 	
 	private String name;

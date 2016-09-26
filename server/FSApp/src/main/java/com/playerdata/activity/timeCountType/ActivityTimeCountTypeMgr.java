@@ -9,7 +9,12 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activity.ActivityComResult;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
+import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
+import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfg;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfg;
@@ -17,6 +22,7 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -40,50 +46,91 @@ public class ActivityTimeCountTypeMgr {
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
 	public void checkActivityOpen(Player player) {
 		checkNewOpen(player);
+//		checkVersion(player);
 		checkClose(player);
 
 	}
 
+
+
 	private void checkNewOpen(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
-		ArrayList<ActivityTimeCountTypeItem> addItemList = null;
-		for (ActivityTimeCountTypeCfg activityTimeCountTypeCfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if (!isOpen(activityTimeCountTypeCfg)) {
-				// 活动未开启
-				continue;
-			}
-			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(activityTimeCountTypeCfg.getId());
-			if (TimeCountTypeEnum == null) {
-				GameLog.error("ActivityTimeCountTypeMgr", "#checkNewOpen()", "找不到活动类型：" + activityTimeCountTypeCfg.getId());
-				continue;
-			}
-			ActivityTimeCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), TimeCountTypeEnum);// 已在之前生成数据的活动
-			if (targetItem == null) {
-				targetItem = ActivityTimeCountTypeCfgDAO.getInstance().newItem(player, TimeCountTypeEnum);// 生成新开启活动的数据
-				if (targetItem == null) {
-					// logger
-					continue;
-				}
-				if (addItemList == null) {
-					addItemList = new ArrayList<ActivityTimeCountTypeItem>();
-				}
-				addItemList.add(targetItem);
-				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
-			} else {
-				if (!StringUtils.equals(targetItem.getVersion(), activityTimeCountTypeCfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
-					targetItem.reset(activityTimeCountTypeCfg, ActivityTimeCountTypeCfgDAO.getInstance().newItemList(player, activityTimeCountTypeCfg));
-					dataHolder.updateItem(player, targetItem);
-				}
-			}
-		}
+		String userId = player.getUserId();
+		List<ActivityTimeCountTypeItem> addItemList = null;
+		addItemList = creatItems(userId, dataHolder.getItemStore(userId));		
+		
 		if (addItemList != null) {
 			dataHolder.addItemList(player, addItemList);
 		}
 	}
-
+	
+	public List<ActivityTimeCountTypeItem> creatItems(String userId,MapItemStore<ActivityTimeCountTypeItem> itemStore){		
+		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
+		List<ActivityTimeCountTypeItem> addItemList = null;		
+		BILogMgr biLogMgr = BILogMgr.getInstance();
+		for (ActivityTimeCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据			
+			if (!isOpen(cfg)) {
+				// 活动未开启
+				continue;
+			}
+			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(cfg.getId());
+			if (TimeCountTypeEnum == null) {
+				continue;
+			}
+			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
+			if(itemStore != null){
+				if(itemStore.getItem(itemId)!= null){
+					continue;
+				}
+			}			
+			ActivityTimeCountTypeItem item = new ActivityTimeCountTypeItem();
+			item.setId(itemId);
+			item.setCfgId(TimeCountTypeEnum.getCfgId());
+			item.setUserId(userId);
+			item.setVersion(cfg.getVersion());
+			item.setCount(1);
+			List<ActivityTimeCountTypeSubItem> newItemList = new ArrayList<ActivityTimeCountTypeSubItem>();
+			List<ActivityTimeCountTypeSubCfg> subItemCfgList = ActivityTimeCountTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
+			if(subItemCfgList == null){
+				subItemCfgList = new ArrayList<ActivityTimeCountTypeSubCfg>();
+			}
+			for (ActivityTimeCountTypeSubCfg subCfg : subItemCfgList) {
+				ActivityTimeCountTypeSubItem subItem = new ActivityTimeCountTypeSubItem();
+				subItem.setCfgId(subCfg.getId());	
+				subItem.setTaken(false);
+				newItemList.add(subItem);
+			}	
+			item.setSubItemList(newItemList);
+			
+			if (addItemList == null) {
+				addItemList = new ArrayList<ActivityTimeCountTypeItem>();
+			}
+			if (addItemList.size() >= 1) {
+				// 同时生成了两条以上数据；
+				GameLog.error(LogModule.ComActivityTimeCount, userId, "同时有多个活动开启", null);
+				continue;
+			}
+			Player player = PlayerMgr.getInstance().find(userId);//蛋疼
+			if(player != null){
+				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
+			}			
+			addItemList.add(item);					
+		}		
+		return addItemList;
+	}
+	
+	private void checkVersion(Player player) {
+//		if (!StringUtils.equals(targetItem.getVersion(), cfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
+//			targetItem.reset(cfg, cfgDao.newItemList(player, cfg));
+//			dataHolder.updateItem(player, targetItem);
+//		}
+		
+	}
+	
 	private void checkClose(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
+		ActivityTimeCountTypeSubCfgDAO activityTimeCountTypeSubCfgDAO = ActivityTimeCountTypeSubCfgDAO.getInstance();
+		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
 		List<ActivityTimeCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 
 		for (ActivityTimeCountTypeItem activityTimeCountTypeItem : itemList) {// 每种活动
@@ -91,18 +138,15 @@ public class ActivityTimeCountTypeMgr {
 
 				List<ActivityTimeCountTypeSubItem> list = activityTimeCountTypeItem.getSubItemList();
 				for (ActivityTimeCountTypeSubItem subItem : list) {// 配置表里的每种奖励
-					ActivityTimeCountTypeSubCfg subItemCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(subItem.getCfgId());
+					ActivityTimeCountTypeSubCfg subItemCfg = activityTimeCountTypeSubCfgDAO.getById(subItem.getCfgId());
 					if(subItemCfg == null){
-						GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动找不到配置文件", null);
 						continue;
 					}					
 					if (!subItem.isTaken() && activityTimeCountTypeItem.getCount() >= subItemCfg.getCount()) {
 
-						boolean isAdd = ComGiftMgr.getInstance().addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
+						boolean isAdd = comGiftMgr.addGiftTOEmailById(player, subItemCfg.getGiftId(), MAKEUPEMAIL + "","");
 						if (isAdd) {
 							subItem.setTaken(true);
-						} else {
-							GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动关闭后未领取奖励获取邮件内容失败", null);
 						}
 					}
 				}
@@ -117,8 +161,7 @@ public class ActivityTimeCountTypeMgr {
 
 		ActivityTimeCountTypeCfg cfgById = ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(activityTimeCountTypeItem.getCfgId());
 		if(cfgById == null){
-			GameLog.error(LogModule.ComActivityTimeCount, null, "通用活动找不到配置文件", null);
-			return true;
+			return false;
 		}		
 		long endTime = cfgById.getEndTime();
 		long currentTime = System.currentTimeMillis();
@@ -132,7 +175,7 @@ public class ActivityTimeCountTypeMgr {
 			long startTime = activityTimeCountTypeCfg.getStartTime();
 			long endTime = activityTimeCountTypeCfg.getEndTime();
 			long currentTime = System.currentTimeMillis();
-			return currentTime < endTime && currentTime > startTime;
+			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
 	}
@@ -179,10 +222,7 @@ public class ActivityTimeCountTypeMgr {
 	
 	
 
-	public ActivityComResult takeGift(Player player, ActivityTimeCountTypeEnum TimeCountType, String subItemId) {
-		
-	
-		
+	public ActivityComResult takeGift(Player player, ActivityTimeCountTypeEnum TimeCountType, String subItemId) {		
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
 		doTimeCount(player, TimeCountType);
 		ActivityTimeCountTypeItem dataItem = dataHolder.getItem(player.getUserId(), TimeCountType);
@@ -204,7 +244,6 @@ public class ActivityTimeCountTypeMgr {
 				}				
 			}		
 			if(dataItem.getCount() < subcfg.getCount()){
-				GameLog.error("activitytimecounttypemgr", "uid=" + player.getUserId(), "时间未到但申请领取");
 				result.setReason("时间未到");
 				return result;
 			}
@@ -255,7 +294,6 @@ public class ActivityTimeCountTypeMgr {
 		
 		ActivityTimeCountTypeSubCfg subCfg = ActivityTimeCountTypeSubCfgDAO.getInstance().getById(targetItem.getCfgId());
 		if(subCfg == null){
-			GameLog.error(LogModule.ComActivityTimeCount, player.getUserId(), "通用活动找不到配置文件", null);
 			return;
 		}	
 		targetItem.setTaken(true);
@@ -266,5 +304,10 @@ public class ActivityTimeCountTypeMgr {
 
 		
 		
+	}
+
+	public boolean isOpen() {
+			List<ActivityTimeCountTypeCfg> list = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
+			return !(list == null||list.isEmpty());
 	}
 }

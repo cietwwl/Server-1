@@ -1,9 +1,9 @@
 package com.rwbase.dao.friend.vo;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.FriendItemIF;
-import com.playerdata.readonly.HeroIF;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
@@ -31,7 +31,7 @@ public class FriendItem implements FriendItemIF {
 			return newItem;
 		}
 
-		HeroIF mainRoleHero = player.getMainRoleHero();
+		Hero mainRoleHero = player.getMainRoleHero();
 		if (mainRoleHero == null) {
 			return newItem;
 		}
@@ -45,12 +45,12 @@ public class FriendItem implements FriendItemIF {
 		newItem.setUserName(tableUser.getUserName());
 		newItem.setLevel(tableUser.getLevel());
 		newItem.setUserHead(tableUser.getHeadImageWithDefault());
-		newItem.setCareer(mainRoleHero.getCareer());
+		newItem.setCareer(mainRoleHero.getCareerType());
 		newItem.setLastLoginTime(tableUserOther.getLastLoginTime());
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		//TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
-		newItem.setFighting(player.getHeroMgr().getFightingAll());
+		newItem.setFighting(player.getHeroMgr().getFightingAll(player));
 		return newItem;
 	}
 

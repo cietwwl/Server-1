@@ -11,13 +11,12 @@ public class TBDailyRefreshMgr implements IGameTimerTask{
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "组队战的每日刷新";
 	}
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-		TBTeamItemMgr.getInstance().dailyReset();
+		TBTeamItemMgr.getInstance().dailyReset(timeSignal.getAssumeExecuteTime());
 		return "";
 	}
 
@@ -35,7 +34,6 @@ public class TBDailyRefreshMgr implements IGameTimerTask{
 
 	@Override
 	public boolean isContinue() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 

@@ -2,6 +2,7 @@ package com.rwbase.dao.battle.pojo.cfg;
 
 import java.util.Map;
 
+import com.alibaba.druid.util.StringUtils;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.attribute.AttributeType;
@@ -13,15 +14,17 @@ import com.rwbase.common.attribute.AttributeUtils;
  * @Description 
  */
 public class BufferCfg {
-	private String id;
-	private String attrData;// 增加的固定值属性
-	private String precentAttrData;// 增加的百分比属性
+	private String Id;
+	private int Type;// 法宝类型
+	private String BuffValue;// 解析法宝buff
+	// private String attrData;// 增加的固定值属性
+	// private String precentAttrData;// 增加的百分比属性
 
 	private Map<Integer, Integer> attrDataMap;// 增加固定值属性
 	private Map<Integer, Integer> precentAttrDataMap;// 增加的百分比属性
 
 	public String getId() {
-		return id;
+		return Id;
 	}
 
 	/**
@@ -60,9 +63,28 @@ public class BufferCfg {
 	 * 初始化解析属性
 	 */
 	public void initData() {
+		// luther说这里填属性的只有类型18跟7，服务器不需要太详细的解析方式
+		if (Type != 18 && Type != 7) {
+			return;
+		}
+
+		if (StringUtils.isEmpty(BuffValue)) {
+			return;
+		}
+
+		String[] sArr = BuffValue.split("\\|");
+		String attrDataStr = null;
+		String precentAttrDataStr = null;
+		if (sArr.length < 2) {
+			attrDataStr = sArr[0];
+		} else {
+			attrDataStr = sArr[0];
+			precentAttrDataStr = sArr[1];
+		}
+
 		// ===============================增加的固定属性
-		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("BufferCfg", attrData);
+		this.attrDataMap = AttributeUtils.parseAttrDataStr2Map("BufferCfg", attrDataStr);
 		// ===============================增加的百分比属性
-		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("BufferCfg", precentAttrData);
+		this.precentAttrDataMap = AttributeUtils.parseAttrDataStr2Map("BufferCfg", precentAttrDataStr);
 	}
 }

@@ -18,19 +18,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.bm.login.AccoutBM;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.EquipHelper;
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.RoleBaseInfoMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.ranking.ListRanking;
@@ -55,7 +55,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.setting.HeadCfgDAO;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
@@ -210,11 +210,12 @@ public class RobotManager {
 
 	}
 
-	private static void addHero(String templateId, ArrayList<Hero> heroList, HeroMgr mgr, int[] heroLevel, int roleLevel) {
+	private static void addHero(Player player, String templateId, ArrayList<Hero> heroList, HeroMgr mgr, int[] heroLevel, int roleLevel) {
 		if (templateId == null || templateId.isEmpty()) {
 			return;
 		}
-		Hero hero = mgr.addHeroWhenCreatUser(templateId);
+//		Hero hero = mgr.addHeroWhenCreatUser(templateId);
+		Hero hero = mgr.addHeroWhenCreatUser(player, templateId);
 		if (hero == null) {
 			GameLog.error("RobotManager", "#addHero", "机器人添加佣兵失败：" + templateId);
 			return;
@@ -223,7 +224,8 @@ public class RobotManager {
 		if (lv > roleLevel) {
 			lv = roleLevel;
 		}
-		hero.SetHeroLevel(lv);
+//		hero.SetHeroLevel(lv);
+		FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
 		heroList.add(hero);
 	}
 
@@ -233,12 +235,15 @@ public class RobotManager {
 		if (startLevel == 0) {
 			System.out.println();
 		}
-		hero.setStarLevel(startLevel);
-		hero.setQualityId(getQualityId(hero, quality));
+//		hero.setStarLevel(startLevel);
+//		hero.setQualityId(getQualityId(hero, quality));
+		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
+		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
 	}
 
 	private static String getQualityId(Hero hero, int quality) {
-		return hero.getModelId() + "_" + (quality + 1);
+//		return hero.getModeId() + "_" + (quality + 1);
+		return Utils.computeQualityId(hero.getModeId(), (quality + 1));
 	}
 
 	private static void changeEquips(String userId, Hero hero, int[] equipments, int quality, int[] enchant) {
@@ -277,11 +282,11 @@ public class RobotManager {
 			// 设置附灵等级
 			itemData.setExtendAttr(EItemAttributeType.Equip_AttachLevel_VALUE, attachLevelInit + enhanceLevel);
 		}
-		hero.getEquipMgr().addRobotEquip(equipItemDataList);
+		hero.getEquipMgr().addRobotEquip(hero.getUUId(), equipItemDataList);
 	}
 
 	/** 更改英雄宝石 **/
-	private static void changeGem(Hero hero, int[] gemTypeArray, int[] gemCountArray, int[] gemLevelArray) {
+	private static void changeGem(Player player, Hero hero, int[] gemTypeArray, int[] gemCountArray, int[] gemLevelArray) {
 		// 先低效随机筛选
 		int gemCount = getRandom(gemCountArray);
 		ArrayList<Integer> gemList = new ArrayList<Integer>();
@@ -310,11 +315,11 @@ public class RobotManager {
 		}
 
 		// 新增宝石
-		hero.getInlayMgr().addRobotGem(gemList_);
+		hero.getInlayMgr().addRobotGem(player, hero.getUUId(), gemList_);
 	}
 
 	/** 更改技能 **/
-	private static void changeSkill(Hero hero, int[] skill1, int[] skill2, int[] skill3, int[] skill4, int[] skill5) {
+	private static void changeSkill(Player player, Hero hero, int[] skill1, int[] skill2, int[] skill3, int[] skill4, int[] skill5) {
 		ArrayList<Integer> skillLevel = new ArrayList<Integer>(5);
 		skillLevel.add(getRandom(skill1));
 		skillLevel.add(getRandom(skill2));
@@ -322,10 +327,10 @@ public class RobotManager {
 		skillLevel.add(getRandom(skill4));
 		skillLevel.add(getRandom(skill5));
 		SkillMgr skillMgr = hero.getSkillMgr();
-		List<Skill> skillList = skillMgr.getSkillList();
+		List<SkillItem> skillList = skillMgr.getSkillList(hero.getUUId());
 		int skillSize = skillList.size();
 		for (int i = 0; i < skillSize; i++) {
-			Skill skill = skillList.get(i);
+			SkillItem skill = skillList.get(i);
 			RoleQualityCfg cfg = (RoleQualityCfg) RoleQualityCfgDAO.getInstance().getCfgById(hero.getQualityId());
 			if (cfg == null) {
 				GameLog.error("RobotManager", "changeSkill", "找不到英雄品质：" + hero.getQualityId());
@@ -348,7 +353,7 @@ public class RobotManager {
 				continue;
 			}
 			// 升级技能
-			skillMgr.updateSkill(skillId, expectLv - lv);
+			skillMgr.updateSkill(player, hero.getUUId(), skillId, expectLv - lv);
 		}
 	}
 
@@ -553,7 +558,7 @@ public class RobotManager {
 			int level = getRandom(cfg.getLevel());
 			user.setUserName(userName);
 			user.setSex(sex);
-			user.setAccount(AccoutBM.getInstance().getGuestAccountId());
+			user.setAccount(userId);
 			user.setUserId(userId);
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
@@ -573,23 +578,22 @@ public class RobotManager {
 
 			Player player = new Player(userId, false, playerCfg);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero();
-			mainRoleHero.SetHeroLevel(level);
+			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
 			// 品质
-			RoleBaseInfoMgr roleBaseInfoMgr = mainRoleHero.getRoleBaseInfoMgr();
-			roleBaseInfoMgr.setQualityId(getQualityId(mainRoleHero, quality));
-			roleBaseInfoMgr.setLevel(level);
+//			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
+			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
 			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
 			player.getUserDataMgr().setUserName(userName);
+			player.SetLevel(level);
 
 			PlayerMgr.getInstance().putToMap(player);
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
-			changeGem(mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
+			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
-			changeSkill(mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
+			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 			// String fashonId = getRandom(cfg.getFashions());
 			// if (!fashonId.equals("0")) {
 			// int fashionID = Integer.parseInt(fashonId);
@@ -613,10 +617,10 @@ public class RobotManager {
 			RobotHeroCfg heroCfg = heroCfgList.get(getRandom().nextInt(heroCfgList.size()));
 			int[] heroLevel = cfg.getHeroLevel();
 			ArrayList<Hero> heroList = new ArrayList<Hero>(4);
-			addHero(heroCfg.getFirstHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getSecondHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getThirdHeroId(), heroList, heroMgr, heroLevel, level);
-			addHero(heroCfg.getFourthHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getFirstHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getSecondHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getThirdHeroId(), heroList, heroMgr, heroLevel, level);
+			addHero(player, heroCfg.getFourthHeroId(), heroList, heroMgr, heroLevel, level);
 			// 装备部分
 			int[] heroEnchant = cfg.getHeroEnchant();
 			int[] equipments = cfg.getHeroEquipments();
@@ -636,8 +640,8 @@ public class RobotManager {
 			for (Hero hero : heroList) {
 				changeHero(hero, cfg);
 				changeEquips(userId, hero, equipments, heroQuality, heroEnchant);
-				changeGem(hero, heroGemType, heroGemCount, heroGemLevel);
-				changeSkill(hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
+				changeGem(player, hero, heroGemType, heroGemCount, heroGemLevel);
+				changeSkill(player, hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
 				arenaList.add(hero.getUUId());
 			}
 
@@ -669,7 +673,7 @@ public class RobotManager {
 
 			// 检查机器人数据并加入到万仙阵阵容排行榜
 			List<Integer> heroModelList = new ArrayList<Integer>();
-			int mainRoleModelId = mainRoleHero.getModelId();
+			int mainRoleModelId = mainRoleHero.getModeId();
 			heroModelList.add(mainRoleModelId);
 
 			int fighting = mainRoleHero.getFighting();
@@ -679,7 +683,7 @@ public class RobotManager {
 					continue;
 				}
 
-				int modelId = hero.getModelId();
+				int modelId = hero.getModeId();
 				if (modelId == mainRoleModelId) {
 					continue;
 				}

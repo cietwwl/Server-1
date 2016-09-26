@@ -6,9 +6,8 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -38,6 +37,7 @@ public abstract class ClientMsgHandler {
 	private MsgReciver msgReciver;
 
 	private volatile long lastExecuteTime;
+	private AtomicBoolean isOffLine = new AtomicBoolean(false); // 是否下线
 
 	private static AtomicInteger generator = new AtomicInteger();
 	private final int id;
@@ -85,14 +85,38 @@ public abstract class ClientMsgHandler {
 		}
 	}
 
+	/**
+	 * 处理顶号的情况
+	 * 
+	 * @param resp
+	 */
+	public void processKickOff(Response resp) {
+		if (resp.getHeader().getCommand() == Command.MSG_PLAYER_OFF_LINE) {
+			isOffLine.getAndSet(true);
+		}
+		if (resp.getHeader().getCommand() == Command.MSG_LOGIN_PLATFORM || resp.getHeader().getCommand() == Command.MSG_LOGIN_PLATFORM) {
+			isOffLine.getAndSet(false);
+		}
+	}
+
 	public void dataSyn(Response resp) {
-		if (Command.MSG_DATA_SYN == resp.getHeader().getCommand()) {
-			try {
-				MsgDataSynList datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
+
+		ByteString synData = resp.getHeader().getSynData();
+		MsgDataSynList datasynList = null;
+		try {
+
+			if (Command.MSG_DATA_SYN == resp.getHeader().getCommand()) {
+				datasynList = MsgDataSynList.parseFrom(resp.getSerializedContent());
+			} else if (synData != null) {
+				datasynList = MsgDataSynList.parseFrom(synData);
+			}
+
+			if (datasynList != null) {
 				for (MsgDataSyn msgDataSyn : datasynList.getMsgDataSynList()) {
 					eSynType synType = msgDataSyn.getSynType();
-//					RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +++synType= " + synType.getNumber() + " i =" + i);
-//					i++;
+					// RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ +++synType= "
+					// + synType.getNumber() + " i =" + i);
+					// i++;
 					switch (synType) {
 					case Store_Data:
 						getClient().getStoreItemHolder().syn(msgDataSyn);
@@ -182,7 +206,7 @@ public abstract class ClientMsgHandler {
 					case USER_TEAM_BATTLE:
 						getClient().getUserTeamBattleDataHolder().syn(msgDataSyn);
 						break;
-			//--------------------------帮派副本数据-------------------------------//			
+					// --------------------------帮派副本数据-------------------------------//
 					case GROUP_COPY_LEVEL:
 						getClient().getGroupCopyHolder().syn(msgDataSyn);
 						break;
@@ -195,14 +219,17 @@ public abstract class ClientMsgHandler {
 					case GROUP_ITEM_DROP_APPLY:
 						getClient().getGroupCopyHolder().syn(msgDataSyn);
 						break;
+					case USE_GROUP_COPY_DATA:
+						getClient().getGroupCopyUserData().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
-			} catch (Throwable e) {
-				e.printStackTrace();
-				RobotLog.fail("!!!!!!!!!!!!!!!!!!!!!------------------------------------------------", e);
-				throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 			}
+		} catch (Throwable e) {
+			e.printStackTrace();
+			RobotLog.fail("!!!!!!!!!!!!!!!!!!!!!------------------------------------------------", e);
+			throw (new RuntimeException("ClientMsgHandler[dataSyn] parse error", e));
 		}
 	}
 
@@ -260,21 +287,13 @@ public abstract class ClientMsgHandler {
 				return false;
 			}
 			client.setCommandInfo(new CommandInfo(command, seqId));
-			// StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-			// StringBuilder sb = new StringBuilder();
-			// sb.append("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId).append("\n");
-			// for (int i = 0; i < trace.length; i++) {
-			// sb.append("      ").append(trace[i].toString()).append("\r\n");
-			// }
-			// RobotLog.testInfo(sb.toString());
 			RobotLog.testInfo("发送消息 客户端Id：" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
 
 			ChannelFuture f = channel.writeAndFlush(request);
 			f.addListener(new GenericFutureListener<ChannelFuture>() {
 				public void operationComplete(ChannelFuture future) throws Exception {
 					if (!future.isSuccess()) {
-						RobotLog.testError("send msg fail:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",active=" + channel.isActive() + ",write=" + channel.isWritable()
-								+ ",open=" + channel.isOpen());
+						RobotLog.testError("send msg fail:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",active=" + channel.isActive() + ",write=" + channel.isWritable() + ",open=" + channel.isOpen());
 					} else {
 						long cost = System.currentTimeMillis() - sendTime;
 						if (cost > 1000) {
@@ -283,18 +302,26 @@ public abstract class ClientMsgHandler {
 					}
 				}
 			});
+			Thread.sleep(300);
+			if(!f.channel().isActive()){
+				RobotLog.info("--------------channel is close");
+				return true;
+			}
 			f.get(10, TimeUnit.SECONDS);
 			if (!f.isSuccess()) {
 				return true;
 			}
-			if (msgReciver != null) {
+			//当前离线发送的消息表示成功
+			if (msgReciver != null && !isOffLine.get()) {
 				success = handleResp(msgReciverP, client, seqId);
 				msgReciver = null;
 			} else {
+				RobotLog.info("--------------can not find msgReciver or be kick off line");
 				success = true;
 			}
 		} catch (Exception e) {
-			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+			long cost = System.currentTimeMillis() - sendTime;
+			RobotLog.fail("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId + ",cost=" + cost, e);
 			RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
 			success = false;
 		}
@@ -306,7 +333,7 @@ public abstract class ClientMsgHandler {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {
-			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
+			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:" + msgReciverP.getCmd() + "account :" + client.getAccountId());
 			success = false;
 		} else {
 

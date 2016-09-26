@@ -192,7 +192,7 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.GET_GROUP_RANK_INFO_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
 		if (openLevel != -1) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
 		}
@@ -253,7 +253,7 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.FIND_GROUP_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
 		if (openLevel != -1) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
 		}
@@ -317,7 +317,7 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.APPLY_JOIN_GROUP_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player.getLevel());
+		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
 		if (openLevel != -1) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
 		}
@@ -415,7 +415,8 @@ public class GroupPersonalHandler {
 		}
 
 		// 战力之和
-		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		int fighting = player.getMainRoleHero().getFighting();
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
 			Hero hero = maxFightingHeros.get(i);

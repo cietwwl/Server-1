@@ -10,6 +10,7 @@ public class FettersBaseCfg {
 	private int heroModelId;// 英雄的模版Id
 	private String fettersConditions;// 羁绊条件Id列表
 	private String fettersHeroId;// 构成羁绊的英雄Id列表
+	private int seq; // 羁绊在面板的位置，相当于一个部位概念，用于战斗力运算
 
 	/**
 	 * 获取羁绊Id
@@ -45,5 +46,15 @@ public class FettersBaseCfg {
 	 */
 	public String getFettersHeroId() {
 		return fettersHeroId;
+	}
+	
+	/**
+	 * 
+	 * 羁绊在面板的位置，相当于一个部位概念，用于战斗力运算
+	 * 
+	 * @return
+	 */
+	public int getSeq() {
+		return seq;
 	}
 }

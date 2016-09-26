@@ -16,10 +16,10 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.rw.fsutil.dao.cache.record.CacheRecordEvent;
-import com.rw.fsutil.dao.cache.record.RecordEvent;
+import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
-import com.rw.fsutil.dao.cache.trace.DataChangedListener;
+import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
+import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 
 /**
  * 数据缓存
@@ -35,6 +35,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private final ConcurrentHashMap<K, Object> delayUpdateMap; // 延迟更新任务，表示一个一段时间后执行的任务
 	private final ConcurrentHashMap<K, Object> delayRemoveMap; // 延迟删除任务，表示一个一段时间后删除的任务
 	private final ConcurrentHashMap<K, ReentrantFutureTask> taskMap; // 任务集合，表示一个以主键互斥的任务
+	private final ConcurrentHashMap<K, Object> recordMap; // 表示正在执行record的对象
 	private final SimpleCache<K, Long> penetrationCache;// 缓存穿透，表示在数据库找不到的任务，缓存一段时间防止缓存穿透
 	private final long penetrationTimeOutMillis;
 	private final PersistentLoader<K, V> loader;
@@ -45,19 +46,20 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	private final DataNotExistHandler<K, V> dataNotExistHandler;
 	private CacheLogger logger;
 	private String name;
-	private CacheJsonConverter<K, V, RecordEvent<?>> jsonConverter;
+	private CacheJsonConverter<K, V, Object, DataChangedEvent<?>> jsonConverter;
 	private final AtomicLong generator;
-	private final ArrayList<DataChangedListener> dataChangedListeners;
+	private final ArrayList<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners;
 
-	public DataCache(Class clazz, int initialCapacity, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ? extends RecordEvent<?>> jsonConverter) {
-		this.name = clazz.getSimpleName();
+	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter,
+			List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
+		this.name = key.getName();
 		this.capacity = maxCapacity;
 		this.logger = CacheFactory.getLogger(name);
 		this.lock = new ReentrantLock();
 		this.scheduledExecutor = scheduledExecutor;
 		this.updatePeriod = updatePeriod;
-		this.delayUpdateMap = new ConcurrentHashMap<K, Object>(initialCapacity, 0.5f);
-		this.delayRemoveMap = new ConcurrentHashMap<K, Object>(initialCapacity, 0.5f);
+		this.delayUpdateMap = new ConcurrentHashMap<K, Object>();
+		this.delayRemoveMap = new ConcurrentHashMap<K, Object>();
 		this.taskMap = new ConcurrentHashMap<K, ReentrantFutureTask>();
 		this.penetrationCache = new SimpleCache<K, Long>(1000);
 		this.penetrationTimeOutMillis = TimeUnit.MINUTES.toMillis(5);
@@ -69,9 +71,18 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		} else {
 			this.dataNotExistHandler = new DefualtDataNotExistHandler();
 		}
-		this.jsonConverter = (CacheJsonConverter<K, V, RecordEvent<?>>) jsonConverter;
-		this.cache = new LRUCache(initialCapacity);
-		this.dataChangedListeners = new ArrayList<DataChangedListener>(0);
+		this.jsonConverter = (CacheJsonConverter<K, V, Object, DataChangedEvent<?>>) jsonConverter;
+		if (this.jsonConverter != null) {
+			recordMap = new ConcurrentHashMap<K, Object>();
+		} else {
+			recordMap = null;
+		}
+		this.cache = new LRUCache(maxCapacity);
+		if (dataChangedListeners != null) {
+			this.dataChangedListeners = new ArrayList<DataChangedVisitor<DataChangedEvent<?>>>(dataChangedListeners);
+		} else {
+			this.dataChangedListeners = new ArrayList<DataChangedVisitor<DataChangedEvent<?>>>(0);
+		}
 		this.logger.info("create DAO = " + name + ",maxCapacity = " + maxCapacity + ",updatePeriod = " + updatePeriod);
 	}
 
@@ -275,23 +286,6 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		}
 	}
 
-	private RecordEvent<?> toJson(K key, V value) {
-		if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
-			return null;
-		}
-		CacheJsonConverter<K, V, ?> converter = DataCache.this.jsonConverter;
-		if (converter == null) {
-			return null;
-		}
-		try {
-			return converter.parseToRecordData(key, value);
-		} catch (Exception e) {
-			// logger.error("parse json exception:" + key, e);
-			e.printStackTrace();
-			return null;
-		}
-	}
-
 	private CacheValueEntity<V> update(final K key, final V value) throws DataDeletedException {
 		CacheValueEntity<V> old;
 		boolean updateDelData = false;
@@ -320,37 +314,83 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		return old;
 	}
 
-	private void record(K key, V value, CacheValueEntity<V> old, CacheStackTrace trace) {
+	private void record(K key, V value, CacheValueEntity<V> entity, CacheStackTrace trace) {
 		try {
-			// 当前json
-			RecordEvent<?> jsonMap = toJson(key, value);
-			if (jsonMap == null) {
+			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
 				return;
 			}
-			for (int j = 0; j < 10; j++) {
-				RecordEvent<?> lastRecord = old.get();
-				CacheRecordEvent recordEvent = jsonConverter.parse(lastRecord, jsonMap);
-				if (recordEvent == null) {
-					// System.out.println("无效commit:" + name);
-					return;
-				}
-				if (old.compareAndSet(lastRecord, jsonMap)) {
-					// TODO 未解决顺序问题，结合打日志程模型一起改，现在日志是慢速的
-					logger.executeAysnEvent(CacheLoggerPriority.INFO, "U", recordEvent, trace);
-					for (int i = this.dataChangedListeners.size(); --i >= 0;) {
-						DataChangedListener listener = dataChangedListeners.get(i);
-						try {
-							listener.notifyDataChanged(recordEvent);
-						} catch (Throwable t) {
-							logger.error("notify data changed exception:", t);
-						}
+			CacheJsonConverter<K, V, Object, DataChangedEvent<?>> converter = DataCache.this.jsonConverter;
+			if (converter == null) {
+				return;
+			}
+			Object record = entity.getRecord();
+			if (record == null) {
+				return;
+			}
+			V current = entity.getValue();
+			if (recordMap.putIfAbsent(key, entity) != null) {
+				String error = "multi thread record:" + key + "," + name;
+				logger.fatal(error);
+				new RuntimeException(error).printStackTrace();
+				synchronized (entity) {
+					if (recordMap.putIfAbsent(key, entity) != null) {
+						logger.fatal("retry to record fail:" + key + "," + name);
+						return;
 					}
-					return;
 				}
 			}
-			logger.error("record loop too much:" + name);
-		} catch (Exception e) {
+			synchronized (entity) {
+				try {
+					DataChangedEvent<?> event = converter.produceChangedEvent(key, entity.getRecord(), value);
+					for (int i = this.dataChangedListeners.size(); --i >= 0;) {
+						DataChangedVisitor<DataChangedEvent<?>> listener = dataChangedListeners.get(i);
+						try {
+							listener.notifyDataChanged(event);
+						} catch (Exception t) {
+							logger.error("notify data changed exception:" + key, t);
+						}
+					}
+					DataLoggerRecord recordEvent = converter.parseAndUpdate(key, record, current, event);
+					logger.executeAysnEvent(CacheLoggerPriority.INFO, "U", recordEvent, trace);
+				} finally {
+					recordMap.remove(key);
+				}
+			}
+
+		} catch (Throwable e) {
 			e.printStackTrace();
+		}
+	}
+
+	private Object copy(K key, V value) {
+		try {
+			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
+				return null;
+			}
+			CacheJsonConverter<K, V, ?, ?> converter = DataCache.this.jsonConverter;
+			if (converter == null) {
+				return null;
+			}
+			return converter.copy(key, value);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return null;
+		}
+	}
+
+	private DataLoggerRecord parse(K key, Object value) {
+		try {
+			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
+				return null;
+			}
+			CacheJsonConverter<K, V, Object, ?> converter = DataCache.this.jsonConverter;
+			if (converter == null) {
+				return null;
+			}
+			return converter.parse(key, value);
+		} catch (Throwable t) {
+			t.printStackTrace();
+			return null;
 		}
 	}
 
@@ -590,7 +630,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		}
 
 		@Override
-		public CacheValueEntity<V> call() throws Exception {
+		public  CacheValueEntity<V> call() throws Exception {
 			boolean duplicatedKey = false;
 			if (insertDB) {
 				try {
@@ -601,9 +641,9 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				}
 			}
 
-			RecordEvent json = toJson(key, value);
+			Object record = copy(key, value);
 			boolean insertFail = false;
-			CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(value, CacheValueState.PERSISTENT, json);
+			CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(value, CacheValueState.PERSISTENT, record);
 			CacheValueEntity<V> oldValue;
 			lock.lock();
 			try {
@@ -623,8 +663,11 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			// 更新缓存中的值，并提交更新任务
 			// 提交一个打印任务
 			// TODO 这里没有描述出变化的状态
-			if (json != null) {
-				logger.executeAysnEvent(CacheLoggerPriority.INFO, "I", json, trace);
+			if (record != null) {
+				DataLoggerRecord event = parse(key, record);
+				if (event != null) {
+					logger.executeAysnEvent(CacheLoggerPriority.INFO, "I", event, trace);
+				}
 			}
 			// 缓存有旧值
 			if (oldValue != null || duplicatedKey) {
@@ -667,15 +710,8 @@ public class DataCache<K, V> implements DataUpdater<K> {
 				v = dataNotExistHandler.callInLoadTask(key);
 			}
 			if (v != null) {
-				RecordEvent json = toJson(key, v);
-				// CacheValueRecord record;
-				// if (json != null) {
-				// record = new CacheValueRecord(key, 1, new CacheStackTrace(),
-				// json, null);
-				// } else {
-				// record = null;
-				// }
-				CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(v, state, json);
+				Object record = copy(key, v);
+				CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(v, state, record);
 				boolean needRecord = false;
 				lock.lock();
 				try {
@@ -700,8 +736,11 @@ public class DataCache<K, V> implements DataUpdater<K> {
 					return old;
 				} finally {
 					lock.unlock();
-					if (json != null && needRecord) {
-						logger.executeAysnEvent(CacheLoggerPriority.INFO, "L", json, this.trace);
+					if (record != null && needRecord) {
+						DataLoggerRecord event = parse(key, record);
+						if (event != null) {
+							logger.executeAysnEvent(CacheLoggerPriority.INFO, "L", event, this.trace);
+						}
 					}
 				}
 			} else {

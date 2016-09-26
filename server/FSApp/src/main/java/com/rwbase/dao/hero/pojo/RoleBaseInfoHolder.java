@@ -20,7 +20,7 @@ public class RoleBaseInfoHolder {// 战斗数据
 		this.uuid = uuid;
 	}
 
-	public boolean setBaseInfo(RoleBaseInfo roleBaseItemP) {
+	public boolean setBaseInfo(RoleBaseInfoIF roleBaseItemP) {
 		boolean success = false;
 		if (roleBaseItemP != null) {
 			success = roleBaseItemDAO.update(roleBaseItemP);
@@ -29,7 +29,7 @@ public class RoleBaseInfoHolder {// 战斗数据
 	}
 
 	public void syn(Player player, int version) {
-		RoleBaseInfo roleBaseInfo = get();
+		RoleBaseInfoIF roleBaseInfo = get();
 		if (roleBaseInfo != null) {
 			ClientDataSynMgr.synData(player, roleBaseInfo, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
@@ -37,13 +37,13 @@ public class RoleBaseInfoHolder {// 战斗数据
 		}
 	}
 
-	public RoleBaseInfo get() {
+	public RoleBaseInfoIF get() {
 		return roleBaseItemDAO.get(uuid);
 	}
 
 	public void update(Player player) {
 		roleBaseItemDAO.update(uuid);
-		RoleBaseInfo roleBaseInfo = get();
+		RoleBaseInfoIF roleBaseInfo = get();
 		if (roleBaseInfo != null) {
 			ClientDataSynMgr.updateData(player, roleBaseInfo, synType, eSynOpType.UPDATE_SINGLE);
 			notifyChange();

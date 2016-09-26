@@ -25,6 +25,8 @@ import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.enu.eStoreExistType;
 import com.rwbase.common.enu.eStoreType;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.store.CommodityCfgDAO;
 import com.rwbase.dao.store.StoreCfgDAO;
 import com.rwbase.dao.store.TableStoreDao;
@@ -124,7 +126,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
 				UserGroupAttributeDataIF groupData = m_pPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
-				boolean hasGroup = StringUtils.isNotBlank(groupData.getGroupId());
+				boolean hasGroup = groupData == null ? false : StringUtils.isNotBlank(groupData.getGroupId());
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
 					continue;
 				}
@@ -200,8 +202,13 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		case WarCopy:
 			List<Integer> storeTypes = new ArrayList<Integer>();
 			// 暂时不刷新黑市商人和神秘商人
-			storeTypes.add(eStoreType.Secret.getOrder());// 概率
-			storeTypes.add(eStoreType.Blackmark.getOrder());
+			CfgOpenLevelLimitDAO helper = CfgOpenLevelLimitDAO.getInstance();
+			if (helper.isOpen(eOpenLevelType.SECRET_SHOP, m_pPlayer)){
+				storeTypes.add(eStoreType.Secret.getOrder());// 概率
+			}
+			if (helper.isOpen(eOpenLevelType.Blackmark_SHOP, m_pPlayer)){
+				storeTypes.add(eStoreType.Blackmark.getOrder());
+			}
 			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 			for (Integer storetype : storeTypes) {
 				if (m_StoreData.containsKey(storetype)) {
@@ -528,6 +535,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : 0;
 
 		StoreData pStoreData = getStore(storeType);
+		if(pStoreData == null){
+			return -1;
+		}
 		boolean blnFree = false;
 		int cost = 0;
 		int refreshnum = 0;
@@ -536,7 +546,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			blnFree = false;
 			eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
 			refreshnum = pStoreData.getRefreshNum();
-			cost = Integer.parseInt(cfg.getRefreshCost().split("_")[refreshnum]);
+			String[] split = cfg.getRefreshCost().split("_");
+			if(refreshnum >= split.length){
+				return -3;
+			}
+			cost = Integer.parseInt(split[refreshnum]);
 			if (m_pPlayer.getReward(etype) < cost) {
 				return -2;
 			}
@@ -688,6 +702,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				data.setFreeRefreshNum(0);
 			}
 		}
+		m_pPlayer.getSettingMgr().notifyVipUpgrade();
 	}
 	
 	/**

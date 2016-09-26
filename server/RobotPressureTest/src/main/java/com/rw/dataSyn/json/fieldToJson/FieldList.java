@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.rw.dataSyn.ClassInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.dataSyn.json.FieldType;
@@ -18,9 +20,11 @@ public class FieldList implements IFieldToJson{
 	
 	private FieldType genericType;
 	
+	private Class<?> genericClass;
+	
 	public FieldList(Field fieldP){
 		field = fieldP;
-		Class<?> genericClass = FieldTypeHelper.getGenericClass(fieldP);
+		genericClass = FieldTypeHelper.getGenericClass(fieldP);
 		genericType = FieldTypeHelper.getFieldType(genericClass);
 		if(genericType ==  FieldType.Class){
 			genericClassInfo = new ClassInfo(genericClass);
@@ -80,11 +84,12 @@ public class FieldList implements IFieldToJson{
 	public void fromJson(Object target, String json) throws Exception {
 		
 		List<Object> objectList = new ArrayList<Object>();
+		JSONArray listData = JSON.parseArray(json);	
 
-		List<String> listData = JsonUtil.readList(json, String.class);
-       		
-		
-		for (String jsonTmp : listData) {
+//		List<String> listData = JsonUtil.readList(json, String.class);
+		int size = listData.size();
+		for (int i = 0; i < size; i++) {
+			String jsonTmp = listData.getString(i);
 			Object valueTmp = null;			
 			
 			switch (genericType) {
@@ -92,10 +97,10 @@ public class FieldList implements IFieldToJson{
 					valueTmp = genericClassInfo.fromJson(jsonTmp);
 					break;
 				case Enum:
-					valueTmp = FieldTypeHelper.toEnumValue(field.getType(), jsonTmp);
+					valueTmp = FieldTypeHelper.toEnumValue(genericClass, jsonTmp);
 					break;
 				case Primitive:
-					valueTmp = FieldTypeHelper.ToPrimitiveValue(field.getType(), jsonTmp);
+					valueTmp = FieldTypeHelper.ToPrimitiveValue(genericClass, jsonTmp);
 					break;
 				case String:
 					valueTmp = jsonTmp;
@@ -113,7 +118,9 @@ public class FieldList implements IFieldToJson{
 			if(valueTmp!=null){
 				objectList.add(valueTmp);
 			}
+			
 		}
+		
 		if(objectList.size()>0){
 			field.set(target, objectList);
 		}

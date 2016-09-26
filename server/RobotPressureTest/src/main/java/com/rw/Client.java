@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.rw.account.ServerInfo;
 import com.rw.dataSyn.JsonUtil;
 import com.rw.handler.GroupCopy.data.GroupCopyDataHolder;
+import com.rw.handler.GroupCopy.data.GroupCopyUserDataHolder;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
@@ -36,6 +37,7 @@ import com.rw.handler.itembag.ItembagHolder;
 import com.rw.handler.magicSecret.MagicChapterInfoHolder;
 import com.rw.handler.magicSecret.MagicSecretHolder;
 import com.rw.handler.majordata.MajorDataholder;
+import com.rw.handler.peakArena.PeakArenaDataHolder;
 import com.rw.handler.player.UserGameDataHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
@@ -78,7 +80,8 @@ public class Client {
 	
 	//帮派副本数据
 	private GroupCopyDataHolder groupCopyHolder = new GroupCopyDataHolder();
-	
+	//帮派副本个人数据，主要保存副本个人战斗次数
+	private GroupCopyUserDataHolder userGroupCopyDataHolder = new GroupCopyUserDataHolder();
 	
 	// 封神台的数据
 	private BattleTowerData battleTowerData = new BattleTowerData();
@@ -129,6 +132,8 @@ public class Client {
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
 
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
+	
+	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
 
 	// last seqId
 	// private volatile int lastSeqId;
@@ -299,6 +304,10 @@ public class Client {
 	public GroupCopyDataHolder getGroupCopyHolder() {
 		return groupCopyHolder;
 	}
+	
+	public GroupCopyUserDataHolder getGroupCopyUserData(){
+		return userGroupCopyDataHolder;
+	}
 
 	public FresherActivityHolder getFresherActivityHolder() {
 		return fresherActivityHolder;
@@ -458,5 +467,13 @@ public class Client {
 
 	public ChatData getChatData() {
 		return chatData;
+	}
+
+	public PeakArenaDataHolder getPeakArenaDataHolder() {
+		return peakArenaDataHolder;
+	}
+
+	public void setPeakArenaDataHolder(PeakArenaDataHolder peakArenaDataHolder) {
+		this.peakArenaDataHolder = peakArenaDataHolder;
 	}
 }

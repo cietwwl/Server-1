@@ -2,12 +2,13 @@ package com.playerdata.army.simple;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.common.BeanCopyer;
+import com.common.beanCopy.FastBeanCopyer;
 import com.playerdata.Hero;
+import com.playerdata.army.ArmyHero;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfo;
+import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 
 
 /**
@@ -30,17 +31,35 @@ public class ArmyHeroSimple {
 	private CurAttrData curAttrData = new CurAttrData();
 	private int fighting;
 	
+	public static ArmyHeroSimple  newInstance(ArmyHero armyhero) {
+		
+		ArmyHeroSimple armyHeroSimple = new ArmyHeroSimple();
+		RoleBaseInfoIF roleBaseInfo = armyhero.getRoleBaseInfo();
+		
+		FastBeanCopyer.getInstance().copy(roleBaseInfo, armyHeroSimple);
+		AttrData totalAttrData = armyhero.getAttrData();
+		armyHeroSimple.curAttrData.setMaxLife(totalAttrData .getLife());
+		armyHeroSimple.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
+		armyHeroSimple.curAttrData.setCurLife(totalAttrData.getLife());
+		armyHeroSimple.curAttrData.setCurEnergy(0);
+		armyHeroSimple.curAttrData.setId(roleBaseInfo.getId());
+		armyHeroSimple.fighting = armyhero.getFighting();
+		
+		return armyHeroSimple;		
+	}
 	public static ArmyHeroSimple  newInstance(Hero hero) {
 		AttrData totalAttrData = hero.getAttrMgr().getTotalAttrData();
-		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
+//		RoleBaseInfo baseInfo = hero.getRoleBaseInfoMgr().getBaseInfo();
 		
 		ArmyHeroSimple armyHero = new ArmyHeroSimple();
-		BeanCopyer.copy(baseInfo, armyHero);		
+//		BeanCopyer.copy(baseInfo, armyHero);	
+		FastBeanCopyer.getInstance().copy(hero, armyHero);
 		armyHero.curAttrData.setMaxLife(totalAttrData.getLife());
 		armyHero.curAttrData.setMaxEnergy(totalAttrData.getEnergy());
 		armyHero.curAttrData.setCurLife(totalAttrData.getLife());
 		armyHero.curAttrData.setCurEnergy(0);
-		armyHero.curAttrData.setId(hero.getHeroData().getId());
+//		armyHero.curAttrData.setId(hero.getHeroData().getId());
+		armyHero.curAttrData.setId(hero.getId());
 		armyHero.fighting = hero.getFighting();
 		
 		return armyHero;		
@@ -85,4 +104,27 @@ public class ArmyHeroSimple {
 	public int getFighting() {
 		return fighting;
 	}
+	
+	
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setModeId(int modeId) {
+		this.modeId = modeId;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	public void setStarLevel(int starLevel) {
+		this.starLevel = starLevel;
+	}
+	public void setQualityId(String qualityId) {
+		this.qualityId = qualityId;
+	}
+	public void setFighting(int fighting) {
+		this.fighting = fighting;
+	}
+	
+	
 }

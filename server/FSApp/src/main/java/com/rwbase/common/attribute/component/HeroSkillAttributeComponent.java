@@ -13,7 +13,7 @@ import com.rwbase.common.attribute.IComponentCalc;
 import com.rwbase.common.attribute.impl.AbstractAttributeCalc;
 import com.rwbase.common.attribute.param.SkillParam;
 import com.rwbase.common.attribute.param.SkillParam.SkillBuilder;
-import com.rwbase.dao.skill.pojo.Skill;
+import com.rwbase.dao.skill.pojo.SkillItem;
 
 /*
  * @author HC
@@ -24,7 +24,7 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 
 	@Override
 	protected AttributeSet calcAttribute(Player player, Hero hero) {
-		List<Skill> skillList = hero.getSkillMgr().getSkillList();
+		List<SkillItem> skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 		if (skillList == null || skillList.isEmpty()) {
 			// GameLog.error("计算英雄技能属性", player.getUserId(), String.format("Id为[%s]的英雄身上的技能是空的", hero.getUUId()));
 			return null;
@@ -33,7 +33,7 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 		int size = skillList.size();
 		List<SkillInfo> skillInfoList = new ArrayList<SkillInfo>(size);
 		for (int i = 0; i < size; i++) {
-			Skill skill = skillList.get(i);
+			SkillItem skill = skillList.get(i);
 			if (skill == null) {
 				continue;
 			}

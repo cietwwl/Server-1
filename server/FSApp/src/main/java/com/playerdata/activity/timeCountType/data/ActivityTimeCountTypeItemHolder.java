@@ -7,6 +7,7 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeHelper;
+import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -34,7 +35,10 @@ public class ActivityTimeCountTypeItemHolder{
 		List<ActivityTimeCountTypeItem> itemList = new ArrayList<ActivityTimeCountTypeItem>();
 		Enumeration<ActivityTimeCountTypeItem> mapEnum = getItemStore(userId).getEnum();
 		while (mapEnum.hasMoreElements()) {
-			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem) mapEnum.nextElement();			
+			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem) mapEnum.nextElement();		
+			if(ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
+				continue;
+			}
 			itemList.add(item);
 		}		
 		return itemList;
@@ -50,13 +54,12 @@ public class ActivityTimeCountTypeItemHolder{
 		return getItemStore(userId).getItem(itemId);
 	}
 	
-
-	
 	public boolean addItemList(Player player, List<ActivityTimeCountTypeItem> itemList){
 		try {
 			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			if(addSuccess){
-				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
+				List<ActivityTimeCountTypeItem> itemListTmp = getItemList(player.getUserId());									
+				ClientDataSynMgr.updateDataList(player, itemListTmp, synType, eSynOpType.UPDATE_LIST);
 			}
 			return addSuccess;
 		} catch (DuplicatedKeyException e) {
@@ -68,12 +71,12 @@ public class ActivityTimeCountTypeItemHolder{
 	
 //	
 	public void synAllData(Player player){
-		List<ActivityTimeCountTypeItem> itemList = getItemList(player.getUserId());			
+		List<ActivityTimeCountTypeItem> itemList = getItemList(player.getUserId());	
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
 	
-	private MapItemStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
+	public MapItemStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
 		MapItemStoreCache<ActivityTimeCountTypeItem> cache = MapItemStoreFactory.getActivityTimeCountTypeItemCache();
 		return cache.getMapItemStore(userId, ActivityTimeCountTypeItem.class);
 	}

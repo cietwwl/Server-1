@@ -2,12 +2,11 @@ package com.rwbase.dao.email;
 
 import java.util.List;
 
-import javax.persistence.Id;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EmailData {
+	private String emailId = null;
 	private String title = "";//标题
 	private String content = "";//内容
 	private String sender = "";//发件人
@@ -143,5 +142,11 @@ public class EmailData {
 	}
 	public void setExpireTime(int expireTime) {
 		this.expireTime = expireTime;
+	}
+	public String getEmailId() {
+		return emailId;
+	}
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 }

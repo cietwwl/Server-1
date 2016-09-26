@@ -14,52 +14,57 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
-public class UserEventLoginHandler implements IUserEventHandler{
+public class UserEventLoginHandler implements IUserEventHandler {
 
-	
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
-	
-	public UserEventLoginHandler(){
-		init();	
+
+	public UserEventLoginHandler() {
+		init();
 	}
-	
-	private void init(){
+
+	private void init() {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-					/**活动是否开启*/
-					boolean isBetweendays = ActivityCountTypeMgr.getInstance().isOpen(ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Login.getCfgId()));
-					
-					/**登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出*/
-					boolean isnewday = false;
-					if(StringUtils.equals(params+"","0")){//没有活动的登陆数据，首次登陆
-						isnewday = true;
-					}else{
-						if(!isnewday){
-							isnewday = DateUtils.dayChanged(Long.parseLong(params.toString()));
-						}
-					}
-					if(isnewday&&isBetweendays){
-						ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Login,1);	
-					}
+				/** 活动是否开启 */
+				if (!ActivityCountTypeCfgDAO.getInstance().isOpen(
+						ActivityCountTypeEnum.Login)) {
+					return;
 				}
+
+				/** 登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出 */
+				boolean isnewday = false;
+				if (StringUtils.equals(params + "", "0")) {// 没有活动的登陆数据，首次登陆
+					isnewday = true;
+				} else {
+					isnewday = DateUtils.dayChanged(Long.parseLong(params
+							.toString()));
+				}
+				if (isnewday) {
+					ActivityCountTypeMgr.getInstance().addCount(player,
+							ActivityCountTypeEnum.Login, 1);
+				}
+			}
+
 			@Override
-			public void logError(Player player,Throwable ex) {
-				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.Login.toString()).append(" error");				
-				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
-			}						
+			public void logError(Player player, Exception ex) {
+				StringBuilder reason = new StringBuilder(
+						ActivityCountTypeEnum.Login.toString())
+						.append(" error");
+				GameLog.error(LogModule.UserEvent,
+						"userId:" + player.getUserId(), reason.toString(), ex);
+			}
 		});
-		
+
 	}
-	
-	
+
 	@Override
 	public void doEvent(Player player, Object params) {
-		
+
 		for (UserEventHandleTask userEventHandleTask : eventTaskList) {
-			userEventHandleTask.doWrapAction(player, params);	
+			userEventHandleTask.doWrapAction(player, params);
 		}
-		
+
 	}
 
 }

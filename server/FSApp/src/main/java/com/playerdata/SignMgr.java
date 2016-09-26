@@ -2,15 +2,12 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
@@ -18,17 +15,16 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.sign.ReSignCfgDAO;
 import com.rwbase.dao.sign.SignCfgDAO;
 import com.rwbase.dao.sign.SignStatisticsCfgDAO;
-import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.sign.pojo.ReSignCfg;
 import com.rwbase.dao.sign.pojo.SignCfg;
 import com.rwbase.dao.sign.pojo.SignData;
 import com.rwbase.dao.sign.pojo.SignDataHolder;
 import com.rwbase.dao.sign.pojo.SignStatisticsCfg;
 import com.rwbase.dao.sign.pojo.TableSignData;
-import com.rwproto.BattleTowerServiceProtos.ERequestType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignResponse;
@@ -244,12 +240,29 @@ public class SignMgr implements PlayerEventListener {
 	 * @param count
 	 */
 	private void sendReward(String itemId, int count) {
+		this.sendReward(itemId, count, true);
+	}
+	
+	/**
+	 * 
+	 * 发送奖励物品
+	 * 
+	 * @param itemId
+	 * @param count
+	 * @param sendIfItem 如果是道具，是否也发送
+	 * @return itemId是否道具
+	 */
+	private boolean sendReward(String itemId, int count, boolean sendIfItem) {
 		if (isNumberic(itemId)) {
-			player.getItemBagMgr().addItem(Integer.valueOf(itemId), count);
+			if (sendIfItem) {
+				player.getItemBagMgr().addItem(Integer.valueOf(itemId), count);
+			}
+			return true;
 		} else {
 			for (int i = 0; i < count; i++) {
-				player.getHeroMgr().addHero(itemId);
+				player.getHeroMgr().addHero(player, itemId);
 			}
+			return false;
 		}
 	}
 
@@ -675,12 +688,22 @@ public class SignMgr implements PlayerEventListener {
 			String reward = cfg.getReward();
 			// 发送奖励
 			String[] split = reward.split(";");
+			String cfgId;
+			int count = 0;
+			List<ItemInfo> list = new ArrayList<ItemInfo>();
 			for (String value : split) {
 				String[] split2 = value.split(",");
 				if (split2.length < 2) {
 					continue;
 				}
-				sendReward(split2[0], Integer.parseInt(split2[1]));
+				cfgId = split2[0];
+				count = Integer.parseInt(split2[1]);
+				if (sendReward(cfgId, count, false)) {
+					list.add(new ItemInfo(Integer.parseInt(cfgId), count));
+				}
+			}
+			if(list.size() > 0) {
+				player.getItemBagMgr().addItem(list);
 			}
 			return null;
 		}else{

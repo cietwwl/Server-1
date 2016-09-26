@@ -4,6 +4,7 @@ import java.util.Enumeration;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 
 public class AssistantHeroUpgradeStarCheck extends DefaultAssistantChecker {
@@ -18,10 +19,11 @@ public class AssistantHeroUpgradeStarCheck extends DefaultAssistantChecker {
 	}
 	
 	private boolean hasHeroToUpgradeStar(Player player){
-		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+//		Enumeration<Hero> heroMap = player.getHeroMgr().getHerosEnumeration();
+		Enumeration<? extends Hero> heroMap = player.getHeroMgr().getHerosEnumeration(player);
 		while (heroMap.hasMoreElements()) {
 			Hero hero = (Hero) heroMap.nextElement();
-			if (hero.canUpgradeStar() == 0) {
+			if (FSHeroMgr.getInstance().canUpgradeStar(hero) == 0) {
 				return true;
 			}
 //			if(hero.getEquipMgr().getEquipCount() >= 6){

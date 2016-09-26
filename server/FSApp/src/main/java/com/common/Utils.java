@@ -3,8 +3,11 @@ package com.common;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.dao.battletower.pojo.RewardInfo;
 
 /*
@@ -26,7 +29,7 @@ public class Utils {
 	 */
 	public static List<RewardInfo> parseRewardInfo(String rewardStr, String firstSeparator, String secondSeparator) {
 		if (rewardStr == null || rewardStr.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		if (firstSeparator == null || firstSeparator.isEmpty()) {
@@ -39,7 +42,7 @@ public class Utils {
 
 		String[] temp0 = rewardStr.split(firstSeparator);
 		if (temp0.length <= 0) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		List<RewardInfo> rewardList = new ArrayList<RewardInfo>();
@@ -78,5 +81,42 @@ public class Utils {
 		BigDecimal b1 = new BigDecimal(Double.toString(v1));
 		BigDecimal b2 = new BigDecimal(Double.toString(v2));
 		return b1.divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+	
+	/**
+	 * 
+	 * 计算万分比
+	 * 
+	 * @param value
+	 * @param ratio
+	 * @return
+	 */
+	public static int calculateTenThousandRatio(int value, int ratio) {
+		return value * ratio / AttributeConst.DIVISION;
+	}
+
+	public static String computeQualityId(int modeId, int quality) {
+		return modeId + "_" + quality;
+	}
+	
+	/**
+	 * 将from中的内容合并到to中
+	 * 
+	 * @param from
+	 * @param to
+	 */
+	public static void combineAttrMap(Map<Integer, Integer> from, Map<Integer, Integer> to) {
+		Integer key;
+		for (Iterator<Integer> itr = from.keySet().iterator(); itr.hasNext();) {
+			key = itr.next();
+			Integer fromValue = from.get(key);
+			Integer toValue = to.get(key);
+			if (toValue != null) {
+				toValue += fromValue;
+			} else {
+				toValue = fromValue;
+			}
+			to.put(key, toValue);
+		}
 	}
 }

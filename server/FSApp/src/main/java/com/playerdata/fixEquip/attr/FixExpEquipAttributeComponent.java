@@ -28,7 +28,7 @@ public class FixExpEquipAttributeComponent extends AbstractAttributeCalc {
 		Builder attrSetBuilder = AttributeSet.newBuilder();
 
 		if (!player.isRobot()) {
-			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player.getLevel())) {
+			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP, player)) {
 
 				String ownerId = hero.getUUId();
 				List<AttributeItem> attrItems_level = hero.getFixExpEquipMgr().levelToAttrItems(ownerId);
@@ -39,7 +39,7 @@ public class FixExpEquipAttributeComponent extends AbstractAttributeCalc {
 				attrSetBuilder.addAttribute(attrItems_quality);
 			}
 
-			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player.getLevel())) {
+			if (CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR, player)) {
 
 				String ownerId = hero.getUUId();
 				List<AttributeItem> attrItems_star = hero.getFixExpEquipMgr().starToAttrItems(ownerId);
@@ -47,7 +47,7 @@ public class FixExpEquipAttributeComponent extends AbstractAttributeCalc {
 			}
 		} else {
 			String userId = player.getUserId();
-			List<FixExpEquipDataItem> fixExpEquipList = ArenaRobotDataMgr.getMgr().getFixExpEquipList(userId, hero.getModelId());
+			List<FixExpEquipDataItem> fixExpEquipList = ArenaRobotDataMgr.getMgr().getFixExpEquipList(userId, hero.getModeId());
 			if (fixExpEquipList != null && !fixExpEquipList.isEmpty()) {
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipLevelAttr(userId, fixExpEquipList).values()));
 				attrSetBuilder.addAttribute(new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipLevelAttr(userId, fixExpEquipList).values()));

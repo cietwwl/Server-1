@@ -56,6 +56,11 @@ public class TaskItemHolder {
 		// taskIdMap.put(item.getTaskId(), item);
 		ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.UPDATE_SINGLE);
 	}
+	
+	public void updateItem(Player player, TaskItem item, boolean isSyn) {
+		getItemStore().updateItem(item);
+		if(isSyn) ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.UPDATE_SINGLE);
+	}
 
 	public TaskItem getItem(String itemId) {
 		return getItemStore().getItem(itemId);
@@ -74,18 +79,30 @@ public class TaskItemHolder {
 
 	public boolean removeItem(Player player, TaskItem item) {
 		boolean success = getItemStore().removeItem(item.getId());
+		
 		if (success) {
 			// taskIdMap.remove(item.getTaskId());
 			ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.REMOVE_SINGLE);
 		}
 		return success;
 	}
+	
+	public boolean removeItem(Player player, List<TaskItem> items) {
+		if(null == items || items.isEmpty()) return false;
+		List<String> ids = new ArrayList<String>();
+		for(TaskItem item : items){
+			ids.add(item.getId());
+		}
+		List<String> successIds = getItemStore().removeItem(ids);
+		if(null == successIds || successIds.isEmpty()) return false;
+		return true;
+	}
 
 	public boolean addItem(Player player, TaskItem item, boolean doSyn) {
 		item.setId(buildId(item));
 		item.setUserId(userId);
 		boolean addSuccess = getItemStore().addItem(item);
-		if (addSuccess) {
+		if (addSuccess && doSyn) {
 			// taskIdMap.put(item.getTaskId(), item);
 			ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.ADD_SINGLE);
 		}
@@ -119,10 +136,10 @@ public class TaskItemHolder {
 	public void synAllData(Player player, int version) {
 		List<TaskItem> itemList = getItemList();
 		List<TaskItem> removeList = new ArrayList<TaskItem>();
-		
+		TaskCfgDAO cfgDAO = TaskCfgDAO.getInstance();
 		for (TaskItem taskItem : itemList) {
 			//检查数据库数据及配置表是否对应,配置表里没有的不发送到前端
-			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(taskItem.getTaskId());
+			TaskCfg cfg = cfgDAO.getCfg(taskItem.getTaskId());
 			if(cfg == null){
 				removeList.add(taskItem);
 				GameLog.error(LogModule.COMMON, "TaskItemHolder[synAllData]", "同步任务数据到客户端，发现任务不存在，任务id:" + taskItem.getTaskId(), null);
