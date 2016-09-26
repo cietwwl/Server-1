@@ -31,7 +31,7 @@ public class FSUserFightingGrowthWayInfoCfgDAO extends CfgCsvDao<FSUserFightingG
 			String[] args = cfg.getGrowthWay().split(";");
 			List<Integer> growthWayList = new ArrayList<Integer>(args.length);
 			for (int i = 0; i < args.length; i++) {
-				growthWayList.add(Integer.parseInt(args[0]));
+				growthWayList.add(Integer.parseInt(args[i]));
 			}
 			cfg.setGrowthWayList(growthWayList);
 		}
