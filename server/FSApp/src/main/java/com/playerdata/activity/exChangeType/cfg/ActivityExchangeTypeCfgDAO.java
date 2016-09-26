@@ -75,9 +75,9 @@ public final class ActivityExchangeTypeCfgDAO extends CfgCsvDao<ActivityExchange
 		return null;
 	}
 
-	public boolean isCfgByEnumIdEmpty(String enumId) {
+	public List<ActivityExchangeTypeCfg> isCfgByEnumIdEmpty(String enumId) {
 		List<ActivityExchangeTypeCfg> typeCfgList = cfgListMap.get(enumId);
-		return typeCfgList == null || typeCfgList.isEmpty();
+		return typeCfgList;
 	}
 	
 	public List<ActivityExchangeTypeSubItem> newItemList(ActivityExchangeTypeCfg cfgById) {
