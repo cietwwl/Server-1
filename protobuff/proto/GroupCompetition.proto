@@ -26,6 +26,11 @@ enum GCRequestType{
 	CreateTeam = 17; // 创建队伍
 	AdjustTeamMember = 18; // 调整队伍成员
 	StartMatching = 19; // 开始匹配
+	CancelMatching = 20; // 取消匹配
+	StartRandomMatching = 21; // 开始随机匹配
+	CancelRandomMatching = 22; // 取消随机匹配
+	PersonalMatching = 23; // 个人匹配
+	PersonalCancelMatching = 24; // 取消个人匹配
 }
 
 enum TeamStatusType {
@@ -162,7 +167,7 @@ message SelectionGroupData {
 
 // 队伍请求，返回CommonRsp
 message TeamRequest {
-	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
 	repeated string heroId = 2; // 整容的英雄id
 }
 
@@ -180,7 +185,7 @@ message TeamMemberRequest {
 
 // 准备状态请求，返回CommonRsp
 message TeamStatusRequest {
-	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching）
+	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
 }
 
 // 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
