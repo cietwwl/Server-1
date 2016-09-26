@@ -1,4 +1,4 @@
-package com.common.beanCopy;
+package com.common.beanCopy.bak;
 
 import com.playerdata.army.ArmyInfo;
 

@@ -256,7 +256,7 @@ public class FSHero implements Hero, AttrMgr {
 	}
 	
 	@Override
-	public int getCareer() {
+	public int getCareerType() {
 		return careerType;
 	}
 
@@ -380,4 +380,6 @@ public class FSHero implements Hero, AttrMgr {
 		this.calculateAttrsInternal(true);
 		return this.attr;
 	}
+	
+	
 }

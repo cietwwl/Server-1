@@ -1,4 +1,4 @@
-package com.common.beanCopy;
+package com.common.beanCopy.bak;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
