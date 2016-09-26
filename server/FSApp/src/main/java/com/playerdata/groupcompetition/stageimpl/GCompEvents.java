@@ -9,8 +9,10 @@ import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
+import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
+import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
@@ -92,7 +94,9 @@ public class GCompEvents {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
-		GCompQuizMgr.getInstance().groupCompEventsStart();
+		GCompMemberMgr.getInstance().notifyEventsStart(eventsData.getRelativeGroupIds()); // 通知成员管理器
+		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
+		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 	}
 	
@@ -102,6 +106,7 @@ public class GCompEvents {
 		for (GCompAgainst against : againsts) {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
+		GCOnlineMemberMgr.getInstance().onEventsEnd(_type);
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {
@@ -116,6 +121,7 @@ public class GCompEvents {
 		default:
 			break;
 		}
+		GroupCompetitionMatchingCenter.getInstance().onEventsStatusChange(status);
 	}
 	
 	/**

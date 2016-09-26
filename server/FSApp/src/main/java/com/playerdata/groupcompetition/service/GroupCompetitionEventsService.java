@@ -54,7 +54,7 @@ public class GroupCompetitionEventsService implements FsService<GeneratedMessage
 		case MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ:
 			return TeamMemberRequest.parseFrom(request.getBody().getSerializedContent());
 		case MSG_GROUP_COMPETITION_TEAM_STATUS_REQ:
-			return TeamMemberRequest.parseFrom(request.getBody().getSerializedContent());
+			return TeamStatusRequest.parseFrom(request.getBody().getSerializedContent());
 		case MSG_GROUP_JOIN_TEAM_REQ:
 			return JoinTeamReq.parseFrom(request.getBody().getSerializedContent());
 		default:

@@ -10,9 +10,9 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 @SynClass
 public class GCompSelectionData {
 
-	private List<GCompEventsSynData> lastMatches;
-	private GCEventsType lastMatchNumType;
-	private List<GCGroup> historyChampion;
+	private List<GCompEventsSynData> lastMatches; // 上一次帮派争霸的比赛
+	private GCEventsType lastMatchNumType; // 上一次帮派争霸的初赛类型
+	private List<GCGroup> historyChampion; // 历史冠军
 	
 	public static GCompSelectionData createNew() {
 		GCompSelectionData data = new GCompSelectionData();

@@ -1,33 +1,50 @@
 package com.playerdata.groupcompetition.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.LinkedList;
 
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
+import com.playerdata.groupcompetition.holder.data.GCompFightRecordData;
+import com.rw.fsutil.cacheDao.DataKVDao;
 
-public class GCompFightingRecordDAO {
+public class GCompFightingRecordDAO extends DataKVDao<GCompFightRecordData>{
 
 	private static final GCompFightingRecordDAO _instance = new GCompFightingRecordDAO();
+	public static int MAX_RECORD_COUNT = 50;
 	
 	public static final GCompFightingRecordDAO getInstance() {
 		return _instance;
 	}
 	
-	private final Map<Integer, List<GCompFightingRecord>> _dataMap = new ConcurrentHashMap<Integer, List<GCompFightingRecord>>();
+//	private final Map<Integer, LinkedList<GCompFightingRecord>> _dataMap = new ConcurrentHashMap<Integer, LinkedList<GCompFightingRecord>>();
 	
-	public List<GCompFightingRecord> getFightingRecord(int matchId) {
-		return _dataMap.get(matchId);
+	public LinkedList<GCompFightingRecord> getFightingRecord(int matchId) {
+		GCompFightRecordData matchRecord = get(String.valueOf(matchId));
+		if(null == matchRecord){
+			return null;
+		}
+		return matchRecord.getRecord();
 	}
 	
 	public void initRecordList(int matchId) {
-		_dataMap.put(matchId, new ArrayList<GCompFightingRecord>());
+		if(null == get(String.valueOf(matchId))){
+			GCompFightRecordData matchRecord = new GCompFightRecordData();
+			matchRecord.setMatchId(matchId);
+			matchRecord.setRecord(new LinkedList<GCompFightingRecord>());
+			update(matchRecord);
+		}
 	}
 	
 	public void add(int matchId, GCompFightingRecord record) {
-		List<GCompFightingRecord> list = _dataMap.get(matchId);
+		LinkedList<GCompFightingRecord> list = getFightingRecord(matchId);
+		if(null == list){
+			return;
+		}
 		synchronized(list) {
+			int listSize = list.size();
+			while(listSize >= MAX_RECORD_COUNT){
+				list.remove();
+				listSize--;
+			}
 			list.add(record);
 		}
 	}

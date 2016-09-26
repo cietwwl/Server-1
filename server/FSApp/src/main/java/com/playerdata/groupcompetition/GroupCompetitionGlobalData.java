@@ -31,7 +31,7 @@ class GroupCompetitionGlobalData {
 	@JsonProperty("4")
 	private List<ChampionGroupData> _championGroups; // 历届冠军
 	@JsonProperty("5")
-	private int _againstIdRecord = 0; // 当前的赛事id的最大记录
+	private int _againstIdRecord; // 当前的赛事id的最大记录
 	@JsonProperty("6")
 	private GCompStageType _currentStageType; // 当前的阶段
 	@JsonProperty("7")

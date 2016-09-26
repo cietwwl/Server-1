@@ -59,6 +59,25 @@ public class GCOnlineMemberDAO {
 		return null;
 	}
 	
+	public void removeOnlineMembers(String groupId, List<GCompOnlineMember> removes) {
+		List<GCompOnlineMember> members = _dataMap.get(groupId);
+		if (members != null) {
+			synchronized (members) {
+				members.removeAll(removes);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * 获取所有在线的成员
+	 * 
+	 * @return
+	 */
+	public Map<String, List<GCompOnlineMember>> getAllOnlineMembers() {
+		return _dataMapRO;
+	}
+	
 	public void reset() {
 		this._dataMap.clear();
 	}

@@ -11,20 +11,38 @@ import com.playerdata.dataSyn.annotation.SynClass;
  */
 @SynClass
 public class GCompPersonFightingRecord {
-
-	private String text; // 描述
+	
+	private String offendName;	//主动方名字
+	private String defendName;	//防御方名字
+	private boolean isOffendWin;	//主动方是否获胜
 	private int continueWin; // 连胜次数
 	private int personalScore; // 本次挑战记录的个人积分
 	private int groupScore; // 本次挑战记录的帮派积分
 	
-	public String getText() {
-		return text;
+	public String getOffendName() {
+		return offendName;
 	}
-	
-	public void setText(String text) {
-		this.text = text;
+
+	public void setOffendName(String offendName) {
+		this.offendName = offendName;
 	}
-	
+
+	public String getDefendName() {
+		return defendName;
+	}
+
+	public void setDefendName(String defendName) {
+		this.defendName = defendName;
+	}
+
+	public boolean isOffendWin() {
+		return isOffendWin;
+	}
+
+	public void setOffendWin(boolean isOffendWin) {
+		this.isOffendWin = isOffendWin;
+	}
+
 	public int getContinueWin() {
 		return continueWin;
 	}
@@ -48,6 +66,4 @@ public class GCompPersonFightingRecord {
 	public void setGroupScore(int groupScore) {
 		this.groupScore = groupScore;
 	}
-	
-	
 }
