@@ -31,6 +31,7 @@ enum GCRequestType{
 	CancelRandomMatching = 22; // 取消随机匹配
 	PersonalMatching = 23; // 个人匹配
 	PersonalCancelMatching = 24; // 取消个人匹配
+	LeaveLivePage = 25; //离开直播页面
 }
 
 enum TeamStatusType {
@@ -60,6 +61,7 @@ message CommonRspMsg{
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
 	optional fixed32 matchId = 2; // 请求的赛事id（对于GCRequestType.LiveMsg和GCRequestType.PlaybackMsg可用）
+	optional fixed64 latestTime = 3;	//赛事记录最新的时间
 }
 
 message CommonGetDataRspMsg {

@@ -1,6 +1,10 @@
 package com.playerdata.groupcompetition.holder;
 
+import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
+import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg;
+import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder;
+import com.rwproto.GroupCompetitionProto.GCResultType;
 
 public class GCompFightingRecordMgr {
 
@@ -22,5 +26,15 @@ public class GCompFightingRecordMgr {
 	
 	public void addFightingRecord(int matchId, GCompFightingRecord record) {
 		_dataHolder.add(matchId, record);
+	}
+	
+	public void getFightRecordLive(Player player, CommonGetDataRspMsg.Builder builder, int matchId, long time){
+		_dataHolder.getFightRecordLive(player, matchId, time);
+		builder.setRstType(GCResultType.SUCCESS);
+	}
+
+	public void leaveLivePage(Player player, Builder builder, int matchId) {
+		_dataHolder.leaveLivePage(player, matchId);
+		
 	}
 }
