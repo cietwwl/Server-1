@@ -45,6 +45,14 @@ public class FSHeroHolder {
 		}
 	}
 	
+	private void synBaseInfoInternal(Player player, Hero hero, boolean updateToDB) {
+		FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
+		ClientDataSynMgr.synDataFiled(player, hero, _syn_type_base_info, eSynOpType.UPDATE_SINGLE, _namesOfBaseInfoSyncFields);
+		if (updateToDB) {
+			this.notifyBaseInfoChange(hero);
+		}
+	}
+	
 	public void regBaseInfoChangeCallback(IHeroCallbackAction action) {
 		_baseInfoChangeCallbackList.add(action);
 	}
@@ -55,9 +63,11 @@ public class FSHeroHolder {
 	}
 	
 	public void synBaseInfo(Player player, Hero hero) {
-		FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
-		ClientDataSynMgr.synDataFiled(player, hero, _syn_type_base_info, eSynOpType.UPDATE_SINGLE, _namesOfBaseInfoSyncFields);
-		this.notifyBaseInfoChange(hero);
+		this.synBaseInfoInternal(player, hero, true);
+	}
+	
+	public void synBaseInfoWithoutUpdate(Player player, Hero hero) {
+		this.synBaseInfoInternal(player, hero, false);
 	}
 	
 	public void syncUserHeros(Player player, List<String> heroIds) {
