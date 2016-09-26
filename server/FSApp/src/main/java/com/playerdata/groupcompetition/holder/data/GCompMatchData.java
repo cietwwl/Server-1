@@ -76,7 +76,7 @@ public class GCompMatchData {
 	 * </pre>
 	 */
 	@IgnoreSynField
-	private int matchState = GCompMatchState.NON_MATCH.state;
+	private int matchState = GCompMatchState.START_BATTLE.state;
 
 	GCompMatchData() {
 	}
