@@ -22,57 +22,37 @@ public class UserFeatruesBuyPowerThree implements IUserFeatruesHandler{
 	@Override
 	public RewardBackTodaySubItem doEvent(Player player) {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
-		subItem.setId(UserFeaturesEnum.buyPowerThree.getId());
-		subItem.setCount(0);
-		subItem.setMaxCount(3);
+		subItem = ActivityRetrieveTypeHelper.getInstance().doBuyPowerEvent(UserFeaturesEnum.buyPowerThree);
 		return subItem;
 	}
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.MAIN_CITY, player)){
-			int time = player.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.buyPowerCount);
-			int cutTime = time >= UserFeatruesMgr.buyPowerThree?time-UserFeatruesMgr.buyPowerLength*2:0;
-			cutTime = cutTime > UserFeatruesMgr.buyPowerLength?UserFeatruesMgr.buyPowerLength : cutTime;
-			todaySubItem.setMaxCount(cutTime);			
-		}else{
-			todaySubItem.setMaxCount(0);
-		}
+		ActivityRetrieveTypeHelper.getInstance().doBuyPowerFresh(todaySubItem, player, dao, UserFeatruesMgr.buyPowerThree);
 		return null;
 	}
 
 	@Override
 	public String getNorReward(NormalRewardsCfg cfg,RewardBackSubItem subItem) {
-		int times = subItem.getMaxCount() - subItem.getCount();
-		if(times <= 0||times >UserFeatruesMgr.buyPowerLength){
-			return null;
-		}
-		String tmp = "3:" + 60*times;
-		return tmp;
+		return ActivityRetrieveTypeHelper.getInstance().doBuyPowerGetNormalReward(cfg, subItem);
 	}
 
 	@Override
 	public String getPerReward(PerfectRewardsCfg cfg,RewardBackSubItem subItem) {
-		int times = subItem.getMaxCount() - subItem.getCount();
-		if(times <= 0||times >UserFeatruesMgr.buyPowerLength){
-			return null;
-		}
-		String tmp = "3:" + 120*times;
-		return tmp;
+		return ActivityRetrieveTypeHelper.getInstance().doBuyPowerGetPerfectReward(cfg, subItem);
 	}
 
 	@Override
 	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
-		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getNormalCostList(), subItem.getMaxCount() - subItem.getCount());
+		return ActivityRetrieveTypeHelper.getInstance().getCostByCountWithCostOrderList(mainCfg.getNormalCostList(), subItem.getMaxCount() - subItem.getCount());
 		
 	}
 
 	@Override
 	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
-		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getPerfectCostList(), subItem.getMaxCount() - subItem.getCount());
+		return ActivityRetrieveTypeHelper.getInstance().getCostByCountWithCostOrderList(mainCfg.getPerfectCostList(), subItem.getMaxCount() - subItem.getCount());
 		
 	}
 

@@ -56,13 +56,13 @@ public class UserFeatruesPower implements IUserFeatruesHandler{
 	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		
 		
-		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getNormalCostList(), subItem.getCount());
+		return ActivityRetrieveTypeHelper.getInstance().getCostByCountWithCostOrderList(mainCfg.getNormalCostList(), subItem.getCount());
 	}
 
 	@Override
 	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
-		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getPerfectCostList(), subItem.getCount());
+		return ActivityRetrieveTypeHelper.getInstance().getCostByCountWithCostOrderList(mainCfg.getPerfectCostList(), subItem.getCount());
 		
 	}
 
