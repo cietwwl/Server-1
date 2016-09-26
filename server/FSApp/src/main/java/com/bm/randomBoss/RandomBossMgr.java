@@ -369,7 +369,7 @@ public class RandomBossMgr{
 			String id = player.getUserId()+"-"+System.currentTimeMillis();
 			
 			long excapeTime = System.currentTimeMillis() + (cfg.getExistTime() * 1000);
-			rbDao.create(id, player.getUserId(), monsterCfg.getLife(), 
+			RandomBossRecord newBoss = rbDao.create(id, player.getUserId(), monsterCfg.getLife(), 
 					cfg.getId(), excapeTime);
 			RandomBossPushMsg.Builder msg = RandomBossPushMsg.newBuilder();
 			msg.setMsgType(MsgType.FIND_BOSS);
@@ -379,6 +379,9 @@ public class RandomBossMgr{
 			
 //			String e = DateUtils.getDateTimeFormatString(excapeTime, "yyyy-MM-dd HH:mm:ss");
 //			System.out.println("新随机boss生成，离开时间：" + e);
+			
+			//同步到前端
+			ClientDataSynMgr.synData(player, newBoss, eSynType.RANDOM_BOSS_DATA, eSynOpType.ADD_SINGLE);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
