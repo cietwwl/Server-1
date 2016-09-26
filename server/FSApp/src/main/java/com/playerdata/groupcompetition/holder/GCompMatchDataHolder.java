@@ -169,6 +169,6 @@ public class GCompMatchDataHolder {
 	 * @param data
 	 */
 	private void synData(String userId, GCompMatchData data) {
-		ClientDataSynMgr.synData(PlayerMgr.getInstance().find(userId), data, eSynType.GCompMatch, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.synData(PlayerMgr.getInstance().find(userId), data, eSynType.GCompMatchEnemy, eSynOpType.UPDATE_SINGLE);
 	}
 }
