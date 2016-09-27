@@ -204,7 +204,8 @@ public class RandomBossMgr{
 		RandomBossCfg bossCfg = RandomBossCfgDao.getInstance().getCfgById(record.getBossTemplateId());
 		if(bossCfg.getCrusadeNum() <= record.roleFightBossCount(player.getUserId())){
 			String t = ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getSingleBossFightLimitTips(), "你讨伐此魔神已达{0}次，不能再继续啦！");
-			String tips = String.format(t, bossCfg.getCrusadeNum());
+//			String tips = String.format(t, bossCfg.getCrusadeNum());
+			String tips = t.replace("{0}", String.valueOf(bossCfg.getCrusadeNum()));
 			response.setIsSuccess(false);
 			response.setTips(tips);
 			return;
@@ -212,7 +213,8 @@ public class RandomBossMgr{
 		
 		if(player.getUserGameDataMgr().getFightRandomBossCount() >= rbServerCfg.getMaxBattleCount()){
 			String t = ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getTotalFightLimitTips(), "今天已经参与了{0}次讨伐，不能再继续啦！");
-			String tips = String.format(t, rbServerCfg.getMaxBattleCount());
+//			String tips = String.format(t, rbServerCfg.getMaxBattleCount());
+			String tips = t.replace("{0}", String.valueOf(rbServerCfg.getMaxBattleCount()));
 			response.setIsSuccess(false);
 			response.setTips(tips);
 			return;
