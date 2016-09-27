@@ -238,13 +238,14 @@ public class RandomBossMgr{
 		
 		
 		//可以进入战斗  构建armyInfo
-		
+		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig(record.getBossTemplateId());
 		List<String> mID = new ArrayList<String>();
 		mID.add(record.getBossTemplateId());
 		List<CurAttrData> attrList = new ArrayList<CurAttrData>();
 		CurAttrData ad = new CurAttrData();
 		ad.setId(record.getBossTemplateId());
 		ad.setCurLife((int) record.getLeftHp());
+		ad.setMaxLife((int) monster.getLife());
 		attrList.add(ad);
 		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList);
 		
@@ -357,10 +358,10 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-		int r = RandomUtil.getRandonIndexWithoutProb(10000);
-		if(r > rbServerCfg.getBossBornRate()){
-			return;
-		}
+//		int r = RandomUtil.getRandonIndexWithoutProb(10000);
+//		if(r > rbServerCfg.getBossBornRate()){
+//			return;
+//		}
 		
 		//这里要根据权重进行随机
 		
