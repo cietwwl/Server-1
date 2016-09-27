@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
 
 /**
  * @Author HC
@@ -118,6 +119,9 @@ public class GCompMatchDataHolder {
 
 		boolean allBattleFinish = true;// 所有的战斗是否都完成了
 
+		int myAddScore = 0;// 己方战斗之后增加的值
+		int enemyAddScore = 0;// 敌方战斗之后增加的值
+
 		GCompTeam myTeam = matchData.getMyTeam();
 		List<GCompTeamMember> members = myTeam.getMembers();
 		for (int i = 0, size = members.size(); i < size; i++) {
@@ -128,23 +132,60 @@ public class GCompMatchDataHolder {
 
 			if (member.getUserId().equals(userId)) {
 				member.setResult(result);
+
+				myAddScore += result.myAdd;
+				enemyAddScore += result.enemyAdd;
 				continue;
 			}
 
 			GCompBattleResult battleResult = member.getResult();
 			if (battleResult == GCompBattleResult.NonStart || battleResult == GCompBattleResult.Fighting) {
 				allBattleFinish = false;
+				continue;
 			}
+
+			myAddScore += result.myAdd;
+			enemyAddScore += result.enemyAdd;
 		}
 
 		// 所有的战斗都完成了
 		if (allBattleFinish) {
+			// 战斗结果处理
+			teamBattleResultHandler(getTeamBattleResult(myAddScore, enemyAddScore));
+
 			matchDataMap.remove(matchId);
 
 			for (int i = 0, size = members.size(); i < size; i++) {
 				userId2MatchId.remove(members.get(i).getUserId());
 			}
 		}
+	}
+
+	/**
+	 * 获取战斗结果
+	 * 
+	 * @param myAddScore
+	 * @param enemyAddScore
+	 * @return
+	 */
+	private GCBattleResult getTeamBattleResult(int myAddScore, int enemyAddScore) {
+		if (myAddScore == enemyAddScore) {
+			return GCBattleResult.DRAW;
+		}
+
+		if (myAddScore > enemyAddScore) {
+			return GCBattleResult.WIN;
+		}
+
+		return GCBattleResult.LOSE;
+	}
+
+	/**
+	 * 处理战斗结果
+	 * 
+	 * @param result
+	 */
+	private void teamBattleResultHandler(GCBattleResult result) {
 	}
 
 	/**
