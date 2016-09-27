@@ -103,11 +103,4 @@ public class GmEmailAll implements IGmTask {
 		}
 		return response;
 	}
-
-	/**
-	 * 回收邮件
-	 */
-	public void callBackMail(){
-		
-	}
 }

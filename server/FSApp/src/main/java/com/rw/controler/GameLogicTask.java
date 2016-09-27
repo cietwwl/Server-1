@@ -161,6 +161,8 @@ public class GameLogicTask implements PlayerTask {
 		if (msgType != null) {
 			String value = String.valueOf(msgType.getNumber());
 			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+		}else{
+			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
 		}
 	}
 

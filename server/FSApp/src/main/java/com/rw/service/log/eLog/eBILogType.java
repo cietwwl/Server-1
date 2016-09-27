@@ -33,6 +33,7 @@ public enum eBILogType {
 	FinanceMainCoinAdd(30, "财务充值币新增", "FinanceMainCoinAdd"),
 	FinanceMainCoinConsume(31, "财务充值币消耗", "FinanceMainCoinConsume"),
 	FinanceMainCoinHold(32, "财务充值币持有", "FinanceMainCoinHold"),
+	GiftPackage(33, "市场推广_礼包", "GiftPackage"),
 	;
 	
 	

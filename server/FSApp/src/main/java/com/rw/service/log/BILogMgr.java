@@ -49,6 +49,7 @@ import com.rw.service.log.template.FinanceMainCoinHoldLogTemplate;
 import com.rw.service.log.template.FinanceMainCoinLogTemplate;
 import com.rw.service.log.template.FinanceMainConsumeLogTemplate;
 import com.rw.service.log.template.GiftGoldChangedLogTemplate;
+import com.rw.service.log.template.GiftPackageLogTemplate;
 import com.rw.service.log.template.GoldChangeLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
@@ -132,6 +133,7 @@ public class BILogMgr {
 		templateMap.put(eBILogType.FinanceMainCoinAdd, new FinanceMainCoinLogTemplate());
 		templateMap.put(eBILogType.FinanceMainCoinConsume, new FinanceMainConsumeLogTemplate());
 		templateMap.put(eBILogType.FinanceMainCoinHold, new FinanceMainCoinHoldLogTemplate());
+		templateMap.put(eBILogType.GiftPackage, new GiftPackageLogTemplate());
 	}
 	
 	private Logger getLogger(eBILogType type){
@@ -171,6 +173,21 @@ public class BILogMgr {
 		moreInfo.put("result", "1");
 		logPlayer(eBILogType.ZoneLogin, player, moreInfo);
 		logRoleLogin(player);
+	}
+	
+
+	
+	public void logGiftPackage(Player player, String activeCode, String giftPackageId, String giftPackageType, String opCode, String groupId, String reward){
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("giftPackageEntrance", "142");
+		moreInfo.put("activeCode", activeCode);
+		moreInfo.put("giftPackageId", giftPackageId);
+		moreInfo.put("giftPackageType", giftPackageType);
+		moreInfo.put("optype", opCode);
+		moreInfo.put("factionId", groupId);
+		moreInfo.put("giftReward", StringUtils.isEmpty(reward) ? "" : "item@num:" + reward);
+		logPlayer(eBILogType.GiftPackage, player, moreInfo);
 	}
 
 	public void logZoneLogout(Player player) {
@@ -739,12 +756,12 @@ public class BILogMgr {
 		}
 	}
 
-	public void logPayFinish(Player player, ChargeContentPojo chargeContentPojo, int vipBefore,ChargeCfg cfg) {
+	public void logPayFinish(Player player, ChargeContentPojo chargeContentPojo, int vipBefore,ChargeCfg cfg, String entranceId) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("CpTradeNo", chargeContentPojo.getCpTradeNo());
 		moreInfo.put("payMoney", chargeContentPojo.getMoney()+"");
 		moreInfo.put("mainGoldGountAdd", cfg.getGoldCount() + "");
-		moreInfo.put("payEntrance", "入口一");
+		moreInfo.put("payEntrance", entranceId);
 		moreInfo.put("vip", vipBefore+"");
 		moreInfo.put("payInfo", "next_vip_level:"+ player.getVip()+"#");		
 		moreInfo.put("mainGoldGount", player.getUserGameDataMgr().getChargeGold()+"");

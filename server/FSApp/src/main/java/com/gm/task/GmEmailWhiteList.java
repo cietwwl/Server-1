@@ -26,6 +26,8 @@ import com.rwbase.dao.serverData.ServerGmEmail;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.accountInfo.TableAccount;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 public class GmEmailWhiteList implements IGmTask {
 
@@ -74,21 +76,20 @@ public class GmEmailWhiteList implements IGmTask {
 					continue;
 				}
 			}
-
-			GmExecutor.getInstance().submit(new Runnable() {
-
-				@Override
-				public void run() {
-					try {
-						PlayerMgr.getInstance().sendEmailToList(playerList,
-								emailData, conditionList);
-					} catch (Throwable e) {
-						GameLog.error(LogModule.GM.getName(),
-								"GmEmailWhiteList",
-								"GmEmailWhiteList[doTask] GmExecutor run", e);
+			
+			for (Player player : playerList) {
+				GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
+					
+					@Override
+					public void run(Player e) {
+						// TODO Auto-generated method stub
+						List<Player> list = new ArrayList<Player>();
+						list.add(e);
+						PlayerMgr.getInstance().sendEmailToList(list, emailData, conditionList);
 					}
-				}
-			});
+				});
+			}
+			
 
 			response.addResult(resultMap);
 		} catch (Exception ex) {

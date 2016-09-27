@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import sun.net.www.content.image.gif;
+
+import com.bm.group.GroupBaseDataMgr;
 import com.gm.giftCenter.GiftCodeItem;
 import com.gm.giftCenter.GiftCodeResponse;
 import com.gm.giftCenter.GiftCodeSenderBm;
@@ -12,11 +15,14 @@ import com.gm.gmsender.GmCallBack;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.Email.EmailUtils;
+import com.rw.service.log.BILogMgr;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.giftcode.GiftCodeData;
 import com.rwbase.dao.giftcode.dao.GiftCodeDataDAO;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.GiftCodeProto.RequestType;
@@ -86,7 +92,19 @@ public class GiftCodeHandler {
 					return;
 				}
 
+				int gift_id = gmResponse.getGift_id();
 				int type = gmResponse.getType();
+				
+				String activeCode = code;
+				String giftPackageId = String.valueOf(gift_id);
+				String giftPackageType = String.valueOf(type);
+				String optype = "";
+				UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+				UserGroupAttributeDataIF userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+				String factionId = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupId();
+				StringBuilder giftReward = new StringBuilder();
+				
+				
 				if (type == CODE_STATE.CODE_SUCCESS.type) {// 兑换成功
 					// 邮件内容
 					final EmailData emailData = new EmailData();
@@ -101,8 +119,10 @@ public class GiftCodeHandler {
 						for (int i = 0, size = itemData.size(); i < size; i++) {
 							GiftItem item = itemData.get(i);
 							sb.append(item.getType()).append("~").append(item.getCount());
+							giftReward.append(item.getItemCode()).append("@").append(item.getCount());
 							if (i < size - 1) {
 								sb.append(",");
+								giftReward.append("&");
 							}
 						}
 						emailData.setEmailAttachment(sb.toString());
@@ -116,10 +136,12 @@ public class GiftCodeHandler {
 					// 记录到数据库
 					GiftCodeData codeData = new GiftCodeData();
 					codeData.setCode(code);
-					codeData.setGiftId(gmResponse.getGift_id());
+					codeData.setGiftId(gift_id);
 					codeData.setUserId(userId);
 					codeData.setUseTime(System.currentTimeMillis());
 					GiftCodeDataDAO.getDAO().addGiftCodeData(codeData);
+					
+					optype = "package_win";
 				} else if (type == CODE_STATE.CODE_USED.type) {// 已经被使用
 					rsp.setResultType(ResultType.FAIL);
 					rsp.setTipMsg(CODE_STATE.CODE_USED.tip);
@@ -138,6 +160,12 @@ public class GiftCodeHandler {
 				}
 
 				player.SendMsg(Command.MSG_GIFT_CODE, rsp.build().toByteString());
+				
+				//记日志
+				if(!optype.equals("package_win")){
+					optype = "package_fail";
+				}
+				BILogMgr.getInstance().logGiftPackage(player, activeCode, giftPackageId, giftPackageType, optype, factionId, giftReward.toString());
 			}
 		};
 

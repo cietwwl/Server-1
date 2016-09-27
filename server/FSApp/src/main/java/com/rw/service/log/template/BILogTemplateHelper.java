@@ -43,6 +43,7 @@ public class BILogTemplateHelper {
 	private static List<String> repalceOrderList = new ArrayList<String>();
 	
 	static {
+		addTemplateToken("item@num:兑换物品code1@兑换物品数量&兑换物品code1", "$giftReward$");
 		addTemplateToken("activity_time:活动时长（单位秒）(整数)", "activity_time:$activityTime$");
 		addTemplateToken("online_time:本次在线时长（单位秒）(整数)", "online_time:$onlineTime$");
 		addTemplateToken("游戏币新增消耗数量（新增为正数，消耗为负数）", "$coinChanged$");
@@ -147,6 +148,11 @@ public class BILogTemplateHelper {
 		addTemplateToken("mac地址", "$loginImac$");
 		addTemplateToken("任务ID", "$taskId$");
 		
+		addTemplateToken("礼包兑换界面", "$giftPackageEntrance$");
+		addTemplateToken("激活码", "$activeCode$");
+		addTemplateToken("礼包id", "$giftPackageId$");
+		addTemplateToken("礼包type", "$giftPackageType$");
+		addTemplateToken("部落id", "$factionId$");
 		addTemplateToken("帮派id", "$factionId$");
 		addTemplateToken("sdk版本", "$loginsdkVersion$");
 		addTemplateToken("sdk_id", "");

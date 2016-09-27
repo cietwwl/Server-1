@@ -163,8 +163,14 @@ public class ChargeMgr {
 		int vipBefore = player.getVip();
 		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		
+		
+		String privateField = chargeContentPojo.getPrivateField();
+		String[] split = privateField.split(",");
+		String entranceId = split[1];
+		
 		if(target == null){//ios
-			itemId= chargeContentPojo.getPrivateField();
+			itemId= split[0];
 			target = ChargeCfgDao.getInstance().getConfig(itemId);
 		}
 		
@@ -198,7 +204,7 @@ public class ChargeMgr {
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
 				
 				registerBehavior(player);
-				BILogMgr.getInstance().logPayFinish(player,chargeContentPojo,vipBefore,target);
+				BILogMgr.getInstance().logPayFinish(player,chargeContentPojo,vipBefore,target, entranceId);
 				GameLog.info("chargemgr", player.getUserId(), "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo(), null);
 				
 			}else{
