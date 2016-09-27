@@ -150,17 +150,29 @@ public class GCompMatchDataHolder {
 
 		GCompTeam myTeam = matchData.getMyTeam();
 		List<GCompTeamMember> members = myTeam.getMembers();
-		for (int i = 0, size = members.size(); i < size; i++) {
+		int size = members.size();
+
+		List<String> synPlayerIdList = new ArrayList<String>(size);
+		List<ByteString> synMsgList = new ArrayList<ByteString>(1);
+
+		for (int i = 0; i < size; i++) {
 			GCompTeamMember member = members.get(i);
 			if (member == null) {
 				continue;
 			}
 
-			if (member.getUserId().equals(userId)) {
+			String memberId = member.getUserId();
+			if (!member.isRobot()) {// 不是机器人要同步结构
+				synPlayerIdList.add(memberId);
+			}
+
+			if (memberId.equals(userId)) {
 				member.setResult(result);
 
 				myAddScore += result.myAdd;
 				enemyAddScore += result.enemyAdd;
+
+				synMsgList.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, parseBattleResult2MsgEnum(result)));
 				continue;
 			}
 
@@ -181,6 +193,9 @@ public class GCompMatchDataHolder {
 			// 删除缓存的匹配数据
 			removeMatchCache(matchId);
 		}
+
+		// 同步战斗结构到客户端
+		sendMsg(synMsgList, synPlayerIdList);
 	}
 
 	/**
@@ -365,8 +380,10 @@ public class GCompMatchDataHolder {
 			int size = members.size();
 
 			List<String> needSynHpPlayerIdList = new ArrayList<String>(size);
-
 			List<ByteString> hpRsp = new ArrayList<ByteString>(size);
+
+			List<String> needBattleResultList = new ArrayList<String>(size);
+			List<ByteString> battleResultRsp = new ArrayList<ByteString>(size);
 
 			GCompTeamMember member;
 			for (int i = 0; i < size; i++) {
@@ -379,14 +396,18 @@ public class GCompMatchDataHolder {
 					continue;
 				}
 
-				// 还没开始战斗，并且已经超出了战斗上限，直接判输
 				if (!member.isRobot()) {// 不是机器人的情况
+					String userId = member.getUserId();
+
+					needBattleResultList.add(userId);
+
+					// 还没开始战斗，并且已经超出了战斗上限，直接判输
 					if (result == GCompBattleResult.NonStart && (now - finishMatchTime >= LOGOUT_TIME_MILLIS)) {
 						member.setResult(GCompBattleResult.Lose);
 						myAddScore += GCompBattleResult.Lose.myAdd;
 						enemyAddScore += GCompBattleResult.Lose.enemyAdd;
 
-						hpRsp.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, GCBattleResult.LOSE));
+						battleResultRsp.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, GCBattleResult.LOSE));
 						continue;
 					}
 
@@ -396,12 +417,13 @@ public class GCompMatchDataHolder {
 						myAddScore += GCompBattleResult.Draw.myAdd;
 						enemyAddScore += GCompBattleResult.Draw.enemyAdd;
 
-						hpRsp.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, GCBattleResult.DRAW));
+						battleResultRsp.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, GCBattleResult.DRAW));
 						continue;
 					}
 
+					// 战斗状态中的人需要同步数据
 					if (result == GCompBattleResult.Fighting) {
-						needSynHpPlayerIdList.add(member.getUserId());// 需要同步血量的人
+						needSynHpPlayerIdList.add(userId);
 					}
 				} else {// 机器人的情况
 					// 机器人超过离线时间之后，就设置成正在战斗状态
@@ -464,7 +486,7 @@ public class GCompMatchDataHolder {
 							member.setResult(tempResult);
 							myAddScore += tempResult.myAdd;
 							enemyAddScore += tempResult.enemyAdd;
-							hpRsp.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, rspResult));
+							battleResultRsp.add(GCompMatchBattleCmdHelper.buildPushBattleResultMsg(i, rspResult));
 							continue;
 						}
 
@@ -486,20 +508,51 @@ public class GCompMatchDataHolder {
 			}
 
 			// 要把需要推送到前台的消息发送出去
-			if (!hpRsp.isEmpty() && !needSynHpPlayerIdList.isEmpty()) {
-				PlayerMgr playerMgr = PlayerMgr.getInstance();
-				for (int j = 0, pSize = needSynHpPlayerIdList.size(); j < pSize; j++) {
-					Player p = playerMgr.find(needSynHpPlayerIdList.get(j));
-					for (ByteString bs : hpRsp) {
-						p.SendMsg(Command.MSG_GROUP_COMPETITION_BATTLE, bs);
-					}
-				}
-			}
+			sendMsg(hpRsp, needSynHpPlayerIdList);
+			// 要同步战斗结果
+			sendMsg(battleResultRsp, needBattleResultList);
 		}
 
 		// 删除匹配
 		for (int i = 0, size = removeMatchIdList.size(); i < size; i++) {
 			removeMatchCache(removeMatchIdList.get(i));
 		}
+	}
+
+	/**
+	 * 同步消息
+	 * 
+	 * @param rspList
+	 * @param playerIdList
+	 */
+	private void sendMsg(List<ByteString> rspList, List<String> playerIdList) {
+		// 要同步战斗结果
+		if (!rspList.isEmpty() && !playerIdList.isEmpty()) {
+			PlayerMgr playerMgr = PlayerMgr.getInstance();
+			for (int j = 0, pSize = playerIdList.size(); j < pSize; j++) {
+				Player p = playerMgr.find(playerIdList.get(j));
+				for (ByteString bs : rspList) {
+					p.SendMsg(Command.MSG_GROUP_COMPETITION_BATTLE, bs);
+				}
+			}
+		}
+	}
+
+	/**
+	 * 转换类中用的枚举到协议枚举
+	 * 
+	 * @param battleResult
+	 * @return
+	 */
+	private GCBattleResult parseBattleResult2MsgEnum(GCompBattleResult battleResult) {
+		if (battleResult == GCompBattleResult.Draw) {
+			return GCBattleResult.DRAW;
+		}
+
+		if (battleResult == GCompBattleResult.Lose) {
+			return GCBattleResult.LOSE;
+		}
+
+		return GCBattleResult.WIN;
 	}
 }
