@@ -61,6 +61,10 @@ public class GCGroup implements IGCGroup {
 	public int getGCompScore() {
 		return gCompScore;
 	}
+	
+	public void updateScore(int offset) {
+		this.gCompScore += offset;
+	}
 
 	@Override
 	public String toString() {

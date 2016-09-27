@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.dao;
 
-import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
+import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 
@@ -12,9 +12,9 @@ public class GCompEventsDataDAO {
 		return _instance;
 	}
 	
-	private final GCompEventsSynData _synData = new GCompEventsSynData();
+	private final GCompEventsGlobalData _synData = new GCompEventsGlobalData();
 	
-	public GCompEventsSynData get() {
+	public GCompEventsGlobalData get() {
 		return _synData;
 	}
 	

@@ -321,9 +321,9 @@
 	<!-- 帮派争霸每轮赛事的积分排名奖励 -->
 	<bean class="com.rwbase.dao.groupcompetition.GCompScoreRewardCfgDAO" init-method="init" />
 	<!-- 帮派争霸每轮赛事的排名奖励 -->
-	<bean class="com.rwbase.dao.groupcompetition.GCompWinRewardCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalContinueWinRankRewardDAO" init-method="init" />
 	<!-- 帮派争霸每轮赛事的击杀奖励 -->
-	<bean class="com.rwbase.dao.groupcompetition.GCompKillRewardCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalKillRankRewardDAO" init-method="init" />
 	<!-- 帮派争霸最后的总排名 -->
 	<bean class="com.rwbase.dao.groupcompetition.GCompGroupRewardCfgDAO" init-method="init" />
 	<!-- 帮派争霸最后的冠军奖励 -->

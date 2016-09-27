@@ -5,7 +5,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 public class GCompScoreRewardCfgDAO extends GCompCommonRankRewardCfgBaseDAO {
 	
 	public static GCompScoreRewardCfgDAO getInstance() {
-		return SpringContextUtil.getBean(GCompCommonRankRewardCfgBaseDAO.class);
+		return SpringContextUtil.getBean(GCompScoreRewardCfgDAO.class);
 	}
 
 	@Override

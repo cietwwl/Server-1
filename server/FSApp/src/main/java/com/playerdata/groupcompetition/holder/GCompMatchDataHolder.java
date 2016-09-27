@@ -8,9 +8,19 @@ import org.springframework.util.StringUtils;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.holder.data.GCompMatchData;
+import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
+import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
+import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.groupcompetition.GCompBasicScoreCfgDAO;
+import com.rwbase.dao.groupcompetition.GCompGroupScoreCfgDAO;
+import com.rwbase.dao.groupcompetition.GCompPersonalScoreCfgDAO;
+import com.rwbase.dao.groupcompetition.pojo.GCompBasicScoreCfg;
+import com.rwbase.dao.groupcompetition.pojo.GCompScoreCfg;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
@@ -22,6 +32,9 @@ import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
  **/
 
 public class GCompMatchDataHolder {
+	
+	private static final IReadOnlyPair<Integer, Integer> _EMPTY_SCORE = Pair.CreateReadonly(0, 0);
+	
 	private static GCompMatchDataHolder holder = new GCompMatchDataHolder();
 
 	public static GCompMatchDataHolder getHolder() {
@@ -29,6 +42,8 @@ public class GCompMatchDataHolder {
 	}
 
 	GCompMatchDataHolder() {
+		_basicScoreCfgDAO = GCompBasicScoreCfgDAO.getInstance();
+		_personalScoreCfgDAO = GCompPersonalScoreCfgDAO.getInstance();
 	}
 
 	/** 缓存匹配的数据 <匹配的Id,匹配填充的数据> */
@@ -36,6 +51,9 @@ public class GCompMatchDataHolder {
 	/** 角色Id对应的匹配Id */
 	private ConcurrentHashMap<String, String> userId2MatchId = new ConcurrentHashMap<String, String>(48, 1.0f);
 
+	private GCompBasicScoreCfgDAO _basicScoreCfgDAO;
+	private GCompPersonalScoreCfgDAO _personalScoreCfgDAO;
+	
 	/**
 	 * 添加队伍匹配数据到列表
 	 * 
@@ -107,6 +125,8 @@ public class GCompMatchDataHolder {
 	 * @param result
 	 */
 	public void updateBattleResult(String userId, GCompBattleResult result) {
+		// 队伍战阶段连胜：队伍胜利，个人连胜增加；队伍失败，个人连胜终止
+		// 队伍战阶段积分：队伍胜利，战败，平局，均可能对个人以及帮派有额外的加分；
 		String matchId = userId2MatchId.get(userId);
 		if (matchId == null) {
 			return;
@@ -151,7 +171,7 @@ public class GCompMatchDataHolder {
 		// 所有的战斗都完成了
 		if (allBattleFinish) {
 			// 战斗结果处理
-			teamBattleResultHandler(getTeamBattleResult(myAddScore, enemyAddScore));
+			teamBattleResultHandler(myTeam, getTeamBattleResult(myAddScore, enemyAddScore));
 
 			matchDataMap.remove(matchId);
 
@@ -179,13 +199,88 @@ public class GCompMatchDataHolder {
 
 		return GCBattleResult.LOSE;
 	}
+	
+	private int getBattleResultIntValue(GCompBattleResult result) {
+		switch (result) {
+		case Win:
+			return 1;
+		case Lose:
+			return 2;
+		default:
+		case Draw:
+			return 3;
+		}
+	}
+	
+	private Pair<Integer, Integer> calculatePersonalTeamScore(GCompTeamMember teamMember, GCompMember gCompMember, GCBattleResult teamResult) {
+		GCompBasicScoreCfg basicScoreCfg = _basicScoreCfgDAO.getByBattleResult(getBattleResultIntValue(teamMember.getResult()));
+		GCompScoreCfg continueWinScoreCfg = _personalScoreCfgDAO.getByContinueWins(gCompMember.getContinueWins());
+		int personalScore = basicScoreCfg.getPersonalScore() + continueWinScoreCfg.getPersonalScore();
+		int groupScore = basicScoreCfg.getGroupScore() + continueWinScoreCfg.getGroupScore();
+		return Pair.Create(personalScore, groupScore);
+	}
+	
+	private Pair<Integer, Integer> getTeamAdditionalScore(GCBattleResult teamResult) {
+		int key;
+		switch (teamResult) {
+		case DRAW:
+			key = 0;
+			break;
+		case WIN:
+			key = 1;
+			break;
+		default:
+			key = -1;
+			break;
+		}
+		GCompScoreCfg cfg = GCompGroupScoreCfgDAO.getInstance().getByContinueWins(key);
+		Pair<Integer, Integer> score = Pair.Create(cfg.getPersonalScore(), cfg.getGroupScore());
+		return score;
+	}
 
 	/**
 	 * 处理战斗结果
 	 * 
 	 * @param result
 	 */
-	private void teamBattleResultHandler(GCBattleResult result) {
+	private void teamBattleResultHandler(GCompTeam myTeam, GCBattleResult result) {
+		String groupId = GroupHelper.getUserGroupId(myTeam.getLeaderId());
+		List<GCompTeamMember> allMembers = myTeam.getMembers();
+		IReadOnlyPair<Integer, Integer> teamScore = null;
+		if (!myTeam.isPersonal()) {
+			teamScore = this.getTeamAdditionalScore(result);
+		} else {
+			teamScore = _EMPTY_SCORE;
+		}
+		int groupScore = 0;
+		for (GCompTeamMember member : allMembers) {
+			// 更新个人的数据
+			member.getResult();
+			GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, myTeam.getLeaderId());
+			if (gCompMember != null) {
+				// 处理连胜
+				switch (result) {
+				case WIN: // 胜利增加连胜次数
+					gCompMember.incWinTimes();
+					break;
+				case LOSE: // 失败重置连胜
+					gCompMember.resetContinueWins();
+					break;
+				default: // 其他情况对连胜不处理
+					break;
+				}
+
+				Pair<Integer, Integer> score = this.calculatePersonalTeamScore(member, gCompMember, result);
+				score.setT1(score.getT1() + teamScore.getT1());
+				score.setT2(score.getT2() + teamScore.getT2());
+				gCompMember.updateScore(score.getT1());
+				groupScore += score.getT2();
+			}
+		}
+		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
+		if (group != null) {
+			group.updateScore(groupScore);
+		}
 	}
 
 	/**

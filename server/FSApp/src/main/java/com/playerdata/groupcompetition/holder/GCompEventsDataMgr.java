@@ -3,8 +3,10 @@ package com.playerdata.groupcompetition.holder;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
-import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
+import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
+import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -20,7 +22,7 @@ public class GCompEventsDataMgr {
 	private GCompEventsDataHolder _dataHolder = GCompEventsDataHolder.getInstance();
 
 	public void onEventStageStart(GCEventsType startEventsType) {
-		GCompEventsSynData synData = _dataHolder.get();
+		GCompEventsGlobalData synData = _dataHolder.get();
 		synData.clear();
 		synData.setMatchNumType(startEventsType);
 	}
@@ -55,6 +57,9 @@ public class GCompEventsDataMgr {
 		this._dataHolder.syn(player);
 	}
 
+	public int getGroupMatchIdOfCurrent(String groupId) {
+		return this.getMatchIdOfGroup(groupId, GroupCompetitionMgr.getInstance().getCurrentEventsType());
+	}
 	/**
 	 * 
 	 * 获取比赛的id
@@ -92,6 +97,23 @@ public class GCompEventsDataMgr {
 			against = againsts.get(i);
 			if (against.getGroupA().getGroupId().equals(groupId) || against.getGroupB().getGroupId().equals(groupId)) {
 				return against;
+			}
+		}
+
+		return null;
+	}
+	
+	public GCGroup getGCGroupOfCurrentEvents(String groupId) {
+		GCEventsType type = GroupCompetitionMgr.getInstance().getCurrentEventsType();
+		GCompEventsData eventsData = _dataHolder.get().getEventsData(type);
+		List<GCompAgainst> againsts = eventsData.getAgainsts();
+		GCompAgainst against;
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			against = againsts.get(i);
+			if (against.getGroupA().getGroupId().equals(groupId)) {
+				return against.getGroupA();
+			} else if (against.getGroupB().getGroupId().equals(groupId)) {
+				return against.getGroupB();
 			}
 		}
 

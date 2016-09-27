@@ -10,6 +10,7 @@ public class GCompCommonRankRewardCfg {
 	private String icon;
 	private int matchType;
 	private String giftId;
+	private String emailCfgId; // 邮件配置的id
 	
 	private int beginRank;
 	private int endRank;
@@ -29,6 +30,10 @@ public class GCompCommonRankRewardCfg {
 	
 	public String getGiftId() {
 		return giftId;
+	}
+	
+	public String getEmailCfgId() {
+		return emailCfgId;
 	}
 	
 	public void setBeginRank(int pBeginRank) {

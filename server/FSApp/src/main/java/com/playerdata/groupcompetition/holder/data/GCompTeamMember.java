@@ -11,6 +11,7 @@ public class GCompTeamMember {
 	private String userId; // 玩家id，需要同步到客户端
 	private ArmyInfoSimple armyInfo;
 	private String descr;
+	private boolean robot; // 是否机器人
 
 	/**
 	 * 战斗的结果，默认是未开战
@@ -31,6 +32,14 @@ public class GCompTeamMember {
 	
 	public boolean isLeader() {
 		return this.isLeader;
+	}
+	
+	public void setRobot(boolean robot) {
+		this.robot = robot;
+	}
+	
+	public boolean isRobot() {
+		return this.robot;
 	}
 
 	public String getUserId() {

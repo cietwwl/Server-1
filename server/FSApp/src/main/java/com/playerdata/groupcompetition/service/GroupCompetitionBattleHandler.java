@@ -327,17 +327,17 @@ public class GroupCompetitionBattleHandler {
 
 		holder.updateBattleResult(userId, battleResult);// 更新战斗状态
 
-		// 更新个人的数据
-		GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, userId);
-		if (gCompMember != null) {
-			if (battleResult == GCompBattleResult.Lose) {
-				gCompMember.resetContinueWins();
-			} else {
-				gCompMember.incWinTimes();
-			}
-
-			// TODO HC 这里需要补一下积分信息
-		}
+//		// 更新个人的数据
+//		GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, userId);
+//		if (gCompMember != null) {
+//			if (battleResult == GCompBattleResult.Lose) {
+//				gCompMember.resetContinueWins();
+//			} else {
+//				gCompMember.incWinTimes();
+//			}
+//
+//			// TODO HC 这里需要补一下积分信息
+//		}
 
 		return rsp.setIsSuccess(true).build().toByteString();
 	}
