@@ -11,6 +11,7 @@ import javax.management.timer.Timer;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
@@ -237,13 +238,14 @@ public class RandomBossMgr{
 		
 		
 		//可以进入战斗  构建armyInfo
-		
+		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig(record.getBossTemplateId());
 		List<String> mID = new ArrayList<String>();
 		mID.add(record.getBossTemplateId());
 		List<CurAttrData> attrList = new ArrayList<CurAttrData>();
 		CurAttrData ad = new CurAttrData();
 		ad.setId(record.getBossTemplateId());
 		ad.setCurLife((int) record.getLeftHp());
+		ad.setMaxLife((int) monster.getLife());
 		attrList.add(ad);
 		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList);
 		
@@ -297,12 +299,14 @@ public class RandomBossMgr{
 		rewardMap.putAll(bossCfg.getBattleRewardMap());
 		//如果是发现者，添加发现者奖励
 		if(StringUtils.equals(record.getOwnerID(), player.getUserId())){
-			rewardMap.putAll(bossCfg.getFindRewardMap());			
+			Utils.combineAttrMap(bossCfg.getFindRewardMap(), rewardMap);
+			
 		}
 		//检查最后一击奖励
 		int killBossRewardCount = player.getUserGameDataMgr().getKillBossRewardCount();
 		if(curHp == 0 && killBossRewardCount <= rbServerCfg.getKillBossRewardLimit()){
-			rewardMap.putAll(bossCfg.getKillRewardMap());
+			
+			Utils.combineAttrMap(bossCfg.getKillRewardMap(), rewardMap);
 		}
 		
 		BattleRewardInfo.Builder rewardInfo = BattleRewardInfo.newBuilder();
@@ -324,6 +328,12 @@ public class RandomBossMgr{
 		record.battleEnd(player.getUserId());
 		record.setLeftHp(curHp);
 		rbDao.update(record);
+		
+		//更新一下到前端
+		int count = record.roleFightBossCount(player.getUserId());
+		RandomBossRecord clone = record.clone();
+		clone.setBattleTime(count);
+		ClientDataSynMgr.synData(player, clone, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_SINGLE);
 		return rewardInfo;
 	}
 

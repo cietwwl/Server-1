@@ -111,6 +111,7 @@ public class SkillHelper {
 			} else if (i == commonSkillSize - 1) {
 				pSkill.setLevel(-1);
 			}
+			skillList.add(pSkill);
 		}
 
 		if (StringUtils.isNotBlank(dieSkillId)) {
