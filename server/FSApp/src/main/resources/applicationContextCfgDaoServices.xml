@@ -332,6 +332,8 @@
 	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalScoreCfgDAO" init-method="init" />
 	<!-- 帮派争霸每场战斗的帮派积分奖励 -->
 	<bean class="com.rwbase.dao.groupcompetition.GCompGroupScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸标准积分配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompBasicScoreCfgDAO" init-method="init" />
 	<!-- 技能监听的配置表 -->
 	<bean class="com.rwbase.dao.skill.SkillListenerCfgDAO"  init-method="init" />
 	
