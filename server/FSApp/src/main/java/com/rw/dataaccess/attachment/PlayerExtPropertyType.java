@@ -5,7 +5,7 @@ import com.rw.fsutil.dao.cache.CacheKey;
 
 public enum PlayerExtPropertyType {
 
-	TASK(1,TestProperty.class,TestPropertyCreator.class)
+//	TASK(1,TestProperty.class,TestPropertyCreator.class)
 	;
 
 	private final Class<? extends PlayerExtProperty> propertyClass;
