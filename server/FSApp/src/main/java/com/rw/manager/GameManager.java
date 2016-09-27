@@ -38,6 +38,7 @@ import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
+import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemCreator;
 import com.rw.dataaccess.mapitem.MapItemType;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
@@ -109,9 +110,9 @@ public class GameManager {
 			map.put(t.getType(), pair);
 		}
 		MapItemStoreFactory.init(map);
-
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
-
+		PlayerExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), "dataSourceMT");
+		
 		// initServerProperties();
 		initServerOpenTime();
 

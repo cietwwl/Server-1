@@ -1,29 +1,30 @@
 package com.rwbase.dao.user;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.common.CommonSingleTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
+import com.rw.fsutil.dao.optimize.SimpleLoader;
 import com.rw.fsutil.log.SqlLog;
 
 public class UserIdCache {
 
 	private final DataCache<UserParam, String> cache;
 
-	public UserIdCache(DruidDataSource dataSource) {
+	public UserIdCache(String dsName, DruidDataSource dataSource) {
 		// 数据源名字需统一定义
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(User.class);
-		CommonSingleTable<User> commonJdbc = new CommonSingleTable<User>(jdbcTemplate, classInfo);
-		//数量需要做成配置
+		CommonSingleTable<User> commonJdbc = new CommonSingleTable<User>(dsName, jdbcTemplate, classInfo);
+		// 数量需要做成配置
 		int capcity = 5000;
-		this.cache = DataCacheFactory.createDataDache(getClass(), capcity, capcity, 120, new UserIdLoader(commonJdbc));
+		this.cache = DataCacheFactory.createDataDache(getClass(), capcity, 120, new UserIdLoader(commonJdbc));
 	}
 
 	/**
@@ -44,7 +45,7 @@ public class UserIdCache {
 		return null;
 	}
 
-	private class UserIdLoader implements PersistentLoader<UserParam, String> {
+	private class UserIdLoader extends SimpleLoader<UserParam, String> {
 
 		private final CommonSingleTable<User> commonJdbc;
 		private final String sql;
@@ -60,17 +61,7 @@ public class UserIdCache {
 		}
 
 		@Override
-		public boolean delete(UserParam key) throws DataNotExistException, Exception {
-			return false;
-		}
-
-		@Override
-		public boolean insert(UserParam key, String value) throws DuplicatedKeyException, Exception {
-			return false;
-		}
-
-		@Override
-		public boolean updateToDB(UserParam key, String value) {
+		public boolean hasChanged(UserParam key, String value, EvictedUpdateTask<UserParam> evictedUpdateTask) {
 			return false;
 		}
 

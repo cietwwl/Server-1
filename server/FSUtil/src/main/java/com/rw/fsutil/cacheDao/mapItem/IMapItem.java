@@ -1,7 +1,6 @@
 package com.rw.fsutil.cacheDao.mapItem;
 
-public interface IMapItem {
+public interface IMapItem extends RowMapItem<String>{
 	
-	public String getId();	
 	
 }

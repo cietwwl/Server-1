@@ -32,10 +32,10 @@ public class DataKvManagerImpl implements DataKvManager {
 	private final String[] updateSqlArray;
 	private final String[] insertSqlArray;
 	private final String[] checkSelectArray;
+	private final String[] tableNameArray;
 	private final int length;
 	private final HashMap<Class<? extends DataKVDao<?>>, Integer> dataKvMap;
 	private final HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> creatorMap;
-//	private final DataKvRowMapper rowMapper = new DataKvRowMapper();
 	private final int dataKvCapacity;
 
 	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
@@ -59,6 +59,7 @@ public class DataKvManagerImpl implements DataKvManager {
 		this.insertSqlArray = new String[this.length];
 		this.checkSelectArray = new String[this.length];
 		this.selectRangeSqlArray = new String[this.length];
+		this.tableNameArray =  new String[this.length];
 		StringBuilder sb = new StringBuilder();
 		sb.append('(');
 		int lastIndex = selectRangeParam.length - 1;
@@ -78,6 +79,7 @@ public class DataKvManagerImpl implements DataKvManager {
 			updateSqlArray[i] = "update " + tableName + " set dbvalue=? where dbkey=? and type=?";
 			insertSqlArray[i] = "insert into " + tableName + "(dbkey,dbvalue,type) values(?,?,?)";
 			checkSelectArray[i] = "select count(1) from " + tableName + " where dbkey=?";
+			tableNameArray[i] = tableName;
 			if (selectRangeParam.length == 0) {
 				selectRangeSqlArray[i] = selectAllSqlArray[i];
 			} else {
@@ -200,6 +202,11 @@ public class DataKvManagerImpl implements DataKvManager {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
 		String sql = selectRangeSqlArray[tableIndex];
 		return jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
+	}
+
+	@Override
+	public String[] getTableNameArray() {
+		return tableNameArray;
 	}
 
 }

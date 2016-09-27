@@ -39,6 +39,8 @@ import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
+import com.rw.dataaccess.attachment.PlayerPropertyParams;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
@@ -247,19 +249,23 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
+	public Player(final String userId, boolean initMgr, RoleCfg roleCfg) {
 		this.userId = userId;
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 		}else{
 			MapItemStoreFactory.preloadIntegration(userId, getLevel());
+			
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
-
+		
+		
+		
+		
 		if (!initMgr) {
 			// MapItemStoreFactory.notifyPlayerCreated(userId);
 			this.getHeroMgr().init(this, false);
@@ -268,6 +274,7 @@ public class Player implements PlayerIF {
 		} else {
 			m_HeroMgr.init(this, true);
 		}
+		PlayerExtPropertyFactory.preloadAndCreateProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
 
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);

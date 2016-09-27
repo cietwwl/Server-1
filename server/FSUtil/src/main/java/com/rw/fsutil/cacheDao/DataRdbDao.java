@@ -3,6 +3,7 @@ package com.rw.fsutil.cacheDao;
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.common.CommonSingleTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.log.SqlLog;
@@ -43,10 +45,11 @@ public class DataRdbDao<T> {
 			Class<T> clazz = ClassHelper.getEntityClass(this.getClass());
 			DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 			this.jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
-			classInfo = new ClassInfo(clazz);
-			commonJdbc = new CommonSingleTable<T>(jdbcTemplate, classInfo);
+			this.classInfo = new ClassInfo(clazz);
+			this.commonJdbc = new CommonSingleTable<T>(dsName, jdbcTemplate, classInfo);
 			int cacheSize = getCacheSize();
-			this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, cacheSize, getUpdatedSeconds(), loader);
+			this.tableName = this.classInfo.getTableName();
+			this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, getUpdatedSeconds(), loader);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -56,6 +59,7 @@ public class DataRdbDao<T> {
 	private final CommonSingleTable<T> commonJdbc;
 	private final DataCache<String, T> cache;
 	private final JdbcTemplate jdbcTemplate;
+	private final String tableName;
 
 	private PersistentLoader<String, T> loader = new PersistentLoader<String, T>() {
 
@@ -83,6 +87,43 @@ public class DataRdbDao<T> {
 				return false;
 			}
 		}
+
+		@Override
+		public String getTableName(String key) {
+			return tableName;
+		}
+
+		@Override
+		public Map<String, String> getUpdateSqlMapping() {
+			HashMap<String, String> map = new HashMap<String, String>(2);
+			map.put(tableName, commonJdbc.getUpdateSql());
+			return map;
+		}
+
+		@Override
+		public Object[] extractParams(String key, T value) {
+			List<Object> paramList;
+			try {
+				paramList = classInfo.extractUpdateAttributes(value);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			if (paramList == null) {
+				return null;
+			}
+			int size = paramList.size();
+			Object[] params = new Object[size + 1];
+			paramList.toArray(params);
+			params[size] = key;
+			return params;
+		}
+
+		@Override
+		public boolean hasChanged(String key, T value, EvictedUpdateTask<String> evictedUpdateTask) {
+			return true;
+		}
+
 	};
 
 	public T getObject(Object id) {
@@ -252,9 +293,8 @@ public class DataRdbDao<T> {
 		return commonJdbc.getTableName();
 	}
 
-	
-	public boolean executeSql(String sql, final String value, final String userId){
-		int result = this.jdbcTemplate.update(sql, new PreparedStatementSetter(){
+	public boolean executeSql(String sql, final String value, final String userId) {
+		int result = this.jdbcTemplate.update(sql, new PreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement ps) throws SQLException {
@@ -262,7 +302,7 @@ public class DataRdbDao<T> {
 				ps.setString(1, value);
 				ps.setString(2, userId);
 			}
-			
+
 		});
 		return result > 0;
 	}
