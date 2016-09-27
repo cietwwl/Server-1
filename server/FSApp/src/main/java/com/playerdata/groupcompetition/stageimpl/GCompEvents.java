@@ -107,6 +107,7 @@ public class GCompEvents {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
 		GCOnlineMemberMgr.getInstance().onEventsEnd(_type);
+		GCompFightingRecordMgr.getInstance().endLiveRecord();
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {

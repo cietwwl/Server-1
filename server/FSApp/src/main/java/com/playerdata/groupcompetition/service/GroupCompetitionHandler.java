@@ -14,7 +14,6 @@ import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
-import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;

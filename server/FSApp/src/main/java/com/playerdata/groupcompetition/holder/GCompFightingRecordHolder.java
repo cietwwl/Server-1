@@ -70,6 +70,13 @@ public class GCompFightingRecordHolder {
 	}
 	
 	public void initRecordList(int matchId) {
+		ConcurrentHashSet<String> needSyn = liveUsers.get(matchId);
+		if(null == needSyn){
+			needSyn = new ConcurrentHashSet<String>();
+			liveUsers.put(matchId, needSyn);
+		}else{
+			needSyn.clear();
+		}
 		_dao.initRecordList(matchId);
 	}
 	
@@ -79,10 +86,14 @@ public class GCompFightingRecordHolder {
 		// 同步到相关的人
 		ConcurrentHashSet<String> synUserIds= liveUsers.get(matchId);
 		List<Player> needSynPlayers = new ArrayList<Player>();
-		for(String userId : synUserIds){
-			Player player = PlayerMgr.getInstance().findPlayerFromMemory(userId);
+		Iterator<String> itor = synUserIds.iterator();
+		while(itor.hasNext()){
+			Player player = PlayerMgr.getInstance().findPlayerFromMemory(itor.next());
 			if(null != player){
 				needSynPlayers.add(player);
+			}else{
+				//如果玩家已经不在线，就删除
+				itor.remove();
 			}
 		}
 		if(!needSynPlayers.isEmpty()){
@@ -127,19 +138,6 @@ public class GCompFightingRecordHolder {
 	public void leaveLivePage(Player player){
 		for(int matchId : liveUsers.keySet()){
 			leaveLivePage(player, matchId);
-		}
-	}
-	
-	/**
-	 * 初始化正在直播的比赛
-	 * @param matchIds
-	 */
-	public void initLiveMatch(List<Integer> matchIds){
-		liveUsers.clear();
-		if(null == matchIds) return;
-		for(int matchId : matchIds){
-			ConcurrentHashSet<String> userSet = new ConcurrentHashSet<String>();
-			liveUsers.put(matchId, userSet);
 		}
 	}
 	

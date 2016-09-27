@@ -24,6 +24,10 @@ public class GCompFightingRecordMgr {
 		_dataHolder.initRecordList(matchId);
 	}
 	
+	public void endLiveRecord() {
+		_dataHolder.endAllLiveMatch();
+	}
+	
 	public void addFightingRecord(int matchId, GCompFightingRecord record) {
 		_dataHolder.add(matchId, record);
 	}
@@ -35,6 +39,5 @@ public class GCompFightingRecordMgr {
 
 	public void leaveLivePage(Player player, Builder builder, int matchId) {
 		_dataHolder.leaveLivePage(player, matchId);
-		
 	}
 }
