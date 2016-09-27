@@ -17,5 +17,5 @@ public interface PlayerExtPropertyStore<T extends PlayerExtProperty> extends IRo
 	 * 获取所有{@link PlayerExtProperty}的枚举迭代器
 	 * @return
 	 */
-	public Enumeration<T> getAttachmentEnumeration();
+	public Enumeration<T> getExtPropertyEnumeration();
 }
