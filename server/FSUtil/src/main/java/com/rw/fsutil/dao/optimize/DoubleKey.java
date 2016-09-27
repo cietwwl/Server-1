@@ -1,7 +1,5 @@
 package com.rw.fsutil.dao.optimize;
 
-import java.util.List;
-
 public class DoubleKey<K, K2> implements CacheCompositKey<K, K2> {
 
 	private final K k1;
@@ -10,9 +8,6 @@ public class DoubleKey<K, K2> implements CacheCompositKey<K, K2> {
 	private final long createTime;
 
 	public DoubleKey(K k1, K2 k2) {
-		if (List.class.isAssignableFrom(k2.getClass())) {
-			System.out.println();
-		}
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((k1 == null) ? 0 : k1.hashCode());

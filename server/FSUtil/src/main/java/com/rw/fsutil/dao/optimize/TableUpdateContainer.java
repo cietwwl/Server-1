@@ -105,6 +105,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 	private void recordException(UpdateCountStat stat, Object[] param, int affectRow) {
 		// TODO SQL可以整合，不用打印
 		StringBuilder sb = new StringBuilder();
+		sb.append("update fail by ");
 		sb.append(stat.name).append(" affect=").append(affectRow).append(':').append(sql).append(CacheLogger.lineSeparator);
 		sb.append(Arrays.toString(param));
 		FSUtilLogger.error(sb.toString());
@@ -147,7 +148,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 					break;
 				}
 				QueueObject queueObject = firstEntry.getKey();
-				if ((initTimeMillis > queueObject.executeTimeMillis)) {
+				if ((initTimeMillis < queueObject.executeTimeMillis)) {
 					break;
 				}
 				firstEntry = updateQueue.pollFirstEntry();

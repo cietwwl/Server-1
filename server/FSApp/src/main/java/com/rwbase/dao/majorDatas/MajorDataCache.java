@@ -200,10 +200,10 @@ public class MajorDataCache {
 		public Object[] extractParams(String key, MajorData value) {
 			Object[] array = new Object[5];
 			array[0] = value.getCoin();
-			array[0] = value.getGold();
-			array[0] = value.getChargeGold();
-			array[0] = value.getGiftGold();
-			array[0] = value.getId();
+			array[1] = value.getGold();
+			array[2] = value.getChargeGold();
+			array[3] = value.getGiftGold();
+			array[4] = value.getId();
 			return array;
 		}
 
