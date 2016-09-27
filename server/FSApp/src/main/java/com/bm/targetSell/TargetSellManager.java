@@ -242,8 +242,8 @@ public class TargetSellManager {
 	 */
 	public void checkBenefitScoreAndSynData(Player player){
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
-//		applyRoleBenefitItem(player);
 		pushRoleAllAttrsData(player, null);
+		applyRoleBenefitItem(player);
 		long nowTime = System.currentTimeMillis();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
