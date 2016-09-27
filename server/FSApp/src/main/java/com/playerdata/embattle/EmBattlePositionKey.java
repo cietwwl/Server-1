@@ -13,8 +13,9 @@ public enum EmBattlePositionKey {
 	posTrial("copy_type_trial"),
 	posCelestrial("copy_type_celestrial_{0}"),
 	posTower("tower"),
-	posMagicSecret("magic_secret");
-	
+	posMagicSecret("magic_secret"),
+	posGroupComptition("group_competition"),
+	posWorldBoss("world_boss");
 
 	
 	private String key;

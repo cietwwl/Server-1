@@ -3,6 +3,7 @@ package com.rw.service.login.game;
 import io.netty.channel.ChannelHandlerContext;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.bm.group.GroupBM;
 import com.bm.login.AccoutBM;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -42,6 +43,7 @@ public class GameLoginHandler {
 		}
 		this.generator = new IdentityIdGenerator("user_identifier", dataSource);
 		this.userIdCache = new UserIdCache(mainDsName, dataSource);
+		GroupBM.init(mainDsName,dataSource);
 	}
 
 	public void gameServerLogin(GameLoginRequest request, ChannelHandlerContext ctx, RequestHeader header) {

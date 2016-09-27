@@ -9,7 +9,7 @@ public interface RoleBaseInfoIF {
 	 * 
 	 * @return
 	 */
-	public int getCareer();
+	public int getCareerType();
 	/**
 	 * 获取佣兵ID
 	 * @return

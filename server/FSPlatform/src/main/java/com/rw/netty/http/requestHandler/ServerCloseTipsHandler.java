@@ -1,5 +1,9 @@
 package com.rw.netty.http.requestHandler;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import com.rw.account.ZoneInfoCache;
 import com.rw.platform.PlatformFactory;
 import com.rw.service.http.platformResponse.ServerCloseTipsBaseDataResponse;
@@ -10,11 +14,16 @@ public class ServerCloseTipsHandler {
 		
 		int zoneId = response.getZoneId();
 		String tips = response.getTips();
-		
-		ZoneInfoCache zoneInfo = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
-		zoneInfo.setCloseTips(tips);
-		zoneInfo.update();
+
 		ResponseObject result = new ResponseObject();
+		Map<Integer, ZoneInfoCache> map = PlatformFactory.getPlatformService().getZoneInfoBySubZoneId(zoneId);
+		for (Iterator<Entry<Integer, ZoneInfoCache>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, ZoneInfoCache> entry = iterator.next();
+			ZoneInfoCache zoneInfo = entry.getValue();
+			zoneInfo.setCloseTips(tips);
+			zoneInfo.update();
+
+		}
 		result.setSuccess(true);
 		return result;
 	}

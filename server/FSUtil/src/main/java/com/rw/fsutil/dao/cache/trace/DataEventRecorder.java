@@ -17,7 +17,8 @@ public class DataEventRecorder {
 	public static Object getParam() {
 		DataEventCollector collector = local.get();
 		if (collector == null) {
-			throw new IllegalStateException("has start collect");
+//			throw new IllegalStateException("has start collect");
+			return null;
 		}
 		return collector.param;
 	}

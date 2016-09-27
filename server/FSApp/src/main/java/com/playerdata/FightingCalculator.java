@@ -1,11 +1,11 @@
 package com.playerdata;
 
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.common.BeanOperationHelper;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.IFunction;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeType;
@@ -28,27 +28,27 @@ public class FightingCalculator {
 	private static final float COMMON_ATK_RATE_OLD = 1.5f;// 普通攻击除的系数
 	private static final float COMMON_ATK_RATE = 3.0f;// 普通攻击除的系数 修改于 2016-09-06
 	
-	private static <T> FightingCalculateComponentType getComponentType(IFunction<T, Integer> func, Class<?> clazz) {
-		EnumSet<FightingCalculateComponentType> es = EnumSet.allOf(FightingCalculateComponentType.class);
-		boolean getHeroFunc = false;
-		if (Hero.class.isAssignableFrom(clazz)) {
-			getHeroFunc = true;
-		}
-		FightingCalculateComponentType type;
-		for(Iterator<FightingCalculateComponentType> itr = es.iterator(); itr.hasNext();) {
-			type = itr.next();
-			if(getHeroFunc) {
-				if(type.getComponentFunc() == func) {
-					return type;
-				}
-			} else {
-				if(type.getPlayerOnlyComponentFunc() == func) {
-					return type;
-				}
-			}
-		}
-		return null;
-	}
+//	private static <T> FightingCalculateComponentType getComponentType(IFunction<T, Integer> func, Class<?> clazz) {
+//		EnumSet<FightingCalculateComponentType> es = EnumSet.allOf(FightingCalculateComponentType.class);
+//		boolean getHeroFunc = false;
+//		if (Hero.class.isAssignableFrom(clazz)) {
+//			getHeroFunc = true;
+//		}
+//		FightingCalculateComponentType type;
+//		for(Iterator<FightingCalculateComponentType> itr = es.iterator(); itr.hasNext();) {
+//			type = itr.next();
+//			if(getHeroFunc) {
+//				if(type.getComponentFunc() == func) {
+//					return type;
+//				}
+//			} else {
+//				if(type.getPlayerOnlyComponentFunc() == func) {
+//					return type;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 	
 	private static <T> int calFighting(T target, List<IFunction<T, Integer>> funcList) {
 		int fighting = 0;
@@ -58,7 +58,7 @@ public class FightingCalculator {
 			currentFunc = funcList.get(i);
 			currentFighting = currentFunc.apply(target);
 			fighting += currentFighting;
-			System.out.println(String.format("%s, 战力：%d", getComponentType(currentFunc, target.getClass()).getChineseName(), currentFighting));
+//			System.out.println(String.format("%s, 战力：%d", getComponentType(currentFunc, target.getClass()).getChineseName(), currentFighting));
 		}
 		return fighting;
 	}
@@ -86,15 +86,15 @@ public class FightingCalculator {
 //		return fighting;
 		
 		// 新的战力计算
-		System.out.println("----------开始计算[" + roleP.getName() + "]的战斗力----------");
+//		System.out.println("----------开始计算[" + roleP.getName() + "]的战斗力----------");
 		List<IFunction<Hero, Integer>> allComponentsOfHero = FightingCalculateComponentType.getAllHeroComponents();
 		int fighting = calFighting(roleP, allComponentsOfHero);
 		if (roleP.isMainRole()) {
 			// 主角独有的
-			Player p = roleP.getPlayer();
+			Player p = FSHeroMgr.getInstance().getOwnerOfHero(roleP);
 			fighting += calFighting(p, FightingCalculateComponentType.getAllPlayerComponents());
 		}
-		System.out.println("----------结束计算[" + roleP.getName() + "]的战斗力----------");
+//		System.out.println("----------结束计算[" + roleP.getName() + "]的战斗力----------");
 		return fighting;
 	}
 

@@ -18,6 +18,9 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
+import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -939,7 +942,7 @@ public class BattleTowerHandler {
 		// 重置数据
 		tableBattleTower.resetBattleTowerData();
 		dao.update(tableBattleTower);
-
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.battleTower);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
 
@@ -1126,8 +1129,8 @@ public class BattleTowerHandler {
 				roleInfo.setHeadFrame(playerHeadFrame);
 			}
 			Hero playerMainHero = player.getMainRoleHero();
-			RoleBaseInfoIF playerMainInfo = playerMainHero.getRoleBaseInfoMgr().getBaseInfo();
-			roleInfo.setQualityId(playerMainInfo.getQualityId());
+//			RoleBaseInfoIF playerMainInfo = playerMainHero.getRoleBaseInfoMgr().getBaseInfo();
+			roleInfo.setQualityId(playerMainHero.getQualityId());
 
 			// 法宝
 			ItemData magic = player.getMagic();

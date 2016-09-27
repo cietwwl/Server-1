@@ -1,13 +1,13 @@
 id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank,frameIconId,femaleVoice,notAllowBuy,notAllowRenew
 900001,,Wing,恶魔翅膀,"这是邪恶力量的象征！
 战力排行活动前3名奖励",,stand,,13,,,true,
-900002,,Suit,斗星,"改良水手服样式的套装，青春气息十足
+900002,,Suit,风纪委员,"改良水手服样式的套装，青春气息十足
 VIP3特权礼包购买",Sound_900002_01.mp3,stand,,8,3,Sound_900102_01.mp3,true,true
 900003,,Suit,光辉礼服,华丽的贵族礼服，高贵优雅,Sound_900003_01.mp3,stand,,9,4,Sound_900103_01.mp3,,
 900004,,Pet,小熊喵,"为了修炼仙法一直背着卷轴的熊猫，小心会咬人
 开服活动奖励",,mainidle,,14,,,true,
 900005,,Suit,魅影蝠袍,传说中穿上可化身恶魔的礼服。,Sound_900005_01.mp3,stand,,13,5,Sound_900105_01.mp3,,
-900006,,Suit,海浪,炎炎夏日，去海边拥抱浪花吧！,Sound_900006_01.mp3,stand,,14,6,Sound_900106_01.mp3,,
+900006,,Suit,浪花朵朵,炎炎夏日，去海边拥抱浪花吧！,Sound_900006_01.mp3,stand,,14,6,Sound_900106_01.mp3,,
 900007,,Wing,钢铁之翼,"由特制的合金制作的钢铁之翼
 VIP11特权礼包购买",,stand,,13,,,true,
 900008,,Wing,粉色之恋,"萌萌哒的粉红色翅膀~

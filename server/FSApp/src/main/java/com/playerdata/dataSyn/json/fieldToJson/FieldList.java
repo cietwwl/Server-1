@@ -9,18 +9,22 @@ import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.json.FieldType;
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class FieldList implements IFieldToJson{
 
 	private Field field;
 	
+	private boolean isRefOpt;
+	
 	private ClassInfo4Client genericClassInfo;
 	
 	private FieldType genericType;
 	
-	public FieldList(Field fieldP){
+	public FieldList(Field fieldP, boolean isRefOptP){
 		field = fieldP;
+		isRefOpt = isRefOptP;
 		Class<?> genericClass = FieldTypeHelper.getGenericClass(fieldP);
 		genericType = FieldTypeHelper.getFieldType(genericClass);
 		if(genericType ==  FieldType.Class){
@@ -30,8 +34,8 @@ public class FieldList implements IFieldToJson{
 	
 	@Override
 	@SuppressWarnings({ "rawtypes" })
-	public Object toJson(Object target) throws Exception {
-		Object objectValue = field.get(target);
+	public Object toJson(Object target,JsonOpt jsonOpt) throws Exception {
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
 		if(objectValue == null){
 			return null;
 		}	
@@ -42,17 +46,17 @@ public class FieldList implements IFieldToJson{
 			Object jsonObj = null;			
 			switch (genericType) {
 				case Class:
-					jsonObj = genericClassInfo.toJsonObject(objectValueTmp);
+					jsonObj = genericClassInfo.toJsonObject(objectValueTmp,jsonOpt);
 				break;
 				case Enum:
 					int enumInt = ((Enum)objectValueTmp).ordinal();
-					jsonObj = String.valueOf(enumInt);
+					jsonObj = jsonOpt.getShort(String.valueOf(enumInt));
 					break;
 				case Primitive:
-					jsonObj = String.valueOf(objectValueTmp);
+					jsonObj = jsonOpt.getShort(String.valueOf(objectValueTmp));
 					break;
 				case String:
-					jsonObj = (String)objectValueTmp;
+					jsonObj = jsonOpt.getShort((String)objectValueTmp);
 					break;
 				case List:
 					//do nothing 不支持

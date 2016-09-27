@@ -1,12 +1,18 @@
 package com.playerdata;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import sun.print.resources.serviceui;
 
 import com.bm.player.Observer;
 import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -55,6 +61,10 @@ public class UserGameDataMgr {
 		tableUserOther.setBuyCoinTimes(0);
 		tableUserOther.setBuySkillTimes(0);
 		tableUserOther.setBuyPowerTimes(0);
+		
+		tableUserOther.setRandomBossFightCount(0);//重置随机boss的战斗次数
+		tableUserOther.setKillBossRewardCount(0);
+		tableUserOther.setCreateBossCount(0);
 		userGameDataHolder.update(player);
 	}
 
@@ -76,11 +86,12 @@ public class UserGameDataMgr {
 			int maxPower = cfg.getMaxPower();// 最大的体力
 
 			long lastTime = userGameData.getLastAddPowerTime();
-			if (curPower >= maxPower) {// 已经超过了最大的体力就停止检查
+			if (curPower >= maxPower) {// 已经超过了最大的体力就停止检查			
 				if (lastTime > 0) {
 					userGameData.setLastAddPowerTime(0);
 					userGameDataHolder.flush();
-				}
+				}			
+				ActivityRetrieveTypeMgr.getInstance().addPowerTime(player);//刷新下找回功能的体力流失时间							
 				return;
 			} else {
 				if (lastTime <= 0) {
@@ -101,6 +112,12 @@ public class UserGameDataMgr {
 					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
+					int tmp = tempPower - maxPower;//流失量
+					if(tmp > 0){//有流失就直接更新活动子项数据
+						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power,tmp);
+					}else{//没流失就刷新活动主数据，让活动自己的逻辑去判断是否属于达顶值后的流失
+						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);
+					}
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
@@ -921,5 +938,45 @@ public class UserGameDataMgr {
 			return result;
 
 		return old >= count;
+	}
+	
+	public List<String> getRandomBossIDs(){
+		return userGameDataHolder.get().getRandomBossIds();
+	}
+	
+	public int getFightRandomBossCount(){
+		return userGameDataHolder.get().getRandomBossFightCount();
+	}
+	
+	public int getKillBossRewardCount(){
+		return userGameDataHolder.get().getKillBossRewardCount();
+	}
+	
+	public int getCreateBossCount(){
+		return userGameDataHolder.get().getCreateBossCount();
+	}
+	
+	public void increaseRandomBossFightCount(){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getRandomBossFightCount();
+		data.setRandomBossFightCount(count + 1);
+		userGameDataHolder.update(player);
+	}
+	
+	
+	public void addRandomBoss(String id){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getCreateBossCount();
+		data.setCreateBossCount(count + 1);
+		List<String> list = data.getRandomBossIds();
+		list.add(id);
+		userGameDataHolder.update(player);
+	}
+	
+	public void increaseBossRewardCount(){
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getKillBossRewardCount();
+		data.setKillBossRewardCount(count + 1);
+		userGameDataHolder.update(player);
 	}
 }

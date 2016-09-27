@@ -17,6 +17,7 @@ import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
+import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.embattle.EmbattleInfo;
@@ -132,6 +133,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
 
 	private static MapItemStoreCache<ActivityFortuneCatTypeItem> activityFortuneCatTypeItemCache;
+	
+	private static MapItemStoreCache<RewardBackItem> RewardBackItemCache;
 
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
@@ -172,6 +175,8 @@ public class MapItemStoreFactory {
 	private static List<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> integrationList;
 	private static HashMap<Integer, MapItemStoreCache<? extends IMapItem>> integrationMap;
 
+	public static final String MAIN_ROLE_NAME = "main";
+	
 	public static void init(Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map) {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
@@ -264,7 +269,10 @@ public class MapItemStoreFactory {
 		activityLimitHeroTypeItemCache = createForPerload(ActivityLimitHeroTypeItem.class, "userId", heroCapacity);
 
 		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
+		
+		RewardBackItemCache  = createForPerload(RewardBackItem.class, "userId", heroCapacity);
 
+		
 		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
 
 		fixNormEquipDataItemCache = createForPerload(FixNormEquipDataItem.class, "ownerId", actualHeroCapacity);
@@ -287,7 +295,8 @@ public class MapItemStoreFactory {
 
 		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity, false);
 
-		mainHeroItemCache = createForPerload(FSHero.class, "main", "id", heroCapacity, true);
+		mainHeroItemCache = createForPerload(FSHero.class, MAIN_ROLE_NAME, "id", heroCapacity, true);
+
 
 		magicEquipFetterCache = createForPerload(MagicEquipFetterRecord.class, "userID", heroCapacity);
 
@@ -518,6 +527,14 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityFortuneCatTypeItem> getActivityFortuneCatTypeItemCache() {
 		return activityFortuneCatTypeItemCache;
 	}
+
+	
+	
+	
+	public static MapItemStoreCache<RewardBackItem> getRewardBackItemCache() {
+		return RewardBackItemCache;
+	}
+
 
 	public static MapItemStoreCache<ActivityLimitHeroTypeItem> getActivityLimitHeroTypeItemCache() {
 		return activityLimitHeroTypeItemCache;

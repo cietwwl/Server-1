@@ -184,7 +184,27 @@ public class DateUtils {
 	public static boolean isTheSameDayOfWeek(int dayOfWeek) {
 		return isTheSameDayOfWeekAndHour(dayOfWeek, 0);
 	}
-
+	
+	/**
+	 * 
+	 * @param copyInfoId copyinfo表的id
+	 * @return 目前服务器是没有判断生存幻境某个类型是否开启的，丢一个在这里,方便  《每日找回》 功能判断；等策划要放到服务器功能时在挪走
+	 */
+	public static boolean isOpenOfCelestial(int copyInfoId){
+		Calendar currentDay = getCurrent();
+		int day = currentDay.get(Calendar.DAY_OF_WEEK);// 当前天数
+		if(copyInfoId == 3){//昆仑虚
+			if(day == Calendar.MONDAY || day == Calendar.WEDNESDAY || day == Calendar.FRIDAY || day == Calendar.SUNDAY){
+				return true;
+			}
+		}else if(copyInfoId == 4){//蓬莱岛
+			if(day == Calendar.TUESDAY || day == Calendar.THURSDAY || day == Calendar.SATURDAY || day == Calendar.SUNDAY){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * <pre>
 	 * 是否是一周的同一天，并且开启的小时相同
@@ -314,6 +334,23 @@ public class DateUtils {
 		return resetTimeMillis;
 	}
 
+	/**
+	 * 获取当天5点的重置时间点
+	 * @return
+	 */
+	public static long getCurrentDayResetTime(){
+		Calendar c = getCalendar();
+		long curTime = System.currentTimeMillis();
+		c.setTimeInMillis(curTime);
+		// 重置时间
+		c.set(Calendar.HOUR_OF_DAY, 5);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		return c.getTimeInMillis();
+	}
+	
+	
 	/**
 	 * 相隔的天数,因为都设置为了0的时分秒，所以是相对意义上的
 	 * 

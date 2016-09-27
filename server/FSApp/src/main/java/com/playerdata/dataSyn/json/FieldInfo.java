@@ -24,21 +24,21 @@ public class FieldInfo {
 
 	private IFieldToJson fieldToJson;
 
-	public FieldInfo(Field field) {
+	public FieldInfo(Field field, boolean isRefOpt) {
 		name = field.getName();
 		Class<?> fieldType = field.getType();
 		if (fieldType.isEnum()) {
-			fieldToJson = new FieldEnum(field);
+			fieldToJson = new FieldEnum(field,isRefOpt);
 		} else if (FieldTypeHelper.isPrimitive(fieldType)) {
-			fieldToJson = new FieldPrimitive(field);
+			fieldToJson = new FieldPrimitive(field,isRefOpt);
 		} else if (fieldType == String.class) {
-			fieldToJson = new FieldString(field);
+			fieldToJson = new FieldString(field,isRefOpt);
 		} else if (fieldType == List.class || fieldType == ArrayList.class || fieldType == LinkedList.class) {
-			fieldToJson = new FieldList(field);
+			fieldToJson = new FieldList(field,isRefOpt);
 		} else if (fieldType == Map.class || fieldType == HashMap.class || fieldType == ConcurrentHashMap.class || fieldType == LinkedHashMap.class) {
-			fieldToJson = new FieldMap(field);
+			fieldToJson = new FieldMap(field,isRefOpt);
 		} else {
-			fieldToJson = new FieldClass(field);
+			fieldToJson = new FieldClass(field,isRefOpt);
 		}
 
 	}
@@ -47,11 +47,11 @@ public class FieldInfo {
 		return name;
 	}
 
-	public Object toJson(Object target) throws Exception {
+	public Object toJson(Object target, JsonOpt jsonOpt) throws Exception {
 
 		Object json = null;
 		try {
-			json = fieldToJson.toJson(target);
+			json = fieldToJson.toJson(target, jsonOpt);
 		} catch (Exception e) {
 			GameLog.error(LogModule.Util.getName(), target.getClass().toString(), fieldToJson.getLogInfo(), e);
 			throw (e);

@@ -44,8 +44,8 @@ public class DataKVDao<T> {
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
 		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
-		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), parser != null ? new ObjectConvertor<T>(parser) : null,
-				SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), 
+				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 		this.type = null;
 	}
 
@@ -69,7 +69,8 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), classInfo.getClass().getName(), cacheSize, getUpdatedSeconds(), forceUpdateOnEviction(), persistentLoader, handler,
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), classInfo.getClass().getName(), cacheSize,
+				getUpdatedSeconds(), persistentLoader, handler,
 				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 	}
 

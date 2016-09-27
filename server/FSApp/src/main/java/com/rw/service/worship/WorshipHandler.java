@@ -8,6 +8,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.WorshipMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.worship.CfgWorshipRewardHelper;
 import com.rwbase.dao.worship.WorshipUtils;
@@ -60,6 +62,7 @@ private static WorshipHandler instance = new WorshipHandler();
 		response.setRewardList(reward);
 		response.setCanWorship(false);
 		pushWorshipList(request.getWorshipCareer(), player);
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.worship);
 		return response.build().toByteString();
 	}
 	

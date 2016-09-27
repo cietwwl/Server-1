@@ -9,7 +9,6 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
-import com.playerdata.UserDataMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -32,8 +31,6 @@ import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
-import com.rwbase.dao.user.User;
-import com.rwbase.dao.user.UserDataHolder;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
 import com.rwproto.CopyServiceProtos.GodGiftRequest;
@@ -85,31 +82,30 @@ public class CopyHandler {
 			result = JBZDHandler.getInstance().battleClear(player, copyRequest);
 			break;
 		case CopyType.COPY_TYPE_ARENA:
-			result = ArenaHandler.getInstance().battleClear(player, copyRequest);			
+			result = ArenaHandler.getInstance().battleClear(player, copyRequest);
 			break;
 		case CopyType.COPY_TYPE_TOWER:
 			result = TowerHandler.getInstance().battleClear(player, copyRequest);
-			break;		
+			break;
 		case CopyType.COPY_TYPE_ELITE:
 			result = EliteCopyHandler.getInstance().battleClear(player, copyRequest);
-			break;			
-		case CopyType.COPY_TYPE_NORMAL:
-			result = NormalCopyHandler.getInstance().battleClear(player, copyRequest);			
 			break;
-			
-		default:			
-//			result = copyBattleClear(player, copyRequest);
+		case CopyType.COPY_TYPE_NORMAL:
+			result = NormalCopyHandler.getInstance().battleClear(player, copyRequest);
+			break;
+
+		default:
+			// result = copyBattleClear(player, copyRequest);
 			break;
 		}
 
 		return result;
 	}
 
-
 	/*
 	 * 副本战前物品-经验计算返回...
 	 */
-	public ByteString battleItemsBack(Player player, MsgCopyRequest copyRequest) {		
+	public ByteString battleItemsBack(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder().setRequestType(ERequestType.BATTLE_ITEMS_BACK);
 		int levelId = copyRequest.getLevelId();
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId); // 地图的配置...
@@ -118,8 +114,8 @@ public class CopyHandler {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}
 		CopyRecordMgr copyRecordMgr = player.getCopyRecordMgr();
-		// 删除之前的奖励记录
-		copyRecordMgr.setCopyRewards(null);
+		// // 删除之前的奖励记录
+		// copyRecordMgr.setCopyRewards(null);
 
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		// 合法性检查
@@ -127,18 +123,20 @@ public class CopyHandler {
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
 		}
-		
-
 
 		// 物品掉落
 		List<String> itemList = new ArrayList<String>();
-//		String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
-		// List<Integer> list = convertToIntList(pItemsID);
 		List<? extends ItemInfo> dropItems = null;
 		try {
-			dropItems = DropItemManager.getInstance().pretreatDrop(player, copyCfg);
+			DropItemManager dropManager = DropItemManager.getInstance();
+			List<? extends ItemInfo> pretreatDrop = dropManager.getPretreatDrop(player, copyCfg);
+			if (pretreatDrop == null || pretreatDrop.isEmpty()) {
+				dropItems = dropManager.pretreatDrop(player, copyCfg);
+			} else {
+				dropItems = pretreatDrop;
+			}
 			// 设置最后一次掉落id
-//			copyRecordMgr.setCalculateState(levelId);
+			// copyRecordMgr.setCalculateState(levelId);
 		} catch (DataAccessTimeoutException e) {
 			GameLog.error("生成掉落列表异常：" + player.getUserId() + "," + levelId, e);
 		}
@@ -168,27 +166,24 @@ public class CopyHandler {
 
 		BILogMgr.getInstance().logCopyBegin(player, copyCfg.getLevelID(), copyCfg.getLevelType(), copyRecord.isFirst(), eBILogCopyEntrance.Empty);
 
-		if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD,copyCfg.getLevelID(),0);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG,copyCfg.getLevelID(),0);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL,copyCfg.getLevelID(),0);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE,copyCfg.getLevelID(),0);
-		}else if(copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER){
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER,copyCfg.getLevelID(),0);
+		if (copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_JBZD) {
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), 0);
+		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_TRIAL_LQSG) {
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TRIAL_LQSG, copyCfg.getLevelID(), 0);
+		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_CELESTIAL) {
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_CELESTIAL, copyCfg.getLevelID(), 0);
+		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_WARFARE) {
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_WARFARE, copyCfg.getLevelID(), 0);
+		} else if (copyCfg.getLevelType() == CopyType.COPY_TYPE_TOWER) {
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.COPY_TYPE_TOWER, copyCfg.getLevelID(), 0);
 		}
-		
+
 		return copyResponse.build().toByteString();
 
 	}
 
-
-
 	/*
-	 * 扫荡关卡...
-	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
+	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
 	 */
 	public ByteString sweep(Player player, MsgCopyRequest copyRequest) {
 		ByteString result = null;
@@ -198,34 +193,33 @@ public class CopyHandler {
 		int copyType = copyCfg.getLevelType();
 
 		switch (copyType) {
-			case CopyType.COPY_TYPE_NORMAL:	
-				result = NormalCopyHandler.getInstance().copySweep(player, copyRequest);
-				break;
-			case CopyType.COPY_TYPE_ELITE:	
-				result = EliteCopyHandler.getInstance().copySweep(player, copyRequest);
-				break;
-	//		case CopyType.COPY_TYPE_CELESTIAL:
-	//			// 生存幻境战斗结算
-	//			result = CelestialHandler.getInstance().sweep(player, copyRequest);
-	//			break;
-	//		case CopyType.COPY_TYPE_TRIAL_JBZD:
-	//			result = null;
-	//			break;
-	//		case CopyType.COPY_TYPE_TRIAL_LQSG:
-	//			// 聚宝之地、练气山谷扫荡结算
-	//			result = null;
-	//			break;		
-	
-			default:
-				// 副本战斗结算
-	//			result = copySweep(player, copyRequest);
-				break;
+		case CopyType.COPY_TYPE_NORMAL:
+			result = NormalCopyHandler.getInstance().copySweep(player, copyRequest);
+			break;
+		case CopyType.COPY_TYPE_ELITE:
+			result = EliteCopyHandler.getInstance().copySweep(player, copyRequest);
+			break;
+		// case CopyType.COPY_TYPE_CELESTIAL:
+		// // 生存幻境战斗结算
+		// result = CelestialHandler.getInstance().sweep(player, copyRequest);
+		// break;
+		// case CopyType.COPY_TYPE_TRIAL_JBZD:
+		// result = null;
+		// break;
+		// case CopyType.COPY_TYPE_TRIAL_LQSG:
+		// // 聚宝之地、练气山谷扫荡结算
+		// result = null;
+		// break;
+
+		default:
+			// 副本战斗结算
+			// result = copySweep(player, copyRequest);
+			break;
 		}
 
 		return result;
 
 	}
-
 
 	public ByteString getMapGift(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
@@ -248,7 +242,7 @@ public class CopyHandler {
 	public ByteString updateMapAnimation(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		MapAnimationState state = copyRequest.getMapAnima();
-		if(null != state){
+		if (null != state) {
 			com.playerdata.MapAnimationState aniState = new com.playerdata.MapAnimationState();
 			aniState.setEliteAnimState(state.getEliteAnimState());
 			aniState.setEliteMapId(state.getEliteMapId());
@@ -256,15 +250,15 @@ public class CopyHandler {
 			aniState.setNormalMapId(state.getNormalMapId());
 			player.getUserGameDataMgr().setMapAnimationState(aniState);
 			copyResponse.setEResultType(EResultType.Success);
-		}else{
+		} else {
 			copyResponse.setEResultType(EResultType.NONE);
 		}
 		return copyResponse.build().toByteString();
 	}
-	
-	
+
 	/**
 	 * 请求获取关卡宝箱
+	 * 
 	 * @param player
 	 * @param copyRequest
 	 * @return
@@ -275,9 +269,9 @@ public class CopyHandler {
 		int mapId = mapGiftRequest.getMapId();
 		int copy = mapGiftRequest.getIndex();
 		boolean suc = player.getCopyRecordMgr().getCopyBox(mapId, copy);
-		if(suc){
+		if (suc) {
 			copyResponse.setEResultType(EResultType.Success);
-		}else{
+		} else {
 			copyResponse.setEResultType(EResultType.NONE);
 		}
 		return copyResponse.build().toByteString();
@@ -285,6 +279,7 @@ public class CopyHandler {
 
 	/**
 	 * 请求领取天尊锦囊
+	 * 
 	 * @param player
 	 * @param copyRequest
 	 * @return
@@ -294,12 +289,12 @@ public class CopyHandler {
 		GodGiftRequest godGift = copyRequest.getGodGift();
 		int mapID = godGift.getMapID();
 		boolean suc = player.getCopyRecordMgr().getGodGiftBox(mapID);
-		if(suc){
+		if (suc) {
 			copyResponse.setEResultType(EResultType.Success);
-		}else{
+		} else {
 			copyResponse.setEResultType(EResultType.NONE);
 		}
 		return copyResponse.build().toByteString();
 	}
-	
+
 }

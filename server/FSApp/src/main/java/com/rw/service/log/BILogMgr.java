@@ -16,6 +16,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
 import com.rw.netty.ServerConfig;
@@ -512,9 +513,17 @@ public class BILogMgr {
 		Object viewId = typeList.get(2);
 		Object secondType = typeList.get(3);
 		
+		String mapId;
+		if(typeList.size() >= 5){
+			Object oMapId = typeList.get(4);
+			mapId = oMapId.toString();
+		}else{
+			mapId = viewId.toString();
+		}
+		
 		String secondBehavior = GameBehaviorMgr.getInstance().getSecondBehavior(command, secondType);
 		
-		DataChangeReason reason = new DataChangeReason(player, String.valueOf(command.getNumber()), secondBehavior == null ? "" : secondBehavior, viewId == null ? "0":viewId.toString());
+		DataChangeReason reason = new DataChangeReason(player, String.valueOf(command.getNumber()), secondBehavior == null ? "" : secondBehavior, viewId == null ? "0":viewId.toString(), mapId);
 		return reason;
 		
 	}
@@ -609,10 +618,20 @@ public class BILogMgr {
 		logPlayer(eBILogType.GoldChange, player, moreInfo);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
+		Object param = DataEventRecorder.getParam();
+		if(param == null){
+			return;
+		}
+		List<Object> list = (List<Object>)param;
+		DataChangeReason changeReason = parseChangeReason(list);
+		
+		
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("levelBeforeUp", oldlevel + "");
 		moreInfo.put("fightbeforelevelup", "last_fight_power:" + fightbeforelevelup );
+		moreInfo.put("mapid", String.valueOf(changeReason.getMapId()));
 		logPlayer(eBILogType.RoleUpgrade, player, moreInfo);
 
 	}
@@ -621,19 +640,23 @@ public class BILogMgr {
 		try {
 			Map<String, String> moreInfo = new HashMap<String, String>();
 			moreInfo.put("opType", opType.getId());
+			moreInfo.put("userId", userId);
 			moreInfo.put("emailId", emailData.getEmailId());
-			moreInfo.put("emailTitle", emailData.getTitle());
-			moreInfo.put("emailContent", emailData.getContent());
-			moreInfo.put("coolTime", DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
-			moreInfo.put("expireTime", DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("emailTitle", emailData.getTitle().replace("\n", "\\n").replace("\r", "\\r"));
+			moreInfo.put("emailContent", emailData.getContent().replace("\n", "\\n").replace("\r", "\\r"));
+			moreInfo.put("coolTime", emailData.getCoolTime() == 0 ? "" : DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("expireTime", emailData.getDeadlineTimeInMill() == 0 ? "" : DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
 
 			String emailAttachment = emailData.getEmailAttachment();
 			String[] split = emailAttachment.split(",");
 			StringBuilder sbAttachList = new StringBuilder();
 			StringBuilder sbAttachAttr = new StringBuilder();
 			int index = 0;
-			if (split.length > 1) {
+			if (split.length > 0) {
 				for (String value : split) {
+					if(StringUtils.isEmpty(value)){
+						continue;
+					}
 					String[] split2 = value.split("~");
 					if (split2.length > 1) {
 						int model = Integer.parseInt(split2[0]);

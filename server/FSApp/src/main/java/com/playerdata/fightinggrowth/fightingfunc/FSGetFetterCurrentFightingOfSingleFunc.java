@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.common.IBIFunction;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fetters.pojo.SynConditionData;
@@ -98,7 +99,7 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 
 	@Override
 	public Integer apply(Hero hero) {
-		Player player = hero.getPlayer();
+		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
 		int fighting = 0;
 		if (hero.isMainRole()) {
 			// 主角才有法宝羁绊
@@ -122,7 +123,7 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 		
 		@Override
 		public Integer apply(Integer level, Integer seq) {
-			FightingCfgBase fightingCfg = fightingCfgDAO.getCfgById(String.valueOf(level));
+			FightingCfgBase fightingCfg = fightingCfgDAO.getByLevel(level);
 			return fightingCfg.getFightingOfIndex(seq);
 		}
 		

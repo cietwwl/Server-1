@@ -26,8 +26,10 @@ public class FSGetFashionMaxFightingFunc implements IFunction<Player, Integer> {
 	@Override
 	public Integer apply(Player player) {
 		ExpectedHeroStatusCfg cfg = _expectedHeroStatusCfgDAO.getCfgById(String.valueOf(player.getLevel()));
-		FashionFightingCfg fashionFightingCfg = _fashionFightingCfgDAO.getCfgById(String.valueOf(player.getLevel()));
-		return (fashionFightingCfg.getFightingOfSuit() + fashionFightingCfg.getFightingOfWing() + fashionFightingCfg.getFightingOfPet()) * cfg.getFashionCount() / 3;
+		int fighting = _fashionFightingCfgDAO.getCfgById(String.valueOf(cfg.getFashionWingCount())).getFightingOfSuit() * cfg.getFashionSuitCount();
+		fighting += _fashionFightingCfgDAO.getCfgById(String.valueOf(cfg.getFashionWingCount())).getFightingOfWing() * cfg.getFashionWingCount();
+		fighting += _fashionFightingCfgDAO.getCfgById(String.valueOf(cfg.getFashionPetCount())).getFightingOfPet() * cfg.getFashionPetCount();
+		return fighting;
 	}
 
 }

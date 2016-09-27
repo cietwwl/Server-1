@@ -220,7 +220,7 @@ public final class AngelArrayMatchHelper {
 						groupName = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName();
 						headId = readOnlyPlayer.getHeadImage();
 						playerName = readOnlyPlayer.getUserName();
-						career = readOnlyPlayer.getMainRoleHero().getCareer();
+						career = readOnlyPlayer.getMainRoleHero().getCareerType();
 
 						hasTeam = true;
 					}
@@ -556,7 +556,7 @@ public final class AngelArrayMatchHelper {
 				return -1;
 			}
 
-			career = player.getMainRoleHero().getCareer();
+			career = player.getMainRoleHero().getCareerType();
 		}
 
 		ECareer careerType = ECareer.valueOf(career);

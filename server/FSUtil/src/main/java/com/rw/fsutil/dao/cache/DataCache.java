@@ -63,9 +63,9 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 	private ValueConsumer<CacheValueEntity<V>, V, Pair<Boolean, CacheValueEntity<V>>> updateComsumer;
 	private final FSBoundedQueue<ReentrantFutureTask> evictedQueue;
 
-	public DataCache(Class clazz, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler,
+	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler,
 			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
-		this.name = clazz.getSimpleName();
+		this.name = key.getName();
 		int tenPercent = maxCapacity / 10;
 		this.capacity = maxCapacity - tenPercent;
 		this.evictedQueue = new FSBoundedQueue<ReentrantFutureTask>(name, tenPercent);

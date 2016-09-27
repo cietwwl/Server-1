@@ -13,9 +13,12 @@ import com.playerdata.dataSyn.ClassInfo4Client;
 import com.playerdata.dataSyn.json.FieldType;
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class FieldMap implements IFieldToJson {
+
+	private  boolean isRefOpt;
 
 	private Field field;
 
@@ -23,8 +26,9 @@ public class FieldMap implements IFieldToJson {
 	private FieldType keyGenericType;
 	private ClassInfo4Client genericClassInfo;
 
-	public FieldMap(Field fieldP) {
+	public FieldMap(Field fieldP, boolean isRefOptP) {
 		field = fieldP;
+		isRefOpt = isRefOptP;
 		Class<?> keyGenericClass = FieldTypeHelper.getGenericClass(fieldP);
 		Class<?> valueGenericClass = FieldTypeHelper.getSecondGenericClass(fieldP);
 		keyGenericType = FieldTypeHelper.getFieldType(keyGenericClass);
@@ -36,8 +40,8 @@ public class FieldMap implements IFieldToJson {
 
 	@Override
 	@SuppressWarnings({ "unchecked"})
-	public Object toJson(Object target) throws Exception {
-		Object objectValue = field.get(target);
+	public Object toJson(Object target,JsonOpt jsonOpt) throws Exception {
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
 		if (objectValue == null) {
 			return null;
 		}
@@ -49,10 +53,11 @@ public class FieldMap implements IFieldToJson {
 		for (Entry<Object, Object> entry : entrySet) {
 			Object entryKey = entry.getKey();
 			Object entryValue = entry.getValue();
-			Object strValue = getEntryStrValue(entryValue);
-			String strKey = getEntryStrKey(entryKey);
+			Object strValue = getEntryStrValue(entryValue,jsonOpt);
+			String strKey = getEntryStrKey(entryKey,jsonOpt);
 
 			if(StringUtils.isNotBlank(strKey) && strValue!=null){				
+				
 				valueMap.put(strKey, strValue);
 			}
 		}
@@ -61,21 +66,21 @@ public class FieldMap implements IFieldToJson {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	private Object getEntryStrValue(Object entryValue) throws Exception{
+	private Object getEntryStrValue(Object entryValue, JsonOpt jsonOpt) throws Exception{
 		Object strValue = null;
 		switch (valueGenericType) {
 		case Class:
-			strValue = genericClassInfo.toJsonObject(entryValue);
+			strValue = genericClassInfo.toJsonObject(entryValue,jsonOpt);
 			break;
 		case Enum:
 			int enumInt = ((Enum) entryValue).ordinal();
-			strValue = String.valueOf(enumInt);
+			strValue = jsonOpt.getShort(String.valueOf(enumInt));
 			break;
 		case Primitive:
-			strValue = String.valueOf(entryValue);
+			strValue = jsonOpt.getShort(String.valueOf(entryValue));
 			break;
 		case String:
-			strValue = (String) entryValue;
+			strValue = jsonOpt.getShort(((String) entryValue));
 			break;
 		case List:
 			// do nothing 不支持
@@ -91,7 +96,7 @@ public class FieldMap implements IFieldToJson {
 		return strValue;
 	}
 	@SuppressWarnings("rawtypes")
-	private String getEntryStrKey(Object entryKey) throws Exception{
+	private String getEntryStrKey(Object entryKey, JsonOpt jsonOpt) throws Exception{
 		String strValue = null;
 		switch (keyGenericType) {
 		case Enum:
@@ -115,7 +120,7 @@ public class FieldMap implements IFieldToJson {
 			// do nothing 不支持
 			break;
 		}
-		return strValue;
+		return jsonOpt.getShort(strValue);
 	}
 
 	@Override

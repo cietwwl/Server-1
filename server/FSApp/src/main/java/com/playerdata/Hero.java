@@ -2,11 +2,10 @@ package com.playerdata;
 
 import com.playerdata.fixEquip.exp.FixExpEquipMgr;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
+import com.playerdata.hero.IRoleBaseInfoMgr;
 import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
-import com.rwbase.dao.role.pojo.RoleCfg;
-import com.rwbase.dao.user.pojo.LevelCfg;
 
 /**
  * 镛兵(英雄)
@@ -429,12 +428,12 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 	 */
 	public static final int HERO_TYPE_COMMON = 1 << 1;
 
-	/**
-	 * 获取佣兵品质
-	 * 
-	 * @return
-	 */
-	public int GetHeroQuality();
+//	/**
+//	 * 获取佣兵品质
+//	 * 
+//	 * @return
+//	 */
+//	public int GetHeroQuality();
 
 	/**
 	 * 获取战力
@@ -446,15 +445,15 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 	/**
 	 * 获取职业
 	 */
-	public int getCareer();
+	public int getCareerType();
 
-	/**
-	 * 
-	 * 获取主人
-	 * 
-	 * @return
-	 */
-	public Player getPlayer();
+//	/**
+//	 * 
+//	 * 获取主人
+//	 * 
+//	 * @return
+//	 */
+//	public Player getPlayer();
 
 	/**
 	 * 
@@ -484,15 +483,15 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 	 */
 	public eRoleType getRoleType();
 
-	/**
-	 * 
-	 * <pre>
-	 * 同步英雄信息到客户端
-	 * </pre>
-	 * 
-	 * @param version
-	 */
-	public void syn(int version);
+//	/**
+//	 * 
+//	 * <pre>
+//	 * 同步英雄信息到客户端
+//	 * </pre>
+//	 * 
+//	 * @param version
+//	 */
+//	public void syn(int version);
 
 	/**
 	 * 
@@ -505,57 +504,80 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 	 */
 	public void save();
 
-	/**
-	 * 
-	 * 获取英雄的模板数据
-	 * 
-	 * @return
-	 */
-	public RoleCfg getHeroCfg();
+//	/**
+//	 * 
+//	 * 获取英雄的模板数据
+//	 * 
+//	 * @return
+//	 */
+//	public RoleCfg getHeroCfg();
+//
+//	/**
+//	 * 
+//	 * 获取英雄的升级经验信息
+//	 * 
+//	 * @return
+//	 */
+//	public LevelCfg getLevelCfg();
 
 	/**
 	 * 
-	 * 获取英雄的升级经验信息
-	 * 
-	 * @return
-	 */
-	public LevelCfg getLevelCfg();
-
-	/**
-	 * 
+	 * <pre>
 	 * 設置英雄的模板id
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setTemplateId(Hero, String)}
+	 * </pre>
 	 * 
 	 * @param templateId
 	 */
 	public void setTemplateId(String templateId);
 
-	/**
-	 * 
-	 * 是否可以升星
-	 * 
-	 * @return
-	 */
-	public int canUpgradeStar();
+//	/**
+//	 * 
+//	 * 是否可以升星
+//	 * 
+//	 * @return
+//	 */
+//	public int canUpgradeStar();
 
-	/**
-	 * 
-	 * 設置英雄的等級
-	 * 
-	 * @param level
-	 */
-	public void SetHeroLevel(int level);
+//	/**
+//	 * 
+//	 * 設置英雄的等級
+//	 * 
+//	 * @param level
+//	 */
+//	public void SetHeroLevel(int level);
 
+//	/**
+//	 * 
+//	 * 設置英雄的經驗
+//	 * 
+//	 * @param exp
+//	 */
+//	public void setHeroExp(long exp);
+	
 	/**
 	 * 
-	 * 設置英雄的經驗
+	 * <pre>
+	 * 设置英雄的经验
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setExp(Hero, long)}
+	 * </pre>
 	 * 
 	 * @param exp
 	 */
-	public void setHeroExp(long exp);
+	public void setExp(long exp);
 
 	/**
 	 * 
+	 * <pre>
 	 * 设置星级
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setStarLevel(Hero, int)}
+	 * </pre>
 	 * 
 	 * @param star
 	 */
@@ -563,33 +585,77 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 
 	/**
 	 * 
+	 * <pre>
 	 * 設置英雄的品質
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setQualityId(Hero, String)}
+	 * </pre>
 	 * 
 	 * @param qualityId
 	 */
 	public void setQualityId(String qualityId);
-
+	
 	/**
 	 * 
-	 * gm編輯英雄的等級
+	 * <pre>
+	 * 设置英雄的职业数据
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setCareerType(Hero, int)}
+	 * </pre>
+	 * 
+	 * @param career
+	 */
+	public void setCareerType(int career);
+	
+	/**
+	 * 
+	 * <pre>
+	 * 设置英雄的modeId
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setCareerType(Hero, int)}
+	 * </pre>
+	 * 
+	 * @param pModelId
+	 */
+	public void setModelId(int pModelId);
+	
+	/**
+	 * 
+	 * <pre>
+	 * 设置英雄的等级字段
+	 * 这里仅仅是设置相应的属性到最新的值
+	 * 如果需要同步机制的支持，请调用：
+	 * {@link IRoleBaseInfoMgr#setLevel(Hero, int)}
+	 * </pre>
 	 * 
 	 * @param level
 	 */
-	public void gmEditHeroLevel(int level);
+	public void setLevel(int level);
 
-	/**
-	 * gm檢查英雄是否激活技能
-	 */
-	public void gmCheckActiveSkill();
+//	/**
+//	 * 
+//	 * gm編輯英雄的等級
+//	 * 
+//	 * @param level
+//	 */
+//	public void gmEditHeroLevel(int level);
+//
+//	/**
+//	 * gm檢查英雄是否激活技能
+//	 */
+//	public void gmCheckActiveSkill();
 
-	/**
-	 * 
-	 * 增加英雄的經驗
-	 * 
-	 * @param heroExp
-	 * @return
-	 */
-	public int addHeroExp(long heroExp);
+//	/**
+//	 * 
+//	 * 增加英雄的經驗
+//	 * 
+//	 * @param heroExp
+//	 * @return
+//	 */
+//	public int addHeroExp(long heroExp);
 
 	/**
 	 * 
@@ -609,17 +675,6 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 	 * @return
 	 */
 	public AttrMgr getAttrMgr();
-
-	/**
-	 * <pre>
-	 * 獲取RoleBaseInfoMgr
-	 * 原来Hero拥有的API，这里因为不不想修改其他的调用，所以保留此方法。
-	 * 新的英雄會實現原來RoleBaseInfoMgr的所有方法
-	 * </pre>
-	 * 
-	 * @return
-	 */
-	public RoleBaseInfoMgr getRoleBaseInfoMgr();
 
 	/**
 	 * 

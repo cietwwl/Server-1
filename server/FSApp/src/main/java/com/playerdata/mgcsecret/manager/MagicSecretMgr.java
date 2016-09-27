@@ -9,6 +9,8 @@ import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfg;
 import com.playerdata.mgcsecret.cfg.BuffBonusCfgDAO;
@@ -130,6 +132,7 @@ public class MagicSecretMgr {
 		UserMagicSecretHolder.getInstance().update(player);
 		MagicChapterInfoHolder.getInstance().updateItem(player, mcInfo);
 		msRsp.setRstType(msResultType.SUCCESS);
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.magicSecert);
 		ArmyInfo enimyArmy = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(enterDungeon.getEnimyTeam());
 		try {
 			enimyArmy.genVCode();
