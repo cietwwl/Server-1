@@ -34,7 +34,7 @@ public class UserTeamBattleDataMgr {
 	 * @param userID
 	 */
 	public void synData(String userID){
-		Player player = PlayerMgr.getInstance().find(userID);
+		Player player = PlayerMgr.getInstance().findPlayerFromMemory(userID);
 		if(player == null) return;
 		UserTeamBattleDataHolder.getInstance().synData(player);
 	}
