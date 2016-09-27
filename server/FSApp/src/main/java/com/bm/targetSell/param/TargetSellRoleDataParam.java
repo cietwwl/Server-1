@@ -9,14 +9,14 @@ package com.bm.targetSell.param;
 public class TargetSellRoleDataParam extends TargetSellAbsArgs{
 	
 	//角色变化的属性
-	private RoleAttrs args;
+	private RoleAttrs attrs;
 
 	public RoleAttrs getArgs() {
-		return args;
+		return attrs;
 	}
 
 	public void setArgs(RoleAttrs args) {
-		this.args = args;
+		this.attrs = args;
 	}
 
 

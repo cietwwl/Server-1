@@ -13,7 +13,7 @@ import com.rw.fsutil.util.MD5;
 public class TargetSellAbsArgs extends TargetSellHeartBeatParam {
 
 	private String userId;//这个是玩家的账号
-	private String channelId;
+	private String channelId = "1@2@1012";
 	private String roleId;
 	
 	
