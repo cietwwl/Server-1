@@ -333,7 +333,7 @@ public class GroupCompetitionBattleHandler {
 			if (battleResult == GCompBattleResult.Lose) {
 				gCompMember.resetContinueWins();
 			} else {
-				gCompMember.incContinueWins();
+				gCompMember.incWinTimes();
 			}
 
 			// TODO HC 这里需要补一下积分信息
