@@ -1,6 +1,7 @@
 package com.playerdata.activity.retrieve.userFeatures.userFeaturesType;
 
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeHelper;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
@@ -27,7 +28,7 @@ public class UserFeatruesCeletriPenglai implements IUserFeatruesHandler{
 		subItem.setCount(0);
 		subItem.setMaxCount(0);
 		CopyInfoCfg copyInfoCfg = CopyInfoCfgDAO.getInstance().getCfgById(UserFeatruesMgr.celestial_penglai+"");
-		boolean isOpen = DateUtils.isOpenOfCelestial(copyInfoCfg.getId());		
+		boolean isOpen = ActivityRetrieveTypeHelper.isOpenOfCelestial(copyInfoCfg.getId());		
 		if(!isOpen){
 			return subItem;
 		}
