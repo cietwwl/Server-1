@@ -626,9 +626,11 @@ public class GroupMemberMgr {
 	/**
 	 * 获取某种职位对应的成员
 	 * 
+	 * 返回的Map对应的Key {@link GroupPost}
+	 * 
 	 * @return
 	 */
-	public Map<Integer, List<GroupMemberDataIF>> getAllMemberBroupByPost() {
+	public Map<Integer, List<GroupMemberDataIF>> getAllMemberByPost() {
 		List<GroupMemberData> memberSortList = holder.getMemberSortList(null);
 		if (memberSortList.isEmpty()) {
 			return Collections.emptyMap();
