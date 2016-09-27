@@ -23,7 +23,7 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 23,,23,23,100,,110508,MSG_MAGIC_SECRET,Magic_Secret
 24,,24,14,100,,,MSG_Worship,WORSHIP
 25,,25,45,100,,111002,MSG_PEAK_ARENA,
-26,,26,8,100,,,MSG_TASK,
+26,,26,1,100,,,MSG_TASK,
 27,,27,22,100,,,MSG_GROUP_PERSONAL,GROUP_RECOMMENT_TYPE
 28,,28,22,100,,,MSG_GROUP_PERSONAL,APPLY_JOIN_GROUP_TYPE
 29,,29,22,100,,,MSG_GROUP_PERSONAL,CREATE_GROUP_TYPE
@@ -57,3 +57,4 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 57,,57,31,100,,,MSG_FIX_EQUIP,Exp_star_up
 58,,58,31,100,,,MSG_FIX_EQUIP,Exp_star_up
 59,,59,1,100,,,,
+60,,60,19,100,,,,

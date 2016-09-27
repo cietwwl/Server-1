@@ -324,9 +324,10 @@ public class RandomBossMgr{
 		}
 		//检查最后一击奖励
 		int killBossRewardCount = player.getUserGameDataMgr().getKillBossRewardCount();
-		if(curHp == 0 && killBossRewardCount <= rbServerCfg.getKillBossRewardLimit()){
+		if(curHp == 0 && killBossRewardCount < rbServerCfg.getKillBossRewardLimit()){
 			
 			Utils.combineAttrMap(bossCfg.getKillRewardMap(), rewardMap);
+			player.getUserGameDataMgr().increaseBossRewardCount();
 		}
 		
 		BattleRewardInfo.Builder rewardInfo = BattleRewardInfo.newBuilder();
