@@ -33,6 +33,7 @@ import com.rw.fsutil.util.DateUtils;
 
 public class TBTeamItemMgr{
 	
+	public static int GET_TEAM_COUNT_ONCE = 15;	//每次客户端请求可加入队伍的数量
 	private HashMap<String, TBTeamNotFullContainer> tbContainerMap = new HashMap<String, TBTeamNotFullContainer>();
 	private static TBTeamItemMgr instance = new TBTeamItemMgr();
 	
@@ -278,5 +279,19 @@ public class TBTeamItemMgr{
 	public void addNewTeam(TBTeamItem teamItem) {
 		TBTeamItemHolder.getInstance().addNewTeam(teamItem);
 		changeTeamSelectable(teamItem);
+	}
+
+	/**
+	 * 获取一定数量的可加入队伍
+	 * @param player
+	 * @param hardID
+	 * @return
+	 */
+	public List<String> getCanJionTeams(Player player, String hardID) {
+		TBTeamNotFullContainer container = tbContainerMap.get(hardID);
+		if(null == container) {
+			return new ArrayList<String>();
+		}
+		return container.getRandomTeam(GET_TEAM_COUNT_ONCE);
 	}
 }

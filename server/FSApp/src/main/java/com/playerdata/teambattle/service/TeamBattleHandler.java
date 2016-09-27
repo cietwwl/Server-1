@@ -165,4 +165,11 @@ public class TeamBattleHandler {
 		
 		return tbRsp.build().toByteString();
 	}
+
+	public ByteString getCanJionTeams(Player player, TeamBattleReqMsg request) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		TeamBattleBM tbBM = TeamBattleBM.getInstance();
+		tbBM.getCanJionTeams(player, tbRsp, request.getHardID());
+		return tbRsp.build().toByteString();
+	}
 }

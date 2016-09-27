@@ -77,6 +77,8 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 			case ADD_ROBOT:
 				result = mHandler.addRobot(player, request);
 				break;
+			case GET_CAN_JION_TEAMS:
+				result = mHandler.getCanJionTeams(player, request);
 			default:
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
