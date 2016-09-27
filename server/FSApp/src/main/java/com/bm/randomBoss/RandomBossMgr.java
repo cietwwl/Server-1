@@ -329,7 +329,10 @@ public class RandomBossMgr{
 		rbDao.update(record);
 		
 		//更新一下到前端
-		ClientDataSynMgr.synData(player, record, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_SINGLE);
+		int count = record.roleFightBossCount(player.getUserId());
+		RandomBossRecord clone = record.clone();
+		clone.setBattleTime(count);
+		ClientDataSynMgr.synData(player, clone, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_SINGLE);
 		return rewardInfo;
 	}
 

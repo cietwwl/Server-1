@@ -19,7 +19,6 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.NonSave;
-import com.rw.fsutil.util.DateUtils;
 
 
 @Table(name="random_boss_record")
