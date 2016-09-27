@@ -37,7 +37,7 @@ public class Server {
 	public static void main(String[] args) throws Exception {
 		GameWorldFactory.init(64, 16);
 		//预加载需要反射优化的类，如果出错则启动失败
-		RefOptClassGener.getInstance().setOpen(true).preLoadClassList();
+		RefOptClassGener.getInstance().setOpen(false).preLoadClassList();
 		
 		DataCacheInitialization.init();
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
