@@ -2,6 +2,7 @@ package com.playerdata.groupcompetition.rank;
 
 import java.util.List;
 
+import com.bm.rank.groupCompetition.GCompRankDataIF;
 import com.bm.rank.groupCompetition.killRank.GCompKillItem;
 import com.bm.rank.groupCompetition.killRank.GCompKillRankMgr;
 import com.bm.rank.groupCompetition.scoreRank.GCompScoreItem;
@@ -10,6 +11,8 @@ import com.bm.rank.groupCompetition.winRank.GCompContinueWinItem;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinRankMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.rwproto.GroupCompetitionProto.GCompRankItem;
+import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder;
 
 
 public class GCompRankMgr {
@@ -110,5 +113,41 @@ public class GCompRankMgr {
 	
 	public GCEventsType getCurrentStage(){
 		return GroupCompetitionMgr.getInstance().getCurrentEventsType();
+	}
+
+	public void getKillRank(Builder builder, GCEventsType eventsType) {
+		List<GCompKillItem> killRank = getKillRank(eventsType);
+		for(GCompKillItem item : killRank){
+			builder.addRankData(toClientRankItem(item));
+		}
+	}
+	
+	public void getWinRank(Builder builder, GCEventsType eventsType) {
+		List<GCompContinueWinItem> winRank = getWinRank(eventsType);
+		for(GCompContinueWinItem item : winRank){
+			builder.addRankData(toClientRankItem(item));
+		}
+	}
+	
+	public void getScoreRank(Builder builder, GCEventsType eventsType) {
+		List<GCompScoreItem> scoreRank = getScoreRank(eventsType);
+		for(GCompScoreItem item : scoreRank){
+			builder.addRankData(toClientRankItem(item));
+		}
+	}
+	
+	/**
+	 * 将排行榜数据转成protobuff结构
+	 * @param rankData
+	 * @return
+	 */
+	private GCompRankItem toClientRankItem(GCompRankDataIF rankData){
+		GCompRankItem.Builder builder = GCompRankItem.newBuilder();
+		builder.setGroupName(rankData.getGroupName());
+		builder.setHeadImage(rankData.getHeadImage());
+		builder.setUserId(rankData.getUserId());
+		builder.setUserName(rankData.getUserName());
+		builder.setValue(rankData.getValue());
+		return builder.build();
 	}
 }
