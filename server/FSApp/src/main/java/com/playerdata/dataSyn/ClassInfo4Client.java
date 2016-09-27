@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.common.refOpt.RefOptClassGener;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
@@ -44,15 +45,16 @@ public class ClassInfo4Client {
 		
 		this.clazz = clazzP;	
 
-		boolean synClass = clazzP.isAnnotationPresent(SynClass.class);
+		boolean isSynClass = clazzP.isAnnotationPresent(SynClass.class);
 		
-		if(synClass){
+		if(isSynClass){
 			Field[] fields = clazzP.getDeclaredFields();
-			inCaseSynClass(fields);
+			boolean isRefOpt = RefOptClassGener.getInstance().containsClass(clazzP);
+			initSynClass(fields,isRefOpt);
 		}
 	}
 	
-	private void inCaseSynClass(Field[] fields) {
+	private void initSynClass(Field[] fields, boolean isRefOpt) {
 		for (Field field : fields) {
 			if (field.isAnnotationPresent(Id.class)) {
 				field.setAccessible(true);
@@ -60,7 +62,7 @@ public class ClassInfo4Client {
 			} 
 			if(!field.isAnnotationPresent(IgnoreSynField.class)){
 				field.setAccessible(true);			
-				clientFiledList.add(new FieldInfo(field));	
+				clientFiledList.add(new FieldInfo(field,isRefOpt));	
 			}
 		}
 	}

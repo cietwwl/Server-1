@@ -10,11 +10,11 @@ public class Test {
 
 	public static void main(String[] args) throws Exception {
 		
-		String className = "classLoader.refOpt.example.BeanB";
+		String className = "com.common.refOpt.example.BeanB";
 		
-		IRefOpt refOptClass = RefOptClassGener.getInstance().genRefOptClass(className, new RefOptTmpLoader());
-		refOptClass.ref$Init();
+//		IRefOpt refOptClass = RefOptClassGener.getInstance().genRefOptClass(className, new RefOptTmpLoader());
+//		refOptClass.ref$Init();
 		
-		System.out.println(refOptClass.ref$Get("name"));
+//		System.out.println(refOptClass.ref$Get("name"));
 	}
 }
