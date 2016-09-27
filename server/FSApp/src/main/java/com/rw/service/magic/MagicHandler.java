@@ -174,7 +174,7 @@ public class MagicHandler {
 		}
 		
 		
-		int aptitudeValue = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE));
+		int aptitudeValue = itemData.getMagicAptitude();
 		
 		if(aptitudeValue >= MagicSmeltMaterialCfgDAO.getInstance().getMaxAptiude()){
 			return setReturnResponse(msgMagicResponse, "当前法宝已到最高资质不需要熔炼！");
@@ -207,6 +207,11 @@ public class MagicHandler {
 		int aptitudeChange = magicSmelt.getAptitudeChange();
 		
 		int smeltAptitude = aptitudeValue + aptitudeChange;
+		
+		//防止资质变0
+		if (smeltAptitude == 0) {
+			smeltAptitude = 1;
+		}
 		
 		// 消耗物品
 		boolean success = itemBagMgr.useLikeBoxItem(useItemList, null);
