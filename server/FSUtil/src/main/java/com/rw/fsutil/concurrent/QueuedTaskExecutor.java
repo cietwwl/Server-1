@@ -40,7 +40,7 @@ public abstract class QueuedTaskExecutor<K, E> {
 	 * @param handler
 	 */
 	public void asyncExecute(K key, ParametricTask<E> task, TaskExceptionHandler handler) {
-		TaskQueue keyTask = map.get(key);	
+		TaskQueue keyTask = map.get(key);
 		TaskDecoration decoratioin = new TaskDecoration(task, handler);
 		if (keyTask != null && keyTask.addTask(decoratioin)) {
 			return;
@@ -110,13 +110,33 @@ public abstract class QueuedTaskExecutor<K, E> {
 			return true;
 		}
 
+		private TaskDecoration safeExtractTask() {
+			int size = -2;
+			try {
+				synchronized (this) {
+					size = taskQueue.size();
+					if (size > 0) {
+						return taskQueue.poll();
+					}
+				}
+			} catch (Throwable t) {
+				logger.error("raised an exception cause by fetch task again,size=" + size, t);
+			}
+			return null;
+		}
+
 		@Override
 		public void run() {
-			TaskDecoration taskDecoratioin = null;
+			TaskDecoration taskDecoratioin;
 			E param = null;
 			for (;;) {
 				synchronized (this) {
-					taskDecoratioin = taskQueue.poll();
+					try {
+						taskDecoratioin = taskQueue.poll();
+					} catch (Throwable t) {
+						logger.error("raised an exception cause by fetch task", t);
+						taskDecoratioin = safeExtractTask();
+					}
 					if (taskDecoratioin == null) {
 						map.remove(key);
 						removed = true;
@@ -186,12 +206,15 @@ public abstract class QueuedTaskExecutor<K, E> {
 	 * @param key
 	 * @return
 	 */
-	protected abstract E tryFetchParam(K key);
+	protected E tryFetchParam(K key) {
+		return null;
+	}
 
 	/**
 	 * 
 	 * @param param
 	 */
-	protected abstract void afterExecute(K key, E param);
+	protected void afterExecute(K key, E param) {
+	}
 
 }

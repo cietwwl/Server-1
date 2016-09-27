@@ -44,8 +44,7 @@ public class DataKVDao<T> {
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
 		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
-		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, getUpdatedSeconds(), 
-				new DataKVSactter<T>(classInfo, template), 
+		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), 
 				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 		this.type = null;
 	}
@@ -60,7 +59,7 @@ public class DataKVDao<T> {
 		if (this.type == null) {
 			persistentLoader = new DataKVSactter<T>(classInfo, template);
 		} else {
-			persistentLoader = new DataKVIntegration<T>(type, classInfo, template);
+			persistentLoader = new DataKVIntegration<T>(type, classInfo, template, forceUpdateOnEviction());
 		}
 		final DataExtensionCreator<T> creator = DataAccessFactory.getDataKvManager().getCreator(clazz);
 		DataNotExistHandler<String, T> handler;
@@ -70,8 +69,9 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize,
-				getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), classInfo.getClass().getName(), cacheSize,
+				getUpdatedSeconds(), persistentLoader, handler,
+				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class DataKVDao<T> {
 	public boolean update(T t) {
 		String id = getId(t);
 		if (!StringUtils.isNotBlank(id)) {
-			System.err.println("更新对象没有设置主键："+classInfo.getTableName()+","+classInfo.getClazz());
+			FSUtilLogger.error("更新对象没有设置主键：" + classInfo.getTableName() + "," + classInfo.getClazz());
 			return false;
 		}
 		try {
@@ -225,6 +225,10 @@ public class DataKVDao<T> {
 	 */
 	protected int getUpdatedSeconds() {
 		return 60;
+	}
+
+	protected boolean forceUpdateOnEviction() {
+		return true;
 	}
 
 }

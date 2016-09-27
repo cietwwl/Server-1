@@ -2,13 +2,13 @@ package com.rwbase.dao.majorDatas;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.cacheDao.ObjectConvertor;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
@@ -16,8 +16,8 @@ import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.trace.listener.MajorDataListener;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 
@@ -31,7 +31,8 @@ public class MajorDataCache {
 		// 数量需要做成配置
 		int capcity = 5000;
 		DataValueParser<MajorData> parser = (DataValueParser<MajorData>) DataCacheFactory.getParser(MajorData.class);
-		this.cache = DataCacheFactory.createDataDache(MajorData.class, MajorData.class.getSimpleName(), capcity, capcity, 120, new MajorDataLoader(), null,parser == null ? null: new ObjectConvertor<MajorData>(parser), MajorDataListener.class);
+		this.cache = DataCacheFactory.createDataDache(MajorData.class, MajorData.class.getSimpleName(), capcity, 120, new MajorDataLoader(), null, parser == null ? null
+				: new ObjectConvertor<MajorData>(parser), MajorDataListener.class);
 	}
 
 	public MajorData get(String userId) {
@@ -64,11 +65,11 @@ public class MajorDataCache {
 	}
 
 	public void updateGold(MajorData data) {
-		int[] values = new int[]{data.getGold(), data.getGiftGold(), data.getChargeGold()};
+		int[] values = new int[] { data.getGold(), data.getGiftGold(), data.getChargeGold() };
 		update("update majordata set gold=?, giftGold=?, chargeGold=? where id=?", values, data.getId());
 	}
-	
-	private void update(String sql, int[] values, String userId){
+
+	private void update(String sql, int[] values, String userId) {
 		new MajorUpdateTask(sql, values, userId).run();
 	}
 
@@ -110,12 +111,18 @@ public class MajorDataCache {
 		if (value instanceof Long) {
 			return (Long) value;
 		}
-		//直接抛出异常
+		// 直接抛出异常
 		Number n = (Number) value;
 		return Long.valueOf(n.longValue());
 	}
 
-	class MajorDataLoader implements PersistentLoader<String, MajorData> {
+	class MajorDataLoader extends PersistentLoader<String, MajorData> {
+
+		private final String updateSql;
+
+		public MajorDataLoader() {
+			this.updateSql = "update majordata set coin=?,gold=?,chargeGold=?,giftGold=? where id=?";
+		}
 
 		@Override
 		public MajorData load(String key) throws DataNotExistException, Exception {
@@ -159,7 +166,7 @@ public class MajorDataCache {
 		@Override
 		public boolean updateToDB(String key, final MajorData value) {
 			try {
-				template.update("update majordata set coin=?,gold=?,chargeGold=?,giftGold=? where id=?", new PreparedStatementSetter() {
+				template.update(updateSql, new PreparedStatementSetter() {
 
 					@Override
 					public void setValues(PreparedStatement ps) throws SQLException {
@@ -175,6 +182,34 @@ public class MajorDataCache {
 				e.printStackTrace();
 				return false;
 			}
+		}
+
+		@Override
+		public String getTableName(String key) {
+			return "majordata";
+		}
+
+		@Override
+		public Map<String, String> getUpdateSqlMapping() {
+			HashMap<String, String> map = new HashMap<String, String>(2);
+			map.put("majordata", this.updateSql);
+			return map;
+		}
+
+		@Override
+		public Object[] extractParams(String key, MajorData value) {
+			Object[] array = new Object[5];
+			array[0] = value.getCoin();
+			array[1] = value.getGold();
+			array[2] = value.getChargeGold();
+			array[3] = value.getGiftGold();
+			array[4] = value.getId();
+			return array;
+		}
+
+		@Override
+		public boolean hasChanged(String key, MajorData value, EvictedUpdateTask<String> evictedUpdateTask) {
+			return true;
 		}
 
 	}

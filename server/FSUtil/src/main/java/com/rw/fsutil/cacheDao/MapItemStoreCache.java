@@ -2,29 +2,29 @@ package com.rw.fsutil.cacheDao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.cacheDao.mapItem.MapItemConvertor;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
-import com.rw.fsutil.dao.cache.DataUpdater;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.fsutil.dao.common.CommonMultiTable;
-import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.dao.mapitem.MapItemEntity;
 import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
-import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.fsutil.dao.optimize.CacheCompositKey;
+import com.rw.fsutil.dao.optimize.DoubleKey;
+import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 /**
  * <pre>
@@ -35,13 +35,13 @@ import com.rw.fsutil.util.SpringContextUtil;
  * @author Jamaz
  *
  */
-public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String> {
+public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<String, String> {
 
 	private final DataCache<String, MapItemStore<T>> cache;
 	private final String searchFieldP;
-	private CommonMultiTable<T> commonJdbc;
-	private boolean writeDirect = false;
+	private CommonMultiTable<String, T> commonJdbc;
 	private final Integer type;
+	private final ClassInfo classInfo;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
 		this(entityClazz, searchFieldP, itemBagCount, "dataSourceMT", false);
@@ -61,14 +61,11 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect, Integer type) {
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClazz);
-		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
 		this.searchFieldP = searchFieldP;
-		DruidDataSource dataSource = SpringContextUtil.getBean(datasourceName);
-		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
-		ClassInfo classInfo = new ClassInfo(entityClazz, searchFieldP);
-		this.commonJdbc = new CommonMultiTable<T>(jdbcTemplate, classInfo, searchFieldP, type);
-		this.writeDirect = writeDirect;
+		this.classInfo = new ClassInfo(entityClazz, searchFieldP);
+		this.commonJdbc = new CommonMultiTable<String, T>(datasourceName, classInfo, searchFieldP, type);
 		this.type = type;
+		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
 	}
 
 	public MapItemStore<T> getMapItemStore(String userId, Class<T> clazz) {
@@ -85,11 +82,11 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 
 	public void notifyPlayerCreate(String userId) {
 		@SuppressWarnings("unchecked")
-		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this, writeDirect, type);
+		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);
 		cache.preInsertIfAbsent(userId, m);
 	}
 
-	private PersistentLoader<String, MapItemStore<T>> loader = new PersistentLoader<String, MapItemStore<T>>() {
+	private PersistentGenericHandler<String, MapItemStore<T>, CacheCompositKey<String, String>> loader = new PersistentGenericHandler<String, MapItemStore<T>, CacheCompositKey<String, String>>() {
 
 		@Override
 		public MapItemStore<T> load(String key) throws DataNotExistException, Exception {
@@ -99,7 +96,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 			} else {
 				list = commonJdbc.queryForList(key, type);
 			}
-			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
+			return new MapItemStore<T>(list, key, commonJdbc, MapItemStoreCache.this);
 		}
 
 		@Override
@@ -123,16 +120,66 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 			}
 		}
 
-	};
+		@Override
+		public String getTableName(String key) {
+			return commonJdbc.getTableName(key);
+		}
 
-	@Override
-	public void submitUpdateTask(String key) {
-		this.cache.submitUpdateTask(key);
-	}
+		@Override
+		public Map<String, String> getUpdateSqlMapping() {
+			return commonJdbc.getTableSqlMapping();
+		}
+
+		@Override
+		public boolean extractParams(CacheCompositKey<String, String> key, MapItemStore<T> value, List<Object[]> updateList) {
+			String k2 = key.getSecondKey();
+			T item = value.getItem(k2);
+			if (item == null) {
+				return false;
+			}
+			value.removeUpdateFlag(k2);
+			Object[] array = classInfo.extractUpdateParams(k2, item);
+			if (array == null) {
+				return false;
+			}
+			return updateList.add(array);
+		}
+
+		@Override
+		public boolean extractParams(String key, MapItemStore<T> value, Map<CacheCompositKey<String, String>, Object[]> map) {
+			HashMap<String, T> dirtyMap = value.getDirtyItems();
+			for (Map.Entry<String, T> entry : dirtyMap.entrySet()) {
+				String k = entry.getKey();
+				Object[] array = classInfo.extractUpdateParams(k, entry.getValue());
+				if (array == null) {
+					FSUtilLogger.error("extract params is null:" + key + "," + k + "," + cache.getName());
+					continue;
+				}
+				map.put(new DoubleKey<String, String>(key, k), array);
+			}
+			return true;
+		}
+
+		@Override
+		public boolean hasChanged(String key, MapItemStore<T> value, EvictedUpdateTask<CacheCompositKey<String, String>> evictedUpdateTask) {
+			return value.hasChanged();
+		}
+
+	};
 
 	@Override
 	public void submitRecordTask(String key) {
 		this.cache.submitRecordTask(key);
+	}
+
+	@Override
+	public void submitUpdateTask(String key, String key2) {
+		this.cache.submitUpdateTask(key, key2);
+	}
+
+	@Override
+	public void submitUpdateList(String key, List<String> keyList) {
+		this.cache.submitUpdateList(key, keyList);
 	}
 
 	public String getSearchField() {
@@ -144,7 +191,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	}
 
 	public boolean putIfAbsent(String key, List<T> items) {
-		MapItemStore<T> store = new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
+		MapItemStore<T> store = new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this);
 		return this.cache.preInsertIfAbsent(key, store);
 	}
 
@@ -171,7 +218,7 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 			}
 			items.add(t);
 		}
-		return new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this, writeDirect, type);
+		return new MapItemStore<T>(items, key, commonJdbc, MapItemStoreCache.this);
 	}
 
 	public String getTableName(String userId) {
@@ -181,4 +228,5 @@ public class MapItemStoreCache<T extends IMapItem> implements DataUpdater<String
 	public boolean contains(String searchId) {
 		return this.cache.containsKey(searchId);
 	}
+
 }

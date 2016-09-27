@@ -79,4 +79,28 @@ public interface DataKvManager {
 	 * @return
 	 */
 	public int getDataKVRecordCount(String userId);
+
+	/**
+	 * 获取查询语句组
+	 * @return
+	 */
+	public String[] getSelectSqlArray();
+
+	/**
+	 * 获取删除语句组
+	 * @return
+	 */
+	public String[] getDeleteSqlArray();
+	
+	/**
+	 * 获取更新语句组
+	 * @return
+	 */
+	public String[] getUpdateSqlArray();
+	
+	/**
+	 * 获取名字组
+	 * @return
+	 */
+	public String[] getTableNameArray();
 }

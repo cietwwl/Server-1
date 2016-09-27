@@ -22,4 +22,9 @@ public class GuideProgressDAO extends DataKVDao<UserGuideProgress> {
 	protected int getUpdatedSeconds() {
 		return 600;
 	}
+	
+	@Override
+	protected boolean forceUpdateOnEviction() {
+		return false;
+	}
 }

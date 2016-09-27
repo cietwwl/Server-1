@@ -12,6 +12,7 @@ import com.rw.controler.FsNettyControler;
 import com.rw.controler.PlayerCreateTask;
 import com.rw.controler.PlayerLoginTask;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
+import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
 import com.rwbase.dao.user.UserIdCache;
@@ -35,13 +36,14 @@ public class GameLoginHandler {
 	private FsNettyControler nettyControler;
 
 	public GameLoginHandler() {
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
+		String mainDsName = DataAccessStaticSupport.getMainDataSourceName();
+		DruidDataSource dataSource = SpringContextUtil.getBean(mainDsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("获取dataSource失败");
 		}
 		this.generator = new IdentityIdGenerator("user_identifier", dataSource);
-		this.userIdCache = new UserIdCache(dataSource);
-		GroupBM.init(dataSource);
+		this.userIdCache = new UserIdCache(mainDsName, dataSource);
+		GroupBM.init(mainDsName,dataSource);
 	}
 
 	public void gameServerLogin(GameLoginRequest request, ChannelHandlerContext ctx, RequestHeader header) {
@@ -61,7 +63,7 @@ public class GameLoginHandler {
 
 		final String accountId = request.getAccountId();
 		final int zoneId = request.getZoneId();
-		
+
 		GameLog.debug("Game Login Start --> accountId:" + accountId + ",zoneId:" + zoneId);
 		TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 		if (userAccount == null) {
@@ -104,10 +106,11 @@ public class GameLoginHandler {
 
 		final String accountId = request.getAccountId();
 		final int zoneId = request.getZoneId();
-//		if (GameManager.isWhiteListLimit(accountId)) {
-//			sendResponse(header, createLoginResponse("该区维护中，请稍后尝试，", eLoginResultType.ServerMainTain), ctx);
-//			return;
-//		}
+		// if (GameManager.isWhiteListLimit(accountId)) {
+		// sendResponse(header, createLoginResponse("该区维护中，请稍后尝试，",
+		// eLoginResultType.ServerMainTain), ctx);
+		// return;
+		// }
 		GameLog.debug("Game Create Role Start --> accountId:" + accountId + " , zoneId:" + zoneId);
 		GameWorldFactory.getGameWorld().executeAccountTask(accountId, new PlayerCreateTask(request, header, ctx, generator));
 	}

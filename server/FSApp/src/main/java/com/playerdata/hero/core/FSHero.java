@@ -21,6 +21,7 @@ import com.playerdata.fixEquip.exp.FixExpEquipMgr;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.hero.HeroBaseInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.IgnoreUpdate;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attrdata.RoleAttrData;
@@ -70,6 +71,7 @@ public class FSHero implements Hero, AttrMgr {
 	@IgnoreSynField
 	private String _name; // 英雄的名字
 	
+	@IgnoreUpdate
 	@Column(name="user_id")
 	@IgnoreSynField
 	private String _userId; // 英雄所属的玩家的userId
