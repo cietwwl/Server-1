@@ -137,7 +137,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 				if (taker == null) {
 					break;
 				}
-				taker.takeTask().run();
+				runEvictedTask(taker);
 			}
 			// 执行update任务，最少执行一次(如果有)，会检查时间伐值
 			ArrayList<Object[]> paramsList = new ArrayList<Object[]>();
@@ -196,7 +196,15 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 					return;
 				}
 			}
+			runEvictedTask(taker);
+		}
+	}
+
+	private void runEvictedTask(EvictedElementTaker taker) {
+		try {
 			taker.takeTask().run();
+		} catch (Throwable t) {
+			FSUtilLogger.error("raise an exception cause by running task,tableName=" + tableName, t);
 		}
 	}
 

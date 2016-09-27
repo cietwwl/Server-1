@@ -135,7 +135,7 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 	}
 
 	@Override
-	public Enumeration<T> getAttachmentEnumeration() {
+	public Enumeration<T> getExtPropertyEnumeration() {
 		final Enumeration<PlayerExtPropertyData<T>> entityEnumeration = super.getEnum();
 		return new Enumeration<T>() {
 
