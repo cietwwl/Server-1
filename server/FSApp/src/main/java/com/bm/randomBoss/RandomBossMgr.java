@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 
 import javax.management.timer.Timer;
 
@@ -252,9 +251,10 @@ public class RandomBossMgr{
 			return;
 		}
 		
-		player.getUserGameDataMgr().increaseRandomBossFightCount();
-		record.addBattleRole(player.getUserId());
-		rbDao.update(record);
+		record.setBattleRoleID(player.getUserId());
+		//战斗结束后再给角色增加次数
+//		player.getUserGameDataMgr().increaseRandomBossFightCount();
+//		rbDao.update(record);
 		
 		response.setIsSuccess(true);
 		armyInfo.genVCode();
@@ -318,7 +318,8 @@ public class RandomBossMgr{
 		//添加讨伐动态
 		record.addBattleInfo(new BattleNewsData(player.getUserId(), damage, curHp == 0, record.getLastBattleTime(), player.getUserName()));
 		player.getItemBagMgr().addItem(itemList);
-		record.battleEnd();
+		player.getUserGameDataMgr().increaseRandomBossFightCount();
+		record.battleEnd(player.getUserId());
 		record.setLeftHp(curHp);
 		rbDao.update(record);
 		return rewardInfo;

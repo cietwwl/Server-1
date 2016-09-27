@@ -219,6 +219,11 @@ public class RandomBossRecord {
 	public String getBattleRoleID() {
 		return battleRoleID;
 	}
+	
+	public void setBattleRoleID(String battleRoleID) {
+		this.battleRoleID = battleRoleID;
+	}
+
 
 	public void addBattleInfo(BattleNewsData e){
 		battleInfo.add(e);
@@ -285,17 +290,6 @@ public class RandomBossRecord {
 	}
 
 
-	public void addBattleRole(String userId) {
-		battleRoleID = userId;
-		Integer count = fightRole.get(userId);
-		if(count == null){
-			count = 1;
-		}else{
-			count ++;
-		}
-		fightRole.put(userId, count);
-	}
-
 
 	/**
 	 * 设置上次战斗时间，如果true，则表示可以进入战斗，如果false,表示上次战斗还没有结束
@@ -310,11 +304,20 @@ public class RandomBossRecord {
 		return true;
 	}
 
-	public void battleEnd(){
+	public void battleEnd(String roleID){
 		lastBattleTime = 0;
 		battleRoleID = "";
+		Integer count = fightRole.get(roleID);
+		if(count == null){
+			count = 1;
+		}else{
+			count ++;
+		}
+		fightRole.put(roleID, count);
 	}
 
+
+	
 
 	
 	
