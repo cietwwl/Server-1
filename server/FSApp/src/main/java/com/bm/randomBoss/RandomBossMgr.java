@@ -141,7 +141,7 @@ public class RandomBossMgr{
 		RandomBossRecord record = rbDao.get(bossID);
 		if(record == null){
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedTimeOutTips(), "邀请已过期，不能前往讨伐"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedTimeOutTips(), "找不到目标boss数据"));
 			return;
 		}
 		//检查一下是否已经超时
@@ -228,7 +228,7 @@ public class RandomBossMgr{
 		
 		//检查是否在战斗中
 		if(!record.resetLastBattleTime()){
-			response.setIsSuccess(true);
+			response.setIsSuccess(false);
 			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossInBattleTips(), "魔神正在被讨伐中，请稍后"));
 			return;
 		}
@@ -346,10 +346,10 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-		int r = RandomUtil.getRandonIndexWithoutProb(10000);
-		if(r > rbServerCfg.getBossBornRate()){
-			return;
-		}
+//		int r = RandomUtil.getRandonIndexWithoutProb(10000);
+//		if(r > rbServerCfg.getBossBornRate()){
+//			return;
+//		}
 		
 		//这里要根据权重进行随机
 		
