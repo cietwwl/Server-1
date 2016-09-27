@@ -127,7 +127,8 @@ public class EliteCopyHandler {
 
 
 		UserEventMgr.getInstance().ElityCopyWin(player, 1);
-		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player);
 		return copyResponse.build().toByteString();
 	}
 
