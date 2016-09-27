@@ -33,4 +33,12 @@ public class UserTeamBattleDataHolder {
 			ClientDataSynMgr.synData(player, userTBData, synType, eSynOpType.UPDATE_SINGLE);
 		}
 	}
+	
+	public void dailyReset(Player player) {
+		UserTeamBattleData userTBData = get(player.getUserId());
+		if (userTBData != null) {
+			userTBData.dailyReset();
+		}
+		update(player, userTBData);
+	}
 }

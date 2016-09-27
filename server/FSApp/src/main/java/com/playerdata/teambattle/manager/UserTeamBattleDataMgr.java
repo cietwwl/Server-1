@@ -31,7 +31,7 @@ public class UserTeamBattleDataMgr {
 	
 	public void leaveTeam(String userID){
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userID);
-		if(StringUtils.isBlank(utbData.getTeamID())) return;;
+		if(StringUtils.isBlank(utbData.getTeamID())) return;
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
 		if(teamItem != null) {
 			TeamMember self = null;
@@ -48,5 +48,9 @@ public class UserTeamBattleDataMgr {
 			}
 		}
 		utbData.clearCurrentTeam();
+	}
+	
+	public void dailyReset(Player player){
+		UserTeamBattleDataHolder.getInstance().dailyReset(player);
 	}
 }

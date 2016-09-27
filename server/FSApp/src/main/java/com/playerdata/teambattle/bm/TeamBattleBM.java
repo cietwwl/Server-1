@@ -44,6 +44,7 @@ public class TeamBattleBM {
 
 	public void synTeamBattle(Player player, Builder tbRsp) {
 		UserTeamBattleDataMgr.getInstance().synData(player);
+		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
 	public void saveTeamInfo(Player player, Builder tbRsp, TBArmyHerosInfo item) {
@@ -65,6 +66,11 @@ public class TeamBattleBM {
 	public void createTeam(Player player, Builder tbRsp, String hardID) {
 		//TODO 判断是否可以创建队伍
 
+		if(StringUtils.isBlank(hardID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不存在该难度的副本");
+			return;
+		}
 		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		TeamMember tMem = new TeamMember();

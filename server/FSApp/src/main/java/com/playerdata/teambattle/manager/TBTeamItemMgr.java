@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.teambattle.cfg.TeamCfg;
+import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.data.TBTeamItem;
 import com.playerdata.teambattle.data.TBTeamItemHolder;
 import com.playerdata.teambattle.data.TeamMember;
@@ -66,9 +69,12 @@ public class TBTeamItemMgr{
 		if(teamItem == null) return;
 		for(TeamMember member : teamItem.getMembers()){
 			UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
-			if(utbMemData == null) {
-				//TODO 如果为空，需要初始化
-				continue;
+			if(utbMemData == null) continue;
+			if(utbMemData.getSelfTeamInfo() == null){
+				StaticMemberTeamInfo teamInfo = new StaticMemberTeamInfo();
+				teamInfo.setUserID(member.getUserID());
+				teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", null));
+				utbMemData.setSelfTeamInfo(teamInfo);
 			}
 			memTeams.add(utbMemData.getSelfTeamInfo());
 		}
@@ -93,6 +99,17 @@ public class TBTeamItemMgr{
 	
 	public boolean removeTeam(TBTeamItem teamItem){
 		if(!teamItem.removeAble()) return false;
-		return TBTeamItemHolder.getInstance().removeTeam(teamItem);
+		if(TBTeamItemHolder.getInstance().removeTeam(teamItem)) return true;
+		else TBTeamItemHolder.getInstance().updateTeam(teamItem);
+		return false;
+	}
+	
+	/**
+	 * 每日重置，清除所有的队伍数据
+	 */
+	public void dailyReset(){
+		for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
+			TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
+		}
 	}
 }
