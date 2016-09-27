@@ -1,5 +1,9 @@
 package com.playerdata.groupcompetition.util;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public enum GCEventsType {
 	
 	/**
@@ -20,13 +24,16 @@ public enum GCEventsType {
 	FINAL(4, "决赛"),
 	;
 	
+	private static final Map<Integer, GCEventsType> _all;
 	static {
 		GCEventsType[] all = GCEventsType.values();
 		GCEventsType status;
 		int totalDays = all.length; // 每个阶段一日
+		Map<Integer, GCEventsType> map = new HashMap<Integer, GCEventsType>();
 		for (int i = 0; i < all.length; i++) {
 			int nextIndex = i + 1;
 			status = all[i];
+			map.put(status.sign, status);
 			status.daysNeededToFinal = (--totalDays);
 			if (nextIndex == all.length) {
 				break;
@@ -34,6 +41,7 @@ public enum GCEventsType {
 				status._next = all[nextIndex];
 			}
 		}
+		_all = Collections.unmodifiableMap(map);
 	}
 	
 	/**
@@ -65,5 +73,9 @@ public enum GCEventsType {
 	 */
 	public int getDaysNeededToFinal() {
 		return daysNeededToFinal;
+	}
+	
+	public static GCEventsType getBySign(int pSign) {
+		return _all.get(pSign);
 	}
 }

@@ -601,9 +601,9 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> cancelTeamMatching(Player player) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 		
-		if(!this.checkIfCanMakeTeam(result)) {
-			return result;
-		}
+//		if(!this.checkIfCanMakeTeam(result)) {
+//			return result;
+//		}
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
@@ -710,7 +710,7 @@ public class GCompTeamMgr {
 		GCompTeam team = this._dataHolder.getTeamOfUser(matchId, player.getUserId(), matchAndGroupInfo.getT1());
 		if (team == null) {
 			// 创建队伍
-			team = this.createTeamInternal(player, heroIds, matchId, matchAndGroupInfo.getT1(), false, result);
+			team = this.createTeamInternal(player, heroIds, matchId, matchAndGroupInfo.getT1(), true, result);
 			if(!result.getT1()) {
 				return result;
 			}
@@ -727,6 +727,7 @@ public class GCompTeamMgr {
 			}
 		}
 		
+		team.setMatching(true);
 		GroupCompetitionMatchingCenter.getInstance().submitToMatchingCenter(matchId, matchAndGroupInfo.getT1(), team);
 		result.setT1(true);
 		

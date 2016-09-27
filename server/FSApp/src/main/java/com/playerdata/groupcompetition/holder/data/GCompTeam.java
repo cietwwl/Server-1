@@ -140,7 +140,7 @@ public class GCompTeam {
 	}
 	
 	public boolean isPersonal() {
-		return GCompTeamType.MULTIPLE_PLAYERS == this.teamType;
+		return GCompTeamType.SINGLE_PLAYER == this.teamType;
 	}
 	
 	@Override

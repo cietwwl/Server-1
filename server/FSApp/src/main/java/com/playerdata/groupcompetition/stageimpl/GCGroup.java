@@ -1,27 +1,27 @@
 package com.playerdata.groupcompetition.stageimpl;
 
-import java.util.List;
-
 import com.bm.group.GroupBM;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.data.IGCGroup;
-import com.playerdata.groupcompetition.data.IGCUnit;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 
 @SynClass
 public class GCGroup implements IGCGroup {
 	
-	private final String groupId; // 帮派的id
-	private final String groupName; // 帮派的名字
-	private final String leaderName; // 帮主的名字
-	private final String assistantName; // 副帮主的名字
+	private String groupId; // 帮派的id
+	private String groupName; // 帮派的名字
+	private String leaderName; // 帮主的名字，客户端需要同步的字段
+	private String assistantName; // 副帮主的名字，客户端需要同步的字段
 	@IgnoreSynField
-	private final String _groupIcon; // 帮派的图标
+	private String _groupIcon; // 帮派的图标
 	private int gCompScore; // 当前的积分
 	private int historyNum;
 	private int upNum;
+	private String descr;
+	
+	public GCGroup() {}
 	
 	GCGroup(String groupId) {
 		if (groupId == null || groupId.length() == 0) {
@@ -39,11 +39,7 @@ public class GCGroup implements IGCGroup {
 			this._groupIcon = baseData.getIconId();
 			this.assistantName = "";
 		}
-	}
-
-	@Override
-	public List<IGCUnit> getAvaliableSource() {
-		return null;
+		this.descr = "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
 	}
 
 	@Override
@@ -67,18 +63,8 @@ public class GCGroup implements IGCGroup {
 	}
 
 	@Override
-	public List<IGCUnit> getAllUnits() {
-		return null;
-	}
-
-	@Override
-	public void addUnit(IGCUnit unit) {
-		
-	}
-
-	@Override
 	public String toString() {
-		return "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
+		return descr;
 	}
 
 }

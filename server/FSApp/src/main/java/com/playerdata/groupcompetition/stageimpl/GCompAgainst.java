@@ -65,17 +65,17 @@ public class GCompAgainst implements IGCAgainst {
 	}
 
 	@Override
-	public IGCGroup getGroupA() {
+	public GCGroup getGroupA() {
 		return groupA;
 	}
 
 	@Override
-	public IGCGroup getGroupB() {
+	public GCGroup getGroupB() {
 		return groupB;
 	}
 
 	@Override
-	public IGCGroup getWinGroup() {
+	public GCGroup getWinGroup() {
 		return winGroup;
 	}
 

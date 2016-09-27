@@ -1,9 +1,5 @@
 package com.playerdata.groupcompetition.data;
 
-import java.util.List;
-
-import com.playerdata.groupcompetition.data.match.GCMatchSourceProvider;
-
 /**
  * 
  * 参与帮派战的帮派数据接口
@@ -11,7 +7,7 @@ import com.playerdata.groupcompetition.data.match.GCMatchSourceProvider;
  * @author CHEN.P
  *
  */
-public interface IGCGroup extends GCMatchSourceProvider<IGCUnit> {
+public interface IGCGroup {
 
 	/**
 	 * 
@@ -44,20 +40,4 @@ public interface IGCGroup extends GCMatchSourceProvider<IGCUnit> {
 	 * @return
 	 */
 	public int getGCompScore();
-	
-	/**
-	 * 
-	 * 获取所有战斗单位
-	 * 
-	 * @return
-	 */
-	public List<IGCUnit> getAllUnits();
-	
-	/**
-	 * 
-	 * 添加一个unit到公会中
-	 * 
-	 * @param unit
-	 */
-	public void addUnit(IGCUnit unit);
 }

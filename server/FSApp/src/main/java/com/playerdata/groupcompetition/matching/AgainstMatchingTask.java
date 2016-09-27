@@ -330,6 +330,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 					if (dataMatched == null) {
 						// 没有匹配到人，要匹配机器人，要从GCompMemberMgr拿3个人出来
 						if(this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGmd2 : allMembersOfGmd1, md)) {
+							matched.add(md);
 							gmd.removeMatchingData(md);
 						}
 					} else {
