@@ -28,6 +28,7 @@ public class GCompMatchData {
 		matchData.enemyTeam = enemyTeam;
 		matchData.matchId = UUID.randomUUID().toString();
 		matchData.matchType = GCompMatchType.TEAM_MATCH.type;
+		matchData.finishMatchTime = System.currentTimeMillis();
 		return matchData;
 	}
 
@@ -43,6 +44,7 @@ public class GCompMatchData {
 		matchData.enemyTeam = enemyTeam;
 		matchData.matchId = UUID.randomUUID().toString();
 		matchData.matchType = GCompMatchType.TEAM_MATCH.type;
+		matchData.finishMatchTime = System.currentTimeMillis();
 		return matchData;
 	}
 
@@ -77,6 +79,8 @@ public class GCompMatchData {
 	 */
 	@IgnoreSynField
 	private int matchState = GCompMatchState.START_BATTLE.state;
+	@IgnoreSynField
+	private long finishMatchTime;// 完成匹配的时间点
 
 	GCompMatchData() {
 	}
@@ -142,5 +146,14 @@ public class GCompMatchData {
 	 */
 	public void updateMatchEnemyTeamData(GCompTeam enemyTeam) {
 		this.enemyTeam = enemyTeam;
+	}
+
+	/**
+	 * 获取匹配完成的时间
+	 * 
+	 * @return
+	 */
+	public long getFinishMatchTime() {
+		return finishMatchTime;
 	}
 }

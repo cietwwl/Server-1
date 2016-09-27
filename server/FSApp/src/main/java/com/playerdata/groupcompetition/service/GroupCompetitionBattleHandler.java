@@ -16,9 +16,7 @@ import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
-import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.data.GCompMatchData;
-import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
@@ -105,6 +103,10 @@ public class GroupCompetitionBattleHandler {
 			return fillFailMsg(rsp, "当前不能进入战斗");
 		}
 
+		if (mine.getResult() != GCompBattleResult.NonStart) {
+			return fillFailMsg(rsp, "不能重复进入战斗");
+		}
+
 		// 把敌人信息找出来
 		// 先获取到我自己的上阵阵容
 		ArmyInfoSimple mineArmyInfoSimple = mine.getArmyInfo();
@@ -137,6 +139,10 @@ public class GroupCompetitionBattleHandler {
 			GameLog.error("帮派争霸开始战斗", userId, "转换敌我双方的ArmyInfoSimple到json出现异常", e);
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
+
+		// 设置一下自己开始战斗
+		mine.setResult(GCompBattleResult.Fighting);
+		mine.setStartBattleTime(System.currentTimeMillis());
 
 		IGCGroup groupA = gcAgainstOfGroup.getGroupA();
 		IGCGroup groupB = gcAgainstOfGroup.getGroupB();
@@ -198,6 +204,10 @@ public class GroupCompetitionBattleHandler {
 
 		for (int i = 0, size = members.size(); i < size; i++) {
 			GCompTeamMember member = members.get(i);
+			if (member.isRobot()) {
+				continue;
+			}
+
 			String id = member.getUserId();
 			if (id.equals(userId)) {
 				mineIndex = i;
@@ -326,18 +336,6 @@ public class GroupCompetitionBattleHandler {
 		}
 
 		holder.updateBattleResult(userId, battleResult);// 更新战斗状态
-
-//		// 更新个人的数据
-//		GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, userId);
-//		if (gCompMember != null) {
-//			if (battleResult == GCompBattleResult.Lose) {
-//				gCompMember.resetContinueWins();
-//			} else {
-//				gCompMember.incWinTimes();
-//			}
-//
-//			// TODO HC 这里需要补一下积分信息
-//		}
 
 		return rsp.setIsSuccess(true).build().toByteString();
 	}

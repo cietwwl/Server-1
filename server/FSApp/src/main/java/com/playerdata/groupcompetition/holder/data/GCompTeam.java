@@ -16,7 +16,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  */
 @SynClass
 public class GCompTeam {
-	
+
 	/**
 	 * 
 	 * 队伍类型
@@ -32,9 +32,9 @@ public class GCompTeam {
 		/**
 		 * 单人玩家队伍
 		 */
-		SINGLE_PLAYER(2),
-		;
+		SINGLE_PLAYER(2), ;
 		public final int sign;
+
 		private GCompTeamType(int pSign) {
 			this.sign = pSign;
 		}
@@ -54,7 +54,7 @@ public class GCompTeam {
 	private int battleTimes;
 	private GCompTeamType teamType;
 	private String descr;
-	
+
 	public static GCompTeam createNewTeam(String teamId, GCompTeamType pType, GCompTeamMember leader, GCompTeamMember... members) {
 		GCompTeam team = new GCompTeam();
 		team.teamId = teamId;
@@ -72,60 +72,60 @@ public class GCompTeam {
 		team.descr = "GCompTeam [teamId=" + teamId + ", teamType=" + pType + " , members=" + team.members + "]";
 		return team;
 	}
-	
+
 	public String getTeamId() {
 		return this.teamId;
 	}
-	
+
 	public List<GCompTeamMember> getMembers() {
 		return membersRO;
 	}
-	
+
 	public GCompTeamMember getTeamMember(String userId) {
-		synchronized(members) {
-			for(GCompTeamMember teamMember : members) {
-				if(teamMember.getUserId().equals(userId)) {
+		synchronized (members) {
+			for (GCompTeamMember teamMember : members) {
+				if (teamMember.getUserId().equals(userId)) {
 					return teamMember;
 				}
 			}
 			return null;
 		}
 	}
-	
+
 	public void addTeamMember(GCompTeamMember member) {
-		synchronized(members) {
+		synchronized (members) {
 			members.add(member);
 		}
 	}
-	
+
 	public void removeTeamMember(GCompTeamMember member) {
-		synchronized(members) {
+		synchronized (members) {
 			members.remove(member);
 		}
 	}
-	
+
 	public boolean isMatching() {
 		return matching;
 	}
-	
+
 	public void setMatching(boolean value) {
 		synchronized (members) {
 			this.matching = value;
 		}
 	}
-	
+
 	public boolean isInBattle() {
 		return inBattle;
 	}
-	
+
 	public void setInBattle(boolean value) {
 		this.inBattle = value;
 	}
-	
+
 	public void setLeaderId(String pLeaderId) {
 		this.leaderId = pLeaderId;
 	}
-	
+
 	public String getLeaderId() {
 		return leaderId;
 	}
@@ -133,19 +133,19 @@ public class GCompTeam {
 	public int getLv() {
 		return lv;
 	}
-	
+
 	public void addBattleTimes() {
 		this.battleTimes++;
 	}
-	
+
 	public int getBattleTimes() {
 		return battleTimes;
 	}
-	
+
 	public boolean isPersonal() {
 		return GCompTeamType.SINGLE_PLAYER == this.teamType;
 	}
-	
+
 	@Override
 	public String toString() {
 		return descr;

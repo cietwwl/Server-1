@@ -11,6 +11,7 @@ enum GCBattleReqType{
 	BATTLE_END = 3;//请求结束战斗
 	PUSH_HP_INFO = 4;//血量信息推送消息
 	MATCH_GROUP_SOCRE = 5;//请求获取匹配双方的帮派积分
+	PUSH_BATTLE_RESULT = 6;//推送战斗结果的消息
 }
 
 //战斗结果
@@ -62,6 +63,12 @@ message GCMatchGroupScoreRspMsg{
 	required int32 enemyGroupScore = 2;//敌人帮派的积分
 }
 
+//推送战斗结果的响应消息
+message GCPushBattleResultRspMsg{
+	required int32 index = 1;//更新战斗结果的Index
+	required GCBattleResult result = 2;//战斗结果
+}
+
 //通用请求消息
 message GCBattleCommonReqMsg{
 	required GCBattleReqType reqType = 1;//请求的类型
@@ -77,4 +84,5 @@ message GCBattleCommonRspMsg{
 	optional GCBattleStartRspMsg battleStartRsp = 4;//战斗开始的响应消息
 	optional GCPushHpInfoRspMsg pushHpInfoRsp = 5;//推送的血量变化信息
 	optional GCMatchGroupScoreRspMsg matchGroupScoreRsp = 6;//获取对垒双方的帮派积分变化信息
+	optional GCPushBattleResultRspMsg pushBattleResultRsp = 7;//推送战斗结果的响应消息
 }

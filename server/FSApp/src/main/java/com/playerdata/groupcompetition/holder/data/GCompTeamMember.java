@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.holder.data;
 
 import com.playerdata.army.simple.ArmyInfoSimple;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
 
@@ -10,14 +11,19 @@ public class GCompTeamMember {
 	private boolean isLeader;
 	private String userId; // 玩家id，需要同步到客户端
 	private ArmyInfoSimple armyInfo;
+	@IgnoreSynField
 	private String descr;
+	@IgnoreSynField
 	private boolean robot; // 是否机器人
 
 	/**
 	 * 战斗的结果，默认是未开战
 	 */
-	private GCompBattleResult result = GCompBattleResult.NonStart;
+	@IgnoreSynField
+	private volatile GCompBattleResult result = GCompBattleResult.NonStart;
 	private boolean isReady; // 是否准备好
+	@IgnoreSynField
+	private volatile long startBattleTime;// 开始战斗的时间
 
 	public GCompTeamMember(boolean pIsLeader, ArmyInfoSimple pTeamInfo) {
 		this.isLeader = pIsLeader;
@@ -29,15 +35,15 @@ public class GCompTeamMember {
 	public void setLeader(boolean value) {
 		this.isLeader = value;
 	}
-	
+
 	public boolean isLeader() {
 		return this.isLeader;
 	}
-	
+
 	public void setRobot(boolean robot) {
 		this.robot = robot;
 	}
-	
+
 	public boolean isRobot() {
 		return this.robot;
 	}
@@ -67,15 +73,23 @@ public class GCompTeamMember {
 	public void setResult(GCompBattleResult result) {
 		this.result = result;
 	}
-	
+
 	public boolean isReady() {
 		return isReady;
 	}
-	
+
 	public void setReady(boolean value) {
 		this.isReady = value;
 	}
-	
+
+	public long getStartBattleTime() {
+		return startBattleTime;
+	}
+
+	public void setStartBattleTime(long startBattleTime) {
+		this.startBattleTime = startBattleTime;
+	}
+
 	@Override
 	public String toString() {
 		return descr;
