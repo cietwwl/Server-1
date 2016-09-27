@@ -17,14 +17,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * 
- * 帮派争霸赛事全局数据
+ * 帮派争霸赛事数据记录
  * 
  * @author CHEN.P
  *
  */
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
-class GCompEventsGlobalData {
+class GCompEventsRecord {
 
 	@JsonProperty("1")
 	private long _heldTime; // 举办的时间
@@ -34,7 +34,7 @@ class GCompEventsGlobalData {
 	@JsonProperty("3")
 	private GCEventsType _currentEventsType; // 当前的赛事阶段（16强，8强。。。）
 	@JsonProperty("4")
-	private boolean _currentStatusFinished; // 当前的赛事阶段是否已经完结
+	private boolean _currentEventsTypeFinished; // 当前的赛事阶段是否已经完结
 	@JsonProperty("5")
 	private GCEventsType _firstEventsType; // 是从哪一强开始比赛的
 	@JsonProperty("6")
@@ -72,11 +72,11 @@ class GCompEventsGlobalData {
 	}
 
 	public boolean isCurrentStatusFinished() {
-		return _currentStatusFinished;
+		return _currentEventsTypeFinished;
 	}
 
 	public void setCurrentStatusFinished(boolean currentStatusFinished) {
-		this._currentStatusFinished = currentStatusFinished;
+		this._currentEventsTypeFinished = currentStatusFinished;
 	}
 	
 	/**
@@ -105,7 +105,7 @@ class GCompEventsGlobalData {
 		this._heldTime = 0;
 		this._relativeGroups.clear();
 		this._currentEventsType = null;
-		this._currentStatusFinished = false;
+		this._currentEventsTypeFinished = false;
 		this._firstEventsType = null;
 		this._currentStatus = null;
 	}
