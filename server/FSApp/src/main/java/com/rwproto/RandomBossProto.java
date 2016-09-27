@@ -69,6 +69,14 @@ public final class RandomBossProto {
      * </pre>
      */
     GET_BATTLE_INFO(6, 7),
+    /**
+     * <code>UPDATE_BATTLE_COUNT = 8;</code>
+     *
+     * <pre>
+     *更新总战斗次数
+     * </pre>
+     */
+    UPDATE_BATTLE_COUNT(7, 8),
     ;
 
     /**
@@ -127,6 +135,14 @@ public final class RandomBossProto {
      * </pre>
      */
     public static final int GET_BATTLE_INFO_VALUE = 7;
+    /**
+     * <code>UPDATE_BATTLE_COUNT = 8;</code>
+     *
+     * <pre>
+     *更新总战斗次数
+     * </pre>
+     */
+    public static final int UPDATE_BATTLE_COUNT_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -140,6 +156,7 @@ public final class RandomBossProto {
         case 5: return APPLY_BATTLE;
         case 6: return END_BATTLE;
         case 7: return GET_BATTLE_INFO;
+        case 8: return UPDATE_BATTLE_COUNT;
         default: return null;
       }
     }
@@ -189,6 +206,563 @@ public final class RandomBossProto {
     }
 
     // @@protoc_insertion_point(enum_scope:RandomBoss.MsgType)
+  }
+
+  public interface RandomBossSynBattleCountOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 curCount = 1;
+    /**
+     * <code>required int32 curCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    boolean hasCurCount();
+    /**
+     * <code>required int32 curCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    int getCurCount();
+
+    // required int32 maxCount = 2;
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    boolean hasMaxCount();
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    int getMaxCount();
+  }
+  /**
+   * Protobuf type {@code RandomBoss.RandomBossSynBattleCount}
+   */
+  public static final class RandomBossSynBattleCount extends
+      com.google.protobuf.GeneratedMessage
+      implements RandomBossSynBattleCountOrBuilder {
+    // Use RandomBossSynBattleCount.newBuilder() to construct.
+    private RandomBossSynBattleCount(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private RandomBossSynBattleCount(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final RandomBossSynBattleCount defaultInstance;
+    public static RandomBossSynBattleCount getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public RandomBossSynBattleCount getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private RandomBossSynBattleCount(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              curCount_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              maxCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.RandomBossProto.internal_static_RandomBoss_RandomBossSynBattleCount_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.RandomBossProto.internal_static_RandomBoss_RandomBossSynBattleCount_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.RandomBossProto.RandomBossSynBattleCount.class, com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<RandomBossSynBattleCount> PARSER =
+        new com.google.protobuf.AbstractParser<RandomBossSynBattleCount>() {
+      public RandomBossSynBattleCount parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new RandomBossSynBattleCount(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<RandomBossSynBattleCount> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 curCount = 1;
+    public static final int CURCOUNT_FIELD_NUMBER = 1;
+    private int curCount_;
+    /**
+     * <code>required int32 curCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    public boolean hasCurCount() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 curCount = 1;</code>
+     *
+     * <pre>
+     *当前次数
+     * </pre>
+     */
+    public int getCurCount() {
+      return curCount_;
+    }
+
+    // required int32 maxCount = 2;
+    public static final int MAXCOUNT_FIELD_NUMBER = 2;
+    private int maxCount_;
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    public boolean hasMaxCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 maxCount = 2;</code>
+     *
+     * <pre>
+     *最大次数
+     * </pre>
+     */
+    public int getMaxCount() {
+      return maxCount_;
+    }
+
+    private void initFields() {
+      curCount_ = 0;
+      maxCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasCurCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMaxCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, curCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, maxCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, curCount_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, maxCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.RandomBossProto.RandomBossSynBattleCount parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.RandomBossProto.RandomBossSynBattleCount prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code RandomBoss.RandomBossSynBattleCount}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.RandomBossProto.internal_static_RandomBoss_RandomBossSynBattleCount_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.RandomBossProto.internal_static_RandomBoss_RandomBossSynBattleCount_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.RandomBossProto.RandomBossSynBattleCount.class, com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder.class);
+      }
+
+      // Construct using com.rwproto.RandomBossProto.RandomBossSynBattleCount.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        curCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        maxCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.RandomBossProto.internal_static_RandomBoss_RandomBossSynBattleCount_descriptor;
+      }
+
+      public com.rwproto.RandomBossProto.RandomBossSynBattleCount getDefaultInstanceForType() {
+        return com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance();
+      }
+
+      public com.rwproto.RandomBossProto.RandomBossSynBattleCount build() {
+        com.rwproto.RandomBossProto.RandomBossSynBattleCount result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.RandomBossProto.RandomBossSynBattleCount buildPartial() {
+        com.rwproto.RandomBossProto.RandomBossSynBattleCount result = new com.rwproto.RandomBossProto.RandomBossSynBattleCount(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.curCount_ = curCount_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.maxCount_ = maxCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.RandomBossProto.RandomBossSynBattleCount) {
+          return mergeFrom((com.rwproto.RandomBossProto.RandomBossSynBattleCount)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.RandomBossProto.RandomBossSynBattleCount other) {
+        if (other == com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance()) return this;
+        if (other.hasCurCount()) {
+          setCurCount(other.getCurCount());
+        }
+        if (other.hasMaxCount()) {
+          setMaxCount(other.getMaxCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasCurCount()) {
+          
+          return false;
+        }
+        if (!hasMaxCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.RandomBossProto.RandomBossSynBattleCount parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.RandomBossProto.RandomBossSynBattleCount) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 curCount = 1;
+      private int curCount_ ;
+      /**
+       * <code>required int32 curCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public boolean hasCurCount() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 curCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public int getCurCount() {
+        return curCount_;
+      }
+      /**
+       * <code>required int32 curCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public Builder setCurCount(int value) {
+        bitField0_ |= 0x00000001;
+        curCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 curCount = 1;</code>
+       *
+       * <pre>
+       *当前次数
+       * </pre>
+       */
+      public Builder clearCurCount() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        curCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 maxCount = 2;
+      private int maxCount_ ;
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public boolean hasMaxCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public int getMaxCount() {
+        return maxCount_;
+      }
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public Builder setMaxCount(int value) {
+        bitField0_ |= 0x00000002;
+        maxCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 maxCount = 2;</code>
+       *
+       * <pre>
+       *最大次数
+       * </pre>
+       */
+      public Builder clearMaxCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        maxCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:RandomBoss.RandomBossSynBattleCount)
+    }
+
+    static {
+      defaultInstance = new RandomBossSynBattleCount(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:RandomBoss.RandomBossSynBattleCount)
   }
 
   public interface RandomMsgRequestOrBuilder
@@ -2559,6 +3133,32 @@ public final class RandomBossProto {
      */
     com.google.protobuf.ByteString
         getBossIDBytes();
+
+    // optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;
+    /**
+     * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+     *
+     * <pre>
+     *当天战斗总次数
+     * </pre>
+     */
+    boolean hasBattleCount();
+    /**
+     * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+     *
+     * <pre>
+     *当天战斗总次数
+     * </pre>
+     */
+    com.rwproto.RandomBossProto.RandomBossSynBattleCount getBattleCount();
+    /**
+     * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+     *
+     * <pre>
+     *当天战斗总次数
+     * </pre>
+     */
+    com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder getBattleCountOrBuilder();
   }
   /**
    * Protobuf type {@code RandomBoss.RandomBossPushMsg}
@@ -2629,6 +3229,19 @@ public final class RandomBossProto {
             case 18: {
               bitField0_ |= 0x00000002;
               bossID_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
+                subBuilder = battleCount_.toBuilder();
+              }
+              battleCount_ = input.readMessage(com.rwproto.RandomBossProto.RandomBossSynBattleCount.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(battleCount_);
+                battleCount_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -2742,9 +3355,44 @@ public final class RandomBossProto {
       }
     }
 
+    // optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;
+    public static final int BATTLECOUNT_FIELD_NUMBER = 3;
+    private com.rwproto.RandomBossProto.RandomBossSynBattleCount battleCount_;
+    /**
+     * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+     *
+     * <pre>
+     *当天战斗总次数
+     * </pre>
+     */
+    public boolean hasBattleCount() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+     *
+     * <pre>
+     *当天战斗总次数
+     * </pre>
+     */
+    public com.rwproto.RandomBossProto.RandomBossSynBattleCount getBattleCount() {
+      return battleCount_;
+    }
+    /**
+     * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+     *
+     * <pre>
+     *当天战斗总次数
+     * </pre>
+     */
+    public com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder getBattleCountOrBuilder() {
+      return battleCount_;
+    }
+
     private void initFields() {
       msgType_ = com.rwproto.RandomBossProto.MsgType.FIND_BOSS;
       bossID_ = "";
+      battleCount_ = com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2754,6 +3402,12 @@ public final class RandomBossProto {
       if (!hasMsgType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasBattleCount()) {
+        if (!getBattleCount().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -2767,6 +3421,9 @@ public final class RandomBossProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getBossIDBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, battleCount_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2784,6 +3441,10 @@ public final class RandomBossProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getBossIDBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, battleCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2897,6 +3558,7 @@ public final class RandomBossProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getBattleCountFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2909,6 +3571,12 @@ public final class RandomBossProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         bossID_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        if (battleCountBuilder_ == null) {
+          battleCount_ = com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance();
+        } else {
+          battleCountBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -2945,6 +3613,14 @@ public final class RandomBossProto {
           to_bitField0_ |= 0x00000002;
         }
         result.bossID_ = bossID_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        if (battleCountBuilder_ == null) {
+          result.battleCount_ = battleCount_;
+        } else {
+          result.battleCount_ = battleCountBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2969,6 +3645,9 @@ public final class RandomBossProto {
           bossID_ = other.bossID_;
           onChanged();
         }
+        if (other.hasBattleCount()) {
+          mergeBattleCount(other.getBattleCount());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2977,6 +3656,12 @@ public final class RandomBossProto {
         if (!hasMsgType()) {
           
           return false;
+        }
+        if (hasBattleCount()) {
+          if (!getBattleCount().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -3132,6 +3817,159 @@ public final class RandomBossProto {
         bossID_ = value;
         onChanged();
         return this;
+      }
+
+      // optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;
+      private com.rwproto.RandomBossProto.RandomBossSynBattleCount battleCount_ = com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.RandomBossProto.RandomBossSynBattleCount, com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder, com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder> battleCountBuilder_;
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public boolean hasBattleCount() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.RandomBossSynBattleCount getBattleCount() {
+        if (battleCountBuilder_ == null) {
+          return battleCount_;
+        } else {
+          return battleCountBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public Builder setBattleCount(com.rwproto.RandomBossProto.RandomBossSynBattleCount value) {
+        if (battleCountBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          battleCount_ = value;
+          onChanged();
+        } else {
+          battleCountBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public Builder setBattleCount(
+          com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder builderForValue) {
+        if (battleCountBuilder_ == null) {
+          battleCount_ = builderForValue.build();
+          onChanged();
+        } else {
+          battleCountBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public Builder mergeBattleCount(com.rwproto.RandomBossProto.RandomBossSynBattleCount value) {
+        if (battleCountBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              battleCount_ != com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance()) {
+            battleCount_ =
+              com.rwproto.RandomBossProto.RandomBossSynBattleCount.newBuilder(battleCount_).mergeFrom(value).buildPartial();
+          } else {
+            battleCount_ = value;
+          }
+          onChanged();
+        } else {
+          battleCountBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public Builder clearBattleCount() {
+        if (battleCountBuilder_ == null) {
+          battleCount_ = com.rwproto.RandomBossProto.RandomBossSynBattleCount.getDefaultInstance();
+          onChanged();
+        } else {
+          battleCountBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder getBattleCountBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getBattleCountFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder getBattleCountOrBuilder() {
+        if (battleCountBuilder_ != null) {
+          return battleCountBuilder_.getMessageOrBuilder();
+        } else {
+          return battleCount_;
+        }
+      }
+      /**
+       * <code>optional .RandomBoss.RandomBossSynBattleCount battleCount = 3;</code>
+       *
+       * <pre>
+       *当天战斗总次数
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.RandomBossProto.RandomBossSynBattleCount, com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder, com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder> 
+          getBattleCountFieldBuilder() {
+        if (battleCountBuilder_ == null) {
+          battleCountBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.RandomBossProto.RandomBossSynBattleCount, com.rwproto.RandomBossProto.RandomBossSynBattleCount.Builder, com.rwproto.RandomBossProto.RandomBossSynBattleCountOrBuilder>(
+                  battleCount_,
+                  getParentForChildren(),
+                  isClean());
+          battleCount_ = null;
+        }
+        return battleCountBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:RandomBoss.RandomBossPushMsg)
@@ -4946,6 +5784,11 @@ public final class RandomBossProto {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_RandomBoss_RandomBossSynBattleCount_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_RandomBoss_RandomBossSynBattleCount_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_RandomBoss_RandomMsgRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -4984,63 +5827,73 @@ public final class RandomBossProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020RandomBoss.proto\022\nRandomBoss\"\204\001\n\020Rando" +
-      "mMsgRequest\022$\n\007msgType\030\001 \002(\0162\023.RandomBos" +
-      "s.MsgType\022\016\n\006bossID\030\002 \001(\t\022+\n\007friends\030\003 \001" +
-      "(\0132\032.RandomBoss.InvitedFriends\022\r\n\005curHp\030" +
-      "\004 \001(\003\"\256\001\n\025RandomBossMsgResponse\022$\n\007msgTy" +
-      "pe\030\001 \002(\0162\023.RandomBoss.MsgType\022\021\n\tisSucce" +
-      "ss\030\002 \002(\010\022\014\n\004tips\030\003 \001(\t\022,\n\006reward\030\004 \001(\0132\034" +
-      ".RandomBoss.BattleRewardInfo\022\014\n\004army\030\005 \001" +
-      "(\t\022\022\n\nbattleInfo\030\006 \003(\t\"I\n\021RandomBossPush" +
-      "Msg\022$\n\007msgType\030\001 \002(\0162\023.RandomBoss.MsgTyp",
-      "e\022\016\n\006bossID\030\002 \001(\t\"0\n\016InvitedFriends\022\020\n\010f" +
-      "riendID\030\001 \003(\t\022\014\n\004type\030\002 \002(\005\"7\n\020BattleRew" +
-      "ardInfo\022#\n\005items\030\001 \003(\0132\024.RandomBoss.Item" +
-      "Info\")\n\010ItemInfo\022\016\n\006itemID\030\001 \002(\005\022\r\n\005coun" +
-      "t\030\002 \002(\005*\222\001\n\007MsgType\022\r\n\tFIND_BOSS\020\001\022\021\n\rGE" +
-      "T_BOSS_LIST\020\002\022\030\n\024INVITE_FRIEND_BATTLE\020\003\022" +
-      "\024\n\020ACCEPTED_INVITED\020\004\022\020\n\014APPLY_BATTLE\020\005\022" +
-      "\016\n\nEND_BATTLE\020\006\022\023\n\017GET_BATTLE_INFO\020\007B\036\n\013" +
-      "com.rwprotoB\017RandomBossProto"
+      "\n\020RandomBoss.proto\022\nRandomBoss\">\n\030Random" +
+      "BossSynBattleCount\022\020\n\010curCount\030\001 \002(\005\022\020\n\010" +
+      "maxCount\030\002 \002(\005\"\204\001\n\020RandomMsgRequest\022$\n\007m" +
+      "sgType\030\001 \002(\0162\023.RandomBoss.MsgType\022\016\n\006bos" +
+      "sID\030\002 \001(\t\022+\n\007friends\030\003 \001(\0132\032.RandomBoss." +
+      "InvitedFriends\022\r\n\005curHp\030\004 \001(\003\"\256\001\n\025Random" +
+      "BossMsgResponse\022$\n\007msgType\030\001 \002(\0162\023.Rando" +
+      "mBoss.MsgType\022\021\n\tisSuccess\030\002 \002(\010\022\014\n\004tips" +
+      "\030\003 \001(\t\022,\n\006reward\030\004 \001(\0132\034.RandomBoss.Batt" +
+      "leRewardInfo\022\014\n\004army\030\005 \001(\t\022\022\n\nbattleInfo",
+      "\030\006 \003(\t\"\204\001\n\021RandomBossPushMsg\022$\n\007msgType\030" +
+      "\001 \002(\0162\023.RandomBoss.MsgType\022\016\n\006bossID\030\002 \001" +
+      "(\t\0229\n\013battleCount\030\003 \001(\0132$.RandomBoss.Ran" +
+      "domBossSynBattleCount\"0\n\016InvitedFriends\022" +
+      "\020\n\010friendID\030\001 \003(\t\022\014\n\004type\030\002 \002(\005\"7\n\020Battl" +
+      "eRewardInfo\022#\n\005items\030\001 \003(\0132\024.RandomBoss." +
+      "ItemInfo\")\n\010ItemInfo\022\016\n\006itemID\030\001 \002(\005\022\r\n\005" +
+      "count\030\002 \002(\005*\253\001\n\007MsgType\022\r\n\tFIND_BOSS\020\001\022\021" +
+      "\n\rGET_BOSS_LIST\020\002\022\030\n\024INVITE_FRIEND_BATTL" +
+      "E\020\003\022\024\n\020ACCEPTED_INVITED\020\004\022\020\n\014APPLY_BATTL",
+      "E\020\005\022\016\n\nEND_BATTLE\020\006\022\023\n\017GET_BATTLE_INFO\020\007" +
+      "\022\027\n\023UPDATE_BATTLE_COUNT\020\010B\036\n\013com.rwproto" +
+      "B\017RandomBossProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_RandomBoss_RandomMsgRequest_descriptor =
+          internal_static_RandomBoss_RandomBossSynBattleCount_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_RandomBoss_RandomBossSynBattleCount_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_RandomBoss_RandomBossSynBattleCount_descriptor,
+              new java.lang.String[] { "CurCount", "MaxCount", });
+          internal_static_RandomBoss_RandomMsgRequest_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_RandomBoss_RandomMsgRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_RandomMsgRequest_descriptor,
               new java.lang.String[] { "MsgType", "BossID", "Friends", "CurHp", });
           internal_static_RandomBoss_RandomBossMsgResponse_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_RandomBoss_RandomBossMsgResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_RandomBossMsgResponse_descriptor,
               new java.lang.String[] { "MsgType", "IsSuccess", "Tips", "Reward", "Army", "BattleInfo", });
           internal_static_RandomBoss_RandomBossPushMsg_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_RandomBoss_RandomBossPushMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_RandomBossPushMsg_descriptor,
-              new java.lang.String[] { "MsgType", "BossID", });
+              new java.lang.String[] { "MsgType", "BossID", "BattleCount", });
           internal_static_RandomBoss_InvitedFriends_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_RandomBoss_InvitedFriends_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_InvitedFriends_descriptor,
               new java.lang.String[] { "FriendID", "Type", });
           internal_static_RandomBoss_BattleRewardInfo_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_RandomBoss_BattleRewardInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_BattleRewardInfo_descriptor,
               new java.lang.String[] { "Items", });
           internal_static_RandomBoss_ItemInfo_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_RandomBoss_ItemInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RandomBoss_ItemInfo_descriptor,
