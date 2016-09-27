@@ -10,6 +10,9 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -83,11 +86,12 @@ public class UserGameDataMgr {
 			int maxPower = cfg.getMaxPower();// 最大的体力
 
 			long lastTime = userGameData.getLastAddPowerTime();
-			if (curPower >= maxPower) {// 已经超过了最大的体力就停止检查
+			if (curPower >= maxPower) {// 已经超过了最大的体力就停止检查			
 				if (lastTime > 0) {
 					userGameData.setLastAddPowerTime(0);
 					userGameDataHolder.flush();
-				}
+				}			
+				ActivityRetrieveTypeMgr.getInstance().addPowerTime(player);//刷新下找回功能的体力流失时间							
 				return;
 			} else {
 				if (lastTime <= 0) {
@@ -108,6 +112,12 @@ public class UserGameDataMgr {
 					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
+					int tmp = tempPower - maxPower;//流失量
+					if(tmp > 0){//有流失就直接更新活动子项数据
+						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power,tmp);
+					}else{//没流失就刷新活动主数据，让活动自己的逻辑去判断是否属于达顶值后的流失
+						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);
+					}
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);

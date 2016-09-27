@@ -18,14 +18,17 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class FieldMap implements IFieldToJson {
 
+	private  boolean isRefOpt;
+
 	private Field field;
 
 	private FieldType valueGenericType;
 	private FieldType keyGenericType;
 	private ClassInfo4Client genericClassInfo;
 
-	public FieldMap(Field fieldP) {
+	public FieldMap(Field fieldP, boolean isRefOptP) {
 		field = fieldP;
+		isRefOpt = isRefOptP;
 		Class<?> keyGenericClass = FieldTypeHelper.getGenericClass(fieldP);
 		Class<?> valueGenericClass = FieldTypeHelper.getSecondGenericClass(fieldP);
 		keyGenericType = FieldTypeHelper.getFieldType(keyGenericClass);
@@ -38,7 +41,7 @@ public class FieldMap implements IFieldToJson {
 	@Override
 	@SuppressWarnings({ "unchecked"})
 	public Object toJson(Object target,JsonOpt jsonOpt) throws Exception {
-		Object objectValue = field.get(target);
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
 		if (objectValue == null) {
 			return null;
 		}

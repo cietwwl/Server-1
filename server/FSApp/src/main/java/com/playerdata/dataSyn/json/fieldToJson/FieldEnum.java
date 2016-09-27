@@ -9,14 +9,17 @@ import com.playerdata.dataSyn.json.JsonOpt;
 public class FieldEnum implements IFieldToJson{
 	
 	private Field field;
+	
+	private boolean isRefOpt;
 
-	public FieldEnum(Field fieldP) {
+	public FieldEnum(Field fieldP, boolean isRefOptP) {
 		this.field = fieldP;	
+		this.isRefOpt = isRefOptP;
 	}
 
 	@Override
 	public String toJson(Object target, JsonOpt jsonOpt) throws Exception {
-		Object objectValue = field.get(target);
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
 		if(objectValue == null){
 			return null;
 		}	

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.common.refOpt.IRefOpt;
+
 public class FieldTypeHelper {
 	
 	public FieldTypeHelper(){}
@@ -76,5 +78,15 @@ public class FieldTypeHelper {
 		Class<?> generiClass = (Class<?>)pt.getActualTypeArguments()[0];	
 		return generiClass;
 		
+	}
+	
+	public static Object getValue(Object target, Field field, boolean isRefOpt) throws IllegalAccessException {
+		Object objectValue = null;
+		if(isRefOpt){
+			objectValue = ((IRefOpt)target).ref$Get(field.getName());
+		}else{
+			objectValue = field.get(target);
+		}
+		return objectValue;
 	}
 }
