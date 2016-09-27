@@ -1,10 +1,13 @@
 package com.bm.group;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import com.rwproto.GroupCommonProto.GroupPost;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
@@ -17,6 +20,7 @@ import com.rwbase.dao.group.pojo.db.dao.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
+import com.rwproto.GroupCommonProto.GroupPost;
 
 /**
  * 帮派成员管理类
@@ -127,8 +131,7 @@ public class GroupMemberMgr {
 	 * @param alloctTime 手动分配帮派奖励次数
 	 * @return
 	 */
-	public GroupMemberDataIF addMemberData(String userId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, boolean isAddApply, String headbox, int alloctTime) {
+	public GroupMemberDataIF addMemberData(String userId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime, long receiveTime, boolean isAddApply, String headbox, int alloctTime) {
 		GroupMemberData memberData = newGroupMemberData(userId, groupId, name, icon, templateId, level, vipLevel, job, post, fighting, applyTime, receiveTime, headbox, alloctTime);
 		return holder.addMember(userId, memberData, isAddApply);
 	}
@@ -170,8 +173,7 @@ public class GroupMemberMgr {
 	 * @param alloctTime 手动分配帮派奖励次数
 	 * @return
 	 */
-	private GroupMemberData newGroupMemberData(String playerId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime,
-			long receiveTime, String headbox, int alloctTime) {
+	private GroupMemberData newGroupMemberData(String playerId, String groupId, String name, String icon, String templateId, int level, int vipLevel, int job, int post, int fighting, long applyTime, long receiveTime, String headbox, int alloctTime) {
 		GroupMemberData memberData = new GroupMemberData();
 		memberData.setId(newMemberUniqueId(playerId, groupId));
 		memberData.setUserId(playerId);
@@ -396,18 +398,19 @@ public class GroupMemberMgr {
 		item.setLevel((short) level);
 		holder.updateMemberData(item.getId());
 	}
-	
+
 	/**
 	 * 更新成员的全员战力
+	 * 
 	 * @param userId
 	 * @param fight
 	 */
-	public void updateMemberFight(String userId, int fight){
+	public void updateMemberFight(String userId, int fight) {
 		GroupMemberData item = holder.getMemberData(userId, false);
-		if(item == null){
+		if (item == null) {
 			return;
 		}
-		
+
 		item.setFighting(fight);
 		holder.updateMemberData(item.getId());
 	}
@@ -610,14 +613,42 @@ public class GroupMemberMgr {
 
 	/**
 	 * 重置帮派管理员每天分配奖励次数
+	 * 
 	 * @param userId
 	 * @param maxAllotCount
 	 * @param b
 	 */
-	public void resetAllotGroupRewardCount(String userId, int maxAllotCount,
-			boolean b) {
+	public void resetAllotGroupRewardCount(String userId, int maxAllotCount, boolean b) {
 		GroupMemberData data = holder.getMemberData(userId, b);
 		data.setAllotRewardCount(maxAllotCount);
-		
+	}
+
+	/**
+	 * 获取某种职位对应的成员
+	 * 
+	 * @return
+	 */
+	public Map<Integer, List<GroupMemberDataIF>> getAllMemberBroupByPost() {
+		List<GroupMemberData> memberSortList = holder.getMemberSortList(null);
+		if (memberSortList.isEmpty()) {
+			return Collections.emptyMap();
+		}
+
+		int size = memberSortList.size();
+		Map<Integer, List<GroupMemberDataIF>> map = new HashMap<Integer, List<GroupMemberDataIF>>(size);
+		for (int i = 0; i < size; i++) {
+			GroupMemberData member = memberSortList.get(i);
+			int post = member.getPost();
+
+			List<GroupMemberDataIF> list = map.get(post);
+			if (list == null) {
+				list = new ArrayList<GroupMemberDataIF>();
+				map.put(post, list);
+			}
+
+			list.add(member);
+		}
+
+		return map;
 	}
 }
