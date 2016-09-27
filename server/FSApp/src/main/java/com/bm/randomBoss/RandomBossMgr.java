@@ -327,6 +327,7 @@ public class RandomBossMgr{
 		if(curHp == 0 && killBossRewardCount <= rbServerCfg.getKillBossRewardLimit()){
 			
 			Utils.combineAttrMap(bossCfg.getKillRewardMap(), rewardMap);
+			player.getUserGameDataMgr().increaseBossRewardCount();
 		}
 		
 		BattleRewardInfo.Builder rewardInfo = BattleRewardInfo.newBuilder();
