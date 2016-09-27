@@ -21,6 +21,22 @@ public enum ActivityRankTypeEnum{	// implements TypeIdentification
 	}
 	
 
+	public static HashMap<String, ActivityRankTypeEnum> getMap() {
+		return map;
+	}
+
+	public static void setMap(HashMap<String, ActivityRankTypeEnum> map) {
+		ActivityRankTypeEnum.map = map;
+	}
+
+	public void setCfgId(String cfgId) {
+		this.cfgId = cfgId;
+	}
+
+	public void setRankTypes(int[] rankTypes) {
+		this.rankTypes = rankTypes;
+	}
+
 	public int[] getRankTypes() {
 		return rankTypes;
 	}

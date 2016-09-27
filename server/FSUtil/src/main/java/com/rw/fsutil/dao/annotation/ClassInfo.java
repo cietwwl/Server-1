@@ -182,10 +182,7 @@ public class ClassInfo {
 		this.selectSingleFields = createSingleFields(this.selectColumns);
 		ArrayList<Field> attachmentList = new ArrayList<Field>(insertColumns.size());
 		for (int i = 0; i < insertSingleFields.length; i++) {
-			Field f = insertSingleFields[i].field;
-			if (!f.isAnnotationPresent(ConfigId.class)) {
-				attachmentList.add(f);
-			}
+			attachmentList.add(insertSingleFields[i].field);
 		}
 		this.attachmentFields = new Field[attachmentList.size()];
 		attachmentList.toArray(attachmentFields);
@@ -392,7 +389,7 @@ public class ClassInfo {
 			addSplit(updateFieldNames).append(columnName).append("=?");
 		}
 	}
-	
+
 	private StringBuilder addSplit(StringBuilder sb) {
 		if (sb.length() > 0) {
 			sb.append(",");
@@ -413,7 +410,7 @@ public class ClassInfo {
 			return null;
 		}
 	}
-	
+
 	public String extractAttachment(Object entity) throws IllegalArgumentException, IllegalAccessException {
 		int len = this.attachmentFields.length;
 		HashMap<String, Object> map = new HashMap<String, Object>(len);
@@ -427,20 +424,21 @@ public class ClassInfo {
 	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException, JsonGenerationException, JsonMappingException, IOException {
 		TTTT t = new TTTT();
 		ObjectMapper MAPPER = new ObjectMapper();
-//		MAPPER.configure(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT, state)
+		// MAPPER.configure(JsonGenerator.Feature.AUTO_CLOSE_JSON_CONTENT,
+		// state)
 		ClassInfo cl = new ClassInfo(TTTT.class);
 		long s = System.currentTimeMillis();
 		for (int i = 0; i < 10000; i++) {
 
-//			StringWriter sw = new StringWriter();
-//			MAPPER.writeValue(sw, t);
-//			String a = sw.toString();
+			// StringWriter sw = new StringWriter();
+			// MAPPER.writeValue(sw, t);
+			// String a = sw.toString();
 			// String a = JsonUtil.writeValue(t);
-			 String a = MAPPER.writeValueAsString(t);
+			String a = MAPPER.writeValueAsString(t);
 			// String a = MAPPER.
 			// String a = cl.extractAttachment(t);
-//			 System.out.println(a);
-//			 a.i
+			// System.out.println(a);
+			// a.i
 			// String a = cl.extractAttachment(t);
 		}
 		System.out.println(System.currentTimeMillis() - s);
