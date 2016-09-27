@@ -327,6 +327,9 @@ public class RandomBossMgr{
 		record.battleEnd(player.getUserId());
 		record.setLeftHp(curHp);
 		rbDao.update(record);
+		
+		//更新一下到前端
+		ClientDataSynMgr.synData(player, record, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_SINGLE);
 		return rewardInfo;
 	}
 
