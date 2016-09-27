@@ -405,7 +405,7 @@ public class RandomBossMgr{
 		return cfg;
 	}
 
-	public String getBossBornTips() {
+	public String getBossBornInvitedTips() {
 		return ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossBornTips(), "魔神已经出现");
 	}
 
