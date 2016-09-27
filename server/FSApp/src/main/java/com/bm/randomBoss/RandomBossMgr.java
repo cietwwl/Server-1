@@ -11,6 +11,7 @@ import javax.management.timer.Timer;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
@@ -297,12 +298,14 @@ public class RandomBossMgr{
 		rewardMap.putAll(bossCfg.getBattleRewardMap());
 		//如果是发现者，添加发现者奖励
 		if(StringUtils.equals(record.getOwnerID(), player.getUserId())){
-			rewardMap.putAll(bossCfg.getFindRewardMap());			
+			Utils.combineAttrMap(bossCfg.getFindRewardMap(), rewardMap);
+			
 		}
 		//检查最后一击奖励
 		int killBossRewardCount = player.getUserGameDataMgr().getKillBossRewardCount();
 		if(curHp == 0 && killBossRewardCount <= rbServerCfg.getKillBossRewardLimit()){
-			rewardMap.putAll(bossCfg.getKillRewardMap());
+			
+			Utils.combineAttrMap(bossCfg.getKillRewardMap(), rewardMap);
 		}
 		
 		BattleRewardInfo.Builder rewardInfo = BattleRewardInfo.newBuilder();
@@ -348,10 +351,10 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-//		int r = RandomUtil.getRandonIndexWithoutProb(10000);
-//		if(r > rbServerCfg.getBossBornRate()){
-//			return;
-//		}
+		int r = RandomUtil.getRandonIndexWithoutProb(10000);
+		if(r > rbServerCfg.getBossBornRate()){
+			return;
+		}
 		
 		//这里要根据权重进行随机
 		
