@@ -422,6 +422,26 @@ public class TargetSellManager {
 	
 	
 	/**
+	 * 推送角色属性
+	 * @param player
+	 * @param attrs   这个可以是全部属性或者是部分属性
+	 */
+	public void pushRoleAttrData(Player player, RoleAttrs attrs){
+		try {
+			
+			TargetSellData msgData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
+			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
+
+			roleData.setArgs(attrs);
+			msgData.setArgs(toJsonObj(roleData));
+			sendMsg(toJsonString(msgData));
+			
+		} catch (Exception e) {
+			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrData]", "发送角色属性到精准服时出现异常", e);
+		}
+	}
+	
+	/**
 	 * 推送玩家所有属性 
 	 * @param player
 	 * @param data 

@@ -157,7 +157,7 @@ public class BenefitSystemMsgAdapter {
 							
 							
 						} catch (IOException e) {
-							GameLog.error("TargetSell", "BenefitSystemMsgReciver[startReciver]", "读取精准营销消息异常", null);
+							GameLog.error("TargetSell", "BenefitSystemMsgReciver[startReciver]", "读取精准营销消息异常", e);
 							closeSocket();
 						}
 					}
