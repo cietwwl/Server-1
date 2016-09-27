@@ -133,6 +133,10 @@ enum eSynType	//数据同步类型
 	BENEFIT_SELL_DATA = 107;//精准营销数据
 	
 	ACHIEVEMENT_DATA = 108;//成就数据
+	GCompSelfGuess = 109;	//玩家个人竞猜的项（只包含基本信息）--登录同步
+	GCompSelfGuessDetail = 110;	//玩家竞猜的项的详细信息（包括两个对战帮派的基本信息）--登录同步
+	GCompCanGuessItem = 111;	//和110用的相同的结构，但表示的是，当前可以竞猜的项（请求同步）
+	GCompMatchEnemy = 112;//匹配敌人数据
 }
 
 message MsgDataSynList

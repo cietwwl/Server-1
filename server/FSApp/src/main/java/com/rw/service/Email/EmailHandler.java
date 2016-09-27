@@ -15,6 +15,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BilogItemInfo;
+import com.rw.service.log.template.EmailLogTemplate;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailItem;
@@ -83,6 +84,7 @@ public class EmailHandler {
 				player.getEmailMgr().delEmail(item.getEmailId(), false);
 				pushEmailList(player);
 			}
+			BILogMgr.getInstance().logEmail(player.getUserId(), item, EmailLogTemplate.EamilOpType.EMAIL_OPEN);
 		} else {
 			pushEmailList(player);
 			response.setResultType(EmailResultType.FAIL);

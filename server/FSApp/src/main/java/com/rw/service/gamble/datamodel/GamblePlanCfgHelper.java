@@ -22,12 +22,15 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 
 	private Map<Integer, List<GamblePlanCfg>> typeLevelMapping;
 	private Map<Integer,Integer> maxHistoryCountMap;
+	private Map<Integer,List<GamblePlanCfg>> guaranteeGroupMap;
 	
 	@Override
 	public Map<String, GamblePlanCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("gamble/GamblePlanCfg.csv", GamblePlanCfg.class);
 		typeLevelMapping = new HashMap<Integer, List<GamblePlanCfg>>();
 		maxHistoryCountMap = new HashMap<Integer, Integer>();
+		guaranteeGroupMap = new HashMap<Integer, List<GamblePlanCfg>>();
+		
 		Collection<GamblePlanCfg> vals = cfgCacheMap.values();
 		for (GamblePlanCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
@@ -36,7 +39,7 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 				lst = new ArrayList<GamblePlanCfg>();
 				typeLevelMapping.put(cfg.getDropType(), lst);
 			}else{
-				GamblePlanCfg other = lst.get(0);
+				GamblePlanCfg other = lst.get(0);//至少需要一个配置
 				if (other.getMoneyNum() != cfg.getMoneyNum() || other.getMoneyType() != cfg.getMoneyType()){
 					throw new RuntimeException("钓鱼台配置有错，相同类型的抽卡类型配置的货币类型或者金额必须一致！"+"关键字:"+other.getKey()+",另一个关键字"+cfg.getKey());
 				}
@@ -47,6 +50,20 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 			if (old == null || old > cfg.getMaxCheckCount()){
 				maxHistoryCountMap.put(cfg.getDropType(), cfg.getMaxCheckCount());
 			}
+			
+			lst = guaranteeGroupMap.get(cfg.getGuaranteeGroupIndex());
+			if (lst == null){
+				lst = new ArrayList<GamblePlanCfg>();
+				guaranteeGroupMap.put(cfg.getGuaranteeGroupIndex(), lst);
+			}else{
+				GamblePlanCfg other = lst.get(0);//至少需要一个配置
+				if (!other.getGuaranteeCheckNum().equals(cfg.getGuaranteeCheckNum())
+						|| other.getChargeExclusiveCount() != cfg.getChargeExclusiveCount()
+						|| other.getFreeExclusiveCount() != cfg.getFreeExclusiveCount()){
+					throw new RuntimeException("钓鱼台配置有错，相同保底次数分组的行，收费保底检索次数,唯一性检查次数（收费组和免费组）必须一致！"+"关键字:"+other.getKey()+",另一个关键字"+cfg.getKey());
+				}
+			}
+			lst.add(cfg);
 		}
 		
 		return cfgCacheMap;
@@ -103,5 +120,11 @@ public class GamblePlanCfgHelper extends CfgCsvDao<GamblePlanCfg> {
 
 	public int getMaxHistoryCount(int dropType) {
 		return maxHistoryCountMap.get(dropType);
+	}
+	
+	public List<GamblePlanCfg> getCfgOfSameGroup(GamblePlanCfg mainCfg){
+		int groupIndex = mainCfg.getGuaranteeGroupIndex();
+		List<GamblePlanCfg> lst = guaranteeGroupMap.get(groupIndex);
+		return lst;
 	}
 }

@@ -7,7 +7,9 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.bm.robot.RandomData;
 import com.playerdata.army.ArmyMagic;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 /*
@@ -40,6 +42,9 @@ public class TeamInfo {
 	// 等级
 	private int level;
 	private String uuid;// 角色的唯一Id
+	
+	@IgnoreSynField
+	private RandomData randomData;  //生成数据的时候用到的随机数记录。
 
 	public TeamInfo() {
 		hero = new ArrayList<HeroInfo>();
@@ -158,4 +163,14 @@ public class TeamInfo {
 	public void setExtraId(int extraId) {
 		this.extraId = extraId;
 	}
+
+	public RandomData getRandomData() {
+		return randomData;
+	}
+
+	public void setRandomData(RandomData randomData) {
+		this.randomData = randomData;
+	}
+	
+	
 }

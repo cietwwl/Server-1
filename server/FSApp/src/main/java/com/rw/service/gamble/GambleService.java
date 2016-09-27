@@ -12,7 +12,6 @@ public class GambleService implements FsService<GambleRequest, EGambleRequestTyp
 
 	@Override
 	public ByteString doTask(GambleRequest request, Player pPlayer) {
-		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
 			EGambleRequestType requestType = request.getRequestType();
@@ -34,14 +33,12 @@ public class GambleService implements FsService<GambleRequest, EGambleRequestTyp
 
 	@Override
 	public GambleRequest parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
 		GambleRequest gambleRequest = GambleRequest.parseFrom(request.getBody().getSerializedContent());
 		return gambleRequest;
 	}
 
 	@Override
 	public EGambleRequestType getMsgType(GambleRequest request) {
-		// TODO Auto-generated method stub
 		return request.getRequestType();
 	}
 }

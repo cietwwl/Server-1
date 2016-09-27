@@ -776,9 +776,17 @@ public class AngelArrayTeamInfoHelper {
 		HeroBaseInfo baseInfo = heroInfo.getBaseInfo();
 		String tmpId = baseInfo.getTmpId();
 		RoleCfg roleCfg = cfgDAO.getCfgById(tmpId);
+		
+		// 设置是否是主角
+		boolean isPlayer = roleCfg.getRoleType() == 1;
+		armyHero.setPlayer(isPlayer);
 
 		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
-		roleBaseInfo.setId(tmpId);
+		if(isPlayer){			
+			roleBaseInfo.setId(teamInfo.getUuid());
+		}else{
+			roleBaseInfo.setId(tmpId);
+		}
 		roleBaseInfo.setLevel(baseInfo.getLevel());
 		roleBaseInfo.setQualityId(baseInfo.getQuality());
 		roleBaseInfo.setStarLevel(baseInfo.getStar());
@@ -836,10 +844,10 @@ public class AngelArrayTeamInfoHelper {
 		// 当前血量
 		CurAttrData curAttrData = new CurAttrData();
 		curAttrData.setCurLife(heroAttrData.getLife());
+		curAttrData.setMaxLife(heroAttrData.getLife());
 		armyHero.setCurAttrData(curAttrData);
-		// 设置是否是主角
-		boolean isPlayer = roleCfg.getRoleType() == 1;
-		armyHero.setPlayer(isPlayer);
+		
+		
 		// 计算战斗力
 		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
 				heroAttrData));
