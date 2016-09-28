@@ -2,6 +2,10 @@ package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompDetailInfo;
+import com.playerdata.groupcompetition.holder.data.GCompGroupScore;
+import com.playerdata.groupcompetition.holder.data.GCompMember;
+import com.playerdata.groupcompetition.holder.data.GCompPersonalScore;
+import com.playerdata.groupcompetition.util.GCompUtil;
 
 public class GCompDetailInfoMgr {
 
@@ -24,5 +28,39 @@ public class GCompDetailInfoMgr {
 	
 	public boolean sendDetailInfo(int matchId, Player player) {
 		return _dataHolder.syn(matchId, player);
+	}
+	
+	private void updateMvp(GCompPersonalScore mvp, GCompMember member) {
+		mvp.setContinueWin(member.getMaxContinueWins());
+		mvp.setName(member.getUserName());
+		mvp.setScore(member.getScore());
+		mvp.setHeadIcon(member.getUserId());
+	}
+	
+	public void onScoreUpdate(int matchId, String groupId, int currentScore, GCompMember member) {
+		GCompDetailInfo detailInfo = _dataHolder.get(matchId);
+		GCompGroupScore groupScore = detailInfo.getByGroupId(groupId);
+		synchronized (groupScore) {
+			groupScore.setScore(currentScore);
+		}
+		if (member == null) {
+			return;
+		}
+		GCompPersonalScore mvp = detailInfo.getMvp();
+		if (mvp == null) {
+			synchronized (detailInfo) {
+				mvp = detailInfo.getMvp();
+				if (mvp == null) {
+					mvp = new GCompPersonalScore();
+					updateMvp(mvp, member);
+				}
+				detailInfo.setMvp(mvp);
+			}
+		} else {
+			if (member.getScore() > mvp.getScore()) {
+				this.updateMvp(mvp, member);
+			}
+		}
+		GCompUtil.log("更新GCompScore, matchId:{}, groupId:{}, 目前的detailInfo:{}", matchId, groupId, detailInfo);
 	}
 }

@@ -14,6 +14,7 @@ import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompMemberHolder;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
@@ -168,7 +169,7 @@ public class GroupCompetitionMgr {
 					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
 					GCOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);
-					GCompMemberMgr.getInstance().checkAndAddGroupMember(player);
+					GCompMemberMgr.getInstance().onPlayerEnterPrepareArea(player);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

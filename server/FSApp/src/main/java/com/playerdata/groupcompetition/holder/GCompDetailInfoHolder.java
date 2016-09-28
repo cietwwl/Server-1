@@ -37,4 +37,8 @@ public class GCompDetailInfoHolder {
 	public void add(GCompDetailInfo detailInfo) {
 		_dao.addDetailInfo(detailInfo);
 	}
+	
+	public GCompDetailInfo get(int matchId) {
+		return _dao.getDetailInfo(matchId);
+	}
 }

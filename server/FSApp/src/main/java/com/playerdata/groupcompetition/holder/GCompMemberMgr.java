@@ -27,6 +27,20 @@ public class GCompMemberMgr {
 		return _instance;
 	}
 	
+	private void checkAndAddGroupMember(Player player, String groupId) {
+		if (groupId != null && groupId.length() > 0) {
+			Map<String, GCompMember> map = _allMembers.get(groupId);
+			if (map != null) {
+				String userId = player.getUserId();
+				if (!map.containsKey(userId)) {
+					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel());
+					map.put(userId, member);
+					_sorted.get(groupId).add(member);
+				}
+			}
+		}
+	}
+	
 	public void notifyEventsStart(List<String> groupIds) {
 		this._allMembers.clear();
 		for (String groupId : groupIds) {
@@ -44,21 +58,12 @@ public class GCompMemberMgr {
 			Collections.sort(list);
 		}
 	}
-	
-	public void checkAndAddGroupMember(Player player) {
+
+	public void onPlayerEnterPrepareArea(Player player) {
 		String groupId = GroupHelper.getGroupId(player);
-		if (groupId != null && groupId.length() > 0) {
-			Map<String, GCompMember> map = _allMembers.get(groupId);
-			if (map != null) {
-				String userId = player.getUserId();
-				if (!map.containsKey(userId)) {
-					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel());
-					map.put(userId, member);
-					_sorted.get(groupId).add(member);
-					// P2DO 排序？
-				}
-			}
-		}
+		this.checkAndAddGroupMember(player, groupId);
+		GCompMember member = this.getGCompMember(groupId, player.getUserId());
+		GCompMemberHolder.getInstance().syn(player, member);
 	}
 	
 	public GCompMember getGCompMember(String groupId, String userId) {
