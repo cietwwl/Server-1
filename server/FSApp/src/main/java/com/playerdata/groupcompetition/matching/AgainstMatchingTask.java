@@ -2,6 +2,7 @@ package com.playerdata.groupcompetition.matching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +11,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.RejectedExecutionException;
-
-import javax.sound.sampled.TargetDataLine;
 
 import com.playerdata.Hero;
 import com.playerdata.PlayerMgr;
@@ -214,43 +213,75 @@ class AgainstMatchingTask implements IGameTimerTask {
 		}
 	}
 	
-	private void randomMatching(GroupMatchingData gmd1, GroupMatchingData gmd2) {
+	private Queue<GCompMember> getAllMembersOfGroup(String groupId) {
+		Queue<GCompMember> allMembersOfGroup = new LinkedList<GCompMember>();
+		GCompMemberMgr.getInstance().getCopyOfAllMembers(groupId, allMembersOfGroup);
+		return allMembersOfGroup;
+	}
+
+	private List<RandomMatchingData> getRandomMatchingDataList(GroupMatchingData groupMatchingData, Queue<GCompMember> allMembersOfGroup, int maxMemberSize) {
+		// 从帮派的随机匹配列表中获取匹配数据
+		// 如果有人已经等到匹配超时，会出现以下的情况：
+		// 1、如果同一方的等待列表中超过3人，则组成一个队伍
+		// 2、如果同一方的等待列表中不足3人，则会优先把已经超时的人连同相应数量的机器人组成一队；未超时的等待下一轮匹配
+		List<RandomMatchingData> list;
+		int size = groupMatchingData.getRandomMatchingSize();
+		if (size > 0) {
+			list = groupMatchingData.pollRandomMatchingData(size > maxMemberSize ? maxMemberSize : size);
+		} else {
+			list = new ArrayList<RandomMatchingData>();
+		}
+		int sizeOfList = list.size();
+		if (sizeOfList < maxMemberSize) {
+			if (sizeOfList > 0) {
+				RandomMatchingData rmd;
+				long currentTimeMillis = System.currentTimeMillis();
+				int timeoutMillis = GCompCommonConfig.getMachingTimeoutMillis();
+				for (Iterator<RandomMatchingData> itr = list.iterator(); itr.hasNext();) {
+					rmd = itr.next();
+					if (currentTimeMillis - rmd.getSubmitTime() < timeoutMillis) {
+						GCompUtil.log("未到时间，移除：{}", rmd.getUserId());
+						groupMatchingData.turnBackRandomMatchingData(rmd);
+						itr.remove();
+					}
+				}
+			}
+			if (list.size() > 0) {
+				this.getRandomMember(allMembersOfGroup, list);
+			}
+		}
+		return list;
+	}
+	
+	private void randomMatching(GroupMatchingData groupMatchingDataA, GroupMatchingData groupMatchingDataB) {
 //		GCompUtil.log("---------- 帮派争霸，随机匹配开始，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
-		gmd1.beforeRandomMatching();
-		gmd2.beforeRandomMatching();
-		if (gmd1.getRandomMatchingSize() == 0 && gmd2.getRandomMatchingSize() == 0) {
+		
+		groupMatchingDataA.beforeRandomMatching(); // 随机匹配前的通知
+		groupMatchingDataB.beforeRandomMatching(); // 随机匹配前的通知
+		
+		if (groupMatchingDataA.getRandomMatchingSize() == 0 && groupMatchingDataB.getRandomMatchingSize() == 0) {
+			// 两边都没有人在随机匹配
 			return;
 		}
 		int maxMemberCount = GCompCommonConfig.getMaxMemberCountOfTeam();
-		int sizeOfGmd1 = gmd1.getRandomMatchingSize();
-		int sizeOfGmd2 = gmd2.getRandomMatchingSize();
-		List<RandomMatchingData> listOfGmd1;
-		List<RandomMatchingData> listOfGmd2;
-		Queue<GCompMember> allMemberOfGroupA = new LinkedList<GCompMember>();
-		Queue<GCompMember> allMemberOfGroupB = new LinkedList<GCompMember>();
-		GCompMemberMgr.getInstance().getCopyOfAllMembers(idOfGroupA, allMemberOfGroupA);
-		GCompMemberMgr.getInstance().getCopyOfAllMembers(idOfGroupB, allMemberOfGroupB);
-		while (sizeOfGmd1 > 0 || sizeOfGmd2 > 0) {
-			if (sizeOfGmd1 > 0) {
-				listOfGmd1 = gmd1.pollRandomMatchingData(sizeOfGmd1 > maxMemberCount ? maxMemberCount : sizeOfGmd1);
-			} else {
-				listOfGmd1 = new ArrayList<RandomMatchingData>();
+		List<RandomMatchingData> listOfGroupMatchingDataA;
+		List<RandomMatchingData> listOfGroupMatchingDataB;
+		Queue<GCompMember> allMemberOfGroupA = this.getAllMembersOfGroup(idOfGroupA);
+		Queue<GCompMember> allMemberOfGroupB = this.getAllMembersOfGroup(idOfGroupB);
+		while (groupMatchingDataA.getRandomMatchingSize() > 0 || groupMatchingDataB.getRandomMatchingSize() > 0) {
+			listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount);
+			listOfGroupMatchingDataB = this.getRandomMatchingDataList(groupMatchingDataB, allMemberOfGroupB, maxMemberCount);
+			if (listOfGroupMatchingDataA.isEmpty() && listOfGroupMatchingDataB.isEmpty()) {
+				break;
 			}
-			if (sizeOfGmd2 > 0) {
-				listOfGmd2 = gmd2.pollRandomMatchingData(sizeOfGmd2 > maxMemberCount ? maxMemberCount : sizeOfGmd2);
-			} else {
-				listOfGmd2 = new ArrayList<RandomMatchingData>();
+			if (listOfGroupMatchingDataA.size() > 0 && listOfGroupMatchingDataB.isEmpty()) {
+				this.getRandomMember(allMemberOfGroupB, listOfGroupMatchingDataB);
+			} else if (listOfGroupMatchingDataB.size() > 0 && listOfGroupMatchingDataA.isEmpty()) {
+				this.getRandomMember(allMemberOfGroupA, listOfGroupMatchingDataA);
 			}
-			if (listOfGmd1.size() < maxMemberCount) {
-				this.getRandomMember(allMemberOfGroupA, listOfGmd1);
-			}
-			if (listOfGmd2.size() < maxMemberCount) {
-				this.getRandomMember(allMemberOfGroupB, listOfGmd2);
-			}
-			onRandomMatch(listOfGmd1, listOfGmd2);
-			sizeOfGmd1 = gmd1.getRandomMatchingSize();
-			sizeOfGmd2 = gmd2.getRandomMatchingSize();
+			onRandomMatch(listOfGroupMatchingDataA, listOfGroupMatchingDataB);
 		}
+		
 //		GCompUtil.log("---------- 帮派争霸，随机匹配结束，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
 	}
 	
@@ -308,16 +339,16 @@ class AgainstMatchingTask implements IGameTimerTask {
 //		}
 		Queue<MatchingData> queue = this.submitQueue;
 		if (queue.size() > 0) {
-			GroupMatchingData gmd;
-			GroupMatchingData againstGmd;
+			GroupMatchingData myGroupMatchingData;
+			GroupMatchingData againstGroupMatchingData;
 			MatchingData dataMatched;
-			List<MatchingData> matched = new ArrayList<MatchingData>();
+			List<MatchingData> matched = new ArrayList<MatchingData>(); // 已经匹配到的数据
 			int maxMatchingLvFloating = GCompCommonConfig.getMaxMatchingLvFloating();
 			synchronized (queue) {
-				Queue<GCompMember> allMembersOfGmd1 = new LinkedList<GCompMember>();
-				Queue<GCompMember> allMembersOfGmd2 = new LinkedList<GCompMember>();
-				GCompMemberMgr.getInstance().getCopyOfAllMembers(idOfGroupA, allMembersOfGmd1); // 所有的帮派A的成员
-				GCompMemberMgr.getInstance().getCopyOfAllMembers(idOfGroupA, allMembersOfGmd2); // 所有的帮派B的成员
+				long currentMillis = System.currentTimeMillis();
+				int matchingTimeoutMillis = GCompCommonConfig.getMachingTimeoutMillis();
+				Queue<GCompMember> allMembersOfGroupA = this.getAllMembersOfGroup(idOfGroupA); // 所有的帮派A的成员
+				Queue<GCompMember> allMembersOfGroupB = this.getAllMembersOfGroup(idOfGroupB); // 所有的帮派B的成员
 				for (MatchingData md : queue) {
 					if (matched.contains(md)) {
 						continue;
@@ -325,25 +356,29 @@ class AgainstMatchingTask implements IGameTimerTask {
 						matched.add(md);
 						continue;
 					}
-					gmd = groupMatchingDatas.get(md.getGroupId());
-					againstGmd = groupMatchingDatas.get(gmd.getAgainstGroupId());
+					myGroupMatchingData = groupMatchingDatas.get(md.getGroupId());
+					againstGroupMatchingData = groupMatchingDatas.get(myGroupMatchingData.getAgainstGroupId());
 					dataMatched = null;
 					for (int i = 0; i < maxMatchingLvFloating; i++) {
-						dataMatched = againstGmd.pollMatchingByLv(md.getLv() + i);
+						dataMatched = againstGroupMatchingData.pollMatchingByLv(md.getLv() + i);
 						if (dataMatched != null) {
 							break;
 						}
 					}
 					if (dataMatched == null) {
+						if(currentMillis - md.getSubmitTime() < matchingTimeoutMillis) {
+							// 没有超时，等待下一轮
+							continue;
+						}
 						// 没有匹配到人，要匹配机器人，要从GCompMemberMgr拿3个人出来
-						if(this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGmd2 : allMembersOfGmd1, md)) {
+						if(this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGroupB : allMembersOfGroupA, md)) {
 							matched.add(md);
-							gmd.removeMatchingData(md);
+							myGroupMatchingData.removeMatchingData(md);
 						}
 					} else {
 						matched.add(dataMatched);
 						matched.add(md);
-						gmd.removeMatchingData(md);
+						myGroupMatchingData.removeMatchingData(md);
 						onMatch(md, dataMatched);
 					}
 				}

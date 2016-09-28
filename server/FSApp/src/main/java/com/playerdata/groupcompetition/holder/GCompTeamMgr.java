@@ -16,6 +16,7 @@ import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
 import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
@@ -46,9 +47,9 @@ public class GCompTeamMgr {
 		
 	}
 	
-	private int getMatchIdOfGroup(String groupId) {
+	private IGCAgainst getMatchOfGroup(String groupId) {
 		GCEventsType currentEventsType = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		return GCompEventsDataMgr.getInstance().getMatchIdOfGroup(groupId, currentEventsType);
+		return GCompEventsDataMgr.getInstance().getGCAgainstOfGroup(groupId, currentEventsType);
 	}
 	
 	private Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createArmyInfoList(Player player, List<String> heroIds, boolean includeMain, boolean includeMagic) {
@@ -115,13 +116,18 @@ public class GCompTeamMgr {
 			return null;
 		}
 
-		int matchId = this.getMatchIdOfGroup(groupId);
-		if (matchId == 0) {
+		IGCAgainst gcAgainst = this.getMatchOfGroup(groupId);
+		if (gcAgainst == null) {
 			result.setT2(GCompTips.getTipsYourGroupNotInMatch(GroupCompetitionMgr.getInstance().getCurrentEventsType().chineseName));
 			return null;
 		}
+		
+		if(gcAgainst.getGroupA().getGroupId().length() == 0 || gcAgainst.getGroupB().getGroupId().length() == 0) {
+			result.setT2(GCompTips.getTipsYourGroupHaveNoEnemy());
+			return null;
+		}
 
-		return Pair.CreateReadonly(groupId, matchId);
+		return Pair.CreateReadonly(groupId, gcAgainst.getId());
 	}
 	
 	private void sendInvitation(Player invitor, Player targetPlayer, String teamId) {

@@ -1,13 +1,13 @@
 package com.playerdata.groupcompetition.matching;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
@@ -25,7 +25,8 @@ class GroupMatchingData {
 	private final String againstGroupId;
 	private final List<String> matchingDataKeys;
 	private final Map<Integer, Queue<MatchingData>> matchingData; // key=等级，value=该等级下的英雄
-	private final Queue<RandomMatchingData> randomMatchingDatas;
+	private final Deque<RandomMatchingData> randomMatchingDatas;
+	private final Deque<RandomMatchingData> turnBackRandomMatchingDatas;
 	private final AtomicBoolean someCancel = new AtomicBoolean(false);
 	
 	GroupMatchingData(String groupId, String againstGroupId) {
@@ -33,7 +34,8 @@ class GroupMatchingData {
 		this.againstGroupId = againstGroupId;
 		this.matchingDataKeys = new ArrayList<String>();
 		this.matchingData = new HashMap<Integer, Queue<MatchingData>>();
-		this.randomMatchingDatas = new ConcurrentLinkedQueue<RandomMatchingData>();
+		this.randomMatchingDatas = new LinkedList<RandomMatchingData>();
+		this.turnBackRandomMatchingDatas = new LinkedList<RandomMatchingData>();
 	}
 	
 	synchronized void addMatchingData(MatchingData m) {
@@ -106,6 +108,12 @@ class GroupMatchingData {
 		}
 	}
 	
+	void turnBackRandomMatchingData(RandomMatchingData rmd) {
+		synchronized (this.turnBackRandomMatchingDatas) {
+			this.turnBackRandomMatchingDatas.add(rmd);
+		}
+	}
+	
 	void beforeRandomMatching() {
 //		GCompUtil.log("---------- 帮派争霸，随机匹配任务前的通知！帮派id：{} ----------", this.groupId);
 		if (someCancel.compareAndSet(true, false)) {
@@ -114,6 +122,15 @@ class GroupMatchingData {
 					if (itr.next().isCancel()) {
 						itr.remove();
 					}
+				}
+			}
+		}
+		if(this.turnBackRandomMatchingDatas.size() > 0) {
+			synchronized (this.turnBackRandomMatchingDatas) {
+				turnBackRandomMatchingDatas.descendingIterator(); // 后进先出
+				for (Iterator<RandomMatchingData> itr = turnBackRandomMatchingDatas.descendingIterator(); itr.hasNext();) {
+					randomMatchingDatas.addFirst(itr.next());
+					itr.remove();
 				}
 			}
 		}

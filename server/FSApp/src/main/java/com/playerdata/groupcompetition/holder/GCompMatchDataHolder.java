@@ -291,6 +291,7 @@ public class GCompMatchDataHolder {
 		}
 		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
 		int groupScore = 0;
+		IGCompMemberAgent agent;
 		for (GCompTeamMember member : allMembers) {
 //			if (member.isRobot()) {
 //				GCompUtil.log("memberId：{}，memberName：{}，本次是机器人数据，不参与结算！", member.getUserId(), member.getArmyInfo().getPlayerName());
@@ -298,9 +299,9 @@ public class GCompMatchDataHolder {
 //			}
 			// 更新个人的数据
 			member.getResult();
-			GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, myTeam.getLeaderId());
+			GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, member.getUserId());
 			if (gCompMember != null) {
-				IGCompMemberAgent agent = GCompMember.getAgent(member.isRobot());
+				agent = GCompMember.getAgent(member.isRobot());
 				// 处理连胜
 				switch (result) {
 				case WIN: // 胜利增加连胜次数
