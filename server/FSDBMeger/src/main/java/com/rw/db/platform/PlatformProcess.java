@@ -7,7 +7,7 @@ import java.util.Map;
 import com.rw.db.DBInfo;
 import com.rw.db.PlatformDBInfo;
 import com.rw.db.dao.DBMgr;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 
 /**
  * 更新平台信息

@@ -1,5 +1,9 @@
 package com.rw.fsutil.dao.cache;
- 
+
+import java.util.List;
+import java.util.Map;
+
+import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 /**
  * <pre>
@@ -7,46 +11,43 @@ package com.rw.fsutil.dao.cache;
  * 包括加载、删除、更新操作
  * 注意：不包含数据数据库的插入操作
  * </pre>
+ * 
  * @author jamaz
  */
-public interface PersistentLoader<K, V> {
+public abstract class PersistentLoader<K, V> implements PersistentGenericHandler<K, V, K> {
 
-    /**
-     * 加载数据
-     * @param key
-     * @return 
-     */
-    public V load(K key) throws DataNotExistException, Exception;
+	public abstract Object[] extractParams(K key, V value);
 
-    /**
-     * 删除一个持久化数据
-     * @param key
-     * @return 
-     */
-    public boolean delete(K key) throws DataNotExistException,  Exception;
-    
-    /**
-     * 插入一个数据
-     * @param key		主键
-     * @param value	数据
-     * @return
-     * @throws DuplicatedKeyException	重复主键异常
-     * @throws Exception								
-     */
-    public boolean insert(K key,V value) throws DuplicatedKeyException,Exception;
-    
-    /**
-     * <pre>
-     * 把数据同步到数据库
-     * 当同步失败，集合在一段时间后会尝试重新调用{@link #updateToDB(java.lang.Object, java.lang.Object) }方法同步
-     * 但有两种情况不会重新执行：
-     * (1)被踢出缓存
-     * (2)关服保存
-     * 所以返回false的时候必须记log方便数据的追踪
-     * </pre>
-     * @param key
-     * @param value
-     * @return 
-     */
-    public boolean updateToDB(K key, V value);
+	/**
+	 * 提交和转换同步参数
+	 * 
+	 * @param key
+	 * @param value
+	 * @param updateList
+	 * @return
+	 */
+	public boolean extractParams(K key, V value, List<Object[]> updateList) {
+		Object[] params = extractParams(key, value);
+		if (params == null) {
+			return false;
+		}
+		return updateList.add(params);
+	}
+
+	/**
+	 * 提交和转换同步参数 缺少返回参数
+	 * 
+	 * @param key
+	 * @param value
+	 * @param updateList
+	 * @return
+	 */
+	public boolean extractParams(K key, V value, Map<K, Object[]> map) {
+		Object[] params = extractParams(key, value);
+		if (params == null) {
+			return false;
+		}
+		map.put(key, params);
+		return true;
+	}
 }

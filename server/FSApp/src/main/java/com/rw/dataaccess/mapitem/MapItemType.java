@@ -11,6 +11,7 @@ import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
+import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -42,7 +43,9 @@ public enum MapItemType {
 	
 	TIME_COUNT(12,ActivityTimeCountTypeItem.class,TimeCountCreator.class),
 	
-	VITAITY(13,ActivityVitalityTypeItem.class,VitalityCreator.class)
+	VITAITY(13,ActivityVitalityTypeItem.class,VitalityCreator.class),
+	
+	REWARDSBACK(14,RewardBackItem.class,RewardsBackCreator.class)
 	;
 	
 	private final int type;

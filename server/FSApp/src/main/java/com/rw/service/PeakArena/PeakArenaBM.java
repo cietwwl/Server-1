@@ -498,8 +498,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	 */
 	public boolean isOpen(Player player){
 		if (!player.isRobot()){
-			int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player);
-			if (openLevel != -1) {
+			if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.PEAK_ARENA, player)) {
 				return false;
 			}
 		}

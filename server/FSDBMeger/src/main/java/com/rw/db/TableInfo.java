@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 
 public class TableInfo {
 

@@ -15,7 +15,7 @@ import com.rw.fsutil.dao.annotation.FieldEntry;
 import com.rw.fsutil.log.SqlLog;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
-class CommonRowMapper<T> implements RowMapper<T> {
+public class CommonRowMapper<T> implements RowMapper<T> {
 	
 	private final Object ownerId;
 	protected ClassInfo classInfo;

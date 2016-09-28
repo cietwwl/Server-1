@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -74,10 +75,10 @@ public class GroupBaseManagerHandler {
 		commonRsp.setReqType(RequestType.CREATE_GROUP_TYPE);
 
 		String playerId = player.getUserId();// 角色的Id
+		RefParam<String> outTip = new RefParam<String>();
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查一下唯一的配置表

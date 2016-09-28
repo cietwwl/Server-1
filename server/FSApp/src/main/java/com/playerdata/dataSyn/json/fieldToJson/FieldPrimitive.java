@@ -12,13 +12,17 @@ public class FieldPrimitive implements IFieldToJson{
 
 	private Field field;
 	
-	public FieldPrimitive(Field fieldP){
+	private boolean isRefOpt;
+	
+	public FieldPrimitive(Field fieldP,boolean isRefOptP){
 		field = fieldP;
+		isRefOpt = isRefOptP;
 	}
 
 	@Override
 	public String toJson(Object target, JsonOpt jsonOpt) throws Exception {
-		Object objectValue = field.get(target);
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
+		
 		if(objectValue == null){
 			return null;
 		}

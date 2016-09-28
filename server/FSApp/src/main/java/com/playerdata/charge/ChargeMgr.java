@@ -178,7 +178,7 @@ public class ChargeMgr {
 				List<ActivityTimeCardTypeSubCfg>  timeCardList = ActivityTimeCardTypeSubCfgDAO.getInstance().getAllCfg();
 				for(ActivityTimeCardTypeSubCfg timecardcfg : timeCardList){
 					if(timecardcfg.getChargeType() == target.getChargeType()){
-						success = buyMonthCard(player, timecardcfg.getId()).isSuccess();
+						success = buyMonthCard(player, timecardcfg.getId(),target).isSuccess();
 						break;
 					}
 				}
@@ -223,10 +223,10 @@ public class ChargeMgr {
 		int addGold = target.getGoldCount();
 		int money = target.getMoneyCount();
 		
-		player.getUserGameDataMgr().addReCharge(addGold);
+		
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
-		
+		player.getUserGameDataMgr().addReCharge(addGold);
 		//派发限购的钻石奖励
 		ChargeInfoSubRecording sublist = null;
 		Boolean isextragive = false;
@@ -335,7 +335,7 @@ public class ChargeMgr {
 					.getInstance().getAllCfg();
 			for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
 				if (timecardcfg.getChargeType() == target.getChargeType()) {
-					result = buyMonthCard(player, timecardcfg.getId());
+					result = buyMonthCard(player, timecardcfg.getId(),target);
 					break;
 				}
 			}
@@ -350,7 +350,7 @@ public class ChargeMgr {
 	
 	
 	
-	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId) {
+	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId,ChargeCfg target) {
 		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
@@ -411,6 +411,14 @@ public class ChargeMgr {
 			} catch (Exception e) {
 				GameLog.info("特权", player.getUserId(), "无法获取充值类型:"+orderStr, e);
 			}
+			int addGold = target.getVipExp();
+			int money = target.getMoneyCount();			
+			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+			//升级vip，如果达到条件
+			upgradeVip(player, chargeInfo);
+			// 设置界面更新vip
+			player.getSettingMgr().checkOpen();
 		}
 		return result;
 	}

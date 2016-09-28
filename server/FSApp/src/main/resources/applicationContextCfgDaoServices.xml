@@ -210,6 +210,10 @@
 	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->

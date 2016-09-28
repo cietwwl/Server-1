@@ -85,6 +85,8 @@
 			     <entry key="MSG_ACTIVITY_FORTUNECAT_TYPE" value-ref="activityFortuneCatTypeService" />
 			     <entry key="MSG_ACTIVITY_DAILY_CHARGE_TYPE" value-ref="activityDailyChargeTypeService" />
 			     <entry key="MSG_ACTIVITY_LimitHero_TYPE" value-ref="activityLimitHeroTypeService" />
+			     <entry key="MSG_ACTIVITY_RETRIEVE" value-ref="activityRetrieveTypeService" />
+			     
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
 			     <entry key="MSG_TAOIST" value-ref="taoistService" />
@@ -213,11 +215,16 @@
 	<bean id="synDataService" class="com.playerdata.dataSyn.service.SynDataService"/>
 	
 	<bean id="userFightingGrowthService" class="com.rw.service.fightinggrowth.FSUserFightingGrowthService" />
+	
+	<bean id="activityRetrieveTypeService" class="com.playerdata.activity.retrieve.service.ActivityRetrieveTypeService" />
+	
 	<bean id="groupCompetitionService" class="com.playerdata.groupcompetition.service.GroupCompetitionService" />
 	<bean id="groupCompetitionDataService" class="com.playerdata.groupcompetition.service.GroupCompetitionGetDataService" />
 	<bean id="groupCompQuizService" class="com.playerdata.groupcompetition.service.GroupCompQuizService" />
 	<bean id="groupCompCanQuizService" class="com.playerdata.groupcompetition.service.GroupCompQuizSynService" />
 	<bean id="groupCompetitionEventsService" class="com.playerdata.groupcompetition.service.GroupCompetitionEventsService" />
+
+
 	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
 	
 	<bean id="groupCompetitionBattleService" class="com.playerdata.groupcompetition.service.GroupCompetitionBattleService" />

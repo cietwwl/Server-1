@@ -15,7 +15,7 @@ import com.rw.db.DBInfo;
 import com.rw.db.TableInfo;
 import com.rw.db.dao.DBMgr;
 import com.rw.db.tablesBeforeMerge.AbsTableProcesser;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.CommonUtils;
 import com.rw.utils.FileUtils;
 import com.rw.utils.SQLUtils;

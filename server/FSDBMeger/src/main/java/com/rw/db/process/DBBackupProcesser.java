@@ -5,7 +5,7 @@ import java.io.File;
 import com.rw.DBMergeMgr;
 import com.rw.constant.ModuleName;
 import com.rw.db.DBInfo;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.DateUtils;
 import com.rw.utils.ShellUtils;
 

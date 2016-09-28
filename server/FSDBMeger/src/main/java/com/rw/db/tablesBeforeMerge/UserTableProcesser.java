@@ -18,7 +18,7 @@ import com.rw.db.annotation.BPTableName;
 import com.rw.db.dao.DBMgr;
 import com.rw.db.tables.info.RenameInfo;
 import com.rw.db.tables.info.UserNameInfo;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 import com.rw.utils.CommonUtils;
 
 @BPTableName(name="user")

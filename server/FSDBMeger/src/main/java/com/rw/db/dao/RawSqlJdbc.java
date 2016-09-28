@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.rw.log.DBLog;
+import com.rw.dblog.DBLog;
 
 public class RawSqlJdbc {
 	private JdbcTemplate template;
