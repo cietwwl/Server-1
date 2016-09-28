@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.management.timer.Timer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
@@ -130,7 +131,9 @@ public class TargetSellManager {
 			return null;
 		}
 		p = initDefaultParam(p);
-		p.setChannelId(channelID);
+		if(StringUtils.isNotBlank(channelID)){
+			p.setChannelId(channelID);
+		}
 		p.setRoleId(userID);
 		p.setUserId(account);
 		return p;
@@ -243,7 +246,6 @@ public class TargetSellManager {
 	public void checkBenefitScoreAndSynData(Player player){
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
 		pushRoleAllAttrsData(player, null);
-		applyRoleBenefitItem(player);
 		long nowTime = System.currentTimeMillis();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
@@ -283,6 +285,7 @@ public class TargetSellManager {
 		dataDao.update(record);
 		//同步到前端
 		if(map.isEmpty()){
+			//发现没有数据，主动请求一下
 			applyRoleBenefitItem(player);
 			return;
 		}

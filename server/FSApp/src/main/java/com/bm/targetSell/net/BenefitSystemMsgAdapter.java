@@ -21,6 +21,9 @@ import com.rwbase.gameworld.GameWorldFactory;
  */
 public class BenefitSystemMsgAdapter {
 
+	private final static int MSG_KEY = 13542;
+	
+	private final static int RECV_BUFFER_SIZE = 1024 * 32 ;
 	
 	private Socket socket;
 	
@@ -40,6 +43,7 @@ public class BenefitSystemMsgAdapter {
 		remoteAddress = new InetSocketAddress(host, port);
 		this.timeoutMillis = timeoutMillis;
 		this.socket = createSocket();
+		
 		startReciver();
 	}
 	
@@ -106,7 +110,7 @@ public class BenefitSystemMsgAdapter {
 		int contentLenght = contentBytes.length;
 		ByteBuffer dataBuffer = ByteBuffer.allocate(4 + contentLenght);//创建数据包，大小为包头长度+包体长度
 		//添加包头
-		int header = contentLenght ^ 13542;
+		int header = contentLenght ^ MSG_KEY;
 		dataBuffer.putInt(header);
 		dataBuffer.put(contentBytes);
 		return dataBuffer.array();
@@ -119,7 +123,8 @@ public class BenefitSystemMsgAdapter {
 	 * @throws IOException 
 	 */
 	private String decodeData(int headerContent) throws IOException{
-		int bodyLen = headerContent ^ 13542;
+		int bodyLen = headerContent ^ MSG_KEY;
+		bodyLen = Math.min(bodyLen, RECV_BUFFER_SIZE);
 		byte[] temp = new byte[bodyLen];
 		reader.read(temp);
 		return new String(temp,"utf-8");
