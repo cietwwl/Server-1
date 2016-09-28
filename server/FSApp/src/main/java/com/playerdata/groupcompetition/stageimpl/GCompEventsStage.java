@@ -56,7 +56,14 @@ public class GCompEventsStage implements IGCompStage {
 	
 	private void scheduleEventsStatusSwitchTask() {
 		// 提交赛事控制任务
-		long endTimeMillis = System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(_events.getCurrentStatus().getLastMinutes());
+		int lastMinutes = _events.getCurrentStatus().getLastMinutes();
+		long lastMillis;
+		if (lastMinutes > 0) {
+			lastMillis = TimeUnit.MINUTES.toMillis(lastMinutes);
+		} else {
+			lastMillis = 1000;
+		}
+		long endTimeMillis = System.currentTimeMillis() + lastMillis;
 		GCompUtil.log("---------- 提交赛事状态控制任务！当前状态：{}， deadLine：{} ---------", _events.getCurrentStatus(), _dateFormatter.format(new Date(endTimeMillis)));
 		GCompCommonTask.scheduleCommonTask(_eventStatusSwitcher, this, endTimeMillis); // 结束的时效任务，等待回调
 	}

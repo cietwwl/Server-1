@@ -10,11 +10,11 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 @SynClass
 public class GCompEventsSynData {
 
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private List<GCompAgainst> matches = new ArrayList<GCompAgainst>();
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private GCEventsType matchNumType; // 开始的比赛类型
-	@SuppressWarnings("unused")
+//	@SuppressWarnings("unused")
 	private int matchId; // 具体玩家的matchId
 	
 	public void setMatches(List<GCompAgainst> matches) {
@@ -27,5 +27,10 @@ public class GCompEventsSynData {
 	
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
+	}
+	
+	@Override
+	public String toString() {
+		return "GCompEventsSynData [matches=" + matches + ", matchNumType=" + matchNumType + ", matchId=" + matchId + "]";
 	}
 }

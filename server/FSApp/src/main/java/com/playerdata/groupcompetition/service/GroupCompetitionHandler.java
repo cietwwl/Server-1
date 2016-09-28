@@ -204,6 +204,7 @@ public class GroupCompetitionHandler {
 	 */
 	public ByteString getMatchData(Player player) {
 		GCResultType resultType = this.checkStageValidate(GCompStageType.EVENTS);
+//		GCResultType resultType = GCResultType.SUCCESS;
 		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotMatchStageNow() : null);
 		if (resultType == GCResultType.SUCCESS) {
 			// 成功才有数据

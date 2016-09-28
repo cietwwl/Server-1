@@ -1,11 +1,16 @@
 package com.playerdata.groupcompetition.stageimpl;
 
+import java.util.List;
+import java.util.Map;
+
 import com.bm.group.GroupBM;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwproto.GroupCommonProto.GroupPost;
 
 @SynClass
 public class GCGroup implements IGCGroup {
@@ -33,11 +38,17 @@ public class GCGroup implements IGCGroup {
 		} else {
 			Group group = GroupBM.get(groupId);
 			GroupBaseDataIF baseData = group.getGroupBaseDataMgr().getGroupData();
+			Map<Integer, List<GroupMemberDataIF>> map = group.getGroupMemberMgr().getAllMemberByPost();
 			this.groupId = groupId;
 			this.groupName = baseData.getGroupName();
 			this.leaderName = group.getGroupMemberMgr().getGroupLeader().getName();
 			this._groupIcon = baseData.getIconId();
-			this.assistantName = "";
+			List<GroupMemberDataIF> assistants = map.get(GroupPost.ASSISTANT_LEADER_VALUE);
+			if (assistants != null && assistants.size() > 0) {
+				this.assistantName = assistants.get(0).getName();
+			} else {
+				this.assistantName = "";
+			}
 		}
 		this.descr = "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
 	}
@@ -69,6 +80,14 @@ public class GCGroup implements IGCGroup {
 	@Override
 	public String toString() {
 		return descr;
+	}
+
+	public String getLeaderName() {
+		return leaderName;
+	}
+
+	public String getAssistantName() {
+		return assistantName;
 	}
 
 }

@@ -5,10 +5,17 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.groupcompetition.pojo.GCompChampionRewardCfg;
 
 public class GCompChampionRewardCfgDAO extends CfgCsvDao<GCompChampionRewardCfg> {
+	
+	public static GCompChampionRewardCfgDAO getInstance() {
+		return SpringContextUtil.getBean(GCompChampionRewardCfgDAO.class);
+	}
+	
+	private Map<Integer, GCompChampionRewardCfg> rewardByPos = new HashMap<Integer, GCompChampionRewardCfg>();
 
 	@Override
 	protected Map<String, GCompChampionRewardCfg> initJsonCfg() {
@@ -22,8 +29,13 @@ public class GCompChampionRewardCfgDAO extends CfgCsvDao<GCompChampionRewardCfg>
 				map.put(Integer.parseInt(tempGiftSplit[0]), Integer.parseInt(tempGiftSplit[1]));
 			}
 			cfg.setRewardMap(map);
+			rewardByPos.put(cfg.getPosition(), cfg);
 		}
 		return this.cfgCacheMap;
+	}
+	
+	public GCompChampionRewardCfg getByPos(Integer pos) {
+		return rewardByPos.get(pos);
 	}
 
 }

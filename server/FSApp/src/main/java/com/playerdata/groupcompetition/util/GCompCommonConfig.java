@@ -4,6 +4,8 @@ public class GCompCommonConfig {
 
 	private static int maxMemberCountOfTeam = 3;
 	private static int maxMatchingLvFloating = 5; // 最大的匹配等级浮动区间
+	private static int broadcastIntervalSeconds = 5; // 广播时效任务的间隔
+	private static int matchingIntervalSeconds = 20; // 匹配的间隔
 
 	/**
 	 * 
@@ -23,5 +25,21 @@ public class GCompCommonConfig {
 	 */
 	public static int getMaxMatchingLvFloating() {
 		return maxMatchingLvFloating;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getBroadcastIntervalSeconds() {
+		return broadcastIntervalSeconds;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getMatchingIntervalSeconds() {
+		return matchingIntervalSeconds;
 	}
 }

@@ -22,9 +22,9 @@ public class GCompEventsDataMgr {
 	private GCompEventsDataHolder _dataHolder = GCompEventsDataHolder.getInstance();
 
 	public void onEventStageStart(GCEventsType startEventsType) {
-		GCompEventsGlobalData synData = _dataHolder.get();
-		synData.clear();
-		synData.setMatchNumType(startEventsType);
+		GCompEventsGlobalData globalData = _dataHolder.get();
+		globalData.clear();
+		globalData.setMatchNumType(startEventsType);
 	}
 
 	/**

@@ -12,13 +12,18 @@ public class GCompEventsDataDAO {
 		return _instance;
 	}
 	
-	private final GCompEventsGlobalData _synData = new GCompEventsGlobalData();
+	private final GCompEventsGlobalData _currentGlobalData = new GCompEventsGlobalData();
+	private final GCompEventsGlobalData _lastGlobalData = new GCompEventsGlobalData();
 	
-	public GCompEventsGlobalData get() {
-		return _synData;
+	public GCompEventsGlobalData getCurrentGlobalData() {
+		return _currentGlobalData;
+	}
+	
+	public GCompEventsGlobalData getLastGlobalData() {
+		return _lastGlobalData;
 	}
 	
 	public void add(GCEventsType eventsType, GCompEventsData eventsData) {
-		this._synData.add(eventsType, eventsData);
+		this._currentGlobalData.add(eventsType, eventsData);
 	}
 }

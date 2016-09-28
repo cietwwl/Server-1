@@ -1,17 +1,11 @@
 package com.playerdata.groupcompetition.stageimpl;
 
-import java.util.List;
-
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
-import com.playerdata.groupcompetition.data.GCCombatRecord;
 import com.playerdata.groupcompetition.data.IGCAgainst;
-import com.playerdata.groupcompetition.data.IGCGroup;
-import com.playerdata.groupcompetition.data.IGCUnit;
-import com.playerdata.groupcompetition.data.match.IGCMatcher;
-import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompEventsStatus;
 
 @SynClass
 public class GCompAgainst implements IGCAgainst {
@@ -22,10 +16,14 @@ public class GCompAgainst implements IGCAgainst {
 	@IgnoreSynField
 	private GCGroup winGroup; // 胜利的帮派
 	private String winner; // 胜利的帮派id
-	private GCompEventsStatus curStatus; // 当前的战斗状态
-	private GCEventsType topType; // 处在哪个阶段（16强、8强。。。）
-	private int position; // 位置
-	
+	@SuppressWarnings("unused")
+	private GCompEventsStatus curStatus; // 当前的战斗状态（同步客户端需要）
+	@SuppressWarnings("unused")
+	private GCEventsType topType; // 处在哪个阶段（16强、8强。。。）（同步客户端需要）
+	@SuppressWarnings("unused")
+	private int position; // 位置（同步客户端需要）
+	private boolean championEvents; // 是否冠军争夺战，因为Final的时候，会有3、4名争夺，所以这里要判断哪一场是冠军争夺
+
 	GCompAgainst(String idOfGroupA, String idOfGroupB, GCEventsType pTopType, int pPosition) {
 		this.matchId = GroupCompetitionMgr.getInstance().getNextAgainstId();
 		this.groupA = new GCGroup(idOfGroupA);
@@ -42,6 +40,14 @@ public class GCompAgainst implements IGCAgainst {
 	
 	public String getWinGroupId() {
 		return winner;
+	}
+	
+	public boolean isChampionEvents() {
+		return championEvents;
+	}
+
+	public void setChampionEvents(boolean championEvents) {
+		this.championEvents = championEvents;
 	}
 	
 	@Override
@@ -77,16 +83,6 @@ public class GCompAgainst implements IGCAgainst {
 	@Override
 	public GCGroup getWinGroup() {
 		return winGroup;
-	}
-
-	@Override
-	public List<GCCombatRecord> getHistorys() {
-		return null;
-	}
-
-	@Override
-	public IGCMatcher<IGCUnit> getMatcher() {
-		return null;
 	}
 
 	@Override

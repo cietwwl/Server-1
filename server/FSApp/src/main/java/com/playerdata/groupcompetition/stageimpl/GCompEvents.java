@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.GroupCompetitionRewardCenter;
 import com.playerdata.groupcompetition.data.IGCGroup;
@@ -84,6 +85,10 @@ public class GCompEvents {
 			GCompDetailInfoMgr.getInstance().onEventsAgainstAssign(against.getId(), groupId1, groupId2);
 			GCompFightingRecordMgr.getInstance().initRecordList(against.getId());
 		}
+		if(this._type == GCEventsType.FINAL) {
+			// 决赛的第一场是冠军争夺
+			againstList.get(0).setChampionEvents(true);
+		}
 		GCompEventsData eventsData = new GCompEventsData();
 		eventsData.setAgainsts(againstList);
 		eventsData.setCurrentStatus(GCompEventsStatus.NONE);
@@ -100,6 +105,7 @@ public class GCompEvents {
 		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
+		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
 	}
 	
 	private void fireEventsEnd() {
@@ -108,9 +114,11 @@ public class GCompEvents {
 		for (GCompAgainst against : againsts) {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
+		GroupCompetitionMgr.getInstance().notifyEventsEnd(_type, againsts);
 		GCOnlineMemberMgr.getInstance().onEventsEnd(_type);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
+		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
 	}
 	
 	private void fireEventsStatusChange(GCompEventsStatus status) {

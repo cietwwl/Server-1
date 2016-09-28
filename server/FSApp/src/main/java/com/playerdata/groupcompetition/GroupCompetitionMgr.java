@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
@@ -15,6 +16,7 @@ import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompStageType;
@@ -124,7 +126,7 @@ public class GroupCompetitionMgr {
 			// 有可能是停服再起服的时候开始的
 			saveData.increaseHeldTimes();
 			saveData.updateLastHeldTime(System.currentTimeMillis());
-			GCompEventsGlobalData currentData = saveData.getCurrentEventsData();
+			GCompEventsRecord currentData = saveData.getCurrentEventsData();
 			if (currentData != null) {
 				currentData.reset();
 			}
@@ -229,9 +231,9 @@ public class GroupCompetitionMgr {
 	 */
 	public void updateCurrenEventstData(GCEventsType eventsType, List<String> relativeGroupIds) {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
-		GCompEventsGlobalData currentEventsData = globalData.getCurrentEventsData();
+		GCompEventsRecord currentEventsData = globalData.getCurrentEventsData();
 		if(currentEventsData == null) {
-			currentEventsData = new GCompEventsGlobalData();
+			currentEventsData = new GCompEventsRecord();
 			currentEventsData.setHeldTime(globalData.getLastHeldTimeMillis());
 			currentEventsData.setFirstEventsType(eventsType);
 			globalData.setCurrentData(currentEventsData);
@@ -246,7 +248,7 @@ public class GroupCompetitionMgr {
 	public List<String> getCurrentRelativeGroupIds() {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
-			GCompEventsGlobalData eventsGlobalData = globalData.getCurrentEventsData();
+			GCompEventsRecord eventsGlobalData = globalData.getCurrentEventsData();
 			return eventsGlobalData.getCurrentRelativeGroupIds();
 		}
 		return Collections.emptyList();
@@ -256,6 +258,18 @@ public class GroupCompetitionMgr {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		globalData.getCurrentEventsData().setCurrentStatus(status);
 		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
+	}
+	
+	public void notifyEventsEnd(GCEventsType type, List<GCompAgainst> againsts) {
+		if (type == GCEventsType.FINAL) {
+			for (GCompAgainst against : againsts) {
+				if (against.isChampionEvents()) {
+					GroupCompetitionGlobalData globalData = _dataHolder.get();
+					globalData.addChampion(against.getWinGroup());
+					break;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -285,7 +299,7 @@ public class GroupCompetitionMgr {
 	 * @return
 	 */
 	public GCompEventsStatus getCurrentEventsStatus() {
-		GCompEventsGlobalData eventsData = this._dataHolder.get().getCurrentEventsData();
+		GCompEventsRecord eventsData = this._dataHolder.get().getCurrentEventsData();
 		if (eventsData != null && eventsData.getCurrentEventsType() != null) {
 			return eventsData.getCurrentStatus();
 		}

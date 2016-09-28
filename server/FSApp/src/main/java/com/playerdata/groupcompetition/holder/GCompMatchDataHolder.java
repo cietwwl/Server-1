@@ -16,8 +16,10 @@ import com.playerdata.groupcompetition.holder.data.GCompMatchData;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
+import com.playerdata.groupcompetition.holder.data.GCompMember.IGCompMemberAgent;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
@@ -231,9 +233,9 @@ public class GCompMatchDataHolder {
 		}
 	}
 
-	private Pair<Integer, Integer> calculatePersonalTeamScore(GCompTeamMember teamMember, GCompMember gCompMember, GCBattleResult teamResult) {
+	private Pair<Integer, Integer> calculatePersonalTeamScore(GCompTeamMember teamMember, int continueWins, GCBattleResult teamResult) {
 		GCompBasicScoreCfg basicScoreCfg = _basicScoreCfgDAO.getByBattleResult(getBattleResultIntValue(teamMember.getResult()));
-		GCompScoreCfg continueWinScoreCfg = _personalScoreCfgDAO.getByContinueWins(gCompMember.getContinueWins());
+		GCompScoreCfg continueWinScoreCfg = _personalScoreCfgDAO.getByContinueWins(continueWins);
 		int personalScore = basicScoreCfg.getPersonalScore() + continueWinScoreCfg.getPersonalScore();
 		int groupScore = basicScoreCfg.getGroupScore() + continueWinScoreCfg.getGroupScore();
 		return Pair.Create(personalScore, groupScore);
@@ -263,6 +265,7 @@ public class GCompMatchDataHolder {
 	 * @param result
 	 */
 	private void teamBattleResultHandler(GCompTeam myTeam, GCBattleResult result) {
+		GCompUtil.log("队伍结算，战斗结果：{}，队伍id：{}", result, myTeam.getTeamId());
 		String groupId = GroupHelper.getUserGroupId(myTeam.getLeaderId());
 		List<GCompTeamMember> allMembers = myTeam.getMembers();
 		IReadOnlyPair<Integer, Integer> teamScore = null;
@@ -271,34 +274,42 @@ public class GCompMatchDataHolder {
 		} else {
 			teamScore = _EMPTY_SCORE;
 		}
+		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
 		int groupScore = 0;
 		for (GCompTeamMember member : allMembers) {
+//			if (member.isRobot()) {
+//				GCompUtil.log("memberId：{}，memberName：{}，本次是机器人数据，不参与结算！", member.getUserId(), member.getArmyInfo().getPlayerName());
+//				continue;
+//			}
 			// 更新个人的数据
 			member.getResult();
 			GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, myTeam.getLeaderId());
 			if (gCompMember != null) {
+				IGCompMemberAgent agent = GCompMember.getAgent(member.isRobot());
 				// 处理连胜
 				switch (result) {
 				case WIN: // 胜利增加连胜次数
-					gCompMember.incWinTimes();
+					agent.incWins(gCompMember);
 					break;
 				case LOSE: // 失败重置连胜
-					gCompMember.resetContinueWins();
+					agent.resetContinueWins(gCompMember);
 					break;
 				default: // 其他情况对连胜不处理
 					break;
 				}
 
-				Pair<Integer, Integer> score = this.calculatePersonalTeamScore(member, gCompMember, result);
+				Pair<Integer, Integer> score = this.calculatePersonalTeamScore(member, agent.getContinueWins(gCompMember), result);
 				score.setT1(score.getT1() + teamScore.getT1());
 				score.setT2(score.getT2() + teamScore.getT2());
-				gCompMember.updateScore(score.getT1());
+				agent.addScore(gCompMember, score.getT1());
 				groupScore += score.getT2();
+				agent.checkBroadcast(gCompMember, group.getGroupName(), score.getT2().intValue());
+				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", gCompMember.getUserId(), member.getArmyInfo().getPlayerName(), agent.getContinueWins(gCompMember), gCompMember.getTotalWinTimes(), gCompMember.getScore(), score.getT1());
 			}
-		}
-		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
-		if (group != null) {
+		}		
+		if (group != null && groupScore > 0) {
 			group.updateScore(groupScore);
+			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), groupScore, group.getGCompScore());
 		}
 	}
 

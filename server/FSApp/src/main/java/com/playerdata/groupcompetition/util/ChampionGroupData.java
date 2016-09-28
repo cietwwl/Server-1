@@ -1,9 +1,13 @@
 package com.playerdata.groupcompetition.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
+import com.playerdata.groupcompetition.stageimpl.GCGroup;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -30,6 +34,20 @@ public class ChampionGroupData {
 	private List<String> groupVPs; // 副帮主的名字
 	@JsonProperty("6")
 	private int score; // 夺冠时的积分
+	
+	public static ChampionGroupData createChampionGroupData(GCGroup group) {
+		ChampionGroupData data = new ChampionGroupData();
+		data.groupId = group.getGroupId();
+		data.groupName = group.getGroupName();
+		data.groupIcon = group.getIcon();
+		data.score = group.getGCompScore();
+		data.groupPresident = group.getLeaderName();
+		data.groupVPs = new ArrayList<String>();
+		if(group.getAssistantName().length() > 0) {
+			data.groupVPs.add(group.getAssistantName());
+		}
+		return data;
+	}
 	
 	public String getGroupId() {
 		return groupId;

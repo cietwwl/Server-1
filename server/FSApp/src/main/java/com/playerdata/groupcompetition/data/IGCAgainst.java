@@ -1,8 +1,5 @@
 package com.playerdata.groupcompetition.data;
 
-import java.util.List;
-
-import com.playerdata.groupcompetition.data.match.IGCMatcher;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 
 /**
@@ -60,20 +57,4 @@ public interface IGCAgainst {
 	 * @return
 	 */
 	public IGCGroup getWinGroup();
-	
-	/**
-	 * 
-	 * 获取交战记录
-	 * 
-	 * @return
-	 */
-	public List<GCCombatRecord> getHistorys();
-	
-	/**
-	 * 
-	 * 获取匹配器
-	 * 
-	 * @return
-	 */
-	public IGCMatcher<IGCUnit> getMatcher();
 }

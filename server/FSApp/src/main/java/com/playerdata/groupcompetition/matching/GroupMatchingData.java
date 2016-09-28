@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
-import com.playerdata.groupcompetition.util.GCompUtil;
 
 /**
  * 
@@ -108,7 +107,7 @@ class GroupMatchingData {
 	}
 	
 	void beforeRandomMatching() {
-		GCompUtil.log("---------- 帮派争霸，随机匹配任务前的通知！帮派id：{} ----------", this.groupId);
+//		GCompUtil.log("---------- 帮派争霸，随机匹配任务前的通知！帮派id：{} ----------", this.groupId);
 		if (someCancel.compareAndSet(true, false)) {
 			synchronized (this.randomMatchingDatas) {
 				for (Iterator<RandomMatchingData> itr = randomMatchingDatas.iterator(); itr.hasNext();) {

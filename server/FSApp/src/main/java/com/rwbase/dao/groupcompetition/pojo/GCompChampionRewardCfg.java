@@ -7,7 +7,8 @@ public class GCompChampionRewardCfg {
 
 	private int position;
 	private String rewardId;
-	
+	private String emailCfgId;
+
 	private Map<Integer, Integer> rewardMap;
 	
 	public int getPosition() {
@@ -28,4 +29,7 @@ public class GCompChampionRewardCfg {
 		return rewardMap;
 	}
 
+	public String getEmailCfgId() {
+		return emailCfgId;
+	}
 }

@@ -61,7 +61,7 @@ public abstract class GCompCommonRankRewardCfgBaseDAO extends CfgCsvDao<GCompCom
 		return null;
 	}
 
-	private class CommonRankRewardCfgRankComparator implements Comparator<GCompCommonRankRewardCfg> {
+	protected static class CommonRankRewardCfgRankComparator implements Comparator<GCompCommonRankRewardCfg> {
 
 		@Override
 		public int compare(GCompCommonRankRewardCfg o1, GCompCommonRankRewardCfg o2) {

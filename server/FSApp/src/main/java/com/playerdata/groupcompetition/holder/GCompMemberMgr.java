@@ -37,7 +37,7 @@ public class GCompMemberMgr {
 			Group group = GroupBM.get(groupId);
 			List<? extends GroupMemberDataIF> allMembers = group.getGroupMemberMgr().getMemberSortList(null);
 			for (GroupMemberDataIF member : allMembers) {
-				GCompMember gcompMember = new GCompMember(member.getUserId(), member.getLevel());
+				GCompMember gcompMember = new GCompMember(member.getUserId(), member.getName(), member.getLevel());
 				map.put(gcompMember.getUserId(), gcompMember);
 				list.add(gcompMember);
 			}
@@ -52,7 +52,7 @@ public class GCompMemberMgr {
 			if (map != null) {
 				String userId = player.getUserId();
 				if (!map.containsKey(userId)) {
-					GCompMember member = new GCompMember(userId, player.getLevel());
+					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel());
 					map.put(userId, member);
 					_sorted.get(groupId).add(member);
 					// P2DO 排序？
@@ -73,9 +73,10 @@ public class GCompMemberMgr {
 	
 	/**
 	 * 
+	 * copy所有的帮派成员数据到指定的集合中
+	 * 
 	 * @param groupId
-	 * @param isArray
-	 * @return 如果 isArray为true，返回ArrayList类型，否则返回LinkedList类型
+	 * @param targetList
 	 */
 	public void getCopyOfAllMembers(String groupId, Collection<GCompMember> targetList) {
 		List<GCompMember> members = _sorted.get(groupId);

@@ -26,7 +26,7 @@ public class GCompEventsDataHolder {
 	}
 	
 	GCompEventsGlobalData get() {
-		return _dao.get();
+		return _dao.getCurrentGlobalData();
 	}
 	
 	private GCompEventsSynData createSynData() {

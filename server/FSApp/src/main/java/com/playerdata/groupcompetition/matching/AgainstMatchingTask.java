@@ -59,8 +59,6 @@ class AgainstMatchingTask implements IGameTimerTask {
 	private GCEventsType eventsType; // 当前的赛事类型
 	private GCompEventsStatus currentEventsStatus;
 	
-	private static int _matchingItr = 20; // 匹配的间隔
-	
 	AgainstMatchingTask(int pAgainstId, String pIdOfGroupA, String pIdOfGroupB) {
 		groupMatchingDatas = new HashMap<String, GroupMatchingData>(2, 1.5f);
 		submitQueue = new ConcurrentLinkedQueue<MatchingData>();
@@ -118,7 +116,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			return;
 		}
 		this._on = true;
-		FSGameTimerMgr.getInstance().submitSecondTask(this, _matchingItr);
+		FSGameTimerMgr.getInstance().submitSecondTask(this, GCompCommonConfig.getMatchingIntervalSeconds());
 	}
 	
 	void pause() {
@@ -217,7 +215,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 	}
 	
 	private void randomMatching(GroupMatchingData gmd1, GroupMatchingData gmd2) {
-		GCompUtil.log("---------- 帮派争霸，随机匹配开始，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
+//		GCompUtil.log("---------- 帮派争霸，随机匹配开始，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
 		gmd1.beforeRandomMatching();
 		gmd2.beforeRandomMatching();
 		if (gmd1.getRandomMatchingSize() == 0 && gmd2.getRandomMatchingSize() == 0) {
@@ -253,7 +251,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			sizeOfGmd1 = gmd1.getRandomMatchingSize();
 			sizeOfGmd2 = gmd2.getRandomMatchingSize();
 		}
-		GCompUtil.log("---------- 帮派争霸，随机匹配结束，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
+//		GCompUtil.log("---------- 帮派争霸，随机匹配结束，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
 	}
 	
 	private void processRandomMatching() {
@@ -304,7 +302,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 	}
 	
 	private void processMatching() {
-		GCompUtil.log("帮派争霸，常规匹配开始，帮派：{}", this.groupMatchingDatas.keySet());
+//		GCompUtil.log("帮派争霸，常规匹配开始，帮派：{}", this.groupMatchingDatas.keySet());
 //		if(this.groupMatchingDatas.keySet().contains("10011")) {
 //			System.out.println();
 //		}
@@ -354,7 +352,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 				}
 			}
 		}
-		GCompUtil.log("帮派争霸，常规匹配结束，帮派：{}", this.groupMatchingDatas.keySet());
+//		GCompUtil.log("帮派争霸，常规匹配结束，帮派：{}", this.groupMatchingDatas.keySet());
 	}
 
 	@Override
