@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleCommonRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleReqType;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
+import com.rwproto.GroupCompetitionBattleProto.GCMemberScore;
 import com.rwproto.GroupCompetitionBattleProto.GCPushBattleResultRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCPushHpInfoRspMsg;
 
@@ -58,5 +59,23 @@ public class GCompMatchBattleCmdHelper {
 		rsp.setIsSuccess(true);
 
 		return rsp.build().toByteString();
+	}
+
+	/**
+	 * 填充成员积分消息
+	 * 
+	 * @param index
+	 * @param personalScore
+	 * @param groupScore
+	 * @return
+	 */
+	public static GCMemberScore.Builder buildGCMemberScoreMsg(int index, int personalScore, int groupScore) {
+		GCMemberScore.Builder rsp = GCMemberScore.newBuilder();
+
+		rsp.setIndex(index);
+		rsp.setPersonalScore(personalScore);
+		rsp.setGroupScore(groupScore);
+
+		return rsp;
 	}
 }

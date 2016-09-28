@@ -30,7 +30,10 @@ import com.rwbase.dao.groupcompetition.pojo.GCompBasicScoreCfg;
 import com.rwbase.dao.groupcompetition.pojo.GCompScoreCfg;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.GroupCompetitionBattleProto.GCBattleCommonRspMsg;
+import com.rwproto.GroupCompetitionBattleProto.GCBattleReqType;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
+import com.rwproto.GroupCompetitionBattleProto.GCPushMemberScoreRspMsg;
 import com.rwproto.MsgDef.Command;
 
 /**
@@ -188,6 +191,9 @@ public class GCompMatchDataHolder {
 			enemyAddScore += battleResult.enemyAdd;
 		}
 
+		// 同步战斗结构到客户端
+		sendMsg(synMsgList, synPlayerIdList);
+
 		// 所有的战斗都完成了
 		if (allBattleFinish) {
 			// 战斗结果处理
@@ -195,9 +201,6 @@ public class GCompMatchDataHolder {
 			// 删除缓存的匹配数据
 			removeMatchCache(matchId);
 		}
-
-		// 同步战斗结构到客户端
-		sendMsg(synMsgList, synPlayerIdList);
 	}
 
 	/**
@@ -289,14 +292,24 @@ public class GCompMatchDataHolder {
 		} else {
 			teamScore = _EMPTY_SCORE;
 		}
+
 		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
 		int groupScore = 0;
+
+		int size = allMembers.size();
+		List<String> playerIdList = new ArrayList<String>(size);
+
+		// 结果响应消息
+		GCPushMemberScoreRspMsg.Builder memberScoreRspMsg = GCPushMemberScoreRspMsg.newBuilder();
+		memberScoreRspMsg.setResult(result);
+
 		IGCompMemberAgent agent;
-		for (GCompTeamMember member : allMembers) {
-//			if (member.isRobot()) {
-//				GCompUtil.log("memberId：{}，memberName：{}，本次是机器人数据，不参与结算！", member.getUserId(), member.getArmyInfo().getPlayerName());
-//				continue;
-//			}
+		for (int i = 0; i < size; i++) {
+			GCompTeamMember member = allMembers.get(i);
+			// if (member.isRobot()) {
+			// GCompUtil.log("memberId：{}，memberName：{}，本次是机器人数据，不参与结算！", member.getUserId(), member.getArmyInfo().getPlayerName());
+			// continue;
+			// }
 			// 更新个人的数据
 			member.getResult();
 			GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, member.getUserId());
@@ -321,11 +334,31 @@ public class GCompMatchDataHolder {
 				groupScore += score.getT2();
 				agent.checkBroadcast(gCompMember, group.getGroupName(), score.getT2().intValue());
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", gCompMember.getUserId(), member.getArmyInfo().getPlayerName(), agent.getContinueWins(gCompMember), gCompMember.getTotalWinTimes(), gCompMember.getScore(), score.getT1());
+
+				if (!member.isRobot()) {
+					playerIdList.add(member.getUserId());
+				}
+
+				memberScoreRspMsg.addMemberScore(GCompMatchBattleCmdHelper.buildGCMemberScoreMsg(i, score.getT1(), score.getT2()));
 			}
-		}		
+		}
+
 		if (group != null && groupScore > 0) {
 			group.updateScore(groupScore);
 			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), groupScore, group.getGCompScore());
+		}
+
+		// 组合消息
+		GCBattleCommonRspMsg.Builder rsp = GCBattleCommonRspMsg.newBuilder();
+		rsp.setReqType(GCBattleReqType.PUSH_MEMBER_SCORE);
+		rsp.setPushMemeberScoreRsp(memberScoreRspMsg);
+		ByteString rs = rsp.setIsSuccess(true).build().toByteString();
+
+		if (!playerIdList.isEmpty()) {
+			PlayerMgr mgr = PlayerMgr.getInstance();
+			for (int i = 0, pSize = playerIdList.size(); i < pSize; i++) {
+				mgr.find(playerIdList.get(i)).SendMsg(Command.MSG_GROUP_COMPETITION_BATTLE, rs);
+			}
 		}
 	}
 

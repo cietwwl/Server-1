@@ -12,6 +12,7 @@ enum GCBattleReqType{
 	PUSH_HP_INFO = 4;//血量信息推送消息
 	MATCH_GROUP_SOCRE = 5;//请求获取匹配双方的帮派积分
 	PUSH_BATTLE_RESULT = 6;//推送战斗结果的消息
+	PUSH_MEMBER_SCORE = 7;//推送成员战斗结束之后增加的积分情况
 }
 
 //战斗结果
@@ -20,6 +21,13 @@ enum GCBattleResult{
 	WIN = 1;//胜
 	LOSE = 2;//负
 	DRAW = 3;//平
+}
+
+//积分增加信息
+message GCMemberScore{
+	required int32 index = 1;//对应的索引
+	required int32 personalScore = 2;//个人积分增加
+	required int32 groupScore = 3;//帮派积分增加
 }
 
 //对垒的帮派信息
@@ -69,6 +77,12 @@ message GCPushBattleResultRspMsg{
 	required GCBattleResult result = 2;//战斗结果
 }
 
+//成员增加积分的推送消息
+message GCPushMemberScoreRspMsg{
+	repeated GCMemberScore memberScore = 1;//成员增加的积分
+	required GCBattleResult result = 2;//整个队伍的结果
+}
+
 //通用请求消息
 message GCBattleCommonReqMsg{
 	required GCBattleReqType reqType = 1;//请求的类型
@@ -85,4 +99,5 @@ message GCBattleCommonRspMsg{
 	optional GCPushHpInfoRspMsg pushHpInfoRsp = 5;//推送的血量变化信息
 	optional GCMatchGroupScoreRspMsg matchGroupScoreRsp = 6;//获取对垒双方的帮派积分变化信息
 	optional GCPushBattleResultRspMsg pushBattleResultRsp = 7;//推送战斗结果的响应消息
+	optional GCPushMemberScoreRspMsg pushMemeberScoreRsp = 8;//推送战斗成员的积分情况
 }
