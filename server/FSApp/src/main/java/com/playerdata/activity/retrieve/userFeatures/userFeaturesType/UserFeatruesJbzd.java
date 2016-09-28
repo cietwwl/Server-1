@@ -33,8 +33,7 @@ public class UserFeatruesJbzd implements IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.TRIAL, player)){			
+		if(dao.isOpen(eOpenLevelType.TRIAL, player) ){			
 			todaySubItem.setMaxCount(CopyInfoCfgDAO.getInstance().getCfgById(UserFeatruesMgr.jbzd+"").getCount());			
 		}else{
 			todaySubItem.setMaxCount(0);

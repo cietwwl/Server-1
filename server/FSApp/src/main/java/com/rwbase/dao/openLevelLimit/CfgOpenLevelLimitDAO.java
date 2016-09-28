@@ -119,31 +119,4 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		orderInChapter.value = copyId % 100;
 		chapterNum.value = (copyId / 100) % 100;
 	}
-
-	/**
-	 * 判断是否开放等级
-	 * 
-	 * @param type 检测开放的功能类型
-	 * @param player 当前角色
-	 * @return 返回开启需要的等级
-	 */
-	public int checkIsOpen(eOpenLevelType type, Player player) {
-		int level = player.getLevel();
-		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
-		if (cfg == null) {
-			return -1;
-		}
-
-		int minLevel = cfg.getMinLevel();
-		if (level >= minLevel) {
-			return -1;
-		}
-		
-		int checkPointID = cfg.getCheckPointID();
-		if (checkPointID > 0 && !player.getCopyRecordMgr().isCopyLevelPassed(checkPointID)){
-			 return -1;
-		}
-
-		return minLevel;
-	}
 }

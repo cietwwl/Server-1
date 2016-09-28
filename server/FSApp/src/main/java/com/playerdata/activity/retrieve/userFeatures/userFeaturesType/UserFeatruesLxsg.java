@@ -32,8 +32,7 @@ public class UserFeatruesLxsg implements IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.TRIAL2, player)){			
+		if(dao.isOpen(eOpenLevelType.TRIAL2, player)){			
 			todaySubItem.setMaxCount(CopyInfoCfgDAO.getInstance().getCfgById(UserFeatruesMgr.lxsg+"").getCount());			
 		}else{
 			todaySubItem.setMaxCount(0);
