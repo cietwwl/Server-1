@@ -201,6 +201,6 @@ public class TeamBattleBM {
 		TBTeamItemHolder.getInstance().updateTeam(canJionTeam);
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		UserTeamBattleDataHolder.getInstance().synData(player);
-		TBTeamItemHolder.getInstance().synData(canJionTeam);
+		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
 	}
 }
