@@ -29,8 +29,7 @@ public class UserFeatruesTower implements IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.TOWER, player)){
+		if(dao.isOpen(eOpenLevelType.TOWER, player)){
 			todaySubItem.setMaxCount(player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt));			
 		}else{
 			todaySubItem.setMaxCount(0);

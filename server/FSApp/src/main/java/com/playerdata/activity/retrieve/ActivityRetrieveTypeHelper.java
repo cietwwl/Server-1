@@ -57,8 +57,7 @@ public class ActivityRetrieveTypeHelper {
 	
 	/**用于统一处理早午晚类刷新*/
 	public  void doEatFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao){
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.DAILY, player)){
+		if(dao.isOpen(eOpenLevelType.DAILY, player)){
 			todaySubItem.setMaxCount(1);			
 		}else{
 			todaySubItem.setMaxCount(0);
@@ -76,8 +75,7 @@ public class ActivityRetrieveTypeHelper {
 	
 	/**用于统一处理购买体力类刷新*/
 	public  void doBuyPowerFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao,int buyType){
-		int level = player.getLevel();		
-		if(level >= dao.checkIsOpen(eOpenLevelType.MAIN_CITY, player)){
+		if(dao.isOpen(eOpenLevelType.MAIN_CITY, player)){
 			int time = player.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.buyPowerCount);
 			int cutTime = time >= buyType?time-UserFeatruesMgr.buyPowerLength*(buyType/UserFeatruesMgr.buyPowerLength):0;
 			cutTime = cutTime > UserFeatruesMgr.buyPowerLength?UserFeatruesMgr.buyPowerLength : cutTime;

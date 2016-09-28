@@ -28,8 +28,7 @@ public class UserFeatruesWorship implements IUserFeatruesHandler {
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.WORSHIP, player)){
+		if(dao.isOpen(eOpenLevelType.WORSHIP, player)){
 			todaySubItem.setMaxCount(1);			
 		}else{
 			todaySubItem.setMaxCount(0);

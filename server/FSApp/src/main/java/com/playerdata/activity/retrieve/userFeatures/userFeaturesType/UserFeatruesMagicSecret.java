@@ -29,8 +29,7 @@ public class UserFeatruesMagicSecret implements IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
-		if(level >= dao.checkIsOpen(eOpenLevelType.Magic_Secret, player)){			
+		if(dao.isOpen(eOpenLevelType.Magic_Secret, player)){			
 			todaySubItem.setMaxCount(1);			//不考虑打通多少，摸过就算ok
 		}else{
 			todaySubItem.setMaxCount(0);

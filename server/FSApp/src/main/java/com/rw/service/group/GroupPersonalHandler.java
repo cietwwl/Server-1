@@ -16,6 +16,7 @@ import com.bm.group.GroupMemberMgr;
 import com.bm.rank.RankType;
 import com.bm.rank.group.GroupSimpleExtAttribute;
 import com.bm.rank.group.base.GroupBaseRankExtAttribute;
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
@@ -192,9 +193,9 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.GET_GROUP_RANK_INFO_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查一下唯一的配置表
@@ -253,9 +254,9 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.FIND_GROUP_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查是否有帮派
@@ -317,9 +318,9 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.APPLY_JOIN_GROUP_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查一下唯一的配置表
