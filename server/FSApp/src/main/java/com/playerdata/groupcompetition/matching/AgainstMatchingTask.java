@@ -2,7 +2,6 @@ package com.playerdata.groupcompetition.matching;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -223,7 +222,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 		// 从帮派的随机匹配列表中获取匹配数据
 		// 如果有人已经等到匹配超时，会出现以下的情况：
 		// 1、如果同一方的等待列表中超过3人，则组成一个队伍
-		// 2、如果同一方的等待列表中不足3人，则会优先把已经超时的人连同相应数量的机器人组成一队；未超时的等待下一轮匹配
+		// 2、如果同一方的等待列表中不足3人，则会把超时和未超时的，加上一个机器人组成一个队伍
 		List<RandomMatchingData> list;
 		int size = groupMatchingData.getRandomMatchingSize();
 		if (size > 0) {
@@ -232,23 +231,19 @@ class AgainstMatchingTask implements IGameTimerTask {
 			list = new ArrayList<RandomMatchingData>();
 		}
 		int sizeOfList = list.size();
-		if (sizeOfList < maxMemberSize) {
-			if (sizeOfList > 0) {
-				RandomMatchingData rmd;
-				long currentTimeMillis = System.currentTimeMillis();
-				int timeoutMillis = GCompCommonConfig.getMachingTimeoutMillis();
-				for (Iterator<RandomMatchingData> itr = list.iterator(); itr.hasNext();) {
-					rmd = itr.next();
-					if (currentTimeMillis - rmd.getSubmitTime() < timeoutMillis) {
-						GCompUtil.log("未到时间，移除：{}", rmd.getUserId());
-						groupMatchingData.turnBackRandomMatchingData(rmd);
-						itr.remove();
-					}
-				}
+		if (sizeOfList == 1) {
+			// 只有一个人的时候
+			long currentTimeMillis = System.currentTimeMillis();
+			int timeoutMillis = GCompCommonConfig.getMachingTimeoutMillis();
+			RandomMatchingData data = list.get(0);
+			if (currentTimeMillis - data.getSubmitTime() < timeoutMillis) {
+				GCompUtil.log("未到时间，移除：{}", data.getUserId());
+				groupMatchingData.turnBackRandomMatchingData(data);
+				list.remove(data);
 			}
-			if (list.size() > 0) {
-				this.getRandomMember(allMembersOfGroup, list);
-			}
+		}
+		if (list.size() > 0 && list.size() < maxMemberSize) {
+			this.getRandomMember(allMembersOfGroup, list);
 		}
 		return list;
 	}

@@ -1,21 +1,29 @@
 package com.playerdata.groupcompetition.holder.data;
 
-import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO;
 
+@SynClass
 public class GCompMember implements Comparable<GCompMember>{
 
+	@IgnoreSynField
 	private String userId; // 玩家id
 	private int lv; // 玩家等级
+	@IgnoreSynField
 	private int score; // 积分
 	private int totalWinTimes; // 胜利的次数
 	private int continueWins; // 连胜次数
 	private int maxContinueWins; // 最大连胜次数
+	@IgnoreSynField
 	private int robotContinueWins; // 作为机器人的连胜次数
+	@IgnoreSynField
 	private String userName; //
+	@IgnoreSynField
 	private static IGCompMemberAgent _robotAgent = new GCompMemberRobotAgent();
+	@IgnoreSynField
 	private static IGCompMemberAgent _commonAgent = new GCompMemberCommonAgent();
 	
 	public GCompMember(String userId, String userName, int lv) {

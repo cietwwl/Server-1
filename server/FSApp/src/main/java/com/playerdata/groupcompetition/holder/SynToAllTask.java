@@ -21,7 +21,7 @@ public class SynToAllTask<T> implements IGameTimerTask  {
 	
 	public static <T> void createNewTaskAndSubmit(T synData, eSynType synType, eSynOpType synOpType) {
 		SynToAllTask<T> task = new SynToAllTask<T>(synData, synType, synOpType);
-		FSGameTimerMgr.getInstance().createSecondTaskSubmitInfo(task, 1);
+		FSGameTimerMgr.getInstance().submitSecondTask(task, 1);
 	}
 	
 	protected SynToAllTask(T pSynData, eSynType pSynType, eSynOpType pSynOpType) {

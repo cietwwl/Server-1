@@ -134,7 +134,6 @@ public class GCompEvents {
 			break;
 		}
 		GroupCompetitionMatchingCenter.getInstance().onEventsStatusChange(status);
-		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
 	/**

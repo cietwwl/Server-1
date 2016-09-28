@@ -9,6 +9,8 @@ public class GCompCommonConfig {
 	private static int broadcastIntervalSeconds = 5; // 广播时效任务的间隔
 	private static int matchingIntervalSeconds = 5; // 匹配的间隔
 	private static int machingTimeoutMillis = (int)TimeUnit.SECONDS.toMillis(20); // 匹配超时的时间
+	private static int topCountGroups = 8; // 入围的帮派数量
+	private static int minMemberCountOfGroup = 3; // 最少的帮派成员数量
 
 	/**
 	 * 
@@ -52,5 +54,23 @@ public class GCompCommonConfig {
 	 */
 	public static int getMachingTimeoutMillis() {
 		return machingTimeoutMillis;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static int getTopCountGroups() {
+		return topCountGroups;
+	}
+	
+	/**
+	 * 
+	 * 获取入围的帮派的最少成员数量
+	 * 
+	 * @return
+	 */
+	public static int getMinMemberCountOfGroup() {
+		return minMemberCountOfGroup;
 	}
 }

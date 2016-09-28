@@ -3,13 +3,16 @@ package com.playerdata.groupcompetition.stageimpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.group.GroupBM;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
+import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 
 /**
@@ -30,12 +33,26 @@ public class GCompSelectionStage implements IGCompStage {
 	
 	private List<String> getTopCountGroupsFromRank() {
 		// 从排行榜获取排名靠前的N个帮派数据
-		List<GCompFightingItem> topGroups = GCompFightingRankMgr.getFightingRankList(8);
+		List<GCompFightingItem> topGroups = GCompFightingRankMgr.getFightingRankList();
 		List<String> groupIds = new ArrayList<String>(topGroups.size());
+		int topCount = GCompCommonConfig.getTopCountGroups();
+		Group group;
+		String groupId;
+		int minMembersCount = GCompCommonConfig.getMinMemberCountOfGroup();
 		for (int i = 0, size = topGroups.size(); i < size; i++) {
-			groupIds.add(topGroups.get(i).getGroupId());
+			groupId = topGroups.get(i).getGroupId();
+			group = GroupBM.get(groupId);
+			if (group.getGroupMemberMgr().getGroupMemberSize() < minMembersCount) {
+				GCompUtil.log("帮派：{}，人数少于：{}，不能入围！", group.getGroupBaseDataMgr().getGroupData().getGroupName(), minMembersCount);
+				continue;
+			}
+			groupIds.add(groupId);
+			topCount--;
+			if (topCount == 0) {
+				break;
+			}
 		}
-		System.err.println("----------入围帮派id : " + groupIds + "----------");
+		GCompUtil.log("----------入围帮派id : " + groupIds + "----------");
 		return groupIds;
 	}
 	
