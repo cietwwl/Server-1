@@ -23,10 +23,14 @@ public class UserTeamBattleDataMgr {
 		TBTeamItemMgr.getInstance().synData(player);
 	}
 	
+	/**
+	 * 踢出玩家时使用的同步
+	 * @param userID
+	 */
 	public void synData(String userID){
 		Player player = PlayerMgr.getInstance().find(userID);
 		if(player == null) return;
-		synData(player);
+		UserTeamBattleDataHolder.getInstance().synData(player);
 	}
 	
 	public void leaveTeam(String userID){
