@@ -41,6 +41,7 @@ enum TeamStatusType {
 	Kicked = 1; // 被踢
 	BecomeLeader = 2; // 成为队长
 	CanMatch = 3; // 可匹配
+	StartMatch = 4; // 开始匹配
 }
 
 enum GCResultType {
