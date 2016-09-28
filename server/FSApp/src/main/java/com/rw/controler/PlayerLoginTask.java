@@ -17,6 +17,7 @@ import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.login.game.LoginSynDataHelper;
+import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
@@ -177,10 +178,18 @@ public class PlayerLoginTask implements PlayerTask {
 
 		// 补充进入主城需要同步的数据
 		LoginSynDataHelper.setData(player, response);
+		
 		// clear操作有风险
 		nettyControler.clearMsgCache(userId);
 		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
 		ChannelFuture future = nettyControler.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
+		
+		//触发红点
+		int redPointVersion = header.getRedpointVersion();
+		if (redPointVersion >= 0) {
+			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
+		}
+		
 		future.addListener(new GenericFutureListener<Future<? super Void>>() {
 
 			@Override

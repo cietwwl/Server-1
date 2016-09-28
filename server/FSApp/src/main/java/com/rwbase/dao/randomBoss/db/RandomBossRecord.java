@@ -297,7 +297,10 @@ public class RandomBossRecord {
 	 */
 	public synchronized boolean resetLastBattleTime() {
 		long nowTime = System.currentTimeMillis();
-		if(nowTime < (lastBattleTime + RandomBossMgr.getInstance().getBattleTimeLimit())){
+		long endTime = lastBattleTime + RandomBossMgr.getInstance().getBattleTimeLimit();
+		if(nowTime < endTime){
+//			System.err.println("apply enter random boss fight, current time:" + DateUtils.getDateTimeFormatString(nowTime, "yyyy-MM-dd HH:mm:ss")
+//					+",endTime:"+ DateUtils.getDateTimeFormatString(endTime, "yyyy-MM-dd HH:mm:ss"));
 			return false;
 		}
 		lastBattleTime = nowTime;
