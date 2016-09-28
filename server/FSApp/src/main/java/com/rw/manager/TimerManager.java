@@ -87,7 +87,7 @@ public class TimerManager {
 			public void doTask() {
 				GuildDAO.getInstance().flush();
 				UserArmyDataDAO.getInstance().flush();
-				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+				
 			}
 		}, MINUTE_5);
 
@@ -98,7 +98,7 @@ public class TimerManager {
 				
 				
 				//帮派副本定时发奖
-//				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
+				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}
 		}, HOUR);
 
