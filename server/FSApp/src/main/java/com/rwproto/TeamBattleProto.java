@@ -565,6 +565,51 @@ public final class TeamBattleProto {
      * </pre>
      */
     int getFightResult();
+
+    // optional string loopID = 9;
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    boolean hasLoopID();
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    java.lang.String getLoopID();
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getLoopIDBytes();
+
+    // optional int32 battleTime = 10;
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    boolean hasBattleTime();
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    int getBattleTime();
   }
   /**
    * Protobuf type {@code teamBattle.TeamBattleReqMsg}
@@ -661,6 +706,16 @@ public final class TeamBattleProto {
             case 64: {
               bitField0_ |= 0x00000080;
               fightResult_ = input.readInt32();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000100;
+              loopID_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              battleTime_ = input.readInt32();
               break;
             }
           }
@@ -1050,6 +1105,85 @@ public final class TeamBattleProto {
       return fightResult_;
     }
 
+    // optional string loopID = 9;
+    public static final int LOOPID_FIELD_NUMBER = 9;
+    private java.lang.Object loopID_;
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    public boolean hasLoopID() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    public java.lang.String getLoopID() {
+      java.lang.Object ref = loopID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          loopID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string loopID = 9;</code>
+     *
+     * <pre>
+     *战斗的循环id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getLoopIDBytes() {
+      java.lang.Object ref = loopID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        loopID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 battleTime = 10;
+    public static final int BATTLETIME_FIELD_NUMBER = 10;
+    private int battleTime_;
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    public boolean hasBattleTime() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 battleTime = 10;</code>
+     *
+     * <pre>
+     *战斗的场次
+     * </pre>
+     */
+    public int getBattleTime() {
+      return battleTime_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.TeamBattleProto.TBRequestType.SYN_TEAM_BATTLE;
       hardID_ = "";
@@ -1059,6 +1193,8 @@ public final class TeamBattleProto {
       rewardID_ = "";
       count_ = 0;
       fightResult_ = 0;
+      loopID_ = "";
+      battleTime_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1100,6 +1236,12 @@ public final class TeamBattleProto {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(8, fightResult_);
       }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(9, getLoopIDBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, battleTime_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1140,6 +1282,14 @@ public final class TeamBattleProto {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, fightResult_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getLoopIDBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, battleTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1273,6 +1423,10 @@ public final class TeamBattleProto {
         bitField0_ = (bitField0_ & ~0x00000040);
         fightResult_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        loopID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        battleTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -1333,6 +1487,14 @@ public final class TeamBattleProto {
           to_bitField0_ |= 0x00000080;
         }
         result.fightResult_ = fightResult_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.loopID_ = loopID_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.battleTime_ = battleTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1382,6 +1544,14 @@ public final class TeamBattleProto {
         }
         if (other.hasFightResult()) {
           setFightResult(other.getFightResult());
+        }
+        if (other.hasLoopID()) {
+          bitField0_ |= 0x00000100;
+          loopID_ = other.loopID_;
+          onChanged();
+        }
+        if (other.hasBattleTime()) {
+          setBattleTime(other.getBattleTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2050,6 +2220,153 @@ public final class TeamBattleProto {
       public Builder clearFightResult() {
         bitField0_ = (bitField0_ & ~0x00000080);
         fightResult_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string loopID = 9;
+      private java.lang.Object loopID_ = "";
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public boolean hasLoopID() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public java.lang.String getLoopID() {
+        java.lang.Object ref = loopID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          loopID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getLoopIDBytes() {
+        java.lang.Object ref = loopID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          loopID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public Builder setLoopID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        loopID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public Builder clearLoopID() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        loopID_ = getDefaultInstance().getLoopID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string loopID = 9;</code>
+       *
+       * <pre>
+       *战斗的循环id
+       * </pre>
+       */
+      public Builder setLoopIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        loopID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 battleTime = 10;
+      private int battleTime_ ;
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public boolean hasBattleTime() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public int getBattleTime() {
+        return battleTime_;
+      }
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public Builder setBattleTime(int value) {
+        bitField0_ |= 0x00000200;
+        battleTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 battleTime = 10;</code>
+       *
+       * <pre>
+       *战斗的场次
+       * </pre>
+       */
+      public Builder clearBattleTime() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        battleTime_ = 0;
         onChanged();
         return this;
       }
@@ -3099,23 +3416,24 @@ public final class TeamBattleProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020TeamBattle.proto\022\nteamBattle\"\267\001\n\020TeamB" +
+      "\n\020TeamBattle.proto\022\nteamBattle\"\333\001\n\020TeamB" +
       "attleReqMsg\022*\n\007reqType\030\001 \002(\0162\031.teamBattl" +
       "e.TBRequestType\022\016\n\006hardID\030\002 \001(\t\022\016\n\006teamI" +
       "D\030\003 \001(\t\022\016\n\006userID\030\004 \001(\t\022\021\n\tarmyHeros\030\005 \001" +
       "(\t\022\020\n\010rewardID\030\006 \001(\t\022\r\n\005count\030\007 \001(\005\022\023\n\013f" +
-      "ightResult\030\010 \001(\005\"q\n\020TeamBattleRspMsg\022)\n\007" +
-      "rstType\030\001 \002(\0162\030.teamBattle.TBResultType\022" +
-      "\016\n\006tipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010fre" +
-      "eJoin\030\004 \001(\010*\371\001\n\rTBRequestType\022\023\n\017SYN_TEA" +
-      "M_BATTLE\020\001\022\022\n\016SAVE_TEAM_INFO\020\002\022\017\n\013CREATE",
-      "_TEAM\020\003\022\r\n\tJOIN_TEAM\020\004\022\016\n\nLEAVE_TEAM\020\005\022\021" +
-      "\n\rACCEPT_INVITE\020\006\022\026\n\022SET_TEAM_FREE_JION\020" +
-      "\007\022\023\n\017KICK_OFF_MEMBER\020\010\022\021\n\rINVITE_PLAYER\020" +
-      "\t\022\017\n\013START_FIGHT\020\n\022\027\n\023INFORM_FIGHT_RESUL" +
-      "T\020\013\022\022\n\016SCORE_EXCHANGE\020\014*+\n\014TBResultType\022" +
-      "\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013com.rwpr" +
-      "otoB\017TeamBattleProto"
+      "ightResult\030\010 \001(\005\022\016\n\006loopID\030\t \001(\t\022\022\n\nbatt" +
+      "leTime\030\n \001(\005\"q\n\020TeamBattleRspMsg\022)\n\007rstT" +
+      "ype\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006t" +
+      "ipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJoi" +
+      "n\030\004 \001(\010*\371\001\n\rTBRequestType\022\023\n\017SYN_TEAM_BA",
+      "TTLE\020\001\022\022\n\016SAVE_TEAM_INFO\020\002\022\017\n\013CREATE_TEA" +
+      "M\020\003\022\r\n\tJOIN_TEAM\020\004\022\016\n\nLEAVE_TEAM\020\005\022\021\n\rAC" +
+      "CEPT_INVITE\020\006\022\026\n\022SET_TEAM_FREE_JION\020\007\022\023\n" +
+      "\017KICK_OFF_MEMBER\020\010\022\021\n\rINVITE_PLAYER\020\t\022\017\n" +
+      "\013START_FIGHT\020\n\022\027\n\023INFORM_FIGHT_RESULT\020\013\022" +
+      "\022\n\016SCORE_EXCHANGE\020\014*+\n\014TBResultType\022\013\n\007S" +
+      "UCCESS\020\001\022\016\n\nDATA_ERROR\020\002B\036\n\013com.rwprotoB" +
+      "\017TeamBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3127,7 +3445,7 @@ public final class TeamBattleProto {
           internal_static_teamBattle_TeamBattleReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_teamBattle_TeamBattleReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "HardID", "TeamID", "UserID", "ArmyHeros", "RewardID", "Count", "FightResult", });
+              new java.lang.String[] { "ReqType", "HardID", "TeamID", "UserID", "ArmyHeros", "RewardID", "Count", "FightResult", "LoopID", "BattleTime", });
           internal_static_teamBattle_TeamBattleRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_teamBattle_TeamBattleRspMsg_fieldAccessorTable = new
