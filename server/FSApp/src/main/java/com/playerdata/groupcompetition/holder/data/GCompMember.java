@@ -2,9 +2,6 @@ package com.playerdata.groupcompetition.holder.data;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
-import com.playerdata.groupcompetition.util.GCompUtil;
-import com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO;
 
 @SynClass
 public class GCompMember implements Comparable<GCompMember>{
@@ -47,6 +44,7 @@ public class GCompMember implements Comparable<GCompMember>{
 	int getContinueWins() {
 		return continueWins;
 	}
+	
 	void incWinTimes() {
 		this.totalWinTimes++;
 		this.continueWins++;
@@ -78,6 +76,10 @@ public class GCompMember implements Comparable<GCompMember>{
 	public String getUserId() {
 		return userId;
 	}
+	
+	public String getUserName() {
+		return userName;
+	}
 
 	public int getScore() {
 		return score;
@@ -94,111 +96,6 @@ public class GCompMember implements Comparable<GCompMember>{
 	@Override
 	public int compareTo(GCompMember o) {
 		return this.lv > o.lv ? -1 : 1;
-	}
-	
-	public static interface IGCompMemberAgent {
-		
-		/**
-		 * 
-		 * 重置连胜
-		 * 
-		 * @param member
-		 */
-		public void resetContinueWins(GCompMember member);
-		
-		/**
-		 * 
-		 * 增加胜利次数
-		 * 
-		 * @param member
-		 */
-		public void incWins(GCompMember member);
-		
-		/**
-		 * 
-		 * 增加积分
-		 * 
-		 * @param member
-		 * @param score
-		 */
-		public void addScore(GCompMember member, int score);
-		
-		/**
-		 * 
-		 * 获取连胜次数
-		 * 
-		 * @param member
-		 * @return
-		 */
-		public int getContinueWins(GCompMember member);
-		
-		/**
-		 * 
-		 * @param member
-		 */
-		public void checkBroadcast(GCompMember member, String groupName, int addGroupScoreCount);
-	}
-	
-	private static class GCompMemberRobotAgent implements IGCompMemberAgent {
-
-		@Override
-		public void resetContinueWins(GCompMember member) {
-			member.resetRobotContinueWins();
-		}
-
-		@Override
-		public void incWins(GCompMember member) {
-			member.incRobotContinueWins();
-		}
-
-		@Override
-		public void addScore(GCompMember member, int score) {
-			// 机器人不需要加积分
-		}
-
-		@Override
-		public int getContinueWins(GCompMember member) {
-			return member.getRobotContinueWins();
-		}
-
-		@Override
-		public void checkBroadcast(GCompMember member, String groupName, int addGroupScoreCount) {
-			
-		}
-
-	}
-	
-	private static class GCompMemberCommonAgent implements IGCompMemberAgent {
-
-		@Override
-		public void resetContinueWins(GCompMember member) {
-			member.resetContinueWins();
-		}
-
-		@Override
-		public void incWins(GCompMember member) {
-			member.incWinTimes();
-		}
-
-		@Override
-		public void addScore(GCompMember member, int score) {
-			member.updateScore(score);
-		}
-
-		@Override
-		public int getContinueWins(GCompMember member) {
-			return member.getContinueWins();
-		}
-
-		@Override
-		public void checkBroadcast(GCompMember member, String groupName, int addGroupScoreCount) {
-			String content = ContinueWinsBroadcastCfgDAO.getInstance().getBroadcastContent(member.getContinueWins());
-			if (content != null) {
-				content = GCompUtil.format(content, groupName, member.userName, addGroupScoreCount);
-				GroupCompetitionBroadcastCenter.getInstance().addBroadcastMsg(content);
-			}
-		}
-
 	}
 	
 }

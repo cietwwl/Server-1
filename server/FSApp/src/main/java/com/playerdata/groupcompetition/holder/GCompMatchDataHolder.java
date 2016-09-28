@@ -16,7 +16,7 @@ import com.playerdata.groupcompetition.holder.data.GCompMatchData;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
-import com.playerdata.groupcompetition.holder.data.GCompMember.IGCompMemberAgent;
+import com.playerdata.groupcompetition.holder.data.IGCompMemberAgent;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -304,6 +304,7 @@ public class GCompMatchDataHolder {
 		memberScoreRspMsg.setResult(result);
 
 		IGCompMemberAgent agent;
+		GCompMember bestMember = null;
 		for (int i = 0; i < size; i++) {
 			GCompTeamMember member = allMembers.get(i);
 			// if (member.isRobot()) {
@@ -335,16 +336,21 @@ public class GCompMatchDataHolder {
 				agent.checkBroadcast(gCompMember, group.getGroupName(), score.getT2().intValue());
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", gCompMember.getUserId(), member.getArmyInfo().getPlayerName(), agent.getContinueWins(gCompMember), gCompMember.getTotalWinTimes(), gCompMember.getScore(), score.getT1());
 
-				if (!member.isRobot()) {
+				if(!member.isRobot()) {
 					playerIdList.add(member.getUserId());
+					if (bestMember == null || bestMember.getScore() < gCompMember.getScore()) {
+						bestMember = gCompMember;
+					}
 				}
-
+				
 				memberScoreRspMsg.addMemberScore(GCompMatchBattleCmdHelper.buildGCMemberScoreMsg(i, score.getT1(), score.getT2()));
 			}
 		}
 
 		if (group != null && groupScore > 0) {
+			int matchId = GCompEventsDataMgr.getInstance().getGroupMatchIdOfCurrent(groupId);
 			group.updateScore(groupScore);
+			GCompDetailInfoMgr.getInstance().onScoreUpdate(matchId, groupId, group.getGCompScore(), bestMember);
 			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), groupScore, group.getGCompScore());
 		}
 

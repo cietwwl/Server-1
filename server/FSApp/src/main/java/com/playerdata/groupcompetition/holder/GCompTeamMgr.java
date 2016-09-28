@@ -594,6 +594,12 @@ public class GCompTeamMgr {
 		team.setMatching(true);
 		GroupCompetitionMatchingCenter.getInstance().submitToMatchingCenter(matchId, matchAndGroupInfo.getT1(), team);
 		result.setT1(true);
+		List<GCompTeamMember> members = team.getMembers();
+		TeamStatusChange.Builder builder = TeamStatusChange.newBuilder();
+		builder.setStatus(TeamStatusType.StartMatch);
+		for(GCompTeamMember member : members) {
+			
+		}
 		return result;
 	}
 	

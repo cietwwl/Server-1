@@ -98,6 +98,7 @@ public class GCompFightingRecordHolder {
 		}
 		if(!needSynPlayers.isEmpty()){
 			ClientDataSynMgr.synDataMutiple(needSynPlayers, record, eSynType.GCompFightingRecord, eSynOpType.UPDATE_SINGLE);
+			GCompDetailInfoHolder.getInstance().synPlayers(matchId, needSynPlayers);
 		}
 	}
 	
@@ -113,6 +114,7 @@ public class GCompFightingRecordHolder {
 			userIds.add(player.getUserId());
 		}
 		syn(player, matchId, time);
+		GCompDetailInfoHolder.getInstance().syn(matchId, player);
 	}
 	
 	/**

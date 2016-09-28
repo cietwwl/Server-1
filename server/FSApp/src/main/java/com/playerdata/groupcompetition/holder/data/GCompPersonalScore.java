@@ -25,6 +25,22 @@ public class GCompPersonalScore {
 	public int getContinueWin() {
 		return continueWin;
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setHeadIcon(String headIcon) {
+		this.headIcon = headIcon;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public void setContinueWin(int continueWin) {
+		this.continueWin = continueWin;
+	}
 
 	@Override
 	public String toString() {

@@ -577,6 +577,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     CanMatch(2, 3),
+    /**
+     * <code>StartMatch = 4;</code>
+     *
+     * <pre>
+     * 开始匹配
+     * </pre>
+     */
+    StartMatch(3, 4),
     ;
 
     /**
@@ -603,6 +611,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int CanMatch_VALUE = 3;
+    /**
+     * <code>StartMatch = 4;</code>
+     *
+     * <pre>
+     * 开始匹配
+     * </pre>
+     */
+    public static final int StartMatch_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -612,6 +628,7 @@ public final class GroupCompetitionProto {
         case 1: return Kicked;
         case 2: return BecomeLeader;
         case 3: return CanMatch;
+        case 4: return StartMatch;
         default: return null;
       }
     }
@@ -24833,11 +24850,11 @@ public final class GroupCompetitionProto {
       "RandomMatching\020\026\022\024\n\020PersonalMatching\020\027\022\032" +
       "\n\026PersonalCancelMatching\020\030\022\021\n\rLeaveLiveP" +
       "age\020\031\022\017\n\013GetKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020" +
-      "\n\014GetScoreRank\020\034*<\n\016TeamStatusType\022\n\n\006Ki" +
-      "cked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020\003*@" +
-      "\n\014GCResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERRO",
-      "R\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$\n\013com.rwprotoB" +
-      "\025GroupCompetitionProto"
+      "\n\014GetScoreRank\020\034*L\n\016TeamStatusType\022\n\n\006Ki" +
+      "cked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020\003\022\016" +
+      "\n\nStartMatch\020\004*@\n\014GCResultType\022\013\n\007SUCCES",
+      "S\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003" +
+      "B$\n\013com.rwprotoB\025GroupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

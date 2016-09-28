@@ -6,10 +6,10 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
+import com.rwproto.GroupCompetitionProto.RsqNewGuess;
 import com.rwproto.RequestProtos.Request;
 
 /**
@@ -32,11 +32,15 @@ public class GroupCompQuizService implements FsService<ReqNewGuess, GCRequestTyp
 				break;
 			default:
 				GameLog.error(LogModule.GroupCompetition, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
+				RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
+				gcRsp.setRstType(GCResultType.DATA_ERROR);
+				gcRsp.setTipMsg("请求类型无法识别");
+				result = gcRsp.build().toByteString();
 				break;
 			}
 		} catch (Exception e) {
 			GameLog.error(LogModule.GroupCompetition, player.getUserId(), "出现了Exception异常", e);
-			CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
+			RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("竞猜数据有误");
 			result = gcRsp.build().toByteString();

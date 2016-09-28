@@ -64,6 +64,15 @@ public class GCompDetailInfo {
 	public void setMvp(GCompPersonalScore mvp) {
 		this.mvp = mvp;
 	}
+	
+	public GCompGroupScore getByGroupId(String groupId) {
+		for(GCompGroupScore g : groupScores) {
+			if(g.getGroupId().equals(groupId)) {
+				return g;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {
