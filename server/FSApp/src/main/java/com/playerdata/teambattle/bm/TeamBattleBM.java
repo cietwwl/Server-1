@@ -1,12 +1,18 @@
 package com.playerdata.teambattle.bm;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
+import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.teambattle.cfg.MonsterCombinationCfg;
+import com.playerdata.teambattle.cfg.MonsterCombinationDAO;
 import com.playerdata.teambattle.data.TBTeamItem;
 import com.playerdata.teambattle.data.TBTeamItemHolder;
 import com.playerdata.teambattle.data.TeamMember;
@@ -167,21 +173,100 @@ public class TeamBattleBM {
 	}
 
 	public void invitePlayer(Player player, Builder tbRsp) {
-		
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
-	public void startFight(Player player, Builder tbRsp) {
-		
+	public void startFight(Player player, Builder tbRsp, String loopID, int battleTime) {
+		Map<Integer, MonsterCombinationCfg> cfgMap = MonsterCombinationDAO.getInstance().getLoopValues(loopID);
+		if(cfgMap == null || !cfgMap.containsKey(battleTime)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("关卡数据不存在");
+			return;
+		}
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null || StringUtils.isBlank(utbData.getTeamID())){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队数据异常");
+			return;
+		}
+		if(utbData.getFinishedLoops().contains(loopID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能重复攻击已通过的关卡");
+			return;
+		}
+		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+		if(teamItem == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队不存在或者组队信息已过期");
+			return;
+		}
+		TeamMember teamMember = teamItem.findMember(player.getUserId());
+		if(teamMember == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("您已经不是该组队的成员");
+			return;
+		}
+		if(teamMember.getState().equals(TBMemberState.Ready)) {
+			teamMember.setState(TBMemberState.Fight);
+			TBTeamItemHolder.getInstance().updateTeam(teamItem);
+		}
+		for(StaticMemberTeamInfo teamInfoSimple : teamItem.getTeamMembers()){
+			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
+			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
+			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
+		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
-	public void informFightResult(Player player, Builder tbRsp) {
-		
+	public void informFightResult(Player player, Builder tbRsp, String loopID, int battleTime, boolean isSuccess) {
+		Map<Integer, MonsterCombinationCfg> cfgMap = MonsterCombinationDAO.getInstance().getLoopValues(loopID);
+		if(cfgMap == null || !cfgMap.containsKey(battleTime)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("关卡数据不存在");
+			return;
+		}
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null || StringUtils.isBlank(utbData.getTeamID())){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队数据异常");
+			return;
+		}
+		if(utbData.getFinishedLoops().contains(loopID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不能重复结算已通过的关卡");
+			return;
+		}
+		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+		if(teamItem == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队不存在或者组队信息已过期");
+			return;
+		}
+		TeamMember teamMember = teamItem.findMember(player.getUserId());
+		if(teamMember == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("您已经不是该组队的成员");
+			return;
+		}
+		if(isSuccess){
+			if(battleTime >= cfgMap.size()){
+				teamMember.setState(TBMemberState.Finish);
+				utbData.getFinishedHards().add(teamItem.getHardID());
+				//TODO 给结算的奖励
+			}else{
+				teamMember.setState(TBMemberState.HalfFinish);
+			}
+			utbData.getFinishedLoops().add(loopID);
+			TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
+			UserTeamBattleDataHolder.getInstance().synData(player);
+		}else{
+			teamMember.setState(TBMemberState.Ready);
+		}
+		TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
-	public void scoreExchage(Player player, Builder tbRsp) {
+	public void scoreExchage(Player player, Builder tbRsp, String rewardID, int count) {
 		
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}

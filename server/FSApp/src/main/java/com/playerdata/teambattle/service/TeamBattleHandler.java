@@ -103,7 +103,7 @@ public class TeamBattleHandler {
 	public ByteString scoreExchage(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.scoreExchage(player, tbRsp);
+		tbBM.scoreExchage(player, tbRsp, msgTBRequest.getRewardID(), msgTBRequest.getCount());
 		return tbRsp.build().toByteString();
 	}
 }
