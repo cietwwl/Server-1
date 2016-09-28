@@ -82,14 +82,14 @@ public class TeamBattleHandler {
 	public ByteString startFight(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.startFight(player, tbRsp);
+		tbBM.startFight(player, tbRsp, msgTBRequest.getLoopID(), msgTBRequest.getBattleTime());
 		return tbRsp.build().toByteString();
 	}
 
 	public ByteString informFightResult(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.informFightResult(player, tbRsp);
+		tbBM.informFightResult(player, tbRsp, msgTBRequest.getLoopID(), msgTBRequest.getBattleTime(), msgTBRequest.getFightResult() == 1);
 		return tbRsp.build().toByteString();
 	}
 
