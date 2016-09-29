@@ -162,7 +162,6 @@ public class RoleExtPropertyFactory {
 			// 回调逻辑创建逻辑对象集
 			for (int i = createSize; --i >= 0;) {
 				PlayerExtCreateData createData = createList.get(i);
-				RoleExtPropertyCreator<PlayerExtProperty, ?> c = createData.creator;
 				List<PlayerExtProperty> createPropList = createData.creator.firstCreate(param);
 				try {
 					List<NewAttachmentInsertData<PlayerExtProperty>> insertData = convertNewEntry(createData.cache.getMapper(), roleId, createData.type, createPropList);
@@ -189,15 +188,6 @@ public class RoleExtPropertyFactory {
 				List<PlayerExtPropertyData<PlayerExtProperty>> list = create(createData.getDatas());
 				RoleExtPropertyStoreCache<PlayerExtProperty> cache = createData.cache;
 				cache.putIfAbsent(roleId, list);
-				try {
-					System.out.println(cache.getAttachmentStore(roleId).get(10));
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		} else {
 			for (int i = loadSize; --i >= 0;) {
@@ -206,15 +196,6 @@ public class RoleExtPropertyFactory {
 				List<QueryAttachmentEntry> data = datasMap.get(type);
 				if (data != null) {
 					tuple.thirdValue.putIfAbsentByDBString(roleId, data);
-					try {
-						System.out.println(tuple.thirdValue.getAttachmentStore(roleId).get(10));
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (Throwable e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 				}
 			}
 		}
