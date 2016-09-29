@@ -269,7 +269,7 @@ public class RandomBossMgr{
 		ad.setCurLife((int) record.getLeftHp());
 		ad.setMaxLife((int) monster.getLife());
 		attrList.add(ad);
-		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList);
+		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList, bossCfg.getLevelID());
 		
 		if(armyInfo == null){
 			response.setIsSuccess(false);
