@@ -27,7 +27,7 @@ public enum MapItemType {
 	// 红包
 	RED_ENVELOP(4, ActivityRedEnvelopeTypeItem.class, RedEnvolopeCreator.class), 
 
-	COUNT_TYPE(5,ActivityCountTypeItem.class,CountTypeCreator.class),
+//	COUNT_TYPE(5,ActivityCountTypeItem.class,CountTypeCreator.class),
 	
 	DAILY_TYPE(6,ActivityDailyTypeItem.class,DailyCountCreator.class),
 	

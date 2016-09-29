@@ -29,7 +29,11 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
+import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
 public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
@@ -83,15 +87,15 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	 * 也可以将方法里的addlist改为add
 	 */
 	private void checkNewOpen(Player player) {
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		String userId = player.getUserId();
-		List<ActivityCountTypeItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}
+//		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityCountTypeItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
 	}
 
-	public List<ActivityCountTypeItem> creatItems(String userId, MapItemStore<ActivityCountTypeItem> itemStore) {
+	public List<ActivityCountTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityCountTypeItem> store) {
 		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
@@ -104,14 +108,15 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			if (countTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityCountTypeHelper.getItemId(userId, countTypeEnum);
-			if (itemStore != null) {
-				if (itemStore.getItem(itemId) != null) {
+			int id = Integer.parseInt(countTypeEnum.getCfgId());
+//			String itemId = ActivityCountTypeHelper.getItemId(userId, countTypeEnum);
+			if (store != null) {				
+				if (store.get(id) != null) {
 					continue;
 				}
 			}
 			ActivityCountTypeItem item = new ActivityCountTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setCfgId(cfg.getId());
 			item.setEnumId(cfg.getEnumId());
 			item.setUserId(userId);
@@ -294,7 +299,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if (isOpen(cfg, param)) {
@@ -305,10 +310,9 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	private boolean isOpen(ActivityCountTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityCountTypeCfg cfg, long currentTime) {
 		long startTime = cfg.getStartTime();
 		long endTime = cfg.getEndTime();
-		long currentTime = param.getCurrentTime();
 		return currentTime < endTime && currentTime >= startTime;
 	}
 

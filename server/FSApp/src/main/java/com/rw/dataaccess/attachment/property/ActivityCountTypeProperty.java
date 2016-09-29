@@ -1,29 +1,51 @@
-package com.playerdata.activity.countType.data;
+package com.rw.dataaccess.attachment.property;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStoreCache;
 import com.rw.fsutil.dao.annotation.CombineSave;
-
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_counttype_item")
-public class ActivityCountTypeItem implements  PlayerExtProperty {
+public class ActivityCountTypeProperty implements PlayerExtProperty{
 
-	@Id
 	private Integer id;
 	
-	private String userId;// 对应的角色Id
+	@Override
+	public Integer getId() {
+		
+		// TODO Auto-generated method stub
+		return id;
+	}
+	
+	public void get(String userId,int cfgId) {
+		
+		String key = userId + "_"+cfgId;
+		
+		PlayerExtPropertyStoreCache<ActivityCountTypeProperty> storeCache = PlayerExtPropertyFactory.get(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeProperty.class);
+		try {
+			PlayerExtPropertyStore<ActivityCountTypeProperty> store= storeCache.getAttachmentStore(userId);
+			ActivityCountTypeProperty type = store.get(cfgId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+private String userId;// 对应的角色Id
 	
 	@CombineSave
 	private int count;
@@ -103,9 +125,6 @@ public class ActivityCountTypeItem implements  PlayerExtProperty {
 		count = 0;
 	}
 
-	public Integer getId() {
-		return id;
-	}
 
 	public void setId(Integer id) {
 		this.id = id;
@@ -154,6 +173,5 @@ public class ActivityCountTypeItem implements  PlayerExtProperty {
 	
 
 	
-	
-	
+
 }

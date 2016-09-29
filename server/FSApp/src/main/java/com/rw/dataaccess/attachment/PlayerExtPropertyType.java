@@ -1,11 +1,15 @@
 package com.rw.dataaccess.attachment;
 
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.rw.dataaccess.attachment.creator.ActivityCountTypeCreator;
+import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
 
 public enum PlayerExtPropertyType {
 
 //	TASK(1,TestProperty.class,TestPropertyCreator.class)
+	ACTIVITY_COUNTTYPE(1,ActivityCountTypeItem.class,ActivityCountTypeCreator.class)//
 	;
 
 	private final Class<? extends PlayerExtProperty> propertyClass;

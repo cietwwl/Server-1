@@ -9,7 +9,12 @@ import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -34,7 +39,7 @@ public class ActivityCountTypeItemHolder {
 				.getInstance();
 		List<ActivityCountTypeItem> itemList = new ArrayList<ActivityCountTypeItem>();
 		Enumeration<ActivityCountTypeItem> mapEnum = getItemStore(userId)
-				.getEnum();
+				.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityCountTypeItem item = (ActivityCountTypeItem) mapEnum
 					.nextElement();
@@ -47,17 +52,20 @@ public class ActivityCountTypeItemHolder {
 		return itemList;
 	}
 
+
+
 	public void updateItem(Player player, ActivityCountTypeItem item) {
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType,
 				eSynOpType.UPDATE_SINGLE);
 	}
 
 	public ActivityCountTypeItem getItem(String userId,
 			ActivityCountTypeEnum countTypeEnum) {
-		String itemId = ActivityCountTypeHelper
-				.getItemId(userId, countTypeEnum);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId = ActivityCountTypeHelper
+//				.getItemId(userId, countTypeEnum);
+		int id = Integer.parseInt(countTypeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 
 	public boolean addItem(Player player, ActivityCountTypeItem item) {
@@ -94,10 +102,19 @@ public class ActivityCountTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	public MapItemStore<ActivityCountTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityCountTypeItem> cache = MapItemStoreFactory
-				.getActivityCountTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityCountTypeItem.class);
+	public PlayerExtPropertyStore<ActivityCountTypeItem> getItemStore(String userId) {
+		PlayerExtPropertyStoreCache<ActivityCountTypeItem> storeCache = PlayerExtPropertyFactory.get(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
+		try {
+			return storeCache.getAttachmentStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;//	PlayerExtPropertyStore<ActivityCountTypeItem> store= storeCache.getAttachmentStore(userId);
+
 	}
 
 }

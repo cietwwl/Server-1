@@ -107,7 +107,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
 
-	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
+//	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
 
@@ -246,7 +246,7 @@ public class MapItemStoreFactory {
 		serverGroupCopyDamageRecordCache = createForPerload(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity);
 		itemDropAndApplyRecordCache = createForPerload(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity);
 
-		activityCountTypeItemCache = createForPerload(ActivityCountTypeItem.class, "userId", heroCapacity);
+//		activityCountTypeItemCache = createForPerload(ActivityCountTypeItem.class, "userId", heroCapacity);
 
 		activityTimeCardTypeItemCache = createForPerload(ActivityTimeCardTypeItem.class, "userId", heroCapacity);
 
@@ -480,9 +480,9 @@ public class MapItemStoreFactory {
 		return newGuideGiveItemHistoryCache;
 	}
 
-	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
-		return activityCountTypeItemCache;
-	}
+//	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
+//		return activityCountTypeItemCache;
+//	}
 
 	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
 		return activityDailyCountTypeItemCache;
