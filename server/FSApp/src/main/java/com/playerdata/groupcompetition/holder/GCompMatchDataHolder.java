@@ -92,8 +92,8 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addPersonalMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
-		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
-		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
+		GCompMatchData myMatchData = GCompMatchData.createPersonalMatchData(myTeam, enemyTeam);
+		GCompMatchData enemyMatchData = GCompMatchData.createPersonalMatchData(enemyTeam, myTeam);
 
 		String myMatchId = myMatchData.getMatchId();
 		String enemyMatchId = enemyMatchData.getMatchId();
@@ -119,6 +119,10 @@ public class GCompMatchDataHolder {
 		for (int i = 0, size = members.size(); i < size; i++) {
 			GCompTeamMember member = members.get(i);
 			if (member == null) {
+				continue;
+			}
+
+			if (member.isRobot()) {
 				continue;
 			}
 
@@ -336,13 +340,13 @@ public class GCompMatchDataHolder {
 				agent.checkBroadcast(gCompMember, group.getGroupName(), score.getT2().intValue());
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", gCompMember.getUserId(), member.getArmyInfo().getPlayerName(), agent.getContinueWins(gCompMember), gCompMember.getTotalWinTimes(), gCompMember.getScore(), score.getT1());
 
-				if(!member.isRobot()) {
+				if (!member.isRobot()) {
 					playerIdList.add(member.getUserId());
 					if (bestMember == null || bestMember.getScore() < gCompMember.getScore()) {
 						bestMember = gCompMember;
 					}
 				}
-				
+
 				memberScoreRspMsg.addMemberScore(GCompMatchBattleCmdHelper.buildGCMemberScoreMsg(i, score.getT1(), score.getT2()));
 			}
 		}
