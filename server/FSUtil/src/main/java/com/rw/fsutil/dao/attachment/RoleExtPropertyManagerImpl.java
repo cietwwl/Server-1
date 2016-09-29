@@ -45,7 +45,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 			String tableName = tableNameList.get(i);
 			this.selectRangeArray[i] = "select id,type,sub_type,extention from " + tableName + " where owner_id=? and type in(";
 			this.updateArray[i] = "update " + tableName + " set extention=? where id=?";
-			this.selectArray[i] = "select id,sub_type,extention from " + tableName + " wehere owner_id=? and type=?";
+			this.selectArray[i] = "select id,sub_type,extention from " + tableName + " where owner_id=? and type=?";
 			this.insertArray[i] = "insert into " + tableName + " (owner_id,type,sub_type,extention) values(?,?,?,?)";
 			this.deleteArray[i] = "delete from " + tableName + " where id=?";
 			this.tableNameArray[i] = tableName;
