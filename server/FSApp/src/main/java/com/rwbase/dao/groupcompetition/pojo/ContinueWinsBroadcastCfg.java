@@ -3,15 +3,15 @@ package com.rwbase.dao.groupcompetition.pojo;
 public class ContinueWinsBroadcastCfg {
 
 	private int continueWinTimes;
-	private String broadcastContent;
+	private int pmdId; // 跑马灯id
 	
 	
 	public int getContinueWinTimes() {
 		return continueWinTimes;
 	}
 	
-	public String getBroadcastContent() {
-		return broadcastContent;
+	public int getPmdId() {
+		return pmdId;
 	}
 	
 }

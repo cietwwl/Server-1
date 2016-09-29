@@ -15,7 +15,7 @@ public class ContinueWinsBroadcastCfgDAO extends CfgCsvDao<ContinueWinsBroadcast
 		return SpringContextUtil.getBean(ContinueWinsBroadcastCfgDAO.class);
 	}
 	
-	private final Map<Integer, String> mapByContinueWins = new HashMap<Integer, String>();
+	private final Map<Integer, Integer> mapByContinueWins = new HashMap<Integer, Integer>();
 	private int maxContinueWins;
 	
 	@Override
@@ -23,7 +23,7 @@ public class ContinueWinsBroadcastCfgDAO extends CfgCsvDao<ContinueWinsBroadcast
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map(GroupCompetitionConfigDir.DIR.getFullPath("ContinueWinsBroadcastCfg.csv"), ContinueWinsBroadcastCfg.class);
 		for (Iterator<String> keyItr = this.cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
 			ContinueWinsBroadcastCfg cfg = this.cfgCacheMap.get(keyItr.next());
-			mapByContinueWins.put(cfg.getContinueWinTimes(), cfg.getBroadcastContent());
+			mapByContinueWins.put(cfg.getContinueWinTimes(), cfg.getPmdId());
 			if (maxContinueWins < cfg.getContinueWinTimes()) {
 				maxContinueWins = cfg.getContinueWinTimes();
 			}
@@ -31,7 +31,7 @@ public class ContinueWinsBroadcastCfgDAO extends CfgCsvDao<ContinueWinsBroadcast
 		return cfgCacheMap;
 	}
 
-	public String getBroadcastContent(int continueWins) {
+	public Integer getBroadcastId(int continueWins) {
 		if(maxContinueWins < continueWins) {
 			return mapByContinueWins.get(maxContinueWins);
 		}

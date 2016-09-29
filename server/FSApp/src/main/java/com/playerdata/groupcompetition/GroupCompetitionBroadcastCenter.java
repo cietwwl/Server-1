@@ -8,10 +8,14 @@ import java.util.concurrent.RejectedExecutionException;
 
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
+import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
+import com.rwproto.MainMsgProtos.EMsgType;
 
 public class GroupCompetitionBroadcastCenter {
 
@@ -36,16 +40,16 @@ public class GroupCompetitionBroadcastCenter {
 		_task._on = false;
 	}
 	
-	public void addBroadcastMsg(String msg) {
-		GCompUtil.log("添加一条广播消息:{}", msg);
-		_task._broadcastQueue.add(msg);
+	public void addBroadcastMsg(Integer pmdId, List<String> arr) {
+		GCompUtil.log("添加一条广播消息:{}, {}", pmdId, arr);
+		_task._broadcastQueue.add(Pair.CreateReadonly(pmdId, arr));
 	}
 	
 	private static class GroupCompetitionBroadcastTask implements IGameTimerTask {
 		
 		private boolean _on = false;
 		
-		private Queue<String> _broadcastQueue = new ConcurrentLinkedQueue<String>();
+		private Queue<IReadOnlyPair<Integer, List<String>>> _broadcastQueue = new ConcurrentLinkedQueue<IReadOnlyPair<Integer, List<String>>>();
 
 		@Override
 		public String getName() {
@@ -55,10 +59,10 @@ public class GroupCompetitionBroadcastCenter {
 		@Override
 		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
 			if (_broadcastQueue.size() > 0) {
-				List<String> copy = new ArrayList<String>(_broadcastQueue);
+				List<IReadOnlyPair<Integer, List<String>>> copy = new ArrayList<IReadOnlyPair<Integer, List<String>>>(_broadcastQueue);
 				_broadcastQueue.clear();
-				for (String str : copy) {
-					GCompUtil.sendMarquee(str);
+				for (IReadOnlyPair<Integer, List<String>> msg : copy) {
+					MainMsgHandler.getInstance().sendMainCityMsg(msg.getT1().intValue(), EMsgType.PmdMsg, msg.getT2());
 				}
 			}
 			return null;
