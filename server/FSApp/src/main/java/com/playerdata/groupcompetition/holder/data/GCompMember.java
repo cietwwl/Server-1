@@ -15,6 +15,7 @@ public class GCompMember implements Comparable<GCompMember>{
 	private int continueWins; // 连胜次数
 	private int maxContinueWins; // 最大连胜次数
 	private int groupScore; // 贡献的帮派积分
+	private String headIcon; // 头像
 	@IgnoreSynField
 	private int robotContinueWins; // 作为机器人的连胜次数
 	@IgnoreSynField
@@ -24,10 +25,11 @@ public class GCompMember implements Comparable<GCompMember>{
 	@IgnoreSynField
 	private static IGCompMemberAgent _commonAgent = new GCompMemberCommonAgent();
 	
-	public GCompMember(String userId, String userName, int lv) {
+	public GCompMember(String userId, String userName, int lv, String headIcon) {
 		this.userId = userId;
 		this.lv = lv;
 		this.userName = userName;
+		this.headIcon = headIcon;
 	}
 	
 	public static IGCompMemberAgent getAgent(boolean isRobot) {
@@ -84,6 +86,10 @@ public class GCompMember implements Comparable<GCompMember>{
 	
 	public String getUserName() {
 		return userName;
+	}
+	
+	public String getHeadIcon() {
+		return headIcon;
 	}
 
 	public int getScore() {

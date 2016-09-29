@@ -266,7 +266,6 @@ public class ClientDataSynMgr {
 		if (StringUtils.isNotBlank(jsonData)) {
 			synData.setJsonData(jsonData);
 		}
-		
 		return synData;
 	}
 

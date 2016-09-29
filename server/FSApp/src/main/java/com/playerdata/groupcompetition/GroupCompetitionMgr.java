@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Player;
-import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCOnlineMemberMgr;
-import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
-import com.playerdata.groupcompetition.holder.GCompMemberHolder;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
+import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -106,8 +105,8 @@ public class GroupCompetitionMgr {
 //			default:
 //				break;
 //			}
-			if (data.getCurrentEventsData() != null) {
-				data.getCurrentEventsData().reset();
+			if (data.getCurrentEventsRecord() != null) {
+				data.getCurrentEventsRecord().reset();
 			}
 			data.setCurrentStageType(GCompStageType.SELECTION);
 			this.continueOldStageController(data); // 测试：现在先默认重新开始
@@ -127,7 +126,7 @@ public class GroupCompetitionMgr {
 			// 有可能是停服再起服的时候开始的
 			saveData.increaseHeldTimes();
 			saveData.updateLastHeldTime(System.currentTimeMillis());
-			GCompEventsRecord currentData = saveData.getCurrentEventsData();
+			GCompEventsRecord currentData = saveData.getCurrentEventsRecord();
 			if (currentData != null) {
 				currentData.reset();
 			}
@@ -163,11 +162,11 @@ public class GroupCompetitionMgr {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
 			try {
-				int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsData().getCurrentEventsType());
+				int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsRecord().getCurrentEventsType());
 				if (matchId > 0) {
 					GCompTeamMgr.getInstance().sendTeamData(matchId, player);
-					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
 					GCOnlineMemberMgr.getInstance().sendOnlineMembers(player);
+					GCOnlineMemberMgr.getInstance().addToOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);
 					GCompMemberMgr.getInstance().onPlayerEnterPrepareArea(player);
 				}
@@ -210,7 +209,7 @@ public class GroupCompetitionMgr {
 	 * @return 本次帮派争霸开始的比赛类型
 	 */
 	public GCEventsType getFisrtTypeOfCurrent() {
-		return _dataHolder.get().getCurrentEventsData().getFirstEventsType();
+		return _dataHolder.get().getCurrentEventsRecord().getFirstEventsType();
 	}
 	
 	/**
@@ -220,7 +219,7 @@ public class GroupCompetitionMgr {
 	 * @return
 	 */
 	public GCEventsType getCurrentEventsType() {
-		return _dataHolder.get().getCurrentEventsData().getCurrentEventsType();
+		return _dataHolder.get().getCurrentEventsRecord().getCurrentEventsType();
 	}
 	
 	/**
@@ -232,12 +231,12 @@ public class GroupCompetitionMgr {
 	 */
 	public void updateCurrenEventstData(GCEventsType eventsType, List<String> relativeGroupIds) {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
-		GCompEventsRecord currentEventsData = globalData.getCurrentEventsData();
+		GCompEventsRecord currentEventsData = globalData.getCurrentEventsRecord();
 		if(currentEventsData == null) {
 			currentEventsData = new GCompEventsRecord();
 			currentEventsData.setHeldTime(globalData.getLastHeldTimeMillis());
 			currentEventsData.setFirstEventsType(eventsType);
-			globalData.setCurrentData(currentEventsData);
+			globalData.setCurrentRecord(currentEventsData);
 		}
 		currentEventsData.setCurrentEventsType(eventsType);
 		currentEventsData.setCurrentStatusFinished(false);
@@ -246,10 +245,16 @@ public class GroupCompetitionMgr {
 		this._dataHolder.update();
 	}
 	
+	/**
+	 * 
+	 * 获取参与目前赛事的帮派id
+	 * 
+	 * @return
+	 */
 	public List<String> getCurrentRelativeGroupIds() {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
-			GCompEventsRecord eventsGlobalData = globalData.getCurrentEventsData();
+			GCompEventsRecord eventsGlobalData = globalData.getCurrentEventsRecord();
 			return eventsGlobalData.getCurrentRelativeGroupIds();
 		}
 		return Collections.emptyList();
@@ -257,7 +262,10 @@ public class GroupCompetitionMgr {
 	
 	public void updateEventsStatus(GCompEventsStatus status) {
 		GroupCompetitionGlobalData globalData = _dataHolder.get();
-		globalData.getCurrentEventsData().setCurrentStatus(status);
+		GCompEventsRecord record = globalData.getCurrentEventsRecord();
+		record.setCurrentStatus(status);
+		record.setCurrentEventsStatusStartTime(System.currentTimeMillis());
+		record.setCurrentEventsStatusEndTime(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(status.getLastMinutes()));
 		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
@@ -270,6 +278,7 @@ public class GroupCompetitionMgr {
 					break;
 				}
 			}
+			_dataHolder.update();
 		}
 	}
 	
@@ -300,7 +309,7 @@ public class GroupCompetitionMgr {
 	 * @return
 	 */
 	public GCompEventsStatus getCurrentEventsStatus() {
-		GCompEventsRecord eventsData = this._dataHolder.get().getCurrentEventsData();
+		GCompEventsRecord eventsData = this._dataHolder.get().getCurrentEventsRecord();
 		if (eventsData != null && eventsData.getCurrentEventsType() != null) {
 			return eventsData.getCurrentStatus();
 		}
@@ -328,12 +337,20 @@ public class GroupCompetitionMgr {
 			case EVENTS:
 			case SELECTION:
 				baseInfo.setCurrentStageType(globalData.getCurrentStageType());
-				baseInfo.setEndTime(globalData.getCurrentStageEndTime());
-				baseInfo.setStartTime(globalData.getLastHeldTimeMillis());
 				baseInfo.setStart(true);
+				long startTime;
+				long endTime;
 				if(globalData.getCurrentStageType() == GCompStageType.EVENTS) {
-					baseInfo.setEventStatus(globalData.getCurrentEventsData().getCurrentStatus());
+					GCompEventsRecord record = globalData.getCurrentEventsRecord();
+					baseInfo.setEventStatus(record.getCurrentStatus());
+					startTime = record.getCurrentEventsStatusStartTime();
+					endTime = record.getCurrentEventsStatusEndTime();
+				} else {
+					startTime = globalData.getLastHeldTimeMillis();
+					endTime = globalData.getCurrentStageEndTime();
 				}
+				baseInfo.setEndTime(endTime);
+				baseInfo.setStartTime(startTime);
 				break;
 			default:
 				baseInfo.setStart(false);

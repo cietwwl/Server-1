@@ -54,7 +54,9 @@ public class GCOnlineMemberHolder {
 			}
 		}
 		GCompUtil.log("同步新加的member给所有玩家，member：{}，玩家列表：{}，opType:{}", member, list, opType);
-		ClientDataSynMgr.synDataMutiple(list, member, eSynType.GCompOnlineMember, opType);
+		if (list.size() > 0) {
+			ClientDataSynMgr.synDataMutiple(list, member, eSynType.GCompOnlineMember, opType);
+		}
 	}
 	
 	/**

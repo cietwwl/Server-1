@@ -28,7 +28,7 @@ class GroupCompetitionGlobalData {
 	@JsonProperty("2")
 	private long _lastHeldTimeMillis; // 最后一次举办的时间（从Selection阶段开始）
 	@JsonProperty("3")
-	private GCompEventsRecord _currentEventsData; // 当前的赛事的保存数据
+	private GCompEventsRecord _currentEventsRecord; // 当前的赛事的保存数据
 	@JsonProperty("4")
 	private List<ChampionGroupData> _championGroups; // 历届冠军
 	@JsonProperty("5")
@@ -87,8 +87,8 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @param data
 	 */
-	void setCurrentData(GCompEventsRecord data) {
-		this._currentEventsData = data;
+	void setCurrentRecord(GCompEventsRecord data) {
+		this._currentEventsRecord = data;
 	}
 	
 	/**
@@ -97,8 +97,8 @@ class GroupCompetitionGlobalData {
 	 * 
 	 * @return
 	 */
-	public GCompEventsRecord getCurrentEventsData() {
-		return _currentEventsData;
+	public GCompEventsRecord getCurrentEventsRecord() {
+		return _currentEventsRecord;
 	}
 	
 	/**

@@ -46,6 +46,13 @@ public class GCompEventsGlobalData {
 		this.matches.clear();
 		this.matchNumType = null;
 	}
+	
+	public void copy(GCompEventsGlobalData copy) {
+		this.clear();
+		this.eventsDataMap.putAll(copy.eventsDataMap);
+		this.matches.addAll(copy.matches);
+		this.matchNumType = copy.matchNumType;
+	}
 
 	@Override
 	public String toString() {

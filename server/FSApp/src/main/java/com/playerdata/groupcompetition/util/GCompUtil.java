@@ -148,7 +148,7 @@ public class GCompUtil {
 	}
 	
 	public static int getMatchingTimeoutMillis() {
-		int randomSecond = matchingTimeoutRandom.nextInt(3);
+		int randomSecond = matchingTimeoutRandom.nextInt(5);
 		int millis = GCompCommonConfig.getMachingTimeoutMillis();
 		if(randomSecond != 0) {
 			millis -= TimeUnit.SECONDS.toMillis(randomSecond);

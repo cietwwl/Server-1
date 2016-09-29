@@ -33,7 +33,7 @@ public class GCompMemberMgr {
 			if (map != null) {
 				String userId = player.getUserId();
 				if (!map.containsKey(userId)) {
-					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel());
+					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel(), player.getHeadImage());
 					map.put(userId, member);
 					_sorted.get(groupId).add(member);
 				}
@@ -51,7 +51,7 @@ public class GCompMemberMgr {
 			Group group = GroupBM.get(groupId);
 			List<? extends GroupMemberDataIF> allMembers = group.getGroupMemberMgr().getMemberSortList(null);
 			for (GroupMemberDataIF member : allMembers) {
-				GCompMember gcompMember = new GCompMember(member.getUserId(), member.getName(), member.getLevel());
+				GCompMember gcompMember = new GCompMember(member.getUserId(), member.getName(), member.getLevel(), member.getHeadId());
 				map.put(gcompMember.getUserId(), gcompMember);
 				list.add(gcompMember);
 			}

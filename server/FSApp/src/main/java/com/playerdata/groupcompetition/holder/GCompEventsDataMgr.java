@@ -22,7 +22,7 @@ public class GCompEventsDataMgr {
 	private GCompEventsDataHolder _dataHolder = GCompEventsDataHolder.getInstance();
 
 	public void onEventStageStart(GCEventsType startEventsType) {
-		GCompEventsGlobalData globalData = _dataHolder.get();
+		GCompEventsGlobalData globalData = _dataHolder.get(false);
 		globalData.clear();
 		globalData.setMatchNumType(startEventsType);
 	}
@@ -35,7 +35,7 @@ public class GCompEventsDataMgr {
 	 * @param eventsType
 	 */
 	public void addEvents(GCompEventsData eventsData, GCEventsType eventsType) {
-		_dataHolder.get().add(eventsType, eventsData);
+		_dataHolder.get(false).add(eventsType, eventsData);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class GCompEventsDataMgr {
 	 * @return
 	 */
 	public GCompEventsData getEventsData(GCEventsType eventType) {
-		return _dataHolder.get().getEventsData(eventType);
+		return _dataHolder.get(false).getEventsData(eventType);
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class GCompEventsDataMgr {
 	 * @return
 	 */
 	public int getMatchIdOfGroup(String groupId, GCEventsType eventsType) {
-		GCompEventsData eventsData = _dataHolder.get().getEventsData(eventsType);
+		GCompEventsData eventsData = _dataHolder.get(false).getEventsData(eventsType);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -90,7 +90,7 @@ public class GCompEventsDataMgr {
 	 * @return
 	 */
 	public IGCAgainst getGCAgainstOfGroup(String groupId, GCEventsType eventsType) {
-		GCompEventsData eventsData = _dataHolder.get().getEventsData(eventsType);
+		GCompEventsData eventsData = _dataHolder.get(false).getEventsData(eventsType);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -105,7 +105,7 @@ public class GCompEventsDataMgr {
 	
 	public GCGroup getGCGroupOfCurrentEvents(String groupId) {
 		GCEventsType type = GroupCompetitionMgr.getInstance().getCurrentEventsType();
-		GCompEventsData eventsData = _dataHolder.get().getEventsData(type);
+		GCompEventsData eventsData = _dataHolder.get(false).getEventsData(type);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
 		GCompAgainst against;
 		for (int i = 0, size = againsts.size(); i < size; i++) {
@@ -118,5 +118,9 @@ public class GCompEventsDataMgr {
 		}
 
 		return null;
+	}
+	
+	public void notifyAllEventsFinished() {
+		this._dataHolder.saveCurrentToLast();
 	}
 }

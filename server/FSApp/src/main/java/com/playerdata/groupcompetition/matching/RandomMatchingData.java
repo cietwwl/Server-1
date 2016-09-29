@@ -24,6 +24,7 @@ class RandomMatchingData {
 		this.userId = pUserId;
 		this.heroIds = new ArrayList<String>(pHeroIds);
 		this.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
+		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, deadline);
 	}
 	
 	/**

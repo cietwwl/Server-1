@@ -39,6 +39,8 @@ class GCompEventsRecord {
 	private GCEventsType _firstEventsType; // 是从哪一强开始比赛的
 	@JsonProperty("6")
 	private GCompEventsStatus _currentStatus; // 当前的状态
+	private long _currentEventsStatusStartTime;
+	private long _currentEventsStatusEndTime;
 	
 
 	public long getHeldTime() {
@@ -99,6 +101,22 @@ class GCompEventsRecord {
 
 	public void setCurrentStatus(GCompEventsStatus currentStatus) {
 		this._currentStatus = currentStatus;
+	}
+	
+	public long getCurrentEventsStatusStartTime() {
+		return _currentEventsStatusStartTime;
+	}
+
+	void setCurrentEventsStatusStartTime(long pCurrentEventsStartTime) {
+		this._currentEventsStatusStartTime = pCurrentEventsStartTime;
+	}
+
+	public long getCurrentEventsStatusEndTime() {
+		return _currentEventsStatusEndTime;
+	}
+	
+	void setCurrentEventsStatusEndTime(long pCurrentEventsEndTime) {
+		this._currentEventsStatusEndTime = pCurrentEventsEndTime;
 	}
 	
 	void reset() {

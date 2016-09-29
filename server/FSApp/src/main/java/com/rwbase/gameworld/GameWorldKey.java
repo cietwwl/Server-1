@@ -61,6 +61,14 @@ public enum GameWorldKey {
 	 * 世界boss 
 	 */
 	WORLD_BOSS("WORLD_BOSS"),
+	/**
+	 * 帮派争霸，当前对阵
+	 */
+	GROUP_COMPETITION_AGAINSTS_CURRENT("AGAINSTS_CURRENT"),
+	/**
+	 * 帮派争霸，上一届对阵
+	 */
+	GROUP_COMPETITION_AGAINSTS_LAST("AGAINSTS_LAST"),
 	;
 	
 	

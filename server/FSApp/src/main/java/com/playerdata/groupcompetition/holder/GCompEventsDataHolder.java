@@ -25,12 +25,20 @@ public class GCompEventsDataHolder {
 		this._dao = GCompEventsDataDAO.getInstance();
 	}
 	
-	GCompEventsGlobalData get() {
-		return _dao.getCurrentGlobalData();
+	GCompEventsGlobalData get(boolean getLast) {
+		if (getLast) {
+			return _dao.getCurrentGlobalData();
+		} else {
+			return _dao.getLastGlobalData();
+		}
+	}
+	
+	void saveCurrentToLast() {
+		_dao.saveCurrentToLast();
 	}
 	
 	private GCompEventsSynData createSynData() {
-		GCompEventsGlobalData globalData = this.get();
+		GCompEventsGlobalData globalData = this.get(false);
 		GCompEventsSynData synData = new GCompEventsSynData();
 		synData.setMatches(globalData.getMatches());
 		synData.setMatchNumType(globalData.getMatchNumType());

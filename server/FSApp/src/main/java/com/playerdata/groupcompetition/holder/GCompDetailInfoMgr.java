@@ -31,10 +31,14 @@ public class GCompDetailInfoMgr {
 	}
 	
 	private void updateMvp(GCompPersonalScore mvp, GCompMember member) {
-		mvp.setContinueWin(member.getMaxContinueWins());
-		mvp.setName(member.getUserName());
+		if (!member.getUserName().equals(mvp.getName())) {
+			mvp.setName(member.getUserName());
+			mvp.setHeadIcon(member.getHeadIcon());
+		}
+		if (mvp.getContinueWin() != member.getMaxContinueWins()) {
+			mvp.setContinueWin(member.getMaxContinueWins());
+		}
 		mvp.setScore(member.getScore());
-		mvp.setHeadIcon(member.getUserId());
 		mvp.setGroupScore(member.getGroupScore());
 	}
 	
