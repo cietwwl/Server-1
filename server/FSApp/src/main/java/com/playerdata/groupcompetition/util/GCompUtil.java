@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
@@ -22,6 +24,7 @@ public class GCompUtil {
 	
 	private static final java.text.SimpleDateFormat _dateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
+	private static final Random matchingTimeoutRandom = new Random();
 	/**
 	 * 
 	 * <pre>
@@ -142,6 +145,15 @@ public class GCompUtil {
 	
 	public static String format(String msg, Object... args) {
 		return MessageFormatter.arrayFormat(msg, args);
+	}
+	
+	public static int getMatchingTimeoutMillis() {
+		int randomSecond = matchingTimeoutRandom.nextInt(3);
+		int millis = GCompCommonConfig.getMachingTimeoutMillis();
+		if(randomSecond != 0) {
+			millis -= TimeUnit.SECONDS.toMillis(randomSecond);
+		}
+		return millis;
 	}
 	
 	final static public class MessageFormatter {

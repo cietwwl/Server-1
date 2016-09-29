@@ -557,6 +557,7 @@ public class GCompTeamMgr {
 		
 		GCompTeamMember member = team.getTeamMember(player.getUserId());
 		member.setReady(false);
+		result.setT1(true);
 		
 		_dataHolder.synToAllMembers(team);
 	}

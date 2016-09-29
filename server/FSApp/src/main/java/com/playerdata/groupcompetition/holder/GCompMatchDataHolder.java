@@ -275,15 +275,16 @@ public class GCompMatchDataHolder {
 	private int getBattleResultIntValue(GCompBattleResult result) {
 		switch (result) {
 		case Win:
-			return 1;
+			return GCompBasicScoreCfg.BATTLE_RESULT_WIN;
 		case Lose:
-			return 2;
+			return GCompBasicScoreCfg.BATTLE_RESULT_LOSE;
 		default:
 		case Draw:
-			return 3;
+			return GCompBasicScoreCfg.BATTLE_RESULT_DRAW;
 		}
 	}
 
+	// 计算个人积分
 	private Pair<Integer, Integer> calculatePersonalTeamScore(GCompTeamMember teamMember, int continueWins, GCBattleResult teamResult, IReadOnlyPair<Integer, Integer> teamScore) {
 		GCompBasicScoreCfg basicScoreCfg = _basicScoreCfgDAO.getByBattleResult(getBattleResultIntValue(teamMember.getResult()));
 		GCompScoreCfg continueWinScoreCfg = _personalScoreCfgDAO.getByContinueWins(continueWins);
@@ -295,20 +296,22 @@ public class GCompMatchDataHolder {
 		return score;
 	}
 
+	// 获取队伍的额外奖励
 	private IReadOnlyPair<Integer, Integer> getTeamAdditionalScore(GCompTeam myTeam, GCBattleResult teamResult) {
 		if (myTeam.isPersonal())  {
+			// 如果是个人队伍，没有额外的奖励
 			return _EMPTY_SCORE;
 		}
 		int key;
 		switch (teamResult) {
 		case DRAW:
-			key = 0;
+			key = GCompGroupScoreCfgDAO.KEY_TEAM_DRAW;
 			break;
 		case WIN:
-			key = 1;
+			key = GCompGroupScoreCfgDAO.KEY_TEAM_WIN;
 			break;
 		default:
-			key = -1;
+			key = GCompGroupScoreCfgDAO.KEY_TEAM_LOSE;
 			break;
 		}
 		GCompScoreCfg cfg = GCompGroupScoreCfgDAO.getInstance().getByContinueWins(key);
@@ -316,6 +319,7 @@ public class GCompMatchDataHolder {
 		return score;
 	}
 	
+	// 判断队伍里面的成员是否全部都是机器人
 	private boolean checkIfAllRobot(GCompTeam myTeam) {
 		List<GCompTeamMember> allMembers = myTeam.getMembers();
 		for(int i = 0, size = allMembers.size(); i < size; i++) {
@@ -327,6 +331,7 @@ public class GCompMatchDataHolder {
 		return true;
 	}
 	
+	// 对GCompGroupMember的胜利次进行处理
 	private void processWinTimes(GCBattleResult result, GCompMember gCompMember, GCompTeamMember member, IGCompMemberAgent agent) {
 		agent = GCompMember.getAgent(member.isRobot());
 		// 处理连胜
@@ -376,20 +381,19 @@ public class GCompMatchDataHolder {
 			return;
 		}
 		String groupId = GroupHelper.getUserGroupId(myTeam.getLeaderId());
-		IReadOnlyPair<Integer, Integer> teamScore = this.getTeamAdditionalScore(myTeam, result);
+		IReadOnlyPair<Integer, Integer> teamScore = this.getTeamAdditionalScore(myTeam, result); // 队伍额外积分的计算
 		
 		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
-		int groupScore = 0;
+		int totalGroupScore = 0; // 加给帮派的总积分
 		IGCompMemberAgent agent;
 		GCompMember bestMember = null;
-		List<GCompTeamMember> allMembers = myTeam.getMembers();
+		List<GCompTeamMember> allMembers = myTeam.getMembers(); // 队伍的所有成员
 		int size = allMembers.size();
 		List<String> playerIdList = new ArrayList<String>(size);
 		List<GCompPersonFightingRecord> personFightingRecords = new ArrayList<GCompPersonFightingRecord>(size);
 		List<IReadOnlyPair<Integer, Integer>> memberScores = new ArrayList<IReadOnlyPair<Integer, Integer>>(size);
 		for (int i = 0; i < size; i++) {
 			GCompTeamMember teamMember = allMembers.get(i);
-			teamMember.getResult();
 			GCompMember groupMember = GCompMemberMgr.getInstance().getGCompMember(groupId, teamMember.getUserId());
 			if (groupMember != null) {
 				agent = GCompMember.getAgent(teamMember.isRobot());
@@ -400,7 +404,8 @@ public class GCompMatchDataHolder {
 				int tempGroupScore = score.getT2().intValue();
 				int personScore = score.getT1().intValue();
 				agent.addScore(groupMember, score.getT1());
-				groupScore += tempGroupScore;
+				agent.addGroupScore(groupMember, tempGroupScore);
+				totalGroupScore += tempGroupScore;
 				
 				agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
 				
@@ -417,7 +422,7 @@ public class GCompMatchDataHolder {
 			
 				GCompPersonFightingRecord personFightingRecord = new GCompPersonFightingRecord();
 				personFightingRecord.setContinueWin(agent.getContinueWins(groupMember));
-				personFightingRecord.setDefendName("");
+				personFightingRecord.setDefendName(teamMember.getEnemyName());
 				personFightingRecord.setOffendName(groupMember.getUserName());
 				personFightingRecord.setGroupScore(tempGroupScore);
 				personFightingRecord.setPersonalScore(personScore);
@@ -425,11 +430,11 @@ public class GCompMatchDataHolder {
 			}
 		}
 
-		if (group != null && groupScore > 0) {
+		if (group != null && totalGroupScore > 0) {
 			int matchId = GCompEventsDataMgr.getInstance().getGroupMatchIdOfCurrent(groupId);
-			group.updateScore(groupScore);
+			group.updateScore(totalGroupScore);
 			GCompDetailInfoMgr.getInstance().onScoreUpdate(matchId, groupId, group.getGCompScore(), bestMember);
-			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), groupScore, group.getGCompScore());
+			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), totalGroupScore, group.getGCompScore());
 
 			GCompFightingRecord record = new GCompFightingRecord();
 			record.setPersonalFightingRecords(personFightingRecords);

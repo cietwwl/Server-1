@@ -16,7 +16,6 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
-import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
@@ -25,7 +24,6 @@ import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
-import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -54,8 +52,9 @@ class AgainstMatchingTask implements IGameTimerTask {
 	private boolean _randomMatchingOn = true; // 是否随机匹配（个人赛阶段不能随机匹配）
 	private String idOfGroupA; // 帮派A的id
 	private String idOfGroupB; // 帮派B的id
-	private GCEventsType eventsType; // 当前的赛事类型
+//	private GCEventsType eventsType; // 当前的赛事类型
 	private GCompEventsStatus currentEventsStatus;
+	private int memberCountOfCurrent;
 	
 	AgainstMatchingTask(int pAgainstId, String pIdOfGroupA, String pIdOfGroupB) {
 		groupMatchingDatas = new HashMap<String, GroupMatchingData>(2, 1.5f);
@@ -66,7 +65,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 		this.idOfGroupA = pIdOfGroupA;
 		this.idOfGroupB = pIdOfGroupB;
 		this.nameOfTimerTask = "帮派争霸匹配任务：" + againstId;
-		this.eventsType = GroupCompetitionMgr.getInstance().getCurrentEventsType();
+//		this.eventsType = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 	
 	void addMatching(String groupId, GCompTeam team) {
@@ -114,6 +113,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			return;
 		}
 		this._on = true;
+		this.memberCountOfCurrent = this.currentEventsStatus == GCompEventsStatus.TEAM_EVENTS ? GCompCommonConfig.getMaxMemberCountOfTeam() : 1;
 		FSGameTimerMgr.getInstance().submitSecondTask(this, GCompCommonConfig.getMatchingIntervalSeconds());
 	}
 	
@@ -231,15 +231,21 @@ class AgainstMatchingTask implements IGameTimerTask {
 			list = new ArrayList<RandomMatchingData>();
 		}
 		int sizeOfList = list.size();
-		if (sizeOfList == 1) {
+		if (sizeOfList > 0 && sizeOfList < memberCountOfCurrent) {
 			// 只有一个人的时候
 			long currentTimeMillis = System.currentTimeMillis();
-			int timeoutMillis = GCompCommonConfig.getMachingTimeoutMillis();
-			RandomMatchingData data = list.get(0);
-			if (currentTimeMillis - data.getSubmitTime() < timeoutMillis) {
-				GCompUtil.log("未到时间，移除：{}", data.getUserId());
-				groupMatchingData.turnBackRandomMatchingData(data);
-				list.remove(data);
+			RandomMatchingData data = list.get(0); // 只需要检查第一个有没有超时，因为只要有一个人超时，就必须给他组成一个队伍
+			if (currentTimeMillis < data.getDeadline()) {
+				if (sizeOfList == 1) {
+					GCompUtil.log("未到时间，移除：{}", data.getUserId());
+					groupMatchingData.turnBackRandomMatchingData(data);
+					list.remove(data);
+				} else {
+					for (int i = 0; i < sizeOfList; i++) {
+						groupMatchingData.turnBackRandomMatchingData(list.get(i));
+					}
+					list.clear();
+				}
 			}
 		}
 		if (list.size() > 0 && list.size() < maxMemberSize) {
@@ -293,14 +299,14 @@ class AgainstMatchingTask implements IGameTimerTask {
 		if (info != null) {
 			List<EmbattleHeroPosition> posList = info.getPos();
 			heroIds = new ArrayList<String>(posList.size());
-			for (EmbattleHeroPosition h : posList) {
-				heroIds.add(h.getId());
+			for (int i = 0, size = posList.size(); i < size; i++) {
+				heroIds.add(posList.get(i).getId());
 			}
 		} else {
 			List<Hero> heros = FSHeroMgr.getInstance().getMaxFightingHeros(PlayerMgr.getInstance().find(member.getUserId()));
 			heroIds = new ArrayList<String>(heros.size());
-			for (Hero h : heros) {
-				heroIds.add(h.getId());
+			for (int i = 0, size = heros.size(); i < size; i++) {
+				heroIds.add(heros.get(i).getId());
 			}
 		}
 		
@@ -311,12 +317,11 @@ class AgainstMatchingTask implements IGameTimerTask {
 	
 	// 匹配机器人
 	private boolean robotMatch(Queue<GCompMember> members, MatchingData matchingData) {
-		int size = this.currentEventsStatus == GCompEventsStatus.TEAM_EVENTS ? GCompCommonConfig.getMaxMemberCountOfTeam() : 1;
-		if (members.size() < size) {
+		if (members.size() < memberCountOfCurrent) {
 			return false;
 		}
-		List<RandomMatchingData> list = new ArrayList<RandomMatchingData>(size);
-		for (int i = 0; i < size; i++) {
+		List<RandomMatchingData> list = new ArrayList<RandomMatchingData>(memberCountOfCurrent);
+		for (int i = 0; i < memberCountOfCurrent; i++) {
 			GCompMember member = members.poll();
 			members.add(member); // 放到队尾
 			list.add(this.createRandomMatchingData(member));
@@ -341,7 +346,6 @@ class AgainstMatchingTask implements IGameTimerTask {
 			int maxMatchingLvFloating = GCompCommonConfig.getMaxMatchingLvFloating();
 			synchronized (queue) {
 				long currentMillis = System.currentTimeMillis();
-				int matchingTimeoutMillis = GCompCommonConfig.getMachingTimeoutMillis();
 				Queue<GCompMember> allMembersOfGroupA = this.getAllMembersOfGroup(idOfGroupA); // 所有的帮派A的成员
 				Queue<GCompMember> allMembersOfGroupB = this.getAllMembersOfGroup(idOfGroupB); // 所有的帮派B的成员
 				for (MatchingData md : queue) {
@@ -361,7 +365,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 						}
 					}
 					if (dataMatched == null) {
-						if(currentMillis - md.getSubmitTime() < matchingTimeoutMillis) {
+						if(currentMillis < md.getDeadline()) {
 							// 没有超时，等待下一轮
 							continue;
 						}

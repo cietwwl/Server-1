@@ -16,6 +16,11 @@ class GCompMemberRobotAgent implements IGCompMemberAgent {
 	public void addScore(GCompMember member, int score) {
 		// 机器人不需要加积分
 	}
+	
+	@Override
+	public void addGroupScore(GCompMember member, int score) {
+		
+	}
 
 	@Override
 	public int getContinueWins(GCompMember member) {

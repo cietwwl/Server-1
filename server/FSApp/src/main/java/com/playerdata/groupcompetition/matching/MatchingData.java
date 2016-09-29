@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.matching;
 
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
+import com.playerdata.groupcompetition.util.GCompUtil;
 
 /**
  * 
@@ -17,7 +18,7 @@ class MatchingData {
 		this.lv = team.getLv();
 		this.matchId = matchId;
 		this.battleTimes = team.getBattleTimes();
-		this.submitTime = System.currentTimeMillis();
+		this.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
 	}
 	
 	private String teamId; // 队伍id
@@ -25,7 +26,8 @@ class MatchingData {
 	private int lv; // 等级
 	private int matchId;
 	private int battleTimes; // 参与战斗的次数
-	private long submitTime; // 提交的时间
+//	private long submitTime; // 提交的时间
+	private long deadline; // 最后时间
 	private boolean cancel;
 
 	public String getTeamId() {
@@ -48,8 +50,8 @@ class MatchingData {
 		return battleTimes;
 	}
 
-	public long getSubmitTime() {
-		return submitTime;
+	public long getDeadline() {
+		return deadline;
 	}
 	
 	public void setCancel(boolean value) {

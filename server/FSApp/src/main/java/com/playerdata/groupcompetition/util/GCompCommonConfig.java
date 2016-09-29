@@ -7,7 +7,7 @@ public class GCompCommonConfig {
 	private static int maxMemberCountOfTeam = 3;
 	private static int maxMatchingLvFloating = 5; // 最大的匹配等级浮动区间
 	private static int broadcastIntervalSeconds = 5; // 广播时效任务的间隔
-	private static int matchingIntervalSeconds = 5; // 匹配的间隔
+	private static int matchingIntervalSeconds = 2; // 匹配的间隔
 	private static int machingTimeoutMillis = (int)TimeUnit.SECONDS.toMillis(20); // 匹配超时的时间
 	private static int topCountGroups = 8; // 入围的帮派数量
 	private static int minMemberCountOfGroup = 3; // 最少的帮派成员数量
