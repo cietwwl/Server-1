@@ -31,7 +31,7 @@ public class MajorDataCache {
 		// 数量需要做成配置
 		int capcity = 5000;
 		DataValueParser<MajorData> parser = (DataValueParser<MajorData>) DataCacheFactory.getParser(MajorData.class);
-		this.cache = DataCacheFactory.createDataDache(MajorData.class, MajorData.class.getSimpleName(), capcity, 120, new MajorDataLoader(), null, parser == null ? null
+		this.cache = DataCacheFactory.createDataDache(MajorData.class, capcity, 60, new MajorDataLoader(), null, parser == null ? null
 				: new ObjectConvertor<MajorData>(parser), MajorDataListener.class);
 	}
 

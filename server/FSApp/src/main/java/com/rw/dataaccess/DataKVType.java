@@ -7,6 +7,7 @@ import com.playerdata.teambattle.data.UserTeamBattleDAO;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
+import com.rw.dataaccess.processor.DropRecordCreator;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.dataaccess.processor.FSUserFightingGrowthDataCreator;
 import com.rw.dataaccess.processor.FriendCreator;
@@ -33,6 +34,7 @@ import com.rwbase.dao.business.SevenDayGifInfoDAO;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.creator.UserChatCreator;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
+import com.rwbase.dao.dropitem.DropRecordDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
@@ -59,7 +61,7 @@ import com.rwbase.dao.vip.TableVipDAO;
 public enum DataKVType {
 
 	USER_GAME_DATA(1, UserGameDataDao.class, UserGameDataProcessor.class),
-//	USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
+	// USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
 	FRIEND(4, TableFriendDAO.class, FriendCreator.class),
 	SIGN(5, TableSignDataDAO.class, SignCreator.class),
 	VIP(6, TableVipDAO.class, VipCreator.class),
@@ -88,6 +90,8 @@ public enum DataKVType {
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
 	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
+	//首掉
+	DROP_RECORD(30, DropRecordDAO.class, DropRecordCreator.class)
 	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {

@@ -3,9 +3,8 @@ package com.rw.dataaccess.attachment;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
 
-public enum PlayerExtPropertyType {
+public enum PlayerExtPropertyType implements RoleExtPropertyType{
 
-//	TASK(1,TestProperty.class,TestPropertyCreator.class)
 	;
 
 	private final Class<? extends PlayerExtProperty> propertyClass;
