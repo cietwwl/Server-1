@@ -66,6 +66,10 @@ public class GCompTeamHolder {
 		_dao.clearMatchTeamData();
 	}
 	
+	List<GCompTeam> clearAllTeam() {
+		return _dao.removeAllTeam();
+	}
+	
 	void removeTeam(int matchId, String groupId, GCompTeam team) {
 		_dao.removeTeamData(matchId, groupId, team);
 	}

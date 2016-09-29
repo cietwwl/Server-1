@@ -57,6 +57,9 @@ public class ClientDataSynMgr {
 			JsonOpt jsonOpt = JsonOpt.newWithOpt();
 			for (Object serverData : serverDataList) {
 				SynData.Builder synData = transferToClientData(serverData,jsonOpt);
+				if(serverData instanceof com.playerdata.groupcompetition.holder.data.GCompOnlineMember) {
+					System.out.println("---------- serverData" + synData.getJsonData() + " ----------");
+				}
 				msgDataSyn.addSynData(synData);
 			}			
 			
