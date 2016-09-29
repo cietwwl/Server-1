@@ -72,6 +72,8 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addTeamMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
+		resetAllMemberData(myTeam, enemyTeam);
+
 		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
 		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
 
@@ -92,6 +94,8 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addPersonalMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
+		resetAllMemberData(myTeam, enemyTeam);
+
 		GCompMatchData myMatchData = GCompMatchData.createPersonalMatchData(myTeam, enemyTeam);
 		GCompMatchData enemyMatchData = GCompMatchData.createPersonalMatchData(enemyTeam, myTeam);
 
@@ -103,6 +107,29 @@ public class GCompMatchDataHolder {
 
 		recordUserId2MatchInfo(myMatchData);
 		recordUserId2MatchInfo(enemyMatchData);
+	}
+
+	/**
+	 * 重置队伍成员的数据
+	 * 
+	 * @param team
+	 */
+	private void resetAllMemberData(GCompTeam teamA, GCompTeam teamB) {
+		List<GCompTeamMember> teamAMembers = teamA.getMembers();
+		List<GCompTeamMember> teamBMembers = teamB.getMembers();
+
+		GCompTeamMember memberA;// A
+		GCompTeamMember memberB;// B
+		for (int i = 0, size = teamAMembers.size(); i < size; i++) {
+			memberA = teamAMembers.get(i);
+			memberB = teamBMembers.get(i);
+
+			memberA.setResult(GCompBattleResult.NonStart);
+			memberB.setResult(GCompBattleResult.NonStart);
+
+			memberA.setEnemyName(memberB.getArmyInfo().getPlayerName());
+			memberB.setEnemyName(memberA.getArmyInfo().getPlayerName());
+		}
 	}
 
 	/**
