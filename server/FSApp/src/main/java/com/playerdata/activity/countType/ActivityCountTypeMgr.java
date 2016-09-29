@@ -33,7 +33,6 @@ import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
 public class ActivityCountTypeMgr implements ActivityRedPointUpdate {

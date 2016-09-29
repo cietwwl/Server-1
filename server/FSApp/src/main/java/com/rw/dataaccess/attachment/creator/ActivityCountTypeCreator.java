@@ -4,16 +4,12 @@ import java.util.List;
 
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
-import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
-import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStoreCache;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<ActivityCountTypeItem>{
@@ -31,7 +27,7 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 
 	@Override
 	public  List<ActivityCountTypeItem> firstCreate(PlayerPropertyParams params) {
-		PlayerExtPropertyStoreCache<ActivityCountTypeItem> storeCache = PlayerExtPropertyFactory.get(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
+		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
 		
 		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
 		try {

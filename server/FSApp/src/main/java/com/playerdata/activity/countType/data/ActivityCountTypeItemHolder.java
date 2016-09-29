@@ -6,18 +6,13 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
-import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -103,7 +98,7 @@ public class ActivityCountTypeItemHolder {
 	}
 
 	public PlayerExtPropertyStore<ActivityCountTypeItem> getItemStore(String userId) {
-		PlayerExtPropertyStoreCache<ActivityCountTypeItem> storeCache = PlayerExtPropertyFactory.get(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
+		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
 		try {
 			return storeCache.getAttachmentStore(userId);
 		} catch (InterruptedException e) {
