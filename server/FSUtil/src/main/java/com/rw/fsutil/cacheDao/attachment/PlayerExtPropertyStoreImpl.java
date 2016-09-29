@@ -1,32 +1,30 @@
 package com.rw.fsutil.cacheDao.attachment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.attachment.NewAttachmentEntry;
+import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.optimize.DataAccessFactory;
 
 public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends RowMapItemContainer<Integer, PlayerExtPropertyData<T>, T> implements PlayerExtPropertyStore<T> {
 
 	private final short type;
 	private final ObjectMapper mapper;
-
-	public PlayerExtPropertyStoreImpl(List<PlayerExtPropertyData<T>> itemList, 
-			String searchId, MapItemUpdater<String, Integer> updater, short type, ObjectMapper mapper) {
+	private final RoleExtPropertyManager dataAccessManager;
+	
+	public PlayerExtPropertyStoreImpl(RoleExtPropertyManager dataAccessManager,List<PlayerExtPropertyData<T>> itemList, String searchId, MapItemUpdater<String, Integer> updater, short type, ObjectMapper mapper) {
 		super(itemList, searchId, updater);
 		this.type = type;
 		this.mapper = mapper;
+		this.dataAccessManager = dataAccessManager;
 	}
 
 	@Override
@@ -34,7 +32,7 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 		int size = addList.size();
 		ArrayList<NewAttachmentEntry> newList = new ArrayList<NewAttachmentEntry>(size);
 		for (int i = 0; i < size; i++) {
-			newList.add(convert(addList.get(i)));
+			newList.add(PlayerExtPropertyUtil.convert(mapper, searchId, type, addList.get(i)));
 		}
 		size = delList.size();
 		ArrayList<Long> deleteKeys = new ArrayList<Long>(size);
@@ -46,13 +44,13 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 			}
 			deleteKeys.add(attachment.getPrimaryKey());
 		}
-		long[] keys = DataAccessFactory.getRoleAttachmentManager().insertAndDelete(searchId, newList, deleteKeys);
+		long[] keys = dataAccessManager.insertAndDelete(searchId, newList, deleteKeys);
 		return create(addList, keys, size);
 	}
 
 	@Override
 	public PlayerExtPropertyData<T> insert(String searchId, T item) throws DuplicatedKeyException, Exception {
-		long id = DataAccessFactory.getRoleAttachmentManager().insert(searchId, convert(item));
+		long id = dataAccessManager.insert(searchId, PlayerExtPropertyUtil.convert(mapper, searchId, type, item));
 		PlayerExtPropertyData<T> entity = new PlayerExtPropertyData<T>(id, item);
 		return entity;
 	}
@@ -62,9 +60,9 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 		int size = itemList.size();
 		ArrayList<NewAttachmentEntry> list = new ArrayList<NewAttachmentEntry>(size);
 		for (int i = 0; i < size; i++) {
-			list.add(convert(itemList.get(i)));
+			list.add(PlayerExtPropertyUtil.convert(mapper, searchId, type, itemList.get(i)));
 		}
-		long[] keys = DataAccessFactory.getRoleAttachmentManager().insert(searchId, list);
+		long[] keys = dataAccessManager.insert(searchId, list);
 		return create(itemList, keys, size);
 	}
 
@@ -78,11 +76,13 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 		return result;
 	}
 
-	private NewAttachmentEntry convert(T t) throws JsonGenerationException, JsonMappingException, IOException {
-		String extension = mapper.writeValueAsString(t);
-		NewAttachmentEntry entry = new NewAttachmentEntry(searchId, type, t.getId(), extension);
-		return entry;
-	}
+	// private NewAttachmentEntry convert(T t) throws JsonGenerationException,
+	// JsonMappingException, IOException {
+	// String extension = mapper.writeValueAsString(t);
+	// NewAttachmentEntry entry = new NewAttachmentEntry(searchId, type,
+	// t.getId(), extension);
+	// return entry;
+	// }
 
 	@Override
 	public List<Integer> delete(String searchId, List<Integer> list) throws Exception {
@@ -100,7 +100,7 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 			tempMapping.put(id, configId);
 			idList.add(id);
 		}
-		List<Long> result = DataAccessFactory.getRoleAttachmentManager().delete(searchId, idList);
+		List<Long> result = dataAccessManager.delete(searchId, idList);
 		size = result.size();
 		ArrayList<Integer> returnList = new ArrayList<Integer>(size);
 		for (int i = 0; i < size; i++) {
@@ -121,7 +121,7 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 		if (entity == null) {
 			return false;
 		}
-		return DataAccessFactory.getRoleAttachmentManager().delete(searchId, entity.getPrimaryKey());
+		return dataAccessManager.delete(searchId, entity.getPrimaryKey());
 	}
 
 	public void removeUpdateFlag(Integer key) {

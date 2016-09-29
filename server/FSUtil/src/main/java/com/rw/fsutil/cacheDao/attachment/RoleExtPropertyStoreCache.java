@@ -14,27 +14,30 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.attachment.QueryAttachmentEntry;
+import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
-import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
-public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements MapItemUpdater<String, Integer> {
+public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryAttachmentEntry> {
 
 	private final DataCache<String, PlayerExtPropertyStoreImpl<T>> cache;
 	private final Short type;
 	private final Class<T> entityClass;
 	private final ObjectMapper mapper;
+	private final RoleExtPropertyManager dataAccessManager;
 
-	public PlayerExtPropertyStoreCache(Class<T> entityClass, String cacheName, int capacity, String datasourceName, short type) {
+	public RoleExtPropertyStoreCache(RoleExtPropertyManager extPropertyManager, Class<T> entityClass, String cacheName, int capacity, String datasourceName, short type) {
 		this.mapper = new ObjectMapper();
 		this.type = type;
 		this.entityClass = entityClass;
+		this.dataAccessManager = extPropertyManager;
 		this.cache = DataCacheFactory.createDataDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
 	}
 
@@ -62,7 +65,7 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 	}
 
 	public boolean putIfAbsent(final String key, List<PlayerExtPropertyData<T>> datas) {
-		PlayerExtPropertyStoreImpl<T> storeImpl = new PlayerExtPropertyStoreImpl<T>(datas, key, PlayerExtPropertyStoreCache.this, type, mapper);
+		PlayerExtPropertyStoreImpl<T> storeImpl = new PlayerExtPropertyStoreImpl<T>(dataAccessManager, datas, key, RoleExtPropertyStoreCache.this, type, mapper);
 		return cache.preInsertIfAbsent(key, storeImpl);
 	}
 
@@ -87,14 +90,14 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 			}
 			result.add(new PlayerExtPropertyData<T>(query.getId(), entity));
 		}
-		return new PlayerExtPropertyStoreImpl<T>(result, key, PlayerExtPropertyStoreCache.this, type, mapper);
+		return new PlayerExtPropertyStoreImpl<T>(dataAccessManager, result, key, RoleExtPropertyStoreCache.this, type, mapper);
 	}
 
 	private PersistentGenericHandler<String, PlayerExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>> loader = new PersistentGenericHandler<String, PlayerExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>>() {
 
 		@Override
 		public PlayerExtPropertyStoreImpl<T> load(String key) throws DataNotExistException, Exception {
-			List<QueryAttachmentEntry> datas = DataAccessFactory.getRoleAttachmentManager().loadEntitys(key, type);
+			List<QueryAttachmentEntry> datas = dataAccessManager.loadEntitys(key, type);
 			return create(key, datas);
 		}
 
@@ -115,12 +118,12 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 
 		@Override
 		public String getTableName(String key) {
-			return DataAccessFactory.getRoleAttachmentManager().getTableName(key);
+			return dataAccessManager.getTableName(key);
 		}
 
 		@Override
 		public Map<String, String> getUpdateSqlMapping() {
-			return DataAccessFactory.getRoleAttachmentManager().getTableSqlMapping();
+			return dataAccessManager.getTableSqlMapping();
 		}
 
 		@Override
@@ -176,6 +179,11 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 
 	public ObjectMapper getMapper() {
 		return mapper;
+	}
+
+	@Override
+	public Class<T> getEntityClass() {
+		return entityClass;
 	}
 
 }
