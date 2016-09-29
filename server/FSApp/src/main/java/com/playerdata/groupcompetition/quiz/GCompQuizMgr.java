@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.quiz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,7 +26,11 @@ public class GCompQuizMgr {
 	
 	private static GCompQuizMgr instance = new GCompQuizMgr();
 
-	public static String REWARD_EMAIL_ID = "15001";
+	public static String REWARD_EMAIL_ID = "16001";
+	public static int INIT_BASE_COIN = 500000;
+	public static float QUIZ_INIT_RATE = 10.0f;
+	public static List<String> QUIZAMOUNT = new ArrayList<String>();
+	
 	public static GCompQuizMgr getInstance() {
 		return instance;
 	}
@@ -54,6 +59,11 @@ public class GCompQuizMgr {
 		if(null == quizGroup){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("竞猜过程中，帮派数据有误");
+			return;
+		}
+		if(!QUIZAMOUNT.contains(String.valueOf(coin))){
+			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setTipMsg("金币数量不符合竞猜规则");
 			return;
 		}
 		boolean enoughCoin = player.getItemBagMgr().checkEnoughItem(eSpecialItemId.Coin.getValue(), coin);
@@ -97,10 +107,7 @@ public class GCompQuizMgr {
 			if(StringUtils.isBlank(groupA.getGroupId()) || StringUtils.isBlank(groupB.getGroupId())){
 				continue;
 			}
-			int baseCoin = 50;
-			float initRate = 10.0f;
-			GCQuizEventItem.DEFAULT_RATE = 1.1f;
-			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, against.getId(), baseCoin, groupA, groupB, initRate);
+			GCQuizEventItem quizEvent = new GCQuizEventItem(currentSession, against.getId(), INIT_BASE_COIN, groupA, groupB, QUIZ_INIT_RATE);
 			GroupQuizEventItemDAO.getInstance().update(quizEvent);
 		}
 	}
