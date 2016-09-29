@@ -25,7 +25,6 @@ import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
-import com.rwbase.common.attribute.IComponentCalc;
 import com.rwbase.dao.groupcompetition.GCompBasicScoreCfgDAO;
 import com.rwbase.dao.groupcompetition.GCompGroupScoreCfgDAO;
 import com.rwbase.dao.groupcompetition.GCompPersonalScoreCfgDAO;
@@ -36,7 +35,6 @@ import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleCommonRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleReqType;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleResult;
-import com.rwproto.GroupCompetitionBattleProto.GCMemberScore;
 import com.rwproto.GroupCompetitionBattleProto.GCPushMemberScoreRspMsg;
 import com.rwproto.MsgDef.Command;
 
@@ -76,6 +74,8 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addTeamMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
+		resetAllMemberData(myTeam, enemyTeam);
+
 		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
 		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
 
@@ -96,8 +96,10 @@ public class GCompMatchDataHolder {
 	 * @param enemyTeam
 	 */
 	public void addPersonalMatchData(GCompTeam myTeam, GCompTeam enemyTeam) {
-		GCompMatchData myMatchData = GCompMatchData.createTeamMatchData(myTeam, enemyTeam);
-		GCompMatchData enemyMatchData = GCompMatchData.createTeamMatchData(enemyTeam, myTeam);
+		resetAllMemberData(myTeam, enemyTeam);
+
+		GCompMatchData myMatchData = GCompMatchData.createPersonalMatchData(myTeam, enemyTeam);
+		GCompMatchData enemyMatchData = GCompMatchData.createPersonalMatchData(enemyTeam, myTeam);
 
 		String myMatchId = myMatchData.getMatchId();
 		String enemyMatchId = enemyMatchData.getMatchId();
@@ -107,6 +109,29 @@ public class GCompMatchDataHolder {
 
 		recordUserId2MatchInfo(myMatchData);
 		recordUserId2MatchInfo(enemyMatchData);
+	}
+
+	/**
+	 * 重置队伍成员的数据
+	 * 
+	 * @param team
+	 */
+	private void resetAllMemberData(GCompTeam teamA, GCompTeam teamB) {
+		List<GCompTeamMember> teamAMembers = teamA.getMembers();
+		List<GCompTeamMember> teamBMembers = teamB.getMembers();
+
+		GCompTeamMember memberA;// A
+		GCompTeamMember memberB;// B
+		for (int i = 0, size = teamAMembers.size(); i < size; i++) {
+			memberA = teamAMembers.get(i);
+			memberB = teamBMembers.get(i);
+
+			memberA.setResult(GCompBattleResult.NonStart);
+			memberB.setResult(GCompBattleResult.NonStart);
+
+			memberA.setEnemyName(memberB.getArmyInfo().getPlayerName());
+			memberB.setEnemyName(memberA.getArmyInfo().getPlayerName());
+		}
 	}
 
 	/**
@@ -123,6 +148,10 @@ public class GCompMatchDataHolder {
 		for (int i = 0, size = members.size(); i < size; i++) {
 			GCompTeamMember member = members.get(i);
 			if (member == null) {
+				continue;
+			}
+
+			if (member.isRobot()) {
 				continue;
 			}
 
