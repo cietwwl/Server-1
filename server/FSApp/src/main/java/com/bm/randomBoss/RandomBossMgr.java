@@ -80,6 +80,8 @@ public class RandomBossMgr{
 		if(player == null){
 			return false;
 		}
+		//先同步一下次数
+		synBattleCount(player);
 		long nowTime = System.currentTimeMillis();
 		long resetTime = DateUtils.getCurrentDayResetTime();
 		List<String> bossIDs = player.getUserGameDataMgr().getRandomBossIDs();
@@ -121,13 +123,13 @@ public class RandomBossMgr{
 		}
 		
 		bossIDs.removeAll(removeList);
+		
 		if(synList.isEmpty()){
 			return false;
 		}
 		
 		//同步到前端
 		ClientDataSynMgr.synDataList(player, synList, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_LIST);
-		synBattleCount(player);
 		return true;
 	}
 

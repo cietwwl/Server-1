@@ -81,6 +81,6 @@ public class ReconnectFilterTask implements Runnable {
 
 	private void returnReconnectRequest(ReConnectResponse.Builder b, Request request, ReConnectResultType resultType) {
 		b.setResultType(resultType);
-		nettyControler.sendResponse(null, request.getHeader(), b.build().toByteString(), ctx);
+		UserChannelMgr.sendResponse(null, request.getHeader(), b.build().toByteString(), ctx);
 	}
 }

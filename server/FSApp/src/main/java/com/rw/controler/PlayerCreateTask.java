@@ -80,14 +80,14 @@ public class PlayerCreateTask implements Runnable {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能包含屏蔽字或非法字符";
 			response.setError(reason);
-			nettyControler.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
 			return;
 		}
 		if (StringUtils.isBlank(nick)) {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能为空";
 			response.setError(reason);
-			nettyControler.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
 			return;
 		}
 		// 注册昵称这里没有做多线程安全，会导致后续创建角色失败
@@ -95,7 +95,7 @@ public class PlayerCreateTask implements Runnable {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称已经被注册!";
 			response.setError(reason);
-			nettyControler.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
 			return;
 		}
 

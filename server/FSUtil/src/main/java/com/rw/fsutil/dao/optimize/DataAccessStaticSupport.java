@@ -27,7 +27,8 @@ public class DataAccessStaticSupport {
 	private static String mainDataSourceName = "dataSourceMT";
 	private static String dataKVName = "table_kvdata";
 	private static String mapItemTableName = "map_item_store";
-	private static String attachmentName = "role_extended_property";
+	private static String roleExtPropName = "role_extended_property";
+	private static String heroExtPropName = "hero_extended_property";
 
 	public static List<String> getDataKVTableNameList(JdbcTemplate template) {
 		return getTableNameList(template, dataKVName);
@@ -37,15 +38,19 @@ public class DataAccessStaticSupport {
 		return mapItemTableName;
 	}
 
-	public static String getAttachmentName() {
-		return attachmentName;
+	public static String getRoleExtPropName() {
+		return roleExtPropName;
 	}
-	
-	public static String getMainDataSourceName(){
+
+	public static String getMainDataSourceName() {
 		return mainDataSourceName;
 	}
-	
-	public static JdbcTemplate createMainTemplate(){
+
+	public static String getHeroExtPropName() {
+		return heroExtPropName;
+	}
+
+	public static JdbcTemplate createMainTemplate() {
 		DruidDataSource dataSource = SpringContextUtil.getBean(mainDataSourceName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("find dataSource fail:" + mainDataSourceName);
@@ -72,7 +77,7 @@ public class DataAccessStaticSupport {
 		}
 		List<String> likeList = template.queryForList("show tables like '" + tableName + "%'", String.class);
 		int size = likeList.size();
-		if (size == 0) {			
+		if (size == 0) {
 			throw new ExceptionInInitializerError("不存在该表：" + tableName);
 		}
 		int len = tableName.length();

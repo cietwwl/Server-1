@@ -2,7 +2,7 @@ id,Remarks,fashionType,name,desc,voice,actionName,specialEffect,rank,frameIconId
 900001,,Wing,恶魔翅膀,"这是邪恶力量的象征！
 战力排行活动前3名奖励",,stand,,13,,,true,
 900002,,Suit,风纪委员,"改良水手服样式的套装，青春气息十足
-VIP3特权礼包购买",Sound_900002_01.mp3,stand,,8,3,Sound_900102_01.mp3,true,true
+累计在线礼包领取",Sound_900002_01.mp3,stand,,8,3,Sound_900102_01.mp3,true,true
 900003,,Suit,光辉礼服,华丽的贵族礼服，高贵优雅,Sound_900003_01.mp3,stand,,9,4,Sound_900103_01.mp3,,
 900004,,Pet,小熊喵,"为了修炼仙法一直背着卷轴的熊猫，小心会咬人
 开服活动奖励",,mainidle,,14,,,true,
