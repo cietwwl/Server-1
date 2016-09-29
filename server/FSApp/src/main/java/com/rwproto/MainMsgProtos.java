@@ -28,6 +28,14 @@ public final class MainMsgProtos {
      * </pre>
      */
     OtherMsg(1, 1),
+    /**
+     * <code>GroupCompetitionMsg = 3;</code>
+     *
+     * <pre>
+     * 帮战的播报
+     * </pre>
+     */
+    GroupCompetitionMsg(2, 3),
     ;
 
     /**
@@ -45,6 +53,14 @@ public final class MainMsgProtos {
      * </pre>
      */
     public static final int OtherMsg_VALUE = 1;
+    /**
+     * <code>GroupCompetitionMsg = 3;</code>
+     *
+     * <pre>
+     * 帮战的播报
+     * </pre>
+     */
+    public static final int GroupCompetitionMsg_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -53,6 +69,7 @@ public final class MainMsgProtos {
       switch (value) {
         case 0: return PmdMsg;
         case 1: return OtherMsg;
+        case 3: return GroupCompetitionMsg;
         default: return null;
       }
     }
@@ -1880,8 +1897,9 @@ public final class MainMsgProtos {
       "1\030\003 \001(\t\022\r\n\005info2\030\004 \001(\t\022\r\n\005info3\030\005 \001(\t\022\r\n" +
       "\005info4\030\006 \001(\t\022\r\n\005info5\030\007 \001(\t\"5\n\016MainMsgRe" +
       "quest\022\n\n\002id\030\001 \001(\005\022\027\n\004type\030\002 \001(\0162\t.EMsgTy" +
-      "pe*$\n\010EMsgType\022\n\n\006PmdMsg\020\000\022\014\n\010OtherMsg\020\001" +
-      "B\034\n\013com.rwprotoB\rMainMsgProtos"
+      "pe*=\n\010EMsgType\022\n\n\006PmdMsg\020\000\022\014\n\010OtherMsg\020\001" +
+      "\022\027\n\023GroupCompetitionMsg\020\003B\034\n\013com.rwproto" +
+      "B\rMainMsgProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
