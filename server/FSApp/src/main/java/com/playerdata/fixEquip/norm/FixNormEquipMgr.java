@@ -503,5 +503,7 @@ public class FixNormEquipMgr {
 		return FixEquipHelper.parseFixNormEquip2SimpleList(fixNormEquipDataItemHolder.getItemList(heroId));
 	}
 
-	
+	public void gmSaveFixNormEquip(Player player, FixNormEquipDataItem fixNormEquipDataItem){
+		fixNormEquipDataItemHolder.updateItem(player, fixNormEquipDataItem);
+	}
 }

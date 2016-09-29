@@ -60,7 +60,6 @@ public class GMHeroProcesser {
 					String templateId = roleCfg.getRoleId();
 					GMHeroBase.gmAddHero(entry.getKey(), player);
 					int maxStar = GMHeroBase.gmGetMaxStar(templateId);
-//					Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
 					Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
 					GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 					GMHeroBase.gmEditHeroStarLevel(hero, maxStar, player);
@@ -84,6 +83,11 @@ public class GMHeroProcesser {
 					for (int gemId : gems) {
 						GMHeroBase.gmInlayJewel(hero, player, gemId);
 					}
+					
+					//升级道术
+					GMHeroBase.gmUpgradeTaoist(player, player.getLevel());
+					
+					
 				}
 			}
 		});
@@ -159,7 +163,7 @@ public class GMHeroProcesser {
 //		Hero hero = player.getHeroMgr().getHeroByTemplateId(templateId);
 		Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
 		int star = GMHeroBase.gmEditHeroStarLevel(hero, maxStar, player);
-		GMHeroBase.gmUpdateTemplateId(player.getSex(), player.getCareer(), star, hero);
+		GMHeroBase.gmUpdateTemplateId(hero);
 //		GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 		player.setLevelByGM(GMHeroBase.gmGetMaxLevel());
 		String qualityId = getQualityId(hero, maxQuality,false);
@@ -243,7 +247,7 @@ public class GMHeroProcesser {
 				});
 				for (Hero hero : heroList) {
 					int star = GMHeroBase.gmEditHeroStarLevel(hero, starLevel, player);
-					GMHeroBase.gmUpdateTemplateId(player.getSex(), player.getCareer(), star, hero);
+					GMHeroBase.gmUpdateTemplateId(hero);
 					GMHeroBase.gmEditHeroLevel(hero, heroLevel, player);
 					String qualityId = getQualityId(hero, quality, false);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
@@ -316,7 +320,7 @@ public class GMHeroProcesser {
 				});
 				for (Hero hero : heroList) {
 					int star = GMHeroBase.gmEditHeroStarLevel(hero, starLevel, player);
-					GMHeroBase.gmUpdateTemplateId(player.getSex(), player.getCareer(), star, hero);
+					GMHeroBase.gmUpdateTemplateId(hero);
 					GMHeroBase.gmEditHeroLevel(hero, heroLevel, player);
 					String qualityId = getQualityId(hero, quality, true);
 					GMHeroBase.gmEditHeroQuality(hero, qualityId, player);
