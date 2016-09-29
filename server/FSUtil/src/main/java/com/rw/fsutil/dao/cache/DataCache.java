@@ -195,7 +195,7 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 				return successResult;
 			} else {
 				if (!taskMap.remove(eldestKey, evictedTask)) {
-					FSUtilLogger.info(name + " 被复活元素：" + eldestKey);
+					FSUtilLogger.info(name + " relive element：" + eldestKey);
 				}
 				return new EldestEvictedResultImpl(tableName);
 			}

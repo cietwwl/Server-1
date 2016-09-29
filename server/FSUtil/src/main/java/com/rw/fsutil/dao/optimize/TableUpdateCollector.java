@@ -98,7 +98,7 @@ public class TableUpdateCollector implements Runnable {
 	}
 
 	public EvictedUpdateTask<Object> getEvictedTask(String tableName) {
-		TableUpdateContainer<Object, Object> wrap = containerMap.get(tableName);
+		TableUpdateContainer<Object, Object> wrap = getTableUpdateWrap(tableName);
 		if (wrap == null) {
 			return null;
 		}
