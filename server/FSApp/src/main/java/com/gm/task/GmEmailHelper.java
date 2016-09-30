@@ -78,12 +78,13 @@ public class GmEmailHelper{
 			}
 			emailData.setDelayTime(expireTimeInday * daySpanInSecond);
 		}
-		if (args.get("beginTime") != null && args.get("endTime") != null) {
-			long beginTimeInSecond = (Long) args.get("beginTime");
-			long endTimeInSecond = (Long) args.get("endTime");
-			emailData.setBeginTime(currentTimeMillis + beginTimeInSecond * 1000);
-			emailData.setEndTime(currentTimeMillis + endTimeInSecond * 1000);
-		}
+		emailData.setSendTime(currentTimeMillis);
+//		if (args.get("beginTime") != null && args.get("endTime") != null) {
+//			long beginTimeInSecond = (Long) args.get("beginTime");
+//			long endTimeInSecond = (Long) args.get("endTime");
+//			emailData.setBeginTime(currentTimeMillis + beginTimeInSecond * 1000);
+//			emailData.setEndTime(currentTimeMillis + endTimeInSecond * 1000);
+//		}
 		return emailData;
 		
 	}

@@ -42,52 +42,12 @@ public class GmEmailAll implements IGmTask {
 
 			}
 			if (status == STATUS_SEND) {
-				if(gmMail.getStatus() == STATUS_CLOSE || gmMail.getStatus() == STATUS_DELETE){
-					throw new Exception(String.valueOf(GmResultStatusCode.STATUS_GMMAIL_CLOSE.getStatus()));
-				}
-				final EmailData emailData = gmMail.getSendToAllEmailData();
-				final List<PlayerFilterCondition> conditionList = gmMail.getConditionList();
-
-				GmExecutor.getInstance().submit(new Runnable() {
-
-					@Override
-					public void run() {
-						try {
-							PlayerMgr.getInstance().sendEmailToAll(emailData, conditionList);
-						} catch (Throwable e) {
-							GameLog.error(LogModule.GM.getName(), "GmEmailAll", "GmEmailAll[doTask] GmExecutor run", e);
-						}
-					}
-				});
-				for (PlayerFilterCondition condition : conditionList) {
-					if(condition.getType() == FilterType.CREATE_TIME.getValue()){
-						long endTime = condition.getMaxValue() * 1000;
-						if(endTime <= System.currentTimeMillis()){
-							gmMail.setStatus(STATUS_CLOSE);
-						}else{
-							gmMail.setStatus(STATUS_SEND);
-						}
-					}else{
-						gmMail.setStatus(STATUS_CLOSE);
-					}
-				}
+				sendMail(gmMail);
 				
 				blnUpdate = true;
 			}
 			if(status == STATUS_DELETE){
-				final EmailData emailData = gmMail.getSendToAllEmailData();
-				GmExecutor.getInstance().submit(new Runnable() {
-
-					@Override
-					public void run() {
-						try {
-							PlayerMgr.getInstance().callbackEmail(emailData);
-						} catch (Throwable e) {
-							GameLog.error(LogModule.GM.getName(), "GmEmailAll", "GmEmailAll[doTask] GmExecutor run", e);
-						}
-					}
-				});
-				gmMail.setStatus(STATUS_DELETE);
+				deleteMail(gmMail);
 				blnUpdate = true;
 			}
 			if(blnUpdate){
@@ -102,5 +62,61 @@ public class GmEmailAll implements IGmTask {
 			SocketHelper.processException(ex, response);
 		}
 		return response;
+	}
+
+	private void deleteMail(ServerGmEmail gmMail) {
+		final EmailData emailData = gmMail.getSendToAllEmailData();
+		GmExecutor.getInstance().submit(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					PlayerMgr.getInstance().callbackEmail(emailData);
+				} catch (Throwable e) {
+					GameLog.error(LogModule.GM.getName(), "GmEmailAll", "GmEmailAll[doTask] GmExecutor run", e);
+				}
+			}
+		});
+		gmMail.setStatus(STATUS_DELETE);
+	}
+
+	private void sendMail(ServerGmEmail gmMail) throws Exception {
+		if(gmMail.getStatus() == STATUS_CLOSE || gmMail.getStatus() == STATUS_DELETE){
+			throw new Exception(String.valueOf(GmResultStatusCode.STATUS_GMMAIL_CLOSE.getStatus()));
+		}
+		final EmailData emailData = gmMail.getSendToAllEmailData();
+		final List<PlayerFilterCondition> conditionList = gmMail.getConditionList();
+
+		GmExecutor.getInstance().submit(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					PlayerMgr.getInstance().sendEmailToAll(emailData, conditionList);
+				} catch (Throwable e) {
+					GameLog.error(LogModule.GM.getName(), "GmEmailAll", "GmEmailAll[doTask] GmExecutor run", e);
+				}
+			}
+		});
+		for (PlayerFilterCondition condition : conditionList) {
+			if(condition.getType() == FilterType.CREATE_TIME.getValue()){
+				long endTime = condition.getMaxValue() * 1000;
+				if(endTime <= System.currentTimeMillis()){
+					gmMail.setStatus(STATUS_CLOSE);
+				}else{
+					gmMail.setStatus(STATUS_SEND);
+				}
+			}
+		}
+
+		
+		int expireTime = emailData.getExpireTime();
+		int delayTime = emailData.getDelayTime() * 1000;
+		long sendTime = emailData.getSendTime();
+		if (expireTime == 0 || (sendTime + delayTime) > System.currentTimeMillis()) {
+			gmMail.setStatus(STATUS_SEND);
+		}else{
+			gmMail.setStatus(STATUS_CLOSE);	
+		}
 	}
 }

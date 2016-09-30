@@ -144,7 +144,11 @@ public class ServerStatusMgr {
 				}
 			}
 			EmailData emailData = serverGmEmail.getSendToAllEmailData();
-			if(emailData.getEndTime() > currentTimeMillis){
+			int expireTime = emailData.getExpireTime();
+			int delayTime = emailData.getDelayTime() * 1000;
+			long sendTime = emailData.getSendTime();
+			if (expireTime != 0 && (sendTime + delayTime) <= System.currentTimeMillis()) {
+				serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
 				isEnd = true;
 			}
 			if(isEnd){
@@ -161,15 +165,17 @@ public class ServerStatusMgr {
 			}
 			
 			long taskId = emailData.getTaskId();
-			if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
-				if(status == GmEmailAll.STATUS_DELETE){
+			if (!filted && player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+				if (status == GmEmailAll.STATUS_DELETE) {
 					List<Player> temp = new ArrayList<Player>();
 					temp.add(player);
 					PlayerMgr.getInstance().callbackEmailToList(temp, emailData);
-				}else{
-					EmailUtils.sendEmail(player.getUserId(), emailData);
 				}
-				
+			}
+			if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+
+				EmailUtils.sendEmail(player.getUserId(), emailData);
+
 			}
 		}
 	}
