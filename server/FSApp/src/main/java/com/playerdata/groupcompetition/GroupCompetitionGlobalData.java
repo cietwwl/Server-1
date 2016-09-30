@@ -37,6 +37,8 @@ class GroupCompetitionGlobalData {
 	private GCompStageType _currentStageType; // 当前的阶段
 	@JsonProperty("7")
 	private long _currentStageEndTime; // 当前阶段的结束时间
+	@JsonProperty("8")
+	private long _endTimeOfCurrentSession; // 本届的结束时间
 	
 	public static GroupCompetitionGlobalData createEmpty() {
 		GroupCompetitionGlobalData data = new GroupCompetitionGlobalData();
@@ -147,6 +149,10 @@ class GroupCompetitionGlobalData {
 		return _currentStageEndTime;
 	}
 	
+	public long getEndTimeOfCurrentSession() {
+		return _endTimeOfCurrentSession;
+	}
+	
 	/**
 	 * 
 	 * 设置当前阶段的结束时间
@@ -159,5 +165,9 @@ class GroupCompetitionGlobalData {
 	
 	void addChampion(GCGroup group) {
 		this._championGroups.add(ChampionGroupData.createChampionGroupData(group));
+	}
+	
+	void setEndTimeOfCurrentSession(long value) {
+		this._endTimeOfCurrentSession = value;
 	}
 }

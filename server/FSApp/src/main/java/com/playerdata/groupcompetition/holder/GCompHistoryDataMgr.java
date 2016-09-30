@@ -4,17 +4,17 @@ import java.util.List;
 
 import com.playerdata.Player;
 
-public class GCompSelectionDataMgr {
+public class GCompHistoryDataMgr {
 
-	private static final GCompSelectionDataMgr _instance = new GCompSelectionDataMgr();
+	private static final GCompHistoryDataMgr _instance = new GCompHistoryDataMgr();
 	
-	public static GCompSelectionDataMgr getInstance() {
+	public static GCompHistoryDataMgr getInstance() {
 		return _instance;
 	}
 	
-	private GCompSelectionDataHolder _dataHolder;
-	protected GCompSelectionDataMgr() {
-		_dataHolder = GCompSelectionDataHolder.getInstance();
+	private GCompHistoryDataHolder _dataHolder;
+	protected GCompHistoryDataMgr() {
+		_dataHolder = GCompHistoryDataHolder.getInstance();
 	}
 	
 	public void setSelectedGroupIds(List<String> groupIds) {

@@ -12,6 +12,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCOnlineMemberDAO;
 import com.playerdata.groupcompetition.holder.data.GCompOnlineMember;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
+import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
@@ -20,18 +21,18 @@ import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class GCOnlineMemberHolder {
+public class GCompOnlineMemberHolder {
 
-	private static final GCOnlineMemberHolder _instance = new GCOnlineMemberHolder();
+	private static final GCompOnlineMemberHolder _instance = new GCompOnlineMemberHolder();
 	
-	public static final GCOnlineMemberHolder getInstance() {
+	public static final GCompOnlineMemberHolder getInstance() {
 		return _instance;
 	}
 	
 	private GCOnlineMemberDAO _dao;
 	private GCompOnlineMemberMonitor _monitor = new GCompOnlineMemberMonitor();
 	
-	protected GCOnlineMemberHolder() {
+	protected GCompOnlineMemberHolder() {
 		_dao = GCOnlineMemberDAO.getInstance();
 	}
 	
@@ -53,7 +54,7 @@ public class GCOnlineMemberHolder {
 				list.add(PlayerMgr.getInstance().find(temp.getUserId()));
 			}
 		}
-		GCompUtil.log("同步新加的member给所有玩家，member：{}，玩家列表：{}，opType:{}", member, list, opType);
+		GCompUtil.log("同步member给所有玩家，member：{}，玩家列表：{}，opType:{}", member, list, opType);
 		if (list.size() > 0) {
 			ClientDataSynMgr.synDataMutiple(list, member, eSynType.GCompOnlineMember, opType);
 		}
@@ -113,7 +114,7 @@ public class GCOnlineMemberHolder {
 	
 	void reset() {
 		this._dao.reset();
-		FSGameTimerMgr.getInstance().submitSecondTask(_monitor, 30);
+		FSGameTimerMgr.getInstance().submitSecondTask(_monitor, GCompCommonConfig.getOnlineMemberMonitorTaskInterval());
 	}
 	
 	void onEventsEnd() {
@@ -131,8 +132,8 @@ public class GCOnlineMemberHolder {
 
 		@Override
 		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-			GCompUtil.log("---------- 帮派争霸在线玩家监控任务通知 ----------");
-			GCOnlineMemberDAO dao = GCOnlineMemberHolder.this._dao;
+//			GCompUtil.log("---------- 帮派争霸在线玩家监控任务通知 ----------");
+			GCOnlineMemberDAO dao = GCompOnlineMemberHolder.this._dao;
 			Map<String, List<GCompOnlineMember>> map = dao.getAllOnlineMembers();
 			for (Iterator<String> keyItr = map.keySet().iterator(); keyItr.hasNext();) {
 				String groupId = keyItr.next();
@@ -147,7 +148,7 @@ public class GCOnlineMemberHolder {
 				if (removeMembers.size() > 0) {
 					dao.removeOnlineMembers(groupId, removeMembers);
 					for (GCompOnlineMember member : removeMembers) {
-						GCOnlineMemberHolder.this.synToAll(groupId, member, eSynOpType.REMOVE_SINGLE);
+						GCompOnlineMemberHolder.this.synToAll(groupId, member, eSynOpType.REMOVE_SINGLE);
 						GCompUtil.log("---------- 自动移除不在线的成员{} ----------", member.getUserName());
 					}
 				}

@@ -125,6 +125,25 @@ public class GCompStageController {
 		}
 	}
 	
+	private long calculateEndTime() {
+		GroupCompetitionStageCfgDAO dao = GroupCompetitionStageCfgDAO.getInstance();
+		IGCompStage stage;
+		GroupCompetitionStageCfg cfg;
+		int days = 0;
+		IReadOnlyPair<Integer, Integer> timeInfo = null;
+		for (int i = 0, size = _stageQueue.size(); i < size; i++) {
+			stage = _stageQueue.get(i);
+			cfg = dao.getCfgById(stage.getStageCfgId());
+			days += cfg.getLastDays();
+			timeInfo = cfg.getEndTimeInfo();
+		}
+		Calendar instance = Calendar.getInstance();
+		instance.add(Calendar.DAY_OF_YEAR, days);
+		instance.set(Calendar.HOUR_OF_DAY, timeInfo.getT1());
+		instance.set(Calendar.MINUTE, timeInfo.getT2());
+		return instance.getTimeInMillis();
+	}
+	
 	/**
 	 * 
 	 * 第一阶段开始的时间
@@ -138,6 +157,7 @@ public class GCompStageController {
 		} else {
 			createTimerTask(new StageStartConsumer(), firstStageStartTime);
 		}
+		GroupCompetitionMgr.getInstance().updateEndTimeOfCurrentSession(this.calculateEndTime());
 	}
 	
 	private static class StageEndMonitorConsumer implements IConsumer<GCompStageController> {

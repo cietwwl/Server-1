@@ -3,6 +3,7 @@ package com.playerdata.groupcompetition.matching;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.groupcompetition.data.IGCUnit;
 import com.playerdata.groupcompetition.util.GCompUtil;
 
 /**
@@ -12,20 +13,13 @@ import com.playerdata.groupcompetition.util.GCompUtil;
  * @author CHEN.P
  *
  */
-class RandomMatchingData {
+class RandomMatchingData implements IGCUnit {
 
 	private String userId; // 主角的userId
 	private List<String> heroIds; // 上阵的英雄id
 	private boolean cancel; // 是否已经取消
 	private boolean robot; // 是否机器人
 	private long deadline; // 匹配超时时间
-	
-//	public RandomMatchingData(String pUserId, List<String> pHeroIds) {
-//		this.userId = pUserId;
-//		this.heroIds = new ArrayList<String>(pHeroIds);
-//		this.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
-//		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, deadline);
-//	}
 	
 	private RandomMatchingData() {}
 	
@@ -146,5 +140,13 @@ class RandomMatchingData {
 	 */
 	public long getDeadline() {
 		return deadline;
+	}
+	
+	/**
+	 * 
+	 * @param pDeadline
+	 */
+	public void setDeadline(long pDeadline) {
+		this.deadline = pDeadline;
 	}
 }

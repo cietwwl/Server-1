@@ -2,6 +2,7 @@ package com.playerdata.groupcompetition.holder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.Hero;
@@ -12,6 +13,7 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
+import com.playerdata.groupcompetition.data.IGCUnit;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
@@ -154,6 +156,27 @@ public class GCompTeamMgr {
 		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, TeamStatusChange.newBuilder().setStatus(type).build().toByteString());
 	}
 	
+	private Pair<CreateTeamMemberResultStatus, GCompTeamMember> createTeamMember(Player player, List<String> heroIds, boolean isLeader) {
+		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = Pair.Create(CreateTeamMemberResultStatus.SUCCESS, null);
+		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createArmyInfoResult = this.createArmyInfoList(player, heroIds, true, true);
+		if (createArmyInfoResult.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
+			GCompTeamArmyInfo teamArmyInfo = createArmyInfoResult.getT1();
+			ArmyInfoSimple armyInfo = new ArmyInfoSimple();
+			armyInfo.setPlayerName(player.getUserName());
+			armyInfo.setHeroList(teamArmyInfo.heroArmyInfos);
+			armyInfo.setPlayer(teamArmyInfo.playerArmyInfo);
+			armyInfo.setPlayerHeadImage(player.getHeadImage());
+			armyInfo.setTeamFighting(teamArmyInfo.fighting);
+			armyInfo.setArmyMagic(teamArmyInfo.armyMagic);
+			armyInfo.setGroupName(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
+			GCompTeamMember member = new GCompTeamMember(isLeader, armyInfo);
+			createResult.setT2(member);
+		} else {
+			createResult.setT1(createArmyInfoResult.getT2());
+		}
+		return createResult;
+	}
+	
 	private GCompTeam createTeamInternal(Player player, List<String> heroIds, int matchId, String groupId, boolean isPersonal, Pair<Boolean, String> result) {
 		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = this.createTeamMember(player, heroIds, true);
 		if (createResult.getT1() == CreateTeamMemberResultStatus.SUCCESS) {
@@ -182,6 +205,18 @@ public class GCompTeamMgr {
 		}
 	}
 	
+	private GCompTeamMember createByGCUnit(IGCUnit gcUnit, boolean isLeader) {
+		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = createTeamMember(PlayerMgr.getInstance().find(gcUnit.getUserId()), gcUnit.getHeroIds(), isLeader);
+		if (createResult.getT1() != CreateTeamMemberResultStatus.SUCCESS) {
+			return null;
+		}
+		GCompTeamMember teamMember = createResult.getT2();
+		if (gcUnit.isRobot()) {
+			teamMember.setRobot(true);
+		}
+		return teamMember;
+	}
+	
 	public void onEventStatusChange(GCompEventsStatus currentStatus) {
 		switch (currentStatus) {
 		case REST:
@@ -202,25 +237,27 @@ public class GCompTeamMgr {
 		this._dataHolder.syn(matchId, player);
 	}
 	
-	public Pair<CreateTeamMemberResultStatus, GCompTeamMember> createTeamMember(Player player, List<String> heroIds, boolean isLeader) {
-		Pair<CreateTeamMemberResultStatus, GCompTeamMember> createResult = Pair.Create(CreateTeamMemberResultStatus.SUCCESS, null);
-		Pair<GCompTeamArmyInfo, CreateTeamMemberResultStatus> createArmyInfoResult = this.createArmyInfoList(player, heroIds, true, true);
-		if (createArmyInfoResult.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
-			GCompTeamArmyInfo teamArmyInfo = createArmyInfoResult.getT1();
-			ArmyInfoSimple armyInfo = new ArmyInfoSimple();
-			armyInfo.setPlayerName(player.getUserName());
-			armyInfo.setHeroList(teamArmyInfo.heroArmyInfos);
-			armyInfo.setPlayer(teamArmyInfo.playerArmyInfo);
-			armyInfo.setPlayerHeadImage(player.getHeadImage());
-			armyInfo.setTeamFighting(teamArmyInfo.fighting);
-			armyInfo.setArmyMagic(teamArmyInfo.armyMagic);
-			armyInfo.setGroupName(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName());
-			GCompTeamMember member = new GCompTeamMember(isLeader, armyInfo);
-			createResult.setT2(member);
-		} else {
-			createResult.setT1(createArmyInfoResult.getT2());
+	public GCompTeam createRandomTeam(List<? extends IGCUnit> gcUnitList) {
+		if (gcUnitList.isEmpty()) {
+			throw new IllegalArgumentException("members.size() == 0");
 		}
-		return createResult;
+		boolean multiple = gcUnitList.size() > 1;
+		GCompTeamMember leader = this.createByGCUnit(gcUnitList.get(0), true);
+		if (multiple) {
+			GCompTeamMember[] teamMembers = new GCompTeamMember[gcUnitList.size() - 1];
+			GCompTeamMember tempMember;
+			for (int i = 1, size = gcUnitList.size(); i < size; i++) {
+				tempMember = this.createByGCUnit(gcUnitList.get(i), false);
+				if (tempMember != null) {
+					teamMembers[i - 1] = tempMember;
+				} else {
+					return null;
+				}
+			}
+			return GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.MULTIPLE_PLAYERS, leader, teamMembers);
+		} else {
+			return GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.SINGLE_PLAYER, leader);
+		}
 	}
 	
 	/**
@@ -400,7 +437,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
-		if(!GCOnlineMemberMgr.getInstance().isMemberOnline(target)) {
+		if(!GCompOnlineMemberMgr.getInstance().isMemberOnline(target)) {
 			// 对方不在线
 			result.setT2(GCompTips.getTipsTargetNotOnline());
 			return result;

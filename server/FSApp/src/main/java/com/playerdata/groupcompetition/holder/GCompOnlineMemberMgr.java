@@ -7,17 +7,17 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 
-public class GCOnlineMemberMgr {
+public class GCompOnlineMemberMgr {
 
-	private static final GCOnlineMemberMgr _instance = new GCOnlineMemberMgr();
+	private static final GCompOnlineMemberMgr _instance = new GCompOnlineMemberMgr();
 	
-	public static final GCOnlineMemberMgr getInstance() {
+	public static final GCompOnlineMemberMgr getInstance() {
 		return _instance;
 	}
 	
-	private GCOnlineMemberHolder _dataHolder = GCOnlineMemberHolder.getInstance();
+	private GCompOnlineMemberHolder _dataHolder = GCompOnlineMemberHolder.getInstance();
 	
-	protected GCOnlineMemberMgr() {
+	protected GCompOnlineMemberMgr() {
 		
 	}
 	

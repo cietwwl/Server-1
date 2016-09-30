@@ -16,6 +16,8 @@ public class GCompEventsSynData {
 	private GCEventsType matchNumType; // 开始的比赛类型
 //	@SuppressWarnings("unused")
 	private int matchId; // 具体玩家的matchId
+	private long startTime;
+	private long endTime;
 	
 	public void setMatches(List<GCompAgainst> matches) {
 		this.matches = matches;
@@ -27,6 +29,22 @@ public class GCompEventsSynData {
 	
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
+	}
+	
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+	
+	public long getStartTime() {
+		return startTime;
+	}
+	
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
 	}
 	
 	@Override

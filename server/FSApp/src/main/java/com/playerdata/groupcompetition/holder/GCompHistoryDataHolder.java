@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupcompetition.dao.GCompSelectionDataDAO;
+import com.playerdata.groupcompetition.dao.GCompHistoryDataDAO;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -18,20 +18,20 @@ import com.rwproto.DataSynProtos.eSynType;
  * @author CHEN.P
  *
  */
-public class GCompSelectionDataHolder {
+public class GCompHistoryDataHolder {
 
-	private static final GCompSelectionDataHolder _instance = new GCompSelectionDataHolder();
+	private static final GCompHistoryDataHolder _instance = new GCompHistoryDataHolder();
 	
-	public static final GCompSelectionDataHolder getInstance() {
+	public static final GCompHistoryDataHolder getInstance() {
 		return _instance;
 	}
 	
 	private final List<String> _selectedGroupIds = new ArrayList<String>();
 	
-	private final GCompSelectionDataDAO _dao;
+	private final GCompHistoryDataDAO _dao;
 	
-	protected GCompSelectionDataHolder() {
-		this._dao = GCompSelectionDataDAO.getInstance();
+	protected GCompHistoryDataHolder() {
+		this._dao = GCompHistoryDataDAO.getInstance();
 	}
 	
 	void setSelectedGroupIds(List<String> groupIds) {

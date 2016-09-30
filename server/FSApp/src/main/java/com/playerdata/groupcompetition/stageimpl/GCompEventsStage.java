@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
-import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
+import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
@@ -147,6 +147,7 @@ public class GCompEventsStage implements IGCompStage {
 	private void allEventsFinished() {
 		// 所有的赛事完结
 		this._stageEnd = true;
+		GCompEventsDataMgr.getInstance().notifyAllEventsFinished();
 		GCompUtil.log("所有的赛事已经完结！");
 	}
 	
@@ -187,7 +188,7 @@ public class GCompEventsStage implements IGCompStage {
 	@Override
 	public void onStageStart(IGCompStage preStage) {
 		// 通知阶段开始，但这时候具体的赛事还未开始
-		List<String> topCountGroups = GCompSelectionDataMgr.getInstance().getSelectedGroupIds();
+		List<String> topCountGroups = GCompHistoryDataMgr.getInstance().getSelectedGroupIds();
 		GCEventsType startType;
 		if (topCountGroups.size() > 8) {
 			startType = GCEventsType.TOP_16;
@@ -242,7 +243,11 @@ public class GCompEventsStage implements IGCompStage {
 		
 		@Override
 		public void accept(GCompEventsStage stage) {
+			try {
 			stage.switchEventsStatus();
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

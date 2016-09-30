@@ -2,10 +2,12 @@ package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.dao.GCompEventsDataDAO;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
 import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -25,23 +27,18 @@ public class GCompEventsDataHolder {
 		this._dao = GCompEventsDataDAO.getInstance();
 	}
 	
-	GCompEventsGlobalData get(boolean getLast) {
-		if (getLast) {
-			return _dao.getCurrentGlobalData();
-		} else {
-			return _dao.getLastGlobalData();
-		}
-	}
-	
-	void saveCurrentToLast() {
-		_dao.saveCurrentToLast();
+	GCompEventsGlobalData get() {
+		return _dao.getCurrentGlobalData();
 	}
 	
 	private GCompEventsSynData createSynData() {
-		GCompEventsGlobalData globalData = this.get(false);
+		GCompEventsGlobalData globalData = this.get();
+		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
 		GCompEventsSynData synData = new GCompEventsSynData();
 		synData.setMatches(globalData.getMatches());
 		synData.setMatchNumType(globalData.getMatchNumType());
+		synData.setStartTime(timeInfo.getT1());
+		synData.setEndTime(timeInfo.getT2());
 		return synData;
 	}
 	

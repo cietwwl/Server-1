@@ -12,7 +12,7 @@ import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
-import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
+import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
@@ -191,7 +191,7 @@ public class GroupCompetitionHandler {
 		if (resultType == GCResultType.SUCCESS) {
 			this.packSelectionData(builder, player);
 		}
-		GCompSelectionDataMgr.getInstance().sendLastMatchData(player);
+		GCompHistoryDataMgr.getInstance().sendLastMatchData(player);
 		return builder.build().toByteString();
 	}
 	

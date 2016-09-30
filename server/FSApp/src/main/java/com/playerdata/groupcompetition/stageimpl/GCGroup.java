@@ -22,8 +22,10 @@ public class GCGroup implements IGCGroup {
 	@IgnoreSynField
 	private String _groupIcon; // 帮派的图标
 	private int gCompScore; // 当前的积分
-	private int historyNum;
-	private int upNum;
+	@SuppressWarnings("unused")
+	private int historyNum; // 客户端需要用的数据
+	@SuppressWarnings("unused")
+	private int upNum; // 客户端需要用的数据
 	private String descr;
 	
 	public GCGroup() {}

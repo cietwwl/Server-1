@@ -122,8 +122,14 @@ public class GroupCompetitionRewardCenter {
 	}
 	
 	private void addFinalGroups(Deque<IGCGroup> queue, IGCAgainst against) {
-		queue.add(against.getWinGroup() == against.getGroupA() ?  against.getGroupB() : against.getGroupA());
-		queue.add(against.getWinGroup());
+		IGCGroup loseGroup = against.getWinGroup() == against.getGroupA() ? against.getGroupB() : against.getGroupA();
+		IGCGroup winGroup = against.getWinGroup();
+		if (loseGroup.getGroupId().length() > 0) {
+			queue.add(loseGroup);
+		}
+		if (winGroup.getGroupId().length() > 0) {
+			queue.add(winGroup);
+		}
 	}
 	
 	// 处理最后的排名奖励
@@ -132,15 +138,19 @@ public class GroupCompetitionRewardCenter {
 		Deque<IGCGroup> queue = new LinkedList<IGCGroup>();
 		Comparator<IGCGroup> cmp = new GCompScoreComparator();
 		GCompEventsData data;
+		IGCGroup loseGroup;
 		while (type != GCEventsType.FINAL) {
 			data = GCompEventsDataMgr.getInstance().getEventsData(type);
 			List<GCompAgainst> againstList = data.getAgainsts();
 			List<IGCGroup> groups = new ArrayList<IGCGroup>();
 			for (GCompAgainst against : againstList) {
 				if (against.getWinGroup() == against.getGroupA()) {
-					groups.add(against.getGroupB());
+					loseGroup = against.getGroupB();
 				} else {
-					groups.add(against.getGroupA());
+					loseGroup = against.getGroupA();
+				}
+				if(loseGroup.getGroupId().length() > 0) {
+					groups.add(loseGroup);
 				}
 			}
 			Collections.sort(groups, cmp);

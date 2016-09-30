@@ -7,7 +7,7 @@ import com.bm.group.GroupBM;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
-import com.playerdata.groupcompetition.holder.GCompSelectionDataMgr;
+import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
@@ -74,7 +74,7 @@ public class GCompSelectionStage implements IGCompStage {
 
 	@Override
 	public void onStageEnd() {
-		GCompSelectionDataMgr.getInstance().setSelectedGroupIds(getTopCountGroupsFromRank());
+		GCompHistoryDataMgr.getInstance().setSelectedGroupIds(getTopCountGroupsFromRank());
 	}
 
 	@Override

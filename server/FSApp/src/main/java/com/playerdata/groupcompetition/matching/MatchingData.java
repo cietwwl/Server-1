@@ -57,6 +57,10 @@ class MatchingData {
 	public void setCancel(boolean value) {
 		this.cancel = value;
 	}
+	
+	public void setDeadline(long pDeadline) {
+		this.deadline = pDeadline;
+	}
 
 	public boolean isCancel() {
 		return cancel;
