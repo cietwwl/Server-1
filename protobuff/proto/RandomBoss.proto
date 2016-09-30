@@ -12,8 +12,13 @@ enum MsgType{
 	APPLY_BATTLE = 5;//请求进入boss战                       参数：bossID 如果可以进入战斗  则返回 armyInfo
 	END_BATTLE = 6;//通知战斗结束                            参数：bossID,当前血量,返回   战斗结算数据  BattleRewardInfo
 	GET_BATTLE_INFO = 7;//请求讨伐信息     参数：bossID
+	UPDATE_BATTLE_COUNT = 8;//更新总战斗次数
 }
 
+message RandomBossSynBattleCount{
+	required int32 curCount = 1;//当前次数
+	required int32 maxCount = 2;//最大次数
+}
 
 message RandomMsgRequest{
 	required MsgType msgType  = 1; //请求协议类型
@@ -35,6 +40,7 @@ message RandomBossMsgResponse{
 message RandomBossPushMsg{
 	required MsgType msgType = 1;
 	optional string bossID = 2;//这个应该是boss 模板id, 不是服务器生成的id
+	optional RandomBossSynBattleCount battleCount = 3;//当天战斗总次数
 }
 
 message InvitedFriends{

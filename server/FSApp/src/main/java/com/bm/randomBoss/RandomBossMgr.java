@@ -39,6 +39,7 @@ import com.rwproto.RandomBossProto.ItemInfo;
 import com.rwproto.RandomBossProto.MsgType;
 import com.rwproto.RandomBossProto.RandomBossMsgResponse.Builder;
 import com.rwproto.RandomBossProto.RandomBossPushMsg;
+import com.rwproto.RandomBossProto.RandomBossSynBattleCount;
 
 
 /**
@@ -126,6 +127,7 @@ public class RandomBossMgr{
 		
 		//同步到前端
 		ClientDataSynMgr.synDataList(player, synList, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_LIST);
+		synBattleCount(player);
 		return true;
 	}
 
@@ -186,6 +188,24 @@ public class RandomBossMgr{
 		return record.getBattleInfo();
 	}
 
+	/**
+	 * 同步当前总的战斗次数
+	 * @param player
+	 */
+	private void synBattleCount(Player player){
+		if(player == null){
+			return;
+		}
+		int count = player.getUserGameDataMgr().getFightRandomBossCount();
+		int maxBattleCount = rbServerCfg.getMaxBattleCount();
+		RandomBossPushMsg.Builder msg = RandomBossPushMsg.newBuilder();
+		RandomBossSynBattleCount.Builder bc = RandomBossSynBattleCount.newBuilder();
+		bc.setCurCount(count);
+		bc.setMaxCount(maxBattleCount);
+		msg.setMsgType(MsgType.UPDATE_BATTLE_COUNT);
+		msg.setBattleCount(bc);
+		player.SendMsg(Command.MSG_RANDOM_BOSS, msg.build().toByteString());
+	}
 	
 	/**
 	 * 请求进入战斗
@@ -334,6 +354,7 @@ public class RandomBossMgr{
 		RandomBossRecord clone = record.clone();
 		clone.setBattleTime(count);
 		ClientDataSynMgr.synData(player, clone, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_SINGLE);
+		synBattleCount(player);
 		return rewardInfo;
 	}
 
