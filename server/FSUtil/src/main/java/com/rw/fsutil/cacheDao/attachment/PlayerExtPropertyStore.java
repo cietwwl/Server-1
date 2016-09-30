@@ -3,10 +3,10 @@ package com.rw.fsutil.cacheDao.attachment;
 import java.util.Enumeration;
 
 
-public interface PlayerExtPropertyStore<T extends PlayerExtProperty> extends IRowMapItemContainer<Integer, T>{
+public interface PlayerExtPropertyStore<T extends RoleExtProperty> extends IRowMapItemContainer<Integer, T>{
 
 	/**
-	 * 获取指定配置id的{@link PlayerExtProperty}
+	 * 获取指定配置id的{@link RoleExtProperty}
 	 * 
 	 * @param cfgId
 	 * @return
@@ -14,7 +14,7 @@ public interface PlayerExtPropertyStore<T extends PlayerExtProperty> extends IRo
 	public T get(Integer cfgId);
 
 	/**
-	 * 获取所有{@link PlayerExtProperty}的枚举迭代器
+	 * 获取所有{@link RoleExtProperty}的枚举迭代器
 	 * @return
 	 */
 	public Enumeration<T> getExtPropertyEnumeration();

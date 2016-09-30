@@ -2,7 +2,7 @@ package com.rw.fsutil.cacheDao.attachment;
 
 import com.rw.fsutil.cacheDao.mapItem.RowMapItem;
 
-public class PlayerExtPropertyData<T extends PlayerExtProperty> implements RowMapItem<Integer> {
+public class PlayerExtPropertyData<T extends RoleExtProperty> implements RowMapItem<Integer> {
 
 	private final Long id;
 	private final T attachment;

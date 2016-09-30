@@ -13,7 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
-import com.rw.fsutil.dao.attachment.QueryAttachmentEntry;
+import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
@@ -25,7 +25,7 @@ import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
-public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryAttachmentEntry> {
+public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryRoleExtPropertyData> {
 
 	private final DataCache<String, PlayerExtPropertyStoreImpl<T>> cache;
 	private final Short type;
@@ -56,7 +56,7 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 		cache.submitRecordTask(key);
 	}
 
-	public PlayerExtPropertyStore<T> getAttachmentStore(String userId) throws InterruptedException, Throwable {
+	public PlayerExtPropertyStore<T> getStore(String userId) throws InterruptedException, Throwable {
 		return this.cache.getOrLoadFromDB(userId);
 	}
 
@@ -64,12 +64,16 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 		return this.cache.containsKey(userId);
 	}
 
+	public PlayerExtPropertyStore<T> getStoreFromMemory(String userId) {
+		return this.cache.getFromMemory(userId);
+	}
+
 	public boolean putIfAbsent(final String key, List<PlayerExtPropertyData<T>> datas) {
 		PlayerExtPropertyStoreImpl<T> storeImpl = new PlayerExtPropertyStoreImpl<T>(dataAccessManager, datas, key, RoleExtPropertyStoreCache.this, type, mapper);
 		return cache.preInsertIfAbsent(key, storeImpl);
 	}
 
-	public boolean putIfAbsentByDBString(final String key, final List<QueryAttachmentEntry> datas) {
+	public boolean putIfAbsentByDBString(final String key, final List<QueryRoleExtPropertyData> datas) {
 		return this.cache.preInsertIfAbsent(key, new Callable<PlayerExtPropertyStoreImpl<T>>() {
 
 			@Override
@@ -79,11 +83,11 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 		});
 	}
 
-	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryAttachmentEntry> datas) throws JsonParseException, JsonMappingException, IOException {
+	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, IOException {
 		int size = datas.size();
 		ArrayList<PlayerExtPropertyData<T>> result = new ArrayList<PlayerExtPropertyData<T>>(size);
 		for (int i = 0; i < size; i++) {
-			QueryAttachmentEntry query = datas.get(i);
+			QueryRoleExtPropertyData query = datas.get(i);
 			T entity = mapper.readValue(query.getExtension(), entityClass);
 			if (entity == null) {
 				throw new RuntimeException("parse entity fail:" + entityClass + "," + query.getExtension());
@@ -97,7 +101,7 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 
 		@Override
 		public PlayerExtPropertyStoreImpl<T> load(String key) throws DataNotExistException, Exception {
-			List<QueryAttachmentEntry> datas = dataAccessManager.loadEntitys(key, type);
+			List<QueryRoleExtPropertyData> datas = dataAccessManager.loadEntitys(key, type);
 			return create(key, datas);
 		}
 
@@ -145,7 +149,7 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 			if (ext == null) {
 				return false;
 			}
-			return updateList.add(new Object[] { ext });
+			return updateList.add(new Object[] { ext, key });
 		}
 
 		@Override
@@ -165,7 +169,7 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 					FSUtilLogger.error("extract params is null:" + key + "," + k + "," + cache.getName());
 					continue;
 				}
-				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext });
+				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext, key });
 			}
 			return true;
 		}
