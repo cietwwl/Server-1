@@ -101,7 +101,7 @@ public class GroupCompetitionMatchingCenter {
 		if(gmd.isInRandomMatching(player.getUserId())) {
 			return;
 		}
-		RandomMatchingData rmd = new RandomMatchingData(player.getUserId(), heroIds);
+		RandomMatchingData rmd = RandomMatchingData.createActiveSubmitData(player.getUserId(), heroIds);
 		gmd.addRandomMatchingData(rmd);
 	}
 	

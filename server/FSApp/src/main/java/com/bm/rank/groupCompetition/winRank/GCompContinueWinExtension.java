@@ -1,19 +1,18 @@
 package com.bm.rank.groupCompetition.winRank;
 
 import com.bm.rank.RankingJacksonExtension;
-import com.bm.rank.groupCompetition.scoreRank.GCompScoreComparable;
 import com.playerdata.Player;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GCompContinueWinExtension extends RankingJacksonExtension<GCompScoreComparable, GCompContinueWinItem>{
+public class GCompContinueWinExtension extends RankingJacksonExtension<GCompContinueWinComparable, GCompContinueWinItem>{
 
 	public GCompContinueWinExtension() {
-		super(GCompScoreComparable.class, GCompContinueWinItem.class);
+		super(GCompContinueWinComparable.class, GCompContinueWinItem.class);
 	}
 
 	@Override
-	public void notifyEntryEvicted(RankingEntry<GCompScoreComparable, GCompContinueWinItem> entry) {
+	public void notifyEntryEvicted(RankingEntry<GCompContinueWinComparable, GCompContinueWinItem> entry) {
 	}
 
 	@Override

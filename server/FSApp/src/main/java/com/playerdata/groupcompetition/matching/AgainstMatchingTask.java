@@ -310,8 +310,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			}
 		}
 		
-		RandomMatchingData data = new RandomMatchingData(member.getUserId(), heroIds);
-		data.setRobot(true);
+		RandomMatchingData data = RandomMatchingData.createRobotData(member.getUserId(), heroIds);
 		return data;
 	}
 	

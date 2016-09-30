@@ -86,6 +86,7 @@ import com.rwproto.GMServiceProtos.eGMResultType;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+import com.rwproto.MainMsgProtos.EMsgType;
 import com.rwproto.MsgDef.Command;
 
 public class GMHandler {
@@ -223,6 +224,7 @@ public class GMHandler {
 		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
+		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1793,5 +1795,10 @@ public class GMHandler {
 		});
 		return true;
 	}
+	
+	public boolean sendGroupPmd(String[] arrCommandContents, Player player) {
+		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
+		return true;
+	} 
 
 }
