@@ -644,8 +644,8 @@ public class BILogMgr {
 			moreInfo.put("emailId", emailData.getEmailId());
 			moreInfo.put("emailTitle", emailData.getTitle().replace("\n", "\\n").replace("\r", "\\r"));
 			moreInfo.put("emailContent", emailData.getContent().replace("\n", "\\n").replace("\r", "\\r"));
-			moreInfo.put("coolTime", DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
-			moreInfo.put("expireTime", DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("coolTime", emailData.getCoolTime() == 0 ? "" : DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("expireTime", emailData.getDeadlineTimeInMill() == 0 ? "" : DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
 
 			String emailAttachment = emailData.getEmailAttachment();
 			String[] split = emailAttachment.split(",");

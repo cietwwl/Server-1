@@ -33,7 +33,6 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 public class GmQueryGroupInfo implements IGmTask{
 
-	@SuppressWarnings("rawtypes")
 	@Override
 	public GmResponse doTask(GmRequest request) {
 		// TODO Auto-generated method stub
@@ -41,43 +40,7 @@ public class GmQueryGroupInfo implements IGmTask{
 		try {
 			Map<String, Object> args = request.getArgs();
 			String groupId = GmUtils.parseString(args, "teamId");
-			if (StringUtils.isEmpty(groupId)) {
-				queryGroupRank(response);
-			} else {
-				Group group = GroupBM.get(groupId);
-				if (group == null) {
-					throw new Exception(String.valueOf(GmResultStatusCode.STATUS_NOT_FIND_GROUP.getStatus()));
-				}
-				GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-
-				String localgroupName = groupData.getGroupName();
-				int groupLv = groupData.getGroupLevel();
-				int groupExp = groupData.getGroupExp();
-				int supplies = groupData.getSupplies();
-				String groupResourceName = getGroupResourceName(groupId);
-				GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-				int groupMemberSize = memberMgr.getGroupMemberSize();
-
-				GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupLv);
-				int maxMemberSize = levelTemplate.getMaxMemberLimit();
-				String groupNum = groupMemberSize + "/" + maxMemberSize;
-				String groupNotice = groupData.getAnnouncement();
-				long teamFight = getGroupFight(memberMgr);
-
-				HashMap<String, Object> map = new HashMap<String, Object>();
-				map.put("teamId", groupId);
-				map.put("teamName", localgroupName);
-				map.put("lev", groupLv);
-				map.put("exp", groupExp);
-				map.put("teamEquip", supplies);
-				map.put("teamFight", teamFight);
-				map.put("teamNum", groupNum);
-				map.put("teamNotice", groupNotice);
-				map.put("teamTown", groupResourceName);
-
-				response.addResult(map);
-			}
-			
+			queryGroupById(groupId, response);
 			
 		} catch (Exception ex) {
 			SocketHelper.processException(ex, response);
@@ -109,49 +72,39 @@ public class GmQueryGroupInfo implements IGmTask{
 		return totalFight;
 	}
 	
-	@SuppressWarnings("rawtypes")
-	private void queryGroupRank(GmResponse response) throws Exception {
-		Ranking ranking = RankingFactory.getRanking(RankType.GROUP_BASE_RANK);
-		EnumerateList enumeration = ranking.getEntriesEnumeration(1, 20);
-		while (enumeration.hasMoreElements()) {
-			MomentRankingEntry entry = (MomentRankingEntry) enumeration.nextElement();
-			GroupBaseRankExtAttribute attr = (GroupBaseRankExtAttribute) entry.getEntry().getExtendedAttribute();
 
-			String groupId = attr.getGroupId();
-
-			
-			Group group = GroupBM.get(groupId);
-			if (group == null) {
-				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_NOT_FIND_GROUP.getStatus()));
-			}
-			GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-
-			String localgroupName = groupData.getGroupName();
-			int groupLv = groupData.getGroupLevel();
-			int groupExp = groupData.getGroupExp();
-			int supplies = groupData.getSupplies();
-			String groupResourceName = getGroupResourceName(groupId);
-			GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-			int groupMemberSize = memberMgr.getGroupMemberSize();
-
-			GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupLv);
-			int maxMemberSize = levelTemplate.getMaxMemberLimit();
-			String groupNum = groupMemberSize + "/" + maxMemberSize;
-			String groupNotice = groupData.getAnnouncement();
-			long teamFight = getGroupFight(memberMgr);
-
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put("teamId", groupId);
-			map.put("teamName", localgroupName);
-			map.put("lev", groupLv);
-			map.put("exp", groupExp);
-			map.put("teamEquip", supplies);
-			map.put("teamFight", teamFight);
-			map.put("teamNum", groupNum);
-			map.put("teamNotice", groupNotice);
-			map.put("teamTown", groupResourceName);
-			response.addResult(map);
+	private void queryGroupById(String groupId, GmResponse response) throws Exception{
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			throw new Exception(String.valueOf(GmResultStatusCode.STATUS_NOT_FIND_GROUP.getStatus()));
 		}
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
 
+		String localgroupName = groupData.getGroupName();
+		int groupLv = groupData.getGroupLevel();
+		int groupExp = groupData.getGroupExp();
+		int supplies = groupData.getSupplies();
+		String groupResourceName = getGroupResourceName(groupId);
+		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+		int groupMemberSize = memberMgr.getGroupMemberSize();
+
+		GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupLv);
+		int maxMemberSize = levelTemplate.getMaxMemberLimit();
+		String groupNum = groupMemberSize + "/" + maxMemberSize;
+		String groupNotice = groupData.getAnnouncement();
+		long teamFight = getGroupFight(memberMgr);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("teamId", groupId);
+		map.put("teamName", localgroupName);
+		map.put("lev", groupLv);
+		map.put("exp", groupExp);
+		map.put("teamEquip", supplies);
+		map.put("teamFight", teamFight);
+		map.put("teamNum", groupNum);
+		map.put("teamNotice", groupNotice);
+		map.put("teamTown", groupResourceName);
+
+		response.addResult(map);
 	}
 }

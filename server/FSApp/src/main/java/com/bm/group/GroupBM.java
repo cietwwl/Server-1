@@ -41,7 +41,16 @@ public final class GroupBM {
 	private static IdentityIdGenerator generator;// 生成帮派Id的产生类
 	/** 常驻内存的帮派容器 */
 	private static final ConcurrentHashMap<String, Group> cacheGroupDataMap = new ConcurrentHashMap<String, Group>();
-
+	private static GroupIdCache groupIdCache;
+	
+	public static void init(DruidDataSource dataSource){
+		groupIdCache = new GroupIdCache(dataSource);
+	}
+	
+	public static String getGroupId(String groupName){
+		return groupIdCache.getGroupId(groupName);
+	}
+	
 	/**
 	 * 检查帮派是否存在
 	 * 
