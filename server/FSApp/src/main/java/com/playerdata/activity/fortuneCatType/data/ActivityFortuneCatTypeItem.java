@@ -15,7 +15,7 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -23,7 +23,7 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_fortunecattype_item")
-public class ActivityFortuneCatTypeItem implements  PlayerExtProperty {
+public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 
 	@Id
 	private Integer id;

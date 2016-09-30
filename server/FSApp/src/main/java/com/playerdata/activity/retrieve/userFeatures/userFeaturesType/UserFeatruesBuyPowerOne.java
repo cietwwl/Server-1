@@ -20,7 +20,7 @@ import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
 public class UserFeatruesBuyPowerOne implements IUserFeatruesHandler{
 	//写的挫了点，有时间5抽1
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem = ActivityRetrieveTypeHelper.getInstance().doBuyPowerEvent(UserFeaturesEnum.buyPowerOne);
 		return subItem;

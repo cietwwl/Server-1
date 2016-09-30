@@ -30,7 +30,11 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeEntry;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -62,19 +66,38 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
-				.getInstance();
+//		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
+//				.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityRankTypeItem> addItemList = null;
+//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
+		RoleExtPropertyStoreCache<ActivityRankTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
 		String userId = player.getUserId();
-		List<ActivityRankTypeItem> addItemList = null;
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+		List<ActivityRankTypeItem> addList = null;
+		PlayerExtPropertyStore<ActivityRankTypeItem> store = null;
+		try {
+			store = storeCach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
 
 	}
 
 	public List<ActivityRankTypeItem> creatItems(String userId,
-			MapItemStore<ActivityRankTypeItem> itemStore) {
+			PlayerExtPropertyStore<ActivityRankTypeItem> itemStore) {
 		List<ActivityRankTypeItem> addItemList = null;
 		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO
 				.getInstance().getAllCfg();
@@ -87,15 +110,16 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			if (RankTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityRankTypeHelper.getItemId(userId,
-					RankTypeEnum);
+//			String itemId = ActivityRankTypeHelper.getItemId(userId,
+//					RankTypeEnum);
+			int id = Integer.parseInt(RankTypeEnum.getCfgId());
 			if (itemStore != null) {
-				if (itemStore.getItem(itemId) != null) {
+				if (itemStore.get(id) != null) {
 					continue;
 				}
 			}
 			ActivityRankTypeItem item = new ActivityRankTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
 			item.setEnumId(cfg.getEnumId());
@@ -339,7 +363,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			return;
 		}
 		String userId = rankInfo.getHeroUUID();
-		MapItemStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
+		PlayerExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
 				.getItemStore(userId);
 		if (itemStore == null) {
 			return;
@@ -354,7 +378,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		String emaiId = subCfg.getEmailId();//
 		targetItem.setReward(tmpReward);
 		targetItem.setEmailId(emaiId);
-		itemStore.updateItem(targetItem);		
+		itemStore.update(targetItem.getId());	
 	}
 	
 	/** 开服第一次触发时，初始化排行榜派奖的id-版本号；后续核实活动过期后，初始化是否派发和派发时间 */
@@ -427,7 +451,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityRankTypeCfg> list = ActivityRankTypeCfgDAO.getInstance()
 				.getAllCfg();
 		for (ActivityRankTypeCfg cfg : list) {
@@ -438,11 +462,11 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	private boolean isOpen(ActivityRankTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityRankTypeCfg cfg, long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

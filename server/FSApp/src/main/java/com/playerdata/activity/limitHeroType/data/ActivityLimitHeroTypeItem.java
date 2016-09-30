@@ -10,13 +10,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_limitherotype_item")
-public class ActivityLimitHeroTypeItem implements  PlayerExtProperty{
+public class ActivityLimitHeroTypeItem implements  RoleExtProperty{
 	@Id
 	private Integer id ;
 	

@@ -91,7 +91,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		String userId= player.getUserId();
 		List<ActivityLimitHeroTypeItem> addList = null;
 		try {
-			store = storeCache.getAttachmentStore(userId);
+			store = storeCache.getStore(userId);
 			addList = creatItems(userId, store);	
 			if(store != null&&addList != null){
 				store.addItem(addList);

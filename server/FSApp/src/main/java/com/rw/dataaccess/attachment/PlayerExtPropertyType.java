@@ -2,19 +2,27 @@ package com.rw.dataaccess.attachment;
 
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.rw.dataaccess.attachment.creator.ActivityCountTypeCreator;
+import com.rw.dataaccess.attachment.creator.ActivityDailyDiscountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityFortuneCatCreator;
 import com.rw.dataaccess.attachment.creator.ActivityLimitHeroCreator;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.dataaccess.attachment.creator.ActivityRankTypeCreator;
+import com.rw.dataaccess.attachment.creator.ActivityRetrieveCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
 
-	ACTIVITY_COUNTTYPE(1,ActivityCountTypeItem.class,ActivityCountTypeCreator.class),
-	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),
-	ACTIVITY_FORTUNECAT(12,ActivityFortuneCatTypeItem.class,ActivityFortuneCatCreator.class)
+	ACTIVITY_COUNTTYPE(1,ActivityCountTypeItem.class,ActivityCountTypeCreator.class),	
+	ACTIVITY_RANK(8,ActivityRankTypeItem.class,ActivityRankTypeCreator.class),
+	ACTIVITY_DAILYDISCOUNT(9,ActivityDailyDiscountTypeItem.class,ActivityDailyDiscountCreator.class),
+	ACTIVITY_FORTUNECAT(10,ActivityFortuneCatTypeItem.class,ActivityFortuneCatCreator.class),
+	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),	
+	ACTIVITY_RETRIEVE(14,RewardBackItem.class,ActivityRetrieveCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;

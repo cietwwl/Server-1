@@ -114,7 +114,7 @@ public class ActivityFortuneCatTypeItemHolder{
 	public PlayerExtPropertyStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityFortuneCatTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_FORTUNECAT, ActivityFortuneCatTypeItem.class);
 		try {
-			return storeCache.getAttachmentStore(userId);
+			return storeCache.getStore(userId);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

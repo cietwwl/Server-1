@@ -100,7 +100,7 @@ public class ActivityCountTypeItemHolder {
 	public PlayerExtPropertyStore<ActivityCountTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
 		try {
-			return storeCache.getAttachmentStore(userId);
+			return storeCache.getStore(userId);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,7 +108,7 @@ public class ActivityCountTypeItemHolder {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;//	PlayerExtPropertyStore<ActivityCountTypeItem> store= storeCache.getAttachmentStore(userId);
+		return null;
 
 	}
 

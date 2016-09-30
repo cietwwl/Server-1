@@ -8,6 +8,7 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
@@ -19,7 +20,11 @@ import com.playerdata.activity.retrieve.ActivityRetrieveTypeHelper;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -44,7 +49,7 @@ public class ActivityRetrieveTypeHolder{
 	{
 		
 		List<RewardBackItem> itemList = new ArrayList<RewardBackItem>();
-		Enumeration<RewardBackItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<RewardBackItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			RewardBackItem item = (RewardBackItem) mapEnum.nextElement();			
 			itemList.add(item);
@@ -54,7 +59,7 @@ public class ActivityRetrieveTypeHolder{
 	}
 	
 	public void updateItem(Player player, RewardBackItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
@@ -65,7 +70,8 @@ public class ActivityRetrieveTypeHolder{
 	
 	public RewardBackItem getItem(String userId){	
 		String itemId = ActivityRetrieveTypeHelper.getItemId(userId, ActivityRetrieveTypeEnum.retrieve);
-		return getItemStore(userId).getItem(itemId);
+		
+		return getItemStore(userId).get(ActivityRetrieveTypeEnum.retrieve.getId());
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){
@@ -89,14 +95,14 @@ public class ActivityRetrieveTypeHolder{
 	public boolean addItemList(Player player, List<RewardBackItem> itemList){
 		try {
 //			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			MapItemStore<RewardBackItem> itemstore = getItemStore(player.getUserId());
+			PlayerExtPropertyStore<RewardBackItem> itemstore = getItemStore(player.getUserId());
 			boolean addSuccess = itemstore.addItem(itemList);
 			
 			if(addSuccess){
 				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
 			}
 			return addSuccess;
-		} catch (DuplicatedKeyException e) {
+		} catch (DuplicatedKeyException e) { 
 			//handle..
 			e.printStackTrace();
 			return false;
@@ -113,10 +119,20 @@ public class ActivityRetrieveTypeHolder{
 	}
 
 	
-	public MapItemStore<RewardBackItem> getItemStore(String userId) {
-//		MapItemStoreCache<RewardBackItem> cache = MapItemStoreFactory.getRewardBackItemCache();
-//		return cache.getMapItemStore(userId, RewardBackItem.class);
+	public PlayerExtPropertyStore<RewardBackItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<RewardBackItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RETRIEVE, RewardBackItem.class);
+		try {
+			return storeCache.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
+		
+		
 	}
 	
 }

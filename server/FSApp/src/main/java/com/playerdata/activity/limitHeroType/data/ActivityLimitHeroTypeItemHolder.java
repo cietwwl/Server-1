@@ -122,7 +122,7 @@ public class ActivityLimitHeroTypeItemHolder{
 	public PlayerExtPropertyStore<ActivityLimitHeroTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityLimitHeroTypeItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_LIMITHERO, ActivityLimitHeroTypeItem.class);
 		try {
-			return cache.getAttachmentStore(userId);
+			return cache.getStore(userId);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

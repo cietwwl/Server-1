@@ -116,7 +116,7 @@ public class MapItemStoreFactory {
 
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
-	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
+//	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
 
 	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
 
@@ -127,7 +127,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
 //	private static MapItemStoreCache<ActivityLimitHeroTypeItem> activityLimitHeroTypeItemCache;
 
-	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
+//	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
 
@@ -251,7 +251,7 @@ public class MapItemStoreFactory {
 
 		activityRateTypeItemCache = createForPerload(ActivityRateTypeItem.class, "userId", heroCapacity);
 
-		activityRankTypeItemCache = createForPerload(ActivityRankTypeItem.class, "userId", heroCapacity);
+//		activityRankTypeItemCache = createForPerload(ActivityRankTypeItem.class, "userId", heroCapacity);
 
 		activityExchangeTypeItemCache = createForPerload(ActivityExchangeTypeItem.class, "userId", heroCapacity);
 
@@ -261,7 +261,7 @@ public class MapItemStoreFactory {
 
 		activityVitalityItemCache = createForPerload(ActivityVitalityTypeItem.class, "userId", heroCapacity);
 
-		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
+//		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
 
 
 		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
@@ -484,9 +484,9 @@ public class MapItemStoreFactory {
 		return activityDailyCountTypeItemCache;
 	}
 
-	public static MapItemStoreCache<ActivityDailyDiscountTypeItem> getActivityDailyDiscountTypeItemCache() {
-		return activityDailyDiscountTypeItemCache;
-	}
+//	public static MapItemStoreCache<ActivityDailyDiscountTypeItem> getActivityDailyDiscountTypeItemCache() {
+//		return activityDailyDiscountTypeItemCache;
+//	}
 
 	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
 		return activityTimeCardTypeItemCache;
@@ -500,9 +500,9 @@ public class MapItemStoreFactory {
 		return activityDateTypeItemCache;
 	}
 
-	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
-		return activityRankTypeItemCache;
-	}
+//	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
+//		return activityRankTypeItemCache;
+//	}
 
 	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
 		return activityTimeCountTypeItemCache;

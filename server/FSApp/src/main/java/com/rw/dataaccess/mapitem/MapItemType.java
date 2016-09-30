@@ -31,11 +31,11 @@ public enum MapItemType {
 	
 	DAILY_TYPE(6,ActivityDailyTypeItem.class,DailyCountCreator.class),
 	
-	DAILY_DISCOUNT(7,ActivityDailyDiscountTypeItem.class,DailyDisCountCreator.class),
+//	DAILY_DISCOUNT(7,ActivityDailyDiscountTypeItem.class,DailyDisCountCreator.class),
 	
 	EXCHANGE(8,ActivityExchangeTypeItem.class,ExchangeCreator.class),
 	
-	RANK_TYPE(9,ActivityRankTypeItem.class,RankTypeCreator.class),
+//	RANK_TYPE(9,ActivityRankTypeItem.class,RankTypeCreator.class),
 	
 	RATE_TEYP(10,ActivityRateTypeItem.class,RateTypeCreator.class),
 	

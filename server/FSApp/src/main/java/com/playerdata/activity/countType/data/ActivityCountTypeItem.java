@@ -10,15 +10,14 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_counttype_item")
-public class ActivityCountTypeItem implements  PlayerExtProperty {
+public class ActivityCountTypeItem implements  RoleExtProperty {
 
 	@Id
 	private Integer id;
