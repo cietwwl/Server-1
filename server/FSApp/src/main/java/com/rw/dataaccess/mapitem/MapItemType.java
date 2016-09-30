@@ -21,9 +21,9 @@ public enum MapItemType {
 	// 每日充值
 	RECRAHGE_TYPE(1, ActivityDailyRechargeTypeItem.class, ActivityRechargeTypeCreator.class),
 	// 限时英雄
-	LIMIT_HERO(2, ActivityLimitHeroTypeItem.class, LimitHeroCreator.class),
+//	LIMIT_HERO(2, ActivityLimitHeroTypeItem.class, LimitHeroCreator.class),
 	// 招财猫
-	FOUTUNE_CAT(3, ActivityFortuneCatTypeItem.class, FortuneCatCreator.class),
+//	FOUTUNE_CAT(3, ActivityFortuneCatTypeItem.class, FortuneCatCreator.class),
 	// 红包
 	RED_ENVELOP(4, ActivityRedEnvelopeTypeItem.class, RedEnvolopeCreator.class), 
 
@@ -45,7 +45,7 @@ public enum MapItemType {
 	
 	VITAITY(13,ActivityVitalityTypeItem.class,VitalityCreator.class),
 	
-	REWARDSBACK(14,RewardBackItem.class,RewardsBackCreator.class)
+//	REWARDSBACK(14,RewardBackItem.class,RewardsBackCreator.class)
 	;
 	
 	private final int type;

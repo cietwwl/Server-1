@@ -114,8 +114,9 @@ public class ActivityRetrieveTypeHolder{
 
 	
 	public MapItemStore<RewardBackItem> getItemStore(String userId) {
-		MapItemStoreCache<RewardBackItem> cache = MapItemStoreFactory.getRewardBackItemCache();
-		return cache.getMapItemStore(userId, RewardBackItem.class);
+//		MapItemStoreCache<RewardBackItem> cache = MapItemStoreFactory.getRewardBackItemCache();
+//		return cache.getMapItemStore(userId, RewardBackItem.class);
+		return null;
 	}
 	
 }

@@ -14,6 +14,7 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
@@ -25,7 +26,11 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -57,23 +62,34 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
-		List<ActivityFortuneCatTypeItem> addItemList = null;
-		String userId = player.getUserId();
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+		RoleExtPropertyStoreCache<ActivityFortuneCatTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_FORTUNECAT, ActivityFortuneCatTypeItem.class);
+		PlayerExtPropertyStore<ActivityFortuneCatTypeItem> store = null;
+		String userId= player.getUserId();
+		List<ActivityFortuneCatTypeItem> addList = null;
+		try {
+			store = storeCache.getAttachmentStore(userId);
+			addList = creatItems(userId, store);	
+			if(store != null&&addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	public List<ActivityFortuneCatTypeItem> creatItems(String userId, MapItemStore<ActivityFortuneCatTypeItem> itemStore) {
+	public List<ActivityFortuneCatTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityFortuneCatTypeItem> itemStore) {
 		List<ActivityFortuneCatTypeItem> addItemList = null;
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
-		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
+//		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
+		int id = Integer.parseInt(ActivityFortuneTypeEnum.FortuneCat.getCfgId());
 		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			
 			if (itemStore != null) {
-				if (itemStore.getItem(itemID) != null) {
+				if (itemStore.get(id) != null) {
 					return addItemList;
 				}
 			}
@@ -82,7 +98,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			item.setId(itemID);
+			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());			
@@ -315,7 +331,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		activityFortuneCatTypeItemHolder.updateItem(player, dataItem);
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {
 			if (isOpen(cfg, param)) {
@@ -325,12 +341,12 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	public boolean isOpen(ActivityFortuneCatTypeCfg cfg, MapItemValidateParam param) {
+	public boolean isOpen(ActivityFortuneCatTypeCfg cfg, long param) {
 		if (cfg != null) {
 
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

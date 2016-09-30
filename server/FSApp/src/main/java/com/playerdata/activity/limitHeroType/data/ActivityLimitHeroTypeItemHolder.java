@@ -8,6 +8,7 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
@@ -17,7 +18,11 @@ import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -42,7 +47,7 @@ public class ActivityLimitHeroTypeItemHolder{
 	{
 		
 		List<ActivityLimitHeroTypeItem> itemList = new ArrayList<ActivityLimitHeroTypeItem>();
-		Enumeration<ActivityLimitHeroTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityLimitHeroTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityLimitHeroTypeItem item = (ActivityLimitHeroTypeItem) mapEnum.nextElement();			
 			itemList.add(item);
@@ -52,7 +57,7 @@ public class ActivityLimitHeroTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityLimitHeroTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
@@ -63,7 +68,8 @@ public class ActivityLimitHeroTypeItemHolder{
 	
 	public ActivityLimitHeroTypeItem getItem(String userId){	
 		String itemId = ActivityLimitHeroHelper.getItemId(userId, ActivityLimitHeroEnum.LimitHero);
-		return getItemStore(userId).getItem(itemId);
+		int id = Integer.parseInt(ActivityLimitHeroEnum.LimitHero.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){
@@ -113,9 +119,18 @@ public class ActivityLimitHeroTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityLimitHeroTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityLimitHeroTypeItem> cache = MapItemStoreFactory.getActivityLimitHeroTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityLimitHeroTypeItem.class);
+	public PlayerExtPropertyStore<ActivityLimitHeroTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityLimitHeroTypeItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_LIMITHERO, ActivityLimitHeroTypeItem.class);
+		try {
+			return cache.getAttachmentStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

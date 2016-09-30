@@ -125,15 +125,15 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
-	private static MapItemStoreCache<ActivityLimitHeroTypeItem> activityLimitHeroTypeItemCache;
+//	private static MapItemStoreCache<ActivityLimitHeroTypeItem> activityLimitHeroTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
 
 	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
 
-	private static MapItemStoreCache<ActivityFortuneCatTypeItem> activityFortuneCatTypeItemCache;
+//	private static MapItemStoreCache<ActivityFortuneCatTypeItem> activityFortuneCatTypeItemCache;
 	
-	private static MapItemStoreCache<RewardBackItem> RewardBackItemCache;
+//	private static MapItemStoreCache<RewardBackItem> RewardBackItemCache;
 
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
@@ -263,13 +263,10 @@ public class MapItemStoreFactory {
 
 		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
 
-		activityFortuneCatTypeItemCache = createForPerload(ActivityFortuneCatTypeItem.class, "userId", heroCapacity);
-
-		activityLimitHeroTypeItemCache = createForPerload(ActivityLimitHeroTypeItem.class, "userId", heroCapacity);
 
 		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
 		
-		RewardBackItemCache  = createForPerload(RewardBackItem.class, "userId", heroCapacity);
+//		RewardBackItemCache  = createForPerload(RewardBackItem.class, "userId", heroCapacity);
 
 		
 		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
@@ -521,23 +518,11 @@ public class MapItemStoreFactory {
 
 	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
 		return activityDailyRechargeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityFortuneCatTypeItem> getActivityFortuneCatTypeItemCache() {
-		return activityFortuneCatTypeItemCache;
-	}
-
+	}	
 	
-	
-	
-	public static MapItemStoreCache<RewardBackItem> getRewardBackItemCache() {
-		return RewardBackItemCache;
-	}
-
-
-	public static MapItemStoreCache<ActivityLimitHeroTypeItem> getActivityLimitHeroTypeItemCache() {
-		return activityLimitHeroTypeItemCache;
-	}
+//	public static MapItemStoreCache<RewardBackItem> getRewardBackItemCache() {
+//		return RewardBackItemCache;
+//	}
 
 	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
 		return activityRedEnvelopeTypeItemCache;

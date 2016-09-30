@@ -4,15 +4,14 @@ import java.util.List;
 
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
+import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
-import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<ActivityCountTypeItem>{
+public class ActivityLimitHeroCreator implements PlayerExtPropertyCreator<ActivityLimitHeroTypeItem>{
 
 	@Override
 	public eOpenLevelType getOpenLevelType() {
@@ -22,17 +21,20 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 
 	@Override
 	public boolean validateOpenTime(long currentTimeMillis) {
-		return ActivityCountTypeMgr.getInstance().isOpen(currentTimeMillis);
+		// TODO Auto-generated method stub
+		return ActivityLimitHeroTypeMgr.getInstance().isOpen(currentTimeMillis);
 	}
 
 	@Override
-	public List<ActivityCountTypeItem> firstCreate(PlayerPropertyParams params) {
-		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
-		return ActivityCountTypeMgr.getInstance().creatItems(params.getUserId(), store);
+	public List<ActivityLimitHeroTypeItem> firstCreate(
+			PlayerPropertyParams params) {
+		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
+		return ActivityLimitHeroTypeMgr.getInstance().creatItems(params.getUserId(), store);
 	}
 
 	@Override
-	public List<ActivityCountTypeItem> checkAndCreate(PlayerExtPropertyStore store,
+	public List<ActivityLimitHeroTypeItem> checkAndCreate(
+			PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

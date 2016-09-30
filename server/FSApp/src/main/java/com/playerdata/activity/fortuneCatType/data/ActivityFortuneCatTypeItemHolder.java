@@ -8,6 +8,7 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
@@ -17,7 +18,11 @@ import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -42,7 +47,7 @@ public class ActivityFortuneCatTypeItemHolder{
 	{
 		
 		List<ActivityFortuneCatTypeItem> itemList = new ArrayList<ActivityFortuneCatTypeItem>();
-		Enumeration<ActivityFortuneCatTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityFortuneCatTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityFortuneCatTypeItem item = (ActivityFortuneCatTypeItem) mapEnum.nextElement();			
 			itemList.add(item);
@@ -52,13 +57,14 @@ public class ActivityFortuneCatTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityFortuneCatTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityFortuneCatTypeItem getItem(String userId){
-		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
-		return getItemStore(userId).getItem(itemID);
+//		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
+		int id = Integer.parseInt(ActivityFortuneTypeEnum.FortuneCat.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 	public boolean addItem(Player player, ActivityFortuneCatTypeItem item){
@@ -105,9 +111,19 @@ public class ActivityFortuneCatTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityFortuneCatTypeItem> cache = MapItemStoreFactory.getActivityFortuneCatTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityFortuneCatTypeItem.class);
+	public PlayerExtPropertyStore<ActivityFortuneCatTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityFortuneCatTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_FORTUNECAT, ActivityFortuneCatTypeItem.class);
+		try {
+			return storeCache.getAttachmentStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;//	PlayerExtPropertyStore<ActivityCountTypeItem> store= storeCache.getAttachmentStore(userId);
+
 	}
 	
 }

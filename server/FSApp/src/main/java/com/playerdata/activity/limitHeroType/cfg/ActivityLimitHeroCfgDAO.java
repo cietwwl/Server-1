@@ -75,8 +75,9 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 		if(cfg!=null){
 			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();	
 			String userid = player.getUserId();
-			String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
-			item.setId(itemId);
+//			String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
+			int id = Integer.parseInt(ActivityLimitHeroEnum.LimitHero.getCfgId());
+			item.setId(id);
 			item.setCfgId(cfg.getId());
 			item.setUserId(userid);
 			item.setVersion(cfg.getVersion());

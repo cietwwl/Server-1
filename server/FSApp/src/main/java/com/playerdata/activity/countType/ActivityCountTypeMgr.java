@@ -29,11 +29,14 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
-import com.rw.dataaccess.attachment.property.ActivityCountTypeProperty;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 
 public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
@@ -86,12 +89,24 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	 * 也可以将方法里的addlist改为add
 	 */
 	private void checkNewOpen(Player player) {
-//		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-//		String userId = player.getUserId();
-//		List<ActivityCountTypeItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-//		if (addItemList != null) {
-//			dataHolder.addItemList(player, addItemList);
-//		}
+		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
+		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
+		String userId= player.getUserId();
+		List<ActivityCountTypeItem> addList = null;
+		try {
+			store = storeCache.getAttachmentStore(userId);
+			addList = creatItems(userId, store);	
+			if(store != null&&addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public List<ActivityCountTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityCountTypeItem> store) {

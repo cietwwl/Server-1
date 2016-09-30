@@ -145,7 +145,7 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 			if (ext == null) {
 				return false;
 			}
-			return updateList.add(new Object[] { ext });
+			return updateList.add(new Object[] { ext ,key});
 		}
 
 		@Override
@@ -165,7 +165,7 @@ public class RoleExtPropertyStoreCache<T extends PlayerExtProperty> implements M
 					FSUtilLogger.error("extract params is null:" + key + "," + k + "," + cache.getName());
 					continue;
 				}
-				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext });
+				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext,key });
 			}
 			return true;
 		}
