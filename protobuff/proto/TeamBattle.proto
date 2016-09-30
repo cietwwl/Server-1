@@ -9,7 +9,7 @@ enum TBRequestType{
 	NON_SYN_TEAM_BATTLE = 2;	//请求不再同步组队副本信息
 	SAVE_TEAM_INFO = 3;		//保存个人的队伍信息
 	CREATE_TEAM = 4;	//创建队伍
-	JOIN_TEAM = 5;		//加入队伍
+	JOIN_TEAM = 5;		//加入队伍（快速加入）
 	LEAVE_TEAM = 6;		//离开队伍
 	ACCEPT_INVITE = 7;	//接受入队邀请
 	SET_TEAM_FREE_JION = 8;	//设置队伍是否可以快速加入
@@ -22,6 +22,8 @@ enum TBRequestType{
 	BUY_TIMES = 15;		//购买挑战次数
 	ADD_ROBOT=16;		//请求机器人
 	GET_CAN_JION_TEAMS = 17;	//请求可以加入的队伍列表
+	JION_TEAM_SINGLE_HARD = 18;	//选择一个可加入的队伍加入（从单一难度组队列表界面）
+	JION_TEAM_ALL_HARD = 19;	//选择一个可加入的队伍加入（从综合难度组队列表界面）
 }
 
 enum TBResultType {

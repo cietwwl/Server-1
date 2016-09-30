@@ -68,10 +68,10 @@ public class TeamBattleHandler {
 		return tbRsp.build().toByteString();
 	}
 
-	public ByteString acceptInvite(Player player, TeamBattleReqMsg msgTBRequest) {
+	public ByteString acceptInvite(Player player, TeamBattleReqMsg msgTBRequest, boolean isRefreshAllHard, boolean needRefreshJionAble) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.acceptInvite(player, tbRsp, msgTBRequest.getHardID(), msgTBRequest.getTeamID());
+		tbBM.acceptInvite(player, tbRsp, msgTBRequest.getHardID(), msgTBRequest.getTeamID(), isRefreshAllHard, needRefreshJionAble);
 		return tbRsp.build().toByteString();
 	}
 
@@ -169,7 +169,12 @@ public class TeamBattleHandler {
 	public ByteString getCanJionTeams(Player player, TeamBattleReqMsg request) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
 		TeamBattleBM tbBM = TeamBattleBM.getInstance();
-		tbBM.getCanJionTeams(player, tbRsp, request.getHardID());
+		String hardId = request.getHardID();
+		if(StringUtils.isBlank(hardId)){
+			tbBM.getCanJionTeams(player, tbRsp);
+		}else{
+			tbBM.getCanJionTeams(player, tbRsp, request.getHardID());
+		}
 		return tbRsp.build().toByteString();
 	}
 }

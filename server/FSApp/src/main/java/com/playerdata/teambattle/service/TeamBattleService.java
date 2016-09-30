@@ -45,7 +45,7 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 				result = mHandler.joinTeam(player, request);
 				break;
 			case ACCEPT_INVITE:
-				result = mHandler.acceptInvite(player, request);
+				result = mHandler.acceptInvite(player, request, false, false);
 				break;
 			case SET_TEAM_FREE_JION:
 				result = mHandler.setTeamFreeJion(player, request);
@@ -79,6 +79,13 @@ public class TeamBattleService implements FsService<TeamBattleReqMsg, TBRequestT
 				break;
 			case GET_CAN_JION_TEAMS:
 				result = mHandler.getCanJionTeams(player, request);
+				break;
+			case JION_TEAM_SINGLE_HARD:
+				result = mHandler.acceptInvite(player, request, false, true);
+				break;
+			case JION_TEAM_ALL_HARD:
+				result = mHandler.acceptInvite(player, request, true, true);
+				break;
 			default:
 				GameLog.error(LogModule.TeamBattle, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;

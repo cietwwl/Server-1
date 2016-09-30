@@ -49,7 +49,7 @@ public final class TeamBattleProto {
      * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
-     *加入队伍
+     *加入队伍（快速加入）
      * </pre>
      */
     JOIN_TEAM(4, 5),
@@ -149,6 +149,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     GET_CAN_JION_TEAMS(16, 17),
+    /**
+     * <code>JION_TEAM_SINGLE_HARD = 18;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从单一难度组队列表界面）
+     * </pre>
+     */
+    JION_TEAM_SINGLE_HARD(17, 18),
+    /**
+     * <code>JION_TEAM_ALL_HARD = 19;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从综合难度组队列表界面）
+     * </pre>
+     */
+    JION_TEAM_ALL_HARD(18, 19),
     ;
 
     /**
@@ -187,7 +203,7 @@ public final class TeamBattleProto {
      * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
-     *加入队伍
+     *加入队伍（快速加入）
      * </pre>
      */
     public static final int JOIN_TEAM_VALUE = 5;
@@ -287,6 +303,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     public static final int GET_CAN_JION_TEAMS_VALUE = 17;
+    /**
+     * <code>JION_TEAM_SINGLE_HARD = 18;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从单一难度组队列表界面）
+     * </pre>
+     */
+    public static final int JION_TEAM_SINGLE_HARD_VALUE = 18;
+    /**
+     * <code>JION_TEAM_ALL_HARD = 19;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从综合难度组队列表界面）
+     * </pre>
+     */
+    public static final int JION_TEAM_ALL_HARD_VALUE = 19;
 
 
     public final int getNumber() { return value; }
@@ -310,6 +342,8 @@ public final class TeamBattleProto {
         case 15: return BUY_TIMES;
         case 16: return ADD_ROBOT;
         case 17: return GET_CAN_JION_TEAMS;
+        case 18: return JION_TEAM_SINGLE_HARD;
+        case 19: return JION_TEAM_ALL_HARD;
         default: return null;
       }
     }
@@ -8250,7 +8284,7 @@ public final class TeamBattleProto {
       "%\n\005heros\030\006 \003(\0132\026.teamBattle.HeroSimple\"Q" +
       "\n\nHeroSimple\022\016\n\006modeId\030\001 \002(\005\022\r\n\005level\030\002 " +
       "\002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\021\n\tqualityId\030\004 \002(",
-      "\t*\342\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BATTLE\020\001" +
+      "\t*\225\003\n\rTBRequestType\022\023\n\017SYN_TEAM_BATTLE\020\001" +
       "\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_TEAM_I" +
       "NFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEAM\020\005\022\016\n" +
       "\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026\n\022SET_" +
@@ -8258,10 +8292,12 @@ public final class TeamBattleProto {
       "\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022\027\n\023INF" +
       "ORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHANGE\020\r\022\030" +
       "\n\024SAVE_MEMBER_POSITION\020\016\022\r\n\tBUY_TIMES\020\017\022" +
-      "\r\n\tADD_ROBOT\020\020\022\026\n\022GET_CAN_JION_TEAMS\020\021*W" +
-      "\n\014TBResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERRO",
-      "R\020\002\022\026\n\022DIAMOND_NOT_ENOUGH\020\003\022\022\n\016VIP_NOT_E" +
-      "NOUGH\020\004B\036\n\013com.rwprotoB\017TeamBattleProto"
+      "\r\n\tADD_ROBOT\020\020\022\026\n\022GET_CAN_JION_TEAMS\020\021\022\031" +
+      "\n\025JION_TEAM_SINGLE_HARD\020\022\022\026\n\022JION_TEAM_A",
+      "LL_HARD\020\023*W\n\014TBResultType\022\013\n\007SUCCESS\020\001\022\016" +
+      "\n\nDATA_ERROR\020\002\022\026\n\022DIAMOND_NOT_ENOUGH\020\003\022\022" +
+      "\n\016VIP_NOT_ENOUGH\020\004B\036\n\013com.rwprotoB\017TeamB" +
+      "attleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
