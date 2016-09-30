@@ -5,14 +5,14 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
-public class NewAttachmentEntry implements PreparedStatementSetter{
+public class InsertRoleExtPropertyData implements PreparedStatementSetter{
 
 	private final String ownerId;
 	private final short type;
 	private final int subType;
 	private String extension;
 
-	public NewAttachmentEntry(String ownerId, short type, int subType, String extension) {
+	public InsertRoleExtPropertyData(String ownerId, short type, int subType, String extension) {
 		super();
 		this.ownerId = ownerId;
 		this.type = type;
