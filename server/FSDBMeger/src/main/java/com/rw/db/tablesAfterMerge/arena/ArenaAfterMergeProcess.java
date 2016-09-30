@@ -50,7 +50,7 @@ public class ArenaAfterMergeProcess extends AbsAfterMergeProcess {
 		// 竞技场的4个职业和巅峰竞技场
 		for (Integer i : rankTypeList) {
 			DBLog.LogInfo("ArenaAfterMergeProcess", "ArenaAfterMergeProcess start process rankType:" + i);
-			String sql = "select * from ranking_swap where type = " + i + " order by ranking ";
+			String sql = "select ranking_swap.*, `user`.lastLoginTime as lastLoginTime from ranking_swap left JOIN user on ranking_swap.primary_key = `user`.userId where type = " + i + " order by ranking";
 
 			List<ArenaExt> query = DBMgr.getInstance().query(dbInfo.getDBName(), sql, new Object[] {}, ArenaExt.class);
 			
@@ -85,7 +85,7 @@ public class ArenaAfterMergeProcess extends AbsAfterMergeProcess {
 					arenaExt.setRanking(order);
 					ArenaExtAttribute arenaExtAttribute = arenaExt.getExtension();
 					String primary_key = arenaExt.getPrimary_key();
-					if (currentTime - arenaExtAttribute.getLastFightTime() > ConstantValue.ARENA_EXPIRE_TIME) {
+					if (currentTime - arenaExt.getLastLoginTime() > ConstantValue.ARENA_EXPIRE_TIME) {
 						deleteMap.put(primary_key, arenaExt);
 					} else {
 						arenaExtAttribute.setRankLevel(order);

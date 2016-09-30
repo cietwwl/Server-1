@@ -109,7 +109,7 @@ public class DBMergeMgr {
 		
 		DBLog.LogInfo("update platform", "----------------------start update platform!");
 		PlatformProcess process =new PlatformProcess();
-		process.exec(platformDB, Backup_OriginalDB.getZoneId(), Backup_TargetDB.getZoneId());
+		process.exec(platformDB, Backup_OriginalDB, Backup_TargetDB);
 		DBLog.LogInfo("update platform", "----------------------finish update platform!");
 		
 		long endT= System.currentTimeMillis();

@@ -15,6 +15,7 @@ public class ArenaExt {
 	private String primary_key;
 	private int type;
 	private int ranking;
+	private long lastLoginTime;
 	@SaveAsJson
 	private ArenaExtAttribute extension;
 	public long getId() {
@@ -46,5 +47,11 @@ public class ArenaExt {
 	}
 	public void setExtension(ArenaExtAttribute extension) {
 		this.extension = extension;
+	}
+	public long getLastLoginTime() {
+		return lastLoginTime;
+	}
+	public void setLastLoginTime(long lastLoginTime) {
+		this.lastLoginTime = lastLoginTime;
 	}
 }
