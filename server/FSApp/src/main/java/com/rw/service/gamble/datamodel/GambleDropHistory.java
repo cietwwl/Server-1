@@ -16,7 +16,7 @@ public class GambleDropHistory {
 	private int freeCount;// 当天使用免费抽卡次数，每日重置
 	private long lastFreeGambleTime;
 	private int hotCount;// 热点英雄抽卡次数，保底时重置
-	private int hotCheckRandomThreshold;
+	private int hotCheckRandomThreshold;//出现保留英雄的次数， 会在每次起服的时候进行初始化
 	private boolean firstChargeGamble = true;
 	
 	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
@@ -133,6 +133,7 @@ public class GambleDropHistory {
 		return hotCheckRandomThreshold;
 	}
 
+	
 	@JsonIgnore
 	public void GenerateHotCheckCount(Random r, int min, int max) {
 		if (min <= 0) {

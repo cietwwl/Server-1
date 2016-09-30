@@ -269,7 +269,7 @@ public class RandomBossMgr{
 		ad.setCurLife((int) record.getLeftHp());
 		ad.setMaxLife((int) monster.getLife());
 		attrList.add(ad);
-		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList);
+		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList, bossCfg.getLevelID());
 		
 		if(armyInfo == null){
 			response.setIsSuccess(false);
@@ -382,10 +382,10 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-//		int r = RandomUtil.getRandonIndexWithoutProb(10000);
-//		if(r > rbServerCfg.getBossBornRate()){
-//			return;
-//		}
+		int r = RandomUtil.getRandonIndexWithoutProb(10000);
+		if(r > rbServerCfg.getBossBornRate()){
+			return;
+		}
 		
 		//这里要根据权重进行随机
 		
