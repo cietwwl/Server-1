@@ -37,7 +37,7 @@ public class TBTeamItemMgr{
 	
 	public void synData(Player player){
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if(StringUtils.isNotBlank(utbData.getTeamID())){
+		if(StringUtils.isNotBlank(utbData.getTeamID()) && utbData.isSynTeam()){
 			String hardID = TBTeamItemHolder.getInstance().getHardIDFromTeamID(utbData.getTeamID());
 			TBTeamItem teamItem = TBTeamItemHolder.getInstance().getItem(hardID, utbData.getTeamID());
 			if(teamItem == null) return;

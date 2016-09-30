@@ -29,6 +29,9 @@ public class TeamBattleService implements FsService {
 			case SYN_TEAM_BATTLE:
 				result = mHandler.synTeamBattle(player, msgTBRequest);
 				break;
+			case NON_SYN_TEAM_BATTLE:
+				result = mHandler.nonSynTeamBattle(player, msgTBRequest);
+				break;
 			case SAVE_TEAM_INFO:
 				result = mHandler.saveTeamInfo(player, msgTBRequest);
 				break;

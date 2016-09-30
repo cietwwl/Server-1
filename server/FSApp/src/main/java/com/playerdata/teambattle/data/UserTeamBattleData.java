@@ -14,6 +14,7 @@ import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -43,6 +44,10 @@ public class UserTeamBattleData {
 	
 	@CombineSave
 	private HashMap<String, String> enimyMap = new HashMap<String, String>();	//每个难度里的，怪物组（每天不同的怪物组，前端用）
+	
+	@NonSave
+	@IgnoreSynField
+	private boolean isSynTeam = false;
 	
 	public String getId() {
 		return id;
@@ -100,6 +105,14 @@ public class UserTeamBattleData {
 		this.finishedHards = finishedHards;
 	}
 	
+	public boolean isSynTeam() {
+		return isSynTeam;
+	}
+
+	public void setSynTeam(boolean isSynTeam) {
+		this.isSynTeam = isSynTeam;
+	}
+
 	public HashMap<String, String> getEnimyMap() {
 		return enimyMap;
 	}

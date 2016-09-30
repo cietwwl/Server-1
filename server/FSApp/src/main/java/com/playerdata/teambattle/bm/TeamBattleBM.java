@@ -59,8 +59,21 @@ public class TeamBattleBM {
 	 * @param tbRsp
 	 */
 	public void synTeamBattle(Player player, Builder tbRsp) {
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData != null) utbData.setSynTeam(true);
 		UserTeamBattleDataMgr.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(player);
+		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+	
+	/**
+	 * 不再同步组队数据
+	 * @param player
+	 * @param tbRsp
+	 */
+	public void nonSynTeamBattle(Player player, Builder tbRsp){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData != null) utbData.setSynTeam(false);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 

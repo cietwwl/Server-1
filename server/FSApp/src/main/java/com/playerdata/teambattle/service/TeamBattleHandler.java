@@ -24,6 +24,13 @@ public class TeamBattleHandler {
 		tbBM.synTeamBattle(player, tbRsp);
 		return tbRsp.build().toByteString();
 	}
+	
+	public ByteString nonSynTeamBattle(Player player, TeamBattleReqMsg msgTBRequest) {
+		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
+		TeamBattleBM tbBM = TeamBattleBM.getInstance();
+		tbBM.nonSynTeamBattle(player, tbRsp);
+		return tbRsp.build().toByteString();
+	}
 
 	public ByteString saveTeamInfo(Player player, TeamBattleReqMsg msgTBRequest) {
 		TeamBattleRspMsg.Builder tbRsp = TeamBattleRspMsg.newBuilder();
