@@ -307,11 +307,23 @@ public class GCompTeamMgr {
 		}
 		
 		GCompTeam team = this._dataHolder.getTeamOfUser(matchAndGroupInfo.getT2(), player.getUserId(), matchAndGroupInfo.getT1());
+		if(team == null) {
+			// 没有队伍的情况
+			result.setT2(GCompTips.getTipsYouAreNotInTeam());
+			return result;
+		}
+		
 		GCompTeamMember teamMember = team.getTeamMember(player.getUserId());
+		if(teamMember == null) {
+			// 有可能被踢了
+			result.setT2(GCompTips.getTipsYouAreNotInTeam());
+			return result;
+		}
 		this.updateHerosInternal(player, teamMember, newHeroIds, result);
 		
 		
 		_dataHolder.synToAllMembers(team);
+		result.setT1(true);
 		
 		return result;
 	}
