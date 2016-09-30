@@ -70,8 +70,9 @@ public class ArmyInfoHelper {
 //		armyPlayer.setFighting(player.);
 		if(magic!=null){
 			armyInfo.setArmyMagic(new ArmyMagic(magic));
+		}else{
+			armyInfo.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
-
 		List<ArmyHero> heroList = getArmyHeros(player, heroIdList);
 		armyInfo.setHeroList(heroList);
 		return armyInfo;

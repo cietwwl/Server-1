@@ -440,6 +440,7 @@ public class TeamBattleBM {
 			}else{
 				teamMember.setState(TBMemberState.HalfFinish);
 			}
+			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
 			utbData.getFinishedLoops().add(battleTime);
 			TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());

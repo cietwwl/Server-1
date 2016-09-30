@@ -56,14 +56,6 @@ public class TBTeamItemMgr{
 		}
 	}
 	
-	public void createNewTeam(Player player, String hardID){
-		
-	}
-	
-	public void joinTeam(Player player, String hardID){
-		
-	}
-	
 	private void setTeamMemberTeams(TBTeamItem teamItem){
 		List<StaticMemberTeamInfo> memTeams = new ArrayList<StaticMemberTeamInfo>();
 		if(teamItem == null) return;
