@@ -8,17 +8,17 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.fixEquip.cfg.FixEquipCfg;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "fix_exp_equip_item")
-public class FixExpEquipDataItem implements  IMapItem {
+public class FixExpEquipDataItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private Integer id;
 	
 	private String ownerId;
 
@@ -38,14 +38,17 @@ public class FixExpEquipDataItem implements  IMapItem {
 	
 	@CombineSave
 	private int storedExp; //升级剩余的经验
+
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public String strId() {
+		return String.valueOf(id);
+	}
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	
 	public String getOwnerId() {
 		return ownerId;
 	}

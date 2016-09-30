@@ -1,5 +1,6 @@
 package com.rw.dataaccess.hero;
 
+
 public class HeroCreateParam {
 
 	private final String userId; // 玩家id
@@ -7,14 +8,17 @@ public class HeroCreateParam {
 	private final String qualityId; // 品质id
 	private final int playerLevel; // 玩家等级
 	private final int heroLevel; // 英雄等级
+	private final int modelId;		//模型id
+	
 
-	public HeroCreateParam(String userId, String heroId, String qualityId, int playerLevel, int heroLevel) {
+	public HeroCreateParam(String userId, String heroId, String qualityId, int playerLevel, int heroLevel, int modelId) {
 		super();
 		this.userId = userId;
 		this.heroId = heroId;
 		this.qualityId = qualityId;
 		this.playerLevel = playerLevel;
 		this.heroLevel = heroLevel;
+		this.modelId = modelId;
 	}
 
 	public String getUserId() {
@@ -36,5 +40,10 @@ public class HeroCreateParam {
 	public int getHeroLevel() {
 		return heroLevel;
 	}
+
+	public int getModelId() {
+		return modelId;
+	}
+	
 
 }
