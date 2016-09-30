@@ -40,9 +40,13 @@ public class FresherActivityCreator implements PlayerExtPropertyCreator<FresherA
 			eActivityType type = fresherActivityCfg.geteType();
 			
 			FresherActivityItem fresherActivityItem = new FresherActivityItem();
-			fresherActivityCfg.setCfgId(cfgId);
+			fresherActivityItem.setCfgId(cfgId);
 			fresherActivityItem.setType(type);
 			fresherActivityItem.setStatus((byte)0);
+			String maxValue = fresherActivityCfg.getMaxValue();
+			if (maxValue != null && !maxValue.equals("")) {
+				fresherActivityItem.setCurrentValue("0/" + fresherActivityCfg.getMaxValue());
+			}
 			
 			long openTime = 0;
 			if (fresherActivityCfg.getStartTimeType() == FresherActivityChecker.START_TYPE_OPENTIME) {

@@ -4,14 +4,18 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.enu.eActivityType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
-public class FresherActivityItem implements PlayerExtProperty, FresherActivityItemIF {
+public class FresherActivityItem implements RoleExtProperty, FresherActivityItemIF {
 
+	private final byte FinishTrue = 1;
+	private final byte GiftTakenTrue = 2;
+	private final byte CloseTrue = 4;
+	
 	private String currentValue; // 当前值
 	private eActivityType type;
 
@@ -36,6 +40,9 @@ public class FresherActivityItem implements PlayerExtProperty, FresherActivityIt
 
 	public void setStatus(byte status) {
 		this.status = status;
+		isFinish();
+		isGiftTaken();
+		isClosed();
 	}
 
 	public int getCfgId() {
@@ -51,15 +58,18 @@ public class FresherActivityItem implements PlayerExtProperty, FresherActivityIt
 	}
 
 	public boolean isFinish() {
-		return (status & 1) > 0;
+		this.isFinish = (status & 1) > 0;
+		return isFinish;
 	}
 
 	public boolean isGiftTaken() {
-		return (status & 2) > 0;
+		this.isGiftTaken = (status & 2) > 0;
+		return isGiftTaken;
 	}
 
 	public boolean isClosed() {
-		return (status & 4) > 0;
+		this.isClosed = (status & 4) > 0;
+		return isClosed;
 	}
 
 	public void setCfgId(int cfgId) {
@@ -74,16 +84,33 @@ public class FresherActivityItem implements PlayerExtProperty, FresherActivityIt
 		this.endTime = endTime;
 	}
 
+	
+	
 	public void setFinish(boolean isFinish) {
-		status = (byte)(status | 1);
+		if (isFinish) {
+			status = (byte) (status | FinishTrue);
+		}else{
+			status = (byte)(status & (0xFF - FinishTrue));
+		}
+		this.isFinish = isFinish;
 	}
 
 	public void setGiftTaken(boolean isGiftTaken) {
-		status = (byte)(status | 2);
+		if (isGiftTaken) {
+			status = (byte) (status | GiftTakenTrue);
+		} else {
+			status = (byte) (status & (0xFF - GiftTakenTrue));
+		}
+		this.isGiftTaken = isGiftTaken;
 	}
 
 	public void setClosed(boolean isClosed) {
-		status = (byte)(status | 4);
+		if (isClosed) {
+			status = (byte) (status | CloseTrue);
+		} else {
+			status = (byte) (status & 0xFF - CloseTrue);
+		}
+		this.isClosed = isClosed;
 	}
 
 	public eActivityType getType() {

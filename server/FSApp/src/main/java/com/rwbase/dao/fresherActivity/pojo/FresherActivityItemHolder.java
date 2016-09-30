@@ -58,7 +58,7 @@ public class FresherActivityItemHolder {
 		RoleExtPropertyStoreCache<FresherActivityItem> freshCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FresherActivity, FresherActivityItem.class);
 		PlayerExtPropertyStore<FresherActivityItem> attachmentStore;
 		try {
-			attachmentStore = freshCache.getAttachmentStore(ownerId);
+			attachmentStore = freshCache.getStore(ownerId);
 			return attachmentStore;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
@@ -105,14 +105,18 @@ public class FresherActivityItemHolder {
 	}
 	
 	public void synAllData(Player player, int version) {
-		if (blnFinish) {
-			return;
-		}
 		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
 		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
 		while (fresherActivityItems.hasMoreElements()) {
 			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
+			//有活动可以领奖但是没有领奖 则表示活动还没有结束
+			if(!fresherActivityItem.isFinish() || (!fresherActivityItem.isGiftTaken() && fresherActivityItem.isFinish()) || fresherActivityItem.getEndTime() > System.currentTimeMillis()){
+				blnFinish = false;
+			}
 			list.add(fresherActivityItem);
+		}
+		if(blnFinish){
+			return;
 		}
 		synListData(player, list);
 	}
