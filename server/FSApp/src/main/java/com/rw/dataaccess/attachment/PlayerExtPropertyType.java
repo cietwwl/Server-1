@@ -2,9 +2,11 @@ package com.rw.dataaccess.attachment;
 
 import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityCreator;
+import com.rwbase.dao.fresherActivity.pojo.FresherActivityItem;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
-
+	FresherActivity(10, FresherActivityItem.class, FresherActivityCreator.class),
 	;
 
 	private final Class<? extends PlayerExtProperty> propertyClass;

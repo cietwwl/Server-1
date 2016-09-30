@@ -11,6 +11,10 @@ import java.util.Map.Entry;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
@@ -46,162 +50,39 @@ public class FresherActivityItemHolder {
 	 */
 	public FresherActivityItemHolder(String userId) {
 		ownerId = userId;
-		initFresherActivityMap(userId);
+		
 
 	}
 	
-	private MapItemStore<FresherActivityBigItem> getMapItemStroe(String ownerId){
-		MapItemStoreCache<FresherActivityBigItem> cache = MapItemStoreFactory.getFresherActivityCache();
-		return cache.getMapItemStore(ownerId, FresherActivityBigItem.class);
+	private PlayerExtPropertyStore<FresherActivityItem> getMapItemStroe(){
+		RoleExtPropertyStoreCache<FresherActivityItem> freshCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FresherActivity, FresherActivityItem.class);
+		PlayerExtPropertyStore<FresherActivityItem> attachmentStore;
+		try {
+			attachmentStore = freshCache.getAttachmentStore(ownerId);
+			return attachmentStore;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
-	private Map<Integer, FresherActivityBigItem> getFresherActivityBigItemMap(){
-		MapItemStore<FresherActivityBigItem> fresherActivityStore = getMapItemStroe(ownerId);
-		Enumeration<FresherActivityBigItem> mapEnumeration = fresherActivityStore.getEnum();
-		Map<Integer, FresherActivityBigItem> map = new HashMap<Integer, FresherActivityBigItem>();
-		while(mapEnumeration.hasMoreElements()){
-			FresherActivityBigItem item = mapEnumeration.nextElement();
-			map.put(item.getActivityType().ordinal(), item);
-
-		}
-		return map;
-	}
-
-	public List<FresherActivityItem> getFresherActivityItemList(){
-		MapItemStore<FresherActivityBigItem> fresherActivityStore = getMapItemStroe(ownerId);
-		Enumeration<FresherActivityBigItem> mapEnumeration = fresherActivityStore.getEnum();
-		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
-		while(mapEnumeration.hasMoreElements()){
-			FresherActivityBigItem item = mapEnumeration.nextElement();
-			List<FresherActivityItem> itemList = item.getItemList();
-			list.addAll(itemList);
-		}
-		return list;
+	public Enumeration<FresherActivityItem> getFresherActivityItem(){
+		PlayerExtPropertyStore<FresherActivityItem> mapItemStroe = getMapItemStroe();
+		return mapItemStroe.getExtPropertyEnumeration();
 	}
 	
 	private Map<Integer, FresherActivityItem> getFresherActivityItemMap(){
-		MapItemStore<FresherActivityBigItem> fresherActivityStore = getMapItemStroe(ownerId);
-		Enumeration<FresherActivityBigItem> mapEnumeration = fresherActivityStore.getEnum();
-		 Map<Integer, FresherActivityItem> map = new HashMap<Integer, FresherActivityItem>();
-		while(mapEnumeration.hasMoreElements()){
-			FresherActivityBigItem item = mapEnumeration.nextElement();
-			List<FresherActivityItem> itemList = item.getItemList();
-			for (FresherActivityItem fresherActivityItem : itemList) {
-				map.put(fresherActivityItem.getCfgId(), fresherActivityItem);
-			}
+		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
+		Map<Integer, FresherActivityItem> map = new HashMap<Integer, FresherActivityItem>();
+		while (fresherActivityItems.hasMoreElements()) {
+			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
+			map.put(fresherActivityItem.getCfgId(), fresherActivityItem);
 		}
 		return map;
-	}
-	
-	/**
-	 * 根据配置获取所有的新手活动配置
-	 */
-	private void initFresherActivityMap(String ownerId){
-		List<FresherActivityCfg> allCfg = FresherActivityCfgDao.getInstance().getAllCfg();
-		MapItemStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe(ownerId);
-		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
-		User user = UserDataDao.getInstance().getByUserId(ownerId);
-		boolean blnUpdate =false;
-		ArrayList<FresherActivityBigItem> addItemList = null;
-		for (FresherActivityCfg fresherActivityCfg : allCfg) {
-			int cfgId = fresherActivityCfg.getCfgId();
-			int activityType = fresherActivityCfg.getActivityType();
-			
-			if(mapItemStoreList.containsKey(activityType)){
-				FresherActivityBigItem fresherActivityBigItem = mapItemStoreList.get(activityType);
-				List<FresherActivityItem> itemList = fresherActivityBigItem.getItemList();
-				boolean blnExist = false;
-				for (FresherActivityItem fresherActivityItem : itemList) {
-					//有活动可以领奖但是没有领奖 则表示活动还没有结束
-					if(!fresherActivityItem.isFinish() || (!fresherActivityItem.isGiftTaken() && fresherActivityItem.isFinish()) || fresherActivityItem.getEndTime() > System.currentTimeMillis()){
-						blnFinish = false;
-					}
-					if(fresherActivityItem.getCfgId() == cfgId){
-						blnExist = true;
-						refreshActivityTime(fresherActivityItem, fresherActivityCfg, user);
-						break;
-					}
-				}
-				if(!blnExist){
-					if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId, user)){
-						mapItemStroe.updateItem(fresherActivityBigItem);
-						blnUpdate = true;
-					}
-				}
-				continue;
-			} else {
-				FresherActivityBigItem fresherActivityBigItem = new FresherActivityBigItem();
-				fresherActivityBigItem.setId(ownerId + activityType);
-				fresherActivityBigItem.setOwnerId(ownerId);
-				eActivityType type = eActivityType.getTypeByOrder(fresherActivityCfg.getActivityType());
-				fresherActivityBigItem.setActivityType(type);
-				if(createNewFresherActivity(fresherActivityCfg, fresherActivityBigItem, ownerId, user)){
-//					mapItemStroe.addItem(fresherActivityBigItem);
-					if(addItemList == null){
-						addItemList = new ArrayList<FresherActivityBigItem>();
-					}
-					addItemList.add(fresherActivityBigItem);
-				}
-				mapItemStoreList.put(type.ordinal(), fresherActivityBigItem);
-			}
-		}
-		if(addItemList!=null){
-			try {
-				mapItemStroe.addItem(addItemList);
-			} catch (DuplicatedKeyException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-	
-	public boolean createNewFresherActivity(FresherActivityCfg fresherActivityCfg, FresherActivityBigItem fresherActivityBigItem, String ownerId, User user){
-		long current = System.currentTimeMillis();
-		FresherActivityItem fresherActivityItem = new FresherActivityItem();
-
-		
-		refreshActivityTime(fresherActivityItem, fresherActivityCfg, user);
-		long endTime = fresherActivityItem.getEndTime();
-		if (endTime != -1 && endTime <= current) {
-			return false;
-		}
-		int cfgId = fresherActivityCfg.getCfgId();
-		fresherActivityItem.setCfgId(cfgId);
-		fresherActivityItem.setType(fresherActivityCfg.geteType());
-		String maxValue = fresherActivityCfg.getMaxValue();
-		if(maxValue != null && !maxValue.equals("")){
-			fresherActivityItem.setCurrentValue("0/" + fresherActivityCfg.getMaxValue());
-		}
-		List<FresherActivityItem> itemList = fresherActivityBigItem.getItemList();
-		itemList.add(fresherActivityItem);
-		blnFinish = false;
-		return true;
-	}
-
-	/**
-	 * 读取配置表的时间
-	 * 
-	 * @param fresherActivityItem
-	 * @param fresherActivityCfg
-	 */
-	private void refreshActivityTime(FresherActivityItem fresherActivityItem, FresherActivityCfg fresherActivityCfg, User user) {
-		long openTime = 0;
-		if(fresherActivityCfg.getStartTimeType() == FresherActivityChecker.START_TYPE_OPENTIME){
-			openTime = GameManager.getOpenTime();
-		}else{
-			long createTime = user.getCreateTime();
-			openTime = DateUtils.getHour(createTime, 5);   //五点为重置时间
-			//当前创建时间已经转天而且小于5点 应该算上一天
-			if(createTime < openTime){
-				openTime -= 24*60*60*1000l;
-			}
-		}
-		fresherActivityItem.setStartTime(fresherActivityCfg.getStartTime() * DAY_TIME + openTime);
-		if (fresherActivityCfg.getEndTime() == -1) {
-			fresherActivityItem.setEndTime(-1);
-		} else {
-			fresherActivityItem.setEndTime(fresherActivityCfg.getStartTime() * DAY_TIME + openTime + fresherActivityCfg.getEndTime() * DAY_TIME);
-		}
 	}
 
 	/**
@@ -211,13 +92,14 @@ public class FresherActivityItemHolder {
 	 * @return
 	 */
 	public List<FresherActivityItem> getFresherActivityItemsByType(eActivityType type) {
-		MapItemStore<FresherActivityBigItem> itemStroe = getMapItemStroe(ownerId);
-		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
-		FresherActivityBigItem fresherActivityBigItem = mapItemStoreList.get(type.ordinal());
-		
 		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
-		if(fresherActivityBigItem != null){
-			list = fresherActivityBigItem.getItemList();
+		
+		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
+		while (fresherActivityItems.hasMoreElements()) {
+			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
+			if(fresherActivityItem.getType() == type){
+				list.add(fresherActivityItem);
+			}
 		}
 		return list;
 	}
@@ -227,12 +109,10 @@ public class FresherActivityItemHolder {
 			return;
 		}
 		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
-		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
-		for (Iterator<Entry<Integer, FresherActivityBigItem>> iterator = mapItemStoreList.entrySet().iterator(); iterator.hasNext();) {
-			Entry<Integer, FresherActivityBigItem> next = iterator.next();
-			FresherActivityBigItem item = next.getValue();
-			List<FresherActivityItem> itemList = item.getItemList();
-			list.addAll(itemList);
+		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
+		while (fresherActivityItems.hasMoreElements()) {
+			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
+			list.add(fresherActivityItem);
 		}
 		synListData(player, list);
 	}
@@ -296,27 +176,21 @@ public class FresherActivityItemHolder {
 	}
 	
 	public FresherActivityItem getFresherActivityItemsById(int cfgId){
-		Map<String, FresherActivityCfg> maps = FresherActivityCfgDao.getInstance().getMaps();
-		FresherActivityCfg fresherActivityCfg = maps.get(String.valueOf(cfgId));
-		int activityType = fresherActivityCfg.getActivityType();
 		
-		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
-		FresherActivityBigItem fresherActivityBigItem = mapItemStoreList.get(activityType);
-		
-		List<FresherActivityItem> itemList = fresherActivityBigItem.getItemList();
-		for (FresherActivityItem fresherActivityItem : itemList) {
+		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
+		while (fresherActivityItems.hasMoreElements()) {
+			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
 			if(fresherActivityItem.getCfgId() == cfgId){
 				return fresherActivityItem;
 			}
 		}
 		return null;
+
 	}
 	
 	private void updateFresherActivityItem(FresherActivityItem fresherActivityItem){
-		Map<Integer, FresherActivityBigItem> map = getFresherActivityBigItemMap();
-		FresherActivityBigItem fresherActivityBigItem = map.get(fresherActivityItem.getType().ordinal());
-		MapItemStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe(ownerId);
-		mapItemStroe.updateItem(fresherActivityBigItem);
+		PlayerExtPropertyStore<FresherActivityItem> mapItemStroe = getMapItemStroe();
+		mapItemStroe.update(fresherActivityItem.getId());
 	}
 	
 	public void synListData(Player player, List<FresherActivityItem> list){

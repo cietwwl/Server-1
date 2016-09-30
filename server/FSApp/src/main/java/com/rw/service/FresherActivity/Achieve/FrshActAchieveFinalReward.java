@@ -3,6 +3,7 @@ package com.rw.service.FresherActivity.Achieve;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,10 +33,11 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 	@Override
 	public String achieveFresherActivityReward(Player player, int cfgId, FresherActivityItemHolder holder) {
 		// TODO Auto-generated method stub
-		List<FresherActivityItem> list = holder.getFresherActivityItemList();
+		Enumeration<FresherActivityItem> list = holder.getFresherActivityItem();
 		int finishCount = 0;
 		int totalCount = 0;
-		for (FresherActivityItem data : list) {
+		while(list.hasMoreElements()){
+			FresherActivityItem data = list.nextElement();
 			if (data.isFinish()) {
 				finishCount++;
 			}

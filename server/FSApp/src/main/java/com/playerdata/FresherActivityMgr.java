@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -93,7 +94,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		if (fresherActivityItemHolder == null) {
 			return configList;
 		}
-		List<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItemList();
+		Enumeration<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItem();
 
 		FresherActivityItem finalActItem = null;// 最终的任务
 
@@ -101,7 +102,9 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		int totalCount = 0;// 总数量
 
 		long now = System.currentTimeMillis();
-		for (FresherActivityItem item : fresherActivityItemList) {
+		while(fresherActivityItemList.hasMoreElements()){
+			FresherActivityItem item = fresherActivityItemList.nextElement();
+			
 			if (item.getType() == eActivityType.A_Final) {
 				finalActItem = item;
 			}
