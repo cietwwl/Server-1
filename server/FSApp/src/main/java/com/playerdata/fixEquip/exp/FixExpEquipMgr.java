@@ -27,7 +27,6 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
-import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -63,13 +62,13 @@ public class FixExpEquipMgr {
 	};
 
 	public boolean initIfNeed(Player player, Hero hero) {
-		if (!isInited(player, hero)) {
-			try {
-				newHeroInit(player, hero.getUUId(), hero.getModeId());
-			} catch (Exception e) {
-				GameLog.error(LogModule.FixEquip, "playerId:" + player.getUserId(), "英雄神器初始化失败,heroId:" + hero.getUUId(), e);
-			}
-		}
+//		if (!isInited(player, hero)) {
+//			try {
+//				newHeroInit(player, hero.getUUId(), hero.getModeId());
+//			} catch (Exception e) {
+//				GameLog.error(LogModule.FixEquip, "playerId:" + player.getUserId(), "英雄神器初始化失败,heroId:" + hero.getUUId(), e);
+//			}
+//		}
 		return true;
 	}
 
@@ -88,7 +87,7 @@ public class FixExpEquipMgr {
 
 		int slot = 4;
 		for (String cfgId : roleFixEquipCfg.getExpCfgIdList()) {
-			String id = FixEquipHelper.getExpItemId(ownerId, cfgId);
+			Integer id = FixEquipHelper.getExpItemId(ownerId, cfgId);
 
 			FixExpEquipDataItem FixExpEquipDataItem = new FixExpEquipDataItem();
 			FixExpEquipDataItem.setId(id);
@@ -188,7 +187,7 @@ public class FixExpEquipMgr {
 			if (level == nextQualityLevel) {
 				FixEquipResult result = checkQualityUp(player, ownerId, dataItem, equipQualityCfgDAO);
 				if (result.isSuccess()) {
-					upIdList.add(dataItem.getId());
+					upIdList.add(dataItem.strId());
 				}
 			}
 		}
@@ -203,7 +202,7 @@ public class FixExpEquipMgr {
 		for (FixExpEquipDataItem dataItem : itemList) {
 			FixEquipResult result = checkStarUp(player, ownerId, dataItem);
 			if (result.isSuccess()) {
-				upIdList.add(dataItem.getId());
+				upIdList.add(dataItem.strId());
 			}
 
 		}
@@ -243,7 +242,7 @@ public class FixExpEquipMgr {
 				result = checkLevelUpCost(player, dataItem, totalExp);
 			}
 			if (result != null && result.isSuccess()) {
-				canUpList.add(dataItem.getId());
+				canUpList.add(dataItem.strId());
 			}
 		}
 		return canUpList;
@@ -285,7 +284,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
 		FixEquipResult result = checkLevel(player, ownerId, dataItem);
 		if (result.isSuccess()) {
 			result = doLevelUp(player, dataItem, reqParams);
@@ -488,7 +487,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult qualityUp(Player player, String ownerId, String itemId) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
 
 		FixEquipResult result = checkQualityUp(player, ownerId, dataItem, null);
 		if (result.isSuccess()) {
@@ -561,7 +560,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult starUp(Player player, String ownerId, String itemId) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
 
 		FixEquipResult result = checkStarUp(player, ownerId, dataItem);
 		if (result.isSuccess()) {
@@ -627,7 +626,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult starDown(Player player, String ownerId, String itemId) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
 
 		FixEquipResult result = checkStarDown(player, ownerId, dataItem);
 		if (result.isSuccess()) {

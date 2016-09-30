@@ -10,10 +10,11 @@ import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroExtPropertyType;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -32,7 +33,7 @@ public class FixNormEquipDataItemHolder{
 	{
 		
 		List<FixNormEquipDataItem> itemList = new ArrayList<FixNormEquipDataItem>();
-		Enumeration<FixNormEquipDataItem> mapEnum = getItemStore(ownerId).getEnum();
+		Enumeration<FixNormEquipDataItem> mapEnum = getItemStore(ownerId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			FixNormEquipDataItem item = (FixNormEquipDataItem) mapEnum.nextElement();
 			itemList.add(item);
@@ -42,17 +43,16 @@ public class FixNormEquipDataItemHolder{
 	}
 	
 	public void updateItem(Player player, FixNormEquipDataItem item){
-		getItemStore(item.getOwnerId()).updateItem(item);
+		getItemStore(item.getOwnerId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), item.getOwnerId());
 	}
 	public void updateItemList(Player player, List<FixNormEquipDataItem> itemList){
 		if (itemList.size() > 0) {
 			String heroId = itemList.get(0).getOwnerId();
-			MapItemStore<FixNormEquipDataItem> itemStore = getItemStore(heroId);
+			PlayerExtPropertyStore<FixNormEquipDataItem> itemStore = getItemStore(heroId);
 			for (FixNormEquipDataItem item : itemList) {
-//				getItemStore(item.getOwnerId()).updateItem(item);
-				itemStore.updateItem(item);
+				itemStore.update(item.getId());
 			}
 			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 			notifyChange(player.getUserId(), heroId);
@@ -60,8 +60,8 @@ public class FixNormEquipDataItemHolder{
 	}
 	
 	
-	public FixNormEquipDataItem getItem(String heroId, String itemId){		
-		return getItemStore(heroId).getItem(itemId);
+	public FixNormEquipDataItem getItem(String heroId, Integer itemId){		
+		return getItemStore(heroId).get(itemId);
 	}
 	
 	
@@ -99,9 +99,15 @@ public class FixNormEquipDataItemHolder{
 	}
 
 	
-	private MapItemStore<FixNormEquipDataItem> getItemStore(String ownerId) {
-		MapItemStoreCache<FixNormEquipDataItem> cache = MapItemStoreFactory.getFixNormEquipDataItemCache();
-		return cache.getMapItemStore(ownerId, FixNormEquipDataItem.class);
+	private PlayerExtPropertyStore<FixNormEquipDataItem> getItemStore(String heroId) {
+		RoleExtPropertyStoreCache<FixNormEquipDataItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.FIX_NORM_EQUIP, FixNormEquipDataItem.class);
+		PlayerExtPropertyStore<FixNormEquipDataItem> store = null;
+		try {
+			store = heroExtCache.getStore(heroId);
+		} catch (Throwable e) {
+			GameLog.error(LogModule.FixEquip, "heroId:"+heroId, "can not get PlayerExtPropertyStore, HeroExtPropertyType:"+HeroExtPropertyType.FIX_NORM_EQUIP, e);
+		}
+		return store;
 	}
 	
 }
