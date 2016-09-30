@@ -20,7 +20,7 @@ public class UserTeamBattleDataMgr {
 	
 	public void synData(Player player){
 		UserTeamBattleDataHolder.getInstance().synData(player);
-		TBTeamItemMgr.getInstance().synData(player);
+		// TBTeamItemMgr.getInstance().synData(player);
 	}
 	
 	/**
@@ -33,22 +33,21 @@ public class UserTeamBattleDataMgr {
 		UserTeamBattleDataHolder.getInstance().synData(player);
 	}
 	
+	/**
+	 * 离开队伍（主动离开，切换队伍，被踢）
+	 * @param userID
+	 */
 	public void leaveTeam(String userID){
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userID);
 		if(StringUtils.isBlank(utbData.getTeamID())) return;
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
 		if(teamItem != null) {
-			TeamMember self = null;
-			for(TeamMember member : teamItem.getMembers()){
-				if(StringUtils.equals(userID, member.getUserID())){
-					self = member;
-				}
-			}
+			TeamMember self = teamItem.findMember(userID);
 			if(self != null && self.getState().equals(TBMemberState.Ready)){
 				teamItem.removeMember(self);
-			}
-			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
-				TBTeamItemHolder.getInstance().synData(teamItem);
+				if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
+					TBTeamItemHolder.getInstance().synData(teamItem);
+				}
 			}
 		}
 		utbData.clearCurrentTeam();

@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.teambattle.enums.TBMemberState;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
@@ -55,7 +56,10 @@ public class TBTeamItemHolder{
 	public void synData(TBTeamItem teamItem){
 		for(TeamMember member : teamItem.getMembers()){
 			Player player = PlayerMgr.getInstance().find(member.getUserID());
-			if(player!= null) synData(player, teamItem);
+			if(player!= null && !member.getState().equals(TBMemberState.Finish) && 
+					!member.getState().equals(TBMemberState.Leave)) {
+				synData(player, teamItem);
+			}
 		}
 	}
 	

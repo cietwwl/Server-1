@@ -32,7 +32,7 @@ public class UserTeamBattleData {
 	private int tbGold; // 组队战货币
 	
 	@CombineSave
-	private List<String> finishedLoops = new ArrayList<String>();	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
+	private List<Integer> finishedLoops = new ArrayList<Integer>();	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
 	
 	@CombineSave
 	private List<String> finishedHards = new ArrayList<String>();	//已经完成的章节
@@ -60,11 +60,11 @@ public class UserTeamBattleData {
 		this.teamID = teamID;
 	}
 
-	public List<String> getFinishedLoops() {
+	public List<Integer> getFinishedLoops() {
 		return finishedLoops;
 	}
 
-	public void setFinishedLoops(List<String> finishedLoops) {
+	public void setFinishedLoops(List<Integer> finishedLoops) {
 		this.finishedLoops = finishedLoops;
 	}
 
