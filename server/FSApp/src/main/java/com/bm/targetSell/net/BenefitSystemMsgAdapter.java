@@ -21,8 +21,10 @@ import com.rwbase.gameworld.GameWorldFactory;
  */
 public class BenefitSystemMsgAdapter {
 
+	//用于计算包头的key
 	private final static int MSG_KEY = 13542;
 	
+	//接收消息的最大buffer容量
 	private final static int RECV_BUFFER_SIZE = 1024 * 32 ;
 	
 	private Socket socket;
@@ -36,13 +38,16 @@ public class BenefitSystemMsgAdapter {
 	private int timeoutMillis;
 
 	private BenefitSystemMsgService msgService = BenefitSystemMsgService.getHandler();
+	
+	//停服标记
 	private AtomicBoolean shutDown = new AtomicBoolean(false);
+	
+	//连接成功标记
 	private AtomicBoolean connectComplete = new AtomicBoolean(false);
 	
 	public BenefitSystemMsgAdapter(String host, int port, int timeoutMillis) {
 		remoteAddress = new InetSocketAddress(host, port);
 		this.timeoutMillis = timeoutMillis;
-		this.socket = createSocket();
 		
 		startReciver();
 	}
@@ -59,8 +64,12 @@ public class BenefitSystemMsgAdapter {
 		return socket;
 	}
 	
+	/**
+	 * 检查连接是否可用
+	 * @return
+	 */
 	public boolean isAvaliable(){
-		return socket.isConnected() && !socket.isClosed() && connectComplete.get();
+		return socket != null && socket.isConnected() && !socket.isClosed() && connectComplete.get();
 	}
 	
 	// 网络重连
@@ -81,6 +90,10 @@ public class BenefitSystemMsgAdapter {
 		return connectComplete.get();
 	}
 	
+	/**
+	 * 向精准服发送消息
+	 * @param content 消息内容
+	 */
 	public void sendMsg(String content){
 		try {
 			if(!isAvaliable()){
@@ -130,6 +143,9 @@ public class BenefitSystemMsgAdapter {
 		return new String(temp,"utf-8");
 	}
 	
+	/**
+	 * 停服通知
+	 */
 	public void shutdown(){
 		shutDown.compareAndSet(false, true);
 		closeSocket();
@@ -171,6 +187,10 @@ public class BenefitSystemMsgAdapter {
 		}).start();
 	}
 	
+	
+	/**
+	 * 关闭旧连接
+	 */
 	private void closeSocket(){
 		try {
 			reader.close();

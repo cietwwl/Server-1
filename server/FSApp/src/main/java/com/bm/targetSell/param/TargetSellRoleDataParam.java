@@ -11,17 +11,13 @@ public class TargetSellRoleDataParam extends TargetSellAbsArgs{
 	//角色变化的属性
 	private RoleAttrs attrs;
 
-	public RoleAttrs getArgs() {
+	public RoleAttrs getAttrs() {
 		return attrs;
 	}
 
-	public void setArgs(RoleAttrs args) {
-		this.attrs = args;
+	public void setAttrs(RoleAttrs attrs) {
+		this.attrs = attrs;
 	}
-
-
-	
-	
 
 
 }

@@ -234,7 +234,7 @@ public class TargetSellManager {
 		roleData = iniCommonParam(roleData, user.getChannelId(), userID, user.getAccount());
 		RoleAttrs attrs = new RoleAttrs();
 		attrs.setCharge(totalChargeMoney);
-		roleData.setArgs(attrs);
+		roleData.setAttrs(attrs);
 		data.setArgs(toJsonObj(roleData));
 		sendMsg(toJsonString(data));
 	}
@@ -435,7 +435,7 @@ public class TargetSellManager {
 			TargetSellData msgData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
 			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
 
-			roleData.setArgs(attrs);
+			roleData.setAttrs(attrs);
 			msgData.setArgs(toJsonObj(roleData));
 			sendMsg(toJsonString(msgData));
 			
@@ -472,7 +472,7 @@ public class TargetSellManager {
 			attrs.setLastLoginTime(user.getLastLoginTime());
 			
 			
-			roleData.setArgs(attrs);
+			roleData.setAttrs(attrs);
 			sellData.setArgs(toJsonObj(roleData));
 			sendMsg(toJsonString(sellData));
 			
