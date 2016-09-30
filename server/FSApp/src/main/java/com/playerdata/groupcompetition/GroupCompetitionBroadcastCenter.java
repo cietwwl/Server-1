@@ -62,7 +62,7 @@ public class GroupCompetitionBroadcastCenter {
 				List<IReadOnlyPair<Integer, List<String>>> copy = new ArrayList<IReadOnlyPair<Integer, List<String>>>(_broadcastQueue);
 				_broadcastQueue.clear();
 				for (IReadOnlyPair<Integer, List<String>> msg : copy) {
-					MainMsgHandler.getInstance().sendMainCityMsg(msg.getT1().intValue(), EMsgType.PmdMsg, msg.getT2());
+					MainMsgHandler.getInstance().sendMainCityMsg(msg.getT1().intValue(), EMsgType.GroupCompetitionMsg, msg.getT2());
 				}
 			}
 			return null;

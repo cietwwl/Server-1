@@ -20,11 +20,49 @@ class RandomMatchingData {
 	private boolean robot; // 是否机器人
 	private long deadline; // 匹配超时时间
 	
-	public RandomMatchingData(String pUserId, List<String> pHeroIds) {
-		this.userId = pUserId;
-		this.heroIds = new ArrayList<String>(pHeroIds);
-		this.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
-		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, deadline);
+//	public RandomMatchingData(String pUserId, List<String> pHeroIds) {
+//		this.userId = pUserId;
+//		this.heroIds = new ArrayList<String>(pHeroIds);
+//		this.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
+//		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, deadline);
+//	}
+	
+	private RandomMatchingData() {}
+	
+	private static RandomMatchingData createGeneralData(String userId, List<String> pHeroIds) {
+		RandomMatchingData data = new RandomMatchingData();
+		data.userId = userId;
+		data.heroIds = new ArrayList<String>(pHeroIds);
+		return data;
+	}
+	
+	/**
+	 * 
+	 * 创建一个主动提交的随机匹配数据，这个会有一个匹配超时的数据
+	 * 
+	 * @param userId
+	 * @param pHeroIds
+	 * @return
+	 */
+	static RandomMatchingData createActiveSubmitData(String userId, List<String> pHeroIds) {
+		RandomMatchingData data = createGeneralData(userId, pHeroIds);
+		data.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
+		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, data.deadline);
+		return data;
+	}
+	
+	/**
+	 * 
+	 * 创建一个机器人的数据
+	 * 
+	 * @param userId
+	 * @param pHeroIds
+	 * @return
+	 */
+	static RandomMatchingData createRobotData(String userId, List<String> pHeroIds) {
+		RandomMatchingData data = createGeneralData(userId, pHeroIds);
+		data.robot = true;
+		return data;
 	}
 	
 	/**

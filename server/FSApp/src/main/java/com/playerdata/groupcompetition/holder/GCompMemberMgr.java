@@ -44,6 +44,9 @@ public class GCompMemberMgr {
 	public void notifyEventsStart(List<String> groupIds) {
 		this._allMembers.clear();
 		for (String groupId : groupIds) {
+			if (groupId == null || groupId.length() == 0) {
+				continue;
+			}
 			Map<String, GCompMember> map = new ConcurrentHashMap<String, GCompMember>();
 			List<GCompMember> list = new ArrayList<GCompMember>();
 			_allMembers.put(groupId, map);
