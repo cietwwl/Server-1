@@ -476,7 +476,7 @@ public class GCompMatchDataHolder {
 	private static final float HP_MAX_CHANGE_RATE = 0.1f;// 每秒中最大变化0.1
 	private static final float MAX_FIGHTING_RATE = 1;// 最大的战力差比
 
-	private static final int LOGOUT_TIME_MILLIS = 5000;// 5秒未开始战斗，直接判定失败
+	private static final int LOGOUT_TIME_MILLIS = 10000;// 10秒未开始战斗，直接判定失败
 	private static final int MAX_TIMEOUT_MILLIS = 100000;// 共给100秒的时间去处理超时
 
 	/**
@@ -519,16 +519,18 @@ public class GCompMatchDataHolder {
 			for (int i = 0; i < size; i++) {
 				member = members.get(i);
 				GCompBattleResult result = member.getResult();
+				String userId = member.getUserId();
 				// 有了战斗结果
 				if (result != GCompBattleResult.NonStart && result != GCompBattleResult.Fighting) {
 					myAddScore += result.myAdd;
 					enemyAddScore += result.enemyAdd;
+					if (!member.isRobot()) {// 不是机器人的情况
+						needBattleResultList.add(userId);
+					}
 					continue;
 				}
 
 				if (!member.isRobot()) {// 不是机器人的情况
-					String userId = member.getUserId();
-
 					needBattleResultList.add(userId);
 
 					// 还没开始战斗，并且已经超出了战斗上限，直接判输
@@ -630,17 +632,17 @@ public class GCompMatchDataHolder {
 				}
 			}
 
+			// 要把需要推送到前台的消息发送出去
+			sendMsg(hpRsp, needSynHpPlayerIdList);
+			// 要同步战斗结果
+			sendMsg(battleResultRsp, needBattleResultList);
+			
 			if (allBattleFinish) {
 				// 战斗结果处理
 				teamBattleResultHandler(myTeam, getTeamBattleResult(myAddScore, enemyAddScore));
 				// 增加一个要删除的MatchId
 				removeMatchIdList.add(e.getKey());
 			}
-
-			// 要把需要推送到前台的消息发送出去
-			sendMsg(hpRsp, needSynHpPlayerIdList);
-			// 要同步战斗结果
-			sendMsg(battleResultRsp, needBattleResultList);
 		}
 
 		// 删除匹配
