@@ -6,13 +6,13 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.rw.fsutil.dao.attachment.NewAttachmentEntry;
+import com.rw.fsutil.dao.attachment.InsertRoleExtPropertyData;
 
 public class PlayerExtPropertyUtil {
 
-	public static <T extends PlayerExtProperty>  NewAttachmentEntry convert(ObjectMapper mapper, String searchId, short type, T t) throws JsonGenerationException, JsonMappingException, IOException {
+	public static <T extends RoleExtProperty>  InsertRoleExtPropertyData convert(ObjectMapper mapper, String searchId, short type, T t) throws JsonGenerationException, JsonMappingException, IOException {
 		String extension = mapper.writeValueAsString(t);
-		NewAttachmentEntry entry = new NewAttachmentEntry(searchId, type, t.getId(), extension);
+		InsertRoleExtPropertyData entry = new InsertRoleExtPropertyData(searchId, type, t.getId(), extension);
 		return entry;
 	}
 	
