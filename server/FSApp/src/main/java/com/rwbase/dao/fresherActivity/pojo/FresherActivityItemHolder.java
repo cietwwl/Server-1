@@ -1,7 +1,6 @@
 package com.rwbase.dao.fresherActivity.pojo;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,27 +8,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rw.manager.GameManager;
-import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
-import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
-import com.rwbase.dao.user.User;
-import com.rwbase.dao.user.UserDataDao;
 
 /**
  * 开服活动数据
@@ -50,37 +40,60 @@ public class FresherActivityItemHolder {
 	 */
 	public FresherActivityItemHolder(String userId) {
 		ownerId = userId;
-		
-
 	}
 	
-	private PlayerExtPropertyStore<FresherActivityItem> getMapItemStroe(){
-		RoleExtPropertyStoreCache<FresherActivityItem> freshCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FresherActivity, FresherActivityItem.class);
-		PlayerExtPropertyStore<FresherActivityItem> attachmentStore;
+	private PlayerExtPropertyStore<FresherActivityBigItem> getMapItemStroe(){
+		RoleExtPropertyStoreCache<FresherActivityBigItem> playerExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FresherActivity, FresherActivityBigItem.class);
+		
+		PlayerExtPropertyStore<FresherActivityBigItem> store;
 		try {
-			attachmentStore = freshCache.getStore(ownerId);
-			return attachmentStore;
+			store = playerExtCache.getStore(ownerId);
+			return store;
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			GameLog.error("FresherActivityItemHolder InterruptedException", ownerId, e.getMessage());
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			GameLog.error("FresherActivityItemHolder Throwable", ownerId, e.getMessage());
 		}
 		return null;
 	}
 	
-	public Enumeration<FresherActivityItem> getFresherActivityItem(){
-		PlayerExtPropertyStore<FresherActivityItem> mapItemStroe = getMapItemStroe();
-		return mapItemStroe.getExtPropertyEnumeration();
+	private Map<Integer, FresherActivityBigItem> getFresherActivityBigItemMap(){
+		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		Enumeration<FresherActivityBigItem> mapEnumeration = mapItemStroe.getExtPropertyEnumeration();
+		Map<Integer, FresherActivityBigItem> map = new HashMap<Integer, FresherActivityBigItem>();
+		while(mapEnumeration.hasMoreElements()){
+			FresherActivityBigItem item = mapEnumeration.nextElement();
+			map.put(item.getActivityType().ordinal(), item);
+
+		}
+		return map;
+	}
+
+	public List<FresherActivityItem> getFresherActivityItemList(){
+		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		Enumeration<FresherActivityBigItem> mapEnumeration = mapItemStroe.getExtPropertyEnumeration();
+		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
+		while(mapEnumeration.hasMoreElements()){
+			FresherActivityBigItem item = mapEnumeration.nextElement();
+			List<FresherActivityItem> itemList = item.getItemList();
+			list.addAll(itemList);
+		}
+		return list;
 	}
 	
 	private Map<Integer, FresherActivityItem> getFresherActivityItemMap(){
-		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
-		Map<Integer, FresherActivityItem> map = new HashMap<Integer, FresherActivityItem>();
-		while (fresherActivityItems.hasMoreElements()) {
-			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
-			map.put(fresherActivityItem.getCfgId(), fresherActivityItem);
+		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		Enumeration<FresherActivityBigItem> mapEnumeration = mapItemStroe.getExtPropertyEnumeration();
+		 Map<Integer, FresherActivityItem> map = new HashMap<Integer, FresherActivityItem>();
+		while(mapEnumeration.hasMoreElements()){
+			FresherActivityBigItem item = mapEnumeration.nextElement();
+			List<FresherActivityItem> itemList = item.getItemList();
+			for (FresherActivityItem fresherActivityItem : itemList) {
+				map.put(fresherActivityItem.getCfgId(), fresherActivityItem);
+			}
 		}
 		return map;
 	}
@@ -92,28 +105,29 @@ public class FresherActivityItemHolder {
 	 * @return
 	 */
 	public List<FresherActivityItem> getFresherActivityItemsByType(eActivityType type) {
-		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
+		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
+		FresherActivityBigItem fresherActivityBigItem = mapItemStoreList.get(type.ordinal());
 		
-		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
-		while (fresherActivityItems.hasMoreElements()) {
-			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
-			if(fresherActivityItem.getType() == type){
-				list.add(fresherActivityItem);
-			}
+		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
+		if(fresherActivityBigItem != null){
+			list = fresherActivityBigItem.getItemList();
 		}
 		return list;
 	}
 	
 	public void synAllData(Player player, int version) {
 		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
-		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
-		while (fresherActivityItems.hasMoreElements()) {
-			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
-			//有活动可以领奖但是没有领奖 则表示活动还没有结束
-			if(!fresherActivityItem.isFinish() || (!fresherActivityItem.isGiftTaken() && fresherActivityItem.isFinish()) || fresherActivityItem.getEndTime() > System.currentTimeMillis()){
-				blnFinish = false;
+		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
+		for (Iterator<Entry<Integer, FresherActivityBigItem>> iterator = mapItemStoreList.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, FresherActivityBigItem> next = iterator.next();
+			FresherActivityBigItem item = next.getValue();
+			List<FresherActivityItem> itemList = item.getItemList();
+			for (FresherActivityItem fresherActivityItem : itemList) {
+				if(!fresherActivityItem.isFinish() || (!fresherActivityItem.isGiftTaken() && fresherActivityItem.isFinish()) || fresherActivityItem.getEndTime() > System.currentTimeMillis()){
+					blnFinish = false;
+				}
 			}
-			list.add(fresherActivityItem);
+			list.addAll(itemList);
 		}
 		if(blnFinish){
 			return;
@@ -180,21 +194,27 @@ public class FresherActivityItemHolder {
 	}
 	
 	public FresherActivityItem getFresherActivityItemsById(int cfgId){
+		Map<String, FresherActivityCfg> maps = FresherActivityCfgDao.getInstance().getMaps();
+		FresherActivityCfg fresherActivityCfg = maps.get(String.valueOf(cfgId));
+		int activityType = fresherActivityCfg.getActivityType();
 		
-		Enumeration<FresherActivityItem> fresherActivityItems = getFresherActivityItem();
-		while (fresherActivityItems.hasMoreElements()) {
-			FresherActivityItem fresherActivityItem = (FresherActivityItem) fresherActivityItems.nextElement();
+		Map<Integer, FresherActivityBigItem> mapItemStoreList = getFresherActivityBigItemMap();
+		FresherActivityBigItem fresherActivityBigItem = mapItemStoreList.get(activityType);
+		
+		List<FresherActivityItem> itemList = fresherActivityBigItem.getItemList();
+		for (FresherActivityItem fresherActivityItem : itemList) {
 			if(fresherActivityItem.getCfgId() == cfgId){
 				return fresherActivityItem;
 			}
 		}
 		return null;
-
 	}
 	
 	private void updateFresherActivityItem(FresherActivityItem fresherActivityItem){
-		PlayerExtPropertyStore<FresherActivityItem> mapItemStroe = getMapItemStroe();
-		mapItemStroe.update(fresherActivityItem.getId());
+		Map<Integer, FresherActivityBigItem> map = getFresherActivityBigItemMap();
+		FresherActivityBigItem fresherActivityBigItem = map.get(fresherActivityItem.getType().ordinal());
+		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		mapItemStroe.update(fresherActivityBigItem.getId());
 	}
 	
 	public void synListData(Player player, List<FresherActivityItem> list){

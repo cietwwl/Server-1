@@ -94,7 +94,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		if (fresherActivityItemHolder == null) {
 			return configList;
 		}
-		Enumeration<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItem();
+		List<FresherActivityItem> fresherActivityItemList = fresherActivityItemHolder.getFresherActivityItemList();
 
 		FresherActivityItem finalActItem = null;// 最终的任务
 
@@ -102,8 +102,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		int totalCount = 0;// 总数量
 
 		long now = System.currentTimeMillis();
-		while(fresherActivityItemList.hasMoreElements()){
-			FresherActivityItem item = fresherActivityItemList.nextElement();
+		for (FresherActivityItem item : fresherActivityItemList) {
 			
 			if (item.getType() == eActivityType.A_Final) {
 				finalActItem = item;

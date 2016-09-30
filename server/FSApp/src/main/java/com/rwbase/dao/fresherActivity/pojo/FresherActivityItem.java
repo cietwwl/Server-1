@@ -1,17 +1,15 @@
 package com.rwbase.dao.fresherActivity.pojo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.dao.annotation.NonSave;
 import com.rwbase.common.enu.eActivityType;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
-public class FresherActivityItem implements RoleExtProperty, FresherActivityItemIF {
-
+public class FresherActivityItem implements FresherActivityItemIF {
 	private final byte FinishTrue = 1;
 	private final byte GiftTakenTrue = 2;
 	private final byte CloseTrue = 4;
@@ -25,11 +23,11 @@ public class FresherActivityItem implements RoleExtProperty, FresherActivityItem
 
 	private long endTime;
 
-	@NonSave
+	@JsonIgnore
 	private boolean isFinish; // 是否完成
-	@NonSave
+	@JsonIgnore
 	private boolean isGiftTaken;// 是否领奖
-	@NonSave
+	@JsonIgnore
 	private boolean isClosed; // 领取完奖励关闭该item
 	@IgnoreSynField
 	private byte status;
@@ -56,17 +54,17 @@ public class FresherActivityItem implements RoleExtProperty, FresherActivityItem
 	public long getEndTime() {
 		return endTime;
 	}
-
+	@JsonIgnore
 	public boolean isFinish() {
 		this.isFinish = (status & 1) > 0;
 		return isFinish;
 	}
-
+	@JsonIgnore
 	public boolean isGiftTaken() {
 		this.isGiftTaken = (status & 2) > 0;
 		return isGiftTaken;
 	}
-
+	@JsonIgnore
 	public boolean isClosed() {
 		this.isClosed = (status & 4) > 0;
 		return isClosed;
@@ -85,7 +83,7 @@ public class FresherActivityItem implements RoleExtProperty, FresherActivityItem
 	}
 
 	
-	
+	@JsonIgnore
 	public void setFinish(boolean isFinish) {
 		if (isFinish) {
 			status = (byte) (status | FinishTrue);
@@ -94,7 +92,7 @@ public class FresherActivityItem implements RoleExtProperty, FresherActivityItem
 		}
 		this.isFinish = isFinish;
 	}
-
+	@JsonIgnore
 	public void setGiftTaken(boolean isGiftTaken) {
 		if (isGiftTaken) {
 			status = (byte) (status | GiftTakenTrue);
@@ -103,7 +101,7 @@ public class FresherActivityItem implements RoleExtProperty, FresherActivityItem
 		}
 		this.isGiftTaken = isGiftTaken;
 	}
-
+	@JsonIgnore
 	public void setClosed(boolean isClosed) {
 		if (isClosed) {
 			status = (byte) (status | CloseTrue);
@@ -127,11 +125,6 @@ public class FresherActivityItem implements RoleExtProperty, FresherActivityItem
 
 	public void setCurrentValue(String currentValue) {
 		this.currentValue = currentValue;
-	}
-
-	@Override
-	public Integer getId() {
-		return cfgId;
 	}
 
 }

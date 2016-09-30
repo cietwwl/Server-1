@@ -33,11 +33,10 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 	@Override
 	public String achieveFresherActivityReward(Player player, int cfgId, FresherActivityItemHolder holder) {
 		// TODO Auto-generated method stub
-		Enumeration<FresherActivityItem> list = holder.getFresherActivityItem();
+		List<FresherActivityItem> fresherActivityItemList = holder.getFresherActivityItemList();
 		int finishCount = 0;
 		int totalCount = 0;
-		while(list.hasMoreElements()){
-			FresherActivityItem data = list.nextElement();
+		for (FresherActivityItem data : fresherActivityItemList) {
 			if (data.isFinish()) {
 				finishCount++;
 			}
