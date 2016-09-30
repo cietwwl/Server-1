@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import com.alibaba.druid.util.StringUtils;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.EmailLogTemplate;
@@ -95,7 +96,9 @@ public class EmailMgr implements PlayerEventListener {
 		if (data != null) {
 			if (!data.isChecked() /*&& StringUtils.isEmpty(data.getEmailAttachment())*/) {
 				data.setChecked(true);
-				BILogMgr.getInstance().logEmail(userId, data, EmailLogTemplate.EamilOpType.EMAIL_OPEN);
+				if(StringUtils.isEmpty(data.getEmailAttachment())){
+					BILogMgr.getInstance().logEmail(userId, data, EmailLogTemplate.EamilOpType.EMAIL_OPEN);
+				}
 			}
 			checkUnread();
 			return true;

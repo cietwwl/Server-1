@@ -640,9 +640,10 @@ public class BILogMgr {
 		try {
 			Map<String, String> moreInfo = new HashMap<String, String>();
 			moreInfo.put("opType", opType.getId());
+			moreInfo.put("userId", userId);
 			moreInfo.put("emailId", emailData.getEmailId());
-			moreInfo.put("emailTitle", emailData.getTitle());
-			moreInfo.put("emailContent", emailData.getContent());
+			moreInfo.put("emailTitle", emailData.getTitle().replace("\n", "\\n").replace("\r", "\\r"));
+			moreInfo.put("emailContent", emailData.getContent().replace("\n", "\\n").replace("\r", "\\r"));
 			moreInfo.put("coolTime", DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
 			moreInfo.put("expireTime", DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
 
