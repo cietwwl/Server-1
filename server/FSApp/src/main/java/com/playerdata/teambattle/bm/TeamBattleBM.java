@@ -148,6 +148,7 @@ public class TeamBattleBM {
 		utbData.setTeamID(teamID);
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		UserTeamBattleDataMgr.getInstance().synData(player);
+		TBTeamItemMgr.getInstance().synData(player);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 

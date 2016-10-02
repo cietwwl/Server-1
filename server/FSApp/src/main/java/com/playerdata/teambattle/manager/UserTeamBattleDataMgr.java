@@ -20,7 +20,6 @@ public class UserTeamBattleDataMgr {
 	
 	public void synData(Player player){
 		UserTeamBattleDataHolder.getInstance().synData(player);
-		// TBTeamItemMgr.getInstance().synData(player);
 	}
 	
 	/**
