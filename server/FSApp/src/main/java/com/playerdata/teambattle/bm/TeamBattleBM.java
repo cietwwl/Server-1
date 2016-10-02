@@ -1,6 +1,8 @@
 package com.playerdata.teambattle.bm;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,7 @@ import com.playerdata.teambattle.manager.TeamMatchMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfg;
@@ -126,6 +129,7 @@ public class TeamBattleBM {
 		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
 		staticMemInfo.setUserID(player.getUserId());
 		staticMemInfo.setUserStaticTeam(simpleArmy);
+		staticMemInfo.setFashionUsing(FashionHandle.getInstance().getFashionUsedProto(player.getUserId()));
 		HashMap<String, Integer> heroPosMap = new HashMap<String, Integer>();
 		if(item.getHeroIDs() != null){
 			for(int i = 0; i < item.getHeroIDs().size(); i++){
@@ -233,14 +237,17 @@ public class TeamBattleBM {
 	 */
 	public void joinTeam(Player player, Builder tbRsp, String hardID) {
 		if(StringUtils.isBlank(hardID)){
+			hardID = getJionAbleHard(player);
+		}
+		if(StringUtils.isBlank(hardID)){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不存在该难度的副本");
+			tbRsp.setTipMsg("没有合适的副本可供加入");
 			return;
 		}
 		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardID);
 		if(teamCfg == null){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不存在该难度的副本");
+			tbRsp.setTipMsg("没有合适的副本可供加入");
 			return;
 		}
 		if(player.getLevel() < teamCfg.getLevel()){
@@ -892,8 +899,14 @@ public class TeamBattleBM {
 				tbRsp.addCanJoinTeams(clientTeam);
 			}
 		}
+		tbRsp.setRefreshJoinAble(true);
 	}
 	
+	/**
+	 * 简化版本的组队信息
+	 * @param teamItem
+	 * @return
+	 */
 	private TeamItem toClientTeamItem(TBTeamItem teamItem){
 		TeamItem.Builder teamBuilder = TeamItem.newBuilder();
 		teamBuilder.setTeamID(teamItem.getTeamID());
@@ -932,5 +945,39 @@ public class TeamBattleBM {
 		heroBuilder.setStarLevel(hero.getStarLevel());
 		heroBuilder.setQualityId(hero.getQualityId());
 		return heroBuilder.build();
+	}
+	
+	/**
+	 * 获取一个可以快速加入的难度
+	 * @param player
+	 * @return
+	 */
+	private String getJionAbleHard(Player player){
+		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
+		if(null == teamCfgs || teamCfgs.isEmpty()){
+			return null;
+		}
+		Collections.sort(teamCfgs, new Comparator<TeamCfg>() {
+			@Override
+			public int compare(TeamCfg o1, TeamCfg o2) {
+				if(Integer.parseInt(o1.getId()) > Integer.parseInt(o2.getId())) return 1;
+				if(Integer.parseInt(o1.getId()) < Integer.parseInt(o2.getId())) return -1;
+				return 0;
+			}
+		});
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		for(TeamCfg cfg : teamCfgs){
+			if(player.getLevel() > cfg.getLevel()){
+				//等级达到
+				if (UserTeamBattleDataMgr.getInstance().haveFightTimes(player, cfg.getId())) {
+					//还有次数
+					if(StringUtils.isBlank(utbData.getTeamID())){
+						//没有队伍
+						return cfg.getId();
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

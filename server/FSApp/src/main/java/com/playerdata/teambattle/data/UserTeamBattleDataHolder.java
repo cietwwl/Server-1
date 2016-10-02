@@ -7,6 +7,8 @@ import com.playerdata.Player;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
+import com.rw.service.fashion.FashionHandle;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -26,6 +28,10 @@ public class UserTeamBattleDataHolder {
 	public void update(Player player, UserTeamBattleData data) {
 		UserTeamBattleDAO.getInstance().update(data);
 		ClientDataSynMgr.synData(player, data, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	public void updateWithoutSyn(Player player, UserTeamBattleData data) {
+		UserTeamBattleDAO.getInstance().update(data);
 	}
 	
 	/**
@@ -60,5 +66,17 @@ public class UserTeamBattleDataHolder {
 		if(simpleArmy == null) return;
 		utbData.getSelfTeamInfo().setUserStaticTeam(simpleArmy);
 		update(player, utbData);
+	}
+	
+	/**
+	 * 当角色时装变化时
+	 * @param player
+	 */
+	public void updateUserTBFashion(Player player){
+		UserTeamBattleData utbData = get(player.getUserId());
+		if(null == utbData || null == utbData.getSelfTeamInfo() || null == utbData.getSelfTeamInfo().getUserStaticTeam()) return;
+		StaticMemberTeamInfo teamMemInfo = utbData.getSelfTeamInfo();
+		teamMemInfo.setFashionUsing(FashionHandle.getInstance().getFashionUsedProto(player.getUserId()));
+		updateWithoutSyn(player, utbData);
 	}
 }
