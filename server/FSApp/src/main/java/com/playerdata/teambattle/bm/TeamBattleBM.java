@@ -96,6 +96,10 @@ public class TeamBattleBM {
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		utbData.setSelfTeamInfo(staticMemInfo);
 		UserTeamBattleDataHolder.getInstance().synData(player);
+		if(StringUtils.isNotBlank(utbData.getTeamID())){
+			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+			if(teamItem != null) TBTeamItemMgr.getInstance().synData(utbData.getTeamID());
+		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
