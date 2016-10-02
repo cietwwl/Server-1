@@ -95,8 +95,6 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				
-				
 				//帮派副本定时发奖
 				GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 			}

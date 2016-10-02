@@ -65,6 +65,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     CANCEL_APPLY_ITEM(6, 7),
+    /**
+     * <code>GET_DIST_REWARD_LOG = 8;</code>
+     *
+     * <pre>
+     *获取奖励分配记录
+     * </pre>
+     */
+    GET_DIST_REWARD_LOG(7, 8),
     ;
 
     /**
@@ -119,6 +127,14 @@ public final class GroupCopyCmdProto {
      * </pre>
      */
     public static final int CANCEL_APPLY_ITEM_VALUE = 7;
+    /**
+     * <code>GET_DIST_REWARD_LOG = 8;</code>
+     *
+     * <pre>
+     *获取奖励分配记录
+     * </pre>
+     */
+    public static final int GET_DIST_REWARD_LOG_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -132,6 +148,7 @@ public final class GroupCopyCmdProto {
         case 5: return APPLY_SERVER_RANK;
         case 6: return APPLY_WAR_PRICE;
         case 7: return CANCEL_APPLY_ITEM;
+        case 8: return GET_DIST_REWARD_LOG;
         default: return null;
       }
     }
@@ -4982,14 +4999,15 @@ public final class GroupCopyCmdProto {
       "ank\022.\n\010rankData\030\001 \003(\0132\034.GroupCopyCmd.Arm" +
       "yHurtStruct\"b\n\016ArmyHurtStruct\022\020\n\010headIco" +
       "n\030\001 \002(\t\022\020\n\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n" +
-      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005*\246\001\n\020Grou" +
+      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\005*\277\001\n\020Grou" +
       "pCopyReqType\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_A" +
       "PPLY_INFO\020\002\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROU" +
       "P_HURT_RANK\020\004\022\025\n\021APPLY_SERVER_RANK\020\005\022\023\n\017" +
       "APPLY_WAR_PRICE\020\006\022\025\n\021CANCEL_APPLY_ITEM\020\007" +
-      "*H\n\022GroupCopyMapStatus\022\013\n\007LOCKING\020\000\022\014\n\010N",
-      "OTSTART\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B \n\013co" +
-      "m.rwprotoB\021GroupCopyCmdProto"
+      "\022\027\n\023GET_DIST_REWARD_LOG\020\010*H\n\022GroupCopyMa",
+      "pStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013\n\007ON" +
+      "GOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021Grou" +
+      "pCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

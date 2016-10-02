@@ -48,6 +48,7 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
 import com.rwbase.gameworld.GameWorldExecutor;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -231,39 +232,6 @@ public class GroupCopyMgr {
 		}
 	}
 
-	/**
-	 * 作弊通关 
-	 * @param player
-	 * @param levelID
-	 * @return
-	 */
-	public GroupCopyResult cheatEndFight(Player player, String levelID){
-		//先找到原来的记录
-		GroupCopyLevelRecord lvRecord = lvRecordHolder.getByLevel(levelID);
-		GroupCopyProgress p;
-		List<GroupCopyMonsterSynStruct> monsterList = new ArrayList<GroupCopyMonsterSynStruct>();
-		if(lvRecord == null || lvRecord.getProgress() == null){
-			//原来没有记录，则从配置表初始化
-			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelID);
-			List<String> list = levelCfg.getmIDList();
-			CopyMonsterCfg monsterCfg = null;
-			GroupCopyMonsterSynStruct mStruct = null;
-			for (String id : list) {
-				 monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
-				 mStruct = new GroupCopyMonsterSynStruct(monsterCfg);
-				 monsterList.add(mStruct);
-			}
-		}else{
-			List<GroupCopyMonsterSynStruct> getmDatas = lvRecord.getProgress().getmDatas();
-			
-			
-		}
-		
-		//这些怪物扣掉500HP
-		return null;
-		
-	}
-
 	
 	private int getDamage(List<GroupCopyMonsterSynStruct> mData, String level){
 		GroupCopyProgress nowPro = new GroupCopyProgress(mData);
@@ -394,8 +362,8 @@ public class GroupCopyMgr {
 	 * @param player
 	 * @param version
 	 */
-	public void synRewardData(Player player, int version){
-		rewardRecordHolder.synAllData(player, version);
+	public void synRewardLogData(Player player){
+		rewardRecordHolder.synAllData(player);
 	}
 	
 	public void synDropAppyData(Player player, String chaterID){
@@ -708,8 +676,25 @@ public class GroupCopyMgr {
 					//如果申请人和物品都有数据，则进行分发
 					Collections.sort(applyInfo, adComparator);
 					Collections.sort(dropInfo, adComparator);
-					ApplyInfo apply = applyInfo.get(0);
+					ApplyInfo apply = null;
 					DropInfo drop = dropInfo.get(0);
+					boolean match = false;
+					//找到符合的申请人，在物品掉落后进入帮派的不可以分
+					for (int i = 0; i < applyInfo.size(); i++) {
+						apply = applyInfo.get(i);
+						Player applyRole = PlayerMgr.getInstance().find(apply.getRoleID());
+						UserGroupAttributeDataIF baseData = applyRole.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+						if(baseData == null || (drop.getOccurTime() < baseData.getJoinTime())){
+							continue;
+						}
+						match = true;
+						break;
+					}
+					if(!match){
+						//找不到合条件的分配者，则不分配此物品
+						continue;
+					}
+					
 					boolean sendMail = GroupCopyMailHelper.getInstance().checkAndSendMail(template, drop, apply, groupName);
 					if(sendMail){
 						send = true;
