@@ -46,7 +46,7 @@ public class UpgradeMgr {
 		long achieveRewardTime = tableUpgradeData.getAchieveRewardTime();
 		
 		tableUpgradeData.setOwnerId(this.m_Player.getUserId());
-		if(System.currentTimeMillis() >= forceUpdateTime && !upgradeVersionNo.equals(versionNo) && achieveRewardTime < forceUpdateTime && m_Player.getUserDataMgr().getCreateTime() < forceUpdateTime){
+		if(!upgradeVersionNo.equals(versionNo) && achieveRewardTime < forceUpdateTime && m_Player.getUserDataMgr().getCreateTime() < forceUpdateTime){
 			
 			tableUpgradeData.setAchieveRewardTime(System.currentTimeMillis());
 			tableUpgradeData.setVersionNo(upgradeVersionNo);

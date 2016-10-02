@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -67,6 +68,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityRateTypeItem> activityRateTypeItemCache;
 	
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
+	
+	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
 
 	private static List<MapItemStoreCache> list;
 
@@ -112,6 +115,8 @@ public class MapItemStoreFactory {
 //		register(activityRateTypeItemCache = new MapItemStoreCache<ActivityRateTypeItem>(ActivityRateTypeItem.class, "userId", heroCapacity));
 //		
 //		register(activityDateTypeItemCache = new MapItemStoreCache<ActivityDateTypeItem>(ActivityDateTypeItem.class, "userId", heroCapacity));
+//
+//		register(activityRankTypeItemCache = new MapItemStoreCache<ActivityRankTypeItem>(ActivityRankTypeItem.class, "userId", heroCapacity));
 
 		register(angelArrayTeamInfoData = new MapItemStoreCache<AngelArrayTeamInfoData>(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity));
 
@@ -248,6 +253,9 @@ public class MapItemStoreFactory {
 	}
 	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
 		return activityDateTypeItemCache;
+	}
+	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
+		return activityRankTypeItemCache;
 	}
 
 	/**
