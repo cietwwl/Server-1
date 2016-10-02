@@ -97,6 +97,9 @@ public class ArmyInfoHelper {
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
 			Hero heroTmp = heroMgr.getHeroById(heroId);
+			if(heroTmp == null){
+				continue;
+			}
 			ArmyHero armyHero = getArmyHero(heroTmp);
 			heroList.add(armyHero);
 		}

@@ -45,5 +45,10 @@ public class UserGroupCopyMapRecordMgr {
 	public void syncData(Player player){
 		holder.syncData(player);
 	}
+	
+	//作弊添加次数
+	public void setRoleBattleTime(int count, Player player){
+		holder.setFigntCount(count, player);
+	}
 
 }

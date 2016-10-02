@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Random;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.log.GameLog;
 import com.rw.service.gamble.GambleLogicHelper;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GambleDropHistory {
 	//历史纪录队列，越早的越靠前，越迟的越靠后
 	private List<String> chargeGambleHistory;
@@ -17,7 +19,6 @@ public class GambleDropHistory {
 	private long lastFreeGambleTime;
 	private int hotCount;// 热点英雄抽卡次数，保底时重置
 	private int hotCheckRandomThreshold;
-	private boolean firstFreeGamble = true;
 	private boolean firstChargeGamble = true;
 	
 	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
@@ -33,7 +34,6 @@ public class GambleDropHistory {
 		b.append("lastFreeGambleTime:").append(lastFreeGambleTime).append("\n");
 		b.append("hotCount:").append(hotCount).append("\n");
 		b.append("hotCheckRandomThreshold:").append(hotCheckRandomThreshold).append("\n");
-		b.append("firstFreeGamble:").append(firstFreeGamble).append("\n");
 		b.append("firstChargeGamble:").append(firstChargeGamble).append("\n");
 		b.append("chargeGuaranteePlanIndex:").append(chargeGuaranteePlanIndex).append("\n");
 		b.append("passFreeExclusiveCheck:").append(passFreeExclusiveCheck).append("\n");
@@ -130,14 +130,6 @@ public class GambleDropHistory {
 		this.hotCheckRandomThreshold = hotCheckRandomThreshold;
 	}
 
-	public boolean isFirstFreeGamble() {
-		return firstFreeGamble;
-	}
-
-	public void setFirstFreeGamble(boolean firstFreeGamble) {
-		this.firstFreeGamble = firstFreeGamble;
-	}
-
 	public boolean isFirstChargeGamble() {
 		return firstChargeGamble;
 	}
@@ -194,16 +186,6 @@ public class GambleDropHistory {
 	public void reset() {
 		freeCount = 0;
 		//lastFreeGambleTime = 0;
-	}
-
-	/**
-	 * 是否时第一次免费抽卡
-	 * 
-	 * @return
-	 */
-	@JsonIgnore
-	public boolean isFreeGambleFirstTime() {
-		return firstFreeGamble;
 	}
 
 	/**
@@ -291,12 +273,11 @@ public class GambleDropHistory {
 		List<String> history = chargeGambleHistory;
 		history.add(itemModel);
 		if (isFree) {
-			firstFreeGamble = false;
 			freeCount++;
 			lastFreeGambleTime = System.currentTimeMillis();
-		} else {
-			firstChargeGamble = false;
-		}
+		} 
+
+		firstChargeGamble = false;
 		addExclusiveHistory(isFree,itemModel);
 	}
 

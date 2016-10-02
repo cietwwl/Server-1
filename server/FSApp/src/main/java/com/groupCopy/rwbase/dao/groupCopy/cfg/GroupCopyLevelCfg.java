@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.springframework.util.StringUtils;
 
+import com.alibaba.druid.support.spring.stat.SpringStat;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -25,6 +27,8 @@ public class GroupCopyLevelCfg {
 	private String roleReward;
 	
 	private String monsters;
+	
+	private int groupExp;
 	
 	private int readyTime;//准备时间，单位为s
 	
@@ -64,10 +68,11 @@ public class GroupCopyLevelCfg {
 		
 		
 		
-		
-		dStr = roleReward.split(",");
-		for (String str : dStr) {
-			roleRewarList.add(Integer.parseInt(str));
+		if(StringUtils.hasText(roleReward)){
+			dStr = roleReward.split(",");
+			for (String str : dStr) {
+				roleRewarList.add(Integer.parseInt(str));
+			}
 		}
 		
 		GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(chaterID);
@@ -148,6 +153,14 @@ public class GroupCopyLevelCfg {
 	 */
 	public List<String> getmIDList() {
 		return mIDList;
+	}
+
+	public int getGroupExp() {
+		return groupExp;
+	}
+
+	public void setGroupExp(int groupExp) {
+		this.groupExp = groupExp;
 	}
 
 	

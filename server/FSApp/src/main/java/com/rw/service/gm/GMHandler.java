@@ -174,6 +174,8 @@ public class GMHandler {
 		
 		//添加帮派物资
 		funcCallBackMap.put("setgp", "SetGroupSupplier");
+		//添加帮派副本战斗次数    * setgbf 1000
+		funcCallBackMap.put("setgbf", "setGroupBossFightTime");
 		
 	}
 
@@ -519,7 +521,7 @@ public class GMHandler {
 		}
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
-			player.getUserGameDataMgr().addGold(addNum);
+			player.getUserGameDataMgr().addGoldByGm(addNum);
 			return true;
 		}
 		return false;
@@ -1151,6 +1153,17 @@ public class GMHandler {
 			return false;
 		}
 		GFightStateTransfer.getInstance().setAutoCheck(Integer.valueOf(arrCommandContents[0]) == 1);
+		return true;
+	}
+	
+	public boolean setGroupBossFightTime(String[] arrcomStrings, Player player){
+		
+		int count = Integer.parseInt(arrcomStrings[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
 		return true;
 	}
 }

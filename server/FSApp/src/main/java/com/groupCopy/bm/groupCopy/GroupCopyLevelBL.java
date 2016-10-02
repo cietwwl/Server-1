@@ -33,6 +33,8 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.dropitem.DropItemManager;
+import com.rwbase.dao.battle.pojo.BattleCfgDAO;
+import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 
 /**
@@ -59,17 +61,31 @@ public class GroupCopyLevelBL {
 	 * @return
 	 */
 	public static GroupCopyProgress createProgress(String level){
-		
-		GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(level);
-		List<String> idList = levelCfg.getmIDList();
-		
-		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();;
-		GroupCopyMonsterSynStruct struct = null;
-		CopyMonsterCfg monsterCfg;
-		for (String id : idList) {
-			monsterCfg = CopyMonsterCfgDao.getInstance().getCfgById(id);
-			struct = new GroupCopyMonsterSynStruct(monsterCfg);
-			mData.add(struct);
+		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();
+		try {
+			List<CopyMonsterInfoCfg> list = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(level);
+			
+			
+			GroupCopyMonsterSynStruct struct = null;
+			CopyMonsterCfg monster;
+			if(list.isEmpty()){
+				GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,关卡：【" + level + "】里的怪物列表为空！！", null);
+			}
+			for (CopyMonsterInfoCfg monsterCfg : list) {
+				for (String id : monsterCfg.getEnemyList()) {
+					monster = CopyMonsterCfgDao.getInstance().getCfgById(id);
+					if(monster == null){
+						GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,找不到关卡：【" + level + "】里的怪物["+id+"]！！", null);
+						continue;
+					}
+					struct = new GroupCopyMonsterSynStruct(monster);
+					mData.add(struct);
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常", e);
 		}
 		return new GroupCopyProgress(mData);
 		
@@ -105,7 +121,7 @@ public class GroupCopyLevelBL {
 				}
 				
 				
-				if(userRecord.getLeftFightCount() < 0){//暂时测试改为<  后面要改为==
+				if(userRecord.getLeftFightCount() <= 0){//暂时测试改为<  后面要改为==
 					result.setSuccess(false);
 					result.setTipMsg("此章节挑战次数已满！");
 				}else{
@@ -118,7 +134,7 @@ public class GroupCopyLevelBL {
 						lvRecord.setProgress(progress);
 					}
 					
-					userRecord.incrFightCount();
+					
 					GroupCopyMonsterData.Builder b = GroupCopyMonsterData.newBuilder();
 
 					//将怪物数据转换成json
@@ -328,8 +344,7 @@ public class GroupCopyLevelBL {
 		
 		//个人奖励的金币
 		damage = damage > 0 ? damage : 0;
-		rewardInfo.setGold(damage * 100);//暂时这样计算
-		
+		rewardInfo.setGold((int) (damage * 0.39));//暂时这样计算
 		//检查是否最后一击
 		if(nowPro == 1){
 			rewardInfo.setFinalHitPrice(lvCfg.getFinalHitReward());
