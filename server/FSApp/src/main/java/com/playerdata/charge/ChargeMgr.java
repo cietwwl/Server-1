@@ -143,7 +143,9 @@ public class ChargeMgr {
 		
 		
 		if(target!=null){
-			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
+				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
@@ -163,7 +165,7 @@ public class ChargeMgr {
 			}
 			
 			if(success){
-				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
+				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}else{
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}
