@@ -39,9 +39,8 @@ public class TestService {
 		content.setGiftId("800701");
 		content.setSign("cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey");
 		
-		Map<String, Object> params = new HashMap<String, Object>();
-		
-		params.put("content", FastJsonUtil.toJson(content));
+//		Map<String, Object> params = new HashMap<String, Object>();		
+//		params.put("content", FastJsonUtil.toJson(content));
 		
 		String serverIp = "127.0.0.1";
 		int port = 9090;
@@ -49,9 +48,9 @@ public class TestService {
 		HttpPost httppost = new HttpPost(url);
 		httppost.setEntity(new StringEntity(FastJsonUtil.toJson(content),"UTF-8"));
 		
-		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
+//		String resp = HttpClientUtil.post("127.0.0.1", 9090, params);
 //		String resp = ChargeService?
-		System.out.println("!!!!!!!!!!     "+ resp);
+		System.out.println("!!!!!!!!!!     ");
 		
 	}
 	
