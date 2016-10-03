@@ -16,7 +16,9 @@ import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
+import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.data.GCompMatchData;
+import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
@@ -149,6 +151,7 @@ public class GroupCompetitionBattleHandler {
 		GCBattleStartRspMsg.Builder battleStartRsp = GCBattleStartRspMsg.newBuilder();
 		battleStartRsp.setMineArmyInfo(mineArmyInfoJson);
 		battleStartRsp.setEnemyArmyInfo(enemyArmyInfoJson);
+		battleStartRsp.setMatchGroupInfo(matchGroupInfo);
 		rsp.setBattleStartRsp(battleStartRsp);
 
 		return rsp.setIsSuccess(true).build().toByteString();
@@ -323,6 +326,18 @@ public class GroupCompetitionBattleHandler {
 		}
 
 		holder.updateBattleResult(userId, battleResult);// 更新战斗状态
+
+		// 更新个人的数据
+		GCompMember gCompMember = GCompMemberMgr.getInstance().getGCompMember(groupId, userId);
+		if (gCompMember != null) {
+			if (battleResult == GCompBattleResult.Lose) {
+				gCompMember.resetContinueWins();
+			} else {
+				gCompMember.incContinueWins();
+			}
+
+			// TODO HC 这里需要补一下积分信息
+		}
 
 		return rsp.setIsSuccess(true).build().toByteString();
 	}
