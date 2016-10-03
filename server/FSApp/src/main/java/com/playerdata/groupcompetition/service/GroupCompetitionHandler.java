@@ -352,12 +352,14 @@ public class GroupCompetitionHandler {
 	
 	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		builder.setReqType(GCRequestType.LiveMsg);
 		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getMatchId(), request.getLatestTime());
 		return builder.build().toByteString();
 	}
 
 	public ByteString leaveLivePage(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		builder.setReqType(GCRequestType.LeaveLivePage);
 		GCompFightingRecordMgr.getInstance().leaveLivePage(player, builder, request.getMatchId());
 		return builder.build().toByteString();
 	}

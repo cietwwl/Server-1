@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.mina.util.ConcurrentHashSet;
 
@@ -12,6 +13,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCompFightingRecordDAO;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
+import com.playerdata.groupcompetition.holder.data.GCompPersonFightingRecord;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -26,6 +28,7 @@ public class GCompFightingRecordHolder {
 	private GCompFightingRecordDAO _dao;
 	//等待在直播页面的玩家
 	private HashMap<Integer, ConcurrentHashSet<String>> liveUsers = new HashMap<Integer, ConcurrentHashSet<String>>();
+	private AtomicLong recordIDCreator = new AtomicLong(System.currentTimeMillis());
 	
 	protected GCompFightingRecordHolder() {
 		this._dao = GCompFightingRecordDAO.getInstance();
@@ -43,6 +46,26 @@ public class GCompFightingRecordHolder {
 		}
 		if (!synRecords.isEmpty()) {
 			ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_PART_LIST);
+		}else{
+			for(int i = 0; i < 6; i++){
+				GCompFightingRecord rc = new GCompFightingRecord();
+				rc.setId(String.valueOf(recordIDCreator.getAndIncrement()));
+				rc.setMatchId(matchId + i%2);
+				List<GCompPersonFightingRecord> recordList = new ArrayList<GCompPersonFightingRecord>();
+				for(int j = 0; j < 3; j++){
+					GCompPersonFightingRecord record = new GCompPersonFightingRecord();
+					record.setOffendName("哈哈哈ss" + j);
+					record.setDefendName("哦哦哦tt" + j);
+					record.setGroupScore(3);
+					record.setPersonalScore(2);
+					record.setContinueWin(3);
+					record.setOffendWin(true);
+					recordList.add(record);
+				}
+				rc.setPersonalFightingRecords(recordList);
+				synRecords.add(rc);
+			}
+			ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_PART_LIST);
 		}
 	}
 	
@@ -51,6 +74,7 @@ public class GCompFightingRecordHolder {
 	}
 	
 	public void add(int matchId, GCompFightingRecord record) {
+		record.setId(String.valueOf(recordIDCreator.incrementAndGet()));
 		_dao.add(matchId, record);
 		// 同步到相关的人
 		ConcurrentHashSet<String> synUserIds= liveUsers.get(matchId);
