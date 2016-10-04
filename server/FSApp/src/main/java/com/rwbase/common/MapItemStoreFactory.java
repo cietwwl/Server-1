@@ -89,7 +89,7 @@ public class MapItemStoreFactory {
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
 	// Skill
-//	private static MapItemStoreCache<SkillItem> skillCache;
+	private static MapItemStoreCache<SkillItem> skillCache;
 	// TaskItem
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
@@ -137,9 +137,9 @@ public class MapItemStoreFactory {
 	
 	private static MapItemStoreCache<RewardBackItem> RewardBackItemCache;
 
-//	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
-//
-//	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
+	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
+
+	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -233,7 +233,7 @@ public class MapItemStoreFactory {
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
 
-//		skillCache = createForPerload(SkillItem.class, "ownerId", actualHeroCapacity);
+		skillCache = createForPerload(SkillItem.class, "ownerId", actualHeroCapacity);
 
 		taskItemCache = createForPerload(TaskItem.class, "userId", heroCapacity);
 
@@ -276,9 +276,9 @@ public class MapItemStoreFactory {
 		RewardBackItemCache  = createForPerload(RewardBackItem.class, "userId", heroCapacity);
 
 		
-//		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
-//
-//		fixNormEquipDataItemCache = createForPerload(FixNormEquipDataItem.class, "ownerId", actualHeroCapacity);
+		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
+
+		fixNormEquipDataItemCache = createForPerload(FixNormEquipDataItem.class, "ownerId", actualHeroCapacity);
 
 		angelArrayTeamInfoData = createForPerload(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity);
 
@@ -420,14 +420,14 @@ public class MapItemStoreFactory {
 		return magicCache;
 	}
 
-//	/**
-//	 * 获取技能缓存
-//	 * 
-//	 * @return
-//	 */
-//	public static MapItemStoreCache<SkillItem> getSkillCache() {
-//		return skillCache;
-//	}
+	/**
+	 * 获取技能缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<SkillItem> getSkillCache() {
+		return skillCache;
+	}
 
 	/**
 	 * 获取任务缓存
@@ -549,13 +549,13 @@ public class MapItemStoreFactory {
 		return activityRedEnvelopeTypeItemCache;
 	}
 
-//	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
-//		return fixExpEquipDataItemCache;
-//	}
-//
-//	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
-//		return fixNormEquipDataItemCache;
-//	}
+	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
+		return fixExpEquipDataItemCache;
+	}
+
+	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
+		return fixNormEquipDataItemCache;
+	}
 
 	/**
 	 * 获取万仙阵阵容信息缓存

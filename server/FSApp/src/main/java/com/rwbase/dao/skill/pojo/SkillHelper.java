@@ -19,7 +19,10 @@ import com.rwbase.dao.skill.optlisten.SkillListenOptUtils;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class SkillHelper {
-	
+	public static String getItemId(String ownerId, String skillCfgId) {
+
+		return ownerId + "_" + skillCfgId;
+	}
 
 	public static List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
 		if (skillLIst == null)

@@ -2,7 +2,7 @@ package com.rwbase.dao.skill.pojo;
 
 public interface SkillIF {
 
-	public Integer getId();
+	public String getId();
 
 	public int getLevel();
 

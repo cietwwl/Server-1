@@ -53,10 +53,10 @@ public class FixNormEquipMgr {
 	};
 
 	public boolean initIfNeed(Player player, Hero hero) {
-//		if (!isInited(player, hero)) {
-//			newHeroInit(player, hero.getUUId(), hero.getModeId());
-//
-//		}
+		if (!isInited(player, hero)) {
+			newHeroInit(player, hero.getUUId(), hero.getModeId());
+
+		}
 		return true;
 	}
 	
@@ -76,7 +76,7 @@ public class FixNormEquipMgr {
 		int slot = 0;
 		for (String cfgId : roleFixEquipCfg.getNormCfgIdList()) {
 
-			Integer id = FixEquipHelper.getNormItemId(ownerId, cfgId);
+			String id = FixEquipHelper.getNormItemId(ownerId, cfgId);
 
 			FixNormEquipDataItem FixNormEquipDataItem = new FixNormEquipDataItem();
 			FixNormEquipDataItem.setId(id);
@@ -182,7 +182,7 @@ public class FixNormEquipMgr {
 				int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
 				FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
 				if(result.isSuccess()){
-					levelUpList.add(dataItem.strId());
+					levelUpList.add(dataItem.getId());
 				}
 			}
 			
@@ -204,7 +204,7 @@ public class FixNormEquipMgr {
 			if (level == nextQualityLevel) {
 				FixEquipResult result = checkQualityUp(player, ownerId, dataItem, normalCfgDAO);
 				if (result.isSuccess()) {
-					upIdList.add(dataItem.strId());
+					upIdList.add(dataItem.getId());
 				}
 			}
 		}
@@ -218,7 +218,7 @@ public class FixNormEquipMgr {
 		for (FixNormEquipDataItem dataItem : itemList) {
 			FixEquipResult result = checkStarUp(player, ownerId, dataItem);
 			if (result.isSuccess()) {
-				upIdList.add(dataItem.strId());
+				upIdList.add(dataItem.getId());
 			}
 
 		}
@@ -228,7 +228,7 @@ public class FixNormEquipMgr {
 
 	public FixEquipResult levelUpOneKey(Player player, String ownerId, String itemId) {
 
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
 		int toLevel = getToLevel(player, dataItem);
 		int curLevel = dataItem.getLevel();
@@ -274,7 +274,7 @@ public class FixNormEquipMgr {
 
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId) {
 
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 		FixEquipResult result = checkLevel(player, ownerId, dataItem);
 		if (result.isSuccess()) {
 			result = doLevelUp(player, dataItem);
@@ -323,7 +323,7 @@ public class FixNormEquipMgr {
 
 	public FixEquipResult qualityUp(Player player, String ownerId, String itemId) {
 
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
 		FixEquipResult result = checkQualityUp(player, ownerId, dataItem, FixNormEquipQualityCfgDAO.getInstance());
 		if (result.isSuccess()) {
@@ -391,7 +391,7 @@ public class FixNormEquipMgr {
 
 	public FixEquipResult starUp(Player player, String ownerId, String itemId) {
 
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
 		FixEquipResult result = checkStarUp(player, ownerId, dataItem);
 		if (result.isSuccess()) {
@@ -458,7 +458,7 @@ public class FixNormEquipMgr {
 
 	public FixEquipResult starDown(Player player, String ownerId, String itemId) {
 
-		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, Integer.valueOf(itemId));
+		FixNormEquipDataItem dataItem = fixNormEquipDataItemHolder.getItem(ownerId, itemId);
 
 		FixEquipResult result = checkStarDown(player, ownerId, dataItem);
 		if (result.isSuccess()) {
