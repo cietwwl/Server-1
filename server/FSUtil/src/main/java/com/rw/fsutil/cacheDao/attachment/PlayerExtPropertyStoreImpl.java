@@ -9,12 +9,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
-import com.rw.fsutil.dao.attachment.NewAttachmentEntry;
+import com.rw.fsutil.dao.attachment.InsertRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 
-public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends RowMapItemContainer<Integer, PlayerExtPropertyData<T>, T> implements PlayerExtPropertyStore<T> {
+public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMapItemContainer<Integer, PlayerExtPropertyData<T>, T> implements PlayerExtPropertyStore<T> {
 
 	private final short type;
 	private final ObjectMapper mapper;
@@ -30,7 +30,7 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 	@Override
 	public List<PlayerExtPropertyData<T>> insertAndDelete(String searchId, List<T> addList, List<Integer> delList) throws DuplicatedKeyException, DataNotExistException, Exception {
 		int size = addList.size();
-		ArrayList<NewAttachmentEntry> newList = new ArrayList<NewAttachmentEntry>(size);
+		ArrayList<InsertRoleExtPropertyData> newList = new ArrayList<InsertRoleExtPropertyData>(size);
 		for (int i = 0; i < size; i++) {
 			newList.add(PlayerExtPropertyUtil.convert(mapper, searchId, type, addList.get(i)));
 		}
@@ -58,7 +58,7 @@ public class PlayerExtPropertyStoreImpl<T extends PlayerExtProperty> extends Row
 	@Override
 	public List<PlayerExtPropertyData<T>> insert(String searchId, List<T> itemList) throws DuplicatedKeyException, Exception {
 		int size = itemList.size();
-		ArrayList<NewAttachmentEntry> list = new ArrayList<NewAttachmentEntry>(size);
+		ArrayList<InsertRoleExtPropertyData> list = new ArrayList<InsertRoleExtPropertyData>(size);
 		for (int i = 0; i < size; i++) {
 			list.add(PlayerExtPropertyUtil.convert(mapper, searchId, type, itemList.get(i)));
 		}

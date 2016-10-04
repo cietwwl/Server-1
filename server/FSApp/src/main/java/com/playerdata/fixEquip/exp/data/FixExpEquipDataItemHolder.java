@@ -10,10 +10,11 @@ import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroExtPropertyType;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -32,7 +33,7 @@ public class FixExpEquipDataItemHolder{
 	{
 		
 		List<FixExpEquipDataItem> itemList = new ArrayList<FixExpEquipDataItem>();
-		Enumeration<FixExpEquipDataItem> mapEnum = getItemStore(heroId).getEnum();
+		Enumeration<FixExpEquipDataItem> mapEnum = getItemStore(heroId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			FixExpEquipDataItem item = (FixExpEquipDataItem) mapEnum.nextElement();
 			itemList.add(item);
@@ -42,7 +43,7 @@ public class FixExpEquipDataItemHolder{
 	}
 	
 	public void updateItem(Player player, FixExpEquipDataItem item){
-		getItemStore(item.getOwnerId()).updateItem(item);
+		getItemStore(item.getOwnerId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), item.getOwnerId());
 	}
@@ -50,7 +51,7 @@ public class FixExpEquipDataItemHolder{
 	public void updateItemList(Player player, List<FixExpEquipDataItem> itemList){
 		String heroId = null;
 		for (FixExpEquipDataItem item : itemList) {			
-			getItemStore(item.getOwnerId()).updateItem(item);
+			getItemStore(item.getOwnerId()).update(item.getId());
 			if(heroId == null) {
 				heroId = item.getOwnerId();
 			}
@@ -59,8 +60,8 @@ public class FixExpEquipDataItemHolder{
 		notifyChange(player.getUserId(), heroId);
 	}
 	
-	public FixExpEquipDataItem getItem(String heroId, String itemId) {
-		return getItemStore(heroId).getItem(itemId);
+	public FixExpEquipDataItem getItem(String heroId, Integer itemId) {
+		return getItemStore(heroId).get(itemId);
 	}
 	
 	
@@ -98,9 +99,15 @@ public class FixExpEquipDataItemHolder{
 	}
 
 	
-	private MapItemStore<FixExpEquipDataItem> getItemStore(String heroId) {
-		MapItemStoreCache<FixExpEquipDataItem> cache = MapItemStoreFactory.getFixExpEquipDataItemCache();
-		return cache.getMapItemStore(heroId, FixExpEquipDataItem.class);
+	private PlayerExtPropertyStore<FixExpEquipDataItem> getItemStore(String heroId) {
+		RoleExtPropertyStoreCache<FixExpEquipDataItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.FIX_EXP_EQUIP, FixExpEquipDataItem.class);
+		PlayerExtPropertyStore<FixExpEquipDataItem> store = null;
+		try {
+			store = heroExtCache.getStore(heroId);
+		} catch (Throwable e) {
+			GameLog.error(LogModule.FixEquip, "heroId:"+heroId, "can not get PlayerExtPropertyStore.", e);
+		}
+		return store;
 	}
 	
 }

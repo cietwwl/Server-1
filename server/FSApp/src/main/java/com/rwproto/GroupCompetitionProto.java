@@ -24614,6 +24614,493 @@ public final class GroupCompetitionProto {
     // @@protoc_insertion_point(class_scope:groupCompetition.GCompRankItem)
   }
 
+  public interface EventsResultOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string winGroupId = 1;
+    /**
+     * <code>required string winGroupId = 1;</code>
+     */
+    boolean hasWinGroupId();
+    /**
+     * <code>required string winGroupId = 1;</code>
+     */
+    java.lang.String getWinGroupId();
+    /**
+     * <code>required string winGroupId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getWinGroupIdBytes();
+  }
+  /**
+   * Protobuf type {@code groupCompetition.EventsResult}
+   *
+   * <pre>
+   * 胜利的帮派id
+   * </pre>
+   */
+  public static final class EventsResult extends
+      com.google.protobuf.GeneratedMessage
+      implements EventsResultOrBuilder {
+    // Use EventsResult.newBuilder() to construct.
+    private EventsResult(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private EventsResult(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final EventsResult defaultInstance;
+    public static EventsResult getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public EventsResult getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private EventsResult(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              winGroupId_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_EventsResult_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_EventsResult_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCompetitionProto.EventsResult.class, com.rwproto.GroupCompetitionProto.EventsResult.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<EventsResult> PARSER =
+        new com.google.protobuf.AbstractParser<EventsResult>() {
+      public EventsResult parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new EventsResult(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EventsResult> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string winGroupId = 1;
+    public static final int WINGROUPID_FIELD_NUMBER = 1;
+    private java.lang.Object winGroupId_;
+    /**
+     * <code>required string winGroupId = 1;</code>
+     */
+    public boolean hasWinGroupId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string winGroupId = 1;</code>
+     */
+    public java.lang.String getWinGroupId() {
+      java.lang.Object ref = winGroupId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          winGroupId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string winGroupId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getWinGroupIdBytes() {
+      java.lang.Object ref = winGroupId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        winGroupId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      winGroupId_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasWinGroupId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getWinGroupIdBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getWinGroupIdBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCompetitionProto.EventsResult parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.EventsResult prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupCompetition.EventsResult}
+     *
+     * <pre>
+     * 胜利的帮派id
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCompetitionProto.EventsResultOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_EventsResult_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_EventsResult_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCompetitionProto.EventsResult.class, com.rwproto.GroupCompetitionProto.EventsResult.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCompetitionProto.EventsResult.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        winGroupId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_EventsResult_descriptor;
+      }
+
+      public com.rwproto.GroupCompetitionProto.EventsResult getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.EventsResult.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCompetitionProto.EventsResult build() {
+        com.rwproto.GroupCompetitionProto.EventsResult result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCompetitionProto.EventsResult buildPartial() {
+        com.rwproto.GroupCompetitionProto.EventsResult result = new com.rwproto.GroupCompetitionProto.EventsResult(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.winGroupId_ = winGroupId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCompetitionProto.EventsResult) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.EventsResult)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.EventsResult other) {
+        if (other == com.rwproto.GroupCompetitionProto.EventsResult.getDefaultInstance()) return this;
+        if (other.hasWinGroupId()) {
+          bitField0_ |= 0x00000001;
+          winGroupId_ = other.winGroupId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasWinGroupId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCompetitionProto.EventsResult parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCompetitionProto.EventsResult) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string winGroupId = 1;
+      private java.lang.Object winGroupId_ = "";
+      /**
+       * <code>required string winGroupId = 1;</code>
+       */
+      public boolean hasWinGroupId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string winGroupId = 1;</code>
+       */
+      public java.lang.String getWinGroupId() {
+        java.lang.Object ref = winGroupId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          winGroupId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string winGroupId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getWinGroupIdBytes() {
+        java.lang.Object ref = winGroupId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          winGroupId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string winGroupId = 1;</code>
+       */
+      public Builder setWinGroupId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        winGroupId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string winGroupId = 1;</code>
+       */
+      public Builder clearWinGroupId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        winGroupId_ = getDefaultInstance().getWinGroupId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string winGroupId = 1;</code>
+       */
+      public Builder setWinGroupIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        winGroupId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupCompetition.EventsResult)
+    }
+
+    static {
+      defaultInstance = new EventsResult(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupCompetition.EventsResult)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_CommonReqMsg_descriptor;
   private static
@@ -24754,6 +25241,11 @@ public final class GroupCompetitionProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_GCompRankItem_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupCompetition_EventsResult_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupCompetition_EventsResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -24836,25 +25328,26 @@ public final class GroupCompetitionProto {
       "ank\022\022\n\neventsType\030\001 \002(\005\"f\n\rGCompRankItem" +
       "\022\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\021\n\the" +
       "adImage\030\003 \002(\t\022\r\n\005value\030\004 \002(\005\022\021\n\tgroupNam" +
-      "e\030\005 \002(\t*\266\004\n\rGCRequestType\022\024\n\020EnterPrepar" +
-      "eArea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025InformP" +
-      "reparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013Playbac" +
-      "kMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022Ge" +
-      "tPlayersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020" +
-      "GetSelectionData\020\n\022\024\n\020GetCanGuessMatch\020\013" +
-      "\022\020\n\014SetTeamReady\020\014\022\023\n\017CancelTeamReady\020\r\022",
-      "\r\n\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKick" +
-      "Member\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeamMe" +
-      "mber\020\022\022\021\n\rStartMatching\020\023\022\022\n\016CancelMatch" +
-      "ing\020\024\022\027\n\023StartRandomMatching\020\025\022\030\n\024Cancel" +
-      "RandomMatching\020\026\022\024\n\020PersonalMatching\020\027\022\032" +
-      "\n\026PersonalCancelMatching\020\030\022\021\n\rLeaveLiveP" +
-      "age\020\031\022\017\n\013GetKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020" +
-      "\n\014GetScoreRank\020\034*L\n\016TeamStatusType\022\n\n\006Ki" +
-      "cked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020\003\022\016" +
-      "\n\nStartMatch\020\004*@\n\014GCResultType\022\013\n\007SUCCES",
-      "S\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003" +
-      "B$\n\013com.rwprotoB\025GroupCompetitionProto"
+      "e\030\005 \002(\t\"\"\n\014EventsResult\022\022\n\nwinGroupId\030\001 " +
+      "\002(\t*\266\004\n\rGCRequestType\022\024\n\020EnterPrepareAre" +
+      "a\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025InformPrepa" +
+      "rePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg" +
+      "\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPla" +
+      "yersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetS" +
+      "electionData\020\n\022\024\n\020GetCanGuessMatch\020\013\022\020\n\014",
+      "SetTeamReady\020\014\022\023\n\017CancelTeamReady\020\r\022\r\n\tL" +
+      "eaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKickMemb" +
+      "er\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeamMember" +
+      "\020\022\022\021\n\rStartMatching\020\023\022\022\n\016CancelMatching\020" +
+      "\024\022\027\n\023StartRandomMatching\020\025\022\030\n\024CancelRand" +
+      "omMatching\020\026\022\024\n\020PersonalMatching\020\027\022\032\n\026Pe" +
+      "rsonalCancelMatching\020\030\022\021\n\rLeaveLivePage\020" +
+      "\031\022\017\n\013GetKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014Ge" +
+      "tScoreRank\020\034*L\n\016TeamStatusType\022\n\n\006Kicked" +
+      "\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020\003\022\016\n\nSt",
+      "artMatch\020\004*@\n\014GCResultType\022\013\n\007SUCCESS\020\001\022" +
+      "\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$\n\013" +
+      "com.rwprotoB\025GroupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -25029,6 +25522,12 @@ public final class GroupCompetitionProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_GCompRankItem_descriptor,
               new java.lang.String[] { "UserId", "UserName", "HeadImage", "Value", "GroupName", });
+          internal_static_groupCompetition_EventsResult_descriptor =
+            getDescriptor().getMessageTypes().get(28);
+          internal_static_groupCompetition_EventsResult_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupCompetition_EventsResult_descriptor,
+              new java.lang.String[] { "WinGroupId", });
           return null;
         }
       };

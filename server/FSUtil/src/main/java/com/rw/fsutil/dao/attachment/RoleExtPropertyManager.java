@@ -15,7 +15,7 @@ public interface RoleExtPropertyManager {
 	 * @param typeList
 	 * @return
 	 */
-	public List<QueryAttachmentEntry> loadRangeEntitys(String ownerId, List<Short> typeList);
+	public List<QueryRoleExtPropertyData> loadRangeEntitys(String ownerId, List<Short> typeList);
 
 	/**
 	 * 加载指定类型的角色附加属性列表
@@ -24,7 +24,7 @@ public interface RoleExtPropertyManager {
 	 * @param type
 	 * @return
 	 */
-	public List<QueryAttachmentEntry> loadEntitys(String ownerId, Short type);
+	public List<QueryRoleExtPropertyData> loadEntitys(String ownerId, Short type);
 
 	/**
 	 * 更新指定主键的扩展属性
@@ -38,7 +38,7 @@ public interface RoleExtPropertyManager {
 
 	/**
 	 * <pre>
-	 * 批量插入{@link NewAttachmentEntry}列表，全部成功或者全部失败
+	 * 批量插入{@link InsertRoleExtPropertyData}列表，全部成功或者全部失败
 	 * 返回数据库生成的主键列表
 	 * </pre>
 	 * 
@@ -46,10 +46,10 @@ public interface RoleExtPropertyManager {
 	 * @param list
 	 * @return
 	 */
-	public long[] insert(String ownerId, List<? extends NewAttachmentEntry> list) throws Exception;
+	public long[] insert(String ownerId, List<? extends InsertRoleExtPropertyData> list) throws Exception;
 
 	/**
-	 * 插入一条{@link NewAttachmentEntry}记录，返回数据库生成的主键
+	 * 插入一条{@link InsertRoleExtPropertyData}记录，返回数据库生成的主键
 	 * 
 	 * @param ownerId
 	 * @param entry
@@ -57,16 +57,16 @@ public interface RoleExtPropertyManager {
 	 * @throws DuplicatedKeyException
 	 * @throws Exception
 	 */
-	public long insert(final String ownerId, final NewAttachmentEntry entry) throws DuplicatedKeyException, Exception;
+	public long insert(final String ownerId, final InsertRoleExtPropertyData entry) throws DuplicatedKeyException, Exception;
 
 	/**
-	 * 批量插入{@link NewAttachmentEntry}和删除指定的主键
+	 * 批量插入{@link InsertRoleExtPropertyData}和删除指定的主键
 	 * @param ownerId
 	 * @param list
 	 * @param deleteList
 	 * @return
 	 */
-	public long[] insertAndDelete(String ownerId, List<NewAttachmentEntry> list, List<Long> deleteList)  throws DataNotExistException, Exception;
+	public long[] insertAndDelete(String ownerId, List<InsertRoleExtPropertyData> list, List<Long> deleteList)  throws DataNotExistException, Exception;
 
 	/**
 	 * 根据搜索名字获取表名

@@ -39,8 +39,8 @@ public class GroupCopyLevelCfgDao extends CfgCsvDao<GroupCopyLevelCfg> {
 		boolean error = false;
 		StringBuilder sb = new StringBuilder("帮派副本，找不到对应的怪物的关卡：");
 		for (GroupCopyLevelCfg cfg : values) {
-			List<CopyMonsterInfoCfg> list = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(cfg.getId());
-			if(list.isEmpty()){
+			CopyMonsterInfoCfg list = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(cfg.getId());
+			if(list == null){
 				error = true;
 				sb.append("[").append(cfg.getId()).append("]");
 			}
