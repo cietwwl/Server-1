@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -102,6 +103,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 
 		long now = System.currentTimeMillis();
 		for (FresherActivityItem item : fresherActivityItemList) {
+			
 			if (item.getType() == eActivityType.A_Final) {
 				finalActItem = item;
 			}

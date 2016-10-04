@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.common.BeanCopyer;
+import com.common.beanCopy.FastBeanCopyer;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.hero.core.RoleBaseInfo;
@@ -40,7 +40,7 @@ public class MonsterArmyHelper {
 	private static AttrData getAttrData(MonsterCfg monster) {
 		AttrData.Builder builder = new Builder();
 		AttrData data = builder.build();
-		BeanCopyer.copy(monster, data);
+		FastBeanCopyer.getInstance().copy(monster, data);
 		return data;
 	}
 
@@ -75,6 +75,9 @@ public class MonsterArmyHelper {
 		RoleBaseInfo roleInfo = new RoleBaseInfo();
 		roleInfo.setId(monster.getId());
 		roleInfo.setTemplateId(monster.getId());
+		roleInfo.setModeId(monster.getModeId());
 		return roleInfo;
 	}
+	
+	
 }

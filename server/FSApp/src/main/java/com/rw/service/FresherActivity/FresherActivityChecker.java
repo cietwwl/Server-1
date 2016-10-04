@@ -15,6 +15,7 @@ public class FresherActivityChecker {
 	
 	public final static int START_TYPE_OPENTIME = 1;      //开始时间的类型：开服时间
 	public final static int START_TYPE_CREATETIME = 2;    //开始时间的类型：创建角色
+	public final static long DAY_TIME = 24 * 60 * 60 * 1000l;
 	private final static HashMap<eActivityType, IFrshActCheckTask> FresherActivityMap = new HashMap<eActivityType, IFrshActCheckTask>();
 	private final static HashMap<eActivityType, IFrshActAchieveRewardHandler> FrshActRewardMap = new HashMap<eActivityType, IFrshActAchieveRewardHandler>();
 	

@@ -28,7 +28,11 @@ import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeSubCfg
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -59,24 +63,44 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	private void checkNewOpen(Player player) {
-		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
-		String userId = player.getUserId();
-		List<ActivityRedEnvelopeTypeItem> addItemList = null;
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}
+//		ActivityRedEnvelopeItemHolder dataHolder = ActivityRedEnvelopeItemHolder.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityRedEnvelopeTypeItem> addItemList = null;
+//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
 		
+		String userId= player.getUserId();
+		List<ActivityRedEnvelopeTypeItem> addList =null;
+		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_REDENVELOPE, ActivityRedEnvelopeTypeItem.class);
+		
+//		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityRedEnvelopeTypeItem.class);
+		PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> store = null;
+		try {
+			store = cach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public List<ActivityRedEnvelopeTypeItem> creatItems(String userId , MapItemStore<ActivityRedEnvelopeTypeItem> itemStore){
+	public List<ActivityRedEnvelopeTypeItem> creatItems(String userId , PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> itemStore){
 		List<ActivityRedEnvelopeTypeItem> addItemList = null;
 		ActivityRedEnvelopeTypeSubCfgDAO subDao = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeCfg> cfgList = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
-		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
+//		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
+		int id = Integer.parseInt(ActivityRedEnvelopeTypeEnum.redEnvelope.getCfgId());
 		for(ActivityRedEnvelopeTypeCfg cfg : cfgList){
 			if(itemStore != null){
-				if(itemStore.getItem(itemId) != null){
+				if(itemStore.get(id) != null){
 					continue;
 				}
 			}
@@ -84,7 +108,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 				continue;
 			}
 			ActivityRedEnvelopeTypeItem item = new ActivityRedEnvelopeTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());
@@ -296,7 +320,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 		
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityRedEnvelopeTypeCfg> list = ActivityRedEnvelopeTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRedEnvelopeTypeCfg cfg : list){
 			if(isOpen(cfg,param)){
@@ -307,11 +331,11 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	private boolean isOpen(ActivityRedEnvelopeTypeCfg cfg,
-			MapItemValidateParam param) {
+			long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

@@ -18,6 +18,8 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
@@ -940,7 +942,7 @@ public class BattleTowerHandler {
 		// 重置数据
 		tableBattleTower.resetBattleTowerData();
 		dao.update(tableBattleTower);
-
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.battleTower);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
 

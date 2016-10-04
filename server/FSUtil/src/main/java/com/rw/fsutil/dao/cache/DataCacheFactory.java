@@ -13,7 +13,7 @@ import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
 import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.rw.fsutil.dao.common.DBThreadPoolMgr;
+import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 @SuppressWarnings("rawtypes")
 public class DataCacheFactory {
@@ -73,7 +73,7 @@ public class DataCacheFactory {
 			System.err.println("fatal error DataCache duplicate name1:" + clazz);
 			return oldCache;
 		}
-		
+
 		List<DataChangedVisitor<DataChangedEvent<?>>> listenerList = dataChangedVisitor.get(key);
 		if (listenerList != null) {
 			boolean reBuild = false;
@@ -93,7 +93,7 @@ public class DataCacheFactory {
 				}
 			}
 		}
-		DataCache<K, V> cache = new DataCache<K, V>(key, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler, jsonConverter, listenerList);
+		DataCache<K, V> cache = new DataCache<K, V>(key, maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerList);
 		oldCache = cacheMap.putIfAbsent(key, cache);
 		if (oldCache == null) {
 			return cache;
@@ -102,23 +102,22 @@ public class DataCacheFactory {
 			return oldCache;
 		}
 	}
-	
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
-			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType){
-		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerType);
+
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler,
+			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerType);
 	}
 	
-	
-
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
-		return createDataDache(clazz, clazz.getSimpleName(), initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
+		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, updatePeriod, loader, null, null, null);
 	}
 
 	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
 			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
-		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
+		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
 	}
 
+	
 	public static Map<String, Integer> getCacheStat() {
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		for (Map.Entry<CacheKey, DataCache<?, ?>> entry : cacheMap.entrySet()) {
@@ -136,4 +135,5 @@ public class DataCacheFactory {
 	public static DataCache<?, ?> getDataCache(CacheKey key) {
 		return cacheMap.get(key);
 	}
+
 }

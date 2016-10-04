@@ -53,14 +53,12 @@ public final class ActivityRankTypeSubCfgDAO extends CfgCsvDao<ActivityRankTypeS
 	public List<ActivityRankTypeSubCfg> getByParentCfgId(String parentCfgId){
 		
 		return subCfgListMap.get(parentCfgId);
-//		List<ActivityRankTypeSubCfg> targetList = new ArrayList<ActivityRankTypeSubCfg>();
 //		List<ActivityRankTypeSubCfg> allCfg = getAllCfg();
 //		for (ActivityRankTypeSubCfg tmpItem : allCfg) {
 //			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
-//				targetList.add(tmpItem);
+//				subList.add(tmpItem);
 //			}
 //		}
-//		return targetList;
 		
 	}
 	

@@ -2,19 +2,39 @@ package com.rw.service.gm.hero;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.InlayMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.MagicMgr;
 import com.playerdata.Player;
 import com.playerdata.SkillMgr;
+import com.playerdata.fixEquip.cfg.FixEquipCfg;
+import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfg;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfgDAO;
+import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
+import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfg;
+import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.team.HeroFixEquipInfo;
+import com.rw.service.TaoistMagic.ITaoistMgr;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
+import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
+import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -24,6 +44,8 @@ import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
+import com.rwproto.ItemBagProtos.EItemAttributeType;
+import com.rwproto.TaoistMagicProtos.TaoistInfo;
 
 public class GMHeroBase {
 	
@@ -90,10 +112,11 @@ public class GMHeroBase {
 		return star;
 	}
 	
-	public static void gmUpdateTemplateId(int sex, int carrer, int startLevel, Hero hero){
-		RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, carrer, startLevel);
+	public static void gmUpdateTemplateId(Hero hero){
+//		RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, carrer, startLevel);
+		String templateId = hero.getTemplateId();
 //		hero.setTemplateId(cfg.getRoleId());
-		FSHeroBaseInfoMgr.getInstance().setTemplateId(hero, cfg.getRoleId());
+		FSHeroBaseInfoMgr.getInstance().setTemplateId(hero, templateId);
 	}
 	
 	/**
@@ -359,5 +382,169 @@ public class GMHeroBase {
 		skill.setSkillId(skillValue);
 		skill.setLevel(Integer.parseInt(tmpIds[1]));
 		return skill;
+	}
+	
+	/**
+	 * 升级道术
+	 * @param player
+	 */
+	public static void gmUpgradeTaoist(Player player, int upgradelevel){
+		ITaoistMgr taoistMgr = player.getTaoistMgr();
+		Iterable<TaoistMagicCfg> openList = TaoistMagicCfgHelper.getInstance().getAllTaoistMagic();
+		for (Iterator<TaoistMagicCfg> iterator = openList.iterator(); iterator.hasNext();) {
+			TaoistMagicCfg taoistMagicCfg = iterator.next();
+			taoistMgr.setLevel(taoistMagicCfg.getKey(), upgradelevel);
+		}
+//		Iterable<TaoistInfo> magicList = taoistMgr.getMagicList();
+//		Iterable<Entry<Integer, Integer>> allTaoist = taoistMgr.getAllTaoist();
+//		for (Iterator<Entry<Integer, Integer>> iterator = allTaoist.iterator(); iterator.hasNext();) {
+//			Entry<Integer, Integer> entry = iterator.next();
+//			Integer taoistId = entry.getKey();
+//			taoistMgr.setLevel(taoistId, upgradelevel);
+//		}
+	}
+	
+	/**
+	 * 升级神器到指定等级
+	 * @param player
+	 * @param upgradeLevel 指定等级
+	 */
+	public static void gmFixEquipLevelUp(Player player, int upgradeLevel){
+		String userId = player.getUserId();
+		int level = player.getLevel();
+		if(upgradeLevel > level){
+			upgradeLevel = level;
+		}
+		HeroMgr heroMgr = player.getHeroMgr();
+		List<Hero> allHeros = heroMgr.getAllHeros(player, null);
+		for (Hero hero : allHeros) {
+
+			FixNormEquipMgr fixNormEquipMgr = hero.getFixNormEquipMgr();
+			List<FixNormEquipDataItem> fixNorEquipItemList = fixNormEquipMgr.getFixNorEquipItemList(hero.getId());
+			for (FixNormEquipDataItem fixNormEquipDataItem : fixNorEquipItemList) {
+				gmFixNormalEquipQualityUp(fixNormEquipDataItem, upgradeLevel);
+				fixNormEquipDataItem.setLevel(upgradeLevel);
+				fixNormEquipMgr.gmSaveFixNormEquip(player, fixNormEquipDataItem);
+			}
+			FixExpEquipMgr fixExpEquipMgr = hero.getFixExpEquipMgr();
+			List<FixExpEquipDataItem> gmGetHeroFixExpEquipDataItems = fixExpEquipMgr.gmGetHeroFixExpEquipDataItems(hero.getId());
+			for (FixExpEquipDataItem fixExpEquipDataItem : gmGetHeroFixExpEquipDataItems) {
+
+				gmFixExpEquipQualityUp(fixExpEquipDataItem, upgradeLevel);
+				fixExpEquipDataItem.setLevel(upgradeLevel);
+				fixExpEquipMgr.gmSaveFixEquip(player, fixExpEquipDataItem);
+			}
+		}
+	}
+	
+	private static void gmFixNormalEquipQualityUp(FixNormEquipDataItem dataItem, int toLevel){
+		int quality = 1;
+		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+		FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), quality);
+		int allowMaxLevel = curQualityCfg.getLevelNeed();
+		while(allowMaxLevel < toLevel){
+			quality++;
+			curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), quality);
+			allowMaxLevel = curQualityCfg.getLevelNeed();
+		}
+		
+		dataItem.setQuality(quality);
+		
+	}
+	
+	private static void gmFixExpEquipQualityUp(FixExpEquipDataItem dataItem, int toLevel){
+		int quality = 1;
+		FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), quality);
+		int allowMaxLevel = curQualityCfg.getLevelNeed();
+		while(allowMaxLevel < toLevel){
+			quality++;
+			curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), quality);
+			allowMaxLevel = curQualityCfg.getLevelNeed();
+		}
+		
+		dataItem.setQuality(quality);
+	}
+	
+	/**
+	 * 修改神器的觉醒星级
+	 * @param player
+	 * @param starLevel
+	 */
+	public static void gmFixEquipStarUp(Player player, int starLevel){
+		String userId = player.getUserId();
+		HeroMgr heroMgr = player.getHeroMgr();
+		List<Hero> allHeros = heroMgr.getAllHeros(player, null);
+		for (Hero hero : allHeros) {
+			FixNormEquipMgr fixNormEquipMgr = hero.getFixNormEquipMgr();
+			List<FixNormEquipDataItem> fixNorEquipItemList = fixNormEquipMgr.getFixNorEquipItemList(hero.getId());
+			for (FixNormEquipDataItem fixNormEquipDataItem : fixNorEquipItemList) {
+				fixNormEquipDataItem.setStar(starLevel);
+				fixNormEquipMgr.gmSaveFixNormEquip(player, fixNormEquipDataItem);
+			}
+			FixExpEquipMgr fixExpEquipMgr = hero.getFixExpEquipMgr();
+			List<FixExpEquipDataItem> gmGetHeroFixExpEquipDataItems = fixExpEquipMgr.gmGetHeroFixExpEquipDataItems(hero.getId());
+			for (FixExpEquipDataItem fixExpEquipDataItem : gmGetHeroFixExpEquipDataItems) {
+				fixExpEquipDataItem.setStar(starLevel);
+				fixExpEquipMgr.gmSaveFixEquip(player, fixExpEquipDataItem);
+			}
+		}
+	}
+	
+	public static void gmUpgradeMagic(Player player, int upgradeLevel){
+		MagicMgr magicMgr = player.getMagicMgr();
+		ItemData magic = magicMgr.getMagic();
+		int level = player.getLevel();
+		if(upgradeLevel > level){
+			upgradeLevel = level;
+		}
+		int magicLevel = magic.getMagicLevel();
+		String modelId = String.valueOf(magic.getModelId());
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		if(upgradeLevel == magicLevel){
+			return;
+		}
+		if(upgradeLevel > magicLevel){
+			//升级
+			
+			MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelId);
+			while (magicCfg.getUplevel() < upgradeLevel) {
+				modelId = magicCfg.getUpMagic();
+				magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelId);
+				if(magicCfg == null){
+					break;
+				}
+			}
+			
+		}else{
+			//降级
+			String beforeMagicModelId = beforeMagicModelId(modelId);
+			MagicCfg beforeMagicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(beforeMagicModelId);
+			
+			while(beforeMagicCfg.getUplevel() > upgradeLevel){
+				modelId = beforeMagicModelId;
+				beforeMagicModelId = beforeMagicModelId(modelId);
+				beforeMagicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(beforeMagicModelId);
+			}
+			
+			
+		}
+		magic.setModelId(Integer.parseInt(modelId));
+		magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(upgradeLevel));
+		itemBagMgr.updateItem(magic);
+		player.getMagicMgr().updateMagic();
+		List<ItemData> updateItems = new ArrayList<ItemData>(1);
+		updateItems.add(magic);
+		itemBagMgr.syncItemData(updateItems);
+	}
+	
+	private static String beforeMagicModelId(String modelId){
+		List<MagicCfg> allCfg = MagicCfgDAO.getInstance().getAllCfg();
+		for (MagicCfg magicCfg : allCfg) {
+			if(magicCfg.getUpMagic().equals(modelId)){
+				modelId = String.valueOf(magicCfg.getId());
+				break;
+			}
+		}
+		return modelId;
 	}
 }

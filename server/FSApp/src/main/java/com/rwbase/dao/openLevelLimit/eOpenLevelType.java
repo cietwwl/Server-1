@@ -11,9 +11,9 @@ public enum eOpenLevelType {
 	HERO(3), // 佣兵
 	RANKING(5), // 排行榜
 	EQUIP_ATTACH(6), // 装备附灵
-	TRIAL(7), // 试炼者之路
-	CELETRIAL(8), // 天界之轮
-	TOWER(9), // 无畏之塔
+	TRIAL(7), // 试炼之路-财神爷
+	CELETRIAL(8), // 天界之论-生存幻境
+	TOWER(9), // 万仙阵-无畏之塔
 	EQUIP_INLAY(11), // 装备镶嵌
 	MAGIC_FORGE(12), // 法宝锻造
 	MAGIC_SMELT(13), // 法宝熔炼
@@ -24,7 +24,7 @@ public enum eOpenLevelType {
 	DAILY(20), // 日常
 	ARENA(21), // 竞技场
 	SIGN(22), // 签到
-	COPY_TYPE_WARFARE(23), // 无尽战火
+	Magic_Secret(23), // 无尽战火-乾坤幻境
 	WORSHIP(24), // 膜拜
 	PEAK_ARENA(25), // 巅峰竞技场
 	TASK(26), // 任务
@@ -34,7 +34,7 @@ public enum eOpenLevelType {
 	Hero_Wear_Equip(32), // 佣兵可穿装备等级
 	HERO_Inlay(33), // 宝石开启等级
 	MAIN_CITY(34), // 首页
-	SECRET_AREA(35), // 秘境
+	SECRET_AREA(35), // 帮派秘境
 	SHOP(36), // 商店
 	SECRET_SHOP(37), // 神秘商店
 	Blackmark_SHOP(38), // 黑市商店

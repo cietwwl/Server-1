@@ -1,7 +1,7 @@
 package com.rw.fsutil.dao.cache;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,16 +10,31 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.locks.ReentrantLock;
 
+import com.rw.fsutil.cacheDao.FSUtilLogger;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.dao.cache.evict.EldestDefaultHandler;
+import com.rw.fsutil.dao.cache.evict.EldestEvictedResult;
+import com.rw.fsutil.dao.cache.evict.EldestHandler;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.cache.record.DataLoggerRecord;
 import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
 import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
+import com.rw.fsutil.dao.optimize.ComputeFunction;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DoubleKey;
+import com.rw.fsutil.dao.optimize.EvictedElementTaker;
+import com.rw.fsutil.dao.optimize.FSBoundedQueue;
+import com.rw.fsutil.dao.optimize.FSLRUCache;
+import com.rw.fsutil.dao.optimize.LRUInsertResult;
+import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
+import com.rw.fsutil.dao.optimize.PersistentParamsExtractor;
+import com.rw.fsutil.dao.optimize.TableUpdateCollector;
+import com.rw.fsutil.dao.optimize.ValueConsumer;
+import com.rw.fsutil.util.DateUtils;
 
 /**
  * 数据缓存
@@ -27,45 +42,41 @@ import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
  * @author Jamaz
  */
 @SuppressWarnings("rawtypes")
-public class DataCache<K, V> implements DataUpdater<K> {
+public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 
-	private static final Object PRESENT = new Object();
-	private final ReentrantLock lock;
-	private final LinkedHashMap<K, CacheValueEntity<V>> cache; // 数据集合
-	private final ConcurrentHashMap<K, Object> delayUpdateMap; // 延迟更新任务，表示一个一段时间后执行的任务
-	private final ConcurrentHashMap<K, Object> delayRemoveMap; // 延迟删除任务，表示一个一段时间后删除的任务
+	private final FSLRUCache<K, CacheValueEntity<V>> cache;
 	private final ConcurrentHashMap<K, ReentrantFutureTask> taskMap; // 任务集合，表示一个以主键互斥的任务
 	private final ConcurrentHashMap<K, Object> recordMap; // 表示正在执行record的对象
 	private final SimpleCache<K, Long> penetrationCache;// 缓存穿透，表示在数据库找不到的任务，缓存一段时间防止缓存穿透
 	private final long penetrationTimeOutMillis;
-	private final PersistentLoader<K, V> loader;
+	private final PersistentGenericHandler<K, V, Object> loader;
 	private final int capacity;
 	private final int updatePeriod;
-	private final long timeoutNanos;
-	private final ScheduledThreadPoolExecutor scheduledExecutor;
+	private final int updatePeriodMillis;
+	private final long timeoutMillis;
 	private final DataNotExistHandler<K, V> dataNotExistHandler;
 	private CacheLogger logger;
 	private String name;
 	private CacheJsonConverter<K, V, Object, DataChangedEvent<?>> jsonConverter;
-	private final AtomicLong generator;
 	private final ArrayList<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners;
+	private ComputeFunction<CacheValueEntity<V>, V> computeFunction;
+	private ValueConsumer<CacheValueEntity<V>, V, Pair<Boolean, CacheValueEntity<V>>> updateComsumer;
+	private final FSBoundedQueue<ReentrantFutureTask> evictedQueue;
 
-	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, ScheduledThreadPoolExecutor scheduledExecutor, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter,
-			List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
+	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler,
+			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
 		this.name = key.getName();
-		this.capacity = maxCapacity;
+		int tenPercent = maxCapacity / 10;
+		this.capacity = maxCapacity - tenPercent;
+		this.evictedQueue = new FSBoundedQueue<ReentrantFutureTask>(name, tenPercent);
 		this.logger = CacheFactory.getLogger(name);
-		this.lock = new ReentrantLock();
-		this.scheduledExecutor = scheduledExecutor;
 		this.updatePeriod = updatePeriod;
-		this.delayUpdateMap = new ConcurrentHashMap<K, Object>();
-		this.delayRemoveMap = new ConcurrentHashMap<K, Object>();
+		this.updatePeriodMillis = (int) TimeUnit.SECONDS.toMillis(updatePeriod);
 		this.taskMap = new ConcurrentHashMap<K, ReentrantFutureTask>();
 		this.penetrationCache = new SimpleCache<K, Long>(1000);
 		this.penetrationTimeOutMillis = TimeUnit.MINUTES.toMillis(5);
-		this.loader = loader;
-		this.generator = new AtomicLong();
-		this.timeoutNanos = TimeUnit.SECONDS.toNanos(6);
+		this.loader = (PersistentGenericHandler<K, V, Object>) loader;
+		this.timeoutMillis = TimeUnit.SECONDS.toMillis(6);
 		if (dataNotExistHandler != null) {
 			this.dataNotExistHandler = dataNotExistHandler;
 		} else {
@@ -77,49 +88,40 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		} else {
 			recordMap = null;
 		}
-		this.cache = new LRUCache(maxCapacity);
 		if (dataChangedListeners != null) {
 			this.dataChangedListeners = new ArrayList<DataChangedVisitor<DataChangedEvent<?>>>(dataChangedListeners);
 		} else {
 			this.dataChangedListeners = new ArrayList<DataChangedVisitor<DataChangedEvent<?>>>(0);
 		}
+
+		EldestHandler<K, CacheValueEntity<V>> eldestHandler;
+		Map<String, String> updateSqlMapping = loader.getUpdateSqlMapping();
+		if (updateSqlMapping != null) {
+			DataAccessFactory.getTableUpdateCollector().addTableSqlMapper(updateSqlMapping);
+			eldestHandler = new EldestHandlerImpl();
+		} else {
+			eldestHandler = new EldestDefaultHandler<K, V>();
+		}
+
+		this.computeFunction = new ComputeFunction<CacheValueEntity<V>, V>() {
+
+			@Override
+			public V computeIfPersent(CacheValueEntity<V> value) {
+				return value.getValue();
+			}
+		};
+
+		this.updateComsumer = new ValueConsumer<CacheValueEntity<V>, V, Pair<Boolean, CacheValueEntity<V>>>() {
+
+			@Override
+			public Pair<Boolean, CacheValueEntity<V>> apply(CacheValueEntity<V> value, V newValue) {
+				value.setValue(newValue);
+				return Pair.Create(Boolean.TRUE, value);
+			}
+		};
+
+		this.cache = new FSLRUCache<K, CacheValueEntity<V>>(name, maxCapacity, eldestHandler);
 		this.logger.info("create DAO = " + name + ",maxCapacity = " + maxCapacity + ",updatePeriod = " + updatePeriod);
-	}
-
-	class LRUCache extends LinkedHashMap<K, CacheValueEntity<V>> {
-
-		private static final long serialVersionUID = 1L;
-
-		public LRUCache(int initialCapacity) {
-			super(initialCapacity, 0.5f, true);
-		}
-
-		@Override
-		protected boolean removeEldestEntry(Entry<K, CacheValueEntity<V>> eldest) {
-			if (size() <= capacity) {
-				return false;
-			}
-			K key = eldest.getKey();
-			logger.info("evict:" + key);
-			CacheValueEntity<V> value = eldest.getValue();
-			if (value.getState() == CacheValueState.DELETED) {
-				// 已删除数据的正常移除
-				logger.info("evict deleted:" + key);
-				return true;
-			}
-			if (delayUpdateMap.containsKey(key) || delayRemoveMap.containsKey(key)) {
-				// 有一种情况是添加失败的，就是这个数据刚被加载进来
-				ReentrantFutureTask evictedTask = createTask(new EvictedTask(key, value, value.getState() == CacheValueState.MARK_DELETE));
-				// 还没来得及执行finally的时候又被T走，这个可能性极低，而且也超过了缓存的负载能力
-				if (DataCache.this.taskMap.putIfAbsent(key, evictedTask) != null) {
-					logger.error("fatal@save evicted task fail:" + key);
-				} else {
-					logger.info("evict:" + key + "," + evictedTask);
-					DataCache.this.scheduledExecutor.schedule(evictedTask, 0, TimeUnit.NANOSECONDS);
-				}
-			}
-			return true;
-		}
 	}
 
 	class DefualtDataNotExistHandler implements DataNotExistHandler<K, V> {
@@ -128,8 +130,277 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		public V callInLoadTask(K key) {
 			// 缓存穿透处理
 			logger.info("load not exist data:" + key);
-			penetrationCache.put(key, System.currentTimeMillis());
+			penetrationCache.put(key, DateUtils.getSecondLevelMillis());
 			return null;
+		}
+
+	}
+
+	private static class EldestEvictedResultImpl implements EldestEvictedResult {
+
+		private final boolean readyToEvicted;
+		private final String name;
+
+		public EldestEvictedResultImpl() {
+			this.readyToEvicted = true;
+			this.name = null;
+		}
+
+		public EldestEvictedResultImpl(String name) {
+			this.readyToEvicted = false;
+			this.name = name;
+		}
+
+		@Override
+		public boolean readyToEvicted() {
+			return readyToEvicted;
+		}
+
+		@Override
+		public String getBlockingName() {
+			return name;
+		}
+
+	}
+
+	private class EldestHandlerImpl implements EldestHandler<K, CacheValueEntity<V>> {
+
+		private EldestEvictedResultImpl successResult = new EldestEvictedResultImpl();
+
+		@Override
+		public EldestEvictedResult beforeElementEvicted(Entry<K, CacheValueEntity<V>> eldest) {
+			K eldestKey = eldest.getKey();
+			CacheValueEntity<V> value = eldest.getValue();
+			String tableName = value.getTableName();
+			TableUpdateCollector updateCollector = DataAccessFactory.getTableUpdateCollector();
+			EvictedUpdateTask<Object> updateTask = updateCollector.getEvictedTask(tableName);
+			if (updateTask == null) {
+				FSUtilLogger.error("evicted element directly:" + tableName);
+				return successResult;
+			}
+			if (!loader.hasChanged(eldestKey, value.getValue(), updateTask)) {
+				return successResult;
+			}
+			ReentrantFutureTask evictedTask = createEvictedTask(new EvictedTask(eldestKey, value, updateTask));
+			ReentrantFutureTask old = taskMap.putIfAbsent(eldestKey, evictedTask);
+			if (old != null) {
+				logger.error(name + " fatal@save evicted task fail:" + eldestKey + ',' + old + ',' + getThreadAndTime());
+			} else {
+				// here maybe be relive
+			}
+
+			boolean addTask = evictedQueue.offer(evictedTask);
+			if (addTask) {
+				updateCollector.addEvictedTask(tableName, DataCache.this);
+				return successResult;
+			} else {
+				if (!taskMap.remove(eldestKey, evictedTask)) {
+					FSUtilLogger.info(name + " relive element：" + eldestKey);
+				}
+				return new EldestEvictedResultImpl(tableName);
+			}
+		}
+
+	}
+
+	/** 插入任务 **/
+	class InsertTask extends TaskCallable<CacheValueEntity<V>> {
+
+		private final V value;
+		private final boolean insertDB;
+		private final CacheStackTrace trace;
+
+		public InsertTask(K key, V value, boolean insertDB, CacheStackTrace trace) {
+			super(key);
+			this.value = value;
+			this.insertDB = insertDB;
+			this.trace = trace;
+		}
+
+		@Override
+		public CacheValueEntity<V> call() throws Exception {
+			boolean duplicatedKey = false;
+			if (insertDB) {
+				try {
+					loader.insert(key, value);
+				} catch (DuplicatedKeyException ex) {
+					logger.error("insert db DuplicatedKey:" + key + "," + value, ex);
+					duplicatedKey = true;
+				}
+			}
+
+			Object record = copy(key, value);
+			CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(value, record, loader.getTableName(key));
+			CacheValueEntity<V> oldValue = putIfAbsent(key, cacheValue);
+			if (oldValue != null) {
+				logger.error("put into cache exist data:" + key + "," + duplicatedKey);
+				// 更新缓存的值
+				oldValue.setValue(value);
+				record(key, value, oldValue, trace);
+				DataCache.this.submitUpdateTask(key);
+			} else if (record != null) {
+				DataLoggerRecord event = parse(key, record);
+				if (event != null) {
+					logger.executeAysnEvent(CacheLoggerPriority.INFO, "I", event, trace);
+				}
+			}
+			// 缓存有旧值
+			if (oldValue != null || duplicatedKey) {
+				logger.error("insert fail:" + insertDB + "," + key + ",exist=" + duplicatedKey + "," + oldValue + "," + value);
+			}
+			return oldValue;
+		}
+
+		@Override
+		public String getName() {
+			return "insertTask";
+		}
+	}
+
+	class EvictedTask extends TaskCallable<Void> {
+
+		private volatile CacheValueEntity<V> value;
+		private final EvictedUpdateTask<Object> updateTask;
+		private final String threadName;
+
+		public EvictedTask(K key, CacheValueEntity<V> value, EvictedUpdateTask<Object> updateTask) {
+			super(key);
+			this.threadName = Thread.currentThread().getName();
+			this.value = value;
+			this.updateTask = updateTask;
+		}
+
+		@Override
+		public Void call() throws Exception {
+			CacheValueEntity<V> value = this.value;
+			if (value == null) {
+				FSUtilLogger.info(name + " 被复活了：" + key);
+				return null;
+			}
+			HashMap<Object, Object[]> entityMap = new HashMap<Object, Object[]>();
+			loader.extractParams(key, value.getValue(), entityMap);
+			updateTask.updateForEvict(entityMap);
+			return null;
+		}
+
+		@Override
+		public String getName() {
+			return "evicted";
+		}
+
+		public CacheValueEntity<V> extractValue() {
+			CacheValueEntity<V> v = value;
+			value = null;
+			return v;
+		}
+
+		public CacheValueEntity<V> getValue() {
+			return value;
+		}
+
+		public void clear() {
+			this.value = value;
+		}
+	}
+
+	class EvictedCallable implements Callable<Void> {
+
+		private HashMap<K, CacheValueEntity<V>> map;
+		private EvictedUpdateTask<Object> updateTask;
+		private List<K> notSafeList; // 移除时不安全的列表
+
+		public EvictedCallable(EvictedUpdateTask<Object> updateTask) {
+			this.map = new HashMap<K, CacheValueEntity<V>>();
+			this.updateTask = updateTask;
+		}
+
+		@Override
+		public Void call() throws Exception {
+			HashMap<Object, Object[]> entityMap = new HashMap<Object, Object[]>(map.size());
+			synchronized (map) {
+				for (Map.Entry<K, CacheValueEntity<V>> entry : map.entrySet()) {
+					K key = entry.getKey();
+					CacheValueEntity<V> entity = entry.getValue();
+					loader.extractParams(key, entity.getValue(), entityMap);
+				}
+			}
+			updateTask.updateForEvict(entityMap);
+			return null;
+		}
+
+		public CacheValueEntity<V> getValue(K key) {
+			synchronized (map) {
+				return map.get(key);
+			}
+		}
+
+		public CacheValueEntity<V> removeValue(K key) {
+			synchronized (map) {
+				return map.remove(key);
+			}
+		}
+
+		public void putValue(K key, CacheValueEntity<V> entity) {
+			map.put(key, entity);
+		}
+
+		public void add(K key) {
+			if (notSafeList == null) {
+				notSafeList = new ArrayList<K>(2);
+			}
+			notSafeList.add(key);
+		}
+	}
+
+	class InsertRelive extends TaskCallable<CacheValueEntity<V>> {
+
+		private final CacheValueEntity<V> cacheValue;
+
+		public InsertRelive(K key, CacheValueEntity<V> value) {
+			super(key);
+			this.cacheValue = value;
+		}
+
+		@Override
+		public CacheValueEntity<V> call() throws Exception {
+			CacheValueEntity<V> oldValue = putIfAbsent(key, cacheValue);
+			if (oldValue != null) {
+				logger.error("relive insert cache exist data:" + key);
+			} else {
+				logger.warn("relive insert cache:" + key);
+			}
+			return oldValue;
+		}
+
+		@Override
+		public String getName() {
+			return "insertTask";
+		}
+
+	}
+
+	class LoadRelive extends TaskCallable<CacheValueEntity<V>> {
+
+		private final CacheValueEntity<V> value;
+
+		public LoadRelive(K key, CacheValueEntity<V> value) {
+			super(key);
+			this.value = value;
+		}
+
+		@Override
+		public CacheValueEntity<V> call() throws Exception {
+			CacheValueEntity<V> old = putIfAbsent(key, value);
+			if (old != null) {
+				return old;
+			} else {
+				return value;
+			}
+		}
+
+		@Override
+		public String getName() {
+			return "loadRelive";
 		}
 
 	}
@@ -153,23 +424,16 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 	public CacheValueEntity<V> getOrLoadCacheFromDB(K key) throws InterruptedException, Throwable {
 		// 先从缓存中获取，如果存在于缓存，直接返回
-		lock.lock();
-		try {
-			CacheValueEntity<V> value = this.cache.get(key);
-			if (value != null) {
-				// return isDeleted(value) ? null : value.value;
-				return isDeleted(value) ? null : value;
-			}
-		} finally {
-			lock.unlock();
+		CacheValueEntity<V> value = this.cache.get(key);
+		if (value != null) {
+			return value;
 		}
-
 		// 命中缓存穿透
 		// TODO 这里可用LRU代替
 		if (penetrationCache != null) {
 			Long time = this.penetrationCache.get(key);
 			if (time != null) {
-				if (System.currentTimeMillis() - time < penetrationTimeOutMillis) {
+				if (DateUtils.getSecondLevelMillis() - time < penetrationTimeOutMillis) {
 					return null;
 				} else {
 					this.penetrationCache.remove(key);
@@ -177,53 +441,48 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			}
 		}
 		// 从数据库加载
-		return loadFromDB(key, CacheValueState.PERSISTENT, new CacheStackTrace());
+		return loadFromDB(key, new CacheStackTrace());
 	}
 
-	private CacheValueEntity<V> loadFromDB(K key, CacheValueState state, CacheStackTrace trace) throws InterruptedException, TimeoutException, Throwable {
+	private CacheValueEntity<V> loadFromDB(K key, CacheStackTrace trace) throws InterruptedException, TimeoutException, Throwable {
 		// 创建加载任务
-		ReentrantFutureTask<CacheValueEntity<V>> task = createTask(new LoadTask(key, state, trace));
-		long lastTime = System.nanoTime();
-		long remainNanos = timeoutNanos;
+		ReentrantFutureTask<CacheValueEntity<V>> task = createTask(new LoadTask(key, trace));
+		long lastTime = System.currentTimeMillis();
+		long remainMillis = timeoutMillis;
 		for (;;) {
-			ReentrantFutureTask oldTask = submitKeyTask(key, task);
+			FutureTask oldTask = submitKeyTask(key, task, OperationType.LOAD);
 			if (oldTask == null) {
 				task.run();
 				try {
-					return task.get(remainNanos, TimeUnit.NANOSECONDS);
+					return task.get(remainMillis, TimeUnit.NANOSECONDS);
 				} catch (TimeoutException ex) {
-					logger.error("loadFromDB timeout:" + TimeUnit.NANOSECONDS.toMillis(remainNanos) + "," + task, ex);
+					logger.error("loadFromDB timeout:" + TimeUnit.NANOSECONDS.toMillis(remainMillis) + "," + task, ex);
 					throw ex;
 				} catch (ExecutionException ex) {
 					throw ex.getCause();
 				}
 			}
-			long now = System.nanoTime();
-			remainNanos -= (now - lastTime);
+			long now = System.currentTimeMillis();
+			remainMillis -= (now - lastTime);
 			lastTime = now;
 			Object result = null;
 			try {
-				result = oldTask.get(remainNanos, TimeUnit.NANOSECONDS);
+				result = oldTask.get(remainMillis, TimeUnit.MILLISECONDS);
 			} catch (TimeoutException ex) {
-				logger.error("wait for other task loadFromDB timeout:" + TimeUnit.NANOSECONDS.toMillis(remainNanos) + "," + oldTask, ex);
+				logger.error("wait for other task loadFromDB timeout:" + TimeUnit.NANOSECONDS.toMillis(remainMillis) + "," + oldTask, ex);
 				throw ex;
 			} catch (ExecutionException ex) {
 				// ignore
 			}
-			now = System.nanoTime();
-			remainNanos -= (now - lastTime);
+			now = System.currentTimeMillis();
+			remainMillis -= (now - lastTime);
 			lastTime = now;
 			if (result == null || result instanceof Boolean) {
 				continue;
 			}
-			lock.lock();
-			try {
-				CacheValueEntity<V> value = this.cache.get(key);
-				if (value != null) {
-					return isDeleted(value) ? null : value;
-				}
-			} finally {
-				lock.unlock();
+			CacheValueEntity<V> value = this.cache.get(key);
+			if (value != null) {
+				return value;
 			}
 		}
 	}
@@ -237,33 +496,8 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	 * @throws Throwable
 	 */
 	public boolean removeAndUpdateToDB(K key) throws InterruptedException, Throwable {
-		lock.lock();
-		try {
-			CacheValueEntity<V> old = this.cache.get(key);
-			if (old != null) {
-				if (isDeleted(old)) {
-					logger.warn("data has delete:" + key);
-					return false;
-				}
-				// 标记为已经被删除
-				old.setCacheValueState(CacheValueState.MARK_DELETE);
-				// 提交删除任务
-				boolean submit = submitRemoveTask(key);
-				logger.info("mark delete:" + key + "," + submit, true);
-				return true;
-			}
-		} finally {
-			lock.unlock();
-		}
-		// 不存在必须去数据库查一次
-		logger.info("load data by delete operation:" + key, true);
-		CacheValueEntity<V> cacheValue = loadFromDB(key, CacheValueState.MARK_DELETE, new CacheStackTrace());
-		if (cacheValue == null) {
-			return false;
-		}
-		// 提交删除任务
-		submitRemoveTask(key);
-		return true;
+		ReentrantFutureTask<Boolean> removeTask = submitAndRun(key, new RemoveTask(key), OperationType.REMOVE);
+		return removeTask.get();
 	}
 
 	/**
@@ -273,40 +507,21 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	 * @return
 	 */
 	public V getFromMemory(K key) {
-		lock.lock();
-		try {
-			CacheValueEntity<V> value = this.cache.get(key);
-			if (value == null || isDeleted(value)) {
-				return null;
-			}
-			// return value.value;
-			return value.getValue();
-		} finally {
-			lock.unlock();
-		}
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		return entity == null ? null : entity.getValue();
 	}
 
 	private CacheValueEntity<V> update(final K key, final V value) throws DataDeletedException {
-		CacheValueEntity<V> old;
-		boolean updateDelData = false;
-		lock.lock();
-		try {
-			old = this.cache.get(key);
-			if (old == null) {
-				return null;
-			}
-			if (isDeleted(old)) {
-				updateDelData = true;
-			} else {
-				old.setValue(value);
-			}
-		} finally {
-			lock.unlock();
+		Pair<Boolean, CacheValueEntity<V>> result = this.cache.computeIfPresent(key, this.updateComsumer, value);
+		if (result == null) {
+			return null;
 		}
-		if (updateDelData) {
+		if (!result.getT1()) {
 			logger.error("insert delete data:" + key + "," + value);
 			throw new DataDeletedException();
 		}
+
+		CacheValueEntity<V> old = result.getT2();
 		// 此Json可能是一个中间值
 		CacheStackTrace trace = new CacheStackTrace();
 		record(key, value, old, trace);
@@ -435,13 +650,8 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		if (value == null) {
 			throw new NullPointerException("value is null");
 		}
-		lock.lock();
-		try {
-			if (this.cache.containsKey(key)) {
-				return false;
-			}
-		} finally {
-			lock.unlock();
+		if (this.cache.containsKey(key)) {
+			return false;
 		}
 		return safeInsertCache(key, value, new CacheStackTrace());
 	}
@@ -453,13 +663,8 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		if (valueExtractor == null) {
 			throw new NullPointerException("valueExtractor is null");
 		}
-		lock.lock();
-		try {
-			if (this.cache.containsKey(key)) {
-				return false;
-			}
-		} finally {
-			lock.unlock();
+		if (this.cache.containsKey(key)) {
+			return false;
 		}
 		try {
 			V value = valueExtractor.call();
@@ -478,9 +683,12 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 	private boolean safeInsertCache(K key, V value, CacheStackTrace trace) {
 		try {
-			ReentrantFutureTask task = getControlRight(key, new InsertTask(key, value, false, trace));
-			task.run();
-			return task.get() == null;
+			ReentrantFutureTask task = submitAndRun(key, new InsertTask(key, value, false, trace), OperationType.INSERT);
+			if (task.isRelive()) {
+				return false;
+			} else {
+				return task.get() == null;
+			}
 		} catch (InterruptedException e) {
 			logger.error("insert cache fail by interrupted:" + key + "," + value);
 		} catch (TimeoutException e) {
@@ -507,7 +715,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			}
 			// 数据不存缓存，起一个插入数据库任务
 			// 为了适应逻辑，主键重复会直接捕捉和记log，并直接执行插入工作
-			ReentrantFutureTask old = submitKeyTask(key, insertTask);
+			FutureTask old = submitKeyTask(key, insertTask, OperationType.INSERT);
 			if (old == null) {
 				// 获取执行权后执行插入任务
 				insertTask.run();
@@ -520,7 +728,7 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		}
 	}
 
-	private ReentrantFutureTask submitKeyTask(K key, ReentrantFutureTask task) throws InterruptedException, TimeoutException {
+	private FutureTask submitKeyTask(K key, ReentrantFutureTask task, OperationType opType) throws InterruptedException, TimeoutException {
 		ReentrantFutureTask otherTask = this.taskMap.get(key);
 		if (otherTask == null) {
 			otherTask = this.taskMap.putIfAbsent(key, task);
@@ -532,15 +740,29 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		}
 
 		// 如果该任务是由当前线程执行，直接返回
-		if (otherTask.getRunner() == Thread.currentThread()) {
-			logger.warn("run in same thread:" + otherTask + "," + task);
-			task.setUnderControl();
-			return null;
+		EvictedTask evictedTask = otherTask.getEvictedTask();
+		if (evictedTask == null) {
+			if (((ReentrantFutureTask) otherTask).getRunner() == Thread.currentThread()) {
+				logger.warn("run in same thread:" + otherTask + "," + task);
+				task.setUnderControl();
+				return null;
+			}
+		} else {
+			CacheValueEntity<V> entity = evictedTask.getValue();
+			if (entity == null) {
+				FSUtilLogger.error("relive value is null:" + key + "," + name);
+			} else {
+				ReentrantFutureTask newTask = opType.create(this, key, entity);
+				if (taskMap.replace(key, otherTask, newTask)) {
+					evictedTask.clear();
+					newTask.run();
+					return newTask;
+				}
+			}
 		}
-
 		// 这里执行其他操作可能会加载到内存
 		try {
-			otherTask.get(timeoutNanos, TimeUnit.SECONDS);
+			otherTask.get(timeoutMillis, TimeUnit.MILLISECONDS);
 		} catch (ExecutionException ex) {
 			// ignore
 		} catch (TimeoutException e) {
@@ -550,6 +772,26 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		return otherTask;
 	}
 
+	private CacheValueEntity<V> putIfAbsent(K key, CacheValueEntity<V> entity) throws InterruptedException, TimeoutException {
+		long remainMillis = this.timeoutMillis;
+		for (;;) {
+			LRUInsertResult<CacheValueEntity<V>> result = this.cache.putIfAbsent(key, entity);
+			if (result == null) {
+				return null;
+			}
+			CacheValueEntity<V> old = result.getValue();
+			if (old != null) {
+				return old;
+			}
+			long start = System.currentTimeMillis();
+			boolean ok = this.evictedQueue.waitForNotFull(TimeUnit.MILLISECONDS, remainMillis);
+			if (!ok) {
+				throw new TimeoutException();
+			}
+			remainMillis -= (System.currentTimeMillis() - start);
+		}
+	}
+
 	/**
 	 * 检测是否含有该键对应的数据
 	 * 
@@ -557,19 +799,26 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	 * @return
 	 */
 	public boolean containsKey(K key) {
-		lock.lock();
-		try {
-			return this.cache.containsKey(key);
-		} finally {
-			lock.unlock();
-		}
+		return this.cache.containsKey(key);
 	}
 
-	private ReentrantFutureTask getControlRight(K key, TaskCallable task) throws InterruptedException, TimeoutException {
+	private <T> ReentrantFutureTask<T> submitAndRun(K key, TaskCallable<T> task, OperationType opType) throws InterruptedException, TimeoutException {
+		// 1.产生一个正式的Task
+		// 2.替换成功，执行
+		// 3.替换失败，判断如果是踢出任务，产生一个relive task，执行
+		// 4.替换失败，不是踢出任务，等待此任务执行完，循环
 		ReentrantFutureTask t = new ReentrantFutureTask(task);
 		for (;;) {
-			if (submitKeyTask(key, t) == null) {
+			FutureTask old = submitKeyTask(key, t, opType);
+			// 插入成功
+			if (old == null) {
+				t.run();
 				return t;
+			} else if (old instanceof ReentrantFutureTask) {
+				ReentrantFutureTask oldTask = (ReentrantFutureTask) old;
+				if (oldTask.isRelive()) {
+					return oldTask;
+				}
 			}
 		}
 	}
@@ -580,123 +829,25 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		return t;
 	}
 
-	/** 提交更新任务 **/
-	private void submitUpdateTask(K key, int second, Callable callable) {
-		if (this.delayUpdateMap.putIfAbsent(key, PRESENT) == null) {
-			scheduledExecutor.schedule(callable, second, TimeUnit.SECONDS);
-		}
-		CacheValueEntity<V> entity = this.get(key);
-		if (entity != null) {
-			record(key, entity.getValue(), entity, new CacheStackTrace());
-		}
+	/** 构造一个ReentrantFutureTask **/
+	private <T> ReentrantFutureTask<T> createReliveTask(TaskCallable<T> task) {
+		ReentrantFutureTask t = new ReentrantFutureTask(task, true);
+		return t;
 	}
 
-	/** 提交更新任务 **/
-	public void submitUpdateTask(K key) {
-		submitUpdateTask(key, updatePeriod, new UpdateTask(key));
-	}
-
-	/** 提交更新任务 **/
-	public void submitUpdateTask(K key, CacheStackTrace trace) {
-		submitUpdateTask(key, updatePeriod, new UpdateTask(key, trace));
-	}
-
-	/** 提交删除任务 **/
-	private boolean submitRemoveTask(K key, RemoveTask removeTask) {
-		if (this.delayRemoveMap.putIfAbsent(key, PRESENT) == null) {
-			scheduledExecutor.schedule(new RemoveOperation(key, removeTask), updatePeriod, TimeUnit.SECONDS);
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	private boolean submitRemoveTask(K key) {
-		return submitRemoveTask(key, null);
-	}
-
-	/** 插入任务 **/
-	class InsertTask extends TaskCallable<CacheValueEntity<V>> {
-
-		private final V value;
-		private final boolean insertDB;
-		private final CacheStackTrace trace;
-
-		public InsertTask(K key, V value, boolean insertDB, CacheStackTrace trace) {
-			super(key);
-			this.value = value;
-			this.insertDB = insertDB;
-			this.trace = trace;
-		}
-
-		@Override
-		public  CacheValueEntity<V> call() throws Exception {
-			boolean duplicatedKey = false;
-			if (insertDB) {
-				try {
-					loader.insert(key, value);
-				} catch (DuplicatedKeyException ex) {
-					logger.error("insert db DuplicatedKey:" + key + "," + value, ex);
-					duplicatedKey = true;
-				}
-			}
-
-			Object record = copy(key, value);
-			boolean insertFail = false;
-			CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(value, CacheValueState.PERSISTENT, record);
-			CacheValueEntity<V> oldValue;
-			lock.lock();
-			try {
-				oldValue = DataCache.this.cache.get(key);
-				if (oldValue == null) {
-					// 更新到缓存
-					DataCache.this.cache.put(key, cacheValue);
-				} else {
-					insertFail = true;
-				}
-			} finally {
-				lock.unlock();
-			}
-			if (insertFail) {
-				logger.error("put into cache exist data:" + key);
-			}
-			// 更新缓存中的值，并提交更新任务
-			// 提交一个打印任务
-			// TODO 这里没有描述出变化的状态
-			if (record != null) {
-				DataLoggerRecord event = parse(key, record);
-				if (event != null) {
-					logger.executeAysnEvent(CacheLoggerPriority.INFO, "I", event, trace);
-				}
-			}
-			// 缓存有旧值
-			if (oldValue != null || duplicatedKey) {
-				logger.error("insert cache fail:" + insertDB + "," + key + ",exist=" + duplicatedKey + "," + oldValue + "," + value);
-				DataCache.this.submitUpdateTask(key);
-			}
-			return oldValue;
-		}
-
-		@Override
-		public String getErrorInfo() {
-			return "InsertTask移除失败:" + key;
-		}
-
-		@Override
-		public String getName() {
-			return "insertTask";
-		}
+	/** 构造一个ReentrantFutureTask **/
+	private ReentrantFutureTask createEvictedTask(EvictedTask task) {
+		ReentrantFutureTask t = new ReentrantFutureTask(task);
+		return t;
 	}
 
 	/** 加载任务 **/
 	class LoadTask extends TaskCallable<CacheValueEntity<V>> {
 
-		private final CacheValueState state;
 		private final CacheStackTrace trace;
 
-		public LoadTask(K key, CacheValueState state, CacheStackTrace trace) {
+		public LoadTask(K key, CacheStackTrace trace) {
 			super(key);
-			this.state = state;
 			this.trace = trace;
 		}
 
@@ -711,219 +862,54 @@ public class DataCache<K, V> implements DataUpdater<K> {
 			}
 			if (v != null) {
 				Object record = copy(key, v);
-				CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(v, state, record);
-				boolean needRecord = false;
-				lock.lock();
-				try {
-					CacheValueEntity<V> old = cache.get(key);
-					if (old == null) {
-						cache.put(key, cacheValue);
-						needRecord = true;
-						return cacheValue;
-					}
-					logger.info("load data exsit:" + key + "," + old.getState() + "," + state + "," + old.getValue());
-					// 到这里表示，从内存命中失败后，到执行这个loadTask(包括插入)之间
-					// 已经完成了一次loadTask的执行(可能是get发起的或者remove发起的)
-					if (isDeleted(old)) {
-						// 数据已被删除
-						logger.warn("load delete data:" + key + "," + v);
-						return null;
-					}
-					// 如果是删除操作发起的加载，要在lock的情况下设置MARK_DELETE标志
-					if (state == CacheValueState.MARK_DELETE) {
-						old.setCacheValueState(state);
-					}
+				CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(v, record, loader.getTableName(key));
+				CacheValueEntity<V> old = putIfAbsent(key, cacheValue);
+				if (old != null) {
 					return old;
-				} finally {
-					lock.unlock();
-					if (record != null && needRecord) {
-						DataLoggerRecord event = parse(key, record);
-						if (event != null) {
-							logger.executeAysnEvent(CacheLoggerPriority.INFO, "L", event, this.trace);
-						}
+				}
+				if (record != null) {
+					DataLoggerRecord event = parse(key, record);
+					if (event != null) {
+						logger.executeAysnEvent(CacheLoggerPriority.INFO, "L", event, this.trace);
 					}
 				}
+				return cacheValue;
 			} else {
-				// logger.warn("加载数据为null:" + key + "," + name);
 				return null;
 			}
-		}
-
-		@Override
-		public String getErrorInfo() {
-			return "LoadTask fail:" + key + "," + state;
 		}
 
 		@Override
 		public String getName() {
-			return "loadTask:" + state;
-		}
-	}
-
-	/** LRU移除任务 **/
-	class EvictedTask extends TaskCallable<V> {
-
-		private final CacheValueEntity<V> value;
-		private final boolean remove;
-
-		public EvictedTask(K key, CacheValueEntity<V> value, boolean remove) {
-			super(key);
-			this.value = value;
-			this.remove = remove;
-		}
-
-		@Override
-		public String getErrorInfo() {
-			return "evict fail:" + key + "," + value + "," + remove;
-		}
-
-		@Override
-		public V call() throws Exception {
-			if (!remove) {
-				Object exist = DataCache.this.delayUpdateMap.remove(key);
-				logger.info("evict_update:" + key + "," + (exist != null));
-				// if (!loader.updateToDB(key, value.value)) {
-				if (!loader.updateToDB(key, value.getValue())) {
-					logger.error("fatal@evict_update fail:" + key + "," + value.getValue());
-				}
-				return null;
-			}
-			if (DataCache.this.delayRemoveMap.remove(key) == null) {
-				// 只用一种可能，在LRU的时候判断到MARK_DELETE状态到提交任务之间，执行了一个完整的RemoveOpertaion
-				logger.warn("remove operation has been executed@EvictedTask" + key);
-				return null;
-			}
-			logger.info("evict_remove:" + key);
-			boolean result = loader.delete(key);
-			if (!result) {
-				logger.error("fatal@evict_remove faile:" + key);
-			}
-			return null;
-		}
-
-		@Override
-		public String getName() {
-			return "evcitTask";
-		}
-	}
-
-	class RemoveOperation implements Callable {
-
-		private final K key;
-		private volatile RemoveTask removeTask;
-
-		public RemoveOperation(K key) {
-			this.key = key;
-		}
-
-		public RemoveOperation(K key, RemoveTask removeTask) {
-			this.key = key;
-			this.removeTask = removeTask;
-		}
-
-		@Override
-		public Object call() {
-			// 更新任务必须保证互斥
-			if (DataCache.this.delayRemoveMap.remove(key) == null) {
-				logger.info("remove operation has been executed@RemoveOperation" + key);
-				return null;
-			}
-			if (removeTask == null) {
-				removeTask = new RemoveTask(key, 0);
-			}
-			ReentrantFutureTask<V> task;
-			try {
-				task = getControlRight(key, removeTask);
-				task.run();
-				return task.get();
-			} catch (InterruptedException e) {
-				logger.error("remove operation interrupted:" + key, e);
-				submitRemoveTask(key, removeTask);
-			} catch (TimeoutException e) {
-				logger.error("remove operation is timeout:" + key, e);
-				submitRemoveTask(key, removeTask);
-			} catch (ExecutionException e) {
-				logger.error("remove operation exception:" + key, e);
-				submitRemoveTask(key, removeTask);
-			}
-			return null;
+			return "loadTask:" + key;
 		}
 	}
 
 	/** 移除任务 **/
 	class RemoveTask extends TaskCallable<Boolean> {
 
-		private volatile int times;
-
-		public RemoveTask(K key, int times) {
+		public RemoveTask(K key) {
 			super(key);
-			this.times = times;
 		}
 
 		@Override
 		public Boolean call() throws Exception {
-			// 这个时候其他线程无法加载从数据库加载的任务
-			CacheValueEntity<V> value = DataCache.this.get(key);
-			// 数据存在缓存时三种情况的处理
-			boolean isInCache = (value != null);
-			if (isInCache) {
-				CacheValueState state = value.getState();
-				if (state == CacheValueState.DELETED) {
-					logger.error("RemoveTask数据已被删除:" + key);
-					return Boolean.FALSE;
-				}
-				// 另外两种情况都需要删除
-				if (state == CacheValueState.PERSISTENT) {
-					logger.error("RemoveTask状态错误:" + key);
-					lock.lock();
-					try {
-						value = DataCache.this.cache.get(key);
-						isInCache = (value != null);
-						if (isInCache) {
-							state = value.getState();
-							logger.error("lock重读状态:" + key + "," + isInCache + "," + state);
-							if (state == CacheValueState.DELETED) {
-								return Boolean.FALSE;
-							}
-
-							if (state == CacheValueState.PERSISTENT) {
-								value.setCacheValueState(CacheValueState.MARK_DELETE);
-								logger.error("重置删除状态:" + key);
-							}
-						}
-					} finally {
-						lock.unlock();
-					}
-				}
-				// CacheValueState.MARK_DELETE属于正常状态
-			}
+			CacheValueEntity<V> entity = cache.remove(key);
+			boolean inCache = entity != null;
 			try {
-				if (loader.delete(key)) {
-					// TODO 考虑是否必须从缓存删除
-					// 可以防止缓存穿透
-					// 一个已被删除的数据，更新时可以提示失败
-					if (isInCache) {
-						value.setCacheValueState(CacheValueState.DELETED);
-					}
-					logger.info("delete success:" + key + "," + isInCache);
-					return Boolean.TRUE;
-				} else {
-					logger.error("删除数据失败:" + key + ",第[" + (++times) + "]次," + isInCache);
-					// 重新更新任务，不在缓存并且删除失败，表示被T除任务删除了
-					if (isInCache) {
-						submitRemoveTask(key, this);
-					}
-					return Boolean.FALSE;
-				}
-			} catch (DataNotExistException exception) {
-				logger.error("删除数据不存在:" + key + "," + isInCache);
-				return Boolean.FALSE;
+				return loader.delete(key);
+			} catch (DataNotExistException e) {
+				logger.error("delete fail:" + key + "," + name + "," + inCache);
+			} catch (Exception e) {
+				logger.error("delete exception:" + key + "," + name + "," + inCache, e);
 			}
-		}
-
-		@Override
-		public String getErrorInfo() {
-			return "RemoveTask移除失败:" + key;
+			return Boolean.FALSE;
+			// 这个时候其他线程无法加载从数据库加载的任务
+			// CacheValueEntity<V> value = DataCache.this.get(key);
+			// 如果不在内存，直接从数据库执行删除
+			// 如果在内存，DELETED状态不处理，因为已被删除
+			// 如果在内存，MARK_DELETE，从数据库执行删除，并且设置为DELETED
+			// 如果在内存，PERSISTENT，重新设置为MARK_DELETE，从数据库执行删除，并且设置为DELETED
 		}
 
 		@Override
@@ -933,113 +919,12 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	}
 
 	/**
-	 * 更新任务
-	 **/
-	class UpdateTask implements Callable {
-
-		private final K key;
-		private volatile int times;
-		private final CacheStackTrace trace;
-		private final long version;
-
-		public UpdateTask(K key) {
-			this.key = key;
-			this.trace = new CacheStackTrace();
-			this.version = generator.incrementAndGet();
-		}
-
-		public UpdateTask(K key, CacheStackTrace trace) {
-			this.key = key;
-			this.trace = trace;
-			this.version = generator.incrementAndGet();
-		}
-
-		@Override
-		public Object call() throws Exception {
-			// 更新任务必须保证互斥
-			if (DataCache.this.delayUpdateMap.remove(key) == null) {
-				logger.warn("updatetask executed:" + key + "," + name);
-				return null;
-			}
-			CacheValueEntity<V> value = DataCache.this.get(key);
-			if (value == null) {
-				String taskName = null;
-				ReentrantFutureTask task = taskMap.get(key);
-				if (task != null) {
-					taskName = task.getTask().getClass().getName();
-				}
-				logger.warn("update fail:" + key + "," + name + "," + CacheFactory.getStackTrace(trace) + ",version = " + version + "," + taskName);
-				return null;
-			}
-			V v = value.getValue();
-			if (v == null) {
-				logger.error("update value is null:" + key + "," + value + "," + name);
-				return null;
-			}
-			CacheValueState state = value.getState();
-			if (state != CacheValueState.PERSISTENT) {
-				logger.info("update delete data:" + key + "," + state);
-				return null;
-			}
-			// RecordEvent record = value.get();
-			// long version;
-			// if (record != null) {
-			// version = record.getVersion();
-			// } else {
-			// version = 0;
-			// }
-			try {
-				if (!loader.updateToDB(key, v)) {
-					times++;
-					if (times < 3 || (times % 10 == 0)) {
-						logger.error("update fail:" + key + ",第[" + times + "]次," + version + "," + name);
-					}
-					int period;
-					if (times < 2) {
-						period = updatePeriod;
-					} else if (times < 10) {
-						period = updatePeriod << 1;
-					} else if (times < 20) {
-						period = updatePeriod * 3;
-					} else {
-						period = updatePeriod * 10;
-					}
-					// submitUpdateTask(key, period, this);
-					if (delayUpdateMap.putIfAbsent(key, PRESENT) == null) {
-						scheduledExecutor.schedule(this, period, TimeUnit.SECONDS);
-					}
-				} else {
-					logger.info("UpdateTask:" + key + "," + version);
-				}
-			} catch (Throwable t) {
-				logger.error("update exception:" + key + "," + version, t);
-				t.printStackTrace();
-			}
-			return null;
-		}
-	}
-
-	private CacheValueEntity<V> get(K key) {
-		lock.lock();
-		try {
-			return this.cache.get(key);
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	/**
 	 * 获取缓存当前的大小
-	 * 
+	 *
 	 * @return
 	 */
 	public int size() {
-		lock.lock();
-		try {
-			return this.cache.size();
-		} finally {
-			lock.unlock();
-		}
+		return this.cache.size();
 	}
 
 	/**
@@ -1061,60 +946,15 @@ public class DataCache<K, V> implements DataUpdater<K> {
 	}
 
 	/**
-	 * 返回缓存值集合的拷贝
-	 * 
-	 * @return
-	 */
-	public List<V> values() {
-		lock.lock();
-		try {
-			int size = this.cache.size();
-			ArrayList<V> list = new ArrayList<V>(size);
-			for (CacheValueEntity<V> value : this.cache.values()) {
-				// list.add(value.value);
-				list.add(value.getValue());
-			}
-			return list;
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	/**
-	 * 返回缓存键集合的拷贝
-	 * 
-	 * @return
-	 */
-	public List<K> keys() {
-		lock.lock();
-		try {
-			return new ArrayList<K>(this.cache.keySet());
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	/**
 	 * 获取缓存key-value的拷贝
-	 * 
+	 *
 	 * @return
 	 */
 	public Map<K, V> entries() {
-		lock.lock();
-		try {
-			int size = this.cache.size();
-			LinkedHashMap<K, V> map = new LinkedHashMap<K, V>(size);
-			for (Map.Entry<K, CacheValueEntity<V>> entry : this.cache.entrySet()) {
-				// map.put(entry.getKey(), entry.getValue().value);
-				map.put(entry.getKey(), entry.getValue().getValue());
-			}
-			return map;
-		} finally {
-			lock.unlock();
-		}
+		return cache.entries(computeFunction);
 	}
 
-	public PersistentLoader<K, V> getLoader() {
+	public PersistentGenericHandler<K, V, ? extends Object> getLoader() {
 		return loader;
 	}
 
@@ -1131,27 +971,6 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		};
 	}
 
-	private boolean isDeleted(CacheValueEntity<V> value) {
-		// CacheValueState state = value.state;
-		CacheValueState state = value.getState();
-		return state == CacheValueState.MARK_DELETE || state == CacheValueState.DELETED;
-	}
-
-	static enum CacheValueState {
-		/**
-		 * 持久化的
-		 */
-		PERSISTENT,
-		/**
-		 * 在缓存标记为删除
-		 */
-		MARK_DELETE,
-		/**
-		 * 已从DB删除
-		 */
-		DELETED
-	}
-
 	abstract class TaskCallable<T> implements Callable<T> {
 
 		final K key;
@@ -1161,20 +980,42 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		}
 
 		public abstract String getName();
-
-		public abstract String getErrorInfo();
 	}
 
-	private class ReentrantFutureTask<V> extends FutureTask<V> {
+	private class ReentrantFutureTask<T> extends FutureTask<T> {
 
 		private final TaskCallable task;
 		private volatile Thread runner;
 		private volatile boolean controller;
+		private final boolean relive;
+		private final EvictedTask evictedTask;
 
-		public ReentrantFutureTask(TaskCallable<V> task) {
+		public ReentrantFutureTask(TaskCallable<T> task, boolean isRelive) {
 			super(task);
 			this.task = task;
 			this.controller = true;
+			this.relive = isRelive;
+			this.evictedTask = null;
+		}
+
+		public ReentrantFutureTask(EvictedTask task) {
+			super((TaskCallable) task);
+			this.task = task;
+			this.controller = true;
+			this.relive = true;
+			this.evictedTask = task;
+		}
+
+		public EvictedTask getEvictedTask() {
+			return evictedTask;
+		}
+
+		public ReentrantFutureTask(TaskCallable<T> task) {
+			this(task, false);
+		}
+
+		public boolean isRelive() {
+			return relive;
 		}
 
 		public void setUnderControl() {
@@ -1188,11 +1029,13 @@ public class DataCache<K, V> implements DataUpdater<K> {
 					this.runner = Thread.currentThread();
 				}
 				super.run();
+			} catch (Throwable t) {
+				t.printStackTrace();
 			} finally {
 				if (controller) {
 					Future old = DataCache.this.taskMap.remove(task.key);
 					if (old != this) {
-						logger.error("fatal@" + task.getErrorInfo());
+						logger.error("fatal@" + task.getName());
 					}
 				}
 			}
@@ -1205,25 +1048,10 @@ public class DataCache<K, V> implements DataUpdater<K> {
 		public String toString() {
 			return task.getName();
 		}
-
-		public TaskCallable getTask() {
-			return task;
-		}
-
 	}
 
-	private Map<K, CacheValueEntity<V>> getCopy() {
-		lock.lock();
-		try {
-			return new LinkedHashMap<K, CacheValueEntity<V>>(this.cache);
-		} finally {
-			lock.unlock();
-		}
-	}
-
-	@SuppressWarnings({ "unchecked" })
 	public List<Runnable> createUpdateTask() {
-		final Map<K, CacheValueEntity<V>> map = getCopy();
+		final Map<K, CacheValueEntity<V>> map = this.cache.entries();
 		ArrayList<Runnable> taskList = new ArrayList<Runnable>(map.size());
 		for (Map.Entry<K, CacheValueEntity<V>> entry : map.entrySet()) {
 			final CacheValueEntity<V> cacheValue = entry.getValue();
@@ -1238,22 +1066,9 @@ public class DataCache<K, V> implements DataUpdater<K> {
 					}
 					V value = cacheValue.getValue();
 					try {
-						CacheValueState state = cacheValue.getState();
-						if (state == CacheValueState.DELETED) {
-							// 数据已被删除不作处理
-							logger.info("忽略Future过期数据:" + key + "," + value);
-						} else if (state == CacheValueState.MARK_DELETE) {
-							logger.info("执行Future删除操作:" + key + "," + value);
-							// 执行删除操作
-							RemoveTask removeTask = new RemoveTask(key, 0);
-							ReentrantFutureTask<V> task = getControlRight(key, removeTask);
-							task.run();
-							task.get();
-						} else {
-							logger.info("执行Future更新操作:" + key + "," + value);
-							if (!loader.updateToDB(key, value)) {
-								logger.error("执行Future更新失败:" + key);
-							}
+						logger.info("执行Future更新操作:" + key + "," + value);
+						if (!loader.updateToDB(key, value)) {
+							logger.error("执行Future更新失败:" + key);
 						}
 					} catch (Throwable t) {
 						logger.error("执行Future异常:" + key + "," + value, t);
@@ -1274,10 +1089,132 @@ public class DataCache<K, V> implements DataUpdater<K> {
 
 	@Override
 	public void submitRecordTask(K key) {
-		CacheValueEntity<V> entity = this.get(key);
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
 		if (entity != null) {
 			record(key, entity.getValue(), entity, new CacheStackTrace());
 		}
+	}
+
+	public void submitUpdateList(K key, List<? extends Object> keyList) {
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		if (entity != null) {
+			TableUpdateCollector collector = DataAccessFactory.getTableUpdateCollector();
+			String tableName = entity.getTableName();
+			for (int i = keyList.size(); --i >= 0;) {
+				DoubleKey dbKey = new DoubleKey<K, Object>(key, keyList.get(i));
+				collector.add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key));
+			}
+			record(key, entity.getValue(), entity, new CacheStackTrace());
+		} else {
+			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
+		}
+	}
+
+	public void submitUpdateTask(K key, Object key2) {
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		if (entity != null) {
+			String tableName = entity.getTableName();
+			DoubleKey dbKey = new DoubleKey<K, Object>(key, key2);
+			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key));
+			record(key, entity.getValue(), entity, new CacheStackTrace());
+		} else {
+			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
+		}
+	}
+
+	/** 提交更新任务 **/
+	public void submitUpdateTask(K key) {
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		if (entity != null) {
+			String tableName = entity.getTableName();
+			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
+			record(key, entity.getValue(), entity, new CacheStackTrace());
+		} else {
+			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
+		}
+	}
+
+	/** 提交更新任务 **/
+	public void submitUpdateTask(K key, CacheStackTrace trace) {
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		if (entity != null) {
+			String tableName = entity.getTableName();
+			if (tableName != null) {
+				DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
+			}
+			record(key, entity.getValue(), entity, trace);
+		} else {
+			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
+		}
+	}
+
+	class SignleParamsExtractor implements PersistentParamsExtractor<K> {
+
+		public SignleParamsExtractor() {
+		}
+
+		@Override
+		public boolean extractParams(K key, List<Object[]> updateList) {
+			CacheValueEntity<V> entity = cache.getWithOutMove(key);
+			if (entity == null) {
+				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + getThreadAndTime());
+				return false;
+			}
+			return loader.extractParams(key, entity.getValue(), updateList);
+		}
+
+	}
+
+	static enum OperationType {
+		INSERT {
+			@Override
+			public <K, V> DataCache.ReentrantFutureTask create(DataCache<K, V> cache, K key, CacheValueEntity<V> value) {
+				return cache.createReliveTask(cache.new InsertRelive(key, value));
+			}
+		},
+		REMOVE {
+			@Override
+			public <K, V> DataCache.ReentrantFutureTask create(DataCache<K, V> cache, K key, CacheValueEntity<V> value) {
+				return cache.createReliveTask(cache.new RemoveTask(key));
+			}
+		},
+		LOAD {
+			@Override
+			public <K, V> DataCache.ReentrantFutureTask create(DataCache<K, V> cache, K key, CacheValueEntity<V> value) {
+				return cache.createReliveTask(cache.new LoadRelive(key, value));
+			}
+		};
+
+		public abstract <K, V> DataCache.ReentrantFutureTask create(DataCache<K, V> cache, K key, CacheValueEntity<V> value);
+	}
+
+	class CompositeParamsExtractor implements PersistentParamsExtractor<Object> {
+
+		private final K key;
+
+		public CompositeParamsExtractor(K key) {
+			this.key = key;
+		}
+
+		@Override
+		public boolean extractParams(Object key, List<Object[]> updateList) {
+			CacheValueEntity<V> entity = cache.getWithOutMove(this.key);
+			if (entity == null) {
+				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + this.key + "," + getThreadAndTime());
+				return false;
+			}
+			return loader.extractParams(key, entity.getValue(), updateList);
+		}
+
+	}
+
+	@Override
+	public Runnable takeTask() {
+		return this.evictedQueue.poll();
+	}
+
+	private String getThreadAndTime() {
+		return Thread.currentThread().getName() + "," + DateUtils.getHHMMSSFomrateTips();
 	}
 
 }

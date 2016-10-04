@@ -80,6 +80,7 @@ public class GameOperationFactory {
 				for (Method method : methods) {
 					if (method.getReturnType() == clz) {
 						dao = (DataKVDao) method.invoke(null);
+						break;
 					}
 				}
 				if (dao == null) {

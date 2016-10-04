@@ -19,6 +19,7 @@ import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.charge.ChargeMgr;
@@ -340,11 +341,7 @@ public class DataSynVersionHolder {
 				ActivityFortuneCatTypeMgr.getInstance().synFortuneCatTypeData(player);
 			}
 		}));
-		orderList.add(eSynType.ActivityFortuneCatType);
-		
-		
-		
-		
+		orderList.add(eSynType.ActivityFortuneCatType);		
 		
 		versionMap.put(eSynType.ActivityLimitHeroType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -353,6 +350,15 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityLimitHeroType);
+		
+		versionMap.put(eSynType.ActivityRetrieveType, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {				
+				ActivityRetrieveTypeMgr.getInstance().synCountTypeData(player);
+			}
+		}));
+		orderList.add(eSynType.ActivityRetrieveType);
+		
 		
 		
 		

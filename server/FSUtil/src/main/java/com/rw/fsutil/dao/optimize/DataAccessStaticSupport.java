@@ -9,6 +9,10 @@ import java.util.TreeMap;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 
+import com.alibaba.druid.pool.DruidDataSource;
+import com.rw.fsutil.dao.common.JdbcTemplateFactory;
+import com.rw.fsutil.util.SpringContextUtil;
+
 /**
  * <pre>
  * 数据库访问的支持方法
@@ -20,8 +24,11 @@ import org.springframework.jdbc.core.RowCallbackHandler;
  */
 public class DataAccessStaticSupport {
 
+	private static String mainDataSourceName = "dataSourceMT";
 	private static String dataKVName = "table_kvdata";
 	private static String mapItemTableName = "map_item_store";
+	private static String roleExtPropName = "role_extended_property";
+	private static String heroExtPropName = "hero_extended_property";
 
 	public static List<String> getDataKVTableNameList(JdbcTemplate template) {
 		return getTableNameList(template, dataKVName);
@@ -29,6 +36,26 @@ public class DataAccessStaticSupport {
 
 	public static String getMapItemTableName() {
 		return mapItemTableName;
+	}
+
+	public static String getRoleExtPropName() {
+		return roleExtPropName;
+	}
+
+	public static String getMainDataSourceName() {
+		return mainDataSourceName;
+	}
+
+	public static String getHeroExtPropName() {
+		return heroExtPropName;
+	}
+
+	public static JdbcTemplate createMainTemplate() {
+		DruidDataSource dataSource = SpringContextUtil.getBean(mainDataSourceName);
+		if (dataSource == null) {
+			throw new ExceptionInInitializerError("find dataSource fail:" + mainDataSourceName);
+		}
+		return JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 	}
 
 	/**
@@ -93,4 +120,17 @@ public class DataAccessStaticSupport {
 
 		}
 	};
+
+	public static void fillHolders(StringBuilder sb, List<? extends Number> typeList, Object[] params, int offset) {
+		int size = typeList.size();
+		int last = size - 1;
+		for (int i = 0; i < size; i++) {
+			sb.append('?');
+			if (i < last) {
+				sb.append(',');
+			}
+			params[i + offset] = typeList.get(i);
+		}
+		sb.append(')');
+	}
 }

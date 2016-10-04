@@ -6,6 +6,8 @@ import java.util.Random;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.power.PowerInfoDataHolder;
@@ -178,7 +180,8 @@ public class MainHandler {
 		MsgMainResponse.Builder mainResponse = MsgMainResponse.newBuilder().setRequest(mainRequest);
 //		PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(pPlayer.getVip());
 		int buyPowerCount = pPlayer.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.buyPowerCount);
-		if (pPlayer.getUserGameDataMgr().getBuyPowerTimes() >= buyPowerCount) {
+		int hasBuyTimes = pPlayer.getUserGameDataMgr().getBuyPowerTimes();
+		if (hasBuyTimes >= buyPowerCount) {
 			mainResponse.setEMainResultType(EMainResultType.LOW_VIP);
 			return mainResponse.build().toByteString();
 		}
@@ -207,6 +210,7 @@ public class MainHandler {
 			UserEventMgr.getInstance().buyPowerVitality(pPlayer, 1);
 			// TODO HC 把改变数据推送到前台
 			PowerInfoDataHolder.synPowerInfo(pPlayer);
+			UserFeatruesMgr.getInstance().buyPower(pPlayer,hasBuyTimes+1);
 		} else {
 			mainResponse.setEMainResultType(EMainResultType.NOT_ENOUGH_GOLD);
 		}

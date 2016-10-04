@@ -33,6 +33,7 @@ import com.rwbase.dao.business.SevenDayGifInfoDAO;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.creator.UserChatCreator;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
+import com.rwbase.dao.dropitem.DropRecordDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
@@ -61,7 +62,7 @@ import com.rwbase.dao.vip.TableVipDAO;
 public enum DataKVType {
 
 	USER_GAME_DATA(1, UserGameDataDao.class, UserGameDataProcessor.class),
-//	USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
+	// USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
 	FRIEND(4, TableFriendDAO.class, FriendCreator.class),
 	SIGN(5, TableSignDataDAO.class, SignCreator.class),
 	VIP(6, TableVipDAO.class, VipCreator.class),

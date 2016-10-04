@@ -12,4 +12,9 @@ public class UnendingWarDAO extends DataKVDao<TableUnendingWar> {
 	public static UnendingWarDAO getInstance(){
 		return m_instance;
 	}
+	
+	@Override
+	protected boolean forceUpdateOnEviction() {
+		return false;
+	}
 }
