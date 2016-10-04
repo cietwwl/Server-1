@@ -3,7 +3,6 @@ package com.rw.trace.parser;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserGameExtendInfo;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
-import java.util.List;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.common.Pair;
 import com.alibaba.fastjson.JSONObject;
@@ -46,10 +45,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         userGameDataCopy.setLastWorshipTime(entity.getLastWorshipTime());
         userGameDataCopy.setFightingAll(entity.getFightingAll());
         userGameDataCopy.setStarAll(entity.getStarAll());
-        userGameDataCopy.setRandomBossIds(writer.copyObject(entity.getRandomBossIds()));
-        userGameDataCopy.setRandomBossFightCount(entity.getRandomBossFightCount());
-        userGameDataCopy.setKillBossRewardCount(entity.getKillBossRewardCount());
-        userGameDataCopy.setCreateBossCount(entity.getCreateBossCount());
         return userGameDataCopy;
     }
 
@@ -253,35 +248,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
             jsonMap = writer.compareSetDiff(jsonMap, "extendInfo", extendInfo1, extendInfo2);
         }
 
-        List<String> randomBossIds1 = entity1.getRandomBossIds();
-        List<String> randomBossIds2 = entity2.getRandomBossIds();
-        Pair<List<String>, JSONObject> randomBossIdsPair = writer.checkObject(jsonMap, "randomBossIds", randomBossIds1, randomBossIds2);
-        if (randomBossIdsPair != null) {
-            randomBossIds1 = randomBossIdsPair.getT1();
-            entity1.setRandomBossIds(randomBossIds1);
-            jsonMap = randomBossIdsPair.getT2();
-        } else {
-            jsonMap = writer.compareSetDiff(jsonMap, "randomBossIds", randomBossIds1, randomBossIds2);
-        }
-
-        int randomBossFightCount1 = entity1.getRandomBossFightCount();
-        int randomBossFightCount2 = entity2.getRandomBossFightCount();
-        if (randomBossFightCount1 != randomBossFightCount2) {
-            entity1.setRandomBossFightCount(randomBossFightCount2);
-            jsonMap = writer.write(jsonMap, "randomBossFightCount", randomBossFightCount2);
-        }
-        int killBossRewardCount1 = entity1.getKillBossRewardCount();
-        int killBossRewardCount2 = entity2.getKillBossRewardCount();
-        if (killBossRewardCount1 != killBossRewardCount2) {
-            entity1.setKillBossRewardCount(killBossRewardCount2);
-            jsonMap = writer.write(jsonMap, "killBossRewardCount", killBossRewardCount2);
-        }
-        int createBossCount1 = entity1.getCreateBossCount();
-        int createBossCount2 = entity2.getCreateBossCount();
-        if (createBossCount1 != createBossCount2) {
-            entity1.setCreateBossCount(createBossCount2);
-            jsonMap = writer.write(jsonMap, "createBossCount", createBossCount2);
-        }
         return jsonMap;
     }
 
@@ -383,24 +349,12 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         if (writer.hasChanged(entity1.getExtendInfo(), entity2.getExtendInfo())) {
             return true;
         }
-        if (writer.hasChanged(entity1.getRandomBossIds(), entity2.getRandomBossIds())) {
-            return true;
-        }
-        if (entity1.getRandomBossFightCount() != entity2.getRandomBossFightCount()) {
-            return true;
-        }
-        if (entity1.getKillBossRewardCount() != entity2.getKillBossRewardCount()) {
-            return true;
-        }
-        if (entity1.getCreateBossCount() != entity2.getCreateBossCount()) {
-            return true;
-        }
         return false;
     }
 
     @Override
     public JSONObject toJson(UserGameData entity) {
-        JSONObject json = new JSONObject(36);
+        JSONObject json = new JSONObject(32);
         json.put("userId", entity.getUserId());
         json.put("version", entity.getVersion());
         json.put("iphone", entity.isIphone());
@@ -432,13 +386,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         json.put("lastWorshipTime", entity.getLastWorshipTime());
         json.put("fightingAll", entity.getFightingAll());
         json.put("starAll", entity.getStarAll());
-        Object randomBossIdsJson = writer.toJSON(entity.getRandomBossIds());
-        if (randomBossIdsJson != null) {
-            json.put("randomBossIds", randomBossIdsJson);
-        }
-        json.put("randomBossFightCount", entity.getRandomBossFightCount());
-        json.put("killBossRewardCount", entity.getKillBossRewardCount());
-        json.put("createBossCount", entity.getCreateBossCount());
         return json;
     }
 
