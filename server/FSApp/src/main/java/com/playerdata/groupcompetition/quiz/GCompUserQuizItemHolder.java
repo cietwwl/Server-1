@@ -145,6 +145,6 @@ public class GCompUserQuizItemHolder {
 	 * @return
 	 */
 	public static int getCurrentSessionID(){
-		return 0;
+		return GroupCompetitionMgr.getInstance().getCurrentSessionId();
 	}
 }
