@@ -17,7 +17,11 @@ import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
 public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
@@ -49,28 +53,43 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 	 *            配表如果同时开启，则会add第一个生效的数据，风险较低，需要一个检查配置的方法
 	 */
 	private void checkNewOpen(Player player) {
-		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
+//		ActivityDailyTypeItemHolder dataHolder = ActivityDailyTypeItemHolder.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityDailyTypeItem> addItemList = null;
+//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
 		String userId = player.getUserId();
-		List<ActivityDailyTypeItem> addItemList = null;
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+		List<ActivityDailyTypeItem> addList =null;
+		RoleExtPropertyStoreCache<ActivityDailyTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYTYPE, ActivityDailyTypeItem.class);
+		PlayerExtPropertyStore<ActivityDailyTypeItem> store = null;
+		try {
+			store = cach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
 	}
 
-	public List<ActivityDailyTypeItem> creatItems(String userId, MapItemStore<ActivityDailyTypeItem> itemStore) {
+	public List<ActivityDailyTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityDailyTypeItem> itemStore) {
 		List<ActivityDailyTypeCfg> activityDailyTypeCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
 		ActivityDailyTypeCfgDAO activityDailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
-		String itemId = ActivityDailyTypeHelper.getItemId(userId, ActivityDailyTypeEnum.Daily);
+//		String itemId = ActivityDailyTypeHelper.getItemId(userId, ActivityDailyTypeEnum.Daily);
+		int id = Integer.parseInt(ActivityDailyTypeEnum.Daily.getCfgId());
 		List<ActivityDailyTypeItem> addItemList = null;
 		for (ActivityDailyTypeCfg cfg : activityDailyTypeCfgList) {
 			if (itemStore != null) {
-				if (itemStore.getItem(itemId) != null) {
-					return addItemList;
-				}
-			}
-			if (itemStore != null) {
-				if (itemStore.getItem(userId) != null) {
+				if (itemStore.get(id) != null) {
 					return addItemList;
 				}
 			}
@@ -78,7 +97,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			ActivityDailyTypeItem item = new ActivityDailyTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgid(cfg.getId());
 			item.setVersion(cfg.getVersion());
@@ -287,7 +306,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityDailyTypeCfg> allList = ActivityDailyTypeCfgDAO.getInstance().getReadOnlyAllCfg();
 		for (ActivityDailyTypeCfg cfg : allList) {
 			if (isOpen(cfg, param)) {
@@ -297,11 +316,11 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	private boolean isOpen(ActivityDailyTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityDailyTypeCfg cfg, long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

@@ -109,9 +109,10 @@ public final class ActivityRateTypeCfgDAO extends
 			ActivityRateTypeCfg cfgById) {
 		if (cfgById != null) {
 			ActivityRateTypeItem item = new ActivityRateTypeItem();
-			String itemId = ActivityRateTypeHelper.getItemId(
-					player.getUserId(), ActivityRateTypeEnum.getById(cfgById.getEnumId()));
-			item.setId(itemId);
+//			String itemId = ActivityRateTypeHelper.getItemId(
+//					player.getUserId(), ActivityRateTypeEnum.getById(cfgById.getEnumId()));
+			int id = Integer.parseInt(cfgById.getEnumId());
+			item.setId(id);
 			item.setCfgId(cfgById.getId());
 			item.setEnumId(cfgById.getEnumId());
 			item.setUserId(player.getUserId());

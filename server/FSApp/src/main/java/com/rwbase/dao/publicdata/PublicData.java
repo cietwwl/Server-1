@@ -38,4 +38,9 @@ public class PublicData {
 	 * 邮件一键领取的开放等级
 	 */
 	public static final int EMAIL_ONE_KEY_LEVEL = 24;
+	
+	/**
+	 * 特惠积分刷新时间点
+	 */
+	public static final int REFRESH_BENEFIT_SCORE_TIME = 25;
 }

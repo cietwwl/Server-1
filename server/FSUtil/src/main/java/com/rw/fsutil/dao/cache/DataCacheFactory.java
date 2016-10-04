@@ -55,6 +55,7 @@ public class DataCacheFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> DataValueParser<T> getParser(Class<T> clazz) {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}

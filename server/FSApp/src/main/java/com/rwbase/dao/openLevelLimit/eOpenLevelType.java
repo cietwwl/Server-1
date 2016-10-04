@@ -50,6 +50,7 @@ public enum eOpenLevelType {
 	FIX_EQUIP_STAR(54), // 神装觉醒
 	FIX_Exp_EQUIP_4(57), // 左下神装开放等级
 	FIX_Exp_EQUIP_5(58), // 右下神装开放等级
+	TARGET_SELL(59),//精准营销
 	;
 
 	private int order;

@@ -217,7 +217,7 @@ public class GMHeroProcesser {
 	 */
 	public static void processSetteam1(final String[] arrCommandContents, Player player){
 		
-		if(arrCommandContents.length < 8){
+		if(arrCommandContents.length < 7){
 			return;
 		}
 		
@@ -231,9 +231,8 @@ public class GMHeroProcesser {
 				int starLevel = Integer.parseInt(arrCommandContents[2]);
 				int quality = Integer.parseInt(arrCommandContents[3]);
 				int equip = Integer.parseInt(arrCommandContents[4]);
-				int equipLv = Integer.parseInt(arrCommandContents[5]);
-				int gemCount = Integer.parseInt(arrCommandContents[6]);
-				int gemLv = Integer.parseInt(arrCommandContents[7]);
+				int gemCount = Integer.parseInt(arrCommandContents[5]);
+				int gemLv = Integer.parseInt(arrCommandContents[6]);
 				
 				Map<String, RoleCfg> map = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
 				List<Hero> heroList = player.getHeroMgr().getAllHeros(player, new Comparator<Hero>() {
@@ -263,8 +262,6 @@ public class GMHeroProcesser {
 					GMHeroBase.gmRemoveHeroEquip(hero, player);
 					for (int i = 0; i < equip; i++) {
 						GMHeroBase.gmHeroEequip(hero, i, player);	
-						
-						GMHeroBase.gmUpgradeHeroEquipment(hero, i, equipLv, player);
 					}
 					//镶嵌指定宝石
 					GMHeroBase.gmUnloadGem(hero, player);
@@ -291,7 +288,7 @@ public class GMHeroProcesser {
 	 * @param player
 	 */
 	public static void processSetteam2(final String[] arrCommandContents, Player player){
-		if(arrCommandContents.length < 8){
+		if(arrCommandContents.length < 7){
 			return;
 		}
 		gmDefaultChangeCareer(player);
@@ -305,9 +302,8 @@ public class GMHeroProcesser {
 				int starLevel = Integer.parseInt(arrCommandContents[2]);
 				int quality = Integer.parseInt(arrCommandContents[3]);
 				int equip = Integer.parseInt(arrCommandContents[4]);
-				int equipLv = Integer.parseInt(arrCommandContents[5]);
-				int gemCount = Integer.parseInt(arrCommandContents[6]);
-				int gemLv = Integer.parseInt(arrCommandContents[7]);
+				int gemCount = Integer.parseInt(arrCommandContents[5]);
+				int gemLv = Integer.parseInt(arrCommandContents[6]);
 				
 				List<Hero> heroList = player.getHeroMgr().getAllHeros(player, new Comparator<Hero>() {
 					public int compare(Hero o1, Hero o2) {
@@ -348,14 +344,14 @@ public class GMHeroProcesser {
 						if (equipId != null) {
 							GMHeroBase.gmHeroEequip(hero, i, player);
 						}
-						if(heroLevel < equipLv){
-							equipLv = heroLevel;
-						}
-						GMHeroBase.gmUpgradeHeroEquipment(hero, i, equipLv, player);
+//						if(heroLevel < equipLv){
+//							equipLv = heroLevel;
+//						}
+//						GMHeroBase.gmUpgradeHeroEquipment(hero, i, equipLv, player);
 					}
 					//镶嵌指定宝石
 					GMHeroBase.gmUnloadGem(hero, player);
-					for (int i = 1; i <= gemCount; i++) {
+					for (int i = 0; i < gemCount; i++) {
 						try {
 							if(gemTypes.length <= i){
 								break;
@@ -398,7 +394,7 @@ public class GMHeroProcesser {
 						}
 					}
 
-					if(heroLv > max && heroLv > min){
+					if(heroLv >= max && heroLv > min){
 						cfg = RoleQualityCfgDAO.getInstance().getConfig(cfg.getNextId());
 						continue;
 					}

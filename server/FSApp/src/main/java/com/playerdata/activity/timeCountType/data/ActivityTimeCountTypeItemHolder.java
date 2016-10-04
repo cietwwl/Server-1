@@ -9,7 +9,11 @@ import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeHelper;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -33,7 +37,7 @@ public class ActivityTimeCountTypeItemHolder{
 	{
 		
 		List<ActivityTimeCountTypeItem> itemList = new ArrayList<ActivityTimeCountTypeItem>();
-		Enumeration<ActivityTimeCountTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityTimeCountTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityTimeCountTypeItem item = (ActivityTimeCountTypeItem) mapEnum.nextElement();		
 			if(ActivityTimeCountTypeCfgDAO.getInstance().getCfgById(item.getCfgId()) == null){
@@ -45,13 +49,13 @@ public class ActivityTimeCountTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityTimeCountTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityTimeCountTypeItem getItem(String userId, ActivityTimeCountTypeEnum countTypeEnum){		
-		String itemId = ActivityTimeCountTypeHelper.getItemId(userId, countTypeEnum);
-		return getItemStore(userId).getItem(itemId);
+		int id = Integer.parseInt(countTypeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 	public boolean addItemList(Player player, List<ActivityTimeCountTypeItem> itemList){
@@ -76,9 +80,19 @@ public class ActivityTimeCountTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityTimeCountTypeItem> cache = MapItemStoreFactory.getActivityTimeCountTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityTimeCountTypeItem.class);
+	public PlayerExtPropertyStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
+		PlayerExtPropertyStore<ActivityTimeCountTypeItem> store =null;
+		RoleExtPropertyStoreCache<ActivityTimeCountTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECOUNT, ActivityTimeCountTypeItem.class);
+		try {
+			store = cach.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return store;
 	}
 	
 }

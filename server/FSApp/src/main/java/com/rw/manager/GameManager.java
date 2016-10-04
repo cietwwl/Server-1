@@ -28,6 +28,7 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.targetSell.net.BenefitMsgController;
 import com.gm.task.gmCommand.GmCommandManager;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -85,6 +86,12 @@ public class GameManager {
 	private static int giftCodeTimeOut;// 兑换码服务器请求超时
 	private static String gmAccount;// GM账户名
 	private static String gmPassword;// GM密码
+	
+	//author:Alex 添加精准营销服ip 端口
+	private static String benefitServerIp;
+	private static int benefitServerPort;
+	private static int connectTimeOutMillis;
+	private static int heartBeatInterval;//心跳间隔时间，单位s
 
 	/**
 	 * 初始化所有后台服务
@@ -117,7 +124,12 @@ public class GameManager {
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
+		
+		/************启动精准营销**************/
 
+		if(ServerSwitch.isOpenTargetSell()){
+			BenefitMsgController.getInstance().init(benefitServerIp, benefitServerPort, connectTimeOutMillis, heartBeatInterval);
+		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
 		LogService.getInstance().init();
@@ -208,6 +220,11 @@ public class GameManager {
 
 			gmAccount = props.getProperty("gmAccount");
 			gmPassword = props.getProperty("gmPassword");
+			
+			benefitServerIp = props.getProperty("benefitServerIp");
+			benefitServerPort = Integer.parseInt(props.getProperty("benefitServerPort"));
+			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
+			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -277,6 +294,8 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
+		//通知精准营销停服
+		BenefitMsgController.getInstance().shutDownNotify();
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);

@@ -10,7 +10,6 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
@@ -18,10 +17,10 @@ import com.rw.fsutil.dao.annotation.NonSave;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 @Table(name = "skill_item")
-public class SkillItem  implements  RoleExtProperty, SkillIF {
+public class SkillItem implements IMapItem, SkillIF {
 
 	@Id
-	private Integer id;
+	private String id;
 	private String ownerId;
 	@CombineSave
 	private String skillId;
@@ -53,22 +52,13 @@ public class SkillItem  implements  RoleExtProperty, SkillIF {
 		skillListeners = new ArrayList<String>();
 	}
 
-
-
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public String strId(){
-		return String.valueOf(id);
-	}
-
-
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-
-
 
 	public int getLevel() {
 		return level;
