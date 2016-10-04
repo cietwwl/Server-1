@@ -61,8 +61,12 @@ public class DataCacheFactory {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
+//	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, String name, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ?> loader, DataNotExistHandler<K, V> handler,
+//			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+//		return createDataDache(clazz, name, maxCapacity, updatePeriod, true, loader, handler, jsonConverter, listenerType);
+//	}
+
+	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, String name, int maxCapacity, int updatePeriod,  PersistentGenericHandler<K, V, ?> loader,
 			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
 		if (name == null || name.isEmpty()) {
 			throw new ExceptionInInitializerError("cache name is empty:" + name);
