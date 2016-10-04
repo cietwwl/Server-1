@@ -7,7 +7,6 @@ import com.playerdata.teambattle.data.UserTeamBattleDAO;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
-import com.rw.dataaccess.processor.DropRecordCreator;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.dataaccess.processor.FSUserFightingGrowthDataCreator;
 import com.rw.dataaccess.processor.FriendCreator;
@@ -91,7 +90,7 @@ public enum DataKVType {
 	// 战力成长数据
 	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
 	//首掉
-	DROP_RECORD(30, DropRecordDAO.class, DropRecordCreator.class)
+//	DROP_RECORD(30, DropRecordDAO.class, DropRecordCreator.class)
 	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {

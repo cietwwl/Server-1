@@ -65,14 +65,14 @@ public class PrepareAreaMgr {
 	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
 		String groupId = GroupHelper.getGroupId(player);
 		if (GroupCompetitionMgr.getInstance().getCurrentStageType() != GCompStageType.EVENTS) {
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("当前不是赛事阶段！");
 			return;
 		}
 		switch (GroupCompetitionMgr.getInstance().getCurrentEventsStatus()) {
 		case FINISH:
 		case NONE:
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("当前不是比赛状态！");
 			return;
 		default:
@@ -80,12 +80,12 @@ public class PrepareAreaMgr {
 		}
 //		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("场景未开启");
 			return;
 		}

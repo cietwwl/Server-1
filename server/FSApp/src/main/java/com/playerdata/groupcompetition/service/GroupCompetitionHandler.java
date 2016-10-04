@@ -235,13 +235,13 @@ public class GroupCompetitionHandler {
 	
 	public ByteString haveNewGuess(Player player, ReqNewGuess request) {
 		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
-		GCompQuizMgr.getInstance().createNewGuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
+		GCompQuizMgr.getInstance().createNewQuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
 		return gcRsp.build().toByteString();
 	}
 	
 	public ByteString getCanGuessMatch(Player player, ReqAllGuessInfo request) {
 		RspAllGuessInfo.Builder gcRsp = RspAllGuessInfo.newBuilder();
-		GCompQuizMgr.getInstance().getCanGuizMatch(player, gcRsp);
+		GCompQuizMgr.getInstance().getCanQuizMatch(player, gcRsp);
 		return gcRsp.build().toByteString();
 	}
 	

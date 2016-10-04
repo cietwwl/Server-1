@@ -19,11 +19,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.util.DateUtils;
@@ -32,9 +34,9 @@ import com.rw.fsutil.util.DateUtils;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_redenvelope_item")
-public class ActivityRedEnvelopeTypeItem implements  IMapItem {
+public class ActivityRedEnvelopeTypeItem implements  RoleExtProperty {
 	@Id
-	private String id;
+	private int id;
 	
 	private String userId;// 对应的角色Id
 
@@ -123,11 +125,13 @@ public class ActivityRedEnvelopeTypeItem implements  IMapItem {
 		this.lastTime = lastTime;
 	}
 
-	public String getId() {
+	
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

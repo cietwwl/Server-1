@@ -317,6 +317,17 @@ public class GroupCompetitionMgr {
 	
 	/**
 	 * 
+	 * 获取当前是第几届
+	 * 
+	 * @return
+	 */
+	public int getCurrentSessionId() {
+		GroupCompetitionGlobalData globalData = this._dataHolder.get();
+		return globalData.getHeldTimes();
+	}
+	
+	/**
+	 * 
 	 * 获取当前的阶段类型
 	 * 
 	 * @return
