@@ -15,6 +15,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
@@ -22,6 +23,10 @@ import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
 import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.publicdata.PublicData;
@@ -54,30 +59,49 @@ public class ActivityRetrieveTypeMgr {
 	}
 	
 	private void checkNewOpen(Player player) {
-		ActivityRetrieveTypeHolder dataHolder = new ActivityRetrieveTypeHolder();
-		String userId = player.getUserId();
-		List<RewardBackItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if(addItemList != null){
-			dataHolder.addItemList(player, addItemList);
-		}			
+//		ActivityRetrieveTypeHolder dataHolder = new ActivityRetrieveTypeHolder();
+////		String userId = player.getUserId();
+//		List<RewardBackItem> addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if(addItemList != null){
+//			dataHolder.addItemList(player, addItemList);
+//		}
+		
+//		RoleExtPropertyStoreCache<RewardBackItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RETRIEVE, RewardBackItem.class);
+//		PlayerExtPropertyStore<RewardBackItem> store = null;
+//		String userId= player.getUserId();
+//		List<RewardBackItem> addList = null;
+//		try {
+//			store = storeCache.getStore(userId);
+//			addList = creatItems(userId, store);	
+//			if(store != null&&addList != null){
+//				store.addItem(addList);
+//			}
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (Throwable e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 	}
 
-	public List<RewardBackItem> creatItems(String userId,MapItemStore<RewardBackItem> itemStore){		
+	public List<RewardBackItem> creatItems(String userId,PlayerExtPropertyStore<RewardBackItem> itemStore){		
 		List<RewardBackItem> addItemList = null;		
-		String itemId = ActivityRetrieveTypeHelper.getItemId(userId, ActivityRetrieveTypeEnum.retrieve);
-		if(itemStore == null){
-			return addItemList;
-		}
-		if(itemStore.getItem(itemId) != null){
-			return addItemList;
-		}
-		Player player = PlayerMgr.getInstance().find(userId);
+//		String itemId = ActivityRetrieveTypeHelper.getItemId(userId, ActivityRetrieveTypeEnum.retrieve);
+		int id = ActivityRetrieveTypeEnum.retrieve.getId();
+//		if(itemStore == null){
+//			return addItemList;
+//		}
+//		if(itemStore.get(id) != null){
+//			return addItemList;
+//		}
+//		Player player = PlayerMgr.getInstance().find(userId);
 		RewardBackItem item = new RewardBackItem();
-		item.setId(itemId);
+		item.setId(id);
 		item.setUserId(userId);
 		item.setLastSingleTime(System.currentTimeMillis());
 		List<RewardBackTodaySubItem> subTodayItemList = new ArrayList<RewardBackTodaySubItem>();
-		subTodayItemList = UserFeatruesMgr.getInstance().doCreat(player);
+		subTodayItemList = UserFeatruesMgr.getInstance().doCreat();
 		item.setTodaySubitemList(subTodayItemList);
 		List<RewardBackSubItem> subItemList = new ArrayList<RewardBackSubItem>();
 		item.setSubList(subItemList);
@@ -100,7 +124,7 @@ public class ActivityRetrieveTypeMgr {
 				subItemList = UserFeatruesMgr.getInstance().doFresh(player,item.getTodaySubitemList());
 				item.setSubList(subItemList);
 				List<RewardBackTodaySubItem> subTodayItemList = new ArrayList<RewardBackTodaySubItem>();
-				subTodayItemList = UserFeatruesMgr.getInstance().doCreat(player);
+				subTodayItemList = UserFeatruesMgr.getInstance().doCreat();
 				item.setTodaySubitemList(subTodayItemList);
 				item.setLastSingleTime(System.currentTimeMillis());
 				dataHolder.updateItem(player, item);

@@ -22,11 +22,11 @@ import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 public class UserFeatruesPower implements IUserFeatruesHandler{
 
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.power.getId());
 		subItem.setCount(0);
-		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(player.getLevel()));
+		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(1));
 		subItem.setMaxCount(cfg.getMostPower());
 		return subItem;
 	}

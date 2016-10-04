@@ -26,7 +26,11 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
@@ -53,16 +57,38 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		List<ActivityVitalityTypeItem> addItemList = null;
+//		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
+//		List<ActivityVitalityTypeItem> addItemList = null;
+//		String userId = player.getUserId();
+//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
+		
 		String userId = player.getUserId();
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+		List<ActivityVitalityTypeItem> addList = null;
+		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
+//		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityVitalityTypeItem.class);
+		
+		PlayerExtPropertyStore<ActivityVitalityTypeItem> store = null;
+		try {
+			store = storeCach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
 	}
 
-	public List<ActivityVitalityTypeItem> creatItems(String userId, MapItemStore<ActivityVitalityTypeItem> itemStore) {
+	public List<ActivityVitalityTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityVitalityTypeItem> itemStore) {
 		List<ActivityVitalityTypeItem> addItemList = null;
 		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityCfg> allCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
@@ -76,9 +102,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			if (acVitalityTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
+//			String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
+			int id = Integer.parseInt(acVitalityTypeEnum.getCfgId());
 			if (itemStore != null) {
-				if (itemStore.getItem(itemId) != null) {
+				if (itemStore.get(id) != null) {
 					continue;
 				}
 			}
@@ -385,7 +412,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 		}
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityVitalityCfg> list = ActivityVitalityCfgDAO.getInstance().getAllCfg();
 		for (ActivityVitalityCfg cfg : list) {
 			if (isOpen(cfg, param)) {
@@ -395,11 +422,11 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	private boolean isOpen(ActivityVitalityCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityVitalityCfg cfg, long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
