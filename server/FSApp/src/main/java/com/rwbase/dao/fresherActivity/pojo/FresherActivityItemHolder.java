@@ -43,7 +43,7 @@ public class FresherActivityItemHolder {
 	}
 	
 	private PlayerExtPropertyStore<FresherActivityBigItem> getMapItemStroe(){
-		RoleExtPropertyStoreCache<FresherActivityBigItem> playerExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FresherActivity, FresherActivityBigItem.class);
+		RoleExtPropertyStoreCache<FresherActivityBigItem> playerExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FRESHER_ACTIVITY, FresherActivityBigItem.class);
 		
 		PlayerExtPropertyStore<FresherActivityBigItem> store;
 		try {
