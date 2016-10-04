@@ -86,7 +86,9 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 	private long updateToDB(long startTime, List<Object[]> paramsList, UpdateCountStat stat) {
 		int count = 0;
 		// long start = System.currentTimeMillis();
+//		System.out.println("~~~~~~~~~~~~sql=" + sql);
 		int[] result = template.batchUpdate(sql, paramsList);
+		
 		for (int i = result.length; --i >= 0;) {
 			int rows = result[i];
 			if (rows == 1) {

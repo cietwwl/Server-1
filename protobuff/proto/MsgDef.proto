@@ -131,6 +131,7 @@ enum Command {
 	MSG_GROUP_COMPETITION_QUIZ_SYN = 225;	//帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
 	MSG_GROUP_COMPETITION_BATTLE = 226;//帮派争霸：战斗处理
 	MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE = 227; // 帮派争霸：队伍状态发生变化，服务器推送给客户端，发送GroupCompetition.proto里的TeamStatusChange
+	MSG_GROUP_COMPETITION_EVENTS_FINISHED = 228; // 帮派争霸：赛事结束，发送GroupCompetition.proto里的EventsResult
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆

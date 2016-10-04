@@ -75,6 +75,9 @@ public class MonsterArmyHelper {
 		RoleBaseInfo roleInfo = new RoleBaseInfo();
 		roleInfo.setId(monster.getId());
 		roleInfo.setTemplateId(monster.getId());
+		roleInfo.setModeId(monster.getModeId());
 		return roleInfo;
 	}
+	
+	
 }

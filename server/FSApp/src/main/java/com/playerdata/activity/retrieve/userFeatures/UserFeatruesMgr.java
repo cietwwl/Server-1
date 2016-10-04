@@ -96,20 +96,20 @@ public class UserFeatruesMgr {
 		featruesHandlerMap.put(UserFeaturesEnum.magicSecert, new UserFeatruesMagicSecret());
 	}
 
-	public List<RewardBackTodaySubItem> doCreat(Player player) {
+	public List<RewardBackTodaySubItem> doCreat() {
 		List<RewardBackTodaySubItem> subItemList = new ArrayList<RewardBackTodaySubItem>();
 		for (Map.Entry<UserFeaturesEnum, IUserFeatruesHandler> entry : featruesHandlerMap.entrySet()) {
 			RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
-			subItem = creatSubItem(player, entry.getKey(), entry.getValue());
+			subItem = creatSubItem( entry.getKey(), entry.getValue());
 			subItemList.add(subItem);
 		}
 		return subItemList;
 	}
 
-	private RewardBackTodaySubItem creatSubItem(Player player, UserFeaturesEnum iEnum, IUserFeatruesHandler iUserFeatruesHandler) {
+	private RewardBackTodaySubItem creatSubItem(UserFeaturesEnum iEnum, IUserFeatruesHandler iUserFeatruesHandler) {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		if (iUserFeatruesHandler != null) {
-			subItem = iUserFeatruesHandler.doEvent(player);
+			subItem = iUserFeatruesHandler.doEvent();
 		}
 		return subItem;
 	}

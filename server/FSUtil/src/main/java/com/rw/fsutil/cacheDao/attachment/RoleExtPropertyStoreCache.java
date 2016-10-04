@@ -133,7 +133,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		@Override
 		public boolean extractParams(CacheCompositKey<String, Integer> key, PlayerExtPropertyStoreImpl<T> value, List<Object[]> updateList) {
 			Integer key2 = key.getSecondKey();
-			PlayerExtPropertyData<T>  data = value.getItem(key2);
+			PlayerExtPropertyData<T> data = value.getItem(key2);
 			if (data == null) {
 				return false;
 			}
@@ -149,7 +149,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 			if (ext == null) {
 				return false;
 			}
-			return updateList.add(new Object[] { ext, data.getPrimaryKey()});
+			return updateList.add(new Object[] { ext, data.getPrimaryKey() });
 		}
 
 		@Override
@@ -160,7 +160,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 				PlayerExtPropertyData<T> data = entry.getValue();
 				String ext;
 				try {
-					ext = mapper.writeValueAsString(data.getAttachment());
+					ext = mapper.writeValueAsString(entry.getValue().getAttachment());
 				} catch (Exception e) {
 					// TODO Logger object info
 					e.printStackTrace();
@@ -170,7 +170,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 					FSUtilLogger.error("extract params is null:" + key + "," + k + "," + cache.getName());
 					continue;
 				}
-				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext, data.getPrimaryKey()});
+				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext, data.getPrimaryKey() });
 			}
 			return true;
 		}

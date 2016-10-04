@@ -18,7 +18,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 public class UserFeatruesSupper implements IUserFeatruesHandler{
 
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem = ActivityRetrieveTypeHelper.getInstance().doEatEvent(UserFeaturesEnum.supper);
 		return subItem;

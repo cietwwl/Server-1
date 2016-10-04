@@ -21,7 +21,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 public class UserFeatruesJbzd implements IUserFeatruesHandler{
 	//比较挫，找时间5抽1；此类型判断打过次数，不考虑需要付费的重置
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.jbzd.getId());
 		subItem.setCount(0);

@@ -9,14 +9,15 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_retrievetype_item")
-public class RewardBackItem implements IMapItem{
+public class RewardBackItem implements RoleExtProperty{
 	@Id
-	private String id ;
+	private Integer id ;
 	
 	private String userId;
 	
@@ -33,11 +34,7 @@ public class RewardBackItem implements IMapItem{
 	private List<RewardBackSubItem> subList = new ArrayList<RewardBackSubItem>();
 	
 	
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return id;
-	}
+	
 
 
 	public String getUserId() {
@@ -70,7 +67,14 @@ public class RewardBackItem implements IMapItem{
 	}
 
 
-	public void setId(String id) {
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

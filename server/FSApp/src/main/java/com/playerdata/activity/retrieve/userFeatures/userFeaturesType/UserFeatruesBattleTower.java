@@ -18,12 +18,12 @@ import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 public class UserFeatruesBattleTower implements IUserFeatruesHandler{
 
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.battleTower.getId());
 		subItem.setCount(0);
-		int count = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
-		subItem.setMaxCount(count);
+//		int count = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.maxResetCount);
+		subItem.setMaxCount(1);
 		return subItem;
 	}
 

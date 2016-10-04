@@ -21,7 +21,11 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeSubCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -50,12 +54,34 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+//		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityExchangeTypeItem> addItemList = createItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
+		
 		String userId = player.getUserId();
-		List<ActivityExchangeTypeItem> addItemList = createItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+		List<ActivityExchangeTypeItem> addList = null;
+//		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityExchangeTypeItem.class);
+		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
+		PlayerExtPropertyStore<ActivityExchangeTypeItem> store = null;
+		try {
+			store = storeCach.getStore(userId);
+			addList = createItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+		
 	}
 
 	/**
@@ -66,7 +92,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	 * @param mapItemStore
 	 * @return
 	 */
-	public List<ActivityExchangeTypeItem> createItems(String userId, MapItemStore<ActivityExchangeTypeItem> itemStore) {
+	public List<ActivityExchangeTypeItem> createItems(String userId, PlayerExtPropertyStore<ActivityExchangeTypeItem> itemStore) {
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
 		ActivityExchangeTypeSubCfgDAO dao = ActivityExchangeTypeSubCfgDAO.getInstance();
@@ -79,14 +105,15 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			if (activityExChangeTypeEnum == null) {
 				continue;
 			}
-			String itemID = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
+//			String itemID = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
+			int id = Integer.parseInt(activityExChangeTypeEnum.getCfgId());
 			if (itemStore != null) {
-				if (itemStore.getItem(itemID) != null) {
+				if (itemStore.get(id)!= null) {
 					continue;
 				}
 			}
 			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();	
-			item.setId(itemID);
+			item.setId(id);
 			item.setEnumId(cfg.getEnumId());
 			item.setCfgId(cfg.getId());
 			item.setUserId(userId);
@@ -423,7 +450,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		activityCountTypeItemHolder.updateItem(player, dataItem);
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityExchangeTypeCfg> allList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityExchangeTypeCfg cfg : allList) {
 			if (isOpen(cfg, param)) {
@@ -433,11 +460,11 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	private boolean isOpen(ActivityExchangeTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityExchangeTypeCfg cfg, long param) {
 		if (cfg != null) {
 			long startTime = cfg.getChangeStartTime();
 			long endTime = cfg.getChangeEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -17,10 +18,10 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_exchange_item")
-public class ActivityExchangeTypeItem implements  IMapItem {
+public class ActivityExchangeTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private int id;
 	
 	private String userId;// 对应的角色Id
 
@@ -113,11 +114,13 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 		this.lasttime = lasttime;
 	}
 
-	public String getId() {
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
