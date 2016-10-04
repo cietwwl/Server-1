@@ -442,9 +442,13 @@ public class GroupCompetitionHandler {
 					championBuilder.addAssistantName(gcG.getAssistantName());
 				}
 				championBuilder.setScore(gcG.getGCompScore());
+				championBuilder.setSession(i + 1);
 				builder.addHistoryChampion(championBuilder.build());
 			}
 		}
-		return builder.build().toByteString();
+		CommonGetDataRspMsg.Builder rspBuilder = CommonGetDataRspMsg.newBuilder();
+		rspBuilder.setRstType(GCResultType.SUCCESS);
+		rspBuilder.setGroupScoreRankRspData(builder.build());
+		return rspBuilder.build().toByteString();
 	}
 }

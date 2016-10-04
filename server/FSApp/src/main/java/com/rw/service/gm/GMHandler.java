@@ -220,6 +220,7 @@ public class GMHandler {
 		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
 		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
 		funcCallBackMap.put("requestGCompMatchData".toLowerCase(), "requestGCompMatchData");
+		funcCallBackMap.put("requestGroupScoreRank".toLowerCase(), "requestGroupScoreRank");
 		funcCallBackMap.put("MGCS".toLowerCase(), "moveGroupCompStage");
 		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
@@ -1552,6 +1553,18 @@ public class GMHandler {
 		requestBuilder.setHeader(headerBuilder.build());
 		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
 		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetMatchView).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestGroupScoreRank(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetGroupScoreRank).build().toByteString());
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}

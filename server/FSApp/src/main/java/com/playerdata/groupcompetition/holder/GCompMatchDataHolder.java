@@ -133,6 +133,8 @@ public class GCompMatchDataHolder {
 			memberA.setEnemyName(memberB.getArmyInfo().getPlayerName());
 			memberB.setEnemyName(memberA.getArmyInfo().getPlayerName());
 		}
+		teamA.setInBattle(true);
+		teamB.setInBattle(true);
 	}
 
 	/**
@@ -376,6 +378,11 @@ public class GCompMatchDataHolder {
 	 * @param result
 	 */
 	private void teamBattleResultHandler(GCompTeam myTeam, GCBattleResult result) {
+		if(!myTeam.isInBattle()) {
+			GCompUtil.log("队伍结算，重复结算，队伍id：{}", result, myTeam.getTeamId());
+			return;
+		}
+		myTeam.setInBattle(false);
 		GCompUtil.log("队伍结算，战斗结果：{}，队伍id：{}", result, myTeam.getTeamId());
 		if(checkIfAllRobot(myTeam)) {
 			GCompUtil.log("队伍id：{}，全部成员都是机器人，不进行成员结算！", myTeam.getTeamId());
@@ -429,7 +436,7 @@ public class GCompMatchDataHolder {
 				personFightingRecord.setGroupScore(tempGroupScore);
 				personFightingRecord.setPersonalScore(personScore);
 				personFightingRecord.setOffendWin(teamMember.getResult() == GCompBattleResult.Win);
-				System.out.println("进攻方 : " + groupMember.getUserName() + ", 防守方：" + teamMember.getEnemyName() + ", 进攻方是否胜利 : " + personFightingRecord.isOffendWin());
+//				System.out.println("进攻方 : " + groupMember.getUserName() + ", 防守方：" + teamMember.getEnemyName() + ", 进攻方是否胜利 : " + personFightingRecord.isOffendWin());
 				personFightingRecords.add(personFightingRecord);
 			}
 		}
