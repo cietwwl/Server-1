@@ -407,6 +407,7 @@ public class GCompMatchDataHolder {
 				agent.addGroupScore(groupMember, tempGroupScore);
 				totalGroupScore += tempGroupScore;
 				
+				agent.updateToClient(groupMember);
 				agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
 				
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", groupMember.getUserId(), teamMember.getArmyInfo().getPlayerName(), agent.getContinueWins(groupMember), groupMember.getTotalWinTimes(), groupMember.getScore(), score.getT1());
@@ -445,6 +446,7 @@ public class GCompMatchDataHolder {
 		}
 
 		this.sendRspMsg(playerIdList, memberScores, result);
+		GCompTeamMgr.getInstance().afterTeamBattleFinished(myTeam);
 	}
 
 	/**

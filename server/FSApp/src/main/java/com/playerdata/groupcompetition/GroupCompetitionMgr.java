@@ -173,8 +173,8 @@ public class GroupCompetitionMgr {
 				int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsRecord().getCurrentEventsType());
 				if (matchId > 0) {
 					GCompTeamMgr.getInstance().sendTeamData(matchId, player);
-					GCompOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompOnlineMemberMgr.getInstance().addToOnlineMembers(player);
+					GCompOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);
 					GCompMemberMgr.getInstance().onPlayerEnterPrepareArea(player);
 				}

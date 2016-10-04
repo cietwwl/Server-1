@@ -828,6 +828,10 @@ public class GCompTeamMgr {
 		return result;
 	}
 	
+	public void afterTeamBattleFinished(GCompTeam team) {
+		
+	}
+	
 	
 	public static enum CreateTeamMemberResultStatus {
 		
