@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
@@ -64,7 +65,7 @@ public class GCompEventsStage implements IGCompStage {
 			lastMillis = 1000;
 		}
 		long endTimeMillis = System.currentTimeMillis() + lastMillis;
-		GCompUtil.log("---------- 提交赛事状态控制任务！当前状态：{}， deadLine：{} ---------", _events.getCurrentStatus(), _dateFormatter.format(new Date(endTimeMillis)));
+		GCompUtil.log("---------- 提交赛事状态控制任务！当前状态：{}， 结束时间：{} ---------", _events.getCurrentStatus().getDisplayName(), _dateFormatter.format(new Date(endTimeMillis)));
 		GCompCommonTask.scheduleCommonTask(_eventStatusSwitcher, this, endTimeMillis); // 结束的时效任务，等待回调
 	}
 	
@@ -115,7 +116,7 @@ public class GCompEventsStage implements IGCompStage {
 			instance.add(Calendar.DAY_OF_YEAR, 1);
 			startOnNextDay = true;
 		}
-		GCompUtil.log("---------- 帮派争霸-赛事阶段-创建赛事类型控制任务, 赛事类型：{}，deadline：{}，groupIds : {} ----------", eventsType, _dateFormatter.format(instance.getTime()), groupIds);
+		GCompUtil.log("---------- 帮派争霸-赛事阶段-创建赛事类型控制任务, 赛事类型：{}，开始时间：{}，相关的帮派 : {} ----------", eventsType.chineseName, _dateFormatter.format(instance.getTime()), groupIds);
 		GCompCommonTask.scheduleCommonTask(_eventsTypeSwitcher, context, instance.getTimeInMillis()); // 提交一个定时任务，到了赛事正式开始的时间，会初始化
 		return startOnNextDay;
 	}
@@ -137,10 +138,10 @@ public class GCompEventsStage implements IGCompStage {
 	private void switchEventsStatus() {
 		// 切换某场具体赛事的状态
 		boolean success = this._events.switchToNextStatus();
-		if (!success) {
-			this.onEventsTypeEnd();
-		} else {
+		if(success) {
 			this.scheduleEventsStatusSwitchTask();
+		} else {
+			this.onEventsTypeEnd();
 		}
 	}
 	
@@ -196,6 +197,7 @@ public class GCompEventsStage implements IGCompStage {
 			startType = GCEventsType.TOP_8;
 		}
 		GCompEventsDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
+		GCompGroupScoreRankingMgr.getInstance().onNewSessionStart();
 		List<String> loseGroupIds = Collections.emptyList();
 		this.startEvents(startType, topCountGroups, loseGroupIds); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);

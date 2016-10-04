@@ -30,6 +30,7 @@ import com.rwbase.dao.groupcompetition.GCompGroupScoreCfgDAO;
 import com.rwbase.dao.groupcompetition.GCompPersonalScoreCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GCompBasicScoreCfg;
 import com.rwbase.dao.groupcompetition.pojo.GCompScoreCfg;
+import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleCommonRspMsg;
@@ -387,13 +388,13 @@ public class GCompMatchDataHolder {
 		int totalGroupScore = 0; // 加给帮派的总积分
 		IGCompMemberAgent agent;
 		GCompMember bestMember = null;
-		List<GCompTeamMember> allMembers = myTeam.getMembers(); // 队伍的所有成员
-		int size = allMembers.size();
+		List<GCompTeamMember> allTeamMembers = myTeam.getMembers(); // 队伍的所有成员
+		int size = allTeamMembers.size();
 		List<String> playerIdList = new ArrayList<String>(size);
 		List<GCompPersonFightingRecord> personFightingRecords = new ArrayList<GCompPersonFightingRecord>(size);
 		List<IReadOnlyPair<Integer, Integer>> memberScores = new ArrayList<IReadOnlyPair<Integer, Integer>>(size);
 		for (int i = 0; i < size; i++) {
-			GCompTeamMember teamMember = allMembers.get(i);
+			GCompTeamMember teamMember = allTeamMembers.get(i);
 			GCompMember groupMember = GCompMemberMgr.getInstance().getGCompMember(groupId, teamMember.getUserId());
 			if (groupMember != null) {
 				agent = GCompMember.getAgent(teamMember.isRobot());
@@ -428,6 +429,7 @@ public class GCompMatchDataHolder {
 				personFightingRecord.setGroupScore(tempGroupScore);
 				personFightingRecord.setPersonalScore(personScore);
 				personFightingRecord.setOffendWin(teamMember.getResult() == GCompBattleResult.Win);
+				System.out.println("进攻方 : " + groupMember.getUserName() + ", 防守方：" + teamMember.getEnemyName() + ", 进攻方是否胜利 : " + personFightingRecord.isOffendWin());
 				personFightingRecords.add(personFightingRecord);
 			}
 		}
@@ -435,14 +437,10 @@ public class GCompMatchDataHolder {
 		if (group != null && totalGroupScore > 0) {
 			int matchId = GCompEventsDataMgr.getInstance().getGroupMatchIdOfCurrent(groupId);
 			group.updateScore(totalGroupScore);
-			GCompDetailInfoMgr.getInstance().onScoreUpdate(matchId, groupId, group.getGCompScore(), bestMember);
+			GameWorldFactory.getGameWorld().asynExecute(new GroupScoreUpdater(matchId, groupId, group.getGCompScore(), bestMember));
 			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), totalGroupScore, group.getGCompScore());
-
-			GCompFightingRecord record = new GCompFightingRecord();
-			record.setPersonalFightingRecords(personFightingRecords);
-			record.setMatchId(matchId);
-			record.setTime(System.currentTimeMillis());
-			GCompFightingRecordMgr.getInstance().addFightingRecord(matchId, record);
+		
+			GameWorldFactory.getGameWorld().asynExecute(new FightingRecordUpdater(matchId, personFightingRecords));
 		}
 
 		this.sendRspMsg(playerIdList, memberScores, result);
@@ -688,5 +686,56 @@ public class GCompMatchDataHolder {
 		}
 
 		return GCBattleResult.WIN;
+	}
+	
+	private static class GroupScoreUpdater implements Runnable {
+
+		private final int matchId;
+		private final String groupId;
+		private final int currentScore;
+		private final GCompMember bestMember;
+
+		public GroupScoreUpdater(int matchId, String groupId, int currentScore, GCompMember bestMember) {
+			this.matchId = matchId;
+			this.groupId = groupId;
+			this.currentScore = currentScore;
+			this.bestMember = bestMember;
+		}
+
+		@Override
+		public void run() {
+			try {
+				GCompDetailInfoMgr.getInstance().onScoreUpdate(matchId, groupId, currentScore, bestMember);
+				GCompGroupScoreRankingMgr.getInstance().onScoreUpdate(groupId, currentScore);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+	
+	private static class FightingRecordUpdater implements Runnable {
+
+		private int matchId;
+		private List<GCompPersonFightingRecord> _personRecords;
+		
+		FightingRecordUpdater(int pMatchId, List<GCompPersonFightingRecord> pRecords) {
+			this.matchId = pMatchId;
+			this._personRecords = pRecords;
+		}
+
+		@Override
+		public void run() {
+			try {
+				GCompFightingRecord record = new GCompFightingRecord();
+				record.setPersonalFightingRecords(_personRecords);
+				record.setMatchId(matchId);
+				record.setTime(System.currentTimeMillis());
+				GCompFightingRecordMgr.getInstance().addFightingRecord(matchId, record);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

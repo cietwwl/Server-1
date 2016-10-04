@@ -390,6 +390,7 @@ public class GroupCompetitionMgr {
 				baseInfo.setStart(false);
 			}
 		}
+		baseInfo.setSession(globalData.getHeldTimes());
 		return baseInfo;
 	}
 }

@@ -241,6 +241,7 @@ public class GCompTeamMgr {
 		if (gcUnitList.isEmpty()) {
 			throw new IllegalArgumentException("members.size() == 0");
 		}
+		GCompTeam team;
 		boolean multiple = gcUnitList.size() > 1;
 		GCompTeamMember leader = this.createByGCUnit(gcUnitList.get(0), true);
 		if (multiple) {
@@ -254,10 +255,12 @@ public class GCompTeamMgr {
 					return null;
 				}
 			}
-			return GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.MULTIPLE_PLAYERS, leader, teamMembers);
+			team = GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.MULTIPLE_PLAYERS, leader, teamMembers);
 		} else {
-			return GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.SINGLE_PLAYER, leader);
+			team = GCompTeam.createNewTeam(UUID.randomUUID().toString(), GCompTeamType.SINGLE_PLAYER, leader);
 		}
+		team.setRandomTeam(true);
+		return team;
 	}
 	
 	/**
@@ -569,6 +572,8 @@ public class GCompTeamMgr {
 			team.setLeaderId(newLeader.getUserId());
 			sendTeamStatus(PlayerMgr.getInstance().find(newLeader.getUserId()), TeamStatusType.BecomeLeader);
 			_dataHolder.synToAllMembers(team);
+		} else {
+			_dataHolder.synToAllMembers(team);
 		}
 		result.setT1(true);
 		
@@ -828,8 +833,21 @@ public class GCompTeamMgr {
 		return result;
 	}
 	
+	/**
+	 * 
+	 * 战斗结束的通知，这里会把所有成员的准备状态重新设置一下
+	 * 
+	 * @param team
+	 */
 	public void afterTeamBattleFinished(GCompTeam team) {
-		
+		if (team.isRandomTeam() || team.isPersonal()) {
+			return;
+		}
+		List<GCompTeamMember> allMembers = team.getMembers();
+		for (int i = 0, size = allMembers.size(); i < size; i++) {
+			allMembers.get(i).setReady(false);
+		}
+		this._dataHolder.synToAllMembers(team);
 	}
 	
 	

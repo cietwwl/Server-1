@@ -12,11 +12,16 @@ import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
+import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
+import com.playerdata.groupcompetition.holder.data.GCompGroupScoreRecord;
+import com.playerdata.groupcompetition.holder.data.GCompGroupTotalScoreRecord;
+import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.rank.GCompRankMgr;
+import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
@@ -33,6 +38,9 @@ import com.rwproto.GroupCompetitionProto.CommonRsp;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankItem;
+import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankRspData;
+import com.rwproto.GroupCompetitionProto.GCompHistoryChampion;
 import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
@@ -400,6 +408,43 @@ public class GroupCompetitionHandler {
 		}
 		GCompRankMgr.getInstance().getWinRank(builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
+		return builder.build().toByteString();
+	}
+	
+	public ByteString getGroupScoreRank(Player player) {
+		List<GCompGroupTotalScoreRecord> allRecords = GCompGroupScoreRankingMgr.getInstance().getAllRecord();
+		GCompGroupScoreRankRspData.Builder builder = GCompGroupScoreRankRspData.newBuilder();
+		GCompGroupScoreRankItem.Builder rankItemBuilder;
+		GCompGroupTotalScoreRecord tempRecord;
+		GCompGroupScoreRecord currentRecord;
+		for(int i = 0, size = allRecords.size(); i < size; i++) {
+			tempRecord = allRecords.get(i);
+			currentRecord = tempRecord.getCurrentRecord();
+			rankItemBuilder = GCompGroupScoreRankItem.newBuilder();
+			rankItemBuilder.setGroupName(currentRecord.getGroupName());
+			rankItemBuilder.setGroupIcon(currentRecord.getGroupIcon());
+			rankItemBuilder.setCurrentScore(currentRecord.getScore());
+			rankItemBuilder.setTotalScore(tempRecord.getTotalScore());
+			rankItemBuilder.setFighting(tempRecord.getFighting());
+			builder.addScoreRankItem(rankItemBuilder.build());
+		}
+		GCompHistoryData historyData = GCompHistoryDataMgr.getInstance().getHistoryData();
+		List<GCGroup> list = historyData.getHistoryChampions();
+		if (list.size() > 0) {
+			GCompHistoryChampion.Builder championBuilder;
+			for (int i = 0, size = list.size(); i < size; i++) {
+				GCGroup gcG = list.get(i);
+				championBuilder = GCompHistoryChampion.newBuilder();
+				championBuilder.setGroupIconId(gcG.getIcon());
+				championBuilder.setGroupName(gcG.getLeaderName());
+				championBuilder.setLeaderName(gcG.getLeaderName());
+				if (gcG.getAssistantName() != null && gcG.getAssistantName().length() > 0) {
+					championBuilder.addAssistantName(gcG.getAssistantName());
+				}
+				championBuilder.setScore(gcG.getGCompScore());
+				builder.addHistoryChampion(championBuilder.build());
+			}
+		}
 		return builder.build().toByteString();
 	}
 }

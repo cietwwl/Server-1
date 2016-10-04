@@ -1,7 +1,10 @@
 package com.playerdata.groupcompetition.holder.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -19,14 +22,16 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 @SynClass
 public class GCompHistoryData {
 
+	@JsonProperty("1")
 	private List<GCompAgainst> matches; // 上一次帮派争霸的比赛
-	@SuppressWarnings("unused")
+	@JsonProperty("2")
 	private GCEventsType lastMatchNumType; // 上一次帮派争霸的初赛类型
 	@IgnoreSynField
+	@JsonProperty("3")
 	private List<GCGroup> historyChampion; // 历史冠军
-	@SuppressWarnings("unused")
+	@JsonProperty("4")
 	private long startTime;
-	@SuppressWarnings("unused")
+	@JsonProperty("5")
 	private long endTime;
 	
 	public static GCompHistoryData createNew() {
@@ -59,5 +64,9 @@ public class GCompHistoryData {
 				break;
 			}
 		}
+	}
+	
+	public List<GCGroup> getHistoryChampions() {
+		return Collections.unmodifiableList(historyChampion);
 	}
 }

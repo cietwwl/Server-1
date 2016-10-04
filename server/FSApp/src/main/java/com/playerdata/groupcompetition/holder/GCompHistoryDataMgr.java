@@ -3,6 +3,8 @@ package com.playerdata.groupcompetition.holder;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.dao.GCompHistoryDataDAO;
+import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 
 public class GCompHistoryDataMgr {
 
@@ -27,5 +29,9 @@ public class GCompHistoryDataMgr {
 	
 	public void sendLastMatchData(Player player) {
 		this._dataHolder.syn(player);
+	}
+	
+	public GCompHistoryData getHistoryData() {
+		return GCompHistoryDataDAO.getInstance().get();
 	}
 }

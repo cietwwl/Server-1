@@ -6,10 +6,10 @@ import java.util.Map;
 
 public enum GCompStageType {
 
-	SELECTION(1),
-	EVENTS(2),
-	REST(3),
-	EMPTY(4),
+	SELECTION(1, "海选期"),
+	EVENTS(2, "赛事期"),
+	REST(3, "休整期"),
+	EMPTY(4, "过渡期"),
 	;
 	private static final Map<Integer, GCompStageType> _all;
 	
@@ -24,9 +24,15 @@ public enum GCompStageType {
 	}
 	
 	public final int sign;
+	private String displayName;
 
-	private GCompStageType(int sign) {
+	private GCompStageType(int sign, String pDisplayName) {
 		this.sign = sign;
+		this.displayName = pDisplayName;
+	}
+
+	public String getDisplayName() {
+		return displayName;
 	}
 	
 	public static final GCompStageType getBySign(int sign) {

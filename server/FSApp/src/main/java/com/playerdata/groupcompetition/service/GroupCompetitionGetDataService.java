@@ -29,6 +29,8 @@ public class GroupCompetitionGetDataService implements FsService<CommonGetDataRe
 			return GroupCompetitionHandler.getInstance().getScoreRank(player, request);
 		case GetWinRank:
 			return GroupCompetitionHandler.getInstance().getWinRank(player, request);
+		case GetGroupScoreRank:
+			return GroupCompetitionHandler.getInstance().getGroupScoreRank(player);
 		default:
 			return null;
 		}
