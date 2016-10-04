@@ -255,6 +255,7 @@ message GCompGroupScoreRankItem {
 	required fixed64 fighting = 3; // 战斗力
 	required fixed32 currentScore = 4; // 帮派的当前积分
 	required fixed32 totalScore = 5; // 帮派的总积分
+	required fixed32 ranking = 6; // 排名
 }
 
 // 帮战历史冠军数据

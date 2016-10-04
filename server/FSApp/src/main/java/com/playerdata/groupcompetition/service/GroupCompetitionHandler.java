@@ -426,6 +426,7 @@ public class GroupCompetitionHandler {
 			rankItemBuilder.setCurrentScore(currentRecord.getScore());
 			rankItemBuilder.setTotalScore(tempRecord.getTotalScore());
 			rankItemBuilder.setFighting(tempRecord.getFighting());
+			rankItemBuilder.setRanking(i + 1);
 			builder.addScoreRankItem(rankItemBuilder.build());
 		}
 		GCompHistoryData historyData = GCompHistoryDataMgr.getInstance().getHistoryData();
