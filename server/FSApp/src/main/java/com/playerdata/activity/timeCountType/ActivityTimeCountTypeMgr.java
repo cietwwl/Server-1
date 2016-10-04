@@ -22,6 +22,10 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
@@ -54,17 +58,27 @@ public class ActivityTimeCountTypeMgr {
 
 
 	private void checkNewOpen(Player player) {
-		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-		String userId = player.getUserId();
-		List<ActivityTimeCountTypeItem> addItemList = null;
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));		
-		
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+		String userId= player.getUserId();
+		List<ActivityTimeCountTypeItem> addList=null;
+		PlayerExtPropertyStore<ActivityTimeCountTypeItem> store =null;
+		RoleExtPropertyStoreCache<ActivityTimeCountTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECOUNT, ActivityTimeCountTypeItem.class);
+		try {
+			store = cach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 	}
 	
-	public List<ActivityTimeCountTypeItem> creatItems(String userId,MapItemStore<ActivityTimeCountTypeItem> itemStore){		
+	public List<ActivityTimeCountTypeItem> creatItems(String userId,PlayerExtPropertyStore<ActivityTimeCountTypeItem> itemStore){		
 		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
 		List<ActivityTimeCountTypeItem> addItemList = null;		
 		BILogMgr biLogMgr = BILogMgr.getInstance();
@@ -74,17 +88,19 @@ public class ActivityTimeCountTypeMgr {
 				continue;
 			}
 			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(cfg.getId());
+			
 			if (TimeCountTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
+			int id = Integer.parseInt(TimeCountTypeEnum.getCfgId());
+//			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
 			if(itemStore != null){
-				if(itemStore.getItem(itemId)!= null){
+				if(itemStore.get(id)!= null){
 					continue;
 				}
 			}			
 			ActivityTimeCountTypeItem item = new ActivityTimeCountTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setCfgId(TimeCountTypeEnum.getCfgId());
 			item.setUserId(userId);
 			item.setVersion(cfg.getVersion());
@@ -110,10 +126,11 @@ public class ActivityTimeCountTypeMgr {
 				GameLog.error(LogModule.ComActivityTimeCount, userId, "同时有多个活动开启", null);
 				continue;
 			}
-			Player player = PlayerMgr.getInstance().find(userId);//蛋疼
-			if(player != null){
-				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
-			}			
+//			Player player = PlayerMgr.getInstance().find(userId);//蛋疼
+//			if(player != null){
+//				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
+//			}			
+			
 			addItemList.add(item);					
 		}		
 		return addItemList;

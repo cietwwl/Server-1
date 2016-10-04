@@ -27,8 +27,7 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 
 	@Override
 	public List<ActivityCountTypeItem> firstCreate(PlayerPropertyParams params) {
-		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
-		return ActivityCountTypeMgr.getInstance().creatItems(params.getUserId(), store);
+		return ActivityCountTypeMgr.getInstance().creatItems(params.getUserId(), null);
 	}
 
 	@Override

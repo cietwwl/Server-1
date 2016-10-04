@@ -67,9 +67,8 @@ public final class ActivityDailyTypeCfgDAO extends
 	public ActivityDailyTypeItem newItem(Player player, ActivityDailyTypeCfg cfg) {
 		if (cfg != null) {
 			ActivityDailyTypeItem item = new ActivityDailyTypeItem();
-			String itemId = ActivityDailyTypeHelper.getItemId(
-					player.getUserId(), ActivityDailyTypeEnum.Daily);
-			item.setId(itemId);
+			int id = Integer.parseInt(ActivityDailyTypeEnum.Daily.getCfgId());
+			item.setId(id);
 			item.setUserId(player.getUserId());
 			item.setCfgid(cfg.getId());
 			item.setVersion(cfg.getVersion());
@@ -110,7 +109,7 @@ public final class ActivityDailyTypeCfgDAO extends
 	 */
 	public ActivityDailyTypeCfg getCfgByItemOfItemId(
 			ActivityDailyTypeItem targetItem) {
-		String id = targetItem.getId();
+		String id = targetItem.getId()+"";
 		List<ActivityDailyTypeCfg> cfgListIsOpen = new ArrayList<ActivityDailyTypeCfg>();
 		List<ActivityDailyTypeCfg> cfgList = getAllCfg();
 		for (ActivityDailyTypeCfg cfg : cfgList) {
