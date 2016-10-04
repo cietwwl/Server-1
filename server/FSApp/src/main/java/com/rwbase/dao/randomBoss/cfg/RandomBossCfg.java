@@ -35,6 +35,8 @@ public class RandomBossCfg {
 	//随机此boss的权重
 	private int weight;
 	
+	
+	private String levelID;
 	private Map<Integer,Integer> battleRewardMap = new HashMap<Integer, Integer>();
 	private Map<Integer,Integer> findRewardMap = new HashMap<Integer, Integer>();
 	private Map<Integer,Integer> KillRewardMap = new HashMap<Integer, Integer>();
@@ -131,6 +133,12 @@ public class RandomBossCfg {
 
 	public int getWeight() {
 		return weight;
+	}
+
+
+
+	public String getLevelID() {
+		return levelID;
 	}
 
 

@@ -12,6 +12,8 @@ import com.playerdata.SkillMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.fixEquip.exp.FixExpEquipMgr;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -130,20 +132,30 @@ public class FSHeroThirdPartyDataMgr {
 		player.getUserGameDataMgr().increaseStarAll(hero.getStarLevel());
 	}
 	
-	void notifySave(FSHero hero, boolean immediately) {
+	void notifySave(FSHero hero) {
 		String heroId = hero.getId();
 		_equipMgr.save(heroId);
 		_inlayMgr.save(heroId);
-		if (immediately) {
-			_skillMgr.flush(heroId);
-		} else {
-			_skillMgr.save(heroId);
-		}
+		
 	}
 	
 	void afterHeroInitAndAddedToCache(Player player, FSHero hero, RoleCfg rolecfg) {
 		_skillMgr.initSkill(player, hero, rolecfg);
 		player.getUserTmpGameDataFlag().setSynFightingAll(true);
+		RoleExtPropertyFactory.loadAndCreateHeroExtProperty(hero.getId(),  newHeroCreateParam(player, hero));
+		
+	}
+	
+	private HeroCreateParam newHeroCreateParam(Player player, Hero hero){
+		String userId = player.getUserId();
+		int playerLevel = player.getLevel();		
+		String heroId= hero.getId();
+		String qualityId = hero.getQualityId();
+		int heroLevel = hero.getLevel();
+		int modelId = hero.getModeId();
+		HeroCreateParam heroCreateParam = new HeroCreateParam(userId, heroId, qualityId, playerLevel, heroLevel, modelId);
+		
+		return heroCreateParam;
 	}
 	
 	public void notifyFirstInit(FSHero hero) {

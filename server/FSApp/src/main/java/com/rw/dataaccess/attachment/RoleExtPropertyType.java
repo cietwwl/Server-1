@@ -1,6 +1,6 @@
 package com.rw.dataaccess.attachment;
 
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 
 public interface RoleExtPropertyType {
 
@@ -10,7 +10,7 @@ public interface RoleExtPropertyType {
 
 	int getCapacity();
 
-	Class<? extends PlayerExtProperty> getPropertyClass();
+	Class<? extends RoleExtProperty> getPropertyClass();
 
 	Class<? extends RoleExtPropertyCreator<?, ?>> getCreatorClass();
 

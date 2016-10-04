@@ -16,12 +16,16 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.hero.IHeroConsumer;
 import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
 import com.playerdata.hero.core.consumer.FSCountQualityConsumer;
 import com.playerdata.hero.core.consumer.FSGetAllHeroConsumer;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -42,7 +46,7 @@ public class FSHeroMgr implements HeroMgr {
 	public static final FSHeroMgr getInstance() {
 		return _INSTANCE;
 	}
-	
+
 	private void loopAll(String userId, IHeroConsumer consumer) {
 		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(userId);
 		while (itr.hasMoreElements()) {
@@ -100,7 +104,7 @@ public class FSHeroMgr implements HeroMgr {
 
 		String roleUUId = UUID.randomUUID().toString();
 		FSHero hero = this.createAndAddHeroToItemStore(player, eRoleType.Hero, heroCfg, roleUUId);
-
+	
 		FSHeroHolder.getInstance().syncUserHeros(player, this.getHeroIdList(player));
 		this.synHero(hero, -1);
 		FSHeroThirdPartyDataMgr.getInstance().fireHeroAddedEvent(player, hero);
@@ -230,15 +234,19 @@ public class FSHeroMgr implements HeroMgr {
 		Hero hero = addHeroInternal(player, templateId);
 		// 任务
 		if(hero != null) {
+			
 			TaskItemMgr taskMgr = player.getTaskMgr();
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Count);
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Star);
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Quality);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroNum);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
+			
 		}
 		return hero;
 	}
+	
+	
 	
 	public int getFightingTeam(PlayerIF player) {
 		List<Hero> list = getMaxFightingHeros(player);
