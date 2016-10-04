@@ -19,23 +19,23 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 public class GCompDetailInfo {
 
 	private int matchId;
-	private List<GCompGroupScore> groupScores;
+	private List<GCompGroupScoreRecord> groupScores;
 	private GCompPersonalScore mvp;
 	
-	private static GCompGroupScore createNewGroupScoreData(String groupId) {
+	private static GCompGroupScoreRecord createNewGroupScoreData(String groupId) {
 		Group group = GroupBM.get(groupId);
 		if (group != null) {
 			GroupBaseDataIF groupBaseData = group.getGroupBaseDataMgr().getGroupData();
-			return GCompGroupScore.createNew(groupId, groupBaseData.getGroupName(), groupBaseData.getIconId());
+			return GCompGroupScoreRecord.createNew(groupId, groupBaseData.getGroupName(), groupBaseData.getIconId());
 		} else {
-			return GCompGroupScore.createNew("", "", "");
+			return GCompGroupScoreRecord.createNew("", "", "");
 		}
 	}
 	
 	public static GCompDetailInfo createNew(int matchId, String idOfGroupA, String idOfGroupB) {
 		GCompDetailInfo instance = new GCompDetailInfo();
 		instance.matchId = matchId;
-		instance.groupScores = new ArrayList<GCompGroupScore>();
+		instance.groupScores = new ArrayList<GCompGroupScoreRecord>();
 		instance.groupScores.add(createNewGroupScoreData(idOfGroupA));
 		instance.groupScores.add(createNewGroupScoreData(idOfGroupB));
 		return instance;
@@ -49,11 +49,11 @@ public class GCompDetailInfo {
 		this.matchId = matchId;
 	}
 	
-	public List<GCompGroupScore> getGroupScores() {
+	public List<GCompGroupScoreRecord> getGroupScores() {
 		return groupScores;
 	}
 	
-	public void setGroupScores(List<GCompGroupScore> groupScores) {
+	public void setGroupScores(List<GCompGroupScoreRecord> groupScores) {
 		this.groupScores = groupScores;
 	}
 	
@@ -65,8 +65,8 @@ public class GCompDetailInfo {
 		this.mvp = mvp;
 	}
 	
-	public GCompGroupScore getByGroupId(String groupId) {
-		for(GCompGroupScore g : groupScores) {
+	public GCompGroupScoreRecord getByGroupId(String groupId) {
+		for(GCompGroupScoreRecord g : groupScores) {
 			if(g.getGroupId().equals(groupId)) {
 				return g;
 			}

@@ -18,7 +18,7 @@ import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 public class UserFeatruesWorship implements IUserFeatruesHandler {
 	//膜拜逻辑是以时间为判断的，所以只能1次
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.worship.getId());
 		subItem.setCount(0);

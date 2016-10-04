@@ -64,6 +64,10 @@ public class GCompFightingRecordHolder {
 		_dao.add(matchId, record);
 		// 同步到相关的人
 		ConcurrentHashSet<String> synUserIds= liveUsers.get(matchId);
+		if(null == synUserIds) {
+			//没有需要同步的玩家
+			return;
+		}
 		List<Player> needSynPlayers = new ArrayList<Player>();
 		Iterator<String> itor = synUserIds.iterator();
 		while(itor.hasNext()){

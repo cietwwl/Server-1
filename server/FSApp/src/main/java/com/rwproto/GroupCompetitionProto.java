@@ -726,6 +726,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     COIN_NOT_ENOUGH(2, 3),
+    /**
+     * <code>NO_SAME_SCENE = 4;</code>
+     *
+     * <pre>
+     *同屏场景不存在
+     * </pre>
+     */
+    NO_SAME_SCENE(3, 4),
     ;
 
     /**
@@ -752,6 +760,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int COIN_NOT_ENOUGH_VALUE = 3;
+    /**
+     * <code>NO_SAME_SCENE = 4;</code>
+     *
+     * <pre>
+     *同屏场景不存在
+     * </pre>
+     */
+    public static final int NO_SAME_SCENE_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -761,6 +777,7 @@ public final class GroupCompetitionProto {
         case 1: return SUCCESS;
         case 2: return DATA_ERROR;
         case 3: return COIN_NOT_ENOUGH;
+        case 4: return NO_SAME_SCENE;
         default: return null;
       }
     }
@@ -29142,10 +29159,10 @@ public final class GroupCompetitionProto {
       "\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScoreRank\020\034\022\025\n\021" +
       "GetGroupScoreRank\020\035*L\n\016TeamStatusType\022\n\n" +
       "\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020" +
-      "\003\022\016\n\nStartMatch\020\004*@\n\014GCResultType\022\013\n\007SUC" +
+      "\003\022\016\n\nStartMatch\020\004*S\n\014GCResultType\022\013\n\007SUC" +
       "CESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUG" +
-      "H\020\003B$\n\013com.rwprotoB\025GroupCompetitionProt" +
-      "o"
+      "H\020\003\022\021\n\rNO_SAME_SCENE\020\004B$\n\013com.rwprotoB\025G" +
+      "roupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

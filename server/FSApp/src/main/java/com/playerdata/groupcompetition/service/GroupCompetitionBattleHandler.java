@@ -282,6 +282,7 @@ public class GroupCompetitionBattleHandler {
 			groupScoreRsp.setEnemyGroupScore(groupA.getGCompScore());
 		}
 
+		rsp.setMatchGroupScoreRsp(groupScoreRsp);
 		return rsp.setIsSuccess(true).build().toByteString();
 	}
 

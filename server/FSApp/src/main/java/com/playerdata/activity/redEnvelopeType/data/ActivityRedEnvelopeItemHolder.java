@@ -10,11 +10,16 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeHelper;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -39,7 +44,7 @@ public class ActivityRedEnvelopeItemHolder{
 	{		
 		ActivityRedEnvelopeTypeCfgDAO dao = ActivityRedEnvelopeTypeCfgDAO.getInstance();
 		List<ActivityRedEnvelopeTypeItem> itemList = new ArrayList<ActivityRedEnvelopeTypeItem>();
-		Enumeration<ActivityRedEnvelopeTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityRedEnvelopeTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityRedEnvelopeTypeItem item = (ActivityRedEnvelopeTypeItem) mapEnum.nextElement();	
 			if(dao.getCfgById(item.getCfgId()) == null){
@@ -55,13 +60,14 @@ public class ActivityRedEnvelopeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityRedEnvelopeTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityRedEnvelopeTypeItem getItem(String userId){
-		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId = ActivityRedEnvelopeHelper.getItemId(userId, ActivityRedEnvelopeTypeEnum.redEnvelope);
+		int id = Integer.parseInt(ActivityRedEnvelopeTypeEnum.redEnvelope.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 //	public boolean removeItem(Player player, ActivityCountTypeItem item){
@@ -96,9 +102,23 @@ public class ActivityRedEnvelopeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityRedEnvelopeTypeItem> cache = MapItemStoreFactory.getActivityRedEnvelopeTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityRedEnvelopeTypeItem.class);
+	public PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
+//		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityRedEnvelopeTypeItem.class);
+		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_REDENVELOPE, ActivityRedEnvelopeTypeItem.class);
+		
+		PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> store = null;
+		try {
+			store = cach.getStore(userId);
+			
+			return store;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return store;
 	}
 
 	public boolean addItemList(Player player, List<ActivityRedEnvelopeTypeItem> addItemList) {
