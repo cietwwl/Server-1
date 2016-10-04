@@ -81,7 +81,7 @@ public class ActivityTimeCountTypeMgr {
 	public List<ActivityTimeCountTypeItem> creatItems(String userId,PlayerExtPropertyStore<ActivityTimeCountTypeItem> itemStore){		
 		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
 		List<ActivityTimeCountTypeItem> addItemList = null;		
-		BILogMgr biLogMgr = BILogMgr.getInstance();
+		
 		for (ActivityTimeCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据			
 			if (!isOpen(cfg)) {
 				// 活动未开启
