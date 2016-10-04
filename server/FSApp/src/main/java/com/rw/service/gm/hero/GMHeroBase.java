@@ -500,6 +500,9 @@ public class GMHeroBase {
 		int magicLevel = magic.getMagicLevel();
 		String modelId = String.valueOf(magic.getModelId());
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		if(upgradeLevel == magicLevel){
+			return;
+		}
 		if(upgradeLevel > magicLevel){
 			//升级
 			
@@ -528,6 +531,7 @@ public class GMHeroBase {
 		magic.setModelId(Integer.parseInt(modelId));
 		magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(upgradeLevel));
 		itemBagMgr.updateItem(magic);
+		player.getMagicMgr().updateMagic();
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
 		updateItems.add(magic);
 		itemBagMgr.syncItemData(updateItems);
