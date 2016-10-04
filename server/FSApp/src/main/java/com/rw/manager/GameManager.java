@@ -51,6 +51,7 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.log.LogService;
@@ -83,15 +84,13 @@ public class GameManager {
 	private static int logServerPort; // 日志服端口
 	private static ServerPerformanceConfig performanceConfig;
 	private static GameNoticeDataHolder gameNotice;
-	private static int giftCodeTimeOut;// 兑换码服务器请求超时
 	private static String gmAccount;// GM账户名
 	private static String gmPassword;// GM密码
-	
-	//author:Alex 添加精准营销服ip 端口
-	private static String benefitServerIp;
-	private static int benefitServerPort;
+
+	private static int giftCodeTimeOut;
 	private static int connectTimeOutMillis;
-	private static int heartBeatInterval;//心跳间隔时间，单位s
+	private static int heartBeatInterval;
+
 
 	/**
 	 * 初始化所有后台服务
@@ -128,7 +127,9 @@ public class GameManager {
 		/************启动精准营销**************/
 
 		if(ServerSwitch.isOpenTargetSell()){
-			BenefitMsgController.getInstance().init(benefitServerIp, benefitServerPort, connectTimeOutMillis, heartBeatInterval);
+			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
+			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
+					connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
@@ -216,15 +217,10 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
 
 			gmAccount = props.getProperty("gmAccount");
 			gmPassword = props.getProperty("gmPassword");
 			
-			benefitServerIp = props.getProperty("benefitServerIp");
-			benefitServerPort = Integer.parseInt(props.getProperty("benefitServerPort"));
-			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
-			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -241,6 +237,10 @@ public class GameManager {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
 			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
+			
+			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
+			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
+			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -431,9 +431,6 @@ public class GameManager {
 		return performanceConfig;
 	}
 
-	public static int getGiftCodeTimeOut() {
-		return giftCodeTimeOut;
-	}
 
 	public static String getGmAccount() {
 		return gmAccount;
@@ -448,6 +445,10 @@ public class GameManager {
 	 */
 	public static void CheckAllConfig() {
 		CfgCsvReloader.CheckAllConfig();
+	}
+
+	public static int getGiftCodeTimeOut() {
+		return giftCodeTimeOut;
 	}
 
 }
