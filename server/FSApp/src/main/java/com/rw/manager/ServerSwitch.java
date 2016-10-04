@@ -24,6 +24,7 @@ public class ServerSwitch {
 	private static boolean printEncode = false;
 	private static boolean openCacheLog = true;
 	private static boolean openTraceLogger = true;
+	private static boolean openTargetSell = false;//是否开启精准营销
 	private static int targetSellTestModel;//精准营销是否为测试模式：0否，1是
 
 	public static void initProperty() {
@@ -40,6 +41,7 @@ public class ServerSwitch {
 			if (openTraceLogger_ != null) {
 				openTraceLogger = Boolean.parseBoolean(openTraceLogger_);
 			}
+			openTargetSell = Boolean.parseBoolean(props.getProperty("openTargetSell"));
 			targetSellTestModel = Integer.parseInt(props.getProperty("targetSellTestModel"));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -77,4 +79,10 @@ public class ServerSwitch {
 		return targetSellTestModel;
 	}
 
+	public static boolean isOpenTargetSell() {
+		return openTargetSell;
+	}
+
+	
+	
 }

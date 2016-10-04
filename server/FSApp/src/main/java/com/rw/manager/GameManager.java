@@ -126,7 +126,9 @@ public class GameManager {
 		
 		/************启动精准营销**************/
 
-		BenefitMsgController.getInstance().init(benefitServerIp, benefitServerPort, connectTimeOutMillis, heartBeatInterval);
+		if(ServerSwitch.isOpenTargetSell()){
+			BenefitMsgController.getInstance().init(benefitServerIp, benefitServerPort, connectTimeOutMillis, heartBeatInterval);
+		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
 		LogService.getInstance().init();
@@ -291,6 +293,8 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
+		//通知精准营销停服
+		BenefitMsgController.getInstance().shutDownNotify();
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);

@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.targetSell.TargetSellManager;
 import com.log.GameLog;
+import com.rw.fsutil.dao.cache.SimpleCache;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
@@ -19,8 +20,6 @@ public class BenefitMsgController{
 	
 	//等待发送的消息容器,如果消费者的效率低于生成效率，此容器会一直增长,后面要进行优化
 	private ConcurrentLinkedQueue<String> msgQueue = new ConcurrentLinkedQueue<String>();
-
-	
 
 	private BenefitSystemMsgAdapter msgSender;
 	
@@ -101,6 +100,9 @@ public class BenefitMsgController{
 		@Override
 		public Object onTimeSignal(FSGameTimeSignal timeSignal)
 				throws Exception {
+			if(shutDown.get()){
+				return null;
+			}
 			int size = msgQueue.size();
 			GameLog.info("TargetSell", "watch task", "current wait for sending msg count:" + size);
 			FSGameTimerMgr.getInstance().submitSecondTask(this, interval);

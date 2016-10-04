@@ -48,7 +48,7 @@ public class BenefitSystemMsgAdapter {
 	public BenefitSystemMsgAdapter(String host, int port, int timeoutMillis) {
 		remoteAddress = new InetSocketAddress(host, port);
 		this.timeoutMillis = timeoutMillis;
-		
+		connect();
 		startReciver();
 	}
 	
@@ -74,7 +74,7 @@ public class BenefitSystemMsgAdapter {
 	
 	// 网络重连
 	public boolean connect(){
-		System.out.println("================try to connet target sell server~");
+//		System.out.println("================try to connet target sell server~");
 		try {
 			this.socket = createSocket();//重新创建一个
 			socket.connect(remoteAddress , timeoutMillis);//这个会阻塞,到超时或连接成功
@@ -102,7 +102,7 @@ public class BenefitSystemMsgAdapter {
 			
 			output.write(dataFormat(content));
 			output.flush();
-			System.out.println("发送消息到精准服：" + content);
+//			System.out.println("发送消息到精准服：" + content);
 		} catch (Exception e) {
 			e.printStackTrace();
 			closeSocket();
@@ -161,7 +161,7 @@ public class BenefitSystemMsgAdapter {
 			public void run() {
 				while (!shutDown.get()) {
 					if(isAvaliable()){
-						System.out.println("~~~~~~~~~~~~~~~~check remote msg");
+//						System.out.println("~~~~~~~~~~~~~~~~check remote msg");
 						try {
 							
 							String reString = null;//这个会阻塞

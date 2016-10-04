@@ -17,13 +17,13 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 		ChargeInfo currentRecord = event.getCurrentRecord();
 		ChargeInfo oldRecord = event.getOldRecord();
 		if(currentRecord.getTotalChargeGold() != oldRecord.getTotalChargeGold()){
-			System.err.println("gold change-------------------------old charge:" + oldRecord.getTotalChargeGold()
-					+ ",cur charge:" + currentRecord.getTotalChargeGold());
+//			System.err.println("gold change-------------------------old charge:" + oldRecord.getTotalChargeGold()
+//					+ ",cur charge:" + currentRecord.getTotalChargeGold());
 		}
 		
 		if(currentRecord.getTotalChargeMoney() > oldRecord.getTotalChargeMoney()){
-			System.err.println("money change =======================================" + oldRecord.getTotalChargeMoney()
-					+ ", cur money:" + currentRecord.getTotalChargeMoney());
+//			System.err.println("money change =======================================" + oldRecord.getTotalChargeMoney()
+//					+ ", cur money:" + currentRecord.getTotalChargeMoney());
 			TargetSellManager.getInstance().increaseChargeMoney(currentRecord.getUserId(), currentRecord.getTotalChargeMoney());
 		}
 		

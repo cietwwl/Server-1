@@ -69,8 +69,8 @@ import com.rwproto.TargetSellProto.UpdateBenefitScore.Builder;
 public class TargetSellManager {
 	
 	
-	public final static String publicKey = "6489CD1B7E9AE5BD8311435";
-	public final static String appId = "1012";
+	public final static String publicKey = "6489CD1B7E9AE5BD8311435";//用于校验的key
+	public final static String appId = "1012";//用于校验的游戏服务器app id
 	public final static int linkId = 90173356;//这个id是随意定的，银汉那边并不做特殊要求
 	public final static String ACTION_NAME = "all"; //默认的actionName
 	
@@ -165,6 +165,9 @@ public class TargetSellManager {
 	 * @param charge
 	 */
 	public void playerCharge(Player player, float charge) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		int score = 0;
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
@@ -198,7 +201,6 @@ public class TargetSellManager {
 		
 		//通知前端
 		if(record.getItemMap() != null && !record.getItemMap().isEmpty()){
-			
 			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime()));
 		}
 	}
@@ -223,6 +225,9 @@ public class TargetSellManager {
 	 * @param totalChargeMoney 充值后的总金额
 	 */
 	public void increaseChargeMoney(String userID, int totalChargeMoney) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		User user = UserDataDao.getInstance().getByUserId(userID);
 		if(user == null){
 			GameLog.error("TargetSell", "TargetSell[increaseChargeMoney]", "玩家充值后精准营销系统无法找到User数据", null);
@@ -244,6 +249,9 @@ public class TargetSellManager {
 	 * @param player
 	 */
 	public void checkBenefitScoreAndSynData(Player player){
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
 		pushRoleAllAttrsData(player, null);
 		long nowTime = System.currentTimeMillis();
@@ -274,10 +282,10 @@ public class TargetSellManager {
 //			if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TARGET_SELL, player)){
 //				
 //			}
-			List<ItemInfo> list = autoBuy(record);
-			if(!list.isEmpty()){
-				player.getItemBagMgr().addItem(list);
-			}
+//			List<ItemInfo> list = autoBuy(record);
+//			if(!list.isEmpty()){
+//				player.getItemBagMgr().addItem(list);
+//			}
 			//-------------------重置--------------------------------
 			record.setBenefitScore(0);
 			record.setNextClearScoreTime(getNextRefreshTimeMils());
@@ -367,6 +375,9 @@ public class TargetSellManager {
 	 * @param itemData
 	 */
 	public void updateRoleItems(TargetSellSendRoleItems itemData) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		TargetSellRecord record = dataDao.get(itemData.getRoleId());
 		Map<Integer, BenefitItems> map = new HashMap<Integer, BenefitItems>();
 		for (BenefitItems i : itemData.getItems()) {
@@ -450,6 +461,9 @@ public class TargetSellManager {
 	 * @param data 
 	 */
 	public void pushRoleAllAttrsData(Player player, TargetSellAbsArgs data){
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		try {
 			
 			TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
@@ -491,7 +505,9 @@ public class TargetSellManager {
 	 * @param data
 	 */
 	public void cleanRoleAllBenefitItems(TargetSellAbsArgs data){
-		
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		try {
 			TargetSellRecord record = dataDao.get(data.getRoleId());
 			if(record == null){
@@ -660,6 +676,10 @@ public class TargetSellManager {
 	 * @param content
 	 */
 	private void sendMsg(final String content){
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
+		
 		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
 			
 			@Override
@@ -690,37 +710,5 @@ public class TargetSellManager {
 	}
 
 	
-	
-	public static void main(String[] args){
-//		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5001);
-//		TargetSellHeartBeatParam param = new TargetSellHeartBeatParam();
-//		param.setAppId("58");
-//		param.setTime((int) (System.currentTimeMillis()/ 1000));
-//		data.setArgs(manager.toJsonObj(param));
-//		String jsonString = manager.toJsonString(data);
-//		
-//		System.out.println(jsonString);
-//		
-//		
-//		TargetSellData t = FastJsonUtil.deserialize(jsonString, TargetSellData.class);
-//		TargetSellHeartBeatParam p = JSONObject.toJavaObject(t.getArgs(), TargetSellHeartBeatParam.class);
-//		
-//		System.out.println(t.getOpType()+"_"+t.getSign()+"_" + p.getAppId());
-		int tt = 2^10;
-		System.out.println(tt);
-
-	}
-
-	
-
-	
-
-	
-
-
-	
-
-	
-
 	
 }
