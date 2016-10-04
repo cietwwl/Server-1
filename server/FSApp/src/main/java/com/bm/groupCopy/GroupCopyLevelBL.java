@@ -61,15 +61,16 @@ public class GroupCopyLevelBL {
 	public static GroupCopyProgress createProgress(String level){
 		List<GroupCopyMonsterSynStruct> mData = new ArrayList<GroupCopyMonsterSynStruct>();
 		try {
-			List<CopyMonsterInfoCfg> list = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(level);
+			CopyMonsterInfoCfg monsterCfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(level);
 			
 			
 			GroupCopyMonsterSynStruct struct = null;
 			MonsterCfg monster;
-			if(list.isEmpty()){
+			if(monsterCfg == null){
 				GameLog.error(LogModule.GroupCopy, "GroupCopyLevelBL[CreateProgress]", "创建关卡进度出现异常,关卡：【" + level + "】里的怪物列表为空！！", null);
+				return null;
 			}
-			for (CopyMonsterInfoCfg monsterCfg : list) {
+			
 				for (String id : monsterCfg.getEnemyList()) {
 					
 					monster = MonsterCfgDao.getInstance().getConfig(id);
@@ -80,7 +81,7 @@ public class GroupCopyLevelBL {
 					struct = new GroupCopyMonsterSynStruct(monster);
 					mData.add(struct);
 				}
-			}
+			
 			
 			
 		} catch (Exception e) {

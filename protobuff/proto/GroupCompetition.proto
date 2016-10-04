@@ -199,3 +199,8 @@ message CommonRsp {
 message TeamStatusChange {
 	required TeamStatusType status = 1;
 }
+
+// 胜利的帮派id
+message EventsResult {
+	required string winGroupId = 1;
+}
