@@ -26020,9 +26020,9 @@ public final class GroupCompetitionProto {
     com.google.protobuf.ByteString
         getGroupIconBytes();
 
-    // required fixed32 fighting = 3;
+    // required fixed64 fighting = 3;
     /**
-     * <code>required fixed32 fighting = 3;</code>
+     * <code>required fixed64 fighting = 3;</code>
      *
      * <pre>
      * 战斗力
@@ -26030,13 +26030,13 @@ public final class GroupCompetitionProto {
      */
     boolean hasFighting();
     /**
-     * <code>required fixed32 fighting = 3;</code>
+     * <code>required fixed64 fighting = 3;</code>
      *
      * <pre>
      * 战斗力
      * </pre>
      */
-    int getFighting();
+    long getFighting();
 
     // required fixed32 currentScore = 4;
     /**
@@ -26139,9 +26139,9 @@ public final class GroupCompetitionProto {
               groupIcon_ = input.readBytes();
               break;
             }
-            case 29: {
+            case 25: {
               bitField0_ |= 0x00000004;
-              fighting_ = input.readFixed32();
+              fighting_ = input.readFixed64();
               break;
             }
             case 37: {
@@ -26304,11 +26304,11 @@ public final class GroupCompetitionProto {
       }
     }
 
-    // required fixed32 fighting = 3;
+    // required fixed64 fighting = 3;
     public static final int FIGHTING_FIELD_NUMBER = 3;
-    private int fighting_;
+    private long fighting_;
     /**
-     * <code>required fixed32 fighting = 3;</code>
+     * <code>required fixed64 fighting = 3;</code>
      *
      * <pre>
      * 战斗力
@@ -26318,13 +26318,13 @@ public final class GroupCompetitionProto {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>required fixed32 fighting = 3;</code>
+     * <code>required fixed64 fighting = 3;</code>
      *
      * <pre>
      * 战斗力
      * </pre>
      */
-    public int getFighting() {
+    public long getFighting() {
       return fighting_;
     }
 
@@ -26379,7 +26379,7 @@ public final class GroupCompetitionProto {
     private void initFields() {
       groupName_ = "";
       groupIcon_ = "";
-      fighting_ = 0;
+      fighting_ = 0L;
       currentScore_ = 0;
       totalScore_ = 0;
     }
@@ -26422,7 +26422,7 @@ public final class GroupCompetitionProto {
         output.writeBytes(2, getGroupIconBytes());
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeFixed32(3, fighting_);
+        output.writeFixed64(3, fighting_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeFixed32(4, currentScore_);
@@ -26449,7 +26449,7 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFixed32Size(3, fighting_);
+          .computeFixed64Size(3, fighting_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -26583,7 +26583,7 @@ public final class GroupCompetitionProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         groupIcon_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        fighting_ = 0;
+        fighting_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
         currentScore_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -26915,10 +26915,10 @@ public final class GroupCompetitionProto {
         return this;
       }
 
-      // required fixed32 fighting = 3;
-      private int fighting_ ;
+      // required fixed64 fighting = 3;
+      private long fighting_ ;
       /**
-       * <code>required fixed32 fighting = 3;</code>
+       * <code>required fixed64 fighting = 3;</code>
        *
        * <pre>
        * 战斗力
@@ -26928,30 +26928,30 @@ public final class GroupCompetitionProto {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required fixed32 fighting = 3;</code>
+       * <code>required fixed64 fighting = 3;</code>
        *
        * <pre>
        * 战斗力
        * </pre>
        */
-      public int getFighting() {
+      public long getFighting() {
         return fighting_;
       }
       /**
-       * <code>required fixed32 fighting = 3;</code>
+       * <code>required fixed64 fighting = 3;</code>
        *
        * <pre>
        * 战斗力
        * </pre>
        */
-      public Builder setFighting(int value) {
+      public Builder setFighting(long value) {
         bitField0_ |= 0x00000004;
         fighting_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required fixed32 fighting = 3;</code>
+       * <code>required fixed64 fighting = 3;</code>
        *
        * <pre>
        * 战斗力
@@ -26959,7 +26959,7 @@ public final class GroupCompetitionProto {
        */
       public Builder clearFighting() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        fighting_ = 0;
+        fighting_ = 0L;
         onChanged();
         return this;
       }
@@ -28999,7 +28999,7 @@ public final class GroupCompetitionProto {
       "\030\002 \003(\0132&.groupCompetition.GCompHistoryCh" +
       "ampion\"{\n\027GCompGroupScoreRankItem\022\021\n\tgro",
       "upName\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\020\n\010fight" +
-      "ing\030\003 \002(\007\022\024\n\014currentScore\030\004 \002(\007\022\022\n\ntotal" +
+      "ing\030\003 \002(\006\022\024\n\014currentScore\030\004 \002(\007\022\022\n\ntotal" +
       "Score\030\005 \002(\007\"x\n\024GCompHistoryChampion\022\021\n\tg" +
       "roupName\030\001 \002(\t\022\023\n\013groupIconId\030\002 \002(\t\022\022\n\nl" +
       "eaderName\030\003 \002(\t\022\025\n\rassistantName\030\004 \003(\t\022\r" +

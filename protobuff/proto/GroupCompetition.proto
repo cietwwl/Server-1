@@ -251,7 +251,7 @@ message GCompGroupScoreRankRspData {
 message GCompGroupScoreRankItem {
 	required string groupName = 1; // 帮派名字
 	required string groupIcon = 2; // 帮派的icon
-	required fixed32 fighting = 3; // 战斗力
+	required fixed64 fighting = 3; // 战斗力
 	required fixed32 currentScore = 4; // 帮派的当前积分
 	required fixed32 totalScore = 5; // 帮派的总积分
 }
