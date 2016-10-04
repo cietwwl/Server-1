@@ -121,7 +121,7 @@ public class EquipHandler {
 				continue;
 			}
 
-			baseInfoList.add(new SkillBaseInfo(skill.strId(), skill.getSkillId()));
+			baseInfoList.add(new SkillBaseInfo(skill.getId(), skill.getSkillId()));
 		}
 
 		return baseInfoList;

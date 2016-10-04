@@ -88,7 +88,7 @@ public class MapItemStoreFactory {
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
 	// Skill
-//	private static MapItemStoreCache<SkillItem> skillCache;
+	private static MapItemStoreCache<SkillItem> skillCache;
 	// TaskItem
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
@@ -230,7 +230,7 @@ public class MapItemStoreFactory {
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
 
-//		skillCache = createForPerload(SkillItem.class, "ownerId", actualHeroCapacity);
+		skillCache = createForPerload(SkillItem.class, "ownerId", actualHeroCapacity);
 
 		taskItemCache = createForPerload(TaskItem.class, "userId", heroCapacity);
 
@@ -415,14 +415,14 @@ public class MapItemStoreFactory {
 		return magicCache;
 	}
 
-//	/**
-//	 * 获取技能缓存
-//	 * 
-//	 * @return
-//	 */
-//	public static MapItemStoreCache<SkillItem> getSkillCache() {
-//		return skillCache;
-//	}
+	/**
+	 * 获取技能缓存
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<SkillItem> getSkillCache() {
+		return skillCache;
+	}
 
 	/**
 	 * 获取任务缓存

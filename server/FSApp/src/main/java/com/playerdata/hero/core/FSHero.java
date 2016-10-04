@@ -273,10 +273,14 @@ public class FSHero implements Hero, AttrMgr {
 	}
 
 	@Override
-	public void save() {
-		FSHeroThirdPartyDataMgr.getInstance().notifySave(this);
+	public void save(boolean immediately) {
+		FSHeroThirdPartyDataMgr.getInstance().notifySave(this, immediately);
 	}
 
+	@Override
+	public void save() {
+		this.save(false);
+	}
 	
 
 	@Override

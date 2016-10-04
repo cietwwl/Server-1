@@ -132,11 +132,15 @@ public class FSHeroThirdPartyDataMgr {
 		player.getUserGameDataMgr().increaseStarAll(hero.getStarLevel());
 	}
 	
-	void notifySave(FSHero hero) {
+	void notifySave(FSHero hero, boolean immediately) {
 		String heroId = hero.getId();
 		_equipMgr.save(heroId);
 		_inlayMgr.save(heroId);
-		
+		if (immediately) {
+			_skillMgr.flush(heroId);
+		} else {
+			_skillMgr.save(heroId);
+		}
 	}
 	
 	void afterHeroInitAndAddedToCache(Player player, FSHero hero, RoleCfg rolecfg) {
