@@ -27174,6 +27174,24 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     int getScore();
+
+    // required fixed32 session = 6;
+    /**
+     * <code>required fixed32 session = 6;</code>
+     *
+     * <pre>
+     * 第几届
+     * </pre>
+     */
+    boolean hasSession();
+    /**
+     * <code>required fixed32 session = 6;</code>
+     *
+     * <pre>
+     * 第几届
+     * </pre>
+     */
+    int getSession();
   }
   /**
    * Protobuf type {@code groupCompetition.GCompHistoryChampion}
@@ -27256,6 +27274,11 @@ public final class GroupCompetitionProto {
             case 45: {
               bitField0_ |= 0x00000008;
               score_ = input.readFixed32();
+              break;
+            }
+            case 53: {
+              bitField0_ |= 0x00000010;
+              session_ = input.readFixed32();
               break;
             }
           }
@@ -27500,12 +27523,37 @@ public final class GroupCompetitionProto {
       return score_;
     }
 
+    // required fixed32 session = 6;
+    public static final int SESSION_FIELD_NUMBER = 6;
+    private int session_;
+    /**
+     * <code>required fixed32 session = 6;</code>
+     *
+     * <pre>
+     * 第几届
+     * </pre>
+     */
+    public boolean hasSession() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required fixed32 session = 6;</code>
+     *
+     * <pre>
+     * 第几届
+     * </pre>
+     */
+    public int getSession() {
+      return session_;
+    }
+
     private void initFields() {
       groupName_ = "";
       groupIconId_ = "";
       leaderName_ = "";
       assistantName_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       score_ = 0;
+      session_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -27525,6 +27573,10 @@ public final class GroupCompetitionProto {
         return false;
       }
       if (!hasScore()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSession()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -27549,6 +27601,9 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeFixed32(5, score_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFixed32(6, session_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -27583,6 +27638,10 @@ public final class GroupCompetitionProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(5, score_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(6, session_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -27714,6 +27773,8 @@ public final class GroupCompetitionProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         score_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        session_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -27764,6 +27825,10 @@ public final class GroupCompetitionProto {
           to_bitField0_ |= 0x00000008;
         }
         result.score_ = score_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.session_ = session_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -27808,6 +27873,9 @@ public final class GroupCompetitionProto {
         if (other.hasScore()) {
           setScore(other.getScore());
         }
+        if (other.hasSession()) {
+          setSession(other.getSession());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -27826,6 +27894,10 @@ public final class GroupCompetitionProto {
           return false;
         }
         if (!hasScore()) {
+          
+          return false;
+        }
+        if (!hasSession()) {
           
           return false;
         }
@@ -28247,6 +28319,55 @@ public final class GroupCompetitionProto {
       public Builder clearScore() {
         bitField0_ = (bitField0_ & ~0x00000010);
         score_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 session = 6;
+      private int session_ ;
+      /**
+       * <code>required fixed32 session = 6;</code>
+       *
+       * <pre>
+       * 第几届
+       * </pre>
+       */
+      public boolean hasSession() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required fixed32 session = 6;</code>
+       *
+       * <pre>
+       * 第几届
+       * </pre>
+       */
+      public int getSession() {
+        return session_;
+      }
+      /**
+       * <code>required fixed32 session = 6;</code>
+       *
+       * <pre>
+       * 第几届
+       * </pre>
+       */
+      public Builder setSession(int value) {
+        bitField0_ |= 0x00000020;
+        session_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 session = 6;</code>
+       *
+       * <pre>
+       * 第几届
+       * </pre>
+       */
+      public Builder clearSession() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        session_ = 0;
         onChanged();
         return this;
       }
@@ -29000,30 +29121,31 @@ public final class GroupCompetitionProto {
       "ampion\"{\n\027GCompGroupScoreRankItem\022\021\n\tgro",
       "upName\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t\022\020\n\010fight" +
       "ing\030\003 \002(\006\022\024\n\014currentScore\030\004 \002(\007\022\022\n\ntotal" +
-      "Score\030\005 \002(\007\"x\n\024GCompHistoryChampion\022\021\n\tg" +
-      "roupName\030\001 \002(\t\022\023\n\013groupIconId\030\002 \002(\t\022\022\n\nl" +
-      "eaderName\030\003 \002(\t\022\025\n\rassistantName\030\004 \003(\t\022\r" +
-      "\n\005score\030\005 \002(\007\"\"\n\014EventsResult\022\022\n\nwinGrou" +
-      "pId\030\001 \002(\t*\315\004\n\rGCRequestType\022\024\n\020EnterPrep" +
-      "areArea\020\001\022\024\n\020LeavePrepareArea\020\002\022\031\n\025Infor" +
-      "mPreparePosition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013Playb" +
-      "ackMsg\020\005\022\014\n\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022",
-      "GetPlayersBaseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024" +
-      "\n\020GetSelectionData\020\n\022\024\n\020GetCanGuessMatch" +
-      "\020\013\022\020\n\014SetTeamReady\020\014\022\023\n\017CancelTeamReady\020" +
-      "\r\022\r\n\tLeaveTeam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKi" +
-      "ckMember\020\020\022\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeam" +
-      "Member\020\022\022\021\n\rStartMatching\020\023\022\022\n\016CancelMat" +
-      "ching\020\024\022\027\n\023StartRandomMatching\020\025\022\030\n\024Canc" +
-      "elRandomMatching\020\026\022\024\n\020PersonalMatching\020\027" +
-      "\022\032\n\026PersonalCancelMatching\020\030\022\021\n\rLeaveLiv" +
-      "ePage\020\031\022\017\n\013GetKillRank\020\032\022\016\n\nGetWinRank\020\033",
-      "\022\020\n\014GetScoreRank\020\034\022\025\n\021GetGroupScoreRank\020" +
-      "\035*L\n\016TeamStatusType\022\n\n\006Kicked\020\001\022\020\n\014Becom" +
-      "eLeader\020\002\022\014\n\010CanMatch\020\003\022\016\n\nStartMatch\020\004*" +
-      "@\n\014GCResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERR" +
-      "OR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003B$\n\013com.rwproto" +
-      "B\025GroupCompetitionProto"
+      "Score\030\005 \002(\007\"\211\001\n\024GCompHistoryChampion\022\021\n\t" +
+      "groupName\030\001 \002(\t\022\023\n\013groupIconId\030\002 \002(\t\022\022\n\n" +
+      "leaderName\030\003 \002(\t\022\025\n\rassistantName\030\004 \003(\t\022" +
+      "\r\n\005score\030\005 \002(\007\022\017\n\007session\030\006 \002(\007\"\"\n\014Event" +
+      "sResult\022\022\n\nwinGroupId\030\001 \002(\t*\315\004\n\rGCReques" +
+      "tType\022\024\n\020EnterPrepareArea\020\001\022\024\n\020LeavePrep" +
+      "areArea\020\002\022\031\n\025InformPreparePosition\020\003\022\013\n\007" +
+      "LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010AllGuess\020\006",
+      "\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayersBaseInfo\020\010\022\020" +
+      "\n\014GetMatchView\020\t\022\024\n\020GetSelectionData\020\n\022\024" +
+      "\n\020GetCanGuessMatch\020\013\022\020\n\014SetTeamReady\020\014\022\023" +
+      "\n\017CancelTeamReady\020\r\022\r\n\tLeaveTeam\020\016\022\020\n\014In" +
+      "viteMember\020\017\022\016\n\nKickMember\020\020\022\016\n\nCreateTe" +
+      "am\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n\rStartMatch" +
+      "ing\020\023\022\022\n\016CancelMatching\020\024\022\027\n\023StartRandom" +
+      "Matching\020\025\022\030\n\024CancelRandomMatching\020\026\022\024\n\020" +
+      "PersonalMatching\020\027\022\032\n\026PersonalCancelMatc" +
+      "hing\020\030\022\021\n\rLeaveLivePage\020\031\022\017\n\013GetKillRank",
+      "\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScoreRank\020\034\022\025\n\021" +
+      "GetGroupScoreRank\020\035*L\n\016TeamStatusType\022\n\n" +
+      "\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020" +
+      "\003\022\016\n\nStartMatch\020\004*@\n\014GCResultType\022\013\n\007SUC" +
+      "CESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_NOT_ENOUG" +
+      "H\020\003B$\n\013com.rwprotoB\025GroupCompetitionProt" +
+      "o"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -29215,7 +29337,7 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_GCompHistoryChampion_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_GCompHistoryChampion_descriptor,
-              new java.lang.String[] { "GroupName", "GroupIconId", "LeaderName", "AssistantName", "Score", });
+              new java.lang.String[] { "GroupName", "GroupIconId", "LeaderName", "AssistantName", "Score", "Session", });
           internal_static_groupCompetition_EventsResult_descriptor =
             getDescriptor().getMessageTypes().get(31);
           internal_static_groupCompetition_EventsResult_fieldAccessorTable = new

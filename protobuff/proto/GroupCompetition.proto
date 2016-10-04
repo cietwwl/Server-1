@@ -263,6 +263,7 @@ message GCompHistoryChampion {
 	required string leaderName = 3;
 	repeated string assistantName = 4; // 副帮主的名字
 	required fixed32 score = 5; // 赛事总结分
+	required fixed32 session = 6; // 第几届
 }
 
 // 胜利的帮派id
