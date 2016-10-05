@@ -28,18 +28,23 @@ public enum GCEventsType {
 	static {
 		GCEventsType[] all = GCEventsType.values();
 		GCEventsType status;
+		GCEventsType pre = null;
 		int totalDays = all.length; // 每个阶段一日
 		Map<Integer, GCEventsType> map = new HashMap<Integer, GCEventsType>();
 		for (int i = 0; i < all.length; i++) {
 			int nextIndex = i + 1;
 			status = all[i];
 			map.put(status.sign, status);
+			if(pre != null) {
+				status._pre = pre;
+			}
 			status.daysNeededToFinal = (--totalDays);
 			if (nextIndex == all.length) {
 				break;
 			} else {
 				status._next = all[nextIndex];
 			}
+			pre = status;
 		}
 		_all = Collections.unmodifiableMap(map);
 	}
@@ -50,6 +55,7 @@ public enum GCEventsType {
 	public final int sign;
 	public final String chineseName;
 	private GCEventsType _next;
+	private GCEventsType _pre;
 	private int daysNeededToFinal; // 本阶段到总决赛需要多少天
 	
 	private GCEventsType(int pSign, String chineseName) {
@@ -63,6 +69,10 @@ public enum GCEventsType {
 	
 	public GCEventsType getNext() {
 		return _next;
+	}
+	
+	public GCEventsType getPre() {
+		return _pre;
 	}
 	
 	/**

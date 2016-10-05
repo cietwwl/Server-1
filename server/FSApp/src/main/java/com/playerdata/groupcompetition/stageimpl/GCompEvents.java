@@ -100,6 +100,9 @@ public class GCompEvents {
 	
 	// 通知赛事开始
 	private void fireEventsStart() {
+		if (_type.getPre() != null && _type != GroupCompetitionMgr.getInstance().getFisrtTypeOfCurrent()) {
+			GCompRankMgr.getInstance().stageEnd(_type.getPre());
+		}
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCompOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
@@ -122,7 +125,6 @@ public class GCompEvents {
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
-		GCompRankMgr.getInstance().stageEnd(_type);
 		GCompGroupScoreRankingMgr.getInstance().onEventsEnd(_type, againsts);
 	}
 	
