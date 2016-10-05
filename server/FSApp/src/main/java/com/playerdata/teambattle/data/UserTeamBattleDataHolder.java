@@ -78,17 +78,19 @@ public class UserTeamBattleDataHolder {
 		UserTeamBattleData utbData = get(player.getUserId());
 		if(null == utbData || null == utbData.getSelfTeamInfo() || null == utbData.getSelfTeamInfo().getUserStaticTeam()) return;
 		StaticMemberTeamInfo teamMemInfo = utbData.getSelfTeamInfo();
-		teamMemInfo.setFashionUsing(toArmyFashionFromBuilder(player.getUserId()));
+		teamMemInfo.setFashionUsing(toArmyFashionFromBuilder(player));
 		updateWithoutSyn(player, utbData);
 	}
 
-	public static ArmyFashion toArmyFashionFromBuilder(String userId) {
-		FashionUsed.Builder builder = FashionHandle.getInstance().getFashionUsedProto(userId);
+	public static ArmyFashion toArmyFashionFromBuilder(Player player) {
+		FashionUsed.Builder builder = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
 		ArmyFashion fashion = new ArmyFashion();
 		if(null != builder){
 			fashion.setSuitId(builder.getSuitId());
 			fashion.setWingId(builder.getWingId());
 			fashion.setPetId(builder.getPetId());
+			fashion.setCareer(player.getCareer());
+			fashion.setGender(player.getSex());
 		}
 		return fashion;
 	}

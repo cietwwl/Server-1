@@ -128,7 +128,7 @@ public class TeamBattleBM {
 		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
 		staticMemInfo.setUserID(player.getUserId());
 		staticMemInfo.setUserStaticTeam(simpleArmy);
-		staticMemInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player.getUserId()));
+		staticMemInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player));
 		HashMap<String, Integer> heroPosMap = new HashMap<String, Integer>();
 		if(item.getHeroIDs() != null){
 			for(int i = 0; i < item.getHeroIDs().size(); i++){

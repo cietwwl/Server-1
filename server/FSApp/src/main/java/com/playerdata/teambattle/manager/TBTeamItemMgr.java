@@ -140,7 +140,7 @@ public class TBTeamItemMgr{
 						teamInfo.setUserID(member.getUserID());
 						teamInfo.setHeroPosMap(heroPosMap);
 						teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", (heroIDs.isEmpty() ? null : heroIDs)));
-						teamInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player.getUserId()));
+						teamInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player));
 						utbMemData.setSelfTeamInfo(teamInfo);
 						
 					}
