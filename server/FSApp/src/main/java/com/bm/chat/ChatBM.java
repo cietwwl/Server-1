@@ -49,6 +49,8 @@ public class ChatBM {
 	private static ConcurrentHashMap<String, List<ChatMessageData.Builder>> familyChatMap = new ConcurrentHashMap<String, List<ChatMessageData.Builder>>();
 
 	private static List<ChatInfo> worldMessageList = new ArrayList<ChatInfo>(ChatHandler.MAX_CACHE_MSG_SIZE);
+	private static Map<String, List<ChatMessageData.Builder>> teamMessageCacheMap = new HashMap<String, List<ChatMessageData.Builder>>();// 组队消息
+
 	private static List<ChatInteractiveSendData> interactiveMessageList = new ArrayList<ChatInteractiveSendData>();
 	private static List<String> _EMPTY_LIST = Collections.emptyList();
 	private AtomicInteger messageId = new AtomicInteger();// 当前最新的消息Id
@@ -96,7 +98,7 @@ public class ChatBM {
 				}
 
 				MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-				msgChatResponse.setChatType(eChatType.CHAT_WORLD);
+				msgChatResponse.setChatType(eChatType.CHANNEL_WORLD);
 
 				// msgChatResponse.setOnLogin(false);
 				for (int i = 0; i < size; i++) {
@@ -153,6 +155,63 @@ public class ChatBM {
 			}
 		}
 
+		private void sendCacheTeamChat() {
+			if (teamMessageCacheMap.isEmpty()) {
+				return;
+			}
+
+			HashMap<String, List<ChatMessageData.Builder>> teamMsgCacheMap;
+			synchronized (teamMessageCacheMap) {
+				teamMsgCacheMap = new HashMap<String, List<ChatMessageData.Builder>>(teamMessageCacheMap);
+				teamMessageCacheMap.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
+			}
+
+			for (Entry<String, List<ChatMessageData.Builder>> e : teamMsgCacheMap.entrySet()) {
+				String teamId = e.getKey();
+				List<ChatMessageData.Builder> msgList = e.getValue();
+				if (msgList == null || msgList.isEmpty()) {
+					continue;
+				}
+
+				List<String> teamPlayerList = getTeamPlayerList(teamId);
+				if (teamPlayerList.isEmpty()) {
+					continue;
+				}
+
+				int size = msgList.size();
+				Iterator<String> itr = teamPlayerList.iterator();
+				while (itr.hasNext()) {
+					String playerId = itr.next();
+					Player player = PlayerMgr.getInstance().find(playerId);
+					if (player == null) {
+						continue;
+					}
+
+					MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+					msgChatResponse.setChatType(eChatType.CHANNEL_TEAM);
+
+					for (int i = 0; i < size; i++) {
+						ChatMessageData.Builder chatMsg = msgList.get(i);
+						String userId = chatMsg.getSendMessageUserInfo().getUserId();
+						if (userId == null || userId.isEmpty()) {
+							continue;
+						}
+
+						if (userId.equals(playerId)) {
+							continue;
+						}
+
+						if (!FriendUtils.isBlack(player, userId)) {// 不在黑名单
+							msgChatResponse.addListMessage(chatMsg);
+						}
+					}
+
+					msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+					player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+				}
+			}
+		}
+
 		private void sendCacheInteractiveChat() {
 			// 發送互動的消息
 			if (interactiveMessageList.isEmpty()) {
@@ -195,11 +254,31 @@ public class ChatBM {
 			try {
 				this.sendCacheWorldChat();
 				this.sendCacheInteractiveChat();
+				this.sendCacheTeamChat();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
+
+	// ===================================================================================
+	// TODO HC 这里是测试数据，暂时为了可以发送数据，写上去，等后续争霸开一个可以拿到队伍成员的接口
+	static Map<String, List<String>> teamPlayerMap = new HashMap<String, List<String>>();
+	static {
+		List<String> idList = new ArrayList<String>();
+		idList.add("100100000001");
+		idList.add("100100000002");
+		idList.add("100100000003");
+		idList.add("100100000004");
+		idList.add("100100000006");
+		teamPlayerMap.put("1", idList);
+	}
+
+	private List<String> getTeamPlayerList(String teamId) {
+		return teamPlayerMap.get(teamId);
+	}
+
+	// ===================================================================================
 
 	private ChatBM() {
 		ses.scheduleAtFixedRate(new ChatRun(), 0, _CHAT_WORLD_TASK_ITR, TimeUnit.MILLISECONDS);
@@ -226,6 +305,27 @@ public class ChatBM {
 
 			// System.err.println("增加一个迭代版本：" + messageId.get());
 			return andIncrement;
+		}
+	}
+
+	/**
+	 * 增加一条聊天
+	 * 
+	 * @param data
+	 */
+	public void updateTeamList(String teamId, ChatMessageData.Builder data) {
+		synchronized (teamMessageCacheMap) {
+			List<ChatMessageData.Builder> teamMsgList = teamMessageCacheMap.get(teamId);
+			if (teamMsgList == null) {
+				teamMsgList = new ArrayList<ChatMessageData.Builder>();
+				teamMessageCacheMap.put(teamId, teamMsgList);
+			}
+
+			teamMsgList.add(data);
+
+			if (teamMsgList.size() > ChatHandler.MAX_CACHE_MSG_SIZE) {
+				teamMsgList.remove(0);
+			}
 		}
 	}
 
@@ -884,7 +984,7 @@ public class ChatBM {
 			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds, sendToWorld));
 		}
 
-		 sender.SendMsg(Command.MSG_CHAT, resp.toByteString()); 
+		sender.SendMsg(Command.MSG_CHAT, resp.toByteString());
 	}
 
 	public String filterDirtyWord(String content) {

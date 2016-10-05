@@ -26,6 +26,8 @@ import com.playerdata.charge.ChargeMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
+import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
+import com.playerdata.groupcompetition.quiz.GCompUserQuizItemHolder;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;
 import com.rwbase.common.RecordSynchronization;
@@ -317,6 +319,14 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MagicChapterData);
+		
+		versionMap.put(eSynType.GCompSelfGuess, new PlayerDataMgr(new RecordSynchronization() {
+			@Override
+			public void synAllData(Player player, int version) {
+				GCompUserQuizItemHolder.getInstance().synAllData(player);
+			}
+		}));
+		orderList.add(eSynType.GCompSelfGuess);
 
 		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
