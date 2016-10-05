@@ -16,6 +16,7 @@ import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
+import com.bm.randomBoss.RandomBossMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
@@ -224,6 +225,9 @@ public class GMHandler {
 		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
 		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
 		funcCallBackMap.put("upgrademagic", "upgradeMagic");
+		
+		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
+		funcCallBackMap.put("callrb", "callRb");
 	}
 
 	public boolean isActive() {
@@ -832,6 +836,11 @@ public class GMHandler {
 		int num = Integer.parseInt(arrCommandContents[0]);
 		player.getTowerMgr().addTowerNum(num);
 		;
+		return true;
+	}
+	
+	public boolean callRb(String[] commands, Player player){
+		RandomBossMgr.getInstance().findBossBorn(player, false);
 		return true;
 	}
 
