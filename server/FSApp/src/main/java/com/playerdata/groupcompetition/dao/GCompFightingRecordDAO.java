@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.dao;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import com.playerdata.groupcompetition.holder.data.GCompFightRecordData;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
@@ -15,7 +15,7 @@ public class GCompFightingRecordDAO extends DataKVDao<GCompFightRecordData>{
 		return _instance;
 	}
 		
-	public ArrayList<GCompFightingRecord> getFightingRecord(int matchId) {
+	public LinkedList<GCompFightingRecord> getFightingRecord(int matchId) {
 		GCompFightRecordData matchRecord = get(String.valueOf(matchId));
 		if(null == matchRecord){
 			return null;
@@ -27,20 +27,20 @@ public class GCompFightingRecordDAO extends DataKVDao<GCompFightRecordData>{
 		if(null == get(String.valueOf(matchId))){
 			GCompFightRecordData matchRecord = new GCompFightRecordData();
 			matchRecord.setMatchId(matchId);
-			matchRecord.setRecord(new ArrayList<GCompFightingRecord>());
+			matchRecord.setRecord(new LinkedList<GCompFightingRecord>());
 			update(matchRecord);
 		}
 	}
 	
 	public void add(int matchId, GCompFightingRecord record) {
-		ArrayList<GCompFightingRecord> list = getFightingRecord(matchId);
+		LinkedList<GCompFightingRecord> list = getFightingRecord(matchId);
 		if(null == list){
 			return;
 		}
 		synchronized(list) {
 			int listSize = list.size();
 			while(listSize >= MAX_RECORD_COUNT){
-				list.remove(0);
+				list.remove();
 				listSize--;
 			}
 			list.add(record);
