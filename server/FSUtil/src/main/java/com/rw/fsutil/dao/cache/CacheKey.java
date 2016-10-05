@@ -58,7 +58,7 @@ public class CacheKey {
 
 	@Override
 	public String toString() {
-		return "CacheKey [clazz=" + clazz.getSimpleName() + ", name=" + name + "]";
+		return "CacheKey[clazz=" + clazz.getSimpleName() + ", name=" + name + "]";
 	}
 
 }

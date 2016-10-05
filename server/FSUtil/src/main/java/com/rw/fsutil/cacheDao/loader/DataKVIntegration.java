@@ -111,12 +111,8 @@ public class DataKVIntegration<T> extends PersistentLoader<String, T> {
 	}
 
 	@Override
-	public boolean hasChanged(String key, T value, EvictedUpdateTask<String> evictedUpdateTask) {
-		if (forceUpdateOnEviction) {
-			return true;
-		}
-		boolean changed = evictedUpdateTask.hasChanged(key);
-		return changed;
+	public boolean hasChanged(String key, T value) {
+		return forceUpdateOnEviction;
 	}
 
 }
