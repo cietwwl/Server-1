@@ -22,7 +22,7 @@ public class RefOptTmpLoader extends ClassLoader {
 	public RefOptTmpLoader(List<String> classListP){
 		super(null);	
 		this.classList = classListP;
-		baseDir = this.getClass().getClassLoader().getResource("").getPath();
+		baseDir = RefOptTmpLoader.class.getClassLoader().getResource("").getPath();
 	}
 	
 	public void init(List<String> classList){
