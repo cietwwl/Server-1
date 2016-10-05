@@ -217,6 +217,10 @@ public class GCompTeamMgr {
 		return teamMember;
 	}
 	
+	private void userTeamStatusChange(String userId, boolean inTeam) {
+		GCompOnlineMemberMgr.getInstance().changeUserTeamStatus(userId, inTeam);
+	}
+	
 	public void onEventStatusChange(GCompEventsStatus currentStatus) {
 		switch (currentStatus) {
 		case REST:
@@ -295,6 +299,9 @@ public class GCompTeamMgr {
 		}
 		
 		this.createTeamInternal(player, heroIds, matchId, groupId, false, result);
+		if(result.getT1()) {
+			userTeamStatusChange(player.getUserId(), true);
+		}
 		
 		return result;
 	}
@@ -411,6 +418,7 @@ public class GCompTeamMgr {
 					team.addTeamMember(createMemberResult.getT2());
 					_dataHolder.synToAllMembers(team);
 					result.setT1(true);
+					userTeamStatusChange(player.getUserId(), true);
 				} else {
 					result.setT2(GCompTips.getTipsTeamMemberIsMax());
 				}
@@ -528,6 +536,7 @@ public class GCompTeamMgr {
 				}
 				_dataHolder.synToAllMembers(team);
 			}
+			userTeamStatusChange(targetUserId, false);
 		} else {
 			result.setT1(false);
 			result.setT2(GCompTips.getTipsTargetNotInYourTeam());
@@ -576,6 +585,7 @@ public class GCompTeamMgr {
 			_dataHolder.synToAllMembers(team);
 		}
 		result.setT1(true);
+		userTeamStatusChange(player.getUserId(), false);
 		
 		return result;
 	}

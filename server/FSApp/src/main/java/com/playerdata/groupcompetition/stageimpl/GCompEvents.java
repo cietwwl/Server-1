@@ -16,6 +16,7 @@ import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
+import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
@@ -98,6 +99,7 @@ public class GCompEvents {
 		GCompEventsDataMgr.getInstance().addEvents(eventsData, eventsType);
 	}
 	
+	// 通知赛事开始
 	private void fireEventsStart() {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
@@ -108,9 +110,9 @@ public class GCompEvents {
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
 		GCompRankMgr.getInstance().competitionStart();
-		GCompGroupScoreRankingMgr.getInstance().onEventsStart(eventsData.getRelativeGroupIds());
 	}
 	
+	// 通知赛事结束
 	private void fireEventsEnd() {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(this._type);
 		List<GCompAgainst> againsts = eventsData.getAgainsts();
@@ -123,9 +125,10 @@ public class GCompEvents {
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
 		GCompRankMgr.getInstance().stageEnd(_type);
-		GCompGroupScoreRankingMgr.getInstance().onEvnetsEnd();
+		GCompGroupScoreRankingMgr.getInstance().onEventsEnd(_type, againsts);
 	}
 	
+	// 通知具体赛事的具体节点变化
 	private void fireEventsStatusChange(GCompEventsStatus status) {
 		GroupCompetitionMgr.getInstance().updateEventsStatus(status);
 		switch (status) {
@@ -166,6 +169,8 @@ public class GCompEvents {
 	
 	/**
 	 * 赛事开始
+	 * 1、通知其他模块赛事开始
+	 * 2、切换到准备状态
 	 */
 	public void start() {
 		this.fireEventsStart();
@@ -200,7 +205,7 @@ public class GCompEvents {
 					loseGroupId = groupB.getGroupId();
 				} else {
 					winGroupId = groupB.getGroupId();
-					loseGroupId = groupB.getGroupId();
+					loseGroupId = groupA.getGroupId();
 				}
 			}
 			winGroupIds.add(winGroupId);

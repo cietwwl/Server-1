@@ -412,11 +412,13 @@ public class GroupCompetitionHandler {
 	}
 	
 	public ByteString getGroupScoreRank(Player player) {
+		GCEventsType fisrtTypeOfCurrent = GroupCompetitionMgr.getInstance().getFisrtTypeOfCurrent();
 		List<GCompGroupTotalScoreRecord> allRecords = GCompGroupScoreRankingMgr.getInstance().getAllRecord();
 		GCompGroupScoreRankRspData.Builder builder = GCompGroupScoreRankRspData.newBuilder();
 		GCompGroupScoreRankItem.Builder rankItemBuilder;
 		GCompGroupTotalScoreRecord tempRecord;
 		GCompGroupScoreRecord currentRecord;
+		builder.setTotalScoreRankItemCount(fisrtTypeOfCurrent == GCEventsType.TOP_16 ? 16 : 8);
 		for(int i = 0, size = allRecords.size(); i < size; i++) {
 			tempRecord = allRecords.get(i);
 			currentRecord = tempRecord.getCurrentRecord();
@@ -426,7 +428,7 @@ public class GroupCompetitionHandler {
 			rankItemBuilder.setCurrentScore(currentRecord.getScore());
 			rankItemBuilder.setTotalScore(tempRecord.getTotalScore());
 			rankItemBuilder.setFighting(tempRecord.getFighting());
-			rankItemBuilder.setRanking(i + 1);
+			rankItemBuilder.setRanking(tempRecord.getRanking());
 			builder.addScoreRankItem(rankItemBuilder.build());
 		}
 		GCompHistoryData historyData = GCompHistoryDataMgr.getInstance().getHistoryData();

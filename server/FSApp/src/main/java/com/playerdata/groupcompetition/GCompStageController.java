@@ -66,18 +66,18 @@ public class GCompStageController {
 	
 	private void createTimerTask(IConsumer<GCompStageController> consumer, long deadline) {
 		GCompCommonTask.scheduleCommonTask(consumer, this, deadline);
-		GCompUtil.log("---------- 帮派争霸-阶段控制器-提交时效任务, deadLine : {} ----------" , _dateFormatter.format(new java.util.Date(deadline)));
+		GCompUtil.log("---------- 帮派争霸-阶段控制器-提交时效任务, 执行时间 : {}, 任务名称：{} ----------" , _dateFormatter.format(new java.util.Date(deadline)), consumer.getClass().getSimpleName());
 	}
 	
 	private void notifyCurrentStageEnd() {
 		// 通知当前阶段结束
 		if (_currentStage != null) {
-			GCompUtil.log("---------- 阶段结束：{} ----------", _currentStage.getStageType().getDisplayName());
+			GCompUtil.log("---------- 【{}】结束 ----------", _currentStage.getStageType().getDisplayName());
 			_currentStage.onStageEnd();
 		}
 	}
 	
-	private void fireStageChangeEvent(GCompStageType currentStageType) {
+	private void fireStageChangeEvent() {
 		GroupCompetitionMgr.getInstance().notifyStageChange(_currentStage, _sessionId);
 	}
 	
@@ -113,12 +113,13 @@ public class GCompStageController {
 			// 移到下一个阶段
 			IGCompStage pre = _currentStage;
 			_currentStage = _stageQueue.removeFirst();
+			// 下一阶段的相关逻辑
 			_currentStage.onStageStart(pre);
-			GCompUtil.log("---------- 新阶段开始，当前阶段：{} ----------",  _currentStage.getStageType().getDisplayName());
+			GCompUtil.log("---------- 【{}】开始 ----------",  _currentStage.getStageType().getDisplayName());
 			long endTime = _currentStage.getStageEndTime();
 			createTimerTask(new StageEndMonitorConsumer(), endTime);
 			scheduleNextStageStartTask();
-			fireStageChangeEvent(_currentStage.getStageType());
+			fireStageChangeEvent();
 		} else {
 			// 没有下一个了，即本轮的所有阶段都已经结束了
 			GroupCompetitionMgr.getInstance().allStageEndOfCurrentRound();

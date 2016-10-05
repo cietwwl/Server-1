@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
@@ -20,6 +23,8 @@ import com.playerdata.groupcompetition.util.GCEventsType;
  *
  */
 @SynClass
+@JsonAutoDetect(setterVisibility = Visibility.NONE, getterVisibility = Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GCompHistoryData {
 
 	@JsonProperty("1")
@@ -68,5 +73,9 @@ public class GCompHistoryData {
 	
 	public List<GCGroup> getHistoryChampions() {
 		return Collections.unmodifiableList(historyChampion);
+	}
+	
+	public List<GCompAgainst> getAgainsts() {
+		return Collections.unmodifiableList(matches);
 	}
 }

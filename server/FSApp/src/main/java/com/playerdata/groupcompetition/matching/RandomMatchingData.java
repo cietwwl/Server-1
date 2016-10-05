@@ -41,7 +41,7 @@ class RandomMatchingData implements IGCUnit {
 	static RandomMatchingData createActiveSubmitData(String userId, List<String> pHeroIds) {
 		RandomMatchingData data = createGeneralData(userId, pHeroIds);
 		data.deadline = System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis();
-		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, data.deadline);
+//		GCompUtil.log("随机匹配数据：{}，deadline：{}", userId, data.deadline);
 		return data;
 	}
 	
