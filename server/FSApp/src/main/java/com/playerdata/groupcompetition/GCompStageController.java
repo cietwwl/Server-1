@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
-import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -58,10 +57,12 @@ public class GCompStageController {
 	private LinkedList<IGCompStage> _stageQueue = new LinkedList<IGCompStage>(); // 阶段队列
 	private IGCompStage _currentStage = null; // 当前的阶段
 	private int _sessionId; // 第几届
+	private Object _firstStageStartPara;
 	
-	public GCompStageController(List<IGCompStage> stageQueue, int pSessionId) {
+	public GCompStageController(List<IGCompStage> stageQueue, int pSessionId, Object firstStageStartPara) {
 		this._stageQueue.addAll(stageQueue);
 		this._sessionId = pSessionId;
+		this._firstStageStartPara = firstStageStartPara;
 	}
 	
 	private void createTimerTask(IConsumer<GCompStageController> consumer, long deadline) {
@@ -90,16 +91,7 @@ public class GCompStageController {
 				endTime = _currentStage.getStageEndTime() + 1000;
 			} else {
 				IReadOnlyPair<Integer, Integer> startTimeInfo = stageCfg.getStartTimeInfo();
-				Calendar instance = Calendar.getInstance();
-				instance.setTimeInMillis(_currentStage.getStageEndTime());
-				int hour = startTimeInfo.getT1().intValue();
-				if(instance.get(Calendar.HOUR_OF_DAY) > hour) {
-					instance.add(Calendar.DAY_OF_YEAR, 1);
-				}
-				instance.set(Calendar.HOUR_OF_DAY, hour);
-				instance.set(Calendar.MINUTE, startTimeInfo.getT2().intValue());
-				instance.set(Calendar.SECOND, 0);
-				endTime = instance.getTimeInMillis();
+				endTime = GCompUtil.getNearTimeMillis(startTimeInfo.getT1().intValue(), startTimeInfo.getT2().intValue(), _currentStage.getStageEndTime());
 			}
 			this.createTimerTask(new StageStartConsumer(), endTime);
 		} else {
@@ -114,7 +106,7 @@ public class GCompStageController {
 			IGCompStage pre = _currentStage;
 			_currentStage = _stageQueue.removeFirst();
 			// 下一阶段的相关逻辑
-			_currentStage.onStageStart(pre);
+			_currentStage.onStageStart(pre, _firstStageStartPara);
 			GCompUtil.log("---------- 【{}】开始 ----------",  _currentStage.getStageType().getDisplayName());
 			long endTime = _currentStage.getStageEndTime();
 			createTimerTask(new StageEndMonitorConsumer(), endTime);

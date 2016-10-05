@@ -14,6 +14,7 @@ import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
+import com.playerdata.groupcompetition.util.GCompEventsStartPara;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompTips;
@@ -41,7 +42,7 @@ public class GCompEventsStage implements IGCompStage {
 	private GCompEvents _events; // 当前的争霸赛事
 	private EventsTypeSwitcher _eventsTypeSwitcher; // 赛事类型的切换器
 	private EventStatusSwitcher _eventStatusSwitcher; // 当前赛事的状态切换
-	private boolean _stageEnd; // 阶段是否已经结束
+//	private boolean _stageEnd; // 阶段是否已经结束
 	private long _stageEndTime; // 本阶段结束的时间
 	private String _stageCfgId; // 阶段的配置id
 	
@@ -147,7 +148,7 @@ public class GCompEventsStage implements IGCompStage {
 	
 	private void allEventsFinished() {
 		// 所有的赛事完结
-		this._stageEnd = true;
+//		this._stageEnd = true;
 		GCompEventsDataMgr.getInstance().notifyAllEventsFinished();
 		GCompUtil.log("所有的赛事已经完结！");
 	}
@@ -187,18 +188,27 @@ public class GCompEventsStage implements IGCompStage {
 	}
 
 	@Override
-	public void onStageStart(IGCompStage preStage) {
+	public void onStageStart(IGCompStage preStage, Object startPara) {
 		// 通知阶段开始，跳转到8强或者16强的准备阶段
-		List<String> topCountGroups = GCompHistoryDataMgr.getInstance().getSelectedGroupIds();
+		List<String> topCountGroups;
 		GCEventsType startType;
-		if (topCountGroups.size() > 8) {
-			startType = GCEventsType.TOP_16;
+		List<String> loseGroupIds;
+		if (startPara != null && startPara instanceof GCompEventsStartPara) {
+			GCompEventsStartPara eventsPara = (GCompEventsStartPara) startPara;
+			startType = eventsPara.getEventsType();
+			topCountGroups = eventsPara.getWinGroupIds();
+			loseGroupIds = eventsPara.getLoseGroupIds();
 		} else {
-			startType = GCEventsType.TOP_8;
+			topCountGroups = GCompHistoryDataMgr.getInstance().getSelectedGroupIds();
+			loseGroupIds = Collections.emptyList();
+			if (topCountGroups.size() > 8) {
+				startType = GCEventsType.TOP_16;
+			} else {
+				startType = GCEventsType.TOP_8;
+			}
+			GCompEventsDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
+			GCompGroupScoreRankingMgr.getInstance().onNewSessionStart();
 		}
-		GCompEventsDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
-		GCompGroupScoreRankingMgr.getInstance().onNewSessionStart();
-		List<String> loseGroupIds = Collections.emptyList();
 		this.startEvents(startType, topCountGroups, loseGroupIds); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsStage());

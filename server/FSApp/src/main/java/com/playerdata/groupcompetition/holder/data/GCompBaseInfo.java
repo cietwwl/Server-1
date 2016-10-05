@@ -64,7 +64,10 @@ public class GCompBaseInfo {
 
 	@Override
 	public String toString() {
-		return "GCompBaseInfo [isStart=" + isStart + ", eventStatus=" + eventStatus + ", currentStageType=" + currentStageType + ", startTime=" + startTime + ", endTime=" + endTime + "]";
+		return "GCompBaseInfo [isStart=" + isStart + ", eventStatus=" + eventStatus + ", currentStageType=" + currentStageType + ", startTime=" + startTime + ", endTime=" + endTime + ", session="
+				+ session + "]";
 	}
+	
+	
 	
 }

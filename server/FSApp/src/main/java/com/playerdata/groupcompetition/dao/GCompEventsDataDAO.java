@@ -25,4 +25,8 @@ public class GCompEventsDataDAO {
 		this._currentGlobalData.add(eventsType, eventsData);
 		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_CURRENT, JsonUtil.writeValue(_currentGlobalData));
 	}
+	
+	public void update() {
+		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_CURRENT, JsonUtil.writeValue(_currentGlobalData));
+	}
 }

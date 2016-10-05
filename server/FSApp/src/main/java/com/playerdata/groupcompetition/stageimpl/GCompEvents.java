@@ -16,7 +16,6 @@ import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
-import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;

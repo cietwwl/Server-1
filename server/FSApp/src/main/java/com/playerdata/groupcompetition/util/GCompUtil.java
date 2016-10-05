@@ -103,6 +103,18 @@ public class GCompUtil {
 		return instance.getTimeInMillis();
 	}
 	
+	public static long getNearTimeMillis(int hour, int minute, long relativeMillis) {
+		Calendar instance = Calendar.getInstance();
+		instance.setTimeInMillis(relativeMillis);
+		if(instance.get(Calendar.HOUR_OF_DAY) > hour) {
+			instance.add(Calendar.DAY_OF_YEAR, 1);
+		}
+		instance.set(Calendar.HOUR_OF_DAY, hour);
+		instance.set(Calendar.MINUTE, minute);
+		instance.set(Calendar.SECOND, 0);
+		return instance.getTimeInMillis();
+	}
+	
 	public static long calculateEndTimeOfStage(String stageCfgId) {
 		GroupCompetitionStageCfg cfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(String.valueOf(stageCfgId));
 		Calendar currentDateTime = Calendar.getInstance();

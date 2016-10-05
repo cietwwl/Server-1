@@ -39,6 +39,7 @@ public class GCompEventsDataMgr {
 	 */
 	public void addEvents(GCompEventsData eventsData, GCEventsType eventsType) {
 		_dataHolder.get().add(eventsType, eventsData);
+		_dataHolder.update();
 	}
 
 	/**

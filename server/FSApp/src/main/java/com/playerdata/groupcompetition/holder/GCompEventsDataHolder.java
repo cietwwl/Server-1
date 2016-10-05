@@ -30,6 +30,10 @@ public class GCompEventsDataHolder {
 		return _dao.getCurrentGlobalData();
 	}
 	
+	void update() {
+		this._dao.update();
+	}
+	
 	private GCompEventsSynData createSynData() {
 		GCompEventsGlobalData globalData = this.get();
 		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
@@ -38,6 +42,7 @@ public class GCompEventsDataHolder {
 		synData.setMatchNumType(globalData.getMatchNumType());
 		synData.setStartTime(timeInfo.getT1());
 		synData.setEndTime(timeInfo.getT2());
+		synData.setSession(GroupCompetitionMgr.getInstance().getCurrentSessionId());
 		return synData;
 	}
 	

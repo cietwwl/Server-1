@@ -32,7 +32,7 @@ public class GCompRestStage implements IGCompStage {
 	}
 	
 	@Override
-	public void onStageStart(IGCompStage preStage) {
+	public void onStageStart(IGCompStage preStage, Object startPara) {
 		this._endTime = GCompUtil.calculateEndTimeOfStage(this._stageCfgId);
 	}
 

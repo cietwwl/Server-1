@@ -30,7 +30,7 @@ public class GCompEmptyStage implements IGCompStage {
 	}
 	
 	@Override
-	public void onStageStart(IGCompStage preStage) {
+	public void onStageStart(IGCompStage preStage, Object startPara) {
 		
 	}
 

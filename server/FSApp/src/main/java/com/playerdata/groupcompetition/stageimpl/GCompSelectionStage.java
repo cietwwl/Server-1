@@ -67,7 +67,7 @@ public class GCompSelectionStage implements IGCompStage {
 	}
 	
 	@Override
-	public void onStageStart(IGCompStage preStage) {
+	public void onStageStart(IGCompStage preStage, Object startPara) {
 		this._stageEndTime = GCompUtil.calculateEndTimeOfStage(_stageCfgId);
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterSelectionStage());
 	}

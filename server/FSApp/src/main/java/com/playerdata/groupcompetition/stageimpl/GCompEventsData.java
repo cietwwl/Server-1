@@ -4,19 +4,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class GCompEventsData {
 
+	@JsonProperty("1")
 	private GCEventsType _eventsType; // 赛事类型
+	@JsonProperty("2")
 	private List<GCompAgainst> _againsts; // 对阵关系
 	private List<GCompAgainst> _againstsRO; // 对阵关系（只读）
+	@JsonProperty("3")
 	private GCompEventsStatus _currentStatus = GCompEventsStatus.NONE; // 赛事的当前状态
+	@JsonProperty("4")
 	private List<String> _winGroupIds;
 	private List<String> _winGroupIdsRO;
+	@JsonProperty("5")
 	private List<String> _loseGroupIds;
 	private List<String> _loseGroupIdsRO;
+	@JsonProperty("6")
 	private List<String> _relativeGroupIds;
 	private List<String> _relativeGroupIdsRO;
 	

@@ -18,6 +18,7 @@ public class GCompEventsSynData {
 	private int matchId; // 具体玩家的matchId
 	private long startTime;
 	private long endTime;
+	private int session;
 	
 	public void setMatches(List<GCompAgainst> matches) {
 		this.matches = matches;
@@ -47,8 +48,18 @@ public class GCompEventsSynData {
 		return endTime;
 	}
 	
+	public int getSession() {
+		return session;
+	}
+
+	public void setSession(int session) {
+		this.session = session;
+	}
+
 	@Override
 	public String toString() {
-		return "GCompEventsSynData [matches=" + matches + ", matchNumType=" + matchNumType + ", matchId=" + matchId + "]";
+		return "GCompEventsSynData [matches=" + matches + ", matchNumType=" + matchNumType + ", matchId=" + matchId + ", startTime=" + startTime + ", endTime=" + endTime + ", session=" + session
+				+ "]";
 	}
+	
 }

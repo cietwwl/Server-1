@@ -26,9 +26,11 @@ public interface IGCompStage {
 	public GCompStageType getStageType();
 
 	/**
-	 * 通知此阶段开始
+	 * 
+	 * @param preStage
+	 * @param startPara
 	 */
-	public void onStageStart(IGCompStage preStage);
+	public void onStageStart(IGCompStage preStage, Object startPara);
 	
 	/**
 	 * 通知此阶段结束
