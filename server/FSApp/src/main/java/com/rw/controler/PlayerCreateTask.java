@@ -8,6 +8,7 @@ import com.common.HPCUtil;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.PlayerFreshHelper;
 import com.playerdata.PlayerMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
@@ -19,6 +20,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rw.service.log.template.BIActivityCode;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.dropitem.DropRecord;
@@ -129,7 +131,14 @@ public class PlayerCreateTask implements Runnable {
 		DropRecordDAO.getInstance().update(record);
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
+
+		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
+		PlayerFreshHelper.initCreateItem(player);
+		
+		//记录任务
 		BILogMgr.getInstance().logZoneReg(player);
+		//临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
 		long current = System.currentTimeMillis();
 		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request, false, current));
 		// eGameLoginType
