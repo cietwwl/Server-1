@@ -25,6 +25,7 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
+import com.playerdata.groupcompetition.quiz.GCompUserQuizItem;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.teambattle.data.TBTeamItem;
@@ -132,6 +133,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FSHero> heroItemCache;
 
 	private static MapItemStoreCache<FSHero> mainHeroItemCache;
+	
+	private static MapItemStoreCache<GCompUserQuizItem> groupCompQuizItemCache;
 
 	private static ArrayList<MapItemStoreCache<? extends IMapItem>> list;
 
@@ -248,6 +251,8 @@ public class MapItemStoreFactory {
 		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
 
 		activityDailyRechargeItemCache = createForPerload(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity);
+		
+		groupCompQuizItemCache = createForPerload(GCompUserQuizItem.class, "userID", heroCapacity);
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -542,6 +547,16 @@ public class MapItemStoreFactory {
 	 */
 	public static PFMapItemStoreCache<TablePlatformWhiteList> getPlatformWhiteListCache() {
 		return platformWhiteListCache;
+	}
+	
+	/**
+	 * 
+	 * 获取帮派争霸竞猜的cache
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<GCompUserQuizItem> getGCompQuizItemCache() {
+		return groupCompQuizItemCache;
 	}
 
 	public static List<Pair<CacheKey, String>> getPreloadInfos(String userId) {

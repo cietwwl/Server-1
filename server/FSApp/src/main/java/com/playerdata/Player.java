@@ -32,6 +32,7 @@ import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
@@ -170,6 +171,7 @@ public class Player implements PlayerIF {
 	private volatile long groupRandomRecommentCacheTime;// 帮派排行榜随机推荐的时间
 	private volatile int lastWorldChatId;// 聊天上次的版本号
 	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
+	private volatile long lastTeamChatCahceTime;// 上次发送组队聊天时间
 
 	private TimeAction oneSecondTimeAction;// 秒时效
 
@@ -450,8 +452,10 @@ public class Player implements PlayerIF {
 			AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 			// 角色登录检查秘境数据是否可以重置
 			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
-			// 测试：时效任务的角色登录
+			// 时效任务的角色登录
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
+			// 帮派争霸角色登录通知
+			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId);
 		}
@@ -621,18 +625,18 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void NotifyCommonMsg(ErrorType error,ECommonMsgTypeDef msgShowType, String message){
+	public void NotifyCommonMsg(ErrorType error, ECommonMsgTypeDef msgShowType, String message) {
 		CommonMsgResponse.Builder response = CommonMsgResponse.newBuilder();
 		response.setType(msgShowType.getValue());
 		response.setError(error);
 		response.setMessage(message);
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
-	
-	public void NotifyFunctionNotOpen(String message){
-		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN,ECommonMsgTypeDef.MsgTips,message);
+
+	public void NotifyFunctionNotOpen(String message) {
+		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN, ECommonMsgTypeDef.MsgTips, message);
 	}
-	
+
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
 		if (StringUtils.isBlank(message)) {
 			return;
@@ -1041,7 +1045,7 @@ public class Player implements PlayerIF {
 	}
 
 	public int getLevel() {
-		// return  getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+		// return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
 		if (level == 0) {
 			level = getMainRoleHero().getLevel();
 		}
@@ -1440,8 +1444,7 @@ public class Player implements PlayerIF {
 	 * 
 	 * @param heroModelId
 	 * @param fettersData
-	 * @param canSyn
-	 *            是否可以同步数据
+	 * @param canSyn 是否可以同步数据
 	 */
 	public void addOrUpdateHeroFetters(int heroModelId, SynFettersData fettersData, boolean canSyn) {
 		if (fettersData == null) {
@@ -1509,5 +1512,23 @@ public class Player implements PlayerIF {
 	 */
 	public GroupSecretTeamInfoSynDataHolder getTeamHolder() {
 		return teamHolder;
+	}
+
+	/**
+	 * 获取上次发送组队信息的时间
+	 * 
+	 * @return
+	 */
+	public long getLastTeamChatCahceTime() {
+		return lastTeamChatCahceTime;
+	}
+
+	/**
+	 * 设置上次发送组队信息的缓存时间
+	 * 
+	 * @param lastTeamChatCahceTime
+	 */
+	public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
+		this.lastTeamChatCahceTime = lastTeamChatCahceTime;
 	}
 }
