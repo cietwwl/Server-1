@@ -47,6 +47,10 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
+		if(!dao.isOpen(eOpenLevelType.TEAM_BATTLE, player)){
+			todaySubItem.setMaxCount(0);
+			return null;
+		}
 		int tmp = 0;
 		List<TeamCfg> teamList = TeamCfgDAO.getInstance().getAllCfg();
 		int level = player.getLevel();

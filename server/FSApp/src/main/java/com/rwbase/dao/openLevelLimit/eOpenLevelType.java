@@ -20,7 +20,8 @@ public enum eOpenLevelType {
 	CAREER(14), // 职业查看
 	GOLD_POINT(15), // 点金手
 	FRIEND(17), // 好友
-	GAMBLE(18), EMAIL(19), // 邮件
+	GAMBLE(18),
+	EMAIL(19), // 邮件
 	DAILY(20), // 日常
 	ARENA(21), // 竞技场
 	SIGN(22), // 签到
@@ -45,10 +46,12 @@ public enum eOpenLevelType {
 	SOUL(42), // 魂石开启
 	COPY_SWEEP(43), // 副本扫荡开放
 	USE_EXP_ITEM(44), // 使用经验丹
+	
 	BATTLETOWER(48), // 试炼塔
 	TAOIST(52),// 道术
 	FIX_EQUIP(53), // 神装
 	FIX_EQUIP_STAR(54), // 神装觉醒
+	TEAM_BATTLE(56),//组队战，心魔录
 	FIX_Exp_EQUIP_4(57), // 左下神装开放等级
 	FIX_Exp_EQUIP_5(58), // 右下神装开放等级
 	TARGET_SELL(59),//精准营销
