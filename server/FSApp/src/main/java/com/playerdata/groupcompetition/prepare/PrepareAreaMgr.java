@@ -105,12 +105,12 @@ public class PrepareAreaMgr {
 		String groupId = GroupHelper.getGroupId(player);
 //		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setRstType(GCResultType.SUCCESS);
 			gcRsp.setTipMsg("没有帮派");
 			return;
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
-			gcRsp.setRstType(GCResultType.DATA_ERROR);
+			gcRsp.setRstType(GCResultType.SUCCESS);
 			gcRsp.setTipMsg("场景未开启");
 			return;
 		}
