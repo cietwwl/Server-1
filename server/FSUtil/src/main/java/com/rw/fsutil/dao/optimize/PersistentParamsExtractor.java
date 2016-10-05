@@ -14,4 +14,9 @@ public interface PersistentParamsExtractor<K2> {
 	 */
 	public boolean extractParams(K2 key, List<Object[]> updateList);
 
+//	/**
+//	 * 获取创建时间
+//	 * @return
+//	 */
+//	public long getCreateTime();
 }

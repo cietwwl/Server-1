@@ -57,7 +57,6 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 		int size = paramsMap.size();
 		ArrayList<Object[]> paramsList = new ArrayList<Object[]>(size);
 		for (Map.Entry<K2, Object[]> entry : paramsMap.entrySet()) {
-			K2 key = entry.getKey();
 			paramsList.add(entry.getValue());
 		}
 		return updateToDB(System.currentTimeMillis(), paramsList, evictStat);
@@ -76,18 +75,16 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 
 	private long updateToDB(long startTime, List<Object[]> paramsList, UpdateCountStat stat) {
 		int count = 0;
-		// long start = System.currentTimeMillis();
-
-		System.out.println("执行同步：" + tableName + "," + paramsList);
+		//FSUtilLogger.info("执行同步：" + tableName + "," + paramsList);
 		int[] result = template.batchUpdate(sql, paramsList);
 		for (int i = result.length; --i >= 0;) {
 			int rows = result[i];
 			if (rows == 1) {
 				count++;
-				System.out.println("执行同步成功：" + tableName);
+				//FSUtilLogger.info("执行同步成功：" + tableName);
 			} else {
 				recordException(stat, paramsList.get(i), rows);
-				System.out.println("执行同步失败：" + tableName);
+				//FSUtilLogger.info("执行同步失败：" + tableName);
 			}
 		}
 		long end = System.currentTimeMillis();
@@ -152,12 +149,6 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 				}
 				queueObject = firstEntry.getKey();
 				K2 key = queueObject.key;
-//				PersistentParamsExtractor<K2> extractor = map.remove(key);
-//				if (extractor == null) {
-//					System.out.println("移除失败：" + tableName + "," + map.get(queueObject.key).toString());
-//					continue;
-//				}
-
 				if (!queueObject.extractor.extractParams(key, paramsList)) {
 					FSUtilLogger.error("extract params fail:" + key + "," + tableName);
 					continue;

@@ -9,6 +9,7 @@ import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
+import com.rw.fsutil.dao.optimize.PersistentParamsExtractor;
 
 public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K> {
 
@@ -26,19 +27,21 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
 		if (entity != null) {
 			record(key, entity.getValue(), entity, new CacheStackTrace());
-			if (updateMap.putIfAbsent(key, PRESENT) != null) {
-				String tableName = entity.getTableName();
-				DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
-			}
+			notifyValueUpdate(key, entity, false);
 		} else {
 			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
 		}
 	}
 
 	@Override
-	protected void notifyValueUpdate(K key, V value, boolean replace) {
-		// 踢出时会进行保存
-		updateMap.putIfAbsent(key, PRESENT);
+	protected void notifyValueUpdate(K key, CacheValueEntity<V> entity, boolean replace) {
+		if (updateMap.putIfAbsent(key, PRESENT) == null) {
+			String tableName = entity.getTableName();
+			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
+			//FSUtilLogger.info("新增提交任务:" + name + "," + tableName + "," + entity.getValue() + "," + key);
+		} else {
+			//FSUtilLogger.info("重复提交任务:" + name + "," + entity.getTableName() + "," + entity.getValue() + "," + key);
+		}
 	}
 
 	@Override
@@ -49,8 +52,26 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 		return updateMap.containsKey(key);
 	}
 
-	@Override
-	protected void extractUpdateValue(K key, V value) {
-		updateMap.remove(key);
+	class SignleParamsExtractor implements PersistentParamsExtractor<K> {
+
+		@Override
+		public boolean extractParams(K key, List<Object[]> updateList) {
+			CacheValueEntity<V> entity = cache.getWithOutMove(key);
+			if (entity == null) {
+				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + getThreadAndTime());
+				return false;
+			}
+			V value = entity.getValue();
+			boolean result = loader.extractParams(key, value, updateList);
+			if (result) {
+				updateMap.remove(key);
+			}
+			return result;
+		}
+
+		public String toString() {
+			return name;
+		}
 	}
+
 }

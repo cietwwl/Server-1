@@ -30,7 +30,6 @@ import com.rw.fsutil.dao.optimize.FSBoundedQueue;
 import com.rw.fsutil.dao.optimize.FSLRUCache;
 import com.rw.fsutil.dao.optimize.LRUInsertResult;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
-import com.rw.fsutil.dao.optimize.PersistentParamsExtractor;
 import com.rw.fsutil.dao.optimize.TableUpdateCollector;
 import com.rw.fsutil.dao.optimize.ValueConsumer;
 import com.rw.fsutil.util.DateUtils;
@@ -242,7 +241,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 				oldValue.setValue(value);
 				record(key, value, oldValue, trace);
 				// DataCache.this.submitUpdateTask(key);
-				notifyValueUpdate(key, value, true);
+				notifyValueUpdate(key, oldValue, true);
 			} else if (record != null) {
 				DataLoggerRecord event = parse(key, record);
 				if (event != null) {
@@ -534,7 +533,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		CacheValueEntity<V> old = result.getT2();
 		// 此Json可能是一个中间值
 		record(key, value, old, trace);
-		notifyValueUpdate(key, value, replace);
+		notifyValueUpdate(key, old, replace);
 		return old;
 	}
 
@@ -1103,30 +1102,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		}
 	}
 
-	class SignleParamsExtractor implements PersistentParamsExtractor<K> {
-
-		public SignleParamsExtractor() {
-		}
-
-		@Override
-		public boolean extractParams(K key, List<Object[]> updateList) {
-			CacheValueEntity<V> entity = cache.getWithOutMove(key);
-			if (entity == null) {
-				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + getThreadAndTime());
-				return false;
-			}
-			V value = entity.getValue();
-			boolean result = loader.extractParams(key, value, updateList);
-			if (result) {
-				extractUpdateValue(key, value);
-			}
-			return result;
-		}
-
-		public String toString() {
-			return name;
-		}
-	}
+	
 
 	static enum OperationType {
 		INSERT {
@@ -1151,37 +1127,12 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		public abstract <K, V> DataCache.ReentrantFutureTask create(DataCache<K, V> cache, K key, CacheValueEntity<V> value);
 	}
 
-	class CompositeParamsExtractor implements PersistentParamsExtractor<Object> {
-
-		private final K key;
-
-		public CompositeParamsExtractor(K key) {
-			this.key = key;
-		}
-
-		@Override
-		public boolean extractParams(Object key, List<Object[]> updateList) {
-			CacheValueEntity<V> entity = cache.getWithOutMove(this.key);
-			if (entity == null) {
-				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + this.key + "," + getThreadAndTime());
-				return false;
-			}
-			return loader.extractParams(key, entity.getValue(), updateList);
-		}
-
-		public String toString() {
-			return name;
-		}
-	}
-
 	@Override
 	public Runnable takeTask() {
 		return this.evictedQueue.poll();
 	}
 
-	protected abstract void extractUpdateValue(K key, V value);
-
-	protected abstract void notifyValueUpdate(K key, V value, boolean replace);
+	protected abstract void notifyValueUpdate(K key, CacheValueEntity<V> entity, boolean replace);
 
 	protected abstract boolean hasChanged(K key, V value);
 
