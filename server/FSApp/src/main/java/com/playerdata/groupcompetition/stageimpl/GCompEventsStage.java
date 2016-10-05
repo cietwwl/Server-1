@@ -55,7 +55,6 @@ public class GCompEventsStage implements IGCompStage {
 	
 	private void beforeEventsStart(GCEventsType eventsType, List<String> groupIds) {
 		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
-		GCompRankMgr.getInstance().competitionStart();
 	}
 	
 	private void scheduleEventsStatusSwitchTask() {
@@ -184,6 +183,12 @@ public class GCompEventsStage implements IGCompStage {
 		return currentDateTime.getTimeInMillis();
 	}
 	
+	private void fireStageStartEvent(GCEventsType startType) {
+		GCompRankMgr.getInstance().competitionStart();
+		GCompEventsDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
+		GCompGroupScoreRankingMgr.getInstance().onNewSessionStart();
+	}
+	
 	@Override
 	public String getStageCfgId() {
 		return _stageCfgId;
@@ -208,8 +213,7 @@ public class GCompEventsStage implements IGCompStage {
 			} else {
 				startType = GCEventsType.TOP_8;
 			}
-			GCompEventsDataMgr.getInstance().onEventStageStart(startType); // 清理上一次的数据，需要在开始前调用
-			GCompGroupScoreRankingMgr.getInstance().onNewSessionStart();
+			fireStageStartEvent(startType);
 		}
 		this.startEvents(startType, topCountGroups, loseGroupIds); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);
