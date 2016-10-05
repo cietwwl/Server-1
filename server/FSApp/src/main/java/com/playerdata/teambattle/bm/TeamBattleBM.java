@@ -51,7 +51,6 @@ import com.playerdata.teambattle.manager.TeamMatchMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
-import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfg;
@@ -129,7 +128,7 @@ public class TeamBattleBM {
 		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
 		staticMemInfo.setUserID(player.getUserId());
 		staticMemInfo.setUserStaticTeam(simpleArmy);
-		staticMemInfo.setFashionUsing(FashionHandle.getInstance().getFashionUsedProto(player.getUserId()));
+		staticMemInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player.getUserId()));
 		HashMap<String, Integer> heroPosMap = new HashMap<String, Integer>();
 		if(item.getHeroIDs() != null){
 			for(int i = 0; i < item.getHeroIDs().size(); i++){

@@ -2,13 +2,14 @@ package com.playerdata.teambattle.dataForClient;
 
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.army.ArmyFashion;
-import com.playerdata.army.ArmyMagic;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rwproto.FashionServiceProtos.FashionUsed;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StaticMemberTeamInfo {
 	
 	private String userID;
@@ -47,19 +48,7 @@ public class StaticMemberTeamInfo {
 		return fashionUsing;
 	}
 	
-	public FashionUsed.Builder getFashionUsingBuilder() {
-		FashionUsed.Builder builder = FashionUsed.newBuilder();
-		builder.setPetId(fashionUsing.getPetId());
-		builder.setSuitId(fashionUsing.getSuitId());
-		builder.setWingId(fashionUsing.getWingId());
-		return builder;
-	}
-
-	public void setFashionUsing(FashionUsed.Builder fashionUsing) {
-		ArmyFashion fashion = new ArmyFashion();
-		fashion.setSuitId(fashionUsing.getSuitId());
-		fashion.setWingId(fashionUsing.getWingId());
-		fashion.setPetId(fashionUsing.getPetId());
+	public void setFashionUsing(ArmyFashion fashion) {
 		this.fashionUsing = fashion;
 	}
 }

@@ -30,7 +30,6 @@ import com.playerdata.teambattle.dataException.NoTeamException;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.playerdata.teambattle.enums.TBMemberState;
 import com.rw.fsutil.util.DateUtils;
-import com.rw.service.fashion.FashionHandle;
 
 public class TBTeamItemMgr{
 	private HashMap<String, TBTeamNotFullContainer> tbContainerMap = new HashMap<String, TBTeamNotFullContainer>();
@@ -141,7 +140,7 @@ public class TBTeamItemMgr{
 						teamInfo.setUserID(member.getUserID());
 						teamInfo.setHeroPosMap(heroPosMap);
 						teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", (heroIDs.isEmpty() ? null : heroIDs)));
-						teamInfo.setFashionUsing(FashionHandle.getInstance().getFashionUsedProto(member.getUserID()));
+						teamInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player.getUserId()));
 						utbMemData.setSelfTeamInfo(teamInfo);
 						
 					}
