@@ -60,19 +60,32 @@ public class GCompUserQuizItemHolder {
 	/**
 	 * 同步个人的所有竞猜信息
 	 * @param player
+	 * @param isSynSelf 是否同步个人的竞猜数据
 	 */
 	public void synAllData(Player player){
+		synAllData(player, true);
+	}
+	
+	/**
+	 * 同步个人的所有竞猜信息
+	 * @param player
+	 * @param isSynSelf 是否同步个人的竞猜数据
+	 */
+	public void synAllData(Player player, boolean isSynSelf){
 		List<GCompUserQuizItem> itemList = getItemList(player.getUserId());
 		List<GCQuizEventItem> eventList = new ArrayList<GCQuizEventItem>();
 		for(GCompUserQuizItem item: itemList){
 			GCompQuizMgr.getInstance().sendQuizReward(player, item);
 			GCQuizEventItem quizEventItem = GroupQuizEventItemDAO.getInstance().getQuizInfo(item.getMatchId());
+			quizEventItem.refreshRate(false);
 			if(null != quizEventItem) {
 				eventList.add(quizEventItem);
 			}
 		}
 		if(!itemList.isEmpty()){
-			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+			if(isSynSelf) {
+				ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+			}
 			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
 		}
 	}
@@ -85,6 +98,7 @@ public class GCompUserQuizItemHolder {
 		List<GCQuizEventItem> itemList =  getCurrentFightForQuiz();
 		if(itemList != null && !itemList.isEmpty()) {
 			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
+			synAllData(player, false);
 		}
 	}
 	
@@ -134,6 +148,7 @@ public class GCompUserQuizItemHolder {
 		for(GCompAgainst against :currentAgainst){
 			GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(against.getId());
 			if(null != quizEvent){
+				quizEvent.refreshRate(false);
 				result.add(quizEvent);
 			}
 		}
