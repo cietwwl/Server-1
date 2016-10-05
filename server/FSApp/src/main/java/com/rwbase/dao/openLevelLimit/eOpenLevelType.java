@@ -41,10 +41,11 @@ public enum eOpenLevelType {
 	AUTO_BATTLE(39), // 自动战斗
 	FASHION(41), // 时装
 	TRIAL2(40), // 炼气山谷
-	BATTLETOWER(41), // 试炼塔
+	
 	SOUL(42), // 魂石开启
 	COPY_SWEEP(43), // 副本扫荡开放
 	USE_EXP_ITEM(44), // 使用经验丹
+	BATTLETOWER(48), // 试炼塔
 	TAOIST(52),// 道术
 	FIX_EQUIP(53), // 神装
 	FIX_EQUIP_STAR(54), // 神装觉醒
