@@ -215,6 +215,8 @@ public class PrepareAreaMgr {
 			infoBuilder.setCareerLevel(player.getStarLevel());
 			infoBuilder.setFightingAll(player.getHeroMgr().getFightingAll(player));
 			infoBuilder.setModelId(player.getModelId());
+			infoBuilder.setStarLevel(player.getStarLevel());
+			infoBuilder.setQualityId(player.getHeroMgr().getMainRoleHero(player).getQualityId());
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(userId);
 			if (fashionUsing != null){
 				infoBuilder.setFashionUsage(fashionUsing);

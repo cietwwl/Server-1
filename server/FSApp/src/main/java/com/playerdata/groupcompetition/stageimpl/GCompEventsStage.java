@@ -12,6 +12,7 @@ import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
+import com.playerdata.groupcompetition.rank.GCompRankMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
 import com.playerdata.groupcompetition.util.GCompEventsStartPara;
@@ -54,6 +55,7 @@ public class GCompEventsStage implements IGCompStage {
 	
 	private void beforeEventsStart(GCEventsType eventsType, List<String> groupIds) {
 		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
+		GCompRankMgr.getInstance().competitionStart();
 	}
 	
 	private void scheduleEventsStatusSwitchTask() {
