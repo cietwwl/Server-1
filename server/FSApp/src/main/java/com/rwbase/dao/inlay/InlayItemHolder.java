@@ -63,11 +63,6 @@ public class InlayItemHolder {
 		notifyChange(player.getUserId(), item.getOwnerId());
 	}
 
-	public InlayItem getItem(String heroId, int modelId) {
-		return getItem(heroId, modelId);
-	}
-
-	// public InlayItem getItem(String itemId) {
 	public InlayItem getItem(String heroId, Integer itemId) {
 		return getMapItemStore(heroId).get(itemId);
 	}

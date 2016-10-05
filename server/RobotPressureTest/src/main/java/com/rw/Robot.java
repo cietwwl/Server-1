@@ -1242,6 +1242,7 @@ public class Robot {
 	}
 	
 	public boolean testGroupCompetition() {
+		client.executeAsynResp();
 		return GroupCompetitionHandler.getHandler().testGroupCompetition(client);
 	}
 }

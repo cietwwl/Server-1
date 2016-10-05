@@ -1,13 +1,11 @@
 package com.rw;
 
-import io.netty.channel.Channel;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ClientPool {
 
-	private static Map<String, Client> clientMap = new ConcurrentHashMap<String, Client>();
+	private static Map<String, Client> clientMap = new ConcurrentHashMap<String, Client>(8, 1.0f, 1);
 	
 	public static void put(Client client){
 		clientMap.put(client.getAccountId(), client);
