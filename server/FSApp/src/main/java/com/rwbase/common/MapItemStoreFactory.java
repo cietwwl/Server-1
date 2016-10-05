@@ -104,35 +104,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
 
-//	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityRateTypeItem> activityRateTypeItemCache;
-
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
-//	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
-//
-//	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;
-
 	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
-//	private static MapItemStoreCache<ActivityLimitHeroTypeItem> activityLimitHeroTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityFortuneCatTypeItem> activityFortuneCatTypeItemCache;
 	
-//	private static MapItemStoreCache<RewardBackItem> RewardBackItemCache;
-
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
@@ -240,30 +215,6 @@ public class MapItemStoreFactory {
 
 		serverGroupCopyDamageRecordCache = createForPerload(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity);
 		itemDropAndApplyRecordCache = createForPerload(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity);
-
-//		activityCountTypeItemCache = createForPerload(ActivityCountTypeItem.class, "userId", heroCapacity);
-
-//		activityTimeCardTypeItemCache = createForPerload(ActivityTimeCardTypeItem.class, "userId", heroCapacity);
-
-//		activityRateTypeItemCache = createForPerload(ActivityRateTypeItem.class, "userId", heroCapacity);
-
-//		activityRankTypeItemCache = createForPerload(ActivityRankTypeItem.class, "userId", heroCapacity);
-
-//		activityExchangeTypeItemCache = createForPerload(ActivityExchangeTypeItem.class, "userId", heroCapacity);
-
-//		activityTimeCountTypeItemCache = createForPerload(ActivityTimeCountTypeItem.class, "userId", heroCapacity);
-
-//		activityDailyCountTypeItemCache = createForPerload(ActivityDailyTypeItem.class, "userId", heroCapacity);
-
-//		activityVitalityItemCache = createForPerload(ActivityVitalityTypeItem.class, "userId", heroCapacity);
-
-//		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
-
-
-//		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
-		
-//		RewardBackItemCache  = createForPerload(RewardBackItem.class, "userId", heroCapacity);
-
 		
 		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
 
@@ -463,57 +414,13 @@ public class MapItemStoreFactory {
 		return newGuideGiveItemHistoryCache;
 	}
 
-//	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
-//		return activityCountTypeItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
-//		return activityDailyCountTypeItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityDailyDiscountTypeItem> getActivityDailyDiscountTypeItemCache() {
-//		return activityDailyDiscountTypeItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
-//		return activityTimeCardTypeItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityRateTypeItem> getActivityRateTypeItemCache() {
-//		return activityRateTypeItemCache;
-//	}
-
 	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
 		return activityDateTypeItemCache;
 	}
 
-//	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
-//		return activityRankTypeItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
-//		return activityTimeCountTypeItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityExchangeTypeItem> getActivityExchangeTypeItemCache() {
-//		return activityExchangeTypeItemCache;
-//	}
-//
-//	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
-//		return activityVitalityItemCache;
-//	}
-
 	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
 		return activityDailyRechargeItemCache;
 	}	
-	
-//	public static MapItemStoreCache<RewardBackItem> getRewardBackItemCache() {
-//		return RewardBackItemCache;
-//	}
-
-//	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
-//		return activityRedEnvelopeTypeItemCache;
-//	}
 
 	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
 		return fixExpEquipDataItemCache;
