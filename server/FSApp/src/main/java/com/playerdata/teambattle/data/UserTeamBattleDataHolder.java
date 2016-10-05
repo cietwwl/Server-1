@@ -85,9 +85,11 @@ public class UserTeamBattleDataHolder {
 	public static ArmyFashion toArmyFashionFromBuilder(String userId) {
 		FashionUsed.Builder builder = FashionHandle.getInstance().getFashionUsedProto(userId);
 		ArmyFashion fashion = new ArmyFashion();
-		fashion.setSuitId(builder.getSuitId());
-		fashion.setWingId(builder.getWingId());
-		fashion.setPetId(builder.getPetId());
+		if(null != builder){
+			fashion.setSuitId(builder.getSuitId());
+			fashion.setWingId(builder.getWingId());
+			fashion.setPetId(builder.getPetId());
+		}
 		return fashion;
 	}
 }
