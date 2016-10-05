@@ -204,13 +204,9 @@ public class Player implements PlayerIF {
 
 		Player fresh = new Player(userId, false);
 		// 楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
-		fresh.setZoneLoginInfo(zoneLoginInfo2);		
-		//临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
-		BILogMgr.getInstance().logActivityBegin(fresh, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
+		fresh.setZoneLoginInfo(zoneLoginInfo2);			
 		
 		fresh.initMgr();
-		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
-		PlayerFreshHelper.initCreateItem(fresh);
 		return fresh;
 	}
 
@@ -823,7 +819,7 @@ public class Player implements PlayerIF {
 			FSHeroBaseInfoMgr.getInstance().setLevel(mainRoleHero, newLevel);
 			userDataMgr.setLevel(newLevel);
 			MagicChapterInfoHolder.getInstance().synAllData(this);
-			getTaskMgr().initTask();
+			getTaskMgr().checkAndAddList();			
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);

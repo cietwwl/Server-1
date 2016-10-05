@@ -52,6 +52,8 @@ import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.setting.TableSettingDataDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.store.TableStoreDao;
+import com.rwbase.dao.targetSell.BenefitDataCreator;
+import com.rwbase.dao.targetSell.BenefitDataDAO;
 import com.rwbase.dao.task.TableDailyActivityItemDAO;
 import com.rwbase.dao.unendingwar.UnendingWarDAO;
 import com.rwbase.dao.user.UserGameDataDao;
@@ -89,9 +91,11 @@ public enum DataKVType {
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
 	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
-	//首掉
-//	DROP_RECORD(30, DropRecordDAO.class, DropRecordCreator.class)
+	
+	//精准营销数据
+	USER_BENEFIT_SELL_DATA(30, BenefitDataDAO.class, BenefitDataCreator.class),
 	;
+	
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

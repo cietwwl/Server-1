@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.bm.randomBoss.RandomBossMgr;
+import com.bm.targetSell.TargetSellManager;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -398,6 +399,15 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.RANDOM_BOSS_DATA);
 		
+		
+		versionMap.put(eSynType.BENEFIT_SELL_DATA, new PlayerDataMgr(new RecordSynchronization() {
+			
+			@Override
+			public void synAllData(Player player, int version) {
+				TargetSellManager.getInstance().checkBenefitScoreAndSynData(player);
+			}
+		}));
+		orderList.add(eSynType.BENEFIT_SELL_DATA);
 		
 //		
 //		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {

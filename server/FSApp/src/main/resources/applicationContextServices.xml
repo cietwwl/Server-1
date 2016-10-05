@@ -128,6 +128,8 @@
      			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
      			
      			<entry key="MSG_GROUP_COMPETITION_BATTLE" value-ref="groupCompetitionBattleService" />
+
+     			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
 			</map>
 		</property>
 	</bean>
@@ -229,4 +231,5 @@
 	
 	<bean id="groupCompetitionBattleService" class="com.playerdata.groupcompetition.service.GroupCompetitionBattleService" />
 	
+	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
 </beans>  

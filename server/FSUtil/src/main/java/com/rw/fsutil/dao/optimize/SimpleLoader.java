@@ -51,7 +51,7 @@ public abstract class SimpleLoader<K, V> extends PersistentLoader<K, V> {
 	}
 
 	@Override
-	public boolean hasChanged(K key, V value, EvictedUpdateTask<K> evictedUpdateTask){
+	public boolean hasChanged(K key, V value){
 		return false;
 	}
 }

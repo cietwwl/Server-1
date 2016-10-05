@@ -34,7 +34,7 @@ public class ChargeInfo {
 	private int lastCharge;
 	//上次充值时间
 	private long lastChargeTime;
-	
+	//总的充值金额
 	private int totalChargeMoney;
 	
 	private int totalChargeGold;	

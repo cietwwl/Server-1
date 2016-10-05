@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -20,7 +19,6 @@ import com.rw.fsutil.util.DateUtils;
 public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, EvictedUpdateTask<K2> {
 
 	private String tableName;
-	private ConcurrentHashMap<K2, PersistentParamsExtractor<K2>> map;
 	private ConcurrentLinkedQueue<EvictedElementTaker> evictedQueue;
 	private ConcurrentSkipListMap<QueueObject, Object> updateQueue;
 	private String sql;
@@ -37,7 +35,6 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 		this.tableName = tableName;
 		this.updateQueue = new ConcurrentSkipListMap<QueueObject, Object>();
 		this.evictedQueue = new ConcurrentLinkedQueue<EvictedElementTaker>();
-		this.map = new ConcurrentHashMap<K2, PersistentParamsExtractor<K2>>();
 		this.template = DataAccessFactory.getSimpleSupport().getMainTemplate();
 		this.updateStat = new UpdateCountStat(tableName, "update");
 		this.evictStat = new UpdateCountStat(tableName, "evict");
@@ -48,9 +45,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 	}
 
 	public void addChanged(K2 key, long period, PersistentParamsExtractor<K2> extractor) {
-		if (map.putIfAbsent(key, extractor) == null) {
-			updateQueue.put(new QueueObject(key, DateUtils.getSecondLevelMillis() + period), PRESENT);
-		}
+		updateQueue.put(new QueueObject(key, DateUtils.getSecondLevelMillis() + period,extractor), PRESENT);
 	}
 
 	public boolean addEvictedTask(EvictedElementTaker evictedElementTaker) {
@@ -59,15 +54,10 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 	}
 
 	public long updateForEvict(Map<K2, Object[]> paramsMap) {
-		int size = map.size();
+		int size = paramsMap.size();
 		ArrayList<Object[]> paramsList = new ArrayList<Object[]>(size);
 		for (Map.Entry<K2, Object[]> entry : paramsMap.entrySet()) {
-			K2 key = entry.getKey();
 			paramsList.add(entry.getValue());
-			if (key != null) {
-				boolean result = map.remove(entry.getKey()) != null;
-				FSUtilLogger.info(tableName + ",remove update element:" + entry.getKey() + ",result=" + result);
-			}
 		}
 		return updateToDB(System.currentTimeMillis(), paramsList, evictStat);
 	}
@@ -85,16 +75,16 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 
 	private long updateToDB(long startTime, List<Object[]> paramsList, UpdateCountStat stat) {
 		int count = 0;
-		// long start = System.currentTimeMillis();
-//		System.out.println("~~~~~~~~~~~~sql=" + sql);
+		//FSUtilLogger.info("执行同步：" + tableName + "," + paramsList);
 		int[] result = template.batchUpdate(sql, paramsList);
-		
 		for (int i = result.length; --i >= 0;) {
 			int rows = result[i];
 			if (rows == 1) {
 				count++;
+				//FSUtilLogger.info("执行同步成功：" + tableName);
 			} else {
 				recordException(stat, paramsList.get(i), rows);
+				//FSUtilLogger.info("执行同步失败：" + tableName);
 			}
 		}
 		long end = System.currentTimeMillis();
@@ -159,12 +149,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 				}
 				queueObject = firstEntry.getKey();
 				K2 key = queueObject.key;
-				PersistentParamsExtractor<K2> extractor = map.remove(key);
-				if (extractor == null) {
-					continue;
-				}
-
-				if (!extractor.extractParams(key, paramsList)) {
+				if (!queueObject.extractor.extractParams(key, paramsList)) {
 					FSUtilLogger.error("extract params fail:" + key + "," + tableName);
 					continue;
 				}
@@ -231,12 +216,14 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 		final K2 key;
 		final long executeTimeMillis;
 		final long seqId;
+		final PersistentParamsExtractor<K2> extractor;
 
-		public QueueObject(K2 key, long executeTimeMillis) {
+		public QueueObject(K2 key, long executeTimeMillis,PersistentParamsExtractor<K2> extractor) {
 			super();
 			this.key = key;
 			this.executeTimeMillis = executeTimeMillis;
 			this.seqId = seqGenerator.incrementAndGet();
+			this.extractor = extractor;
 		}
 
 		@Override
@@ -257,11 +244,6 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 			}
 		}
 
-	}
-
-	@Override
-	public boolean hasChanged(K2 key) {
-		return map.get(key) != null;
 	}
 
 }

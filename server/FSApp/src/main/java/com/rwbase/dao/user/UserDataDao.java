@@ -3,13 +3,11 @@ package com.rwbase.dao.user;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.rw.fsutil.cacheDao.DataRdbDao;
-import com.rw.fsutil.log.SqlLog;
 import com.rw.manager.GameManager;
 
 
@@ -19,6 +17,8 @@ public class UserDataDao extends  DataRdbDao<User>{
 
 	private static UserDataDao m_instance = new UserDataDao();
 	
+
+
 	public static UserDataDao getInstance(){
 		return m_instance;
 	}
