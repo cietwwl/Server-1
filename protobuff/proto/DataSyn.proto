@@ -138,6 +138,7 @@ enum eSynType	//数据同步类型
 	GCompCanGuessItem = 111;	//和110用的相同的结构，但表示的是，当前可以竞猜的项（请求同步）
 	GCompMatchEnemy = 112;//匹配敌人数据
 	GCompMember = 113; // 帮战个人信息
+	DropSameScene = 114;	//删除一个同屏场景
 }
 
 message MsgDataSynList

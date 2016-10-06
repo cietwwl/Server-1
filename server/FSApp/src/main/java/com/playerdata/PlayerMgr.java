@@ -10,11 +10,10 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.google.protobuf.ByteString;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
+import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistException;
-import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.optimize.SimpleLoader;
 import com.rw.manager.GameManager;
 import com.rw.manager.GamePlayerOpHelper;
@@ -50,11 +49,11 @@ public class PlayerMgr {
 		return instance;
 	}
 
-	private DataCache<String, Player> cache;
+	private DataKVCache<String, Player> cache;
 
 	public PlayerMgr() {
 		int cacheSize = GameManager.getPerformanceConfig().getPlayerCapacity();
-		cache = DataCacheFactory.createDataDache(Player.class, cacheSize, 60, loader);
+		cache = DataCacheFactory.createDataKVCache(Player.class, cacheSize, 60, loader);
 	}
 
 	private SimpleLoader<String, Player> loader = new SimpleLoader<String, Player>() {
@@ -65,7 +64,7 @@ public class PlayerMgr {
 		}
 
 		@Override
-		public boolean hasChanged(String key, Player value, EvictedUpdateTask<String> evictedUpdateTask) {
+		public boolean hasChanged(String key, Player value) {
 			return false;
 		}
 

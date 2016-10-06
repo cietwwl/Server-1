@@ -10,6 +10,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -17,10 +18,10 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_time_count_type_item")
-public class ActivityTimeCountTypeItem implements  IMapItem {
+public class ActivityTimeCountTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private Integer id;
 	
 	private String userId;// 对应的角色Id
 	
@@ -60,11 +61,13 @@ public class ActivityTimeCountTypeItem implements  IMapItem {
 		this.version = version;
 	}
 
-	public String getId() {
+	
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

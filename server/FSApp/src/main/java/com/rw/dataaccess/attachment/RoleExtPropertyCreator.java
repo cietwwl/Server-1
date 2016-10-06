@@ -1,11 +1,11 @@
 package com.rw.dataaccess.attachment;
 
 import java.util.List;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtProperty;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public interface RoleExtPropertyCreator<T extends PlayerExtProperty,Param> {
+public interface RoleExtPropertyCreator<T extends RoleExtProperty,Param> {
 
 
 	/**

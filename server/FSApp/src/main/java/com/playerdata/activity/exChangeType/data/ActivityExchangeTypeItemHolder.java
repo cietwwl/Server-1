@@ -17,7 +17,11 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -42,8 +46,8 @@ public class ActivityExchangeTypeItemHolder{
 	{
 		
 		List<ActivityExchangeTypeItem> itemList = new ArrayList<ActivityExchangeTypeItem>();
-		MapItemStore<ActivityExchangeTypeItem> itemStore = getItemStore(userId);
-		Enumeration<ActivityExchangeTypeItem> mapEnum = itemStore.getEnum();
+		PlayerExtPropertyStore<ActivityExchangeTypeItem> itemStore = getItemStore(userId);
+		Enumeration<ActivityExchangeTypeItem> mapEnum = itemStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();
 			List<ActivityExchangeTypeCfg> typeCfgList = ActivityExchangeTypeCfgDAO.getInstance().isCfgByEnumIdEmpty(item.getEnumId());
@@ -67,13 +71,14 @@ public class ActivityExchangeTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityExchangeTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityExchangeTypeItem getItem(String userId, ActivityExChangeTypeEnum exChangeTypeEnum){		
-		String itemId = ActivityExChangeTypeHelper.getItemId(userId, exChangeTypeEnum);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId = ActivityExChangeTypeHelper.getItemId(userId, exChangeTypeEnum);
+		int id = Integer.parseInt(exChangeTypeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 	public boolean addItem(Player player, ActivityExchangeTypeItem item){
@@ -120,9 +125,21 @@ public class ActivityExchangeTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityExchangeTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityExchangeTypeItem> cache = MapItemStoreFactory.getActivityExchangeTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityExchangeTypeItem.class);
+	public PlayerExtPropertyStore<ActivityExchangeTypeItem> getItemStore(String userId) {
+//		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityExchangeTypeItem.class);
+		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
+		
+		try {
+			return cach.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	
 	}
 	
 }

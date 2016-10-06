@@ -21,31 +21,31 @@ public enum MapItemType {
 	// 每日充值
 	RECRAHGE_TYPE(1, ActivityDailyRechargeTypeItem.class, ActivityRechargeTypeCreator.class),
 	// 限时英雄
-	LIMIT_HERO(2, ActivityLimitHeroTypeItem.class, LimitHeroCreator.class),
+//	LIMIT_HERO(2, ActivityLimitHeroTypeItem.class, LimitHeroCreator.class),
 	// 招财猫
-	FOUTUNE_CAT(3, ActivityFortuneCatTypeItem.class, FortuneCatCreator.class),
+//	FOUTUNE_CAT(3, ActivityFortuneCatTypeItem.class, FortuneCatCreator.class),
 	// 红包
-	RED_ENVELOP(4, ActivityRedEnvelopeTypeItem.class, RedEnvolopeCreator.class), 
+//	RED_ENVELOP(4, ActivityRedEnvelopeTypeItem.class, RedEnvolopeCreator.class), 
 
-	COUNT_TYPE(5,ActivityCountTypeItem.class,CountTypeCreator.class),
+//	COUNT_TYPE(5,ActivityCountTypeItem.class,CountTypeCreator.class),
 	
-	DAILY_TYPE(6,ActivityDailyTypeItem.class,DailyCountCreator.class),
+//	DAILY_TYPE(6,ActivityDailyTypeItem.class,DailyCountCreator.class),
 	
-	DAILY_DISCOUNT(7,ActivityDailyDiscountTypeItem.class,DailyDisCountCreator.class),
+//	DAILY_DISCOUNT(7,ActivityDailyDiscountTypeItem.class,DailyDisCountCreator.class),
 	
-	EXCHANGE(8,ActivityExchangeTypeItem.class,ExchangeCreator.class),
+//	EXCHANGE(8,ActivityExchangeTypeItem.class,ExchangeCreator.class),
 	
-	RANK_TYPE(9,ActivityRankTypeItem.class,RankTypeCreator.class),
+//	RANK_TYPE(9,ActivityRankTypeItem.class,RankTypeCreator.class),
 	
-	RATE_TEYP(10,ActivityRateTypeItem.class,RateTypeCreator.class),
+//	RATE_TEYP(10,ActivityRateTypeItem.class,RateTypeCreator.class),
 	
-	TIME_CARD(11,ActivityTimeCardTypeItem.class,TimeCardCreator.class),
+//	TIME_CARD(11,ActivityTimeCardTypeItem.class,TimeCardCreator.class),
+//	
+//	TIME_COUNT(12,ActivityTimeCountTypeItem.class,TimeCountCreator.class),
 	
-	TIME_COUNT(12,ActivityTimeCountTypeItem.class,TimeCountCreator.class),
+//	VITAITY(13,ActivityVitalityTypeItem.class,VitalityCreator.class),
 	
-	VITAITY(13,ActivityVitalityTypeItem.class,VitalityCreator.class),
-	
-	REWARDSBACK(14,RewardBackItem.class,RewardsBackCreator.class)
+//	REWARDSBACK(14,RewardBackItem.class,RewardsBackCreator.class)
 	;
 	
 	private final int type;

@@ -10,20 +10,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.rw.fsutil.cacheDao.ObjectConvertor;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
+import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
-import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.trace.listener.MajorDataListener;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 
 public class MajorDataCache {
 
-	private final DataCache<String, MajorData> cache;
+	private final DataKVCache<String, MajorData> cache;
 	private final JdbcTemplate template;
 
 	public MajorDataCache(JdbcTemplate template) {
@@ -31,7 +30,7 @@ public class MajorDataCache {
 		// 数量需要做成配置
 		int capcity = 5000;
 		DataValueParser<MajorData> parser = (DataValueParser<MajorData>) DataCacheFactory.getParser(MajorData.class);
-		this.cache = DataCacheFactory.createDataDache(MajorData.class, capcity, 60, new MajorDataLoader(), null, parser == null ? null
+		this.cache = DataCacheFactory.createDataKVCache(MajorData.class, capcity, 60, new MajorDataLoader(), null, parser == null ? null
 				: new ObjectConvertor<MajorData>(parser), MajorDataListener.class);
 	}
 
@@ -208,7 +207,7 @@ public class MajorDataCache {
 		}
 
 		@Override
-		public boolean hasChanged(String key, MajorData value, EvictedUpdateTask<String> evictedUpdateTask) {
+		public boolean hasChanged(String key, MajorData value) {
 			return true;
 		}
 

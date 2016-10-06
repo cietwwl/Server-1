@@ -27,6 +27,7 @@ import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfg;
 import com.playerdata.fixEquip.exp.cfg.FixExpEquipStarCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItemHolder;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -669,4 +670,14 @@ public class FixExpEquipMgr {
 	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
 		return FixEquipHelper.parseFixExpEquip2SimpleList(fixExpEquipDataItemHolder.getItemList(heroId));
 	}
+	
+	/*******************************只限gm使用*************************************/
+	public void gmSaveFixEquip(Player player, FixExpEquipDataItem fixExpEquipDataItem){
+		fixExpEquipDataItemHolder.updateItem(player, fixExpEquipDataItem);
+	}
+	
+	public List<FixExpEquipDataItem> gmGetHeroFixExpEquipDataItems(String heroId){
+		return fixExpEquipDataItemHolder.getItemList(heroId);
+	}
+	/*******************************只限gm使用*************************************/
 }
