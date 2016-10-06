@@ -1,8 +1,11 @@
 package com.playerdata.groupcompetition.holder.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class GCompPersonalScore {
 
 	private String name; // 名字

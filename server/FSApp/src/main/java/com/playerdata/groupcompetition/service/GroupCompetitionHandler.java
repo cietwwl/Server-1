@@ -89,22 +89,22 @@ public class GroupCompetitionHandler {
 		SelectionGroupData ownGroupData;
 		if (ownGroup != null) {
 			GroupBaseDataIF baseData = ownGroup.getGroupBaseDataMgr().getGroupData();
-			int index = GCompFightingRankMgr.getRankIndex(baseData.getGroupId());
-			if (index > 0) {
+			int ranking = GCompFightingRankMgr.getRankIndex(baseData.getGroupId());
+			if (ranking > 0) {
 				// 在榜单中
 				GCompFightingItem fightingItem;
-				if (index < gCompFightingItemList.size()) {
-					fightingItem = gCompFightingItemList.get(index);
+				if (ranking < gCompFightingItemList.size()) {
+					fightingItem = gCompFightingItemList.get(ranking - 1);
 				} else {
-					fightingItem = GCompFightingRankMgr.getFightingRankList().get(index - 1);
+					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking);
 				}
-				ownGroupData = this.createSelectionGroupData(fightingItem, index);
+				ownGroupData = this.createSelectionGroupData(fightingItem, ranking);
 			} else {
 				// 不在榜中
 				SelectionGroupData.Builder ownGroupBuilder = SelectionGroupData.newBuilder();
 				ownGroupBuilder.setName(baseData.getGroupName());
 				ownGroupBuilder.setUpNum(0);
-				ownGroupBuilder.setRanking(index);
+				ownGroupBuilder.setRanking(ranking);
 				ownGroupBuilder.setFighting(this.calculateGroupFighting(ownGroup));
 				ownGroupData = ownGroupBuilder.build();
 			}

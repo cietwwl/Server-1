@@ -34,6 +34,10 @@ public class GCompEventsDataHolder {
 		this._dao.update();
 	}
 	
+	void loadEventsGlobalData() {
+		this._dao.loadEventsGlobalData();
+	}
+	
 	private GCompEventsSynData createSynData() {
 		GCompEventsGlobalData globalData = this.get();
 		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
@@ -54,6 +58,6 @@ public class GCompEventsDataHolder {
 			synData.setMatchId(matchId);
 		}
 		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
-//		GCompUtil.log("同步数据：{}", synData);
+		com.playerdata.groupcompetition.util.GCompUtil.log("同步数据：{}", synData);
 	}
 }

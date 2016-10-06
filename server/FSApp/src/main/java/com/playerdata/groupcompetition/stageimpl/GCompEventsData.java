@@ -47,6 +47,13 @@ public class GCompEventsData {
 	}
 	
 	public List<GCompAgainst> getAgainsts() {
+		if (_againstsRO == null) {
+			synchronized (this._againsts) {
+				if (_againstsRO == null) {
+					_againstsRO = Collections.unmodifiableList(_againsts);
+				}
+			}
+		}
 		return _againstsRO;
 	}
 	
@@ -82,6 +89,13 @@ public class GCompEventsData {
 	}
 	
 	public List<String> getRelativeGroupIds() {
+		if (_relativeGroupIdsRO == null) {
+			synchronized (_relativeGroupIds) {
+				if (_relativeGroupIdsRO == null) {
+					this._relativeGroupIdsRO = Collections.unmodifiableList(_relativeGroupIds);
+				}
+			}
+		}
 		return _relativeGroupIdsRO;
 	}
 }

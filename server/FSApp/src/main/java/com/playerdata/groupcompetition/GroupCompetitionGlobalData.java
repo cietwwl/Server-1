@@ -39,6 +39,8 @@ class GroupCompetitionGlobalData {
 	private long _currentStageEndTime; // 当前阶段的结束时间
 	@JsonProperty("8")
 	private long _endTimeOfCurrentSession; // 本届的结束时间
+	@JsonProperty("9")
+	private long _endTimeOfSelection; // 海选结束的时间
 	
 	public static GroupCompetitionGlobalData createEmpty() {
 		GroupCompetitionGlobalData data = new GroupCompetitionGlobalData();
@@ -153,6 +155,10 @@ class GroupCompetitionGlobalData {
 		return _endTimeOfCurrentSession;
 	}
 	
+	public long getEndTimeOfSelection() {
+		return _endTimeOfSelection;
+	}
+	
 	/**
 	 * 
 	 * 设置当前阶段的结束时间
@@ -169,5 +175,9 @@ class GroupCompetitionGlobalData {
 	
 	void setEndTimeOfCurrentSession(long value) {
 		this._endTimeOfCurrentSession = value;
+	}
+	
+	void setEndTimeOfSelection(long timeMillis) {
+		this._endTimeOfSelection = timeMillis;
 	}
 }

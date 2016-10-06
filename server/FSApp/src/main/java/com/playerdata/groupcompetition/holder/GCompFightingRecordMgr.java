@@ -1,7 +1,10 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder;
 import com.rwproto.GroupCompetitionProto.GCResultType;
@@ -20,8 +23,10 @@ public class GCompFightingRecordMgr {
 		_dataHolder = GCompFightingRecordHolder.getInstance();
 	}
 	
-	public void initRecordList(int matchId) {
-		_dataHolder.initRecordList(matchId);
+	public void initRecordList(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			_dataHolder.initRecordList(againsts.get(i).getId());
+		}
 	}
 	
 	public void endLiveRecord() {
