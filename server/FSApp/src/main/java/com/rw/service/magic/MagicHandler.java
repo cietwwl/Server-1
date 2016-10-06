@@ -237,7 +237,7 @@ public class MagicHandler {
 				int useCount = useItemCount;
 				int materialCount = matInfos.materialCounts[i];
 				if (useCount > materialCount) {
-					return SetReturnResponse(msgMagicResponse, String.format("材料个数太大:,使用数量=%i,背包数量=%i", useItemCount, materialCount));
+					return SetReturnResponse(msgMagicResponse, String.format("材料个数太大:,使用数量=%d,背包数量=%d", useItemCount, materialCount));
 				}
 
 				int magicForgeExp = matInfos.unitExps[i];

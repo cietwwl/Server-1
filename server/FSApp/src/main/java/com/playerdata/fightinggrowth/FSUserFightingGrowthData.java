@@ -11,6 +11,9 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @SynClass

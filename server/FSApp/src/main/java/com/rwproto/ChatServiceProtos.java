@@ -14,29 +14,29 @@ public final class ChatServiceProtos {
   public enum eChatType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>CHAT_WORLD = 1;</code>
+     * <code>CHANNEL_WORLD = 1;</code>
      *
      * <pre>
-     *世界
+     *世界频道
      * </pre>
      */
-    CHAT_WORLD(0, 1),
+    CHANNEL_WORLD(0, 1),
     /**
-     * <code>CHAT_FAMILY = 2;</code>
+     * <code>CHANNEL_GROUP = 2;</code>
      *
      * <pre>
-     * 公会
+     * 公会频道
      * </pre>
      */
-    CHAT_FAMILY(1, 2),
+    CHANNEL_GROUP(1, 2),
     /**
-     * <code>CHAT_PERSON = 3;</code>
+     * <code>CHANNEL_PERSON = 3;</code>
      *
      * <pre>
-     * 私聊
+     * 私聊频道
      * </pre>
      */
-    CHAT_PERSON(2, 3),
+    CHANNEL_PERSON(2, 3),
     /**
      * <code>CHAT_TREASURE = 4;</code>
      *
@@ -46,13 +46,13 @@ public final class ChatServiceProtos {
      */
     CHAT_TREASURE(3, 4),
     /**
-     * <code>CHAT_SYSTEM = 5;</code>
+     * <code>CHANNEL_SYSTEM = 5;</code>
      *
      * <pre>
-     * 系统消息
+     * 系统频道
      * </pre>
      */
-    CHAT_SYSTEM(4, 5),
+    CHANNEL_SYSTEM(4, 5),
     /**
      * <code>CHAT_FRIEND = 6;</code>
      *
@@ -65,7 +65,7 @@ public final class ChatServiceProtos {
      * <code>CHAT_TEAM = 7;</code>
      *
      * <pre>
-     * 隊伍互動
+     * 心魔录组队
      * </pre>
      */
     CHAT_TEAM(6, 7),
@@ -77,32 +77,40 @@ public final class ChatServiceProtos {
      * </pre>
      */
     CHAT_RANDOM_BOSS(7, 8),
+    /**
+     * <code>CHANNEL_TEAM = 9;</code>
+     *
+     * <pre>
+     * 组队频道
+     * </pre>
+     */
+    CHANNEL_TEAM(8, 9),
     ;
 
     /**
-     * <code>CHAT_WORLD = 1;</code>
+     * <code>CHANNEL_WORLD = 1;</code>
      *
      * <pre>
-     *世界
+     *世界频道
      * </pre>
      */
-    public static final int CHAT_WORLD_VALUE = 1;
+    public static final int CHANNEL_WORLD_VALUE = 1;
     /**
-     * <code>CHAT_FAMILY = 2;</code>
+     * <code>CHANNEL_GROUP = 2;</code>
      *
      * <pre>
-     * 公会
+     * 公会频道
      * </pre>
      */
-    public static final int CHAT_FAMILY_VALUE = 2;
+    public static final int CHANNEL_GROUP_VALUE = 2;
     /**
-     * <code>CHAT_PERSON = 3;</code>
+     * <code>CHANNEL_PERSON = 3;</code>
      *
      * <pre>
-     * 私聊
+     * 私聊频道
      * </pre>
      */
-    public static final int CHAT_PERSON_VALUE = 3;
+    public static final int CHANNEL_PERSON_VALUE = 3;
     /**
      * <code>CHAT_TREASURE = 4;</code>
      *
@@ -112,13 +120,13 @@ public final class ChatServiceProtos {
      */
     public static final int CHAT_TREASURE_VALUE = 4;
     /**
-     * <code>CHAT_SYSTEM = 5;</code>
+     * <code>CHANNEL_SYSTEM = 5;</code>
      *
      * <pre>
-     * 系统消息
+     * 系统频道
      * </pre>
      */
-    public static final int CHAT_SYSTEM_VALUE = 5;
+    public static final int CHANNEL_SYSTEM_VALUE = 5;
     /**
      * <code>CHAT_FRIEND = 6;</code>
      *
@@ -131,7 +139,7 @@ public final class ChatServiceProtos {
      * <code>CHAT_TEAM = 7;</code>
      *
      * <pre>
-     * 隊伍互動
+     * 心魔录组队
      * </pre>
      */
     public static final int CHAT_TEAM_VALUE = 7;
@@ -143,20 +151,29 @@ public final class ChatServiceProtos {
      * </pre>
      */
     public static final int CHAT_RANDOM_BOSS_VALUE = 8;
+    /**
+     * <code>CHANNEL_TEAM = 9;</code>
+     *
+     * <pre>
+     * 组队频道
+     * </pre>
+     */
+    public static final int CHANNEL_TEAM_VALUE = 9;
 
 
     public final int getNumber() { return value; }
 
     public static eChatType valueOf(int value) {
       switch (value) {
-        case 1: return CHAT_WORLD;
-        case 2: return CHAT_FAMILY;
-        case 3: return CHAT_PERSON;
+        case 1: return CHANNEL_WORLD;
+        case 2: return CHANNEL_GROUP;
+        case 3: return CHANNEL_PERSON;
         case 4: return CHAT_TREASURE;
-        case 5: return CHAT_SYSTEM;
+        case 5: return CHANNEL_SYSTEM;
         case 6: return CHAT_FRIEND;
         case 7: return CHAT_TEAM;
         case 8: return CHAT_RANDOM_BOSS;
+        case 9: return CHANNEL_TEAM;
         default: return null;
       }
     }
@@ -6936,7 +6953,7 @@ public final class ChatServiceProtos {
     }
 
     private void initFields() {
-      chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+      chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
       chatMessageData_ = com.rwproto.ChatServiceProtos.ChatMessageData.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
@@ -7101,7 +7118,7 @@ public final class ChatServiceProtos {
 
       public Builder clear() {
         super.clear();
-        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
         bitField0_ = (bitField0_ & ~0x00000001);
         if (chatMessageDataBuilder_ == null) {
           chatMessageData_ = com.rwproto.ChatServiceProtos.ChatMessageData.getDefaultInstance();
@@ -7209,7 +7226,7 @@ public final class ChatServiceProtos {
       private int bitField0_;
 
       // required .eChatType ChatType = 1;
-      private com.rwproto.ChatServiceProtos.eChatType chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+      private com.rwproto.ChatServiceProtos.eChatType chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
       /**
        * <code>required .eChatType ChatType = 1;</code>
        *
@@ -7255,7 +7272,7 @@ public final class ChatServiceProtos {
        */
       public Builder clearChatType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
         onChanged();
         return this;
       }
@@ -7824,7 +7841,7 @@ public final class ChatServiceProtos {
     }
 
     private void initFields() {
-      chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+      chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
       chatResultType_ = com.rwproto.ChatServiceProtos.eChatResultType.SUCCESS;
       listMessage_ = java.util.Collections.emptyList();
       onLogin_ = false;
@@ -8020,7 +8037,7 @@ public final class ChatServiceProtos {
 
       public Builder clear() {
         super.clear();
-        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
         bitField0_ = (bitField0_ & ~0x00000001);
         chatResultType_ = com.rwproto.ChatServiceProtos.eChatResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -8217,7 +8234,7 @@ public final class ChatServiceProtos {
       private int bitField0_;
 
       // required .eChatType chatType = 1;
-      private com.rwproto.ChatServiceProtos.eChatType chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+      private com.rwproto.ChatServiceProtos.eChatType chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
       /**
        * <code>required .eChatType chatType = 1;</code>
        */
@@ -8247,7 +8264,7 @@ public final class ChatServiceProtos {
        */
       public Builder clearChatType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHAT_WORLD;
+        chatType_ = com.rwproto.ChatServiceProtos.eChatType.CHANNEL_WORLD;
         onChanged();
         return this;
       }
@@ -9496,15 +9513,16 @@ public final class ChatServiceProtos {
       "sageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025usersOfPriv" +
       "ateChannel\030\006 \003(\0132\026.MsgPersonChatUserInfo" +
       "\",\n\032MsgChatRequestPrivateChats\022\016\n\006userId" +
-      "\030\001 \002(\t*\227\001\n\teChatType\022\016\n\nCHAT_WORLD\020\001\022\017\n\013" +
-      "CHAT_FAMILY\020\002\022\017\n\013CHAT_PERSON\020\003\022\021\n\rCHAT_T" +
-      "REASURE\020\004\022\017\n\013CHAT_SYSTEM\020\005\022\017\n\013CHAT_FRIEN" +
-      "D\020\006\022\r\n\tCHAT_TEAM\020\007\022\024\n\020CHAT_RANDOM_BOSS\020\010" +
-      "*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL",
-      "\020\002*m\n\017eAttachItemType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002" +
-      "\022\010\n\004Hero\020\003\022\t\n\005Magic\020\004\022\014\n\010Treasure\020\005\022\n\n\006F" +
-      "riend\020\006\022\010\n\004Team\020\007\022\016\n\nRandomBoss\020\010B \n\013com" +
-      ".rwprotoB\021ChatServiceProtos"
+      "\030\001 \002(\t*\264\001\n\teChatType\022\021\n\rCHANNEL_WORLD\020\001\022" +
+      "\021\n\rCHANNEL_GROUP\020\002\022\022\n\016CHANNEL_PERSON\020\003\022\021" +
+      "\n\rCHAT_TREASURE\020\004\022\022\n\016CHANNEL_SYSTEM\020\005\022\017\n" +
+      "\013CHAT_FRIEND\020\006\022\r\n\tCHAT_TEAM\020\007\022\024\n\020CHAT_RA" +
+      "NDOM_BOSS\020\010\022\020\n\014CHANNEL_TEAM\020\t*(\n\017eChatRe",
+      "sultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*m\n\017eAtta" +
+      "chItemType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002\022\010\n\004Hero\020\003\022" +
+      "\t\n\005Magic\020\004\022\014\n\010Treasure\020\005\022\n\n\006Friend\020\006\022\010\n\004" +
+      "Team\020\007\022\016\n\nRandomBoss\020\010B \n\013com.rwprotoB\021C" +
+      "hatServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

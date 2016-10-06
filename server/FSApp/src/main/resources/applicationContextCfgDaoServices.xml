@@ -316,6 +316,32 @@
 	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
 	<!-- 技能监听Id修改配置表  -->
 	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
+	<!-- 帮派争霸对阵信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionAgainstCfgDAO" init-method="init" />
+	<!-- 帮派争霸阶段信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO" init-method="init" />
+	<!-- 帮派争霸阶段控制信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO" init-method="init" />
+	<!-- 帮派争霸每轮赛事的积分排名奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompScoreRewardCfgDAO" init-method="init" />
+	<!-- 帮派争霸每轮赛事的排名奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalContinueWinRankRewardDAO" init-method="init" />
+	<!-- 帮派争霸每轮赛事的击杀奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalKillRankRewardDAO" init-method="init" />
+	<!-- 帮派争霸最后的总排名 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompGroupRewardCfgDAO" init-method="init" />
+	<!-- 帮派争霸最后的冠军奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompChampionRewardCfgDAO" init-method="init" />
+	<!-- 帮派争霸每场战斗的个积分奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸每场战斗的帮派积分奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompGroupScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸标准积分配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompBasicScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸竞猜配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompGeneralCfgDAO"  init-method="init" />
+	<!-- 广播配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO" init-method="init" />
 	<!-- 技能监听的配置表 -->
 	<bean class="com.rwbase.dao.skill.SkillListenerCfgDAO"  init-method="init" />
 	

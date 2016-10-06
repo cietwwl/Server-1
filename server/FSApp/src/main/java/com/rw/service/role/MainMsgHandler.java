@@ -2,11 +2,9 @@ package com.rw.service.role;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.mainmsg.CfgPmdDAO;
 import com.rwbase.dao.mainmsg.PmdCfg;
@@ -26,6 +24,29 @@ public class MainMsgHandler {
 
 	public static MainMsgHandler getInstance() {
 		return instance;
+	}
+	
+	public void sendMainCityMsg(int id, EMsgType msgType, List<String> arr) {
+		MainMsgResponse.Builder res = MainMsgResponse.newBuilder();
+		res.setId(id);
+		res.setType(msgType);
+		if (arr != null && arr.size() > 0) {
+			for (int i = 0; i < arr.size(); i++) {
+				if (i == 0) {
+					res.setInfo1(arr.get(i));
+				} else if (i == 1) {
+					res.setInfo2(arr.get(i));
+				} else if (i == 2) {
+					res.setInfo3(arr.get(i));
+				} else if (i == 3) {
+					res.setInfo4(arr.get(i));
+				} else if (i == 4) {
+					res.setInfo5(arr.get(i));
+				}
+			}
+		}
+
+		sendPmdAll(res.build().toByteString());
 	}
 
 	public void sendPmdGm(Player player, String[] arrCommandContents) {
@@ -48,26 +69,7 @@ public class MainMsgHandler {
 	/*** 发送跑码灯信息 *****/
 	public void sendPmd(int id, List<String> arr) {
 
-		MainMsgResponse.Builder res = MainMsgResponse.newBuilder();
-		res.setId(id);
-		res.setType(EMsgType.PmdMsg);
-		if (arr != null && arr.size() > 0) {
-			for (int i = 0; i < arr.size(); i++) {
-				if (i == 0) {
-					res.setInfo1(arr.get(i));
-				} else if (i == 1) {
-					res.setInfo2(arr.get(i));
-				} else if (i == 2) {
-					res.setInfo3(arr.get(i));
-				} else if (i == 3) {
-					res.setInfo4(arr.get(i));
-				} else if (i == 4) {
-					res.setInfo5(arr.get(i));
-				}
-			}
-		}
-
-		sendPmdAll(res.build().toByteString());
+		this.sendMainCityMsg(id, EMsgType.PmdMsg, arr);
 	}
 
 	private void sendPmdAll(ByteString pBuffer) {
