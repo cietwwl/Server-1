@@ -1752,7 +1752,9 @@ public class GMHandler {
 					consumerField.setAccessible(true);
 					timerInstanceField.setAccessible(true);
 					com.playerdata.groupcompetition.util.GCompStageType stageType = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentStageType();
+					com.playerdata.groupcompetition.util.GCompEventsStatus eventStatus = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
 					boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
+					boolean isNoneStatus = (eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.NONE || eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.FINISH);
 					@SuppressWarnings("unchecked")
 					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField
 							.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
@@ -1767,7 +1769,11 @@ public class GMHandler {
 								Object consumerObj = consumerField.get(obj);
 								String consumerName = consumerObj.getClass().getName();
 								if (isEvents) {
-									if (consumerName.contains("EventStatusSwitcher")) {
+									if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
+										list.add(timeSignal);
+										itr.remove();
+										break outter;
+									} else if (consumerName.contains("EventStatusSwitcher")) {
 										// 具体赛事状态的切换器
 										list.add(timeSignal);
 										itr.remove();

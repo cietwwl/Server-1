@@ -96,6 +96,13 @@ public class GCGroup implements IGCGroup {
 
 	@Override
 	public String toString() {
+		if (descr == null) {
+			synchronized (this) {
+				if (descr == null) {
+					descr = "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
+				}
+			}
+		}
 		return descr;
 	}
 

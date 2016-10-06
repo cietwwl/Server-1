@@ -69,8 +69,8 @@ public class GroupCompetitionRewardCenter {
 	private void sendGroupScoreRankingReward(List<IGCGroup> groups, GCEventsType eventsType) {		
 		int rank = 1;
 		GCompScoreRewardCfgDAO scoreRewardCfgDAO = GCompScoreRewardCfgDAO.getInstance();
-		List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 		for (IGCGroup group : groups) {
+			List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 			GCompCommonRankRewardCfg cfg = scoreRewardCfgDAO.getByMatchTypeAndRank(eventsType, rank);
 			if (cfg == null) {
 				GCompUtil.log("处理帮派奖励，没有找到合适的奖励，排名：{}，赛事类型o是：{}", rank, eventsType);
@@ -85,8 +85,8 @@ public class GroupCompetitionRewardCenter {
 	private void processPersonalReward(List<GCompMember> allMembers, Comparator<GCompMember> comparator, GCEventsType eventsType, GCompCommonRankRewardCfgBaseDAO dao) {
 		Collections.sort(allMembers, comparator);
 		int rank = 1;
-		List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 		for (GCompMember member : allMembers) {
+			List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 			GCompCommonRankRewardCfg cfg = dao.getByMatchTypeAndRank(eventsType, rank);
 			if (cfg == null) {
 				GCompUtil.log("处理个人奖励，没有找到合适的奖励，排名：{}，dao是：{}", rank, dao.getClass().getSimpleName());
