@@ -206,7 +206,6 @@ public class ChargeMgr {
 		ChargeResult result = ChargeResult.newResult(false);
 		
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
-		System.out.println("  target.getitemid" +   itemId  );
 		if(target!=null){
 			boolean success = doCharge(player, target);
 			result.setSuccess(success);
