@@ -1,6 +1,7 @@
 package com.rw.service.item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +30,9 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.ItemUseEffectTemplate;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
+import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
+import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.magicweapon.MagicExpCfgDAO;
 import com.rwproto.ItemBagProtos.BuyItemInfo;
@@ -42,7 +45,6 @@ import com.rwproto.ItemBagProtos.ResponseInfo;
 import com.rwproto.ItemBagProtos.TagCompose;
 import com.rwproto.ItemBagProtos.TagItemData;
 import com.rwproto.ItemBagProtos.UseItemInfo;
-import com.rwproto.MsgDef.Command;
 
 public class ItemBagHandler {
 
@@ -112,121 +114,6 @@ public class ItemBagHandler {
 		return response.build().toByteString();
 	}
 
-	// public ByteString SellItemItemData(Player player, int nItemId, int nCount, String nSlotId) {
-	// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
-	// response.setEventType(EItemBagEventType.ItemBag_Sell);
-	//
-	// if (player.getItemBagMgr().findBySlotId(nSlotId) == null)
-	// return response.build().toByteString();
-	// if (player.getItemBagMgr().getItemCountByModelId(nItemId) < nCount)
-	// return response.build().toByteString();
-	//
-	// if (nCount < 0) {// 小于0不能通过
-	// return response.build().toByteString();
-	// }
-	//
-	// EItemTypeDef itemType = ItemCfgHelper.getItemType(nItemId);
-	// player.getItemBagMgr().useItemBySlotId(nSlotId, nCount);
-	// switch (itemType) {
-	// case HeroEquip: {
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, nCount);
-	// HeroEquipCfg heroEquipCfg = ItemCfgHelper.getHeroEquipCfg(nItemId);
-	// int gold = heroEquipCfg.getSellPrice() * nCount;
-	// player.getUserGameDataMgr().addCoin(gold);
-	// break;
-	// }
-	// case Fashion: {
-	// break;
-	// }
-	//
-	// case Piece: {
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, nCount);
-	// PieceCfg pieceCfg = ItemCfgHelper.getPieceCfg(nItemId);
-	// int gold = pieceCfg.getSellPrice() * nCount;
-	// player.getUserGameDataMgr().addCoin(gold);
-	// break;
-	// }
-	// case Magic_Piece:
-	// case Magic: {
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, nCount);
-	// MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(nItemId);
-	// int gold = magicCfg.getSellPrice() * nCount;
-	// player.getUserGameDataMgr().addCoin(gold);
-	// break;
-	// }
-	//
-	// case Gem: {
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, nCount);
-	// GemCfg gemCfg = ItemCfgHelper.getGemCfg(nItemId);
-	// int gold = gemCfg.getSellPrice() * nCount;
-	// player.getUserGameDataMgr().addCoin(gold);
-	// break;
-	// }
-	// case Consume: {
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, nCount);
-	// ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(nItemId);
-	// int gold = consumeCfg.getSellPrice() * nCount;
-	// player.getUserGameDataMgr().addCoin(gold);
-	// break;
-	// }
-	// case SoulStone: {
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, nCount);
-	// SoulStoneCfg soulStoneCfg = ItemCfgHelper.getSoulStoneCfg(nItemId);
-	// int gold = soulStoneCfg.getSellPrice() * nCount;
-	// player.getUserGameDataMgr().addCoin(gold);
-	// break;
-	// }
-	// }
-	//
-	// return response.build().toByteString();
-	// }
-
-	// public void ComposeItem(Player player, int nItemId, int nSlotId, int count) {
-	// ItemData data = player.getItemBagMgr().findBySlotId(nSlotId);
-	// if (data == null)
-	// return;
-	// eItemTypeDef def = ItemCfgHelper.getItemType(nItemId);
-	// int cost = 0;
-	// int needCount = 0;
-	// int composeId = 0;
-	// switch (def) {
-	// case Piece:
-	// PieceCfg pieceCfg = ItemCfgHelper.getPieceCfg(nItemId);
-	// cost = pieceCfg.getComposeCostCoin();
-	// needCount = pieceCfg.getComposeNeedNum() * count;
-	// composeId = pieceCfg.getComposeItemID();
-	// break;
-	// case Gem:
-	// GemCfg gemCfg = ItemCfgHelper.getGemCfg(nItemId);
-	// cost = gemCfg.getComposeCost();
-	// needCount = gemCfg.getComposeNeedNum() * count;
-	// composeId = gemCfg.getComposeItemID();
-	// break;
-	// case Magic_Piece:
-	// MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(nItemId);
-	// cost = magicCfg.getComposeCostCoin();
-	// needCount = magicCfg.getComposeNeedNum() * count;
-	// composeId = magicCfg.getComposeItemID();
-	// break;
-	// default:
-	// break;
-	// }
-	//
-	// if (data.getCount() < needCount)
-	// return;
-	// if (player.getCoin() < cost)
-	// return;
-	// // player.getItemBagMgr().subItemBySlotId(nSlotId, needCount);
-	// // TODO @modify 2015-08-10 HC 修改物品数量，调用方法修改为useItemBySlotId
-	// player.getItemBagMgr().useItemBySlotId(nSlotId, needCount);
-	// player.addCoin(-cost);
-	// player.getItemBagMgr().addItem(composeId, count);
-	//
-	// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
-	// response.setEventType(EItemBagEventType.ItemBag_Compose);
-	// player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
-	// }
-
 	/**
 	 * 合成物品
 	 * 
@@ -236,52 +123,73 @@ public class ItemBagHandler {
 	 * @param mateId
 	 * @param composeCount
 	 */
-	public void ComposeItem(Player player, int mateId, int composeCount) {
-		// ItemData data = player.getItemBagMgr().find(mateId);
-		// if (data == null) {
-		// return;
-		// }
+	public ByteString composeItem(Player player, List<TagCompose> composeList) {
 		// TODO @modify 2015-08-25 HC 应答消息，必须要有一个响应消息，不能每个不符合的条件直接return，而没有任何响应消息，客户端会一直等待响应卡死
 		MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		response.setEventType(EItemBagEventType.ItemBag_Compose);
 
-		List<ItemData> itemList = player.getItemBagMgr().getItemListByCfgId(mateId);
-		if (itemList.isEmpty()) {
-			player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
-			return;
+		if (composeList == null || composeList.isEmpty()) {
+			return response.build().toByteString();
 		}
 
-		ComposeCfg cfg = ComposeCfgDAO.getInstance().GetItemComposeCfg(mateId);
-		if (cfg == null) {
-			player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
-			return;
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+
+		List<IUseItem> useItemList = new ArrayList<IUseItem>();// 要使用的道具列表
+		List<INewItem> newItemList = new ArrayList<INewItem>();// 要新创建的道具列表
+		Map<Integer, Integer> currencyMap = new HashMap<Integer, Integer>();// 消耗的货币列表
+
+		for (int i = 0, size = composeList.size(); i < size; i++) {
+			TagCompose compose = composeList.get(i);
+			int mateId = compose.getMateId();
+			int composeCount = compose.getComposeCount();
+
+			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(mateId);
+			if (itemList.isEmpty()) {
+				return response.build().toByteString();
+			}
+
+			ComposeCfg cfg = ComposeCfgDAO.getInstance().GetItemComposeCfg(mateId);
+			if (cfg == null) {
+				return response.build().toByteString();
+			}
+
+			if (player.getUserGameDataMgr().getCoin() < cfg.getCost()) {
+				return response.build().toByteString();
+			}
+
+			int needCount = cfg.getMate1Count() * composeCount;
+
+			int count = 0;
+			for (int j = 0, mateSize = itemList.size(); j < mateSize; j++) {
+				count += itemList.get(j).getCount();
+			}
+
+			if (count < needCount) {
+				return response.build().toByteString();
+			}
+
+			IUseItem useItem = new UseItem(itemList.get(0).getId(), needCount);
+			useItemList.add(useItem);
+
+			INewItem newItem = new NewItem(cfg.getId(), composeCount, null);
+			newItemList.add(newItem);
+
+			Integer hasValue = currencyMap.get(eSpecialItemId.Coin.getValue());
+			if (hasValue == null) {
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost());
+			} else {
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost() + hasValue);
+			}
+
+			// 检查一下是不是宝石
+			if (ItemCfgHelper.getItemType(mateId) == EItemTypeDef.Gem) {
+				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
+			}
 		}
 
-		if (player.getUserGameDataMgr().getCoin() < cfg.getCost()) {
-			player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
-			return;
-		}
+		itemBagMgr.useLikeBoxItem(useItemList, newItemList, currencyMap);
 
-		int needCount = cfg.getMate1Count() * composeCount;
-		if (player.getItemBagMgr().getItemCountByModelId(mateId) < needCount) {
-			player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
-			return;
-		}
-
-		// player.getItemBagMgr().subItem(mateId, needCount);
-		// TODO @modify 2015-08-11 HC
-		player.getItemBagMgr().useItemByCfgId(mateId, needCount);
-		player.getUserGameDataMgr().addCoin(-cfg.getCost());
-		player.getItemBagMgr().addItem(cfg.getId(), composeCount);
-
-		// 检查一下是不是宝石
-		if (ItemCfgHelper.getItemType(mateId) == EItemTypeDef.Gem) {
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
-		}
-
-		// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
-		// response.setEventType(EItemBagEventType.ItemBag_Compose);
-		player.SendMsg(Command.MSG_ItemBag, response.build().toByteString());
+		return response.build().toByteString();
 	}
 
 	/**

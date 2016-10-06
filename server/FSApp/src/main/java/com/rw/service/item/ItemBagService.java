@@ -6,7 +6,6 @@ import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.ItemBagProtos.EItemBagEventType;
 import com.rwproto.ItemBagProtos.MsgItemBagRequest;
-import com.rwproto.ItemBagProtos.TagCompose;
 import com.rwproto.RequestProtos.Request;
 
 public class ItemBagService implements FsService<MsgItemBagRequest, EItemBagEventType> {
@@ -24,9 +23,7 @@ public class ItemBagService implements FsService<MsgItemBagRequest, EItemBagEven
 				responseData = itemBagHandler.sellItemItemData(player, request.getItemUpdateDataList());
 				break;
 			case ItemBag_Compose:
-				for (TagCompose tag : request.getComposeList()) {
-					itemBagHandler.ComposeItem(player, tag.getMateId(), tag.getComposeCount());
-				}
+				responseData = itemBagHandler.composeItem(player, request.getComposeList());
 				break;
 			case UseItem:
 				responseData = itemBagHandler.useItem(player, request.getUseItemInfo());
