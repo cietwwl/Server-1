@@ -369,9 +369,10 @@ public class RandomBossMgr{
 	/**
 	 * 发现boss 暂时是100%发现boss
 	 * @param player
+	 * @param hasRate TODO 是否检查机率
 	 * @return
 	 */
-	public void findBossBorn(Player player){
+	public void findBossBorn(Player player, boolean hasRate){
 		//检查角色等级
 		int level = player.getLevel();
 		if(level < rbServerCfg.getOpenLv()){
@@ -384,9 +385,11 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-		int r = RandomUtil.getRandonIndexWithoutProb(10000);
-		if(r > rbServerCfg.getBossBornRate()){
-			return;
+		if(hasRate){
+			int r = RandomUtil.getRandonIndexWithoutProb(10000);
+			if(r > rbServerCfg.getBossBornRate()){
+				return;
+			}
 		}
 		
 		//这里要根据权重进行随机

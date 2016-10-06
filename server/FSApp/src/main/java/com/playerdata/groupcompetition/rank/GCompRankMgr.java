@@ -57,6 +57,9 @@ public class GCompRankMgr {
 				GCompRankReordDAO.getInstance().delete(getRecordId(stage, rankType));
 			}
 		}
+		GCompKillRankMgr.clearRank();
+		GCompScoreRankMgr.clearRank();
+		GCompContinueWinRankMgr.clearRank();
 	}
 	
 	/**
@@ -112,6 +115,7 @@ public class GCompRankMgr {
 	}
 	
 	public GCEventsType getCurrentStage(){
+		if(GroupCompetitionMgr.getInstance().isCurrentEventsEnd()) return null;
 		return GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 

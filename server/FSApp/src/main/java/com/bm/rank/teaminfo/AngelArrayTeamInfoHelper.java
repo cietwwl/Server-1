@@ -230,12 +230,12 @@ public class AngelArrayTeamInfoHelper {
 		int mainRoleModelId = p.getModelId();
 		heroModelList.add(mainRoleModelId);
 
-//		HeroMgrIF heroMgr = p.getHeroMgr();
+		// HeroMgrIF heroMgr = p.getHeroMgr();
 		HeroMgr heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
 			String uuid = teamHeroList.get(i);
-//			HeroIF hero = heroMgr.getHeroById(uuid);
+			// HeroIF hero = heroMgr.getHeroById(uuid);
 			Hero hero = heroMgr.getHeroById(p, uuid);
 			if (hero == null) {
 				GameLog.error("AngelArrayTeamInfoHelper", p.getUserName(), "get hero by uuid fail:" + uuid);
@@ -270,11 +270,11 @@ public class AngelArrayTeamInfoHelper {
 		int mainRoleModelId = p.getModelId();
 		heroModelList.add(mainRoleModelId);
 
-//		HeroMgrIF heroMgr = p.getHeroMgr();
+		// HeroMgrIF heroMgr = p.getHeroMgr();
 		HeroMgr heroMgr = p.getHeroMgr();
 		int heroSize = teamHeroList.size();
 		for (int i = 0; i < heroSize; i++) {
-//			HeroIF hero = heroMgr.getHeroById(teamHeroList.get(i));
+			// HeroIF hero = heroMgr.getHeroById(teamHeroList.get(i));
 			Hero hero = heroMgr.getHeroById(p, teamHeroList.get(i));
 			if (hero == null) {
 				continue;
@@ -482,7 +482,7 @@ public class AngelArrayTeamInfoHelper {
 		List<HeroInfo> heroList = new ArrayList<HeroInfo>(heroSize);
 		for (int i = 0; i < heroSize; i++) {
 			int heroModelId = teamHeroList.get(i);
-//			Hero hero = heroMgr.getHeroByModerId(heroModelId);
+			// Hero hero = heroMgr.getHeroByModerId(heroModelId);
 			Hero hero = heroMgr.getHeroByModerId(p, heroModelId);
 			if (hero == null) {
 				continue;
@@ -776,15 +776,15 @@ public class AngelArrayTeamInfoHelper {
 		HeroBaseInfo baseInfo = heroInfo.getBaseInfo();
 		String tmpId = baseInfo.getTmpId();
 		RoleCfg roleCfg = cfgDAO.getCfgById(tmpId);
-		
+
 		// 设置是否是主角
 		boolean isPlayer = roleCfg.getRoleType() == 1;
 		armyHero.setPlayer(isPlayer);
 
 		RoleBaseInfo roleBaseInfo = new RoleBaseInfo();
-		if(isPlayer){			
+		if (isPlayer) {
 			roleBaseInfo.setId(teamInfo.getUuid());
-		}else{
+		} else {
 			roleBaseInfo.setId(tmpId);
 		}
 		roleBaseInfo.setLevel(baseInfo.getLevel());
@@ -845,12 +845,12 @@ public class AngelArrayTeamInfoHelper {
 		CurAttrData curAttrData = new CurAttrData();
 		curAttrData.setCurLife(heroAttrData.getLife());
 		curAttrData.setMaxLife(heroAttrData.getLife());
+		curAttrData.setCurEnergy(0);
+		curAttrData.setMaxEnergy(1000);
 		armyHero.setCurAttrData(curAttrData);
-		
-		
+
 		// 计算战斗力
-		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
-				heroAttrData));
+		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "", heroAttrData));
 		// 设置站位
 		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 

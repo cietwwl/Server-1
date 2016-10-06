@@ -1,11 +1,14 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.dao.GCompEventsDataDAO;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
 import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -34,11 +37,19 @@ public class GCompEventsDataHolder {
 		this._dao.update();
 	}
 	
+	void loadEventsGlobalData() {
+		this._dao.loadEventsGlobalData();
+	}
+	
 	private GCompEventsSynData createSynData() {
 		GCompEventsGlobalData globalData = this.get();
 		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
+		List<GCompAgainst> next = globalData.getNextMatches();
 		GCompEventsSynData synData = new GCompEventsSynData();
-		synData.setMatches(globalData.getMatches());
+		synData.addMatches(globalData.getMatches());
+		if (next != null && next.size() > 0) {
+			synData.addMatches(next);
+		}
 		synData.setMatchNumType(globalData.getMatchNumType());
 		synData.setStartTime(timeInfo.getT1());
 		synData.setEndTime(timeInfo.getT2());
@@ -54,6 +65,6 @@ public class GCompEventsDataHolder {
 			synData.setMatchId(matchId);
 		}
 		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
-//		GCompUtil.log("同步数据：{}", synData);
+		com.playerdata.groupcompetition.util.GCompUtil.log("同步数据：{}", synData);
 	}
 }

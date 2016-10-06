@@ -117,7 +117,7 @@ public class NormalCopyHandler {
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Section);
 		
 		//随机boss
-		RandomBossMgr.getInstance().findBossBorn(player);
+		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		TagBattleClearingResult.Builder tagBattleClearingResult = TagBattleClearingResult.newBuilder(); // 战斗结算返回的信息...
 		tagBattleClearingResult.addAllUpHeroId(listUpHero);// 升级英雄ID...
@@ -154,7 +154,7 @@ public class NormalCopyHandler {
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, times);
 		
 		//随机boss
-		RandomBossMgr.getInstance().findBossBorn(player);
+		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		// 黑市或者神秘商店
 		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);

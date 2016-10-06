@@ -13,6 +13,7 @@ import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
@@ -22,6 +23,7 @@ import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStartPara;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
+import com.playerdata.groupcompetition.util.GCompRestStartPara;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -86,37 +88,83 @@ public class GroupCompetitionMgr {
 		this.createAndStartController(stageList, startTimeMillis, null);
 	}
 	
-	private void continueOldStageController(GroupCompetitionGlobalData data) {
-		if (data.getHeldTimes() == 1) {
-			// 还是处于首次的状态
-			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, getServerStartTime());
-		} else {
-//			List<IGCompStage> stageList = this.getStageList(GCompStartType.NUTRAL_TIME_OFFSET);
-//			this.createAndStartController(stageList, System.currentTimeMillis(), null);
-			this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
-		}
-	}
-	
-	private void continueEventsStageController(GroupCompetitionGlobalData data) {
+	private List<IGCompStage> getStageListByHeldTimes(GroupCompetitionGlobalData data) {
 		List<IGCompStage> stageList;
 		if (data.getHeldTimes() == 1) {
 			stageList = this.getStageList(GCompStartType.SERVER_TIME_OFFSET);
 		} else {
 			stageList = this.getStageList(GCompStartType.NUTRAL_TIME_OFFSET);
 		}
-		IGCompStage eventsStage = null;
+		return stageList;
+	}
+	
+	private IGCompStage filterStage(GCompStageType type, List<IGCompStage> stageList) {
 		for (Iterator<IGCompStage> itr = stageList.iterator(); itr.hasNext();) {
 			IGCompStage stage = itr.next();
-			if (stage.getStageType() != GCompStageType.EVENTS) {
+			if (stage.getStageType() != type) {
 				itr.remove();
 			} else {
-				eventsStage = stage;
-				break;
+				return stage;
 			}
 		}
+		return null;
+	}
+	
+	// 历史数据处于Selection的阶段
+	private void continueOldSelectionStageController(GroupCompetitionGlobalData data) {
+//		if (data.getHeldTimes() == 1) {
+//			// 还是处于首次的状态
+//			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, getServerStartTime());
+//		} else {
+////			List<IGCompStage> stageList = this.getStageList(GCompStartType.NUTRAL_TIME_OFFSET);
+////			this.createAndStartController(stageList, System.currentTimeMillis(), null);
+//			this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
+//		}
+		List<IGCompStage> stageList = this.getStageListByHeldTimes(data);
+		if (data.getCurrentStageEndTime() > System.currentTimeMillis()) {
+			GCompRestStartPara para = new GCompRestStartPara();
+			para.setEndTime(data.getCurrentStageEndTime());
+			this.createAndStartController(stageList, System.currentTimeMillis(), para);
+		} else {
+			IGCompStage eventsStage = this.filterStage(GCompStageType.EVENTS, stageList);
+			GCompEventsStartPara para = new GCompEventsStartPara();
+			List<String> groupIds = GCompUtil.getTopCountGroupsFromRank();
+			List<String> loseGroupIds = Collections.emptyList();
+			GCompHistoryDataMgr.getInstance().setSelectedGroupIds(groupIds);
+			para.setEventsType(groupIds.size() > 8 ? GCEventsType.TOP_16 : GCEventsType.TOP_8);
+			para.setWinGroupIds(groupIds);
+			para.setLoseGroupIds(loseGroupIds);
+			GroupCompetitionStageCfg stageCfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(eventsStage.getStageCfgId());
+			IReadOnlyPair<Integer, Integer> timeInfo = stageCfg.getStartTimeInfo();
+			long startTime = GCompUtil.getNearTimeMillis(timeInfo.getT1().intValue(), timeInfo.getT2().intValue(), System.currentTimeMillis());
+			createAndStartController(stageList, startTime, para);
+		}
+	}
+	
+	// 历史数据处于休整期的阶段
+	private void continueOldRestStageController(GroupCompetitionGlobalData data) {
+		List<IGCompStage> stageList = this.getStageListByHeldTimes(data);
+		IGCompStage eventsStage = this.filterStage(GCompStageType.REST, stageList);
+		if(eventsStage != null) {
+			if (data.getCurrentStageEndTime() < System.currentTimeMillis()) {
+				// 开始一轮新的
+				this.startStageController(GCompStartType.NUTRAL_TIME_OFFSET, 0);
+			} else {
+				GCompRestStartPara para = new GCompRestStartPara();
+				para.setEndTime(data.getCurrentStageEndTime());
+				createAndStartController(stageList, System.currentTimeMillis(), para);
+			}
+		} else {
+			throw new IllegalStateException("找不到休整阶段实例");
+		}
+	}
+	
+	// 历史数据处于赛事期
+	private void continueEventsStageController(GroupCompetitionGlobalData data) {
+		List<IGCompStage> stageList = this.getStageListByHeldTimes(data);
+		IGCompStage eventsStage = this.filterStage(GCompStageType.EVENTS, stageList);
 		if (eventsStage != null) {
 			GCompEventsRecord record = data.getCurrentEventsRecord();
-			GCompEventsStartPara para = new GCompEventsStartPara();
 			List<String> winGroupIds;
 			List<String> loseGroupIds;
 			GCEventsType eventsType = record.getCurrentEventsType();
@@ -131,9 +179,24 @@ public class GroupCompetitionMgr {
 					loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
 				}
 			} else {
-				winGroupIds = record.getRelativeGroupIds(eventsType);
-				loseGroupIds = Collections.emptyList();
+				if (record.isCurrentTypeFinished()) {
+					GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(eventsType);
+					winGroupIds = new ArrayList<String>();
+					loseGroupIds = new ArrayList<String>();
+					List<GCompAgainst> againsts = eventsData.getAgainsts();
+					for (int i = 0, size = againsts.size(); i < size; i++) {
+						GCompAgainst against = againsts.get(i);
+						winGroupIds.add(against.getWinGroupId());
+						loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
+					}
+					eventsType = eventsType.getNext();
+				} else {
+					winGroupIds = record.getRelativeGroupIds(eventsType);
+					loseGroupIds = Collections.emptyList();
+					record.setCurrentStatus(GCompEventsStatus.NONE);
+				}
 			}
+			GCompEventsStartPara para = new GCompEventsStartPara();
 			para.setEventsType(eventsType);
 			para.setWinGroupIds(winGroupIds);
 			para.setLoseGroupIds(loseGroupIds);
@@ -141,6 +204,8 @@ public class GroupCompetitionMgr {
 			IReadOnlyPair<Integer, Integer> timeInfo = stageCfg.getStartTimeInfo();
 			long startTime = GCompUtil.getNearTimeMillis(timeInfo.getT1().intValue(), timeInfo.getT2().intValue(), System.currentTimeMillis());
 			createAndStartController(stageList, startTime, para);
+			record.setCurrentEventsStatusStartTime(startTime);
+			record.setCurrentEventsStatusEndTime(startTime + TimeUnit.MINUTES.toMillis(GCompEventsStatus.getTotalLastMinutes()));
 		} else {
 			throw new IllegalStateException("找不到赛事阶段实例");
 		}
@@ -149,22 +214,23 @@ public class GroupCompetitionMgr {
 	private void checkStartGroupCompetition() {
 		GroupCompetitionGlobalData data = _dataHolder.get();
 		if(data.getHeldTimes() > 0) {
-//			// 有举办过赛事
-//			switch (data.getCurrentStageType()) {
-//			case SELECTION:
-//				this.continueOldStageController(data);
-//				break;
-//			case EVENTS:
-//				// P2DO 处理赛事阶段期间停服，然后起服
-//				break;
-//			default:
-//				break;
-//			}
-			if (data.getCurrentEventsRecord() != null) {
-				data.getCurrentEventsRecord().reset();
+			// 有举办过赛事
+			switch (data.getCurrentStageType()) {
+			case SELECTION:
+				this.continueOldSelectionStageController(data);
+				break;
+			case EVENTS:
+				this.continueEventsStageController(data);
+				break;
+			default:
+				this.continueOldRestStageController(data);
+				break;
 			}
-			data.setCurrentStageType(GCompStageType.SELECTION);
-			this.continueOldStageController(data); // 测试：现在先默认重新开始
+//			if (data.getCurrentEventsRecord() != null) {
+//				data.getCurrentEventsRecord().reset();
+//			}
+//			data.setCurrentStageType(GCompStageType.SELECTION);
+//			this.continueOldSelectionStageController(data); // 测试：现在先默认重新开始
 		} else {
 			// 没有举办过
 			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime());
@@ -257,6 +323,8 @@ public class GroupCompetitionMgr {
 	public void serverStartComplete() {
 		this._dataHolder.loadGroupCompetitionGlobalData();
 		this._againstIdGenerator.set(this._dataHolder.get().getAgainstIdRecord());
+		GCompEventsDataMgr.getInstance().loadEventsGlobalData(); // 加载赛事数据
+		GCompDetailInfoMgr.getInstance().onServerStartComplete();
 		this.checkStartGroupCompetition();
 	}
 	
@@ -270,7 +338,12 @@ public class GroupCompetitionMgr {
 	 * @return 本次帮派争霸开始的比赛类型
 	 */
 	public GCEventsType getFisrtTypeOfCurrent() {
-		return _dataHolder.get().getCurrentEventsRecord().getFirstEventsType();
+		GCompEventsRecord record = _dataHolder.get().getCurrentEventsRecord();
+		if (record != null) {
+			return record.getFirstEventsType();
+		} else {
+			return GCEventsType.TOP_8;
+		}
 	}
 	
 	/**
@@ -280,7 +353,18 @@ public class GroupCompetitionMgr {
 	 * @return
 	 */
 	public GCEventsType getCurrentEventsType() {
-		return _dataHolder.get().getCurrentEventsRecord().getCurrentEventsType();
+		GCompEventsRecord record = _dataHolder.get().getCurrentEventsRecord();
+		if (record != null) {
+			return record.getCurrentEventsType();
+		} else {
+			throw new IllegalStateException("当前不是赛事状态！");
+		}
+	}
+	
+	public void updateEndTimeOfSelection(long endTime) {
+		GroupCompetitionGlobalData saveData = _dataHolder.get();
+		saveData.setEndTimeOfSelection(endTime);
+		_dataHolder.update();
 	}
 	
 	/**
@@ -304,7 +388,7 @@ public class GroupCompetitionMgr {
 			currentEventsData.setFirstEventsType(eventsType);
 		}
 		currentEventsData.setCurrentEventsType(eventsType);
-		currentEventsData.setCurrentStatusFinished(false);
+		currentEventsData.setCurrentEventsTypeFinished(false);
 		currentEventsData.addRelativeGroups(eventsType, relativeGroupIds);
 		currentEventsData.setCurrentStatus(GCompEventsStatus.NONE);
 		this._dataHolder.update();
@@ -338,16 +422,17 @@ public class GroupCompetitionMgr {
 	}
 	
 	public void notifyEventsEnd(GCEventsType type, List<GCompAgainst> againsts) {
+		GroupCompetitionGlobalData globalData = _dataHolder.get();
 		if (type == GCEventsType.FINAL) {
 			for (GCompAgainst against : againsts) {
 				if (against.isChampionEvents()) {
-					GroupCompetitionGlobalData globalData = _dataHolder.get();
 					globalData.addChampion(against.getWinGroup());
 					break;
 				}
 			}
-			_dataHolder.update();
 		}
+		globalData.getCurrentEventsRecord().setCurrentEventsTypeFinished(true);
+		_dataHolder.update();
 	}
 	
 	/**
@@ -358,6 +443,26 @@ public class GroupCompetitionMgr {
 	 */
 	public long getCurrentStageEndTime() {
 		return this._dataHolder.get().getCurrentStageEndTime();
+	}
+	
+	/**
+	 * 
+	 * 获取本届的开始时间
+	 * 
+	 * @return
+	 */
+	public long getStartTimeOfCurrentSession() {
+		return this._dataHolder.get().getLastHeldTimeMillis();
+	}
+	
+	/**
+	 * 
+	 * 获取本次海选的结束时间
+	 * 
+	 * @return
+	 */
+	public long getEndTimeOfSelection() {
+		return this._dataHolder.get().getEndTimeOfSelection();
 	}
 	
 	/**
@@ -404,6 +509,20 @@ public class GroupCompetitionMgr {
 			return eventsData.getCurrentStatus();
 		}
 		return GCompEventsStatus.NONE;
+	}
+	
+	/**
+	 * 
+	 * 判断当前的比赛是否已经结束
+	 * 
+	 * @return
+	 */
+	public boolean isCurrentEventsEnd() {
+		GCompEventsRecord eventsData = this._dataHolder.get().getCurrentEventsRecord();
+		if(eventsData != null) {
+			return eventsData.isCurrentTypeFinished();
+		}
+		return false;
 	}
 	
 	/**
