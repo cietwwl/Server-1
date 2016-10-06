@@ -211,8 +211,8 @@ public class GMHeroBase {
 		int itemId = 0;
 		if(blnLimited){
 			for (GemCfg gemCfg : gemList) {
-				if(gemCfg.getLevel() >= player.getLevel() && max < gemCfg.getLevel()){
-					max = gemCfg.getLevel();
+				if(gemCfg.getLevel() >= player.getLevel() && max <= gemCfg.getGemLevel()){
+					max = gemCfg.getGemLevel();
 					itemId = gemCfg.getId();
 					if(max == level){
 						break;
@@ -221,12 +221,8 @@ public class GMHeroBase {
 			}
 		}else{
 			for (GemCfg gemCfg : gemList) {
-				if(max < gemCfg.getLevel()){
-					max = gemCfg.getLevel();
+				if(level == gemCfg.getGemLevel()){
 					itemId = gemCfg.getId();
-					if(max == level){
-						break;
-					}
 				} 
 			}
 		}
@@ -353,6 +349,9 @@ public class GMHeroBase {
 			return "";
 		}
 		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillId);
+		String skillEffectId = cfg.getSkillEffectId();
+		String baseSkillId = skillEffectId+"_1";
+		cfg = SkillCfgDAO.getInstance().getCfg(baseSkillId);
 
 		while (!cfg.getNextSillId().equals("")) {
 			cfg = SkillCfgDAO.getInstance().getCfg(cfg.getNextSillId());
