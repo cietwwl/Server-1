@@ -38,8 +38,8 @@ public class GCompAgainst implements IGCAgainst {
 	
 	GCompAgainst(String idOfGroupA, String idOfGroupB, GCEventsType pTopType, int pPosition) {
 		this.matchId = GroupCompetitionMgr.getInstance().getNextAgainstId();
-		this.groupA = new GCGroup(idOfGroupA);
-		this.groupB = new GCGroup(idOfGroupB);
+		this.groupA = GCGroup.createNew(idOfGroupA);
+		this.groupB = GCGroup.createNew(idOfGroupB);
 		this.curStatus = GCompEventsStatus.NONE;
 		this.topType = pTopType;
 		this.position = pPosition;

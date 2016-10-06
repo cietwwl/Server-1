@@ -4,16 +4,21 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.bm.group.GroupBM;
+import com.bm.group.GroupMemberMgr;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GroupCommonProto.GroupPost;
@@ -40,34 +45,53 @@ public class GCGroup implements IGCGroup {
 	private int historyNum; // 客户端需要用的数据
 	@JsonIgnore
 	private int upNum; // 客户端需要用的数据
-	@JsonIgnore
-	private String descr;
+//	@JsonIgnore
+//	private String descr;
+	@JsonProperty("7")
+	private long gCompPower;
+	@JsonProperty("8")
+	private int groupLv;
+	@JsonProperty("9")
+	private int memberNum;
+	@JsonProperty("10")
+	private int maxMemberNum;
 	
 	public GCGroup() {}
 	
-	GCGroup(String groupId) {
+	public static GCGroup createNew(String groupId) {
+		GCGroup instance = new GCGroup();
 		if (groupId == null || groupId.length() == 0) {
-			this.groupId = "";
-			this.groupName = "";
-			this.leaderName = "";
-			this._groupIcon = "";
-			this.assistantName = "";
+			instance.groupId = "";
+			instance.groupName = "";
+			instance.leaderName = "";
+			instance._groupIcon = "";
+			instance.assistantName = "";
 		} else {
 			Group group = GroupBM.get(groupId);
 			GroupBaseDataIF baseData = group.getGroupBaseDataMgr().getGroupData();
-			Map<Integer, List<GroupMemberDataIF>> map = group.getGroupMemberMgr().getAllMemberByPost();
-			this.groupId = groupId;
-			this.groupName = baseData.getGroupName();
-			this.leaderName = group.getGroupMemberMgr().getGroupLeader().getName();
-			this._groupIcon = baseData.getIconId();
+			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
+			Map<Integer, List<GroupMemberDataIF>> map = groupMemberMgr.getAllMemberByPost();
+			instance.groupId = groupId;
+			instance.groupName = baseData.getGroupName();
+			instance.leaderName = groupMemberMgr.getGroupLeader().getName();
+			instance._groupIcon = baseData.getIconId();
 			List<GroupMemberDataIF> assistants = map.get(GroupPost.ASSISTANT_LEADER_VALUE);
 			if (assistants != null && assistants.size() > 0) {
-				this.assistantName = assistants.get(0).getName();
+				instance.assistantName = assistants.get(0).getName();
 			} else {
-				this.assistantName = "";
+				instance.assistantName = "";
+			}
+			instance.memberNum = group.getGroupMemberMgr().getGroupMemberSize();
+			instance.groupLv = baseData.getGroupLevel();
+			GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(instance.groupLv);
+			instance.maxMemberNum = levelTemplate.getMaxMemberLimit();
+			GCompFightingItem fightingRankItem = GCompFightingRankMgr.getFightingRankItem(groupId);
+			if (fightingRankItem != null) {
+				instance.gCompPower = fightingRankItem.getGroupFight();
 			}
 		}
-		this.descr = "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
+//		instance.descr = "GCGroup [groupId=" + groupId + ", groupName=" + instance.groupName + "]";
+		return instance;
 	}
 
 	@Override
@@ -94,24 +118,18 @@ public class GCGroup implements IGCGroup {
 		this.gCompScore += offset;
 	}
 
-	@Override
-	public String toString() {
-		if (descr == null) {
-			synchronized (this) {
-				if (descr == null) {
-					descr = "GCGroup [groupId=" + groupId + ", groupName=" + groupName + "]";
-				}
-			}
-		}
-		return descr;
-	}
-
 	public String getLeaderName() {
 		return leaderName;
 	}
 
 	public String getAssistantName() {
 		return assistantName;
+	}
+
+	@Override
+	public String toString() {
+		return "GCGroup [groupId=" + groupId + ", groupName=" + groupName + ", gCompScore=" + gCompScore + ", gCompPower=" + gCompPower + ", groupLv=" + groupLv + ", memberNum=" + memberNum
+				+ ", maxMemberNum=" + maxMemberNum + "]";
 	}
 
 }

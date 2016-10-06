@@ -20,6 +20,7 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.randomBoss.RandomBossMgr;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
@@ -227,6 +228,7 @@ public class GMHandler {
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
+		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1828,5 +1830,10 @@ public class GMHandler {
 		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
 		return true;
 	} 
+	
+	public boolean refreshGroupFightingRank(String[] arrCommandContents, Player player) {
+		GCompFightingRankMgr.refreshGroupFightingRank();
+		return true;
+	}
 
 }

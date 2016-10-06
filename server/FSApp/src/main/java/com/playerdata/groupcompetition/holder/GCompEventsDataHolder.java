@@ -41,29 +41,7 @@ public class GCompEventsDataHolder {
 		this._dao.loadEventsGlobalData();
 	}
 	
-	private GCompEventsSynData createSynData() {
-		GCompEventsGlobalData globalData = this.get();
-		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
-		List<GCompAgainst> next = globalData.getNextMatches();
-		GCompEventsSynData synData = new GCompEventsSynData();
-		synData.addMatches(globalData.getMatches());
-		if (next != null && next.size() > 0) {
-			synData.addMatches(next);
-		}
-		synData.setMatchNumType(globalData.getMatchNumType());
-		synData.setStartTime(timeInfo.getT1());
-		synData.setEndTime(timeInfo.getT2());
-		synData.setSession(GroupCompetitionMgr.getInstance().getCurrentSessionId());
-		return synData;
-	}
-	
-	public void syn(Player toPlayer) {
-		GCompEventsSynData synData = this.createSynData();
-		String groupId = GroupHelper.getGroupId(toPlayer);
-		if (groupId != null) {
-			int matchId = GCompEventsDataMgr.getInstance().getGroupMatchIdOfCurrent(groupId);
-			synData.setMatchId(matchId);
-		}
+	public void syn(Player toPlayer, GCompEventsSynData synData) {
 		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
 		com.playerdata.groupcompetition.util.GCompUtil.log("同步数据：{}", synData);
 	}

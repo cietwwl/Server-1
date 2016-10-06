@@ -216,7 +216,7 @@ public class GroupCompetitionRewardCenter {
 		public int compare(IGCGroup o1, IGCGroup o2) {
 			int o1Score = o1.getGCompScore();
 			int o2Score = o2.getGCompScore();
-			return o1Score > o2Score ? -1 : (o1Score == o2Score ? 0 : -1);
+			return o1Score > o2Score ? -1 : (o1Score == o2Score ? 0 : 1);
 		}
 
 	}
@@ -227,7 +227,7 @@ public class GroupCompetitionRewardCenter {
 		public int compare(GCompMember o1, GCompMember o2) {
 			int o1TotalWinTimes = o1.getTotalWinTimes();
 			int o2TotalWinTimes = o2.getTotalWinTimes();
-			return o1TotalWinTimes > o2TotalWinTimes ? -1 : (o1TotalWinTimes == o2TotalWinTimes ? 0 : -1);
+			return o1TotalWinTimes > o2TotalWinTimes ? -1 : (o1TotalWinTimes == o2TotalWinTimes ? 0 : 1);
 		}
 
 	}
@@ -238,7 +238,7 @@ public class GroupCompetitionRewardCenter {
 		public int compare(GCompMember o1, GCompMember o2) {
 			int o1MaxContinueWins = o1.getMaxContinueWins();
 			int o2MaxContinueWins = o2.getMaxContinueWins();
-			return o1MaxContinueWins > o2MaxContinueWins ? -1 : (o1MaxContinueWins == o2MaxContinueWins ? 0 : -1);
+			return o1MaxContinueWins > o2MaxContinueWins ? -1 : (o1MaxContinueWins == o2MaxContinueWins ? 0 : 1);
 		}
 
 	}
