@@ -36,6 +36,11 @@ public class GCompFightingRecordMgr {
 		_dataHolder.getFightRecordLive(player, matchId, time);
 		builder.setRstType(GCResultType.SUCCESS);
 	}
+	
+	public void getFightRecord(Player player, CommonGetDataRspMsg.Builder builder, int matchId, long time){
+		_dataHolder.syn(player, matchId, time);
+		builder.setRstType(GCResultType.SUCCESS);
+	}
 
 	public void leaveLivePage(Player player, Builder builder, int matchId) {
 		_dataHolder.leaveLivePage(player, matchId);

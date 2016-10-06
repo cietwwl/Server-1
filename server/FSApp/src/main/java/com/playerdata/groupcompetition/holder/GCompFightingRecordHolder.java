@@ -44,7 +44,11 @@ public class GCompFightingRecordHolder {
 			}
 		}
 		if (!synRecords.isEmpty()) {
-			ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_PART_LIST);
+			if(time > 0){
+				ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_PART_LIST);
+			}else{
+				ClientDataSynMgr.updateDataList(player, synRecords, eSynType.GCompFightingRecord, eSynOpType.UPDATE_LIST);
+			}
 		}
 	}
 	
@@ -86,7 +90,7 @@ public class GCompFightingRecordHolder {
 	}
 	
 	/**
-	 * 获取直播数据
+	 * 获取直播数据（会记录人物的直播状态）
 	 * @param player
 	 * @param matchId
 	 * @param time 只同步这个时间之后的，如果想同步全部的，就传0
@@ -97,9 +101,8 @@ public class GCompFightingRecordHolder {
 			userIds.add(player.getUserId());
 		}
 		syn(player, matchId, time);
-		GCompDetailInfoHolder.getInstance().syn(matchId, player);
 	}
-	
+
 	/**
 	 * 离开直播页面
 	 * @param player
