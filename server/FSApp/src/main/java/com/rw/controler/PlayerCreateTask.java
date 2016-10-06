@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
@@ -11,6 +12,8 @@ import com.playerdata.Player;
 import com.playerdata.PlayerFreshHelper;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
+import com.playerdata.charge.dao.ChargeInfo;
+import com.playerdata.charge.dao.ChargeInfoDao;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
@@ -25,8 +28,10 @@ import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BITaskType;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
-import com.rwbase.dao.dropitem.DropRecord;
-import com.rwbase.dao.dropitem.DropRecordDAO;
+import com.rwbase.dao.fashion.FashionBeingUsed;
+import com.rwbase.dao.fashion.FashionBeingUsedHolder;
+import com.rwbase.dao.majorDatas.MajorDataCacheFactory;
+import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.User;
@@ -127,10 +132,24 @@ public class PlayerCreateTask implements Runnable {
 		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
 		PlayerParam param = new PlayerParam(accountId, userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 		GameOperationFactory.getCreatedOperation().execute(param);
-
-		// 临时做法
-		DropRecord record = new DropRecord(userId);
-		DropRecordDAO.getInstance().update(record);
+		
+		//提前创建Major need trx
+		MajorData majorData = new MajorData();
+		majorData.setId(userId);
+		majorData.setOwnerId(userId);
+		MajorDataCacheFactory.getCache().update(majorData);
+		
+		//提前创建时装   need trx
+		FashionBeingUsed used = new FashionBeingUsed();
+		used.setUserId(userId);
+		FashionBeingUsedHolder.getInstance().saveOrUpdate(used);
+		
+		//提前创建ChargeInfo need trx
+		ChargeInfo chargeInfo = new ChargeInfo();
+		chargeInfo.setUserId(userId);
+		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
+		ChargeInfoDao.getInstance().update(chargeInfo);
+		
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
 

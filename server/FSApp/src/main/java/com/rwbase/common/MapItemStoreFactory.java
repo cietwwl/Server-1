@@ -5,20 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
-import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
-import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
-import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
-import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
-import com.playerdata.activity.retrieve.data.RewardBackItem;
-import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
-import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
@@ -52,7 +41,6 @@ import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
-import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
@@ -239,7 +227,7 @@ public class MapItemStoreFactory {
 
 		teamBattleItemCache = createForPerload(TBTeamItem.class, "hardID", heroCapacity);
 
-		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity, false);
+		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity, true);
 
 		mainHeroItemCache = createForPerload(FSHero.class, MAIN_ROLE_NAME, "id", heroCapacity, true);
 

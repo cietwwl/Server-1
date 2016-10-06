@@ -19,6 +19,9 @@ public class GCompContinueWinRankMgr {
 	public static int MAX_RANK_COUNT = 50;
 	
 	public static int addOrUpdateContinueWinRank(Player player, int currentContinueWin) {
+		if(currentContinueWin <= 0){
+			return -1;
+		}
 		Ranking<GCompContinueWinComparable, GCompContinueWinItem> ranking = RankingFactory.getRanking(RankType.GCOMP_CONTINUE_WIN_RANK);
 		if (ranking == null) {
 			return -1;
