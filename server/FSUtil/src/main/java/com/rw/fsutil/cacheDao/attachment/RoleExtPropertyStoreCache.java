@@ -15,10 +15,10 @@ import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.MapItemCache;
 import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
 import com.rw.fsutil.dao.optimize.DAOStoreCache;
@@ -27,7 +27,7 @@ import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryRoleExtPropertyData> {
 
-	private final DataCache<String, PlayerExtPropertyStoreImpl<T>> cache;
+	private final MapItemCache<String, PlayerExtPropertyStoreImpl<T>> cache;
 	private final Short type;
 	private final Class<T> entityClass;
 	private final ObjectMapper mapper;
@@ -38,7 +38,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		this.type = type;
 		this.entityClass = entityClass;
 		this.dataAccessManager = extPropertyManager;
-		this.cache = DataCacheFactory.createDataDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
+		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		}
 
 		@Override
-		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value, EvictedUpdateTask<CacheCompositKey<String, Integer>> evictedUpdateTask) {
+		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value) {
 			return value.hasChanged();
 		}
 

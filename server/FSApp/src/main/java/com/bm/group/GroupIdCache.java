@@ -4,11 +4,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassInfo;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
+import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistException;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rw.fsutil.dao.cache.PersistentLoader;
 import com.rw.fsutil.dao.common.CommonSingleTable;
 import com.rw.fsutil.dao.common.JdbcTemplateFactory;
 import com.rw.fsutil.dao.optimize.SimpleLoader;
@@ -16,14 +14,14 @@ import com.rw.fsutil.log.SqlLog;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
 
 public class GroupIdCache {
-	private final DataCache<String, String> cache;
+	private final DataKVCache<String, String> cache;
 
 	public GroupIdCache(String dsName,DruidDataSource dataSource) {
 		JdbcTemplate jdbcTemplate = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		ClassInfo classInfo = new ClassInfo(GroupBaseData.class);
 		CommonSingleTable<GroupBaseData> commonJdbc = new CommonSingleTable<GroupBaseData>(dsName,jdbcTemplate, classInfo);
 		int capcity = 5000;
-		this.cache = DataCacheFactory.createDataDache(getClass(), capcity, 120, new GroupIdLoader(commonJdbc));
+		this.cache = DataCacheFactory.createDataKVCache(getClass(), capcity, 120, new GroupIdLoader(commonJdbc));
 	}
 
 	public String getGroupId(String groupName) {

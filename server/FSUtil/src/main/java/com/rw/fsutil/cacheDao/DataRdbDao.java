@@ -15,6 +15,7 @@ import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
+import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
@@ -52,7 +53,7 @@ public class DataRdbDao<T> {
 			int cacheSize = getCacheSize();
 			this.tableName = this.classInfo.getTableName();
 			DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
-			this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, 
+			this.cache = DataCacheFactory.createDataKVCache(clazz, cacheSize, 
 					getUpdatedSeconds(), loader,parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
@@ -61,7 +62,7 @@ public class DataRdbDao<T> {
 
 	private final ClassInfo classInfo;
 	private final CommonSingleTable<T> commonJdbc;
-	private final DataCache<String, T> cache;
+	private final DataKVCache<String, T> cache;
 	private final JdbcTemplate jdbcTemplate;
 	private final String tableName;
 
@@ -124,7 +125,7 @@ public class DataRdbDao<T> {
 		}
 
 		@Override
-		public boolean hasChanged(String key, T value, EvictedUpdateTask<String> evictedUpdateTask) {
+		public boolean hasChanged(String key, T value) {
 			return true;
 		}
 

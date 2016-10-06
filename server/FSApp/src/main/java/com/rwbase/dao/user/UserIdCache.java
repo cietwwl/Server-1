@@ -4,8 +4,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassInfo;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
+import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.common.CommonSingleTable;
@@ -15,7 +15,7 @@ import com.rw.fsutil.log.SqlLog;
 
 public class UserIdCache {
 
-	private final DataCache<UserParam, String> cache;
+	private final DataKVCache<UserParam, String> cache;
 
 	public UserIdCache(String dsName, DruidDataSource dataSource) {
 		// 数据源名字需统一定义
@@ -24,7 +24,7 @@ public class UserIdCache {
 		CommonSingleTable<User> commonJdbc = new CommonSingleTable<User>(dsName, jdbcTemplate, classInfo);
 		// 数量需要做成配置
 		int capcity = 5000;
-		this.cache = DataCacheFactory.createDataDache(getClass(), capcity, 120, new UserIdLoader(commonJdbc));
+		this.cache = DataCacheFactory.createDataKVCache(getClass(), capcity, 120, new UserIdLoader(commonJdbc));
 	}
 
 	/**
@@ -61,7 +61,7 @@ public class UserIdCache {
 		}
 
 		@Override
-		public boolean hasChanged(UserParam key, String value, EvictedUpdateTask<UserParam> evictedUpdateTask) {
+		public boolean hasChanged(UserParam key, String value) {
 			return false;
 		}
 
