@@ -868,6 +868,14 @@ public final class ItemBagProtos {
      * </pre>
      */
     Magic_Total_Exp(6, 7),
+    /**
+     * <code>Magic_Aptitude = 8;</code>
+     *
+     * <pre>
+     *法宝的资质
+     * </pre>
+     */
+    Magic_Aptitude(7, 8),
     ;
 
     /**
@@ -926,6 +934,14 @@ public final class ItemBagProtos {
      * </pre>
      */
     public static final int Magic_Total_Exp_VALUE = 7;
+    /**
+     * <code>Magic_Aptitude = 8;</code>
+     *
+     * <pre>
+     *法宝的资质
+     * </pre>
+     */
+    public static final int Magic_Aptitude_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -939,6 +955,7 @@ public final class ItemBagProtos {
         case 5: return Equip_AttachExp;
         case 6: return Equip_AttachLevel;
         case 7: return Magic_Total_Exp;
+        case 8: return Magic_Aptitude;
         default: return null;
       }
     }
@@ -9164,11 +9181,12 @@ public final class ItemBagProtos {
       "\022\031\n\025Consume_MagicForgeMat\020\n\022\023\n\017Consume_E" +
       "xpItem\020\013\022\026\n\022Consume_AttachSoul\020\014\022\025\n\021Cons" +
       "ume_PowerItem\020\r\022\026\n\022Consume_ScanTicket\020\016*" +
-      "\227\001\n\022EItemAttributeType\022\r\n\tMagic_Exp\020\001\022\017\n" +
+      "\253\001\n\022EItemAttributeType\022\r\n\tMagic_Exp\020\001\022\017\n" +
       "\013Magic_Level\020\002\022\017\n\013Magic_State\020\003\022\017\n\013Equip",
       "_Level\020\004\022\023\n\017Equip_AttachExp\020\005\022\025\n\021Equip_A" +
-      "ttachLevel\020\006\022\023\n\017Magic_Total_Exp\020\007B\034\n\013com" +
-      ".rwprotoB\rItemBagProtos"
+      "ttachLevel\020\006\022\023\n\017Magic_Total_Exp\020\007\022\022\n\016Mag" +
+      "ic_Aptitude\020\010B\034\n\013com.rwprotoB\rItemBagPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

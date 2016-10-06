@@ -28,6 +28,7 @@ public class MagicCfg extends ItemBaseCfg {
 	private int initialEnergy;// 初始能量值
 	private String skillId_passive;// 法宝的被动技能列表
 	private List<Integer> passiveSkillIdList;// 被动技能列表
+	private int aptitude;// 法宝的资质
 
 	public void ExtraInitAfterLoad() {
 		ParseConversionGoods();
@@ -254,6 +255,19 @@ public class MagicCfg extends ItemBaseCfg {
 	 */
 	public List<Integer> getPassiveSkillIdList() {
 		return passiveSkillIdList;
+	}
+
+	/**
+	 * 获取法宝默认的资质
+	 * 
+	 * @return
+	 */
+	public int getAptitude() {
+		return aptitude;
+	}
+
+	public void setAptitude(int aptitude) {
+		this.aptitude = aptitude;
 	}
 
 	public void initData() {

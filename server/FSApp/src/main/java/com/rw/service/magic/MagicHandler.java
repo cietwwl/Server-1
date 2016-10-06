@@ -44,11 +44,13 @@ import com.rwbase.dao.magicweapon.pojo.MagicExpCfg;
 import com.rwbase.dao.magicweapon.pojo.MagicSmeltCfg;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+import com.rwproto.MagicServiceProtos.MagicInheritReqMsg;
 import com.rwproto.MagicServiceProtos.MagicItemData;
 import com.rwproto.MagicServiceProtos.MsgMagicRequest;
 import com.rwproto.MagicServiceProtos.MsgMagicResponse;
 import com.rwproto.MagicServiceProtos.MsgMagicResponse.Builder;
 import com.rwproto.MagicServiceProtos.eMagicResultType;
+import com.rwproto.MagicServiceProtos.eMagicType;
 
 public class MagicHandler {
 
@@ -951,4 +953,39 @@ public class MagicHandler {
 		return response.build().toByteString();
 	}
 
+	/**
+	 * 法宝继承
+	 * 
+	 * @param player
+	 * @param req
+	 * @return
+	 */
+	public ByteString magicInheritHandler(Player player, MagicInheritReqMsg req) {
+		MsgMagicResponse.Builder rsp = MsgMagicResponse.newBuilder();
+		rsp.setMagicType(eMagicType.Magic_Inherit);
+
+		String id = req.getId();// 被继承的法宝Id
+		String toId = req.getToId();// 请求继承的法宝Id
+
+		if (id.equals(toId)) {// 如果两个法宝传的Id是一个法宝，直接返回
+			fillResponseInfo(rsp, false, "不能使用同一个法宝继承");
+			return rsp.build().toByteString();
+		}
+
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemData magic = itemBagMgr.findBySlotId(id);// 被继承的法宝
+		if (magic == null) {
+			fillResponseInfo(rsp, false, "被继承的法宝不存在");
+			return rsp.build().toByteString();
+		}
+
+		ItemData toMagic = itemBagMgr.findBySlotId(toId);// 请求继承的法宝
+		if (toMagic == null) {
+			fillResponseInfo(rsp, false, "继承的法宝不存在");
+			return rsp.build().toByteString();
+		}
+
+		rsp.setEMagicResultType(eMagicResultType.SUCCESS);
+		return rsp.build().toByteString();
+	}
 }

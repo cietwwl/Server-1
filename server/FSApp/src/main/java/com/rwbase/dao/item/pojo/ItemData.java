@@ -18,6 +18,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.readonly.ItemDataIF;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
+import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
@@ -54,10 +55,13 @@ public class ItemData implements IMapItem, ItemDataIF {
 	}
 
 	public boolean init(int modelId, int count) {
-		if (!ItemCfgHelper.checkItem(modelId)) {
+
+		ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
+		if (cfg == null) {
 			System.out.println("Item's ID is Out of Range");
 			return false;
 		}
+
 		if (count <= 0) {
 			return false;
 		}
@@ -66,20 +70,32 @@ public class ItemData implements IMapItem, ItemDataIF {
 		this.count = count;
 		EItemTypeDef type = ItemCfgHelper.getItemType(modelId);
 		if (type == EItemTypeDef.Magic) {
+			MagicCfg magicCfg = null;
+			if (cfg instanceof MagicCfg) {
+				magicCfg = (MagicCfg) cfg;
+			} else {
+				magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
+			}
+
+			if (magicCfg == null) {
+				return false;
+			}
+
 			allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
 			allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
 			allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
-		} else if (type == EItemTypeDef.Magic_Piece) {
-			allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
-			allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
-			allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
+			allExtendAttr.put(EItemAttributeType.Magic_Aptitude_VALUE, String.valueOf(magicCfg.getAptitude()));
+			// } else if (type == EItemTypeDef.Magic_Piece) {
+			// allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
+			// allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
+			// allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
 		} else if (type == EItemTypeDef.HeroEquip) {
 			allExtendAttr.put(EItemAttributeType.Equip_AttachLevel_VALUE, "0");
 			allExtendAttr.put(EItemAttributeType.Equip_AttachExp_VALUE, "0");
-		} else if (type == EItemTypeDef.Piece) {
-		} else if (type == EItemTypeDef.SoulStone) {
-		} else if (type == EItemTypeDef.Gem) {
-		} else if (type == EItemTypeDef.Consume) {
+			// } else if (type == EItemTypeDef.Piece) {
+			// } else if (type == EItemTypeDef.SoulStone) {
+			// } else if (type == EItemTypeDef.Gem) {
+			// } else if (type == EItemTypeDef.Consume) {
 		}
 		// this.type = type;
 		return true;

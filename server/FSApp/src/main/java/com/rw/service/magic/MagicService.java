@@ -15,7 +15,6 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(MsgMagicRequest request, Player player) {
-		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
 			eMagicType magicType = request.getMagicType();
@@ -35,6 +34,8 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 			case Magic_Random:
 				result = magicHandler.getRandomSeed(player, request);
 				break;
+			case Magic_Inherit:// 继承
+				break;
 			default:
 				break;
 			}
@@ -47,14 +48,12 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 
 	@Override
 	public MsgMagicRequest parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
 		MsgMagicRequest msgMagicRequest = MsgMagicRequest.parseFrom(request.getBody().getSerializedContent());
 		return msgMagicRequest;
 	}
 
 	@Override
 	public eMagicType getMsgType(MsgMagicRequest request) {
-		// TODO Auto-generated method stub
 		return request.getMagicType();
 	}
 }
