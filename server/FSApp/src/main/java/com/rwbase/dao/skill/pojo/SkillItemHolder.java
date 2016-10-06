@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.common.IHeroAction;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroExtPropertyType;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -31,7 +35,7 @@ public class SkillItemHolder {
 	public List<SkillItem> getItemList(String heroId) {
 
 		List<SkillItem> itemList = new ArrayList<SkillItem>();
-		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getEnum();
+		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			SkillItem item = (SkillItem) mapEnum.nextElement();
 			itemList.add(item);
@@ -49,23 +53,23 @@ public class SkillItemHolder {
 	 * @param item
 	 */
 	public void updateItem(Player player, String heroId, SkillItem item) {
-		getMapItemStore(heroId).updateItem(item);
+		getMapItemStore(heroId).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), heroId);
 	}
 
-	/**
-	 * 
-	 * 根据技能模板id，获取指定英雄的技能数据
-	 * 
-	 * @param ownerId
-	 * @param skillcfgId
-	 * @return
-	 */
-	public SkillItem getItem(String ownerId, String skillcfgId) {
-		String itemId = SkillHelper.getItemId(ownerId, skillcfgId);
-		return getItem(ownerId, itemId);
-	}
+//	/**
+//	 * 
+//	 * 根据技能模板id，获取指定英雄的技能数据
+//	 * 
+//	 * @param ownerId
+//	 * @param skillcfgId
+//	 * @return
+//	 */
+//	public SkillItem getItem(String ownerId, String skillcfgId) {
+//		Integer itemId = parseSkillItemId(skillcfgId);
+//		return getItem(ownerId, itemId);
+//	}
 	
 	/**
 	 * 
@@ -75,8 +79,8 @@ public class SkillItemHolder {
 	 * @param itemId
 	 * @return
 	 */
-	public SkillItem getItemByItemId(String heroId, String itemId) {
-		return getMapItemStore(heroId).getItem(itemId);
+	public SkillItem getItemByItemId(String heroId, Integer itemId) {
+		return getMapItemStore(heroId).get(itemId);
 	}
 	
 	/**
@@ -89,7 +93,7 @@ public class SkillItemHolder {
 	 */
 	public SkillItem getByOrder(String heroId, int order) {
 		SkillItem target = null;
-		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getEnum();
+		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			SkillItem item = (SkillItem) mapEnum.nextElement();
 			if (item.getOrder() == order) {
@@ -132,7 +136,7 @@ public class SkillItemHolder {
 	 */
 	public boolean addItem(Player player, String heroId, SkillItem item, boolean syn) {
 		item.setOwnerId(heroId);
-		item.setId(newSkillItemId(heroId, item.getSkillId()));
+		item.setId(parseSkillItemId(item.getSkillId()));
 
 		boolean addSuccess = getMapItemStore(heroId).addItem(item);
 		if (addSuccess) {
@@ -156,7 +160,7 @@ public class SkillItemHolder {
 		for (int i = skillList.size(); --i >= 0;) {
 			SkillItem item = skillList.get(i);
 			item.setOwnerId(heroId);
-			item.setId(newSkillItemId(heroId, item.getSkillId()));
+			item.setId(parseSkillItemId(item.getSkillId()));
 		}
 		try {
 			getMapItemStore(heroId).addItem(skillList);
@@ -168,9 +172,13 @@ public class SkillItemHolder {
 		}
 	}
 
-	private String newSkillItemId(String ownerId, String skillId) {
+	private Integer parseSkillItemId(String skillCfgId) {
+		String skillId = skillCfgId;
+		if(skillCfgId.contains("_")){
+			skillId = StringUtils.substringBefore(skillCfgId, "_");
+		}		
 		// 生成技能id
-		return ownerId + "_" + skillId;
+		return Integer.valueOf(skillId);
 	}
 	
 	/**
@@ -193,9 +201,9 @@ public class SkillItemHolder {
 	 * @param heroId 目标英雄id
 	 * @param immediately 是否马上写进数据库
 	 */
-	public void flush(String heroId, boolean immediately) {
-		getMapItemStore(heroId).flush(immediately);
-	}
+//	public void flush(String heroId, boolean immediately) {
+//		getMapItemStore(heroId).flush(immediately);
+//	}
 	
 	private final List<IHeroAction> _dataChangeCallbacks = new ArrayList<IHeroAction>();
 	
@@ -209,8 +217,15 @@ public class SkillItemHolder {
 		}
 	}
 	
-	private MapItemStore<SkillItem> getMapItemStore(String heroId) {
-		MapItemStoreCache<SkillItem> cache = MapItemStoreFactory.getSkillCache();
-		return cache.getMapItemStore(heroId, SkillItem.class);
+	private PlayerExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
+		RoleExtPropertyStoreCache<SkillItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SKILL_ITEM, SkillItem.class);
+		PlayerExtPropertyStore<SkillItem> store = null;
+		try {
+			store = heroExtCache.getStore(heroId);
+		} catch (Throwable e) {
+			GameLog.error(LogModule.Skill, "heroId:"+heroId, "can not get PlayerExtPropertyStore.", e);
+		}
+		return store;
 	}
+	
 }
