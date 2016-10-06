@@ -1,12 +1,19 @@
 package com.rw.dataaccess.hero;
 
+import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
+import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.dataaccess.attachment.RoleExtPropertyType;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
 
 public enum HeroExtPropertyType implements RoleExtPropertyType{
 
+	FIX_EXP_EQUIP(1, FixExpEquipDataItem.class, HeroFixExpEquipCreator.class),
+	FIX_NORM_EQUIP(2, FixNormEquipDataItem.class, HeroFixNormEquipCreator.class),
+	
 	;
+	
+	
 	private final Class<? extends RoleExtProperty> propertyClass;
 	private final Class<? extends HeroExtPropertyCreator<?>> creatorClass;
 	private final String propertyName;
