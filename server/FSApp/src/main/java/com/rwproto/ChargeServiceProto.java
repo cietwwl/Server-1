@@ -888,6 +888,32 @@ public final class ChargeServiceProto {
      * </pre>
      */
     com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder getTimeCardOfFriendOrBuilder();
+
+    // optional .chargeProto.AllList allList = 5;
+    /**
+     * <code>optional .chargeProto.AllList allList = 5;</code>
+     *
+     * <pre>
+     *全部列表
+     * </pre>
+     */
+    boolean hasAllList();
+    /**
+     * <code>optional .chargeProto.AllList allList = 5;</code>
+     *
+     * <pre>
+     *全部列表
+     * </pre>
+     */
+    com.rwproto.ChargeServiceProto.AllList getAllList();
+    /**
+     * <code>optional .chargeProto.AllList allList = 5;</code>
+     *
+     * <pre>
+     *全部列表
+     * </pre>
+     */
+    com.rwproto.ChargeServiceProto.AllListOrBuilder getAllListOrBuilder();
   }
   /**
    * Protobuf type {@code chargeProto.ChargeServiceCommonRspMsg}
@@ -972,6 +998,19 @@ public final class ChargeServiceProto {
                 timeCardOfFriend_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              com.rwproto.ChargeServiceProto.AllList.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = allList_.toBuilder();
+              }
+              allList_ = input.readMessage(com.rwproto.ChargeServiceProto.AllList.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(allList_);
+                allList_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -1151,11 +1190,46 @@ public final class ChargeServiceProto {
       return timeCardOfFriend_;
     }
 
+    // optional .chargeProto.AllList allList = 5;
+    public static final int ALLLIST_FIELD_NUMBER = 5;
+    private com.rwproto.ChargeServiceProto.AllList allList_;
+    /**
+     * <code>optional .chargeProto.AllList allList = 5;</code>
+     *
+     * <pre>
+     *全部列表
+     * </pre>
+     */
+    public boolean hasAllList() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .chargeProto.AllList allList = 5;</code>
+     *
+     * <pre>
+     *全部列表
+     * </pre>
+     */
+    public com.rwproto.ChargeServiceProto.AllList getAllList() {
+      return allList_;
+    }
+    /**
+     * <code>optional .chargeProto.AllList allList = 5;</code>
+     *
+     * <pre>
+     *全部列表
+     * </pre>
+     */
+    public com.rwproto.ChargeServiceProto.AllListOrBuilder getAllListOrBuilder() {
+      return allList_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.ChargeServiceProto.RequestType.Charge;
       isSuccess_ = false;
       tipMsg_ = "";
       timeCardOfFriend_ = com.rwproto.ChargeServiceProto.TimeCardOfFriend.getDefaultInstance();
+      allList_ = com.rwproto.ChargeServiceProto.AllList.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1172,6 +1246,12 @@ public final class ChargeServiceProto {
       }
       if (hasTimeCardOfFriend()) {
         if (!getTimeCardOfFriend().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasAllList()) {
+        if (!getAllList().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -1194,6 +1274,9 @@ public final class ChargeServiceProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, timeCardOfFriend_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, allList_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1219,6 +1302,10 @@ public final class ChargeServiceProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, timeCardOfFriend_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, allList_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1329,6 +1416,7 @@ public final class ChargeServiceProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getTimeCardOfFriendFieldBuilder();
+          getAllListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1349,6 +1437,12 @@ public final class ChargeServiceProto {
           timeCardOfFriendBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (allListBuilder_ == null) {
+          allList_ = com.rwproto.ChargeServiceProto.AllList.getDefaultInstance();
+        } else {
+          allListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -1397,6 +1491,14 @@ public final class ChargeServiceProto {
         } else {
           result.timeCardOfFriend_ = timeCardOfFriendBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (allListBuilder_ == null) {
+          result.allList_ = allList_;
+        } else {
+          result.allList_ = allListBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1427,6 +1529,9 @@ public final class ChargeServiceProto {
         if (other.hasTimeCardOfFriend()) {
           mergeTimeCardOfFriend(other.getTimeCardOfFriend());
         }
+        if (other.hasAllList()) {
+          mergeAllList(other.getAllList());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1442,6 +1547,12 @@ public final class ChargeServiceProto {
         }
         if (hasTimeCardOfFriend()) {
           if (!getTimeCardOfFriend().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasAllList()) {
+          if (!getAllList().isInitialized()) {
             
             return false;
           }
@@ -1820,6 +1931,159 @@ public final class ChargeServiceProto {
         return timeCardOfFriendBuilder_;
       }
 
+      // optional .chargeProto.AllList allList = 5;
+      private com.rwproto.ChargeServiceProto.AllList allList_ = com.rwproto.ChargeServiceProto.AllList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ChargeServiceProto.AllList, com.rwproto.ChargeServiceProto.AllList.Builder, com.rwproto.ChargeServiceProto.AllListOrBuilder> allListBuilder_;
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public boolean hasAllList() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.AllList getAllList() {
+        if (allListBuilder_ == null) {
+          return allList_;
+        } else {
+          return allListBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public Builder setAllList(com.rwproto.ChargeServiceProto.AllList value) {
+        if (allListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          allList_ = value;
+          onChanged();
+        } else {
+          allListBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public Builder setAllList(
+          com.rwproto.ChargeServiceProto.AllList.Builder builderForValue) {
+        if (allListBuilder_ == null) {
+          allList_ = builderForValue.build();
+          onChanged();
+        } else {
+          allListBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public Builder mergeAllList(com.rwproto.ChargeServiceProto.AllList value) {
+        if (allListBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              allList_ != com.rwproto.ChargeServiceProto.AllList.getDefaultInstance()) {
+            allList_ =
+              com.rwproto.ChargeServiceProto.AllList.newBuilder(allList_).mergeFrom(value).buildPartial();
+          } else {
+            allList_ = value;
+          }
+          onChanged();
+        } else {
+          allListBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public Builder clearAllList() {
+        if (allListBuilder_ == null) {
+          allList_ = com.rwproto.ChargeServiceProto.AllList.getDefaultInstance();
+          onChanged();
+        } else {
+          allListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.AllList.Builder getAllListBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getAllListFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.AllListOrBuilder getAllListOrBuilder() {
+        if (allListBuilder_ != null) {
+          return allListBuilder_.getMessageOrBuilder();
+        } else {
+          return allList_;
+        }
+      }
+      /**
+       * <code>optional .chargeProto.AllList allList = 5;</code>
+       *
+       * <pre>
+       *全部列表
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ChargeServiceProto.AllList, com.rwproto.ChargeServiceProto.AllList.Builder, com.rwproto.ChargeServiceProto.AllListOrBuilder> 
+          getAllListFieldBuilder() {
+        if (allListBuilder_ == null) {
+          allListBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.ChargeServiceProto.AllList, com.rwproto.ChargeServiceProto.AllList.Builder, com.rwproto.ChargeServiceProto.AllListOrBuilder>(
+                  allList_,
+                  getParentForChildren(),
+                  isClean());
+          allList_ = null;
+        }
+        return allListBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:chargeProto.ChargeServiceCommonRspMsg)
     }
 
@@ -1829,6 +2093,804 @@ public final class ChargeServiceProto {
     }
 
     // @@protoc_insertion_point(class_scope:chargeProto.ChargeServiceCommonRspMsg)
+  }
+
+  public interface AllListOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .chargeProto.TimeCardOfFriend friendList = 1;
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.ChargeServiceProto.TimeCardOfFriend> 
+        getFriendListList();
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    com.rwproto.ChargeServiceProto.TimeCardOfFriend getFriendList(int index);
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    int getFriendListCount();
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder> 
+        getFriendListOrBuilderList();
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder getFriendListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code chargeProto.AllList}
+   */
+  public static final class AllList extends
+      com.google.protobuf.GeneratedMessage
+      implements AllListOrBuilder {
+    // Use AllList.newBuilder() to construct.
+    private AllList(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private AllList(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final AllList defaultInstance;
+    public static AllList getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public AllList getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private AllList(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                friendList_ = new java.util.ArrayList<com.rwproto.ChargeServiceProto.TimeCardOfFriend>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              friendList_.add(input.readMessage(com.rwproto.ChargeServiceProto.TimeCardOfFriend.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          friendList_ = java.util.Collections.unmodifiableList(friendList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.ChargeServiceProto.internal_static_chargeProto_AllList_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.ChargeServiceProto.internal_static_chargeProto_AllList_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.ChargeServiceProto.AllList.class, com.rwproto.ChargeServiceProto.AllList.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<AllList> PARSER =
+        new com.google.protobuf.AbstractParser<AllList>() {
+      public AllList parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new AllList(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<AllList> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .chargeProto.TimeCardOfFriend friendList = 1;
+    public static final int FRIENDLIST_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.ChargeServiceProto.TimeCardOfFriend> friendList_;
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.ChargeServiceProto.TimeCardOfFriend> getFriendListList() {
+      return friendList_;
+    }
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder> 
+        getFriendListOrBuilderList() {
+      return friendList_;
+    }
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    public int getFriendListCount() {
+      return friendList_.size();
+    }
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    public com.rwproto.ChargeServiceProto.TimeCardOfFriend getFriendList(int index) {
+      return friendList_.get(index);
+    }
+    /**
+     * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+     *
+     * <pre>
+     *好友列表
+     * </pre>
+     */
+    public com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder getFriendListOrBuilder(
+        int index) {
+      return friendList_.get(index);
+    }
+
+    private void initFields() {
+      friendList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getFriendListCount(); i++) {
+        if (!getFriendList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < friendList_.size(); i++) {
+        output.writeMessage(1, friendList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < friendList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, friendList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.ChargeServiceProto.AllList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.ChargeServiceProto.AllList prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code chargeProto.AllList}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.ChargeServiceProto.AllListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.ChargeServiceProto.internal_static_chargeProto_AllList_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.ChargeServiceProto.internal_static_chargeProto_AllList_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.ChargeServiceProto.AllList.class, com.rwproto.ChargeServiceProto.AllList.Builder.class);
+      }
+
+      // Construct using com.rwproto.ChargeServiceProto.AllList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFriendListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (friendListBuilder_ == null) {
+          friendList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          friendListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.ChargeServiceProto.internal_static_chargeProto_AllList_descriptor;
+      }
+
+      public com.rwproto.ChargeServiceProto.AllList getDefaultInstanceForType() {
+        return com.rwproto.ChargeServiceProto.AllList.getDefaultInstance();
+      }
+
+      public com.rwproto.ChargeServiceProto.AllList build() {
+        com.rwproto.ChargeServiceProto.AllList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.ChargeServiceProto.AllList buildPartial() {
+        com.rwproto.ChargeServiceProto.AllList result = new com.rwproto.ChargeServiceProto.AllList(this);
+        int from_bitField0_ = bitField0_;
+        if (friendListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            friendList_ = java.util.Collections.unmodifiableList(friendList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.friendList_ = friendList_;
+        } else {
+          result.friendList_ = friendListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.ChargeServiceProto.AllList) {
+          return mergeFrom((com.rwproto.ChargeServiceProto.AllList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.ChargeServiceProto.AllList other) {
+        if (other == com.rwproto.ChargeServiceProto.AllList.getDefaultInstance()) return this;
+        if (friendListBuilder_ == null) {
+          if (!other.friendList_.isEmpty()) {
+            if (friendList_.isEmpty()) {
+              friendList_ = other.friendList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureFriendListIsMutable();
+              friendList_.addAll(other.friendList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.friendList_.isEmpty()) {
+            if (friendListBuilder_.isEmpty()) {
+              friendListBuilder_.dispose();
+              friendListBuilder_ = null;
+              friendList_ = other.friendList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              friendListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getFriendListFieldBuilder() : null;
+            } else {
+              friendListBuilder_.addAllMessages(other.friendList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getFriendListCount(); i++) {
+          if (!getFriendList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.ChargeServiceProto.AllList parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.ChargeServiceProto.AllList) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .chargeProto.TimeCardOfFriend friendList = 1;
+      private java.util.List<com.rwproto.ChargeServiceProto.TimeCardOfFriend> friendList_ =
+        java.util.Collections.emptyList();
+      private void ensureFriendListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          friendList_ = new java.util.ArrayList<com.rwproto.ChargeServiceProto.TimeCardOfFriend>(friendList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ChargeServiceProto.TimeCardOfFriend, com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder, com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder> friendListBuilder_;
+
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ChargeServiceProto.TimeCardOfFriend> getFriendListList() {
+        if (friendListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(friendList_);
+        } else {
+          return friendListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public int getFriendListCount() {
+        if (friendListBuilder_ == null) {
+          return friendList_.size();
+        } else {
+          return friendListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.TimeCardOfFriend getFriendList(int index) {
+        if (friendListBuilder_ == null) {
+          return friendList_.get(index);
+        } else {
+          return friendListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder setFriendList(
+          int index, com.rwproto.ChargeServiceProto.TimeCardOfFriend value) {
+        if (friendListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFriendListIsMutable();
+          friendList_.set(index, value);
+          onChanged();
+        } else {
+          friendListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder setFriendList(
+          int index, com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder builderForValue) {
+        if (friendListBuilder_ == null) {
+          ensureFriendListIsMutable();
+          friendList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          friendListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder addFriendList(com.rwproto.ChargeServiceProto.TimeCardOfFriend value) {
+        if (friendListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFriendListIsMutable();
+          friendList_.add(value);
+          onChanged();
+        } else {
+          friendListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder addFriendList(
+          int index, com.rwproto.ChargeServiceProto.TimeCardOfFriend value) {
+        if (friendListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFriendListIsMutable();
+          friendList_.add(index, value);
+          onChanged();
+        } else {
+          friendListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder addFriendList(
+          com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder builderForValue) {
+        if (friendListBuilder_ == null) {
+          ensureFriendListIsMutable();
+          friendList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          friendListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder addFriendList(
+          int index, com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder builderForValue) {
+        if (friendListBuilder_ == null) {
+          ensureFriendListIsMutable();
+          friendList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          friendListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder addAllFriendList(
+          java.lang.Iterable<? extends com.rwproto.ChargeServiceProto.TimeCardOfFriend> values) {
+        if (friendListBuilder_ == null) {
+          ensureFriendListIsMutable();
+          super.addAll(values, friendList_);
+          onChanged();
+        } else {
+          friendListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder clearFriendList() {
+        if (friendListBuilder_ == null) {
+          friendList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          friendListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public Builder removeFriendList(int index) {
+        if (friendListBuilder_ == null) {
+          ensureFriendListIsMutable();
+          friendList_.remove(index);
+          onChanged();
+        } else {
+          friendListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder getFriendListBuilder(
+          int index) {
+        return getFriendListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder getFriendListOrBuilder(
+          int index) {
+        if (friendListBuilder_ == null) {
+          return friendList_.get(index);  } else {
+          return friendListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder> 
+           getFriendListOrBuilderList() {
+        if (friendListBuilder_ != null) {
+          return friendListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(friendList_);
+        }
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder addFriendListBuilder() {
+        return getFriendListFieldBuilder().addBuilder(
+            com.rwproto.ChargeServiceProto.TimeCardOfFriend.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder addFriendListBuilder(
+          int index) {
+        return getFriendListFieldBuilder().addBuilder(
+            index, com.rwproto.ChargeServiceProto.TimeCardOfFriend.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .chargeProto.TimeCardOfFriend friendList = 1;</code>
+       *
+       * <pre>
+       *好友列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder> 
+           getFriendListBuilderList() {
+        return getFriendListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.ChargeServiceProto.TimeCardOfFriend, com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder, com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder> 
+          getFriendListFieldBuilder() {
+        if (friendListBuilder_ == null) {
+          friendListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.ChargeServiceProto.TimeCardOfFriend, com.rwproto.ChargeServiceProto.TimeCardOfFriend.Builder, com.rwproto.ChargeServiceProto.TimeCardOfFriendOrBuilder>(
+                  friendList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          friendList_ = null;
+        }
+        return friendListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:chargeProto.AllList)
+    }
+
+    static {
+      defaultInstance = new AllList(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:chargeProto.AllList)
   }
 
   public interface TimeCardOfFriendOrBuilder
@@ -3156,6 +4218,11 @@ public final class ChargeServiceProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_chargeProto_ChargeServiceCommonRspMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_chargeProto_AllList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_chargeProto_AllList_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_chargeProto_TimeCardOfFriend_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -3172,17 +4239,20 @@ public final class ChargeServiceProto {
       "\n\023ChargeService.proto\022\013chargeProto\"\\\n\031Ch" +
       "argeServiceCommonReqMsg\022)\n\007reqType\030\001 \002(\016" +
       "2\030.chargeProto.RequestType\022\024\n\014chargeItem" +
-      "Id\030\002 \002(\t\"\242\001\n\031ChargeServiceCommonRspMsg\022)" +
+      "Id\030\002 \002(\t\"\311\001\n\031ChargeServiceCommonRspMsg\022)" +
       "\n\007reqType\030\001 \002(\0162\030.chargeProto.RequestTyp" +
       "e\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\0227\n\020" +
       "timeCardOfFriend\030\004 \001(\0132\035.chargeProto.Tim" +
-      "eCardOfFriend\"\216\001\n\020TimeCardOfFriend\022\014\n\004na" +
-      "me\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\024\n\014headPortrait\030" +
-      "\003 \002(\t\022\031\n\021headPortraitFrame\030\004 \002(\t\022\025\n\rleft",
-      "DayNumOne\030\005 \002(\005\022\025\n\rleftDayNumTwo\030\006 \002(\005*Q" +
-      "\n\013RequestType\022\n\n\006Charge\020\001\022\025\n\021FirstCharge" +
-      "Reward\020\002\022\016\n\nBuyVipGift\020\003\022\017\n\013CheckFriend\020" +
-      "\004B!\n\013com.rwprotoB\022ChargeServiceProto"
+      "eCardOfFriend\022%\n\007allList\030\005 \001(\0132\024.chargeP" +
+      "roto.AllList\"<\n\007AllList\0221\n\nfriendList\030\001 " +
+      "\003(\0132\035.chargeProto.TimeCardOfFriend\"\216\001\n\020T",
+      "imeCardOfFriend\022\014\n\004name\030\001 \002(\t\022\r\n\005level\030\002" +
+      " \002(\005\022\024\n\014headPortrait\030\003 \002(\t\022\031\n\021headPortra" +
+      "itFrame\030\004 \002(\t\022\025\n\rleftDayNumOne\030\005 \002(\005\022\025\n\r" +
+      "leftDayNumTwo\030\006 \002(\005*Q\n\013RequestType\022\n\n\006Ch" +
+      "arge\020\001\022\025\n\021FirstChargeReward\020\002\022\016\n\nBuyVipG" +
+      "ift\020\003\022\017\n\013CheckFriend\020\004B!\n\013com.rwprotoB\022C" +
+      "hargeServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3200,9 +4270,15 @@ public final class ChargeServiceProto {
           internal_static_chargeProto_ChargeServiceCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_chargeProto_ChargeServiceCommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "TimeCardOfFriend", });
-          internal_static_chargeProto_TimeCardOfFriend_descriptor =
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "TimeCardOfFriend", "AllList", });
+          internal_static_chargeProto_AllList_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_chargeProto_AllList_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_chargeProto_AllList_descriptor,
+              new java.lang.String[] { "FriendList", });
+          internal_static_chargeProto_TimeCardOfFriend_descriptor =
+            getDescriptor().getMessageTypes().get(3);
           internal_static_chargeProto_TimeCardOfFriend_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_chargeProto_TimeCardOfFriend_descriptor,

@@ -21,8 +21,13 @@ message ChargeServiceCommonRspMsg{
 	required bool isSuccess = 2;//是否成功处理
 	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
 	optional TimeCardOfFriend timeCardOfFriend = 4;//好友月卡信息模块
-
+	optional AllList allList = 5;//全部列表
 }
+
+message AllList{
+	repeated TimeCardOfFriend friendList = 1;//好友列表
+}
+
 
 message TimeCardOfFriend{
 	required string name = 1;//名字
