@@ -51,4 +51,8 @@ public class GCompFightingRecordMgr {
 		_dataHolder.leaveLivePage(player, matchId);
 		builder.setRstType(GCResultType.SUCCESS);
 	}
+	
+	public void deleteLastFightRecord(List<Integer> matchList){
+		_dataHolder.deleteLastSessionRecord(matchList);
+	}
 }

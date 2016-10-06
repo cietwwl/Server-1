@@ -22,7 +22,6 @@ public class GroupCompetitionGetDataService implements FsService<CommonGetDataRe
 		case LeaveLivePage:
 			return GroupCompetitionHandler.getInstance().leaveLivePage(player, request);
 		case PlaybackMsg:
-//			return GroupCompetitionHandler.getInstance().getFightRecordLive(player, request);
 			return GroupCompetitionHandler.getInstance().getMatchDetailInfo(player, request);
 		case GetKillRank:
 			return GroupCompetitionHandler.getInstance().getKillRank(player, request);
