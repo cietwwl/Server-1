@@ -271,7 +271,7 @@ public class GMHeroProcesser {
 								break;
 							}
 							int type = gemTypes[i];
-							GMHeroBase.gmInlayJewel(hero, player, type, gemLv, true);
+							GMHeroBase.gmInlayJewel(hero, player, type, gemLv, true, heroLevel);
 						} catch (Exception ex) {
 							continue;
 						}
@@ -353,7 +353,7 @@ public class GMHeroProcesser {
 								break;
 							}
 							int type = gemTypes[i];
-							GMHeroBase.gmInlayJewel(hero, player, type, gemLv, true);
+							GMHeroBase.gmInlayJewel(hero, player, type, gemLv, true, heroLevel);
 						} catch (Exception ex) {
 							continue;
 						}
