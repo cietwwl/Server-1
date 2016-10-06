@@ -29,6 +29,8 @@ public class GCompEventsGlobalData {
 	@IgnoreSynField
 	@JsonProperty("2")
 	private Map<GCEventsType, GCompEventsData> eventsDataMap = new HashMap<GCEventsType, GCompEventsData>();
+	@JsonProperty("3")
+	private List<GCompAgainst> nextMatches = null; // 下次赛事未开始前预先生成的对阵信息，客户端要用
 	
 	private void initMatchesList() {
 		this.matches = new ArrayList<GCompAgainst>();
@@ -67,6 +69,14 @@ public class GCompEventsGlobalData {
 	public void add(GCEventsType eventsType, GCompEventsData eventsData) {
 		this.eventsDataMap.put(eventsType, eventsData);
 		this.initMatchesList();
+	}
+	
+	public void setNextMatches(List<GCompAgainst> list) {
+		this.nextMatches = new ArrayList<GCompAgainst>(list);
+	}
+	
+	public List<GCompAgainst> getNextMatches() {
+		return this.nextMatches;
 	}
 	
 	public GCompEventsData getEventsData(GCEventsType eventsType) {

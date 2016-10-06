@@ -46,6 +46,15 @@ public class GCompEventsDataMgr {
 		globalData.add(eventsType, eventsData);
 		_dataHolder.update();
 	}
+	
+	/**
+	 * 
+	 * @param list
+	 */
+	public void setNextMatches(List<GCompAgainst> list) {
+		GCompEventsGlobalData globalData = _dataHolder.get();
+		globalData.setNextMatches(list);
+	}
 
 	/**
 	 * 

@@ -115,6 +115,7 @@ public class GCompRankMgr {
 	}
 	
 	public GCEventsType getCurrentStage(){
+		if(GroupCompetitionMgr.getInstance().isCurrentEventsEnd()) return null;
 		return GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 

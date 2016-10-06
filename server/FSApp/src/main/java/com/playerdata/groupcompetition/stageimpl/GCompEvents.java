@@ -217,6 +217,13 @@ public class GCompEvents {
 		}
 		eventsData.setWinGroupIds(winGroupIds);
 		eventsData.setLostGroupIds(loseGroupIds);
+		if (_type.getNext() == GCEventsType.FINAL) {
+			int beginPos = GCompUtil.computeBeginIndex(GCEventsType.FINAL); // 计算开始索引
+			List<GCompAgainst> next = new ArrayList<GCompAgainst>();
+			next.add(new GCompAgainst(winGroupIds.get(0), winGroupIds.get(1), GCEventsType.FINAL, beginPos));
+			next.add(new GCompAgainst(loseGroupIds.get(0), loseGroupIds.get(1), GCEventsType.FINAL, beginPos + 1));
+			GCompEventsDataMgr.getInstance().setNextMatches(next);
+		}
 		GCompEventsDataMgr.getInstance().save();
 		this.fireEventsEnd();
 	}
