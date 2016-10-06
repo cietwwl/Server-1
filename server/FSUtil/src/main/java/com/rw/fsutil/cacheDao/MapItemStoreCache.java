@@ -12,10 +12,11 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemConvertor;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.annotation.ClassInfo;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
+import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.MapItemCache;
 import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
@@ -23,6 +24,7 @@ import com.rw.fsutil.dao.common.CommonMultiTable;
 import com.rw.fsutil.dao.mapitem.MapItemEntity;
 import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
+import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
@@ -35,13 +37,14 @@ import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
  * @author Jamaz
  *
  */
-public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<String, String> {
+public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<String, String>, DAOStoreCache<T, MapItemEntity> {
 
-	private final DataCache<String, MapItemStore<T>> cache;
+	private final MapItemCache<String, MapItemStore<T>> cache;
 	private final String searchFieldP;
 	private CommonMultiTable<String, T> commonJdbc;
 	private final Integer type;
 	private final ClassInfo classInfo;
+	private final Class<T> entityClass;
 
 	public MapItemStoreCache(Class<T> entityClazz, String searchFieldP, int itemBagCount) {
 		this(entityClazz, searchFieldP, itemBagCount, "dataSourceMT", false);
@@ -61,11 +64,12 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 
 	private MapItemStoreCache(Class<T> entityClazz, String cacheName, String searchFieldP, int itemBagCount, String datasourceName, boolean writeDirect, Integer type) {
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClazz);
+		this.entityClass = entityClazz;
 		this.searchFieldP = searchFieldP;
 		this.classInfo = new ClassInfo(entityClazz, searchFieldP);
 		this.commonJdbc = new CommonMultiTable<String, T>(datasourceName, classInfo, searchFieldP, type);
 		this.type = type;
-		this.cache = DataCacheFactory.createDataDache(entityClazz, cacheName, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
+		this.cache = DataCacheFactory.createMapItemDache(entityClazz, cacheName, itemBagCount, 60, loader, null, parser != null ? new MapItemConvertor<T>(parser) : null, MapItemChangedListener.class);
 	}
 
 	public MapItemStore<T> getMapItemStore(String userId, Class<T> clazz) {
@@ -79,7 +83,7 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 			return null;
 		}
 	}
-
+	
 	public void notifyPlayerCreate(String userId) {
 		@SuppressWarnings("unchecked")
 		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);
@@ -161,7 +165,7 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 		}
 
 		@Override
-		public boolean hasChanged(String key, MapItemStore<T> value, EvictedUpdateTask<CacheCompositKey<String, String>> evictedUpdateTask) {
+		public boolean hasChanged(String key, MapItemStore<T> value) {
 			return value.hasChanged();
 		}
 
@@ -227,6 +231,11 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 
 	public boolean contains(String searchId) {
 		return this.cache.containsKey(searchId);
+	}
+
+	@Override
+	public Class<T> getEntityClass() {
+		return this.entityClass;
 	}
 
 }

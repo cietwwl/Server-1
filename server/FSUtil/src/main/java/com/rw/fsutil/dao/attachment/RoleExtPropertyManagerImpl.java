@@ -27,13 +27,13 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 	private final String[] deleteArray;
 	private final int tableSize;
 
-	public RoleExtPropertyManagerImpl(String dsName) {
+	public RoleExtPropertyManagerImpl(String dsName, String name) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
 		}
 		this.template = new JdbcTemplate(dataSource);
-		List<String> tableNameList = DataAccessStaticSupport.getTableNameList(template, DataAccessStaticSupport.getAttachmentName());
+		List<String> tableNameList = DataAccessStaticSupport.getTableNameList(template, name);
 		this.tableSize = tableNameList.size();
 		this.selectRangeArray = new String[tableSize];
 		this.updateArray = new String[tableSize];
@@ -45,27 +45,27 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 			String tableName = tableNameList.get(i);
 			this.selectRangeArray[i] = "select id,type,sub_type,extention from " + tableName + " where owner_id=? and type in(";
 			this.updateArray[i] = "update " + tableName + " set extention=? where id=?";
-			this.selectArray[i] = "select id,sub_type,extention from " + tableName + " wehere owner_id=? and type=?";
+			this.selectArray[i] = "select id,sub_type,extention from " + tableName + " where owner_id=? and type=?";
 			this.insertArray[i] = "insert into " + tableName + " (owner_id,type,sub_type,extention) values(?,?,?,?)";
 			this.deleteArray[i] = "delete from " + tableName + " where id=?";
 			this.tableNameArray[i] = tableName;
 		}
 	}
 
-	public long insert(final String ownerId, final NewAttachmentEntry entry) throws DuplicatedKeyException, Exception {
+	public long insert(final String ownerId, final InsertRoleExtPropertyData entry) throws DuplicatedKeyException, Exception {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		final String sql = insertArray[index];
 		return DataAccessFactory.getSimpleSupport().insert(sql, entry);
 	}
 
-	public long[] insert(final String ownerId, final List<? extends NewAttachmentEntry> list) throws Exception {
+	public long[] insert(final String ownerId, final List<? extends InsertRoleExtPropertyData> list) throws Exception {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		final String sql = insertArray[index];
 		final BatchPreparedStatementSetter pss = new BatchPreparedStatementSetter() {
 
 			@Override
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				NewAttachmentEntry entity = list.get(i);
+				InsertRoleExtPropertyData entity = list.get(i);
 				entity.setValues(ps);
 			}
 
@@ -78,7 +78,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 		return DataAccessFactory.getSimpleSupport().batchInsert(sql, pss);
 	}
 
-	public List<QueryAttachmentEntry> loadEntitys(String ownerId, Short type) {
+	public List<QueryRoleExtPropertyData> loadEntitys(String ownerId, Short type) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		return template.query(selectArray[index], new RoleExtPropertySingleMapper(ownerId, type), ownerId, type);
 	}
@@ -88,7 +88,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 		return template.update(this.updateArray[index], extention, id) > 0;
 	}
 
-	public List<QueryAttachmentEntry> loadRangeEntitys(String ownerId, List<Short> typeList) {
+	public List<QueryRoleExtPropertyData> loadRangeEntitys(String ownerId, List<Short> typeList) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		Object[] params = new Object[typeList.size() + 1];
 		params[0] = ownerId;
@@ -129,7 +129,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 	}
 
 	@Override
-	public long[] insertAndDelete(String ownerId, final List<NewAttachmentEntry> list, List<Long> deleteList) throws DataNotExistException, Exception {
+	public long[] insertAndDelete(String ownerId, final List<InsertRoleExtPropertyData> list, List<Long> deleteList) throws DataNotExistException, Exception {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		String insertSql = this.insertArray[index];
 		String deleteSql = this.deleteArray[index];
@@ -137,7 +137,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 
 			@Override
 			public void setValues(PreparedStatement ps, int i) throws SQLException {
-				NewAttachmentEntry entry = list.get(i);
+				InsertRoleExtPropertyData entry = list.get(i);
 				entry.setValues(ps);
 			}
 

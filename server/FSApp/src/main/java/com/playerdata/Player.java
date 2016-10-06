@@ -34,14 +34,13 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.dataaccess.attachment.PlayerExtPropertyFactory;
-import com.rw.dataaccess.attachment.PlayerPropertyParams;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
@@ -59,6 +58,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
+import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
@@ -202,14 +202,17 @@ public class Player implements PlayerIF {
 
 		Player fresh = new Player(userId, false);
 		// 楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
-		fresh.setZoneLoginInfo(zoneLoginInfo2);
-
+		fresh.setZoneLoginInfo(zoneLoginInfo2);		
+		//临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
+		BILogMgr.getInstance().logActivityBegin(fresh, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
+		
 		fresh.initMgr();
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(fresh);
 		return fresh;
 	}
 
+	//
 	private void notifyCreated() {
 		Field[] fields = Player.class.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
@@ -260,6 +263,7 @@ public class Player implements PlayerIF {
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
+		//TODO 标记1
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
@@ -269,13 +273,13 @@ public class Player implements PlayerIF {
 		
 		if (!initMgr) {
 			// MapItemStoreFactory.notifyPlayerCreated(userId);
-			this.getHeroMgr().init(this, false);
+			//TODO 标记2
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
+			//TODO 标记3
 			notifyCreated();
-		} else {
-			m_HeroMgr.init(this, true);
-		}
-		PlayerExtPropertyFactory.preloadAndCreateProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
+		} 
+		//TODO 标记4
+		RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
 
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);

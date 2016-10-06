@@ -6,6 +6,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.type.JavaType;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -42,7 +43,7 @@ public class CommonRowMapper<T> implements RowMapper<T> {
 				if (!combine) {
 					combine = classInfo.isCombineSave(columnName);
 					// 本次循环是combine，则进行处理
-					if (combine) {
+					if (combine && StringUtils.isNotBlank((String) value)) {
 						handleCombineSave(newInstance, columnName, (String) value, classInfo.getCombineSaveFields());
 						continue;
 					}

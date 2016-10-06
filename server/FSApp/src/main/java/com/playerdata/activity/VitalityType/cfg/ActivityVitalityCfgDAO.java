@@ -71,8 +71,9 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		if(cfgById!=null){
 			int day = ActivityVitalityCfgDAO.getInstance().getday(cfgById) ;
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();	
-			String itemId = ActivityVitalityTypeHelper.getItemId(userId, ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
-			item.setId(itemId);
+//			String itemId = ActivityVitalityTypeHelper.getItemId(userId, ActivityVitalityTypeEnum.getById(cfgById.getEnumID()));
+			int id = Integer.parseInt(cfgById.getEnumID());
+			item.setId(id);
 			item.setEnumId(cfgById.getEnumID());
 			item.setCfgId(cfgById.getId());
 			item.setUserId(userId);

@@ -1,6 +1,6 @@
 package com.rw.fsutil.dao.attachment;
 
-public class QueryAttachmentEntry {
+public class QueryRoleExtPropertyData {
 
 	private final long id;
 	private final String ownerId;
@@ -8,7 +8,7 @@ public class QueryAttachmentEntry {
 	private final int subType;
 	private String extension;
 
-	public QueryAttachmentEntry(long id, String ownerId, Short type, Integer subType, String extension) {
+	public QueryRoleExtPropertyData(long id, String ownerId, Short type, Integer subType, String extension) {
 		super();
 		this.id = id;
 		this.ownerId = ownerId;

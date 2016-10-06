@@ -16,6 +16,7 @@ import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
+import com.bm.randomBoss.RandomBossMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
@@ -46,6 +47,7 @@ import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gm.fixequip.GMAddFixEquip;
+import com.rw.service.gm.hero.GMHeroBase;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -133,8 +135,8 @@ public class GMHandler {
 		funcCallBackMap.put("teambringit", "teamBringit");
 		funcCallBackMap.put("teambringitsigle", "teamBringitSigle");
 		funcCallBackMap.put("addhero", "addHero1");
-		// funcCallBackMap.put("setteam1", "setTeam1");
-		// funcCallBackMap.put("setteam2", "setTeam2");
+		 funcCallBackMap.put("setteam1", "setTeam1");
+		 funcCallBackMap.put("setteam2", "setTeam2");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
@@ -218,7 +220,14 @@ public class GMHandler {
 		funcCallBackMap.put("emptybag", "emptyBag");
 
 		funcCallBackMap.put("addequiptorole", "addEquipToRole");
-
+		
+		funcCallBackMap.put("upgradetaoist", "upgradeTaoist");
+		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
+		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
+		funcCallBackMap.put("upgrademagic", "upgradeMagic");
+		
+		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
+		funcCallBackMap.put("callrb", "callRb");
 	}
 
 	public boolean isActive() {
@@ -704,6 +713,58 @@ public class GMHandler {
 		}
 		return false;
 	}
+	
+	public boolean upgradeTaoist(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int upgradelevel = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			GMHeroBase.gmUpgradeTaoist(player, upgradelevel);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean fixEquipLevelUp(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int upgradelevel = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			GMHeroBase.gmFixEquipLevelUp(player, upgradelevel);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean fixEquipStarUp(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int starLevel = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			GMHeroBase.gmFixEquipStarUp(player, starLevel);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean upgradeMagic(String[] arrCommandContents, Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		int upgradeLevel = Integer.parseInt(arrCommandContents[0]);
+		if (player != null) {
+			GMHeroBase.gmUpgradeMagic(player, upgradeLevel);
+			return true;
+		}
+		return false;
+	}
 
 	public boolean recharge(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
@@ -775,6 +836,11 @@ public class GMHandler {
 		int num = Integer.parseInt(arrCommandContents[0]);
 		player.getTowerMgr().addTowerNum(num);
 		;
+		return true;
+	}
+	
+	public boolean callRb(String[] commands, Player player){
+		RandomBossMgr.getInstance().findBossBorn(player, false);
 		return true;
 	}
 

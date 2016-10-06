@@ -52,7 +52,7 @@ public class DateUtils {
 	}
 
 	public static int getCurrentHour() {
-
+		
 		return getCurrent().get(Calendar.HOUR_OF_DAY);
 	}
 
@@ -187,6 +187,7 @@ public class DateUtils {
 	
 	
 	
+	
 	/**
 	 * <pre>
 	 * 是否是一周的同一天，并且开启的小时相同
@@ -237,6 +238,34 @@ public class DateUtils {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeInMillis(time);
 		return calendar;
+	}
+
+	
+	/**
+	 * 计算当前这周的某一天的时间点
+	 * @param dayOfWeek 一周里的某一天，周日为1，以此类推
+	 * @param hour 一天里的某一小时，24小时制
+	 * @param delayNextWeek 当前时间如果超过目标时间是否顺延到下一周
+	 * @return
+	 */
+	public static long getTargetDayOfWeekTimeMils(int dayOfWeek, int hour, boolean delayNextWeek){
+		Calendar calendar = getCurrent();
+		calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		long millis = calendar.getTimeInMillis();
+		if(millis < System.currentTimeMillis() && delayNextWeek){
+			//已经超时，则顺延为计算下一周的时间点
+			Calendar c2 = getCalendar();
+			c2.set(Calendar.WEEK_OF_YEAR, calendar.get(Calendar.WEEK_OF_YEAR) + 1);
+			c2.set(Calendar.DAY_OF_WEEK, dayOfWeek);
+			c2.set(Calendar.HOUR_OF_DAY, hour);
+			c2.set(Calendar.MINUTE, 0);
+			c2.set(Calendar.SECOND, 0);
+			millis = c2.getTimeInMillis();
+		}
+		return millis;
 	}
 
 	/**

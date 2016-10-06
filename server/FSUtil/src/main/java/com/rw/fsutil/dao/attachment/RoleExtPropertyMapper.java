@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.RowMapper;
 
-public class RoleExtPropertyMapper implements RowMapper<QueryAttachmentEntry> {
+public class RoleExtPropertyMapper implements RowMapper<QueryRoleExtPropertyData> {
 
 	private final String ownerId;
 
@@ -14,12 +14,12 @@ public class RoleExtPropertyMapper implements RowMapper<QueryAttachmentEntry> {
 	}
 
 	@Override
-	public QueryAttachmentEntry mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public QueryRoleExtPropertyData mapRow(ResultSet rs, int rowNum) throws SQLException {
 		long id = rs.getLong(1);
 		short type = rs.getShort(2);
 		int subType = rs.getInt(3);
 		String extension = rs.getString(4);
-		return new QueryAttachmentEntry(id, ownerId, type, subType, extension);
+		return new QueryRoleExtPropertyData(id, ownerId, type, subType, extension);
 	}
 
 }

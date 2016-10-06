@@ -25,13 +25,11 @@ import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.optimize.ComputeFunction;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
-import com.rw.fsutil.dao.optimize.DoubleKey;
 import com.rw.fsutil.dao.optimize.EvictedElementTaker;
 import com.rw.fsutil.dao.optimize.FSBoundedQueue;
 import com.rw.fsutil.dao.optimize.FSLRUCache;
 import com.rw.fsutil.dao.optimize.LRUInsertResult;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
-import com.rw.fsutil.dao.optimize.PersistentParamsExtractor;
 import com.rw.fsutil.dao.optimize.TableUpdateCollector;
 import com.rw.fsutil.dao.optimize.ValueConsumer;
 import com.rw.fsutil.util.DateUtils;
@@ -42,25 +40,25 @@ import com.rw.fsutil.util.DateUtils;
  * @author Jamaz
  */
 @SuppressWarnings("rawtypes")
-public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
+public abstract class DataCache<K, V> implements EvictedElementTaker {
 
-	private final FSLRUCache<K, CacheValueEntity<V>> cache;
+	protected final PersistentGenericHandler<K, V, Object> loader;
+	protected final FSLRUCache<K, CacheValueEntity<V>> cache;
+	protected final int updatePeriodMillis;
+	protected final CacheLogger logger;
+	protected String name;
 	private final ConcurrentHashMap<K, ReentrantFutureTask> taskMap; // 任务集合，表示一个以主键互斥的任务
 	private final ConcurrentHashMap<K, Object> recordMap; // 表示正在执行record的对象
 	private final SimpleCache<K, Long> penetrationCache;// 缓存穿透，表示在数据库找不到的任务，缓存一段时间防止缓存穿透
 	private final long penetrationTimeOutMillis;
-	private final PersistentGenericHandler<K, V, Object> loader;
 	private final int capacity;
 	private final int updatePeriod;
-	private final int updatePeriodMillis;
 	private final long timeoutMillis;
 	private final DataNotExistHandler<K, V> dataNotExistHandler;
-	private CacheLogger logger;
-	private String name;
 	private CacheJsonConverter<K, V, Object, DataChangedEvent<?>> jsonConverter;
 	private final ArrayList<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners;
 	private ComputeFunction<CacheValueEntity<V>, V> computeFunction;
-	private ValueConsumer<CacheValueEntity<V>, V, Pair<Boolean, CacheValueEntity<V>>> updateComsumer;
+	private ValueConsumer<CacheValueEntity<V>, V, Pair<V, CacheValueEntity<V>>> updateComsumer;
 	private final FSBoundedQueue<ReentrantFutureTask> evictedQueue;
 
 	public DataCache(CacheKey key, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler,
@@ -111,12 +109,16 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 			}
 		};
 
-		this.updateComsumer = new ValueConsumer<CacheValueEntity<V>, V, Pair<Boolean, CacheValueEntity<V>>>() {
+		this.updateComsumer = new ValueConsumer<CacheValueEntity<V>, V, Pair<V, CacheValueEntity<V>>>() {
 
 			@Override
-			public Pair<Boolean, CacheValueEntity<V>> apply(CacheValueEntity<V> value, V newValue) {
+			public Pair<V, CacheValueEntity<V>> apply(CacheValueEntity<V> value, V newValue) {
+				V old = value.getValue();
+				if (old == newValue) {
+					return Pair.Create(null, value);
+				}
 				value.setValue(newValue);
-				return Pair.Create(Boolean.TRUE, value);
+				return Pair.Create(old, value);
 			}
 		};
 
@@ -178,7 +180,7 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 				FSUtilLogger.error("evicted element directly:" + tableName);
 				return successResult;
 			}
-			if (!loader.hasChanged(eldestKey, value.getValue(), updateTask)) {
+			if (!loader.hasChanged(eldestKey, value.getValue())) {
 				return successResult;
 			}
 			ReentrantFutureTask evictedTask = createEvictedTask(new EvictedTask(eldestKey, value, updateTask));
@@ -195,7 +197,7 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 				return successResult;
 			} else {
 				if (!taskMap.remove(eldestKey, evictedTask)) {
-					FSUtilLogger.info(name + " 被复活元素：" + eldestKey);
+					FSUtilLogger.info(name + " relive element：" + eldestKey);
 				}
 				return new EldestEvictedResultImpl(tableName);
 			}
@@ -232,12 +234,14 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 			Object record = copy(key, value);
 			CacheValueEntity<V> cacheValue = new CacheValueEntity<V>(value, record, loader.getTableName(key));
 			CacheValueEntity<V> oldValue = putIfAbsent(key, cacheValue);
+			// 与put方法有冲突
 			if (oldValue != null) {
 				logger.error("put into cache exist data:" + key + "," + duplicatedKey);
 				// 更新缓存的值
 				oldValue.setValue(value);
 				record(key, value, oldValue, trace);
-				DataCache.this.submitUpdateTask(key);
+				// DataCache.this.submitUpdateTask(key);
+				notifyValueUpdate(key, oldValue, true);
 			} else if (record != null) {
 				DataLoggerRecord event = parse(key, record);
 				if (event != null) {
@@ -408,13 +412,11 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 	/**
 	 * 获取指数据，如果不存在，尝试从数据库中加载该主键对应的数据
 	 * 
-	 * @param key
-	 *            数据的主键
+	 * @param key 数据的主键
 	 * @return 指定的数据
-	 * @throws InterruptedException
-	 *             在加载的过程中可能抛出{@link InterruptedException} ，但此时不能确定数据是否已经加载完成
-	 * @throws Throwable
-	 *             在加载的过程中可能抛出其他的异常，需要自己进行捕捉
+	 * @throws InterruptedException 在加载的过程中可能抛出{@link InterruptedException}
+	 *             ，但此时不能确定数据是否已经加载完成
+	 * @throws Throwable 在加载的过程中可能抛出其他的异常，需要自己进行捕捉
 	 */
 	public V getOrLoadFromDB(K key) throws InterruptedException, Throwable {
 		// 先从缓存中获取，如果存在于缓存，直接返回
@@ -512,24 +514,30 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 	}
 
 	private CacheValueEntity<V> update(final K key, final V value) throws DataDeletedException {
-		Pair<Boolean, CacheValueEntity<V>> result = this.cache.computeIfPresent(key, this.updateComsumer, value);
+		Pair<V, CacheValueEntity<V>> result = this.cache.computeIfPresent(key, this.updateComsumer, value);
 		if (result == null) {
 			return null;
 		}
-		if (!result.getT1()) {
-			logger.error("insert delete data:" + key + "," + value);
-			throw new DataDeletedException();
+		V oldValue = result.getT1();
+		CacheStackTrace trace;
+		boolean replace;
+		if (oldValue != null) {
+			trace = new CacheStackTrace("replace value:" + key);
+			trace.printStackTrace();
+			replace = true;
+		} else {
+			trace = new CacheStackTrace();
+			replace = false;
 		}
 
 		CacheValueEntity<V> old = result.getT2();
 		// 此Json可能是一个中间值
-		CacheStackTrace trace = new CacheStackTrace();
 		record(key, value, old, trace);
-		this.submitUpdateTask(key, trace);
+		notifyValueUpdate(key, old, replace);
 		return old;
 	}
 
-	private void record(K key, V value, CacheValueEntity<V> entity, CacheStackTrace trace) {
+	protected void record(K key, V value, CacheValueEntity<V> entity, CacheStackTrace trace) {
 		try {
 			if (!CacheLoggerSwitch.getInstance().isCacheLogger(name)) {
 				return;
@@ -571,7 +579,6 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 					recordMap.remove(key);
 				}
 			}
-
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -897,7 +904,9 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 			CacheValueEntity<V> entity = cache.remove(key);
 			boolean inCache = entity != null;
 			try {
-				return loader.delete(key);
+				boolean result = loader.delete(key);
+				logger.info("delete task:" + key + ",db=" + result + ",cache=" + inCache);
+				return result;
 			} catch (DataNotExistException e) {
 				logger.error("delete fail:" + key + "," + name + "," + inCache);
 			} catch (Exception e) {
@@ -1029,8 +1038,6 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 					this.runner = Thread.currentThread();
 				}
 				super.run();
-			} catch (Throwable t) {
-				t.printStackTrace();
 			} finally {
 				if (controller) {
 					Future old = DataCache.this.taskMap.remove(task.key);
@@ -1087,7 +1094,7 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 		return name;
 	}
 
-	@Override
+	// @Override
 	public void submitRecordTask(K key) {
 		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
 		if (entity != null) {
@@ -1095,75 +1102,7 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 		}
 	}
 
-	public void submitUpdateList(K key, List<? extends Object> keyList) {
-		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
-		if (entity != null) {
-			TableUpdateCollector collector = DataAccessFactory.getTableUpdateCollector();
-			String tableName = entity.getTableName();
-			for (int i = keyList.size(); --i >= 0;) {
-				DoubleKey dbKey = new DoubleKey<K, Object>(key, keyList.get(i));
-				collector.add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key));
-			}
-			record(key, entity.getValue(), entity, new CacheStackTrace());
-		} else {
-			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
-		}
-	}
-
-	public void submitUpdateTask(K key, Object key2) {
-		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
-		if (entity != null) {
-			String tableName = entity.getTableName();
-			DoubleKey dbKey = new DoubleKey<K, Object>(key, key2);
-			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key));
-			record(key, entity.getValue(), entity, new CacheStackTrace());
-		} else {
-			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
-		}
-	}
-
-	/** 提交更新任务 **/
-	public void submitUpdateTask(K key) {
-		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
-		if (entity != null) {
-			String tableName = entity.getTableName();
-			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
-			record(key, entity.getValue(), entity, new CacheStackTrace());
-		} else {
-			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
-		}
-	}
-
-	/** 提交更新任务 **/
-	public void submitUpdateTask(K key, CacheStackTrace trace) {
-		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
-		if (entity != null) {
-			String tableName = entity.getTableName();
-			if (tableName != null) {
-				DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
-			}
-			record(key, entity.getValue(), entity, trace);
-		} else {
-			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
-		}
-	}
-
-	class SignleParamsExtractor implements PersistentParamsExtractor<K> {
-
-		public SignleParamsExtractor() {
-		}
-
-		@Override
-		public boolean extractParams(K key, List<Object[]> updateList) {
-			CacheValueEntity<V> entity = cache.getWithOutMove(key);
-			if (entity == null) {
-				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + getThreadAndTime());
-				return false;
-			}
-			return loader.extractParams(key, entity.getValue(), updateList);
-		}
-
-	}
+	
 
 	static enum OperationType {
 		INSERT {
@@ -1188,32 +1127,16 @@ public class DataCache<K, V> implements DataUpdater<K>, EvictedElementTaker {
 		public abstract <K, V> DataCache.ReentrantFutureTask create(DataCache<K, V> cache, K key, CacheValueEntity<V> value);
 	}
 
-	class CompositeParamsExtractor implements PersistentParamsExtractor<Object> {
-
-		private final K key;
-
-		public CompositeParamsExtractor(K key) {
-			this.key = key;
-		}
-
-		@Override
-		public boolean extractParams(Object key, List<Object[]> updateList) {
-			CacheValueEntity<V> entity = cache.getWithOutMove(this.key);
-			if (entity == null) {
-				FSUtilLogger.error(name + " 获取更新值失败:" + key + "," + this.key + "," + getThreadAndTime());
-				return false;
-			}
-			return loader.extractParams(key, entity.getValue(), updateList);
-		}
-
-	}
-
 	@Override
 	public Runnable takeTask() {
 		return this.evictedQueue.poll();
 	}
 
-	private String getThreadAndTime() {
+	protected abstract void notifyValueUpdate(K key, CacheValueEntity<V> entity, boolean replace);
+
+	protected abstract boolean hasChanged(K key, V value);
+
+	protected String getThreadAndTime() {
 		return Thread.currentThread().getName() + "," + DateUtils.getHHMMSSFomrateTips();
 	}
 

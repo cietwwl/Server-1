@@ -20,7 +20,7 @@ import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
 public class UserFeatruesBuyPowerTwo implements IUserFeatruesHandler{
 
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem = ActivityRetrieveTypeHelper.getInstance().doBuyPowerEvent(UserFeaturesEnum.buyPowerTwo);
 		return subItem;

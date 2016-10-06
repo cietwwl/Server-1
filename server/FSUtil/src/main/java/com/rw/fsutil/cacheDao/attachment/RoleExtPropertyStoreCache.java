@@ -13,29 +13,32 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
-import com.rw.fsutil.dao.attachment.QueryAttachmentEntry;
-import com.rw.fsutil.dao.cache.DataCache;
+import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
+import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.MapItemCache;
 import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
-import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
-public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements MapItemUpdater<String, Integer> {
+public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryRoleExtPropertyData> {
 
-	private final DataCache<String, PlayerExtPropertyStoreImpl<T>> cache;
+	private final MapItemCache<String, PlayerExtPropertyStoreImpl<T>> cache;
 	private final Short type;
 	private final Class<T> entityClass;
 	private final ObjectMapper mapper;
+	private final RoleExtPropertyManager dataAccessManager;
 
-	public PlayerExtPropertyStoreCache(Class<T> entityClass, String cacheName, int capacity, String datasourceName, short type) {
+	public RoleExtPropertyStoreCache(RoleExtPropertyManager extPropertyManager, Class<T> entityClass, String cacheName, int capacity, String datasourceName, short type) {
 		this.mapper = new ObjectMapper();
 		this.type = type;
 		this.entityClass = entityClass;
-		this.cache = DataCacheFactory.createDataDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
+		this.dataAccessManager = extPropertyManager;
+		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
 	}
 
 	@Override
@@ -53,7 +56,7 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 		cache.submitRecordTask(key);
 	}
 
-	public PlayerExtPropertyStore<T> getAttachmentStore(String userId) throws InterruptedException, Throwable {
+	public PlayerExtPropertyStore<T> getStore(String userId) throws InterruptedException, Throwable {
 		return this.cache.getOrLoadFromDB(userId);
 	}
 
@@ -61,12 +64,16 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 		return this.cache.containsKey(userId);
 	}
 
+	public PlayerExtPropertyStore<T> getStoreFromMemory(String userId) {
+		return this.cache.getFromMemory(userId);
+	}
+
 	public boolean putIfAbsent(final String key, List<PlayerExtPropertyData<T>> datas) {
-		PlayerExtPropertyStoreImpl<T> storeImpl = new PlayerExtPropertyStoreImpl<T>(datas, key, PlayerExtPropertyStoreCache.this, type, mapper);
+		PlayerExtPropertyStoreImpl<T> storeImpl = new PlayerExtPropertyStoreImpl<T>(dataAccessManager, datas, key, RoleExtPropertyStoreCache.this, type, mapper);
 		return cache.preInsertIfAbsent(key, storeImpl);
 	}
 
-	public boolean putIfAbsentByDBString(final String key, final List<QueryAttachmentEntry> datas) {
+	public boolean putIfAbsentByDBString(final String key, final List<QueryRoleExtPropertyData> datas) {
 		return this.cache.preInsertIfAbsent(key, new Callable<PlayerExtPropertyStoreImpl<T>>() {
 
 			@Override
@@ -76,25 +83,25 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 		});
 	}
 
-	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryAttachmentEntry> datas) throws JsonParseException, JsonMappingException, IOException {
+	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, IOException {
 		int size = datas.size();
 		ArrayList<PlayerExtPropertyData<T>> result = new ArrayList<PlayerExtPropertyData<T>>(size);
 		for (int i = 0; i < size; i++) {
-			QueryAttachmentEntry query = datas.get(i);
+			QueryRoleExtPropertyData query = datas.get(i);
 			T entity = mapper.readValue(query.getExtension(), entityClass);
 			if (entity == null) {
 				throw new RuntimeException("parse entity fail:" + entityClass + "," + query.getExtension());
 			}
 			result.add(new PlayerExtPropertyData<T>(query.getId(), entity));
 		}
-		return new PlayerExtPropertyStoreImpl<T>(result, key, PlayerExtPropertyStoreCache.this, type, mapper);
+		return new PlayerExtPropertyStoreImpl<T>(dataAccessManager, result, key, RoleExtPropertyStoreCache.this, type, mapper);
 	}
 
 	private PersistentGenericHandler<String, PlayerExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>> loader = new PersistentGenericHandler<String, PlayerExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>>() {
 
 		@Override
 		public PlayerExtPropertyStoreImpl<T> load(String key) throws DataNotExistException, Exception {
-			List<QueryAttachmentEntry> datas = DataAccessFactory.getRoleAttachmentManager().loadEntitys(key, type);
+			List<QueryRoleExtPropertyData> datas = dataAccessManager.loadEntitys(key, type);
 			return create(key, datas);
 		}
 
@@ -115,25 +122,25 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 
 		@Override
 		public String getTableName(String key) {
-			return DataAccessFactory.getRoleAttachmentManager().getTableName(key);
+			return dataAccessManager.getTableName(key);
 		}
 
 		@Override
 		public Map<String, String> getUpdateSqlMapping() {
-			return DataAccessFactory.getRoleAttachmentManager().getTableSqlMapping();
+			return dataAccessManager.getTableSqlMapping();
 		}
 
 		@Override
 		public boolean extractParams(CacheCompositKey<String, Integer> key, PlayerExtPropertyStoreImpl<T> value, List<Object[]> updateList) {
 			Integer key2 = key.getSecondKey();
-			T item = value.get(key2);
-			if (item == null) {
+			PlayerExtPropertyData<T> data = value.getItem(key2);
+			if (data == null) {
 				return false;
 			}
 			value.removeUpdateFlag(key2);
 			String ext;
 			try {
-				ext = mapper.writeValueAsString(item);
+				ext = mapper.writeValueAsString(data.getAttachment());
 			} catch (Exception e) {
 				// TODO Logger object info
 				e.printStackTrace();
@@ -142,7 +149,7 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 			if (ext == null) {
 				return false;
 			}
-			return updateList.add(new Object[] { ext });
+			return updateList.add(new Object[] { ext, data.getPrimaryKey() });
 		}
 
 		@Override
@@ -150,6 +157,7 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 			HashMap<Integer, PlayerExtPropertyData<T>> dirtyMap = value.getDirtyItems();
 			for (Map.Entry<Integer, PlayerExtPropertyData<T>> entry : dirtyMap.entrySet()) {
 				Integer k = entry.getKey();
+				PlayerExtPropertyData<T> data = entry.getValue();
 				String ext;
 				try {
 					ext = mapper.writeValueAsString(entry.getValue().getAttachment());
@@ -162,13 +170,13 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 					FSUtilLogger.error("extract params is null:" + key + "," + k + "," + cache.getName());
 					continue;
 				}
-				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext });
+				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext, data.getPrimaryKey() });
 			}
 			return true;
 		}
 
 		@Override
-		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value, EvictedUpdateTask<CacheCompositKey<String, Integer>> evictedUpdateTask) {
+		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value) {
 			return value.hasChanged();
 		}
 
@@ -176,6 +184,11 @@ public class PlayerExtPropertyStoreCache<T extends PlayerExtProperty> implements
 
 	public ObjectMapper getMapper() {
 		return mapper;
+	}
+
+	@Override
+	public Class<T> getEntityClass() {
+		return entityClass;
 	}
 
 }

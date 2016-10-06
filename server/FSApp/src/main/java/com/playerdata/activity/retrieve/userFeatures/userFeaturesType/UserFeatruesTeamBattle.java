@@ -27,7 +27,7 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 	public static final int[] idArr = {170101,170201,170301,170401,170501,170601};
 	
 	@Override
-	public RewardBackTodaySubItem doEvent(Player player) {
+	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.teamBattle.getId());
 		subItem.setCount(0);		
@@ -47,6 +47,10 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
+		if(!dao.isOpen(eOpenLevelType.TEAM_BATTLE, player)){
+			todaySubItem.setMaxCount(0);
+			return null;
+		}
 		int tmp = 0;
 		List<TeamCfg> teamList = TeamCfgDAO.getInstance().getAllCfg();
 		int level = player.getLevel();

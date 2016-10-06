@@ -112,7 +112,8 @@ public class DataKVSactter<T> extends PersistentLoader<String, T> {
 	}
 
 	@Override
-	public boolean hasChanged(String key, T value, EvictedUpdateTask<String> evictedUpdateTask) {
+	public boolean hasChanged(String key, T value) {
+		//强制更新
 		return true;
 	}
 }
