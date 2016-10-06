@@ -2,12 +2,19 @@ package com.bm.targetSell.net;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.management.timer.Timer;
 
 import com.bm.targetSell.TargetSellManager;
 import com.log.GameLog;
 import com.rw.fsutil.dao.cache.SimpleCache;
+import com.rw.fsutil.shutdown.IShutdownHandler;
+import com.rw.fsutil.shutdown.ShutdownService;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
@@ -18,10 +25,11 @@ public class BenefitMsgController{
 
 	private static BenefitMsgController controller = new BenefitMsgController();
 	
-	//等待发送的消息容器,如果消费者的效率低于生成效率，此容器会一直增长,后面要进行优化
-	private ConcurrentLinkedQueue<String> msgQueue = new ConcurrentLinkedQueue<String>();
+	
+	private ThreadPoolExecutor excutor;
+	
 
-	private BenefitSystemMsgAdapter msgSender;
+	private BenefitSystemMsgAdapter msgAdapter;
 	
 	private AtomicBoolean shutDown = new AtomicBoolean(false);
 	
@@ -36,49 +44,59 @@ public class BenefitMsgController{
 	}
 	
 	public void init(String removeIp, int port, int timeoutMillis,int priod){
-		msgSender = new BenefitSystemMsgAdapter(removeIp, port, timeoutMillis);
+		
+		excutor = new ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(300));
+		//设置饱和策略,达到上限放弃最旧的
+		excutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
+		
+		msgAdapter = new BenefitSystemMsgAdapter(removeIp, port, timeoutMillis);
 		
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
 		
-		scanQueue();
+		ShutdownService.registerShutdownService(new IShutdownHandler() {
+			
+			@Override
+			public void notifyShutdown() {
+				shutDownNotify();
+			}
+		});
 	}
 
 
-	//启动消息消费者线程
-	private void scanQueue(){
+	
+	private void shutDownNotify(){
+		shutDown.compareAndSet(false, true);
 		
-		new Thread(new Runnable() {
+		if(excutor != null){
+			excutor.shutdown();
+			try {
+				excutor.awaitTermination(30L, TimeUnit.SECONDS);
+			} catch (InterruptedException e) {
+				
+			}finally{
+				//无论最后出现什么异常还是要关闭socket
+				msgAdapter.shutdown();
+			}
+		}
+		
+		
+	}
+
+	
+	
+	public void addMsg(final String content) {
+		
+		excutor.execute(new Runnable() {
 			
 			@Override
 			public void run() {
-				
-				while (!shutDown.get()) {
-					
-					String element = msgQueue.poll();//
-					if(element == null){
-						continue;
-					}
-					if(msgSender.isAvaliable()){
-						msgSender.sendMsg(element);
-					}
+				if(msgAdapter.isAvaliable()){
+					msgAdapter.sendMsg(content);
 				}
-			
 				
 			}
-		}).start();
-	}
-	
-	public void shutDownNotify(){
-		shutDown.compareAndSet(false, true);
-		if(msgSender != null){
-			msgSender.shutdown();
-		}
-	}
-
-	
-	
-	public void addMsg(String content) {
-		msgQueue.add(content);
+		});
+		
 	}
 	
 	
@@ -87,8 +105,6 @@ public class BenefitMsgController{
 	private class HeartBeatTask implements IGameTimerTask{
 
 		private int interval;
-		
-		
 		
 		public HeartBeatTask(int interval) {
 			this.interval = interval;
@@ -105,23 +121,18 @@ public class BenefitMsgController{
 			if(shutDown.get()){
 				return null;
 			}
-			int size = msgQueue.size();
-			GameLog.info("TargetSell", "watch task", "current wait for sending msg count:" + size);
 			FSGameTimerMgr.getInstance().submitSecondTask(this, interval);
-			if(!msgSender.isAvaliable()){
+			if(!msgAdapter.isAvaliable()){
 				//还没有连接成功，这个时候进行重新连接
-				msgSender.connect();
-				return null;
-			}
-			if(msgQueue.isEmpty()){
-				String heartBeatData = TargetSellManager.getInstance().getHeartBeatMsgData();
-				//发送心跳消息
-				msgSender.sendMsg(heartBeatData);
+				msgAdapter.connect();
 				return null;
 			}
 			
-			
+			String heartBeatData = TargetSellManager.getInstance().getHeartBeatMsgData();
+			//发送心跳消息
+			msgAdapter.sendMsg(heartBeatData);
 			return null;
+			
 		}
 
 		@Override

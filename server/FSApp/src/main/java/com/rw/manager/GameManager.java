@@ -294,8 +294,7 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-		//通知精准营销停服
-		BenefitMsgController.getInstance().shutDownNotify();
+		
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);

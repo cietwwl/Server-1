@@ -38,7 +38,7 @@ public class MagicEquipConditionCfg {
 	
 	private int recordOldData;//是否保存旧记录，如神器降星和法宝分解，0=不保留，1=保留
 	
-	private String heroModelID;//神器对应的的英雄id
+	private int heroModelID;//神器对应的的英雄id
 	
 	private String fettersName;
 	
@@ -127,7 +127,7 @@ public class MagicEquipConditionCfg {
 
 
 
-	public String getHeroModelID() {
+	public int getHeroModelID() {
 		return heroModelID;
 	}
 
