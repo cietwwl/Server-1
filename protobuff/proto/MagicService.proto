@@ -4,10 +4,11 @@ option java_outer_classname = "MagicServiceProtos";
 
 enum eMagicType {
 	Magic_TAKE = 0;//Magic 装备
-	Magic_FORGE = 1; // 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
-	Magic_SMELT = 2; // 熔炼
+	Magic_FORGE = 1;// 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
+	Magic_SMELT = 2;//熔炼
 	Magic_Upgrade = 3;//法宝进阶，指定法宝id即可，进阶失败通过resultTip返回失败原因
 	Magic_Random = 4;//获取强化的随机参数，不需要其他参数，返回criticalRamdom
+	Magic_Inherit = 5;//法宝继承
 }
 
 enum eMagicResultType {
@@ -21,12 +22,27 @@ message MagicItemData{
 	optional int32 CriticalForgeType = 3;//暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
 }
 
+//发送穿戴装备的消息--->eMagicType,id
+//发送强化的消息--->eMagicType,id,state,magicItemData
+//发送法宝进阶的消息--->eMagicType,id
+
+//===========================================新增加的消息-START
+//发送熔炼法宝的消息--->eMagicType,id
+
+//发送继承法宝的消息--->eMagicType,inheritReqMsg
+message MagicInheritReqMsg{
+	required string id = 1;//被继承的装备Id
+	required string toId = 2;//请求继承的装备Id
+}
+//===========================================新增加的消息-END
+
 message MsgMagicRequest{
     required eMagicType MagicType = 1;
     optional string id = 2;//法宝ID
     optional int32 state = 3;//法宝状态，是否装备中
 	repeated MagicItemData magicItemData = 4;//材料
 	optional bool autoForge = 5;//是否自动强化
+	optional MagicInheritReqMsg inheritReqMsg = 6;//继承的消息
 }
 
 message MsgMagicResponse{
