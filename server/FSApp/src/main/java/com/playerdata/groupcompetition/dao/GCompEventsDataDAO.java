@@ -1,8 +1,6 @@
 package com.playerdata.groupcompetition.dao;
 
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
-import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
-import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
@@ -15,15 +13,19 @@ public class GCompEventsDataDAO {
 		return _instance;
 	}
 	
-	private final GCompEventsGlobalData _currentGlobalData = new GCompEventsGlobalData();
+	private GCompEventsGlobalData _currentGlobalData;
+	
+	public void loadEventsGlobalData() {
+		String attr = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_CURRENT);
+		if (attr != null && (attr = attr.trim()).length() > 0) {
+			_currentGlobalData = JsonUtil.readValue(attr, GCompEventsGlobalData.class);
+		} else {
+			_currentGlobalData = new GCompEventsGlobalData();
+		}
+	}
 	
 	public GCompEventsGlobalData getCurrentGlobalData() {
 		return _currentGlobalData;
-	}
-	
-	public void add(GCEventsType eventsType, GCompEventsData eventsData) {
-		this._currentGlobalData.add(eventsType, eventsData);
-		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_CURRENT, JsonUtil.writeValue(_currentGlobalData));
 	}
 	
 	public void update() {

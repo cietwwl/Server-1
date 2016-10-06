@@ -52,6 +52,18 @@ public class GCompDetailInfoHolder {
 		_dao.addDetailInfo(detailInfo);
 	}
 	
+	void update() {
+		_dao.update();
+	}
+	
+	void reset() {
+		_dao.reset();
+	}
+	
+	void loadData() {
+		_dao.loadDetailInfo();
+	}
+	
 	public GCompDetailInfo get(int matchId) {
 		return _dao.getDetailInfo(matchId);
 	}

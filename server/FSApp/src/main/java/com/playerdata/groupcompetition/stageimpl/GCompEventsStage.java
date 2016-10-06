@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
@@ -53,9 +52,10 @@ public class GCompEventsStage implements IGCompStage {
 		_stageCfgId = cfg.getCfgId();
 	}
 	
-	private void beforeEventsStart(GCEventsType eventsType, List<String> groupIds) {
-		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
-	}
+//	private void beforeEventsStart(GCEventsType eventsType, List<String> groupIds) {
+//		GroupCompetitionMgr.getInstance().updateCurrenEventstData(eventsType, groupIds);
+//		GCompDetailInfoMgr.getInstance().onEventsStageStart();
+//	}
 	
 	private void scheduleEventsStatusSwitchTask() {
 		// 提交赛事控制任务
@@ -71,22 +71,31 @@ public class GCompEventsStage implements IGCompStage {
 		GCompCommonTask.scheduleCommonTask(_eventStatusSwitcher, this, endTimeMillis); // 结束的时效任务，等待回调
 	}
 	
-	private void startEvents(GCEventsType eventsType, List<String> groupIds, List<String> loseGroupIds) {
-		// 切换到某个赛事类型
-		List<IReadOnlyPair<Integer, Integer>> againstInfo;
-		if(this._currentEventsType == null) {
-			// 初赛
-			againstInfo = GroupCompetitionAgainstCfgDAO.getInstance().getCfgById(String.valueOf(eventsType.sign)).getAgainstInfoList();
-		} else {
-			againstInfo = Collections.emptyList();
-		}
-		if(eventsType == GCEventsType.FINAL) {	
-			groupIds = new ArrayList<String>(groupIds);
-			groupIds.addAll(loseGroupIds);
-		}
-		beforeEventsStart(eventsType, groupIds);
+	private void startEvents(GCEventsType eventsType, List<String> groupIds, List<String> loseGroupIds, boolean old) {
+		
 		_currentEventsType = eventsType;
-		_events = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo).build();
+		GCompEvents.Builder builder;
+		if (old) {
+			builder = new GCompEvents.Builder();
+			builder.setOld(true);
+			builder.setEventsType(eventsType);
+		} else {
+			// 切换到某个赛事类型
+			List<IReadOnlyPair<Integer, Integer>> againstInfo;
+			if (this._currentEventsType == null) {
+				// 初赛
+				againstInfo = GroupCompetitionAgainstCfgDAO.getInstance().getCfgById(String.valueOf(eventsType.sign)).getAgainstInfoList();
+			} else {
+				againstInfo = Collections.emptyList();
+			}
+			if (eventsType == GCEventsType.FINAL) {
+				groupIds = new ArrayList<String>(groupIds);
+				groupIds.addAll(loseGroupIds);
+			}
+			builder = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo);
+			builder.setFirstOfThisSession(true);
+		}
+		_events = builder.build();
 		_events.start();
 		scheduleEventsStatusSwitchTask(); // 具体赛事的状态切换任务
 	}
@@ -200,11 +209,15 @@ public class GCompEventsStage implements IGCompStage {
 		List<String> topCountGroups;
 		GCEventsType startType;
 		List<String> loseGroupIds;
+		boolean old = false;
 		if (startPara != null && startPara instanceof GCompEventsStartPara) {
 			GCompEventsStartPara eventsPara = (GCompEventsStartPara) startPara;
 			startType = eventsPara.getEventsType();
 			topCountGroups = eventsPara.getWinGroupIds();
 			loseGroupIds = eventsPara.getLoseGroupIds();
+			if (GCompEventsDataMgr.getInstance().getEventsData(startType) != null) {
+				old = true;
+			}
 		} else {
 			topCountGroups = GCompHistoryDataMgr.getInstance().getSelectedGroupIds();
 			loseGroupIds = Collections.emptyList();
@@ -215,7 +228,7 @@ public class GCompEventsStage implements IGCompStage {
 			}
 			fireStageStartEvent(startType);
 		}
-		this.startEvents(startType, topCountGroups, loseGroupIds); // 切换到具体赛事类型
+		this.startEvents(startType, topCountGroups, loseGroupIds, old); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsStage());
 	}
@@ -252,7 +265,7 @@ public class GCompEventsStage implements IGCompStage {
 		
 		@Override
 		public void accept(GCompEventsStageContext context) {
-			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds());
+			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds(), false);
 		}
 		
 	}

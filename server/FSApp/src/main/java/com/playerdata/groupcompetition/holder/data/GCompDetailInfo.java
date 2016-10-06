@@ -3,6 +3,8 @@ package com.playerdata.groupcompetition.holder.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.bm.group.GroupBM;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.group.pojo.Group;
@@ -16,6 +18,7 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
  *
  */
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class GCompDetailInfo {
 
 	private int matchId;
