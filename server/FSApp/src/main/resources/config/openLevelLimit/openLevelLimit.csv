@@ -18,7 +18,7 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 18,,18,1,100,,,,
 19,,19,1,100,,,,
 20,,20,16,100,,,MSG_DAILY_ACTIVITY,
-21,,21,14,100,,110404,MSG_ARENA,
+21,,21,14,100,,110402,MSG_ARENA,
 22,,22,1,100,,,MSG_SIGN,
 23,,23,18,100,,110410,MSG_MAGIC_SECRET,Magic_Secret
 24,,24,14,100,,,MSG_Worship,WORSHIP
@@ -53,8 +53,9 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 53,,53,22,100,,110506,MSG_FIX_EQUIP,Open_main_view
 54,,54,35,100,,,MSG_FIX_EQUIP,Norm_star_up
 55,,55,20,100,,,,
-56,,56,20,100,,110502,MSG_TEAM_BATTLE,
+56,,56,20,100,,110410,MSG_TEAM_BATTLE,
 57,,57,22,100,,,MSG_FIX_EQUIP,Exp_star_up
 58,,58,22,100,,,MSG_FIX_EQUIP,Exp_star_up
 59,,59,1,100,,,,
 60,,60,19,100,,,,
+61,,61,19,100,,,,
