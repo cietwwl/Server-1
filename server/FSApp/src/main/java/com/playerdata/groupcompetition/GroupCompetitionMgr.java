@@ -455,6 +455,12 @@ public class GroupCompetitionMgr {
 		return this._dataHolder.get().getLastHeldTimeMillis();
 	}
 	
+	/**
+	 * 
+	 * 获取本次海选的结束时间
+	 * 
+	 * @return
+	 */
 	public long getEndTimeOfSelection() {
 		return this._dataHolder.get().getEndTimeOfSelection();
 	}
@@ -503,6 +509,20 @@ public class GroupCompetitionMgr {
 			return eventsData.getCurrentStatus();
 		}
 		return GCompEventsStatus.NONE;
+	}
+	
+	/**
+	 * 
+	 * 判断当前的比赛是否已经结束
+	 * 
+	 * @return
+	 */
+	public boolean isCurrentEventsEnd() {
+		GCompEventsRecord eventsData = this._dataHolder.get().getCurrentEventsRecord();
+		if(eventsData != null) {
+			return eventsData.isCurrentTypeFinished();
+		}
+		return false;
 	}
 	
 	/**

@@ -354,6 +354,14 @@ public class GroupCompetitionHandler {
 		return builder.build().toByteString();
 	}
 	
+	/**
+	 * 
+	 * 获取赛事的详细信息
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
 	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getLivePara().getMatchId(), request.getLivePara().getLatestTime());

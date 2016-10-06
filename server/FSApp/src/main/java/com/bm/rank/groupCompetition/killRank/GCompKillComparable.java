@@ -26,10 +26,10 @@ public class GCompKillComparable implements Comparable<GCompKillComparable> {
 			return -1;
 		}
 		if(lastRecordTime > o.lastRecordTime){
-			return 1;
+			return -1;
 		}
 		if(lastRecordTime < o.lastRecordTime){
-			return -1;
+			return 1;
 		}
 		return 0;
 	}
