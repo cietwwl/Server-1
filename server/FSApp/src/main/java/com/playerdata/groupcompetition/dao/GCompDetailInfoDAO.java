@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com.playerdata.groupcompetition.holder.data.GCompDetailInfo;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
@@ -35,6 +36,7 @@ public class GCompDetailInfoDAO {
 				String key = keyItr.next();
 				GCompDetailInfo detailInfo = (GCompDetailInfo)map.get(key);
 				_dataMap.put(Integer.parseInt(key), detailInfo);
+				GCompUtil.log("从数据库加载：{}，{}", key, detailInfo);
 			}
 		}
 	}

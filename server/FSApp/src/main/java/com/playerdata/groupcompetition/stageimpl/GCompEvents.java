@@ -37,7 +37,7 @@ import com.rw.fsutil.common.Pair;
 public class GCompEvents {
 
 	private GCEventsType _type; // 赛事类型
-	private boolean _firstOfThisSession; // 是否本届第一个类型的比赛
+//	private boolean _firstOfThisSession; // 是否本届第一个类型的比赛
 	
 	/**
 	 * 
@@ -102,13 +102,7 @@ public class GCompEvents {
 	// 通知赛事开始
 	private void fireEventsStart() {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
-		if(_firstOfThisSession) {
-			GroupCompetitionMgr.getInstance().updateCurrenEventstData(_type, eventsData.getRelativeGroupIds());
-			GCompDetailInfoMgr.getInstance().onEventsStageStart();
-		}
-		if (!_firstOfThisSession && _type.getPre() != null) {
-			GCompRankMgr.getInstance().stageEnd(_type.getPre());
-		}
+		GroupCompetitionMgr.getInstance().updateCurrenEventstData(_type, eventsData.getRelativeGroupIds());
 		GCompDetailInfoMgr.getInstance().onEventsAgainstAssign(eventsData.getAgainsts());
 		GCompFightingRecordMgr.getInstance().initRecordList(eventsData.getAgainsts());
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
@@ -127,6 +121,7 @@ public class GCompEvents {
 		for (GCompAgainst against : againsts) {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
+		GCompRankMgr.getInstance().stageEnd(_type);
 		GroupCompetitionMgr.getInstance().notifyEventsEnd(_type, againsts);
 		GCompOnlineMemberMgr.getInstance().onEventsEnd(_type, againsts);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
@@ -263,7 +258,7 @@ public class GCompEvents {
 		private GCEventsType _status; // 赛事的状态
 		private List<IReadOnlyPair<Integer, Integer>> _againstsInfo; // 对阵信息
 		private boolean _old = false;
-		private boolean _firstOfThisSession = false;
+//		private boolean _firstOfThisSession = false;
 		
 		public Builder() {
 			
@@ -306,14 +301,14 @@ public class GCompEvents {
 			return this;
 		}
 		
-		public Builder setFirstOfThisSession(boolean value) {
-			this._firstOfThisSession = value;
-			return this;
-		}
+//		public Builder setFirstOfThisSession(boolean value) {
+//			this._firstOfThisSession = value;
+//			return this;
+//		}
 		
 		public GCompEvents build() {
 			GCompEvents events = new GCompEvents();
-			events._firstOfThisSession = this._firstOfThisSession;
+//			events._firstOfThisSession = this._firstOfThisSession;
 			events.initEventsData(_groupIds, _againstsInfo, _status, _old);
 			return events;
 		}

@@ -34,6 +34,7 @@ public class GCompEventsGlobalData {
 		this.matches = new ArrayList<GCompAgainst>();
 		for (Iterator<GCEventsType> itr = eventsDataMap.keySet().iterator(); itr.hasNext();) {
 			matches.addAll(eventsDataMap.get(itr.next()).getAgainsts());
+			matchesRO = Collections.unmodifiableList(matches);
 		}
 	}
 	
