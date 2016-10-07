@@ -17,17 +17,13 @@ public class ActivityExchangeCreator implements PlayerExtPropertyCreator<Activit
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityExchangeTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+	
 
 	@Override
 	public List<ActivityExchangeTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityExchangeTypeMgr.getInstance().createItems(params.getUserId(), null);
+		return ActivityExchangeTypeMgr.getInstance().createItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,6 +32,12 @@ public class ActivityExchangeCreator implements PlayerExtPropertyCreator<Activit
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityExchangeTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

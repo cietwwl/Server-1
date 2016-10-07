@@ -3,7 +3,6 @@ package com.rw.fsutil.cacheDao.attachment;
 import javax.persistence.Id;
 
 import com.rw.fsutil.cacheDao.mapItem.RowMapItem;
-import com.rw.fsutil.dao.annotation.OwnerId;
 
 /**
  * <pre>

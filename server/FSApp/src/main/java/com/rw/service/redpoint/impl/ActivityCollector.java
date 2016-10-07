@@ -25,6 +25,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
@@ -106,26 +107,12 @@ public class ActivityCollector implements RedPointCollector {
 		}
 
 		// ------------------------------
-		ActivityDailyTypeItemHolder dailyDataHolder = ActivityDailyTypeItemHolder.getInstance();
-		ActivityDailyTypeItem dailyTargetItem = dailyDataHolder.getItem(player.getUserId());
-		if (dailyTargetItem != null) {
-			ActivityDailyTypeCfgDAO dailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
-			ActivityDailyTypeCfg activityDailyTypeCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(dailyTargetItem.getCfgid());
-			if (activityDailyTypeCfg != null && dailyTypeCfgDAO.isOpen(activityDailyTypeCfg)) {
-				if (!dailyTargetItem.isTouchRedPoint()) {
-					activityList.add(activityDailyTypeCfg.getId());
-				} else {
-					ActivityDailyTypeSubCfgDAO subCfgDAO = ActivityDailyTypeSubCfgDAO.getInstance();
-					for (ActivityDailyTypeSubItem subitem : dailyTargetItem.getSubItemList()) {
-						ActivityDailyTypeSubCfg subItemCfg = subCfgDAO.getById(subitem.getCfgId());
-						if (subitem.getCount() >= subItemCfg.getCount() && !subitem.isTaken()) {
-							activityList.add(activityDailyTypeCfg.getId());
-							break;
-						}
-					}
-				}
-			}
-		}
+		
+		
+		List<String> dailyCountList = ActivityDailyTypeMgr.getInstance().haveRedPoint(player);
+		activityList.addAll(dailyCountList);
+		
+		
 		// ------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();
 		List<ActivityRateTypeCfg> rateAllCfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
@@ -185,49 +172,11 @@ public class ActivityCollector implements RedPointCollector {
 		}
 
 		// ------------------------------
-		ActivityVitalityItemHolder vitalityDataHolder = ActivityVitalityItemHolder.getInstance();
-		List<ActivityVitalityTypeItem> vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
-		ActivityVitalitySubCfgDAO subCfgDAO = ActivityVitalitySubCfgDAO.getInstance();
-		ActivityVitalityCfgDAO vitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
-		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
-		for (ActivityVitalityTypeItem activityVitalityTypeItem : vitalityItemList) {// 每种活动
-			if (!activityVitalityTypeMgr.isHasCfg(activityVitalityTypeItem)) {
-				continue;
-			}
-			if (!activityVitalityTypeItem.isTouchRedPoint()) {
-				activityList.add(activityVitalityTypeItem.getCfgId());
-				continue;
-			}
+		
 
-			List<ActivityVitalityTypeSubItem> vitalitySubItemList = activityVitalityTypeItem.getSubItemList();
-			for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
-				ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
-				if (subItemCfg == null) {
-					continue;
-				}
-				if (subItem.getCount() >= subItemCfg.getCount() && !subItem.isTaken()) {
-					activityList.add(activityVitalityTypeItem.getCfgId());
-					break;
-				}
-			}
-			ActivityVitalityCfg cfg = vitalityCfgDAO.getCfgById(activityVitalityTypeItem.getCfgId());
-			List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
-			for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
-				ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
-				if (cfg.isCanGetReward()) {
-					break;
-				}
-				if (subItemCfg == null) {
-					continue;
-				}
-				if (subItem.getCount() >= subItemCfg.getActiveCount() && !subItem.isTaken()) {
-					activityList.add(activityVitalityTypeItem.getCfgId());
-					break;
-				}
-			}
-
-		}
-
+		List<String> vitalityList = ActivityVitalityTypeMgr.getInstance().haveRedPoint(player);
+		activityList.addAll(vitalityList);
+		
 		// ------------------------------
 		// 检查可召唤佣兵
 		ActivityExchangeTypeItemHolder exchangeDataHolder = ActivityExchangeTypeItemHolder.getInstance();
@@ -289,42 +238,25 @@ public class ActivityCollector implements RedPointCollector {
 			}
 		}
 		// ----------------------------------
-		ActivityRankTypeItemHolder rankHolder = ActivityRankTypeItemHolder.getInstance();
-		List<ActivityRankTypeItem> rankItemList = rankHolder.getItemList(player.getUserId());
-		ActivityRankTypeCfgDAO rankTypeCfgDAO = ActivityRankTypeCfgDAO.getInstance();
-		ActivityRankTypeMgr activityRankTypeMgr = ActivityRankTypeMgr.getInstance();
-		for (ActivityRankTypeItem rankItem : rankItemList) {
-			ActivityRankTypeCfg cfg = rankTypeCfgDAO.getCfgById(rankItem.getCfgId());
-			if (cfg == null) {
-				continue;
-			}
-			if (!activityRankTypeMgr.isOpen(cfg)) {
-				continue;
-			}
-			if (!rankItem.isTouchRedPoint()) {
-				activityList.add(rankItem.getCfgId());
-				continue;
-			}
-		}
-		// ----------------------------------
-		ActivityRedEnvelopeItemHolder redEnvelopeHolder = ActivityRedEnvelopeItemHolder.getInstance();
-		ActivityRedEnvelopeTypeMgr redEnvelopeTypeMgr = ActivityRedEnvelopeTypeMgr.getInstance();
-		List<ActivityRedEnvelopeTypeItem> redenvolopeItemList = redEnvelopeHolder.getItemList(player.getUserId());
-		ActivityRedEnvelopeTypeCfgDAO activityRedEnvelopeTypeCfgDAO = ActivityRedEnvelopeTypeCfgDAO.getInstance();
 		
-		for (ActivityRedEnvelopeTypeItem redEnvelopeItem : redenvolopeItemList) {
-			ActivityRedEnvelopeTypeCfg cfg = activityRedEnvelopeTypeCfgDAO.getCfgById(redEnvelopeItem.getCfgId());
-			if (cfg == null) {
-				continue;
-			}
-			if (!redEnvelopeTypeMgr.isOpen(cfg) && !redEnvelopeTypeMgr.isCanTakeGift(redEnvelopeItem)) {
-				continue;
-			}
-			if (!redEnvelopeItem.isTouchRedPoint()) {
-				activityList.add(redEnvelopeItem.getCfgId());
-				continue;
-			}
-		}
+		
+		List<String> ranklist = ActivityRankTypeMgr.getInstance().haveRedPoint(player);
+		activityList.addAll(ranklist);
+		
+		
+		
+		// ----------------------------------
+		
+		
+		List<String> redEnvelopeList = ActivityRedEnvelopeTypeMgr.getInstance().haveRedPoint(player);
+		activityList.addAll(redEnvelopeList);
+		
+		
+		
+		
+		
+		
+		
 		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(dailyChargeList);
 

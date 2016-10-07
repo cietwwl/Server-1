@@ -10,6 +10,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
@@ -19,7 +20,7 @@ public class ActivityRateTypeItem implements RoleExtProperty {
 
 	@Id
 	private Integer id;
-
+	@OwnerId
 	private String userId;// 对应的角色Id
 
 	@CombineSave
@@ -119,6 +120,7 @@ public class ActivityRateTypeItem implements RoleExtProperty {
 		this.version = activityRateTypeCfg.getVersion();
 		isTouchRedPoint = false;
 		cfgId = activityRateTypeCfg.getId();
+		this.closed = false;
 	}
 
 }

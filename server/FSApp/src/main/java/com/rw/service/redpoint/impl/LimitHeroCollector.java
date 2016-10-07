@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.playerdata.Player;
+import com.playerdata.activity.limitHeroType.ActivityLimitHeroEnum;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO;
@@ -23,13 +26,24 @@ public class LimitHeroCollector implements RedPointCollector {
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
 		ActivityLimitHeroTypeItemHolder limitHeroHolder = ActivityLimitHeroTypeItemHolder.getInstance();
-		List<ActivityLimitHeroTypeItem> limitHeroItemList = limitHeroHolder.getItemList(player.getUserId());
-		for (ActivityLimitHeroTypeItem item : limitHeroItemList) {
-			ActivityLimitHeroCfg cfg = ActivityLimitHeroCfgDAO.getInstance().getCfgById(item.getCfgId());
-			if (cfg == null) {
+		List<ActivityLimitHeroTypeItem> limitHeroItemList = null;
+		List<ActivityLimitHeroCfg> cfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
+		for(ActivityLimitHeroCfg cfg: cfgList){
+			if(!ActivityLimitHeroTypeMgr.getInstance().isOpen(cfg)){
 				continue;
 			}
-			if (!ActivityLimitHeroTypeMgr.getInstance().isOpen(cfg)) {
+			if(limitHeroItemList == null){
+				limitHeroItemList = limitHeroHolder.getItemList(player.getUserId());
+			}
+			
+			ActivityLimitHeroTypeItem item = null;
+			for(ActivityLimitHeroTypeItem temp : limitHeroItemList){
+				if(StringUtils.equals(temp.getId()+"", ActivityLimitHeroEnum.LimitHero.getCfgId())){
+					item = temp;
+					break;
+				}
+			}
+			if(item == null ){
 				continue;
 			}
 			if (!item.isTouchRedPoint()) {

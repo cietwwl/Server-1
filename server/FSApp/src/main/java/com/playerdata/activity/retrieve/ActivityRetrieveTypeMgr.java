@@ -85,17 +85,9 @@ public class ActivityRetrieveTypeMgr {
 //		}
 	}
 
-	public List<RewardBackItem> creatItems(String userId,PlayerExtPropertyStore<RewardBackItem> itemStore){		
+	public List<RewardBackItem> creatItems(String userId,boolean isHasPlayer){		
 		List<RewardBackItem> addItemList = null;		
-//		String itemId = ActivityRetrieveTypeHelper.getItemId(userId, ActivityRetrieveTypeEnum.retrieve);
 		int id = ActivityRetrieveTypeEnum.retrieve.getId();
-//		if(itemStore == null){
-//			return addItemList;
-//		}
-//		if(itemStore.get(id) != null){
-//			return addItemList;
-//		}
-//		Player player = PlayerMgr.getInstance().find(userId);
 		RewardBackItem item = new RewardBackItem();
 		item.setId(id);
 		item.setUserId(userId);

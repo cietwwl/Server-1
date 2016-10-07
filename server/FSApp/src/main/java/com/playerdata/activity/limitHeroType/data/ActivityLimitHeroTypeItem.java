@@ -12,13 +12,14 @@ import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_limitherotype_item")
 public class ActivityLimitHeroTypeItem implements  RoleExtProperty{
 	@Id
 	private Integer id ;
-	
+	@OwnerId
 	private String userId;
 	
 	@CombineSave

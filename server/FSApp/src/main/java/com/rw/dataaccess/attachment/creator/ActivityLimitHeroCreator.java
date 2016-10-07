@@ -19,17 +19,13 @@ public class ActivityLimitHeroCreator implements PlayerExtPropertyCreator<Activi
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityLimitHeroTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+
 
 	@Override
 	public List<ActivityLimitHeroTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
-		return ActivityLimitHeroTypeMgr.getInstance().creatItems(params.getUserId(), store);
+		return ActivityLimitHeroTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -38,6 +34,12 @@ public class ActivityLimitHeroCreator implements PlayerExtPropertyCreator<Activi
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityLimitHeroTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

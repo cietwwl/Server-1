@@ -18,17 +18,13 @@ public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<Activi
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityDailyTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+	
 
 	@Override
 	public List<ActivityDailyTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityDailyTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityDailyTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -37,6 +33,12 @@ public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<Activi
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityDailyTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

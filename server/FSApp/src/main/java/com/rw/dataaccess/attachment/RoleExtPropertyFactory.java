@@ -128,7 +128,7 @@ public class RoleExtPropertyFactory {
 			FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>> tuple = playerExtCreators[i];
 			RoleExtPropertyCreator<RoleExtProperty, Object> creator = tuple.secondValue;
 			// TODO 检查openLv
-			if (!creator.requiredToPreload(currentTimeMillis)) {
+			if (!creator.requiredToPreload(param)) {
 				continue;
 			}
 			if (tuple.thirdValue.contains(roleId)) {

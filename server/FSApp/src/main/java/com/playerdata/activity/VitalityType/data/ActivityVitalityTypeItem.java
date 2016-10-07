@@ -14,6 +14,7 @@ import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
@@ -23,7 +24,7 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 
 	@Id
 	private int id;
-	
+	@OwnerId
 	private String userId;// 对应的角色Id
 
 	@CombineSave
