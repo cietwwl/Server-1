@@ -70,7 +70,9 @@ public class BenefitMsgController{
 	
 	public void shutDownNotify(){
 		shutDown.compareAndSet(false, true);
-		msgSender.shutdown();
+		if (msgSender != null) {
+			msgSender.shutdown();
+		}
 	}
 
 	

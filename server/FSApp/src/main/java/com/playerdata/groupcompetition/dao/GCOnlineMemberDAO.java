@@ -44,7 +44,7 @@ public class GCOnlineMemberDAO {
 		members.add(member);
 	}
 	
-	public GCompOnlineMember removeOnlineMember(String groupId, String userId) {
+	public GCompOnlineMember removeOnlineMember(String userId, String groupId) {
 		List<GCompOnlineMember> members = _dataMap.get(groupId);
 		if (members != null) {
 			synchronized (members) {

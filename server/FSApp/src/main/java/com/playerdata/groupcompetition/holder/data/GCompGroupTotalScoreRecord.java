@@ -1,10 +1,16 @@
 package com.playerdata.groupcompetition.holder.data;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 public class GCompGroupTotalScoreRecord implements Comparable<GCompGroupTotalScoreRecord> {
 
+	@JsonProperty("1")
 	private GCompGroupScoreRecord _currentRecord; // 当前
+	@JsonProperty("2")
 	private int _totalScore; // 总积分
+	@JsonProperty("3")
 	private long _fighting; // 战斗力
+	@JsonProperty("4")
 	private int _ranking; 
 	
 	public static GCompGroupTotalScoreRecord createEmpty() {

@@ -37,6 +37,7 @@ import com.rw.fsutil.common.Pair;
 public class GCompEvents {
 
 	private GCEventsType _type; // 赛事类型
+//	private boolean _firstOfThisSession; // 是否本届第一个类型的比赛
 	
 	/**
 	 * 
@@ -45,8 +46,8 @@ public class GCompEvents {
 	 * @param groupIds 涉及的帮派id
 	 * @param eventsType 当前赛事的状态
 	 */
-	private GCompEvents(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType) {
-		this.initEventsData(groupIds, againsts, eventsType);
+	private GCompEvents() {
+		
 	}
 	
 	private String getSafely(int index, List<String> list) {
@@ -68,49 +69,50 @@ public class GCompEvents {
 		return againsts;
 	}
 	
-	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType) {
+	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType, boolean old) {
 		// 初始化对阵关系
 		_type = eventsType;
-		againsts = this.checkAgainstAssignment(againsts, groupIds.size()); // 检查对阵关系的安排
-		List<GCompAgainst> againstList = new ArrayList<GCompAgainst>(againsts.size());
-		int beginPos = GCompUtil.computeBeginIndex(eventsType); // 计算开始索引
-		IReadOnlyPair<Integer, Integer> pair;
-		String groupId1, groupId2; // 临时变量
-		for (int i = 0, size = againsts.size(); i < size; i++, beginPos++) {
-			pair = againsts.get(i); // 对阵安排
-			// 有可能会轮空；对阵信息是从1开始，而list的索引是从0开始，所以要-1
-			groupId1 = this.getSafely(pair.getT1() - 1, groupIds);
-			groupId2 = this.getSafely(pair.getT2() - 1, groupIds);
-			GCompAgainst against = new GCompAgainst(groupId1, groupId2, eventsType, beginPos);
-			againstList.add(against);
-			GCompDetailInfoMgr.getInstance().onEventsAgainstAssign(against.getId(), groupId1, groupId2);
-			GCompFightingRecordMgr.getInstance().initRecordList(against.getId());
+		if (!old) {
+			againsts = this.checkAgainstAssignment(againsts, groupIds.size()); // 检查对阵关系的安排
+			List<GCompAgainst> againstList = new ArrayList<GCompAgainst>(againsts.size());
+			int beginPos = GCompUtil.computeBeginIndex(eventsType); // 计算开始索引
+			IReadOnlyPair<Integer, Integer> pair;
+			String groupId1, groupId2; // 临时变量
+			for (int i = 0, size = againsts.size(); i < size; i++, beginPos++) {
+				pair = againsts.get(i); // 对阵安排
+				// 有可能会轮空；对阵信息是从1开始，而list的索引是从0开始，所以要-1
+				groupId1 = this.getSafely(pair.getT1() - 1, groupIds);
+				groupId2 = this.getSafely(pair.getT2() - 1, groupIds);
+				GCompAgainst against = new GCompAgainst(groupId1, groupId2, eventsType, beginPos);
+				againstList.add(against);
+			}
+			if (this._type == GCEventsType.FINAL) {
+				// 决赛的第一场是冠军争夺
+				againstList.get(0).setChampionEvents(true);
+			}
+			GCompEventsData eventsData = new GCompEventsData();
+			eventsData.setAgainsts(againstList);
+			eventsData.setCurrentStatus(GCompEventsStatus.NONE);
+			eventsData.setEventsType(eventsType);
+			eventsData.setRelativeGroupIds(groupIds);
+			GCompEventsDataMgr.getInstance().addEvents(eventsData, eventsType);
 		}
-		if(this._type == GCEventsType.FINAL) {
-			// 决赛的第一场是冠军争夺
-			againstList.get(0).setChampionEvents(true);
-		}
-		GCompEventsData eventsData = new GCompEventsData();
-		eventsData.setAgainsts(againstList);
-		eventsData.setCurrentStatus(GCompEventsStatus.NONE);
-		eventsData.setEventsType(eventsType);
-		eventsData.setRelativeGroupIds(groupIds);
-		GCompEventsDataMgr.getInstance().addEvents(eventsData, eventsType);
 	}
 	
 	// 通知赛事开始
 	private void fireEventsStart() {
-		if (_type.getPre() != null && _type != GroupCompetitionMgr.getInstance().getFisrtTypeOfCurrent()) {
-			GCompRankMgr.getInstance().stageEnd(_type.getPre());
-		}
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);
+		GroupCompetitionMgr.getInstance().updateCurrenEventstData(_type, eventsData.getRelativeGroupIds());
+		GCompDetailInfoMgr.getInstance().onEventsAgainstAssign(eventsData.getAgainsts());
+		GCompFightingRecordMgr.getInstance().initRecordList(eventsData.getAgainsts());
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCompOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
-		GCompMemberMgr.getInstance().notifyEventsStart(eventsData.getRelativeGroupIds()); // 通知成员管理器
+		GCompMemberMgr.getInstance().notifyEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知成员管理器
 		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
+		GCompDetailInfoMgr.getInstance().onEventsStart(eventsData.getAgainsts());
 	}
 	
 	// 通知赛事结束
@@ -120,12 +122,15 @@ public class GCompEvents {
 		for (GCompAgainst against : againsts) {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
+		GCompRankMgr.getInstance().stageEnd(_type);
 		GroupCompetitionMgr.getInstance().notifyEventsEnd(_type, againsts);
 		GCompOnlineMemberMgr.getInstance().onEventsEnd(_type, againsts);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
 		GCompGroupScoreRankingMgr.getInstance().onEventsEnd(_type, againsts);
+		GCompDetailInfoMgr.getInstance().onEventsEnd(eventsData.getAgainsts());
+		GCompMemberMgr.getInstance().notifyEventsEnd();
 	}
 	
 	// 通知具体赛事的具体节点变化
@@ -214,6 +219,14 @@ public class GCompEvents {
 		}
 		eventsData.setWinGroupIds(winGroupIds);
 		eventsData.setLostGroupIds(loseGroupIds);
+		if (_type.getNext() == GCEventsType.FINAL) {
+			int beginPos = GCompUtil.computeBeginIndex(GCEventsType.FINAL); // 计算开始索引
+			List<GCompAgainst> next = new ArrayList<GCompAgainst>();
+			next.add(new GCompAgainst(winGroupIds.get(0), winGroupIds.get(1), GCEventsType.FINAL, beginPos));
+			next.add(new GCompAgainst(loseGroupIds.get(0), loseGroupIds.get(1), GCEventsType.FINAL, beginPos + 1));
+			GCompEventsDataMgr.getInstance().setNextMatches(next);
+		}
+		GCompEventsDataMgr.getInstance().save();
 		this.fireEventsEnd();
 	}
 	
@@ -253,6 +266,12 @@ public class GCompEvents {
 		private List<String> _groupIds; // 涉及的groupId
 		private GCEventsType _status; // 赛事的状态
 		private List<IReadOnlyPair<Integer, Integer>> _againstsInfo; // 对阵信息
+		private boolean _old = false;
+//		private boolean _firstOfThisSession = false;
+		
+		public Builder() {
+			
+		}
 		
 		public Builder(List<String> groupIds, GCEventsType status) {
 			this._groupIds = new ArrayList<String>(groupIds);
@@ -272,7 +291,7 @@ public class GCompEvents {
 			return _status;
 		}
 
-		public Builder setStatus(GCEventsType pstatus) {
+		public Builder setEventsType(GCEventsType pstatus) {
 			this._status = pstatus;
 			return this;
 		}
@@ -286,8 +305,20 @@ public class GCompEvents {
 			return this;
 		}
 		
+		public Builder setOld(boolean value) {
+			this._old = value;
+			return this;
+		}
+		
+//		public Builder setFirstOfThisSession(boolean value) {
+//			this._firstOfThisSession = value;
+//			return this;
+//		}
+		
 		public GCompEvents build() {
-			GCompEvents events = new GCompEvents(_groupIds, _againstsInfo, _status);
+			GCompEvents events = new GCompEvents();
+//			events._firstOfThisSession = this._firstOfThisSession;
+			events.initEventsData(_groupIds, _againstsInfo, _status, _old);
 			return events;
 		}
 	}

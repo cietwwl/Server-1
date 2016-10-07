@@ -8,9 +8,11 @@ import org.springframework.util.StringUtils;
 
 import com.rwproto.GroupCommonProto.GroupLogType;
 import com.rwproto.GroupCommonProto.GroupState;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
@@ -164,6 +166,7 @@ public class GroupBaseDataMgr {
 
 		groupData.setGroupName(groupName);
 		updateAndSynGroupData(player);
+		GCompFightingRankMgr.updateGroupBaseInfo(GroupHelper.getGroup(player));
 	}
 
 	/**

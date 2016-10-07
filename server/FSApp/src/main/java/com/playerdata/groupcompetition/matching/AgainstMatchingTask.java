@@ -165,7 +165,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			while (size > 0) {
 				GCompMember member = memberList.poll();
 				size--;
-				memberList.add(member);
+				memberList.add(member); // 放回去
 				boolean duplicate = false;
 				for (int i = 0, tempSize = targetList.size(); i < tempSize; i++) {
 					if (targetList.get(i).getUserId().equals(member.getUserId())) {
@@ -338,12 +338,16 @@ class AgainstMatchingTask implements IGameTimerTask {
 						}
 					}
 					if (dataMatched == null) {
-						if(isNotTimeout(currentMillis, md.getDeadline())) {
+						if (isNotTimeout(currentMillis, md.getDeadline())) {
 							// 没有超时，等待下一轮
 							continue;
 						}
+						dataMatched = againstGroupMatchingData.pollBeginWithMaxLv();
+					}
+					// 再次确认有没有匹配到人
+					if (dataMatched == null) {
 						// 没有匹配到人，要匹配机器人，要从GCompMemberMgr拿3个人出来
-						if(this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGroupB : allMembersOfGroupA, md)) {
+						if (this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGroupB : allMembersOfGroupA, md)) {
 							matched.add(md);
 							myGroupMatchingData.removeMatchingData(md);
 						}

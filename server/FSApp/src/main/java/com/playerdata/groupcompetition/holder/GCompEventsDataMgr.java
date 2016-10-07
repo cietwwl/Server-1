@@ -7,12 +7,14 @@ import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.dao.GCompHistoryDataDAO;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
+import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
 import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.service.group.helper.GroupHelper;
 
 public class GCompEventsDataMgr {
 
@@ -24,10 +26,30 @@ public class GCompEventsDataMgr {
 
 	private GCompEventsDataHolder _dataHolder = GCompEventsDataHolder.getInstance();
 
+	private GCompEventsSynData createSynData() {
+		GCompEventsGlobalData globalData = this._dataHolder.get();
+		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
+		List<GCompAgainst> next = globalData.getNextMatches();
+		GCompEventsSynData synData = new GCompEventsSynData();
+		synData.addMatches(globalData.getMatches());
+		if (next != null && next.size() > 0) {
+			synData.addMatches(next);
+		}
+		synData.setMatchNumType(globalData.getMatchNumType());
+		synData.setStartTime(timeInfo.getT1());
+		synData.setEndTime(timeInfo.getT2());
+		synData.setSession(GroupCompetitionMgr.getInstance().getCurrentSessionId());
+		return synData;
+	}
+	
 	public void onEventStageStart(GCEventsType startEventsType) {
 		GCompEventsGlobalData globalData = _dataHolder.get();
 		globalData.clear();
 		globalData.setMatchNumType(startEventsType);
+	}
+	
+	public void loadEventsGlobalData() {
+		_dataHolder.loadEventsGlobalData();
 	}
 
 	/**
@@ -38,8 +60,18 @@ public class GCompEventsDataMgr {
 	 * @param eventsType
 	 */
 	public void addEvents(GCompEventsData eventsData, GCEventsType eventsType) {
-		_dataHolder.get().add(eventsType, eventsData);
+		GCompEventsGlobalData globalData = _dataHolder.get();
+		globalData.add(eventsType, eventsData);
 		_dataHolder.update();
+	}
+	
+	/**
+	 * 
+	 * @param list
+	 */
+	public void setNextMatches(List<GCompAgainst> list) {
+		GCompEventsGlobalData globalData = _dataHolder.get();
+		globalData.setNextMatches(list);
 	}
 
 	/**
@@ -50,6 +82,13 @@ public class GCompEventsDataMgr {
 	public GCompEventsData getEventsData(GCEventsType eventType) {
 		return _dataHolder.get().getEventsData(eventType);
 	}
+	
+	/**
+	 * 保存数据
+	 */
+	public void save() {
+		this._dataHolder.update();
+	}
 
 	/**
 	 * 
@@ -58,7 +97,13 @@ public class GCompEventsDataMgr {
 	 * @param player
 	 */
 	public void sendMatchData(Player player) {
-		this._dataHolder.syn(player);
+		GCompEventsSynData synData = this.createSynData();
+		String groupId = GroupHelper.getGroupId(player);
+		if (groupId != null) {
+			int matchId = getGroupMatchIdOfCurrent(groupId);
+			synData.setMatchId(matchId);
+		}
+		this._dataHolder.syn(player, synData);
 	}
 
 	public int getGroupMatchIdOfCurrent(String groupId) {
