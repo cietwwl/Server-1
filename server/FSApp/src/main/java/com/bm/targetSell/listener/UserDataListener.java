@@ -20,18 +20,18 @@ public class UserDataListener implements SingleChangedListener<User>{
 		User currentRecord = event.getCurrentRecord();
 		Player player = PlayerMgr.getInstance().find(currentRecord.getUserId());
 		if(oldRecord.getLevel() != currentRecord.getLevel()){
-			System.err.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  old level:" + oldRecord.getLevel() 
-					+", new level:" + currentRecord.getLevel());
+//			System.err.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  old level:" + oldRecord.getLevel() 
+//					+", new level:" + currentRecord.getLevel());
 			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
 		}
 		if(oldRecord.getExp() != currentRecord.getExp()){
-			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()
-					+ ",new exp"+ currentRecord.getExp());
+//			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()
+//					+ ",new exp"+ currentRecord.getExp());
 			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
 		}
 		if(oldRecord.getVip() != currentRecord.getVip()){
-			System.err.println("role vip change @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ old vip:" + oldRecord.getVip() 
-					+ ",new vip:" + currentRecord.getVip());
+//			System.err.println("role vip change @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ old vip:" + oldRecord.getVip() 
+//					+ ",new vip:" + currentRecord.getVip());
 			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
 		}
 	}
