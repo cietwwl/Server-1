@@ -35,6 +35,7 @@ public class ArmyInfoHelper {
 		Player player = PlayerMgr.getInstance().find(playerId );
 		
 		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(armyInfoSimple.getArmyMagic().getModelId());
+		if(magic == null) magic = player.getMagic();
 		
 		ArmyInfo armyInfo = build(heroIdList , player, magic);
 		if(setCurData){

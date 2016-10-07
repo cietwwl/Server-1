@@ -42,8 +42,9 @@ class ArmySimpleInfoHelper {
 
 		if(magic!=null){
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
+		}else{
+			armyInfoSimple.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
-		
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
 		armyInfoSimple.setHeroList(heroList);
