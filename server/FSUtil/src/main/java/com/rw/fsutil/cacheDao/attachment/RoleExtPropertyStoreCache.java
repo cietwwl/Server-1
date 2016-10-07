@@ -1,14 +1,17 @@
 package com.rw.fsutil.cacheDao.attachment;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
+
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.common.NameFilterIntrospector;
@@ -88,12 +91,20 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		});
 	}
 
-	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, IOException {
+	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, Exception {
 		int size = datas.size();
+		Field keyField = this.clasInfo.getIdField();
+		Field roleField = this.clasInfo.getOwnerField();
 		ArrayList<PlayerExtPropertyData<T>> result = new ArrayList<PlayerExtPropertyData<T>>(size);
 		for (int i = 0; i < size; i++) {
 			QueryRoleExtPropertyData query = datas.get(i);
 			T entity = mapper.readValue(query.getExtension(), entityClass);
+			if (keyField != null) {
+				keyField.set(entity, query.getSubType());
+			}
+			if (roleField != null) {
+				roleField.set(entity, query.getOwnerId());
+			}
 			if (entity == null) {
 				throw new RuntimeException("parse entity fail:" + entityClass + "," + query.getExtension());
 			}
