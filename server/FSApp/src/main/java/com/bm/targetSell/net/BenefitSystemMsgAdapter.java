@@ -105,7 +105,7 @@ public class BenefitSystemMsgAdapter {
 			
 			output.write(dataFormat(content));
 			output.flush();
-//			System.out.println("发送消息到精准服：" + content);
+			System.out.println("发送消息到精准服：" + content);
 		} catch (Exception e) {
 			e.printStackTrace();
 			closeSocket();
@@ -140,6 +140,7 @@ public class BenefitSystemMsgAdapter {
 	 */
 	private String decodeData(int headerContent) throws IOException{
 		int bodyLen = headerContent ^ MSG_KEY;
+//		System.out.println("----------------recv msg, msg lenght:" + bodyLen);
 		bodyLen = Math.min(bodyLen, RECV_BUFFER_SIZE);
 		byte[] temp = new byte[bodyLen];
 		reader.read(temp);
@@ -167,15 +168,17 @@ public class BenefitSystemMsgAdapter {
 //						System.out.println("~~~~~~~~~~~~~~~~check remote msg");
 						try {
 							
-							String reString = null;//这个会阻塞
+							String reString = null;
 							
 							int len = 0;//收到的数据包头内容
 							
 							while ((len = reader.readInt()) != -1) {
 								
-								reString = decodeData(len);
-								
-								System.out.println("recv response :" + reString);
+//								reString = decodeData(len);
+								byte[] temp = new byte[RECV_BUFFER_SIZE];
+								reader.read(temp);
+								reString = new String(temp,"utf-8");
+//								System.out.println("recv response :" + reString);
 								GameWorldFactory.getGameWorld().asynExecute(new ResponseTask(reString));
 							}
 							
@@ -192,7 +195,7 @@ public class BenefitSystemMsgAdapter {
 	
 	
 	/**
-	 * 关闭旧连接
+	 * 关闭旧连接  
 	 */
 	private void closeSocket(){
 		try {
