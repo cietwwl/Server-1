@@ -572,7 +572,9 @@ public class GCompTeamMgr {
 		int matchId = matchAndGroupInfo.getT2();
 		GCompTeam team = this._dataHolder.getTeamOfUser(matchId, player.getUserId(), matchAndGroupInfo.getT1());
 		if (team == null) {
-			result.setT2(GCompTips.getTipsYouAreNotInTeam());
+//			result.setT2(GCompTips.getTipsYouAreNotInTeam());
+//			return result;
+			result.setT1(true); // 没有队伍直接返回成功
 			return result;
 		}
 		
@@ -628,6 +630,7 @@ public class GCompTeamMgr {
 		member.setReady(true);
 		
 		_dataHolder.synToAllMembers(team);
+		result.setT1(true);
 		
 		checkIfAllReady(team);
 	}
@@ -736,6 +739,7 @@ public class GCompTeamMgr {
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
+			result.setT1(true); // 让他取消
 			return result;
 		}
 
@@ -743,12 +747,20 @@ public class GCompTeamMgr {
 		int matchId = matchAndGroupInfo.getT2();
 		GCompTeam team = this._dataHolder.getTeamOfUser(matchId, player.getUserId(), matchAndGroupInfo.getT1());
 		if (team == null) {
+			result.setT1(true); // 让他取消
 			result.setT2(GCompTips.getTipsYouAreNotInTeam());
+			return result;
+		}
+		
+		if (!team.isPersonal() && !team.getTeamMember(player.getUserId()).isLeader()) {
+			// 不是队长
+			result.setT2(GCompTips.getTipsYouAreNotLeader());
 			return result;
 		}
 		
 		// 队伍没有在匹配中
 		if(!team.isMatching()) {
+			result.setT1(true); // 让他取消
 			result.setT2(GCompTips.getTipsTeamIsNotMatching());
 			return result;
 		}
@@ -760,9 +772,17 @@ public class GCompTeamMgr {
 		}
 		
 		team.setMatching(false);
-		GroupCompetitionMatchingCenter.getInstance().cancelMatching(matchId, matchAndGroupInfo.getT1(), team);
-		result.setT1(true);
-		this.sendTeamStatusToAll(team, TeamStatusType.CancelMatch);
+		if (GroupCompetitionMatchingCenter.getInstance().cancelMatching(matchId, matchAndGroupInfo.getT1(), team)) {
+			result.setT1(true);
+			this.sendTeamStatusToAll(team, TeamStatusType.CancelMatch);
+		} else {
+			result.setT1(false);
+			if (team.isPersonal()) {
+				result.setT2(GCompTips.getTipsYouAlreadyMatched());
+			} else {
+				result.setT2(GCompTips.getTipsTeamAlreadyMatched());
+			}
+		}
 		return result;
 	}
 	
@@ -800,22 +820,29 @@ public class GCompTeamMgr {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 
 		if (!this.checkIfCanMakeTeam(result)) {
+			result.setT1(true); // 让他取消
 			return result;
 		}
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
+			result.setT1(true); // 让他取消
 			return result;
 		}
 		
 		int matchId = matchAndGroupInfo.getT2();
 		if(!GroupCompetitionMatchingCenter.getInstance().isInRandomMatching(matchId, matchAndGroupInfo.getT1(), player.getUserId())) {
 			result.setT2(GCompTips.getTipsYouAreNotInRandomMatching());
+			result.setT1(true); // 让他取消
 			return result;
 		}
 		
-		GroupCompetitionMatchingCenter.getInstance().cancelRandomMatching(matchId, matchAndGroupInfo.getT1(), player);
-		result.setT1(true);
+		if (GroupCompetitionMatchingCenter.getInstance().cancelRandomMatching(matchId, matchAndGroupInfo.getT1(), player)) {
+			result.setT1(true);
+		} else {
+			result.setT1(false);
+			result.setT2(GCompTips.getTipsYouAlreadyMatched());
+		}
 		return result;
 	}
 	
@@ -832,6 +859,7 @@ public class GCompTeamMgr {
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
+			result.setT1(true); // 让他取消
 			return result;
 		}
 

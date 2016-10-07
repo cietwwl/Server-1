@@ -266,6 +266,9 @@ public class GroupCompetitionHandler {
 		case PersonalCancelMatching: // 取消个人匹配 
 			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
 			break;
+		case CancelMatching: // 取消匹配 
+			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
+			break;
 		default:
 			return ByteString.EMPTY;
 		}
@@ -332,9 +335,6 @@ public class GroupCompetitionHandler {
 			break;
 		case StartMatching: // 开始匹配 
 			processResult = GCompTeamMgr.getInstance().startTeamMatching(player);
-			break;
-		case CancelMatching: // 取消匹配 
-			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
 			break;
 		default:
 			return ByteString.EMPTY;
