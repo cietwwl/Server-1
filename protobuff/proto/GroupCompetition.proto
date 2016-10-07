@@ -43,6 +43,7 @@ enum TeamStatusType {
 	BecomeLeader = 2; // 成为队长
 	CanMatch = 3; // 可匹配
 	StartMatch = 4; // 开始匹配
+	CancelMatch = 5; // 取消匹配
 }
 
 enum GCResultType {

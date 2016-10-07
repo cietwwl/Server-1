@@ -602,6 +602,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     StartMatch(3, 4),
+    /**
+     * <code>CancelMatch = 5;</code>
+     *
+     * <pre>
+     * 取消匹配
+     * </pre>
+     */
+    CancelMatch(4, 5),
     ;
 
     /**
@@ -636,6 +644,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int StartMatch_VALUE = 4;
+    /**
+     * <code>CancelMatch = 5;</code>
+     *
+     * <pre>
+     * 取消匹配
+     * </pre>
+     */
+    public static final int CancelMatch_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -646,6 +662,7 @@ public final class GroupCompetitionProto {
         case 2: return BecomeLeader;
         case 3: return CanMatch;
         case 4: return StartMatch;
+        case 5: return CancelMatch;
         default: return null;
       }
     }
@@ -29657,12 +29674,13 @@ public final class GroupCompetitionProto {
       "ing\020\026\022\024\n\020PersonalMatching\020\027\022\032\n\026PersonalC" +
       "ancelMatching\020\030\022\021\n\rLeaveLivePage\020\031\022\017\n\013Ge" +
       "tKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScoreR" +
-      "ank\020\034\022\025\n\021GetGroupScoreRank\020\035*L\n\016TeamStat" +
+      "ank\020\034\022\025\n\021GetGroupScoreRank\020\035*]\n\016TeamStat" +
       "usType\022\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010" +
-      "CanMatch\020\003\022\016\n\nStartMatch\020\004*S\n\014GCResultTy" +
-      "pe\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017COIN_" +
-      "NOT_ENOUGH\020\003\022\021\n\rNO_SAME_SCENE\020\004B$\n\013com.r" +
-      "wprotoB\025GroupCompetitionProto"
+      "CanMatch\020\003\022\016\n\nStartMatch\020\004\022\017\n\013CancelMatc" +
+      "h\020\005*S\n\014GCResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA" +
+      "_ERROR\020\002\022\023\n\017COIN_NOT_ENOUGH\020\003\022\021\n\rNO_SAME" +
+      "_SCENE\020\004B$\n\013com.rwprotoB\025GroupCompetitio" +
+      "nProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
