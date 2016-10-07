@@ -1,7 +1,10 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompFightingRecord;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg;
 import com.rwproto.GroupCompetitionProto.CommonGetDataRspMsg.Builder;
 import com.rwproto.GroupCompetitionProto.GCResultType;
@@ -20,8 +23,10 @@ public class GCompFightingRecordMgr {
 		_dataHolder = GCompFightingRecordHolder.getInstance();
 	}
 	
-	public void initRecordList(int matchId) {
-		_dataHolder.initRecordList(matchId);
+	public void initRecordList(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			_dataHolder.initRecordList(againsts.get(i).getId());
+		}
 	}
 	
 	public void endLiveRecord() {
@@ -36,9 +41,18 @@ public class GCompFightingRecordMgr {
 		_dataHolder.getFightRecordLive(player, matchId, time);
 		builder.setRstType(GCResultType.SUCCESS);
 	}
+	
+	public void getFightRecord(Player player, CommonGetDataRspMsg.Builder builder, int matchId, long time){
+		_dataHolder.syn(player, matchId, time);
+		builder.setRstType(GCResultType.SUCCESS);
+	}
 
 	public void leaveLivePage(Player player, Builder builder, int matchId) {
 		_dataHolder.leaveLivePage(player, matchId);
 		builder.setRstType(GCResultType.SUCCESS);
+	}
+	
+	public void deleteLastFightRecord(List<Integer> matchList){
+		_dataHolder.deleteLastSessionRecord(matchList);
 	}
 }

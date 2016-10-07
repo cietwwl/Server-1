@@ -38,6 +38,9 @@ public class GCompHistoryData {
 	private long startTime;
 	@JsonProperty("5")
 	private long endTime;
+	@IgnoreSynField
+	@JsonProperty("6")
+	private List<String> _selectedGroupIds;
 	
 	public static GCompHistoryData createNew() {
 		GCompHistoryData data = new GCompHistoryData();
@@ -53,6 +56,14 @@ public class GCompHistoryData {
 	
 	public void setLastMatchNumType(GCEventsType eventsType) {
 		this.lastMatchNumType = eventsType;
+	}
+	
+	public void setSelectedGroupIds(List<String> groupIds) {
+		this._selectedGroupIds = new ArrayList<String>(groupIds);
+	}
+	
+	public List<String> getSelectedGroupIds() {
+		return Collections.unmodifiableList(_selectedGroupIds);
 	}
 	
 	public void copy(GCompEventsGlobalData copy, long startTime, long endTime) {

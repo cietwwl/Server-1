@@ -20,8 +20,8 @@ public class GCompEventsSynData {
 	private long endTime;
 	private int session;
 	
-	public void setMatches(List<GCompAgainst> matches) {
-		this.matches = matches;
+	public void addMatches(List<GCompAgainst> matches) {
+		this.matches.addAll(matches);
 	}
 	
 	public void setMatchNumType(GCEventsType matchNumType) {

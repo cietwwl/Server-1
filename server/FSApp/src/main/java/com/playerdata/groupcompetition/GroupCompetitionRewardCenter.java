@@ -69,8 +69,8 @@ public class GroupCompetitionRewardCenter {
 	private void sendGroupScoreRankingReward(List<IGCGroup> groups, GCEventsType eventsType) {		
 		int rank = 1;
 		GCompScoreRewardCfgDAO scoreRewardCfgDAO = GCompScoreRewardCfgDAO.getInstance();
-		List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 		for (IGCGroup group : groups) {
+			List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 			GCompCommonRankRewardCfg cfg = scoreRewardCfgDAO.getByMatchTypeAndRank(eventsType, rank);
 			if (cfg == null) {
 				GCompUtil.log("处理帮派奖励，没有找到合适的奖励，排名：{}，赛事类型o是：{}", rank, eventsType);
@@ -85,8 +85,8 @@ public class GroupCompetitionRewardCenter {
 	private void processPersonalReward(List<GCompMember> allMembers, Comparator<GCompMember> comparator, GCEventsType eventsType, GCompCommonRankRewardCfgBaseDAO dao) {
 		Collections.sort(allMembers, comparator);
 		int rank = 1;
-		List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 		for (GCompMember member : allMembers) {
+			List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
 			GCompCommonRankRewardCfg cfg = dao.getByMatchTypeAndRank(eventsType, rank);
 			if (cfg == null) {
 				GCompUtil.log("处理个人奖励，没有找到合适的奖励，排名：{}，dao是：{}", rank, dao.getClass().getSimpleName());
@@ -216,7 +216,7 @@ public class GroupCompetitionRewardCenter {
 		public int compare(IGCGroup o1, IGCGroup o2) {
 			int o1Score = o1.getGCompScore();
 			int o2Score = o2.getGCompScore();
-			return o1Score > o2Score ? -1 : (o1Score == o2Score ? 0 : -1);
+			return o1Score > o2Score ? -1 : (o1Score == o2Score ? 0 : 1);
 		}
 
 	}
@@ -227,7 +227,7 @@ public class GroupCompetitionRewardCenter {
 		public int compare(GCompMember o1, GCompMember o2) {
 			int o1TotalWinTimes = o1.getTotalWinTimes();
 			int o2TotalWinTimes = o2.getTotalWinTimes();
-			return o1TotalWinTimes > o2TotalWinTimes ? -1 : (o1TotalWinTimes == o2TotalWinTimes ? 0 : -1);
+			return o1TotalWinTimes > o2TotalWinTimes ? -1 : (o1TotalWinTimes == o2TotalWinTimes ? 0 : 1);
 		}
 
 	}
@@ -238,7 +238,7 @@ public class GroupCompetitionRewardCenter {
 		public int compare(GCompMember o1, GCompMember o2) {
 			int o1MaxContinueWins = o1.getMaxContinueWins();
 			int o2MaxContinueWins = o2.getMaxContinueWins();
-			return o1MaxContinueWins > o2MaxContinueWins ? -1 : (o1MaxContinueWins == o2MaxContinueWins ? 0 : -1);
+			return o1MaxContinueWins > o2MaxContinueWins ? -1 : (o1MaxContinueWins == o2MaxContinueWins ? 0 : 1);
 		}
 
 	}

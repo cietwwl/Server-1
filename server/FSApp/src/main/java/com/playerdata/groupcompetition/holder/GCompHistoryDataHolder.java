@@ -26,8 +26,6 @@ public class GCompHistoryDataHolder {
 		return _instance;
 	}
 	
-	private final List<String> _selectedGroupIds = new ArrayList<String>();
-	
 	private final GCompHistoryDataDAO _dao;
 	
 	protected GCompHistoryDataHolder() {
@@ -35,12 +33,12 @@ public class GCompHistoryDataHolder {
 	}
 	
 	void setSelectedGroupIds(List<String> groupIds) {
-		this._selectedGroupIds.clear();
-		this._selectedGroupIds.addAll(groupIds);
+		this._dao.get().setSelectedGroupIds(groupIds);
+		this._dao.update();
 	}
 	
 	List<String> getSelectedGroupIds() {
-		return Collections.unmodifiableList(_selectedGroupIds);
+		return this._dao.get().getSelectedGroupIds();
 	}
 	
 	void syn(Player player) {

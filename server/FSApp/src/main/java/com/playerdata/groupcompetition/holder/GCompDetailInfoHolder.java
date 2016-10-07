@@ -31,7 +31,7 @@ public class GCompDetailInfoHolder {
 //			GCompUtil.log("---------- syn:同步DetailInfo数据：{} ----------", detailInfo);
 			return true;
 		} else {
-			GCompUtil.log("---------- syn:请求同步数据：{}， 不存在指定matchId的数据 ----------", detailInfo);
+			GCompUtil.log("---------- syn:请求同步数据， 不存在指定matchId为{}的数据 ----------", matchId);
 			return false;
 		}
 	}
@@ -43,13 +43,25 @@ public class GCompDetailInfoHolder {
 //			GCompUtil.log("---------- synPlayers:同步DetailInfo数据：{} ----------", detailInfo);
 			return true;
 		} else {
-			GCompUtil.log("---------- synPlayers:请求同步数据：{}， 不存在指定matchId的数据 ----------", detailInfo);
+			GCompUtil.log("---------- synPlayers:请求同步数据， 不存在指定matchId为{}的数据 ----------", matchId);
 			return false;
 		}
 	}
 	
 	public void add(GCompDetailInfo detailInfo) {
 		_dao.addDetailInfo(detailInfo);
+	}
+	
+	void update() {
+		_dao.update();
+	}
+	
+	void reset() {
+		_dao.reset();
+	}
+	
+	void loadData() {
+		_dao.loadDetailInfo();
 	}
 	
 	public GCompDetailInfo get(int matchId) {

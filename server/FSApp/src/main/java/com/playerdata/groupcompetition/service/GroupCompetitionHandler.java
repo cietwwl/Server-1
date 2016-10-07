@@ -80,7 +80,11 @@ public class GroupCompetitionHandler {
 		groupDataBuilder.setRanking(ranking);
 		groupDataBuilder.setFighting(fightingItem.getGroupFight());
 		groupDataBuilder.setName(fightingItem.getGroupName());
-		groupDataBuilder.setUpNum(fightingItem.getLastRank() - ranking); // ranking比lastRank小，则是上升，反之则是下降
+		if (fightingItem.getLastRank() > 0) {
+			groupDataBuilder.setUpNum(fightingItem.getLastRank() - ranking); // ranking比lastRank小，则是上升，反之则是下降
+		} else {
+			groupDataBuilder.setUpNum(0);
+		}
 		return groupDataBuilder.build();
 	}
 	
@@ -89,22 +93,22 @@ public class GroupCompetitionHandler {
 		SelectionGroupData ownGroupData;
 		if (ownGroup != null) {
 			GroupBaseDataIF baseData = ownGroup.getGroupBaseDataMgr().getGroupData();
-			int index = GCompFightingRankMgr.getRankIndex(baseData.getGroupId());
-			if (index > 0) {
+			int ranking = GCompFightingRankMgr.getRankIndex(baseData.getGroupId());
+			if (ranking > 0) {
 				// 在榜单中
 				GCompFightingItem fightingItem;
-				if (index < gCompFightingItemList.size()) {
-					fightingItem = gCompFightingItemList.get(index);
+				if (ranking < gCompFightingItemList.size()) {
+					fightingItem = gCompFightingItemList.get(ranking - 1);
 				} else {
-					fightingItem = GCompFightingRankMgr.getFightingRankList().get(index - 1);
+					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking);
 				}
-				ownGroupData = this.createSelectionGroupData(fightingItem, index);
+				ownGroupData = this.createSelectionGroupData(fightingItem, ranking);
 			} else {
 				// 不在榜中
 				SelectionGroupData.Builder ownGroupBuilder = SelectionGroupData.newBuilder();
 				ownGroupBuilder.setName(baseData.getGroupName());
 				ownGroupBuilder.setUpNum(0);
-				ownGroupBuilder.setRanking(index);
+				ownGroupBuilder.setRanking(ranking);
 				ownGroupBuilder.setFighting(this.calculateGroupFighting(ownGroup));
 				ownGroupData = ownGroupBuilder.build();
 			}
@@ -218,26 +222,6 @@ public class GroupCompetitionHandler {
 			// 成功才有数据
 			GCompEventsDataMgr.getInstance().sendMatchData(player);
 		}
-		return builder.build().toByteString();
-	}
-	
-	/**
-	 * 
-	 * 获取赛事的详细信息
-	 * 
-	 * @param player
-	 * @param request
-	 * @return
-	 */
-	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
-		boolean success = GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getPlayBackPara().getMatchId(), player);
-		GCResultType resultType ;
-		if(success) {
-			resultType = GCResultType.SUCCESS;
-		} else {
-			resultType = GCResultType.DATA_ERROR;
-		}
-		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNoMatchDetailData() : null);
 		return builder.build().toByteString();
 	}
 	
@@ -359,6 +343,29 @@ public class GroupCompetitionHandler {
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
+	/**
+	 * 
+	 * 获取赛事的详细信息
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
+	public ByteString getMatchDetailInfo(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		GCompFightingRecordMgr.getInstance().getFightRecord(player, builder, request.getLivePara().getMatchId(), request.getLivePara().getLatestTime());
+		GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getLivePara().getMatchId(), player);
+		return builder.build().toByteString();
+	}
+	
+	/**
+	 * 
+	 * 获取赛事的详细信息
+	 * 
+	 * @param player
+	 * @param request
+	 * @return
+	 */
 	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getLivePara().getMatchId(), request.getLivePara().getLatestTime());

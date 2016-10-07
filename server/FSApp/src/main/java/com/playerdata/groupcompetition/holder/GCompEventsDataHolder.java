@@ -1,11 +1,14 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.dao.GCompEventsDataDAO;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
 import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -34,26 +37,12 @@ public class GCompEventsDataHolder {
 		this._dao.update();
 	}
 	
-	private GCompEventsSynData createSynData() {
-		GCompEventsGlobalData globalData = this.get();
-		IReadOnlyPair<Long, Long> timeInfo = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();
-		GCompEventsSynData synData = new GCompEventsSynData();
-		synData.setMatches(globalData.getMatches());
-		synData.setMatchNumType(globalData.getMatchNumType());
-		synData.setStartTime(timeInfo.getT1());
-		synData.setEndTime(timeInfo.getT2());
-		synData.setSession(GroupCompetitionMgr.getInstance().getCurrentSessionId());
-		return synData;
+	void loadEventsGlobalData() {
+		this._dao.loadEventsGlobalData();
 	}
 	
-	public void syn(Player toPlayer) {
-		GCompEventsSynData synData = this.createSynData();
-		String groupId = GroupHelper.getGroupId(toPlayer);
-		if (groupId != null) {
-			int matchId = GCompEventsDataMgr.getInstance().getGroupMatchIdOfCurrent(groupId);
-			synData.setMatchId(matchId);
-		}
+	public void syn(Player toPlayer, GCompEventsSynData synData) {
 		ClientDataSynMgr.synData(toPlayer, synData, _synType, eSynOpType.UPDATE_SINGLE);
-//		GCompUtil.log("同步数据：{}", synData);
+		com.playerdata.groupcompetition.util.GCompUtil.log("同步数据：{}", synData);
 	}
 }

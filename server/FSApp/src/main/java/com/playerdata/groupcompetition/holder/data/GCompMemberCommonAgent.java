@@ -23,7 +23,7 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 	@Override
 	public void resetContinueWins(GCompMember member) {
 		member.resetContinueWins();
-		UpdateWinTimesToRankingTask.submit(member);
+//		UpdateWinTimesToRankingTask.submit(member);
 	}
 
 	@Override
@@ -35,7 +35,9 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 	@Override
 	public void addScore(GCompMember member, int score) {
 		member.updateScore(score);
-		UpdateScoreToRankingTask.submit(member);
+		if (score > 0) {
+			UpdateScoreToRankingTask.submit(member);
+		}
 	}
 	
 	@Override

@@ -19,6 +19,8 @@ import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
+import com.bm.randomBoss.RandomBossMgr;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
@@ -226,6 +228,7 @@ public class GMHandler {
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
+		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -238,6 +241,9 @@ public class GMHandler {
 		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
 		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
 		funcCallBackMap.put("upgrademagic", "upgradeMagic");
+		
+		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
+		funcCallBackMap.put("callrb", "callRb");
 	}
 
 	public boolean isActive() {
@@ -846,6 +852,11 @@ public class GMHandler {
 		int num = Integer.parseInt(arrCommandContents[0]);
 		player.getTowerMgr().addTowerNum(num);
 		;
+		return true;
+	}
+	
+	public boolean callRb(String[] commands, Player player){
+		RandomBossMgr.getInstance().findBossBorn(player, false);
 		return true;
 	}
 
@@ -1752,7 +1763,9 @@ public class GMHandler {
 					consumerField.setAccessible(true);
 					timerInstanceField.setAccessible(true);
 					com.playerdata.groupcompetition.util.GCompStageType stageType = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentStageType();
+					com.playerdata.groupcompetition.util.GCompEventsStatus eventStatus = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
 					boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
+					boolean isNoneStatus = (eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.NONE || eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.FINISH);
 					@SuppressWarnings("unchecked")
 					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField
 							.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
@@ -1767,7 +1780,11 @@ public class GMHandler {
 								Object consumerObj = consumerField.get(obj);
 								String consumerName = consumerObj.getClass().getName();
 								if (isEvents) {
-									if (consumerName.contains("EventStatusSwitcher")) {
+									if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
+										list.add(timeSignal);
+										itr.remove();
+										break outter;
+									} else if (consumerName.contains("EventStatusSwitcher")) {
 										// 具体赛事状态的切换器
 										list.add(timeSignal);
 										itr.remove();
@@ -1813,5 +1830,10 @@ public class GMHandler {
 		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
 		return true;
 	} 
+	
+	public boolean refreshGroupFightingRank(String[] arrCommandContents, Player player) {
+		GCompFightingRankMgr.refreshGroupFightingRank();
+		return true;
+	}
 
 }

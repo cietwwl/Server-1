@@ -30,6 +30,10 @@ public class GCompGroupScoreRankingMgr {
 		return _INSTANCE;
 	}
 	
+	public void serverStartComplete() {
+		_dao.loadData();
+	}
+	
 	public void onNewSessionStart() {
 		_dao.removeAll();
 	}
