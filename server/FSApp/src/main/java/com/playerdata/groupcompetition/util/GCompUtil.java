@@ -110,7 +110,8 @@ public class GCompUtil {
 	public static long getNearTimeMillis(int hour, int minute, long relativeMillis) {
 		Calendar instance = Calendar.getInstance();
 		instance.setTimeInMillis(relativeMillis);
-		if(instance.get(Calendar.HOUR_OF_DAY) > hour) {
+		int hourOfDay = 0;
+		if ((hourOfDay = instance.get(Calendar.HOUR_OF_DAY)) > hour || (hourOfDay == hour && instance.get(Calendar.MINUTE) >= minute)) {
 			instance.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		instance.set(Calendar.HOUR_OF_DAY, hour);

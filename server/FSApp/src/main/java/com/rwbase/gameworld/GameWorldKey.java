@@ -73,6 +73,10 @@ public enum GameWorldKey {
 	 * 帮派争霸，比赛的详情
 	 */
 	GROUP_COMPETITION_AGAINSTS_DETAIL("AGAINSTS_DETAIL"),
+	/**
+	 * 帮派争霸：积分排名
+	 */
+	GROUP_COMPETITION_SCORE_RANKING("GROUP_COMPETITION_SCORE_RANKING"),
 	;
 	
 	

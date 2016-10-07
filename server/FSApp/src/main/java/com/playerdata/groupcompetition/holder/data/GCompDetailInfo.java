@@ -3,7 +3,10 @@ package com.playerdata.groupcompetition.holder.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.bm.group.GroupBM;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -19,10 +22,14 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
  */
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown=true)
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
 public class GCompDetailInfo {
 
+	@JsonProperty("1")
 	private int matchId;
+	@JsonProperty("2")
 	private List<GCompGroupScoreRecord> groupScores;
+	@JsonProperty("3")
 	private GCompPersonalScore mvp;
 	
 	private static GCompGroupScoreRecord createNewGroupScoreData(String groupId) {

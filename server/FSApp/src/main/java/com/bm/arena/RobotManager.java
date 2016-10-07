@@ -3,6 +3,7 @@ package com.bm.arena;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -580,17 +581,19 @@ public class RobotManager {
 			Player player = new Player(userId, false, playerCfg);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 
-			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
+			
 			// 品质
 
 //			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
-			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
-			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
+			PlayerMgr.getInstance().putToMap(player);
+			player.getUserDataMgr().setHeadId(headImage);
+			
 			player.getUserDataMgr().setUserName(userName);
 			player.SetLevel(level);
 
-			PlayerMgr.getInstance().putToMap(player);
+			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
+			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石

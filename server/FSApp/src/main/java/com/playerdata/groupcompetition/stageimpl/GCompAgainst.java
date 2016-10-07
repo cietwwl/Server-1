@@ -1,9 +1,8 @@
 package com.playerdata.groupcompetition.stageimpl;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -39,8 +38,8 @@ public class GCompAgainst implements IGCAgainst {
 	
 	GCompAgainst(String idOfGroupA, String idOfGroupB, GCEventsType pTopType, int pPosition) {
 		this.matchId = GroupCompetitionMgr.getInstance().getNextAgainstId();
-		this.groupA = new GCGroup(idOfGroupA);
-		this.groupB = new GCGroup(idOfGroupB);
+		this.groupA = GCGroup.createNew(idOfGroupA);
+		this.groupB = GCGroup.createNew(idOfGroupB);
 		this.curStatus = GCompEventsStatus.NONE;
 		this.topType = pTopType;
 		this.position = pPosition;

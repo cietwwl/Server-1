@@ -48,10 +48,11 @@ public class GCompTeamMgr {
 		
 	}
 	
-	private void sendStartMatchingMsg(GCompTeam team) {
+	// 发送队伍状态消息给所有队伍成员，不包括队长
+	private void sendTeamStatusToAll(GCompTeam team, TeamStatusType status) {
 		List<GCompTeamMember> members = team.getMembers();
 		TeamStatusChange.Builder builder = TeamStatusChange.newBuilder();
-		builder.setStatus(TeamStatusType.StartMatch);
+		builder.setStatus(status);
 		for (GCompTeamMember member : members) {
 			if (member.isLeader()) {
 				continue;
@@ -59,6 +60,20 @@ public class GCompTeamMgr {
 				PlayerMgr.getInstance().find(member.getUserId()).SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, builder.build().toByteString());
 			}
 		}
+	}
+	
+	// 发送队伍状态消息给特定的人
+	private void sendTeamStatus(Player targetPlayer, TeamStatusType type) {
+		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, TeamStatusChange.newBuilder().setStatus(type).build().toByteString());
+	}
+	
+	// 发送组队邀请
+	private void sendInvitation(Player invitor, Player targetPlayer, String teamId) {
+		// 发送邀请
+		TeamInvitation.Builder invitationBuilder = TeamInvitation.newBuilder();
+		invitationBuilder.setTeamId(teamId);
+		invitationBuilder.setTips(GCompTips.getTipsInvitation(invitor.getUserName()));
+		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ, invitationBuilder.build().toByteString());
 	}
 	
 	private IGCAgainst getMatchOfGroup(String groupId) {
@@ -108,6 +123,18 @@ public class GCompTeamMgr {
 		}
 	}
 	
+	private boolean checkIfCanMatching(Pair<Boolean, String> result) {
+		// 检查是否处于队伍战状态
+		GCompEventsStatus eventsStatus = GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
+		if (eventsStatus == GCompEventsStatus.TEAM_EVENTS) {
+			// 组队阶段和准备阶段都可以组队
+			return true;
+		} else {
+			result.setT2(GCompTips.getTipsNotTeamEventsNow());
+			return false;
+		}
+	}
+	
 	// 对将要创建成为GCompTeamMember的英雄列表进行检查，包括英雄列表是否为空，是否包含主角
 	private boolean checkTeamHeroIds(Player player, List<String> heroIds, Pair<Boolean, String> result) {
 		if (heroIds.isEmpty()) {
@@ -142,18 +169,6 @@ public class GCompTeamMgr {
 		}
 
 		return Pair.CreateReadonly(groupId, gcAgainst.getId());
-	}
-	
-	private void sendInvitation(Player invitor, Player targetPlayer, String teamId) {
-		// 发送邀请
-		TeamInvitation.Builder invitationBuilder = TeamInvitation.newBuilder();
-		invitationBuilder.setTeamId(teamId);
-		invitationBuilder.setTips(GCompTips.getTipsInvitation(invitor.getUserName()));
-		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ, invitationBuilder.build().toByteString());
-	}
-	
-	private void sendTeamStatus(Player targetPlayer, TeamStatusType type) {
-		targetPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE, TeamStatusChange.newBuilder().setStatus(type).build().toByteString());
 	}
 	
 	private Pair<CreateTeamMemberResultStatus, GCompTeamMember> createTeamMember(Player player, List<String> heroIds, boolean isLeader) {
@@ -604,6 +619,11 @@ public class GCompTeamMgr {
 	}
 	
 	private void setReady(Player player, GCompTeam team, Pair<Boolean, String> result) {
+		
+		if (!checkIfCanMatching(result)) {
+			return;
+		}
+		
 		GCompTeamMember member = team.getTeamMember(player.getUserId());
 		member.setReady(true);
 		
@@ -629,9 +649,9 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> switchMemberStatus(Player player, boolean setReady) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 		
-		if(!this.checkIfCanMakeTeam(result)) {
-			return result;
-		}
+//		if(!this.checkIfCanMakeTeam(result)) {
+//			return result;
+//		}
 		
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
@@ -658,7 +678,7 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> startTeamMatching(Player player) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 		
-		if(!this.checkIfCanMakeTeam(result)) {
+		if(!this.checkIfCanMatching(result)) {
 			return result;
 		}
 
@@ -696,7 +716,7 @@ public class GCompTeamMgr {
 		team.setMatching(true);
 		GroupCompetitionMatchingCenter.getInstance().submitToMatchingCenter(matchId, matchAndGroupInfo.getT1(), team);
 		result.setT1(true);
-		sendStartMatchingMsg(team);
+		sendTeamStatusToAll(team, TeamStatusType.StartMatch);
 		return result;
 	}
 	
@@ -742,6 +762,7 @@ public class GCompTeamMgr {
 		team.setMatching(false);
 		GroupCompetitionMatchingCenter.getInstance().cancelMatching(matchId, matchAndGroupInfo.getT1(), team);
 		result.setT1(true);
+		this.sendTeamStatusToAll(team, TeamStatusType.CancelMatch);
 		return result;
 	}
 	

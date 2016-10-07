@@ -28,7 +28,7 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 public class GCompHistoryData {
 
 	@JsonProperty("1")
-	private List<GCompAgainst> matches; // 上一次帮派争霸的比赛
+	private List<GCompAgainst> lastMatches; // 上一次帮派争霸的比赛
 	@JsonProperty("2")
 	private GCEventsType lastMatchNumType; // 上一次帮派争霸的初赛类型
 	@IgnoreSynField
@@ -38,10 +38,13 @@ public class GCompHistoryData {
 	private long startTime;
 	@JsonProperty("5")
 	private long endTime;
+	@IgnoreSynField
+	@JsonProperty("6")
+	private List<String> _selectedGroupIds;
 	
 	public static GCompHistoryData createNew() {
 		GCompHistoryData data = new GCompHistoryData();
-		data.matches = new ArrayList<GCompAgainst>();
+		data.lastMatches = new ArrayList<GCompAgainst>();
 		data.lastMatchNumType = GCEventsType.TOP_16;
 		data.historyChampion = new ArrayList<GCGroup>();
 		return data;
@@ -55,15 +58,23 @@ public class GCompHistoryData {
 		this.lastMatchNumType = eventsType;
 	}
 	
+	public void setSelectedGroupIds(List<String> groupIds) {
+		this._selectedGroupIds = new ArrayList<String>(groupIds);
+	}
+	
+	public List<String> getSelectedGroupIds() {
+		return Collections.unmodifiableList(_selectedGroupIds);
+	}
+	
 	public void copy(GCompEventsGlobalData copy, long startTime, long endTime) {
-		this.matches.clear();
+		this.lastMatches.clear();
 		this.lastMatchNumType = copy.getMatchNumType();
-		this.matches.addAll(copy.getMatches());
+		this.lastMatches.addAll(copy.getMatches());
 		this.startTime = startTime;
 		this.endTime = endTime;
 		GCompAgainst against;
-		for (int i = matches.size(); i-- > 0;) {
-			against = matches.get(i);
+		for (int i = lastMatches.size(); i-- > 0;) {
+			against = lastMatches.get(i);
 			if (against.isChampionEvents()) {
 				this.historyChampion.add(against.getWinGroup());
 				break;
@@ -76,6 +87,13 @@ public class GCompHistoryData {
 	}
 	
 	public List<GCompAgainst> getAgainsts() {
-		return Collections.unmodifiableList(matches);
+		return Collections.unmodifiableList(lastMatches);
 	}
+
+	@Override
+	public String toString() {
+		return "GCompHistoryData [lastMatches=" + lastMatches + ", lastMatchNumType=" + lastMatchNumType + ", historyChampion=" + historyChampion + ", startTime=" + startTime + ", endTime=" + endTime + "]";
+	}
+	
+	
 }

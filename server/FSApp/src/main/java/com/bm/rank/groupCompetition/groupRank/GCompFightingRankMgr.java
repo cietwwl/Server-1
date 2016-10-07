@@ -11,6 +11,9 @@ import com.bm.rank.RankType;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -180,7 +183,11 @@ public class GCompFightingRankMgr {
 	/**
 	 * 定时更新帮派战力排行榜
 	 */
-	public static void refreshGroupFightingRank(){
+	public static void refreshGroupFightingRank() {
+		if (GroupCompetitionMgr.getInstance().getEndTimeOfSelection() != 0) {
+			// TODO 海选榜临时处理方案
+			return;
+		}
 		HashSet<String> needRefreshGroup = new HashSet<String>();
 		/**
 		 * 取出个人战力排行榜前1000名的所属帮派

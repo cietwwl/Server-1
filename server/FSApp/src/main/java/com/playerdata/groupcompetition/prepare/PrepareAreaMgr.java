@@ -52,7 +52,6 @@ public class PrepareAreaMgr {
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
 			}
-			GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 		}
 	}
 
@@ -91,7 +90,7 @@ public class PrepareAreaMgr {
 		}
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
-			gcRsp.setTipMsg("场景未开启");
+			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
@@ -250,5 +249,13 @@ public class PrepareAreaMgr {
 			}
 		}
 		return onlineUsers;
+	}
+
+	/**
+	 * 完成加载界面，进入备战区
+	 * @param player
+	 */
+	public void inPrepareArea(Player player) {
+		GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 	}
 }

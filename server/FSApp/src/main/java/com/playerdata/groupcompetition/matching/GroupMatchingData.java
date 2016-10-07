@@ -29,6 +29,7 @@ class GroupMatchingData {
 	private final Deque<RandomMatchingData> randomMatchingDatas;
 	private final Deque<RandomMatchingData> turnBackRandomMatchingDatas;
 	private final AtomicBoolean someCancel = new AtomicBoolean(false);
+	private final int maxLv = 60;
 	
 	GroupMatchingData(String groupId, String againstGroupId) {
 		this.groupId = groupId;
@@ -42,7 +43,7 @@ class GroupMatchingData {
 	synchronized void addMatchingData(MatchingData m) {
 		this.matchingDataKeys.add(m.getTeamId());
 		Queue<MatchingData> list = this.matchingData.get(m.getLv());
-		if(list == null) {
+		if (list == null) {
 			list = new LinkedList<MatchingData>();
 			matchingData.put(m.getLv(), list);
 		}
@@ -62,6 +63,19 @@ class GroupMatchingData {
 		Queue<MatchingData> list = matchingData.get(lv);
 		if (list != null) {
 			return list.poll();
+		}
+		return null;
+	}
+	
+	synchronized MatchingData pollBeginWithMaxLv() {
+		if (matchingDataKeys.size() > 0) {
+			Queue<MatchingData> list;
+			for (int lv = maxLv; lv-- > 0;) {
+				list = matchingData.get(lv);
+				if (list != null && list.size() > 0) {
+					return list.poll();
+				}
+			}
 		}
 		return null;
 	}

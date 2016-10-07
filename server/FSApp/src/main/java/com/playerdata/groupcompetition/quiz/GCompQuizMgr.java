@@ -10,6 +10,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
+import com.playerdata.groupcompetition.holder.GCompFightingRecordMgr;
 import com.playerdata.groupcompetition.holder.GCompHistoryDataMgr;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
@@ -41,8 +42,9 @@ public class GCompQuizMgr {
 	 * 删除上届比赛所有可竞猜项目
 	 * @param matchList
 	 */
-	public void deleteLastCompQuiz(List<Integer> matchList){
+	public void deleteLastCompData(List<Integer> matchList){
 		GroupQuizEventItemDAO.getInstance().removeAllRecord(matchList);
+		GCompFightingRecordMgr.getInstance().deleteLastFightRecord(matchList);
 	}
 	
 	/**
@@ -120,7 +122,8 @@ public class GCompQuizMgr {
 			for(int i = 0, size = list.size(); i < size; i++) {
 				matchIds.add(list.get(i).getId());
 			}
-			deleteLastCompQuiz(matchIds);
+			deleteLastCompData(matchIds);
+			
 		}
 		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);

@@ -29,11 +29,14 @@ public class GCompEventsGlobalData {
 	@IgnoreSynField
 	@JsonProperty("2")
 	private Map<GCEventsType, GCompEventsData> eventsDataMap = new HashMap<GCEventsType, GCompEventsData>();
+	@JsonProperty("3")
+	private List<GCompAgainst> nextMatches = null; // 下次赛事未开始前预先生成的对阵信息，客户端要用
 	
 	private void initMatchesList() {
 		this.matches = new ArrayList<GCompAgainst>();
 		for (Iterator<GCEventsType> itr = eventsDataMap.keySet().iterator(); itr.hasNext();) {
 			matches.addAll(eventsDataMap.get(itr.next()).getAgainsts());
+			matchesRO = Collections.unmodifiableList(matches);
 		}
 	}
 	
@@ -68,6 +71,14 @@ public class GCompEventsGlobalData {
 		this.initMatchesList();
 	}
 	
+	public void setNextMatches(List<GCompAgainst> list) {
+		this.nextMatches = new ArrayList<GCompAgainst>(list);
+	}
+	
+	public List<GCompAgainst> getNextMatches() {
+		return this.nextMatches;
+	}
+	
 	public GCompEventsData getEventsData(GCEventsType eventsType) {
 		return this.eventsDataMap.get(eventsType);
 	}
@@ -77,7 +88,11 @@ public class GCompEventsGlobalData {
 		if (this.matches != null) {
 			this.matches.clear();
 		}
+		if(this.nextMatches != null) {
+			this.nextMatches.clear();
+		}
 		this.matches = null;
+		this.nextMatches = null;
 		this.matchNumType = null;
 	}
 
