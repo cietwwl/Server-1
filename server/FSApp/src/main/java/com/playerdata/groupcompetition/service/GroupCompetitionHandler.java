@@ -461,4 +461,8 @@ public class GroupCompetitionHandler {
 		rspBuilder.setGroupScoreRankRspData(builder.build());
 		return rspBuilder.build().toByteString();
 	}
+
+	public void inPrepareArea(Player player) {
+		PrepareAreaMgr.getInstance().inPrepareArea(player);
+	}
 }
