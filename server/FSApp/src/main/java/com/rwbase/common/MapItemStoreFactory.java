@@ -96,10 +96,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
 	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
-	
-	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
-	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -207,10 +204,6 @@ public class MapItemStoreFactory {
 		serverGroupCopyDamageRecordCache = createForPerload(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity);
 		itemDropAndApplyRecordCache = createForPerload(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity);
 		
-		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
-
-		fixNormEquipDataItemCache = createForPerload(FixNormEquipDataItem.class, "ownerId", actualHeroCapacity);
-
 		angelArrayTeamInfoData = createForPerload(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity);
 
 		angelArrayFloorData = createForPerload(AngelArrayFloorData.class, "userId", heroCapacity);
@@ -414,14 +407,6 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
 		return activityDailyRechargeItemCache;
 	}	
-
-	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
-		return fixExpEquipDataItemCache;
-	}
-
-	public static MapItemStoreCache<FixNormEquipDataItem> getFixNormEquipDataItemCache() {
-		return fixNormEquipDataItemCache;
-	}
 
 	/**
 	 * 获取万仙阵阵容信息缓存
