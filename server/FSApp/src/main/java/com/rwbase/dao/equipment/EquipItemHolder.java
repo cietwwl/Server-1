@@ -10,43 +10,45 @@ import com.common.IHeroAction;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroExtPropertyType;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class EquipItemHolder {
 
-//	final private String ownerId; //
-//	final private eSynType equipSynType = eSynType.EQUIP_ITEM;
+	// final private String ownerId; //
+	// final private eSynType equipSynType = eSynType.EQUIP_ITEM;
 
-//	// private Map<Integer, EquipItem> equipSlotMap = new HashMap<Integer, EquipItem>();
-//
-//	public EquipItemHolder(String ownerIdP) {
-//		ownerId = ownerIdP;
-//		// for (EquipItem equipItemTmp : getItemList()) {
-//		// equipSlotMap.put(equipItemTmp.getEquipIndex(), equipItemTmp);
-//		// }
-//	}
-	
+	// // private Map<Integer, EquipItem> equipSlotMap = new HashMap<Integer,
+	// EquipItem>();
+	//
+	// public EquipItemHolder(String ownerIdP) {
+	// ownerId = ownerIdP;
+	// // for (EquipItem equipItemTmp : getItemList()) {
+	// // equipSlotMap.put(equipItemTmp.getEquipIndex(), equipItemTmp);
+	// // }
+	// }
+
 	private static final EquipItemHolder _INSTANCE = new EquipItemHolder();
-	
+
 	public static final EquipItemHolder getInstance() {
 		return _INSTANCE;
 	}
-	
+
 	final private eSynType equipSynType = eSynType.EQUIP_ITEM;
 
 	/*
 	 * 获取用户已经拥有
 	 */
-//	public List<EquipItem> getItemList() {
+	// public List<EquipItem> getItemList() {
 	public List<EquipItem> getItemList(String heroId) {
 		List<EquipItem> itemList = new ArrayList<EquipItem>();
-		Enumeration<EquipItem> mapEnum = getItemStore(heroId).getEnum();
+		Enumeration<EquipItem> mapEnum = getItemStore(heroId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			EquipItem item = (EquipItem) mapEnum.nextElement();
 			itemList.add(item);
@@ -55,47 +57,46 @@ public class EquipItemHolder {
 		return itemList;
 	}
 
-//	public void updateItem(Player player, EquipItem item) {
+	// public void updateItem(Player player, EquipItem item) {
 	public void updateItem(Player player, String heroId, EquipItem item) {
-		getItemStore(heroId).updateItem(item);
+		getItemStore(heroId).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, equipSynType, eSynOpType.UPDATE_SINGLE);
-//		notifyChange();
+		// notifyChange();
 		notifyChange(player.getUserId(), heroId);
 	}
 
 	public EquipItem getItem(String ownerId, int equipIndex) {
-		String itemId = EquipItemHelper.getItemId(ownerId, equipIndex);
-		return getItem(ownerId, itemId);
+		return getItem(ownerId, equipIndex);
 	}
 
-//	public EquipItem getItem(String itemId) {
-	public EquipItem getItem(String heroId, String itemId) {
-		return getItemStore(heroId).getItem(itemId);
+	// public EquipItem getItem(String itemId) {
+	public EquipItem getItem(String heroId, Integer itemId) {
+		return getItemStore(heroId).get(itemId);
 	}
 
-//	public boolean removeItem(Player player, EquipItem item) {
+	// public boolean removeItem(Player player, EquipItem item) {
 	public boolean removeItem(Player player, String heroId, EquipItem item) {
 		boolean success = getItemStore(heroId).removeItem(item.getId());
 		if (success) {
 			ClientDataSynMgr.updateData(player, item, equipSynType, eSynOpType.REMOVE_SINGLE);
-//			notifyChange();
+			// notifyChange();
 			notifyChange(player.getUserId(), heroId);
 		}
 		return success;
 	}
-	
+
 	public boolean removeAllItem(Player player, String heroId, List<EquipItem> items) {
 		// 次方法主要是优化通知notifyChange()和调用mapItemStore的次数
-		if(items.isEmpty()) {
+		if (items.isEmpty()) {
 			return true;
 		} else if (items.size() == 1) {
 			return removeItem(player, heroId, items.get(0));
 		}
-		List<String> idList = new ArrayList<String>();
-		for(int i = 0, size = items.size(); i < size; i++) {
+		List<Integer> idList = new ArrayList<Integer>();
+		for (int i = 0, size = items.size(); i < size; i++) {
 			idList.add(items.get(i).getId());
 		}
-		List<String> removeIds = getItemStore(heroId).removeItem(idList);
+		List<Integer> removeIds = getItemStore(heroId).removeItem(idList);
 		boolean success = false;
 		if (removeIds.size() > 0) {
 			success = idList.size() == removeIds.size();
@@ -115,11 +116,12 @@ public class EquipItemHolder {
 		return success;
 	}
 
-//	public boolean wearEquip(Player player, int equipIndex, ItemData itemData) {
+	// public boolean wearEquip(Player player, int equipIndex, ItemData
+	// itemData) {
 	public boolean wearEquip(Player player, String heroId, int equipIndex, ItemData itemData) {
 		// TODO 穿装备的逻辑是否有问题？如果原有装备
 		EquipItem equipItemOld = null;
-		Enumeration<EquipItem> mapEnum = getItemStore(heroId).getEnum();
+		Enumeration<EquipItem> mapEnum = getItemStore(heroId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			EquipItem item = (EquipItem) mapEnum.nextElement();
 			if (item.getEquipIndex() == equipIndex) {
@@ -138,16 +140,16 @@ public class EquipItemHolder {
 		}
 		return success;
 	}
-	
+
 	public boolean wearEquips(Player player, String heroId, Map<Integer, ItemData> itemDatasOfNewEquips) {
 		if (itemDatasOfNewEquips.isEmpty()) {
 			return false;
 		}
 		List<EquipItem> newEquipDatas = new ArrayList<EquipItem>();
-		List<String> removeItemIds = new ArrayList<String>();
+		List<Integer> removeItemIds = new ArrayList<Integer>();
 		List<EquipItem> removeItems = new ArrayList<EquipItem>();
-		MapItemStore<EquipItem> mapItemStore = getItemStore(heroId);
-		Enumeration<EquipItem> mapEnum = mapItemStore.getEnum();
+		PlayerExtPropertyStore<EquipItem> mapItemStore = getItemStore(heroId);
+		Enumeration<EquipItem> mapEnum = mapItemStore.getExtPropertyEnumeration();
 		int newItemSize = itemDatasOfNewEquips.size();
 		EquipItem equipItemOld = null;
 		while (mapEnum.hasMoreElements()) {
@@ -196,7 +198,7 @@ public class EquipItemHolder {
 		boolean addSuccess = getItemStore(heroId).addItem(item);
 		if (addSuccess) {
 			ClientDataSynMgr.updateData(player, item, equipSynType, eSynOpType.ADD_SINGLE);
-//			notifyChange();
+			// notifyChange();
 			notifyChange(player.getUserId(), heroId);
 		}
 		return addSuccess;
@@ -207,7 +209,8 @@ public class EquipItemHolder {
 	// Enumeration<EquipItem> mapEnum = getItemStore().getEnum();
 	// while (mapEnum.hasMoreElements()) {
 	// EquipItem item = (EquipItem) mapEnum.nextElement();
-	// HeroEquipCfg cfg = HeroEquipCfgDAO.getInstance().getConfig(item.getModelId());
+	// HeroEquipCfg cfg =
+	// HeroEquipCfgDAO.getInstance().getConfig(item.getModelId());
 	// if (cfg != null) {
 	// totalAttrData.plus(EquipItemHelper.toAttrData(cfg, item.getLevel()));
 	// }
@@ -221,29 +224,14 @@ public class EquipItemHolder {
 	}
 
 	public void flush(String heroId) {
-		getItemStore(heroId).flush();
 	}
 
-//	@Deprecated
-//	private List<Action> callbackList = new ArrayList<Action>();
-//
-//	@Deprecated
-//	public void regChangeCallBack(Action callBack) {
-//		callbackList.add(callBack);
-//	}
-//
-//	@Deprecated
-//	private void notifyChange() {
-//		for (Action action : callbackList) {
-//			action.doAction();
-//		}
-//	}
-	
 	private List<IHeroAction> _dataChangeCallbacks = new ArrayList<IHeroAction>();
+
 	public void regDataChangeCallback(IHeroAction callback) {
 		_dataChangeCallbacks.add(callback);
 	}
-	
+
 	private void notifyChange(String userId, String heroId) {
 		for (IHeroAction heroAction : _dataChangeCallbacks) {
 			heroAction.doAction(userId, heroId);
@@ -262,9 +250,15 @@ public class EquipItemHolder {
 		getItemStore(heroId).addItem(equipItem);
 	}
 
-//	private MapItemStore<EquipItem> getItemStore() {
-	private MapItemStore<EquipItem> getItemStore(String ownerId) {
-		MapItemStoreCache<EquipItem> cache = MapItemStoreFactory.getEquipCache();
-		return cache.getMapItemStore(ownerId, EquipItem.class);
+	private PlayerExtPropertyStore<EquipItem> getItemStore(String ownerId) {
+		RoleExtPropertyStoreCache<EquipItem> cache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.EQUIP_ITEM, EquipItem.class);
+		try {
+			return cache.getStore(ownerId);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

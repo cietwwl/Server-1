@@ -6,16 +6,18 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "inlay_item")
 @SynClass
-public class InlayItem implements IMapItem,InlayItemIF{
+public class InlayItem implements RoleExtProperty,InlayItemIF{
 	@Id
-	private String id;
+	private Integer id;
+	@OwnerId
 	private String ownerId; // 父级ID	
 
 	@CombineSave
@@ -23,10 +25,10 @@ public class InlayItem implements IMapItem,InlayItemIF{
 	@CombineSave
 	private int modelId;
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getOwnerId() {

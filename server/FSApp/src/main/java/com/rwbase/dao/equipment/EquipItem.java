@@ -4,6 +4,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
@@ -16,9 +17,9 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  */
 @Table(name = "equip_item")
 @SynClass
-public class EquipItem implements IMapItem, EquipItemIF {
+public class EquipItem implements RoleExtProperty, EquipItemIF {
 	@Id
-	private String id; // ownerId + slotId 装备唯一id
+	private Integer id; // ownerId + slotId 装备唯一id
 	private String ownerId;// 装备者（佣兵或主角）的id
 
 	@CombineSave
@@ -32,11 +33,11 @@ public class EquipItem implements IMapItem, EquipItemIF {
 	@CombineSave
 	private int exp; // 经验
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

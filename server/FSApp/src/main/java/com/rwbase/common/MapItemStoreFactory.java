@@ -9,8 +9,6 @@ import java.util.Map;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.embattle.EmbattleInfo;
-import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
-import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
@@ -38,7 +36,6 @@ import com.rwbase.dao.angelarray.pojo.db.AngelArrayFloorData;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
-import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -48,10 +45,8 @@ import com.rwbase.dao.groupCopy.db.GroupCopyMapRecord;
 import com.rwbase.dao.groupCopy.db.GroupCopyRewardDistRecord;
 import com.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecord;
 import com.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
-import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.Magic;
-import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwbase.dao.user.platformwhitelist.TablePlatformWhiteList;
 
@@ -63,14 +58,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<CopyLevelRecord> copyLevelRecord;
 	// CopyMapRecord
 	private static MapItemStoreCache<CopyMapRecord> copyMapRecord;
-	// EquipItem
-	private static MapItemStoreCache<EquipItem> equipCache;
 	// FashionItem
 	private static MapItemStoreCache<FashionItem> fashionCache;
 	// new guide
 	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
-	// InlayItem
-	private static MapItemStoreCache<InlayItem> inlayItemCache;
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
 	// Skill
@@ -178,13 +169,9 @@ public class MapItemStoreFactory {
 
 		copyMapRecord = createForPerload(CopyMapRecord.class, "userId", heroCapacity);
 
-		equipCache = createForPerload(EquipItem.class, "ownerId", actualHeroCapacity);
-
 		fashionCache = createForPerload(FashionItem.class, "userId", heroCapacity);
 
 		newGuideGiveItemHistoryCache = createForPerload(GiveItemHistory.class, "userId", heroCapacity);
-
-		inlayItemCache = createForPerload(InlayItem.class, "ownerId", actualHeroCapacity);
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
 
@@ -300,30 +287,12 @@ public class MapItemStoreFactory {
 	}
 
 	/**
-	 * 获取装备缓存
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<EquipItem> getEquipCache() {
-		return equipCache;
-	}
-
-	/**
 	 * 获取时装缓存
 	 * 
 	 * @return
 	 */
 	public static MapItemStoreCache<FashionItem> getFashionCache() {
 		return fashionCache;
-	}
-
-	/**
-	 * 获取镶嵌装备缓存
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<InlayItem> getInlayItemCache() {
-		return inlayItemCache;
 	}
 
 	/**
@@ -334,15 +303,6 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<Magic> getMagicCache() {
 		return magicCache;
 	}
-
-//	/**
-//	 * 获取技能缓存
-//	 * 
-//	 * @return
-//	 */
-//	public static MapItemStoreCache<SkillItem> getSkillCache() {
-//		return skillCache;
-//	}
 
 	/**
 	 * 获取任务缓存

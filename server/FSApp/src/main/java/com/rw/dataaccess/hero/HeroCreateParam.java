@@ -1,5 +1,6 @@
 package com.rw.dataaccess.hero;
 
+import com.rwbase.dao.role.pojo.RoleCfg;
 
 public class HeroCreateParam {
 
@@ -8,10 +9,10 @@ public class HeroCreateParam {
 	private final String qualityId; // 品质id
 	private final int playerLevel; // 玩家等级
 	private final int heroLevel; // 英雄等级
-	private final int modelId;		//模型id
-	
+	private final int modelId; // 模型id
+	private final RoleCfg rolecfg;
 
-	public HeroCreateParam(String userId, String heroId, String qualityId, int playerLevel, int heroLevel, int modelId) {
+	public HeroCreateParam(String userId, String heroId, String qualityId, int playerLevel, int heroLevel, int modelId, RoleCfg rolecfg) {
 		super();
 		this.userId = userId;
 		this.heroId = heroId;
@@ -19,6 +20,7 @@ public class HeroCreateParam {
 		this.playerLevel = playerLevel;
 		this.heroLevel = heroLevel;
 		this.modelId = modelId;
+		this.rolecfg = rolecfg;
 	}
 
 	public String getUserId() {
@@ -44,6 +46,8 @@ public class HeroCreateParam {
 	public int getModelId() {
 		return modelId;
 	}
-	
 
+	public RoleCfg getRolecfg() {
+		return rolecfg;
+	}
 }
