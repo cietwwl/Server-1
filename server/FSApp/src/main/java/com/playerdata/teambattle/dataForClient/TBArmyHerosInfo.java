@@ -2,6 +2,9 @@ package com.playerdata.teambattle.dataForClient;
 
 import java.util.List;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 public class TBArmyHerosInfo {
 	
 	private String magicID;
