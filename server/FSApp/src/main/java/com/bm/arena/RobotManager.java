@@ -3,6 +3,7 @@ package com.bm.arena;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -530,6 +531,8 @@ public class RobotManager {
 
 		return fetters;
 	}
+	
+	private final static List<String> TempList =new ArrayList<String>();
 
 	static class ProductPlayerTask implements Callable<RankingPlayer> {
 		private final int career;
@@ -555,6 +558,12 @@ public class RobotManager {
 			// 创建User，并初始化基本属性
 			User user = new User();
 			String userId = UUID.randomUUID().toString();
+			if(!TempList.contains(userId)){
+				TempList.add(userId);
+			}else{
+				System.out.println("duplicate userId............................");
+			}
+			
 			int sex = getRandom().nextInt(2);
 			int level = getRandom(cfg.getLevel());
 			user.setUserName(userName);
@@ -580,17 +589,19 @@ public class RobotManager {
 			Player player = new Player(userId, false, playerCfg);
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 
-			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
+			
 			// 品质
 
 //			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
-			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
-			player.getUserDataMgr().setHeadId(headImage);
 			player.initMgr();
+			PlayerMgr.getInstance().putToMap(player);
+			player.getUserDataMgr().setHeadId(headImage);
+			
 			player.getUserDataMgr().setUserName(userName);
 			player.SetLevel(level);
 
-			PlayerMgr.getInstance().putToMap(player);
+			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
+			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
