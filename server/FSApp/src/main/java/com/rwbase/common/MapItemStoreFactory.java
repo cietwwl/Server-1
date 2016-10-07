@@ -5,27 +5,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
-import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
-import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
-import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
-import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
-import com.playerdata.activity.retrieve.data.RewardBackItem;
-import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
-import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
 import com.playerdata.groupFightOnline.data.GFFinalRewardItem;
+import com.playerdata.groupcompetition.quiz.GCompUserQuizItem;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.teambattle.data.TBTeamItem;
@@ -52,7 +41,6 @@ import com.rwbase.dao.copy.pojo.CopyMapRecord;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
-import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
 import com.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
@@ -81,8 +69,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FashionItem> fashionCache;
 	// new guide
 	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
-	// FresherActivityItem
-	private static MapItemStoreCache<FresherActivityBigItem> fresherActivityCache;
 	// InlayItem
 	private static MapItemStoreCache<InlayItem> inlayItemCache;
 	// Magic
@@ -107,35 +93,10 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
 
-	private static MapItemStoreCache<ActivityCountTypeItem> activityCountTypeItemCache;
-
-	private static MapItemStoreCache<ActivityDailyTypeItem> activityDailyCountTypeItemCache;
-
-	private static MapItemStoreCache<ActivityTimeCardTypeItem> activityTimeCardTypeItemCache;
-
-	private static MapItemStoreCache<ActivityRateTypeItem> activityRateTypeItemCache;
-
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
-	private static MapItemStoreCache<ActivityRankTypeItem> activityRankTypeItemCache;
-
-	private static MapItemStoreCache<ActivityTimeCountTypeItem> activityTimeCountTypeItemCache;
-
-	private static MapItemStoreCache<ActivityVitalityTypeItem> activityVitalityItemCache;
-
-	private static MapItemStoreCache<ActivityExchangeTypeItem> activityExchangeTypeItemCache;
-
 	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
-	private static MapItemStoreCache<ActivityLimitHeroTypeItem> activityLimitHeroTypeItemCache;
-
-	private static MapItemStoreCache<ActivityDailyDiscountTypeItem> activityDailyDiscountTypeItemCache;
-
-	private static MapItemStoreCache<ActivityRedEnvelopeTypeItem> activityRedEnvelopeTypeItemCache;
-
-	private static MapItemStoreCache<ActivityFortuneCatTypeItem> activityFortuneCatTypeItemCache;
 	
-	private static MapItemStoreCache<RewardBackItem> RewardBackItemCache;
-
 	private static MapItemStoreCache<FixExpEquipDataItem> fixExpEquipDataItemCache;
 
 	private static MapItemStoreCache<FixNormEquipDataItem> fixNormEquipDataItemCache;
@@ -160,6 +121,8 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FSHero> heroItemCache;
 
 	private static MapItemStoreCache<FSHero> mainHeroItemCache;
+	
+	private static MapItemStoreCache<GCompUserQuizItem> groupCompQuizItemCache;
 
 	private static ArrayList<MapItemStoreCache<? extends IMapItem>> list;
 
@@ -224,8 +187,6 @@ public class MapItemStoreFactory {
 
 		newGuideGiveItemHistoryCache = createForPerload(GiveItemHistory.class, "userId", heroCapacity);
 
-		fresherActivityCache = createForPerload(FresherActivityBigItem.class, "ownerId", heroCapacity);
-
 		inlayItemCache = createForPerload(InlayItem.class, "ownerId", actualHeroCapacity);
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
@@ -245,33 +206,6 @@ public class MapItemStoreFactory {
 
 		serverGroupCopyDamageRecordCache = createForPerload(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity);
 		itemDropAndApplyRecordCache = createForPerload(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity);
-
-		activityCountTypeItemCache = createForPerload(ActivityCountTypeItem.class, "userId", heroCapacity);
-
-		activityTimeCardTypeItemCache = createForPerload(ActivityTimeCardTypeItem.class, "userId", heroCapacity);
-
-		activityRateTypeItemCache = createForPerload(ActivityRateTypeItem.class, "userId", heroCapacity);
-
-		activityRankTypeItemCache = createForPerload(ActivityRankTypeItem.class, "userId", heroCapacity);
-
-		activityExchangeTypeItemCache = createForPerload(ActivityExchangeTypeItem.class, "userId", heroCapacity);
-
-		activityTimeCountTypeItemCache = createForPerload(ActivityTimeCountTypeItem.class, "userId", heroCapacity);
-
-		activityDailyCountTypeItemCache = createForPerload(ActivityDailyTypeItem.class, "userId", heroCapacity);
-
-		activityVitalityItemCache = createForPerload(ActivityVitalityTypeItem.class, "userId", heroCapacity);
-
-		activityDailyDiscountTypeItemCache = createForPerload(ActivityDailyDiscountTypeItem.class, "userId", heroCapacity);
-
-		activityFortuneCatTypeItemCache = createForPerload(ActivityFortuneCatTypeItem.class, "userId", heroCapacity);
-
-		activityLimitHeroTypeItemCache = createForPerload(ActivityLimitHeroTypeItem.class, "userId", heroCapacity);
-
-		activityRedEnvelopeTypeItemCache = createForPerload(ActivityRedEnvelopeTypeItem.class, "userId", heroCapacity);
-		
-		RewardBackItemCache  = createForPerload(RewardBackItem.class, "userId", heroCapacity);
-
 		
 		fixExpEquipDataItemCache = createForPerload(FixExpEquipDataItem.class, "ownerId", actualHeroCapacity);
 
@@ -293,7 +227,7 @@ public class MapItemStoreFactory {
 
 		teamBattleItemCache = createForPerload(TBTeamItem.class, "hardID", heroCapacity);
 
-		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity, false);
+		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity, true);
 
 		mainHeroItemCache = createForPerload(FSHero.class, MAIN_ROLE_NAME, "id", heroCapacity, true);
 
@@ -305,6 +239,8 @@ public class MapItemStoreFactory {
 		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
 
 		activityDailyRechargeItemCache = createForPerload(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity);
+		
+		groupCompQuizItemCache = createForPerload(GCompUserQuizItem.class, "userID", heroCapacity);
 	}
 
 	private static <T extends IMapItem> void register(MapItemStoreCache<T> cache) {
@@ -386,15 +322,6 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<FashionItem> getFashionCache() {
 		return fashionCache;
-	}
-
-	/**
-	 * 获取开服活动缓存
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<FresherActivityBigItem> getFresherActivityCache() {
-		return fresherActivityCache;
 	}
 
 	/**
@@ -480,69 +407,13 @@ public class MapItemStoreFactory {
 		return newGuideGiveItemHistoryCache;
 	}
 
-	public static MapItemStoreCache<ActivityCountTypeItem> getActivityCountTypeItemCache() {
-		return activityCountTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityDailyTypeItem> getActivityDailyCountTypeItemCache() {
-		return activityDailyCountTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityDailyDiscountTypeItem> getActivityDailyDiscountTypeItemCache() {
-		return activityDailyDiscountTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityTimeCardTypeItem> getActivityTimeCardTypeItemCache() {
-		return activityTimeCardTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityRateTypeItem> getActivityRateTypeItemCache() {
-		return activityRateTypeItemCache;
-	}
-
 	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
 		return activityDateTypeItemCache;
 	}
 
-	public static MapItemStoreCache<ActivityRankTypeItem> getActivityRankTypeItemCache() {
-		return activityRankTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityTimeCountTypeItem> getActivityTimeCountTypeItemCache() {
-		return activityTimeCountTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityExchangeTypeItem> getActivityExchangeTypeItemCache() {
-		return activityExchangeTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityVitalityTypeItem> getActivityVitalityItemCache() {
-		return activityVitalityItemCache;
-	}
-
 	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
 		return activityDailyRechargeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityFortuneCatTypeItem> getActivityFortuneCatTypeItemCache() {
-		return activityFortuneCatTypeItemCache;
-	}
-
-	
-	
-	
-	public static MapItemStoreCache<RewardBackItem> getRewardBackItemCache() {
-		return RewardBackItemCache;
-	}
-
-
-	public static MapItemStoreCache<ActivityLimitHeroTypeItem> getActivityLimitHeroTypeItemCache() {
-		return activityLimitHeroTypeItemCache;
-	}
-
-	public static MapItemStoreCache<ActivityRedEnvelopeTypeItem> getActivityRedEnvelopeTypeItemCache() {
-		return activityRedEnvelopeTypeItemCache;
-	}
+	}	
 
 	public static MapItemStoreCache<FixExpEquipDataItem> getFixExpEquipDataItemCache() {
 		return fixExpEquipDataItemCache;
@@ -664,6 +535,16 @@ public class MapItemStoreFactory {
 	 */
 	public static PFMapItemStoreCache<TablePlatformWhiteList> getPlatformWhiteListCache() {
 		return platformWhiteListCache;
+	}
+	
+	/**
+	 * 
+	 * 获取帮派争霸竞猜的cache
+	 * 
+	 * @return
+	 */
+	public static MapItemStoreCache<GCompUserQuizItem> getGCompQuizItemCache() {
+		return groupCompQuizItemCache;
 	}
 
 	public static List<Pair<CacheKey, String>> getPreloadInfos(String userId) {

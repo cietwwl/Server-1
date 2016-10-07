@@ -15,7 +15,11 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter{
     public void channelRead(ChannelHandlerContext ctx, Object msg)
             throws Exception {
     	ByteBuf buf = Unpooled.copiedBuffer(((String)msg + System.getProperty("line.separator")).getBytes("UTF-8"));
-        //System.out.println(System.currentTimeMillis() + ": " + (String)msg + ">>return");
+    	try {
+			Thread.sleep(1);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
         ctx.writeAndFlush(buf);
     }
 

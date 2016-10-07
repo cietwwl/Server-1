@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,7 +24,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.JdbcUtils;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
@@ -51,6 +51,7 @@ public class DataAccessSimpleSupport {
 	private final PlatformTransactionManager tm;
 	private final DefaultTransactionDefinition df;
 	private final JdbcTemplate template;
+	private final int[] charMapper;
 
 	public DataAccessSimpleSupport(String dsName) {
 		// 初始化事务相关
@@ -62,6 +63,21 @@ public class DataAccessSimpleSupport {
 		this.tm = new DataSourceTransactionManager(dataSource);
 		this.df = new DefaultTransactionDefinition();
 		this.df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+		// 初始化
+		char[] array = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+		TreeSet<Character> set = new TreeSet<Character>();
+		for (int i = 0; i < array.length; i++) {
+			set.add(Character.toUpperCase(array[i]));
+			set.add(Character.toLowerCase(array[i]));
+		}
+		int max = set.last() + 1;
+		this.charMapper = new int[max];
+		for (int i = 0; i < charMapper.length; i++) {
+			charMapper[i] = -1;
+		}
+		for (Character ch : set) {
+			charMapper[ch] = Character.digit(ch, 16);
+		}
 	}
 
 	public JdbcTemplate getMainTemplate() {
@@ -183,6 +199,7 @@ public class DataAccessSimpleSupport {
 	 * 批量插入和删除，如果执行成功，返回插入记录由数据库生成的主键
 	 * 事务原子性保证插入和删除的记录全部成功或全部失败，抛出异常表示全部失败
 	 * </pre>
+	 * 
 	 * @param insertSql
 	 * @param insertBps
 	 * @param deleteSql
@@ -331,14 +348,10 @@ public class DataAccessSimpleSupport {
 	 * 此方法中的对象是由逻辑自己生成主键,即泛型K
 	 * </pre>
 	 * 
-	 * @param addSql
-	 *            执行添加的sql语句
-	 * @param addList
-	 *            添加列表
-	 * @param delSql
-	 *            执行删除的sql语句
-	 * @param delList
-	 *            删除列表
+	 * @param addSql 执行添加的sql语句
+	 * @param addList 添加列表
+	 * @param delSql 执行删除的sql语句
+	 * @param delList 删除列表
 	 * @return
 	 */
 	public <K, T> boolean insertAndDelete(ClassInfo classInfo, String addSql, List<T> addList, String delSql, List<K> delList, Integer type) throws DuplicatedKeyException, DataNotExistException {
@@ -552,7 +565,27 @@ public class DataAccessSimpleSupport {
 		}
 	}
 
+	public int getTableIndex_(String userId, int tableCount) {
+		char lastChar = userId.charAt(userId.length() - 1);
+		int index = lastChar;
+		if (index < charMapper.length) {
+			int value = charMapper[index];
+			if (value >= 0) {
+				if (value < tableCount) {
+					return value;
+				} else {
+					return value % tableCount;
+				}
+			}
+		}
+		return Math.abs(userId.hashCode() % tableCount);
+	}
+	
 	public int getTableIndex(String userId, int tableCount) {
+		//兼容旧数据，如果清数据可以直接调用上面的方法
+		if(userId.length() == 12 || tableCount == 16){
+			return getTableIndex_(userId, tableCount);
+		}
 		boolean isNumber = true;
 		int len = userId.length();
 		for (int i = 0; i < len; i++) {
@@ -571,6 +604,7 @@ public class DataAccessSimpleSupport {
 		}
 		return tableIndex;
 	}
+	
 
 	@Deprecated
 	public <T> List<T> findByKey(ClassInfo classInfo, String tableName, String keyName, Object value) throws Exception {

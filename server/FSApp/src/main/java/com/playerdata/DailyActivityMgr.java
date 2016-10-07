@@ -65,7 +65,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 		List<DailyActivityData> currentList = taskItem.getTaskList();
 		List<Integer> firstInitTaskIds = taskItem.getFirstIncrementTaskIds();
 		
-		Map<Integer, DailyActivityData> finishMap = transferFinishList2Map(taskItem.getRemoveTaskList());
+		Map<Integer, Integer> finishMap = transferFinishList2Map(taskItem.getRemoveTaskList(), cfgDAO);
 		
 		List<DailyActivityData> scanList = new ArrayList<DailyActivityData>(currentList);
 
@@ -104,6 +104,9 @@ public class DailyActivityMgr implements PlayerEventListener {
 			taskType.remove(entity.getCfg().getTaskType());
 		}
 		
+		//移除已经完成的任务类型
+		taskType.removeAll(finishMap.values());
+		
 		//------检查剩下的任务类型，看看有没有新任务------//
 		for (Integer type : taskType) {
 			List<DailyActivityCfgEntity> subTypeList = cfgDAO.getCfgEntrisByType(type);
@@ -119,12 +122,20 @@ public class DailyActivityMgr implements PlayerEventListener {
 			holder.save();
 		}
 		
+//		StringBuffer sb = new StringBuffer("新任务列表：");
+//		for (DailyActivityData d : currentList) {
+//			DailyActivityCfgEntity entity = cfgDAO.getCfgEntity(d.getTaskId());
+//			sb.append("任务id：").append(d.getTaskId()).append(",任务类型：").append(entity.getCfg().getTaskType()).append("，任务名:")
+//			.append(entity.getCfg().getTitle()).append(",是否完成：").append(d.getCanGetReward()).append("任务进度：").append(d.getCurrentProgress()).append("\n");
+//		}
+//		System.err.println(sb.toString());
+		
 		return new ArrayList<DailyActivityData>(currentList);
 	}
 	
 	
 	private boolean checkAndAddNewMission(List<DailyActivityCfgEntity> subTypeList, 
-			int playerVip, int playerLevel, String userId, Map<Integer, DailyActivityData> finishMap, 
+			int playerVip, int playerLevel, String userId, Map<Integer, Integer> finishMap, 
 			List<Integer> firstInitTaskIds, List<DailyActivityData> currentList){
 		
 		DailyActivityCfgEntity newMission = null;
@@ -151,11 +162,20 @@ public class DailyActivityMgr implements PlayerEventListener {
 		
 	}
 	
-	private Map<Integer, DailyActivityData> transferFinishList2Map(List<DailyActivityData> list){
-		Map<Integer, DailyActivityData> tempMap = new HashMap<Integer, DailyActivityData>();
+	/**
+	 * 返回已经完成的任务id，及对应的任务类型
+	 * @param list
+	 * @param cfgDAO 
+	 * @return
+	 */
+	private Map<Integer, Integer> transferFinishList2Map(List<DailyActivityData> list, DailyActivityCfgDAO cfgDAO){
+		Map<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
 		
 		for (DailyActivityData data : list) {
-			tempMap.put(data.getTaskId(), data);
+			int taskId = data.getTaskId();
+			DailyActivityCfg cfg = cfgDAO.getCfgEntity(taskId).getCfg();
+			tempMap.put(taskId, cfg.getTaskType());
+//			System.out.println("finish task id:" + taskId+", task type:" + cfg.getTaskType());
 		}
 		
 		return tempMap;
@@ -269,6 +289,13 @@ public class DailyActivityMgr implements PlayerEventListener {
 //
 //		list.addAll(temMap.values());
 
+//		StringBuffer sb = new StringBuffer("新任务列表：");
+//		for (DailyActivityData d : currentList) {
+//			DailyActivityCfgEntity entity = cfgDAO.getCfgEntity(d.getTaskId());
+//			sb.append("任务id：").append(d.getTaskId()).append(",任务类型：").append(entity.getCfg().getTaskType()).append("，任务名:")
+//			.append(entity.getCfg().getTitle()).append(",是否完成：").append(d.getCanGetReward()).append("任务进度：").append(d.getCurrentProgress()).append("\n");
+//		}
+//		System.err.println(sb.toString());
 		return currentList;
 	}
 

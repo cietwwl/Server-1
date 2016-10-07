@@ -268,8 +268,10 @@ public class RandomBossMgr{
 		ad.setId(record.getBossTemplateId());
 		ad.setCurLife((int) record.getLeftHp());
 		ad.setMaxLife((int) monster.getLife());
+		ad.setMaxEnergy(monster.getEnergy());
+		ad.setCurEnergy(0);
 		attrList.add(ad);
-		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList);
+		ArmyInfo armyInfo = ArmyInfoHelper.buildMonsterArmy(mID, attrList, bossCfg.getLevelID());
 		
 		if(armyInfo == null){
 			response.setIsSuccess(false);
@@ -367,9 +369,10 @@ public class RandomBossMgr{
 	/**
 	 * 发现boss 暂时是100%发现boss
 	 * @param player
+	 * @param hasRate TODO 是否检查机率
 	 * @return
 	 */
-	public void findBossBorn(Player player){
+	public void findBossBorn(Player player, boolean hasRate){
 		//检查角色等级
 		int level = player.getLevel();
 		if(level < rbServerCfg.getOpenLv()){
@@ -382,10 +385,12 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-//		int r = RandomUtil.getRandonIndexWithoutProb(10000);
-//		if(r > rbServerCfg.getBossBornRate()){
-//			return;
-//		}
+		if(hasRate){
+			int r = RandomUtil.getRandonIndexWithoutProb(10000);
+			if(r > rbServerCfg.getBossBornRate()){
+				return;
+			}
+		}
 		
 		//这里要根据权重进行随机
 		

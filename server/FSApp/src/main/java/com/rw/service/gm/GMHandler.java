@@ -1,13 +1,16 @@
 package com.rw.service.gm;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
@@ -16,6 +19,7 @@ import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
+import com.bm.randomBoss.RandomBossMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
@@ -75,12 +79,15 @@ import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
+import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
+import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+import com.rwproto.MainMsgProtos.EMsgType;
 import com.rwproto.MsgDef.Command;
 
 public class GMHandler {
@@ -212,6 +219,14 @@ public class GMHandler {
 
 		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
 		funcCallBackMap.put("requestfightinggrowthupgrade", "requestFightingGrowthUpgrade");
+		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
+		funcCallBackMap.put("requestGCompMatchData".toLowerCase(), "requestGCompMatchData");
+		funcCallBackMap.put("requestGroupScoreRank".toLowerCase(), "requestGroupScoreRank");
+		funcCallBackMap.put("MGCS".toLowerCase(), "moveGroupCompStage");
+		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
+		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
+		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
+		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -224,6 +239,9 @@ public class GMHandler {
 		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
 		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
 		funcCallBackMap.put("upgrademagic", "upgradeMagic");
+		
+		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
+		funcCallBackMap.put("callrb", "callRb");
 	}
 
 	public boolean isActive() {
@@ -832,6 +850,11 @@ public class GMHandler {
 		int num = Integer.parseInt(arrCommandContents[0]);
 		player.getTowerMgr().addTowerNum(num);
 		;
+		return true;
+	}
+	
+	public boolean callRb(String[] commands, Player player){
+		RandomBossMgr.getInstance().findBossBorn(player, false);
 		return true;
 	}
 
@@ -1518,6 +1541,112 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
+	
+	public boolean requestGCompSelectionData(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetSelectionData).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestGCompMatchData(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetMatchView).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestGroupScoreRank(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetGroupScoreRank).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean enterPrepareArea(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonReqMsg.newBuilder().setReqType(GCRequestType.EnterPrepareArea).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean requestCreateGCompTeam(String[] arrCommandContents, Player player) {
+		List<String> heroIds = player.getHeroMgr().getHeroIdList(player);
+		if (heroIds.isEmpty()) {
+			return false;
+		}
+		GCRequestType reqType;
+		if(arrCommandContents[0].equals("1")) {
+			reqType = GCRequestType.CreateTeam;
+		} else {
+			reqType = GCRequestType.AdjustTeamMember;
+		}
+		int size = heroIds.size();
+		heroIds = new ArrayList<String>(heroIds.subList(0, size > 4 ? 4 : size));
+		heroIds.add(player.getUserId());
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_TEAM_REQ);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.TeamRequest.newBuilder().setReqType(reqType).addAllHeroId(heroIds).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
+	public boolean GCompTeamAction(String[] arrCommandContents, Player player) {
+		List<String> heroIds = player.getHeroMgr().getHeroIdList(player);
+		if (heroIds.isEmpty()) {
+			return false;
+		}
+		int type = Integer.parseInt(arrCommandContents[0]);
+		GCRequestType reqType;
+		switch(type) {
+		case 1:
+			reqType = GCRequestType.SetTeamReady;
+			break;
+		case 2:
+			reqType = GCRequestType.CancelTeamReady;
+			break;
+		default:
+		case 3:
+			reqType = GCRequestType.StartMatching;
+			break;
+		}
+		int size = heroIds.size();
+		heroIds = new ArrayList<String>(heroIds.subList(0, size > 4 ? 4 : size));
+		heroIds.add(player.getUserId());
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_TEAM_STATUS_REQ);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.TeamStatusRequest.newBuilder().setReqType(reqType).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
 
 	/**
 	 * 批量添加物品
@@ -1616,5 +1745,88 @@ public class GMHandler {
 		}
 		return true;
 	}
+	
+	public boolean moveGroupCompStage(String[] arrCommandContents, Player player) {
+		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					Field wheelField = com.rwbase.common.timer.core.FSGameTimer.class.getDeclaredField("_wheel");
+					Field taskField = com.rwbase.common.timer.core.FSGameTimeSignal.class.getDeclaredField("_task");
+					Field timerInstanceField = com.rwbase.common.timer.core.FSGameTimerMgr.class.getDeclaredField("_timerInstance");
+					Field consumerField = com.playerdata.groupcompetition.util.GCompCommonTask.class.getDeclaredField("_task");
+					wheelField.setAccessible(true);
+					taskField.setAccessible(true);
+					consumerField.setAccessible(true);
+					timerInstanceField.setAccessible(true);
+					com.playerdata.groupcompetition.util.GCompStageType stageType = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentStageType();
+					com.playerdata.groupcompetition.util.GCompEventsStatus eventStatus = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
+					boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
+					boolean isNoneStatus = (eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.NONE || eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.FINISH);
+					@SuppressWarnings("unchecked")
+					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField
+							.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
+					List<com.rwbase.common.timer.core.FSGameTimeSignal> list = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
+					Class<?> taskClazz = com.playerdata.groupcompetition.util.GCompCommonTask.class;
+					outter: for (int i = 0, length = wheel.length; i < length; i++) {
+						Set<com.rwbase.common.timer.core.FSGameTimeSignal> set = wheel[i];
+						for (Iterator<com.rwbase.common.timer.core.FSGameTimeSignal> itr = set.iterator(); itr.hasNext();) {
+							com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = itr.next();
+							Object obj = taskField.get(timeSignal);
+							if (obj.getClass().equals(taskClazz)) {
+								Object consumerObj = consumerField.get(obj);
+								String consumerName = consumerObj.getClass().getName();
+								if (isEvents) {
+									if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
+										list.add(timeSignal);
+										itr.remove();
+										break outter;
+									} else if (consumerName.contains("EventStatusSwitcher")) {
+										// 具体赛事状态的切换器
+										list.add(timeSignal);
+										itr.remove();
+										break outter;
+									} else if (consumerName.contains("EventsTypeSwitcher")) {
+										// 赛事类型切换
+										list.add(timeSignal);
+										itr.remove();
+										break outter;
+									}
+								} else {
+									if (consumerName.contains("StageStartConsumer")) {
+										list.add(timeSignal);
+										itr.remove();
+									} else if (consumerName.contains("StageEndMonitorConsumer")) {
+										list.add(0, timeSignal);
+										itr.remove();
+									}
+									if (list.size() == 2) {
+										break outter;
+									}
+								}
+							}
+						}
+					}
+					for (int i = 0; i < list.size(); i++) {
+						com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
+						timeSignal.getTask().onTimeSignal(timeSignal);
+					}
+					wheelField.setAccessible(false);
+					taskField.setAccessible(false);
+					consumerField.setAccessible(false);
+					timerInstanceField.setAccessible(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		return true;
+	}
+	
+	public boolean sendGroupPmd(String[] arrCommandContents, Player player) {
+		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
+		return true;
+	} 
 
 }

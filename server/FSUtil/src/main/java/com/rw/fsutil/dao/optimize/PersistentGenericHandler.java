@@ -100,5 +100,5 @@ public interface PersistentGenericHandler<K1, V, K2> {
 	 * @param value
 	 * @return
 	 */
-	public boolean hasChanged(K1 key, V value, EvictedUpdateTask<K2> evictedUpdateTask);
+	public boolean hasChanged(K1 key, V value);
 }

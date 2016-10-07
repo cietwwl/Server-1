@@ -15,10 +15,10 @@ import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.cache.MapItemCache;
 import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
 import com.rw.fsutil.dao.optimize.DAOStoreCache;
@@ -27,7 +27,7 @@ import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryRoleExtPropertyData> {
 
-	private final DataCache<String, PlayerExtPropertyStoreImpl<T>> cache;
+	private final MapItemCache<String, PlayerExtPropertyStoreImpl<T>> cache;
 	private final Short type;
 	private final Class<T> entityClass;
 	private final ObjectMapper mapper;
@@ -38,7 +38,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		this.type = type;
 		this.entityClass = entityClass;
 		this.dataAccessManager = extPropertyManager;
-		this.cache = DataCacheFactory.createDataDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
+		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
 	}
 
 	@Override
@@ -133,14 +133,14 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		@Override
 		public boolean extractParams(CacheCompositKey<String, Integer> key, PlayerExtPropertyStoreImpl<T> value, List<Object[]> updateList) {
 			Integer key2 = key.getSecondKey();
-			T item = value.get(key2);
-			if (item == null) {
+			PlayerExtPropertyData<T> data = value.getItem(key2);
+			if (data == null) {
 				return false;
 			}
 			value.removeUpdateFlag(key2);
 			String ext;
 			try {
-				ext = mapper.writeValueAsString(item);
+				ext = mapper.writeValueAsString(data.getAttachment());
 			} catch (Exception e) {
 				// TODO Logger object info
 				e.printStackTrace();
@@ -149,7 +149,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 			if (ext == null) {
 				return false;
 			}
-			return updateList.add(new Object[] { ext, key });
+			return updateList.add(new Object[] { ext, data.getPrimaryKey() });
 		}
 
 		@Override
@@ -157,6 +157,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 			HashMap<Integer, PlayerExtPropertyData<T>> dirtyMap = value.getDirtyItems();
 			for (Map.Entry<Integer, PlayerExtPropertyData<T>> entry : dirtyMap.entrySet()) {
 				Integer k = entry.getKey();
+				PlayerExtPropertyData<T> data = entry.getValue();
 				String ext;
 				try {
 					ext = mapper.writeValueAsString(entry.getValue().getAttachment());
@@ -169,13 +170,13 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 					FSUtilLogger.error("extract params is null:" + key + "," + k + "," + cache.getName());
 					continue;
 				}
-				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext, key });
+				map.put(new DoubleKey<String, Integer>(key, k), new Object[] { ext, data.getPrimaryKey() });
 			}
 			return true;
 		}
 
 		@Override
-		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value, EvictedUpdateTask<CacheCompositKey<String, Integer>> evictedUpdateTask) {
+		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value) {
 			return value.hasChanged();
 		}
 

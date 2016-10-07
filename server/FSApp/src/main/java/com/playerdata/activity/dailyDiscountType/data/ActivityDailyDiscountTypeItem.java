@@ -13,12 +13,15 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
+
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -26,10 +29,10 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_dailydiscounttype_item")
-public class ActivityDailyDiscountTypeItem implements  IMapItem {
+public class ActivityDailyDiscountTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private int id;
 	
 	private String userId;// 对应的角色Id
 	@CombineSave
@@ -81,11 +84,6 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
 	
-	@Override
-	public String getId() {
-		// TODO Auto-generated method stub
-		return id;
-	}
 
 	public String getUserId() {
 		return userId;
@@ -137,7 +135,13 @@ public class ActivityDailyDiscountTypeItem implements  IMapItem {
 		this.version = version;
 	}
 
-	public void setId(String id) {
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(int id) {
 		this.id = id;
 	}
 

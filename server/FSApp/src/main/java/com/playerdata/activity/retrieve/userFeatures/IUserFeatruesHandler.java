@@ -17,9 +17,9 @@ public interface IUserFeatruesHandler {
 	/**
 	 * 
 	 * @param userId
-	 * @return 负责创建角色或隔天刷新时，将当天的功能对应可完成次数填入todaysubitem
+	 * @return 负责创建角色或隔天刷新时，将当天的功能对应可完成次数填入todaysubitem;创建角色时不能传入player等，都写系统默认值
 	 */
-	public RewardBackTodaySubItem doEvent(Player player);
+	public RewardBackTodaySubItem doEvent();
 	
 	/**
 	 * 

@@ -204,15 +204,15 @@ public class GMHeroBase {
 	 * @param genType
 	 * @param blnLimited
 	 */
-	public static void gmInlayJewel(Hero hero, Player player, int gemType, int level, boolean blnLimited){
+	public static void gmInlayJewel(Hero hero, Player player, int gemType, int level, boolean blnLimited, int heroLevel){
 		InlayMgr inlayMgr = hero.getInlayMgr();
 		List<GemCfg> gemList = ItemCfgHelper.getGemCfgByType(gemType);
 		int max = -1;
 		int itemId = 0;
 		if(blnLimited){
 			for (GemCfg gemCfg : gemList) {
-				if(gemCfg.getLevel() >= player.getLevel() && max < gemCfg.getLevel()){
-					max = gemCfg.getLevel();
+				if(gemCfg.getLevel() <= heroLevel && max <= gemCfg.getGemLevel()){
+					max = gemCfg.getGemLevel();
 					itemId = gemCfg.getId();
 					if(max == level){
 						break;
@@ -221,21 +221,19 @@ public class GMHeroBase {
 			}
 		}else{
 			for (GemCfg gemCfg : gemList) {
-				if(max < gemCfg.getLevel()){
-					max = gemCfg.getLevel();
+				if(level == gemCfg.getGemLevel()){
 					itemId = gemCfg.getId();
-					if(max == level){
-						break;
-					}
 				} 
 			}
 		}
-		ItemData itemData = new ItemData();
-		itemData.setCount(1);
-		itemData.setUserId(player.getUserId());
-		itemData.setModelId(itemId);
-		
-		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
+		if (itemId != 0) {
+			ItemData itemData = new ItemData();
+			itemData.setCount(1);
+			itemData.setUserId(player.getUserId());
+			itemData.setModelId(itemId);
+
+			inlayMgr.InlayGem(player, hero.getUUId(), itemData);
+		}
 	}
 	
 	/**
@@ -353,6 +351,9 @@ public class GMHeroBase {
 			return "";
 		}
 		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillId);
+		String skillEffectId = cfg.getSkillEffectId();
+		String baseSkillId = skillEffectId+"_1";
+		cfg = SkillCfgDAO.getInstance().getCfg(baseSkillId);
 
 		while (!cfg.getNextSillId().equals("")) {
 			cfg = SkillCfgDAO.getInstance().getCfg(cfg.getNextSillId());
@@ -410,23 +411,17 @@ public class GMHeroBase {
 	 * @param upgradeLevel 指定等级
 	 */
 	public static void gmFixEquipLevelUp(Player player, int upgradeLevel){
-		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		String userId = player.getUserId();
 		int level = player.getLevel();
 		if(upgradeLevel > level){
 			upgradeLevel = level;
 		}
 		HeroMgr heroMgr = player.getHeroMgr();
-		for (String templateId : heroIdList) {
-			Hero hero;
-			if (templateId.equals(player.getUserId())) {
-				hero = heroMgr.getMainRoleHero(player);
-			} else {
-				hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
-			}
+		List<Hero> allHeros = heroMgr.getAllHeros(player, null);
+		for (Hero hero : allHeros) {
 
 			FixNormEquipMgr fixNormEquipMgr = hero.getFixNormEquipMgr();
-			List<FixNormEquipDataItem> fixNorEquipItemList = fixNormEquipMgr.getFixNorEquipItemList(userId);
+			List<FixNormEquipDataItem> fixNorEquipItemList = fixNormEquipMgr.getFixNorEquipItemList(hero.getId());
 			for (FixNormEquipDataItem fixNormEquipDataItem : fixNorEquipItemList) {
 				gmFixNormalEquipQualityUp(fixNormEquipDataItem, upgradeLevel);
 				fixNormEquipDataItem.setLevel(upgradeLevel);
@@ -477,18 +472,12 @@ public class GMHeroBase {
 	 * @param starLevel
 	 */
 	public static void gmFixEquipStarUp(Player player, int starLevel){
-		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		String userId = player.getUserId();
 		HeroMgr heroMgr = player.getHeroMgr();
-		for (String templateId : heroIdList) {
-			Hero hero;
-			if (templateId.equals(player.getUserId())) {
-				hero = heroMgr.getMainRoleHero(player);
-			} else {
-				hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
-			}
+		List<Hero> allHeros = heroMgr.getAllHeros(player, null);
+		for (Hero hero : allHeros) {
 			FixNormEquipMgr fixNormEquipMgr = hero.getFixNormEquipMgr();
-			List<FixNormEquipDataItem> fixNorEquipItemList = fixNormEquipMgr.getFixNorEquipItemList(userId);
+			List<FixNormEquipDataItem> fixNorEquipItemList = fixNormEquipMgr.getFixNorEquipItemList(hero.getId());
 			for (FixNormEquipDataItem fixNormEquipDataItem : fixNorEquipItemList) {
 				fixNormEquipDataItem.setStar(starLevel);
 				fixNormEquipMgr.gmSaveFixNormEquip(player, fixNormEquipDataItem);
@@ -512,6 +501,9 @@ public class GMHeroBase {
 		int magicLevel = magic.getMagicLevel();
 		String modelId = String.valueOf(magic.getModelId());
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		if(upgradeLevel == magicLevel){
+			return;
+		}
 		if(upgradeLevel > magicLevel){
 			//升级
 			
@@ -540,6 +532,7 @@ public class GMHeroBase {
 		magic.setModelId(Integer.parseInt(modelId));
 		magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(upgradeLevel));
 		itemBagMgr.updateItem(magic);
+		player.getMagicMgr().updateMagic();
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
 		updateItems.add(magic);
 		itemBagMgr.syncItemData(updateItems);

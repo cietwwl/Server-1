@@ -1,9 +1,7 @@
 package com.rwbase.dao.battle.pojo;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -19,9 +17,7 @@ import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
  */
 public class BattleCfgDAO extends CfgCsvDao<CopyMonsterInfoCfg>{
 
-	/**关卡及对应的怪物信息 <key=关卡id, value=怪物列表>*/
-	private Map<String, List<CopyMonsterInfoCfg>> copyMonsterMap = new HashMap<String, List<CopyMonsterInfoCfg>>();
-	
+	private Map<String, CopyMonsterInfoCfg> battleCopyMap = new HashMap<String, CopyMonsterInfoCfg>();
 	
 	public static BattleCfgDAO getInstance(){
 		return SpringContextUtil.getBean(BattleCfgDAO.class);
@@ -33,12 +29,7 @@ public class BattleCfgDAO extends CfgCsvDao<CopyMonsterInfoCfg>{
 		Collection<CopyMonsterInfoCfg> values = cfgCacheMap.values();
 		for (CopyMonsterInfoCfg cfg : values) {
 			cfg.formatData();
-			List<CopyMonsterInfoCfg> list = copyMonsterMap.get(cfg.getCopyId());
-			if(list == null){
-				list = new ArrayList<CopyMonsterInfoCfg>();
-				copyMonsterMap.put(cfg.getCopyId(), list);
-			}
-			list.add(cfg);
+			battleCopyMap.put(cfg.getCopyId(), cfg);
 		}
 		return cfgCacheMap;
 	}
@@ -48,8 +39,8 @@ public class BattleCfgDAO extends CfgCsvDao<CopyMonsterInfoCfg>{
 	 * @param copyID
 	 * @return
 	 */
-	public List<CopyMonsterInfoCfg> getCopyMonsterInfoByCopyID(String copyID){
-		return copyMonsterMap.get(copyID);
+	public CopyMonsterInfoCfg getCopyMonsterInfoByCopyID(String copyID){
+		return battleCopyMap.get(copyID);
 	}
 
 }

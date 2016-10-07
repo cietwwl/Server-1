@@ -29,7 +29,11 @@ import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeS
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -56,16 +60,40 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		List<ActivityDailyDiscountTypeItem> addItemList = null;
-		String userid = player.getUserId();
-		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
+//		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+//		List<ActivityDailyDiscountTypeItem> addItemList = null;
+//		String userid = player.getUserId();
+//		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
+		
+		RoleExtPropertyStoreCache<ActivityDailyDiscountTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYDISCOUNT, ActivityDailyDiscountTypeItem.class);
+		String userId = player.getUserId();
+		List<ActivityDailyDiscountTypeItem> addList = null;
+		PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> store = null;
+		try {
+			store = storeCach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		
+		
+		
+		
+		
 	}
 
-	public List<ActivityDailyDiscountTypeItem> creatItems(String userid, MapItemStore<ActivityDailyDiscountTypeItem> itemStore) {
+	public List<ActivityDailyDiscountTypeItem> creatItems(String userid, PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> itemStore) {
 		List<ActivityDailyDiscountTypeCfg> activitydailydiscountcfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityDailyDiscountTypeItem> addItemList = null;
 		ActivityDailyDiscountItemCfgDao itemDao = ActivityDailyDiscountItemCfgDao.getInstance();
@@ -78,14 +106,15 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 			if (countTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityDailyDiscountTypeHelper.getItemId(userid, countTypeEnum);
+//			String itemId = ActivityDailyDiscountTypeHelper.getItemId(userid, countTypeEnum);
+			int id = Integer.parseInt(countTypeEnum.getCfgId());
 			if (itemStore != null) {
-				if (itemStore.getItem(itemId) != null) {
+				if (itemStore.get(id) != null) {
 					continue;
 				}
 			}
 			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setEnumId(cfg.getEnumId());
 			item.setUserId(userid);
 			item.setCfgId(cfg.getId());
@@ -323,7 +352,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityDailyDiscountTypeCfg> allList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityDailyDiscountTypeCfg cfg : allList) {
 			if (isOpen(cfg, param)) {
@@ -333,11 +362,11 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	private boolean isOpen(ActivityDailyDiscountTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityDailyDiscountTypeCfg cfg, long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

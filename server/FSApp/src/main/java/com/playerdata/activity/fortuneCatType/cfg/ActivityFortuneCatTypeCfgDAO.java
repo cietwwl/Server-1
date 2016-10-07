@@ -62,8 +62,9 @@ public final class ActivityFortuneCatTypeCfgDAO extends
 	public ActivityFortuneCatTypeItem newItem(Player player, ActivityFortuneCatTypeCfg cfg) {
 		if(cfg!=null){
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			String itemID = ActivityFortuneCatHelper.getItemId(player.getUserId(), ActivityFortuneTypeEnum.FortuneCat);
-			item.setId(itemID);
+//			String itemID = ActivityFortuneCatHelper.getItemId(player.getUserId(), ActivityFortuneTypeEnum.FortuneCat);
+			int id = Integer.parseInt(ActivityFortuneTypeEnum.FortuneCat.getCfgId());
+			item.setId(id);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());

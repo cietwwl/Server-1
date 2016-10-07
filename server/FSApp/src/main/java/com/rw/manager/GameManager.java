@@ -28,6 +28,7 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.targetSell.net.BenefitMsgController;
 import com.gm.task.gmCommand.GmCommandManager;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -35,6 +36,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.groupcompetition.battle.GCompMatchBattleCheckTask;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
@@ -50,6 +52,7 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.log.LogService;
@@ -82,9 +85,13 @@ public class GameManager {
 	private static int logServerPort; // 日志服端口
 	private static ServerPerformanceConfig performanceConfig;
 	private static GameNoticeDataHolder gameNotice;
-	private static int giftCodeTimeOut;// 兑换码服务器请求超时
 	private static String gmAccount;// GM账户名
 	private static String gmPassword;// GM密码
+
+	private static int giftCodeTimeOut;
+	private static int connectTimeOutMillis;
+	private static int heartBeatInterval;
+
 
 	/**
 	 * 初始化所有后台服务
@@ -117,7 +124,14 @@ public class GameManager {
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
+		
+		/************启动精准营销**************/
 
+		if(ServerSwitch.isOpenTargetSell()){
+			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
+			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
+					connectTimeOutMillis, heartBeatInterval);
+		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
 		LogService.getInstance().init();
@@ -177,6 +191,8 @@ public class GameManager {
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		WorshipMgr.getInstance().getByWorshipedList();
+		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
+		GCompMatchBattleCheckTask.start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 	}
@@ -204,10 +220,10 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
 
 			gmAccount = props.getProperty("gmAccount");
 			gmPassword = props.getProperty("gmPassword");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -224,6 +240,10 @@ public class GameManager {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
 			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
+			
+			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
+			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
+			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -277,6 +297,7 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
+		
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);
@@ -412,9 +433,6 @@ public class GameManager {
 		return performanceConfig;
 	}
 
-	public static int getGiftCodeTimeOut() {
-		return giftCodeTimeOut;
-	}
 
 	public static String getGmAccount() {
 		return gmAccount;
@@ -429,6 +447,10 @@ public class GameManager {
 	 */
 	public static void CheckAllConfig() {
 		CfgCsvReloader.CheckAllConfig();
+	}
+
+	public static int getGiftCodeTimeOut() {
+		return giftCodeTimeOut;
 	}
 
 }
