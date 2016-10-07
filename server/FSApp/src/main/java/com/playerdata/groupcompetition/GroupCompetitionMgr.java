@@ -328,6 +328,7 @@ public class GroupCompetitionMgr {
 		GCompEventsDataMgr.getInstance().loadEventsGlobalData(); // 加载赛事数据
 		GCompDetailInfoMgr.getInstance().onServerStartComplete(); // 加载详情数据
 		GCompGroupScoreRankingMgr.getInstance().serverStartComplete(); // 加载积分排名数据
+		GCompHistoryDataMgr.getInstance().serverStartComplete(); // 加载历史数据
 		this.checkStartGroupCompetition();
 	}
 	

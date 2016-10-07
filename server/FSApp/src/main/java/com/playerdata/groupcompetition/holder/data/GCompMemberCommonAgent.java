@@ -9,7 +9,9 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.holder.GCompMemberHolder;
+import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO;
+import com.rwbase.dao.groupcompetition.pojo.UserGroupCompetitionScoreRecord;
 import com.rwbase.gameworld.GameWorldFactory;
 
 class GCompMemberCommonAgent implements IGCompMemberAgent {
@@ -61,6 +63,7 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 	@Override
 	public void updateToClient(GCompMember member) {
 		GCompMemberHolder.getInstance().syn(PlayerMgr.getInstance().find(member.getUserId()), member);
+		UpdateUserGroupCompetitinRecordTask.submit(member);
 	}
 
 	private static class UpdateWinTimesToRankingTask implements Runnable {
@@ -108,5 +111,30 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 			GCompScoreRankMgr.addOrUpdateScoreRank(player, score);
 		}
 
+	}
+	
+	private static class UpdateUserGroupCompetitinRecordTask implements Runnable {
+		
+		static void submit(GCompMember member) {
+			UpdateUserGroupCompetitinRecordTask task = new UpdateUserGroupCompetitinRecordTask();
+			task.member = member;
+			GameWorldFactory.getGameWorld().asynExecute(task);
+		}
+		
+		private GCompMember member;
+
+		@Override
+		public void run() {
+			UserGroupCompetitionScoreRecord record = GCompMemberMgr.getInstance().getRecordOfCurrent(member.getUserId());
+			if (member.getScore() != record.getScore()) {
+				record.setScore(member.getScore());
+			}
+			if (member.getTotalWinTimes() != record.getTotalWinTimes()) {
+				record.setTotalWinTimes(member.getTotalWinTimes());
+			}
+			if (member.getMaxContinueWins() != record.getMaxContinueWins()) {
+				record.setMaxContinueWins(member.getMaxContinueWins());
+			}
+		}
 	}
 }

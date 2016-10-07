@@ -107,11 +107,12 @@ public class GCompEvents {
 		GCompFightingRecordMgr.getInstance().initRecordList(eventsData.getAgainsts());
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCompOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
-		GCompMemberMgr.getInstance().notifyEventsStart(eventsData.getRelativeGroupIds()); // 通知成员管理器
+		GCompMemberMgr.getInstance().notifyEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知成员管理器
 		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
+		GCompDetailInfoMgr.getInstance().onEventsStart(eventsData.getAgainsts());
 	}
 	
 	// 通知赛事结束
@@ -128,7 +129,8 @@ public class GCompEvents {
 		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
 		GCompGroupScoreRankingMgr.getInstance().onEventsEnd(_type, againsts);
-		GCompDetailInfoMgr.getInstance().onEventsEnd();
+		GCompDetailInfoMgr.getInstance().onEventsEnd(eventsData.getAgainsts());
+		GCompMemberMgr.getInstance().notifyEventsEnd();
 	}
 	
 	// 通知具体赛事的具体节点变化

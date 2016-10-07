@@ -8,6 +8,7 @@ import com.playerdata.groupcompetition.holder.data.GCompGroupScoreRecord;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompPersonalScore;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
+import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.playerdata.groupcompetition.util.GCompUtil;
 
 public class GCompDetailInfoMgr {
@@ -32,7 +33,24 @@ public class GCompDetailInfoMgr {
 		_dataHolder.reset();
 	}
 	
-	public void onEventsEnd() {
+	public void onEventsEnd(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = _dataHolder.get(against.getId());
+			detailInfo.getByGroupId(against.getWinGroupId()).setResult(GCompBattleResult.Win);
+			detailInfo.getByGroupId(against.getWinGroupId().equals(against.getGroupA().getGroupId()) ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId())
+					.setResult(GCompBattleResult.Lose);
+		}
+		_dataHolder.update();
+	}
+	
+	public void onEventsStart(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = _dataHolder.get(against.getId());
+			detailInfo.getByGroupId(against.getGroupA().getGroupId()).setResult(GCompBattleResult.Fighting);
+			detailInfo.getByGroupId(against.getGroupB().getGroupId()).setResult(GCompBattleResult.Fighting);
+		}
 		_dataHolder.update();
 	}
 
