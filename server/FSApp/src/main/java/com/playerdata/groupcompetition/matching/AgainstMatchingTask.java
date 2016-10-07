@@ -165,7 +165,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 			while (size > 0) {
 				GCompMember member = memberList.poll();
 				size--;
-				memberList.add(member);
+				memberList.add(member); // 放回去
 				boolean duplicate = false;
 				for (int i = 0, tempSize = targetList.size(); i < tempSize; i++) {
 					if (targetList.get(i).getUserId().equals(member.getUserId())) {
