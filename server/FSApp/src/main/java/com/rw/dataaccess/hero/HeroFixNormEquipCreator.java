@@ -12,8 +12,8 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEquipDataItem>{
-	
+public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEquipDataItem> {
+
 	final private Comparator<FixNormEquipDataItem> comparator = new Comparator<FixNormEquipDataItem>() {
 
 		@Override
@@ -23,16 +23,10 @@ public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEq
 
 	};
 
-
 	@Override
 	public eOpenLevelType getOpenLevelType() {
-		//do nothing
+		// do nothing
 		return null;
-	}
-
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		return true;
 	}
 
 	@Override
@@ -41,15 +35,15 @@ public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEq
 
 		int modelId = params.getModelId();
 		RoleFixEquipCfg roleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
-		if (roleFixEquipCfg == null) {			
-			throw(new RuntimeException("配置 roleFixEquipCfg 为空, modelId:"+modelId));
+		if (roleFixEquipCfg == null) {
+			throw (new RuntimeException("配置 roleFixEquipCfg 为空, modelId:" + modelId));
 		}
 
 		int slot = 0;
 		for (String cfgId : roleFixEquipCfg.getNormCfgIdList()) {
 
 			String ownerId = params.getHeroId();
-			Integer id = FixEquipHelper.getNormItemId(ownerId , cfgId);
+			Integer id = FixEquipHelper.getNormItemId(ownerId, cfgId);
 
 			FixNormEquipDataItem FixNormEquipDataItem = new FixNormEquipDataItem();
 			FixNormEquipDataItem.setId(id);
@@ -65,15 +59,19 @@ public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEq
 		}
 
 		Collections.sort(equipItemList, comparator);
-		
+
 		return equipItemList;
 	}
 
 	@Override
-	public List<FixNormEquipDataItem> checkAndCreate(PlayerExtPropertyStore<FixNormEquipDataItem> store,HeroCreateParam params) {
-		//do nothing
+	public List<FixNormEquipDataItem> checkAndCreate(PlayerExtPropertyStore<FixNormEquipDataItem> store, HeroCreateParam params) {
+		// do nothing
 		return null;
 	}
 
+	@Override
+	public boolean requiredToPreload(HeroCreateParam params) {
+		return true;
+	}
 
 }

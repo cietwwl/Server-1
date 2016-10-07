@@ -14,7 +14,7 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.common.NameFilterIntrospector;
 import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
-import com.rw.fsutil.dao.annotation.RoleId;
+import com.rw.fsutil.dao.annotation.OwnerId;
 import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
@@ -39,7 +39,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		this.mapper = new ObjectMapper();
 		this.type = type;
 		this.entityClass = entityClass;
-		this.clasInfo = new ClassInfo(entityClass, ClassHelper.getFirstAnnotateFieldName(entityClass, RoleId.class));
+		this.clasInfo = new ClassInfo(entityClass, ClassHelper.getFirstAnnotateFieldName(entityClass, OwnerId.class));
 		NameFilterIntrospector nameFilter = new NameFilterIntrospector(clasInfo.getPrimaryKey(),clasInfo.getOwnerFieldName());
 		this.mapper.setAnnotationIntrospector(nameFilter); 
 		this.dataAccessManager = extPropertyManager;

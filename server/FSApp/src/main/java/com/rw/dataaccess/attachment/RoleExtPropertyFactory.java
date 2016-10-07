@@ -128,7 +128,7 @@ public class RoleExtPropertyFactory {
 			FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>> tuple = playerExtCreators[i];
 			RoleExtPropertyCreator<RoleExtProperty, Object> creator = tuple.secondValue;
 			// TODO 检查openLv
-			if (!creator.validateOpenTime(currentTimeMillis)) {
+			if (!creator.requiredToPreload(currentTimeMillis)) {
 				continue;
 			}
 			if (tuple.thirdValue.contains(roleId)) {
@@ -143,7 +143,7 @@ public class RoleExtPropertyFactory {
 		// load from database
 		List<QueryRoleExtPropertyData> loadDatas = extPropertyManager.loadRangeEntitys(roleId, typeList);
 		HashMap<Short, ArrayList<QueryRoleExtPropertyData>> loadDatasMap = new HashMap<Short, ArrayList<QueryRoleExtPropertyData>>();
-		//按类型分区
+		// 按类型分区
 		for (int i = loadDatas.size(); --i >= 0;) {
 			QueryRoleExtPropertyData entity = loadDatas.get(i);
 			Short type = entity.getType();
@@ -156,7 +156,7 @@ public class RoleExtPropertyFactory {
 		}
 		int loadSize = loadList.size();
 		if (loadDatasMap.size() < loadSize) {
-			//收集需要创建的RoleExtCreateData
+			// 收集需要创建的RoleExtCreateData
 			ArrayList<RoleExtCreateData> createList = new ArrayList<RoleExtCreateData>(len);
 			ArrayList<InsertRoleExtDataWrap<RoleExtProperty>> insertDatas = new ArrayList<InsertRoleExtDataWrap<RoleExtProperty>>();
 			for (int i = loadSize; --i >= 0;) {
@@ -174,11 +174,16 @@ public class RoleExtPropertyFactory {
 			for (int i = createSize; --i >= 0;) {
 				RoleExtCreateData createData = createList.get(i);
 				List<RoleExtProperty> createPropList = createData.creator.firstCreate(param);
-				if (createPropList == null || createPropList.isEmpty()) {
+				if (createPropList == null) {
+					continue;
+				}
+				// 创建一个没有记录的对象
+				if (createPropList.isEmpty()) {
+					createData.cache.putIfAbsent(roleId, Collections.<PlayerExtPropertyData<RoleExtProperty>> emptyList());
 					continue;
 				}
 				try {
-					//收集不同类型的创建记录
+					// 收集不同类型的创建记录
 					List<InsertRoleExtDataWrap<RoleExtProperty>> insertData = convertNewEntry(createData.cache.getMapper(), roleId, createData.type, createPropList);
 					createData.setDatas(insertData);
 					insertDatas.addAll(insertData);
@@ -200,7 +205,11 @@ public class RoleExtPropertyFactory {
 			// 生成新的PlayerExtProperty
 			for (int i = createSize; --i >= 0;) {
 				RoleExtCreateData createData = createList.get(i);
-				List<PlayerExtPropertyData<RoleExtProperty>> list = create(createData.getDatas());
+				List<InsertRoleExtDataWrap<RoleExtProperty>> insertData = createData.getDatas();
+				if (insertData == null) {
+					continue;
+				}
+				List<PlayerExtPropertyData<RoleExtProperty>> list = create(insertData);
 				RoleExtPropertyStoreCache<RoleExtProperty> cache = createData.cache;
 				cache.putIfAbsent(roleId, list);
 			}

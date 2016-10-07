@@ -18,6 +18,7 @@ import com.rwbase.common.enu.eActivityType;
 @Table(name="fresheractivity")
 public class FresherActivityBigItem implements RoleExtProperty{
 	
+	@Id
 	private int id;
 	@CombineSave
 	private eActivityType activityType;
