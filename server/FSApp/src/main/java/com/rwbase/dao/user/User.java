@@ -6,6 +6,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.dao.annotation.IgnoreUpdate;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
@@ -22,6 +23,7 @@ public class User implements TableUserIF {
 	private int vip;
 	private int sex;
 	private String account;
+	@IgnoreUpdate
 	private String userName;
 	private String headImage;
 
