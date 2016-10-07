@@ -531,8 +531,6 @@ public class RobotManager {
 
 		return fetters;
 	}
-	
-	private final static List<String> TempList =new ArrayList<String>();
 
 	static class ProductPlayerTask implements Callable<RankingPlayer> {
 		private final int career;
@@ -558,12 +556,6 @@ public class RobotManager {
 			// 创建User，并初始化基本属性
 			User user = new User();
 			String userId = UUID.randomUUID().toString();
-			if(!TempList.contains(userId)){
-				TempList.add(userId);
-			}else{
-				System.out.println("duplicate userId............................");
-			}
-			
 			int sex = getRandom().nextInt(2);
 			int level = getRandom(cfg.getLevel());
 			user.setUserName(userName);
