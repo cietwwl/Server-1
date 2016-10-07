@@ -387,7 +387,7 @@ public class GroupCompetitionHandler {
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
 		}
-		GCompRankMgr.getInstance().getKillRank(builder, event);
+		GCompRankMgr.getInstance().getKillRank(player, builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
@@ -400,7 +400,7 @@ public class GroupCompetitionHandler {
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
 		}
-		GCompRankMgr.getInstance().getScoreRank(builder, event);
+		GCompRankMgr.getInstance().getScoreRank(player, builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
@@ -413,7 +413,7 @@ public class GroupCompetitionHandler {
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
 		}
-		GCompRankMgr.getInstance().getWinRank(builder, event);
+		GCompRankMgr.getInstance().getWinRank(player, builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}

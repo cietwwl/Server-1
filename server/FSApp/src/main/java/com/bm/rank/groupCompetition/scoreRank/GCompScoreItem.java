@@ -58,7 +58,7 @@ public class GCompScoreItem implements GCompRankDataIF{
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
 	}
-	
+
 	@Override
 	public int getValue() {
 		return totalScore;
