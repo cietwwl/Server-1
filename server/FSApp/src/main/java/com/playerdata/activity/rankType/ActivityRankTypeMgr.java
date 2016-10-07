@@ -288,7 +288,15 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 						if (rankInfo.getLevel() < cfg.getLevelLimit()) {
 							// 虽让上了榜，但级别不够不能触发榜对应的活动
 							continue;
-						}	
+						}
+						if (rankInfo.getRankingLevel() > subCfg.getRankRanges()[1]) {
+							// 奖励活动有效位数小于当前榜上用户的排名
+							continue;
+						}
+						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
+						if(player.getUserGameDataMgr().getLastLoginTime()<cfg.getStartTime()){
+							continue;//最后次登陆时间不在活动时间内；
+						}
 						sendGifgSingel(rankInfo,activityRankTypeItemHolder,activityRankTypeEnum,subCfg);						
 					}						
 				}			
@@ -371,24 +379,20 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	 * @param subCfg
 	 */
 	private void sendGifgSingel(RankInfo rankInfo,ActivityRankTypeItemHolder activityRankTypeItemHolder,
-			ActivityRankTypeEnum activityRankTypeEnum,ActivityRankTypeSubCfg subCfg) {
-		if (rankInfo.getRankingLevel() > subCfg.getRankRanges()[1]) {
-			// 奖励活动有效位数小于当前榜上用户的排名
-			return;
-		}
+			ActivityRankTypeEnum activityRankTypeEnum,ActivityRankTypeSubCfg subCfg) {		
 		String userId = rankInfo.getHeroUUID();
 		PlayerExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
 				.getItemStore(userId);
 		if (itemStore == null) {
 			return;
 		}
-		ActivityRankTypeItem targetItem = activityRankTypeItemHolder
-				.getItem(userId,activityRankTypeEnum);
+		ActivityRankTypeItem targetItem = null;//activityRankTypeItemHolder.getItem(userId,activityRankTypeEnum);
+		targetItem = itemStore.get(Integer.parseInt(activityRankTypeEnum.getCfgId()));
 		if (targetItem == null) {
 			// 有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
 			return;
-		}							
-		System.out.println(userId);
+		}
+//		System.out.println(userId);
 		String tmpReward = subCfg.getReward();
 		String emaiId = subCfg.getEmailId();//
 		targetItem.setReward(tmpReward);
