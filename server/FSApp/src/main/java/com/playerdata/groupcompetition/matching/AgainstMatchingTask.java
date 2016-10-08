@@ -187,10 +187,10 @@ class AgainstMatchingTask implements IGameTimerTask {
 	
 	private void getRandomMember(LinkedList<GCompMember> memberList, List<RandomMatchingData> targetList) {
 		int size = memberList.size();
-		int maxSize = GCompCommonConfig.getMaxMemberCountOfTeam();
+		int maxSize = memberCountOfCurrent;
 		if (targetList.size() < maxSize) {
 			while (size > 0) {
-				GCompMember member = memberList.get(random.nextInt(size));
+				GCompMember member = memberList.remove(random.nextInt(size));
 				size--;
 				memberList.add(member); // 放回去
 				boolean duplicate = false;
