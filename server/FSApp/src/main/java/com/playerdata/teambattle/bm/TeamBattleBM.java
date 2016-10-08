@@ -96,9 +96,9 @@ public class TeamBattleBM {
 		staticMemInfo.setUserID(player.getUserId());
 		staticMemInfo.setUserStaticTeam(simpleArmy);
 		HashMap<String, Integer> heroPosMap = new HashMap<String, Integer>();
-		if(item.getHeroIDs() != null && item.getPosition() != null && item.getHeroIDs().size() == item.getPosition().size()){
+		if(item.getHeroIDs() != null){
 			for(int i = 0; i < item.getHeroIDs().size(); i++){
-				heroPosMap.put(item.getHeroIDs().get(i), item.getPosition().get(i));
+				heroPosMap.put(item.getHeroIDs().get(i), i + 1);
 			}
 		}
 		staticMemInfo.setHeroPosMap(heroPosMap);
@@ -403,7 +403,7 @@ public class TeamBattleBM {
 			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
 			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
 			for(ArmyHero hero : army.getHeroList()){
-				hero.setPosition(teamInfoSimple.getHeroPosMap().get(hero.getCurAttrData().getId()));
+				hero.setPosition(teamInfoSimple.getHeroPosMap().get(hero.getRoleBaseInfo().getId()));
 			}
 			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
 		}

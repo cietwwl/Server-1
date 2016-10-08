@@ -10,8 +10,6 @@ public class TBArmyHerosInfo {
 	private String magicID;
 	
 	private List<String> heroIDs;
-	
-	private List<Integer> position;
 
 	public String getMagicID() {
 		return magicID;
@@ -27,13 +25,5 @@ public class TBArmyHerosInfo {
 
 	public void setHeroIDs(List<String> heroIDs) {
 		this.heroIDs = heroIDs;
-	}
-
-	public List<Integer> getPosition() {
-		return position;
-	}
-
-	public void setPosition(List<Integer> position) {
-		this.position = position;
 	}
 }
