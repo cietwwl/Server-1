@@ -136,7 +136,6 @@ public class PlayerCreateTask implements Runnable {
 		//提前创建Major need trx
 		MajorData majorData = new MajorData();
 		majorData.setId(userId);
-		majorData.setOwnerId(userId);
 		MajorDataCacheFactory.getCache().update(majorData);
 		
 		//提前创建时装   need trx
