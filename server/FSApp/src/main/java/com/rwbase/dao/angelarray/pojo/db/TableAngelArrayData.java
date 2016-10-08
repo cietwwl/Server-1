@@ -32,6 +32,9 @@ public class TableAngelArrayData {
 	@CombineSave(Column = "heroChange")
 	@SaveAsJson
 	private Map<String, TowerHeroChange> heroChangeMap;// 玩家血量变化记录
+	@CombineSave(Column = "heroChange")
+	@SaveAsJson
+	private float magic;// 法宝怒气
 
 	public TableAngelArrayData() {
 		this.heroChangeMap = new HashMap<String, TowerHeroChange>();
@@ -133,6 +136,15 @@ public class TableAngelArrayData {
 		return resetTime;
 	}
 
+	/**
+	 * 获取法宝的剩余怒气
+	 * 
+	 * @return
+	 */
+	public float getMagic() {
+		return magic;
+	}
+
 	// ///////////////////////////////////////////////SET区域
 	public void setUserId(String userId) {
 		this.userId = userId;
@@ -182,6 +194,15 @@ public class TableAngelArrayData {
 	 */
 	public void setResetTime(long resetTime) {
 		this.resetTime = resetTime;
+	}
+
+	/**
+	 * 设置法宝剩余的怒气
+	 * 
+	 * @param magic
+	 */
+	public void setMagic(float magic) {
+		this.magic = magic;
 	}
 
 	// ///////////////////////////////////////////////逻辑区域
@@ -241,5 +262,6 @@ public class TableAngelArrayData {
 	 */
 	public void resetHeroChange() {
 		this.heroChangeMap.clear();
+		this.magic = 0;
 	}
 }

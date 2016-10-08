@@ -84,6 +84,8 @@ message TagTowerData{
 	
 	optional int32 enemyTowerID = 11;//敌方所属塔层
 	optional string enemyArmyInfo=12; //敌方属性数据
+	
+	optional float magicPercent = 13;//法宝剩余能量
 }
 
 message MsgTowerRequest{
@@ -92,6 +94,7 @@ message MsgTowerRequest{
 	optional int32 win = 3;
 	repeated TagTowerHeroChange enemyHeroChangeList = 4;//敌方数据改变
 	optional int32 towerID =6;//塔层
+	optional float magicPercent = 7;//敌人法宝剩余能量
 }
 
 message MsgTowerResponse{
