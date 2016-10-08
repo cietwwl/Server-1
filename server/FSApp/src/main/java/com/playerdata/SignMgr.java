@@ -680,7 +680,8 @@ public class SignMgr implements PlayerEventListener {
 				if(overSignNum == 0){
 					overSignNum = cfg.getSignNum();
 				}
-				nextSignNum = overSignNum + cfg.getSignNum() - beforeCfg.getSignNum();
+				
+				nextSignNum = overSignNum + cfg.getSignNum() - (beforeCfg == null ? 0 : beforeCfg.getSignNum());
 			}
 			signDataHolder.setOverSignNum(nextSignNum);
 			

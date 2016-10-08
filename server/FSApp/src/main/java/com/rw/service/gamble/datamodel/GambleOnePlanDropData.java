@@ -5,10 +5,12 @@ import com.log.GameLog;
 public class GambleOnePlanDropData {
 	private GamblePlanCfg planCfg;
 	private GambleDropHistory historyRecord;
+	private GambleHistoryRecord groupRec;
 
-	public GambleOnePlanDropData(GambleDropHistory historyRecord, GamblePlanCfg planCfg) {
+	public GambleOnePlanDropData(GambleDropHistory historyRecord, GamblePlanCfg planCfg,GambleHistoryRecord groupRec) {
 		this.historyRecord=historyRecord;
 		this.planCfg = planCfg;
+		this.groupRec = groupRec;
 		if (planCfg == null){
 			GameLog.error("钓鱼台", "无效参数", "找不到配置");
 		}
@@ -23,11 +25,17 @@ public class GambleOnePlanDropData {
 	 */
 	public int getGuaranteeLeftCount(){
 		if (planCfg.getDropItemCount() == 1){
-			int size = historyRecord.getHistorySize();
+			//int size = groupRec.getChargeGambleHistory().size();
+			int number = historyRecord.getLookbackNumber();
 			int guaranteePlanIndex = historyRecord.getChargeGuaranteePlanIndex();
 			IDropGambleItemPlan dropPlan = planCfg.getChargePlan();
+			//特殊规则，钻石单抽的首抽不能记录在保底次数中
+			if (planCfg.getKey() == 5 && historyRecord.isFirstChargeGamble()){
+				return 0;
+			}
 			int guaranteeCheckNum = dropPlan.getCheckNum(guaranteePlanIndex);
-			return guaranteeCheckNum > size ? guaranteeCheckNum - size - 1 : 0;
+			return guaranteeCheckNum > number ? guaranteeCheckNum - number - 1 : 0;
+			//return guaranteeCheckNum > size ? guaranteeCheckNum - size - 1 : 0;
 		}else{
 			return -1;
 		}

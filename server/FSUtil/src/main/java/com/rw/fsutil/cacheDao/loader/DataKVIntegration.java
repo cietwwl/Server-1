@@ -1,16 +1,20 @@
 package com.rw.fsutil.cacheDao.loader;
 
+import java.util.HashMap;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
+import java.util.Map;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
+import com.rw.fsutil.dao.kvdata.DataKvManager;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
-import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 
-public class DataKVIntegration<T> implements PersistentLoader<String, T> {
+public class DataKVIntegration<T> extends PersistentLoader<String, T> {
 
 	private final Integer type;
 	private final ClassInfo classInfoPojo;
@@ -18,25 +22,24 @@ public class DataKVIntegration<T> implements PersistentLoader<String, T> {
 	private final String[] selectSqlArray;
 	private final String[] delectSqlArray;
 	private final String[] updateSqlArray;
+	private final String[] tableNameArray;
+	private final boolean forceUpdateOnEviction;
 	private final int length;
 
-	public DataKVIntegration(int type, ClassInfo classInfoPojo, JdbcTemplate template) {
+	public DataKVIntegration(int type, ClassInfo classInfoPojo, JdbcTemplate template, boolean forceUpdateOnEviction) {
 		this.type = type;
 		this.classInfoPojo = classInfoPojo;
 		this.template = template;
-		List<String> tableNameList = DataAccessStaticSupport.getDataKVTableNameList(template);
-		this.length = tableNameList.size();
-		this.selectSqlArray = new String[this.length];
-		this.delectSqlArray = new String[this.length];
-		this.updateSqlArray = new String[this.length];
-		for (int i = 0; i < this.length; i++) {
-			String tableName = tableNameList.get(i);
-			selectSqlArray[i] = "select dbvalue from " + tableName + " where dbkey=? and type=?";
-			delectSqlArray[i] = "delete from " + tableName + " where dbkey=? and type=?";
-			updateSqlArray[i] = "update " + tableName + " set dbvalue=? where dbkey=? and type=?";
-		}
+		DataKvManager dataKvManager = DataAccessFactory.getDataKvManager();
+		this.selectSqlArray = dataKvManager.getSelectSqlArray();
+		this.delectSqlArray = dataKvManager.getDeleteSqlArray();
+		this.updateSqlArray = dataKvManager.getUpdateSqlArray();
+		this.tableNameArray = dataKvManager.getTableNameArray();
+		this.length = this.selectSqlArray.length;
+		this.forceUpdateOnEviction = forceUpdateOnEviction;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T load(String key) throws DataNotExistException, Exception {
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(key, length);
@@ -45,7 +48,7 @@ public class DataKVIntegration<T> implements PersistentLoader<String, T> {
 		if (result == null || result.isEmpty()) {
 			throw new DataNotExistException();
 		}
-		return toT(result.get(0));
+		return (T) classInfoPojo.fromJson(result.get(0));
 	}
 
 	@Override
@@ -71,20 +74,6 @@ public class DataKVIntegration<T> implements PersistentLoader<String, T> {
 		return affectedRows > 0;
 	}
 
-	@SuppressWarnings("unchecked")
-	private T toT(String value) {
-		T t = null;
-		if (StringUtils.isNotBlank(value)) {
-			try {
-				t = (T) classInfoPojo.fromJson(value);
-			} catch (Exception e) {
-				// 数据解释出错，不能往下继续，直接抛出RuntimeException给顶层捕获
-				throw (new RuntimeException("DataKVDao[toT] json转换异常", e));
-			}
-		}
-		return t;
-	}
-
 	private String toJson(T t) {
 		String json = null;
 
@@ -96,4 +85,34 @@ public class DataKVIntegration<T> implements PersistentLoader<String, T> {
 		}
 		return json;
 	}
+
+	@Override
+	public String getTableName(String key) {
+		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(key, length);
+		return tableNameArray[tableIndex];
+	}
+
+	@Override
+	public Map<String, String> getUpdateSqlMapping() {
+		HashMap<String, String> map = new HashMap<String, String>(tableNameArray.length);
+		for (int i = tableNameArray.length; --i >= 0;) {
+			map.put(tableNameArray[i], updateSqlArray[i]);
+		}
+		return map;
+	}
+
+	@Override
+	public Object[] extractParams(String key, T value) {
+		String writeValue = toJson(value);
+		if (writeValue == null) {
+			return null;
+		}
+		return new Object[] { writeValue, key, type };
+	}
+
+	@Override
+	public boolean hasChanged(String key, T value) {
+		return forceUpdateOnEviction;
+	}
+
 }

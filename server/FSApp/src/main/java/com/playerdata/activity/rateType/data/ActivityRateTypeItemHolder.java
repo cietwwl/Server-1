@@ -8,8 +8,13 @@ import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeHelper;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
+import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -30,7 +35,7 @@ public class ActivityRateTypeItemHolder {
 		ActivityRateTypeCfgDAO dao = ActivityRateTypeCfgDAO.getInstance();
 		List<ActivityRateTypeItem> itemList = new ArrayList<ActivityRateTypeItem>();
 		Enumeration<ActivityRateTypeItem> mapEnum = getItemStore(userId)
-				.getEnum();
+				.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityRateTypeItem item = (ActivityRateTypeItem) mapEnum
 					.nextElement();
@@ -43,15 +48,16 @@ public class ActivityRateTypeItemHolder {
 	}
 
 	public void updateItem(Player player, ActivityRateTypeItem item) {
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType,
 				eSynOpType.UPDATE_SINGLE);
 	}
 
 	public ActivityRateTypeItem getItem(String userId,
 			ActivityRateTypeEnum typeEnum) {
-		String itemId = ActivityRateTypeHelper.getItemId(userId, typeEnum);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId = ActivityRateTypeHelper.getItemId(userId, typeEnum);
+		int id = Integer.parseInt(typeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 
 	public boolean addItem(Player player, ActivityRateTypeItem item) {
@@ -66,10 +72,11 @@ public class ActivityRateTypeItemHolder {
 
 	public boolean removeItem(Player player, ActivityRateTypeEnum type) {
 
-		String uidAndId = ActivityRateTypeHelper.getItemId(player.getUserId(),
-				type);
+//		String uidAndId = ActivityRateTypeHelper.getItemId(player.getUserId(),
+//				type);
+		int id = Integer.parseInt(type.getCfgId());
 		boolean addSuccess = getItemStore(player.getUserId()).removeItem(
-				uidAndId);
+				id);
 		return addSuccess;
 	}
 
@@ -79,10 +86,23 @@ public class ActivityRateTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	public MapItemStore<ActivityRateTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityRateTypeItem> cache = MapItemStoreFactory
-				.getActivityRateTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityRateTypeItem.class);
+	public PlayerExtPropertyStore<ActivityRateTypeItem> getItemStore(String userId) {
+//		RoleExtPropertyStoreCache<ActivityRateTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityRateTypeItem.class);
+		RoleExtPropertyStoreCache<ActivityRateTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RATE, ActivityRateTypeItem.class);
+		
+		PlayerExtPropertyStore<ActivityRateTypeItem> store = null;
+		try {
+			store = cach.getStore(userId);
+			
+			return store;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return store;
 	}
 
 	public boolean addItemList(Player player, List<ActivityRateTypeItem> addItemList) {

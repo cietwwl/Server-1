@@ -9,7 +9,11 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.rankType.ActivityRankTypeEnum;
 import com.playerdata.activity.rankType.ActivityRankTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -26,7 +30,7 @@ public class ActivityRankTypeItemHolder{
 	public List<ActivityRankTypeItem> getItemList(String userId)	
 	{		
 		List<ActivityRankTypeItem> itemList = new ArrayList<ActivityRankTypeItem>();
-		Enumeration<ActivityRankTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityRankTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityRankTypeItem item = (ActivityRankTypeItem) mapEnum.nextElement();
 			//不需要和客户端通信syn所以不需要对老数据过滤
@@ -36,12 +40,13 @@ public class ActivityRankTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityRankTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 	}
 	
 	public ActivityRankTypeItem getItem(String userId, ActivityRankTypeEnum typeEnum){		
-		String itemId = ActivityRankTypeHelper.getItemId(userId, typeEnum);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId = ActivityRankTypeHelper.getItemId(userId, typeEnum);
+		int id = Integer.parseInt(typeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 	
@@ -52,9 +57,18 @@ public class ActivityRankTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityRankTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityRankTypeItem> cache = MapItemStoreFactory.getActivityRankTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityRankTypeItem.class);
+	public PlayerExtPropertyStore<ActivityRankTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityRankTypeItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
+		try {
+			return cache.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public boolean addItemList(Player player, List<ActivityRankTypeItem> addItemList) {

@@ -36,6 +36,8 @@ public class TableZoneInfo {
 	private int chargePort;
 	private String giftCodeServerIp; // 兑换码服务器Id
 	private int giftCodeServerPort;  // 兑换码服务器端口
+	private String benefitServerIp;//精准营销服ip
+	private int benefitServerPort;//精准营销服端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -164,6 +166,20 @@ public class TableZoneInfo {
 	public void setGiftCodeServerPort(int giftCodeServerPort) {
 		this.giftCodeServerPort = giftCodeServerPort;
 	}
+	public String getBenefitServerIp() {
+		return benefitServerIp;
+	}
+	public void setBenefitServerIp(String benefitServerIp) {
+		this.benefitServerIp = benefitServerIp;
+	}
+	public int getBenefitServerPort() {
+		return benefitServerPort;
+	}
+	public void setBenefitServerPort(int benefitServerPort) {
+		this.benefitServerPort = benefitServerPort;
+	}
+	
+	
 	
 	
 }

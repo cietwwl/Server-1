@@ -15,11 +15,21 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
+import com.playerdata.readonly.ItemInfoIF;
+import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 
@@ -59,17 +69,39 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	 * @param player  同个类型活动同时开启两个会导致add不了新的活动，风险低，需检测
 	 */
 	private void checkNewOpen(Player player) {
-		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
-				.getInstance();
+//		ActivityRateTypeItemHolder dataHolder = ActivityRateTypeItemHolder
+//				.getInstance();
+//		String userId = player.getUserId();
+//		List<ActivityRateTypeItem> addItemList = null;
+//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
+//		if (addItemList != null) {
+//			dataHolder.addItemList(player, addItemList);
+//		}
+		
 		String userId = player.getUserId();
-		List<ActivityRateTypeItem> addItemList = null;
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}		
+		List<ActivityRateTypeItem> addList = null;
+		RoleExtPropertyStoreCache<ActivityRateTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RATE, ActivityRateTypeItem.class);//
+//		RoleExtPropertyStoreCache<ActivityRateTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityRateTypeItem.class);//
+		
+		PlayerExtPropertyStore<ActivityRateTypeItem> store = null;
+		try {
+			store = cach.getStore(userId);
+			addList = creatItems(userId, store);
+			if(addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
-	public List<ActivityRateTypeItem> creatItems(String userId ,MapItemStore<ActivityRateTypeItem> itemStore){
+	public List<ActivityRateTypeItem> creatItems(String userId ,PlayerExtPropertyStore<ActivityRateTypeItem> itemStore){
 		List<ActivityRateTypeItem> addItemList = null;
 		List<ActivityRateTypeCfg> allCfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityRateTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
@@ -83,14 +115,15 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				// 枚举没有配置
 				continue;
 			}
-			String itemId = ActivityRateTypeHelper.getItemId(userId, typeEnum);
-			if(itemStore != null){
-				if(itemStore.getItem(itemId)!=null){
+//			String itemId = ActivityRateTypeHelper.getItemId(userId, typeEnum);
+			int id = Integer.parseInt(typeEnum.getCfgId());
+			if(itemStore != null){				
+				if(itemStore.get(id)!=null){
 					continue;
 				}
 			}
 			ActivityRateTypeItem item = new ActivityRateTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setCfgId(cfg.getId());
 			item.setEnumId(cfg.getEnumId());
 			item.setUserId(userId);
@@ -180,12 +213,24 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 	 * 此方法用于站前将结算双倍金币经验等信息发给客户端显示
 	 */
 	public void setEspecialItemidlis(CopyCfg copyCfg,Player player,eSpecialItemIDUserInfo eSpecialItemIDUserInfo){
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 	
-		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
-		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,copyCfg.getPlayerExp()*multiplePlayerExp,0);		
-		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,copyCfg.getCoin()*multipleCoin);
+		float multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
+		float multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
+
+		List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+		if(privList!=null && !privList.isEmpty()){
+			for(PrivilegeDescItem iteminfo : privList){
+				if(iteminfo.getItemID() == eSpecialItemId.PlayerExp.getValue()){
+					multiplePlayerExp += iteminfo.getValue();
+				}
+				if(iteminfo.getItemID() == eSpecialItemId.Coin.getValue()){
+					multipleCoin += iteminfo.getValue();
+				}
+			}
+		}
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,(int)(copyCfg.getPlayerExp()*multiplePlayerExp),0);		
+		getesESpecialItemIDUserInfo(eSpecialItemIDUserInfo,0,(int)(copyCfg.getCoin()*multipleCoin));
 	}
 	
 	/**
@@ -282,7 +327,7 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		}		
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityRateTypeCfg> list = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRateTypeCfg cfg : list){
 			if(isOpen(cfg,param)){
@@ -292,11 +337,11 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 		return false;
 	}
 
-	private boolean isOpen(ActivityRateTypeCfg cfg, MapItemValidateParam param) {
+	private boolean isOpen(ActivityRateTypeCfg cfg, long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

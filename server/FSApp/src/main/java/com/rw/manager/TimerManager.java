@@ -15,6 +15,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.dailyCharge.ActivityDetector;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
@@ -40,6 +41,7 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
 	private static TimeSpanOpHelper time10SecondOp;// 10秒时效
+	private static TimeSpanOpHelper time10MicroSecondOp; //10毫秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("timer"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimer"));
@@ -50,7 +52,20 @@ public class TimerManager {
 		final long MINUTE = 60 * SECOND;
 		final long MINUTE_10 = 10 * MINUTE;
 		final long HOUR = 60 * MINUTE;
+		final long MICROSECOND = 10;	//10毫秒
 
+		time10MicroSecondOp = new TimeSpanOpHelper(new ITimeOp() {
+
+			@Override
+			public void doTask() {
+				try{
+					DataAutoSynMgr.getInstance().synDataAuto();
+				}catch(Exception ex){
+					
+				}
+			}
+		}, MICROSECOND);
+		
 		timeSecondOp = new TimeSpanOpHelper(new ITimeOp() {
 
 			@Override
@@ -157,8 +172,21 @@ public class TimerManager {
 			@Override
 			public void run() {
 				try {
+					time10MicroSecondOp.tryRun();
+				} catch (Throwable e) {
+					GameLog.error("同屏测试", "TimerManager", "TimerManager[init]同屏测试数据错误", e);
+				}
+			}
+		}, 0, 10, TimeUnit.MICROSECONDS);
+		
+		timeService.scheduleAtFixedRate(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
 					timeSecondOp.tryRun();
 					time10SecondOp.tryRun();
+					time10MicroSecondOp.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
 				}

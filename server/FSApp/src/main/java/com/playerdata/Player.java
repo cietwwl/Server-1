@@ -32,14 +32,16 @@ import com.playerdata.dataSyn.DataSynVersionHolder;
 import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
@@ -57,6 +59,7 @@ import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
+import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.common.MapItemStoreFactory;
@@ -168,6 +171,7 @@ public class Player implements PlayerIF {
 	private volatile long groupRandomRecommentCacheTime;// 帮派排行榜随机推荐的时间
 	private volatile int lastWorldChatId;// 聊天上次的版本号
 	private volatile long lastGroupChatCacheTime;// 上次帮派聊天发送时间
+	private volatile long lastTeamChatCahceTime;// 上次发送组队聊天时间
 
 	private TimeAction oneSecondTimeAction;// 秒时效
 
@@ -200,14 +204,13 @@ public class Player implements PlayerIF {
 
 		Player fresh = new Player(userId, false);
 		// 楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
-		fresh.setZoneLoginInfo(zoneLoginInfo2);
-
+		fresh.setZoneLoginInfo(zoneLoginInfo2);			
+		
 		fresh.initMgr();
-		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
-		PlayerFreshHelper.initCreateItem(fresh);
 		return fresh;
 	}
 
+	//
 	private void notifyCreated() {
 		Field[] fields = Player.class.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
@@ -248,27 +251,33 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public Player(String userId, boolean initMgr, RoleCfg roleCfg) {
+	public Player(final String userId, boolean initMgr, RoleCfg roleCfg) {
 		this.userId = userId;
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 		}else{
 			MapItemStoreFactory.preloadIntegration(userId, getLevel());
+			
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userDataMgr = new UserDataMgr(this, userId);
+		//TODO 标记1
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
-
+		
+		
+		
+		
 		if (!initMgr) {
 			// MapItemStoreFactory.notifyPlayerCreated(userId);
-			this.getHeroMgr().init(this, false);
+			//TODO 标记2
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
+			//TODO 标记3
 			notifyCreated();
-		} else {
-			m_HeroMgr.init(this, true);
-		}
+		} 
+		//TODO 标记4
+		RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
 
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);
@@ -443,8 +452,10 @@ public class Player implements PlayerIF {
 			AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 			// 角色登录检查秘境数据是否可以重置
 			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
-			// 测试：时效任务的角色登录
+			// 时效任务的角色登录
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
+			// 帮派争霸角色登录通知
+			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId);
 		}
@@ -614,18 +625,18 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public void NotifyCommonMsg(ErrorType error,ECommonMsgTypeDef msgShowType, String message){
+	public void NotifyCommonMsg(ErrorType error, ECommonMsgTypeDef msgShowType, String message) {
 		CommonMsgResponse.Builder response = CommonMsgResponse.newBuilder();
 		response.setType(msgShowType.getValue());
 		response.setError(error);
 		response.setMessage(message);
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
-	
-	public void NotifyFunctionNotOpen(String message){
-		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN,ECommonMsgTypeDef.MsgTips,message);
+
+	public void NotifyFunctionNotOpen(String message) {
+		NotifyCommonMsg(ErrorType.FUNCTION_NOT_OPEN, ECommonMsgTypeDef.MsgTips, message);
 	}
-	
+
 	public void NotifyCommonMsg(ECommonMsgTypeDef type, String message) {
 		if (StringUtils.isBlank(message)) {
 			return;
@@ -808,7 +819,7 @@ public class Player implements PlayerIF {
 			FSHeroBaseInfoMgr.getInstance().setLevel(mainRoleHero, newLevel);
 			userDataMgr.setLevel(newLevel);
 			MagicChapterInfoHolder.getInstance().synAllData(this);
-			getTaskMgr().initTask();
+			getTaskMgr().checkAndAddList();			
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
@@ -1034,7 +1045,7 @@ public class Player implements PlayerIF {
 	}
 
 	public int getLevel() {
-		// return  getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+		// return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
 		if (level == 0) {
 			level = getMainRoleHero().getLevel();
 		}
@@ -1059,7 +1070,7 @@ public class Player implements PlayerIF {
 	}
 
 	public int getCareer() {
-		return getMainRoleHero().getCareer();
+		return getMainRoleHero().getCareerType();
 	}
 
 	public String getTemplateId() {
@@ -1433,8 +1444,7 @@ public class Player implements PlayerIF {
 	 * 
 	 * @param heroModelId
 	 * @param fettersData
-	 * @param canSyn
-	 *            是否可以同步数据
+	 * @param canSyn 是否可以同步数据
 	 */
 	public void addOrUpdateHeroFetters(int heroModelId, SynFettersData fettersData, boolean canSyn) {
 		if (fettersData == null) {
@@ -1502,5 +1512,23 @@ public class Player implements PlayerIF {
 	 */
 	public GroupSecretTeamInfoSynDataHolder getTeamHolder() {
 		return teamHolder;
+	}
+
+	/**
+	 * 获取上次发送组队信息的时间
+	 * 
+	 * @return
+	 */
+	public long getLastTeamChatCahceTime() {
+		return lastTeamChatCahceTime;
+	}
+
+	/**
+	 * 设置上次发送组队信息的缓存时间
+	 * 
+	 * @param lastTeamChatCahceTime
+	 */
+	public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
+		this.lastTeamChatCahceTime = lastTeamChatCahceTime;
 	}
 }

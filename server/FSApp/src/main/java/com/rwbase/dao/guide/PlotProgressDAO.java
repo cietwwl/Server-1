@@ -22,4 +22,9 @@ public class PlotProgressDAO extends DataKVDao<UserPlotProgress> {
 	protected int getUpdatedSeconds() {
 		return 600;
 	}
+	
+	@Override
+	protected boolean forceUpdateOnEviction() {
+		return false;
+	}
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.randomBoss.RandomBossMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
@@ -126,7 +127,8 @@ public class EliteCopyHandler {
 
 
 		UserEventMgr.getInstance().ElityCopyWin(player, 1);
-		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player, true);
 		return copyResponse.build().toByteString();
 	}
 
@@ -154,6 +156,8 @@ public class EliteCopyHandler {
 
 		// 同步日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Elite, times);
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		// 黑市或者神秘商店
 		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);

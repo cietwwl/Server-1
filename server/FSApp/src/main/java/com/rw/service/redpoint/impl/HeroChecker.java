@@ -1,6 +1,7 @@
 package com.rw.service.redpoint.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
@@ -86,25 +88,22 @@ public class HeroChecker implements RedPointCollector {
 					}
 
 					ItemData itemData = modelFirstItemDataMap.get(equipCfgId);
-					// if (itemData == null) {
-					// HashMap<Integer, Integer> composeItems =
-					// ComposeCfgDAO.getInstance().getMate(equipCfgId);
-					// if (composeItems == null) {
-					// continue;
-					// }
-					// boolean canCompose = true;
-					// for (Map.Entry<Integer, Integer> entry :
-					// composeItems.entrySet()) {
-					// if (itemBagMgr.getItemCountByModelId(entry.getKey()) <
-					// entry.getValue()) {
-					// canCompose = false;
-					// break;
-					// }
-					// }
-					// if (!canCompose) {
-					// continue;
-					// }
-					// }
+					if (itemData == null) {
+						HashMap<Integer, Integer> composeItems = ComposeCfgDAO.getInstance().getMate(equipCfgId);
+						if (composeItems == null) {
+							continue;
+						}
+						boolean canCompose = true;
+						for (Map.Entry<Integer, Integer> entry : composeItems.entrySet()) {
+							if (itemBagMgr.getItemCountByModelId(entry.getKey()) < entry.getValue()) {
+								canCompose = false;
+								break;
+							}
+						}
+						if (!canCompose) {
+							continue;
+						}
+					}
 					if (itemData != null) {
 						heroEquipList.add(templateId);
 						break;

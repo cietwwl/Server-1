@@ -4,25 +4,29 @@ import java.lang.reflect.Field;
 
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 
 public class FieldEnum implements IFieldToJson{
 	
 	private Field field;
+	
+	private boolean isRefOpt;
 
-	public FieldEnum(Field fieldP) {
+	public FieldEnum(Field fieldP, boolean isRefOptP) {
 		this.field = fieldP;	
+		this.isRefOpt = isRefOptP;
 	}
 
 	@Override
-	public String toJson(Object target) throws Exception {
-		Object objectValue = field.get(target);
+	public String toJson(Object target, JsonOpt jsonOpt) throws Exception {
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
 		if(objectValue == null){
 			return null;
 		}	
 
 		Enum<?> value = (Enum<?>)objectValue;
 		
-		return String.valueOf(value.ordinal()) ;
+		return jsonOpt.getShort(String.valueOf(value.ordinal())) ;
 	}
 	
 

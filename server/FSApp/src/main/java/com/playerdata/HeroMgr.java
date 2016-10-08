@@ -544,6 +544,16 @@ public interface HeroMgr {
 	
 	/**
 	 * 
+	 * 获取heroIds里面的hero实例
+	 * 
+	 * @param player
+	 * @param heroIds
+	 * @return
+	 */
+	public List<Hero> getHeros(PlayerIF player, List<String> heroIds);
+	
+	/**
+	 * 
 	 * 获取所有英雄数量
 	 * 
 	 * @param userId

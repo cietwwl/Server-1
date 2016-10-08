@@ -13,6 +13,7 @@ import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
+import com.common.RefParam;
 import com.common.Utils;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -25,6 +26,7 @@ import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.group.helper.GroupCmdHelper;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -69,6 +71,7 @@ import com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg;
 import com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg;
 import com.rwproto.GroupSecretProto.RequestType;
 import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
+import com.rwproto.TowerServiceProtos.eTowerResultType;
 
 /*
  * @author HC
@@ -101,9 +104,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.OPEN_MAIN_VIEW);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)){
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -172,9 +175,9 @@ public class GroupSecretHandler {
 
 		int mainPos = req.getMainPos();
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)){
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -377,9 +380,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.GET_GROUP_SECRET_REWARD);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)){
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -548,9 +551,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.CHANGE_DEFEND_TEAM);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)){
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -779,9 +782,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.GET_DEFEDN_REWARD);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -883,9 +886,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.BUY_SECRET_KEY);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -934,9 +937,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.INVITE_MEMBER_DEFEND);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -1064,9 +1067,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.JOIN_SECRET_DEFEND);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 
@@ -1342,9 +1345,9 @@ public class GroupSecretHandler {
 		rsp.setReqType(RequestType.GET_INVITE_SECRET_INFO);
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.SECRET_AREA, player);
-		if (openLevel != -1) {
-			GroupSecretHelper.fillRspInfo(rsp, false, String.format("主角%s级才能接受该邀请", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+			GroupSecretHelper.fillRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
 

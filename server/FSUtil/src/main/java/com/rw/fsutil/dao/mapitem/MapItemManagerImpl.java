@@ -51,21 +51,11 @@ public class MapItemManagerImpl implements MapItemManager {
 	public List<MapItemEntity> load(String userId, List<Integer> typeList) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(userId, mapItemTableName.length);
 		String tableName = mapItemTableName[index];
-		int size = typeList.size();
-		int last = size - 1;
-		Object[] params = new Object[size + 1];
+		Object[] params = new Object[typeList.size() + 1];
 		params[0] = userId;
 		StringBuilder sb = new StringBuilder();
 		sb.append("select id,extention,type from ").append(tableName).append(" where userId=? and type in(");
-		for (int i = 0; i < size; i++) {
-			sb.append('?');
-			if (i < last) {
-				sb.append(',');
-			}
-			params[i + 1] = typeList.get(i);
-		}
-
-		sb.append(')');
+		DataAccessStaticSupport.fillHolders(sb, typeList, params, 1);
 		List<Map<String, Object>> datas = template.queryForList(sb.toString(), params);
 		ArrayList<MapItemEntity> entitys = new ArrayList<MapItemEntity>();
 		for (int i = datas.size(); --i >= 0;) {

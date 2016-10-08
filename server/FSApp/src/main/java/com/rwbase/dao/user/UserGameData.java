@@ -1,13 +1,18 @@
 package com.rwbase.dao.user;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.junit.Ignore;
 
 import com.playerdata.MapAnimationState;
 import com.playerdata.SkillMgr;
+import com.playerdata.dataEncode.annotation.IgnoreEncodeField;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
@@ -62,7 +67,20 @@ public class UserGameData implements TableUserOtherIF {
 	private UserGameExtendInfo extendInfo;
 	@JsonIgnore
 	private MapAnimationState mapAnimationState;
-
+	
+	
+	@IgnoreSynField
+	private List<String> randomBossIds = new ArrayList<String>();//角色发现在的随机boss列表，不同步到前端
+	
+	
+	@IgnoreSynField
+	private int randomBossFightCount;//当天随机boss总的战斗次数
+	
+	@IgnoreSynField
+	private int killBossRewardCount;//当天击杀boss领奖次数
+	@IgnoreSynField
+	private int createBossCount;//当天发现boss次数
+	
 	public int getExpCoin() {
 		return expCoin;
 	}
@@ -347,6 +365,38 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setMapAnimationState(MapAnimationState mapAnimationState) {
 		this.mapAnimationState = mapAnimationState;
+	}
+
+	public List<String> getRandomBossIds() {
+		return randomBossIds;
+	}
+
+	public void setRandomBossIds(List<String> randomBossIds) {
+		this.randomBossIds = randomBossIds;
+	}
+
+	public int getRandomBossFightCount() {
+		return randomBossFightCount;
+	}
+
+	public void setRandomBossFightCount(int randomBossFightCount) {
+		this.randomBossFightCount = randomBossFightCount;
+	}
+
+	public int getKillBossRewardCount() {
+		return killBossRewardCount;
+	}
+
+	public void setKillBossRewardCount(int killBossRewardCount) {
+		this.killBossRewardCount = killBossRewardCount;
+	}
+
+	public int getCreateBossCount() {
+		return createBossCount;
+	}
+
+	public void setCreateBossCount(int createBossCount) {
+		this.createBossCount = createBossCount;
 	}
 	
 }

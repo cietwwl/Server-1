@@ -21,6 +21,7 @@ import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
 import com.playerdata.hero.core.consumer.FSCountQualityConsumer;
 import com.playerdata.hero.core.consumer.FSGetAllHeroConsumer;
+import com.playerdata.hero.core.consumer.FSGetMultipleHerosConsumer;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
@@ -304,6 +305,13 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public List<Hero> getAllHerosExceptMainRole(Player player, Comparator<Hero> comparator) {
 		return this.getAllHeros(player, comparator, false);
+	}
+	
+	@Override
+	public List<Hero> getHeros(PlayerIF player, List<String> heroIds) {
+		FSGetMultipleHerosConsumer consumer = new FSGetMultipleHerosConsumer(heroIds);
+		this.loopAll(player.getUserId(), consumer);
+		return consumer.getResultHeros();
 	}
 
 	@Override

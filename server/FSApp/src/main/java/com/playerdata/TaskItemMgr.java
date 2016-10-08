@@ -38,25 +38,34 @@ public class TaskItemMgr implements TaskMgrIF {
 		taskItemHolder.synAllData(m_pPlayer, version);
 	}
 
-	public void initTask() {
+	public void checkAndAddList() {
+		List<TaskCfg> cfgList = TaskCfgDAO.getInstance().getInitList();
+		int size = cfgList.size();
+		ArrayList<TaskItem> itemList = initTask();
+		if (itemList != null) {
+			size = itemList.size();
+			for (int i = 0; i < size; i++) {
+				TaskItem task = itemList.get(i);
+				BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
+			}
+		}
+	}
+
+	public ArrayList<TaskItem> initTask() {
 		List<TaskCfg> cfgList = TaskCfgDAO.getInstance().getInitList();
 		int size = cfgList.size();
 		ArrayList<TaskItem> itemList = new ArrayList<TaskItem>(size);
 		for (int i = 0; i < size; i++) {
 			TaskCfg cfg = cfgList.get(i);
-			
+
 			if (cfg.getOpenLevel() <= m_pPlayer.getLevel() && !taskItemHolder.containsTask(cfg.getId())) {
 				itemList.add(createTaskItem(cfg));
 			}
 		}
 		if (!taskItemHolder.addItemList(m_pPlayer, itemList, false)) {
-			return;
+			return itemList;
 		}
-		size = itemList.size();
-		for (int i = 0; i < size; i++) {
-			TaskItem task = itemList.get(i);			
-			BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
-		}
+		return null;
 	}
 
 	private TaskItem addItemTask(TaskCfg cfg, boolean doSyn) {
@@ -128,15 +137,15 @@ public class TaskItemMgr implements TaskMgrIF {
 			curplan = m_pPlayer.getCopyRecordMgr().isMapClear(value) ? 1 : 0;
 			break;
 		case Hero_Count:
-//			curplan = m_pPlayer.getHeroMgr().getHerosSize();
+			// curplan = m_pPlayer.getHeroMgr().getHerosSize();
 			curplan = m_pPlayer.getHeroMgr().getHerosSize(m_pPlayer);
 			break;
 		case Hero_Quality:
-//			curplan = m_pPlayer.getHeroMgr().checkQuality(value1);
+			// curplan = m_pPlayer.getHeroMgr().checkQuality(value1);
 			curplan = m_pPlayer.getHeroMgr().checkQuality(m_pPlayer, value1);
 			break;
 		case Hero_Star:
-//			curplan = m_pPlayer.getHeroMgr().isHasStar(value1);
+			// curplan = m_pPlayer.getHeroMgr().isHasStar(value1);
 			curplan = m_pPlayer.getHeroMgr().isHasStar(m_pPlayer, value1);
 			break;
 		case Player_Level:
@@ -168,10 +177,9 @@ public class TaskItemMgr implements TaskMgrIF {
 
 		for (TaskItem task : itemList) {
 
-			
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.Once.ordinal()) {
 				TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
-				if(cfg == null){//避免找不到配置表，暂时把这个给跳过
+				if (cfg == null) {// 避免找不到配置表，暂时把这个给跳过
 					continue;
 				}
 				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
@@ -189,13 +197,13 @@ public class TaskItemMgr implements TaskMgrIF {
 				if (curProgress != task.getCurProgress()) {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
-						task.setDrawState(1);						
-												
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
+						task.setDrawState(1);
+
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					} else {
 						task.setDrawState(0);
-						
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
+
+						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					}
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
@@ -215,11 +223,11 @@ public class TaskItemMgr implements TaskMgrIF {
 			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.More.ordinal()) {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
-					task.setDrawState(1);					
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
+					task.setDrawState(1);
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				} else {
 					task.setDrawState(0);
-					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false,BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
+					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
 				break;
@@ -265,9 +273,10 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 		return 1;
 	}
-	
+
 	/**
 	 * 领取所有已经完成的任务
+	 * 
 	 * @return
 	 */
 	public OneKeyResultType getAllReward(HashMap<Integer, Integer> rewardMap) {
@@ -277,48 +286,49 @@ public class TaskItemMgr implements TaskMgrIF {
 			GameLog.error("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
 			return OneKeyResultType.NO_REWARD;
 		}
-		
+
 		List<TaskItem> checkTasks = new ArrayList<TaskItem>();
-		for(TaskItem task : allTask){
+		for (TaskItem task : allTask) {
 			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 			if (cfg == null) {
 				GameLog.error("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
 				continue;
 			}
 			if (task.getDrawState() == 0 || task.getDrawState() == 2) {
-				//已领取或者未完成
+				// 已领取或者未完成
 				continue;
 			}
 			checkTasks.add(task);
 		}
 		OneKeyResultType result = getAllReward(rewardMap, removeList, checkTasks);
-		if(OneKeyResultType.NO_REWARD != result){
+		if (OneKeyResultType.NO_REWARD != result) {
 			taskItemHolder.removeItem(m_pPlayer, removeList);
 			taskItemHolder.synAllData(m_pPlayer, 0);
 		}
 		return result;
 	}
-	
+
 	/**
 	 * 领取所有已经完成的任务
+	 * 
 	 * @return
 	 */
 	private OneKeyResultType getAllReward(HashMap<Integer, Integer> rewardMap, List<TaskItem> removeList, List<TaskItem> taskList) {
 		boolean hasNewLoop = false;
 		List<TaskItem> checkTasks = new ArrayList<TaskItem>();
-		
+
 		if (null == taskList || taskList.isEmpty()) {
 			GameLog.error("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
 			return OneKeyResultType.NO_REWARD;
 		}
-		for(TaskItem task : taskList){
+		for (TaskItem task : taskList) {
 			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
 			if (cfg == null) {
 				GameLog.error("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
 				continue;
 			}
 			if (task.getDrawState() == 0 || task.getDrawState() == 2) {
-				//已领取或者未完成
+				// 已领取或者未完成
 				continue;
 			}
 			String[] rewards = cfg.getReward().split(",");
@@ -326,8 +336,10 @@ public class TaskItemMgr implements TaskMgrIF {
 				int itemId = Integer.parseInt(reward.split("_")[0]);
 				int count = Integer.parseInt(reward.split("_")[1]);
 				Integer haveCount = rewardMap.get(itemId);
-				if(null == haveCount) haveCount = count;
-				else haveCount += count;
+				if (null == haveCount)
+					haveCount = count;
+				else
+					haveCount += count;
 				rewardMap.put(itemId, haveCount);
 			}
 			task.setDrawState(2);
@@ -342,26 +354,26 @@ public class TaskItemMgr implements TaskMgrIF {
 				hasNewLoop = true;
 			}
 		}
-		if(hasNewLoop) getAllReward(rewardMap, removeList, checkTasks);
+		if (hasNewLoop)
+			getAllReward(rewardMap, removeList, checkTasks);
 		return OneKeyResultType.OneKey_SUCCESS;
 	}
-	
+
 	/**
-	 * 添加一条新的任务，如果完成，就不添加到数据库（因为会立刻被领取并删除掉）
-	 * 用于一键领取功能
+	 * 添加一条新的任务，如果完成，就不添加到数据库（因为会立刻被领取并删除掉） 用于一键领取功能
+	 * 
 	 * @param cfg
 	 * @return
 	 */
 	private TaskItem addItemTaskNonSaveIfFinish(TaskCfg cfg) {
 		TaskItem task = createTaskItem(cfg);
 		if (task.getDrawState() == 0) {
-			//未完成
+			// 未完成
 			taskItemHolder.addItem(m_pPlayer, task, false);
 		}
 		BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
 		return task;
 	}
-	
 
 	public boolean save() {
 		taskItemHolder.flush();

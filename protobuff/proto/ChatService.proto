@@ -3,14 +3,15 @@ option java_package = "com.rwproto";
 option java_outer_classname = "ChatServiceProtos";
 
 enum eChatType {
-	CHAT_WORLD = 1;//世界
-	CHAT_FAMILY = 2; // 公会
-	CHAT_PERSON = 3; // 私聊
+	CHANNEL_WORLD = 1;//世界频道
+	CHANNEL_GROUP = 2; // 公会频道
+	CHANNEL_PERSON = 3; // 私聊频道
 	CHAT_TREASURE = 4;//秘境分享
-	CHAT_SYSTEM = 5; // 系统消息
+	CHANNEL_SYSTEM = 5; // 系统频道
 	CHAT_FRIEND = 6; // 好友互動
-	CHAT_TEAM = 7; // 隊伍互動
+	CHAT_TEAM = 7; // 心魔录组队
 	CHAT_RANDOM_BOSS = 8; // 隨機boss互動
+	CHANNEL_TEAM = 9;// 组队频道
 }
 
 enum eChatResultType {

@@ -30,7 +30,7 @@ public class RoleBaseInfo implements RoleBaseInfoIF {
 		this.qualityId = target.getQualityId();
 		this.exp = target.getExp();
 		this.modeId = target.getModeId();
-		this.careerType = target.getCareer();
+		this.careerType = target.getCareerType();
 	}
 	
 	public void setId(String id) {
@@ -53,7 +53,7 @@ public class RoleBaseInfo implements RoleBaseInfoIF {
 		this.qualityId = qualityId;
 	}
 
-	public void setExp(int exp) {
+	public void setExp(long exp) {
 		this.exp = exp;
 	}
 
@@ -100,7 +100,9 @@ public class RoleBaseInfo implements RoleBaseInfoIF {
 		return modeId;
 	}
 
-	public int getCareer() {
+	public int getCareerType() {
 		return careerType;
 	}
+	
+	
 }

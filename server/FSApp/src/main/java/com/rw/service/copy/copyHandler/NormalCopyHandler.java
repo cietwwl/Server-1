@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.randomBoss.RandomBossMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
@@ -58,9 +59,16 @@ public class NormalCopyHandler {
 
 		CopyLevelRecordIF copyRecord = copyRecordMgr.getLevelRecord(levelId);
 		boolean isFirst = copyRecord.isFirst();
-		
-		
-		String rewardInfoActivity="";
+
+		String rewardInfoActivity = "";
+		if (!isWin) {
+			List<BilogItemInfo> list = BilogItemInfo.fromItemList(DropItemManager.getInstance().getPretreatDrop(player, copyCfg));
+			rewardInfoActivity = BILogTemplateHelper.getString(list);
+
+			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
+			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
+		}
+
 		List<? extends ItemInfo> dropItems = null;
 		try {
 			dropItems = DropItemManager.getInstance().extractDropPretreatment(player, levelId);
@@ -71,13 +79,6 @@ public class NormalCopyHandler {
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		GameBehaviorMgr.getInstance().setMapId(player, copyCfg.getLevelID());
-		
-		if(!isWin){
-			BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
-			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
-		}
-
-
 
 		// 合法性检查
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
@@ -96,10 +97,9 @@ public class NormalCopyHandler {
 
 		// 此处专门处理副本地图的关卡记录...
 		String levelRecord4Client = copyRecordMgr.updateLevelRecord(levelId, tagBattleData.getStarLevel(), 1);
-		//日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
-		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime,rewardInfoActivity);
-		
-		
+		// 日志打印需要最新的关卡记录数据，此句必须放在update之后，否则获取的通关数据部包括当前关卡进度
+		BILogMgr.getInstance().logCopyEnd(player, copyCfg.getLevelID(), copyCfg.getLevelType(), isFirst, isWin, fightTime, rewardInfoActivity);
+
 		if (StringUtils.isBlank(levelRecord4Client)) {
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 
@@ -115,23 +115,23 @@ public class NormalCopyHandler {
 		// 任务--完成副本--章节星数--完成章节
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Section_Star);
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Section);
+		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		TagBattleClearingResult.Builder tagBattleClearingResult = TagBattleClearingResult.newBuilder(); // 战斗结算返回的信息...
 		tagBattleClearingResult.addAllUpHeroId(listUpHero);// 升级英雄ID...
 		copyResponse.setTagBattleClearingResult(tagBattleClearingResult.build());
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
-		
+
 		UserEventMgr.getInstance().CopyWin(player, 1);
-		
+
 		return copyResponse.build().toByteString();
 	}
 
-	
 	/*
-	 * 扫荡关卡...
-	 * 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]
-	 * 副本扫荡经验双倍预计掉落
+	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}] 副本扫荡经验双倍预计掉落
 	 */
 	public ByteString copySweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
@@ -152,6 +152,9 @@ public class NormalCopyHandler {
 
 		// 同步日常任务
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, times);
+		
+		//随机boss
+		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		// 黑市或者神秘商店
 		player.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);
@@ -177,7 +180,7 @@ public class NormalCopyHandler {
 		if (levelRecord4Client != null) {
 			copyResponse.addTagCopyLevelRecord(levelRecord4Client);
 		}
-		
+
 		UserEventMgr.getInstance().CopyWin(player, times);
 		return copyResponse.setEResultType(EResultType.SWEEP_SUCCESS).build().toByteString();
 	}

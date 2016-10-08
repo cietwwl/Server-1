@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.HPCUtil;
+import com.common.RefInt;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
@@ -20,6 +21,7 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO;
@@ -39,7 +41,11 @@ import com.playerdata.activity.limitHeroType.gamble.Gamble;
 import com.playerdata.activity.limitHeroType.gamble.SingelGamble;
 import com.playerdata.activity.limitHeroType.gamble.TenGamble;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
@@ -80,23 +86,33 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	private void checkNewOpen(Player player) {
-		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
-		List<ActivityLimitHeroTypeItem> addItemList = null;
-		String userId = player.getUserId();
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}		
+		RoleExtPropertyStoreCache<ActivityLimitHeroTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_LIMITHERO, ActivityLimitHeroTypeItem.class);
+		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
+		String userId= player.getUserId();
+		List<ActivityLimitHeroTypeItem> addList = null;
+		try {
+			store = storeCache.getStore(userId);
+			addList = creatItems(userId, store);	
+			if(store != null&&addList != null){
+				store.addItem(addList);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
 	
-	public List<ActivityLimitHeroTypeItem> creatItems(String userid ,MapItemStore<ActivityLimitHeroTypeItem> itemStore){	
+	public List<ActivityLimitHeroTypeItem> creatItems(String userid ,PlayerExtPropertyStore<ActivityLimitHeroTypeItem> itemStore){	
 		List<ActivityLimitHeroTypeItem> addItemList = null;
 		ActivityLimitHeroBoxCfgDAO dao = ActivityLimitHeroBoxCfgDAO.getInstance();
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
-		String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
+		int id = Integer.parseInt(ActivityLimitHeroEnum.LimitHero.getCfgId());
 		for (ActivityLimitHeroCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if(itemStore != null){
-				if(itemStore.getItem(itemId) != null){					
+				if(itemStore.get(id) != null){					
 					return addItemList;
 				}
 			}
@@ -105,7 +121,8 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 				continue;
 			}			
 			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();
-			item.setId(itemId);
+			
+			item.setId(id);
 			item.setCfgId(cfg.getId());
 			item.setUserId(userid);
 			item.setVersion(cfg.getVersion());
@@ -155,8 +172,9 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			
 			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
 				targetItem.reset(targetCfg,activityLimitHeroCfgDAO.newSubItemList(targetCfg));
-				dataHolder.updateItem(player, targetItem);				
-				ServerCommonData scdData = scdhDataHolder.get();
+				dataHolder.updateItem(player, targetItem);
+				
+				ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 				if(scdData == null){
 					continue;
 				}
@@ -219,7 +237,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	}
 
 	private void checkRankRewards(Player player, ActivityLimitHeroTypeItem item) {
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		ActivityLimitHeroCfgDAO activityLimitHeroCfgDAO = ActivityLimitHeroCfgDAO.getInstance();
 		ActivityLimitHeroRankCfgDAO activityLimitHeroRankCfgDAO = ActivityLimitHeroRankCfgDAO.getInstance();
 		if(scdData == null){
@@ -318,10 +336,10 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			result.setReason("钻石不足");
 			return result;
 		}
-		int guatanteeTimes = 0;
+		RefInt guatanteeTimes = new RefInt();
 		int type = getType(dataItem,planCfg,commonReq,isFree,guatanteeTimes);
 		Gamble handler = ActivityLimitGambleMap.get(type);
-		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes);
+		String map = handler.gamble(player, dataHolder, planCfg,guatanteeTimes.value);
 		dataHolder.updateItem(player, dataItem);
 		doDropList(player,response,map);		
 		result.setSuccess(true);
@@ -363,8 +381,9 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	/**获取方案，以及触发的保底次数
 	 * @param guatanteeTimes */
 	private int getType(ActivityLimitHeroTypeItem dataItem,
-			ActivityLimitGamblePlanCfg planCfg, ActivityCommonReqMsg commonReq, boolean isFree, int guatanteeTimes) {
+			ActivityLimitGamblePlanCfg planCfg, ActivityCommonReqMsg commonReq, boolean isFree, RefInt guatanteeTimes) {
 		int type = TYPE_SINGAL_GAMBLE;
+		int guatanteeTime = 0;
 		type = getBaseType(commonReq,isFree,type);		
 		int count = planCfg.getDropItemCount();
 		//根据单十抽来判断是否触发保底
@@ -372,28 +391,29 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			
 			for(Integer time : planCfg.getGuaranteeList()){
 				if(time == (dataItem.getGuarantee() + count)){
-					guatanteeTimes  ++;
+					guatanteeTime  ++;
 					break;
 				}
 			}
 			if(dataItem.getGuarantee()!=0 &&(dataItem.getGuarantee() + count)%planCfg.getMaxGuarantee() == 0){
-				guatanteeTimes ++;
+				guatanteeTime ++;
 			}
 			dataItem.setGuarantee(dataItem.getGuarantee() + count);
 		}else if (commonReq.getGambleType() == GambleType.TEN){
 			int lastGuarantee = dataItem.getGuarantee() + count;			
 			for(Integer time : planCfg.getGuaranteeList()){
 				if(lastGuarantee >= time&&dataItem.getGuarantee() < time){
-					guatanteeTimes++;					
+					guatanteeTime++;					
 				}
 			}
 			for(int i = dataItem.getGuarantee()+1;i < lastGuarantee+1;i++){
 				if(i%planCfg.getMaxGuarantee() == 0&&dataItem.getGuarantee() != 0){
-					guatanteeTimes++;
+					guatanteeTime++;
 				}
 			}
 			dataItem.setGuarantee(dataItem.getGuarantee() + count);
 		}		
+		guatanteeTimes.value = guatanteeTime;
 		return type;
 	}
 	
@@ -505,7 +525,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	private void reFreshIntegralRank(Player player,
 			ActivityLimitHeroTypeItem dataItem,ActivityLimitHeroCfg cfg) {
 		ServerCommonDataHolder serverCommonDataHolder = ServerCommonDataHolder.getInstance();
-		ServerCommonData scdData = serverCommonDataHolder.get();
+		ServerCommonData scdData = serverCommonDataHolder.get("2");
 		if(scdData == null){
 			return;
 		}
@@ -612,7 +632,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 			ActivityCommonReqMsg commonReq, Builder response) {
 		ActivityComResult result = ActivityComResult.newInstance(false);
 		result.setReason("");
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		if(scdData == null){
 			result.setSuccess(true);
 			result.setReason("排行榜是空的");
@@ -672,7 +692,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		}			
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
 		for (ActivityLimitHeroCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if (isOpen(cfg,param)) {
@@ -682,11 +702,11 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		return false;
 	}
 	
-	public boolean isOpen(ActivityLimitHeroCfg cfg,MapItemValidateParam param) {
+	public boolean isOpen(ActivityLimitHeroCfg cfg,long param) {
 		if (cfg != null) {
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

@@ -14,6 +14,7 @@ public class ChargeCfg {
 	private String desc;//描述	
 	private int recommend;//是否推荐	
 	private int goldCount;//充值钻石数量	
+	private int vipExp;//充值增加vip经验数
 	private int extraGive;//额外赠送钻石	
 	private int moneyCount;//充值金额	
 	private int extraGiftId;//额外赠送礼包
@@ -92,6 +93,12 @@ public class ChargeCfg {
 	}
 	public void setChargeType(ChargeTypeEnum chargeType) {
 		this.chargeType = chargeType;
+	}
+	public int getVipExp() {
+		return vipExp;
+	}
+	public void setVipExp(int vipExp) {
+		this.vipExp = vipExp;
 	}
 
 	
