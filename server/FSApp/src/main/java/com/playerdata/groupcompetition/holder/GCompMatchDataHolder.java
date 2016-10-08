@@ -483,8 +483,8 @@ public class GCompMatchDataHolder {
 	private static final float HP_MAX_CHANGE_RATE = 0.1f;// 每秒中最大变化0.1
 	private static final float MAX_FIGHTING_RATE = 1;// 最大的战力差比
 
-	private static final int LOGOUT_TIME_MILLIS = 10000;// 10秒未开始战斗，直接判定失败
-	private static final int MAX_TIMEOUT_MILLIS = 100000;// 共给100秒的时间去处理超时
+	private static final int LOGOUT_TIME_MILLIS = 30000;// 10秒未开始战斗，直接判定失败
+	private static final int MAX_TIMEOUT_MILLIS = 120000;// 共给100秒的时间去处理超时
 
 	/**
 	 * 检查所有的匹配数据
