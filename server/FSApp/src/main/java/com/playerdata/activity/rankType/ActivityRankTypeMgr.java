@@ -145,7 +145,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
 				.getInstance();
 		ActivityRankTypeCfgDAO dao = ActivityRankTypeCfgDAO.getInstance();
-		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		List<ActivityRankTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
 		List<ActivityRankTypeCfg> cfgList = dao.getAllCfg();
 		for(ActivityRankTypeCfg cfg : cfgList){
 			if(!isOpen(cfg)){
@@ -171,7 +171,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	private void checkClose(Player player) {
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
 		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
-		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player.getUserId());
+		List<ActivityRankTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
 		ActivityRankTypeCfgDAO dao = ActivityRankTypeCfgDAO.getInstance();
 		List<ActivityRankTypeCfg> cfgList = dao.getAllCfg();
 		long createTime = player.getUserDataMgr().getCreateTime();
