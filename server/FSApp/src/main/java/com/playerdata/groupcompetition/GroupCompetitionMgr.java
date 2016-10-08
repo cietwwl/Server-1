@@ -77,9 +77,7 @@ public class GroupCompetitionMgr {
 	}
 	
 	private void createAndStartController(List<IGCompStage> stageList, long startTime, Object firstStageStartPara, int session) {
-		GroupCompetitionGlobalData data = _dataHolder.get();
-		int heldTimes = data.getHeldTimes();
-		GCompStageController controller = new GCompStageController(stageList, heldTimes > 0 ? heldTimes : 1, firstStageStartPara);
+		GCompStageController controller = new GCompStageController(stageList, session > 0 ? session : 1, firstStageStartPara);
 		controller.start(startTime); // controller开始
 	}
 	
@@ -244,7 +242,7 @@ public class GroupCompetitionMgr {
 	
 	void notifyStageChange(IGCompStage currentStage, int sessionId) {
 		GroupCompetitionGlobalData saveData = _dataHolder.get();
-		if (currentStage.getStageType() == GCompStageType.SELECTION && sessionId != saveData.getHeldTimes()) {
+		if (currentStage.getStageType() == GCompStageType.SELECTION && saveData.getCurrentStageType() != GCompStageType.SELECTION) {
 			// 有可能是停服再起服的时候开始的
 			saveData.increaseHeldTimes();
 			saveData.updateLastHeldTime(System.currentTimeMillis());

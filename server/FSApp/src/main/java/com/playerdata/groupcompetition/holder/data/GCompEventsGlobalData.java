@@ -88,7 +88,11 @@ public class GCompEventsGlobalData {
 		if (this.matches != null) {
 			this.matches.clear();
 		}
+		if(this.nextMatches != null) {
+			this.nextMatches.clear();
+		}
 		this.matches = null;
+		this.nextMatches = null;
 		this.matchNumType = null;
 	}
 

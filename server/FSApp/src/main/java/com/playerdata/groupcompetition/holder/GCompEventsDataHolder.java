@@ -1,16 +1,10 @@
 package com.playerdata.groupcompetition.holder;
 
-import java.util.List;
-
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.dao.GCompEventsDataDAO;
 import com.playerdata.groupcompetition.holder.data.GCompEventsGlobalData;
 import com.playerdata.groupcompetition.holder.data.GCompEventsSynData;
-import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
-import com.rw.fsutil.common.IReadOnlyPair;
-import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 

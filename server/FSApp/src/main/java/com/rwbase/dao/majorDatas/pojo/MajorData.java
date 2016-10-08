@@ -20,7 +20,6 @@ import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 public class MajorData implements IMapItem {
 	@Id
 	private String id;
-	private String ownerId;
 
 	private long coin;// 铜钱
 
@@ -32,14 +31,6 @@ public class MajorData implements IMapItem {
 	public String getId() {
 		// TODO Auto-generated method stub
 		return id;
-	}
-
-	public String getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
 	}
 
 	public int getGold() {

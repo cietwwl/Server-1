@@ -266,6 +266,9 @@ public class GroupCompetitionHandler {
 		case PersonalCancelMatching: // 取消个人匹配 
 			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
 			break;
+		case CancelMatching: // 取消匹配 
+			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
+			break;
 		default:
 			return ByteString.EMPTY;
 		}
@@ -333,9 +336,6 @@ public class GroupCompetitionHandler {
 		case StartMatching: // 开始匹配 
 			processResult = GCompTeamMgr.getInstance().startTeamMatching(player);
 			break;
-		case CancelMatching: // 取消匹配 
-			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
-			break;
 		default:
 			return ByteString.EMPTY;
 		}
@@ -387,7 +387,7 @@ public class GroupCompetitionHandler {
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
 		}
-		GCompRankMgr.getInstance().getKillRank(builder, event);
+		GCompRankMgr.getInstance().getKillRank(player, builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
@@ -400,7 +400,7 @@ public class GroupCompetitionHandler {
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
 		}
-		GCompRankMgr.getInstance().getScoreRank(builder, event);
+		GCompRankMgr.getInstance().getScoreRank(player, builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
@@ -413,7 +413,7 @@ public class GroupCompetitionHandler {
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
 		}
-		GCompRankMgr.getInstance().getWinRank(builder, event);
+		GCompRankMgr.getInstance().getWinRank(player, builder, event);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}

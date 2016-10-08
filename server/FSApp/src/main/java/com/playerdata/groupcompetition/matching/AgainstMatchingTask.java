@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.RejectedExecutionException;
@@ -53,6 +54,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 	private GCompEventsStatus currentEventsStatus;
 	private int memberCountOfCurrent;
 	private long intervalMillis;
+	private final Random random = new Random();
 	
 	AgainstMatchingTask(int pAgainstId, String pIdOfGroupA, String pIdOfGroupB) {
 		groupMatchingDatas = new HashMap<String, GroupMatchingData>(2, 1.5f);
@@ -67,33 +69,58 @@ class AgainstMatchingTask implements IGameTimerTask {
 //		this.eventsType = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 	}
 	
+	private void addToMatchingQueue(GroupMatchingData groupMatchingData, GCompTeam team) {
+		MatchingData md = new MatchingData(team, groupMatchingData.getGroupId(), againstId);
+		groupMatchingData.addMatchingData(md);
+		synchronized (submitQueue) {
+			submitQueue.add(md);
+		}
+	}
+	
 	void addMatching(String groupId, GCompTeam team) {
 		GroupMatchingData groupMatchingData = groupMatchingDatas.get(groupId);
 		if (!groupMatchingData.contains(team.getTeamId())) {
-			MatchingData md = new MatchingData(team, groupId, againstId);
-			groupMatchingData.addMatchingData(md);
-			synchronized (submitQueue) {
-				submitQueue.add(md);
-			}
+			this.addToMatchingQueue(groupMatchingData, team);
 		} else {
 			synchronized (submitQueue) {
+				// 有可能在同步期间被人删除了
 				MatchingData md = groupMatchingData.get(team);
-				md.setCancel(false);
-				md.setDeadline(System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis());
+				if (md != null) {
+					// 如果没有被删除
+					md.setCancel(false);
+					if (md.getLv() != team.getLv()) {
+						int lv = md.getLv();
+						md.setLv(team.getLv());
+						groupMatchingData.onMatchingDataLvUpdate(lv, md);
+					}
+					md.setDeadline(System.currentTimeMillis() + GCompUtil.getMatchingTimeoutMillis());
+				} else {
+					// 如果被删除了
+					this.addToMatchingQueue(groupMatchingData, team);
+				}
 			}
 		}
 	}
 	
-	void cancelMatching(String groupId, GCompTeam team) {
+	boolean cancelMatching(String groupId, GCompTeam team) {
 		GroupMatchingData groupMatchindData = this.groupMatchingDatas.get(groupId);
 		Queue<MatchingData> matchingDataQueue = groupMatchindData.getMatchingQueue(team.getLv());
 		synchronized (matchingDataQueue) {
-			for(MatchingData data : matchingDataQueue) {
-				if(data.getTeamId().equals(team.getTeamId())) {
-					data.setCancel(true);
+			for (MatchingData data : matchingDataQueue) {
+				if (data.getTeamId().equals(team.getTeamId())) {
+					synchronized (data) {
+						if (!data.isMatched()) {
+							data.setCancel(true);
+							return true;
+						} else {
+							// 已经被匹配上了
+							return false;
+						}
+					}
 				}
 			}
 		}
+		return false;
 	}
 	
 	void beforePersonalEvents() {
@@ -158,14 +185,14 @@ class AgainstMatchingTask implements IGameTimerTask {
 		}
 	}
 	
-	private void getRandomMember(Queue<GCompMember> memberList, List<RandomMatchingData> targetList) {
+	private void getRandomMember(LinkedList<GCompMember> memberList, List<RandomMatchingData> targetList) {
 		int size = memberList.size();
 		int maxSize = GCompCommonConfig.getMaxMemberCountOfTeam();
 		if (targetList.size() < maxSize) {
 			while (size > 0) {
-				GCompMember member = memberList.poll();
+				GCompMember member = memberList.get(random.nextInt(size));
 				size--;
-				memberList.add(member);
+				memberList.add(member); // 放回去
 				boolean duplicate = false;
 				for (int i = 0, tempSize = targetList.size(); i < tempSize; i++) {
 					if (targetList.get(i).getUserId().equals(member.getUserId())) {
@@ -183,8 +210,8 @@ class AgainstMatchingTask implements IGameTimerTask {
 		}
 	}
 	
-	private Queue<GCompMember> getAllMembersOfGroup(String groupId) {
-		Queue<GCompMember> allMembersOfGroup = new LinkedList<GCompMember>();
+	private LinkedList<GCompMember> getAllMembersOfGroup(String groupId) {
+		LinkedList<GCompMember> allMembersOfGroup = new LinkedList<GCompMember>();
 		GCompMemberMgr.getInstance().getCopyOfAllMembers(groupId, allMembersOfGroup);
 		return allMembersOfGroup;
 	}
@@ -193,7 +220,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 		return currentTimeMillis < deadline && (deadline - currentTimeMillis) > intervalMillis;
 	}
 
-	private List<RandomMatchingData> getRandomMatchingDataList(GroupMatchingData groupMatchingData, Queue<GCompMember> allMembersOfGroup, int maxMemberSize) {
+	private List<RandomMatchingData> getRandomMatchingDataList(GroupMatchingData groupMatchingData, LinkedList<GCompMember> allMembersOfGroup, int maxMemberSize) {
 		// 从帮派的随机匹配列表中获取匹配数据
 		// 如果有人已经等到匹配超时，会出现以下的情况：
 		// 1、如果同一方的等待列表中超过3人，则组成一个队伍
@@ -241,8 +268,8 @@ class AgainstMatchingTask implements IGameTimerTask {
 		int maxMemberCount = GCompCommonConfig.getMaxMemberCountOfTeam();
 		List<RandomMatchingData> listOfGroupMatchingDataA;
 		List<RandomMatchingData> listOfGroupMatchingDataB;
-		Queue<GCompMember> allMemberOfGroupA = this.getAllMembersOfGroup(idOfGroupA);
-		Queue<GCompMember> allMemberOfGroupB = this.getAllMembersOfGroup(idOfGroupB);
+		LinkedList<GCompMember> allMemberOfGroupA = this.getAllMembersOfGroup(idOfGroupA);
+		LinkedList<GCompMember> allMemberOfGroupB = this.getAllMembersOfGroup(idOfGroupB);
 		while (groupMatchingDataA.getRandomMatchingSize() > 0 || groupMatchingDataB.getRandomMatchingSize() > 0) {
 			listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount);
 			listOfGroupMatchingDataB = this.getRandomMatchingDataList(groupMatchingDataB, allMemberOfGroupB, maxMemberCount);
@@ -289,15 +316,23 @@ class AgainstMatchingTask implements IGameTimerTask {
 	}
 	
 	// 匹配机器人
-	private boolean robotMatch(Queue<GCompMember> members, MatchingData matchingData) {
+	private boolean robotMatch(LinkedList<GCompMember> members, MatchingData matchingData) {
 		if (members.size() < memberCountOfCurrent) {
 			return false;
 		}
 		List<RandomMatchingData> list = new ArrayList<RandomMatchingData>(memberCountOfCurrent);
-		for (int i = 0; i < memberCountOfCurrent; i++) {
-			GCompMember member = members.poll();
+		if (memberCountOfCurrent == 1) {
+			GCompMember member = members.remove(random.nextInt(members.size()));
 			members.add(member); // 放到队尾
 			list.add(this.createRandomMatchingData(member));
+		} else {
+			int size = members.size();
+			for (int i = 0; i < memberCountOfCurrent; i++) {
+				GCompMember member = members.remove(random.nextInt(size));
+				members.add(member); // 放到队尾
+				list.add(this.createRandomMatchingData(member));
+				size--;
+			}
 		}
 		GCompTeam team1 = GCompTeamMgr.getInstance().getTeam(matchingData.getMatchId(), matchingData.getGroupId(), matchingData.getTeamId());
 		GCompTeam team2 = GCompTeamMgr.getInstance().createRandomTeam(list);
@@ -319,43 +354,57 @@ class AgainstMatchingTask implements IGameTimerTask {
 			int maxMatchingLvFloating = GCompCommonConfig.getMaxMatchingLvFloating();
 			synchronized (queue) {
 				long currentMillis = System.currentTimeMillis();
-				Queue<GCompMember> allMembersOfGroupA = this.getAllMembersOfGroup(idOfGroupA); // 所有的帮派A的成员
-				Queue<GCompMember> allMembersOfGroupB = this.getAllMembersOfGroup(idOfGroupB); // 所有的帮派B的成员
+				LinkedList<GCompMember> allMembersOfGroupA = this.getAllMembersOfGroup(idOfGroupA); // 所有的帮派A的成员
+				LinkedList<GCompMember> allMembersOfGroupB = this.getAllMembersOfGroup(idOfGroupB); // 所有的帮派B的成员
 				for (MatchingData md : queue) {
-					if (matched.contains(md)) {
-						continue;
-					} else if (md.isCancel()) {
-						matched.add(md);
-						continue;
-					}
-					myGroupMatchingData = groupMatchingDatas.get(md.getGroupId());
-					againstGroupMatchingData = groupMatchingDatas.get(myGroupMatchingData.getAgainstGroupId());
-					dataMatched = null;
-					for (int i = 0; i < maxMatchingLvFloating; i++) {
-						dataMatched = againstGroupMatchingData.pollMatchingByLv(md.getLv() + i);
-						if (dataMatched != null) {
-							break;
-						}
-					}
-					if (dataMatched == null) {
-						if (isNotTimeout(currentMillis, md.getDeadline())) {
-							// 没有超时，等待下一轮
+					synchronized (md) {
+						myGroupMatchingData = groupMatchingDatas.get(md.getGroupId());
+						if (matched.contains(md)) {
 							continue;
-						}
-						dataMatched = againstGroupMatchingData.pollBeginWithMaxLv();
-					}
-					// 再次确认有没有匹配到人
-					if (dataMatched == null) {
-						// 没有匹配到人，要匹配机器人，要从GCompMemberMgr拿3个人出来
-						if (this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGroupB : allMembersOfGroupA, md)) {
+						} else if (md.isCancel()) {
 							matched.add(md);
 							myGroupMatchingData.removeMatchingData(md);
+							continue;
 						}
-					} else {
-						matched.add(dataMatched);
-						matched.add(md);
-						myGroupMatchingData.removeMatchingData(md);
-						onMatch(md, dataMatched);
+						againstGroupMatchingData = groupMatchingDatas.get(myGroupMatchingData.getAgainstGroupId());
+						dataMatched = null;
+						for (int i = 0; i < maxMatchingLvFloating; i++) {
+							dataMatched = againstGroupMatchingData.pollMatchingByLv(md.getLv() + i);
+							if (dataMatched != null) {
+								synchronized (dataMatched) {
+									if (dataMatched.isCancel()) {
+										// 取消了
+										continue;
+									} else {
+										// 设置匹配上的标识
+										dataMatched.setMatched(true);
+										break;
+									}
+								}
+							}
+						}
+						if (dataMatched == null) {
+							if (isNotTimeout(currentMillis, md.getDeadline())) {
+								// 没有超时，等待下一轮
+								continue;
+							}
+							dataMatched = againstGroupMatchingData.pollBeginWithMaxLv();
+						}
+						// 再次确认有没有匹配到人
+						if (dataMatched == null) {
+							// 没有匹配到人，要匹配机器人，要从GCompMemberMgr拿3个人出来
+							if (this.robotMatch(md.getGroupId().equals(idOfGroupA) ? allMembersOfGroupB : allMembersOfGroupA, md)) {
+								matched.add(md);
+								myGroupMatchingData.removeMatchingData(md);
+								md.setMatched(true);
+							}
+						} else {
+							md.setMatched(true); // 匹配上了
+							matched.add(dataMatched);
+							matched.add(md);
+							myGroupMatchingData.removeMatchingData(md);
+							onMatch(md, dataMatched);
+						}
 					}
 				}
 				if (matched.size() > 0) {

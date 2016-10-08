@@ -105,7 +105,11 @@ public class GCompOnlineMemberMgr {
 	
 	public void onEventsEnd(GCEventsType type, List<GCompAgainst> againsts) {
 		_monitor._on = false;
-		this.sendEmptyListToClient(againsts);
+		try {
+			this.sendEmptyListToClient(againsts);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		this.createAndSendEndMsg(againsts);
 	}
 	
