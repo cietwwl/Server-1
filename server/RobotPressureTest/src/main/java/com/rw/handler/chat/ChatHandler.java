@@ -30,7 +30,7 @@ public class ChatHandler {
 	public boolean send(Client client, String message) {
 
 		MsgChatRequest.Builder req = MsgChatRequest.newBuilder();
-		req.setChatType(eChatType.CHAT_WORLD);
+		req.setChatType(eChatType.CHANNEL_WORLD);
 
 		// MessageUserInfo sendUserInfo = MessageUserInfo.newBuilder().setUserId(client.getAccountId()).setUserName(client.getAccountId()).setLevel(30).build();
 		ChatMessageData messageData = ChatMessageData.newBuilder().setMessage(message).build();

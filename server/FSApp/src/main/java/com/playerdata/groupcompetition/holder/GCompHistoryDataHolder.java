@@ -47,6 +47,7 @@ public class GCompHistoryDataHolder {
 	void syn(Player player) {
 		GCompHistoryData data = _dao.get();
 		ClientDataSynMgr.synData(player, data, eSynType.GCompAudition, eSynOpType.UPDATE_SINGLE);
+		com.playerdata.groupcompetition.util.GCompUtil.log("同步历史数据，玩家id：{}，数据：{}", player.getUserId(), data);
 	}
 	
 	void addChampion(GCGroup grop) {
