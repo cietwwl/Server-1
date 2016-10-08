@@ -77,9 +77,7 @@ public class GroupCompetitionMgr {
 	}
 	
 	private void createAndStartController(List<IGCompStage> stageList, long startTime, Object firstStageStartPara, int session) {
-		GroupCompetitionGlobalData data = _dataHolder.get();
-		int heldTimes = data.getHeldTimes();
-		GCompStageController controller = new GCompStageController(stageList, heldTimes > 0 ? heldTimes : 1, firstStageStartPara);
+		GCompStageController controller = new GCompStageController(stageList, session > 0 ? session : 1, firstStageStartPara);
 		controller.start(startTime); // controller开始
 	}
 	
