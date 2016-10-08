@@ -48,6 +48,9 @@ public class UserTeamBattleDataMgr {
 					TBTeamItemHolder.getInstance().synData(teamItem);
 				}
 			}
+			if(self != null && self.getState().equals(TBMemberState.Finish)){
+				self.setState(TBMemberState.Leave);
+			}
 		}
 		utbData.clearCurrentTeam();
 	}
