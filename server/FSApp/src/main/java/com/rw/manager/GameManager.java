@@ -59,6 +59,7 @@ import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
+import com.rw.trace.HeroPropertyMigration;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
@@ -119,6 +120,12 @@ public class GameManager {
 		MapItemStoreFactory.init(map);
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), "dataSourceMT");
+		try {
+			HeroPropertyMigration.getInstance().execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		
 		// initServerProperties();
 		initServerOpenTime();
@@ -193,6 +200,8 @@ public class GameManager {
 		WorshipMgr.getInstance().getByWorshipedList();
 		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
 		GCompMatchBattleCheckTask.start();// 启动一个帮派争霸战斗结果的时效
+	
+		
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 	}

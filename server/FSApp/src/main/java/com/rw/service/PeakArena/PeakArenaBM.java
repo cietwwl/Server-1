@@ -300,7 +300,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 				team.setMagicId(magic.getId());
 			}
 			team.setHeros(Collections.<String>emptyList());
-			team.setHeroSkills(Collections.<TableSkill>emptyList());
+//			team.setHeroSkills(Collections.<TableSkill>emptyList());
 			peakData.setTeam(team, i);
 		}
 		
@@ -337,9 +337,9 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			}
 			heroIndex += distributions[i];
 			
-			List<TableSkill> heroSkillList = getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setHeros(checkedHeroIDList.value);
-			team.setHeroSkills(heroSkillList);
+//			team.setHeroSkills(heroSkillList);
 		}
 	}
 	

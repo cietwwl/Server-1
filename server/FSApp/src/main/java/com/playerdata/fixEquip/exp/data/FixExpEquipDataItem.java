@@ -3,6 +3,7 @@ package com.playerdata.fixEquip.exp.data;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -10,16 +11,17 @@ import com.playerdata.fixEquip.cfg.FixEquipCfg;
 import com.playerdata.fixEquip.cfg.FixEquipCfgDAO;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "fix_exp_equip_item")
-public class FixExpEquipDataItem implements  RoleExtProperty {
+public class FixExpEquipDataItem implements RoleExtProperty {
 
 	@Id
 	private Integer id;
-	
+	@OwnerId
 	private String ownerId;
 
 	@CombineSave
@@ -39,7 +41,6 @@ public class FixExpEquipDataItem implements  RoleExtProperty {
 	@CombineSave
 	private int storedExp; //升级剩余的经验
 
-	
 	public Integer getId() {
 		return id;
 	}
@@ -100,18 +101,26 @@ public class FixExpEquipDataItem implements  RoleExtProperty {
 	public void setStoredExp(int storedExp) {
 		this.storedExp = storedExp;
 	}
+	
+	@JsonIgnore
 	public String getQualityPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
 		return fixEquipCfg.getQualityPlanId();
 	}
+	
+	@JsonIgnore
 	public String getLevelPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
 		return fixEquipCfg.getLevelPlanId();
 	}
+	
+	@JsonIgnore
 	public String getLevelCostPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
 		return fixEquipCfg.getLevelCostPlanId();
 	}
+	
+	@JsonIgnore
 	public String getStarPlanId(){
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(getCfgId());
 		return fixEquipCfg.getStarPlanId();

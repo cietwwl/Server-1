@@ -263,9 +263,8 @@ public class ClassInfo {
 	 * @param name
 	 * @return
 	 */
-	public Field getField(String name) {
-		FieldEntry entry = this.fieldsMap.get(name);
-		return entry == null ? null : entry.field;
+	public FieldEntry getFieldEntry(String name) {
+		return this.fieldsMap.get(name);
 	}
 
 	public boolean isCombineSave(String columnName) {

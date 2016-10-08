@@ -266,8 +266,8 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @param pRole
 	 */
 	public void initSkill(Player player, Hero m_pOwner, RoleCfg rolecfg) {
-		List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
-		getSkillItemHoder().addItem(player, m_pOwner.getId(), battleSkillList);
+//		List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
+//		getSkillItemHoder().addItem(player, m_pOwner.getId(), battleSkillList);
 	}
 
 	// /**

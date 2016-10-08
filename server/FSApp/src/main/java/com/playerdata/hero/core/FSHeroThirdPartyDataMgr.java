@@ -160,6 +160,8 @@ public class FSHeroThirdPartyDataMgr {
 
 	public void notifyFirstInit(FSHero hero) {
 		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
+		RoleCfg heroCfg = RoleCfgDAO.getInstance().getRoleCfgByModelId(hero.getModeId());
+		RoleExtPropertyFactory.loadAndCreateHeroExtProperty(hero.getId(), newHeroCreateParam(player, hero, heroCfg));
 		_initingHeroIds.add(hero.getId());
 		_skillMgr.init(hero);
 		_inlayMgr.init(hero);

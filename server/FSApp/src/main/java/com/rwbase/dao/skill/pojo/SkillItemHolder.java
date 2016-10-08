@@ -136,7 +136,7 @@ public class SkillItemHolder {
 	 */
 	public boolean addItem(Player player, String heroId, SkillItem item, boolean syn) {
 		item.setOwnerId(heroId);
-		item.setId(parseSkillItemId(item.getSkillId()));
+		item.setId(SkillHelper.parseSkillItemId(item.getSkillId()));
 
 		boolean addSuccess = getMapItemStore(heroId).addItem(item);
 		if (addSuccess) {
@@ -160,7 +160,7 @@ public class SkillItemHolder {
 		for (int i = skillList.size(); --i >= 0;) {
 			SkillItem item = skillList.get(i);
 			item.setOwnerId(heroId);
-			item.setId(parseSkillItemId(item.getSkillId()));
+			item.setId(SkillHelper.parseSkillItemId(item.getSkillId()));
 		}
 		try {
 			getMapItemStore(heroId).addItem(skillList);
@@ -170,15 +170,6 @@ public class SkillItemHolder {
 			GameLog.error("SkillItemHolder", "#addItem()", "批量添加技能失败：" + heroId, e);
 			e.printStackTrace();
 		}
-	}
-
-	private Integer parseSkillItemId(String skillCfgId) {
-		String skillId = skillCfgId;
-		if(skillCfgId.contains("_")){
-			skillId = StringUtils.substringBefore(skillCfgId, "_");
-		}		
-		// 生成技能id
-		return Integer.valueOf(skillId);
 	}
 	
 	/**

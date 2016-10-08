@@ -342,4 +342,14 @@ public class SkillHelper {
 	//
 	// return buffList;
 	// }
+	
+
+	public static Integer parseSkillItemId(String skillCfgId) {
+		String skillId = skillCfgId;
+		if(skillCfgId.contains("_")){
+			skillId = StringUtils.substringBefore(skillCfgId, "_");
+		}		
+		// 生成技能id
+		return Integer.valueOf(skillId);
+	}
 }

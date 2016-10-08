@@ -120,6 +120,7 @@ public class RoleExtPropertyFactory {
 
 	public static void preload(RoleExtPropertyManager extPropertyManager, Object param, long currentTimeMillis, String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] playerExtCaches,
 			FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>[] playerExtCreators) {
+//		long start = System.currentTimeMillis();
 		int len = playerExtCaches.length;
 		ArrayList<FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>> loadList = new ArrayList<FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>>(
 				len);
@@ -137,11 +138,17 @@ public class RoleExtPropertyFactory {
 			loadList.add(tuple);
 			typeList.add(tuple.firstValue);
 		}
-		if (typeList.isEmpty()) {
+		int size = typeList.size();
+		if (size == 0) {
 			return;
 		}
 		// load from database
-		List<QueryRoleExtPropertyData> loadDatas = extPropertyManager.loadRangeEntitys(roleId, typeList);
+		List<QueryRoleExtPropertyData> loadDatas;
+		if (size < playerExtCreators.length) {
+			loadDatas = extPropertyManager.loadRangeEntitys(roleId, typeList);
+		} else {
+			loadDatas = extPropertyManager.loadAllEntitys(roleId);
+		}
 		HashMap<Short, ArrayList<QueryRoleExtPropertyData>> loadDatasMap = new HashMap<Short, ArrayList<QueryRoleExtPropertyData>>();
 		// 按类型分区
 		for (int i = loadDatas.size(); --i >= 0;) {
@@ -223,6 +230,7 @@ public class RoleExtPropertyFactory {
 				}
 			}
 		}
+//		System.out.println("消耗:" + (System.currentTimeMillis() - start) + "," + param);
 	}
 
 	public static void loadAndCreateHeroExtProperty(String heroId, HeroCreateParam heroCreateParam) {

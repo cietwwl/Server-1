@@ -16,7 +16,14 @@ public class HeroSkillItemCreator implements HeroExtPropertyCreator<SkillItem> {
 
 	@Override
 	public List<SkillItem> firstCreate(HeroCreateParam params) {
-		return SkillHelper.initSkill(params.getRolecfg(), params.getQualityId(), params.getHeroLevel());
+		List<SkillItem> list = SkillHelper.initSkill(params.getRolecfg(), params.getQualityId(), params.getHeroLevel());
+		String heroId = params.getHeroId();
+		for (int i = list.size(); --i >= 0;) {
+			SkillItem item = list.get(i);
+			item.setOwnerId(heroId);
+			item.setId(SkillHelper.parseSkillItemId(item.getSkillId()));
+		}
+		return list;
 	}
 
 	@Override

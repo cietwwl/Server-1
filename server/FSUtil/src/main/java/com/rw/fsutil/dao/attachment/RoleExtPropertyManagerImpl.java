@@ -19,6 +19,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 
 	private JdbcTemplate template;
+	private final String[] selectAllArray;
 	private final String[] selectRangeArray;
 	private final String[] selectArray;
 	private final String[] updateArray;
@@ -36,6 +37,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 		List<String> tableNameList = DataAccessStaticSupport.getTableNameList(template, name);
 		this.tableSize = tableNameList.size();
 		this.selectRangeArray = new String[tableSize];
+		this.selectAllArray = new String[tableSize];
 		this.updateArray = new String[tableSize];
 		this.selectArray = new String[tableSize];
 		this.insertArray = new String[tableSize];
@@ -48,6 +50,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 			this.selectArray[i] = "select id,sub_type,extention from " + tableName + " where owner_id=? and type=?";
 			this.insertArray[i] = "insert into " + tableName + " (owner_id,type,sub_type,extention) values(?,?,?,?)";
 			this.deleteArray[i] = "delete from " + tableName + " where id=?";
+			this.selectAllArray[i] = "select id,sub_type,extention from " + tableName + " where owner_id=?";
 			this.tableNameArray[i] = tableName;
 		}
 	}
@@ -81,6 +84,12 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 	public List<QueryRoleExtPropertyData> loadEntitys(String ownerId, Short type) {
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		return template.query(selectArray[index], new RoleExtPropertySingleMapper(ownerId, type), ownerId, type);
+	}
+
+	@Override
+	public List<QueryRoleExtPropertyData> loadAllEntitys(String ownerId) {
+		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
+		return template.query(this.selectAllArray[index], new Object[] { ownerId }, new RoleExtPropertyMapper(ownerId));
 	}
 
 	public boolean updateAttachmentExtention(String ownerId, String extention, Long id) {
@@ -152,6 +161,12 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 			deleteKeys[i] = deleteList.get(i);
 		}
 		return DataAccessFactory.getSimpleSupport().insertAndDelete(insertSql, insertBps, deleteSql, deleteKeys);
+	}
+
+	@Override
+	public String getInsertSql(String ownerId) {
+		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
+		return insertArray[index];
 	}
 
 }
