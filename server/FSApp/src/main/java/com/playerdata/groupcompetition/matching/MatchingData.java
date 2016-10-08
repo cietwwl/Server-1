@@ -29,6 +29,7 @@ class MatchingData {
 //	private long submitTime; // 提交的时间
 	private long deadline; // 最后时间
 	private boolean cancel;
+	private boolean matched;
 
 	public String getTeamId() {
 		return teamId;
@@ -36,6 +37,10 @@ class MatchingData {
 
 	public String getGroupId() {
 		return groupId;
+	}
+	
+	public void setLv(int pLv) {
+		this.lv = pLv;
 	}
 
 	public int getLv() {
@@ -64,6 +69,14 @@ class MatchingData {
 
 	public boolean isCancel() {
 		return cancel;
+	}
+	
+	public boolean isMatched() {
+		return matched;
+	}
+
+	public void setMatched(boolean matched) {
+		this.matched = matched;
 	}
 	
 	@Override

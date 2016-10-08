@@ -50,6 +50,12 @@ class GroupMatchingData {
 		list.add(m);
 	}
 	
+	synchronized void onMatchingDataLvUpdate(int preLv, MatchingData m) {
+		Queue<MatchingData> list = this.matchingData.get(preLv);
+		list.remove(m);
+		addMatchingData(m);
+	}
+	
 	synchronized void removeMatchingData(MatchingData md) {
 		this.matchingDataKeys.remove(md.getTeamId());
 		this.matchingData.get(md.getLv()).remove(md);
@@ -112,16 +118,17 @@ class GroupMatchingData {
 		}
 	}
 	
-	void cancelRandomMatchingData(String userId) {
+	boolean cancelRandomMatchingData(String userId) {
 		synchronized(this.randomMatchingDatas) {
 			for(RandomMatchingData temp : randomMatchingDatas) {
 				if(temp.getUserId().equals(userId)) {
 					temp.setCancel(true);
 					someCancel.compareAndSet(false, true);
-					break;
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 	
 	void turnBackRandomMatchingData(RandomMatchingData rmd) {
