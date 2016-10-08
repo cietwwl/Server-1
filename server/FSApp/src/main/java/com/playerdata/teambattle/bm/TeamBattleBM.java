@@ -1,5 +1,6 @@
 package com.playerdata.teambattle.bm;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -7,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
@@ -93,6 +95,13 @@ public class TeamBattleBM {
 		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
 		staticMemInfo.setUserID(player.getUserId());
 		staticMemInfo.setUserStaticTeam(simpleArmy);
+		HashMap<String, Integer> heroPosMap = new HashMap<String, Integer>();
+		if(item.getHeroIDs() != null && item.getPosition() != null && item.getHeroIDs().size() == item.getPosition().size()){
+			for(int i = 0; i < item.getHeroIDs().size(); i++){
+				heroPosMap.put(item.getHeroIDs().get(i), item.getPosition().get(i));
+			}
+		}
+		staticMemInfo.setHeroPosMap(heroPosMap);
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		utbData.setSelfTeamInfo(staticMemInfo);
 		UserTeamBattleDataHolder.getInstance().synData(player);
@@ -393,6 +402,9 @@ public class TeamBattleBM {
 		for(StaticMemberTeamInfo teamInfoSimple : teamItem.getTeamMembers()){
 			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
 			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
+			for(ArmyHero hero : army.getHeroList()){
+				hero.setPosition(teamInfoSimple.getHeroPosMap().get(hero.getCurAttrData().getId()));
+			}
 			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
 		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
