@@ -57,11 +57,11 @@ public class PrepareAreaMgr {
 			return;
 		}
 		switch (GroupCompetitionMgr.getInstance().getCurrentEventsStatus()) {
-		case FINISH:
 		case NONE:
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("当前不是比赛状态！");
 			return;
+		case FINISH:
 		default:
 			break;
 		}

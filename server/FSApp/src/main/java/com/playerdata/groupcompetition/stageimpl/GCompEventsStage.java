@@ -272,7 +272,7 @@ public class GCompEventsStage implements IGCompStage {
 		
 		@Override
 		public void accept(GCompEventsStageContext context) {
-			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds(), false);
+			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds(), true);
 		}
 		
 	}
