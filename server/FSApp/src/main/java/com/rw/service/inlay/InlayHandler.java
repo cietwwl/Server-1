@@ -59,21 +59,21 @@ public class InlayHandler {
 
 		// if(!inlayMgr.CheckAddSize())
 		if (!inlayMgr.CheckAddSize(playe, msgReques.getRoleId())) {
-			playe.NotifyCommonMsg("佩戴位置已满");
+			playe.NotifyCommonMsg("镶嵌位置已满");
 			return null;
 		}
 
 		if (!inlayMgr.CheckAddType(msgReques.getRoleId(), itemData.getModelId())) {
-			playe.NotifyCommonMsg("不可佩戴相同颜色宝石");
+			playe.NotifyCommonMsg("不可镶嵌相同颜色宝石");
 			return null;
 		}
 
 		if (!inlayMgr.InlayGem(playe, msgReques.getRoleId(), itemData)) {
-			playe.NotifyCommonMsg("没有更多位置可佩戴");
+			playe.NotifyCommonMsg("没有更多位置可镶嵌");
 			return null;
 		}
 
-		// playe.NotifyCommonMsg("佩戴：" + gemCfg.getName() + "\n[00ff00]" + gemCfg.getAttrDesc() + "[-]");
+		// playe.NotifyCommonMsg("镶嵌：" + gemCfg.getName() + "\n[00ff00]" + gemCfg.getAttrDesc() + "[-]");
 
 		res.setRoleId(msgReques.getRoleId());
 		res.setResult(InlayResult.InlaySuccess);
