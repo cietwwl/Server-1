@@ -57,5 +57,5 @@ id,remarks,type,minLevel,maxLevel,des,checkPointID,serviceId,submoduleId
 57,,57,22,100,,,MSG_FIX_EQUIP,Exp_star_up
 58,,58,22,100,,,MSG_FIX_EQUIP,Exp_star_up
 59,,59,1,100,,,,
-60,,60,19,100,,,,
+60,,60,18,100,,,,
 61,,61,19,100,,,,
