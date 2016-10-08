@@ -115,7 +115,7 @@ public class GCompQuizMgr {
 	/**
 	 * 阶段开始时，创建竞猜项目
 	 */
-	public void groupCompEventsStart(){
+	public void groupCompEventsStart(GCEventsType currentEvent){
 		List<GCompAgainst> list = GCompHistoryDataMgr.getInstance().getHistoryData().getAgainsts();
 		if (list.size() > 0) {
 			List<Integer> matchIds = new ArrayList<Integer>();
@@ -125,7 +125,6 @@ public class GCompQuizMgr {
 			deleteLastCompData(matchIds);
 			
 		}
-		GCEventsType currentEvent = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData envetsData = GCompEventsDataMgr.getInstance().getEventsData(currentEvent);
 		final int currentSession = GroupCompetitionMgr.getInstance().getCurrentSessionId();
 		List<GCompAgainst> currentAgainst = envetsData.getAgainsts();
