@@ -261,8 +261,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * 更新角色的属性修改
 	 * 
 	 * @param heroChangeList
+	 * @param magicEnergy
 	 */
-	public void updateHeroChange(List<TowerHeroChange> heroChangeList) {
+	public void updateHeroChange(List<TowerHeroChange> heroChangeList, float magicEnergy) {
 		if (heroChangeList == null || heroChangeList.isEmpty()) {
 			return;
 		}
@@ -277,6 +278,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			angleData.updateHeroChange(heroChange.getRoleId(), heroChange);
 		}
 
+		angleData.setMagic(magicEnergy);
+
 		saveAngleArrayData();
 	}
 
@@ -286,7 +289,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param floor
 	 * @param heroChangeList
 	 */
-	public void updateEnemyChange(Player player, int floor, List<TowerHeroChange> heroChangeList) {
+	public void updateEnemyChange(Player player, int floor, List<TowerHeroChange> heroChangeList, float magicEnergy) {
 		if (heroChangeList == null || heroChangeList.isEmpty()) {
 			return;
 		}
@@ -320,6 +323,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			heroAttrData.setCurEnergy(towerHeroChange.getReduceEnegy());
 			angelArrayEnemyInfoData.updateHeroAttrData(heroId, heroAttrData);
 		}
+
+		angelArrayEnemyInfoData.setMagic(magicEnergy);
 
 		if (isInsert) {
 			angelArrayEnemyInfoDataHolder.addAngelArrayEnemyInfoData(angelArrayEnemyInfoData);
@@ -494,6 +499,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		AngelArrayEnemyInfoData angelArrayEnemyInfoData = angelArrayEnemyInfoDataHolder.getAngelArrayEnemyInfoData(id);
 		if (angelArrayEnemyInfoData != null) {
 			attrMap = angelArrayEnemyInfoData.getEnemyChangeMap();
+			// 设置一下法宝的能量
+			armyInfo.getArmyMagic().setMagicPer(angelArrayEnemyInfoData.getMagic());
 		}
 
 		// 按照客户端的旧规则，主角存的是RoleBaseInfo的Id字段

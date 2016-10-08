@@ -288,7 +288,10 @@ public class ClientDataSynMgr {
 		if(null == players) return;
 		for(Player player : players){
 			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
-			sendMsg(player, serverData, synType, msgDataSyn);
+			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
+			UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
+//			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
+//			sendMsg(player, serverData, synType, msgDataSyn);
 		}
 	}
 	
