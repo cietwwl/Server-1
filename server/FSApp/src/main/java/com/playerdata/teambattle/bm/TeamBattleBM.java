@@ -516,13 +516,14 @@ public class TeamBattleBM {
 		ItemBagMgr bagMgr = player.getItemBagMgr();
 		if(bagMgr.addItem(storeCfg.getGoodsId(), storeCfg.getGoodsNumber() * count)){
 			utbData.setScore(utbData.getScore() - needScore);
+			UserTeamBattleDataHolder.getInstance().update(player, utbData);
+			UserTeamBattleDataHolder.getInstance().synData(player);
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		}else{
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("购买失败");
 			return;
 		}
-		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 	
 	/**
