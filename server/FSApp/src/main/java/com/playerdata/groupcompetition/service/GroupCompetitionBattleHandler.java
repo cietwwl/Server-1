@@ -127,6 +127,7 @@ public class GroupCompetitionBattleHandler {
 
 		ArmyInfoSimple enemyArmyInfoSimple = enemyMemberList.get(mineIndex).getArmyInfo();
 		if (enemyArmyInfoSimple == null) {
+			GameLog.error("帮派争霸开始战斗", userId, "获取不到敌人对应的ArmyInfo信息");
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
@@ -220,7 +221,7 @@ public class GroupCompetitionBattleHandler {
 		// 如果有人
 		if (!playerIdList.isEmpty()) {
 			ByteString hpMsg = GCompMatchBattleCmdHelper.buildPushHpInfoMsg(mineIndex, req.getMineHpPercent(), req.getEnemyHpPercent());
-			
+
 			PlayerMgr playerMgr = PlayerMgr.getInstance();
 			for (int i = 0, size = playerIdList.size(); i < size; i++) {
 				Player p = playerMgr.find(playerIdList.get(i));
@@ -307,7 +308,7 @@ public class GroupCompetitionBattleHandler {
 		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
 		GCompMatchData matchData = holder.getMatchData(userId);
 		if (matchData == null) {
-			return fillFailMsg(rsp, "您当前没有匹配到对手");
+			return fillFailMsg(rsp, "当前阶段已经结束");
 		}
 
 		int matchState = matchData.getMatchState();
