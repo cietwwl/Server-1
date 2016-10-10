@@ -50,14 +50,15 @@ enum ConsumeTypeDef{
 
 //物品的属性
 enum EItemAttributeType{
-	Magic_Exp = 1; //法宝经验，不是总经验，仅仅是当前等级的！
+	Magic_Exp = 1; //法宝经验，不是总经验，仅仅是当前等级的！（没用）
 	Magic_Level = 2; //法宝等级
 	Magic_State = 3;//法宝状态，0是背包，1是装备状态
 	Equip_Level = 4;//装备等级
 	Equip_AttachExp = 5;//装备附灵经验
 	Equip_AttachLevel = 6;//装备附灵等级
-	Magic_Total_Exp = 7;//纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用
+	Magic_Total_Exp = 7;//纪录法宝总经验，暂时用于服务端日志跟踪，其他逻辑不涉及，客户端不需要用（没用）
 	Magic_Aptitude = 8;//法宝的资质
+	Magic_AdvanceLevel = 9;//法宝的进阶等级
 }
 
 message RewardInfo{
