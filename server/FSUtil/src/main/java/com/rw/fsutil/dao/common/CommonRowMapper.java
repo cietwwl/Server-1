@@ -17,15 +17,15 @@ import com.rw.fsutil.log.SqlLog;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class CommonRowMapper<T> implements RowMapper<T> {
-	
+
 	private final Object ownerId;
 	protected ClassInfo classInfo;
 
-	public CommonRowMapper(ClassInfo classInfoP,Object ownerId) {
+	public CommonRowMapper(ClassInfo classInfoP, Object ownerId) {
 		this.classInfo = classInfoP;
 		this.ownerId = ownerId;
 	}
-	
+
 	@Override
 	public T mapRow(ResultSet rs, int arg1) throws SQLException {
 		try {
@@ -43,10 +43,12 @@ public class CommonRowMapper<T> implements RowMapper<T> {
 				if (!combine) {
 					combine = classInfo.isCombineSave(columnName);
 					// 本次循环是combine，则进行处理
-					String convert = (String)value;
-					if (combine && StringUtils.isNotBlank(convert)) {
-						handleCombineSave(newInstance, columnName, convert, classInfo.getCombineSaveFields());
-						continue;
+					if (combine) {
+						String convert = (String) value;
+						if (StringUtils.isNotBlank(convert)) {
+							handleCombineSave(newInstance, columnName, convert, classInfo.getCombineSaveFields());
+							continue;
+						}
 					}
 				}
 				FieldEntry field = classInfo.getSingleField(columnName);
@@ -69,7 +71,6 @@ public class CommonRowMapper<T> implements RowMapper<T> {
 		}
 		return null;
 	}
-
 
 	protected void handleCombineSave(T newInstance, String columnName, String value, FieldEntry[] combineFields) {
 		try {
@@ -98,8 +99,11 @@ public class CommonRowMapper<T> implements RowMapper<T> {
 	protected void handleSingleSave(T newInstance, FieldEntry fieldEntry, Object value) {
 		try {
 			if (fieldEntry.saveAsJson) {
-				value = readJsonValue((String) value, fieldEntry);
-				fieldEntry.field.set(newInstance, value);
+				String convert = (String) value;
+				if (!StringUtils.isBlank(convert)) {
+					value = readJsonValue(convert, fieldEntry);
+					fieldEntry.field.set(newInstance, value);
+				}
 			} else {
 				fieldEntry.field.set(newInstance, value);
 			}

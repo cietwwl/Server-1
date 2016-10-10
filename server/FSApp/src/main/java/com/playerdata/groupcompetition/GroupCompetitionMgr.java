@@ -77,9 +77,7 @@ public class GroupCompetitionMgr {
 	}
 	
 	private void createAndStartController(List<IGCompStage> stageList, long startTime, Object firstStageStartPara, int session) {
-		GroupCompetitionGlobalData data = _dataHolder.get();
-		int heldTimes = data.getHeldTimes();
-		GCompStageController controller = new GCompStageController(stageList, heldTimes > 0 ? heldTimes : 1, firstStageStartPara);
+		GCompStageController controller = new GCompStageController(stageList, session > 0 ? session : 1, firstStageStartPara);
 		controller.start(startTime); // controller开始
 	}
 	
@@ -170,14 +168,27 @@ public class GroupCompetitionMgr {
 			List<String> loseGroupIds;
 			GCEventsType eventsType = record.getCurrentEventsType();
 			if (eventsType == GCEventsType.FINAL) {
-				GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(GCEventsType.QUATER);
-				List<GCompAgainst> list = eventsData.getAgainsts();
-				winGroupIds = new ArrayList<String>(list.size());
-				loseGroupIds = new ArrayList<String>(list.size());
-				for (int i = 0, size = list.size(); i < size; i++) {
-					GCompAgainst against = list.get(i);
-					winGroupIds.add(against.getWinGroupId());
-					loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
+				if(record.isCurrentTypeFinished()) {
+					IGCompStage restStage = this.filterStage(GCompStageType.REST, stageList);
+					if(restStage != null) {
+						GroupCompetitionStageCfg stageCfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(eventsStage.getStageCfgId());
+						IReadOnlyPair<Integer, Integer> timeInfo = stageCfg.getStartTimeInfo();
+						long startTime = GCompUtil.getNearTimeMillis(timeInfo.getT1().intValue(), timeInfo.getT2().intValue(), System.currentTimeMillis());
+						createAndStartController(stageList, startTime, null, _dataHolder.get().getHeldTimes());
+						record.setCurrentEventsStatusStartTime(startTime);
+						record.setCurrentEventsStatusEndTime(startTime + TimeUnit.MINUTES.toMillis(GCompEventsStatus.getTotalLastMinutes()));
+					}
+					return;
+				} else {
+					GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(GCEventsType.QUATER);
+					List<GCompAgainst> list = eventsData.getAgainsts();
+					winGroupIds = new ArrayList<String>(list.size());
+					loseGroupIds = new ArrayList<String>(list.size());
+					for (int i = 0, size = list.size(); i < size; i++) {
+						GCompAgainst against = list.get(i);
+						winGroupIds.add(against.getWinGroupId());
+						loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
+					}
 				}
 			} else {
 				if (record.isCurrentTypeFinished()) {
@@ -253,6 +264,7 @@ public class GroupCompetitionMgr {
 			if (currentData != null) {
 				currentData.reset();
 			}
+//			GCompFightingRankMgr.refreshGroupFightingRank();
 		}
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());

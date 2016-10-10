@@ -37,7 +37,9 @@ public class GCompTips {
 	private static String tipsYouAreInRandomMatching = "您正在随机匹配中！";
 	private static String tipsYouAreNotInRandomMatching = "您并没有在随机匹配中！";
 	private static String tipsYourGroupHaveNoEnemy = "您的帮派在本次赛事中轮空！";
-
+	private static String tipsTeamAlreadyMatched = "取消匹配失败，队伍已经匹配上了！";
+	private static String tipsYouAlreadyMatched = "取消匹配失败，您已经匹配上了！";
+	
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
 	}
@@ -176,5 +178,13 @@ public class GCompTips {
 	
 	public static String getTipsYourGroupHaveNoEnemy() {
 		return tipsYourGroupHaveNoEnemy;
+	}
+
+	public static String getTipsTeamAlreadyMatched() {
+		return tipsTeamAlreadyMatched;
+	}
+
+	public static String getTipsYouAlreadyMatched() {
+		return tipsYouAlreadyMatched;
 	}
 }

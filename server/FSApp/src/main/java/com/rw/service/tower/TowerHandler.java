@@ -90,7 +90,7 @@ public class TowerHandler {
 
 		String userId = player.getUserId();
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player, outTip)) {
 			GameLog.error("万仙阵获取面板信息", userId, outTip.value);
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
@@ -224,6 +224,9 @@ public class TowerHandler {
 		Collections.sort(enemyHeadList, comparator);
 		towerData.addAllHeadInfos(enemyHeadList);
 
+		// 填充一下自己法宝的剩余怒气
+		towerData.setMagicPercent(angleArrayData.getMagic());
+
 		if (isAddInfo) {
 			ArmyInfo enemyInfo = towerMgr.getEnemyArmyInfo(AngelArrayUtils.getAngelArrayFloorDataId(userId, floor));// 层敌人数据
 			try {
@@ -275,7 +278,7 @@ public class TowerHandler {
 
 		String userId = player.getUserId();
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player, outTip)) {
 			GameLog.error("万仙阵获取敌人信息", userId, outTip.value);
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
@@ -316,7 +319,7 @@ public class TowerHandler {
 
 		String userId = player.getUserId();
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player, outTip)) {
 			GameLog.error("万仙阵结束战斗", userId, outTip.value);
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
@@ -359,7 +362,7 @@ public class TowerHandler {
 		// 己方数据变化
 		List<TagTowerHeroChange> heroChageMapList = requireTowerData.getHeroChageMapList();
 		if (heroChageMapList != null && !heroChageMapList.isEmpty()) {// 玩家数据有改变更新
-			towerMgr.updateHeroChange(returnTableChangeList(heroChageMapList));// 修改玩家的数据
+			towerMgr.updateHeroChange(returnTableChangeList(heroChageMapList), requireTowerData.getMagicPercent());// 修改玩家的数据
 		} else {
 			GameLog.error("万仙阵战斗结束", userId, String.format("万仙阵[%s]层，结果[%s],客户端战斗结束后没有发送己方血量变化信息", towerId, win));
 		}
@@ -367,7 +370,7 @@ public class TowerHandler {
 		// 敌方改变数据
 		List<TagTowerHeroChange> enemyChangeList = request.getEnemyHeroChangeListList();// 敌方数据改变
 		if (enemyChangeList != null && !enemyChangeList.isEmpty()) {// 关卡敌人数据改变更新
-			towerMgr.updateEnemyChange(player, towerId, returnTableChangeList(enemyChangeList));// 敌方改变数据
+			towerMgr.updateEnemyChange(player, towerId, returnTableChangeList(enemyChangeList), request.getMagicPercent());// 敌方改变数据
 		} else {
 			GameLog.error("万仙阵战斗结束", userId, String.format("万仙阵[%s]层，结果[%s],客户端战斗结束后没有发送敌方血量变化信息", towerId, win));
 		}
@@ -417,7 +420,7 @@ public class TowerHandler {
 		response.setTowerType(request.getTowerType());
 		String userId = player.getUserId();
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player, outTip)) {
 			GameLog.error("万仙阵获取奖励", userId, outTip.value);
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
@@ -497,7 +500,7 @@ public class TowerHandler {
 
 		String userId = player.getUserId();
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TOWER, player, outTip)) {
 			GameLog.error("万仙阵重置数据", userId, outTip.value);
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();

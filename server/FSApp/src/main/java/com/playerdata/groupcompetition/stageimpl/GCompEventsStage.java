@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
@@ -72,7 +73,8 @@ public class GCompEventsStage implements IGCompStage {
 		GCompCommonTask.scheduleCommonTask(_eventStatusSwitcher, this, endTimeMillis); // 结束的时效任务，等待回调
 	}
 	
-	private void startEvents(GCEventsType eventsType, List<String> groupIds, List<String> loseGroupIds, boolean old, boolean first) {
+	private void startEvents(GCEventsType eventsType, List<String> groupIds, List<String> loseGroupIds, boolean old) {
+		boolean first = _currentEventsType == null;
 		_currentEventsType = eventsType;
 		GCompEvents.Builder builder;
 		if (old) {
@@ -81,18 +83,19 @@ public class GCompEventsStage implements IGCompStage {
 			builder.setEventsType(eventsType);
 		} else {
 			// 切换到某个赛事类型
+			if (eventsType == GCEventsType.FINAL) {
+				groupIds = new ArrayList<String>(groupIds);
+				groupIds.addAll(loseGroupIds);
+			}
+			builder = new GCompEvents.Builder(groupIds, eventsType);
 			List<IReadOnlyPair<Integer, Integer>> againstInfo;
-			if (this._currentEventsType == null) {
+			if (first) {
 				// 初赛
 				againstInfo = GroupCompetitionAgainstCfgDAO.getInstance().getCfgById(String.valueOf(eventsType.sign)).getAgainstInfoList();
 			} else {
 				againstInfo = Collections.emptyList();
 			}
-			if (eventsType == GCEventsType.FINAL) {
-				groupIds = new ArrayList<String>(groupIds);
-				groupIds.addAll(loseGroupIds);
-			}
-			builder = new GCompEvents.Builder(groupIds, eventsType).setAgainstsInfo(againstInfo);
+			builder.setAgainstsInfo(againstInfo);
 		}
 //		builder.setFirstOfThisSession(first);
 		_events = builder.build();
@@ -211,7 +214,6 @@ public class GCompEventsStage implements IGCompStage {
 		GCEventsType startType;
 		List<String> loseGroupIds;
 		boolean old = false;
-		boolean first = false;
 		if (startPara != null && startPara instanceof GCompEventsStartPara) {
 			GCompEventsStartPara eventsPara = (GCompEventsStartPara) startPara;
 			startType = eventsPara.getEventsType();
@@ -219,6 +221,9 @@ public class GCompEventsStage implements IGCompStage {
 			loseGroupIds = eventsPara.getLoseGroupIds();
 			if (GCompEventsDataMgr.getInstance().getEventsData(startType) != null) {
 				old = true;
+			} 
+			if(startType.getPre() != null && GCompEventsDataMgr.getInstance().getEventsData(startType.getPre()) != null) {
+				_currentEventsType = startType.getPre(); // 曾经的上一级赛事
 			}
 		} else {
 			topCountGroups = GCompHistoryDataMgr.getInstance().getSelectedGroupIds();
@@ -228,10 +233,9 @@ public class GCompEventsStage implements IGCompStage {
 			} else {
 				startType = GCEventsType.TOP_8;
 			}
-			first = true;
 			fireStageStartEvent(startType);
 		}
-		this.startEvents(startType, topCountGroups, loseGroupIds, old, first); // 切换到具体赛事类型
+		this.startEvents(startType, topCountGroups, loseGroupIds, old); // 切换到具体赛事类型
 		this._stageEndTime = calculateEndTime(startType, false);
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsStage());
 	}
@@ -268,7 +272,7 @@ public class GCompEventsStage implements IGCompStage {
 		
 		@Override
 		public void accept(GCompEventsStageContext context) {
-			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds(), false, false);
+			_stage.startEvents(context.getStatus(), context.getGroupIds(), context.getLoseGroupIds(), true);
 		}
 		
 	}

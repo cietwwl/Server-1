@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.stageimpl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -69,9 +70,7 @@ public class GCompEvents {
 		return againsts;
 	}
 	
-	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType, boolean old) {
-		// 初始化对阵关系
-		_type = eventsType;
+	private void generateAgainstInfo(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType, boolean old) {
 		if (!old) {
 			againsts = this.checkAgainstAssignment(againsts, groupIds.size()); // 检查对阵关系的安排
 			List<GCompAgainst> againstList = new ArrayList<GCompAgainst>(againsts.size());
@@ -86,7 +85,7 @@ public class GCompEvents {
 				GCompAgainst against = new GCompAgainst(groupId1, groupId2, eventsType, beginPos);
 				againstList.add(against);
 			}
-			if (this._type == GCEventsType.FINAL) {
+			if (eventsType == GCEventsType.FINAL) {
 				// 决赛的第一场是冠军争夺
 				againstList.get(0).setChampionEvents(true);
 			}
@@ -96,7 +95,14 @@ public class GCompEvents {
 			eventsData.setEventsType(eventsType);
 			eventsData.setRelativeGroupIds(groupIds);
 			GCompEventsDataMgr.getInstance().addEvents(eventsData, eventsType);
+			GCompQuizMgr.getInstance().groupCompEventsStart(eventsType); // 竞猜模块
 		}
+	}
+	
+	private void initEventsData(List<String> groupIds, List<IReadOnlyPair<Integer, Integer>> againsts, GCEventsType eventsType, boolean old) {
+		// 初始化对阵关系
+		_type = eventsType;
+		this.generateAgainstInfo(groupIds, againsts, eventsType, old);
 	}
 	
 	// 通知赛事开始
@@ -108,7 +114,7 @@ public class GCompEvents {
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCompOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
 		GCompMemberMgr.getInstance().notifyEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知成员管理器
-		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
+//		GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
 		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
@@ -219,14 +225,22 @@ public class GCompEvents {
 		}
 		eventsData.setWinGroupIds(winGroupIds);
 		eventsData.setLostGroupIds(loseGroupIds);
-		if (_type.getNext() == GCEventsType.FINAL) {
-			int beginPos = GCompUtil.computeBeginIndex(GCEventsType.FINAL); // 计算开始索引
-			List<GCompAgainst> next = new ArrayList<GCompAgainst>();
-			next.add(new GCompAgainst(winGroupIds.get(0), winGroupIds.get(1), GCEventsType.FINAL, beginPos));
-			next.add(new GCompAgainst(loseGroupIds.get(0), loseGroupIds.get(1), GCEventsType.FINAL, beginPos + 1));
-			GCompEventsDataMgr.getInstance().setNextMatches(next);
-		}
+//		if (_type.getNext() == GCEventsType.FINAL) {
+//			int beginPos = GCompUtil.computeBeginIndex(GCEventsType.FINAL); // 计算开始索引
+//			List<GCompAgainst> next = new ArrayList<GCompAgainst>();
+//			next.add(new GCompAgainst(winGroupIds.get(0), winGroupIds.get(1), GCEventsType.FINAL, beginPos));
+//			next.add(new GCompAgainst(loseGroupIds.get(0), loseGroupIds.get(1), GCEventsType.FINAL, beginPos + 1));
+//			GCompEventsDataMgr.getInstance().setNextMatches(next);
+//		}
 		GCompEventsDataMgr.getInstance().save();
+		if (_type.getNext() != null) { // 提早生成下一组赛事
+			List<IReadOnlyPair<Integer, Integer>> againstList = Collections.emptyList();
+			List<String> groupIds = new ArrayList<String>(winGroupIds);
+			if (_type.getNext() == GCEventsType.FINAL) {
+				groupIds.addAll(loseGroupIds);
+			}
+			this.generateAgainstInfo(groupIds, againstList, _type.getNext(), false);
+		}
 		this.fireEventsEnd();
 	}
 	
