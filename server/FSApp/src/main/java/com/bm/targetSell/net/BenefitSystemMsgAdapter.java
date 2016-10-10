@@ -15,7 +15,10 @@ import com.log.GameLog;
 import com.rwbase.gameworld.GameWorldFactory;
 
 /**
+ * <pre>
  * 与精准服通讯
+ * 这里使用单socket进行多路复用，发送消息时阻塞，要进行优化
+ * </pre> 
  * @author Alex
  * 2016年9月23日 下午2:35:32
  */
@@ -91,7 +94,7 @@ public class BenefitSystemMsgAdapter {
 	}
 	
 	/**
-	 * 向精准服发送消息
+	 * 向精准服发送消息 
 	 * @param content 消息内容
 	 */
 	public void sendMsg(String content){
@@ -102,7 +105,7 @@ public class BenefitSystemMsgAdapter {
 			
 			output.write(dataFormat(content));
 			output.flush();
-//			System.out.println("发送消息到精准服：" + content);
+			System.out.println("发送消息到精准服：" + content);
 		} catch (Exception e) {
 			e.printStackTrace();
 			closeSocket();
@@ -137,6 +140,7 @@ public class BenefitSystemMsgAdapter {
 	 */
 	private String decodeData(int headerContent) throws IOException{
 		int bodyLen = headerContent ^ MSG_KEY;
+//		System.out.println("----------------recv msg, msg lenght:" + bodyLen);
 		bodyLen = Math.min(bodyLen, RECV_BUFFER_SIZE);
 		byte[] temp = new byte[bodyLen];
 		reader.read(temp);
@@ -164,13 +168,27 @@ public class BenefitSystemMsgAdapter {
 //						System.out.println("~~~~~~~~~~~~~~~~check remote msg");
 						try {
 							
-							String reString = null;//这个会阻塞
+							String reString = null;
 							
 							int len = 0;//收到的数据包头内容
 							
 							while ((len = reader.readInt()) != -1) {
 								
-								reString = decodeData(len);
+								//拆包获取包体内容
+								int bodyLen = len ^ MSG_KEY;
+								System.out.println("----------------recv msg, msg lenght:" + bodyLen);
+								if(bodyLen > RECV_BUFFER_SIZE){
+									//如果超过上限，不进行处理, 因为3K有18个礼包左右，超过32k应该是数据有问题了
+									reader.skipBytes(bodyLen);
+									GameLog.error("BenefitSystem", "BenefitSystem", "读取精准服数据，发现超过上限，长度为：" + bodyLen, null);
+									continue;
+								}
+								
+								bodyLen = Math.min(bodyLen, RECV_BUFFER_SIZE);
+								byte[] temp = new byte[bodyLen];
+								reader.read(temp);
+								reString =  new String(temp,"utf-8");
+								
 								
 								System.out.println("recv response :" + reString);
 								GameWorldFactory.getGameWorld().asynExecute(new ResponseTask(reString));
@@ -189,7 +207,7 @@ public class BenefitSystemMsgAdapter {
 	
 	
 	/**
-	 * 关闭旧连接
+	 * 关闭旧连接  
 	 */
 	private void closeSocket(){
 		try {

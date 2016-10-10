@@ -7328,6 +7328,24 @@ public final class TowerServiceProtos {
      */
     com.google.protobuf.ByteString
         getEnemyArmyInfoBytes();
+
+    // optional float magicPercent = 13;
+    /**
+     * <code>optional float magicPercent = 13;</code>
+     *
+     * <pre>
+     *法宝剩余能量
+     * </pre>
+     */
+    boolean hasMagicPercent();
+    /**
+     * <code>optional float magicPercent = 13;</code>
+     *
+     * <pre>
+     *法宝剩余能量
+     * </pre>
+     */
+    float getMagicPercent();
   }
   /**
    * Protobuf type {@code TowerService.TagTowerData}
@@ -7511,6 +7529,11 @@ public final class TowerServiceProtos {
             case 98: {
               bitField0_ |= 0x00000010;
               enemyArmyInfo_ = input.readBytes();
+              break;
+            }
+            case 109: {
+              bitField0_ |= 0x00000020;
+              magicPercent_ = input.readFloat();
               break;
             }
           }
@@ -8052,6 +8075,30 @@ public final class TowerServiceProtos {
       }
     }
 
+    // optional float magicPercent = 13;
+    public static final int MAGICPERCENT_FIELD_NUMBER = 13;
+    private float magicPercent_;
+    /**
+     * <code>optional float magicPercent = 13;</code>
+     *
+     * <pre>
+     *法宝剩余能量
+     * </pre>
+     */
+    public boolean hasMagicPercent() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional float magicPercent = 13;</code>
+     *
+     * <pre>
+     *法宝剩余能量
+     * </pre>
+     */
+    public float getMagicPercent() {
+      return magicPercent_;
+    }
+
     private void initFields() {
       userId_ = "";
       currTowerID_ = 0;
@@ -8065,6 +8112,7 @@ public final class TowerServiceProtos {
       headInfos_ = java.util.Collections.emptyList();
       enemyTowerID_ = 0;
       enemyArmyInfo_ = "";
+      magicPercent_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8136,6 +8184,9 @@ public final class TowerServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBytes(12, getEnemyArmyInfoBytes());
       }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeFloat(13, magicPercent_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -8200,6 +8251,10 @@ public final class TowerServiceProtos {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(12, getEnemyArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(13, magicPercent_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8356,6 +8411,8 @@ public final class TowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000400);
         enemyArmyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000800);
+        magicPercent_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -8451,6 +8508,10 @@ public final class TowerServiceProtos {
           to_bitField0_ |= 0x00000010;
         }
         result.enemyArmyInfo_ = enemyArmyInfo_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.magicPercent_ = magicPercent_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -8603,6 +8664,9 @@ public final class TowerServiceProtos {
           bitField0_ |= 0x00000800;
           enemyArmyInfo_ = other.enemyArmyInfo_;
           onChanged();
+        }
+        if (other.hasMagicPercent()) {
+          setMagicPercent(other.getMagicPercent());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -10284,6 +10348,55 @@ public final class TowerServiceProtos {
         return this;
       }
 
+      // optional float magicPercent = 13;
+      private float magicPercent_ ;
+      /**
+       * <code>optional float magicPercent = 13;</code>
+       *
+       * <pre>
+       *法宝剩余能量
+       * </pre>
+       */
+      public boolean hasMagicPercent() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional float magicPercent = 13;</code>
+       *
+       * <pre>
+       *法宝剩余能量
+       * </pre>
+       */
+      public float getMagicPercent() {
+        return magicPercent_;
+      }
+      /**
+       * <code>optional float magicPercent = 13;</code>
+       *
+       * <pre>
+       *法宝剩余能量
+       * </pre>
+       */
+      public Builder setMagicPercent(float value) {
+        bitField0_ |= 0x00001000;
+        magicPercent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float magicPercent = 13;</code>
+       *
+       * <pre>
+       *法宝剩余能量
+       * </pre>
+       */
+      public Builder clearMagicPercent() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        magicPercent_ = 0F;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:TowerService.TagTowerData)
     }
 
@@ -10394,6 +10507,24 @@ public final class TowerServiceProtos {
      * </pre>
      */
     int getTowerID();
+
+    // optional float magicPercent = 7;
+    /**
+     * <code>optional float magicPercent = 7;</code>
+     *
+     * <pre>
+     *敌人法宝剩余能量
+     * </pre>
+     */
+    boolean hasMagicPercent();
+    /**
+     * <code>optional float magicPercent = 7;</code>
+     *
+     * <pre>
+     *敌人法宝剩余能量
+     * </pre>
+     */
+    float getMagicPercent();
   }
   /**
    * Protobuf type {@code TowerService.MsgTowerRequest}
@@ -10486,6 +10617,11 @@ public final class TowerServiceProtos {
             case 48: {
               bitField0_ |= 0x00000008;
               towerID_ = input.readInt32();
+              break;
+            }
+            case 61: {
+              bitField0_ |= 0x00000010;
+              magicPercent_ = input.readFloat();
               break;
             }
           }
@@ -10665,12 +10801,37 @@ public final class TowerServiceProtos {
       return towerID_;
     }
 
+    // optional float magicPercent = 7;
+    public static final int MAGICPERCENT_FIELD_NUMBER = 7;
+    private float magicPercent_;
+    /**
+     * <code>optional float magicPercent = 7;</code>
+     *
+     * <pre>
+     *敌人法宝剩余能量
+     * </pre>
+     */
+    public boolean hasMagicPercent() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional float magicPercent = 7;</code>
+     *
+     * <pre>
+     *敌人法宝剩余能量
+     * </pre>
+     */
+    public float getMagicPercent() {
+      return magicPercent_;
+    }
+
     private void initFields() {
       towerType_ = com.rwproto.TowerServiceProtos.eTowerType.TOWER_PANEL_INFO;
       towerData_ = com.rwproto.TowerServiceProtos.TagTowerData.getDefaultInstance();
       win_ = 0;
       enemyHeroChangeList_ = java.util.Collections.emptyList();
       towerID_ = 0;
+      magicPercent_ = 0F;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10715,6 +10876,9 @@ public final class TowerServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(6, towerID_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFloat(7, magicPercent_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -10743,6 +10907,10 @@ public final class TowerServiceProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(6, towerID_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(7, magicPercent_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10880,6 +11048,8 @@ public final class TowerServiceProtos {
         }
         towerID_ = 0;
         bitField0_ = (bitField0_ & ~0x00000010);
+        magicPercent_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -10937,6 +11107,10 @@ public final class TowerServiceProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.towerID_ = towerID_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.magicPercent_ = magicPercent_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10990,6 +11164,9 @@ public final class TowerServiceProtos {
         }
         if (other.hasTowerID()) {
           setTowerID(other.getTowerID());
+        }
+        if (other.hasMagicPercent()) {
+          setMagicPercent(other.getMagicPercent());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -11577,6 +11754,55 @@ public final class TowerServiceProtos {
       public Builder clearTowerID() {
         bitField0_ = (bitField0_ & ~0x00000010);
         towerID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional float magicPercent = 7;
+      private float magicPercent_ ;
+      /**
+       * <code>optional float magicPercent = 7;</code>
+       *
+       * <pre>
+       *敌人法宝剩余能量
+       * </pre>
+       */
+      public boolean hasMagicPercent() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional float magicPercent = 7;</code>
+       *
+       * <pre>
+       *敌人法宝剩余能量
+       * </pre>
+       */
+      public float getMagicPercent() {
+        return magicPercent_;
+      }
+      /**
+       * <code>optional float magicPercent = 7;</code>
+       *
+       * <pre>
+       *敌人法宝剩余能量
+       * </pre>
+       */
+      public Builder setMagicPercent(float value) {
+        bitField0_ |= 0x00000020;
+        magicPercent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional float magicPercent = 7;</code>
+       *
+       * <pre>
+       *敌人法宝剩余能量
+       * </pre>
+       */
+      public Builder clearMagicPercent() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        magicPercent_ = 0F;
         onChanged();
         return this;
       }
@@ -13576,7 +13802,7 @@ public final class TowerServiceProtos {
       "ata\"{\n\022TagTowerHeroChange\022\016\n\006userId\030\001 \002(",
       "\t\022,\n\006isDead\030\002 \001(\0162\034.TowerService.eTowerD" +
       "eadType\022\022\n\nreduceLife\030\003 \001(\005\022\023\n\013reduceEne" +
-      "gy\030\004 \001(\005\"\363\002\n\014TagTowerData\022\016\n\006userId\030\001 \002(" +
+      "gy\030\004 \001(\005\"\211\003\n\014TagTowerData\022\016\n\006userId\030\001 \002(" +
       "\t\022\023\n\013currTowerID\030\002 \001(\005\022\024\n\014refreshTimes\030\003" +
       " \001(\005\022/\n\006enemys\030\004 \003(\0132\037.TowerService.TagT" +
       "owerEnemyInfo\0226\n\014heroChageMap\030\005 \003(\0132 .To" +
@@ -13585,27 +13811,28 @@ public final class TowerServiceProtos {
       "towerGetArardList\030\010 \003(\010\022\025\n\rtowerBeatList" +
       "\030\t \003(\010\0221\n\theadInfos\030\n \003(\0132\036.TowerService",
       ".TagTowerHeadInfo\022\024\n\014enemyTowerID\030\013 \001(\005\022" +
-      "\025\n\renemyArmyInfo\030\014 \001(\t\"\312\001\n\017MsgTowerReque" +
-      "st\022+\n\ttowerType\030\001 \002(\0162\030.TowerService.eTo" +
-      "werType\022-\n\ttowerData\030\002 \001(\0132\032.TowerServic" +
-      "e.TagTowerData\022\013\n\003win\030\003 \001(\005\022=\n\023enemyHero" +
-      "ChangeList\030\004 \003(\0132 .TowerService.TagTower" +
-      "HeroChange\022\017\n\007towerID\030\006 \001(\005\"\257\002\n\020MsgTower" +
-      "Response\022+\n\ttowerType\030\001 \002(\0162\030.TowerServi" +
-      "ce.eTowerType\0227\n\017towerResultType\030\002 \001(\0162\036" +
-      ".TowerService.eTowerResultType\022-\n\ttowerD",
-      "ata\030\003 \001(\0132\032.TowerService.TagTowerData\022=\n" +
-      "\023enemyHeroChangeList\030\004 \003(\0132 .TowerServic" +
-      "e.TagTowerHeroChange\022\024\n\014awardListStr\030\005 \001" +
-      "(\t\022\017\n\007towerID\030\006 \001(\005\022\020\n\010armyInfo\030\007 \001(\t\022\016\n" +
-      "\006tipMsg\030\010 \001(\t*\223\001\n\neTowerType\022\024\n\020TOWER_PA" +
-      "NEL_INFO\020\000\022\025\n\021TOWER_START_FIGHT\020\001\022\023\n\017TOW" +
-      "ER_END_FIGHT\020\002\022\024\n\020TOWER_GET_REWARD\020\003\022\024\n\020" +
-      "TOWER_RESET_DATA\020\004\022\027\n\023TOWER_REQUIRE_ENEM" +
-      "Y\020\005*5\n\020eTowerResultType\022\021\n\rTOWER_SUCCESS" +
-      "\020\001\022\016\n\nTOWER_FAIL\020\002*2\n\016eTowerDeadType\022\016\n\n",
-      "TOWER_DEAD\020\000\022\020\n\014TOWER_LIVING\020\001B!\n\013com.rw" +
-      "protoB\022TowerServiceProtos"
+      "\025\n\renemyArmyInfo\030\014 \001(\t\022\024\n\014magicPercent\030\r" +
+      " \001(\002\"\340\001\n\017MsgTowerRequest\022+\n\ttowerType\030\001 " +
+      "\002(\0162\030.TowerService.eTowerType\022-\n\ttowerDa" +
+      "ta\030\002 \001(\0132\032.TowerService.TagTowerData\022\013\n\003" +
+      "win\030\003 \001(\005\022=\n\023enemyHeroChangeList\030\004 \003(\0132 " +
+      ".TowerService.TagTowerHeroChange\022\017\n\007towe" +
+      "rID\030\006 \001(\005\022\024\n\014magicPercent\030\007 \001(\002\"\257\002\n\020MsgT" +
+      "owerResponse\022+\n\ttowerType\030\001 \002(\0162\030.TowerS" +
+      "ervice.eTowerType\0227\n\017towerResultType\030\002 \001",
+      "(\0162\036.TowerService.eTowerResultType\022-\n\tto" +
+      "werData\030\003 \001(\0132\032.TowerService.TagTowerDat" +
+      "a\022=\n\023enemyHeroChangeList\030\004 \003(\0132 .TowerSe" +
+      "rvice.TagTowerHeroChange\022\024\n\014awardListStr" +
+      "\030\005 \001(\t\022\017\n\007towerID\030\006 \001(\005\022\020\n\010armyInfo\030\007 \001(" +
+      "\t\022\016\n\006tipMsg\030\010 \001(\t*\223\001\n\neTowerType\022\024\n\020TOWE" +
+      "R_PANEL_INFO\020\000\022\025\n\021TOWER_START_FIGHT\020\001\022\023\n" +
+      "\017TOWER_END_FIGHT\020\002\022\024\n\020TOWER_GET_REWARD\020\003" +
+      "\022\024\n\020TOWER_RESET_DATA\020\004\022\027\n\023TOWER_REQUIRE_" +
+      "ENEMY\020\005*5\n\020eTowerResultType\022\021\n\rTOWER_SUC",
+      "CESS\020\001\022\016\n\nTOWER_FAIL\020\002*2\n\016eTowerDeadType" +
+      "\022\016\n\nTOWER_DEAD\020\000\022\020\n\014TOWER_LIVING\020\001B!\n\013co" +
+      "m.rwprotoB\022TowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13641,13 +13868,13 @@ public final class TowerServiceProtos {
           internal_static_TowerService_TagTowerData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TowerService_TagTowerData_descriptor,
-              new java.lang.String[] { "UserId", "CurrTowerID", "RefreshTimes", "Enemys", "HeroChageMap", "TowerOpenList", "TowerFirstList", "TowerGetArardList", "TowerBeatList", "HeadInfos", "EnemyTowerID", "EnemyArmyInfo", });
+              new java.lang.String[] { "UserId", "CurrTowerID", "RefreshTimes", "Enemys", "HeroChageMap", "TowerOpenList", "TowerFirstList", "TowerGetArardList", "TowerBeatList", "HeadInfos", "EnemyTowerID", "EnemyArmyInfo", "MagicPercent", });
           internal_static_TowerService_MsgTowerRequest_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_TowerService_MsgTowerRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TowerService_MsgTowerRequest_descriptor,
-              new java.lang.String[] { "TowerType", "TowerData", "Win", "EnemyHeroChangeList", "TowerID", });
+              new java.lang.String[] { "TowerType", "TowerData", "Win", "EnemyHeroChangeList", "TowerID", "MagicPercent", });
           internal_static_TowerService_MsgTowerResponse_descriptor =
             getDescriptor().getMessageTypes().get(6);
           internal_static_TowerService_MsgTowerResponse_fieldAccessorTable = new

@@ -204,15 +204,15 @@ public class GMHeroBase {
 	 * @param genType
 	 * @param blnLimited
 	 */
-	public static void gmInlayJewel(Hero hero, Player player, int gemType, int level, boolean blnLimited){
+	public static void gmInlayJewel(Hero hero, Player player, int gemType, int level, boolean blnLimited, int heroLevel){
 		InlayMgr inlayMgr = hero.getInlayMgr();
 		List<GemCfg> gemList = ItemCfgHelper.getGemCfgByType(gemType);
 		int max = -1;
 		int itemId = 0;
 		if(blnLimited){
 			for (GemCfg gemCfg : gemList) {
-				if(gemCfg.getLevel() >= player.getLevel() && max < gemCfg.getLevel()){
-					max = gemCfg.getLevel();
+				if(gemCfg.getLevel() <= heroLevel && max <= gemCfg.getGemLevel()){
+					max = gemCfg.getGemLevel();
 					itemId = gemCfg.getId();
 					if(max == level){
 						break;
@@ -221,21 +221,19 @@ public class GMHeroBase {
 			}
 		}else{
 			for (GemCfg gemCfg : gemList) {
-				if(max < gemCfg.getLevel()){
-					max = gemCfg.getLevel();
+				if(level == gemCfg.getGemLevel()){
 					itemId = gemCfg.getId();
-					if(max == level){
-						break;
-					}
 				} 
 			}
 		}
-		ItemData itemData = new ItemData();
-		itemData.setCount(1);
-		itemData.setUserId(player.getUserId());
-		itemData.setModelId(itemId);
-		
-		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
+		if (itemId != 0) {
+			ItemData itemData = new ItemData();
+			itemData.setCount(1);
+			itemData.setUserId(player.getUserId());
+			itemData.setModelId(itemId);
+
+			inlayMgr.InlayGem(player, hero.getUUId(), itemData);
+		}
 	}
 	
 	/**
@@ -353,6 +351,9 @@ public class GMHeroBase {
 			return "";
 		}
 		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillId);
+		String skillEffectId = cfg.getSkillEffectId();
+		String baseSkillId = skillEffectId+"_1";
+		cfg = SkillCfgDAO.getInstance().getCfg(baseSkillId);
 
 		while (!cfg.getNextSillId().equals("")) {
 			cfg = SkillCfgDAO.getInstance().getCfg(cfg.getNextSillId());

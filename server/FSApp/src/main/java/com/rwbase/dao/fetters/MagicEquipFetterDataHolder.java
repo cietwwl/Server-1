@@ -18,6 +18,7 @@ import com.rwbase.dao.fetters.pojo.cfg.MagicEquipConditionCfg;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.sun.xml.internal.ws.message.saaj.SAAJHeader;
 
 
 /**
@@ -107,7 +108,7 @@ public class MagicEquipFetterDataHolder {
 			boolean remove = false;
 			for (Integer id : temp) {
 				MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
-				if(Integer.parseInt(cfg.getHeroModelID()) == modelId){
+				if(cfg.getHeroModelID() == modelId){
 					remove = true;
 					fetterIDs.remove(id);
 					break;
@@ -150,6 +151,22 @@ public class MagicEquipFetterDataHolder {
 		
 	}
 	
+	private boolean checkSameElement(Set<MagicEquipConditionCfg> curCfgs, List<Integer> fetterIDs){
+		boolean same = true;
+		List<Integer> checkList = new ArrayList<Integer>(fetterIDs);
+		for (MagicEquipConditionCfg cfg : curCfgs) {
+			same = checkList.remove(new Integer(cfg.getUniqueId()));
+			if(!same){
+				break;
+			}
+		}
+		
+		if(!checkList.isEmpty()){
+			same = false;
+		}
+		return same;
+	}
+	
 	/**
 	 * 检查数据库内法宝羁绊记录是否与当前集合一致，如果没有则进行添加
 	 * @param curCfgs
@@ -160,33 +177,38 @@ public class MagicEquipFetterDataHolder {
 		if(item == null){
 			item = checkRecord();
 		}
+		List<Integer> fetterIDs = item.getMagicFetters();
+		//检查一下新数据与数据库保存的id是否一样,如果相同就直接返回,不做其他操作
+		if(checkSameElement(curCfgs, fetterIDs)){
+			return;
+		}
+		
 		
 		Set<MagicEquipConditionCfg> combineRecord = new HashSet<MagicEquipConditionCfg>();
 		Set<MagicEquipConditionCfg> remove = new HashSet<MagicEquipConditionCfg>();
 		
 
-		List<Integer> fetterIDs;
-		fetterIDs = item.getMagicFetters();
 		List<MagicEquipConditionCfg> sameType = new ArrayList<MagicEquipConditionCfg>();
 		//先找出数据库里多出来的记录，判断是否要保留
 		for (Integer id : fetterIDs) {
 			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
 			sameType.clear();
-			boolean exist = false;
+			boolean exist = false;//新的集合里是否存在旧记录
 			for (MagicEquipConditionCfg fetter : curCfgs) {
 				if(fetter.getUniqueId() == id){
 					exist = true;
+				}else{
+					//记录一下相同类型的新集合
+					if(cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()){
+						sameType.add(fetter);
+					}
 				}
 				
-				//记录一下相同类型的新集合
-				if(fetter.getUniqueId() != id && cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()){
-					sameType.add(fetter);
-				}
 			}
 			
 			if(!exist){
-				//检查是否要保留
-				if(cfg.recordOldData() && Integer.parseInt(cfg.getHeroModelID()) == modelID){
+				//检查是否要保留   这里要判断一下英雄id，因为主角会转职
+				if(cfg.recordOldData() && cfg.getHeroModelID() == modelID){
 					//如果是要保留，则判断新集合内是否有相同类型记录，比较两个等级，保留最高
 					boolean del = false;
 					for (MagicEquipConditionCfg temp : sameType) {
@@ -239,7 +261,7 @@ public class MagicEquipFetterDataHolder {
 		List<Integer> fetterIDs = item.getFixEquipFetters();
 		for (Integer id : fetterIDs) {
 			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
-			if(Integer.parseInt(cfg.getHeroModelID()) == modelId){
+			if(cfg.getHeroModelID() == modelId){
 				temp.add(id);
 			}
 		}

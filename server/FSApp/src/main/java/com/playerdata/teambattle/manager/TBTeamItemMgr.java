@@ -126,9 +126,6 @@ public class TBTeamItemMgr{
 				memTeams.add(teamInfo);
 			}else{
 				UserTeamBattleData utbMemData = UserTeamBattleDataHolder.getInstance().get(member.getUserID());
-				if(utbMemData==null){
-					System.out.println("tt");
-				}
 				synchronized (utbMemData) {
 					if(utbMemData.getSelfTeamInfo() == null){
 						Player player = PlayerMgr.getInstance().find(member.getUserID());

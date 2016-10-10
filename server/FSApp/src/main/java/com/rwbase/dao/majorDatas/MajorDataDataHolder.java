@@ -3,9 +3,6 @@ package com.rwbase.dao.majorDatas;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -16,19 +13,8 @@ public class MajorDataDataHolder {
 
 	public MajorDataDataHolder(String userId) {
 		this.userId = userId;
-		initMajorData();
 	}
 
-	private void initMajorData() {
-		MajorDataCache cache = MajorDataCacheFactory.getCache();
-		MajorData majorData = cache.get(userId);
-		if (majorData == null) {
-			majorData = new MajorData();
-			majorData.setId(userId);
-			majorData.setOwnerId(userId);
-			cache.update(majorData);
-		}
-	}
 
 	public MajorData getMarjorData() {
 		return MajorDataCacheFactory.getCache().get(this.userId);

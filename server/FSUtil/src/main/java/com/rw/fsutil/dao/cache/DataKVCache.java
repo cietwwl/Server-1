@@ -35,8 +35,11 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 
 	@Override
 	protected void notifyValueUpdate(K key, CacheValueEntity<V> entity, boolean replace) {
+		String tableName = entity.getTableName();
+		if(tableName == null){
+			return;
+		}
 		if (updateMap.putIfAbsent(key, PRESENT) == null) {
-			String tableName = entity.getTableName();
 			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
 			//FSUtilLogger.info("新增提交任务:" + name + "," + tableName + "," + entity.getValue() + "," + key);
 		} else {
