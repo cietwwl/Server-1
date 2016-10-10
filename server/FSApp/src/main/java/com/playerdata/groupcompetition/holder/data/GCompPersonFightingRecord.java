@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.holder.data;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.groupcompetition.util.GCompBattleResult;
 
 /**
  * 
@@ -14,7 +15,7 @@ public class GCompPersonFightingRecord {
 	
 	private String offendName;	//主动方名字
 	private String defendName;	//防御方名字
-	private boolean isOffendWin;	//主动方是否获胜
+	private GCompBattleResult battleResult;	//战斗结果
 	private int continueWin; // 连胜次数
 	private int personalScore; // 本次挑战记录的个人积分
 	private int groupScore; // 本次挑战记录的帮派积分
@@ -35,12 +36,12 @@ public class GCompPersonFightingRecord {
 		this.defendName = defendName;
 	}
 
-	public boolean isOffendWin() {
-		return isOffendWin;
+	public GCompBattleResult getBattleResult() {
+		return battleResult;
 	}
 
-	public void setOffendWin(boolean isOffendWin) {
-		this.isOffendWin = isOffendWin;
+	public void setBattleResult(GCompBattleResult battleResult) {
+		this.battleResult = battleResult;
 	}
 
 	public int getContinueWin() {

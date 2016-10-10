@@ -435,7 +435,7 @@ public class GCompMatchDataHolder {
 				personFightingRecord.setOffendName(groupMember.getUserName());
 				personFightingRecord.setGroupScore(tempGroupScore);
 				personFightingRecord.setPersonalScore(personScore);
-				personFightingRecord.setOffendWin(teamMember.getResult() == GCompBattleResult.Win);
+				personFightingRecord.setBattleResult(teamMember.getResult());
 //				System.out.println("进攻方 : " + groupMember.getUserName() + ", 防守方：" + teamMember.getEnemyName() + ", 进攻方是否胜利 : " + personFightingRecord.isOffendWin());
 				personFightingRecords.add(personFightingRecord);
 			}
