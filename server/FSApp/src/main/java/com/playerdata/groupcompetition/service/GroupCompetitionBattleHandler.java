@@ -143,7 +143,8 @@ public class GroupCompetitionBattleHandler {
 
 		// 设置一下自己开始战斗
 		mine.setResult(GCompBattleResult.Fighting);
-		mine.setStartBattleTime(System.currentTimeMillis());
+		long now = System.currentTimeMillis();
+		mine.setStartBattleTime(now);
 
 		IGCGroup groupA = gcAgainstOfGroup.getGroupA();
 		IGCGroup groupB = gcAgainstOfGroup.getGroupB();
@@ -160,6 +161,15 @@ public class GroupCompetitionBattleHandler {
 		battleStartRsp.setEnemyArmyInfo(enemyArmyInfoJson);
 		battleStartRsp.setMatchGroupInfo(matchGroupInfo);
 		rsp.setBattleStartRsp(battleStartRsp);
+
+		// 战斗进入成功之后，把机器人的状态全部设置成战斗
+		for (int i = 0, size = members.size(); i < size; i++) {
+			GCompTeamMember member = members.get(i);
+			if (member.isRobot() && member.getResult() == GCompBattleResult.NonStart && !member.getUserId().equals(userId)) {
+				member.setResult(GCompBattleResult.Fighting);
+				member.setStartBattleTime(now);
+			}
+		}
 
 		return rsp.setIsSuccess(true).build().toByteString();
 	}
