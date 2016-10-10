@@ -15,15 +15,12 @@ public class GCompMixRankData {
 	
 	private int continueWin;
 	
-	private long lastestTime;	//该条记录更新的最后时间
-	
-	public GCompMixRankData(String userId, String userName, int score, int kill, int continueWin, long lastestTime){
+	public GCompMixRankData(String userId, String userName, int score, int kill, int continueWin){
 		this.userId = userId;
 		this.userName = userName;
 		this.score = score;
 		this.kill = kill;
 		this.continueWin = continueWin;
-		this.lastestTime = lastestTime;
 	}
 
 	public String getUserId() {
@@ -65,12 +62,4 @@ public class GCompMixRankData {
 	public void setContinueWin(int continueWin) {
 		this.continueWin = continueWin;
 	}
-
-	public long getLastestTime() {
-		return lastestTime;
-	}
-
-	public void setLastestTime(long lastestTime) {
-		this.lastestTime = lastestTime;
-	}	
 }

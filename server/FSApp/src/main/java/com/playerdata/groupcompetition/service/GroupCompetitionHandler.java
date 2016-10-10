@@ -488,7 +488,7 @@ public class GroupCompetitionHandler {
 
 	public ByteString getFightInfoInScene(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
-		ScoreInfoInPrepareMgr.getInstance().getFightInfoInScene(player, request.getScorePara().getLatestTime());
+		ScoreInfoInPrepareMgr.getInstance().getFightInfoInScene(player);
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
