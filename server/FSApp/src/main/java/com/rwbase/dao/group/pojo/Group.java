@@ -7,6 +7,7 @@ import com.bm.group.GroupLogMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.groupCopy.GroupCopyMgr;
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
@@ -127,6 +128,8 @@ public final class Group {
 			groupMemberMgr.transferGroupLeader(groupLeader.getUserId(), canTransferLeaderMemberId);
 			// 检查帮派成员的
 			groupBaseDataMgr.updateCheckTransferLeaderTime(now, delayTimeMillis);
+			// 改变帮派的信息
+			GroupCompetitionMgr.getInstance().notifyGroupInfoChange(this);
 		} else {// 没有超越限定离线时间
 			groupBaseDataMgr.updateCheckTransferLeaderTime(now, delayTimeMillis - (now - logoutTime));
 		}

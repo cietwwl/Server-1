@@ -176,11 +176,13 @@ public class GCompMatchDataHolder {
 		// 队伍战阶段积分：队伍胜利，战败，平局，均可能对个人以及帮派有额外的加分；
 		String matchId = userId2MatchId.get(userId);
 		if (matchId == null) {
+			GCompUtil.log("updateBattleResult，matchId == null！成员：{}", userId);
 			return;
 		}
 
 		GCompMatchData matchData = matchDataMap.get(matchId);
 		if (matchData == null) {
+			GCompUtil.log("updateBattleResult，matchData == null！成员：{}", userId);
 			return;
 		}
 
@@ -220,6 +222,7 @@ public class GCompMatchDataHolder {
 			GCompBattleResult battleResult = member.getResult();
 			if (battleResult == GCompBattleResult.NonStart || battleResult == GCompBattleResult.Fighting) {
 				allBattleFinish = false;
+				GCompUtil.log("updateBattleResult，member.getResult()未完成！当前状态：{}，member：{}", battleResult, member.getArmyInfo().getPlayerName());
 				continue;
 			}
 
@@ -400,6 +403,7 @@ public class GCompMatchDataHolder {
 		List<String> playerIdList = new ArrayList<String>(size);
 		List<GCompPersonFightingRecord> personFightingRecords = new ArrayList<GCompPersonFightingRecord>(size);
 		List<IReadOnlyPair<Integer, Integer>> memberScores = new ArrayList<IReadOnlyPair<Integer, Integer>>(size);
+		boolean myTeamWin = result == GCBattleResult.WIN;
 		for (int i = 0; i < size; i++) {
 			GCompTeamMember teamMember = allTeamMembers.get(i);
 			GCompMember groupMember = GCompMemberMgr.getInstance().getGCompMember(groupId, teamMember.getUserId());
@@ -416,7 +420,10 @@ public class GCompMatchDataHolder {
 				totalGroupScore += tempGroupScore;
 				
 				agent.updateToClient(groupMember);
-				agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
+				if (myTeamWin) {
+					// 胜利才广播
+					agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
+				}
 				
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", groupMember.getUserId(), teamMember.getArmyInfo().getPlayerName(), agent.getContinueWins(groupMember), groupMember.getTotalWinTimes(), groupMember.getScore(), score.getT1());
 

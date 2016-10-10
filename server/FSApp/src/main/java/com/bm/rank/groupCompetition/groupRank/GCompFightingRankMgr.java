@@ -62,7 +62,7 @@ public class GCompFightingRankMgr {
 	 * @param group
 	 * @return
 	 */
-	private static long getGroupFighting(Group group){
+	public static long getGroupFighting(Group group){
 		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
 		if(null == personalRanking){
 			return 0l;
@@ -81,6 +81,19 @@ public class GCompFightingRankMgr {
 			}
 		}
 		return totalFighting;
+	}
+	
+	/**
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public static long getGroupFighting(String groupId) {
+		Group group = GroupBM.get(groupId);
+		if(group != null) {
+			return getGroupFighting(group);
+		}
+		return 0;
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.rw.service.group.helper.GroupCmdHelper;
 import com.rw.service.group.helper.GroupRankHelper;
 import com.rw.support.FriendSupportFactory;
@@ -408,6 +409,7 @@ public class GroupBaseManagerHandler {
 
 		commonRsp.setIsSuccess(true);
 		GFGroupBiddingRankMgr.updateGFBidRankInfo(groupId);
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		return commonRsp.build().toByteString();
 	}
 
@@ -524,6 +526,7 @@ public class GroupBaseManagerHandler {
 
 		commonRsp.setIsSuccess(true);
 		commonRsp.setTipMsg("设置成功");
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		return commonRsp.build().toByteString();
 	}
 

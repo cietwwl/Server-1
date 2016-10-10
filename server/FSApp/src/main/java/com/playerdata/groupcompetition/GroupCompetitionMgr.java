@@ -27,14 +27,18 @@ import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompRestStartPara;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
+import com.playerdata.groupcompetition.util.GCompUpdateFightingTask;
+import com.playerdata.groupcompetition.util.GCompUpdateGroupInfoTask;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
+import com.rwbase.gameworld.GameWorldFactory;
 
 /**
  * 
@@ -268,7 +272,7 @@ public class GroupCompetitionMgr {
 		}
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());
-		this._dataHolder.update();
+		_dataHolder.update();
 		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
@@ -341,6 +345,7 @@ public class GroupCompetitionMgr {
 		GCompDetailInfoMgr.getInstance().onServerStartComplete(); // 加载详情数据
 		GCompGroupScoreRankingMgr.getInstance().serverStartComplete(); // 加载积分排名数据
 		GCompHistoryDataMgr.getInstance().serverStartComplete(); // 加载历史数据
+		GCompUpdateFightingTask.submit();
 		this.checkStartGroupCompetition();
 	}
 	
@@ -583,5 +588,9 @@ public class GroupCompetitionMgr {
 		}
 		baseInfo.setSession(globalData.getHeldTimes());
 		return baseInfo;
+	}
+	
+	public void notifyGroupInfoChange(Group group) {
+		GameWorldFactory.getGameWorld().asynExecute(new GCompUpdateGroupInfoTask(group));
 	}
 }

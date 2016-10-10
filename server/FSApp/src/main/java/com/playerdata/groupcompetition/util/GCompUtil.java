@@ -15,10 +15,15 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
+import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
+import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
+import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -198,6 +203,46 @@ public class GCompUtil {
 		}
 		GCompUtil.log("----------入围帮派id : " + groupIds + "----------");
 		return groupIds;
+	}
+	
+	public static void updateGroupInfo(List<GCompAgainst> list, Group targetGroup) {
+		if (list.size() > 0) {
+			GroupBaseDataIF baseData = targetGroup.getGroupBaseDataMgr().getGroupData();
+			String groupId = baseData.getGroupId();
+			List<GCGroup> groups = new ArrayList<GCGroup>();
+			List<Integer> againstIds = new ArrayList<Integer>();
+			for (int i = 0, size = list.size(); i < size; i++) {
+				GCompAgainst against = list.get(i);
+				if (against.getGroupA().getGroupId().equals(groupId)) {
+					groups.add(against.getGroupA());
+				} else if (against.getGroupB().getGroupId().equals(groupId)) {
+					groups.add(against.getGroupB());
+				} else {
+					continue;
+				}
+				againstIds.add(against.getId());
+			}
+			if (groups.size() > 0) {
+				GCGroup temp;
+				String leaderName = targetGroup.getGroupMemberMgr().getGroupLeader().getName();
+				int memberCount = targetGroup.getGroupMemberMgr().getGroupMemberSize();
+				String groupName = baseData.getGroupName();
+				int groupLv = baseData.getGroupLevel();
+				GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupLv);
+				int maxMemberCount = levelTemplate.getMaxMemberLimit();
+				String groupIcon = baseData.getIconId();
+				for (int i = 0, size = groups.size(); i < size; i++) {
+					temp = groups.get(i);
+					temp.setGroupName(groupName);
+					temp.setLeaderName(leaderName);
+					temp.setGroupLv(groupLv);
+					temp.setMemberNum(memberCount);
+					temp.setMaxMemberNum(maxMemberCount);
+					temp.setGroupIcon(groupIcon);
+					GCompDetailInfoMgr.getInstance().updateDetailInfo(againstIds.get(i), groupId, groupName, groupIcon);
+				}
+			}
+		}
 	}
 	
 	final static public class MessageFormatter {

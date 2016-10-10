@@ -23,6 +23,7 @@ import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchState;
 import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchType;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleCommonRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleEndReqMsg;
@@ -301,23 +302,27 @@ public class GroupCompetitionBattleHandler {
 
 		String groupId = GroupHelper.getGroupId(player);
 		if (StringUtils.isEmpty(groupId)) {
+			GCompUtil.log("收到战斗结果，但是返现帮派id为空！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "您没有帮派");
 		}
 
 		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
 		GCompMatchData matchData = holder.getMatchData(userId);
 		if (matchData == null) {
+			GCompUtil.log("收到战斗结果，matchData == null！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "您当前没有匹配到对手");
 		}
 
 		int matchState = matchData.getMatchState();
 		if (matchState != GCompMatchState.START_BATTLE.state) {
+			GCompUtil.log("收到战斗结果，matchState != GCompMatchState.START_BATTLE.state！成员的名字：{}，当前的state：{}", player.getUserName(), matchState);
 			return fillFailMsg(rsp, "战斗未开始");
 		}
 
 		// 刷新一下战斗的结果
 		GCBattleResult result = req.getResult();
 		if (result == GCBattleResult.NONE) {
+			GCompUtil.log("收到战斗结果，result == GCBattleResult.NONE！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "没有战斗结果");
 		}
 
