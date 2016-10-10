@@ -75,12 +75,17 @@ public class ActivityCollector implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
+		
+		
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		ActivityCountTypeCfgDAO countTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		long current = System.currentTimeMillis();
 		for (ActivityCountTypeCfg cfg : allCfgList) {
 			if (!countTypeCfgDAO.isOpen(cfg, current)) {
+				continue;
+			}
+			if(cfg.getLevelLimit()> level){
 				continue;
 			}
 			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
@@ -111,7 +116,7 @@ public class ActivityCollector implements RedPointCollector {
 		if (dailyTargetItem != null) {
 			ActivityDailyTypeCfgDAO dailyTypeCfgDAO = ActivityDailyTypeCfgDAO.getInstance();
 			ActivityDailyTypeCfg activityDailyTypeCfg = ActivityDailyTypeCfgDAO.getInstance().getConfig(dailyTargetItem.getCfgid());
-			if (activityDailyTypeCfg != null && dailyTypeCfgDAO.isOpen(activityDailyTypeCfg)) {
+			if (activityDailyTypeCfg != null && dailyTypeCfgDAO.isOpen(activityDailyTypeCfg)&&level >= activityDailyTypeCfg.getLevelLimit()) {
 				if (!dailyTargetItem.isTouchRedPoint()) {
 					activityList.add(activityDailyTypeCfg.getId());
 				} else {
@@ -194,6 +199,7 @@ public class ActivityCollector implements RedPointCollector {
 			if (!activityVitalityTypeMgr.isHasCfg(activityVitalityTypeItem)) {
 				continue;
 			}
+			
 			if (!activityVitalityTypeItem.isTouchRedPoint()) {
 				activityList.add(activityVitalityTypeItem.getCfgId());
 				continue;
@@ -275,6 +281,9 @@ public class ActivityCollector implements RedPointCollector {
 			if (!activityDailyDiscountTypeMgr.isOpen(cfg)) {
 				continue;
 			}
+			if(cfg.getLevelLimit()> level){
+				continue;
+			}
 			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
 			if (dailyDiscountEnum == null) {
 				continue;
@@ -301,6 +310,10 @@ public class ActivityCollector implements RedPointCollector {
 			if (!activityRankTypeMgr.isOpen(cfg)) {
 				continue;
 			}
+			if(cfg.getLevelLimit()> level){
+				continue;
+			}
+			
 			if (!rankItem.isTouchRedPoint()) {
 				activityList.add(rankItem.getCfgId());
 				continue;
@@ -318,6 +331,9 @@ public class ActivityCollector implements RedPointCollector {
 				continue;
 			}
 			if (!redEnvelopeTypeMgr.isOpen(cfg) && !redEnvelopeTypeMgr.isCanTakeGift(redEnvelopeItem)) {
+				continue;
+			}
+			if(cfg.getLevelLimit()> level){
 				continue;
 			}
 			if (!redEnvelopeItem.isTouchRedPoint()) {
