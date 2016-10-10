@@ -249,13 +249,17 @@ public class GCompMatchDataHolder {
 	 */
 	private void removeMatchCache(String matchId) {
 		GCompMatchData remove = matchDataMap.remove(matchId);
+		GCompUtil.log("removeMatchCache，匹配Id：{}", matchId);
 		if (remove == null) {
 			return;
 		}
 
 		List<GCompTeamMember> members = remove.getMyTeam().getMembers();
 		for (int i = 0, size = members.size(); i < size; i++) {
-			userId2MatchId.remove(members.get(i).getUserId());
+			String userId = members.get(i).getUserId();
+			userId2MatchId.remove(userId);
+
+			GCompUtil.log("removeMatchCache，删除userId：{}>>>对应的匹配Id：{}", userId, matchId);
 		}
 	}
 
@@ -420,12 +424,12 @@ public class GCompMatchDataHolder {
 				totalGroupScore += tempGroupScore;
 
 				agent.updateToClient(groupMember);
-				
+
 				if (myTeamWin) {
 					// 胜利才广播
 					agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
 				}
-				
+
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", groupMember.getUserId(), teamMember.getArmyInfo().getPlayerName(), agent.getContinueWins(groupMember), groupMember.getTotalWinTimes(), groupMember.getScore(), score.getT1());
 
 				if (!teamMember.isRobot()) {
@@ -648,6 +652,7 @@ public class GCompMatchDataHolder {
 
 				if (result == GCompBattleResult.NonStart || result == GCompBattleResult.Fighting) {
 					allBattleFinish = false;
+					GCompUtil.log("checkAllMatchBattleState，member.getResult()未完成！当前状态：{}，member：{}", result, member.getArmyInfo().getPlayerName());
 				}
 			}
 
