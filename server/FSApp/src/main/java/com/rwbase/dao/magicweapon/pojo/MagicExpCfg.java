@@ -3,17 +3,12 @@ package com.rwbase.dao.magicweapon.pojo;
 public class MagicExpCfg {
 
 	private int level;
-	private int exp;
 	private int goodsId;// 需要消耗的材料Id
 	private int factor;// 继承时把材料转换成801001要的系数
 	private int goodsNum;// 需要的数量
 
 	public int getLevel() {
 		return level;
-	}
-
-	public int getExp() {
-		return exp;
 	}
 
 	/**

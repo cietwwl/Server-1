@@ -1,51 +1,38 @@
 package com.rw.service.magic;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
-import com.common.RandomSeqGenerator;
-import com.common.RefInt;
-import com.common.Weight;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
-import com.playerdata.ItemCfgHelper;
-import com.playerdata.MagicMgr;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
-import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
-import com.rwbase.dao.item.ConsumeCfgDAO;
 import com.rwbase.dao.item.MagicCfgDAO;
-import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
-import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
-import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
-import com.rwbase.dao.magicweapon.CriticalEnhanceCfgDAO;
-import com.rwbase.dao.magicweapon.CriticalSeqCfgDAO;
 import com.rwbase.dao.magicweapon.MagicExpCfgDAO;
-import com.rwbase.dao.magicweapon.MagicSmeltCfgDAO;
-import com.rwbase.dao.magicweapon.pojo.CriticalEnhanceCfg;
-import com.rwbase.dao.magicweapon.pojo.CriticalSeqCfg;
+import com.rwbase.dao.magicweapon.MagicSmeltMaterialCfgDAO;
+import com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO;
 import com.rwbase.dao.magicweapon.pojo.MagicExpCfg;
-import com.rwbase.dao.magicweapon.pojo.MagicSmeltCfg;
+import com.rwbase.dao.magicweapon.pojo.MagicSmeltMaterialCfg;
+import com.rwbase.dao.magicweapon.pojo.MagicSmeltRateCfg;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MagicServiceProtos.MagicInheritReqMsg;
-import com.rwproto.MagicServiceProtos.MagicItemData;
 import com.rwproto.MagicServiceProtos.MsgMagicRequest;
 import com.rwproto.MagicServiceProtos.MsgMagicResponse;
 import com.rwproto.MagicServiceProtos.MsgMagicResponse.Builder;
@@ -68,6 +55,12 @@ public class MagicHandler {
 		return instance;
 	}
 
+	/**
+	 * 装备法宝
+	 * @param player
+	 * @param msgMagicRequest
+	 * @return
+	 */
 	public ByteString wearMagicWeapon(Player player, MsgMagicRequest msgMagicRequest) {
 		MsgMagicResponse.Builder msgMagicResponse = MsgMagicResponse.newBuilder();
 		msgMagicResponse.setMagicType(msgMagicRequest.getMagicType());
@@ -82,7 +75,7 @@ public class MagicHandler {
 	}
 
 	/**
-	 * 强化法宝
+	 * 强化法宝（升级）（消耗一定的材料进行法宝升级）
 	 * 
 	 * @param player
 	 * @param msgMagicRequest
@@ -91,8 +84,6 @@ public class MagicHandler {
 	public ByteString forgeMagicWeapon(Player player, MsgMagicRequest msgMagicRequest) {
 		MsgMagicResponse.Builder msgMagicResponse = MsgMagicResponse.newBuilder();
 		msgMagicResponse.setMagicType(msgMagicRequest.getMagicType());
-		// 请求不论成败都重置伪随机数列的种子
-		int oldSeed = refreshSeed(player, msgMagicResponse);
 
 		int state = msgMagicRequest.getState();
 
@@ -102,238 +93,38 @@ public class MagicHandler {
 			return setReturnResponse(msgMagicResponse, "找不到法宝！");
 		}
 		state = getItemMagicState(itemData);
-
-		List<MagicItemData> list = msgMagicRequest.getMagicItemDataList();
-		if (list.isEmpty()) {
-			return setReturnResponse(msgMagicResponse, "请选择强化材料！");
+		
+		int maxMagicLevel = MagicExpCfgDAO.getInstance().getMaxMagicLevel();
+		
+		int currentLevel = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Level_VALUE));
+		int nextLevel = ++currentLevel;
+		if(currentLevel >= maxMagicLevel){
+			return setReturnResponse(msgMagicResponse, "当亲法宝已经达到最高等级");
 		}
-
-		int matListCount = list.size();
-
-		final Map<String, Integer> itemExpMap = new HashMap<String, Integer>(matListCount);
-		// 转成一个可读列表，进行一次排序
-		List<MagicItemData> mateList = new ArrayList<MagicItemData>(matListCount);
-		for (int i = 0; i < matListCount; i++) {
-			MagicItemData e = list.get(i);
-			mateList.add(e);
-
-			ItemData magicMaterial = itemBagMgr.findBySlotId(e.getId());
-			if (magicMaterial == null) {
-				return setReturnResponse(msgMagicResponse, "背包中找不到材料");
-			}
-
-			ConsumeCfg cfg = ConsumeCfgDAO.getInstance().getCfgById(String.valueOf(magicMaterial.getModelId()));
-			if (cfg == null) {
-				return setReturnResponse(msgMagicResponse, "材料没有配置强化经验");
-			}
-
-			itemExpMap.put(e.getId(), cfg.getMagicForgeExp());
-		}
-
-		// 做个排序
-		Collections.sort(mateList, new Comparator<MagicItemData>() {
-
-			@Override
-			public int compare(MagicItemData o1, MagicItemData o2) {
-				String id1 = o1.getId();
-				String id2 = o2.getId();
-
-				Integer exp1 = itemExpMap.get(id1);
-				Integer exp2 = itemExpMap.get(id2);
-
-				if (exp1 == null) {
-					return 1;
-				}
-
-				if (exp2 == null) {
-					return -1;
-				}
-
-				return exp1 - exp2;
-			}
-		});
-
-		// 法宝模版
-		MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(itemData.getModelId()));
-		if (magicCfg == null) {
-			return setReturnResponse(msgMagicResponse, "找不到法宝配置");
-		}
-
-		// 看看有没有材料的资源Id
-		String[] trainItemIdArr = magicCfg.getTrainItemId().split(",");
-		if (trainItemIdArr.length <= 0) {
-			return setReturnResponse(msgMagicResponse, "这个法宝没有配置强化材料！");
-		}
-
-		List<MagicExpCfg> listCfg = MagicExpCfgDAO.getInstance().getSortedCfg();
-
-		int oldLevel = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Level_VALUE));// 旧等级
-		int oldExp = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE));
-		MagicExpCfg curExpCfg = listCfg.get(oldLevel - 1);
-
-		if (oldLevel > player.getLevel()) {
+		
+		if (currentLevel > player.getLevel()) {
 			return setReturnResponse(msgMagicResponse, "法宝等级超过了玩家等级！");
-		} else if (oldLevel == player.getLevel()) {// 如果等级相同
-			if (oldExp >= curExpCfg.getExp()) {
-				return setReturnResponse(msgMagicResponse, "法宝经验满了！");
-			}
 		}
-
-		// 验证经验是否爆满（达到进阶等级，且经验在进阶等级满了）
-		RefInt totalExp = new RefInt();
-		RefInt maxUpLevel = new RefInt();
-		final Integer fullExpObj = getUpgradeExp(itemData, player.getLevel(), totalExp, maxUpLevel);
-		if (fullExpObj == null) {// 经验爆满或者有其他错误，返回值为空，不能再吃强化材料了
-			return setReturnResponse(msgMagicResponse, "法宝经验满了，无法强化！");
+		
+		MagicExpCfg magicCfg = MagicExpCfgDAO.getInstance().getMagicCfgByLevel(currentLevel);
+		int goodsId = magicCfg.getGoodsId();
+		int goodsNum = magicCfg.getGoodsNum();
+		
+		
+		boolean checkEnoughItem = itemBagMgr.checkEnoughItem(goodsId, goodsNum);
+		if(!checkEnoughItem){
+			return setReturnResponse(msgMagicResponse, "法宝升级材料不足！");
 		}
-		final int fullExp = fullExpObj;
-
-		MaterialInfos matInfos = new MaterialInfos();
-		matInfos.StoreIDs = new String[matListCount];
-		matInfos.modelIDs = new int[matListCount];
-		matInfos.materialCounts = new int[matListCount];
-		matInfos.unitExps = new int[matListCount];
-		{
-			int i = 0;
-
-			Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
-
-			for (MagicItemData item : mateList) {
-				String matStoreId = item.getId();
-				matInfos.StoreIDs[i] = matStoreId;
-				ItemData magicMaterial = itemBagMgr.findBySlotId(matStoreId);
-				if (magicMaterial == null) {
-					return setReturnResponse(msgMagicResponse, "背包中找不到材料");
-				}
-				int matModelId = magicMaterial.getModelId();
-				matInfos.modelIDs[i] = matModelId;
-
-				RefInt refInt = modelCountMap.get(matModelId);
-				matInfos.materialCounts[i] = refInt == null ? 0 : refInt.value;
-
-				ConsumeCfg cfg = ConsumeCfgDAO.getInstance().getCfgById(String.valueOf(matModelId));
-				if (cfg == null) {
-					return setReturnResponse(msgMagicResponse, "材料没有配置强化经验");
-				}
-
-				matInfos.unitExps[i] = cfg.getMagicForgeExp();
-				++i;
-			}
+		
+		if(!itemBagMgr.useItemByCfgId(goodsId, goodsNum)){
+			return setReturnResponse(msgMagicResponse, "法宝升级失败，消耗升级材料失败！");
 		}
-
-		final CriticalIntList criticalEnhanceList;
-		RefInt addedExpObj = new RefInt();
-		if (msgMagicRequest.getAutoForge()) {
-			// 生成暴击方案，不考虑达到进阶条件
-			criticalEnhanceList = generateEnhancePlan(oldSeed, mateList, matInfos, itemBagMgr, fullExp, addedExpObj);
-		} else {
-			// 读取客户端的暴击方案
-			criticalEnhanceList = new CriticalIntList();
-			criticalEnhanceList.addedTimes = new int[matListCount];
-			criticalEnhanceList.useCounts = new int[matListCount];
-
-			int i = 0;
-			boolean hasCritical = false;
-			for (MagicItemData item : mateList) {
-				int useItemCount = item.getCount();
-				int useCount = useItemCount;
-				int materialCount = matInfos.materialCounts[i];
-				if (useCount > materialCount) {
-					return setReturnResponse(msgMagicResponse, String.format("材料个数太大:,使用数量=%i,背包数量=%i", useItemCount, materialCount));
-				}
-
-				int magicForgeExp = matInfos.unitExps[i];
-				addedExpObj.value += useCount * magicForgeExp;
-
-				int criticalForgeType = item.getCriticalForgeType();
-				if (criticalForgeType < 0) {
-					return setReturnResponse(msgMagicResponse, "暴击个数无效！");
-				}
-
-				hasCritical = hasCritical | criticalForgeType > 0;
-				criticalEnhanceList.addedTimes[i] = criticalForgeType;
-				criticalEnhanceList.useCounts[i] = useItemCount;
-				++i;
-			}
-
-			if (hasCritical) {
-				// 验证客户端暴击方案
-				if (!planIsOk(criticalEnhanceList.addedTimes, oldSeed, mateList, matInfos, itemBagMgr, fullExp, addedExpObj)) {
-					return setReturnResponse(msgMagicResponse, "暴击计算有误！");
-				}
-			}
-		}
-
-		// 要使用的物品
-		List<IUseItem> useItemList = new ArrayList<IUseItem>();
-		int addedExp = 0;
-		for (int k = 0; k < matListCount; k++) {
-			int addedTime = criticalEnhanceList.addedTimes[k];
-			int useCount = Math.min(criticalEnhanceList.useCounts[k], matInfos.materialCounts[k]);
-			int unitExp = matInfos.unitExps[k];
-			String matId = matInfos.StoreIDs[k];
-			int increasedExp = (useCount + addedTime) * unitExp;
-			addedExp += increasedExp;
-			if (useCount > 0) {
-				IUseItem useItem = new UseItem(matId, useCount);
-				useItemList.add(useItem);
-			}
-			if (addedExp >= fullExp) {
-				addedExp = fullExp;// 截断经验
-				break;
-			}
-		}
-
-		if (addedExp <= 0) {
-			return setReturnResponse(msgMagicResponse, "无法增加法宝经验！");
-		}
-
-		int newTotalExp = totalExp.value + addedExp;
-		int newExp = oldExp;
-		int newLevel = oldLevel;
-		boolean hasChanged = false;
-		// 一定要从最高可能等级开始倒着来检查！
-		for (int k = maxUpLevel.value; k >= oldLevel; k--) {
-			final Pair<Integer, Integer> testlvlPair = MagicExpCfgDAO.getInstance().getExpLst(k);
-			final Pair<Integer, Integer> lastlvlPair = MagicExpCfgDAO.getInstance().getExpLst(k - 1);
-			Integer lvlFullExp = testlvlPair.getT2();
-			Integer lastLvlFullExp = lastlvlPair.getT2();
-			if (lastLvlFullExp <= newTotalExp && newTotalExp <= lvlFullExp) {
-				newLevel = k;
-				newExp = newTotalExp - lastLvlFullExp;
-				hasChanged = true;
-				break;
-			}
-		}
-
-		if (!hasChanged) {
-			return setReturnResponse(msgMagicResponse, "法宝增加经验无效！");
-		}
-
-		if (!itemBagMgr.useLikeBoxItem(useItemList, null)) {
-			return setReturnResponse(msgMagicResponse, "无法使用强化材料！");
-		}
-
-		itemData.setExtendAttr(EItemAttributeType.Magic_Exp_VALUE, String.valueOf(newExp));
-		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(newLevel));
-
-		{
-			String storeTotal = itemData.getExtendAttr(EItemAttributeType.Magic_Total_Exp_VALUE);
-			int storeTotalExp = newTotalExp;
-			if (!StringUtils.isBlank(storeTotal)) {
-				try {
-					storeTotalExp = Integer.parseInt(storeTotal);
-					storeTotalExp += addedExp;
-				} catch (Exception ex) {// 忽略错误！
-				}
-			}
-			itemData.setExtendAttr(EItemAttributeType.Magic_Total_Exp_VALUE, String.valueOf(storeTotalExp));
-		}
-
+		
+		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(nextLevel));
 		if (state == 1) {
 			player.getMagicMgr().updateMagic();
 		}
-		UserEventMgr.getInstance().StrengthenMagicVitality(player, newLevel);
+		UserEventMgr.getInstance().StrengthenMagicVitality(player, nextLevel);
 		itemBagMgr.updateItem(itemData);
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
 		updateItems.add(itemData);
@@ -351,6 +142,13 @@ public class MagicHandler {
 		return msgMagicResponse.build().toByteString();
 	}
 
+	
+	/**
+	 * 封装返回操作失败
+	 * @param msgMagicResponse
+	 * @param tips
+	 * @return
+	 */
 	private ByteString setReturnResponse(MsgMagicResponse.Builder msgMagicResponse, String tips) {
 		if (!StringUtils.isBlank(tips))
 			msgMagicResponse.setResultTip(tips);
@@ -358,270 +156,6 @@ public class MagicHandler {
 		return msgMagicResponse.build().toByteString();
 	}
 
-	/**
-	 * 剩余有多少值达到经验爆满， 经验爆满是如下条件：达到进阶等级（不超过玩家等级），且经验在进阶等级满了 经验爆满或者有其他错误，返回值为空，不能再吃强化材料了
-	 * 
-	 * @param maxUpLevel 当返回值非空才有意义
-	 * @param totalExp 当返回值非空才有意义
-	 * @param itemData
-	 * @return 剩余有多少值达到满经验
-	 */
-	private Integer getUpgradeExp(ItemData item, int playerLevel, RefInt totalExp, RefInt maxUpLevel) {
-		Integer result = null;
-		do {
-			String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
-			int lvl = -1;
-			try {
-				lvl = Integer.parseInt(lvlStr);
-				if (lvl < 0) {
-					// 无法获取法宝等级！
-					break;
-				}
-			} catch (Exception ex) {
-				// 无法获取法宝等级！
-				break;
-			}
-
-			int itemModelId = item.getModelId();
-			MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(String.valueOf(itemModelId));
-			if (magicCfg == null) {
-				// 无法获取法宝配置
-				break;
-			}
-
-			// 需求调整：满经验值不包含进阶等级的经验值，因此这里减去一，但是最高可升的等级又不能够减去一
-			int uplevel = magicCfg.getUplevel() - 1;
-			if (uplevel <= 0) {
-				// 这个法宝不能进阶
-				uplevel = playerLevel;
-			}
-
-			if (uplevel > 0 && lvl > uplevel) {
-				// 数据异常：超过了法宝进阶等级！
-				break;
-			}
-
-			// 检查经验是否已满
-			String expStr = item.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE);
-			int curExp = -1;
-			try {
-				curExp = Integer.parseInt(expStr);
-				if (curExp < 0) {
-					// 无法获取法宝经验值！
-					break;
-				}
-			} catch (Exception ex) {
-				// 无法获取法宝经验值！
-				break;
-			}
-
-			// 不能超过玩家等级
-			maxUpLevel.value = Math.min(uplevel, playerLevel);
-			final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(maxUpLevel.value);
-			if (lvlUpPair == null) {
-				// 无法获取进阶对应的满经验值！
-				break;
-			}
-
-			if (lvl > 1) {
-				final Pair<Integer, Integer> lvlCurPair = MagicExpCfgDAO.getInstance().getExpLst(lvl - 1);
-				if (lvlCurPair == null) {
-					// 无法获取法宝等级对应的满经验值！
-					break;
-				}
-				curExp = curExp + lvlCurPair.getT2();
-			}
-			totalExp.value = curExp;
-
-			final Integer fullExp = lvlUpPair.getT2();
-			if (curExp >= fullExp) {
-				// 法宝经验爆满！
-				break;
-			}
-
-			// magic.level <= magic.upLevel and magic.exp < magic.upFullExp
-			result = fullExp - curExp;
-			// 需求调整：满经验值不包含进阶等级的经验值，但是最高可升的等级又不能够减去一
-			if (magicCfg.getUplevel() <= playerLevel + 1) {
-				maxUpLevel.value = magicCfg.getUplevel();
-			}
-			break;
-		} while (true);
-
-		return result;
-	}
-
-	/**
-	 * 验证客户端的暴击方案
-	 * 
-	 * @param criticalEnhanceList 客户端的暴击方案
-	 * @param list 客户端传递的材料列表
-	 * @param matInfos
-	 * @param checkPlan 服务端生成的暴击方案
-	 * @return 两者是否一致
-	 */
-	private boolean planIsOk(int[] criticalEnhanceList, int oldSeed, List<MagicItemData> list, MaterialInfos matInfos, ItemBagMgr itemBagMgr, int fullExp, RefInt accumulation) {
-		final CriticalIntList checkPlan = generateEnhancePlan(oldSeed, list, matInfos, itemBagMgr, fullExp, accumulation);
-		for (int i = 0; i < list.size(); i++) {
-			// 客户端的暴击数可以比服务端生成的少！
-			if (checkPlan.addedTimes[i] < criticalEnhanceList[i]) {
-				return false;
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * 通过输入的种子构造暴击方案
-	 * 
-	 * @param seed
-	 * @param list
-	 * @param matInfos
-	 * @param fullExp
-	 * @return 返回数组的大小应该是跟list.size()一样
-	 */
-	private CriticalIntList generateEnhancePlan(int seed, List<MagicItemData> list, MaterialInfos matInfos, ItemBagMgr itemBagMgr, int fullExp, RefInt accumulation) {
-		CriticalIntList result = new CriticalIntList();
-		int lstSize = list.size();
-		int[] addedTimes = new int[lstSize];
-		int[] useCounts = new int[lstSize];
-		result.addedTimes = addedTimes;
-		result.useCounts = useCounts;
-
-		int i = 0;
-		accumulation.value = 0;
-		RefInt useCount = new RefInt();
-		for (MagicItemData item : list) {
-			int itemCount = Math.min(item.getCount(), matInfos.materialCounts[i]);
-			addedTimes[i] = generateEnhancePlanForOneItem(seed, itemCount, itemBagMgr, fullExp, matInfos.unitExps[i], accumulation, useCount, matInfos.modelIDs[i]);
-			useCounts[i] = useCount.value;
-			i++;
-		}
-		return result;
-	}
-
-	private final static int SeqCtl1 = 19;
-	private final static int SeqCtl2 = 23;
-	private final static int deltaCtl = 31;
-
-	/**
-	 * 
-	 * @param seed 非负数
-	 * @param ctl 大于零的质数
-	 * @param range 应该大于零
-	 * @return
-	 */
-	private int generatePsudoRandomSeq(int seed, int ctl, int range) {
-		return (seed * ctl + deltaCtl) % range;
-	}
-
-	static class CriticalIntList {
-		int[] addedTimes;
-		int[] useCounts;
-	}
-
-	static class MaterialInfos {
-		String[] StoreIDs;
-		int[] modelIDs;
-		int[] materialCounts;
-		int[] unitExps;
-	}
-
-	/**
-	 * 无效配置会一律返回 0 ！ 但是无效配置如果是在遍历中间编组的时候发生，则返回当前累计的暴击倍数 因为客户端不是一次性获得数量，而是一个一个来计算，为了兼容这种情况而没有清零
-	 * 
-	 * @param seed
-	 * @param itemCount
-	 * @param 返回的useCount <= itemCount
-	 * @param itemBagMgr
-	 * @param fullExp
-	 * @param unitExp
-	 * @param accumulation 的增量 == unitExp * (result + useCount) 如果 accumulation >= fullExp（不能再用了）， accumulation - unitExp < fullExp 如果 accumulation < fullExp (用完了)， useCount == itemCount
-	 * @return
-	 */
-	private int generateEnhancePlanForOneItem(int seed, int itemCount, ItemBagMgr itemBagMgr, int fullExp, int unitExp, RefInt accumulation, RefInt useCount, int magicMaterialModelID) {
-		useCount.value = 0;
-		int result = 0;
-		if (accumulation.value >= fullExp) {
-			return result;
-		}
-		if (unitExp <= 0)
-			return result;
-		if (itemCount <= 0)
-			return result;
-
-		// find the config plan groups for the item
-		final CriticalEnhanceCfg planCfg = (CriticalEnhanceCfg) CriticalEnhanceCfgDAO.getInstance().getCfgById(String.valueOf(magicMaterialModelID));
-		if (planCfg == null) {
-			return result;
-		}
-
-		final int[] planGroups = planCfg.getPlans();
-		final int groupSize = planGroups.length;
-
-		if (groupSize <= 0) {
-			return result;
-		}
-
-		int count = 0;
-		int tmpseed = seed;
-		int groupIndex = 0;
-		int startIndex = -1;
-
-		RandomSeqGenerator gen = new RandomSeqGenerator(seed, planGroups, CriticalSeqCfgDAO.getInstance(), MagicMgr.SeedRange);
-
-		do {
-			// progress to next config sequence
-			tmpseed = generatePsudoRandomSeq(tmpseed, SeqCtl1, MagicMgr.SeedRange);
-			groupIndex = tmpseed % groupSize;
-			final int planConfigKey = planGroups[groupIndex];
-			final CriticalSeqCfg seqCfg = CriticalSeqCfgDAO.getInstance().getCfgById(String.valueOf(planConfigKey));
-			if (seqCfg == null) {
-				// 不清零，因为客户端不是一次性获得数量，而是一个一个来计算，为了兼容这种情况这里不清零
-				// result = 0;
-				GameLog.error("法宝", "强化", "配置错误：CriticalSeq表缺少ID " + planConfigKey);
-				return result;
-			}
-
-			final int[] seqList = seqCfg.getSeqList();
-			final int seqSize = seqList.length;
-			if (seqSize <= 0) {
-				// 不清零，因为客户端不是一次性获得数量，而是一个一个来计算，为了兼容这种情况这里不清零
-				// result = 0;
-				GameLog.error("法宝", "强化", "配置错误：CriticalSeq表ID=" + planConfigKey + " 对应的序列无效！");
-				return result;
-			}
-
-			if (startIndex == -1) {// first round
-				startIndex = generatePsudoRandomSeq(seed, SeqCtl2, seqSize);
-			} else {
-				startIndex = 0;
-			}
-
-			// start counting hittings
-			for (int i = startIndex; i < seqSize; i++) {
-				if (count < itemCount) {
-					int testgen = gen.nextNum();
-					if (seqList[i] != testgen) {
-						System.out.println("testgen=" + testgen + ",old=" + seqList[i]);
-					}
-					int addedTimes = seqList[i] > 0 ? seqList[i] - 1 : 0;
-					int addedExp = (addedTimes + 1) * unitExp;
-					count++;
-					result += addedTimes;
-					accumulation.value += addedExp;
-					useCount.value++;
-					if (accumulation.value >= fullExp) {
-						return result;
-					}
-				} else {
-					break;
-				}
-			}
-		} while (count < itemCount);
-
-		return result;
-	}
 
 	/**
 	 * 熔炼法宝
@@ -633,109 +167,67 @@ public class MagicHandler {
 	public ByteString smeltMagicWeapon(Player player, MsgMagicRequest msgMagicRequest) {
 		MsgMagicResponse.Builder msgMagicResponse = MsgMagicResponse.newBuilder();
 		msgMagicResponse.setMagicType(msgMagicRequest.getMagicType());
-		List<MagicItemData> list = msgMagicRequest.getMagicItemDataList();
-
-		int size = list.size();
-
-		// 检查是否有重复的Id
-		List<IUseItem> useItemList = new ArrayList<IUseItem>(list.size());// 使用的物品
-		List<INewItem> newItemList = new ArrayList<INewItem>();// 新创建的物品
-
-		int materialQuality = 0;
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		for (int i = 0; i < size; i++) {
-			MagicItemData data = list.get(i);
-			ItemData itemData = itemBagMgr.findBySlotId(data.getId());
-			if (itemData == null) {
-				return setReturnResponse(msgMagicResponse, null);
-			}
-
-			if ("1".equalsIgnoreCase(itemData.getExtendAttr(EItemAttributeType.Magic_State_VALUE))) {
-				return setReturnResponse(msgMagicResponse, null);
-			}
-
-			MagicCfg cfg = ItemCfgHelper.getMagicCfg(itemData.getModelId());
-			if (cfg == null) {
-				return setReturnResponse(msgMagicResponse, null);
-			}
-
-			int quality = cfg.getQuality();
-			if (i == 0) {
-				materialQuality = quality;
-			} else if (materialQuality != quality) {// 品质不相同
-				return setReturnResponse(msgMagicResponse, null);
-			}
-
-			// 数量不能小于0
-			if (data.getCount() <= 0) {
-				return setReturnResponse(msgMagicResponse, null);
-			}
-
-			// 超出拥有的数量
-			if (data.getCount() > itemData.getCount()) {
-				return setReturnResponse(msgMagicResponse, null);
-			}
-
-			IUseItem useItem = new UseItem(data.getId(), data.getCount());
-			useItemList.add(useItem);
+		ItemData itemData = itemBagMgr.findBySlotId(msgMagicRequest.getId());
+		if (itemData == null) {
+			return setReturnResponse(msgMagicResponse, "找不到法宝！");
 		}
-
-		int quality = materialQuality + 1;// 熔炼要产生新的法宝品质
-		MagicSmeltCfg smeltCfg = (MagicSmeltCfg) MagicSmeltCfgDAO.getInstance().getCfgById(String.valueOf(quality));
-		if (smeltCfg == null) {
-			return setReturnResponse(msgMagicResponse, null);
+		
+		
+		int aptitudeValue = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE));
+		
+		if(aptitudeValue >= MagicSmeltMaterialCfgDAO.getInstance().getMaxAptiude()){
+			return setReturnResponse(msgMagicResponse, "当前法宝已到最高资质不需要熔炼！");
 		}
-
-		// 需求材料的个数
-		if (size < smeltCfg.getNum() || size <= 0) {
-			return setReturnResponse(msgMagicResponse, null);
-		}
-
-		// cost money
-		long playerCoin = player.getUserGameDataMgr().getCoin();
-		int cost = smeltCfg.getCost();
-		if (playerCoin < cost) {
-			return setReturnResponse(msgMagicResponse, null);
-		}
-
-		// 概率Map
-		Map<Integer, Integer> proMap = new HashMap<Integer, Integer>();
-		List<MagicCfg> listCfg = MagicCfgDAO.getInstance().getAllCfg();
-		for (MagicCfg cfg : listCfg) {
-			if (cfg.getQuality() == quality) {
-				proMap.put(cfg.getId(), cfg.getSmeltperc());
+		
+		MagicSmeltMaterialCfg magicSmeltMaterialCfg = MagicSmeltMaterialCfgDAO.getInstance().getMagicSmeltMaterialCfgByAptitude(aptitudeValue);
+		
+		HashMap<Integer,Integer> needMaterialMap = magicSmeltMaterialCfg.getNeedMaterialMap();
+		
+		
+		Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+		List<IUseItem> useItemList = new ArrayList<IUseItem>(needMaterialMap.size());
+		for (Iterator<Entry<Integer, Integer>> iterator = needMaterialMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, Integer> entry = iterator.next();
+			int modelId = entry.getKey();
+			int count = entry.getValue();
+			if(!itemBagMgr.checkEnoughItem(modelId, count)){
+				return setReturnResponse(msgMagicResponse, "法宝进阶材料不足！");
 			}
+			ItemData temp = modelFirstItemDataMap.get(modelId);
+			useItemList.add(new UseItem(temp.getId(), count));
 		}
-
-		Weight<Integer> weightMap = new Weight<Integer>(proMap);// 权重Map
-		Integer ranResult = weightMap.getRanResult();
-		if (ranResult == null) {
-			return setReturnResponse(msgMagicResponse, null);
+		
+		MagicSmeltRateCfg magicSmelt = MagicSmeltRateCfgDAO.getInstance().magicSmelt(aptitudeValue);
+		
+		if(magicSmelt == null){
+			return setReturnResponse(msgMagicResponse, "法宝进阶异常！");
 		}
-
-		int resultId = ranResult.intValue();
-		INewItem newItem = new NewItem(resultId, 1, null);
-		newItemList.add(newItem);
-
-		// 扣钱
-		if (player.getUserGameDataMgr().addCoin(-cost) == -1) {
-			return setReturnResponse(msgMagicResponse, null);
-		}
-
+		
+		int aptitudeChange = magicSmelt.getAptitudeChange();
+		
+		int smeltAptitude = aptitudeValue + aptitudeChange;
+		
 		// 消耗物品
-		boolean success = itemBagMgr.useLikeBoxItem(useItemList, newItemList);
+		boolean success = itemBagMgr.useLikeBoxItem(useItemList, null);
 		if (!success) {
-			return setReturnResponse(msgMagicResponse, null);
+			return setReturnResponse(msgMagicResponse, "消耗法宝进阶失败！");
 		}
 
-		msgMagicResponse.setNewMagicModelId(resultId);
+		itemData.setExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE, String.valueOf(smeltAptitude));
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
+		
+		//同步数据
+		itemBagMgr.updateItem(itemData);
+		List<ItemData> updateItems = new ArrayList<ItemData>(1);
+		updateItems.add(itemData);
+		itemBagMgr.syncItemData(updateItems);
 
 		return msgMagicResponse.build().toByteString();
 	}
 
 	/**
-	 * 法宝进阶，成功则替换ModelID，不修改原来的状态（例如可以继续穿在身上）
+	 * 法宝进化
 	 * 
 	 * @param player
 	 * @param msgMagicRequest
@@ -754,7 +246,7 @@ public class MagicHandler {
 		}
 
 		if (EItemTypeDef.Magic != item.getType()) {
-			fillResponseInfo(response, false, "不是法宝，不能进阶！");
+			fillResponseInfo(response, false, "不是法宝，不能升级！");
 			return response.build().toByteString();
 		}
 
@@ -781,7 +273,7 @@ public class MagicHandler {
 		}
 
 		// 检查等级
-		final String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
+		final String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_AdvanceLevel_VALUE);
 		int lvl = -1;
 		try {
 			lvl = Integer.parseInt(lvlStr);
@@ -804,31 +296,6 @@ public class MagicHandler {
 			return response.build().toByteString();
 		}
 
-		if (player.getLevel() < uplevel) {
-			fillResponseInfo(response, false, "玩家没有达到法宝进阶等级！");
-			return response.build().toByteString();
-		}
-
-		// 检查经验是否已满
-		final String expStr = item.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE);
-		int curExp = -1;
-		try {
-			curExp = Integer.parseInt(expStr);
-			if (curExp < 0) {
-				fillResponseInfo(response, false, "无法获取法宝经验值！");
-				return response.build().toByteString();
-			}
-		} catch (Exception ex) {
-			fillResponseInfo(response, false, "无法获取法宝经验值！");
-			return response.build().toByteString();
-		}
-
-		// 需求调整：满经验值不包含进阶等级的经验值，因此只要法宝等级到达进阶所需等级就可以了
-		/*
-		 * final Pair<Integer, Integer> lvlUpPair = MagicExpCfgDAO.getInstance().getExpLst(uplevel); final Integer upExp = lvlUpPair.getT1(); if (curExp < upExp) { fillResponseInfo(response, false,
-		 * "法宝经验未满！"); break; }
-		 */
-
 		// 检查消耗的货币
 		final int cost = magicCfg.getUpMagicCost();
 		if (cost <= 0) {
@@ -842,30 +309,32 @@ public class MagicHandler {
 			return response.build().toByteString();
 		}
 
-		// 检查材料
-		Map<Integer, RefInt> modelCountMap = bagMgr.getModelCountMap();
+		String goods = magicCfg.getGoods();
+		HashMap<Integer, Integer> consumeItemMap = new HashMap<Integer, Integer>();
+		String[] split1 = goods.split(",");
+		for (String value : split1) {
+			String[] split2 = value.split("_");
+			if (split2.length != 2) {
+				GameLog.error("法宝", "强化", "配置进化材料错误：magicCfg id:" + magicCfg.getId());
+				continue;
+			}
+			int modelId = Integer.parseInt(split2[0]);
+			int count = Integer.parseInt(split2[1]);
+			consumeItemMap.put(modelId, count);
+		}
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		Map<Integer, ItemData> modelFirstItemDataMap = bagMgr.getModelFirstItemDataMap();
-
-		final List<Pair<Integer, Integer>> lst = magicCfg.getUpgradeNeedGoodList();
-
-		List<IUseItem> useItemList = new ArrayList<IUseItem>(lst.size());
-
-		for (Pair<Integer, Integer> pair : lst) {
-			Integer modelId = pair.getT1();
+		List<IUseItem> useItemList = new ArrayList<IUseItem>(consumeItemMap.size());
+		for (Iterator<Entry<Integer, Integer>> iterator = consumeItemMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, Integer> entry = iterator.next();
+			int modelId = entry.getKey();
+			int count = entry.getValue();
+			if(!itemBagMgr.checkEnoughItem(modelId, count)){
+				fillResponseInfo(response, false, "法宝进阶材料不足！");
+				return response.build().toByteString();
+			}
 			ItemData itemData = modelFirstItemDataMap.get(modelId);
-			if (itemData == null) {
-				fillResponseInfo(response, false, "法宝进阶材料不足！");
-				return response.build().toByteString();
-			}
-
-			RefInt refInt = modelCountMap.get(modelId);
-			int count = refInt == null ? 0 : refInt.value;
-			if (count < pair.getT2()) {
-				fillResponseInfo(response, false, "法宝进阶材料不足！");
-				return response.build().toByteString();
-			}
-
-			useItemList.add(new UseItem(itemData.getId(), pair.getT2()));
+			useItemList.add(new UseItem(itemData.getId(), count));
 		}
 
 		// 扣金币和扣材料
@@ -904,8 +373,6 @@ public class MagicHandler {
 
 		// 通知法宝神器羁绊
 		player.getMe_FetterMgr().notifyMagicChange(player);
-		// break;
-		// } while (true);
 
 		fillResponseInfo(response, true, "进阶成功！");
 		return response.build().toByteString();
@@ -930,42 +397,19 @@ public class MagicHandler {
 	}
 
 	/**
-	 * 生成新的随机数种子
-	 * 
-	 * @param player
-	 * @param msgMagicResponse
-	 * @return 返回旧的随机数种子
-	 */
-	private int refreshSeed(Player player, MsgMagicResponse.Builder msgMagicResponse) {
-		MagicMgr magicMgr = player.getMagicMgr();
-		int result = magicMgr.RefreshSeed();
-		msgMagicResponse.setCriticalRamdom(magicMgr.getRandomSeed());
-		return result;
-	}
-
-	public ByteString getRandomSeed(Player player, MsgMagicRequest msgMagicRequest) {
-		MsgMagicResponse.Builder response = MsgMagicResponse.newBuilder();
-		response.setMagicType(msgMagicRequest.getMagicType());
-
-		// 丢掉旧的种子
-		refreshSeed(player, response);
-		fillResponseInfo(response, true, null);
-		return response.build().toByteString();
-	}
-
-	/**
 	 * 法宝继承
 	 * 
 	 * @param player
 	 * @param req
 	 * @return
 	 */
-	public ByteString magicInheritHandler(Player player, MagicInheritReqMsg req) {
+	public ByteString magicInheritHandler(Player player, MsgMagicRequest req) {
+		MagicInheritReqMsg inheritReqMsg = req.getInheritReqMsg();
 		MsgMagicResponse.Builder rsp = MsgMagicResponse.newBuilder();
 		rsp.setMagicType(eMagicType.Magic_Inherit);
 
-		String id = req.getId();// 被继承的法宝Id
-		String toId = req.getToId();// 请求继承的法宝Id
+		String id = inheritReqMsg.getId();// 被继承的法宝Id
+		String toId = inheritReqMsg.getToId();// 请求继承的法宝Id
 
 		if (id.equals(toId)) {// 如果两个法宝传的Id是一个法宝，直接返回
 			fillResponseInfo(rsp, false, "不能使用同一个法宝继承");

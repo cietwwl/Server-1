@@ -24,7 +24,7 @@ public class MagicSmeltMaterialTemplate {
 	public MagicSmeltMaterialTemplate(MagicSmeltMaterialCfg cfg) {
 		this.aptitude = cfg.getAptitude();
 
-		String needMaterials = cfg.getNeedMaterials();
+		String needMaterials = cfg.getGoods();
 		if (StringUtils.isEmpty(needMaterials)) {
 			materialList = Collections.emptyList();
 		} else {

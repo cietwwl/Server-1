@@ -7,8 +7,34 @@ package com.rwbase.dao.magicweapon.pojo;
  **/
 
 public class MagicSmeltRateCfg {
-	private String aptitude;// 资质分段
-	private int changeValue;// 修改的分段
+	private int id;
+	private String aptitudeGroup;	// 资质分段
+	private int aptitudeChange;	// 修改的分段
+	private int minAptitude;  	//资质区间的最小值
+	private int maxAptitude;  	//资质区间的最大值
+	private int weight;
+	
+	public int getId() {
+		return id;
+	}
+
+	public int getMinAptitude() {
+		return minAptitude;
+	}
+
+	public void setMinAptitude(int minAptitude) {
+		this.minAptitude = minAptitude;
+	}
+
+	
+	public int getMaxAptitude() {
+		return maxAptitude;
+	}
+
+	public void setMaxAptitude(int maxAptitude) {
+		this.maxAptitude = maxAptitude;
+	}
+
 	private int rate;// 权重
 
 	/**
@@ -16,9 +42,7 @@ public class MagicSmeltRateCfg {
 	 * 
 	 * @return
 	 */
-	public String getAptitude() {
-		return aptitude;
-	}
+
 
 	/**
 	 * 资质变化的值
@@ -26,7 +50,11 @@ public class MagicSmeltRateCfg {
 	 * @return
 	 */
 	public int getChangeValue() {
-		return changeValue;
+		return aptitudeChange;
+	}
+
+	public String getAptitudeGroup() {
+		return aptitudeGroup;
 	}
 
 	/**
@@ -36,5 +64,13 @@ public class MagicSmeltRateCfg {
 	 */
 	public int getRate() {
 		return rate;
+	}
+
+	public int getAptitudeChange() {
+		return aptitudeChange;
+	}
+
+	public int getWeight() {
+		return weight;
 	}
 }

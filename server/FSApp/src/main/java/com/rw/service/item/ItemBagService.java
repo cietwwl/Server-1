@@ -34,9 +34,9 @@ public class ItemBagService implements FsService<MsgItemBagRequest, EItemBagEven
 			case ItemBag_MagicForgeMat_Buy:
 				responseData = itemBagHandler.buyMagicForgeMaterial(player, request.getBuyItemInfo());
 				break;
-			case ItemBag_MagicWeapon_Decompose:
-				responseData = itemBagHandler.decomposeMagicItem(player, request.getUseItemInfo());
-				break;
+//			case ItemBag_MagicWeapon_Decompose:
+//				responseData = itemBagHandler.decomposeMagicItem(player, request.getUseItemInfo());
+//				break;
 			default:
 				break;
 			}

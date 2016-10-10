@@ -19,22 +19,20 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 		try {
 			eMagicType magicType = request.getMagicType();
 			switch (magicType) {
-			case Magic_TAKE:
+			case Magic_TAKE: 			//法宝装备
 				result = magicHandler.wearMagicWeapon(player, request);
 				break;
-			case Magic_FORGE:
+			case Magic_Upgrade:			//法宝升级
 				result = magicHandler.forgeMagicWeapon(player, request);
 				break;
-			case Magic_SMELT:
-				result = magicHandler.smeltMagicWeapon(player, request);
+			case Magic_Inherit:			//法宝继承
+				
 				break;
-			case Magic_Upgrade:
+			case Magic_Evolution:		//法宝进化
 				result = magicHandler.upgradeMagicWeapon(player, request);
 				break;
-			case Magic_Random:
-				result = magicHandler.getRandomSeed(player, request);
-				break;
-			case Magic_Inherit:// 继承
+			case Magic_Smelt:  			//法宝熔炼
+				result = magicHandler.smeltMagicWeapon(player, request);
 				break;
 			default:
 				break;
