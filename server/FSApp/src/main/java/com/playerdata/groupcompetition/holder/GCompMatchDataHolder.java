@@ -576,6 +576,10 @@ public class GCompMatchDataHolder {
 					if (result == GCompBattleResult.Fighting) {
 						// 检查血量的变化
 						long l = now - member.getStartBattleTime();// 当前血量变化的时间
+						if (l <= 0) {
+							continue;
+						}
+
 						// 己方战力
 						int myFighting = member.getArmyInfo().getTeamFighting();
 						// 敌方战力

@@ -167,7 +167,7 @@ public class GroupCompetitionBattleHandler {
 			GCompTeamMember member = members.get(i);
 			if (member.isRobot() && member.getResult() == GCompBattleResult.NonStart && !member.getUserId().equals(userId)) {
 				member.setResult(GCompBattleResult.Fighting);
-				member.setStartBattleTime(now);
+				member.setStartBattleTime(now + 5000);// 机器人进入战斗时间延伸5秒，因为机器人也要模拟有加载时间限制
 			}
 		}
 
