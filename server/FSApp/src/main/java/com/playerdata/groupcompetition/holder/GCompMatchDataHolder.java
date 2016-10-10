@@ -475,6 +475,7 @@ public class GCompMatchDataHolder {
 	public GCompMatchData getMatchData(String userId) {
 		String matchId = userId2MatchId.get(userId);
 		if (StringUtils.isEmpty(matchId)) {
+			GCompUtil.log("userId2MatchId找不到对应的MatchId，角色Id是{}", userId);
 			return null;
 		}
 
