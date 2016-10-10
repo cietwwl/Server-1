@@ -12,8 +12,6 @@ import com.bm.rank.fightingAll.FightingComparable;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
-import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
-import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -32,8 +30,6 @@ import com.rwbase.dao.ranking.pojo.RankingLevelData;
 public class GCompFightingRankMgr {
 	
 	public static int MAX_RANK_COUNT = 30;
-	
-	public static int PERSONAL_FIGHT_RANK_COUNT = 1000;
 
 	/**
 	 * 更新某个帮派的排行
@@ -67,7 +63,7 @@ public class GCompFightingRankMgr {
 	 * @return
 	 */
 	private static long getGroupFighting(Group group){
-		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
+		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
 		if(null == personalRanking){
 			return 0l;
 		}
@@ -81,7 +77,7 @@ public class GCompFightingRankMgr {
 			}
 			Player player = PlayerMgr.getInstance().find(member.getUserId());
 			if(null != player){
-				totalFighting += player.getUserGameDataMgr().getFightingAll();
+				totalFighting += player.getHeroMgr().getFightingTeam(player);
 			}
 		}
 		return totalFighting;
@@ -190,10 +186,10 @@ public class GCompFightingRankMgr {
 		}
 		HashSet<String> needRefreshGroup = new HashSet<String>();
 		/**
-		 * 取出个人战力排行榜前1000名的所属帮派
+		 * 取出个人五人小队战力排行榜玩家所属帮派
 		 */
-		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
-		EnumerateList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> personalItor = personalRanking.getEntriesEnumeration(1, PERSONAL_FIGHT_RANK_COUNT);
+		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
+		EnumerateList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> personalItor = personalRanking.getEntriesEnumeration();
 		for (; personalItor.hasMoreElements();) {
 			MomentRankingEntry<FightingComparable, RankingLevelData> entry = personalItor.nextElement();
 			String groupId = GroupHelper.getUserGroupId(entry.getKey());
