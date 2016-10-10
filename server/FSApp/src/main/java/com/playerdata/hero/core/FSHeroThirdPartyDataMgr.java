@@ -142,8 +142,7 @@ public class FSHeroThirdPartyDataMgr {
 	void afterHeroInitAndAddedToCache(Player player, FSHero hero, RoleCfg rolecfg) {
 		_skillMgr.initSkill(player, hero, rolecfg);
 		player.getUserTmpGameDataFlag().setSynFightingAll(true);
-		RoleExtPropertyFactory.loadAndCreateHeroExtProperty(hero.getId(), newHeroCreateParam(player, hero, rolecfg));
-
+		RoleExtPropertyFactory.fristCreateHeroExtProperty(hero.getId(), newHeroCreateParam(player, hero, rolecfg));
 	}
 
 	private HeroCreateParam newHeroCreateParam(Player player, Hero hero, RoleCfg rolecfg) {

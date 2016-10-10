@@ -102,7 +102,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 		Object[] params = new Object[typeList.size() + 1];
 		params[0] = ownerId;
 		String partialSql = this.selectRangeArray[index];
-		StringBuilder sb = new StringBuilder(partialSql.length() + typeList.size() * 2 + 1);
+		StringBuilder sb = new StringBuilder(partialSql.length() + typeList.size() * 3 + 1);
 		sb.append(partialSql);
 		DataAccessStaticSupport.fillHolders(sb, typeList, params, 1);
 		return template.query(sb.toString(), params, new RoleExtPropertyMapper(ownerId));

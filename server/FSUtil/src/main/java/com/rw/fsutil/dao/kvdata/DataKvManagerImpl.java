@@ -59,18 +59,7 @@ public class DataKvManagerImpl implements DataKvManager {
 		this.insertSqlArray = new String[this.length];
 		this.checkSelectArray = new String[this.length];
 		this.selectRangeSqlArray = new String[this.length];
-		this.tableNameArray =  new String[this.length];
-		StringBuilder sb = new StringBuilder();
-		sb.append('(');
-		int lastIndex = selectRangeParam.length - 1;
-		for (int i = 0, size = selectRangeParam.length; i < size; i++) {
-			sb.append(selectRangeParam[i]);
-			if (i < lastIndex) {
-				sb.append(',');
-			}
-		}
-		sb.append(')');
-		String selectRange = sb.toString();
+		this.tableNameArray = new String[this.length];
 		for (int i = 0; i < this.length; i++) {
 			String tableName = tableNameList.get(i);
 			selectAllSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=?";
@@ -83,7 +72,7 @@ public class DataKvManagerImpl implements DataKvManager {
 			if (selectRangeParam.length == 0) {
 				selectRangeSqlArray[i] = selectAllSqlArray[i];
 			} else {
-				selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in " + selectRange;
+				selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in(";
 			}
 		}
 		dataKvMap = new HashMap<Class<? extends DataKVDao<?>>, Integer>();
@@ -198,15 +187,29 @@ public class DataKvManagerImpl implements DataKvManager {
 	}
 
 	@Override
-	public List<DataKvEntity> getRangeDataKvEntitys(String userId) {
-		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
-		String sql = selectRangeSqlArray[tableIndex];
-		return jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
+	public String[] getTableNameArray() {
+		return tableNameArray;
 	}
 
 	@Override
-	public String[] getTableNameArray() {
-		return tableNameArray;
+	public List<DataKvEntity> getRangeDataKvEntitys(String userId, List<Integer> typeList) {
+		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
+		int typeSize = typeList.size();
+		String partialSql = selectRangeSqlArray[tableIndex];
+		int totalSize = partialSql.length() + typeList.size() * 3 + 1;
+		StringBuilder sb = new StringBuilder(totalSize);
+		sb.append(partialSql);
+		int lastIndex = typeSize - 1;
+		for (int i = 0; i < typeSize; i++) {
+			sb.append(typeList.get(i));
+			if (i < lastIndex) {
+				sb.append(',');
+			}
+		}
+		sb.append(')');
+		String sql = sb.toString();
+		List<DataKvEntity> l = jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
+		return l;
 	}
 
 }

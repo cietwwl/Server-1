@@ -2,7 +2,9 @@ package com.rw.trace;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -32,6 +34,12 @@ import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.skill.pojo.SkillItem;
 
+/**
+ * 英雄属性的数据迁移 包括神器、技能、英雄身上装备、英雄身上宝石
+ * 
+ * @author Jamaz
+ *
+ */
 public class HeroPropertyMigration {
 
 	private static HeroPropertyMigration instance = new HeroPropertyMigration();
@@ -52,27 +60,40 @@ public class HeroPropertyMigration {
 
 	public void execute() throws Exception {
 		JdbcTemplate template = DataAccessFactory.getSimpleSupport().getMainTemplate();
+		ArrayList<String> tableNameList = new ArrayList<String>();
 		PlatformTransactionManager tm = new DataSourceTransactionManager(template.getDataSource());
-
 		DefaultTransactionDefinition df = new DefaultTransactionDefinition();
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
-			execute(new ExplainFixExpEquip());
-			execute(new ExplainFixNormEquip());
+			execute(new ExplainFixExpEquip(), tableNameList);
+			execute(new ExplainFixNormEquip(), tableNameList);
 			for (int i = 0; i < 10; i++) {
-				execute(new SkillExplain("0" + i));
+				execute(new SkillExplain("0" + i), tableNameList);
 			}
-			execute(new EquipItemExplain());
-			execute(new InlayItemExplain());
+			execute(new EquipItemExplain(), tableNameList);
+			execute(new InlayItemExplain(), tableNameList);
 			tm.commit(ts);
 		} catch (Exception t) {
 			tm.rollback(ts);
 			throw t;
 		}
+		SimpleDateFormat formatter = new SimpleDateFormat("ddHHmmss");
+		String backupPostfix = formatter.format(new Date());
+		for (int i = tableNameList.size(); --i >= 0;) {
+			String tableName = tableNameList.get(i);
+			try {
+				String createSql = (String) template.queryForMap("SHOW CREATE TABLE " + tableName).get("Create Table");
+				template.execute("RENAME table " + tableName + " to " + (tableName + '_' + backupPostfix));
+				//本来不需要,避免240被同步时删除有数据的本地表
+				template.execute(createSql);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
-	public void execute(IExplainOldData explainData) throws Exception {
+	public void execute(IExplainOldData explainData, ArrayList<String> tableNameList) throws Exception {
 		JdbcTemplate template = DataAccessFactory.getSimpleSupport().getMainTemplate();
 		String tableName = explainData.getTableName();
 		// 1.检查表数量
@@ -135,8 +156,8 @@ public class HeroPropertyMigration {
 			total += batchInsert(template, entry.getKey(), entry.getValue());
 		}
 		System.out.println("成功插入总数:" + total);
+		tableNameList.add(tableName);
 		// 4.删除旧表
-		template.update("RENAME table " + tableName + " to " + (tableName + "_backup"));
 		// System.out.println("删除记录数:" + deleteCount + "," + tableName);
 	}
 

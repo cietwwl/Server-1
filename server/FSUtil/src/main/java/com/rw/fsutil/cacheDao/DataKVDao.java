@@ -44,8 +44,8 @@ public class DataKVDao<T> {
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
 		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
-		this.cache = DataCacheFactory.createDataKVCache(clazz, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), 
-				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataKVCache(clazz, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), parser != null ? new ObjectConvertor<T>(parser) : null,
+				SingleChangedListener.class);
 		this.type = null;
 	}
 
@@ -69,9 +69,8 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataKVCache(classInfo.getClazz(), cacheSize,
-				getUpdatedSeconds(), persistentLoader, handler,
-				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataKVCache(classInfo.getClazz(), cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null,
+				SingleChangedListener.class);
 	}
 
 	/**
@@ -166,6 +165,10 @@ public class DataKVDao<T> {
 		return this.cache.getFromMemory(id);
 	}
 
+	public boolean contains(String id) {
+		return this.cache.containsKey(id);
+	}
+
 	/**
 	 * <pre>
 	 * 当缓存中不存在指定键值对时，插入一个指定键值对到缓存，但不会发起数据库操作
@@ -195,7 +198,8 @@ public class DataKVDao<T> {
 			@SuppressWarnings("unchecked")
 			@Override
 			public T call() throws Exception {
-				return (T) classInfo.fromJson(dbString);
+				T t = (T) classInfo.fromJson(dbString);
+				return t;
 			}
 		});
 	}

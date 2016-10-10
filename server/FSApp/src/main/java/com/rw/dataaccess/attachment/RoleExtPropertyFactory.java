@@ -5,38 +5,32 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-
 import com.common.HPCUtil;
 import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyData;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.common.FastTuple;
 import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
-import com.rw.fsutil.util.DateUtils;
 
 public class RoleExtPropertyFactory {
 
 	private static boolean init;
 	private static RoleExtPropertyStoreCache<? extends RoleExtProperty>[] playerExtCaches;
-	private static FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>[] playerExtCreators;
+	private static RoleExtCreateInfo[] playerExtCreators;
 
 	private static RoleExtPropertyStoreCache<? extends RoleExtProperty>[] heroExtCaches;
-	private static FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>[] heroExtCreators;
+	private static RoleExtCreateInfo[] heroExtCreators;
 
 	private static RoleExtPropertyManager roleExtPropertyManager;
 	private static RoleExtPropertyManager heroExtPropertyManager;
 
-	@SuppressWarnings("unchecked")
 	public synchronized static void init(int defaultCapacity, String datasourceName) {
 		if (init) {
 			throw new ExceptionInInitializerError("duplicate init");
@@ -49,19 +43,18 @@ public class RoleExtPropertyFactory {
 		RoleExtPropertyType[] propertyTypeArray = PlayerExtPropertyType.values();
 		HPCUtil.toMappedArray(propertyTypeArray, "type");
 		playerExtCaches = new RoleExtPropertyStoreCache<?>[propertyTypeArray.length];
-		playerExtCreators = new FastTuple[propertyTypeArray.length];
+		playerExtCreators = new RoleExtCreateInfo[propertyTypeArray.length];
 		init(roleExtPropertyManager, defaultCapacity, datasourceName, propertyTypeArray, playerExtCaches, playerExtCreators);
 
 		propertyTypeArray = HeroExtPropertyType.values();
 		HPCUtil.toMappedArray(propertyTypeArray, "type");
 		heroExtCaches = new RoleExtPropertyStoreCache<?>[propertyTypeArray.length];
-		heroExtCreators = new FastTuple[propertyTypeArray.length];
+		heroExtCreators = new RoleExtCreateInfo[propertyTypeArray.length];
 		init(heroExtPropertyManager, defaultCapacity, datasourceName, propertyTypeArray, heroExtCaches, heroExtCreators);
 	}
 
 	public static void init(RoleExtPropertyManager extPropertyManager, int defaultCapacity, String datasourceName, RoleExtPropertyType[] typeList,
-			RoleExtPropertyStoreCache<? extends RoleExtProperty>[] array,
-			FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>[] creatorCacheTuple) {
+			RoleExtPropertyStoreCache<? extends RoleExtProperty>[] array, RoleExtCreateInfo[] createInfoArray) {
 		int len = typeList.length;
 		for (int i = 0; i < len; i++) {
 			RoleExtPropertyType propertyType = typeList[i];
@@ -81,7 +74,7 @@ public class RoleExtPropertyFactory {
 			}
 			RoleExtPropertyStoreCache<RoleExtProperty> cache = new RoleExtPropertyStoreCache(extPropertyManager, propertyClass, name, capacity, datasourceName, type);
 			array[propertyType.ordinal()] = cache;
-			creatorCacheTuple[propertyType.ordinal()] = new FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>(type, creator, cache);
+			createInfoArray[propertyType.ordinal()] = new RoleExtCreateInfo(type, creator, cache);
 		}
 	}
 
@@ -109,48 +102,58 @@ public class RoleExtPropertyFactory {
 		return (RoleExtPropertyStoreCache<T>) heroExtCaches[type.ordinal()];
 	}
 
-	private static List<RoleExtProperty> checkAndCreate(String roleId, PlayerExtPropertyStore<RoleExtProperty> store, RoleExtPropertyCreator<RoleExtProperty, Object> creator, Object param) {
-		try {
-			return creator.checkAndCreate(store, param);
-		} catch (Exception e) {
-			FSUtilLogger.error("check roleExt exception:" + roleId, e);
-			return Collections.emptyList();
-		}
-	}
-
-	public static void preload(RoleExtPropertyManager extPropertyManager, Object param, long currentTimeMillis, String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] playerExtCaches,
-			FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>[] playerExtCreators) {
-//		long start = System.currentTimeMillis();
-		int len = playerExtCaches.length;
-		ArrayList<FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>> loadList = new ArrayList<FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>>>(
-				len);
-		ArrayList<Short> typeList = new ArrayList<Short>();
-		for (int i = len; --i >= 0;) {
-			FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>> tuple = playerExtCreators[i];
-			RoleExtPropertyCreator<RoleExtProperty, Object> creator = tuple.secondValue;
+	static void firstCrate(RoleExtPropertyManager extPropertyManager, Object param, String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] roleExtCaches,
+			RoleExtCreateInfo[] roleExtCreators) {
+		int len = roleExtCaches.length;
+		ArrayList<RoleExtCreateInfoWrap> requiredLoadList = new ArrayList<RoleExtCreateInfoWrap>(len);
+		for (int i = 0; i < len; i++) {
+			RoleExtCreateInfo createInfo = roleExtCreators[i];
+			RoleExtPropertyCreator<RoleExtProperty, Object> creator = createInfo.creator;
 			// TODO 检查openLv
 			if (!creator.requiredToPreload(param)) {
 				continue;
 			}
-			if (tuple.thirdValue.contains(roleId)) {
+			requiredLoadList.add(new RoleExtCreateInfoWrap(createInfo));
+		}
+		firstCreateExpProperty(extPropertyManager, requiredLoadList, roleId, param);
+	}
+
+	static void preload(RoleExtPropertyManager extPropertyManager, Object param, String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] roleExtCaches,
+			RoleExtCreateInfo[] roleExtCreators) {
+		// long start = System.currentTimeMillis();
+		int len = roleExtCreators.length;
+		ArrayList<RoleExtCreateInfo> requiredLoadList = new ArrayList<RoleExtCreateInfo>(len);
+		ArrayList<Short> typeList = new ArrayList<Short>(len);
+
+		for (int i = 0; i < len; i++) {
+			RoleExtCreateInfo createInfo = roleExtCreators[i];
+			RoleExtPropertyCreator<RoleExtProperty, Object> creator = createInfo.creator;
+			// TODO 检查openLv
+			if (!creator.requiredToPreload(param)) {
 				continue;
 			}
-			loadList.add(tuple);
-			typeList.add(tuple.firstValue);
+			if (createInfo.cache.contains(roleId)) {
+				continue;
+			}
+			requiredLoadList.add(createInfo);
+			if (typeList != null) {
+				typeList.add(createInfo.type);
+			}
 		}
+
 		int size = typeList.size();
 		if (size == 0) {
 			return;
 		}
 		// load from database
 		List<QueryRoleExtPropertyData> loadDatas;
-		if (size < playerExtCreators.length) {
+		if (size < roleExtCreators.length) {
 			loadDatas = extPropertyManager.loadRangeEntitys(roleId, typeList);
 		} else {
 			loadDatas = extPropertyManager.loadAllEntitys(roleId);
 		}
 		HashMap<Short, ArrayList<QueryRoleExtPropertyData>> loadDatasMap = new HashMap<Short, ArrayList<QueryRoleExtPropertyData>>();
-		// 按类型分区
+		// 按类型分区从数据库中读取的数据
 		for (int i = loadDatas.size(); --i >= 0;) {
 			QueryRoleExtPropertyData entity = loadDatas.get(i);
 			Short type = entity.getType();
@@ -161,86 +164,152 @@ public class RoleExtPropertyFactory {
 			}
 			list.add(entity);
 		}
-		int loadSize = loadList.size();
-		if (loadDatasMap.size() < loadSize) {
-			// 收集需要创建的RoleExtCreateData
-			ArrayList<RoleExtCreateData> createList = new ArrayList<RoleExtCreateData>(len);
-			ArrayList<InsertRoleExtDataWrap<RoleExtProperty>> insertDatas = new ArrayList<InsertRoleExtDataWrap<RoleExtProperty>>();
-			for (int i = loadSize; --i >= 0;) {
-				FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>> tuple = loadList.get(i);
-				Short type = tuple.firstValue;
-				List<QueryRoleExtPropertyData> data = loadDatasMap.get(type);
+		int requireLoadSize = requiredLoadList.size();
+		int actualLoadSize = loadDatasMap.size();
+		if (actualLoadSize < requireLoadSize) {
+			// 收集需要创建的RoleExtCreateInfo
+			ArrayList<RoleExtCreateInfoWrap> createList = new ArrayList<RoleExtCreateInfoWrap>(requireLoadSize - actualLoadSize);
+			for (int i = requireLoadSize; --i >= 0;) {
+				RoleExtCreateInfo createInfo = requiredLoadList.get(i);
+				List<QueryRoleExtPropertyData> data = loadDatasMap.get(createInfo.type);
 				if (data != null) {
-					tuple.thirdValue.putIfAbsentByDBString(roleId, data);
+					createInfo.cache.putIfAbsentByDBString(roleId, data);
 				} else {
-					createList.add(new RoleExtCreateData(tuple.firstValue, tuple.secondValue, tuple.thirdValue));
+					createList.add(new RoleExtCreateInfoWrap(createInfo));
 				}
 			}
-			int createSize = createList.size();
-			// 回调逻辑创建逻辑对象集
-			for (int i = createSize; --i >= 0;) {
-				RoleExtCreateData createData = createList.get(i);
-				List<RoleExtProperty> createPropList = createData.creator.firstCreate(param);
-				if (createPropList == null) {
-					continue;
-				}
-				// 创建一个没有记录的对象
-				if (createPropList.isEmpty()) {
-					createData.cache.putIfAbsent(roleId, Collections.<PlayerExtPropertyData<RoleExtProperty>> emptyList());
-					continue;
-				}
-				try {
-					// 收集不同类型的创建记录
-					List<InsertRoleExtDataWrap<RoleExtProperty>> insertData = convertNewEntry(createData.cache.getMapper(), roleId, createData.type, createPropList);
-					createData.setDatas(insertData);
-					insertDatas.addAll(insertData);
-				} catch (Exception e) {
-					FSUtilLogger.error("PlayerExtProperty create fail:" + createData.type, e);
-				}
-			}
-			try {
-				// 插入新记录到数据库并生成id，赋值
-				long[] keys = extPropertyManager.insert(roleId, insertDatas);
-				for (int i = insertDatas.size(); --i >= 0;) {
-					InsertRoleExtDataWrap<?> insertData = insertDatas.get(i);
-					insertData.setId(keys[i]);
-				}
-			} catch (Exception e) {
-				FSUtilLogger.error("PlayerExtProperty create fail cause by insert into db:", e);
-			}
-
-			// 生成新的PlayerExtProperty
-			for (int i = createSize; --i >= 0;) {
-				RoleExtCreateData createData = createList.get(i);
-				List<InsertRoleExtDataWrap<RoleExtProperty>> insertData = createData.getDatas();
-				if (insertData == null) {
-					continue;
-				}
-				List<PlayerExtPropertyData<RoleExtProperty>> list = create(insertData);
-				RoleExtPropertyStoreCache<RoleExtProperty> cache = createData.cache;
-				cache.putIfAbsent(roleId, list);
-			}
+			// 创建新记录
+			firstCreateExpProperty(extPropertyManager, createList, roleId, param);
 		} else {
-			for (int i = loadSize; --i >= 0;) {
-				FastTuple<Short, RoleExtPropertyCreator<RoleExtProperty, Object>, RoleExtPropertyStoreCache<RoleExtProperty>> tuple = loadList.get(i);
-				Short type = tuple.firstValue;
-				List<QueryRoleExtPropertyData> data = loadDatasMap.get(type);
+			for (int i = requireLoadSize; --i >= 0;) {
+				RoleExtCreateInfo createInfo = requiredLoadList.get(i);
+				List<QueryRoleExtPropertyData> data = loadDatasMap.get(createInfo.type);
 				if (data != null) {
-					tuple.thirdValue.putIfAbsentByDBString(roleId, data);
+					createInfo.cache.putIfAbsentByDBString(roleId, data);
 				}
 			}
 		}
-//		System.out.println("消耗:" + (System.currentTimeMillis() - start) + "," + param);
+		// System.out.println("消耗:" + (System.currentTimeMillis() - start) + ","
+		// + param);
 	}
 
+	// 收集需要加载的类型
+	static ArrayList<RoleExtCreateInfo> collectRequireType(String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] roleExtCaches, RoleExtCreateInfo[] roleExtCreators, Object param,
+			ArrayList<Short> typeList) {
+		int len = roleExtCaches.length;
+		ArrayList<RoleExtCreateInfo> requiredLoadList = new ArrayList<RoleExtCreateInfo>(len);
+		for (int i = 0; i < len; i++) {
+			RoleExtCreateInfo createInfo = roleExtCreators[i];
+			RoleExtPropertyCreator<RoleExtProperty, Object> creator = createInfo.creator;
+			// TODO 检查openLv
+			if (!creator.requiredToPreload(param)) {
+				continue;
+			}
+			if (createInfo.cache.contains(roleId)) {
+				continue;
+			}
+			requiredLoadList.add(createInfo);
+			if (typeList != null) {
+				typeList.add(createInfo.type);
+			}
+		}
+		return requiredLoadList;
+	}
+
+	// 首次创建扩展属性
+	static void firstCreateExpProperty(RoleExtPropertyManager extPropertyManager, ArrayList<RoleExtCreateInfoWrap> createList, String roleId, Object param) {
+		ArrayList<InsertRoleExtDataWrap<RoleExtProperty>> insertDatas = new ArrayList<InsertRoleExtDataWrap<RoleExtProperty>>();
+		int createSize = createList.size();
+		// 回调逻辑创建逻辑对象集
+		for (int i = createSize; --i >= 0;) {
+			RoleExtCreateInfoWrap createWrap = createList.get(i);
+			List<RoleExtProperty> createPropList = createWrap.createInfo.creator.firstCreate(param);
+			if (createPropList == null) {
+				continue;
+			}
+			RoleExtPropertyStoreCache<RoleExtProperty> cache = createWrap.createInfo.cache;
+			// 创建一个没有记录的对象
+			if (createPropList.isEmpty()) {
+				cache.putIfAbsent(roleId, Collections.<PlayerExtPropertyData<RoleExtProperty>> emptyList());
+				continue;
+			}
+			try {
+				// 收集不同类型的创建记录
+				List<InsertRoleExtDataWrap<RoleExtProperty>> insertData = convertNewEntry(cache.getMapper(), roleId, createWrap.createInfo.type, createPropList);
+				createWrap.setDatas(insertData);
+				insertDatas.addAll(insertData);
+			} catch (Exception e) {
+				FSUtilLogger.error("PlayerExtProperty create fail:" + createWrap.createInfo.type, e);
+			}
+		}
+		if (insertDatas.isEmpty()) {
+			return;
+		}
+		try {
+			// 插入新记录到数据库并生成id，赋值
+			long[] keys = extPropertyManager.insert(roleId, insertDatas);
+			for (int i = insertDatas.size(); --i >= 0;) {
+				InsertRoleExtDataWrap<?> insertData = insertDatas.get(i);
+				insertData.setId(keys[i]);
+			}
+		} catch (Exception e) {
+			FSUtilLogger.error("PlayerExtProperty create fail cause by insert into db:", e);
+		}
+
+		// 生成新的PlayerExtProperty
+		for (int i = createSize; --i >= 0;) {
+			RoleExtCreateInfoWrap createWrap = createList.get(i);
+			List<InsertRoleExtDataWrap<RoleExtProperty>> insertData = createWrap.getDatas();
+			if (insertData == null) {
+				continue;
+			}
+			List<PlayerExtPropertyData<RoleExtProperty>> list = create(insertData);
+			createWrap.createInfo.cache.putIfAbsent(roleId, list);
+		}
+	}
+
+	/**
+	 * 初次创建角色扩展属性
+	 * 
+	 * @param userId
+	 * @param createTime
+	 * @param level
+	 */
+	public static void firstCreatePlayerExtProperty(String userId, long createTime, int level) {
+		PlayerPropertyParams param = new PlayerPropertyParams(userId, level, createTime, System.currentTimeMillis());
+		firstCrate(roleExtPropertyManager, param, userId, playerExtCaches, playerExtCreators);
+	}
+
+	/**
+	 * 加载并创建角色相关属性(如果需要创建)
+	 * 
+	 * @param userId
+	 * @param createTime
+	 * @param level
+	 */
+	public static void loadAndCreatePlayerExtProperty(String userId, long createTime, int level) {
+		PlayerPropertyParams param = new PlayerPropertyParams(userId, level, createTime, System.currentTimeMillis());
+		preload(roleExtPropertyManager, param, userId, playerExtCaches, playerExtCreators);
+	}
+
+	/**
+	 * 初次创建英雄相关属性
+	 * 
+	 * @param heroId
+	 * @param heroCreateParam
+	 */
+	public static void fristCreateHeroExtProperty(String heroId, HeroCreateParam heroCreateParam) {
+		firstCrate(heroExtPropertyManager, heroCreateParam, heroId, heroExtCaches, heroExtCreators);
+	}
+
+	/**
+	 * 加载并创建英雄相关属性(如果需要创建)
+	 * 
+	 * @param heroId
+	 * @param heroCreateParam
+	 */
 	public static void loadAndCreateHeroExtProperty(String heroId, HeroCreateParam heroCreateParam) {
-		preload(heroExtPropertyManager, heroCreateParam, DateUtils.getSecondLevelMillis(), heroId, heroExtCaches, heroExtCreators);
-	}
-
-	public static void loadAndCreatePlayerExtProperty(final String userId, final long createTime, final int level) {
-		long current = System.currentTimeMillis();
-		PlayerPropertyParams param = new PlayerPropertyParams(userId, level, createTime, current);
-		preload(roleExtPropertyManager, param, current, userId, playerExtCaches, playerExtCreators);
+		preload(heroExtPropertyManager, heroCreateParam, heroId, heroExtCaches, heroExtCreators);
 	}
 
 	public static List<InsertRoleExtDataWrap<RoleExtProperty>> convertNewEntry(ObjectMapper mapper, String searchId, short type, List<RoleExtProperty> itemList) throws JsonGenerationException,

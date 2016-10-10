@@ -65,10 +65,6 @@ public class EquipItemHolder {
 		notifyChange(player.getUserId(), heroId);
 	}
 
-	public EquipItem getItem(String ownerId, int equipIndex) {
-		return getItem(ownerId, equipIndex);
-	}
-
 	// public EquipItem getItem(String itemId) {
 	public EquipItem getItem(String heroId, Integer itemId) {
 		return getItemStore(heroId).get(itemId);
