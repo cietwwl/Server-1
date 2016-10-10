@@ -653,10 +653,10 @@ public class GCompMatchDataHolder {
 
 				if (result == GCompBattleResult.NonStart || result == GCompBattleResult.Fighting) {
 					allBattleFinish = false;
-					GCompUtil.log("checkAllMatchBattleState，member.getResult()未完成！当前状态：{}，member：{}", result, member.getArmyInfo().getPlayerName());
+					GCompUtil.log("checkAllMatchBattleState，member.getResult()未完成！当前状态：{}，member：{}，isRobot4Me：{}，enemy：{}，isRobot4Enemy：{}，matchId：{}", result, member.getArmyInfo().getPlayerName(), member.isRobot(), member.getEnemyName(), enemyMembers.get(i).isRobot(), e.getKey());
 				}
 			}
-			
+
 			GCompUtil.log("--------------------------------------checkAllMatchBattleState，打印结束的分割线---------------------------------------");
 
 			// 要把需要推送到前台的消息发送出去
