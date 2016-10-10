@@ -154,6 +154,7 @@ public class GCompEvents {
 		default:
 			break;
 		}
+		GCompTeamMgr.getInstance().onEventStatusChange(status);
 		GroupCompetitionMatchingCenter.getInstance().onEventsStatusChange(status);
 		EventsStatusForBattleCenter.getInstance().onEventsStatusChange(status);
 	}

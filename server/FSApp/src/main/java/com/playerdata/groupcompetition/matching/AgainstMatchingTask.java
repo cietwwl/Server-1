@@ -281,8 +281,11 @@ class AgainstMatchingTask implements IGameTimerTask {
 		while (groupMatchingDataA.getRandomMatchingSize() > 0 || groupMatchingDataB.getRandomMatchingSize() > 0) {
 			listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount, false);
 			listOfGroupMatchingDataB = this.getRandomMatchingDataList(groupMatchingDataB, allMemberOfGroupB, maxMemberCount, listOfGroupMatchingDataA.size() > 0);
-			if (listOfGroupMatchingDataB.size() > 0 && listOfGroupMatchingDataA.isEmpty() && groupMatchingDataA.getRandomMatchingSize() > 0) {
-				listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount, true); // 强制获取对方的玩家
+			if (listOfGroupMatchingDataB.size() > 0 && listOfGroupMatchingDataA.isEmpty()) {
+				groupMatchingDataA.beforeRandomMatching(); // 随机匹配前的通知
+				if (groupMatchingDataA.getRandomMatchingSize() > 0) {
+					listOfGroupMatchingDataA = this.getRandomMatchingDataList(groupMatchingDataA, allMemberOfGroupA, maxMemberCount, true); // 强制获取对方的玩家
+				}
 			}
 			if (listOfGroupMatchingDataA.isEmpty() && listOfGroupMatchingDataB.isEmpty()) {
 				break;
