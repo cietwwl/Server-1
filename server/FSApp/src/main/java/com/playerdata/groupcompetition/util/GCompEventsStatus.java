@@ -17,19 +17,19 @@ public enum GCompEventsStatus {
 	/**
 	 * 比赛准备阶段
 	 */
-	PREPARE(1, 30, "准备阶段"),
+	PREPARE(1, 5, "准备阶段"),
 	/**
 	 * 组队赛阶段
 	 */
-	TEAM_EVENTS(2, 15, "组队战阶段"),
+	TEAM_EVENTS(2, 5, "组队战阶段"),
 	/**
 	 * 中场休息阶段
 	 */
-	REST(3, 3, "中场休息阶段"),
+	REST(3, 5, "中场休息阶段"),
 	/**
 	 * 个人赛阶段
 	 */
-	PERSONAL_EVENTS(4, 15, "个人战阶段"),
+	PERSONAL_EVENTS(4, 5, "个人战阶段"),
 	/**
 	 * 结束
 	 */

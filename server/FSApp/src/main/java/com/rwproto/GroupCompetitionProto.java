@@ -261,6 +261,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     GetNewestScore(30, 31),
+    /**
+     * <code>GetFightInfoInScene = 32;</code>
+     *
+     * <pre>
+     *在同屏场景内请求积分、连胜等信息
+     * </pre>
+     */
+    GetFightInfoInScene(31, 32),
     ;
 
     /**
@@ -511,6 +519,14 @@ public final class GroupCompetitionProto {
      * </pre>
      */
     public static final int GetNewestScore_VALUE = 31;
+    /**
+     * <code>GetFightInfoInScene = 32;</code>
+     *
+     * <pre>
+     *在同屏场景内请求积分、连胜等信息
+     * </pre>
+     */
+    public static final int GetFightInfoInScene_VALUE = 32;
 
 
     public final int getNumber() { return value; }
@@ -548,6 +564,7 @@ public final class GroupCompetitionProto {
         case 29: return GetGroupScoreRank;
         case 30: return InPrepareArea;
         case 31: return GetNewestScore;
+        case 32: return GetFightInfoInScene;
         default: return null;
       }
     }
@@ -3024,31 +3041,31 @@ public final class GroupCompetitionProto {
      */
     com.rwproto.GroupCompetitionProto.ParaForLiveMsgOrBuilder getLiveParaOrBuilder();
 
-    // optional .groupCompetition.ParaForPlayBack playBackPara = 3;
+    // optional .groupCompetition.ParaForScoreInScene ScorePara = 3;
     /**
-     * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+     * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
      *
      * <pre>
-     *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+     *同屏界面请求积分、连胜等信息的参数
      * </pre>
      */
-    boolean hasPlayBackPara();
+    boolean hasScorePara();
     /**
-     * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+     * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
      *
      * <pre>
-     *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+     *同屏界面请求积分、连胜等信息的参数
      * </pre>
      */
-    com.rwproto.GroupCompetitionProto.ParaForPlayBack getPlayBackPara();
+    com.rwproto.GroupCompetitionProto.ParaForScoreInScene getScorePara();
     /**
-     * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+     * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
      *
      * <pre>
-     *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+     *同屏界面请求积分、连胜等信息的参数
      * </pre>
      */
-    com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder getPlayBackParaOrBuilder();
+    com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder getScoreParaOrBuilder();
 
     // optional .groupCompetition.ParaForGetRank getRankPara = 4;
     /**
@@ -3170,14 +3187,14 @@ public final class GroupCompetitionProto {
               break;
             }
             case 26: {
-              com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder subBuilder = null;
+              com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                subBuilder = playBackPara_.toBuilder();
+                subBuilder = scorePara_.toBuilder();
               }
-              playBackPara_ = input.readMessage(com.rwproto.GroupCompetitionProto.ParaForPlayBack.PARSER, extensionRegistry);
+              scorePara_ = input.readMessage(com.rwproto.GroupCompetitionProto.ParaForScoreInScene.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(playBackPara_);
-                playBackPara_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(scorePara_);
+                scorePara_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
               break;
@@ -3298,38 +3315,38 @@ public final class GroupCompetitionProto {
       return livePara_;
     }
 
-    // optional .groupCompetition.ParaForPlayBack playBackPara = 3;
-    public static final int PLAYBACKPARA_FIELD_NUMBER = 3;
-    private com.rwproto.GroupCompetitionProto.ParaForPlayBack playBackPara_;
+    // optional .groupCompetition.ParaForScoreInScene ScorePara = 3;
+    public static final int SCOREPARA_FIELD_NUMBER = 3;
+    private com.rwproto.GroupCompetitionProto.ParaForScoreInScene scorePara_;
     /**
-     * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+     * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
      *
      * <pre>
-     *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+     *同屏界面请求积分、连胜等信息的参数
      * </pre>
      */
-    public boolean hasPlayBackPara() {
+    public boolean hasScorePara() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+     * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
      *
      * <pre>
-     *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+     *同屏界面请求积分、连胜等信息的参数
      * </pre>
      */
-    public com.rwproto.GroupCompetitionProto.ParaForPlayBack getPlayBackPara() {
-      return playBackPara_;
+    public com.rwproto.GroupCompetitionProto.ParaForScoreInScene getScorePara() {
+      return scorePara_;
     }
     /**
-     * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+     * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
      *
      * <pre>
-     *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+     *同屏界面请求积分、连胜等信息的参数
      * </pre>
      */
-    public com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder getPlayBackParaOrBuilder() {
-      return playBackPara_;
+    public com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder getScoreParaOrBuilder() {
+      return scorePara_;
     }
 
     // optional .groupCompetition.ParaForGetRank getRankPara = 4;
@@ -3393,7 +3410,7 @@ public final class GroupCompetitionProto {
     private void initFields() {
       reqType_ = com.rwproto.GroupCompetitionProto.GCRequestType.EnterPrepareArea;
       livePara_ = com.rwproto.GroupCompetitionProto.ParaForLiveMsg.getDefaultInstance();
-      playBackPara_ = com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance();
+      scorePara_ = com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance();
       getRankPara_ = com.rwproto.GroupCompetitionProto.ParaForGetRank.getDefaultInstance();
       matchId_ = 0;
     }
@@ -3412,8 +3429,8 @@ public final class GroupCompetitionProto {
           return false;
         }
       }
-      if (hasPlayBackPara()) {
-        if (!getPlayBackPara().isInitialized()) {
+      if (hasScorePara()) {
+        if (!getScorePara().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -3438,7 +3455,7 @@ public final class GroupCompetitionProto {
         output.writeMessage(2, livePara_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, playBackPara_);
+        output.writeMessage(3, scorePara_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, getRankPara_);
@@ -3465,7 +3482,7 @@ public final class GroupCompetitionProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, playBackPara_);
+          .computeMessageSize(3, scorePara_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
@@ -3584,7 +3601,7 @@ public final class GroupCompetitionProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getLiveParaFieldBuilder();
-          getPlayBackParaFieldBuilder();
+          getScoreParaFieldBuilder();
           getGetRankParaFieldBuilder();
         }
       }
@@ -3602,10 +3619,10 @@ public final class GroupCompetitionProto {
           liveParaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
-        if (playBackParaBuilder_ == null) {
-          playBackPara_ = com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance();
+        if (scoreParaBuilder_ == null) {
+          scorePara_ = com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance();
         } else {
-          playBackParaBuilder_.clear();
+          scoreParaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
         if (getRankParaBuilder_ == null) {
@@ -3659,10 +3676,10 @@ public final class GroupCompetitionProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        if (playBackParaBuilder_ == null) {
-          result.playBackPara_ = playBackPara_;
+        if (scoreParaBuilder_ == null) {
+          result.scorePara_ = scorePara_;
         } else {
-          result.playBackPara_ = playBackParaBuilder_.build();
+          result.scorePara_ = scoreParaBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
@@ -3698,8 +3715,8 @@ public final class GroupCompetitionProto {
         if (other.hasLivePara()) {
           mergeLivePara(other.getLivePara());
         }
-        if (other.hasPlayBackPara()) {
-          mergePlayBackPara(other.getPlayBackPara());
+        if (other.hasScorePara()) {
+          mergeScorePara(other.getScorePara());
         }
         if (other.hasGetRankPara()) {
           mergeGetRankPara(other.getGetRankPara());
@@ -3722,8 +3739,8 @@ public final class GroupCompetitionProto {
             return false;
           }
         }
-        if (hasPlayBackPara()) {
-          if (!getPlayBackPara().isInitialized()) {
+        if (hasScorePara()) {
+          if (!getScorePara().isInitialized()) {
             
             return false;
           }
@@ -3961,157 +3978,157 @@ public final class GroupCompetitionProto {
         return liveParaBuilder_;
       }
 
-      // optional .groupCompetition.ParaForPlayBack playBackPara = 3;
-      private com.rwproto.GroupCompetitionProto.ParaForPlayBack playBackPara_ = com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance();
+      // optional .groupCompetition.ParaForScoreInScene ScorePara = 3;
+      private com.rwproto.GroupCompetitionProto.ParaForScoreInScene scorePara_ = com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupCompetitionProto.ParaForPlayBack, com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder, com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder> playBackParaBuilder_;
+          com.rwproto.GroupCompetitionProto.ParaForScoreInScene, com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder, com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder> scoreParaBuilder_;
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public boolean hasPlayBackPara() {
+      public boolean hasScorePara() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public com.rwproto.GroupCompetitionProto.ParaForPlayBack getPlayBackPara() {
-        if (playBackParaBuilder_ == null) {
-          return playBackPara_;
+      public com.rwproto.GroupCompetitionProto.ParaForScoreInScene getScorePara() {
+        if (scoreParaBuilder_ == null) {
+          return scorePara_;
         } else {
-          return playBackParaBuilder_.getMessage();
+          return scoreParaBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public Builder setPlayBackPara(com.rwproto.GroupCompetitionProto.ParaForPlayBack value) {
-        if (playBackParaBuilder_ == null) {
+      public Builder setScorePara(com.rwproto.GroupCompetitionProto.ParaForScoreInScene value) {
+        if (scoreParaBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          playBackPara_ = value;
+          scorePara_ = value;
           onChanged();
         } else {
-          playBackParaBuilder_.setMessage(value);
+          scoreParaBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public Builder setPlayBackPara(
-          com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder builderForValue) {
-        if (playBackParaBuilder_ == null) {
-          playBackPara_ = builderForValue.build();
+      public Builder setScorePara(
+          com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder builderForValue) {
+        if (scoreParaBuilder_ == null) {
+          scorePara_ = builderForValue.build();
           onChanged();
         } else {
-          playBackParaBuilder_.setMessage(builderForValue.build());
+          scoreParaBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public Builder mergePlayBackPara(com.rwproto.GroupCompetitionProto.ParaForPlayBack value) {
-        if (playBackParaBuilder_ == null) {
+      public Builder mergeScorePara(com.rwproto.GroupCompetitionProto.ParaForScoreInScene value) {
+        if (scoreParaBuilder_ == null) {
           if (((bitField0_ & 0x00000004) == 0x00000004) &&
-              playBackPara_ != com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance()) {
-            playBackPara_ =
-              com.rwproto.GroupCompetitionProto.ParaForPlayBack.newBuilder(playBackPara_).mergeFrom(value).buildPartial();
+              scorePara_ != com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance()) {
+            scorePara_ =
+              com.rwproto.GroupCompetitionProto.ParaForScoreInScene.newBuilder(scorePara_).mergeFrom(value).buildPartial();
           } else {
-            playBackPara_ = value;
+            scorePara_ = value;
           }
           onChanged();
         } else {
-          playBackParaBuilder_.mergeFrom(value);
+          scoreParaBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public Builder clearPlayBackPara() {
-        if (playBackParaBuilder_ == null) {
-          playBackPara_ = com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance();
+      public Builder clearScorePara() {
+        if (scoreParaBuilder_ == null) {
+          scorePara_ = com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance();
           onChanged();
         } else {
-          playBackParaBuilder_.clear();
+          scoreParaBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder getPlayBackParaBuilder() {
+      public com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder getScoreParaBuilder() {
         bitField0_ |= 0x00000004;
         onChanged();
-        return getPlayBackParaFieldBuilder().getBuilder();
+        return getScoreParaFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
-      public com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder getPlayBackParaOrBuilder() {
-        if (playBackParaBuilder_ != null) {
-          return playBackParaBuilder_.getMessageOrBuilder();
+      public com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder getScoreParaOrBuilder() {
+        if (scoreParaBuilder_ != null) {
+          return scoreParaBuilder_.getMessageOrBuilder();
         } else {
-          return playBackPara_;
+          return scorePara_;
         }
       }
       /**
-       * <code>optional .groupCompetition.ParaForPlayBack playBackPara = 3;</code>
+       * <code>optional .groupCompetition.ParaForScoreInScene ScorePara = 3;</code>
        *
        * <pre>
-       *GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
+       *同屏界面请求积分、连胜等信息的参数
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.GroupCompetitionProto.ParaForPlayBack, com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder, com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder> 
-          getPlayBackParaFieldBuilder() {
-        if (playBackParaBuilder_ == null) {
-          playBackParaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.GroupCompetitionProto.ParaForPlayBack, com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder, com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder>(
-                  playBackPara_,
+          com.rwproto.GroupCompetitionProto.ParaForScoreInScene, com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder, com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder> 
+          getScoreParaFieldBuilder() {
+        if (scoreParaBuilder_ == null) {
+          scoreParaBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCompetitionProto.ParaForScoreInScene, com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder, com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder>(
+                  scorePara_,
                   getParentForChildren(),
                   isClean());
-          playBackPara_ = null;
+          scorePara_ = null;
         }
-        return playBackParaBuilder_;
+        return scoreParaBuilder_;
       }
 
       // optional .groupCompetition.ParaForGetRank getRankPara = 4;
@@ -24043,50 +24060,50 @@ public final class GroupCompetitionProto {
     // @@protoc_insertion_point(class_scope:groupCompetition.ParaForLiveMsg)
   }
 
-  public interface ParaForPlayBackOrBuilder
+  public interface ParaForScoreInSceneOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required fixed32 matchId = 1;
+    // required fixed64 latestTime = 1;
     /**
-     * <code>required fixed32 matchId = 1;</code>
+     * <code>required fixed64 latestTime = 1;</code>
      *
      * <pre>
-     *赛事阶段的id
+     *积分等信息的最新时间
      * </pre>
      */
-    boolean hasMatchId();
+    boolean hasLatestTime();
     /**
-     * <code>required fixed32 matchId = 1;</code>
+     * <code>required fixed64 latestTime = 1;</code>
      *
      * <pre>
-     *赛事阶段的id
+     *积分等信息的最新时间
      * </pre>
      */
-    int getMatchId();
+    long getLatestTime();
   }
   /**
-   * Protobuf type {@code groupCompetition.ParaForPlayBack}
+   * Protobuf type {@code groupCompetition.ParaForScoreInScene}
    *
    * <pre>
-   * 赛事回放的参数
+   * 同屏内请求
    * </pre>
    */
-  public static final class ParaForPlayBack extends
+  public static final class ParaForScoreInScene extends
       com.google.protobuf.GeneratedMessage
-      implements ParaForPlayBackOrBuilder {
-    // Use ParaForPlayBack.newBuilder() to construct.
-    private ParaForPlayBack(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements ParaForScoreInSceneOrBuilder {
+    // Use ParaForScoreInScene.newBuilder() to construct.
+    private ParaForScoreInScene(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private ParaForPlayBack(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private ParaForScoreInScene(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final ParaForPlayBack defaultInstance;
-    public static ParaForPlayBack getDefaultInstance() {
+    private static final ParaForScoreInScene defaultInstance;
+    public static ParaForScoreInScene getDefaultInstance() {
       return defaultInstance;
     }
 
-    public ParaForPlayBack getDefaultInstanceForType() {
+    public ParaForScoreInScene getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -24096,7 +24113,7 @@ public final class GroupCompetitionProto {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private ParaForPlayBack(
+    private ParaForScoreInScene(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -24119,9 +24136,9 @@ public final class GroupCompetitionProto {
               }
               break;
             }
-            case 13: {
+            case 9: {
               bitField0_ |= 0x00000001;
-              matchId_ = input.readFixed32();
+              latestTime_ = input.readFixed64();
               break;
             }
           }
@@ -24138,65 +24155,65 @@ public final class GroupCompetitionProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForPlayBack_descriptor;
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForScoreInScene_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForPlayBack_fieldAccessorTable
+      return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForScoreInScene_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.GroupCompetitionProto.ParaForPlayBack.class, com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder.class);
+              com.rwproto.GroupCompetitionProto.ParaForScoreInScene.class, com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ParaForPlayBack> PARSER =
-        new com.google.protobuf.AbstractParser<ParaForPlayBack>() {
-      public ParaForPlayBack parsePartialFrom(
+    public static com.google.protobuf.Parser<ParaForScoreInScene> PARSER =
+        new com.google.protobuf.AbstractParser<ParaForScoreInScene>() {
+      public ParaForScoreInScene parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ParaForPlayBack(input, extensionRegistry);
+        return new ParaForScoreInScene(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ParaForPlayBack> getParserForType() {
+    public com.google.protobuf.Parser<ParaForScoreInScene> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required fixed32 matchId = 1;
-    public static final int MATCHID_FIELD_NUMBER = 1;
-    private int matchId_;
+    // required fixed64 latestTime = 1;
+    public static final int LATESTTIME_FIELD_NUMBER = 1;
+    private long latestTime_;
     /**
-     * <code>required fixed32 matchId = 1;</code>
+     * <code>required fixed64 latestTime = 1;</code>
      *
      * <pre>
-     *赛事阶段的id
+     *积分等信息的最新时间
      * </pre>
      */
-    public boolean hasMatchId() {
+    public boolean hasLatestTime() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required fixed32 matchId = 1;</code>
+     * <code>required fixed64 latestTime = 1;</code>
      *
      * <pre>
-     *赛事阶段的id
+     *积分等信息的最新时间
      * </pre>
      */
-    public int getMatchId() {
-      return matchId_;
+    public long getLatestTime() {
+      return latestTime_;
     }
 
     private void initFields() {
-      matchId_ = 0;
+      latestTime_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasMatchId()) {
+      if (!hasLatestTime()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -24208,7 +24225,7 @@ public final class GroupCompetitionProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeFixed32(1, matchId_);
+        output.writeFixed64(1, latestTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -24221,7 +24238,7 @@ public final class GroupCompetitionProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFixed32Size(1, matchId_);
+          .computeFixed64Size(1, latestTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -24235,53 +24252,53 @@ public final class GroupCompetitionProto {
       return super.writeReplace();
     }
 
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(byte[] data)
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(java.io.InputStream input)
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseDelimitedFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.GroupCompetitionProto.ParaForPlayBack parseFrom(
+    public static com.rwproto.GroupCompetitionProto.ParaForScoreInScene parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -24290,7 +24307,7 @@ public final class GroupCompetitionProto {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.ParaForPlayBack prototype) {
+    public static Builder newBuilder(com.rwproto.GroupCompetitionProto.ParaForScoreInScene prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -24302,28 +24319,28 @@ public final class GroupCompetitionProto {
       return builder;
     }
     /**
-     * Protobuf type {@code groupCompetition.ParaForPlayBack}
+     * Protobuf type {@code groupCompetition.ParaForScoreInScene}
      *
      * <pre>
-     * 赛事回放的参数
+     * 同屏内请求
      * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.GroupCompetitionProto.ParaForPlayBackOrBuilder {
+       implements com.rwproto.GroupCompetitionProto.ParaForScoreInSceneOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForPlayBack_descriptor;
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForScoreInScene_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForPlayBack_fieldAccessorTable
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForScoreInScene_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.GroupCompetitionProto.ParaForPlayBack.class, com.rwproto.GroupCompetitionProto.ParaForPlayBack.Builder.class);
+                com.rwproto.GroupCompetitionProto.ParaForScoreInScene.class, com.rwproto.GroupCompetitionProto.ParaForScoreInScene.Builder.class);
       }
 
-      // Construct using com.rwproto.GroupCompetitionProto.ParaForPlayBack.newBuilder()
+      // Construct using com.rwproto.GroupCompetitionProto.ParaForScoreInScene.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -24343,7 +24360,7 @@ public final class GroupCompetitionProto {
 
       public Builder clear() {
         super.clear();
-        matchId_ = 0;
+        latestTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
@@ -24354,54 +24371,54 @@ public final class GroupCompetitionProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForPlayBack_descriptor;
+        return com.rwproto.GroupCompetitionProto.internal_static_groupCompetition_ParaForScoreInScene_descriptor;
       }
 
-      public com.rwproto.GroupCompetitionProto.ParaForPlayBack getDefaultInstanceForType() {
-        return com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance();
+      public com.rwproto.GroupCompetitionProto.ParaForScoreInScene getDefaultInstanceForType() {
+        return com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance();
       }
 
-      public com.rwproto.GroupCompetitionProto.ParaForPlayBack build() {
-        com.rwproto.GroupCompetitionProto.ParaForPlayBack result = buildPartial();
+      public com.rwproto.GroupCompetitionProto.ParaForScoreInScene build() {
+        com.rwproto.GroupCompetitionProto.ParaForScoreInScene result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.GroupCompetitionProto.ParaForPlayBack buildPartial() {
-        com.rwproto.GroupCompetitionProto.ParaForPlayBack result = new com.rwproto.GroupCompetitionProto.ParaForPlayBack(this);
+      public com.rwproto.GroupCompetitionProto.ParaForScoreInScene buildPartial() {
+        com.rwproto.GroupCompetitionProto.ParaForScoreInScene result = new com.rwproto.GroupCompetitionProto.ParaForScoreInScene(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.matchId_ = matchId_;
+        result.latestTime_ = latestTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.GroupCompetitionProto.ParaForPlayBack) {
-          return mergeFrom((com.rwproto.GroupCompetitionProto.ParaForPlayBack)other);
+        if (other instanceof com.rwproto.GroupCompetitionProto.ParaForScoreInScene) {
+          return mergeFrom((com.rwproto.GroupCompetitionProto.ParaForScoreInScene)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.ParaForPlayBack other) {
-        if (other == com.rwproto.GroupCompetitionProto.ParaForPlayBack.getDefaultInstance()) return this;
-        if (other.hasMatchId()) {
-          setMatchId(other.getMatchId());
+      public Builder mergeFrom(com.rwproto.GroupCompetitionProto.ParaForScoreInScene other) {
+        if (other == com.rwproto.GroupCompetitionProto.ParaForScoreInScene.getDefaultInstance()) return this;
+        if (other.hasLatestTime()) {
+          setLatestTime(other.getLatestTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasMatchId()) {
+        if (!hasLatestTime()) {
           
           return false;
         }
@@ -24412,11 +24429,11 @@ public final class GroupCompetitionProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.GroupCompetitionProto.ParaForPlayBack parsedMessage = null;
+        com.rwproto.GroupCompetitionProto.ParaForScoreInScene parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.GroupCompetitionProto.ParaForPlayBack) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.GroupCompetitionProto.ParaForScoreInScene) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -24427,64 +24444,64 @@ public final class GroupCompetitionProto {
       }
       private int bitField0_;
 
-      // required fixed32 matchId = 1;
-      private int matchId_ ;
+      // required fixed64 latestTime = 1;
+      private long latestTime_ ;
       /**
-       * <code>required fixed32 matchId = 1;</code>
+       * <code>required fixed64 latestTime = 1;</code>
        *
        * <pre>
-       *赛事阶段的id
+       *积分等信息的最新时间
        * </pre>
        */
-      public boolean hasMatchId() {
+      public boolean hasLatestTime() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required fixed32 matchId = 1;</code>
+       * <code>required fixed64 latestTime = 1;</code>
        *
        * <pre>
-       *赛事阶段的id
+       *积分等信息的最新时间
        * </pre>
        */
-      public int getMatchId() {
-        return matchId_;
+      public long getLatestTime() {
+        return latestTime_;
       }
       /**
-       * <code>required fixed32 matchId = 1;</code>
+       * <code>required fixed64 latestTime = 1;</code>
        *
        * <pre>
-       *赛事阶段的id
+       *积分等信息的最新时间
        * </pre>
        */
-      public Builder setMatchId(int value) {
+      public Builder setLatestTime(long value) {
         bitField0_ |= 0x00000001;
-        matchId_ = value;
+        latestTime_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required fixed32 matchId = 1;</code>
+       * <code>required fixed64 latestTime = 1;</code>
        *
        * <pre>
-       *赛事阶段的id
+       *积分等信息的最新时间
        * </pre>
        */
-      public Builder clearMatchId() {
+      public Builder clearLatestTime() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        matchId_ = 0;
+        latestTime_ = 0L;
         onChanged();
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:groupCompetition.ParaForPlayBack)
+      // @@protoc_insertion_point(builder_scope:groupCompetition.ParaForScoreInScene)
     }
 
     static {
-      defaultInstance = new ParaForPlayBack(true);
+      defaultInstance = new ParaForScoreInScene(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:groupCompetition.ParaForPlayBack)
+    // @@protoc_insertion_point(class_scope:groupCompetition.ParaForScoreInScene)
   }
 
   public interface ParaForGetRankOrBuilder
@@ -31194,10 +31211,10 @@ public final class GroupCompetitionProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupCompetition_ParaForLiveMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_groupCompetition_ParaForPlayBack_descriptor;
+    internal_static_groupCompetition_ParaForScoreInScene_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_groupCompetition_ParaForPlayBack_fieldAccessorTable;
+      internal_static_groupCompetition_ParaForScoreInScene_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupCompetition_ParaForGetRank_descriptor;
   private static
@@ -31250,113 +31267,114 @@ public final class GroupCompetitionProto {
       " \003(\t\"\202\001\n\014CommonRspMsg\022/\n\007rstType\030\001 \002(\0162\036" +
       ".groupCompetition.GCResultType\022\016\n\006tipMsg" +
       "\030\002 \001(\t\0221\n\007players\030\003 \003(\0132 .groupCompetiti" +
-      "on.PlayerBaseInfo\"\374\001\n\023CommonGetDataReqMs" +
+      "on.PlayerBaseInfo\"\375\001\n\023CommonGetDataReqMs" +
       "g\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GC",
       "RequestType\0222\n\010livePara\030\002 \001(\0132 .groupCom" +
-      "petition.ParaForLiveMsg\0227\n\014playBackPara\030" +
-      "\003 \001(\0132!.groupCompetition.ParaForPlayBack" +
-      "\0225\n\013getRankPara\030\004 \001(\0132 .groupCompetition" +
-      ".ParaForGetRank\022\017\n\007matchId\030\005 \001(\007\"\202\003\n\023Com" +
-      "monGetDataRspMsg\022/\n\007rstType\030\001 \002(\0162\036.grou" +
-      "pCompetition.GCResultType\022\016\n\006tipMsg\030\002 \001(" +
-      "\t\0229\n\rselectionData\030\003 \001(\0132\".groupCompetit" +
-      "ion.SelectionRspData\0221\n\010rankData\030\004 \003(\0132\037" +
-      ".groupCompetition.GCompRankItem\022K\n\025group",
-      "ScoreRankRspData\030\005 \001(\0132,.groupCompetitio" +
-      "n.GCompGroupScoreRankRspData\0225\n\014selfRank" +
-      "Data\030\006 \001(\0132\037.groupCompetition.GCompRankI" +
-      "tem\0228\n\016groupScoreData\030\007 \003(\0132 .groupCompe" +
-      "tition.GroupScoreData\"$\n\014AreaPosition\022\t\n" +
-      "\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\"c\n\023LiveAndPlaybackIn" +
-      "fo\022\014\n\004test\030\001 \002(\t\022\023\n\013continueWin\030\002 \002(\005\022\025\n" +
-      "\rpersonalScore\030\003 \002(\005\022\022\n\ngroupScore\030\004 \002(\005" +
-      "\"I\n\025ReqLiveAndPlaybackMsg\0220\n\007reqType\030\001 \002" +
-      "(\0162\037.groupCompetition.GCRequestType\"}\n\025R",
-      "spLiveAndPlaybackMsg\022/\n\007rstType\030\001 \002(\0162\036." +
-      "groupCompetition.GCResultType\0223\n\004msgs\030\002 " +
-      "\003(\0132%.groupCompetition.LiveAndPlaybackIn" +
-      "fo\"\222\001\n\016MatchGuessInfo\022\017\n\007session\030\001 \002(\005\022\014" +
-      "\n\004topN\030\002 \002(\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006groups" +
-      "\030\004 \003(\0132\033.groupCompetition.GroupInfo\022\020\n\010g" +
-      "uessNum\030\005 \002(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tGroup" +
-      "Info\022\017\n\007groupId\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(\t" +
-      "\022\021\n\tgroupName\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002\"C\n\017" +
-      "ReqAllGuessInfo\0220\n\007reqType\030\001 \002(\0162\037.group",
-      "Competition.GCRequestType\"w\n\017RspAllGuess" +
-      "Info\022/\n\007rstType\030\001 \002(\0162\036.groupCompetition" +
-      ".GCResultType\0223\n\tguessInfo\030\002 \003(\0132 .group" +
-      "Competition.MatchGuessInfo\"o\n\013ReqNewGues" +
-      "s\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GC" +
-      "RequestType\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId\030" +
-      "\003 \002(\t\022\014\n\004coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007rs" +
-      "tType\030\001 \002(\0162\036.groupCompetition.GCResultT" +
-      "ype\022\016\n\006tipMsg\030\002 \001(\t\"\203\002\n\016PlayerBaseInfo\022\016" +
-      "\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005leve",
-      "l\030\003 \002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005" +
-      "\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fi" +
-      "ghtingAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fash" +
-      "ionUsage\030\n \001(\0132\033.FashionService.FashionU" +
-      "sed\022\021\n\tstarLevel\030\013 \002(\005\022\021\n\tqualityId\030\014 \002(" +
-      "\t\"\240\001\n\020SelectionRspData\0226\n\010rankings\030\001 \003(\013" +
-      "2$.groupCompetition.SelectionGroupData\022:" +
-      "\n\014ownGroupData\030\002 \001(\0132$.groupCompetition." +
-      "SelectionGroupData\022\030\n\020selectionEndTime\030\003" +
-      " \002(\006\"T\n\022SelectionGroupData\022\017\n\007ranking\030\001 ",
-      "\002(\007\022\014\n\004name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005u" +
-      "pNum\030\004 \002(\007\"O\n\013TeamRequest\0220\n\007reqType\030\001 \002" +
-      "(\0162\037.groupCompetition.GCRequestType\022\016\n\006h" +
-      "eroId\030\002 \003(\t\"-\n\013JoinTeamReq\022\016\n\006teamId\030\001 \002" +
-      "(\t\022\016\n\006heroId\030\002 \003(\t\"[\n\021TeamMemberRequest\022" +
-      "0\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCRe" +
-      "questType\022\024\n\014targetUserId\030\002 \002(\t\"E\n\021TeamS" +
-      "tatusRequest\0220\n\007reqType\030\001 \002(\0162\037.groupCom" +
-      "petition.GCRequestType\".\n\016TeamInvitation" +
-      "\022\016\n\006teamId\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommon",
-      "Rsp\0222\n\nresultType\030\001 \002(\0162\036.groupCompetiti" +
-      "on.GCResultType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamSta" +
-      "tusChange\0220\n\006status\030\001 \002(\0162 .groupCompeti" +
-      "tion.TeamStatusType\"5\n\016ParaForLiveMsg\022\017\n" +
-      "\007matchId\030\001 \002(\007\022\022\n\nlatestTime\030\002 \001(\006\"\"\n\017Pa" +
-      "raForPlayBack\022\017\n\007matchId\030\001 \002(\007\"$\n\016ParaFo" +
-      "rGetRank\022\022\n\neventsType\030\001 \002(\005\"t\n\rGCompRan" +
-      "kItem\022\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022" +
-      "\021\n\theadImage\030\003 \002(\t\022\r\n\005value\030\004 \002(\005\022\021\n\tgro" +
-      "upName\030\005 \002(\t\022\014\n\004rank\030\006 \001(\005\"\300\001\n\032GCompGrou",
-      "pScoreRankRspData\022@\n\rscoreRankItem\030\001 \003(\013" +
-      "2).groupCompetition.GCompGroupScoreRankI" +
-      "tem\022?\n\017historyChampion\030\002 \003(\0132&.groupComp" +
-      "etition.GCompHistoryChampion\022\037\n\027totalSco" +
-      "reRankItemCount\030\003 \002(\007\"\214\001\n\027GCompGroupScor" +
-      "eRankItem\022\021\n\tgroupName\030\001 \002(\t\022\021\n\tgroupIco" +
-      "n\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\024\n\014currentScor" +
-      "e\030\004 \002(\007\022\022\n\ntotalScore\030\005 \002(\007\022\017\n\007ranking\030\006" +
-      " \002(\007\"\211\001\n\024GCompHistoryChampion\022\021\n\tgroupNa" +
-      "me\030\001 \002(\t\022\023\n\013groupIconId\030\002 \002(\t\022\022\n\nleaderN",
-      "ame\030\003 \002(\t\022\025\n\rassistantName\030\004 \003(\t\022\r\n\005scor" +
-      "e\030\005 \002(\007\022\017\n\007session\030\006 \002(\007\"\"\n\014EventsResult" +
-      "\022\022\n\nwinGroupId\030\001 \002(\t\"0\n\016GroupScoreData\022\017" +
-      "\n\007groupId\030\001 \002(\t\022\r\n\005score\030\002 \002(\007*\364\004\n\rGCReq" +
-      "uestType\022\024\n\020EnterPrepareArea\020\001\022\024\n\020LeaveP" +
-      "repareArea\020\002\022\031\n\025InformPreparePosition\020\003\022" +
-      "\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n\010AllGues" +
-      "s\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayersBaseInfo\020" +
-      "\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelectionData\020" +
-      "\n\022\024\n\020GetCanGuessMatch\020\013\022\020\n\014SetTeamReady\020",
-      "\014\022\023\n\017CancelTeamReady\020\r\022\r\n\tLeaveTeam\020\016\022\020\n" +
-      "\014InviteMember\020\017\022\016\n\nKickMember\020\020\022\016\n\nCreat" +
-      "eTeam\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n\rStartMa" +
-      "tching\020\023\022\022\n\016CancelMatching\020\024\022\027\n\023StartRan" +
-      "domMatching\020\025\022\030\n\024CancelRandomMatching\020\026\022" +
-      "\024\n\020PersonalMatching\020\027\022\032\n\026PersonalCancelM" +
-      "atching\020\030\022\021\n\rLeaveLivePage\020\031\022\017\n\013GetKillR" +
-      "ank\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScoreRank\020\034\022" +
-      "\025\n\021GetGroupScoreRank\020\035\022\021\n\rInPrepareArea\020" +
-      "\036\022\022\n\016GetNewestScore\020\037*]\n\016TeamStatusType\022",
-      "\n\n\006Kicked\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatc" +
-      "h\020\003\022\016\n\nStartMatch\020\004\022\017\n\013CancelMatch\020\005*S\n\014" +
-      "GCResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020" +
-      "\002\022\023\n\017COIN_NOT_ENOUGH\020\003\022\021\n\rNO_SAME_SCENE\020" +
-      "\004B$\n\013com.rwprotoB\025GroupCompetitionProto"
+      "petition.ParaForLiveMsg\0228\n\tScorePara\030\003 \001" +
+      "(\0132%.groupCompetition.ParaForScoreInScen" +
+      "e\0225\n\013getRankPara\030\004 \001(\0132 .groupCompetitio" +
+      "n.ParaForGetRank\022\017\n\007matchId\030\005 \001(\007\"\202\003\n\023Co" +
+      "mmonGetDataRspMsg\022/\n\007rstType\030\001 \002(\0162\036.gro" +
+      "upCompetition.GCResultType\022\016\n\006tipMsg\030\002 \001" +
+      "(\t\0229\n\rselectionData\030\003 \001(\0132\".groupCompeti" +
+      "tion.SelectionRspData\0221\n\010rankData\030\004 \003(\0132" +
+      "\037.groupCompetition.GCompRankItem\022K\n\025grou",
+      "pScoreRankRspData\030\005 \001(\0132,.groupCompetiti" +
+      "on.GCompGroupScoreRankRspData\0225\n\014selfRan" +
+      "kData\030\006 \001(\0132\037.groupCompetition.GCompRank" +
+      "Item\0228\n\016groupScoreData\030\007 \003(\0132 .groupComp" +
+      "etition.GroupScoreData\"$\n\014AreaPosition\022\t" +
+      "\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\"c\n\023LiveAndPlaybackI" +
+      "nfo\022\014\n\004test\030\001 \002(\t\022\023\n\013continueWin\030\002 \002(\005\022\025" +
+      "\n\rpersonalScore\030\003 \002(\005\022\022\n\ngroupScore\030\004 \002(" +
+      "\005\"I\n\025ReqLiveAndPlaybackMsg\0220\n\007reqType\030\001 " +
+      "\002(\0162\037.groupCompetition.GCRequestType\"}\n\025",
+      "RspLiveAndPlaybackMsg\022/\n\007rstType\030\001 \002(\0162\036" +
+      ".groupCompetition.GCResultType\0223\n\004msgs\030\002" +
+      " \003(\0132%.groupCompetition.LiveAndPlaybackI" +
+      "nfo\"\222\001\n\016MatchGuessInfo\022\017\n\007session\030\001 \002(\005\022" +
+      "\014\n\004topN\030\002 \002(\005\022\020\n\010groupNum\030\003 \002(\005\022+\n\006group" +
+      "s\030\004 \003(\0132\033.groupCompetition.GroupInfo\022\020\n\010" +
+      "guessNum\030\005 \002(\005\022\020\n\010hasGuess\030\006 \002(\010\"S\n\tGrou" +
+      "pInfo\022\017\n\007groupId\030\001 \002(\t\022\021\n\tgroupIcon\030\002 \002(" +
+      "\t\022\021\n\tgroupName\030\003 \002(\t\022\017\n\007betRate\030\004 \001(\002\"C\n" +
+      "\017ReqAllGuessInfo\0220\n\007reqType\030\001 \002(\0162\037.grou",
+      "pCompetition.GCRequestType\"w\n\017RspAllGues" +
+      "sInfo\022/\n\007rstType\030\001 \002(\0162\036.groupCompetitio" +
+      "n.GCResultType\0223\n\tguessInfo\030\002 \003(\0132 .grou" +
+      "pCompetition.MatchGuessInfo\"o\n\013ReqNewGue" +
+      "ss\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.G" +
+      "CRequestType\022\017\n\007matchId\030\002 \002(\005\022\017\n\007groupId" +
+      "\030\003 \002(\t\022\014\n\004coin\030\004 \002(\005\"N\n\013RsqNewGuess\022/\n\007r" +
+      "stType\030\001 \002(\0162\036.groupCompetition.GCResult" +
+      "Type\022\016\n\006tipMsg\030\002 \001(\t\"\203\002\n\016PlayerBaseInfo\022" +
+      "\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005lev",
+      "el\030\003 \002(\005\022\017\n\007imageId\030\004 \002(\t\022\016\n\006career\030\005 \002(" +
+      "\005\022\013\n\003sex\030\006 \002(\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013f" +
+      "ightingAll\030\010 \002(\005\022\017\n\007modelId\030\t \001(\005\0221\n\014fas" +
+      "hionUsage\030\n \001(\0132\033.FashionService.Fashion" +
+      "Used\022\021\n\tstarLevel\030\013 \002(\005\022\021\n\tqualityId\030\014 \002" +
+      "(\t\"\240\001\n\020SelectionRspData\0226\n\010rankings\030\001 \003(" +
+      "\0132$.groupCompetition.SelectionGroupData\022" +
+      ":\n\014ownGroupData\030\002 \001(\0132$.groupCompetition" +
+      ".SelectionGroupData\022\030\n\020selectionEndTime\030" +
+      "\003 \002(\006\"T\n\022SelectionGroupData\022\017\n\007ranking\030\001",
+      " \002(\007\022\014\n\004name\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\r\n\005" +
+      "upNum\030\004 \002(\007\"O\n\013TeamRequest\0220\n\007reqType\030\001 " +
+      "\002(\0162\037.groupCompetition.GCRequestType\022\016\n\006" +
+      "heroId\030\002 \003(\t\"-\n\013JoinTeamReq\022\016\n\006teamId\030\001 " +
+      "\002(\t\022\016\n\006heroId\030\002 \003(\t\"[\n\021TeamMemberRequest" +
+      "\0220\n\007reqType\030\001 \002(\0162\037.groupCompetition.GCR" +
+      "equestType\022\024\n\014targetUserId\030\002 \002(\t\"E\n\021Team" +
+      "StatusRequest\0220\n\007reqType\030\001 \002(\0162\037.groupCo" +
+      "mpetition.GCRequestType\".\n\016TeamInvitatio" +
+      "n\022\016\n\006teamId\030\001 \002(\t\022\014\n\004tips\030\002 \002(\t\"M\n\tCommo",
+      "nRsp\0222\n\nresultType\030\001 \002(\0162\036.groupCompetit" +
+      "ion.GCResultType\022\014\n\004tips\030\002 \001(\t\"D\n\020TeamSt" +
+      "atusChange\0220\n\006status\030\001 \002(\0162 .groupCompet" +
+      "ition.TeamStatusType\"5\n\016ParaForLiveMsg\022\017" +
+      "\n\007matchId\030\001 \002(\007\022\022\n\nlatestTime\030\002 \001(\006\")\n\023P" +
+      "araForScoreInScene\022\022\n\nlatestTime\030\001 \002(\006\"$" +
+      "\n\016ParaForGetRank\022\022\n\neventsType\030\001 \002(\005\"t\n\r" +
+      "GCompRankItem\022\016\n\006userId\030\001 \002(\t\022\020\n\010userNam" +
+      "e\030\002 \002(\t\022\021\n\theadImage\030\003 \002(\t\022\r\n\005value\030\004 \002(" +
+      "\005\022\021\n\tgroupName\030\005 \002(\t\022\014\n\004rank\030\006 \001(\005\"\300\001\n\032G",
+      "CompGroupScoreRankRspData\022@\n\rscoreRankIt" +
+      "em\030\001 \003(\0132).groupCompetition.GCompGroupSc" +
+      "oreRankItem\022?\n\017historyChampion\030\002 \003(\0132&.g" +
+      "roupCompetition.GCompHistoryChampion\022\037\n\027" +
+      "totalScoreRankItemCount\030\003 \002(\007\"\214\001\n\027GCompG" +
+      "roupScoreRankItem\022\021\n\tgroupName\030\001 \002(\t\022\021\n\t" +
+      "groupIcon\030\002 \002(\t\022\020\n\010fighting\030\003 \002(\006\022\024\n\014cur" +
+      "rentScore\030\004 \002(\007\022\022\n\ntotalScore\030\005 \002(\007\022\017\n\007r" +
+      "anking\030\006 \002(\007\"\211\001\n\024GCompHistoryChampion\022\021\n" +
+      "\tgroupName\030\001 \002(\t\022\023\n\013groupIconId\030\002 \002(\t\022\022\n",
+      "\nleaderName\030\003 \002(\t\022\025\n\rassistantName\030\004 \003(\t" +
+      "\022\r\n\005score\030\005 \002(\007\022\017\n\007session\030\006 \002(\007\"\"\n\014Even" +
+      "tsResult\022\022\n\nwinGroupId\030\001 \002(\t\"0\n\016GroupSco" +
+      "reData\022\017\n\007groupId\030\001 \002(\t\022\r\n\005score\030\002 \002(\007*\215" +
+      "\005\n\rGCRequestType\022\024\n\020EnterPrepareArea\020\001\022\024" +
+      "\n\020LeavePrepareArea\020\002\022\031\n\025InformPreparePos" +
+      "ition\020\003\022\013\n\007LiveMsg\020\004\022\017\n\013PlaybackMsg\020\005\022\014\n" +
+      "\010AllGuess\020\006\022\014\n\010NewGuess\020\007\022\026\n\022GetPlayersB" +
+      "aseInfo\020\010\022\020\n\014GetMatchView\020\t\022\024\n\020GetSelect" +
+      "ionData\020\n\022\024\n\020GetCanGuessMatch\020\013\022\020\n\014SetTe",
+      "amReady\020\014\022\023\n\017CancelTeamReady\020\r\022\r\n\tLeaveT" +
+      "eam\020\016\022\020\n\014InviteMember\020\017\022\016\n\nKickMember\020\020\022" +
+      "\016\n\nCreateTeam\020\021\022\024\n\020AdjustTeamMember\020\022\022\021\n" +
+      "\rStartMatching\020\023\022\022\n\016CancelMatching\020\024\022\027\n\023" +
+      "StartRandomMatching\020\025\022\030\n\024CancelRandomMat" +
+      "ching\020\026\022\024\n\020PersonalMatching\020\027\022\032\n\026Persona" +
+      "lCancelMatching\020\030\022\021\n\rLeaveLivePage\020\031\022\017\n\013" +
+      "GetKillRank\020\032\022\016\n\nGetWinRank\020\033\022\020\n\014GetScor" +
+      "eRank\020\034\022\025\n\021GetGroupScoreRank\020\035\022\021\n\rInPrep" +
+      "areArea\020\036\022\022\n\016GetNewestScore\020\037\022\027\n\023GetFigh",
+      "tInfoInScene\020 *]\n\016TeamStatusType\022\n\n\006Kick" +
+      "ed\020\001\022\020\n\014BecomeLeader\020\002\022\014\n\010CanMatch\020\003\022\016\n\n" +
+      "StartMatch\020\004\022\017\n\013CancelMatch\020\005*S\n\014GCResul" +
+      "tType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERROR\020\002\022\023\n\017CO" +
+      "IN_NOT_ENOUGH\020\003\022\021\n\rNO_SAME_SCENE\020\004B$\n\013co" +
+      "m.rwprotoB\025GroupCompetitionProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -31380,7 +31398,7 @@ public final class GroupCompetitionProto {
           internal_static_groupCompetition_CommonGetDataReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_CommonGetDataReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "LivePara", "PlayBackPara", "GetRankPara", "MatchId", });
+              new java.lang.String[] { "ReqType", "LivePara", "ScorePara", "GetRankPara", "MatchId", });
           internal_static_groupCompetition_CommonGetDataRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_groupCompetition_CommonGetDataRspMsg_fieldAccessorTable = new
@@ -31513,12 +31531,12 @@ public final class GroupCompetitionProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupCompetition_ParaForLiveMsg_descriptor,
               new java.lang.String[] { "MatchId", "LatestTime", });
-          internal_static_groupCompetition_ParaForPlayBack_descriptor =
+          internal_static_groupCompetition_ParaForScoreInScene_descriptor =
             getDescriptor().getMessageTypes().get(25);
-          internal_static_groupCompetition_ParaForPlayBack_fieldAccessorTable = new
+          internal_static_groupCompetition_ParaForScoreInScene_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_groupCompetition_ParaForPlayBack_descriptor,
-              new java.lang.String[] { "MatchId", });
+              internal_static_groupCompetition_ParaForScoreInScene_descriptor,
+              new java.lang.String[] { "LatestTime", });
           internal_static_groupCompetition_ParaForGetRank_descriptor =
             getDescriptor().getMessageTypes().get(26);
           internal_static_groupCompetition_ParaForGetRank_fieldAccessorTable = new
