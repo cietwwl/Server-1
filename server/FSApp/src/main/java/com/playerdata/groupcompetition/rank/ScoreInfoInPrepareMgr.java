@@ -27,7 +27,7 @@ public class ScoreInfoInPrepareMgr {
 		if(null == sceneId){
 			return;
 		}
-		GCompMemberMgr.getInstance().getArrayCopyOfAllMembers();
+		GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(groupId);
 		
 		
 		
