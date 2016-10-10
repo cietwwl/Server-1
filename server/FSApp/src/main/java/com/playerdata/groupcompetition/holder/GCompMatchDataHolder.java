@@ -656,6 +656,8 @@ public class GCompMatchDataHolder {
 					GCompUtil.log("checkAllMatchBattleState，member.getResult()未完成！当前状态：{}，member：{}", result, member.getArmyInfo().getPlayerName());
 				}
 			}
+			
+			GCompUtil.log("--------------------------------------checkAllMatchBattleState，打印结束的分割线---------------------------------------");
 
 			// 要把需要推送到前台的消息发送出去
 			sendMsg(hpRsp, needSynHpPlayerIdList);
