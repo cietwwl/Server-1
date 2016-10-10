@@ -14,7 +14,7 @@ public class ArmyMagic {
 	private String id;
 	private int modelId;
 	private int level;
-	private float magicPer;// 初始能量
+	private float magicPer = -1;// 初始能量,这个默认值不要随便改
 
 	public ArmyMagic() {
 	}

@@ -100,7 +100,7 @@ public class GroupCompetitionHandler {
 				if (ranking < gCompFightingItemList.size()) {
 					fightingItem = gCompFightingItemList.get(ranking - 1);
 				} else {
-					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking);
+					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking-1);
 				}
 				ownGroupData = this.createSelectionGroupData(fightingItem, ranking);
 			} else {
