@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
@@ -41,6 +42,7 @@ import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankItem;
 import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankRspData;
 import com.rwproto.GroupCompetitionProto.GCompHistoryChampion;
+import com.rwproto.GroupCompetitionProto.GroupScoreData;
 import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
@@ -459,6 +461,23 @@ public class GroupCompetitionHandler {
 		CommonGetDataRspMsg.Builder rspBuilder = CommonGetDataRspMsg.newBuilder();
 		rspBuilder.setRstType(GCResultType.SUCCESS);
 		rspBuilder.setGroupScoreRankRspData(builder.build());
+		return rspBuilder.build().toByteString();
+	}
+	
+	public ByteString getGroupNewestScore(Player player, CommonGetDataReqMsg request) {
+		List<IReadOnlyPair<String, Integer>> list = GCompDetailInfoMgr.getInstance().getNewestScore(request.getMatchId());
+		List<GroupScoreData> dataList;
+		if (list.size() > 0) {
+			dataList = new ArrayList<GroupScoreData>(list.size());
+			for (IReadOnlyPair<String, Integer> pair : list) {
+				dataList.add(GroupScoreData.newBuilder().setGroupId(pair.getT1()).setScore(pair.getT2()).build());
+			}
+		} else {
+			dataList = Collections.emptyList();
+		}
+		CommonGetDataRspMsg.Builder rspBuilder = CommonGetDataRspMsg.newBuilder();
+		rspBuilder.setRstType(GCResultType.SUCCESS);
+		rspBuilder.addAllGroupScoreData(dataList);
 		return rspBuilder.build().toByteString();
 	}
 
