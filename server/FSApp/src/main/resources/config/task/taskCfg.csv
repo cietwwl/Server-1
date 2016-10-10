@@ -1,5 +1,5 @@
 key,remark,id,title,icon,desc,sortId,quality,preTask,openLevel,superType,finishType,finishParam,reward,achievementPoint,skip,activityCode
-1001,,1001,勇往直前,Hero_head/head_DaoXingTianZun,通关普通战役1-1：天尊试炼,1000,1,-1,,1,10,110102,"704004_1,1_1000",5,1_110101,1001
+1001,,1001,勇往直前,Hero_head/head_DaoXingTianZun,通关普通战役1-2：天尊试炼,1000,1,-1,,1,10,110102,"704004_1,1_1000",5,1_110102,1001
 1002,,1002,勇往直前,Hero_head/head_WeiHu,通关普通战役2-1：新的伙伴,999,1,1001,,1,10,110201,"704004_1,1_1200",5,1_110201,1002
 1003,,1003,勇往直前,Hero_head/head_AnShiMoShen,通关普通战役2-3：魔王，初战！,998,1,1002,,1,10,110203,"704004_1,1_1400",5,1_110203,1003
 1004,,1004,勇往直前,Hero_head/head_ZhengLun,通关普通战役3-2：哼哈二将,997,1,1003,,1,10,110302,"704004_1,1_1600",5,1_110302,1004

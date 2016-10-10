@@ -141,6 +141,10 @@ public class ActivityCollector implements RedPointCollector{
 				continue;
 			}
 			ActivityRateTypeItem rateItem = datarateholder.getItem(player.getUserId(), typeEnum);
+			if(rateItem==null){
+				//登录时活动没开启，没生成数据；持续在线到活动开启了
+				continue;
+			}
 			if(!rateItem.isTouchRedPoint()){
 				activityList.add(cfg.getId());
 				continue;
@@ -203,7 +207,7 @@ public class ActivityCollector implements RedPointCollector{
 				List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = activityVitalityTypeItem.getSubBoxItemList();
 				for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
 					ActivityVitalitySubCfg subItemCfg = ActivityVitalitySubCfgDAO.getInstance().getById(subItem.getCfgId());
-					if(cfg.isCanGetReward()){
+					if(!cfg.isCanGetReward()){
 						break;
 					}					
 					if (subItemCfg == null) {

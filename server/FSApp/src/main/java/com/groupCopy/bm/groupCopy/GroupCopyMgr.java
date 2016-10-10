@@ -555,8 +555,9 @@ public class GroupCopyMgr {
 		ArmyHurtStruct.Builder struct;
 		for (GroupCopyArmyDamageInfo item : rankInfo.getDamageRank()) {
 			struct = ArmyHurtStruct.newBuilder();
-			struct.setHeadIcon(item.getArmy().getPlayerHeadImage());
-			struct.setRoleName(item.getArmy().getPlayerName());
+			Player role = PlayerMgr.getInstance().find(item.getPlayerID());
+			struct.setHeadIcon(role.getHeadImage());
+			struct.setRoleName(role.getUserName());
 			struct.setLv(item.getArmy().getPlayer().getLevel());
 			struct.setKillTime(item.getTime());
 			struct.setDamage(item.getDamage());

@@ -11,6 +11,7 @@ import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
+import com.rwbase.common.userEvent.UserEventHandleTask;
 
 public class UserEventChargeHandler implements IUserEventHandler{
 
@@ -30,16 +31,15 @@ public class UserEventChargeHandler implements IUserEventHandler{
 				boolean isLevelEnough = ActivityCountTypeMgr.getInstance().isLevelEnough(player,ActivityCountTypeCfgDAO.getInstance().getCfgById(ActivityCountTypeEnum.Charge.getCfgId()));	
 				if(isBetweendays&&isLevelEnough){
 					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.Charge,Integer.parseInt(params.toString()));	
-						
 				}
 			}
+			
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityCountTypeEnum.Charge.toString()).append(" error");				
 				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
-			}						
+			}
 		});
-		
 	}
 	
 	
