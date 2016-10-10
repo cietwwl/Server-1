@@ -191,6 +191,10 @@ public class GCompUtil {
 		for (int i = 0, size = topGroups.size(); i < size; i++) {
 			groupId = topGroups.get(i).getGroupId();
 			group = GroupBM.get(groupId);
+			if (group == null) {
+				GCompUtil.log("找不到帮派：{}", groupId);
+				continue;
+			}
 			if (group.getGroupMemberMgr().getGroupMemberSize() < minMembersCount) {
 				GCompUtil.log("帮派：{}，人数少于：{}，不能入围！", group.getGroupBaseDataMgr().getGroupData().getGroupName(), minMembersCount);
 				continue;
