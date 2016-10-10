@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.stageimpl;
 
 import com.playerdata.groupcompetition.data.IGCompStage;
+import com.playerdata.groupcompetition.util.GCompRestStartPara;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -33,7 +34,11 @@ public class GCompRestStage implements IGCompStage {
 	
 	@Override
 	public void onStageStart(IGCompStage preStage, Object startPara) {
-		this._endTime = GCompUtil.calculateEndTimeOfStage(this._stageCfgId);
+		if (startPara != null && startPara instanceof GCompRestStartPara) {
+			this._endTime = ((GCompRestStartPara) startPara).getEndTime();
+		} else {
+			this._endTime = GCompUtil.calculateEndTimeOfStage(this._stageCfgId);
+		}
 	}
 
 	@Override

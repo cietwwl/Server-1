@@ -135,4 +135,14 @@ public class GCompFightingRecordHolder {
 	public void endAllLiveMatch(){
 		liveUsers.clear();
 	}
+	
+	/**
+	 * 删除上一届比赛的记录
+	 */
+	public void deleteLastSessionRecord(List<Integer> matchList){
+		if(null == matchList) return;
+		for(int matchId : matchList){
+			_dao.delete(String.valueOf(matchId));
+		}
+	}
 }

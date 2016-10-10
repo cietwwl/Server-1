@@ -20,6 +20,7 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.randomBoss.RandomBossMgr;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
@@ -227,6 +228,7 @@ public class GMHandler {
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
+		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1761,12 +1763,16 @@ public class GMHandler {
 					consumerField.setAccessible(true);
 					timerInstanceField.setAccessible(true);
 					com.playerdata.groupcompetition.util.GCompStageType stageType = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentStageType();
+					com.playerdata.groupcompetition.util.GCompEventsStatus eventStatus = com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
 					boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
+					boolean isNoneStatus = (eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.NONE || eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.FINISH);
 					@SuppressWarnings("unchecked")
 					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField
 							.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
 					List<com.rwbase.common.timer.core.FSGameTimeSignal> list = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
 					Class<?> taskClazz = com.playerdata.groupcompetition.util.GCompCommonTask.class;
+					List<com.rwbase.common.timer.core.FSGameTimeSignal> stageList = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
+					List<Set<com.rwbase.common.timer.core.FSGameTimeSignal>> stageSet = new ArrayList<Set<com.rwbase.common.timer.core.FSGameTimeSignal>>();
 					outter: for (int i = 0, length = wheel.length; i < length; i++) {
 						Set<com.rwbase.common.timer.core.FSGameTimeSignal> set = wheel[i];
 						for (Iterator<com.rwbase.common.timer.core.FSGameTimeSignal> itr = set.iterator(); itr.hasNext();) {
@@ -1786,7 +1792,13 @@ public class GMHandler {
 										list.add(timeSignal);
 										itr.remove();
 										break outter;
-									}
+									} else if (isNoneStatus && consumerName.contains("StageEndMonitorConsumer")) {
+										stageList.add(timeSignal);
+										stageSet.add(set);
+									} else if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
+										stageList.add(timeSignal);
+										stageSet.add(set);
+									} 
 								} else {
 									if (consumerName.contains("StageStartConsumer")) {
 										list.add(timeSignal);
@@ -1802,9 +1814,17 @@ public class GMHandler {
 							}
 						}
 					}
-					for (int i = 0; i < list.size(); i++) {
-						com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
-						timeSignal.getTask().onTimeSignal(timeSignal);
+					if(list.size() > 0) {
+						for (int i = 0; i < list.size(); i++) {
+							com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
+							timeSignal.getTask().onTimeSignal(timeSignal);
+						}
+					} else if (stageList.size() > 0) {
+						for (int i = 0; i < stageList.size(); i++) {
+							com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = stageList.get(i);
+							timeSignal.getTask().onTimeSignal(timeSignal);
+							stageSet.get(i).remove(timeSignal);
+						}
 					}
 					wheelField.setAccessible(false);
 					taskField.setAccessible(false);
@@ -1822,5 +1842,10 @@ public class GMHandler {
 		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
 		return true;
 	} 
+	
+	public boolean refreshGroupFightingRank(String[] arrCommandContents, Player player) {
+		GCompFightingRankMgr.refreshGroupFightingRank();
+		return true;
+	}
 
 }

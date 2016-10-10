@@ -14,20 +14,17 @@ public class GCompHistoryDataDAO {
 	}
 	
 	private GCompHistoryData _data;
+	
+	public void loadHistoryData() {
+		String data = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_LAST);
+		if(data != null && data.length() > 0) {
+			_data = JsonUtil.readValue(data, GCompHistoryData.class);
+		}  else {
+			_data = GCompHistoryData.createNew();
+		}
+	}
 
 	public GCompHistoryData get() {
-		if (_data == null) {
-			synchronized (this) {
-				if (_data == null) {
-					String data = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION_AGAINSTS_LAST);
-					if(data != null && data.length() > 0) {
-						_data = JsonUtil.readValue(data, GCompHistoryData.class);
-					}  else {
-						_data = GCompHistoryData.createNew();
-					}
-				}
-			}
-		}
 		return _data;
 	}
 	

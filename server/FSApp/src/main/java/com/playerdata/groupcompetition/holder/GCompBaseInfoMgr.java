@@ -1,6 +1,8 @@
 package com.playerdata.groupcompetition.holder;
 
 import com.playerdata.Player;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 
 public class GCompBaseInfoMgr {
 
@@ -16,11 +18,15 @@ public class GCompBaseInfoMgr {
 		
 	}
 	
+	private GCompBaseInfo createBaseInfo() {
+		return GroupCompetitionMgr.getInstance().createBaseInfoSynData();
+	}
+	
 	public void sendBaseInfo(Player player) {
-		this._dataHolder.syn(player);
+		this._dataHolder.syn(player, createBaseInfo());
 	}
 	
 	public void sendBaseInfoToAll() {
-		this._dataHolder.synToAll();
+		this._dataHolder.synToAll(createBaseInfo());
 	}
 }

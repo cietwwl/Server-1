@@ -38,6 +38,8 @@ import com.rwbase.dao.dropitem.DropRecordDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
+import com.rwbase.dao.groupcompetition.UserGroupCompetitionDataCreator;
+import com.rwbase.dao.groupcompetition.UserGroupCompetitionDataDAO;
 import com.rwbase.dao.groupsecret.creator.GroupSecretDefendRecordDataCreator;
 import com.rwbase.dao.groupsecret.creator.GroupSecretMatchEnemyDataCreator;
 import com.rwbase.dao.groupsecret.creator.GroupSecretTeamDataCreator;
@@ -96,7 +98,10 @@ public enum DataKVType {
 	// 精准营销数据
 	USER_BENEFIT_SELL_DATA(30, BenefitDataDAO.class, BenefitDataCreator.class),
 	// 首掉
-	DROP_RECORD(31, DropRecordDAO.class, DropRecordCreator.class);
+	DROP_RECORD(31, DropRecordDAO.class, DropRecordCreator.class),
+	// 帮战的个人数据
+	USER_GROUP_COMPETITION(32, UserGroupCompetitionDataDAO.class, UserGroupCompetitionDataCreator.class),
+	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

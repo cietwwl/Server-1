@@ -1,23 +1,15 @@
 package com.playerdata.groupcompetition.holder;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.RejectedExecutionException;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCOnlineMemberDAO;
 import com.playerdata.groupcompetition.holder.data.GCompOnlineMember;
-import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
-import com.playerdata.groupcompetition.util.GCompCommonConfig;
-import com.playerdata.groupcompetition.util.GCompUtil;
-import com.rwbase.common.timer.IGameTimerTask;
-import com.rwbase.common.timer.core.FSGameTimeSignal;
-import com.rwbase.common.timer.core.FSGameTimerMgr;
-import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -30,7 +22,6 @@ public class GCompOnlineMemberHolder {
 	}
 	
 	private GCOnlineMemberDAO _dao;
-	private GCompOnlineMemberMonitor _monitor = new GCompOnlineMemberMonitor();
 	
 	protected GCompOnlineMemberHolder() {
 		_dao = GCOnlineMemberDAO.getInstance();
@@ -89,13 +80,17 @@ public class GCompOnlineMemberHolder {
 	 * @param player
 	 * @param groupId
 	 */
-	public void removeOnlineMember(Player player, String groupId) {
-		GCompOnlineMember member = _dao.removeOnlineMember(groupId, player.getUserId());
+	public void remove(String userId, String groupId) {
+		GCompOnlineMember member = _dao.removeOnlineMember(userId, groupId);
 //		GCompUtil.log("---------- 帮派争霸移除一个在线member:{} ----------", member);
 		if(member != null) {
 			// 同步
 			this.synToAll(groupId, member, eSynOpType.REMOVE_SINGLE);
 		}
+	}
+	
+	public void removeAll(String groupId, List<GCompOnlineMember> members) {
+		this._dao.removeOnlineMembers(groupId, members);
 	}
 	
 	public GCompOnlineMember getOnlineMember(String userId, String groupId) {
@@ -108,77 +103,24 @@ public class GCompOnlineMemberHolder {
 		return null;
 	}
 	
+	void synEmptyList(List<Player> players) {
+		com.playerdata.groupcompetition.util.GCompUtil.log("发送一个空的在线列表给玩家：{}", players.size() > 5 ? players.subList(0, 4) : players);
+		ClientDataSynMgr.synDataMutiple(players, Collections.emptyList(), eSynType.GCompOnlineMember, eSynOpType.UPDATE_LIST);
+	}
+	
 	void addOnlineMemberList(String groupId) {
 		_dao.addOnlineMemberList(groupId, new ArrayList<GCompOnlineMember>());
 	}
 	
 	void reset() {
 		this._dao.reset();
-		FSGameTimerMgr.getInstance().submitSecondTask(_monitor, GCompCommonConfig.getOnlineMemberMonitorTaskInterval());
 	}
 	
-	void onEventsEnd() {
-		this._monitor._on = false;
-	}
-	
-	List<GCompOnlineMember> getAllOnlineMembers(String groupId) {
+	List<GCompOnlineMember> getAllOnlineMembersOfGroup(String groupId) {
 		return _dao.getOnlineMembers(groupId);
 	}
 	
-	private class GCompOnlineMemberMonitor implements IGameTimerTask {
-		
-		private boolean _on = true;
-
-		@Override
-		public String getName() {
-			return "GCompOnlineMemberMonitor";
-		}
-
-		@Override
-		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-//			GCompUtil.log("---------- 帮派争霸在线玩家监控任务通知 ----------");
-			GCOnlineMemberDAO dao = GCompOnlineMemberHolder.this._dao;
-			Map<String, List<GCompOnlineMember>> map = dao.getAllOnlineMembers();
-			for (Iterator<String> keyItr = map.keySet().iterator(); keyItr.hasNext();) {
-				String groupId = keyItr.next();
-				List<GCompOnlineMember> list = map.get(groupId);
-				List<String> onlineUserId = PrepareAreaMgr.getInstance().getOnlineUserFromPrepareScene(groupId);
-				List<GCompOnlineMember> removeMembers = new ArrayList<GCompOnlineMember>();
-				for (GCompOnlineMember member : list) {
-					if (!onlineUserId.contains(member.getUserId())) {
-						removeMembers.add(member);
-					}
-				}
-				if (removeMembers.size() > 0) {
-					dao.removeOnlineMembers(groupId, removeMembers);
-					for (GCompOnlineMember member : removeMembers) {
-						GCompOnlineMemberHolder.this.synToAll(groupId, member, eSynOpType.REMOVE_SINGLE);
-						GCompUtil.log("---------- 自动移除不在线的成员{} ----------", member.getUserName());
-					}
-				}
-			}
-			return "SUCCESS";
-		}
-
-		@Override
-		public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
-			
-		}
-
-		@Override
-		public void rejected(RejectedExecutionException e) {
-			
-		}
-
-		@Override
-		public boolean isContinue() {
-			return _on;
-		}
-
-		@Override
-		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
-			return null;
-		}
-		
+	Map<String, List<GCompOnlineMember>> getAllOnlineMembers() {
+		return _dao.getAllOnlineMembers();
 	}
 }

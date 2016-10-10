@@ -27,10 +27,10 @@ public class GCompContinueWinComparable implements Comparable<GCompContinueWinCo
 			return -1;
 		}
 		if(lastRecordTime > o.lastRecordTime){
-			return 1;
+			return -1;
 		}
 		if(lastRecordTime < o.lastRecordTime){
-			return -1;
+			return 1;
 		}
 		return 0;
 	}

@@ -1,10 +1,14 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.List;
+
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.holder.data.GCompDetailInfo;
 import com.playerdata.groupcompetition.holder.data.GCompGroupScoreRecord;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompPersonalScore;
+import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
+import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.playerdata.groupcompetition.util.GCompUtil;
 
 public class GCompDetailInfoMgr {
@@ -20,10 +24,43 @@ public class GCompDetailInfoMgr {
 	protected GCompDetailInfoMgr() {
 		_dataHolder = GCompDetailInfoHolder.getInstance();
 	}
+	
+	public void onServerStartComplete() {
+		_dataHolder.loadData();
+	}
+	
+	public void onEventsStageStart() {
+		_dataHolder.reset();
+	}
+	
+	public void onEventsEnd(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = _dataHolder.get(against.getId());
+			detailInfo.getByGroupId(against.getWinGroupId()).setResult(GCompBattleResult.Win);
+			detailInfo.getByGroupId(against.getWinGroupId().equals(against.getGroupA().getGroupId()) ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId())
+					.setResult(GCompBattleResult.Lose);
+		}
+		_dataHolder.update();
+	}
+	
+	public void onEventsStart(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = _dataHolder.get(against.getId());
+			detailInfo.getByGroupId(against.getGroupA().getGroupId()).setResult(GCompBattleResult.Fighting);
+			detailInfo.getByGroupId(against.getGroupB().getGroupId()).setResult(GCompBattleResult.Fighting);
+		}
+		_dataHolder.update();
+	}
 
-	public void onEventsAgainstAssign(int matchId, String idOfGroupA, String idOfGroupB) {
-		GCompDetailInfo detailInfo = GCompDetailInfo.createNew(matchId, idOfGroupA, idOfGroupB);
-		_dataHolder.add(detailInfo);
+	public void onEventsAgainstAssign(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = GCompDetailInfo.createNew(against.getId(), against.getGroupA().getGroupId(), against.getGroupB().getGroupId());
+			_dataHolder.add(detailInfo);
+		}
+		_dataHolder.update();
 	}
 	
 	public boolean sendDetailInfo(int matchId, Player player) {

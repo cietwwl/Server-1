@@ -679,15 +679,7 @@ public class TargetSellManager {
 		if(!ServerSwitch.isOpenTargetSell()){
 			return;
 		}
-		
-		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
-			
-			@Override
-			public void run() {
-				//TODO 这里接入发送接口
-				BenefitMsgController.getInstance().addMsg(content);
-			}
-		});
+		BenefitMsgController.getInstance().addMsg(content);
 	}
 
 	

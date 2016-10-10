@@ -10,11 +10,15 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import com.bm.group.GroupBM;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.role.MainMsgHandler;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -106,7 +110,8 @@ public class GCompUtil {
 	public static long getNearTimeMillis(int hour, int minute, long relativeMillis) {
 		Calendar instance = Calendar.getInstance();
 		instance.setTimeInMillis(relativeMillis);
-		if(instance.get(Calendar.HOUR_OF_DAY) > hour) {
+		int hourOfDay = 0;
+		if ((hourOfDay = instance.get(Calendar.HOUR_OF_DAY)) > hour || (hourOfDay == hour && instance.get(Calendar.MINUTE) >= minute)) {
 			instance.add(Calendar.DAY_OF_YEAR, 1);
 		}
 		instance.set(Calendar.HOUR_OF_DAY, hour);
@@ -168,6 +173,31 @@ public class GCompUtil {
 		}
 		GCompUtil.log("---------- timeout millis : {} ----------", millis);
 		return millis;
+	}
+	
+	public static List<String> getTopCountGroupsFromRank() {
+		// 从排行榜获取排名靠前的N个帮派数据
+		List<GCompFightingItem> topGroups = GCompFightingRankMgr.getFightingRankList();
+		List<String> groupIds = new ArrayList<String>(topGroups.size());
+		int topCount = GCompCommonConfig.getTopCountGroups();
+		Group group;
+		String groupId;
+		int minMembersCount = GCompCommonConfig.getMinMemberCountOfGroup();
+		for (int i = 0, size = topGroups.size(); i < size; i++) {
+			groupId = topGroups.get(i).getGroupId();
+			group = GroupBM.get(groupId);
+			if (group.getGroupMemberMgr().getGroupMemberSize() < minMembersCount) {
+				GCompUtil.log("帮派：{}，人数少于：{}，不能入围！", group.getGroupBaseDataMgr().getGroupData().getGroupName(), minMembersCount);
+				continue;
+			}
+			groupIds.add(groupId);
+			topCount--;
+			if (topCount == 0) {
+				break;
+			}
+		}
+		GCompUtil.log("----------入围帮派id : " + groupIds + "----------");
+		return groupIds;
 	}
 	
 	final static public class MessageFormatter {

@@ -1,12 +1,11 @@
 package com.playerdata.groupcompetition.holder;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.groupcompetition.dao.GCompHistoryDataDAO;
+import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -26,25 +25,29 @@ public class GCompHistoryDataHolder {
 		return _instance;
 	}
 	
-	private final List<String> _selectedGroupIds = new ArrayList<String>();
-	
 	private final GCompHistoryDataDAO _dao;
 	
 	protected GCompHistoryDataHolder() {
 		this._dao = GCompHistoryDataDAO.getInstance();
 	}
 	
+	void loadHistoryData() {
+		this._dao.loadHistoryData();
+	}
+	
 	void setSelectedGroupIds(List<String> groupIds) {
-		this._selectedGroupIds.clear();
-		this._selectedGroupIds.addAll(groupIds);
+		this._dao.get().setSelectedGroupIds(groupIds);
+		this._dao.update();
 	}
 	
 	List<String> getSelectedGroupIds() {
-		return Collections.unmodifiableList(_selectedGroupIds);
+		return this._dao.get().getSelectedGroupIds();
 	}
 	
 	void syn(Player player) {
-		ClientDataSynMgr.synData(player, _dao.get(), eSynType.GCompAudition, eSynOpType.UPDATE_SINGLE);
+		GCompHistoryData data = _dao.get();
+		ClientDataSynMgr.synData(player, data, eSynType.GCompAudition, eSynOpType.UPDATE_SINGLE);
+		com.playerdata.groupcompetition.util.GCompUtil.log("同步历史数据，玩家id：{}，数据：{}", player.getUserId(), data);
 	}
 	
 	void addChampion(GCGroup grop) {

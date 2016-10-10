@@ -71,9 +71,6 @@ public class RefOptTmpLoader extends ClassLoader {
 		}
 		
 		if(cls==null){
-			if(name.contains("ApplyInfo")){
-				System.out.println("tt");
-			}
 			cls = 	getSystemClassLoader().loadClass(name);
 		}
 		if(cls == null){

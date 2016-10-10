@@ -36,6 +36,7 @@ enum GCRequestType{
 	GetWinRank = 27;	//连胜排行榜
 	GetScoreRank = 28;	//积分排行榜
 	GetGroupScoreRank = 29; // 帮派积分排行榜
+	InPrepareArea = 30;		//加载完了备战区
 }
 
 enum TeamStatusType {
@@ -43,6 +44,7 @@ enum TeamStatusType {
 	BecomeLeader = 2; // 成为队长
 	CanMatch = 3; // 可匹配
 	StartMatch = 4; // 开始匹配
+	CancelMatch = 5; // 取消匹配
 }
 
 enum GCResultType {
@@ -77,6 +79,7 @@ message CommonGetDataRspMsg {
 	optional SelectionRspData selectionData = 3; // 海选信息（对于GCRequestType.GetSelectionData可用）
 	repeated GCompRankItem rankData = 4;	//排行榜数据
 	optional GCompGroupScoreRankRspData groupScoreRankRspData = 5; // 帮派积分排行榜数据
+	optional GCompRankItem selfRankData = 6;	//自己的排行数据
 }
 
 //备战区同屏玩家坐标
@@ -242,6 +245,7 @@ message GCompRankItem{
 	required string headImage = 3;	//头像
 	required int32 value = 4;	//击杀数、或连胜数、或积分
 	required string groupName = 5;
+	optional int32 rank = 6;	//排名，如果代表个人项，就没有该字段
 }
 
 // 帮派积分排行榜请求的响应数据

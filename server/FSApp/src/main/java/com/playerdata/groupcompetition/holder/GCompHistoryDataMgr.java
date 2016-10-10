@@ -19,6 +19,10 @@ public class GCompHistoryDataMgr {
 		_dataHolder = GCompHistoryDataHolder.getInstance();
 	}
 	
+	public void serverStartComplete() {
+		this._dataHolder.loadHistoryData();
+	}
+	
 	public void setSelectedGroupIds(List<String> groupIds) {
 		this._dataHolder.setSelectedGroupIds(groupIds);
 	} 
