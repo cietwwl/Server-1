@@ -1,6 +1,6 @@
 package com.playerdata.groupcompetition.holder.data;
 
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -15,6 +15,7 @@ import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchType;
 
 @SynClass
 public class GCompMatchData {
+	private static AtomicInteger macthIdGenerate = new AtomicInteger();
 
 	/**
 	 * 新创建一个队伍匹配
@@ -26,7 +27,7 @@ public class GCompMatchData {
 		GCompMatchData matchData = new GCompMatchData();
 		matchData.myTeam = myTeam;
 		matchData.enemyTeam = enemyTeam;
-		matchData.matchId = UUID.randomUUID().toString();
+		matchData.matchId = macthIdGenerate.incrementAndGet();
 		matchData.matchType = GCompMatchType.TEAM_MATCH.type;
 		matchData.finishMatchTime = System.currentTimeMillis();
 		return matchData;
@@ -42,7 +43,7 @@ public class GCompMatchData {
 		GCompMatchData matchData = new GCompMatchData();
 		matchData.myTeam = myTeam;
 		matchData.enemyTeam = enemyTeam;
-		matchData.matchId = UUID.randomUUID().toString();
+		matchData.matchId = macthIdGenerate.incrementAndGet();
 		matchData.matchType = GCompMatchType.TEAM_MATCH.type;
 		matchData.finishMatchTime = System.currentTimeMillis();
 		return matchData;
@@ -50,7 +51,7 @@ public class GCompMatchData {
 
 	/** 使用UUID */
 	@IgnoreSynField
-	private String matchId;// 匹配的Id
+	private int matchId;// 匹配的Id
 	private GCompTeam myTeam;// 己方的队伍信息
 	private GCompTeam enemyTeam;// 敌人的队伍信息
 	/**
@@ -90,7 +91,7 @@ public class GCompMatchData {
 	 * 
 	 * @return
 	 */
-	public String getMatchId() {
+	public int getMatchId() {
 		return matchId;
 	}
 
