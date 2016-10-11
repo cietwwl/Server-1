@@ -9,6 +9,7 @@ import com.playerdata.activity.dateType.ActivityDateTypeEnum;
 import com.playerdata.activity.dateType.ActivityDateTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -29,7 +30,7 @@ public class ActivityDateTypeItemHolder{
 	{
 		
 		List<ActivityDateTypeItem> itemList = new ArrayList<ActivityDateTypeItem>();
-		Enumeration<ActivityDateTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityDateTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityDateTypeItem item = (ActivityDateTypeItem) mapEnum.nextElement();
 			itemList.add(item);
@@ -39,13 +40,13 @@ public class ActivityDateTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityDateTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityDateTypeItem getItem(String userId, ActivityDateTypeEnum typeEnum){		
-		String itemId = ActivityDateTypeHelper.getItemId(userId, typeEnum);
-		return getItemStore(userId).getItem(itemId);
+		int id = Integer.parseInt(typeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 	
@@ -60,8 +61,8 @@ public class ActivityDateTypeItemHolder{
 	
 	public boolean removeItem(Player player,ActivityDateTypeEnum type){
 		
-		String uidAndId = ActivityDateTypeHelper.getItemId(player.getUserId(), type);
-		boolean addSuccess = getItemStore(player.getUserId()).removeItem(uidAndId);
+		Integer id = Integer.parseInt(type.getCfgId());
+		boolean addSuccess = getItemStore(player.getUserId()).removeItem(id);
 		return addSuccess;
 	}
 	
@@ -71,9 +72,8 @@ public class ActivityDateTypeItemHolder{
 	}
 
 	
-	private MapItemStore<ActivityDateTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityDateTypeItem> cache = MapItemStoreFactory.getActivityDateTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityDateTypeItem.class);
+	private PlayerExtPropertyStore<ActivityDateTypeItem> getItemStore(String userId) {
+		return null;
 	}
 	
 }
