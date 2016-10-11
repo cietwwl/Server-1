@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.holder.GCompBaseInfoMgr;
@@ -24,6 +25,7 @@ import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompEventsStartPara;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
+import com.playerdata.groupcompetition.util.GCompGroupMemberLeaveTask;
 import com.playerdata.groupcompetition.util.GCompRestStartPara;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
@@ -268,7 +270,7 @@ public class GroupCompetitionMgr {
 			if (currentData != null) {
 				currentData.reset();
 			}
-//			GCompFightingRankMgr.refreshGroupFightingRank();
+			GCompFightingRankMgr.refreshGroupFightingRank();
 		}
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());
@@ -566,25 +568,26 @@ public class GroupCompetitionMgr {
 			switch (globalData.getCurrentStageType()) {
 			case EVENTS:
 			case SELECTION:
-				baseInfo.setCurrentStageType(globalData.getCurrentStageType());
 				baseInfo.setStart(true);
-				long startTime;
-				long endTime;
-				if(globalData.getCurrentStageType() == GCompStageType.EVENTS) {
-					GCompEventsRecord record = globalData.getCurrentEventsRecord();
-					baseInfo.setEventStatus(record.getCurrentStatus());
-					startTime = record.getCurrentEventsStatusStartTime();
-					endTime = record.getCurrentEventsStatusEndTime();
-				} else {
-					startTime = globalData.getLastHeldTimeMillis();
-					endTime = globalData.getCurrentStageEndTime();
-				}
-				baseInfo.setEndTime(endTime);
-				baseInfo.setStartTime(startTime);
 				break;
 			default:
 				baseInfo.setStart(false);
+				break;
 			}
+			long startTime;
+			long endTime;
+			baseInfo.setCurrentStageType(globalData.getCurrentStageType());
+			if (globalData.getCurrentStageType() == GCompStageType.EVENTS) {
+				GCompEventsRecord record = globalData.getCurrentEventsRecord();
+				baseInfo.setEventStatus(record.getCurrentStatus());
+				startTime = record.getCurrentEventsStatusStartTime();
+				endTime = record.getCurrentEventsStatusEndTime();
+			} else {
+				startTime = globalData.getLastHeldTimeMillis();
+				endTime = globalData.getCurrentStageEndTime();
+			}
+			baseInfo.setEndTime(endTime);
+			baseInfo.setStartTime(startTime);
 		}
 		baseInfo.setSession(globalData.getHeldTimes());
 		return baseInfo;
@@ -592,5 +595,9 @@ public class GroupCompetitionMgr {
 	
 	public void notifyGroupInfoChange(Group group) {
 		GameWorldFactory.getGameWorld().asynExecute(new GCompUpdateGroupInfoTask(group));
+	}
+	
+	public void notifyGroupMemberLeave(Group group, String userId) {
+		GameWorldFactory.getGameWorld().asynExecute(new GCompGroupMemberLeaveTask(group.getGroupBaseDataMgr().getGroupData().getGroupId(), userId));
 	}
 }

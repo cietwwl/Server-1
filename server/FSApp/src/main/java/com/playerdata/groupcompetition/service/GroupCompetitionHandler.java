@@ -275,7 +275,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
-		GCompUtil.log("帮派争霸，teamRequest，请求类型 : {}, 结果：{}, {}", teamRequest.getReqType(), processResult.getT1(), processResult.getT2());
+		GCompUtil.log("帮派争霸，teamRequest，userId：{}, 请求类型 : {}, 结果：{}, {}", player.getUserId(), teamRequest.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
@@ -342,7 +342,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
-		GCompUtil.log("帮派争霸，teamStatusRequest，请求类型 : {}, 结果：{}, {}", request.getReqType(), processResult.getT1(), processResult.getT2());
+		GCompUtil.log("帮派争霸，teamStatusRequest，userId：{}, 请求类型 : {}, 结果：{}, {}", player.getUserId(), request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
