@@ -160,14 +160,6 @@ public class UserEventMgr {
 		RoleLoginDaily(player, lastLoginTime);
 	}
 	
-	/**登陆行为分类-每日*/
-	private void RoleLoginDaily(Player player, long lastLoginTime) {
-		UserEvent userEventOther = new UserEvent(UserEventType.LOGINDAILY, lastLoginTime);
-		raiseEvent(player, userEventOther);
-	}
-	
-	
-	
 	/*传入充值额度*/
 	public void charge(Player player ,int chargevalue){
 		UserEvent userEvent = new UserEvent(UserEventType.CHARGE, chargevalue);
@@ -175,11 +167,7 @@ public class UserEventMgr {
 		chargeDaily(player ,chargevalue);
 	}
 	
-	/**付费行为分类-每日*/
-	private void chargeDaily(com.playerdata.Player player2, int chargevalue) {
-		UserEvent userEvent = new UserEvent(UserEventType.CHARGEDAILY, chargevalue);
-		raiseEvent(player2, userEvent);		
-	}
+	
 	
 	
 	/*传入消耗钻石数*/
@@ -189,35 +177,13 @@ public class UserEventMgr {
 		goldSpendDaily(player, GoldSpending);
 		goldSpendVitality(player, GoldSpending);
 		goldSpendVitalityTwo(player, GoldSpending);
-		goldSpendRedEnvelope(player,GoldSpending);		
+		goldSpendRedEnvelope(player,GoldSpending);
+		
 	}
 	
-	/**消费行为分类-每日*/
-	private void goldSpendDaily(Player player,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.GOLDSPENDDAILY, count);
-		raiseEvent(player, userEvent);
-	}
 	
-	/**消费行为分类-活跃之王*/
-	private void goldSpendVitality(com.playerdata.Player player,
-			int goldSpending) {
-		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingVitality, goldSpending);
-		raiseEvent(player, userEvent);		
-	}
-	
-	/**消费行为分类-活跃之王二*/
-	private void goldSpendVitalityTwo(com.playerdata.Player player,
-			int goldSpending) {
-		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingVitalityTwo, goldSpending);
-		raiseEvent(player, userEvent);		
-	}
 
-	/**消费行为分类-开服红包*/
-	private void goldSpendRedEnvelope(Player player,
-			int goldSpending) {
-		UserEvent userEvent = new UserEvent(UserEventType.spendGoldRedEnvelope, goldSpending);
-		raiseEvent(player, userEvent);		
-	}
+	
 
 	/*传入通关副本数*/
 	public void CopyWin(Player player, int winnum) {		
@@ -240,24 +206,8 @@ public class UserEventMgr {
 		battleTowerVitalityTwo(player, winnum);
 	}
 	
-	/**封神台行为分类-每日*/
-	private void battleTowerDaily(Player player,int count){
-		UserEvent userEvent = new UserEvent(UserEventType.BATTLETOWERDAILY, count);
-		raiseEvent(player, userEvent);
-	}
-
-	/**封神台行为分类-活跃之王*/
-	private void battleTowerVitality(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.BattleTowerVitality, count);
-		raiseEvent(player, userEvent);			
-	}
 	
-	/**封神台行为分类-活跃之王二*/
-	private void battleTowerVitalityTwo(com.playerdata.Player player,
-			int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.BattleTowerVitalityTwo, count);
-		raiseEvent(player, userEvent);			
-	}
+
 	
 
 	/**此处传入的是钓鱼获得的经验丹count数级货币类型*/
@@ -271,6 +221,7 @@ public class UserEventMgr {
 	
 	/**钓鱼行为分类-金币*/
 	public void GambleCoin(Player player, int count ) {
+		
 		UserEvent userEvent = new UserEvent(UserEventType.GAMBLE_COIN, count);
 		raiseEvent(player, userEvent);
 	}
@@ -284,24 +235,13 @@ public class UserEventMgr {
 			GambleGoldVitalityTwo(player, count);
 	}
 	
-	/*钻石钓鱼分类-每日*/
-	private void GambleGoldDaily(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.GAMBLEGOLDDAILY, count);
-		raiseEvent(player, userEvent);		
-	}
 	
-	/**钓鱼行为分类-钻石钓鱼活跃之王*/
-	private void GambleGoldVitality(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.GambleGoldVitality, count);
-		raiseEvent(player, userEvent);		
+
+	/**登陆行为分类-每日*/
+	private void RoleLoginDaily(Player player, long lastLoginTime) {
+		UserEvent userEventOther = new UserEvent(UserEventType.LOGINDAILY, lastLoginTime);
+		raiseEvent(player, userEventOther);
 	}
-	
-	/**钓鱼行为分类-钻石钓鱼活跃之王二*/
-	private void GambleGoldVitalityTwo(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.GambleGoldVitalityTwo, count);
-		raiseEvent(player, userEvent);		
-	}
-	
 	
 	
 	/*传入聚宝之地通关次数*/
@@ -309,25 +249,18 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.TREASURELANDDAILY, winnum);
 		raiseEvent(player, userEvent);		
 		TreasureLandCopyWinVitality(player,winnum);
-		TreasureLandCopyWinVitalityTwo(player,winnum);		
+		TreasureLandCopyWinVitalityTwo(player,winnum);
+		
 	}
 	
-	/**聚宝之地行为分类-活跃之王*/
-	private void TreasureLandCopyWinVitality(Player player,
-			int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.TreasureLandVitality, count);
-		raiseEvent(player, userEvent);
-	}
 	
-	/**聚宝之地行为分类-活跃之王*/
-	private void TreasureLandCopyWinVitalityTwo(Player player,
-			int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.TreasureLandVitalityTwo, count);
-		raiseEvent(player, userEvent);
-	}
 	
 
-	
+	/*钻石钓鱼分类-每日*/
+	private void GambleGoldDaily(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.GAMBLEGOLDDAILY, count);
+		raiseEvent(player, userEvent);		
+	}
 	
 	/*传入升级次数*/
 	public void UpGradeStarDaily(Player player,int count){
@@ -339,7 +272,19 @@ public class UserEventMgr {
 	public void advanceDaily(Player player,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.ADVANCEDAILY, count);
 		raiseEvent(player, userEvent);		
-	}	
+	}
+	
+	/**封神台行为分类-每日*/
+	private void battleTowerDaily(Player player,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.BATTLETOWERDAILY, count);
+		raiseEvent(player, userEvent);
+	}
+	
+	/**付费行为分类-每日*/
+	private void chargeDaily(com.playerdata.Player player2, int chargevalue) {
+		UserEvent userEvent = new UserEvent(UserEventType.CHARGEDAILY, chargevalue);
+		raiseEvent(player2, userEvent);		
+	}
 	
 	/*传入获得的积分数*/
 	public void ArenaDaily(Player player,int count){
@@ -349,17 +294,7 @@ public class UserEventMgr {
 		arenaVitalityTwo(player,1);
 	}
 	
-	/**竞技行为分类-活跃之王*/
-	private void arenaVitality(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.arenaVitality, count);
-		raiseEvent(player, userEvent);		
-	}
 	
-	/**竞技行为分类-活跃之王*/
-	private void arenaVitalityTwo(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.arenaVitalityTwo, count);
-		raiseEvent(player, userEvent);		
-	}
 
 	/*传入金币消耗数*/
 	public void coinSpendDaily(Player player,int count){
@@ -377,17 +312,28 @@ public class UserEventMgr {
 		}
 	}
 	
-	/**附灵行为分类-活跃之王*/
-	private void attachVitality(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.AttachVitality, count);
+	
+
+	/**消费行为分类-每日*/
+	private void goldSpendDaily(Player player,int count){
+		UserEvent userEvent = new UserEvent(UserEventType.GOLDSPENDDAILY, count);
+		raiseEvent(player, userEvent);
+	}
+	
+	/**消费行为分类-活跃之王*/
+	private void goldSpendVitality(com.playerdata.Player player,
+			int goldSpending) {
+		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingVitality, goldSpending);
 		raiseEvent(player, userEvent);		
 	}
 	
-	/**附灵行为分类-活跃之王*/
-	private void attachVitalityTwo(Player player, int count) {
-		UserEvent userEvent = new UserEvent(UserEventType.AttachVitalityTwo, count);
-		raiseEvent(player, userEvent);		
-	}	
+	/**消费行为分类-活跃之王二*/
+	private void goldSpendVitalityTwo(com.playerdata.Player player,
+			int goldSpending) {
+		UserEvent userEvent = new UserEvent(UserEventType.GoldSpendingVitalityTwo, goldSpending);
+		raiseEvent(player, userEvent);
+		
+	}
 	
 	/*传入赠送体力次数*/
 	public void givePowerVitality(Player player,int count){
@@ -400,7 +346,18 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.GivePowerVitalityTwo, count);
 		raiseEvent(player, userEvent);
 	}
-	
+	/**聚宝之地行为分类-活跃之王*/
+	private void TreasureLandCopyWinVitality(Player player,
+			int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.TreasureLandVitality, count);
+		raiseEvent(player, userEvent);
+	}
+	/**聚宝之地行为分类-活跃之王*/
+	private void TreasureLandCopyWinVitalityTwo(Player player,
+			int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.TreasureLandVitalityTwo, count);
+		raiseEvent(player, userEvent);
+	}
 	
 	/**传入万仙阵获得徽记数*/
 	public void TowerVitality(Player player,int count){
@@ -413,7 +370,31 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.TowerVitalityTwo, count);
 		raiseEvent(player, userEvent);		
 	}
+	
+	/**封神台行为分类-活跃之王*/
+	private void battleTowerVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.BattleTowerVitality, count);
+		raiseEvent(player, userEvent);			
+	}
+	/**封神台行为分类-活跃之王二*/
+	private void battleTowerVitalityTwo(com.playerdata.Player player,
+			int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.BattleTowerVitalityTwo, count);
+		raiseEvent(player, userEvent);	
 		
+	}
+	
+	/**附灵行为分类-活跃之王*/
+	private void attachVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.AttachVitality, count);
+		raiseEvent(player, userEvent);		
+	}
+	/**附灵行为分类-活跃之王*/
+	private void attachVitalityTwo(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.AttachVitalityTwo, count);
+		raiseEvent(player, userEvent);		
+	}
+	
 	/**传入重置精英本次数*/
 	public void ResetElityVitality(Player player,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.ResetElityVitality, count);
@@ -439,7 +420,9 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.HeroUpgradeVitalityTwo, count);
 		raiseEvent(player, userEvent);
 	}
-		
+	
+	
+	
 	/**传入无尽战火的关卡id及小怪波数*/
 	public void warFareDifficultyTwoVitality(Player player,int levelId ,int count){		
 		int[] ints = {levelId,count};
@@ -453,7 +436,9 @@ public class UserEventMgr {
 		int[] ints = {levelId,count};
 		UserEvent userEvent = new UserEvent(UserEventType.WarfareDifficultyTwoVitalityTwo, ints);
 		raiseEvent(player, userEvent);
-	}	
+	}
+	
+	
 	
 	/**传入仙阵商店购买次数*/
 	public void buyInTowerShopVitality(Player player ,int count){
@@ -467,7 +452,8 @@ public class UserEventMgr {
 		UserEvent userEvent = new UserEvent(UserEventType.BuyInTowerShopVitalityTwo, count);
 		raiseEvent(player, userEvent);
 		//buyInTowerShopVitalityTwo(player ,count);
-	}	
+	}
+	
 	
 	/**传入购买体力次数*/
 	public void buyPowerVitality(Player player ,int count){
@@ -475,12 +461,13 @@ public class UserEventMgr {
 		raiseEvent(player, userEvent);
 		buyPowerVitalityTwo(player ,count);
 	}
-	
 	/**购买体力行为分类-活跃之王二*/
 	private void buyPowerVitalityTwo(Player player ,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.BuyPowerVitalityTwo, count);
 		raiseEvent(player, userEvent);
-	}	
+	}
+	
+	
 	
 	/**传入捐献次数*/
 	public void factionDonateVitality(Player player ,int count){
@@ -514,25 +501,25 @@ public class UserEventMgr {
 		raiseEvent(player, userEvent);
 		LearnSkillInfactionVitalityTwo(player ,count);
 	}
-	
 	/**学习帮派技能行为分类-活跃之王二*/
 	private void LearnSkillInfactionVitalityTwo(Player player ,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.LearnSkillInfactionVitalityTwo, count);
 		raiseEvent(player, userEvent);
-	}	
+	}
+	
 	
 	/**传入法宝当前级别数*/
 	public void StrengthenMagicVitality(Player player ,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.StrengthenMagicVitality, count);
 		raiseEvent(player, userEvent);
-		StrengthenMagicVitalityTwo(player ,count);		
+		StrengthenMagicVitalityTwo(player ,count);
 	}
-	
 	/**法宝强化行为分类-活跃之王二*/
 	private void StrengthenMagicVitalityTwo(Player player ,int count){
 		UserEvent userEvent = new UserEvent(UserEventType.StrengthenMagicVitalityTwo, count);
 		raiseEvent(player, userEvent);
-	}	
+	}
+	
 	
 	/**传入使用钥匙类型和个数*/
 	public void UseSilverKeyVitality(Player player ,EKeyType type,int count){
@@ -549,11 +536,48 @@ public class UserEventMgr {
 			raiseEvent(player, userEvent);
 		}
 	}
+	
+	
+	
+	/**钓鱼行为分类-钻石钓鱼活跃之王*/
+	private void GambleGoldVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.GambleGoldVitality, count);
+		raiseEvent(player, userEvent);
 		
+	}
+	/**钓鱼行为分类-钻石钓鱼活跃之王二*/
+	private void GambleGoldVitalityTwo(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.GambleGoldVitalityTwo, count);
+		raiseEvent(player, userEvent);
+		
+	}
+	/**竞技行为分类-活跃之王*/
+	private void arenaVitality(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.arenaVitality, count);
+		raiseEvent(player, userEvent);
+		
+	}
+	/**竞技行为分类-活跃之王*/
+	private void arenaVitalityTwo(Player player, int count) {
+		UserEvent userEvent = new UserEvent(UserEventType.arenaVitalityTwo, count);
+		raiseEvent(player, userEvent);
+		
+	}
+	
+	/**消费行为分类-开服红包*/
+	private void goldSpendRedEnvelope(Player player,
+			int goldSpending) {
+		UserEvent userEvent = new UserEvent(UserEventType.spendGoldRedEnvelope, goldSpending);
+		raiseEvent(player, userEvent);		
+	}
+	
 	public void raiseEvent(Player player, UserEvent userEvent){
 		IUserEventHandler eventHandler = eventHandlerMap.get(userEvent.getEventType());
 		if(eventHandler!=null){
-			eventHandler.doEvent(player, userEvent.getParam());		
+			eventHandler.doEvent(player, userEvent.getParam());
+		
 		}
-	}	
+	}
+	
+	
 }

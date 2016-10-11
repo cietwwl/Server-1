@@ -13,7 +13,6 @@ import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.UserEventHandleTask;
 
 public class UserEventLoginHandler implements IUserEventHandler{
 
