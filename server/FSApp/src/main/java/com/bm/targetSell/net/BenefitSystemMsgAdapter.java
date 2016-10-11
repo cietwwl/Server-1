@@ -27,6 +27,9 @@ public class BenefitSystemMsgAdapter {
 	//用于计算包头的key
 	private final static int MSG_KEY = 13542;
 	
+	//接收消息的最大buffer容量
+	private final static int RECV_BUFFER_SIZE = 1024 * 32 ;
+	
 	private Socket socket;
 	
 	private DataOutputStream output;
@@ -34,6 +37,8 @@ public class BenefitSystemMsgAdapter {
 	private DataInputStream reader;
 
 	private final SocketAddress remoteAddress;
+	
+	private final SocketAddress localAddress;
 	
 	private int timeoutMillis;
 
@@ -45,8 +50,9 @@ public class BenefitSystemMsgAdapter {
 	//连接成功标记
 	private AtomicBoolean connectComplete = new AtomicBoolean(false);
 	
-	public BenefitSystemMsgAdapter(String host, int port, int timeoutMillis) {
+	public BenefitSystemMsgAdapter(String host, int port, int localPort, int timeoutMillis) {
 		remoteAddress = new InetSocketAddress(host, port);
+		localAddress = new InetSocketAddress(localPort);
 		this.timeoutMillis = timeoutMillis;
 		connect();
 		startReciver();
@@ -77,6 +83,7 @@ public class BenefitSystemMsgAdapter {
 //		System.out.println("================try to connet target sell server~");
 		try {
 			this.socket = createSocket();//重新创建一个
+			this.socket.bind(localAddress);//绑定本地端口
 			socket.connect(remoteAddress , timeoutMillis);//这个会阻塞,到超时或连接成功
 			this.output = new DataOutputStream(socket.getOutputStream());
 			this.reader = new DataInputStream(socket.getInputStream());
@@ -137,7 +144,8 @@ public class BenefitSystemMsgAdapter {
 	 */
 	private String decodeData(int headerContent) throws IOException{
 		int bodyLen = headerContent ^ MSG_KEY;
-		System.out.println("----------------recv msg, msg lenght:" + bodyLen);
+//		System.out.println("----------------recv msg, msg lenght:" + bodyLen);
+		bodyLen = Math.min(bodyLen, RECV_BUFFER_SIZE);
 		byte[] temp = new byte[bodyLen];
 		reader.read(temp);
 		return new String(temp,"utf-8");
@@ -170,7 +178,22 @@ public class BenefitSystemMsgAdapter {
 							
 							while ((len = reader.readInt()) != -1) {
 								
-								reString = decodeData(len);
+								//拆包获取包体内容
+								int bodyLen = len ^ MSG_KEY;
+								System.out.println("----------------recv msg, msg lenght:" + bodyLen);
+								if(bodyLen > RECV_BUFFER_SIZE){
+									//如果超过上限，不进行处理, 因为3K有18个礼包左右，超过32k应该是数据有问题了
+									reader.skipBytes(bodyLen);
+									GameLog.error("BenefitSystem", "BenefitSystem", "读取精准服数据，发现超过上限，长度为：" + bodyLen, null);
+									continue;
+								}
+								
+								bodyLen = Math.min(bodyLen, RECV_BUFFER_SIZE);
+								byte[] temp = new byte[bodyLen];
+								reader.read(temp);
+								reString =  new String(temp,"utf-8");
+								
+								
 								System.out.println("recv response :" + reString);
 								GameWorldFactory.getGameWorld().asynExecute(new ResponseTask(reString));
 							}

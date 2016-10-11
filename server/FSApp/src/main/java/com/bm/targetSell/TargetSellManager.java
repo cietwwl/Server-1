@@ -39,6 +39,7 @@ import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.MD5;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
+import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -71,7 +72,7 @@ public class TargetSellManager {
 	
 	public final static String publicKey = "6489CD1B7E9AE5BD8311435";//用于校验的key
 	public final static String appId = "1012";//用于校验的游戏服务器app id
-	public final static int linkId = 90173356;//这个id是随意定的，银汉那边并不做特殊要求
+	public final static int linkId = GameManager.getZoneId();//这个id是随意定的，银汉那边并不做特殊要求.所以暂时用zoneID
 	public final static String ACTION_NAME = "all"; //默认的actionName
 	
 	public final static String MD5_Str = MD5.getMD5String(appId + "," + linkId + "," + publicKey);

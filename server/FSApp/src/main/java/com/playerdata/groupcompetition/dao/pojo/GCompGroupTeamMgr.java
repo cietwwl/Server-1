@@ -36,9 +36,11 @@ public class GCompGroupTeamMgr {
 	public List<GCompTeam> removeAll() {
 		List<GCompTeam> teams = new ArrayList<GCompTeam>();
 		for (Iterator<String> keyItr = _teamDatasByGroup.keySet().iterator(); keyItr.hasNext();) {
-			teams.addAll(_teamDatasByGroup.get(keyItr.next()));
+			List<GCompTeam> tempTeams = _teamDatasByGroup.get(keyItr.next());
+			teams.addAll(tempTeams);
+			tempTeams.clear();
 		}
-		_teamDatasByGroup.clear();
+//		_teamDatasByGroup.clear();
 		_teamDatas.clear();
 		return teams;
 	}

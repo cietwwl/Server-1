@@ -61,10 +61,17 @@ public class GCompGroupScoreRecord {
 		this.result = result;
 	}
 
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+	
+	public void setGroupIcon(String groupIcon) {
+		this.groupIcon = groupIcon;
+	}
+
 	@Override
 	public String toString() {
 		return "GCompGroupScoreRecord [groupId=" + groupId + ", groupName=" + groupName + ", score=" + score + ", result=" + result + "]";
 	}
-	
 	
 }

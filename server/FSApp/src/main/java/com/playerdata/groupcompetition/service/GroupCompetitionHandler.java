@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
@@ -21,6 +22,7 @@ import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.rank.GCompRankMgr;
+import com.playerdata.groupcompetition.rank.ScoreInfoInPrepareMgr;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
@@ -41,6 +43,7 @@ import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankItem;
 import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankRspData;
 import com.rwproto.GroupCompetitionProto.GCompHistoryChampion;
+import com.rwproto.GroupCompetitionProto.GroupScoreData;
 import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
@@ -272,7 +275,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
-		GCompUtil.log("帮派争霸，teamRequest，请求类型 : {}, 结果：{}, {}", teamRequest.getReqType(), processResult.getT1(), processResult.getT2());
+		GCompUtil.log("帮派争霸，teamRequest，userId：{}, 请求类型 : {}, 结果：{}, {}", player.getUserId(), teamRequest.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
@@ -339,7 +342,7 @@ public class GroupCompetitionHandler {
 		default:
 			return ByteString.EMPTY;
 		}
-		GCompUtil.log("帮派争霸，teamStatusRequest，请求类型 : {}, 结果：{}, {}", request.getReqType(), processResult.getT1(), processResult.getT2());
+		GCompUtil.log("帮派争霸，teamStatusRequest，userId：{}, 请求类型 : {}, 结果：{}, {}", player.getUserId(), request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
 	
@@ -461,8 +464,32 @@ public class GroupCompetitionHandler {
 		rspBuilder.setGroupScoreRankRspData(builder.build());
 		return rspBuilder.build().toByteString();
 	}
+	
+	public ByteString getGroupNewestScore(Player player, CommonGetDataReqMsg request) {
+		List<IReadOnlyPair<String, Integer>> list = GCompDetailInfoMgr.getInstance().getNewestScore(request.getMatchId());
+		List<GroupScoreData> dataList;
+		if (list.size() > 0) {
+			dataList = new ArrayList<GroupScoreData>(list.size());
+			for (IReadOnlyPair<String, Integer> pair : list) {
+				dataList.add(GroupScoreData.newBuilder().setGroupId(pair.getT1()).setScore(pair.getT2()).build());
+			}
+		} else {
+			dataList = Collections.emptyList();
+		}
+		CommonGetDataRspMsg.Builder rspBuilder = CommonGetDataRspMsg.newBuilder();
+		rspBuilder.setRstType(GCResultType.SUCCESS);
+		rspBuilder.addAllGroupScoreData(dataList);
+		return rspBuilder.build().toByteString();
+	}
 
 	public void inPrepareArea(Player player) {
 		PrepareAreaMgr.getInstance().inPrepareArea(player);
+	}
+
+	public ByteString getFightInfoInScene(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		ScoreInfoInPrepareMgr.getInstance().getFightInfoInScene(player);
+		builder.setRstType(GCResultType.SUCCESS);
+		return builder.build().toByteString();
 	}
 }
