@@ -38,6 +38,7 @@ public class TableZoneInfo {
 	private int giftCodeServerPort;  // 兑换码服务器端口
 	private String benefitServerIp;//精准营销服ip
 	private int benefitServerPort;//精准营销服端口
+	private int benefitLocalPort;//本地绑定端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -177,6 +178,12 @@ public class TableZoneInfo {
 	}
 	public void setBenefitServerPort(int benefitServerPort) {
 		this.benefitServerPort = benefitServerPort;
+	}
+	public int getBenefitLocalPort() {
+		return benefitLocalPort;
+	}
+	public void setBenefitLocalPort(int benefitLocalPort) {
+		this.benefitLocalPort = benefitLocalPort;
 	}
 	
 	
