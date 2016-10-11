@@ -21,6 +21,8 @@ public class GCompMember implements Comparable<GCompMember> {
 	@IgnoreSynField
 	private String userName; //
 	@IgnoreSynField
+	private long lastUpdateTime; // 上一次更新的时间
+	@IgnoreSynField
 	private static IGCompMemberAgent _robotAgent = new GCompMemberRobotAgent();
 	@IgnoreSynField
 	private static IGCompMemberAgent _commonAgent = new GCompMemberCommonAgent();
@@ -42,6 +44,7 @@ public class GCompMember implements Comparable<GCompMember> {
 
 	void updateScore(int offset) {
 		this.score += offset;
+		lastUpdateTime = System.currentTimeMillis();
 	}
 
 	int getContinueWins() {
@@ -54,10 +57,12 @@ public class GCompMember implements Comparable<GCompMember> {
 		if (this.maxContinueWins < this.continueWins) {
 			this.maxContinueWins = this.continueWins;
 		}
+		lastUpdateTime = System.currentTimeMillis();
 	}
 
 	void resetContinueWins() {
 		this.continueWins = 0;
+		lastUpdateTime = System.currentTimeMillis();
 	}
 
 	void incRobotContinueWins() {
@@ -106,6 +111,10 @@ public class GCompMember implements Comparable<GCompMember> {
 
 	public int getGroupScore() {
 		return groupScore;
+	}
+	
+	public long getLastUpdateTime() {
+		return lastUpdateTime;
 	}
 
 	@Override

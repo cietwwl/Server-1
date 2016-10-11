@@ -36,7 +36,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.groupcompetition.battle.GCompMatchBattleCheckTask;
+import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
@@ -92,7 +92,6 @@ public class GameManager {
 	private static int connectTimeOutMillis;
 	private static int heartBeatInterval;
 
-
 	/**
 	 * 初始化所有后台服务
 	 */
@@ -114,23 +113,24 @@ public class GameManager {
 		MapItemStoreFactory.init();
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), "dataSourceMT");
+
 		try {
 			HeroPropertyMigration.getInstance().execute();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		
 		// initServerProperties();
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
-		
-		/************启动精准营销**************/
 
-		if(ServerSwitch.isOpenTargetSell()){
+		/************ 启动精准营销 **************/
+
+		if (ServerSwitch.isOpenTargetSell()) {
 			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
 			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
+					zoneInfo.getBenefitLocalPort(),
 					connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
@@ -193,9 +193,8 @@ public class GameManager {
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		WorshipMgr.getInstance().getByWorshipedList();
 		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
-		GCompMatchBattleCheckTask.start();// 启动一个帮派争霸战斗结果的时效
-	
-		
+
+		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 	}
@@ -223,10 +222,9 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-
 			gmAccount = props.getProperty("gmAccount");
 			gmPassword = props.getProperty("gmPassword");
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -243,7 +241,7 @@ public class GameManager {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
 			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
-			
+
 			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
 			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
 			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
@@ -300,7 +298,7 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-		//通知精准营销停服
+		// 通知精准营销停服
 		BenefitMsgController.getInstance().shutDownNotify();
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
@@ -436,7 +434,6 @@ public class GameManager {
 	public static ServerPerformanceConfig getPerformanceConfig() {
 		return performanceConfig;
 	}
-
 
 	public static String getGmAccount() {
 		return gmAccount;

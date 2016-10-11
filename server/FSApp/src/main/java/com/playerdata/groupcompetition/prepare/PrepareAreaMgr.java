@@ -5,6 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,6 +29,7 @@ import com.rwproto.GroupCompetitionProto.PlayerBaseInfo;
 public class PrepareAreaMgr {
 	
 	public static eSynType synType = eSynType.GC_PREPARE_POSITION;
+	public static long SCENE_KEEP_TIME = 5 * 60 * 1000l;
 	private HashMap<String, Long> groupScene;
 	
 	private static PrepareAreaMgr instance = new PrepareAreaMgr();
@@ -36,15 +39,49 @@ public class PrepareAreaMgr {
 	}
 	
 	/**
+	 * 因为GM命令，中间本来该有的空间没有了，所以需要这个变量
+	 */
+	private volatile boolean needRemoveScene = true;
+	
+	/**
 	 * 加入备战区
 	 * @param player
 	 * @param gcRsp
 	 * @param position
 	 */
 	public void enterPrepareArea(Player player, Builder gcRsp, AreaPosition position) {
+		String groupId = GroupHelper.getGroupId(player);
+		if (GroupCompetitionMgr.getInstance().getCurrentStageType() != GCompStageType.EVENTS) {
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("当前不是赛事阶段！");
+			return;
+		}
+		switch (GroupCompetitionMgr.getInstance().getCurrentEventsStatus()) {
+		case NONE:
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("当前不是比赛状态！");
+			return;
+		case FINISH:
+		default:
+			break;
+		}
+		if (player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getJoinTime() > GroupCompetitionMgr.getInstance().getEndTimeOfSelection()) {
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("海选期结束之后加入的成员不能参与帮战！");
+			return;
+		}
+		if(StringUtils.isBlank(groupId)){
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("请先加入帮派");
+			return;
+		}
+		if(groupScene == null || !groupScene.containsKey(groupId)){
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
+			return;
+		}
 		informPreparePosition(player, gcRsp, position);
 		if(gcRsp.getRstType() == GCResultType.SUCCESS){
-			String groupId = GroupHelper.getGroupId(player);
 			long sceneId = groupScene.get(groupId);
 			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
 			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
@@ -52,7 +89,6 @@ public class PrepareAreaMgr {
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
 			}
-			GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 		}
 	}
 
@@ -64,34 +100,9 @@ public class PrepareAreaMgr {
 	 */
 	public void informPreparePosition(Player player, Builder gcRsp, AreaPosition position) {
 		String groupId = GroupHelper.getGroupId(player);
-		if (GroupCompetitionMgr.getInstance().getCurrentStageType() != GCompStageType.EVENTS) {
-			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
-			gcRsp.setTipMsg("当前不是赛事阶段！");
-			return;
-		}
-		switch (GroupCompetitionMgr.getInstance().getCurrentEventsStatus()) {
-		case FINISH:
-		case NONE:
-			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
-			gcRsp.setTipMsg("当前不是比赛状态！");
-			return;
-		default:
-			break;
-		}
-		if (player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getJoinTime() > GroupCompetitionMgr.getInstance().getEndTimeOfSelection()) {
-			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
-			gcRsp.setTipMsg("海选期结束之后加入的成员不能参与帮战！");
-			return;
-		}
-//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("请先加入帮派");
-			return;
-		}
-		if(groupScene == null || !groupScene.containsKey(groupId)){
-			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
-			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
 			return;
 		}
 		PositionInfo pInfo = new PositionInfo();
@@ -108,7 +119,6 @@ public class PrepareAreaMgr {
 	 */
 	public void leavePrepareArea(Player player, Builder gcRsp) {
 		String groupId = GroupHelper.getGroupId(player);
-//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.SUCCESS);
 			gcRsp.setTipMsg("没有帮派");
@@ -132,7 +142,6 @@ public class PrepareAreaMgr {
 	 */
 	public void applyUsersBaseInfo(Player player, Builder gcRsp, List<String> idList) {
 		String groupId = GroupHelper.getGroupId(player);
-//		String groupId = "9899";
 		if(StringUtils.isBlank(groupId)){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("请先加入帮派");
@@ -173,6 +182,14 @@ public class PrepareAreaMgr {
 		if(null == prepareGroups || prepareGroups.isEmpty()){
 			return;
 		}
+		if(needRemoveScene){
+			if(null != groupScene && !groupScene.isEmpty()){
+				for(Long sceneId : groupScene.values()){
+					DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+				}
+			}
+			needRemoveScene = false;
+		}
 		groupScene = new HashMap<String, Long>();
 		//为每个帮派生成一个准备区
 		for(String groupId : prepareGroups){
@@ -186,14 +203,24 @@ public class PrepareAreaMgr {
 	 * 清除所有的备战区
 	 */
 	public void prepareEnd(){
-		if(null == groupScene){
+		if(null == groupScene || groupScene.isEmpty()){
 			return;
 		}
-		//清除每个帮派的准备区
-		for(Long sceneId : groupScene.values()){
-			SameSceneContainer.getInstance().removeScene(sceneId);
-		}
-		groupScene = null;
+		needRemoveScene = true;
+		Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				if(needRemoveScene){
+					//延时清除每个帮派的准备区
+					for(Long sceneId : groupScene.values()){
+						DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+					}
+					groupScene = null;
+				}
+			}
+		}, SCENE_KEEP_TIME);
 	}
 	
 	/**
@@ -250,5 +277,22 @@ public class PrepareAreaMgr {
 			}
 		}
 		return onlineUsers;
+	}
+
+	/**
+	 * 完成加载界面，进入备战区
+	 * @param player
+	 */
+	public void inPrepareArea(Player player) {
+		GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
+	}
+	
+	/**
+	 * 获取帮派的同屏场景id
+	 * @param groupId
+	 * @return
+	 */
+	public Long getGroupScene(String groupId){
+		return groupScene.get(groupId);
 	}
 }

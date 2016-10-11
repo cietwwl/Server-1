@@ -68,9 +68,9 @@ public class GroupCompetitionMatchingCenter {
 	 * @param groupId
 	 * @param team
 	 */
-	public void cancelMatching(int matchId, String groupId, GCompTeam team) {
+	public boolean cancelMatching(int matchId, String groupId, GCompTeam team) {
 		AgainstMatchingTask data = _matchingDataMap.get(matchId);
-		data.cancelMatching(groupId, team);
+		return data.cancelMatching(groupId, team);
 	}
 	
 	/**
@@ -114,9 +114,9 @@ public class GroupCompetitionMatchingCenter {
 	 * @param groupId
 	 * @param player
 	 */
-	public void cancelRandomMatching(int matchId, String groupId, Player player) {
+	public boolean cancelRandomMatching(int matchId, String groupId, Player player) {
 		AgainstMatchingTask data = _matchingDataMap.get(matchId);
 		GroupMatchingData gmd = data.getGroupMatchingData(groupId);
-		gmd.cancelRandomMatchingData(player.getUserId());
+		return gmd.cancelRandomMatchingData(player.getUserId());
 	}
 }

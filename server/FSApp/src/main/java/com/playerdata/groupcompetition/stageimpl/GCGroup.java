@@ -13,7 +13,6 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
-import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.rwbase.dao.group.pojo.Group;
@@ -36,9 +35,8 @@ public class GCGroup implements IGCGroup {
 	private String leaderName; // 帮主的名字，客户端需要同步的字段
 	@JsonProperty("4")
 	private String assistantName; // 副帮主的名字，客户端需要同步的字段
-	@IgnoreSynField
 	@JsonProperty("5")
-	private String _groupIcon; // 帮派的图标
+	private String groupIcon; // 帮派的图标
 	@JsonProperty("6")
 	private int gCompScore; // 当前的积分
 	@JsonIgnore
@@ -60,21 +58,21 @@ public class GCGroup implements IGCGroup {
 	
 	public static GCGroup createNew(String groupId) {
 		GCGroup instance = new GCGroup();
-		if (groupId == null || groupId.length() == 0) {
+		Group group;
+		if (groupId == null || groupId.length() == 0 || (group = GroupBM.get(groupId)) == null) {
 			instance.groupId = "";
 			instance.groupName = "";
 			instance.leaderName = "";
-			instance._groupIcon = "";
+			instance.groupIcon = "";
 			instance.assistantName = "";
 		} else {
-			Group group = GroupBM.get(groupId);
 			GroupBaseDataIF baseData = group.getGroupBaseDataMgr().getGroupData();
 			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 			Map<Integer, List<GroupMemberDataIF>> map = groupMemberMgr.getAllMemberByPost();
 			instance.groupId = groupId;
 			instance.groupName = baseData.getGroupName();
 			instance.leaderName = groupMemberMgr.getGroupLeader().getName();
-			instance._groupIcon = baseData.getIconId();
+			instance.groupIcon = baseData.getIconId();
 			List<GroupMemberDataIF> assistants = map.get(GroupPost.ASSISTANT_LEADER_VALUE);
 			if (assistants != null && assistants.size() > 0) {
 				instance.assistantName = assistants.get(0).getName();
@@ -106,7 +104,7 @@ public class GCGroup implements IGCGroup {
 
 	@Override
 	public String getIcon() {
-		return _groupIcon;
+		return groupIcon;
 	}
 
 	@Override
@@ -130,6 +128,38 @@ public class GCGroup implements IGCGroup {
 	public String toString() {
 		return "GCGroup [groupId=" + groupId + ", groupName=" + groupName + ", gCompScore=" + gCompScore + ", gCompPower=" + gCompPower + ", groupLv=" + groupLv + ", memberNum=" + memberNum
 				+ ", maxMemberNum=" + maxMemberNum + "]";
+	}
+
+	public int getGroupLv() {
+		return groupLv;
+	}
+
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
+	}
+
+	public void setLeaderName(String leaderName) {
+		this.leaderName = leaderName;
+	}
+
+	public void setGroupLv(int groupLv) {
+		this.groupLv = groupLv;
+	}
+
+	public void setMemberNum(int memberNum) {
+		this.memberNum = memberNum;
+	}
+
+	public void setMaxMemberNum(int maxMemberNum) {
+		this.maxMemberNum = maxMemberNum;
+	}
+
+	public void setGroupIcon(String groupIcon) {
+		this.groupIcon = groupIcon;
+	}
+	
+	public void setFighting(long fighting) {
+		this.gCompPower = fighting;
 	}
 
 }

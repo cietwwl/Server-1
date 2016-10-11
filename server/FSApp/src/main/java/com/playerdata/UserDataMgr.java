@@ -61,12 +61,9 @@ public class UserDataMgr implements PlayerEventListener{
 			if(oldName.equals(nick)){
 				return false;
 			}
-			user.setUserName(nick);
 			if(userDataHolder.updateUserName(player, nick)){
 				user.setUserName(nick);
 				return true;
-			}else{
-				user.setUserName(oldName);
 			}
 		}
 		return false;

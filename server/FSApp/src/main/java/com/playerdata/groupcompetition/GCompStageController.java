@@ -96,6 +96,7 @@ public class GCompStageController {
 			this.createTimerTask(new StageStartConsumer(), endTime);
 		} else {
 			// 没有下一个阶段，直接提交一个任务，然后等待切换到新的一轮
+			GCompUtil.log("---------- 提交一个空任务 ----------");
 			this.createTimerTask(new StageStartConsumer(), _currentStage.getStageEndTime() + 1000);
 		}
 	}
@@ -107,13 +108,14 @@ public class GCompStageController {
 			_currentStage = _stageQueue.removeFirst();
 			// 下一阶段的相关逻辑
 			_currentStage.onStageStart(pre, _firstStageStartPara);
-			GCompUtil.log("---------- 【{}】开始 ----------",  _currentStage.getStageType().getDisplayName());
+			GCompUtil.log("---------- 【{}】开始，上一个是：{} ----------",  _currentStage.getStageType().getDisplayName(), pre == null ? "NULL" : pre.getStageType().getDisplayName());
 			long endTime = _currentStage.getStageEndTime();
 			createTimerTask(new StageEndMonitorConsumer(), endTime);
 			scheduleNextStageStartTask();
 			fireStageChangeEvent();
 		} else {
 			// 没有下一个了，即本轮的所有阶段都已经结束了
+			GCompUtil.log("---------- 没有更多阶段，当前：{} ---------", _currentStage.getStageType().getDisplayName());
 			GroupCompetitionMgr.getInstance().allStageEndOfCurrentRound();
 		}
 	}

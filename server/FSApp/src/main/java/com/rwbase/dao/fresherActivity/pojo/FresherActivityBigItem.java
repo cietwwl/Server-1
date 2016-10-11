@@ -17,7 +17,7 @@ import com.rwbase.common.enu.eActivityType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name="fresheractivity")
 public class FresherActivityBigItem implements RoleExtProperty{
-	
+	@Id
 	@Id
 	private int id;
 	@CombineSave

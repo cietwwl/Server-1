@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
@@ -8,7 +9,10 @@ import com.playerdata.groupcompetition.holder.data.GCompGroupScoreRecord;
 import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.holder.data.GCompPersonalScore;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
+import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.playerdata.groupcompetition.util.GCompUtil;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
 
 public class GCompDetailInfoMgr {
 
@@ -32,7 +36,24 @@ public class GCompDetailInfoMgr {
 		_dataHolder.reset();
 	}
 	
-	public void onEventsEnd() {
+	public void onEventsEnd(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = _dataHolder.get(against.getId());
+			detailInfo.getByGroupId(against.getWinGroupId()).setResult(GCompBattleResult.Win);
+			detailInfo.getByGroupId(against.getWinGroupId().equals(against.getGroupA().getGroupId()) ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId())
+					.setResult(GCompBattleResult.Lose);
+		}
+		_dataHolder.update();
+	}
+	
+	public void onEventsStart(List<GCompAgainst> againsts) {
+		for (int i = 0, size = againsts.size(); i < size; i++) {
+			GCompAgainst against = againsts.get(i);
+			GCompDetailInfo detailInfo = _dataHolder.get(against.getId());
+			detailInfo.getByGroupId(against.getGroupA().getGroupId()).setResult(GCompBattleResult.Fighting);
+			detailInfo.getByGroupId(against.getGroupB().getGroupId()).setResult(GCompBattleResult.Fighting);
+		}
 		_dataHolder.update();
 	}
 
@@ -86,5 +107,35 @@ public class GCompDetailInfoMgr {
 			}
 		}
 		GCompUtil.log("更新GCompScore, matchId:{}, groupId:{}, 目前的detailInfo:{}", matchId, groupId, detailInfo);
+	}
+
+	public void updateDetailInfo(int matchId, String groupId, String groupName, String iconId) {
+		GCompDetailInfo detailInfo = _dataHolder.get(matchId);
+		if (detailInfo != null) {
+			GCompGroupScoreRecord record = detailInfo.getByGroupId(groupId);
+			if (record != null) {
+				record.setGroupName(groupName);
+				record.setGroupIcon(iconId);
+			}
+		}
+	}
+	
+	public List<IReadOnlyPair<String, Integer>> getNewestScore(int matchId) {
+		GCompDetailInfo detailInfo = _dataHolder.get(matchId);
+		List<IReadOnlyPair<String, Integer>> list;
+		if (detailInfo != null) {
+			list = new ArrayList<IReadOnlyPair<String, Integer>>(2);
+			List<GCompGroupScoreRecord> scoreList = detailInfo.getGroupScores();
+			for (GCompGroupScoreRecord record : scoreList) {
+				if (record.getGroupId().length() == 0) {
+					continue;
+				} else {
+					list.add(Pair.Create(record.getGroupId(), record.getScore()));
+				}
+			}
+		} else {
+			list = new ArrayList<IReadOnlyPair<String, Integer>>();
+		}
+		return list;
 	}
 }

@@ -27,14 +27,18 @@ import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompRestStartPara;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.playerdata.groupcompetition.util.GCompStartType;
+import com.playerdata.groupcompetition.util.GCompUpdateFightingTask;
+import com.playerdata.groupcompetition.util.GCompUpdateGroupInfoTask;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
+import com.rwbase.gameworld.GameWorldFactory;
 
 /**
  * 
@@ -77,9 +81,7 @@ public class GroupCompetitionMgr {
 	}
 	
 	private void createAndStartController(List<IGCompStage> stageList, long startTime, Object firstStageStartPara, int session) {
-		GroupCompetitionGlobalData data = _dataHolder.get();
-		int heldTimes = data.getHeldTimes();
-		GCompStageController controller = new GCompStageController(stageList, heldTimes > 0 ? heldTimes : 1, firstStageStartPara);
+		GCompStageController controller = new GCompStageController(stageList, session > 0 ? session : 1, firstStageStartPara);
 		controller.start(startTime); // controller开始
 	}
 	
@@ -170,14 +172,27 @@ public class GroupCompetitionMgr {
 			List<String> loseGroupIds;
 			GCEventsType eventsType = record.getCurrentEventsType();
 			if (eventsType == GCEventsType.FINAL) {
-				GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(GCEventsType.QUATER);
-				List<GCompAgainst> list = eventsData.getAgainsts();
-				winGroupIds = new ArrayList<String>(list.size());
-				loseGroupIds = new ArrayList<String>(list.size());
-				for (int i = 0, size = list.size(); i < size; i++) {
-					GCompAgainst against = list.get(i);
-					winGroupIds.add(against.getWinGroupId());
-					loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
+				if(record.isCurrentTypeFinished()) {
+					IGCompStage restStage = this.filterStage(GCompStageType.REST, stageList);
+					if(restStage != null) {
+						GroupCompetitionStageCfg stageCfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(eventsStage.getStageCfgId());
+						IReadOnlyPair<Integer, Integer> timeInfo = stageCfg.getStartTimeInfo();
+						long startTime = GCompUtil.getNearTimeMillis(timeInfo.getT1().intValue(), timeInfo.getT2().intValue(), System.currentTimeMillis());
+						createAndStartController(stageList, startTime, null, _dataHolder.get().getHeldTimes());
+						record.setCurrentEventsStatusStartTime(startTime);
+						record.setCurrentEventsStatusEndTime(startTime + TimeUnit.MINUTES.toMillis(GCompEventsStatus.getTotalLastMinutes()));
+					}
+					return;
+				} else {
+					GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(GCEventsType.QUATER);
+					List<GCompAgainst> list = eventsData.getAgainsts();
+					winGroupIds = new ArrayList<String>(list.size());
+					loseGroupIds = new ArrayList<String>(list.size());
+					for (int i = 0, size = list.size(); i < size; i++) {
+						GCompAgainst against = list.get(i);
+						winGroupIds.add(against.getWinGroupId());
+						loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
+					}
 				}
 			} else {
 				if (record.isCurrentTypeFinished()) {
@@ -244,7 +259,7 @@ public class GroupCompetitionMgr {
 	
 	void notifyStageChange(IGCompStage currentStage, int sessionId) {
 		GroupCompetitionGlobalData saveData = _dataHolder.get();
-		if (currentStage.getStageType() == GCompStageType.SELECTION && sessionId != saveData.getHeldTimes()) {
+		if (currentStage.getStageType() == GCompStageType.SELECTION && saveData.getCurrentStageType() != GCompStageType.SELECTION) {
 			// 有可能是停服再起服的时候开始的
 			saveData.increaseHeldTimes();
 			saveData.updateLastHeldTime(System.currentTimeMillis());
@@ -253,10 +268,11 @@ public class GroupCompetitionMgr {
 			if (currentData != null) {
 				currentData.reset();
 			}
+//			GCompFightingRankMgr.refreshGroupFightingRank();
 		}
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());
-		this._dataHolder.update();
+		_dataHolder.update();
 		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
 	
@@ -328,6 +344,8 @@ public class GroupCompetitionMgr {
 		GCompEventsDataMgr.getInstance().loadEventsGlobalData(); // 加载赛事数据
 		GCompDetailInfoMgr.getInstance().onServerStartComplete(); // 加载详情数据
 		GCompGroupScoreRankingMgr.getInstance().serverStartComplete(); // 加载积分排名数据
+		GCompHistoryDataMgr.getInstance().serverStartComplete(); // 加载历史数据
+		GCompUpdateFightingTask.submit();
 		this.checkStartGroupCompetition();
 	}
 	
@@ -570,5 +588,9 @@ public class GroupCompetitionMgr {
 		}
 		baseInfo.setSession(globalData.getHeldTimes());
 		return baseInfo;
+	}
+	
+	public void notifyGroupInfoChange(Group group) {
+		GameWorldFactory.getGameWorld().asynExecute(new GCompUpdateGroupInfoTask(group));
 	}
 }

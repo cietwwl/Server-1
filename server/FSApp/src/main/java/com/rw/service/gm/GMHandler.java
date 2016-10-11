@@ -223,12 +223,14 @@ public class GMHandler {
 		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
 		funcCallBackMap.put("requestGCompMatchData".toLowerCase(), "requestGCompMatchData");
 		funcCallBackMap.put("requestGroupScoreRank".toLowerCase(), "requestGroupScoreRank");
+		funcCallBackMap.put("requestGroupNewestScore".toLowerCase(), "requestGroupNewestScore");
 		funcCallBackMap.put("MGCS".toLowerCase(), "moveGroupCompStage");
 		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
 		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
+		funcCallBackMap.put("refreshGCompFighting".toLowerCase(), "refreshGCompFighting");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1580,6 +1582,19 @@ public class GMHandler {
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
 	
+	public boolean requestGroupNewestScore(String[] arrCommandContents, Player player) {
+		int matchId = Integer.parseInt(arrCommandContents[0]);
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetNewestScore).setMatchId(matchId).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
 	public boolean enterPrepareArea(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1771,6 +1786,8 @@ public class GMHandler {
 							.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
 					List<com.rwbase.common.timer.core.FSGameTimeSignal> list = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
 					Class<?> taskClazz = com.playerdata.groupcompetition.util.GCompCommonTask.class;
+					List<com.rwbase.common.timer.core.FSGameTimeSignal> stageList = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
+					List<Set<com.rwbase.common.timer.core.FSGameTimeSignal>> stageSet = new ArrayList<Set<com.rwbase.common.timer.core.FSGameTimeSignal>>();
 					outter: for (int i = 0, length = wheel.length; i < length; i++) {
 						Set<com.rwbase.common.timer.core.FSGameTimeSignal> set = wheel[i];
 						for (Iterator<com.rwbase.common.timer.core.FSGameTimeSignal> itr = set.iterator(); itr.hasNext();) {
@@ -1780,11 +1797,7 @@ public class GMHandler {
 								Object consumerObj = consumerField.get(obj);
 								String consumerName = consumerObj.getClass().getName();
 								if (isEvents) {
-									if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
-										list.add(timeSignal);
-										itr.remove();
-										break outter;
-									} else if (consumerName.contains("EventStatusSwitcher")) {
+									if (consumerName.contains("EventStatusSwitcher")) {
 										// 具体赛事状态的切换器
 										list.add(timeSignal);
 										itr.remove();
@@ -1794,7 +1807,13 @@ public class GMHandler {
 										list.add(timeSignal);
 										itr.remove();
 										break outter;
-									}
+									} else if (isNoneStatus && consumerName.contains("StageEndMonitorConsumer")) {
+										stageList.add(timeSignal);
+										stageSet.add(set);
+									} else if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
+										stageList.add(timeSignal);
+										stageSet.add(set);
+									} 
 								} else {
 									if (consumerName.contains("StageStartConsumer")) {
 										list.add(timeSignal);
@@ -1810,9 +1829,17 @@ public class GMHandler {
 							}
 						}
 					}
-					for (int i = 0; i < list.size(); i++) {
-						com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
-						timeSignal.getTask().onTimeSignal(timeSignal);
+					if(list.size() > 0) {
+						for (int i = 0; i < list.size(); i++) {
+							com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
+							timeSignal.getTask().onTimeSignal(timeSignal);
+						}
+					} else if (stageList.size() > 0) {
+						for (int i = 0; i < stageList.size(); i++) {
+							com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = stageList.get(i);
+							timeSignal.getTask().onTimeSignal(timeSignal);
+							stageSet.get(i).remove(timeSignal);
+						}
 					}
 					wheelField.setAccessible(false);
 					taskField.setAccessible(false);
@@ -1836,4 +1863,23 @@ public class GMHandler {
 		return true;
 	}
 
+	public boolean refreshGCompFighting(String[] arrCommandContents, Player player) {
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					com.playerdata.groupcompetition.util.GCompUpdateFightingTask temp = new com.playerdata.groupcompetition.util.GCompUpdateFightingTask();
+					Method m = temp.getClass().getDeclaredMethod("refreshGroupFighting");
+					m.setAccessible(true);
+					m.invoke(temp);
+					m.setAccessible(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		GameWorldFactory.getGameWorld().asynExecute(r);
+		return true;
+	}
 }

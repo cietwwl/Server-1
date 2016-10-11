@@ -58,9 +58,10 @@ public class GMHeroProcesser {
 					Entry<String, RoleCfg> entry = iterator.next();
 					RoleCfg roleCfg = entry.getValue();
 					String templateId = roleCfg.getRoleId();
-					GMHeroBase.gmAddHero(entry.getKey(), player);
+					int modelId = roleCfg.getModelId();
+					GMHeroBase.gmAddHero(templateId, player);
 					int maxStar = GMHeroBase.gmGetMaxStar(templateId);
-					Hero hero = player.getHeroMgr().getHeroByTemplateId(player, templateId);
+					Hero hero = player.getHeroMgr().getHeroByModerId(player, modelId);
 					GMHeroBase.gmEditHeroLevel(hero, maxLevel, player);
 					GMHeroBase.gmEditHeroStarLevel(hero, maxStar, player);
 					String qualityId = getQualityId(hero, maxQuality,false);
@@ -83,12 +84,10 @@ public class GMHeroProcesser {
 					for (int gemId : gems) {
 						GMHeroBase.gmInlayJewel(hero, player, gemId);
 					}
-					
-					//升级道术
-					GMHeroBase.gmUpgradeTaoist(player, player.getLevel());
-					
-					
 				}
+				
+				//升级道术
+				GMHeroBase.gmUpgradeTaoist(player, player.getLevel());
 			}
 		});
 		

@@ -176,11 +176,13 @@ public class GCompMatchDataHolder {
 		// 队伍战阶段积分：队伍胜利，战败，平局，均可能对个人以及帮派有额外的加分；
 		String matchId = userId2MatchId.get(userId);
 		if (matchId == null) {
+			GCompUtil.log("updateBattleResult，matchId == null！成员：{}", userId);
 			return;
 		}
 
 		GCompMatchData matchData = matchDataMap.get(matchId);
 		if (matchData == null) {
+			GCompUtil.log("updateBattleResult，matchData == null！成员：{}", userId);
 			return;
 		}
 
@@ -220,6 +222,7 @@ public class GCompMatchDataHolder {
 			GCompBattleResult battleResult = member.getResult();
 			if (battleResult == GCompBattleResult.NonStart || battleResult == GCompBattleResult.Fighting) {
 				allBattleFinish = false;
+				GCompUtil.log("updateBattleResult，member.getResult()未完成！当前状态：{}，member：{}", battleResult, member.getArmyInfo().getPlayerName());
 				continue;
 			}
 
@@ -246,13 +249,17 @@ public class GCompMatchDataHolder {
 	 */
 	private void removeMatchCache(String matchId) {
 		GCompMatchData remove = matchDataMap.remove(matchId);
+		GCompUtil.log("removeMatchCache，匹配Id：{}", matchId);
 		if (remove == null) {
 			return;
 		}
 
 		List<GCompTeamMember> members = remove.getMyTeam().getMembers();
 		for (int i = 0, size = members.size(); i < size; i++) {
-			userId2MatchId.remove(members.get(i).getUserId());
+			String userId = members.get(i).getUserId();
+			userId2MatchId.remove(userId);
+
+			GCompUtil.log("removeMatchCache，删除userId：{}>>>对应的匹配Id：{}", userId, matchId);
 		}
 	}
 
@@ -301,7 +308,7 @@ public class GCompMatchDataHolder {
 
 	// 获取队伍的额外奖励
 	private IReadOnlyPair<Integer, Integer> getTeamAdditionalScore(GCompTeam myTeam, GCBattleResult teamResult) {
-		if (myTeam.isPersonal())  {
+		if (myTeam.isPersonal()) {
 			// 如果是个人队伍，没有额外的奖励
 			return _EMPTY_SCORE;
 		}
@@ -321,19 +328,19 @@ public class GCompMatchDataHolder {
 		Pair<Integer, Integer> score = Pair.Create(cfg.getPersonalScore(), cfg.getGroupScore());
 		return score;
 	}
-	
+
 	// 判断队伍里面的成员是否全部都是机器人
 	private boolean checkIfAllRobot(GCompTeam myTeam) {
 		List<GCompTeamMember> allMembers = myTeam.getMembers();
-		for(int i = 0, size = allMembers.size(); i < size; i++) {
+		for (int i = 0, size = allMembers.size(); i < size; i++) {
 			GCompTeamMember member = allMembers.get(i);
-			if(!member.isRobot()) {
+			if (!member.isRobot()) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	// 对GCompGroupMember的胜利次进行处理
 	private void processWinTimes(GCBattleResult result, GCompMember gCompMember, GCompTeamMember member, IGCompMemberAgent agent) {
 		agent = GCompMember.getAgent(member.isRobot());
@@ -349,7 +356,7 @@ public class GCompMatchDataHolder {
 			break;
 		}
 	}
-	
+
 	private void sendRspMsg(List<String> playerIdList, List<IReadOnlyPair<Integer, Integer>> scoreResult, GCBattleResult result) {
 		// 组合消息
 		// 结果响应消息
@@ -378,19 +385,19 @@ public class GCompMatchDataHolder {
 	 * @param result
 	 */
 	private void teamBattleResultHandler(GCompTeam myTeam, GCBattleResult result) {
-		if(!myTeam.isInBattle()) {
+		if (!myTeam.isInBattle()) {
 			GCompUtil.log("队伍结算，重复结算，队伍id：{}", result, myTeam.getTeamId());
 			return;
 		}
 		myTeam.setInBattle(false);
 		GCompUtil.log("队伍结算，战斗结果：{}，队伍id：{}", result, myTeam.getTeamId());
-		if(checkIfAllRobot(myTeam)) {
+		if (checkIfAllRobot(myTeam)) {
 			GCompUtil.log("队伍id：{}，全部成员都是机器人，不进行成员结算！", myTeam.getTeamId());
 			return;
 		}
 		String groupId = GroupHelper.getUserGroupId(myTeam.getLeaderId());
 		IReadOnlyPair<Integer, Integer> teamScore = this.getTeamAdditionalScore(myTeam, result); // 队伍额外积分的计算
-		
+
 		GCGroup group = GCompEventsDataMgr.getInstance().getGCGroupOfCurrentEvents(groupId);
 		int totalGroupScore = 0; // 加给帮派的总积分
 		IGCompMemberAgent agent;
@@ -400,12 +407,13 @@ public class GCompMatchDataHolder {
 		List<String> playerIdList = new ArrayList<String>(size);
 		List<GCompPersonFightingRecord> personFightingRecords = new ArrayList<GCompPersonFightingRecord>(size);
 		List<IReadOnlyPair<Integer, Integer>> memberScores = new ArrayList<IReadOnlyPair<Integer, Integer>>(size);
+		boolean myTeamWin = result == GCBattleResult.WIN;
 		for (int i = 0; i < size; i++) {
 			GCompTeamMember teamMember = allTeamMembers.get(i);
 			GCompMember groupMember = GCompMemberMgr.getInstance().getGCompMember(groupId, teamMember.getUserId());
 			if (groupMember != null) {
 				agent = GCompMember.getAgent(teamMember.isRobot());
-				
+
 				processWinTimes(result, groupMember, teamMember, agent);
 
 				Pair<Integer, Integer> score = this.calculatePersonalTeamScore(teamMember, agent.getContinueWins(groupMember), result, teamScore);
@@ -414,29 +422,33 @@ public class GCompMatchDataHolder {
 				agent.addScore(groupMember, score.getT1());
 				agent.addGroupScore(groupMember, tempGroupScore);
 				totalGroupScore += tempGroupScore;
-				
+
 				agent.updateToClient(groupMember);
-				agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
-				
+
+				if (myTeamWin) {
+					// 胜利才广播
+					agent.checkBroadcast(groupMember, group.getGroupName(), tempGroupScore);
+				}
+
 				GCompUtil.log("处理战斗结果，memberId：{}，memberName：{}，当前连胜：{}，当前击杀：{}，当前积分：{}，本次积分：{}", groupMember.getUserId(), teamMember.getArmyInfo().getPlayerName(), agent.getContinueWins(groupMember), groupMember.getTotalWinTimes(), groupMember.getScore(), score.getT1());
 
-				if(!teamMember.isRobot()) {
+				if (!teamMember.isRobot()) {
 					playerIdList.add(teamMember.getUserId());
 					if (bestMember == null || bestMember.getScore() < groupMember.getScore()) {
 						bestMember = groupMember;
 					}
 				}
-				
+
 				memberScores.add(score);
-			
+
 				GCompPersonFightingRecord personFightingRecord = new GCompPersonFightingRecord();
 				personFightingRecord.setContinueWin(agent.getContinueWins(groupMember));
 				personFightingRecord.setDefendName(teamMember.getEnemyName());
 				personFightingRecord.setOffendName(groupMember.getUserName());
 				personFightingRecord.setGroupScore(tempGroupScore);
 				personFightingRecord.setPersonalScore(personScore);
-				personFightingRecord.setOffendWin(teamMember.getResult() == GCompBattleResult.Win);
-//				System.out.println("进攻方 : " + groupMember.getUserName() + ", 防守方：" + teamMember.getEnemyName() + ", 进攻方是否胜利 : " + personFightingRecord.isOffendWin());
+				personFightingRecord.setBattleResult(teamMember.getResult());
+				// System.out.println("进攻方 : " + groupMember.getUserName() + ", 防守方：" + teamMember.getEnemyName() + ", 进攻方是否胜利 : " + personFightingRecord.isOffendWin());
 				personFightingRecords.add(personFightingRecord);
 			}
 		}
@@ -446,7 +458,7 @@ public class GCompMatchDataHolder {
 			group.updateScore(totalGroupScore);
 			GameWorldFactory.getGameWorld().asynExecute(new GroupScoreUpdater(matchId, groupId, group.getGCompScore(), bestMember));
 			GCompUtil.log("战斗结果，帮派Id：{}，帮派名字：{}，本次积分：{}，当前积分：{}", group.getGroupId(), group.getGroupName(), totalGroupScore, group.getGCompScore());
-		
+
 			GameWorldFactory.getGameWorld().asynExecute(new FightingRecordUpdater(matchId, personFightingRecords));
 		}
 
@@ -463,6 +475,7 @@ public class GCompMatchDataHolder {
 	public GCompMatchData getMatchData(String userId) {
 		String matchId = userId2MatchId.get(userId);
 		if (StringUtils.isEmpty(matchId)) {
+			GCompUtil.log("userId2MatchId找不到对应的MatchId，角色Id是{}", userId);
 			return null;
 		}
 
@@ -483,8 +496,8 @@ public class GCompMatchDataHolder {
 	private static final float HP_MAX_CHANGE_RATE = 0.1f;// 每秒中最大变化0.1
 	private static final float MAX_FIGHTING_RATE = 1;// 最大的战力差比
 
-	private static final int LOGOUT_TIME_MILLIS = 10000;// 10秒未开始战斗，直接判定失败
-	private static final int MAX_TIMEOUT_MILLIS = 100000;// 共给100秒的时间去处理超时
+	private static final int LOGOUT_TIME_MILLIS = 30000;// 10秒未开始战斗，直接判定失败
+	private static final int MAX_TIMEOUT_MILLIS = 120000;// 共给100秒的时间去处理超时
 
 	/**
 	 * 检查所有的匹配数据
@@ -576,6 +589,10 @@ public class GCompMatchDataHolder {
 					if (result == GCompBattleResult.Fighting) {
 						// 检查血量的变化
 						long l = now - member.getStartBattleTime();// 当前血量变化的时间
+						if (l <= 0) {
+							continue;
+						}
+
 						// 己方战力
 						int myFighting = member.getArmyInfo().getTeamFighting();
 						// 敌方战力
@@ -636,14 +653,17 @@ public class GCompMatchDataHolder {
 
 				if (result == GCompBattleResult.NonStart || result == GCompBattleResult.Fighting) {
 					allBattleFinish = false;
+					GCompUtil.log("checkAllMatchBattleState，member.getResult()未完成！当前状态：{}，member：{}，isRobot4Me：{}，enemy：{}，isRobot4Enemy：{}，matchId：{}", result, member.getArmyInfo().getPlayerName(), member.isRobot(), member.getEnemyName(), enemyMembers.get(i).isRobot(), e.getKey());
 				}
 			}
+
+			GCompUtil.log("--------------------------------------checkAllMatchBattleState，打印结束的分割线---------------------------------------");
 
 			// 要把需要推送到前台的消息发送出去
 			sendMsg(hpRsp, needSynHpPlayerIdList);
 			// 要同步战斗结果
 			sendMsg(battleResultRsp, needBattleResultList);
-			
+
 			if (allBattleFinish) {
 				// 战斗结果处理
 				teamBattleResultHandler(myTeam, getTeamBattleResult(myAddScore, enemyAddScore));
@@ -694,7 +714,7 @@ public class GCompMatchDataHolder {
 
 		return GCBattleResult.WIN;
 	}
-	
+
 	private static class GroupScoreUpdater implements Runnable {
 
 		private final int matchId;
@@ -719,12 +739,12 @@ public class GCompMatchDataHolder {
 		}
 
 	}
-	
+
 	private static class FightingRecordUpdater implements Runnable {
 
 		private int matchId;
 		private List<GCompPersonFightingRecord> _personRecords;
-		
+
 		FightingRecordUpdater(int pMatchId, List<GCompPersonFightingRecord> pRecords) {
 			this.matchId = pMatchId;
 			this._personRecords = pRecords;
@@ -742,6 +762,14 @@ public class GCompMatchDataHolder {
 				e.printStackTrace();
 			}
 		}
-		
+
+	}
+
+	/**
+	 * 当阶段结束的时候，清除掉时效
+	 */
+	public void clearAllMatchData() {
+		matchDataMap.clear();
+		userId2MatchId.clear();
 	}
 }

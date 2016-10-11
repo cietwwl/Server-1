@@ -9,14 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
@@ -24,15 +16,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItemHolder;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
@@ -47,10 +31,6 @@ import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
-import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
@@ -58,10 +38,6 @@ import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
-import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
-import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
-import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeItemHolder;
-import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeEnum;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfg;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
@@ -76,12 +52,16 @@ public class ActivityCollector implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
+
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		ActivityCountTypeCfgDAO countTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		long current = System.currentTimeMillis();
 		for (ActivityCountTypeCfg cfg : allCfgList) {
 			if (!countTypeCfgDAO.isOpen(cfg, current)) {
+				continue;
+			}
+			if (cfg.getLevelLimit() > level) {
 				continue;
 			}
 			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
@@ -107,12 +87,10 @@ public class ActivityCollector implements RedPointCollector {
 		}
 
 		// ------------------------------
-		
-		
+
 		List<String> dailyCountList = ActivityDailyTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(dailyCountList);
-		
-		
+
 		// ------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();
 		List<ActivityRateTypeCfg> rateAllCfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();
@@ -171,12 +149,9 @@ public class ActivityCollector implements RedPointCollector {
 			}
 		}
 
-		// ------------------------------
-		
-
 		List<String> vitalityList = ActivityVitalityTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(vitalityList);
-		
+
 		// ------------------------------
 		// 检查可召唤佣兵
 		ActivityExchangeTypeItemHolder exchangeDataHolder = ActivityExchangeTypeItemHolder.getInstance();
@@ -224,6 +199,9 @@ public class ActivityCollector implements RedPointCollector {
 			if (!activityDailyDiscountTypeMgr.isOpen(cfg)) {
 				continue;
 			}
+			if (cfg.getLevelLimit() > level) {
+				continue;
+			}
 			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
 			if (dailyDiscountEnum == null) {
 				continue;
@@ -237,26 +215,13 @@ public class ActivityCollector implements RedPointCollector {
 				continue;
 			}
 		}
-		// ----------------------------------
-		
-		
+
 		List<String> ranklist = ActivityRankTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(ranklist);
-		
-		
-		
-		// ----------------------------------
-		
-		
+
 		List<String> redEnvelopeList = ActivityRedEnvelopeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(redEnvelopeList);
-		
-		
-		
-		
-		
-		
-		
+
 		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(dailyChargeList);
 

@@ -23,6 +23,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -452,6 +453,8 @@ public class GroupPersonalHandler {
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 			// 更新下基础排行榜中记录的数据
 			GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+			// 帮派争霸
+			GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		}
 
 		commonRsp.setIsSuccess(true);
@@ -808,7 +811,8 @@ public class GroupPersonalHandler {
 
 		// 准备换职位
 		memberMgr.transferGroupLeader(playerId, transferMemberId);
-
+		// 改变帮派的信息
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
 	}
