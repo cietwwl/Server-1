@@ -256,6 +256,30 @@ public class GCompTeamMgr {
 		this._dataHolder.syn(matchId, player);
 	}
 	
+	/**
+	 * 
+	 * @param matchId
+	 * @param teamId
+	 * @return
+	 */
+	public boolean isAllOnline(int matchId, String teamId) {
+		GCompTeam team = _dataHolder.getTeamByTeamId(matchId, teamId);
+		if (team != null) {
+			if (team.isPersonal()) {
+				return PlayerMgr.getInstance().isOnline(team.getMembers().get(0).getUserId());
+			} else {
+				List<GCompTeamMember> members = team.getMembers();
+				for (int i = 0, size = members.size(); i < size; i++) {
+					if (!PlayerMgr.getInstance().isOnline(members.get(i).getUserId())) {
+						return false;
+					}
+				}
+				return true;
+			}
+		}
+		return true;
+	}
+	
 	public GCompTeam createRandomTeam(List<? extends IGCUnit> gcUnitList) {
 		if (gcUnitList.isEmpty()) {
 			throw new IllegalArgumentException("members.size() == 0");
