@@ -10,8 +10,11 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalitySubCfgDAO;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
+import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeSubCfgDAO;
 import com.rwbase.common.userEvent.IUserEventHandler;
-import com.rwbase.common.userEvent.UserEventHandleTask;
+import com.rwbase.common.userEvent.eventHandler.UserEventHandleTask;
 
 public class UserEventGoldSpendVitalityHandler  implements IUserEventHandler{
 	private List<UserEventHandleTask> eventTaskList = new ArrayList<UserEventHandleTask>();
@@ -27,7 +30,7 @@ public class UserEventGoldSpendVitalityHandler  implements IUserEventHandler{
 				
 				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
 				if(subCfg!= null&&isLevelEnough){
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.GoldSpendingVitality,subCfg, Integer.parseInt(params.toString()));
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.GoldSpendingVitality,subCfg, Integer.parseInt(params.toString()));
 					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-消费开启",null);
 					}
 				}

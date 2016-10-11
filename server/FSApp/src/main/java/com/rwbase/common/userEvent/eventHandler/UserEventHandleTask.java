@@ -1,4 +1,4 @@
-package com.rwbase.common.userEvent;
+package com.rwbase.common.userEvent.eventHandler;
 
 import com.playerdata.Player;
 
