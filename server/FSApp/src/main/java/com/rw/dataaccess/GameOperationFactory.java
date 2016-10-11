@@ -4,7 +4,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,21 +17,21 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 import com.rw.fsutil.cacheDao.loader.DataCreator;
 import com.rw.fsutil.cacheDao.loader.DataExtensionCreator;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
-import com.rwbase.common.MapItemStoreFactory;
 
 @SuppressWarnings("rawtypes")
 public class GameOperationFactory {
 
 	private static PlayerCreatedOperationImpl operation;
 	private static PlayerLoadOperationImpl loadOperation;
-	private static DataKVType[] preloadTypes;
+	private static HashSet<DataKVType> preloadTypes;
 
 	static {
-		preloadTypes = new DataKVType[] {DataKVType.USER_GAME_DATA, DataKVType.FRIEND, DataKVType.SIGN, DataKVType.VIP, DataKVType.EMAIL, DataKVType.GAMBLE, DataKVType.STORE,
+		DataKVType[] preloadTypesArray = new DataKVType[] { DataKVType.USER_GAME_DATA, DataKVType.FRIEND, DataKVType.SIGN, DataKVType.VIP, DataKVType.EMAIL, DataKVType.GAMBLE, DataKVType.STORE,
 				DataKVType.DAILY_ACTIVITY, DataKVType.SEVEN_DAY_GIF, DataKVType.BATTLE_TOWER, DataKVType.PLOT_PROGRESS, DataKVType.GUIDE_PROGRESS, DataKVType.COPY, DataKVType.TAOIST,
 				DataKVType.USERMSDATA, DataKVType.GROUP_SECRET_BASE, DataKVType.GROUP_SECRE_TEAM, DataKVType.USER_CHAT, DataKVType.USER_GFIGHT_DATA, DataKVType.USER_TEAMBATTLE_DATA,
-				DataKVType.USER_FIGHT_GROWTH_DATA
-		};
+				DataKVType.USER_FIGHT_GROWTH_DATA };
+		preloadTypes = new HashSet<DataKVType>();
+		Collections.addAll(preloadTypes, preloadTypesArray);
 	}
 
 	public static void init(int defaultCapacity) {
@@ -68,13 +70,8 @@ public class GameOperationFactory {
 				throw new ExceptionInInitializerError(e);
 			}
 		}
-		int kvTypeSize = preloadTypes.length;
-		int[] rangeArray = new int[kvTypeSize];
-		for (int i = 0; i < kvTypeSize; i++) {
-			rangeArray[i] = preloadTypes[i].getType();
-		}
 		// 初始化DataAccessFactory
-		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity, rangeArray, MapItemStoreFactory.getItemStoreInofs());
+		DataAccessFactory.init("dataSourceMT", dataKvMap, extensionMap, defaultCapacity);
 		// 接着初始化各个DAO实例，这两个有顺序依赖
 		HashMap<DataKVType, DataKVDao<?>> cacheMap = new LinkedHashMap<DataKVType, DataKVDao<?>>();
 		for (int i = 0; i < size; i++) {
@@ -94,7 +91,9 @@ public class GameOperationFactory {
 				if (dao == null) {
 					throw new ExceptionInInitializerError("获取DAO实例失败：" + clz.getName());
 				}
-				cacheMap.put(dataKVType, dao);
+				if (preloadTypes.contains(dataKVType)) {
+					cacheMap.put(dataKVType, dao);
+				}
 				// 构造DataCreator实例
 				DataCreator<?, ?> creator = creatorMap.get(clz);
 				if (creator instanceof DataExtensionCreator<?>) {

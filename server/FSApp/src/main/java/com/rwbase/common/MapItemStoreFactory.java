@@ -1,12 +1,6 @@
 package com.rwbase.common;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
@@ -16,18 +10,9 @@ import com.playerdata.groupcompetition.quiz.GCompUserQuizItem;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.mgcsecret.data.MagicChapterInfo;
 import com.playerdata.teambattle.data.TBTeamItem;
-import com.rw.dataaccess.mapitem.MapItemCreator;
-import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.PFMapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
-import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.common.Tuple;
-import com.rw.fsutil.dao.cache.CacheKey;
-import com.rw.fsutil.dao.mapitem.MapItemEntity;
-import com.rw.fsutil.dao.mapitem.MapItemRowBuider;
-import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
 import com.rw.service.guide.datamodel.GiveItemHistory;
@@ -64,8 +49,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
-	// Skill
-//	private static MapItemStoreCache<SkillItem> skillCache;
 	// TaskItem
 	private static MapItemStoreCache<TaskItem> taskItemCache;
 	// GroupMemberData
@@ -85,9 +68,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
 
 	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
-
-//	private static MapItemStoreCache<ActivityDailyRechargeTypeItem> activityDailyRechargeItemCache;
-
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -109,7 +89,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<FSHero> heroItemCache;
 
 	private static MapItemStoreCache<FSHero> mainHeroItemCache;
-	
+
 	private static MapItemStoreCache<GCompUserQuizItem> groupCompQuizItemCache;
 
 	private static ArrayList<MapItemStoreCache<? extends IMapItem>> list;
@@ -118,17 +98,10 @@ public class MapItemStoreFactory {
 
 	private static boolean init = false;
 
-	private static HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> storeInfos;
-
-	private static ArrayList<Pair<CacheKey, MapItemStoreCache<? extends IMapItem>>> preloadCaches;
-	private static HashMap<CacheKey, MapItemStoreCache<? extends IMapItem>> preloadCachesMapping;
-	private static HashMap<Class<? extends IMapItem>, Integer> mapItemIntegration;
-	private static List<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>> integrationList;
-	private static HashMap<Integer, MapItemStoreCache<? extends IMapItem>> integrationMap;
 
 	public static final String MAIN_ROLE_NAME = "main";
-	
-	public static void init(Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map) {
+
+	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
 			if (init) {
 				init = true;
@@ -136,26 +109,6 @@ public class MapItemStoreFactory {
 			}
 		}
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
-
-		integrationMap = new HashMap<Integer, MapItemStoreCache<? extends IMapItem>>();
-		mapItemIntegration = new HashMap<Class<? extends IMapItem>, Integer>();
-		integrationList = new ArrayList<Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>>>();
-		for (Map.Entry<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> entry : map.entrySet()) {
-			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = entry.getValue();
-			MapItemCreator<? extends IMapItem> creator;
-			try {
-				creator = pair.getT2().newInstance();
-			} catch (Exception e) {
-				throw new ExceptionInInitializerError(e);
-			}
-			Integer key = entry.getKey();
-			Class<? extends IMapItem> mapItemClass = pair.getT1();
-			mapItemIntegration.put(mapItemClass, key);
-			integrationList.add(Tuple.<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> Create(key, mapItemClass, creator));
-		}
-		preloadCachesMapping = new HashMap<CacheKey, MapItemStoreCache<? extends IMapItem>>();
-		preloadCaches = new ArrayList<Pair<CacheKey, MapItemStoreCache<? extends IMapItem>>>();
-		storeInfos = new HashMap<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>>();
 
 		int heroCapacity = config.getPlayerCapacity();
 
@@ -175,8 +128,6 @@ public class MapItemStoreFactory {
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
 
-//		skillCache = createForPerload(SkillItem.class, "ownerId", actualHeroCapacity);
-
 		taskItemCache = createForPerload(TaskItem.class, "userId", heroCapacity);
 
 		groupMemberCache = createForPerload(GroupMemberData.class, "groupId", heroCapacity);
@@ -190,7 +141,7 @@ public class MapItemStoreFactory {
 
 		serverGroupCopyDamageRecordCache = createForPerload(ServerGroupCopyDamageRecord.class, "groupId", heroCapacity);
 		itemDropAndApplyRecordCache = createForPerload(CopyItemDropAndApplyRecord.class, "groupId", heroCapacity);
-		
+
 		angelArrayTeamInfoData = createForPerload(AngelArrayTeamInfoData.class, "teamGroupId", heroCapacity);
 
 		angelArrayFloorData = createForPerload(AngelArrayFloorData.class, "userId", heroCapacity);
@@ -211,15 +162,12 @@ public class MapItemStoreFactory {
 
 		mainHeroItemCache = createForPerload(FSHero.class, MAIN_ROLE_NAME, "id", heroCapacity, true);
 
-
 		magicEquipFetterCache = createForPerload(MagicEquipFetterRecord.class, "userID", heroCapacity);
 
 		embattleInfoItemCache = createForPerload(EmbattleInfo.class, "userId", heroCapacity);
 
 		register(platformWhiteListCache = new PFMapItemStoreCache<TablePlatformWhiteList>(TablePlatformWhiteList.class, "accountId", heroCapacity, true));
 
-//		activityDailyRechargeItemCache = createForPerload(ActivityDailyRechargeTypeItem.class, "userId", heroCapacity);
-		
 		groupCompQuizItemCache = createForPerload(GCompUserQuizItem.class, "userID", heroCapacity);
 	}
 
@@ -232,22 +180,11 @@ public class MapItemStoreFactory {
 	}
 
 	private static <T extends IMapItem> MapItemStoreCache<T> createForPerload(Class<T> clazz, String name, String searchKey, int capacity, boolean relatedToPlayer) {
-		Integer type = mapItemIntegration.get(clazz);
-		MapItemStoreCache<T> cache = new MapItemStoreCache<T>(clazz, name, searchKey, capacity, type);
+		// Integer type = mapItemIntegration.get(clazz);
+		MapItemStoreCache<T> cache = new MapItemStoreCache<T>(clazz, name, searchKey, capacity, null);
 		list.add(cache);
 		if (relatedToPlayer) {
 			notifyCreateList.add(cache);
-		}
-		if (type != null) {
-			integrationMap.put(type, cache);
-		} else {
-			// TODO Pair可以只创建一次
-			CacheKey cacheKey = new CacheKey(clazz, name);
-			MapItemRowBuider<? extends IMapItem> rm = cache.getRowMapper();
-			storeInfos.put(cacheKey, Pair.<String, MapItemRowBuider<? extends IMapItem>> Create(searchKey, rm));
-			Pair<CacheKey, MapItemStoreCache<? extends IMapItem>> cacheWrap = Pair.<CacheKey, MapItemStoreCache<? extends IMapItem>> Create(cacheKey, cache);
-			preloadCaches.add(cacheWrap);
-			preloadCachesMapping.put(cacheKey, cache);
 		}
 		return cache;
 	}
@@ -364,10 +301,6 @@ public class MapItemStoreFactory {
 		return activityDateTypeItemCache;
 	}
 
-//	public static MapItemStoreCache<ActivityDailyRechargeTypeItem> getActivityDailyRechargeItemCache() {
-//		return activityDailyRechargeItemCache;
-//	}	
-
 	/**
 	 * 获取万仙阵阵容信息缓存
 	 * 
@@ -481,7 +414,7 @@ public class MapItemStoreFactory {
 	public static PFMapItemStoreCache<TablePlatformWhiteList> getPlatformWhiteListCache() {
 		return platformWhiteListCache;
 	}
-	
+
 	/**
 	 * 
 	 * 获取帮派争霸竞猜的cache
@@ -490,84 +423,6 @@ public class MapItemStoreFactory {
 	 */
 	public static MapItemStoreCache<GCompUserQuizItem> getGCompQuizItemCache() {
 		return groupCompQuizItemCache;
-	}
-
-	public static List<Pair<CacheKey, String>> getPreloadInfos(String userId) {
-		int size = preloadCaches.size();
-		ArrayList<Pair<CacheKey, String>> list = new ArrayList<Pair<CacheKey, String>>(size);
-		for (int i = 0; i < size; i++) {
-			Pair<CacheKey, MapItemStoreCache<? extends IMapItem>> pair = preloadCaches.get(i);
-			String tableName = pair.getT2().getTableName(userId);
-			list.add(Pair.Create(pair.getT1(), tableName));
-		}
-		return list;
-	}
-
-	public static Map<CacheKey, Pair<String, MapItemRowBuider<? extends IMapItem>>> getItemStoreInofs() {
-		return Collections.unmodifiableMap(storeInfos);
-	}
-
-	public static void preInsertDatas(String userId, List<Pair<CacheKey, List<? extends IMapItem>>> datas) {
-		for (int i = datas.size(); --i >= 0;) {
-			Pair<CacheKey, List<? extends IMapItem>> pair = datas.get(i);
-			MapItemStoreCache<? extends IMapItem> cache = preloadCachesMapping.get(pair.getT1());
-			if (cache == null) {
-				FSUtilLogger.error("can not find cache:" + pair.getT1());
-				continue;
-			}
-			List items = pair.getT2();
-			cache.putIfAbsent(userId, items);
-		}
-	}
-
-	public static void preloadIntegration(String userId, int level) {
-		long start = System.currentTimeMillis();
-		ArrayList<Integer> typeList = new ArrayList<Integer>();
-		MapItemValidateParam param = new MapItemValidateParam(level, start);
-		for (int i = integrationList.size(); --i >= 0;) {
-			Tuple<Integer, Class<? extends IMapItem>, MapItemCreator<? extends IMapItem>> tuple = integrationList.get(i);
-			MapItemCreator<? extends IMapItem> creator = tuple.getT3();
-			if (!creator.isOpen(param)) {
-				continue;
-			}
-			Integer type = tuple.getT1();
-			MapItemStoreCache<? extends IMapItem> store = integrationMap.get(type);
-			if (store == null) {
-				FSUtilLogger.error("can not find cache:" + type);
-				continue;
-			}
-			if (!store.contains(userId)) {
-				typeList.add(type);
-			}
-		}
-		if (typeList.isEmpty()) {
-			return;
-		}
-		List<MapItemEntity> datas = DataAccessFactory.getMapItemManager().load(userId, typeList);
-		HashMap<Integer, List<MapItemEntity>> map = new HashMap<Integer, List<MapItemEntity>>();
-		for (int i = datas.size(); --i >= 0;) {
-			MapItemEntity entity = datas.get(i);
-			Integer type = entity.getType();
-			List<MapItemEntity> list = map.get(type);
-			if (list == null) {
-				list = new ArrayList<MapItemEntity>();
-				map.put(type, list);
-			}
-			list.add(entity);
-		}
-		for (int i = typeList.size(); --i >= 0;) {
-			Integer type = typeList.get(i);
-			MapItemStoreCache<? extends IMapItem> store = integrationMap.get(type);
-			if (store == null) {
-				FSUtilLogger.error("can not find cache:" + type);
-				continue;
-			}
-			List<MapItemEntity> data = map.get(type);
-			if (data == null) {
-				data = Collections.emptyList();
-			}
-			store.putIfAbsentByDBString(userId, data);
-		}
 	}
 
 }

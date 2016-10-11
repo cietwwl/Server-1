@@ -38,8 +38,7 @@ public class DataKvManagerImpl implements DataKvManager {
 	private final HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> creatorMap;
 	private final int dataKvCapacity;
 
-	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
-			int[] selectRangeParam) {
+	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
@@ -69,11 +68,7 @@ public class DataKvManagerImpl implements DataKvManager {
 			insertSqlArray[i] = "insert into " + tableName + "(dbkey,dbvalue,type) values(?,?,?)";
 			checkSelectArray[i] = "select count(1) from " + tableName + " where dbkey=?";
 			tableNameArray[i] = tableName;
-			if (selectRangeParam.length == 0) {
-				selectRangeSqlArray[i] = selectAllSqlArray[i];
-			} else {
-				selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in(";
-			}
+			selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in(";
 		}
 		dataKvMap = new HashMap<Class<? extends DataKVDao<?>>, Integer>();
 		for (Map.Entry<Integer, Class<? extends DataKVDao<?>>> entry : map.entrySet()) {

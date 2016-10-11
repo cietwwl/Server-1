@@ -23,7 +23,6 @@ public class CommonMultiTable<K, T> {
 	private final ClassInfo classInfo;
 	private final int tableLength;
 	private final OwnerRowMapper<T> rowMapper;
-	private final Integer type; // 是否分类型，即同一张表存在不同类型
 	private final DataAccessSimpleSupport dataAccessSupport;
 
 	public CommonMultiTable(String dsName, ClassInfo classInfo, String searchFieldName, Integer type) {
@@ -45,7 +44,6 @@ public class CommonMultiTable<K, T> {
 		StringBuilder insertFields = new StringBuilder();
 		StringBuilder insertHolds = new StringBuilder();
 		StringBuilder updateFields = new StringBuilder();
-		this.type = type;
 		try {
 			classInfo.extractColumn(insertFields, insertHolds, updateFields);
 		} catch (Throwable t) {
@@ -89,12 +87,12 @@ public class CommonMultiTable<K, T> {
 
 	public void insert_(String searchId, final List<T> list) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
-		dataAccessSupport.insert(classInfo, sql, list, type);
+		dataAccessSupport.insert(classInfo, sql, list);
 	}
 
 	public boolean insert(String searchId, K key, T target) throws DuplicatedKeyException, Exception {
 		String sql = getString(insertSqlArray, searchId);
-		return dataAccessSupport.insert(classInfo, sql, key, target, type);
+		return dataAccessSupport.insert(classInfo, sql, key, target);
 	}
 
 	public boolean delete(String searchId, K id) throws DataNotExistException, Exception {
@@ -110,7 +108,7 @@ public class CommonMultiTable<K, T> {
 	public boolean insertAndDelete(String searchId, List<T> addList, List<K> delList) throws DuplicatedKeyException, DataNotExistException {
 		String insertSql = getString(insertSqlArray, searchId);
 		String deleteSql = getString(delectSqlArray, searchId);
-		return dataAccessSupport.insertAndDelete(classInfo, insertSql, addList, deleteSql, delList, type);
+		return dataAccessSupport.insertAndDelete(classInfo, insertSql, addList, deleteSql, delList);
 	}
 
 	public boolean updateToDB(String searchId, Map<K, T> map) throws Exception {
