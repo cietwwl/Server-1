@@ -11,8 +11,8 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.common.attribute.AttributeConst;
 
 @SynClass
-@JsonIgnoreProperties(ignoreUnknown=true)
-@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class AttrData implements AttrDataIF {
 
 	@IgnoreSynField
@@ -95,133 +95,140 @@ public class AttrData implements AttrDataIF {
 	private static final String _KEY_VOLUME_RADIUS = "39";
 	@IgnoreSynField
 	private static final String _KEY_DO_HURT = "40";
-	
+
 	@JsonProperty(_KEY_LIFE)
 	private long life; // 最大生命值...
-	
+
 	@JsonProperty(_KEY_ENERGY)
 	private int energy; // 能量值...
-	
+
 	@JsonProperty(_KEY_PHYSIQUE_ATTACK)
 	private int physiqueAttack; // 物理攻击...
-	
+
 	@JsonProperty(_KEY_SPIRIT_ATTACK)
 	private int spiritAttack;// 魔法攻击...
-	
+
 	@JsonProperty(_KEY_PHYSIQUE_DEF)
 	private int physiqueDef; // 体魄防御...
-	
+
 	@JsonProperty(_KEY_SPIRIT_DEF)
 	private int spiritDef; // 精神防御...
-	
+
 	@JsonProperty(_KEY_ATTACK_VAMPIRE)
 	private int attackVampire; // 攻击吸血...
-	
+
 	@JsonProperty(_KEY_CRITICAL)
 	private int critical; // 暴击率...
-	
+
 	@JsonProperty(_KEY_CRITICAL_HURT)
 	private int criticalHurt; // 暴击伤害提升...
-	
+
 	@JsonProperty(_KEY_TOUGHNESS)
 	private int toughness; // 韧性...
-	
+
 	@JsonProperty(_KEY_LIFE_RECEIVE)
 	private int lifeReceive; // 生命回复...
-	
+
 	@JsonProperty(_KEY_ENERGY_RECEIVE)
 	private int energyReceive; // 能量值回复...
-	
+
 	@JsonProperty(_KEY_STRUCK_ENERGY)
 	private int struckEnergy;// 击杀增加能量...
-	
+
 	@JsonProperty(_KEY_ATTACK_ENERGY)
 	private int attackEnergy;// 攻击能量...
-	
+
 	@JsonProperty(_KEY_ENERGY_TRANS)
 	private int energyTrans; // 能量转化...
-	
+
 	@JsonProperty(_KEY_CUT_HURT)
 	private int cutHurt;// 伤害减免
-	
+
 	@JsonProperty(_KEY_CUT_CRIT_HURT)
 	private int cutCritHurt;// 暴击伤害减免
-	
+
 	@JsonProperty(_KEY_RESIST)
 	private int resist;// 抵抗
-	
+
 	@JsonProperty(_KEY_ADD_CURE)
 	private int addCure;// 受到治疗效果增加
-	
+
 	@JsonProperty(_KEY_CUT_CURE)
 	private int cutCure;// 受到治疗效果减少
-	
+
 	@JsonProperty(_KEY_LIFE_GROW_UP)
 	private int lifeGrowUp; // 生命成长...
-	
+
 	@JsonProperty(_KEY_P_ATTACK_GROW_UP)
 	private int pAttackGrowUp; // 物理攻击成长...
-	
+
 	@JsonProperty(_KEY_S_ATTACK_GROW_UP)
 	private int sAttackGrowUp; // 法术攻击成长...
-	
+
 	@JsonProperty(_KEY_PHYSICQUE_DEF_GROW_UP)
 	private int physicqueDefGrowUp; // 体魄防御成长...
-	
+
 	@JsonProperty(_KEY_SPIRIT_DEF_GROW_UP)
 	private int spiritDefGrowUp; // 精神防御成长...
-	
+
 	@JsonProperty(_KEY_ENCHANT_EXP)
 	private int enchantExp;// 附灵经验...
-	
+
 	@JsonProperty(_KEY_SKILL_LEVEL)
 	private int skillLevel;// 技能总等级
-	
+
 	@JsonProperty(_KEY_ATTACK_TYPE)
 	private int attackType;// 攻击类型
-	
+
 	@JsonProperty(_KEY_DODGE)
 	private int dodge; // 闪避
-	
+
 	@JsonProperty(_KEY_HIT)
 	private int hit; // 命中
-	
+
 	@JsonProperty(_KEY_ENERGY_PER_SECOND)
 	private int energyPerSecond; // 每秒恢复的能量
 
-	@JsonProperty(_KEY_HARD_STRAIGHT)
-	private float hardStraight;
-	
-	@JsonProperty(_KEY_REACTION_TIME)
-	private float reactionTime;
-	
-	@JsonProperty(_KEY_ATTACK_DISTANCE)
-	private float attackDistance; // 攻击距离...
-	
 	@JsonProperty(_KEY_ATTACK_SPEED)
 	private float attackSpeed; // 攻击速度...
-	
-	@JsonProperty(_KEY_MOVE_SPEED)
-	private float moveSpeed; // 移动速度...
-	
+
 	@JsonProperty(_KEY_ATTACK_HURT)
 	private float attackHurt;// 攻击伤害
-	
+
+	@IgnoreSynField
+	@JsonProperty(_KEY_HARD_STRAIGHT)
+	private float hardStraight;
+
+	@IgnoreSynField
+	@JsonProperty(_KEY_REACTION_TIME)
+	private float reactionTime;
+
+	@IgnoreSynField
+	@JsonProperty(_KEY_ATTACK_DISTANCE)
+	private float attackDistance; // 攻击距离...
+
+	@IgnoreSynField
+	@JsonProperty(_KEY_MOVE_SPEED)
+	private float moveSpeed; // 移动速度...
+
+	@IgnoreSynField
 	@JsonProperty(_KEY_VIEW_RANGE)
 	private float viewRange; // 视野范围
-	
+
+	@IgnoreSynField
 	@JsonProperty(_KEY_VOLUME_RADIUS)
 	private float volumeRadius; // 人物半径
-	
+
+	@IgnoreSynField
 	@JsonProperty(_KEY_DO_HURT)
 	private float doHurt; // 硬直界限
-	
-	public AttrData() {}
 
-	public AttrData(long life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive,
-			int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt, int resist, int addCure, int cutCure, int lifeGrowUp, int pAttackGrowUp,
-			int sAttackGrowUp, int physicqueDefGrowUp, int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight,
-			float reactionTime, float attackDistance, float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
+	public AttrData() {
+	}
+
+	public AttrData(long life, int energy, int physiqueAttack, int spiritAttack, int physiqueDef, int spiritDef, int attackVampire, int critical, int criticalHurt, int toughness, int lifeReceive, int energyReceive, int struckEnergy, int attackEnergy, int energyTrans, int cutHurt, int cutCritHurt,
+			int resist, int addCure, int cutCure, int lifeGrowUp, int pAttackGrowUp, int sAttackGrowUp, int physicqueDefGrowUp, int spiritDefGrowUp, int enchantExp, int skillLevel, int attackType, int dodge, int hit, int energyPerSecond, float hardStraight, float reactionTime, float attackDistance,
+			float attackSpeed, float moveSpeed, float attackHurt, float viewRange, float volumeRadius, float doHurt) {
 		this.life = life;
 		this.energy = energy;
 		this.physiqueAttack = physiqueAttack;
@@ -867,9 +874,8 @@ public class AttrData implements AttrDataIF {
 		}
 
 		public AttrData build() {
-			return new AttrData(life, energy, physiqueAttack, spiritAttack, physiqueDef, spiritDef, attackVampire, critical, criticalHurt, toughness, lifeReceive, energyReceive, struckEnergy,
-					attackEnergy, energyTrans, cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, pAttackGrowUp, sAttackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel,
-					attackType, dodge, hit, energyPerSecond, hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
+			return new AttrData(life, energy, physiqueAttack, spiritAttack, physiqueDef, spiritDef, attackVampire, critical, criticalHurt, toughness, lifeReceive, energyReceive, struckEnergy, attackEnergy, energyTrans, cutHurt, cutCritHurt, resist, addCure, cutCure, lifeGrowUp, pAttackGrowUp,
+					sAttackGrowUp, physicqueDefGrowUp, spiritDefGrowUp, enchantExp, skillLevel, attackType, dodge, hit, energyPerSecond, hardStraight, reactionTime, attackDistance, attackSpeed, moveSpeed, attackHurt, viewRange, volumeRadius, doHurt);
 		}
 	}
 }

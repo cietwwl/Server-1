@@ -1,5 +1,7 @@
 package com.playerdata.dataSyn.sameSceneSyn;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.Map.Entry;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.netty.UserChannelMgr;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -113,12 +116,19 @@ public class DataAutoSynMgr {
 		List<String> removedPlayers = new ArrayList<String>();
 		List<String> newAddPlayers = new ArrayList<String>();
 		Iterator<Entry<String, T>> entryIterator = synData.entrySet().iterator();
+		long synTime = System.currentTimeMillis();
 		while(entryIterator.hasNext()){
 			Entry<String, T> entry = entryIterator.next();
-			Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
-			if (null == player) {
-				//把玩家标记为离开
-				entry.getValue().setRemoved(true);
+			ChannelHandlerContext ctx = UserChannelMgr.get(entry.getKey());
+			if (ctx == null) {
+				if(entry.getValue().isDisConn(synTime)){
+					//把玩家标记为离开
+					entry.getValue().setRemoved(true);
+				}else{
+					entry.getValue().setDisConnTime(synTime);
+				}
+			}else{
+				entry.getValue().setDisConnTime(0);
 			}
 			//判断玩家的三种状态
 			if(entry.getValue().isRemoved()){
@@ -135,6 +145,7 @@ public class DataAutoSynMgr {
 					//元素没有改变
 					entryIterator.remove();
 				}
+				Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
 				players.add(player);
 			}
 			entry.getValue().setNewAdd(false);

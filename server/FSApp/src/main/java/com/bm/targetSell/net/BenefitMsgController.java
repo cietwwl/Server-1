@@ -35,8 +35,8 @@ public class BenefitMsgController{
 		return controller;
 	}
 	
-	public void init(String removeIp, int port, int timeoutMillis,int priod){
-		msgSender = new BenefitSystemMsgAdapter(removeIp, port, timeoutMillis);
+	public void init(String removeIp, int port, int localPort, int timeoutMillis,int priod){
+		msgSender = new BenefitSystemMsgAdapter(removeIp, port, localPort, timeoutMillis);
 		
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
 		
