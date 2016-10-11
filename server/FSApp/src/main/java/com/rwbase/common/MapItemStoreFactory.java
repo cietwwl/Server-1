@@ -67,7 +67,7 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
 
-	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
+//	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -297,9 +297,7 @@ public class MapItemStoreFactory {
 		return newGuideGiveItemHistoryCache;
 	}
 
-	public static MapItemStoreCache<ActivityDateTypeItem> getActivityDateTypeItemCache() {
-		return activityDateTypeItemCache;
-	}
+
 
 	/**
 	 * 获取万仙阵阵容信息缓存
