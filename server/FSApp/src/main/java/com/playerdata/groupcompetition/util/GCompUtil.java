@@ -126,13 +126,27 @@ public class GCompUtil {
 	}
 	
 	public static long calculateEndTimeOfStage(String stageCfgId) {
-		GroupCompetitionStageCfg cfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(String.valueOf(stageCfgId));
+		GroupCompetitionStageCfgDAO stageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
+		GroupCompetitionStageCfg cfg = stageCfgDAO.getCfgById(String.valueOf(stageCfgId));
 		Calendar currentDateTime = Calendar.getInstance();
 		IReadOnlyPair<Integer, Integer> endTimeInfo = cfg.getEndTimeInfo();
 		currentDateTime.add(Calendar.DAY_OF_YEAR, cfg.getLastDays());
 		currentDateTime.set(Calendar.HOUR_OF_DAY, endTimeInfo.getT1());
 		currentDateTime.set(Calendar.MINUTE, endTimeInfo.getT2());
 		currentDateTime.set(Calendar.SECOND, 0);
+		if (cfg.getStageType() == GCompStageType.REST.sign) {
+			// 休整期的结束时间计算比较特别
+			GroupCompetitionStageControlCfg controlCfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(GCompStartType.NUTRAL_TIME_OFFSET.sign);
+			GroupCompetitionStageCfg nextFirst = stageCfgDAO.getCfgById(String.valueOf(controlCfg.getStageDetailList().get(0)));
+			int startDay = controlCfg.getStartDayOfWeek();
+			if (startDay != currentDateTime.get(Calendar.DAY_OF_WEEK)) {
+				currentDateTime.set(Calendar.DAY_OF_WEEK, startDay);
+			}
+			endTimeInfo = nextFirst.getStartTimeInfo();
+			currentDateTime.set(Calendar.HOUR_OF_DAY, endTimeInfo.getT1());
+			currentDateTime.set(Calendar.MINUTE, endTimeInfo.getT2());
+			currentDateTime.add(Calendar.SECOND, -1); // 下个开始前1秒结束
+		}
 		return currentDateTime.getTimeInMillis();
 	}
 	

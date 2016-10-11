@@ -16,6 +16,10 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
+import com.playerdata.embattle.EmBattlePositionKey;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.hero.IHeroConsumer;
 import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
@@ -26,12 +30,15 @@ import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.dao.hero.FSUserHeroGlobalDataDAO;
+import com.rwbase.dao.hero.pojo.FSUserHeroGlobalData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.HeroServiceProtos.MsgHeroResponse;
 import com.rwproto.HeroServiceProtos.eHeroResultType;
 import com.rwproto.MsgDef.Command;
@@ -118,6 +125,7 @@ public class FSHeroMgr implements HeroMgr {
 			// 通知同步
 			owner.getTempAttribute().setHeroFightingChanged();
 			owner.getUserTmpGameDataFlag().setSynFightingAll(true);
+			FSUserHeroGlobalDataMgr.getInstance().notifySingleFightingChange(owner.getUserId(), hero.getId(), nowFighting, preFighting);
 		}
 	}
 
@@ -241,6 +249,7 @@ public class FSHeroMgr implements HeroMgr {
 		return hero;
 	}
 	
+	@Override
 	public int getFightingTeam(PlayerIF player) {
 		List<Hero> list = getMaxFightingHeros(player);
 		int result = 0;
@@ -251,12 +260,71 @@ public class FSHeroMgr implements HeroMgr {
 	}
 	
 	@Override
+	public int getFightingTeam(String userId) {
+		FSUserHeroGlobalData userHeroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
+		List<Hero> heroList = new ArrayList<Hero>(5);
+		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
+		if (embattleInfo != null) {
+			List<EmbattleHeroPosition> heroPosition = embattleInfo.getPos();
+			if (heroPosition != null && !heroPosition.isEmpty()) {
+				for (int i = 0, size = heroPosition.size(); i < size; i++) {
+					Hero hero = getHeroById(userId, heroPosition.get(i).getId());
+					if (hero != null) {
+						heroList.add(hero);
+					}
+				}
+			}
+		}
+		if (heroList.isEmpty()) {
+			heroList = getMaxFightingHeros(userId);
+		}
+		boolean recal = userHeroGlobalData.getFightingTeam() == 0;
+		if (!recal) {
+			List<String> heroIds = userHeroGlobalData.getFightingTeamHeroIdsRO();
+			if (heroIds.size() > 0 && heroList.size() == heroIds.size()) {
+				for (int i = 0, size = heroList.size(); i < size; i++) {
+					if (!heroIds.contains(heroList.get(i).getId())) {
+						recal = true;
+						break;
+					}
+				}
+			} else {
+				recal = true;
+			}
+		}
+		if (recal) {
+			int result = 0;
+			List<String> heroIds = new ArrayList<String>();
+			Hero hero;
+			for (int i = 0; i < heroList.size(); i++) {
+				hero = heroList.get(i);
+				result += hero.getFighting();
+				heroIds.add(hero.getId());
+			}
+			userHeroGlobalData.setFightingTeam(result);
+			userHeroGlobalData.setFightingTeamHeroIds(heroIds);
+			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
+		}
+		return userHeroGlobalData.getFightingTeam();
+	}
+	
+	@Override
 	public int getFightingAll(PlayerIF player) {
 //		FSCalculateAllFightingConsumer consumer = new FSCalculateAllFightingConsumer();
 //		this.loop(player.getTableUser().getUserId(), consumer);
 //		return consumer.getTotalFighting();
 		// 总战斗力改为储存在userGameData里面
 		return player.getTableUserOther().getFightingAll();
+		
+		// 新的内容
+//		FSUserHeroGlobalData userHeroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(player.getUserId());
+//		if (userHeroGlobalData.getFightingAll() == 0) {
+//			FSCalculateAllFightingConsumer consumer = new FSCalculateAllFightingConsumer();
+//			this.loopAll(player.getTableUser().getUserId(), consumer);
+//			userHeroGlobalData.setFightingAll(consumer.getTotalFighting());
+//			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
+//		}
+//		return userHeroGlobalData.getFightingAll();
 	}
 
 	@Override
@@ -265,6 +333,16 @@ public class FSHeroMgr implements HeroMgr {
 //		this.loop(player.getTableUser().getUserId(), consumer);
 //		return consumer.getTotalStarLv();
 		return player.getTableUserOther().getStarAll();
+		
+		// 新的内容
+//		FSUserHeroGlobalData userHeroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(player.getUserId());
+//		if (userHeroGlobalData.getStartAll() == 0) {
+//			FSCountTotalStarLvConsumer consumer = new FSCountTotalStarLvConsumer();
+//			this.loopAll(player.getTableUser().getUserId(), consumer);
+//			userHeroGlobalData.setFightingAll(consumer.getTotalStarLv());
+//			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
+//		}
+//		return userHeroGlobalData.getStartAll();
 	}
 
 	@Override
@@ -282,8 +360,13 @@ public class FSHeroMgr implements HeroMgr {
 	}
 	
 	public List<Hero> getMaxFightingHeros(PlayerIF player) {
+		return this.getMaxFightingHeros(player.getUserId());
+	}
+	
+	@Override
+	public List<Hero> getMaxFightingHeros(String userId) {
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(false);
-		this.loopAll(player.getUserId(), consumer);
+		this.loopAll(userId, consumer);
 		List<Hero> targetList = consumer.getResultList();
 		int size = targetList.size();
 		ArrayList<Hero> result = new ArrayList<Hero>(size > 4 ? 5 : size + 1);
@@ -348,8 +431,10 @@ public class FSHeroMgr implements HeroMgr {
 			fightingAll += hero.getFighting();
 			starAll += hero.getStarLevel();
 		}
-		player.getUserGameDataMgr().setFightingAll(fightingAll);
-		player.getUserGameDataMgr().setStarAll(starAll);
+		FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(player.getUserId());
+		globalData.setFightingAll(fightingAll);
+		globalData.setStartAll(starAll);
+		FSUserHeroGlobalDataDAO.getInstance().update(globalData);
 	}
 	
 	@Override
