@@ -287,11 +287,10 @@ public class ClientDataSynMgr {
 	private static void sendMsgMutiple(List<Player> players, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
 		if(null == players) return;
 		for(Player player : players){
+			if(null == player) continue;
 			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
 			UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
-//			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
-//			sendMsg(player, serverData, synType, msgDataSyn);
 		}
 	}
 	

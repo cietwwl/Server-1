@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
@@ -21,6 +22,7 @@ import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.rank.GCompRankMgr;
+import com.playerdata.groupcompetition.rank.ScoreInfoInPrepareMgr;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
@@ -41,6 +43,7 @@ import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankItem;
 import com.rwproto.GroupCompetitionProto.GCompGroupScoreRankRspData;
 import com.rwproto.GroupCompetitionProto.GCompHistoryChampion;
+import com.rwproto.GroupCompetitionProto.GroupScoreData;
 import com.rwproto.GroupCompetitionProto.JoinTeamReq;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
@@ -100,7 +103,7 @@ public class GroupCompetitionHandler {
 				if (ranking < gCompFightingItemList.size()) {
 					fightingItem = gCompFightingItemList.get(ranking - 1);
 				} else {
-					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking);
+					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking-1);
 				}
 				ownGroupData = this.createSelectionGroupData(fightingItem, ranking);
 			} else {
@@ -461,8 +464,32 @@ public class GroupCompetitionHandler {
 		rspBuilder.setGroupScoreRankRspData(builder.build());
 		return rspBuilder.build().toByteString();
 	}
+	
+	public ByteString getGroupNewestScore(Player player, CommonGetDataReqMsg request) {
+		List<IReadOnlyPair<String, Integer>> list = GCompDetailInfoMgr.getInstance().getNewestScore(request.getMatchId());
+		List<GroupScoreData> dataList;
+		if (list.size() > 0) {
+			dataList = new ArrayList<GroupScoreData>(list.size());
+			for (IReadOnlyPair<String, Integer> pair : list) {
+				dataList.add(GroupScoreData.newBuilder().setGroupId(pair.getT1()).setScore(pair.getT2()).build());
+			}
+		} else {
+			dataList = Collections.emptyList();
+		}
+		CommonGetDataRspMsg.Builder rspBuilder = CommonGetDataRspMsg.newBuilder();
+		rspBuilder.setRstType(GCResultType.SUCCESS);
+		rspBuilder.addAllGroupScoreData(dataList);
+		return rspBuilder.build().toByteString();
+	}
 
 	public void inPrepareArea(Player player) {
 		PrepareAreaMgr.getInstance().inPrepareArea(player);
+	}
+
+	public ByteString getFightInfoInScene(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		ScoreInfoInPrepareMgr.getInstance().getFightInfoInScene(player);
+		builder.setRstType(GCResultType.SUCCESS);
+		return builder.build().toByteString();
 	}
 }

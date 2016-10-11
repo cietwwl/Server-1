@@ -37,6 +37,8 @@ enum GCRequestType{
 	GetScoreRank = 28;	//积分排行榜
 	GetGroupScoreRank = 29; // 帮派积分排行榜
 	InPrepareArea = 30;		//加载完了备战区
+	GetNewestScore = 31; // 请求当前最新的积分
+	GetFightInfoInScene = 32;	//在同屏场景内请求积分、连胜等信息
 }
 
 enum TeamStatusType {
@@ -69,8 +71,8 @@ message CommonRspMsg{
 message CommonGetDataReqMsg {
 	required GCRequestType reqType = 1; // 请求的类型
 	optional ParaForLiveMsg livePara = 2;	//赛事直播（和回放）的参数
-	optional ParaForPlayBack playBackPara = 3;	//GCRequestType.PlaybackMsg的参数（直播或回放顶部的内容）
-	optional ParaForGetRank getRankPara = 4;	//获取排行榜的参数
+	optional ParaForGetRank getRankPara = 3;	//获取排行榜的参数
+	optional fixed32 matchId = 4; // 请求更新积分的matchId（reqType == GCRequestType.GetNewestScore）
 }
 
 message CommonGetDataRspMsg {
@@ -80,6 +82,7 @@ message CommonGetDataRspMsg {
 	repeated GCompRankItem rankData = 4;	//排行榜数据
 	optional GCompGroupScoreRankRspData groupScoreRankRspData = 5; // 帮派积分排行榜数据
 	optional GCompRankItem selfRankData = 6;	//自己的排行数据
+	repeated GroupScoreData groupScoreData = 7; // 帮派积分的信息
 }
 
 //备战区同屏玩家坐标
@@ -228,11 +231,6 @@ message ParaForLiveMsg{
 	optional fixed64 latestTime = 2;	//赛事记录最新的时间(LeaveLivePage的时候，不需要这个参数)
 }
 
-// 赛事回放的参数
-message ParaForPlayBack{
-	required fixed32 matchId = 1;		//赛事阶段的id
-}
-
 // 获取排行榜的参数
 message ParaForGetRank{
 	required int32 eventsType = 1;	//赛事阶段的id
@@ -278,4 +276,10 @@ message GCompHistoryChampion {
 // 胜利的帮派id
 message EventsResult {
 	required string winGroupId = 1;
+}
+
+// 帮派积分的更新数据
+message GroupScoreData {
+	required string groupId = 1; // 帮派id
+	required fixed32 score = 2; // 积分
 }

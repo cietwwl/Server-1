@@ -286,4 +286,13 @@ public class PrepareAreaMgr {
 	public void inPrepareArea(Player player) {
 		GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
 	}
+	
+	/**
+	 * 获取帮派的同屏场景id
+	 * @param groupId
+	 * @return
+	 */
+	public Long getGroupScene(String groupId){
+		return groupScene.get(groupId);
+	}
 }
