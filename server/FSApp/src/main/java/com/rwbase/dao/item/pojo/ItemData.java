@@ -84,7 +84,8 @@ public class ItemData implements IMapItem, ItemDataIF {
 			allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
 			allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
 			allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
-			allExtendAttr.put(EItemAttributeType.Magic_Aptitude_VALUE, String.valueOf(magicCfg.getAptitude()));
+			allExtendAttr.put(EItemAttributeType.Magic_Aptitude_VALUE, String.valueOf(magicCfg.getFirstAptitude()));
+			allExtendAttr.put(EItemAttributeType.Magic_AdvanceLevel_VALUE, String.valueOf(magicCfg.getUplevel()));
 			// } else if (type == EItemTypeDef.Magic_Piece) {
 			// allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
 			// allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");

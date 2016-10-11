@@ -85,14 +85,11 @@ public class MagicHandler {
 		MsgMagicResponse.Builder msgMagicResponse = MsgMagicResponse.newBuilder();
 		msgMagicResponse.setMagicType(msgMagicRequest.getMagicType());
 
-		int state = msgMagicRequest.getState();
-
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		ItemData itemData = itemBagMgr.findBySlotId(msgMagicRequest.getId());
 		if (itemData == null) {
 			return setReturnResponse(msgMagicResponse, "找不到法宝！");
 		}
-		state = getItemMagicState(itemData);
 		
 		int maxMagicLevel = MagicExpCfgDAO.getInstance().getMaxMagicLevel();
 		
@@ -108,7 +105,7 @@ public class MagicHandler {
 		
 		MagicExpCfg magicCfg = MagicExpCfgDAO.getInstance().getMagicCfgByLevel(currentLevel);
 		int goodsId = magicCfg.getGoodsId();
-		int goodsNum = magicCfg.getGoodsNum();
+		int goodsNum = magicCfg.getGoods();
 		
 		
 		boolean checkEnoughItem = itemBagMgr.checkEnoughItem(goodsId, goodsNum);
@@ -121,6 +118,8 @@ public class MagicHandler {
 		}
 		
 		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(nextLevel));
+		
+		int state = getItemMagicState(itemData);
 		if (state == 1) {
 			player.getMagicMgr().updateMagic();
 		}
@@ -169,6 +168,7 @@ public class MagicHandler {
 		msgMagicResponse.setMagicType(msgMagicRequest.getMagicType());
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		ItemData itemData = itemBagMgr.findBySlotId(msgMagicRequest.getId());
+		
 		if (itemData == null) {
 			return setReturnResponse(msgMagicResponse, "找不到法宝！");
 		}
@@ -217,6 +217,11 @@ public class MagicHandler {
 		itemData.setExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE, String.valueOf(smeltAptitude));
 		msgMagicResponse.setEMagicResultType(eMagicResultType.SUCCESS);
 		
+
+		int state = getItemMagicState(itemData);
+		if (state == 1) {
+			player.getMagicMgr().updateMagic();
+		}
 		//同步数据
 		itemBagMgr.updateItem(itemData);
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
@@ -283,11 +288,6 @@ public class MagicHandler {
 			}
 		} catch (Exception ex) {
 			fillResponseInfo(response, false, "无法获取法宝等级！");
-			return response.build().toByteString();
-		}
-
-		if (lvl < uplevel) {
-			fillResponseInfo(response, false, "法宝没有达到进阶等级！");
 			return response.build().toByteString();
 		}
 
@@ -428,6 +428,61 @@ public class MagicHandler {
 			fillResponseInfo(rsp, false, "继承的法宝不存在");
 			return rsp.build().toByteString();
 		}
+		
+		int magicLevel = Integer.parseInt(magic.getExtendAttr(EItemAttributeType.Magic_Level_VALUE));
+		int toMagicLevel = Integer.parseInt(toMagic.getExtendAttr(EItemAttributeType.Magic_Level_VALUE));
+		if(magicLevel <= toMagicLevel){
+			return setReturnResponse(rsp, "继承的法宝必须比被继承法宝等级低！");
+		}
+		
+		int currencyType = -1;
+		int totalCost = 0;
+		
+		HashMap<Integer, Integer> inheritItemMap = new HashMap<Integer, Integer>();
+		List<MagicExpCfg> inheritList = MagicExpCfgDAO.getInstance().getInheritList(toMagicLevel, magicLevel);
+		for (MagicExpCfg magicExpCfg : inheritList) {
+			totalCost += magicExpCfg.getCost();
+			currencyType = magicExpCfg.getMoneyType();
+			
+			int goodsId = magicExpCfg.getGoodsId();
+			int exp = magicExpCfg.getExp();
+			if(inheritItemMap.containsKey(goodsId)){
+				Integer value = inheritItemMap.get(goodsId);
+				inheritItemMap.put(goodsId, exp + value);
+			}else{
+				inheritItemMap.put(goodsId, exp);
+			}
+		}
+		eSpecialItemId specialItemId = eSpecialItemId.getDef(currencyType);
+		// 扣金币和扣材料
+		long curValue = player.getReward(specialItemId);
+		if (totalCost > curValue) {
+			return setReturnResponse(rsp, "货币不足！");
+		}
+		
+		MagicExpCfg cfg = MagicExpCfgDAO.getInstance().getInheritCfg(toMagicLevel, inheritItemMap);
+		int tempLevel = cfg.getLevel();
+		if(tempLevel == toMagicLevel){
+			return setReturnResponse(rsp, "继承的法宝升级不了被继承法宝！");
+		}
+		
+		if(!itemBagMgr.addItem(currencyType, -totalCost)){
+			return setReturnResponse(rsp, "货币不足！");
+		}
+		
+		toMagic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(tempLevel));
+		magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(1));
+		
+		if (getItemMagicState(toMagic) == 1 || getItemMagicState(magic) == 1) {
+			player.getMagicMgr().updateMagic();
+		}
+		
+		itemBagMgr.updateItem(magic);
+		itemBagMgr.updateItem(toMagic);
+		List<ItemData> updateItems = new ArrayList<ItemData>(2);
+		updateItems.add(magic);
+		updateItems.add(toMagic);
+		itemBagMgr.syncItemData(updateItems);
 
 		rsp.setEMagicResultType(eMagicResultType.SUCCESS);
 		return rsp.build().toByteString();

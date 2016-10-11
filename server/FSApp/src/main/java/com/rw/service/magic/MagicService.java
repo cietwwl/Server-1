@@ -26,7 +26,7 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 				result = magicHandler.forgeMagicWeapon(player, request);
 				break;
 			case Magic_Inherit:			//法宝继承
-				
+				result = magicHandler.magicInheritHandler(player, request);
 				break;
 			case Magic_Evolution:		//法宝进化
 				result = magicHandler.upgradeMagicWeapon(player, request);
