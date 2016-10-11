@@ -302,6 +302,8 @@
 	<bean class="com.rwbase.dao.fighting.MagicLevelFightingCfgDAO" init-method="init" />
 	<!--  法宝品质战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.MagicQualityFightingCfgDAO" init-method="init" />
+	<!--  法宝资质战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicAptitudeFightingCfgDAO" init-method="init" />
 	<!--  技能战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.SkillFightingCfgDAO" init-method="init" />
 	<!--  神器羁绊战力配置表 -->
@@ -356,6 +358,8 @@
 	
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltMaterialCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCfgDAO" init-method="init" />
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

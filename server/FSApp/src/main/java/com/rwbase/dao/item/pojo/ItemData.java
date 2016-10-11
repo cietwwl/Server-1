@@ -162,6 +162,14 @@ public class ItemData implements IMapItem, ItemDataIF {
 			return StringUtils.isEmpty(magicLevel) ? 1 : Integer.parseInt(magicLevel);
 		}
 	}
+	
+	@JsonIgnore
+	public int getMagicAptitude(){
+		synchronized (this) {
+			String magicAptitude = this.allExtendAttr.get(EItemAttributeType.Magic_Aptitude_VALUE);
+			return StringUtils.isEmpty(magicAptitude) ? 1 : Integer.parseInt(magicAptitude);
+		}
+	}
 
 	public int getModelId() {
 		return modelId;
