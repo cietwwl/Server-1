@@ -438,6 +438,10 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 			if(!isOpen(cfg)&&!isCanTakeGift(cfg)){
 				continue;
 			}
+			if(cfg.getLevelLimit()> player.getLevel()){
+				continue;
+			}
+			
 			if(itemList == null){
 				itemList = redEnvelopeHolder.getItemList(player.getUserId());
 			}

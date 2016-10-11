@@ -500,6 +500,10 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			if(!isOpen(cfg)){
 				continue;
 			}
+			if(cfg.getLevelLimit()> player.getLevel()){
+				continue;
+			}
+			
 			if(rankItemList == null){
 				rankItemList = rankHolder.getItemList(player.getUserId());
 			}

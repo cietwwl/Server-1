@@ -423,6 +423,10 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 			if(!dao.isOpen(cfg)){
 				continue;
 			}
+			if(cfg.getLevelLimit()> player.getLevel()){
+				continue;
+			}
+			
 			if(dailyTargetItem == null){
 				dailyTargetItem = dailyDataHolder.getItem(player.getUserId());
 			}
