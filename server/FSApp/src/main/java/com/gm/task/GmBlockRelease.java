@@ -25,7 +25,9 @@ public class GmBlockRelease implements IGmTask{
 		if(StringUtils.isNotBlank(accountList)){ 
 			String[] accountArray = accountList.split(",");			
 			for (String account : accountArray) {
-				User user = UserDataDao.getInstance().getByAccoutAndZoneId(account, GameManager.getZoneId());
+				String[] split = account.split("_");
+				String accountValue = split[1];
+				User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountValue, GameManager.getZoneId());
 				Player target = PlayerMgr.getInstance().find(user.getUserId());
 				if(target!=null){
 					long blockCoolTime = 0;

@@ -14,6 +14,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupCmdHelper;
@@ -347,6 +348,8 @@ public class GroupMemberManagerHandler {
 		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
 		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+		// 帮派信息发生改变
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 
 		commonRsp.setIsSuccess(true);
 		if (needRsp) {
@@ -799,6 +802,8 @@ public class GroupMemberManagerHandler {
 		group.getGroupCopyMgr().nofityCreateRoleLeaveTask(kickMemberId);
 
 		commonRsp.setIsSuccess(true);
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
+		GroupCompetitionMgr.getInstance().notifyGroupMemberLeave(group, playerId);
 		return commonRsp.build().toByteString();
 	}
 }

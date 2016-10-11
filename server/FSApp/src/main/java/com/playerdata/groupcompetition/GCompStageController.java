@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.playerdata.groupcompetition.data.IGCompStage;
 import com.playerdata.groupcompetition.util.GCompCommonTask;
+import com.playerdata.groupcompetition.util.GCompRestStartPara;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.playerdata.groupcompetition.util.IConsumer;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -121,22 +122,26 @@ public class GCompStageController {
 	}
 	
 	private long calculateEndTime() {
-		GroupCompetitionStageCfgDAO dao = GroupCompetitionStageCfgDAO.getInstance();
-		IGCompStage stage;
-		GroupCompetitionStageCfg cfg;
-		int days = 0;
-		IReadOnlyPair<Integer, Integer> timeInfo = null;
-		for (int i = 0, size = _stageQueue.size(); i < size; i++) {
-			stage = _stageQueue.get(i);
-			cfg = dao.getCfgById(stage.getStageCfgId());
-			days += cfg.getLastDays();
-			timeInfo = cfg.getEndTimeInfo();
+		if (_firstStageStartPara != null && _firstStageStartPara instanceof GCompRestStartPara) {
+			return ((GCompRestStartPara)_firstStageStartPara).getEndTime();
+		} else {
+			GroupCompetitionStageCfgDAO dao = GroupCompetitionStageCfgDAO.getInstance();
+			IGCompStage stage;
+			GroupCompetitionStageCfg cfg;
+			int days = 0;
+			IReadOnlyPair<Integer, Integer> timeInfo = null;
+			for (int i = 0, size = _stageQueue.size(); i < size; i++) {
+				stage = _stageQueue.get(i);
+				cfg = dao.getCfgById(stage.getStageCfgId());
+				days += cfg.getLastDays();
+				timeInfo = cfg.getEndTimeInfo();
+			}
+			Calendar instance = Calendar.getInstance();
+			instance.add(Calendar.DAY_OF_YEAR, days);
+			instance.set(Calendar.HOUR_OF_DAY, timeInfo.getT1());
+			instance.set(Calendar.MINUTE, timeInfo.getT2());
+			return instance.getTimeInMillis();
 		}
-		Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.DAY_OF_YEAR, days);
-		instance.set(Calendar.HOUR_OF_DAY, timeInfo.getT1());
-		instance.set(Calendar.MINUTE, timeInfo.getT2());
-		return instance.getTimeInMillis();
 	}
 	
 	/**

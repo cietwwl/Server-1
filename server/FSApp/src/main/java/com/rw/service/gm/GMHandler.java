@@ -223,12 +223,14 @@ public class GMHandler {
 		funcCallBackMap.put("requestgcompselectiondata", "requestGCompSelectionData");
 		funcCallBackMap.put("requestGCompMatchData".toLowerCase(), "requestGCompMatchData");
 		funcCallBackMap.put("requestGroupScoreRank".toLowerCase(), "requestGroupScoreRank");
+		funcCallBackMap.put("requestGroupNewestScore".toLowerCase(), "requestGroupNewestScore");
 		funcCallBackMap.put("MGCS".toLowerCase(), "moveGroupCompStage");
 		funcCallBackMap.put("enterPrepareArea".toLowerCase(), "enterPrepareArea");
 		funcCallBackMap.put("createGCompTeam".toLowerCase(), "requestCreateGCompTeam");
 		funcCallBackMap.put("gCompTeamAction".toLowerCase(), "GCompTeamAction");
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
 		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
+		funcCallBackMap.put("refreshGCompFighting".toLowerCase(), "refreshGCompFighting");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1580,6 +1582,19 @@ public class GMHandler {
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
 	
+	public boolean requestGroupNewestScore(String[] arrCommandContents, Player player) {
+		int matchId = Integer.parseInt(arrCommandContents[0]);
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_GROUP_COMPETITION_GET_DATA);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.GroupCompetitionProto.CommonGetDataReqMsg.newBuilder().setReqType(GCRequestType.GetNewestScore).setMatchId(matchId).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	
 	public boolean enterPrepareArea(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1848,4 +1863,23 @@ public class GMHandler {
 		return true;
 	}
 
+	public boolean refreshGCompFighting(String[] arrCommandContents, Player player) {
+		Runnable r = new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					com.playerdata.groupcompetition.util.GCompUpdateFightingTask temp = new com.playerdata.groupcompetition.util.GCompUpdateFightingTask();
+					Method m = temp.getClass().getDeclaredMethod("refreshGroupFighting");
+					m.setAccessible(true);
+					m.invoke(temp);
+					m.setAccessible(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		GameWorldFactory.getGameWorld().asynExecute(r);
+		return true;
+	}
 }

@@ -33,6 +33,8 @@ public class GroupCompetitionGetDataService implements FsService<CommonGetDataRe
 			return GroupCompetitionHandler.getInstance().getGroupScoreRank(player);
 		case GetNewestScore:
 			return GroupCompetitionHandler.getInstance().getGroupNewestScore(player, request);
+		case GetFightInfoInScene:
+			return GroupCompetitionHandler.getInstance().getFightInfoInScene(player, request);
 		default:
 			return null;
 		}

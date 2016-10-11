@@ -10,6 +10,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.holder.GCompMemberHolder;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
+import com.playerdata.groupcompetition.rank.ScoreInfoInPrepareMgr;
 import com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.UserGroupCompetitionScoreRecord;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -89,6 +90,7 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 			if (maxContinueWins == continueWins) {
 				GCompContinueWinRankMgr.addOrUpdateContinueWinRank(player, maxContinueWins);
 			}
+			ScoreInfoInPrepareMgr.getInstance().updateNewScoreRecord(player);
 		}
 
 	}
@@ -109,8 +111,8 @@ class GCompMemberCommonAgent implements IGCompMemberAgent {
 		public void run() {
 			Player player = PlayerMgr.getInstance().find(userId);
 			GCompScoreRankMgr.addOrUpdateScoreRank(player, score);
+			ScoreInfoInPrepareMgr.getInstance().updateNewScoreRecord(player);
 		}
-
 	}
 	
 	private static class UpdateUserGroupCompetitinRecordTask implements Runnable {
