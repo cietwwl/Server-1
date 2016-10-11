@@ -439,11 +439,11 @@ public class MagicHandler {
 		int totalCost = 0;
 		
 		HashMap<Integer, Integer> inheritItemMap = new HashMap<Integer, Integer>();
+		MagicExpCfg magicCfg = MagicExpCfgDAO.getInstance().getMagicCfgByLevel(magicLevel);
+		currencyType = magicCfg.getMoneyType();
+		totalCost = magicCfg.getCost();
 		List<MagicExpCfg> inheritList = MagicExpCfgDAO.getInstance().getInheritList(toMagicLevel, magicLevel);
 		for (MagicExpCfg magicExpCfg : inheritList) {
-			totalCost += magicExpCfg.getCost();
-			currencyType = magicExpCfg.getMoneyType();
-			
 			int goodsId = magicExpCfg.getGoodsId();
 			int exp = magicExpCfg.getExp();
 			if(inheritItemMap.containsKey(goodsId)){
