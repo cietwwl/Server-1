@@ -11,6 +11,8 @@ import com.playerdata.groupFightOnline.data.GFBiddingItemHolder;
 import com.playerdata.groupFightOnline.data.GFightOnlineGroupData;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.rwbase.dao.group.pojo.cfg.GroupFunctionCfg;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 
@@ -78,7 +80,8 @@ public class GFightGroupBidBM {
 		}
 		if(!GFightConditionJudge.getInstance().isLevelEnoughForBid(player)){
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
-			gfRsp.setTipMsg("帮派等级没达到竞标要求");
+			GroupFunctionCfg funCfg = GroupFunctionCfgDAO.getDAO().getCfgById(GFightConst.GF_BID_AUTHORITY_ID);
+			gfRsp.setTipMsg("竞标要求帮派达到" + funCfg.getNeedGroupLevel() + "级");
 			return;
 		}
 		GFightOnlineGroupData gfGroupData = GFightOnlineGroupMgr.getInstance().getByUser(player);
