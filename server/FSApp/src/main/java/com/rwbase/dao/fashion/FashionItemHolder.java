@@ -10,6 +10,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.readonly.FashionMgrIF.ItemFilter;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -119,7 +120,7 @@ public class FashionItemHolder{
 	}
 
 	public void directAddItem(String uid, FashionItem item) {
-		RoleExtPropertyStoreCache<FashionItem> cache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.FISHION, FashionItem.class);
+		RoleExtPropertyStoreCache<FashionItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FISHION, FashionItem.class);
 		
 		PlayerExtPropertyStore<FashionItem> other = null;
 		try {
@@ -162,7 +163,7 @@ public class FashionItemHolder{
 	}
 	
 	private PlayerExtPropertyStore<FashionItem> getItemStore(){
-		RoleExtPropertyStoreCache<FashionItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.FISHION, FashionItem.class);
+		RoleExtPropertyStoreCache<FashionItem> heroExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FISHION, FashionItem.class);
 		PlayerExtPropertyStore<FashionItem> store = null;
 		try {
 			

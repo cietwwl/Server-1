@@ -1,6 +1,7 @@
 package com.rw.service.guide.datamodel;
 
 import com.log.GameLog;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -62,7 +63,7 @@ public class GiveItemHistoryHolder {
 	}
 	
 	private PlayerExtPropertyStore<GiveItemHistory> getCache(String userId){
-		RoleExtPropertyStoreCache<GiveItemHistory> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.GIVEITEM_HISTORY, GiveItemHistory.class);
+		RoleExtPropertyStoreCache<GiveItemHistory> heroExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.GIVEITEM_HISTORY, GiveItemHistory.class);
 		PlayerExtPropertyStore<GiveItemHistory> store = null;
 		try {
 			

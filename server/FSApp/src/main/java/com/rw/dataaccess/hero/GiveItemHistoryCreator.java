@@ -3,11 +3,13 @@ package com.rw.dataaccess.hero;
 import java.util.Collections;
 import java.util.List;
 
+import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
+import com.rw.dataaccess.attachment.PlayerPropertyParams;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public class GiveItemHistoryCreator implements HeroExtPropertyCreator<GiveItemHistory>{
+public class GiveItemHistoryCreator implements PlayerExtPropertyCreator<GiveItemHistory>{
 
 	@Override
 	public eOpenLevelType getOpenLevelType() {
@@ -16,13 +18,13 @@ public class GiveItemHistoryCreator implements HeroExtPropertyCreator<GiveItemHi
 	}
 
 	@Override
-	public boolean requiredToPreload(HeroCreateParam params) {
+	public boolean requiredToPreload(PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
-	public List<GiveItemHistory> firstCreate(HeroCreateParam params) {
+	public List<GiveItemHistory> firstCreate(PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return Collections.emptyList();
 	}
@@ -30,10 +32,12 @@ public class GiveItemHistoryCreator implements HeroExtPropertyCreator<GiveItemHi
 	@Override
 	public List<GiveItemHistory> checkAndCreate(
 			PlayerExtPropertyStore<GiveItemHistory> store,
-			HeroCreateParam params) {
+			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
 
 
 

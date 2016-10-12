@@ -30,6 +30,7 @@ import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
 import com.rw.dataaccess.hero.FashionCreator;
+import com.rw.dataaccess.hero.GiveItemHistoryCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
 import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.fashion.FashionItem;
@@ -53,6 +54,8 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),	
 	ACTIVITY_RETRIEVE(14,RewardBackItem.class,ActivityRetrieveCreator.class),
 	FRESHER_ACTIVITY(15, FresherActivityBigItem.class, FresherActivityCreator.class),
+	FISHION(16,FashionItem.class,FashionCreator.class),
+	GIVEITEM_HISTORY(17,GiveItemHistory.class,GiveItemHistoryCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;
