@@ -14,10 +14,10 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 13,,13,32,100,,,,,
 14,,14,13,100,,,,MSG_ROLE,CHANGE_ROLE
 15,,15,7,100,点金手,,,MSG_MainService,BUY_COIN
-17,,17,15,100,,,,MSG_FRIEND,
+17,,17,17,100,,,,MSG_FRIEND,
 18,,18,1,100,,,,,
 19,,19,1,100,,,,,
-20,,20,16,100,,,,MSG_DAILY_ACTIVITY,
+20,,20,15,100,,,,MSG_DAILY_ACTIVITY,
 21,,21,14,100,,,110404,MSG_ARENA,
 22,,22,1,100,,,,MSG_SIGN,
 23,,23,18,100,,,110410,MSG_MAGIC_SECRET,Magic_Secret
