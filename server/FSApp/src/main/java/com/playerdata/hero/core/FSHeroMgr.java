@@ -449,10 +449,12 @@ public class FSHeroMgr implements HeroMgr {
 			fightingAll += hero.getFighting();
 			starAll += hero.getStarLevel();
 		}
-		FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(player.getUserId());
-		globalData.setFightingAll(fightingAll);
-		globalData.setStartAll(starAll);
-		FSUserHeroGlobalDataDAO.getInstance().update(globalData);
+//		FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(player.getUserId());
+//		globalData.setFightingAll(fightingAll);
+//		globalData.setStartAll(starAll);
+//		FSUserHeroGlobalDataDAO.getInstance().update(globalData);
+		player.getUserGameDataMgr().setFightingAll(fightingAll);
+		player.getUserGameDataMgr().setStarAll(starAll);
 	}
 
 	@Override
