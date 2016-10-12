@@ -62,6 +62,8 @@ public class GFightFinalBM {
 	 * @param resourceID
 	 */
 	public void handleGFightResult(int resourceID){
+		//设置资源点占有者的可竞标状态
+		setResourceOwnerBidAble(resourceID);
 		GFightOnlineResourceMgr.getInstance().clearVictoryGroup(resourceID);
 		//杀敌排行奖励
 		handleKillRankReward(resourceID);
@@ -74,11 +76,9 @@ public class GFightFinalBM {
 		handleVictoryGroup(resourceID, groupRankList.get(0));
 		for(int i = 1; i < groupRankList.size(); i++)
 			handleFailGroup(groupRankList.get(i));
-		
 		//清除本次循环中的数据，以便于开始下个循环
 		clearCurrentLoopData(resourceID);
-		//设置资源点占有者的可竞标状态
-		setResourceOwnerBidAble(resourceID);
+		
 	}
 	
 	/**
