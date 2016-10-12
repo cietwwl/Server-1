@@ -14,7 +14,7 @@ public class GCompUserQuizItemHolder {
 		return instance;
 	}
 	
-	private  Map<String, GCompUserQuizItem> list = new HashMap<String, GCompUserQuizItem>();
+	private  Map<Integer, GCompUserQuizItem> list = new HashMap<Integer, GCompUserQuizItem>();
 	
 	private SynDataListHolder<GCompUserQuizItem> listHolder = new SynDataListHolder<GCompUserQuizItem>(GCompUserQuizItem.class);
 	
@@ -24,11 +24,11 @@ public class GCompUserQuizItemHolder {
 		List<GCompUserQuizItem> itemList = listHolder.getItemList();
 		for (int i = 0, size = itemList.size(); i < size; i++) {
 			GCompUserQuizItem ugfData = itemList.get(i);
-			list.put(ugfData.getId(), ugfData);
+			list.put(ugfData.getMatchId(), ugfData);
 		}
 	}
 	
-	public GCompUserQuizItem getUserGFData(String userID){
-		return list.get(userID);
+	public GCompUserQuizItem getUserQuizData(Integer matchId){
+		return list.get(matchId);
 	}
 }

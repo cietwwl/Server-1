@@ -226,10 +226,10 @@ public abstract class ClientMsgHandler {
 						getClient().getUserQuizItemHolder().syn(msgDataSyn);
 						break;
 					case GCompSelfGuessDetail:
-						getClient().getQuizEventItemHolder().syn(msgDataSyn);
+						getClient().getQuizEventItemHolder().syn(msgDataSyn, true);
 						break;
 					case GCompCanGuessItem:
-						getClient().getQuizEventItemHolder().syn(msgDataSyn);
+						getClient().getQuizEventItemHolder().syn(msgDataSyn, false);
 						break;
 					case GCompBase:
 						getClient().getGCompBaseInfoHolder().syn(msgDataSyn);

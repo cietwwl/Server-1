@@ -36,6 +36,8 @@ import com.rw.handler.gameLogin.SelectCareerHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
+import com.rw.handler.groupCompetition.service.GroupCompSameSceneHandler;
+import com.rw.handler.groupCompetition.service.GroupCompetitionQuizHandler;
 import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
@@ -1187,6 +1189,22 @@ public class Robot {
 	 */
 	public boolean startTBFight() {
 		return TeamBattleHandler.getInstance().startTBFight(client);
+	}
+	
+	/**
+	 * 争霸赛的竞猜
+	 * @return
+	 */
+	public boolean groupCompQuiz(){
+		return GroupCompetitionQuizHandler.getHandler().groupCompQuiz(client);
+	}
+	
+	/**
+	 * 争霸赛备战区内的走动
+	 * @return
+	 */
+	public boolean groupCompSameScene(){
+		return GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
 	}
 
 	public boolean sendGmCommand(String value) {
