@@ -7,14 +7,15 @@ import com.common.RefInt;
 import com.playerdata.FashionMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.NonSave;
 
 @Table(name = "fashion_brought_items")
 @SynClass
-public class FashionItem implements IMapItem, FashionItemIF {
+public class FashionItem implements RoleExtProperty, FashionItemIF {
 	@Id
-	private String id; //数据库存取id，用userId+"_"+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
+	private Integer id; //数据库存取id，用userId+"_"+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
 	
 	private int fashionId;// 时装模型id
 	
@@ -39,14 +40,11 @@ public class FashionItem implements IMapItem, FashionItemIF {
 	private long expiredTime;//到期时间（每次续费或者第一次购买会修改）
 	private String specialIncrPlanId;//特殊效果方案ID
 	
-	@Override
-	public String getId() {
-		return id;
-	}
+	
 
 	public void InitStoreId(){
 		if (id == null && userId != null && fashionId != 0){
-			id = userId + "_" + fashionId;
+			id = fashionId;
 		}
 	}
 	
@@ -57,7 +55,7 @@ public class FashionItem implements IMapItem, FashionItemIF {
 				oldId.value = fashionId;
 			}
 			fashionId = newFid.value;
-			id = userId + "_" + fashionId;
+			id = fashionId;
 			return true;
 		}
 		return false;
@@ -113,5 +111,11 @@ public class FashionItem implements IMapItem, FashionItemIF {
 
 	public void setSpecialIncrPlanId(String specialIncrPlanId) {
 		this.specialIncrPlanId = specialIncrPlanId;
+	}
+
+	@Override
+	public Integer getId() {
+		// TODO Auto-generated method stub
+		return id;
 	}
 }

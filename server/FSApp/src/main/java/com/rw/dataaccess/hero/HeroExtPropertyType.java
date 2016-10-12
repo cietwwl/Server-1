@@ -5,7 +5,9 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.dataaccess.attachment.RoleExtPropertyType;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.skill.pojo.SkillItem;
 
@@ -16,6 +18,8 @@ public enum HeroExtPropertyType implements RoleExtPropertyType{
 	SKILL_ITEM(3, SkillItem.class, HeroSkillItemCreator.class),
 	EQUIP_ITEM(4, EquipItem.class, HeroEquipItemCreator.class),
 	INLAY_ITEM(5, InlayItem.class, HeroInlayItemCreator.class),
+	FISHION(6,FashionItem.class,FashionCreator.class),
+	GIVEITEM_HISTORY(7,GiveItemHistory.class,GiveItemHistoryCreator.class),
 	;
 	
 	

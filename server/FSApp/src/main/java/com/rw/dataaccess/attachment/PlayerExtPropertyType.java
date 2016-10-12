@@ -29,7 +29,10 @@ import com.rw.dataaccess.attachment.creator.ActivityRetrieveCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
+import com.rw.dataaccess.hero.FashionCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.service.guide.datamodel.GiveItemHistory;
+import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCreator;
 
