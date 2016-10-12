@@ -22,6 +22,7 @@ import com.playerdata.groupcompetition.holder.data.GCompHistoryData;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.rank.GCompRankMgr;
+import com.playerdata.groupcompetition.rank.ScoreInfoInPrepareMgr;
 import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.util.GCEventsType;
 import com.playerdata.groupcompetition.util.GCompStageType;
@@ -483,5 +484,12 @@ public class GroupCompetitionHandler {
 
 	public void inPrepareArea(Player player) {
 		PrepareAreaMgr.getInstance().inPrepareArea(player);
+	}
+
+	public ByteString getFightInfoInScene(Player player, CommonGetDataReqMsg request) {
+		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
+		ScoreInfoInPrepareMgr.getInstance().getFightInfoInScene(player, request.getScorePara().getLatestTime());
+		builder.setRstType(GCResultType.SUCCESS);
+		return builder.build().toByteString();
 	}
 }
