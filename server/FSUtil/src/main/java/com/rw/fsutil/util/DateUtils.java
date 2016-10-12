@@ -427,6 +427,30 @@ public class DateUtils {
 		instance.setTimeInMillis(time);
 		return simpleDateFormat.format(instance.getTime());
 	}
+	
+	/**
+	 * 判断两个时间是否在同一天
+	 * @param time1
+	 * @param time2
+	 * @return
+	 */
+	public static boolean isSameDay(long time1, long time2){
+		Calendar c1 = Calendar.getInstance();
+		Calendar c2 = Calendar.getInstance();
+		c1.setTimeInMillis(time1);
+		c2.setTimeInMillis(time2);
+		int year1 = c1.get(Calendar.YEAR);
+		int year2 = c2.get(Calendar.YEAR);
+		int day1 = c1.get(Calendar.DAY_OF_YEAR);
+		int day2 = c2.get(Calendar.DAY_OF_YEAR);
+		if(year1 != year2){
+			return false;
+		}
+		if(day1 != day2){
+			return false;
+		}
+		return true;
+	}
 
 	public static void main(String[] args) throws ParseException {
 		// System.out.println(new Date(getHour(System.currentTimeMillis(),

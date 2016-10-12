@@ -13,6 +13,7 @@ public class TableStore {
 	@Id
 	private String userId;
 	private ConcurrentHashMap<Integer, StoreData> storeDataMap = new ConcurrentHashMap<Integer, StoreData>();
+	
 	public String getUserId() {
 		return userId;
 	}
