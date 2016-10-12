@@ -80,7 +80,11 @@ public class GroupCompetitionHandler {
 		groupDataBuilder.setRanking(ranking);
 		groupDataBuilder.setFighting(fightingItem.getGroupFight());
 		groupDataBuilder.setName(fightingItem.getGroupName());
-		groupDataBuilder.setUpNum(fightingItem.getLastRank() - ranking); // ranking比lastRank小，则是上升，反之则是下降
+		if (fightingItem.getLastRank() > 0) {
+			groupDataBuilder.setUpNum(fightingItem.getLastRank() - ranking); // ranking比lastRank小，则是上升，反之则是下降
+		} else {
+			groupDataBuilder.setUpNum(0);
+		}
 		return groupDataBuilder.build();
 	}
 	
