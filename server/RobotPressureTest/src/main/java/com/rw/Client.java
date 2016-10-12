@@ -26,8 +26,11 @@ import com.rw.handler.group.holder.GroupLogHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
+import com.rw.handler.groupCompetition.data.baseinfo.GCompBaseInfoHolder;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.guess.GCompUserQuizItemHolder;
+import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
+import com.rw.handler.groupCompetition.data.team.GCompTeamHolder;
 import com.rw.handler.groupFight.data.GFightOnlineGroupHolder;
 import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
 import com.rw.handler.groupFight.data.UserGFightOnlineHolder;
@@ -129,6 +132,9 @@ public class Client {
 	//争霸赛
 	private GCompUserQuizItemHolder userQuizItemHolder = GCompUserQuizItemHolder.getInstance();
 	private GCQuizEventItemHolder quizEventItemHolder = GCQuizEventItemHolder.getInstance();
+	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
+	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
+	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -489,5 +495,17 @@ public class Client {
 
 	public void setPeakArenaDataHolder(PeakArenaDataHolder peakArenaDataHolder) {
 		this.peakArenaDataHolder = peakArenaDataHolder;
+	}
+
+	public GCompBaseInfoHolder getGCompBaseInfoHolder() {
+		return gCompBaseInfoHolder;
+	}
+
+	public GCompTeamHolder getGCompTeamHolder() {
+		return gCompTeamHolder;
+	}
+
+	public GCompOnlineMemberHolder getGCompOnlinememberHolder() {
+		return gCompOnlinememberHolder;
 	}
 }

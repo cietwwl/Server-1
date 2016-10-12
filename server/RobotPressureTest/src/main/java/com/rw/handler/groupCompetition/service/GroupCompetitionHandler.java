@@ -8,31 +8,17 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
-import com.rw.dataSyn.DataSynHelper;
-import com.rw.handler.battle.army.CurAttrData;
-import com.rw.handler.group.data.UserGroupData;
-import com.rw.handler.groupFight.data.GFDefendArmyItem;
-import com.rw.handler.groupFight.data.GFDefendArmyItemHolder;
-import com.rw.handler.groupFight.data.GFightOnlineGroupData;
-import com.rw.handler.groupFight.data.GFightOnlineGroupHolder;
-import com.rw.handler.groupFight.data.GFightOnlineResourceData;
-import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
-import com.rw.handler.groupFight.data.UserGFightOnlineData;
-import com.rw.handler.groupFight.data.UserGFightOnlineHolder;
-import com.rw.handler.groupFight.dataForClient.DefendArmyHerosInfo;
-import com.rw.handler.groupFight.dataForClient.GFightResult;
-import com.rw.handler.groupFight.dataForRank.GFBidRankHolder;
-import com.rw.handler.groupFight.dataForRank.GFGroupBiddingItem;
+import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMember;
+import com.rw.handler.groupCompetition.util.GCompUtil;
 import com.rw.handler.hero.TableUserHero;
-import com.rwproto.GrouFightOnlineProto.GFRequestType;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
-import com.rwproto.GrouFightOnlineProto.GroupFightOnlineReqMsg;
-import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
 import com.rwproto.GroupCompetitionProto.ReqNewGuess;
 import com.rwproto.GroupCompetitionProto.RspAllGuessInfo;
+import com.rwproto.GroupCompetitionProto.TeamMemberRequest;
+import com.rwproto.GroupCompetitionProto.TeamRequest;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
@@ -45,25 +31,26 @@ public class GroupCompetitionHandler {
 	}
 	
 	public boolean gcompQuiz(Client client){
-		boolean result = synGroupFight(client);
-		if (!result) {
-			RobotLog.fail("playGroupFight[send]在线帮战同步资源点信息反馈结果=" + result);
-			return result;
-		}
-		GFightOnlineResourceData gfResData = GFightOnlineResourceHolder.getInstance().getUserGFData(RESOURCE_ID);
-		switch(gfResData.getState()){
-		case 1://休战
-			RobotLog.fail("playGroupFight[send]在线帮战资源点" + RESOURCE_ID + "正在休战中");
-			return true;
-		case 2://竞标阶段
-			return playGroupFightBid(client);
-		case 3://备战阶段
-			return playGroupFightPrepare(client);
-		case 4://开战阶段
-			return playGFStartFight(client);
-		default:
-			return true;
-		}
+//		boolean result = synGroupFight(client);
+//		if (!result) {
+//			RobotLog.fail("playGroupFight[send]在线帮战同步资源点信息反馈结果=" + result);
+//			return result;
+//		}
+//		GFightOnlineResourceData gfResData = GFightOnlineResourceHolder.getInstance().getUserGFData(RESOURCE_ID);
+//		switch(gfResData.getState()){
+//		case 1://休战
+//			RobotLog.fail("playGroupFight[send]在线帮战资源点" + RESOURCE_ID + "正在休战中");
+//			return true;
+//		case 2://竞标阶段
+//			return playGroupFightBid(client);
+//		case 3://备战阶段
+//			return playGroupFightPrepare(client);
+//		case 4://开战阶段
+//			return playGFStartFight(client);
+//		default:
+//			return true;
+//		}
+		return true;
 	}
 	
 	/**
@@ -104,7 +91,60 @@ public class GroupCompetitionHandler {
 		return success;
 	}
 	
-	private void quizForCompetion(Client client){
+	private boolean sendTeamRequestCommand(Client client, GCRequestType type, List<String> heroIds, MsgReciver msgReceiver) {
+		TeamRequest.Builder builder = TeamRequest.newBuilder();
+		builder.setReqType(GCRequestType.CreateTeam);
+		if (heroIds != null && heroIds.size() > 0) {
+			builder.addAllHeroId(heroIds);
+		}
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_TEAM_REQ, builder.build().toByteString(), msgReceiver);
+	}
+	
+	/**
+	 * 
+	 * 帮派争霸：创建队伍
+	 * 
+	 * @param client
+	 * @return
+	 */
+	public boolean createGCompTeam(Client client) {
+		List<String> heroIds = GCompUtil.getTeamHeroIds(client);
+		return this.sendTeamRequestCommand(client, GCRequestType.CreateTeam, heroIds, new GCompCreateTeamMsgReceiver());
+	}
+	
+	public boolean requestRandomMatching(Client client) {
+		return this.sendTeamRequestCommand(client, GCRequestType.StartRandomMatching, null, new GCompCreateTeamMsgReceiver());
+	}
+	
+	public boolean requestPersonalMatching(Client client) {
+		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, null, new GCompCreateTeamMsgReceiver());
+	}
+	
+	public boolean requestInviteMember(Client client) {
+		if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() > 1) {
+			GCompOnlineMember target = null;
+			for(int i = 0; i < 10; i++) {
+				target = client.getGCompOnlinememberHolder().getRandomOnlineMember();
+				if (!target.getUserId().equals(client.getUserId())) {
+					break;
+				} else {
+					target = null;
+				}
+			}
+			if (target != null) {
+				TeamMemberRequest.Builder builder = TeamMemberRequest.newBuilder();
+				builder.setReqType(GCRequestType.InviteMember);
+				builder.setTargetUserId(target.getUserId());
+				client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ, builder.build().toByteString(), new GCompInviteMemberMsgReceiver());
+			} else {
+				RobotLog.info("GroupCompetitionHandler#requestInviteMember，找不到合适的邀请对象！");
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private void quizForCompetion(Client client) {
 		ReqNewGuess.Builder req = ReqNewGuess.newBuilder();
 		req.setReqType(GCRequestType.NewGuess);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_QUIZ_SYN, req.build().toByteString(), new MsgReciver() {
@@ -134,6 +174,6 @@ public class GroupCompetitionHandler {
 				return true;
 			}
 		});
-		return success;
+//		return success;
 	}
 }
