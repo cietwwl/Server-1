@@ -80,8 +80,8 @@ public interface TableUserOtherIF {
 
 	public int getStrenCoin();
 	
-	public int getFightingAll();
-	
-	public int getStarAll();
+//	public int getFightingAll();
+//	
+//	public int getStarAll();
 
 }
