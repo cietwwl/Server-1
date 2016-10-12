@@ -44,9 +44,9 @@ public class MapItemStoreFactory {
 	// CopyMapRecord
 	private static MapItemStoreCache<CopyMapRecord> copyMapRecord;
 	// FashionItem
-	private static MapItemStoreCache<FashionItem> fashionCache;
+//	private static MapItemStoreCache<FashionItem> fashionCache;
 	// new guide
-	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
+//	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
 	// TaskItem
@@ -122,9 +122,9 @@ public class MapItemStoreFactory {
 
 		copyMapRecord = createForPerload(CopyMapRecord.class, "userId", heroCapacity);
 
-		fashionCache = createForPerload(FashionItem.class, "userId", heroCapacity);
+//		fashionCache = createForPerload(FashionItem.class, "userId", heroCapacity);
 
-		newGuideGiveItemHistoryCache = createForPerload(GiveItemHistory.class, "userId", heroCapacity);
+//		newGuideGiveItemHistoryCache = createForPerload(GiveItemHistory.class, "userId", heroCapacity);
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
 
@@ -223,14 +223,14 @@ public class MapItemStoreFactory {
 		return copyMapRecord;
 	}
 
-	/**
-	 * 获取时装缓存
-	 * 
-	 * @return
-	 */
-	public static MapItemStoreCache<FashionItem> getFashionCache() {
-		return fashionCache;
-	}
+//	/**
+//	 * 获取时装缓存
+//	 * 
+//	 * @return
+//	 */
+//	public static MapItemStoreCache<FashionItem> getFashionCache() {
+//		return fashionCache;
+//	}
 
 	/**
 	 * 获取法宝缓存
@@ -293,9 +293,9 @@ public class MapItemStoreFactory {
 		return itemDropAndApplyRecordCache;
 	}
 
-	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
-		return newGuideGiveItemHistoryCache;
-	}
+//	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
+//		return newGuideGiveItemHistoryCache;
+//	}
 
 
 
