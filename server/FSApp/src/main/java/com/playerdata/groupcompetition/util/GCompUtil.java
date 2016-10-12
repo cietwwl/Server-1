@@ -99,9 +99,6 @@ public class GCompUtil {
 			instance.add(Calendar.WEEK_OF_YEAR, cfg.getStartWeeks());
 			instance.set(Calendar.DAY_OF_WEEK, cfg.getStartDayOfWeek());
 		} else {
-			if (instance.get(Calendar.DAY_OF_WEEK) >= cfg.getStartDayOfWeek()) {
-				instance.add(Calendar.WEEK_OF_YEAR, 1);
-			}
 			instance.set(Calendar.DAY_OF_WEEK, cfg.getStartDayOfWeek());
 		}
 		instance.set(Calendar.HOUR_OF_DAY, time.getT1());
@@ -109,6 +106,9 @@ public class GCompUtil {
 			instance.set(Calendar.MINUTE, time.getT2());
 		}
 		instance.set(Calendar.SECOND, 0);
+		if (instance.getTimeInMillis() < System.currentTimeMillis()) {
+			instance.add(Calendar.WEEK_OF_YEAR, 1);
+		}
 		return instance.getTimeInMillis();
 	}
 	
@@ -145,7 +145,7 @@ public class GCompUtil {
 			endTimeInfo = nextFirst.getStartTimeInfo();
 			currentDateTime.set(Calendar.HOUR_OF_DAY, endTimeInfo.getT1());
 			currentDateTime.set(Calendar.MINUTE, endTimeInfo.getT2());
-			currentDateTime.add(Calendar.SECOND, -1); // 下个开始前1秒结束
+			currentDateTime.add(Calendar.SECOND, -30); // 下个开始前1秒结束
 		}
 		return currentDateTime.getTimeInMillis();
 	}
