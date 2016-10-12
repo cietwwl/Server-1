@@ -2,6 +2,7 @@ package com.rw.fsutil.dao.kvdata;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -188,6 +189,9 @@ public class DataKvManagerImpl implements DataKvManager {
 
 	@Override
 	public List<DataKvEntity> getRangeDataKvEntitys(String userId, List<Integer> typeList) {
+		if (typeList.isEmpty()) {
+			return Collections.emptyList();
+		}
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
 		int typeSize = typeList.size();
 		String partialSql = selectRangeSqlArray[tableIndex];
