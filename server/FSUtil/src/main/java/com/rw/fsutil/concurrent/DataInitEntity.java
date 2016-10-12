@@ -1,5 +1,6 @@
-package com.rw.support;
+package com.rw.fsutil.concurrent;
 
+import java.util.HashSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -14,12 +15,12 @@ import java.util.concurrent.atomic.AtomicReference;
  * @param <K>
  * @param <T>
  */
-public class DataInitWrap<K, T> {
+public class DataInitEntity<K, T> {
 
 	private final DataInitProcedureFactory<K, T> dataInitialization;
 	private final AtomicReference<T> value;
-
-	public DataInitWrap(DataInitProcedureFactory<K, T> dataInitialization) {
+	
+	public DataInitEntity(DataInitProcedureFactory<K, T> dataInitialization) {
 		this.dataInitialization = dataInitialization;
 		this.value = new AtomicReference<T>();
 	}
