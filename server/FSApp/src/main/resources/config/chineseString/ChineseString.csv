@@ -208,7 +208,7 @@ TIMES_NOT_ENOUGH,,,挑战次数不足
 DATA_ERROR,,,数据异常
 PEAK_LOSE_UPGRADE_TIP,,,巅峰竞技场战斗中无法进行该跳转
 Recommend_Fight_Power_NotEnough,,,战斗力不足，是否继续挑战？
-Recommend_Fight_Power_Less_Tip,,,我要变强
+Recommend_Fight_Power_Less_Tip,,,提升战力
 Recommend_Fight_Power_Normal_Tip,,,继续战斗
 INVALID_CHARGE_REWARD,,,请输入未获得道具
 FASHION_EXPIRE_LABEL,,,到期
