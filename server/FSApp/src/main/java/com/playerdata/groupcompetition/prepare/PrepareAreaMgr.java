@@ -226,11 +226,13 @@ public class PrepareAreaMgr {
 			@Override
 			public void run() {
 				if(needRemoveScene){
-					//延时清除每个帮派的准备区
-					for(Long sceneId : groupScene.values()){
-						DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+					if(null != groupScene){
+						//延时清除每个帮派的准备区
+						for(Long sceneId : groupScene.values()){
+							DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+						}
+						groupScene = null;
 					}
-					groupScene = null;
 				}
 			}
 		}, SCENE_KEEP_TIME);
