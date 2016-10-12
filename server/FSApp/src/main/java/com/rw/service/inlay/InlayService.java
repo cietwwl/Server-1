@@ -4,17 +4,13 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.GMServiceProtos.MsgGMRequest;
-import com.rwproto.GMServiceProtos.eGMType;
 import com.rwproto.InlayProtos.EInlayType;
 import com.rwproto.InlayProtos.InlayResult;
 import com.rwproto.InlayProtos.MsgInlayRequest;
 import com.rwproto.InlayProtos.MsgInlayResponse;
-import com.rwproto.MsgErrInfoProtos.EMsgErrorInfoType;
-import com.rwproto.MsgErrInfoProtos.MsgErrorInfoRequest;
 import com.rwproto.RequestProtos.Request;
 
-public class InlayService implements FsService<MsgInlayRequest, EInlayType>{
+public class InlayService implements FsService<MsgInlayRequest, EInlayType> {
 
 	@Override
 	public ByteString doTask(MsgInlayRequest request, Player player) {
@@ -24,22 +20,22 @@ public class InlayService implements FsService<MsgInlayRequest, EInlayType>{
 			EInlayType type = request.getType();
 			switch (type) {
 			case Inlay_One:
-				result=InlayHandler.getInstance().InlayOne(player,request);
-				
+				result = InlayHandler.getInstance().InlayOne(player, request);
+
 				break;
-				
-	         case Inlay_All:
-	        		result=InlayHandler.getInstance().InlayAll(player,request);
+
+			case Inlay_All:
+				result = InlayHandler.getInstance().InlayAll(player, request);
 				break;
-				
-	         case XieXia_All:
-	        	 result=InlayHandler.getInstance().XieXiaAll(player,request);
-					break;
+
+			case XieXia_All:
+				result = InlayHandler.getInstance().XieXiaAll(player, request);
+				break;
 
 			default:
 				break;
 			}
-			if (result == null){
+			if (result == null) {
 				MsgInlayResponse.Builder res = MsgInlayResponse.newBuilder();
 				res.setType(request.getType());
 				res.setResult(InlayResult.InlayFailed);
