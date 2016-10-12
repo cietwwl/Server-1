@@ -2,6 +2,7 @@ package com.rw.fsutil.dao.attachment;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,9 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 	}
 
 	public List<QueryRoleExtPropertyData> loadRangeEntitys(String ownerId, List<Short> typeList) {
+		if (typeList.isEmpty()) {
+			return Collections.emptyList();
+		}
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		Object[] params = new Object[typeList.size() + 1];
 		params[0] = ownerId;
