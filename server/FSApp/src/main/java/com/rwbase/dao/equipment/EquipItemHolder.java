@@ -245,6 +245,21 @@ public class EquipItemHolder {
 		EquipItem equipItem = EquipItemHelper.toEquip(heroId, equipIndex, itemData);
 		getItemStore(heroId).addItem(equipItem);
 	}
+	
+	/**
+	 * 为机器人添加一些装备
+	 * 
+	 * @param equipIndex
+	 * @param itemData
+	 */
+	public void addRobotEquip(String heroId, List<EquipItem> equipList) {
+		// 添加
+		try {
+			getItemStore(heroId).addItem(equipList);
+		} catch (DuplicatedKeyException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private PlayerExtPropertyStore<EquipItem> getItemStore(String ownerId) {
 		RoleExtPropertyStoreCache<EquipItem> cache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.EQUIP_ITEM, EquipItem.class);
