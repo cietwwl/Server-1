@@ -29,6 +29,7 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -163,10 +164,9 @@ public class ChargeMgr {
 		
 		
 		if(target!=null){
-//			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
-//				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-//			}else
-			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+			if(ServerSwitch.isTestCharge()){
+				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
