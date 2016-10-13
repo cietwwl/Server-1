@@ -41,7 +41,6 @@ import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
@@ -274,9 +273,6 @@ public class Player implements PlayerIF {
 
 		if (initMgr) {
 			initMgr();
-
-			// 检查主角羁绊
-			this.me_FetterMgr.checkPlayerData(this);
 		}
 
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
@@ -427,6 +423,8 @@ public class Player implements PlayerIF {
 		UserChannelMgr.onBSBegin(userId);
 		try {
 			notifyLogin();
+			// 检查主角羁绊
+			this.me_FetterMgr.checkPlayerData(this);
 			initDataVersionControl();
 			dataSynVersionHolder.synAll(this);
 			GroupMemberHelper.onPlayerLogin(this);
