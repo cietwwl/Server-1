@@ -26,7 +26,6 @@ import com.playerdata.charge.ChargeMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
-import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.quiz.GCompUserQuizItemHolder;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rwbase.common.PlayerDataMgr;

@@ -74,7 +74,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		this.penetrationCache = new SimpleCache<K, Long>(1000);
 		this.penetrationTimeOutMillis = TimeUnit.MINUTES.toMillis(5);
 		this.loader = (PersistentGenericHandler<K, V, Object>) loader;
-		this.timeoutMillis = TimeUnit.SECONDS.toMillis(6);
+		this.timeoutMillis = TimeUnit.SECONDS.toMillis(10);
 		if (dataNotExistHandler != null) {
 			this.dataNotExistHandler = dataNotExistHandler;
 		} else {
@@ -790,12 +790,12 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 			if (old != null) {
 				return old;
 			}
-			long start = System.currentTimeMillis();
+//			long start = System.currentTimeMillis();
 			boolean ok = this.evictedQueue.waitForNotFull(TimeUnit.MILLISECONDS, remainMillis);
 			if (!ok) {
 				throw new TimeoutException();
 			}
-			remainMillis -= (System.currentTimeMillis() - start);
+//			remainMillis -= (System.currentTimeMillis() - start);
 		}
 	}
 

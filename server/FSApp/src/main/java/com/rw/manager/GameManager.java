@@ -36,7 +36,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.groupcompetition.battle.GCompMatchBattleCheckTask;
+import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
@@ -130,6 +130,7 @@ public class GameManager {
 		if(ServerSwitch.isOpenTargetSell()){
 			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
 			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
+					zoneInfo.getBenefitLocalPort(),
 					connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
@@ -192,7 +193,7 @@ public class GameManager {
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		WorshipMgr.getInstance().getByWorshipedList();
 		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
-		GCompMatchBattleCheckTask.start();// 启动一个帮派争霸战斗结果的时效
+		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 	}

@@ -38,6 +38,8 @@ public class BenefitSystemMsgAdapter {
 
 	private final SocketAddress remoteAddress;
 	
+	private final SocketAddress localAddress;
+	
 	private int timeoutMillis;
 
 	private BenefitSystemMsgService msgService = BenefitSystemMsgService.getHandler();
@@ -48,8 +50,9 @@ public class BenefitSystemMsgAdapter {
 	//连接成功标记
 	private AtomicBoolean connectComplete = new AtomicBoolean(false);
 	
-	public BenefitSystemMsgAdapter(String host, int port, int timeoutMillis) {
+	public BenefitSystemMsgAdapter(String host, int port, int localPort, int timeoutMillis) {
 		remoteAddress = new InetSocketAddress(host, port);
+		localAddress = new InetSocketAddress(localPort);
 		this.timeoutMillis = timeoutMillis;
 		connect();
 		startReciver();
@@ -80,6 +83,7 @@ public class BenefitSystemMsgAdapter {
 //		System.out.println("================try to connet target sell server~");
 		try {
 			this.socket = createSocket();//重新创建一个
+			this.socket.bind(localAddress);//绑定本地端口
 			socket.connect(remoteAddress , timeoutMillis);//这个会阻塞,到超时或连接成功
 			this.output = new DataOutputStream(socket.getOutputStream());
 			this.reader = new DataInputStream(socket.getInputStream());

@@ -32,13 +32,13 @@ public class BenefitMsgController {
 		return controller;
 	}
 
-	public void init(String removeIp, int port, int timeoutMillis, int priod) {
+	public void init(String removeIp, int port, int localPort, int timeoutMillis, int priod) {
 
 		excutor = new ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(300));
 		// 设置饱和策略,达到上限放弃最旧的
 		excutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
 
-		msgAdapter = new BenefitSystemMsgAdapter(removeIp, port, timeoutMillis);
+		msgAdapter = new BenefitSystemMsgAdapter(removeIp, port,localPort, timeoutMillis);
 
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
 

@@ -57,18 +57,18 @@ public class GmUserDetailInfo implements IGmTask {
 		
 		String account = player.getUserDataMgr().getAccount();
 		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
+		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
+		UserDataMgr userDataMgr = player.getUserDataMgr();
+		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
 		
-		
-		map.put("account", account);
+		map.put("account", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
 		map.put("roleId", user.getUserId());
 		map.put("roleName", user.getUserName());
 		map.put("level", user.getLevel());
 		map.put("exp", player.getExp());
-		UserGameDataMgr userGameDataMgr = player.getUserGameDataMgr();
-		UserDataMgr userDataMgr = player.getUserDataMgr();
 		map.put("coin", userGameDataMgr.getGold());
 		map.put("money", userGameDataMgr.getCoin());
-		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		
 		if(zoneRegInfo!=null){
 			map.put("channel", zoneRegInfo.getRegChannelId());
 		}

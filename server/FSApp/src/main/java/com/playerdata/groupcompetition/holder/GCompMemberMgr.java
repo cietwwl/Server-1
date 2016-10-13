@@ -130,6 +130,16 @@ public class GCompMemberMgr {
 		return _allMembers.get(groupId).get(userId);
 	}
 	
+	public void removeGCompMember(String groupId, String userId) {
+		Map<String, GCompMember> map = _allMembers.get(groupId);
+		if(map != null) {
+			GCompMember member = map.remove(userId);
+			if(member != null) {
+				_sorted.get(groupId).remove(member);
+			}
+		}
+	}
+	
 	public List<GCompMember> getArrayCopyOfAllMembers(String groupId) {
 		List<GCompMember> arrayList = new ArrayList<GCompMember>();
 		getCopyOfAllMembers(groupId, arrayList);

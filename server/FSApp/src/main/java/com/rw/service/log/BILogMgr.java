@@ -685,8 +685,7 @@ public class BILogMgr {
 						} else {
 							SpecialItemCfg cfg = SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(model));
 							String name = cfg != null ? cfg.getName() : "";
-							String desc = cfg != null ? cfg.getDescription() : "";
-							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+							sbAttachAttr.append(model).append("(").append(name).append(")");
 						}
 						index++;
 						if (index < split.length) {

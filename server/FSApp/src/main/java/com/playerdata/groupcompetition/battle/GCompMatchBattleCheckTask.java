@@ -6,7 +6,6 @@ import java.util.concurrent.RejectedExecutionException;
 import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
-import com.rwbase.common.timer.core.FSGameTimerMgr;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
 /**
@@ -15,16 +14,24 @@ import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
  * @desc 启动一个三秒的时效去检查已经完成的匹配队列掉线，机器人战斗，以及超时
  **/
 
-public class GCompMatchBattleCheckTask implements IGameTimerTask {
+class GCompMatchBattleCheckTask implements IGameTimerTask {
+	private static final String matchBattleTaskName = "匹配战斗时效";
+
+	private volatile boolean isRun;// 设置时效
 
 	/**
-	 * 提交一个时效任务
+	 * 时效恢复
 	 */
-	public static void start() {
-		FSGameTimerMgr.getInstance().submitSecondTask(new GCompMatchBattleCheckTask(), 3);
+	void taskResume() {
+		isRun = true;
 	}
 
-	private static final String matchBattleTaskName = "匹配战斗时效";
+	/**
+	 * 时效暂停
+	 */
+	void taskPause() {
+		isRun = false;
+	}
 
 	@Override
 	public String getName() {
@@ -33,7 +40,9 @@ public class GCompMatchBattleCheckTask implements IGameTimerTask {
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-		GCompMatchDataHolder.getHolder().checkAllMatchBattleState();
+		if (isRun) {
+			GCompMatchDataHolder.getHolder().checkAllMatchBattleState();
+		}
 		return "SUCCESS";
 	}
 

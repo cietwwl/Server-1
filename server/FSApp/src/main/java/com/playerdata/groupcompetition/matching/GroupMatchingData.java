@@ -67,19 +67,32 @@ class GroupMatchingData {
 	
 	synchronized MatchingData pollMatchingByLv(int lv) {
 		Queue<MatchingData> list = matchingData.get(lv);
-		if (list != null) {
-			return list.poll();
+		if (list != null && list.size() > 0) {
+			return pollMatchingData(list);
 		}
 		return null;
 	}
 	
+	private MatchingData pollMatchingData(Queue<MatchingData> list) {
+		MatchingData md;
+		while ((md = list.poll()) != null) {
+			if (!md.isCancel()) {
+				return md;
+			}
+		}
+		return null;
+	}
+
 	synchronized MatchingData pollBeginWithMaxLv() {
 		if (matchingDataKeys.size() > 0) {
 			Queue<MatchingData> list;
 			for (int lv = maxLv; lv-- > 0;) {
 				list = matchingData.get(lv);
 				if (list != null && list.size() > 0) {
-					return list.poll();
+					MatchingData data = this.pollMatchingData(list);
+					if (data != null) {
+						return data;
+					}
 				}
 			}
 		}
@@ -88,10 +101,10 @@ class GroupMatchingData {
 	
 	synchronized MatchingData get(GCompTeam team) {
 		Queue<MatchingData> list = matchingData.get(team.getLv());
-		if(list != null) {
+		if (list != null) {
 			String teamId = team.getTeamId();
-			for(MatchingData d : list) {
-				if(d.getTeamId().equals(teamId)) {
+			for (MatchingData d : list) {
+				if (d.getTeamId().equals(teamId)) {
 					return d;
 				}
 			}
