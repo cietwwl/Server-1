@@ -50,11 +50,11 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 			String channel = luaValidateRequest.getChannel();
 			
 			LuaInfo channelLuaInfo = luaMgr.getChannelLuaInfo(channel);
-			
+			System.out.println("request lua service");
 			LuaValidateResponse luaValidateResponse = new LuaValidateResponse();
 			if(channelLuaInfo != null){
 				int type = luaValidateRequest.getType();
-				
+				System.out.println("request lua service:type:" + type);
 				
 				luaValidateResponse.setResult(true);
 				if(type == LuaRequestType.DOWNLOAD_LUAFILE){

@@ -91,7 +91,7 @@ public class HttpServerInboundHandler extends ChannelInboundHandlerAdapter {
 			Map<String,Object> params = new HashMap<String, Object>();
 			params.put("content", jsonContent);
 			
-			String resp = HttpClientUtil.post(targetZone.getServerIp(),targetZone.getChargePort(), params);
+			String resp = HttpClientUtil.post(targetZone.getIntraneIp(),targetZone.getChargePort(), params);
 			success = StringUtils.contains(resp, "ok");
 			ChargeLog.info("charge", contentPojo.getCpTradeNo(), "游戏服处理结果："+resp);
 			
