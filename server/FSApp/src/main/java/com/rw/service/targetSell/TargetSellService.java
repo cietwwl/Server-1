@@ -21,7 +21,7 @@ public class TargetSellService implements FsService<TargetSellReqMsg, RequestTyp
 			RequestType msgType = getMsgType(request);
 			switch (msgType) {
 			case GET_ITEM:
-				bstr = manager.roleGetItem(player,request.getItemGroupId());
+				bstr = manager.roleGetItem(player, request);
 				break;
 			case CHARGE_ITEM:
 				bstr = manager.roleChargeItem(player,request);

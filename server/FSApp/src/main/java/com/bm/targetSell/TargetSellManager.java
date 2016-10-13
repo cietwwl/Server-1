@@ -579,10 +579,11 @@ public class TargetSellManager {
 	 * @param itemGroupId
 	 * @return
 	 */
-	public ByteString roleGetItem(Player player, int itemGroupId) {
+	public ByteString roleGetItem(Player player, TargetSellReqMsg request) {
+		int itemGroupId = request.getItemGroupId();
 		TargetSellRespMsg.Builder respMsg = TargetSellRespMsg.newBuilder();
 		try {
-			
+			respMsg.setReqType(request.getReqType());
 			TargetSellRecord record = dataDao.get(player.getUserId());
 			
 			if(record == null){

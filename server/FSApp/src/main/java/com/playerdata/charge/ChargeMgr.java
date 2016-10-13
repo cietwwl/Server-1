@@ -186,7 +186,7 @@ public class ChargeMgr {
 			}
 			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
 			//这里检查一下精准营销有没有此角色的充值请求
-			TargetSellManager.getInstance().playerCharge(player, chargeContentPojo.getFee());
+			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
 			if(success){
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
