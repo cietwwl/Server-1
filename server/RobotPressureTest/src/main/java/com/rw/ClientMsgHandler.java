@@ -237,7 +237,12 @@ public abstract class ClientMsgHandler {
 					case GCompTeamHolder:
 						getClient().getGCompTeamHolder().syn(msgDataSyn);
 						break;
+					case GCompMatchEnemy:
+						Client client = getClient();
+						client.getgCompMatchBattleSynDataHolder().sendGCOmpMatchBattleReq(client);
+						break;
 					default:
+						break;
 					}
 				}
 			}
@@ -318,7 +323,7 @@ public abstract class ClientMsgHandler {
 				}
 			});
 			Thread.sleep(300);
-			if(!f.channel().isActive()){
+			if (!f.channel().isActive()) {
 				RobotLog.info("--------------channel is close");
 				return true;
 			}
@@ -326,7 +331,7 @@ public abstract class ClientMsgHandler {
 			if (!f.isSuccess()) {
 				return true;
 			}
-			//当前离线发送的消息表示成功
+			// 当前离线发送的消息表示成功
 			if (msgReciver != null && !isOffLine.get()) {
 				success = handleResp(msgReciverP, client, seqId);
 				msgReciver = null;
