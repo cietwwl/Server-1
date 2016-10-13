@@ -5,7 +5,7 @@ public class TeamStoreCfg extends BaseConfig {
 	private int id; //兑换id
 	private int goodsId; //物品ID
 	private int goodsNumber; //每次兑换的物品数量
-	private int name; //物品名称
+	private String name; //物品名称
 	private int score; //兑换所需的组队积分
 
 	public int getId() {
