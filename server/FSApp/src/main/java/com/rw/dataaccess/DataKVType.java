@@ -54,6 +54,8 @@ import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.hero.FSUserHeroGlobalDataCreator;
 import com.rwbase.dao.hero.FSUserHeroGlobalDataDAO;
+import com.rwbase.dao.praise.PraiseCreator;
+import com.rwbase.dao.praise.db.PraiseDAO;
 import com.rwbase.dao.setting.TableSettingDataDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.store.TableStoreDao;
@@ -105,7 +107,8 @@ public enum DataKVType {
 	USER_GROUP_COMPETITION(32, UserGroupCompetitionDataDAO.class, UserGroupCompetitionDataCreator.class),
 	// 英雄模块的全局数据
 	USER_HERO_GLOBAL_DATA(33, FSUserHeroGlobalDataDAO.class, FSUserHeroGlobalDataCreator.class),
-	;
+	// 点赞的个人数据
+	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
