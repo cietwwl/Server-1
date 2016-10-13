@@ -27,11 +27,8 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.groupCompetition.data.baseinfo.GCompBaseInfoHolder;
-<<<<<<< HEAD
 import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
-=======
 import com.rw.handler.groupCompetition.data.battle.GCompMatchBattleSynDataHolder;
->>>>>>> 35de308a3054152ffd388a3abab938cf3824e199
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.guess.GCompUserQuizItemHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
@@ -140,11 +137,8 @@ public class Client {
 	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
 	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
 	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
-<<<<<<< HEAD
 	private GCompEventsDataHolder gCompEventsDataHolder = new GCompEventsDataHolder();
-=======
 	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = GCompMatchBattleSynDataHolder.getInstance();
->>>>>>> 35de308a3054152ffd388a3abab938cf3824e199
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
