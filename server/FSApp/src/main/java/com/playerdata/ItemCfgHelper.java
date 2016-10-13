@@ -32,26 +32,26 @@ public class ItemCfgHelper {
 	// return m_instance;
 	// }
 
-	public static boolean checkItem(int id) {
-		if ((id >= 600001 && id < 807000) || (id > 802000 && id < 803000))
-			return true;
-		return false;
-	}
+	// public static boolean checkItem(int id) {
+	// if ((id >= 600001 && id < 807000) || (id > 802000 && id < 803000))
+	// return true;
+	// return false;
+	// }
 
-	//最后两位数是时装的有效期
+	// 最后两位数是时装的有效期
 	public static final int FashionSpecialItemStart = 90000000;
-	public static final int FashionSpecialItemEnd   = 99999999;
+	public static final int FashionSpecialItemEnd = 99999999;
 
 	public static boolean isFashionSpecialItem(int cfgId) {
-		return FashionSpecialItemStart <= cfgId && cfgId <=FashionSpecialItemEnd;
+		return FashionSpecialItemStart <= cfgId && cfgId <= FashionSpecialItemEnd;
 	}
-	
-	public static boolean parseFashionSpecialItem(int cfgId, RefInt fashionId,RefInt expireTimeCount){
-		if (FashionSpecialItemStart <= cfgId && cfgId <=FashionSpecialItemEnd){
-			if (fashionId != null){
-				fashionId.value = cfgId /100;
+
+	public static boolean parseFashionSpecialItem(int cfgId, RefInt fashionId, RefInt expireTimeCount) {
+		if (FashionSpecialItemStart <= cfgId && cfgId <= FashionSpecialItemEnd) {
+			if (fashionId != null) {
+				fashionId.value = cfgId / 100;
 			}
-			if (expireTimeCount != null){
+			if (expireTimeCount != null) {
 				expireTimeCount.value = cfgId % 100;
 			}
 			return true;
@@ -67,7 +67,7 @@ public class ItemCfgHelper {
 	 */
 	public static EItemTypeDef getItemType(int id) {
 		EItemTypeDef type = null;
-		//TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
+		// TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
 		if (id > 602000 && id < 604000)
 			type = EItemTypeDef.Magic;
 		else if (id > 604000 && id < 606000)
@@ -114,17 +114,18 @@ public class ItemCfgHelper {
 	public static SoulStoneCfg getSoulStoneCfg(int id) {
 		return (SoulStoneCfg) SoulStoneCfgDAO.getInstance().getCfgById(String.valueOf(id));
 	}
-	
+
 	/**
 	 * 获取指定类型的宝石列表
+	 * 
 	 * @param gemType
 	 * @return
 	 */
-	public static List<GemCfg> getGemCfgByType(int gemType){
+	public static List<GemCfg> getGemCfgByType(int gemType) {
 		List<GemCfg> result = new ArrayList<GemCfg>();
 		List<GemCfg> allCfg = GemCfgDAO.getInstance().getAllCfg();
 		for (GemCfg gemCfg : allCfg) {
-			if(gemCfg.getGemType() == gemType){
+			if (gemCfg.getGemType() == gemType) {
 				result.add(gemCfg);
 			}
 		}

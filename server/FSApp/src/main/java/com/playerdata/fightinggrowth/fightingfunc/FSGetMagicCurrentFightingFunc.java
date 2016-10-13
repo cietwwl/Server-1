@@ -2,6 +2,7 @@ package com.playerdata.fightinggrowth.fightingfunc;
 
 import com.playerdata.Player;
 import com.rwbase.common.IFunction;
+import com.rwbase.dao.fighting.MagicAptitudeFightingCfgDAO;
 import com.rwbase.dao.fighting.MagicLevelFightingCfgDAO;
 import com.rwbase.dao.fighting.MagicQualityFightingCfgDAO;
 import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
@@ -23,11 +24,13 @@ public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer>
 	private MagicCfgDAO magicCfgDAO;
 	private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
 	private MagicQualityFightingCfgDAO magicQualityFightingCfgDAO;
+	private MagicAptitudeFightingCfgDAO magicAptitudeFightingCfgDAO;
 	
 	protected FSGetMagicCurrentFightingFunc() {
 		magicCfgDAO = MagicCfgDAO.getInstance();
 		magicLevelFightingCfgDAO = MagicLevelFightingCfgDAO.getInstance();
 		magicQualityFightingCfgDAO = MagicQualityFightingCfgDAO.getInstance();
+		magicAptitudeFightingCfgDAO = MagicAptitudeFightingCfgDAO.getInstance();
 	}
 	
 	public static final FSGetMagicCurrentFightingFunc getInstance() {
@@ -41,7 +44,8 @@ public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer>
 			MagicCfg cfg = magicCfgDAO.getCfgById(String.valueOf(magic.getModelId()));
 			OneToOneTypeFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magic.getMagicLevel()));
 			OneToOneTypeFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
-			return levelFightingCfg.getFighting() + qualityFightingCfg.getFighting();
+			OneToOneTypeFightingCfg magicAptitudeCfg = magicAptitudeFightingCfgDAO.getCfgById(String.valueOf(magic.getMagicAptitude()));
+			return levelFightingCfg.getFighting() + qualityFightingCfg.getFighting() + magicAptitudeCfg.getFighting();
 		}
 		return 0;
 	}
