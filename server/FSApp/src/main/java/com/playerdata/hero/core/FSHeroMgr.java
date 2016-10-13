@@ -103,7 +103,7 @@ public class FSHeroMgr implements HeroMgr {
 		FSHeroThirdPartyDataMgr.getInstance().fireHeroAddedEvent(player, hero);
 		return hero;
 	}
-	
+
 	void loopAll(String userId, IHeroConsumer consumer) {
 		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(userId);
 		while (itr.hasMoreElements()) {
@@ -117,7 +117,7 @@ public class FSHeroMgr implements HeroMgr {
 		int nowFighting = hero.getFighting();
 		if (preFighting != nowFighting) {
 			// 保持那边的战斗力一致
-//			owner.getUserGameDataMgr().notifySingleFightingChange(nowFighting, preFighting);
+			// owner.getUserGameDataMgr().notifySingleFightingChange(nowFighting, preFighting);
 			// 通知同步
 			owner.getTempAttribute().setHeroFightingChanged();
 			owner.getUserTmpGameDataFlag().setSynFightingAll(true);
@@ -254,18 +254,18 @@ public class FSHeroMgr implements HeroMgr {
 	public int getFightingTeam(String userId) {
 		return FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(userId);
 	}
-	
+
 	@Override
 	public int getFightingAll(PlayerIF player) {
-//		// FSCalculateAllFightingConsumer consumer = new
-//		// FSCalculateAllFightingConsumer();
-//		// this.loop(player.getTableUser().getUserId(), consumer);
-//		// return consumer.getTotalFighting();
-//		// 总战斗力改为储存在userGameData里面
-//		return player.getTableUserOther().getFightingAll();
+		// // FSCalculateAllFightingConsumer consumer = new
+		// // FSCalculateAllFightingConsumer();
+		// // this.loop(player.getTableUser().getUserId(), consumer);
+		// // return consumer.getTotalFighting();
+		// // 总战斗力改为储存在userGameData里面
+		// return player.getTableUserOther().getFightingAll();
 		return FSUserHeroGlobalDataMgr.getInstance().getFightingAll(player.getUserId());
 	}
-	
+
 	@Override
 	public int getFightingAll(String userId) {
 		return FSUserHeroGlobalDataMgr.getInstance().getFightingAll(userId);
@@ -273,14 +273,14 @@ public class FSHeroMgr implements HeroMgr {
 
 	@Override
 	public int getStarAll(PlayerIF player) {
-//		// FSCountTotalStarLvConsumer consumer = new
-//		// FSCountTotalStarLvConsumer();
-//		// this.loop(player.getTableUser().getUserId(), consumer);
-//		// return consumer.getTotalStarLv();
-//		return player.getTableUserOther().getStarAll();
+		// // FSCountTotalStarLvConsumer consumer = new
+		// // FSCountTotalStarLvConsumer();
+		// // this.loop(player.getTableUser().getUserId(), consumer);
+		// // return consumer.getTotalStarLv();
+		// return player.getTableUserOther().getStarAll();
 		return getStarAll(player.getUserId());
 	}
-	
+
 	@Override
 	public int getStarAll(String userId) {
 		// 新的内容
@@ -288,7 +288,7 @@ public class FSHeroMgr implements HeroMgr {
 		if (userHeroGlobalData.getStartAll() == 0) {
 			FSCountTotalStarLvConsumer consumer = new FSCountTotalStarLvConsumer();
 			this.loopAll(userId, consumer);
-			userHeroGlobalData.setFightingAll(consumer.getTotalStarLv());
+			userHeroGlobalData.setStartAll(consumer.getTotalStarLv());
 			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
 		}
 		return userHeroGlobalData.getStartAll();
@@ -311,7 +311,7 @@ public class FSHeroMgr implements HeroMgr {
 	public List<Hero> getMaxFightingHeros(PlayerIF player) {
 		return this.getMaxFightingHeros(player.getUserId());
 	}
-	
+
 	@Override
 	public List<Hero> getMaxFightingHeros(String userId) {
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(false);
@@ -343,7 +343,7 @@ public class FSHeroMgr implements HeroMgr {
 	public List<Hero> getHeros(PlayerIF player, List<String> heroIds) {
 		return this.getHeros(player.getUserId(), heroIds);
 	}
-	
+
 	@Override
 	public List<Hero> getHeros(String userId, List<String> heroIds) {
 		FSGetMultipleHerosConsumer consumer = new FSGetMultipleHerosConsumer(heroIds);
@@ -386,8 +386,8 @@ public class FSHeroMgr implements HeroMgr {
 			starAll += hero.getStarLevel();
 		}
 		FSUserHeroGlobalDataMgr.getInstance().setFightingAllAndStarAll(player.getUserId(), fightingAll, starAll);
-//		player.getUserGameDataMgr().setFightingAll(fightingAll);
-//		player.getUserGameDataMgr().setStarAll(starAll);
+		// player.getUserGameDataMgr().setFightingAll(fightingAll);
+		// player.getUserGameDataMgr().setStarAll(starAll);
 	}
 
 	@Override
