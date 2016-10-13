@@ -51,7 +51,6 @@ public class ActivityTimeCountTypeItemHolder{
 	public void updateItem(Player player, ActivityTimeCountTypeItem item){
 		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
-		System.out.println("timecountMgr . updata . item . count" + item.getCount());
 	}
 	
 	public ActivityTimeCountTypeItem getItem(String userId, ActivityTimeCountTypeEnum countTypeEnum){		

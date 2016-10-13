@@ -105,6 +105,11 @@ public class PrepareAreaMgr {
 			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
+		if(groupScene == null || !groupScene.containsKey(groupId)){
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
+			return;
+		}
 		PositionInfo pInfo = new PositionInfo();
 		pInfo.setPx(position.getX());
 		pInfo.setPy(position.getY());

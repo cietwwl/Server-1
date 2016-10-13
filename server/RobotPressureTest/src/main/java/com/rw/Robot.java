@@ -36,6 +36,9 @@ import com.rw.handler.gameLogin.SelectCareerHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
+import com.rw.handler.groupCompetition.service.GroupCompSameSceneHandler;
+import com.rw.handler.groupCompetition.service.GroupCompetitionHandler;
+import com.rw.handler.groupCompetition.service.GroupCompetitionQuizHandler;
 import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
@@ -124,10 +127,10 @@ public class Robot {
 		try {
 			if (client == null) {
 				client = PlatformHandler.instance().login(accountId);
-				try{
+				try {
 					Thread.sleep(1000);
-				}catch(Exception ex){
-					
+				} catch (Exception ex) {
+
 				}
 				if (client != null) {
 					loadZoneListSuccess = PlatformHandler.instance().loadZoneAndRoleList(client);
@@ -318,9 +321,7 @@ public class Robot {
 			gainItem(modelId, 9999);
 		}
 	}
-	
-	
-	
+
 	/**
 	 * 穿装备
 	 * 
@@ -387,87 +388,87 @@ public class Robot {
 	public boolean receivePower(String friendUserId) {
 		return FriendHandler.instance().receivePowerOne(client, friendUserId);
 	}
-	
-	/**神器操作需要涉及的材料，创建角色是单独调用*/
-	public boolean addFixEquip(){
-		
+
+	/** 神器操作需要涉及的材料，创建角色是单独调用 */
+	public boolean addFixEquip() {
+
 		boolean sendSuccess = GmHandler.instance().send(client, "* addfixequipitem " + 1);
-		
+
 		return sendSuccess;
-		
-//		checkItemEnough(806511);// 普通进化材料
-//		checkItemEnough(806512);
-//		checkItemEnough(806513);
-//		checkItemEnough(806514);
-//		checkItemEnough(806515);
-//		checkItemEnough(806516);
-//		checkItemEnough(806517);
-//		checkItemEnough(806518);
-//		checkItemEnough(806519);
-//		checkItemEnough(806520);
-//		checkItemEnough(806521);
-//		checkItemEnough(806522);
-//		checkItemEnough(806523);
-//		checkItemEnough(806524);
-//		checkItemEnough(806525);
-//		checkItemEnough(806526);
-//		checkItemEnough(806527);
-//		checkItemEnough(806528);
-//		
-//		checkItemEnough(806551);// 特殊←进阶别材料
-//		checkItemEnough(806552);// 特殊右进阶		
-//
-//		checkItemEnough(806553);// 升星材料
-//		checkItemEnough(806554);// 升星材料
-//		checkItemEnough(806555);// 升星材料
-//		checkItemEnough(806556);// 升星材料
-//		checkItemEnough(806557);// 升星材料
-//		checkItemEnough(806558);// 升星材料
-//		checkItemEnough(806559);// 升星材料
-//		checkItemEnough(806560);// 升星材料
-//		checkItemEnough(806561);// 升星材料
-//		checkItemEnough(806562);// 升星材料
-//		checkItemEnough(806563);// 升星材料
-//		checkItemEnough(806564);// 升星材料
-//		checkItemEnough(806565);// 升星材料
-//		checkItemEnough(806566);// 升星材料
-//		checkItemEnough(806567);// 升星材料
-//		checkItemEnough(806568);// 升星材料
-//		checkItemEnough(806569);// 升星材料
-//		checkItemEnough(806570);// 升星材料
-//		checkItemEnough(806571);// 升星材料
-//		checkItemEnough(806572);// 升星材料
-//		checkItemEnough(806573);// 升星材料
-//		checkItemEnough(806574);// 升星材料
-//		checkItemEnough(806575);// 升星材料
-//		checkItemEnough(806576);// 升星材料
-//		checkItemEnough(806577);// 升星材料
-//		checkItemEnough(806578);// 升星材料
-//		checkItemEnough(806579);// 升星材料
-//		checkItemEnough(806580);// 升星材料
-//		checkItemEnough(806581);// 升星材料
-//		checkItemEnough(806582);// 升星材料
-//		checkItemEnough(806583);// 升星材料
-//		checkItemEnough(806584);// 升星材料
-//		checkItemEnough(806585);// 升星材料
-//		checkItemEnough(806586);// 升星材料
-////
-//		checkItemEnough(806505);// 下←格经验材料
-//		checkItemEnough(806510);// 下右格经验材料
-		
-//		return true;
-		
+
+		// checkItemEnough(806511);// 普通进化材料
+		// checkItemEnough(806512);
+		// checkItemEnough(806513);
+		// checkItemEnough(806514);
+		// checkItemEnough(806515);
+		// checkItemEnough(806516);
+		// checkItemEnough(806517);
+		// checkItemEnough(806518);
+		// checkItemEnough(806519);
+		// checkItemEnough(806520);
+		// checkItemEnough(806521);
+		// checkItemEnough(806522);
+		// checkItemEnough(806523);
+		// checkItemEnough(806524);
+		// checkItemEnough(806525);
+		// checkItemEnough(806526);
+		// checkItemEnough(806527);
+		// checkItemEnough(806528);
+		//
+		// checkItemEnough(806551);// 特殊←进阶别材料
+		// checkItemEnough(806552);// 特殊右进阶
+		//
+		// checkItemEnough(806553);// 升星材料
+		// checkItemEnough(806554);// 升星材料
+		// checkItemEnough(806555);// 升星材料
+		// checkItemEnough(806556);// 升星材料
+		// checkItemEnough(806557);// 升星材料
+		// checkItemEnough(806558);// 升星材料
+		// checkItemEnough(806559);// 升星材料
+		// checkItemEnough(806560);// 升星材料
+		// checkItemEnough(806561);// 升星材料
+		// checkItemEnough(806562);// 升星材料
+		// checkItemEnough(806563);// 升星材料
+		// checkItemEnough(806564);// 升星材料
+		// checkItemEnough(806565);// 升星材料
+		// checkItemEnough(806566);// 升星材料
+		// checkItemEnough(806567);// 升星材料
+		// checkItemEnough(806568);// 升星材料
+		// checkItemEnough(806569);// 升星材料
+		// checkItemEnough(806570);// 升星材料
+		// checkItemEnough(806571);// 升星材料
+		// checkItemEnough(806572);// 升星材料
+		// checkItemEnough(806573);// 升星材料
+		// checkItemEnough(806574);// 升星材料
+		// checkItemEnough(806575);// 升星材料
+		// checkItemEnough(806576);// 升星材料
+		// checkItemEnough(806577);// 升星材料
+		// checkItemEnough(806578);// 升星材料
+		// checkItemEnough(806579);// 升星材料
+		// checkItemEnough(806580);// 升星材料
+		// checkItemEnough(806581);// 升星材料
+		// checkItemEnough(806582);// 升星材料
+		// checkItemEnough(806583);// 升星材料
+		// checkItemEnough(806584);// 升星材料
+		// checkItemEnough(806585);// 升星材料
+		// checkItemEnough(806586);// 升星材料
+		// //
+		// checkItemEnough(806505);// 下←格经验材料
+		// checkItemEnough(806510);// 下右格经验材料
+
+		// return true;
+
 	}
-	
+
 	public boolean addCoin(int coin) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addCoin " + coin);
 		return sendSuccess;
 	}
 
-	public boolean addGroupCopyFight(int count){
-		return GmHandler.instance().send(client, "* setgbf "+ count);
+	public boolean addGroupCopyFight(int count) {
+		return GmHandler.instance().send(client, "* setgbf " + count);
 	}
-	
+
 	public boolean addPower(int power) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addPower " + power);
 		return sendSuccess;
@@ -488,14 +489,15 @@ public class Robot {
 		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + id + " " + 999);
 		return sendSuccess;
 	}
-	
-	public boolean addSecretKeycount(){
+
+	public boolean addSecretKeycount() {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addsecretkeycount " + 20);
 		return sendSuccess;
 	}
-	
+
 	/**
 	 * 添加帮派令牌（帮战竞标）
+	 * 
 	 * @param token
 	 * @return
 	 */
@@ -503,49 +505,50 @@ public class Robot {
 		boolean sendSuccess = GmHandler.instance().send(client, "* group token " + token);
 		return sendSuccess;
 	}
-	
+
 	/**
-	 * 设置资源点2
-	 * 竞标状态
+	 * 设置资源点2 竞标状态
+	 * 
 	 * @return
 	 */
 	public boolean setGFResBid() {
 		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 2");
 		return sendSuccess;
 	}
-	
+
 	/**
-	 * 设置资源点2
-	 * 备战状态
+	 * 设置资源点2 备战状态
+	 * 
 	 * @return
 	 */
 	public boolean setGFResPrepare() {
 		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 3");
 		return sendSuccess;
 	}
-	
+
 	/**
-	 * 设置资源点2
-	 * 开战状态
+	 * 设置资源点2 开战状态
+	 * 
 	 * @return
 	 */
 	public boolean setGFResFight() {
 		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 4");
 		return sendSuccess;
 	}
-	
+
 	/**
-	 * 设置资源点2
-	 * 休战状态
+	 * 设置资源点2 休战状态
+	 * 
 	 * @return
 	 */
 	public boolean setGFResRest() {
 		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 1");
 		return sendSuccess;
 	}
-	
+
 	/**
 	 * 增加帮派经验
+	 * 
 	 * @return
 	 */
 	public boolean addGroupExp() {
@@ -553,11 +556,10 @@ public class Robot {
 		return sendSuccess;
 	}
 
-	
-	public boolean addGroupSpplis(){
+	public boolean addGroupSpplis() {
 		return GmHandler.instance().send(client, "* setgp 1000000");
 	}
-	
+
 	public boolean getFinishTaskReward() {
 		return TaskHandler.instance().getReward(client);
 	}
@@ -1053,11 +1055,11 @@ public class Robot {
 		PeakArenaHandler.getHandler().fightStart(client, "");
 		return PeakArenaHandler.getHandler().fightFinish(client, "");
 	}
-	
-	public void openGroupSecretMainView(){
+
+	public void openGroupSecretMainView() {
 		GroupSecretHandler.getInstance().openMainView(client);
 	}
-	
+
 	public boolean createGroupSecret() {
 		GroupSecretHandler.getInstance().openMainView(client);
 		GroupSecretHandler.getInstance().getGroupSecretReward(client);
@@ -1073,17 +1075,15 @@ public class Robot {
 	public boolean attackEnemyGroupSecret() {
 		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 		boolean isCanSeach = GroupSecretMatchHandler.getInstance().searchGroupSecret(client);
-		if(!isCanSeach){
+		if (!isCanSeach) {
 			RobotLog.fail("搜索敌对秘境时失败，请确认是否未提前生成被掠夺的秘境");
 			return true;
 		}
 		checkEnoughSecretKeyCount();
 		GroupSecretMatchHandler.getInstance().attackEnemyGroupSecret(client);
 		return GroupSecretMatchHandler.getInstance().attackEndEnemyGroupSecret(client);
-		
-	}
 
-	
+	}
 
 	public void getGroupMatchSecretReward() {
 		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
@@ -1096,12 +1096,7 @@ public class Robot {
 	public boolean acceptMemberDefend() {
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
-	
-	
-	
-	
-	
-	
+
 	/**
 	 * 
 	 * @param type 类型，支持0-1；0为普通装备，1为特殊装备
@@ -1111,8 +1106,6 @@ public class Robot {
 	 * @return
 	 */
 	public boolean testFixEquip(int type, int heronumber, int expequipId, int servicetype) {
-
-		
 
 		boolean issuc = false;
 		if (type == 0) {
@@ -1160,17 +1153,18 @@ public class Robot {
 	public boolean playerGroupFight() {
 		return GroupFightHandler.getHandler().playGroupFight(client);
 	}
-	
+
 	/**
 	 * 帮派副本战斗
+	 * 
 	 * @return
 	 */
-	public boolean playerGroupCopy(){
+	public boolean playerGroupCopy() {
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 		List<GroupCopyMapRecord> list = GroupCopyMgr.getInstance().getAllOnGoingChaters(client);
-		if(list.isEmpty()){
+		if (list.isEmpty()) {
 			RobotLog.info("发现角色无已开启帮派副本，执行开启请求!");
-			//增加一下帮派经验
+			// 增加一下帮派经验
 			addGroupExp();
 			addGroupSpplis();
 			for (GroupCopyMapRecord record : list) {
@@ -1189,6 +1183,24 @@ public class Robot {
 		return TeamBattleHandler.getInstance().startTBFight(client);
 	}
 
+	/**
+	 * 争霸赛的竞猜
+	 * 
+	 * @return
+	 */
+	public boolean groupCompQuiz() {
+		return GroupCompetitionQuizHandler.getHandler().groupCompQuiz(client);
+	}
+
+	/**
+	 * 争霸赛备战区内的走动
+	 * 
+	 * @return
+	 */
+	public boolean groupCompSameScene() {
+		return GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+	}
+
 	public boolean sendGmCommand(String value) {
 		return GmHandler.instance().send(client, value);
 	}
@@ -1201,33 +1213,47 @@ public class Robot {
 			addGold(10000000);
 		}
 	}
-	
+
 	private void checkEnoughSecretKeyCount() {
 		SecretUserInfoSynData userInfoData = client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData();
-		if(userInfoData != null){
-			if(userInfoData.getKeyCount() < 21){
+		if (userInfoData != null) {
+			if (userInfoData.getKeyCount() < 21) {
 				addSecretKeycount();
 			}
-			System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~" + client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
 		}
-		
-		
+
 	}
-	
-	public boolean donateGroupCopy(){
+
+	public boolean donateGroupCopy() {
 		return GroupCopyMgr.getInstance().donateCopy(client);
 	}
-	
-	public boolean applyDistRewardLog(){
+
+	public boolean applyDistRewardLog() {
 		return GroupCopyHandler.getInstance().clientApplyDistRewardLog(client);
 	}
-	
-	public boolean applyGroupDamageRank(){
+
+	public boolean applyGroupDamageRank() {
 		return GroupCopyHandler.getInstance().clientApplyGroupDamageRank(client);
 	}
-	
-	public boolean applyAllRewardApplyInfo(){
+
+	public boolean applyAllRewardApplyInfo() {
 		return GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
 	}
-	
+
+	public boolean requestCreateTeam() {
+		return GroupCompetitionHandler.getHandler().createGCompTeam(client);
+	}
+
+	public boolean requestRandomMatching() {
+		return GroupCompetitionHandler.getHandler().requestRandomMatching(client);
+	}
+
+	public boolean requestPersonalMatching() {
+		return GroupCompetitionHandler.getHandler().requestPersonalMatching(client);
+	}
+
+	public boolean requestInviteMember() {
+		return GroupCompetitionHandler.getHandler().requestInviteMember(client);
+	}
 }
