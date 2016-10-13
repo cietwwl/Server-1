@@ -5,6 +5,7 @@ public class ZoneInfo {
 	private int zoneId;
 	private String serverIp;
 	private int chargePort;
+	private String intraneIp;
 	
 	
 	public int getZoneId() {
@@ -24,6 +25,12 @@ public class ZoneInfo {
 	}
 	public void setChargePort(int chargePort) {
 		this.chargePort = chargePort;
+	}
+	public String getIntraneIp() {
+		return intraneIp;
+	}
+	public void setIntraneIp(String intraneIp) {
+		this.intraneIp = intraneIp;
 	}
 
 	
