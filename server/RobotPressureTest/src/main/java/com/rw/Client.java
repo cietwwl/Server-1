@@ -27,7 +27,11 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.groupCompetition.data.baseinfo.GCompBaseInfoHolder;
+<<<<<<< HEAD
 import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
+=======
+import com.rw.handler.groupCompetition.data.battle.GCompMatchBattleSynDataHolder;
+>>>>>>> 35de308a3054152ffd388a3abab938cf3824e199
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.guess.GCompUserQuizItemHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
@@ -83,12 +87,12 @@ public class Client {
 	private GroupBaseDataHolder groupBaseDataHolder = new GroupBaseDataHolder();
 	private GroupDataVersion groupVersion = new GroupDataVersion();
 	private GroupRequestCacheData groupCacheData = new GroupRequestCacheData();
-	
-	//帮派副本数据
+
+	// 帮派副本数据
 	private GroupCopyDataHolder groupCopyHolder = new GroupCopyDataHolder();
-	//帮派副本个人数据，主要保存副本个人战斗次数
+	// 帮派副本个人数据，主要保存副本个人战斗次数
 	private GroupCopyUserDataHolder userGroupCopyDataHolder = new GroupCopyUserDataHolder();
-	
+
 	// 封神台的数据
 	private BattleTowerData battleTowerData = new BattleTowerData();
 	// 英雄的装备数据
@@ -115,7 +119,7 @@ public class Client {
 	private UserHerosDataHolder userHerosDataHolder = new UserHerosDataHolder();
 	private GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = new GroupSecretBaseInfoSynDataHolder();
 	private GroupSecretUserInfoSynDataHolder groupSecretUserInfoSynDataHolder = new GroupSecretUserInfoSynDataHolder();
-	
+
 	// private GroupSecretInviteDataHolder groupSecretInviteDataHolder = new GroupSecretInviteDataHolder();
 	// 乾坤幻境
 	private MagicSecretHolder magicSecretHolder = new MagicSecretHolder();
@@ -129,14 +133,18 @@ public class Client {
 	// 组队战
 	private TBTeamItemHolder tbTeamItemHolder = TBTeamItemHolder.getInstance();
 	private UserTeamBattleDataHolder utbDataHolder = UserTeamBattleDataHolder.getInstance();
-	
-	//争霸赛
+
+	// 争霸赛
 	private GCompUserQuizItemHolder userQuizItemHolder = GCompUserQuizItemHolder.getInstance();
 	private GCQuizEventItemHolder quizEventItemHolder = GCQuizEventItemHolder.getInstance();
 	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
 	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
 	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
+<<<<<<< HEAD
 	private GCompEventsDataHolder gCompEventsDataHolder = new GCompEventsDataHolder();
+=======
+	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = GCompMatchBattleSynDataHolder.getInstance();
+>>>>>>> 35de308a3054152ffd388a3abab938cf3824e199
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -146,7 +154,7 @@ public class Client {
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
 
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
-	
+
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
 	
 	// last seqId
@@ -318,8 +326,8 @@ public class Client {
 	public GroupCopyDataHolder getGroupCopyHolder() {
 		return groupCopyHolder;
 	}
-	
-	public GroupCopyUserDataHolder getGroupCopyUserData(){
+
+	public GroupCopyUserDataHolder getGroupCopyUserData() {
 		return userGroupCopyDataHolder;
 	}
 
@@ -422,11 +430,11 @@ public class Client {
 	public GroupSecretBaseInfoSynDataHolder getGroupSecretBaseInfoSynDataHolder() {
 		return groupSecretBaseInfoSynDataHolder;
 	}
-	
-	public GroupSecretUserInfoSynDataHolder getGroupSecretUserInfoSynDataHolder(){
+
+	public GroupSecretUserInfoSynDataHolder getGroupSecretUserInfoSynDataHolder() {
 		return groupSecretUserInfoSynDataHolder;
 	}
-	
+
 	// public GroupSecretInviteDataHolder getGroupSecretInviteDataHolder() {
 	// return groupSecretInviteDataHolder;
 	// }
@@ -478,12 +486,12 @@ public class Client {
 	public UserTeamBattleDataHolder getUserTeamBattleDataHolder() {
 		return utbDataHolder;
 	}
-	
-	public GCompUserQuizItemHolder getUserQuizItemHolder(){
+
+	public GCompUserQuizItemHolder getUserQuizItemHolder() {
 		return userQuizItemHolder;
 	}
-	
-	public GCQuizEventItemHolder getQuizEventItemHolder(){
+
+	public GCQuizEventItemHolder getQuizEventItemHolder() {
 		return quizEventItemHolder;
 	}
 
@@ -513,5 +521,9 @@ public class Client {
 
 	public GCompEventsDataHolder getGCompEventsDataHolder() {
 		return gCompEventsDataHolder;
+	}
+
+	public GCompMatchBattleSynDataHolder getgCompMatchBattleSynDataHolder() {
+		return gCompMatchBattleSynDataHolder;
 	}
 }

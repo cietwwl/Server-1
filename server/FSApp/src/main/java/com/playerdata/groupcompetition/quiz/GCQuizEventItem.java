@@ -55,6 +55,19 @@ public class GCQuizEventItem {
 
 	public GCQuizEventItem(){	}
 	
+	public GCQuizEventItem copy(){
+		GCQuizEventItem item = new GCQuizEventItem();
+		item.sessionId = sessionId;
+		item.eventsType = eventsType;
+		item.fightNum = fightNum;
+		item.matchId = matchId;
+		item.baseCoin = baseCoin;
+		item.groupA = groupA;
+		item.groupB = groupB;
+		item.winGroupId = winGroupId;
+		return item;
+	}
+	
 	public GCQuizEventItem(int sessionId, String eventsType, int fightNum, int matchId, int baseCoin, IGCGroup groupA, IGCGroup groupB, float initRate){
 		this.sessionId = sessionId;
 		this.eventsType = eventsType;

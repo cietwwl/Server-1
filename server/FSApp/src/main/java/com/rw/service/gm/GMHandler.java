@@ -36,6 +36,7 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper;
@@ -252,6 +253,7 @@ public class GMHandler {
 		
 		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
 		funcCallBackMap.put("callrb", "callRb");
+		funcCallBackMap.put("testcharge", "testCharge");
 	}
 
 	public boolean isActive() {
@@ -1909,5 +1911,14 @@ public class GMHandler {
 	
 	public boolean gCompCheckTimes(String[] arrCommandContents, Player player) {
 		return GCGMHandler.getHandler().isCheckTimesMatch(arrCommandContents, player);
+	}
+	
+	public boolean testCharge(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		Integer status = Integer.valueOf(arrCommandContents[0]);
+		ServerSwitch.setTestCharge(status == 1);
+		return true;
 	}
 }

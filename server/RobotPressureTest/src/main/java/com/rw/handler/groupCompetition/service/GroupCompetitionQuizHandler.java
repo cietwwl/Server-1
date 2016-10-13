@@ -9,7 +9,6 @@ import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItem;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
-import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.ReqAllGuessInfo;
@@ -64,7 +63,7 @@ public class GroupCompetitionQuizHandler {
 					GCResultType result = rsp.getRstType();
 					if (!result.equals(GCResultType.SUCCESS)) {
 						RobotLog.info("GroupCompetitionHandler[send] getCanQuizMatch服务器返回不成功 ");
-						return true;
+						return false;
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GroupCompetitionHandler[send] getCanQuizMatch失败", e);
@@ -107,8 +106,8 @@ public class GroupCompetitionQuizHandler {
 						return false;
 					}
 					GCResultType result = rsp.getRstType();
-					if (!result.equals(GFResultType.SUCCESS)) {
-						RobotLog.info("GroupCompetitionHandler[send] quizForCompetion服务器返回不成功 ");
+					if (!result.equals(GCResultType.SUCCESS)) {
+						RobotLog.info("GroupCompetitionHandler[send] quizForCompetion服务器返回不成功: " + rsp.getTipMsg());
 						return true;
 					}
 				} catch (InvalidProtocolBufferException e) {
