@@ -25,6 +25,7 @@ public class TableFriend implements TableFriendIF {
 	private ConcurrentHashMap<String, FriendItem> requestList = new ConcurrentHashMap<String, FriendItem>();
 	private ConcurrentHashMap<String, FriendItem> blackList = new ConcurrentHashMap<String, FriendItem>();
 	private ConcurrentHashMap<String, FriendGiveState> friendGiveList = new ConcurrentHashMap<String, FriendGiveState>();
+	private ConcurrentHashMap<String, FriendItem> reCommandfriendList = new ConcurrentHashMap<String, FriendItem>();
 
 	public String getUserId() {
 		return userId;
@@ -96,6 +97,15 @@ public class TableFriend implements TableFriendIF {
 
 	public FriendGiveState getFriendGiveState(String key) {
 		return friendGiveList.get(key);
+	}
+
+	public ConcurrentHashMap<String, FriendItem> getReCommandfriendList() {
+		return reCommandfriendList;
+	}
+
+	public void setReCommandfriendList(
+			ConcurrentHashMap<String, FriendItem> reCommandfriendList) {
+		this.reCommandfriendList = reCommandfriendList;
 	}
 
 	public boolean resetGiveState() {

@@ -27,7 +27,8 @@ public class UserEventGivePowerVitalityTwoHandler implements IUserEventHandler{
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.VitalityTwo,ActivityVitalityTypeEnum.GivePowerVitalityTwo.getCfgId());
 				
 				boolean isLevelEnoughAndOpen = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.VitalityTwo,player);
-				if(subCfg!=null&&isLevelEnoughAndOpen){
+				
+				if(subCfg!=null&&isLevelEnoughAndOpen&&!player.isRobot()){
 					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.VitalityTwo,subCfg, Integer.parseInt(params.toString()));
 					}
 				}

@@ -178,6 +178,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 请求添加好友 */
 	public FriendResultVo requestAddFriend(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
+		String userId = m_pPlayer.getUserId();
 		TableFriend tableFriend = getTableFriend();
 		if (isSelfUser(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
@@ -185,12 +186,31 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方已经是你的好友";
-		} else {
+		} else if(PlayerMgr.getInstance().find(otherUserId).isRobot()){//加的是机器人好友,跳过申请过程直接加上；并赠送体力
 			TableFriend otherTable = getOtherTableFriend(otherUserId);
-			if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
+			TableFriend friendTable = getTableFriend();
+			FriendItem friendItem = FriendItem.newInstance(userId);
+			FriendItem robotFriendItem = FriendItem.newInstance(otherUserId);
+			Player otherPlayer = PlayerMgr.getInstance().find(otherUserId);
+			if (!otherTable.getFriendList().containsKey(friendItem.getUserId())) {
+				otherPlayer.getFriendMgr().consentAddFriend(userId);
+			}
+			if(friendTable.getReCommandfriendList().isEmpty()){//加的是第一个机器人，机器人会立刻赠送体力
+				otherPlayer.getFriendMgr().givePower(userId);
+			}
+			if(!friendTable.getReCommandfriendList().containsKey(otherUserId)){
+				friendTable.getReCommandfriendList().put(otherUserId, robotFriendItem);
+			}			
+			friendDAO.update(otherTable);
+			resultVo.resultType = EFriendResultType.SUCCESS;
+			resultVo.resultMsg = "已向对方发送添加好友请求";
+			PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+		}else {
+			TableFriend otherTable = getOtherTableFriend(otherUserId);
+			if (otherTable.getBlackList().containsKey(userId)) {
 				// 如果在对方的黑名单列表中，不做操作
 			} else {
-				FriendItem friendItem = FriendItem.newInstance(m_pPlayer.getUserId());
+				FriendItem friendItem = FriendItem.newInstance(userId);
 				if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
 					otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
 					FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);

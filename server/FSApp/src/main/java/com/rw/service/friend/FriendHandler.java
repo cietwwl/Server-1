@@ -146,10 +146,32 @@ public class FriendHandler {
 			return dis < 0 ? -1 : 1;
 		}
 	};
-
+	
+	/**开启模块第一次进入推荐界面时，推荐一个机器人给用户；并且会在推荐表里存入记录；
+	 * 再次进入界面时如果表有记录，则不再触发；按原来逻辑走排行榜取用户推荐
+	 * @param player
+	 * @return
+	 */
 	private List<FriendInfo> recommandFriends(Player player) {
 		TableFriend tableFriend = player.getFriendMgr().getTableFriend();
-		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);
+		if(tableFriend.getReCommandfriendList().isEmpty()){//新手引导部分;取机器人			
+			return reCommandRobot(player,tableFriend,RankType.LEVEL_ALL_DAILY,false);
+		}else{			
+			return erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//正常好友逻辑；取玩家
+		}
+	}
+
+	/**
+	 * 
+	 * @param player
+	 * @param tableFriend
+	 * @param rankType
+	 * @param isLimitRobot 新增参数，用于新手引导时推荐机器人，在筛选时不用day来限制掉过旧玩家（主要就是机器人
+	 * @return
+	 */
+	private List<FriendInfo> erecommandFriends(Player player,
+			TableFriend tableFriend,RankType rankType,boolean isLimitRobot) {
+		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(rankType);
 		int level = player.getLevel();
 		int start = 0;
 		int end = 0;
@@ -167,7 +189,7 @@ public class FriendHandler {
 			if (i == 0) {
 				start = Math.max(1, level + cfg.getDesLevel());
 				end = level + cfg.getIncLevel();
-				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand);
+				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand,isLimitRobot);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -176,14 +198,14 @@ public class FriendHandler {
 				if (start > 1) {
 					end = start - 1;
 					start = start + cfg.getDesLevel();
-					fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand);
+					fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand,isLimitRobot);
 					if (playersMap.size() >= randomRecommand) {
 						break;
 					}
 				}
 				start = tempEnd + 1;
 				end = tempEnd + cfg.getIncLevel();
-				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand);
+				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand,isLimitRobot);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -238,8 +260,25 @@ public class FriendHandler {
 		return resultList;
 	}
 
+	private List<FriendInfo> reCommandRobot(Player player,TableFriend tableFriend,RankType rankType,boolean isLimitRobot) {
+		ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(1);
+		List<FriendInfo> resultListTmp = erecommandFriends(player,tableFriend,rankType,isLimitRobot);
+		for(FriendInfo info : resultListTmp){
+			if(PlayerMgr.getInstance().find(info.getUserId()).isRobot()){				
+				resultList.add(info);
+//				FriendItem friendItem = FriendItem.newInstance(otherUserId);
+//				tableFriend.setReCommandfriendList();
+				break;
+			}
+		}
+//		if(resultList.isEmpty()){
+//			return reCommandRobot(player, tableFriend,rankType);
+//		}
+		return resultList;
+	}
+
 	private void fillSegmentPlayers(String hostUserId, TableFriend tableFriend, HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days,
-			int randomRecommand) {
+			int randomRecommand,boolean isLimitRobot) {
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
 		int size = segmentList.getRefSize();
 		ArrayList<String> list = new ArrayList<String>(size);
@@ -273,7 +312,7 @@ public class FriendHandler {
 			Player player = it.next();
 			User user = player.getUserDataMgr().getUser();
 			if (user == null || System.currentTimeMillis() - user.getLastLoginTime() > MAX_OFF_LINE_TIME) {
-				it.remove();
+				if(isLimitRobot)it.remove();
 //				continue;
 			}
 //			TableFriend otherTableFriend = player.getFriendMgr().getTableFriend();

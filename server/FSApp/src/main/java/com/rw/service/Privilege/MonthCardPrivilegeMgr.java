@@ -133,8 +133,8 @@ public class MonthCardPrivilegeMgr{
 		}
 
 		public PriProvider(Player player) {
-			normal = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.MonthCard);
-			vip = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.VipMonthCard);
+//			normal = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.MonthCard);
+//			vip = ChargeMgr.getInstance().isValid(player,ChargeTypeEnum.VipMonthCard);
 		}
 
 		public boolean normal = false;
