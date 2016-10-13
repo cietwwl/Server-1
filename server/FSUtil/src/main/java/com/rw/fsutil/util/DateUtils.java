@@ -451,6 +451,13 @@ public class DateUtils {
 		}
 		return true;
 	}
+	
+	public static String timeToCountDown(long time) {
+		int hour = (int) (time / (60 * 60 * 1000));
+		int minute = (int) ((time - hour * 60 * 60 * 1000) / (60 * 1000));
+		int second = (int) ((time - hour * 60 * 60 * 1000 - minute * 60 * 1000) / 1000);
+		return hour + ":" + minute + ":" + second;
+	}
 
 	public static void main(String[] args) throws ParseException {
 		// System.out.println(new Date(getHour(System.currentTimeMillis(),
