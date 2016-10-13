@@ -883,7 +883,6 @@ public class GCompTeamMgr {
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
-			result.setT1(true); // 让他取消
 			return result;
 		}
 
