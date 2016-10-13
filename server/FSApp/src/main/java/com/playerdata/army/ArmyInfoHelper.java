@@ -38,6 +38,13 @@ public class ArmyInfoHelper {
 		if(magic == null) magic = player.getMagic();
 		
 		ArmyInfo armyInfo = build(heroIdList , player, magic);
+		
+		for(ArmyHero hero : armyInfo.getHeroList()){
+			int index = heroIdList.indexOf(hero.getRoleBaseInfo().getId());
+			if(index < 0) continue;
+			hero.setPosition(index + 1);
+		}
+		
 		if(setCurData){
 			setCurData(armyInfo,armyInfoSimple);
 		}
