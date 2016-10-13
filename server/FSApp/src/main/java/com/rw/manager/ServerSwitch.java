@@ -26,6 +26,7 @@ public class ServerSwitch {
 	private static boolean openTraceLogger = true;
 	private static boolean openTargetSell = false;//是否开启精准营销
 	private static int targetSellTestModel;//精准营销是否为测试模式：0否，1是
+	private static boolean testCharge = false;//是否测试充值
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
@@ -83,6 +84,13 @@ public class ServerSwitch {
 		return openTargetSell;
 	}
 
-	
+	public static boolean isTestCharge() {
+		return testCharge;
+	}
+
+	public static void setTestCharge(boolean testCharge) {
+		ServerSwitch.testCharge = testCharge;
+	}
+
 	
 }
