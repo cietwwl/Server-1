@@ -195,6 +195,7 @@ public class GroupCompetitionMgr {
 						winGroupIds.add(against.getWinGroupId());
 						loseGroupIds.add(against.getWinGroup() == against.getGroupA() ? against.getGroupB().getGroupId() : against.getGroupA().getGroupId());
 					}
+					record.setCurrentStatus(GCompEventsStatus.NONE);
 				}
 			} else {
 				if (record.isCurrentTypeFinished()) {

@@ -80,7 +80,14 @@ public class GCompAgainst implements IGCAgainst {
 
 	@Override
 	public IGCGroup getWinGroup() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public GCompEventsStatus getCurStatus() {
+		return curStatus;
+	}
+
+	public GCEventsType getTopType() {
+		return topType;
 	}
 }

@@ -62,7 +62,7 @@ public class GroupCompetitionQuizHandler {
 						return false;
 					}
 					GCResultType result = rsp.getRstType();
-					if (!result.equals(GFResultType.SUCCESS)) {
+					if (!result.equals(GCResultType.SUCCESS)) {
 						RobotLog.info("GroupCompetitionHandler[send] getCanQuizMatch服务器返回不成功 ");
 						return true;
 					}

@@ -39,6 +39,7 @@ import com.rw.handler.group.GroupPersonalHandler;
 import com.rw.handler.groupCompetition.service.GroupCompSameSceneHandler;
 import com.rw.handler.groupCompetition.service.GroupCompetitionHandler;
 import com.rw.handler.groupCompetition.service.GroupCompetitionQuizHandler;
+import com.rw.handler.groupCompetition.util.GCompStageType;
 import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
@@ -1249,19 +1250,7 @@ public class Robot {
 		return GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
 	}
 	
-	public boolean requestCreateTeam() {
-		return GroupCompetitionHandler.getHandler().createGCompTeam(client);
-	}
-	
-	public boolean requestRandomMatching() {
-		return GroupCompetitionHandler.getHandler().requestRandomMatching(client);
-	}
-	
-	public boolean requestPersonalMatching() {
-		return GroupCompetitionHandler.getHandler().requestPersonalMatching(client);
-	}
-	
-	public boolean requestInviteMember() {
-		return GroupCompetitionHandler.getHandler().requestInviteMember(client);
+	public boolean testGroupCompetition() {
+		return GroupCompetitionHandler.getHandler().testGroupCompetition(client);
 	}
 }

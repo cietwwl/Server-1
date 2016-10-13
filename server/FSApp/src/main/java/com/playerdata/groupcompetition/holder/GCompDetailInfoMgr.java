@@ -117,6 +117,7 @@ public class GCompDetailInfoMgr {
 				record.setGroupName(groupName);
 				record.setGroupIcon(iconId);
 			}
+			_dataHolder.update();
 		}
 	}
 	

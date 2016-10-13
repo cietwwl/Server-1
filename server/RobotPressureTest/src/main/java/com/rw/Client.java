@@ -27,6 +27,7 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.groupCompetition.data.baseinfo.GCompBaseInfoHolder;
+import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.guess.GCompUserQuizItemHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
@@ -135,6 +136,7 @@ public class Client {
 	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
 	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
 	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
+	private GCompEventsDataHolder gCompEventsDataHolder = new GCompEventsDataHolder();
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -146,7 +148,7 @@ public class Client {
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
 	
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
-
+	
 	// last seqId
 	// private volatile int lastSeqId;
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
@@ -507,5 +509,9 @@ public class Client {
 
 	public GCompOnlineMemberHolder getGCompOnlinememberHolder() {
 		return gCompOnlinememberHolder;
+	}
+
+	public GCompEventsDataHolder getGCompEventsDataHolder() {
+		return gCompEventsDataHolder;
 	}
 }

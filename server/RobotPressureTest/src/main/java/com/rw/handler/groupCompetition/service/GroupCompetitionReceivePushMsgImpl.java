@@ -22,7 +22,10 @@ public class GroupCompetitionReceivePushMsgImpl implements IReceivePushMsg {
 				JoinTeamReq.Builder builder = JoinTeamReq.newBuilder();
 				builder.setTeamId(invitation.getTeamId());
 				builder.addAllHeroId(heroIds);
-				client.getMsgHandler().sendMsg(Command.MSG_GROUP_JOIN_TEAM_REQ, builder.build().toByteString(), new GCompJoinTeamMsgReceiver()); // 加入队伍
+				boolean result = client.getMsgHandler().sendMsg(Command.MSG_GROUP_JOIN_TEAM_REQ, builder.build().toByteString(), new GCompJoinTeamMsgReceiver()); // 加入队伍
+				if (result) {
+					GroupCompetitionHandler.getHandler().sendSetReadyMsg(client); // 准备好
+				}
 			}
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
