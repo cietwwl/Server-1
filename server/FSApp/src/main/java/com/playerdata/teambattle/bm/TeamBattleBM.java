@@ -402,9 +402,9 @@ public class TeamBattleBM {
 		for(StaticMemberTeamInfo teamInfoSimple : teamItem.getTeamMembers()){
 			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
 			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
-			for(ArmyHero hero : army.getHeroList()){
-				hero.setPosition(teamInfoSimple.getHeroPosMap().get(hero.getRoleBaseInfo().getId()));
-			}
+//			for(ArmyHero hero : army.getHeroList()){
+//				hero.setPosition(teamInfoSimple.getHeroPosMap().get(hero.getRoleBaseInfo().getId()));
+//			}
 			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
 		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
