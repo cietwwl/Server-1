@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupConst;
 import com.playerdata.PlayerMgr;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EEmailDeleteType;
@@ -68,6 +69,11 @@ public class GroupHelper {
 	public static String getUserGroupId(String userId) {
 		PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
 		if (player == null) {
+			return EMPTY_STRING;
+		}
+		
+		UserGroupAttributeDataIF data = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		if(data == null){
 			return EMPTY_STRING;
 		}
 

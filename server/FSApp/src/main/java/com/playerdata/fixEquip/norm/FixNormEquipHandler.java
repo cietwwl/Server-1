@@ -35,6 +35,7 @@ public class FixNormEquipHandler {
 		if(result.isSuccess()){
 			//通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_STRENGTH, 1);
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
 		}
 		
 		return response.build().toByteString();
@@ -56,6 +57,7 @@ public class FixNormEquipHandler {
 		if(result.isSuccess()){
 			//通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_STRENGTH, 1);
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
 		}
 		return response.build().toByteString();
 	}
@@ -76,6 +78,7 @@ public class FixNormEquipHandler {
 		if(result.isSuccess()){
 			//通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_UPGRADE, 1);
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
 		}
 		return response.build().toByteString();
 	}
@@ -93,6 +96,9 @@ public class FixNormEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
+		if(result.isSuccess()){
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
+		}
 		
 		return response.build().toByteString();
 	}
@@ -109,7 +115,9 @@ public class FixNormEquipHandler {
 		if(StringUtils.isNotBlank(result.getReason())){
 			response.setTipMsg(result.getReason());
 		}
-		
+		if(result.isSuccess()){
+			player.getMe_FetterMgr().notifyHeroChange(player, targetHero);
+		}
 		return response.build().toByteString();
 	}
 

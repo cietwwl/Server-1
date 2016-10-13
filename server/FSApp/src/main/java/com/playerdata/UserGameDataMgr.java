@@ -14,6 +14,7 @@ import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.fetters.MagicEquipFetterDataHolder;
 import com.rwbase.dao.majorDatas.MajorDataDataHolder;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.power.PowerInfoDataHolder;
@@ -31,16 +32,20 @@ public class UserGameDataMgr {
 	private MajorDataDataHolder majorDataHolder;
 	private Player player;// 角色
 
+	
+	
 	public UserGameDataMgr(Player player, String userId) {
 		this.player = player;
 		majorDataHolder = new MajorDataDataHolder(userId);
 		userGameDataHolder = new UserGameDataHolder(userId);
 
+		
 	}
 
 	public void syn(int version) {
 		userGameDataHolder.syn(player, version);
 		majorDataHolder.syn(player, version);
+		
 	}
 
 	/**

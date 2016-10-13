@@ -597,6 +597,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		// if (nCount > 0 && eItemType == eItemTypeDef.HeroEquip) {
 		// m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Quality);
 		// }
+		//通知羁绊检查法宝
+		if(ItemCfgHelper.getItemType(cfgId) == EItemTypeDef.Magic){
+			player.getMe_FetterMgr().notifyMagicChange(player);
+		}
 		return true;
 	}
 

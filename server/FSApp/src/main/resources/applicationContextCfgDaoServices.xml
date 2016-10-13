@@ -263,6 +263,7 @@
 	
 	<bean class="com.rwbase.dao.store.WakenLotteryDrawCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.store.WakenLotteryRewardPoolCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao"  init-method="init" />
 	<!-- 竞技场机器人 -->
 	<bean class="com.rwbase.dao.arena.RobotExtraAttributeCfgDAO" init-method="init" />
 	<!-- 

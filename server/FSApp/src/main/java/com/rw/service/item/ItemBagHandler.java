@@ -12,6 +12,7 @@ import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.readonly.FashionMgrIF.ItemFilter;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
@@ -697,6 +698,10 @@ public class ItemBagHandler {
 				}
 
 				response.setRspInfo(fillResponseInfo(true, "分解成功"));
+				
+				//法宝分解通知法宝神器羁绊模块
+				player.getMe_FetterMgr().notifyMagicChange(player);
+				
 				break;
 			}
 

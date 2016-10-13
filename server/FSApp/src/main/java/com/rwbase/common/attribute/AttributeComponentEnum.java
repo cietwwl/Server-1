@@ -28,6 +28,9 @@ public enum AttributeComponentEnum {
 	Hero_Skill,
 	/** 道术 */
 	Hero_Taoist,
+	/** 新增的法宝神器羁绊 */
+	Hero_Magic_Equip_Fetter,
+
 	/** 额外属性 */
 	Hero_Extra;
 }
