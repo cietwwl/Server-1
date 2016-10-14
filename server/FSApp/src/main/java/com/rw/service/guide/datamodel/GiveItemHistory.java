@@ -5,6 +5,7 @@ import javax.persistence.Table;
 
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.OwnerId;
 import com.rwbase.common.INotifyChange;
 
 @Table(name = "newguide_give_item_history")
@@ -12,14 +13,11 @@ import com.rwbase.common.INotifyChange;
 public class GiveItemHistory implements RoleExtProperty {
 	@Id
 	private Integer id;
+	@OwnerId
 	private String userId;
 	private int giveActionId;
 	private boolean given = false;
 
-	public static String Convert(String userId,int actId){
-		return userId+"_"+actId;
-	}
-	
 	/**
 	 * 仅仅用于json库的序列化/反序列化，其他人不要调用
 	 */
@@ -59,7 +57,6 @@ public class GiveItemHistory implements RoleExtProperty {
 
 	@Override
 	public Integer getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 

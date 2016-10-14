@@ -8,8 +8,8 @@ import com.playerdata.FashionMgr;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.NonSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 @Table(name = "fashion_brought_items")
 @SynClass
@@ -19,6 +19,7 @@ public class FashionItem implements RoleExtProperty, FashionItemIF {
 	
 	private int fashionId;// 时装模型id
 	
+	@OwnerId
 	@IgnoreSynField
 	private String userId; // 用户ID，客户端用当前用户
 	
@@ -115,7 +116,6 @@ public class FashionItem implements RoleExtProperty, FashionItemIF {
 
 	@Override
 	public Integer getId() {
-		// TODO Auto-generated method stub
 		return id;
 	}
 }
