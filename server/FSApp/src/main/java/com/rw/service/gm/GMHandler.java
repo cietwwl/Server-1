@@ -36,6 +36,7 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper;
@@ -51,6 +52,7 @@ import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gm.fixequip.GMAddFixEquip;
+import com.rw.service.gm.groupcomp.GCGMHandler;
 import com.rw.service.gm.hero.GMHeroBase;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
@@ -70,6 +72,8 @@ import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
+import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -231,6 +235,9 @@ public class GMHandler {
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
 		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
 		funcCallBackMap.put("refreshGCompFighting".toLowerCase(), "refreshGCompFighting");
+		funcCallBackMap.put("gCompGroupAction".toLowerCase(), "gCompGroupAction"); // * gcompgroupaction groupName
+		funcCallBackMap.put("gCompCheckIfLeader".toLowerCase(), "gCompCheckIfLeader");
+		funcCallBackMap.put("gCompCheckTimes".toLowerCase(), "gCompCheckTimes");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -246,6 +253,7 @@ public class GMHandler {
 		
 		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
 		funcCallBackMap.put("callrb", "callRb");
+		funcCallBackMap.put("testcharge", "testCharge");
 	}
 
 	public boolean isActive() {
@@ -1889,6 +1897,37 @@ public class GMHandler {
 			}
 		};
 		GameWorldFactory.getGameWorld().asynExecute(r);
+		return true;
+	}
+	
+	public boolean gCompGroupAction(String[] arrCommandContents, Player player) {
+		UserGroupAttributeData userGroupData = UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(player.getUserId());
+		if (userGroupData.getGroupId() != null && userGroupData.getGroupId().length() > 0) {
+			return true;
+		}
+		String groupName = arrCommandContents[0];
+		String groupId = GroupBM.getGroupId(groupName);
+		if (groupId != null) {
+			return GCGMHandler.getHandler().joinGroup(arrCommandContents, player);
+		} else {
+			return GCGMHandler.getHandler().createGroup(arrCommandContents, player);
+		}
+	}
+	
+	public boolean gCompCheckIfLeader(String[] arrCommandContents, Player player) {
+		return GCGMHandler.getHandler().checkIfLeader(arrCommandContents, player);
+	}
+	
+	public boolean gCompCheckTimes(String[] arrCommandContents, Player player) {
+		return GCGMHandler.getHandler().isCheckTimesMatch(arrCommandContents, player);
+	}
+	
+	public boolean testCharge(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		Integer status = Integer.valueOf(arrCommandContents[0]);
+		ServerSwitch.setTestCharge(status == 1);
 		return true;
 	}
 }

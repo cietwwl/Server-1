@@ -22,37 +22,45 @@ public final class MagicServiceProtos {
      */
     Magic_TAKE(0, 0),
     /**
-     * <code>Magic_FORGE = 1;</code>
+     * <code>Magic_Compose = 1;</code>
      *
      * <pre>
-     * 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
+     *Magic 合成
      * </pre>
      */
-    Magic_FORGE(1, 1),
+    Magic_Compose(1, 1),
     /**
-     * <code>Magic_SMELT = 2;</code>
+     * <code>Magic_Upgrade = 2;</code>
      *
      * <pre>
-     * 熔炼
+     *Magic 升级
      * </pre>
      */
-    Magic_SMELT(2, 2),
+    Magic_Upgrade(2, 2),
     /**
-     * <code>Magic_Upgrade = 3;</code>
+     * <code>Magic_Evolution = 3;</code>
      *
      * <pre>
-     *法宝进阶，指定法宝id即可，进阶失败通过resultTip返回失败原因
+     *Magic 进化
      * </pre>
      */
-    Magic_Upgrade(3, 3),
+    Magic_Evolution(3, 3),
     /**
-     * <code>Magic_Random = 4;</code>
+     * <code>Magic_Smelt = 4;</code>
      *
      * <pre>
-     *获取强化的随机参数，不需要其他参数，返回criticalRamdom
+     *Magic 熔炼
      * </pre>
      */
-    Magic_Random(4, 4),
+    Magic_Smelt(4, 4),
+    /**
+     * <code>Magic_Inherit = 5;</code>
+     *
+     * <pre>
+     *Magic 继承
+     * </pre>
+     */
+    Magic_Inherit(5, 5),
     ;
 
     /**
@@ -64,37 +72,45 @@ public final class MagicServiceProtos {
      */
     public static final int Magic_TAKE_VALUE = 0;
     /**
-     * <code>Magic_FORGE = 1;</code>
+     * <code>Magic_Compose = 1;</code>
      *
      * <pre>
-     * 锻造，CriticalForgeType指定每个材料的暴击强化种类，兼容旧客户端不填的情况（即是没有暴击），不论成功还是失败都会返回criticalRamdom用于下一次的强化数值验证，如果autoForge设置为true，那么忽略客户端传递的CriticalForgeType参数，服务端进行是否暴击的计算
+     *Magic 合成
      * </pre>
      */
-    public static final int Magic_FORGE_VALUE = 1;
+    public static final int Magic_Compose_VALUE = 1;
     /**
-     * <code>Magic_SMELT = 2;</code>
+     * <code>Magic_Upgrade = 2;</code>
      *
      * <pre>
-     * 熔炼
+     *Magic 升级
      * </pre>
      */
-    public static final int Magic_SMELT_VALUE = 2;
+    public static final int Magic_Upgrade_VALUE = 2;
     /**
-     * <code>Magic_Upgrade = 3;</code>
+     * <code>Magic_Evolution = 3;</code>
      *
      * <pre>
-     *法宝进阶，指定法宝id即可，进阶失败通过resultTip返回失败原因
+     *Magic 进化
      * </pre>
      */
-    public static final int Magic_Upgrade_VALUE = 3;
+    public static final int Magic_Evolution_VALUE = 3;
     /**
-     * <code>Magic_Random = 4;</code>
+     * <code>Magic_Smelt = 4;</code>
      *
      * <pre>
-     *获取强化的随机参数，不需要其他参数，返回criticalRamdom
+     *Magic 熔炼
      * </pre>
      */
-    public static final int Magic_Random_VALUE = 4;
+    public static final int Magic_Smelt_VALUE = 4;
+    /**
+     * <code>Magic_Inherit = 5;</code>
+     *
+     * <pre>
+     *Magic 继承
+     * </pre>
+     */
+    public static final int Magic_Inherit_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -102,10 +118,11 @@ public final class MagicServiceProtos {
     public static eMagicType valueOf(int value) {
       switch (value) {
         case 0: return Magic_TAKE;
-        case 1: return Magic_FORGE;
-        case 2: return Magic_SMELT;
-        case 3: return Magic_Upgrade;
-        case 4: return Magic_Random;
+        case 1: return Magic_Compose;
+        case 2: return Magic_Upgrade;
+        case 3: return Magic_Evolution;
+        case 4: return Magic_Smelt;
+        case 5: return Magic_Inherit;
         default: return null;
       }
     }
@@ -255,71 +272,86 @@ public final class MagicServiceProtos {
     // @@protoc_insertion_point(enum_scope:eMagicResultType)
   }
 
-  public interface MagicItemDataOrBuilder
+  public interface MagicInheritReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string Id = 1;
+    // required string id = 1;
     /**
-     * <code>required string Id = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *被继承的装备Id
+     * </pre>
      */
     boolean hasId();
     /**
-     * <code>required string Id = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *被继承的装备Id
+     * </pre>
      */
     java.lang.String getId();
     /**
-     * <code>required string Id = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *被继承的装备Id
+     * </pre>
      */
     com.google.protobuf.ByteString
         getIdBytes();
 
-    // required int32 Count = 2;
+    // required string toId = 2;
     /**
-     * <code>required int32 Count = 2;</code>
-     */
-    boolean hasCount();
-    /**
-     * <code>required int32 Count = 2;</code>
-     */
-    int getCount();
-
-    // optional int32 CriticalForgeType = 3;
-    /**
-     * <code>optional int32 CriticalForgeType = 3;</code>
+     * <code>required string toId = 2;</code>
      *
      * <pre>
-     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
+     *请求继承的装备Id
      * </pre>
      */
-    boolean hasCriticalForgeType();
+    boolean hasToId();
     /**
-     * <code>optional int32 CriticalForgeType = 3;</code>
+     * <code>required string toId = 2;</code>
      *
      * <pre>
-     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
+     *请求继承的装备Id
      * </pre>
      */
-    int getCriticalForgeType();
+    java.lang.String getToId();
+    /**
+     * <code>required string toId = 2;</code>
+     *
+     * <pre>
+     *请求继承的装备Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getToIdBytes();
   }
   /**
-   * Protobuf type {@code MagicItemData}
+   * Protobuf type {@code MagicInheritReqMsg}
+   *
+   * <pre>
+   *发送继承法宝的消息---&gt;eMagicType,inheritReqMsg
+   * </pre>
    */
-  public static final class MagicItemData extends
+  public static final class MagicInheritReqMsg extends
       com.google.protobuf.GeneratedMessage
-      implements MagicItemDataOrBuilder {
-    // Use MagicItemData.newBuilder() to construct.
-    private MagicItemData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements MagicInheritReqMsgOrBuilder {
+    // Use MagicInheritReqMsg.newBuilder() to construct.
+    private MagicInheritReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private MagicItemData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private MagicInheritReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final MagicItemData defaultInstance;
-    public static MagicItemData getDefaultInstance() {
+    private static final MagicInheritReqMsg defaultInstance;
+    public static MagicInheritReqMsg getDefaultInstance() {
       return defaultInstance;
     }
 
-    public MagicItemData getDefaultInstanceForType() {
+    public MagicInheritReqMsg getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -329,7 +361,7 @@ public final class MagicServiceProtos {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private MagicItemData(
+    private MagicInheritReqMsg(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -357,14 +389,9 @@ public final class MagicServiceProtos {
               id_ = input.readBytes();
               break;
             }
-            case 16: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              count_ = input.readInt32();
-              break;
-            }
-            case 24: {
-              bitField0_ |= 0x00000004;
-              criticalForgeType_ = input.readInt32();
+              toId_ = input.readBytes();
               break;
             }
           }
@@ -381,43 +408,51 @@ public final class MagicServiceProtos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.MagicServiceProtos.internal_static_MagicItemData_descriptor;
+      return com.rwproto.MagicServiceProtos.internal_static_MagicInheritReqMsg_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.MagicServiceProtos.internal_static_MagicItemData_fieldAccessorTable
+      return com.rwproto.MagicServiceProtos.internal_static_MagicInheritReqMsg_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.MagicServiceProtos.MagicItemData.class, com.rwproto.MagicServiceProtos.MagicItemData.Builder.class);
+              com.rwproto.MagicServiceProtos.MagicInheritReqMsg.class, com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<MagicItemData> PARSER =
-        new com.google.protobuf.AbstractParser<MagicItemData>() {
-      public MagicItemData parsePartialFrom(
+    public static com.google.protobuf.Parser<MagicInheritReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<MagicInheritReqMsg>() {
+      public MagicInheritReqMsg parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MagicItemData(input, extensionRegistry);
+        return new MagicInheritReqMsg(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<MagicItemData> getParserForType() {
+    public com.google.protobuf.Parser<MagicInheritReqMsg> getParserForType() {
       return PARSER;
     }
 
     private int bitField0_;
-    // required string Id = 1;
+    // required string id = 1;
     public static final int ID_FIELD_NUMBER = 1;
     private java.lang.Object id_;
     /**
-     * <code>required string Id = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *被继承的装备Id
+     * </pre>
      */
     public boolean hasId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string Id = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *被继承的装备Id
+     * </pre>
      */
     public java.lang.String getId() {
       java.lang.Object ref = id_;
@@ -434,7 +469,11 @@ public final class MagicServiceProtos {
       }
     }
     /**
-     * <code>required string Id = 1;</code>
+     * <code>required string id = 1;</code>
+     *
+     * <pre>
+     *被继承的装备Id
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getIdBytes() {
@@ -450,50 +489,64 @@ public final class MagicServiceProtos {
       }
     }
 
-    // required int32 Count = 2;
-    public static final int COUNT_FIELD_NUMBER = 2;
-    private int count_;
+    // required string toId = 2;
+    public static final int TOID_FIELD_NUMBER = 2;
+    private java.lang.Object toId_;
     /**
-     * <code>required int32 Count = 2;</code>
+     * <code>required string toId = 2;</code>
+     *
+     * <pre>
+     *请求继承的装备Id
+     * </pre>
      */
-    public boolean hasCount() {
+    public boolean hasToId() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required int32 Count = 2;</code>
-     */
-    public int getCount() {
-      return count_;
-    }
-
-    // optional int32 CriticalForgeType = 3;
-    public static final int CRITICALFORGETYPE_FIELD_NUMBER = 3;
-    private int criticalForgeType_;
-    /**
-     * <code>optional int32 CriticalForgeType = 3;</code>
+     * <code>required string toId = 2;</code>
      *
      * <pre>
-     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
+     *请求继承的装备Id
      * </pre>
      */
-    public boolean hasCriticalForgeType() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
+    public java.lang.String getToId() {
+      java.lang.Object ref = toId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          toId_ = s;
+        }
+        return s;
+      }
     }
     /**
-     * <code>optional int32 CriticalForgeType = 3;</code>
+     * <code>required string toId = 2;</code>
      *
      * <pre>
-     *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
+     *请求继承的装备Id
      * </pre>
      */
-    public int getCriticalForgeType() {
-      return criticalForgeType_;
+    public com.google.protobuf.ByteString
+        getToIdBytes() {
+      java.lang.Object ref = toId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        toId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private void initFields() {
       id_ = "";
-      count_ = 0;
-      criticalForgeType_ = 0;
+      toId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -504,7 +557,7 @@ public final class MagicServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasCount()) {
+      if (!hasToId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -519,10 +572,7 @@ public final class MagicServiceProtos {
         output.writeBytes(1, getIdBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, count_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt32(3, criticalForgeType_);
+        output.writeBytes(2, getToIdBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -539,11 +589,7 @@ public final class MagicServiceProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, count_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(3, criticalForgeType_);
+          .computeBytesSize(2, getToIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -557,53 +603,53 @@ public final class MagicServiceProtos {
       return super.writeReplace();
     }
 
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(byte[] data)
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(java.io.InputStream input)
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseDelimitedFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.MagicServiceProtos.MagicItemData parseFrom(
+    public static com.rwproto.MagicServiceProtos.MagicInheritReqMsg parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -612,7 +658,7 @@ public final class MagicServiceProtos {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.MagicServiceProtos.MagicItemData prototype) {
+    public static Builder newBuilder(com.rwproto.MagicServiceProtos.MagicInheritReqMsg prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -624,24 +670,28 @@ public final class MagicServiceProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code MagicItemData}
+     * Protobuf type {@code MagicInheritReqMsg}
+     *
+     * <pre>
+     *发送继承法宝的消息---&gt;eMagicType,inheritReqMsg
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder {
+       implements com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.MagicServiceProtos.internal_static_MagicItemData_descriptor;
+        return com.rwproto.MagicServiceProtos.internal_static_MagicInheritReqMsg_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.MagicServiceProtos.internal_static_MagicItemData_fieldAccessorTable
+        return com.rwproto.MagicServiceProtos.internal_static_MagicInheritReqMsg_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.MagicServiceProtos.MagicItemData.class, com.rwproto.MagicServiceProtos.MagicItemData.Builder.class);
+                com.rwproto.MagicServiceProtos.MagicInheritReqMsg.class, com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder.class);
       }
 
-      // Construct using com.rwproto.MagicServiceProtos.MagicItemData.newBuilder()
+      // Construct using com.rwproto.MagicServiceProtos.MagicInheritReqMsg.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -663,10 +713,8 @@ public final class MagicServiceProtos {
         super.clear();
         id_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        count_ = 0;
+        toId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
-        criticalForgeType_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -676,23 +724,23 @@ public final class MagicServiceProtos {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.MagicServiceProtos.internal_static_MagicItemData_descriptor;
+        return com.rwproto.MagicServiceProtos.internal_static_MagicInheritReqMsg_descriptor;
       }
 
-      public com.rwproto.MagicServiceProtos.MagicItemData getDefaultInstanceForType() {
-        return com.rwproto.MagicServiceProtos.MagicItemData.getDefaultInstance();
+      public com.rwproto.MagicServiceProtos.MagicInheritReqMsg getDefaultInstanceForType() {
+        return com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance();
       }
 
-      public com.rwproto.MagicServiceProtos.MagicItemData build() {
-        com.rwproto.MagicServiceProtos.MagicItemData result = buildPartial();
+      public com.rwproto.MagicServiceProtos.MagicInheritReqMsg build() {
+        com.rwproto.MagicServiceProtos.MagicInheritReqMsg result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.MagicServiceProtos.MagicItemData buildPartial() {
-        com.rwproto.MagicServiceProtos.MagicItemData result = new com.rwproto.MagicServiceProtos.MagicItemData(this);
+      public com.rwproto.MagicServiceProtos.MagicInheritReqMsg buildPartial() {
+        com.rwproto.MagicServiceProtos.MagicInheritReqMsg result = new com.rwproto.MagicServiceProtos.MagicInheritReqMsg(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -702,37 +750,32 @@ public final class MagicServiceProtos {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.count_ = count_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.criticalForgeType_ = criticalForgeType_;
+        result.toId_ = toId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.MagicServiceProtos.MagicItemData) {
-          return mergeFrom((com.rwproto.MagicServiceProtos.MagicItemData)other);
+        if (other instanceof com.rwproto.MagicServiceProtos.MagicInheritReqMsg) {
+          return mergeFrom((com.rwproto.MagicServiceProtos.MagicInheritReqMsg)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.MagicServiceProtos.MagicItemData other) {
-        if (other == com.rwproto.MagicServiceProtos.MagicItemData.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.rwproto.MagicServiceProtos.MagicInheritReqMsg other) {
+        if (other == com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance()) return this;
         if (other.hasId()) {
           bitField0_ |= 0x00000001;
           id_ = other.id_;
           onChanged();
         }
-        if (other.hasCount()) {
-          setCount(other.getCount());
-        }
-        if (other.hasCriticalForgeType()) {
-          setCriticalForgeType(other.getCriticalForgeType());
+        if (other.hasToId()) {
+          bitField0_ |= 0x00000002;
+          toId_ = other.toId_;
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -743,7 +786,7 @@ public final class MagicServiceProtos {
           
           return false;
         }
-        if (!hasCount()) {
+        if (!hasToId()) {
           
           return false;
         }
@@ -754,11 +797,11 @@ public final class MagicServiceProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.MagicServiceProtos.MagicItemData parsedMessage = null;
+        com.rwproto.MagicServiceProtos.MagicInheritReqMsg parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.MagicServiceProtos.MagicItemData) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.MagicServiceProtos.MagicInheritReqMsg) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -769,16 +812,24 @@ public final class MagicServiceProtos {
       }
       private int bitField0_;
 
-      // required string Id = 1;
+      // required string id = 1;
       private java.lang.Object id_ = "";
       /**
-       * <code>required string Id = 1;</code>
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *被继承的装备Id
+       * </pre>
        */
       public boolean hasId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string Id = 1;</code>
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *被继承的装备Id
+       * </pre>
        */
       public java.lang.String getId() {
         java.lang.Object ref = id_;
@@ -792,7 +843,11 @@ public final class MagicServiceProtos {
         }
       }
       /**
-       * <code>required string Id = 1;</code>
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *被继承的装备Id
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getIdBytes() {
@@ -808,7 +863,11 @@ public final class MagicServiceProtos {
         }
       }
       /**
-       * <code>required string Id = 1;</code>
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *被继承的装备Id
+       * </pre>
        */
       public Builder setId(
           java.lang.String value) {
@@ -821,7 +880,11 @@ public final class MagicServiceProtos {
         return this;
       }
       /**
-       * <code>required string Id = 1;</code>
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *被继承的装备Id
+       * </pre>
        */
       public Builder clearId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -830,7 +893,11 @@ public final class MagicServiceProtos {
         return this;
       }
       /**
-       * <code>required string Id = 1;</code>
+       * <code>required string id = 1;</code>
+       *
+       * <pre>
+       *被继承的装备Id
+       * </pre>
        */
       public Builder setIdBytes(
           com.google.protobuf.ByteString value) {
@@ -843,97 +910,113 @@ public final class MagicServiceProtos {
         return this;
       }
 
-      // required int32 Count = 2;
-      private int count_ ;
+      // required string toId = 2;
+      private java.lang.Object toId_ = "";
       /**
-       * <code>required int32 Count = 2;</code>
+       * <code>required string toId = 2;</code>
+       *
+       * <pre>
+       *请求继承的装备Id
+       * </pre>
        */
-      public boolean hasCount() {
+      public boolean hasToId() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required int32 Count = 2;</code>
+       * <code>required string toId = 2;</code>
+       *
+       * <pre>
+       *请求继承的装备Id
+       * </pre>
        */
-      public int getCount() {
-        return count_;
+      public java.lang.String getToId() {
+        java.lang.Object ref = toId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          toId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>required int32 Count = 2;</code>
+       * <code>required string toId = 2;</code>
+       *
+       * <pre>
+       *请求继承的装备Id
+       * </pre>
        */
-      public Builder setCount(int value) {
-        bitField0_ |= 0x00000002;
-        count_ = value;
+      public com.google.protobuf.ByteString
+          getToIdBytes() {
+        java.lang.Object ref = toId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          toId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string toId = 2;</code>
+       *
+       * <pre>
+       *请求继承的装备Id
+       * </pre>
+       */
+      public Builder setToId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        toId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required int32 Count = 2;</code>
+       * <code>required string toId = 2;</code>
+       *
+       * <pre>
+       *请求继承的装备Id
+       * </pre>
        */
-      public Builder clearCount() {
+      public Builder clearToId() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        count_ = 0;
+        toId_ = getDefaultInstance().getToId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string toId = 2;</code>
+       *
+       * <pre>
+       *请求继承的装备Id
+       * </pre>
+       */
+      public Builder setToIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        toId_ = value;
         onChanged();
         return this;
       }
 
-      // optional int32 CriticalForgeType = 3;
-      private int criticalForgeType_ ;
-      /**
-       * <code>optional int32 CriticalForgeType = 3;</code>
-       *
-       * <pre>
-       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
-       * </pre>
-       */
-      public boolean hasCriticalForgeType() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional int32 CriticalForgeType = 3;</code>
-       *
-       * <pre>
-       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
-       * </pre>
-       */
-      public int getCriticalForgeType() {
-        return criticalForgeType_;
-      }
-      /**
-       * <code>optional int32 CriticalForgeType = 3;</code>
-       *
-       * <pre>
-       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
-       * </pre>
-       */
-      public Builder setCriticalForgeType(int value) {
-        bitField0_ |= 0x00000004;
-        criticalForgeType_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 CriticalForgeType = 3;</code>
-       *
-       * <pre>
-       *暴击强化累计增加的倍数，0或者不指定这个值表示没有暴击强化
-       * </pre>
-       */
-      public Builder clearCriticalForgeType() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        criticalForgeType_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // @@protoc_insertion_point(builder_scope:MagicItemData)
+      // @@protoc_insertion_point(builder_scope:MagicInheritReqMsg)
     }
 
     static {
-      defaultInstance = new MagicItemData(true);
+      defaultInstance = new MagicInheritReqMsg(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:MagicItemData)
+    // @@protoc_insertion_point(class_scope:MagicInheritReqMsg)
   }
 
   public interface MsgMagicRequestOrBuilder
@@ -994,68 +1077,31 @@ public final class MagicServiceProtos {
      */
     int getState();
 
-    // repeated .MagicItemData magicItemData = 4;
+    // optional .MagicInheritReqMsg inheritReqMsg = 4;
     /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
+     * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
      *
      * <pre>
-     *材料
+     *继承的消息
      * </pre>
      */
-    java.util.List<com.rwproto.MagicServiceProtos.MagicItemData> 
-        getMagicItemDataList();
+    boolean hasInheritReqMsg();
     /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
+     * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
      *
      * <pre>
-     *材料
+     *继承的消息
      * </pre>
      */
-    com.rwproto.MagicServiceProtos.MagicItemData getMagicItemData(int index);
+    com.rwproto.MagicServiceProtos.MagicInheritReqMsg getInheritReqMsg();
     /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
+     * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
      *
      * <pre>
-     *材料
+     *继承的消息
      * </pre>
      */
-    int getMagicItemDataCount();
-    /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
-     *
-     * <pre>
-     *材料
-     * </pre>
-     */
-    java.util.List<? extends com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder> 
-        getMagicItemDataOrBuilderList();
-    /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
-     *
-     * <pre>
-     *材料
-     * </pre>
-     */
-    com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder getMagicItemDataOrBuilder(
-        int index);
-
-    // optional bool autoForge = 5;
-    /**
-     * <code>optional bool autoForge = 5;</code>
-     *
-     * <pre>
-     *是否自动强化
-     * </pre>
-     */
-    boolean hasAutoForge();
-    /**
-     * <code>optional bool autoForge = 5;</code>
-     *
-     * <pre>
-     *是否自动强化
-     * </pre>
-     */
-    boolean getAutoForge();
+    com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder getInheritReqMsgOrBuilder();
   }
   /**
    * Protobuf type {@code MsgMagicRequest}
@@ -1130,16 +1176,16 @@ public final class MagicServiceProtos {
               break;
             }
             case 34: {
-              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                magicItemData_ = new java.util.ArrayList<com.rwproto.MagicServiceProtos.MagicItemData>();
-                mutable_bitField0_ |= 0x00000008;
+              com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = inheritReqMsg_.toBuilder();
               }
-              magicItemData_.add(input.readMessage(com.rwproto.MagicServiceProtos.MagicItemData.PARSER, extensionRegistry));
-              break;
-            }
-            case 40: {
+              inheritReqMsg_ = input.readMessage(com.rwproto.MagicServiceProtos.MagicInheritReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(inheritReqMsg_);
+                inheritReqMsg_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000008;
-              autoForge_ = input.readBool();
               break;
             }
           }
@@ -1150,9 +1196,6 @@ public final class MagicServiceProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          magicItemData_ = java.util.Collections.unmodifiableList(magicItemData_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -1280,92 +1323,45 @@ public final class MagicServiceProtos {
       return state_;
     }
 
-    // repeated .MagicItemData magicItemData = 4;
-    public static final int MAGICITEMDATA_FIELD_NUMBER = 4;
-    private java.util.List<com.rwproto.MagicServiceProtos.MagicItemData> magicItemData_;
+    // optional .MagicInheritReqMsg inheritReqMsg = 4;
+    public static final int INHERITREQMSG_FIELD_NUMBER = 4;
+    private com.rwproto.MagicServiceProtos.MagicInheritReqMsg inheritReqMsg_;
     /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
+     * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
      *
      * <pre>
-     *材料
+     *继承的消息
      * </pre>
      */
-    public java.util.List<com.rwproto.MagicServiceProtos.MagicItemData> getMagicItemDataList() {
-      return magicItemData_;
-    }
-    /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
-     *
-     * <pre>
-     *材料
-     * </pre>
-     */
-    public java.util.List<? extends com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder> 
-        getMagicItemDataOrBuilderList() {
-      return magicItemData_;
-    }
-    /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
-     *
-     * <pre>
-     *材料
-     * </pre>
-     */
-    public int getMagicItemDataCount() {
-      return magicItemData_.size();
-    }
-    /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
-     *
-     * <pre>
-     *材料
-     * </pre>
-     */
-    public com.rwproto.MagicServiceProtos.MagicItemData getMagicItemData(int index) {
-      return magicItemData_.get(index);
-    }
-    /**
-     * <code>repeated .MagicItemData magicItemData = 4;</code>
-     *
-     * <pre>
-     *材料
-     * </pre>
-     */
-    public com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder getMagicItemDataOrBuilder(
-        int index) {
-      return magicItemData_.get(index);
-    }
-
-    // optional bool autoForge = 5;
-    public static final int AUTOFORGE_FIELD_NUMBER = 5;
-    private boolean autoForge_;
-    /**
-     * <code>optional bool autoForge = 5;</code>
-     *
-     * <pre>
-     *是否自动强化
-     * </pre>
-     */
-    public boolean hasAutoForge() {
+    public boolean hasInheritReqMsg() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional bool autoForge = 5;</code>
+     * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
      *
      * <pre>
-     *是否自动强化
+     *继承的消息
      * </pre>
      */
-    public boolean getAutoForge() {
-      return autoForge_;
+    public com.rwproto.MagicServiceProtos.MagicInheritReqMsg getInheritReqMsg() {
+      return inheritReqMsg_;
+    }
+    /**
+     * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
+     *
+     * <pre>
+     *继承的消息
+     * </pre>
+     */
+    public com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder getInheritReqMsgOrBuilder() {
+      return inheritReqMsg_;
     }
 
     private void initFields() {
       magicType_ = com.rwproto.MagicServiceProtos.eMagicType.Magic_TAKE;
       id_ = "";
       state_ = 0;
-      magicItemData_ = java.util.Collections.emptyList();
-      autoForge_ = false;
+      inheritReqMsg_ = com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1376,8 +1372,8 @@ public final class MagicServiceProtos {
         memoizedIsInitialized = 0;
         return false;
       }
-      for (int i = 0; i < getMagicItemDataCount(); i++) {
-        if (!getMagicItemData(i).isInitialized()) {
+      if (hasInheritReqMsg()) {
+        if (!getInheritReqMsg().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -1398,11 +1394,8 @@ public final class MagicServiceProtos {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt32(3, state_);
       }
-      for (int i = 0; i < magicItemData_.size(); i++) {
-        output.writeMessage(4, magicItemData_.get(i));
-      }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeBool(5, autoForge_);
+        output.writeMessage(4, inheritReqMsg_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1425,13 +1418,9 @@ public final class MagicServiceProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(3, state_);
       }
-      for (int i = 0; i < magicItemData_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, magicItemData_.get(i));
-      }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, autoForge_);
+          .computeMessageSize(4, inheritReqMsg_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1541,7 +1530,7 @@ public final class MagicServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getMagicItemDataFieldBuilder();
+          getInheritReqMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1556,14 +1545,12 @@ public final class MagicServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         state_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (magicItemDataBuilder_ == null) {
-          magicItemData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
+        if (inheritReqMsgBuilder_ == null) {
+          inheritReqMsg_ = com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance();
         } else {
-          magicItemDataBuilder_.clear();
+          inheritReqMsgBuilder_.clear();
         }
-        autoForge_ = false;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1604,19 +1591,14 @@ public final class MagicServiceProtos {
           to_bitField0_ |= 0x00000004;
         }
         result.state_ = state_;
-        if (magicItemDataBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) == 0x00000008)) {
-            magicItemData_ = java.util.Collections.unmodifiableList(magicItemData_);
-            bitField0_ = (bitField0_ & ~0x00000008);
-          }
-          result.magicItemData_ = magicItemData_;
-        } else {
-          result.magicItemData_ = magicItemDataBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.autoForge_ = autoForge_;
+        if (inheritReqMsgBuilder_ == null) {
+          result.inheritReqMsg_ = inheritReqMsg_;
+        } else {
+          result.inheritReqMsg_ = inheritReqMsgBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1644,34 +1626,8 @@ public final class MagicServiceProtos {
         if (other.hasState()) {
           setState(other.getState());
         }
-        if (magicItemDataBuilder_ == null) {
-          if (!other.magicItemData_.isEmpty()) {
-            if (magicItemData_.isEmpty()) {
-              magicItemData_ = other.magicItemData_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-            } else {
-              ensureMagicItemDataIsMutable();
-              magicItemData_.addAll(other.magicItemData_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.magicItemData_.isEmpty()) {
-            if (magicItemDataBuilder_.isEmpty()) {
-              magicItemDataBuilder_.dispose();
-              magicItemDataBuilder_ = null;
-              magicItemData_ = other.magicItemData_;
-              bitField0_ = (bitField0_ & ~0x00000008);
-              magicItemDataBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getMagicItemDataFieldBuilder() : null;
-            } else {
-              magicItemDataBuilder_.addAllMessages(other.magicItemData_);
-            }
-          }
-        }
-        if (other.hasAutoForge()) {
-          setAutoForge(other.getAutoForge());
+        if (other.hasInheritReqMsg()) {
+          mergeInheritReqMsg(other.getInheritReqMsg());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1682,8 +1638,8 @@ public final class MagicServiceProtos {
           
           return false;
         }
-        for (int i = 0; i < getMagicItemDataCount(); i++) {
-          if (!getMagicItemData(i).isInitialized()) {
+        if (hasInheritReqMsg()) {
+          if (!getInheritReqMsg().isInitialized()) {
             
             return false;
           }
@@ -1893,365 +1849,157 @@ public final class MagicServiceProtos {
         return this;
       }
 
-      // repeated .MagicItemData magicItemData = 4;
-      private java.util.List<com.rwproto.MagicServiceProtos.MagicItemData> magicItemData_ =
-        java.util.Collections.emptyList();
-      private void ensureMagicItemDataIsMutable() {
-        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          magicItemData_ = new java.util.ArrayList<com.rwproto.MagicServiceProtos.MagicItemData>(magicItemData_);
-          bitField0_ |= 0x00000008;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.MagicServiceProtos.MagicItemData, com.rwproto.MagicServiceProtos.MagicItemData.Builder, com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder> magicItemDataBuilder_;
-
+      // optional .MagicInheritReqMsg inheritReqMsg = 4;
+      private com.rwproto.MagicServiceProtos.MagicInheritReqMsg inheritReqMsg_ = com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.MagicServiceProtos.MagicInheritReqMsg, com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder, com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder> inheritReqMsgBuilder_;
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public java.util.List<com.rwproto.MagicServiceProtos.MagicItemData> getMagicItemDataList() {
-        if (magicItemDataBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(magicItemData_);
+      public boolean hasInheritReqMsg() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
+       *
+       * <pre>
+       *继承的消息
+       * </pre>
+       */
+      public com.rwproto.MagicServiceProtos.MagicInheritReqMsg getInheritReqMsg() {
+        if (inheritReqMsgBuilder_ == null) {
+          return inheritReqMsg_;
         } else {
-          return magicItemDataBuilder_.getMessageList();
+          return inheritReqMsgBuilder_.getMessage();
         }
       }
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public int getMagicItemDataCount() {
-        if (magicItemDataBuilder_ == null) {
-          return magicItemData_.size();
-        } else {
-          return magicItemDataBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public com.rwproto.MagicServiceProtos.MagicItemData getMagicItemData(int index) {
-        if (magicItemDataBuilder_ == null) {
-          return magicItemData_.get(index);
-        } else {
-          return magicItemDataBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public Builder setMagicItemData(
-          int index, com.rwproto.MagicServiceProtos.MagicItemData value) {
-        if (magicItemDataBuilder_ == null) {
+      public Builder setInheritReqMsg(com.rwproto.MagicServiceProtos.MagicInheritReqMsg value) {
+        if (inheritReqMsgBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          ensureMagicItemDataIsMutable();
-          magicItemData_.set(index, value);
+          inheritReqMsg_ = value;
           onChanged();
         } else {
-          magicItemDataBuilder_.setMessage(index, value);
+          inheritReqMsgBuilder_.setMessage(value);
         }
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public Builder setMagicItemData(
-          int index, com.rwproto.MagicServiceProtos.MagicItemData.Builder builderForValue) {
-        if (magicItemDataBuilder_ == null) {
-          ensureMagicItemDataIsMutable();
-          magicItemData_.set(index, builderForValue.build());
+      public Builder setInheritReqMsg(
+          com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder builderForValue) {
+        if (inheritReqMsgBuilder_ == null) {
+          inheritReqMsg_ = builderForValue.build();
           onChanged();
         } else {
-          magicItemDataBuilder_.setMessage(index, builderForValue.build());
+          inheritReqMsgBuilder_.setMessage(builderForValue.build());
         }
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public Builder addMagicItemData(com.rwproto.MagicServiceProtos.MagicItemData value) {
-        if (magicItemDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
+      public Builder mergeInheritReqMsg(com.rwproto.MagicServiceProtos.MagicInheritReqMsg value) {
+        if (inheritReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              inheritReqMsg_ != com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance()) {
+            inheritReqMsg_ =
+              com.rwproto.MagicServiceProtos.MagicInheritReqMsg.newBuilder(inheritReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            inheritReqMsg_ = value;
           }
-          ensureMagicItemDataIsMutable();
-          magicItemData_.add(value);
           onChanged();
         } else {
-          magicItemDataBuilder_.addMessage(value);
+          inheritReqMsgBuilder_.mergeFrom(value);
         }
+        bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public Builder addMagicItemData(
-          int index, com.rwproto.MagicServiceProtos.MagicItemData value) {
-        if (magicItemDataBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureMagicItemDataIsMutable();
-          magicItemData_.add(index, value);
+      public Builder clearInheritReqMsg() {
+        if (inheritReqMsgBuilder_ == null) {
+          inheritReqMsg_ = com.rwproto.MagicServiceProtos.MagicInheritReqMsg.getDefaultInstance();
           onChanged();
         } else {
-          magicItemDataBuilder_.addMessage(index, value);
+          inheritReqMsgBuilder_.clear();
         }
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public Builder addMagicItemData(
-          com.rwproto.MagicServiceProtos.MagicItemData.Builder builderForValue) {
-        if (magicItemDataBuilder_ == null) {
-          ensureMagicItemDataIsMutable();
-          magicItemData_.add(builderForValue.build());
-          onChanged();
+      public com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder getInheritReqMsgBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getInheritReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
+       *
+       * <pre>
+       *继承的消息
+       * </pre>
+       */
+      public com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder getInheritReqMsgOrBuilder() {
+        if (inheritReqMsgBuilder_ != null) {
+          return inheritReqMsgBuilder_.getMessageOrBuilder();
         } else {
-          magicItemDataBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public Builder addMagicItemData(
-          int index, com.rwproto.MagicServiceProtos.MagicItemData.Builder builderForValue) {
-        if (magicItemDataBuilder_ == null) {
-          ensureMagicItemDataIsMutable();
-          magicItemData_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          magicItemDataBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public Builder addAllMagicItemData(
-          java.lang.Iterable<? extends com.rwproto.MagicServiceProtos.MagicItemData> values) {
-        if (magicItemDataBuilder_ == null) {
-          ensureMagicItemDataIsMutable();
-          super.addAll(values, magicItemData_);
-          onChanged();
-        } else {
-          magicItemDataBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public Builder clearMagicItemData() {
-        if (magicItemDataBuilder_ == null) {
-          magicItemData_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000008);
-          onChanged();
-        } else {
-          magicItemDataBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public Builder removeMagicItemData(int index) {
-        if (magicItemDataBuilder_ == null) {
-          ensureMagicItemDataIsMutable();
-          magicItemData_.remove(index);
-          onChanged();
-        } else {
-          magicItemDataBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public com.rwproto.MagicServiceProtos.MagicItemData.Builder getMagicItemDataBuilder(
-          int index) {
-        return getMagicItemDataFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder getMagicItemDataOrBuilder(
-          int index) {
-        if (magicItemDataBuilder_ == null) {
-          return magicItemData_.get(index);  } else {
-          return magicItemDataBuilder_.getMessageOrBuilder(index);
+          return inheritReqMsg_;
         }
       }
       /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
+       * <code>optional .MagicInheritReqMsg inheritReqMsg = 4;</code>
        *
        * <pre>
-       *材料
+       *继承的消息
        * </pre>
        */
-      public java.util.List<? extends com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder> 
-           getMagicItemDataOrBuilderList() {
-        if (magicItemDataBuilder_ != null) {
-          return magicItemDataBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(magicItemData_);
-        }
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public com.rwproto.MagicServiceProtos.MagicItemData.Builder addMagicItemDataBuilder() {
-        return getMagicItemDataFieldBuilder().addBuilder(
-            com.rwproto.MagicServiceProtos.MagicItemData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public com.rwproto.MagicServiceProtos.MagicItemData.Builder addMagicItemDataBuilder(
-          int index) {
-        return getMagicItemDataFieldBuilder().addBuilder(
-            index, com.rwproto.MagicServiceProtos.MagicItemData.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .MagicItemData magicItemData = 4;</code>
-       *
-       * <pre>
-       *材料
-       * </pre>
-       */
-      public java.util.List<com.rwproto.MagicServiceProtos.MagicItemData.Builder> 
-           getMagicItemDataBuilderList() {
-        return getMagicItemDataFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          com.rwproto.MagicServiceProtos.MagicItemData, com.rwproto.MagicServiceProtos.MagicItemData.Builder, com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder> 
-          getMagicItemDataFieldBuilder() {
-        if (magicItemDataBuilder_ == null) {
-          magicItemDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.rwproto.MagicServiceProtos.MagicItemData, com.rwproto.MagicServiceProtos.MagicItemData.Builder, com.rwproto.MagicServiceProtos.MagicItemDataOrBuilder>(
-                  magicItemData_,
-                  ((bitField0_ & 0x00000008) == 0x00000008),
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.MagicServiceProtos.MagicInheritReqMsg, com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder, com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder> 
+          getInheritReqMsgFieldBuilder() {
+        if (inheritReqMsgBuilder_ == null) {
+          inheritReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.MagicServiceProtos.MagicInheritReqMsg, com.rwproto.MagicServiceProtos.MagicInheritReqMsg.Builder, com.rwproto.MagicServiceProtos.MagicInheritReqMsgOrBuilder>(
+                  inheritReqMsg_,
                   getParentForChildren(),
                   isClean());
-          magicItemData_ = null;
+          inheritReqMsg_ = null;
         }
-        return magicItemDataBuilder_;
-      }
-
-      // optional bool autoForge = 5;
-      private boolean autoForge_ ;
-      /**
-       * <code>optional bool autoForge = 5;</code>
-       *
-       * <pre>
-       *是否自动强化
-       * </pre>
-       */
-      public boolean hasAutoForge() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional bool autoForge = 5;</code>
-       *
-       * <pre>
-       *是否自动强化
-       * </pre>
-       */
-      public boolean getAutoForge() {
-        return autoForge_;
-      }
-      /**
-       * <code>optional bool autoForge = 5;</code>
-       *
-       * <pre>
-       *是否自动强化
-       * </pre>
-       */
-      public Builder setAutoForge(boolean value) {
-        bitField0_ |= 0x00000010;
-        autoForge_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional bool autoForge = 5;</code>
-       *
-       * <pre>
-       *是否自动强化
-       * </pre>
-       */
-      public Builder clearAutoForge() {
-        bitField0_ = (bitField0_ & ~0x00000010);
-        autoForge_ = false;
-        onChanged();
-        return this;
+        return inheritReqMsgBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgMagicRequest)
@@ -2291,54 +2039,32 @@ public final class MagicServiceProtos {
     // optional int32 newMagicModelId = 3;
     /**
      * <code>optional int32 newMagicModelId = 3;</code>
+     *
+     * <pre>
+     *进化后的新的ModelId
+     * </pre>
      */
     boolean hasNewMagicModelId();
     /**
      * <code>optional int32 newMagicModelId = 3;</code>
+     *
+     * <pre>
+     *进化后的新的ModelId
+     * </pre>
      */
     int getNewMagicModelId();
 
-    // optional int32 criticalRamdom = 4;
+    // optional string resultTip = 4;
     /**
-     * <code>optional int32 criticalRamdom = 4;</code>
-     *
-     * <pre>
-     *强化暴击需要的随机参数
-     * </pre>
-     */
-    boolean hasCriticalRamdom();
-    /**
-     * <code>optional int32 criticalRamdom = 4;</code>
-     *
-     * <pre>
-     *强化暴击需要的随机参数
-     * </pre>
-     */
-    int getCriticalRamdom();
-
-    // optional string resultTip = 5;
-    /**
-     * <code>optional string resultTip = 5;</code>
-     *
-     * <pre>
-     *如果可能，服务端会定义一个成功或者失败的提示信息
-     * </pre>
+     * <code>optional string resultTip = 4;</code>
      */
     boolean hasResultTip();
     /**
-     * <code>optional string resultTip = 5;</code>
-     *
-     * <pre>
-     *如果可能，服务端会定义一个成功或者失败的提示信息
-     * </pre>
+     * <code>optional string resultTip = 4;</code>
      */
     java.lang.String getResultTip();
     /**
-     * <code>optional string resultTip = 5;</code>
-     *
-     * <pre>
-     *如果可能，服务端会定义一个成功或者失败的提示信息
-     * </pre>
+     * <code>optional string resultTip = 4;</code>
      */
     com.google.protobuf.ByteString
         getResultTipBytes();
@@ -2421,13 +2147,8 @@ public final class MagicServiceProtos {
               newMagicModelId_ = input.readInt32();
               break;
             }
-            case 32: {
+            case 34: {
               bitField0_ |= 0x00000008;
-              criticalRamdom_ = input.readInt32();
-              break;
-            }
-            case 42: {
-              bitField0_ |= 0x00000010;
               resultTip_ = input.readBytes();
               break;
             }
@@ -2508,60 +2229,36 @@ public final class MagicServiceProtos {
     private int newMagicModelId_;
     /**
      * <code>optional int32 newMagicModelId = 3;</code>
+     *
+     * <pre>
+     *进化后的新的ModelId
+     * </pre>
      */
     public boolean hasNewMagicModelId() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int32 newMagicModelId = 3;</code>
+     *
+     * <pre>
+     *进化后的新的ModelId
+     * </pre>
      */
     public int getNewMagicModelId() {
       return newMagicModelId_;
     }
 
-    // optional int32 criticalRamdom = 4;
-    public static final int CRITICALRAMDOM_FIELD_NUMBER = 4;
-    private int criticalRamdom_;
+    // optional string resultTip = 4;
+    public static final int RESULTTIP_FIELD_NUMBER = 4;
+    private java.lang.Object resultTip_;
     /**
-     * <code>optional int32 criticalRamdom = 4;</code>
-     *
-     * <pre>
-     *强化暴击需要的随机参数
-     * </pre>
+     * <code>optional string resultTip = 4;</code>
      */
-    public boolean hasCriticalRamdom() {
+    public boolean hasResultTip() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 criticalRamdom = 4;</code>
-     *
-     * <pre>
-     *强化暴击需要的随机参数
-     * </pre>
-     */
-    public int getCriticalRamdom() {
-      return criticalRamdom_;
-    }
-
-    // optional string resultTip = 5;
-    public static final int RESULTTIP_FIELD_NUMBER = 5;
-    private java.lang.Object resultTip_;
-    /**
-     * <code>optional string resultTip = 5;</code>
-     *
-     * <pre>
-     *如果可能，服务端会定义一个成功或者失败的提示信息
-     * </pre>
-     */
-    public boolean hasResultTip() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
-    }
-    /**
-     * <code>optional string resultTip = 5;</code>
-     *
-     * <pre>
-     *如果可能，服务端会定义一个成功或者失败的提示信息
-     * </pre>
+     * <code>optional string resultTip = 4;</code>
      */
     public java.lang.String getResultTip() {
       java.lang.Object ref = resultTip_;
@@ -2578,11 +2275,7 @@ public final class MagicServiceProtos {
       }
     }
     /**
-     * <code>optional string resultTip = 5;</code>
-     *
-     * <pre>
-     *如果可能，服务端会定义一个成功或者失败的提示信息
-     * </pre>
+     * <code>optional string resultTip = 4;</code>
      */
     public com.google.protobuf.ByteString
         getResultTipBytes() {
@@ -2602,7 +2295,6 @@ public final class MagicServiceProtos {
       magicType_ = com.rwproto.MagicServiceProtos.eMagicType.Magic_TAKE;
       eMagicResultType_ = com.rwproto.MagicServiceProtos.eMagicResultType.SUCCESS;
       newMagicModelId_ = 0;
-      criticalRamdom_ = 0;
       resultTip_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -2631,10 +2323,7 @@ public final class MagicServiceProtos {
         output.writeInt32(3, newMagicModelId_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, criticalRamdom_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBytes(5, getResultTipBytes());
+        output.writeBytes(4, getResultTipBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -2659,11 +2348,7 @@ public final class MagicServiceProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, criticalRamdom_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(5, getResultTipBytes());
+          .computeBytesSize(4, getResultTipBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2787,10 +2472,8 @@ public final class MagicServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000002);
         newMagicModelId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        criticalRamdom_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         resultTip_ = "";
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -2834,10 +2517,6 @@ public final class MagicServiceProtos {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.criticalRamdom_ = criticalRamdom_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
         result.resultTip_ = resultTip_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -2864,11 +2543,8 @@ public final class MagicServiceProtos {
         if (other.hasNewMagicModelId()) {
           setNewMagicModelId(other.getNewMagicModelId());
         }
-        if (other.hasCriticalRamdom()) {
-          setCriticalRamdom(other.getCriticalRamdom());
-        }
         if (other.hasResultTip()) {
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000008;
           resultTip_ = other.resultTip_;
           onChanged();
         }
@@ -2979,18 +2655,30 @@ public final class MagicServiceProtos {
       private int newMagicModelId_ ;
       /**
        * <code>optional int32 newMagicModelId = 3;</code>
+       *
+       * <pre>
+       *进化后的新的ModelId
+       * </pre>
        */
       public boolean hasNewMagicModelId() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int32 newMagicModelId = 3;</code>
+       *
+       * <pre>
+       *进化后的新的ModelId
+       * </pre>
        */
       public int getNewMagicModelId() {
         return newMagicModelId_;
       }
       /**
        * <code>optional int32 newMagicModelId = 3;</code>
+       *
+       * <pre>
+       *进化后的新的ModelId
+       * </pre>
        */
       public Builder setNewMagicModelId(int value) {
         bitField0_ |= 0x00000004;
@@ -3000,6 +2688,10 @@ public final class MagicServiceProtos {
       }
       /**
        * <code>optional int32 newMagicModelId = 3;</code>
+       *
+       * <pre>
+       *进化后的新的ModelId
+       * </pre>
        */
       public Builder clearNewMagicModelId() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3008,73 +2700,16 @@ public final class MagicServiceProtos {
         return this;
       }
 
-      // optional int32 criticalRamdom = 4;
-      private int criticalRamdom_ ;
+      // optional string resultTip = 4;
+      private java.lang.Object resultTip_ = "";
       /**
-       * <code>optional int32 criticalRamdom = 4;</code>
-       *
-       * <pre>
-       *强化暴击需要的随机参数
-       * </pre>
+       * <code>optional string resultTip = 4;</code>
        */
-      public boolean hasCriticalRamdom() {
+      public boolean hasResultTip() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional int32 criticalRamdom = 4;</code>
-       *
-       * <pre>
-       *强化暴击需要的随机参数
-       * </pre>
-       */
-      public int getCriticalRamdom() {
-        return criticalRamdom_;
-      }
-      /**
-       * <code>optional int32 criticalRamdom = 4;</code>
-       *
-       * <pre>
-       *强化暴击需要的随机参数
-       * </pre>
-       */
-      public Builder setCriticalRamdom(int value) {
-        bitField0_ |= 0x00000008;
-        criticalRamdom_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int32 criticalRamdom = 4;</code>
-       *
-       * <pre>
-       *强化暴击需要的随机参数
-       * </pre>
-       */
-      public Builder clearCriticalRamdom() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        criticalRamdom_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // optional string resultTip = 5;
-      private java.lang.Object resultTip_ = "";
-      /**
-       * <code>optional string resultTip = 5;</code>
-       *
-       * <pre>
-       *如果可能，服务端会定义一个成功或者失败的提示信息
-       * </pre>
-       */
-      public boolean hasResultTip() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>optional string resultTip = 5;</code>
-       *
-       * <pre>
-       *如果可能，服务端会定义一个成功或者失败的提示信息
-       * </pre>
+       * <code>optional string resultTip = 4;</code>
        */
       public java.lang.String getResultTip() {
         java.lang.Object ref = resultTip_;
@@ -3088,11 +2723,7 @@ public final class MagicServiceProtos {
         }
       }
       /**
-       * <code>optional string resultTip = 5;</code>
-       *
-       * <pre>
-       *如果可能，服务端会定义一个成功或者失败的提示信息
-       * </pre>
+       * <code>optional string resultTip = 4;</code>
        */
       public com.google.protobuf.ByteString
           getResultTipBytes() {
@@ -3108,48 +2739,36 @@ public final class MagicServiceProtos {
         }
       }
       /**
-       * <code>optional string resultTip = 5;</code>
-       *
-       * <pre>
-       *如果可能，服务端会定义一个成功或者失败的提示信息
-       * </pre>
+       * <code>optional string resultTip = 4;</code>
        */
       public Builder setResultTip(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000008;
         resultTip_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string resultTip = 5;</code>
-       *
-       * <pre>
-       *如果可能，服务端会定义一个成功或者失败的提示信息
-       * </pre>
+       * <code>optional string resultTip = 4;</code>
        */
       public Builder clearResultTip() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         resultTip_ = getDefaultInstance().getResultTip();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string resultTip = 5;</code>
-       *
-       * <pre>
-       *如果可能，服务端会定义一个成功或者失败的提示信息
-       * </pre>
+       * <code>optional string resultTip = 4;</code>
        */
       public Builder setResultTipBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000010;
+  bitField0_ |= 0x00000008;
         resultTip_ = value;
         onChanged();
         return this;
@@ -3167,10 +2786,10 @@ public final class MagicServiceProtos {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_MagicItemData_descriptor;
+    internal_static_MagicInheritReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_MagicItemData_fieldAccessorTable;
+      internal_static_MagicInheritReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgMagicRequest_descriptor;
   private static
@@ -3190,45 +2809,44 @@ public final class MagicServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022MagicService.proto\"E\n\rMagicItemData\022\n\n" +
-      "\002Id\030\001 \002(\t\022\r\n\005Count\030\002 \002(\005\022\031\n\021CriticalForg" +
-      "eType\030\003 \001(\005\"\206\001\n\017MsgMagicRequest\022\036\n\tMagic" +
-      "Type\030\001 \002(\0162\013.eMagicType\022\n\n\002id\030\002 \001(\t\022\r\n\005s" +
-      "tate\030\003 \001(\005\022%\n\rmagicItemData\030\004 \003(\0132\016.Magi" +
-      "cItemData\022\021\n\tautoForge\030\005 \001(\010\"\243\001\n\020MsgMagi" +
-      "cResponse\022\036\n\tmagicType\030\001 \002(\0162\013.eMagicTyp" +
-      "e\022+\n\020eMagicResultType\030\002 \001(\0162\021.eMagicResu" +
-      "ltType\022\027\n\017newMagicModelId\030\003 \001(\005\022\026\n\016criti" +
-      "calRamdom\030\004 \001(\005\022\021\n\tresultTip\030\005 \001(\t*c\n\neM",
-      "agicType\022\016\n\nMagic_TAKE\020\000\022\017\n\013Magic_FORGE\020" +
-      "\001\022\017\n\013Magic_SMELT\020\002\022\021\n\rMagic_Upgrade\020\003\022\020\n" +
-      "\014Magic_Random\020\004*)\n\020eMagicResultType\022\013\n\007S" +
-      "UCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022Magic" +
-      "ServiceProtos"
+      "\n\022MagicService.proto\".\n\022MagicInheritReqM" +
+      "sg\022\n\n\002id\030\001 \002(\t\022\014\n\004toId\030\002 \002(\t\"x\n\017MsgMagic" +
+      "Request\022\036\n\tMagicType\030\001 \002(\0162\013.eMagicType\022" +
+      "\n\n\002id\030\002 \001(\t\022\r\n\005state\030\003 \001(\005\022*\n\rinheritReq" +
+      "Msg\030\004 \001(\0132\023.MagicInheritReqMsg\"\213\001\n\020MsgMa" +
+      "gicResponse\022\036\n\tmagicType\030\001 \002(\0162\013.eMagicT" +
+      "ype\022+\n\020eMagicResultType\030\002 \001(\0162\021.eMagicRe" +
+      "sultType\022\027\n\017newMagicModelId\030\003 \001(\005\022\021\n\tres" +
+      "ultTip\030\004 \001(\t*{\n\neMagicType\022\016\n\nMagic_TAKE" +
+      "\020\000\022\021\n\rMagic_Compose\020\001\022\021\n\rMagic_Upgrade\020\002",
+      "\022\023\n\017Magic_Evolution\020\003\022\017\n\013Magic_Smelt\020\004\022\021" +
+      "\n\rMagic_Inherit\020\005*)\n\020eMagicResultType\022\013\n" +
+      "\007SUCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022Mag" +
+      "icServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_MagicItemData_descriptor =
+          internal_static_MagicInheritReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_MagicItemData_fieldAccessorTable = new
+          internal_static_MagicInheritReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_MagicItemData_descriptor,
-              new java.lang.String[] { "Id", "Count", "CriticalForgeType", });
+              internal_static_MagicInheritReqMsg_descriptor,
+              new java.lang.String[] { "Id", "ToId", });
           internal_static_MsgMagicRequest_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_MsgMagicRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgMagicRequest_descriptor,
-              new java.lang.String[] { "MagicType", "Id", "State", "MagicItemData", "AutoForge", });
+              new java.lang.String[] { "MagicType", "Id", "State", "InheritReqMsg", });
           internal_static_MsgMagicResponse_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_MsgMagicResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgMagicResponse_descriptor,
-              new java.lang.String[] { "MagicType", "EMagicResultType", "NewMagicModelId", "CriticalRamdom", "ResultTip", });
+              new java.lang.String[] { "MagicType", "EMagicResultType", "NewMagicModelId", "ResultTip", });
           return null;
         }
       };

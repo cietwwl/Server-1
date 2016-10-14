@@ -9,12 +9,6 @@ import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GFightOnlineGroupHolder {
-	
-	private static GFightOnlineGroupHolder instance = new GFightOnlineGroupHolder();
-	
-	public static GFightOnlineGroupHolder getInstance() {
-		return instance;
-	}
 
 	private Map<String, GFightOnlineGroupData> list = new HashMap<String, GFightOnlineGroupData>();
 	private List<String> rankIDList = new ArrayList<String>();

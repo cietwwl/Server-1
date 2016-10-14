@@ -481,10 +481,28 @@ public interface HeroMgr {
 	 * 
 	 * 获取所有英雄的总战斗力
 	 * 
-	 * @param userId
+	 * @param player
 	 * @return
 	 */
 	public int getFightingAll(PlayerIF player);
+	
+	/**
+	 * 
+	 * 获取所有英雄的总战斗力
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int getFightingAll(String userId);
+	
+	/**
+	 * 
+	 * 获取所有英雄的总星星数量
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public int getStarAll(PlayerIF player);
 	
 	/**
 	 * 
@@ -493,7 +511,7 @@ public interface HeroMgr {
 	 * @param userId
 	 * @return
 	 */
-	public int getStarAll(PlayerIF player);
+	public int getStarAll(String userId);
 	
 	/**
 	 * 
@@ -566,6 +584,16 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<Hero> getHeros(PlayerIF player, List<String> heroIds);
+	
+	/**
+	 * 
+	 * 根据角色id获取heroIds里面的hero实例
+	 * 
+	 * @param userId
+	 * @param heroIds
+	 * @return
+	 */
+	public List<Hero> getHeros(String userId, List<String> heroIds);
 	
 	/**
 	 * 

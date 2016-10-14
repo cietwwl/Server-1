@@ -222,7 +222,36 @@ public abstract class ClientMsgHandler {
 					case USE_GROUP_COPY_DATA:
 						getClient().getGroupCopyUserData().syn(msgDataSyn);
 						break;
+					case GCompSelfGuess:
+						getClient().getUserQuizItemHolder().syn(msgDataSyn);
+						break;
+					case GCompSelfGuessDetail:
+						getClient().getQuizEventItemHolder().syn(getClient(), msgDataSyn, true);
+						break;
+					case GCompCanGuessItem:
+						getClient().getQuizEventItemHolder().syn(getClient(), msgDataSyn, false);
+						break;
+					case GC_PREPARE_POSITION:
+						getClient().getSameSceneSynDataHolder().syn(msgDataSyn);
+						break;
+					case GCompBase:
+						getClient().getGCompBaseInfoHolder().syn(msgDataSyn);
+						break;
+					case GCompTeamHolder:
+						getClient().getGCompTeamHolder().syn(msgDataSyn);
+						break;
+					case GCompMatch:
+						getClient().getGCompEventsDataHolder().syn(msgDataSyn);
+						break;
+					case GCompOnlineMember:
+						getClient().getGCompOnlinememberHolder().syn(msgDataSyn);
+						break;
+					case GCompMatchEnemy:
+						Client client = getClient();
+						client.getgCompMatchBattleSynDataHolder().sendGCOmpMatchBattleReq(client);
+						break;
 					default:
+						break;
 					}
 				}
 			}
@@ -303,7 +332,7 @@ public abstract class ClientMsgHandler {
 				}
 			});
 			Thread.sleep(300);
-			if(!f.channel().isActive()){
+			if (!f.channel().isActive()) {
 				RobotLog.info("--------------channel is close");
 				return true;
 			}
@@ -311,7 +340,7 @@ public abstract class ClientMsgHandler {
 			if (!f.isSuccess()) {
 				return true;
 			}
-			//当前离线发送的消息表示成功
+			// 当前离线发送的消息表示成功
 			if (msgReciver != null && !isOffLine.get()) {
 				success = handleResp(msgReciverP, client, seqId);
 				msgReciver = null;

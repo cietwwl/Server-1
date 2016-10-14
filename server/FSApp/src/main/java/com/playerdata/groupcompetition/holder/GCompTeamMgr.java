@@ -43,6 +43,7 @@ public class GCompTeamMgr {
 	}
 	
 	private GCompTeamHolder _dataHolder = GCompTeamHolder.getInstance();
+	private boolean canPersonalMatching = false; // 是否可以个人匹配
 	
 	protected GCompTeamMgr() {
 		
@@ -104,6 +105,8 @@ public class GCompTeamMgr {
 				result.setT2(CreateTeamMemberResultStatus.HERO_NOT_MATCH);
 				GCompUtil.log("请求创建TeamMember，有部分英雄不存在！英雄id列表：{}, playerId：{}", heroIds, player.getUserId());
 			}
+		} else {
+			result.setT2(CreateTeamMemberResultStatus.HERO_NOT_MATCH);
 		}
 		if (includeMagic && result.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
 			gcompTeamArmyInfo.armyMagic = new ArmyMagic(player.getMagic());
@@ -238,9 +241,18 @@ public class GCompTeamMgr {
 	
 	public void onEventStatusChange(GCompEventsStatus currentStatus) {
 		switch (currentStatus) {
+		case TEAM_EVENTS:
+			canPersonalMatching = false;
+			break;
 		case REST:
 			List<GCompTeam> teams = _dataHolder.clearAllTeam(); // 解散所有队伍
 			sendDimiss(teams);
+			break;
+		case PERSONAL_EVENTS:
+			canPersonalMatching = true;
+			break;
+		case FINISH:
+			canPersonalMatching = false;
 			break;
 		default:
 			break;
@@ -880,10 +892,14 @@ public class GCompTeamMgr {
 	 */
 	public IReadOnlyPair<Boolean, String> personalMatching(Player player, List<String> heroIds) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if (!canPersonalMatching) {
+			result.setT2(GCompTips.getTipsNotPersonalEventsNow());
+			return result;
+		}
 
 		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
 		if (matchAndGroupInfo == null) {
-			result.setT1(true); // 让他取消
 			return result;
 		}
 

@@ -15,25 +15,24 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 	@SuppressWarnings("finally")
 	@Override
 	public ByteString doTask(MsgMagicRequest request, Player player) {
-		// TODO Auto-generated method stub
 		ByteString result = null;
 		try {
 			eMagicType magicType = request.getMagicType();
 			switch (magicType) {
-			case Magic_TAKE:
+			case Magic_TAKE: 			//法宝装备
 				result = magicHandler.wearMagicWeapon(player, request);
 				break;
-			case Magic_FORGE:
+			case Magic_Upgrade:			//法宝升级
 				result = magicHandler.forgeMagicWeapon(player, request);
 				break;
-			case Magic_SMELT:
-				result = magicHandler.smeltMagicWeapon(player, request);
+			case Magic_Inherit:			//法宝继承
+				result = magicHandler.magicInheritHandler(player, request);
 				break;
-			case Magic_Upgrade:
+			case Magic_Evolution:		//法宝进化
 				result = magicHandler.upgradeMagicWeapon(player, request);
 				break;
-			case Magic_Random:
-				result = magicHandler.getRandomSeed(player, request);
+			case Magic_Smelt:  			//法宝熔炼
+				result = magicHandler.smeltMagicWeapon(player, request);
 				break;
 			default:
 				break;
@@ -47,14 +46,12 @@ public class MagicService implements FsService<MsgMagicRequest, eMagicType> {
 
 	@Override
 	public MsgMagicRequest parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
 		MsgMagicRequest msgMagicRequest = MsgMagicRequest.parseFrom(request.getBody().getSerializedContent());
 		return msgMagicRequest;
 	}
 
 	@Override
 	public eMagicType getMsgType(MsgMagicRequest request) {
-		// TODO Auto-generated method stub
 		return request.getMagicType();
 	}
 }

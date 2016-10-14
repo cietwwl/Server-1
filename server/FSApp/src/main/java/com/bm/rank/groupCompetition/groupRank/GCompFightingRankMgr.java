@@ -12,6 +12,7 @@ import com.bm.rank.fightingAll.FightingComparable;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -76,11 +77,11 @@ public class GCompFightingRankMgr {
 				totalFighting += memberEntry.getComparable().getFighting();
 				continue;
 			}
-			Player player = PlayerMgr.getInstance().find(member.getUserId());
-			if(null != player){
+//			Player player = PlayerMgr.getInstance().find(member.getUserId());
+//			if(null != player){
 //				totalFighting += player.getHeroMgr().getFightingTeam(player);
-				totalFighting += player.getHeroMgr().getFightingTeam(player.getUserId());
-			}
+//			}
+			totalFighting += FSHeroMgr.getInstance().getFightingTeam(member.getUserId());
 		}
 		return totalFighting;
 	}

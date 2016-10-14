@@ -217,6 +217,7 @@ public class AttributeBM {
 			builder.setMagicId(String.valueOf(magic.getModelId()));
 			builder.setMagicLevel(magic.getLevel());
 			builder.setUserId(teamInfo.getUuid());
+			builder.setMagicAptitude(magic.getAptitude());
 			magicParam = builder.build();
 			componentList.add(new RobotMagicAttributeComponent(magicParam));
 		}

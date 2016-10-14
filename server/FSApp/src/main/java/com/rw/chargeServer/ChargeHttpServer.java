@@ -25,13 +25,14 @@ public class ChargeHttpServer {
 	public void init(){
 		
 		final int chargePort = ServerConfig.getInstance().getServeZoneInfo().getChargePort();
+		final String intranetIp = ServerConfig.getInstance().getServeZoneInfo().getIntranetIp();
 		
 		service.submit(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
-					start(chargePort);					
+					start(intranetIp, chargePort);					
 				} catch (Exception e) {
 					GameLog.error(LogModule.Charge, "ChargeHttpServer[start]", "重置服务启动失败，请检查配置。chargePort:"+chargePort, e );
 				}
@@ -40,7 +41,7 @@ public class ChargeHttpServer {
 		});
 	}
 	
-	public void start(int chargePort) throws Exception {
+	public void start(String host, int chargePort) throws Exception {
 		
 		
 		EventLoopGroup bossGroup = new NioEventLoopGroup(); // (1)
@@ -60,7 +61,7 @@ public class ChargeHttpServer {
 							}).option(ChannelOption.SO_BACKLOG, 128) // (5)
 					.childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
-			ChannelFuture f = b.bind(chargePort).sync(); // (7)
+			ChannelFuture f = b.bind(host, chargePort).sync(); // (7)
 
 			System.out.println("charge server started, port:"+chargePort);
 			f.channel().closeFuture().sync();
