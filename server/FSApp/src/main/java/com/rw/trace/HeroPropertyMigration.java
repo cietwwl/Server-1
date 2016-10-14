@@ -142,6 +142,9 @@ public class HeroPropertyMigration {
 			for (Map.Entry<String, String> entry : fieldJsonMap.entrySet()) {
 				String key = entry.getKey();
 				FieldEntry field = classInfo.getFieldEntry(key);
+				if(field == null){
+					continue;
+				}
 				Object object = readJsonValue(entry.getValue(), field);
 				if (object == null) {
 					throw new RuntimeException("can not serilize:" + key + "=" + entry.getValue());
