@@ -1,6 +1,7 @@
 package com.rw.handler.groupCompetition.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -13,7 +14,9 @@ import com.rw.common.RobotLog;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItem;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMember;
-import com.rw.handler.groupCompetition.util.GCompStageType;
+import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
+import com.rw.handler.groupCompetition.data.team.GCompTeam;
+import com.rw.handler.groupCompetition.data.team.GCompTeamHolder;
 import com.rw.handler.groupCompetition.util.GCompUtil;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
@@ -36,6 +39,8 @@ import com.rwproto.ResponseProtos.Response;
 public class GroupCompetitionHandler {
 
 	public static final int[] quizCountArr = {100000, 200000, 500000};
+	
+	private static final long inviteTimeoutMillis = 10000;
 	
 	private static GroupCompetitionHandler handler = new GroupCompetitionHandler();
 
@@ -187,26 +192,64 @@ public class GroupCompetitionHandler {
 		});
 	}
 	
+	private void processTeamEvents(Client client) {
+		GCompTeam team;
+		if((team = client.getGCompTeamHolder().getTeam()) != null) {
+			if (team.getLeaderId().equals(client.getUserId())) {
+				if(team.getMemberSize() < 3) {
+					this.requestInviteMember(client);
+				} else {
+					this.sendStartMatching(client);
+				}
+			} else {
+				this.sendSetReadyMsg(client);
+			}
+		} else {
+			this.createGCompTeam(client);
+		}
+	}
+	
+	private void processPersonEvents(Client client) {
+		GCompTeamHolder teamHolder = client.getGCompTeamHolder();
+		if (teamHolder.getPersonalMatchingTimeOut() < System.currentTimeMillis()) {
+			if (this.requestPersonalMatching(client)) {
+				teamHolder.setPersonalMatchingTimeOut(System.currentTimeMillis() + 30000);
+			}
+		}
+	}
+	
 	public boolean testGroupCompetition(Client client) {
-		this.sendGroupAction(client);
+		this.sendGroupAction(client); // 尝试创建或加入帮派
 		if (client.getGCompBaseInfoHolder().isEventsStart()) {
 			// 帮战阶段
 			if (client.getGCompEventsDataHolder().isNull()) {
+				// 没有matchView数据
 				this.getMatchData(client);
-			} else if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) {
+			} else if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) { // 未进入备战区
+				// 进入备战区
 				if (GroupCompSameSceneHandler.getHandler().enterPrepareArea(client)) {
 					try {
 						TimeUnit.MILLISECONDS.sleep(500);
 					} catch (Exception e) {
-						RobotLog.fail("", e);
+						RobotLog.fail("进入备战区成功，但是暂停被打断！", e);
 					}
 					GroupCompSameSceneHandler.getHandler().inPrepareArea(client);
 				}
-			} else {
+			} else { // 已经在备战区
 				GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+				switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
+				case TEAM_EVENTS:
+					processTeamEvents(client);
+					break;
+				case PERSONAL_EVENTS:
+					processPersonEvents(client);
+					break;
+				default:
+					break;
+				}
 			}
 		} else {
-			this.sendGCompCmd(client);
+			this.sendGCompCmd(client); // 尝试发送帮战开始的指令
 		}
 		return true;
 	}
@@ -268,7 +311,7 @@ public class GroupCompetitionHandler {
 	 * @return
 	 */
 	public boolean requestPersonalMatching(Client client) {
-		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, null, new GCompPersonalMatchingMsgReceiver());
+		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, Arrays.asList(client.getUserId()), new GCompPersonalMatchingMsgReceiver());
 	}
 	
 	/**
@@ -279,12 +322,21 @@ public class GroupCompetitionHandler {
 	 * @return
 	 */
 	public boolean requestInviteMember(Client client) {
+		GCompOnlineMemberHolder onlineMemberHolder = client.getGCompOnlinememberHolder();
 		if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() > 1) {
+			GCompTeam team = client.getGCompTeamHolder().getTeam();
 			GCompOnlineMember target = null;
 			for(int i = 0; i < 10; i++) {
+				// 尝试10次
 				target = client.getGCompOnlinememberHolder().getRandomOnlineMember();
-				if (!target.getUserId().equals(client.getUserId())) {
-					break;
+				if (!target.getUserId().equals(client.getUserId()) && team.getTeamMember(target.getUserId()) == null) {
+					Long time = onlineMemberHolder.getInviteTimeout(target.getUserId());
+					if (time == null || time < System.currentTimeMillis()) {
+						onlineMemberHolder.setInviteTimeout(target.getUserId(), System.currentTimeMillis() + inviteTimeoutMillis);
+						break;
+					} else  {
+						target = null;
+					}
 				} else {
 					target = null;
 				}
@@ -336,7 +388,7 @@ public class GroupCompetitionHandler {
 						return false;
 					}
 					GCResultType result = rsp.getRstType();
-					if (!result.equals(GFResultType.SUCCESS)) {
+					if (!result.equals(GCResultType.SUCCESS)) {
 						RobotLog.info("GroupCompetitionHandler[send] quizForCompetion服务器返回不成功 ");
 						return true;
 					}

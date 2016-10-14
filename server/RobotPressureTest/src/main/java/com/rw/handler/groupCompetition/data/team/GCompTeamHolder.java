@@ -6,15 +6,10 @@ import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GCompTeamHolder {
-
-	private static final GCompTeamHolder _INSTANCE = new GCompTeamHolder();
-	
-	public static final GCompTeamHolder getInstance() {
-		return _INSTANCE;
-	}
 	
 	private SynDataListHolder<GCompTeam> _dataHolder = new SynDataListHolder<GCompTeam>(GCompTeam.class);
 	private GCompTeam team;
+	private long personalMatchingTimeOut;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 		_dataHolder.Syn(msgDataSyn);
@@ -28,5 +23,13 @@ public class GCompTeamHolder {
 	
 	public GCompTeam getTeam() {
 		return team;
+	}
+
+	public long getPersonalMatchingTimeOut() {
+		return personalMatchingTimeOut;
+	}
+
+	public void setPersonalMatchingTimeOut(long personalMatchingTimeOut) {
+		this.personalMatchingTimeOut = personalMatchingTimeOut;
 	}
 }

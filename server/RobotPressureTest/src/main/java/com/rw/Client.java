@@ -134,9 +134,9 @@ public class Client {
 	// 争霸赛
 	private GCompUserQuizItemHolder userQuizItemHolder = GCompUserQuizItemHolder.getInstance();
 	private GCQuizEventItemHolder quizEventItemHolder = GCQuizEventItemHolder.getInstance();
-	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
-	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
-	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
+	private GCompBaseInfoHolder gCompBaseInfoHolder = new GCompBaseInfoHolder();
+	private GCompTeamHolder gCompTeamHolder = new GCompTeamHolder();
+	private GCompOnlineMemberHolder gCompOnlinememberHolder = new GCompOnlineMemberHolder();
 	private GCompEventsDataHolder gCompEventsDataHolder = new GCompEventsDataHolder();
 	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = GCompMatchBattleSynDataHolder.getInstance();
 

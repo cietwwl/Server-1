@@ -6,12 +6,6 @@ import com.rw.handler.groupCompetition.util.GCompStageType;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GCompBaseInfoHolder {
-
-	private static final GCompBaseInfoHolder _INSTANCE = new GCompBaseInfoHolder();
-	
-	public static GCompBaseInfoHolder getInstance() {
-		return _INSTANCE;
-	}
 	
 //	private SynDataListHolder<GCompBaseInfo> listHolder = new SynDataListHolder<GCompBaseInfo>(GCompBaseInfo.class);
 	private GCompBaseInfo baseInfoData;
