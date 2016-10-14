@@ -237,6 +237,12 @@ public abstract class ClientMsgHandler {
 					case GCompTeamHolder:
 						getClient().getGCompTeamHolder().syn(msgDataSyn);
 						break;
+					case GCompMatch:
+						getClient().getGCompEventsDataHolder().syn(msgDataSyn);
+						break;
+					case GCompOnlineMember:
+						getClient().getGCompOnlinememberHolder().syn(msgDataSyn);
+						break;
 					case GCompMatchEnemy:
 						Client client = getClient();
 						client.getgCompMatchBattleSynDataHolder().sendGCOmpMatchBattleReq(client);

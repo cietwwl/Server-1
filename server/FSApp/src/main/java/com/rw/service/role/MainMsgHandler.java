@@ -73,12 +73,6 @@ public class MainMsgHandler {
 	}
 
 	private void sendPmdAll(ByteString pBuffer) {
-//		Map<String, Player> playeMap = PlayerMgr.getInstance().getAllPlayer();
-//		List<Player> list = new ArrayList<Player>();
-//		list.addAll(playeMap.values());
-//		for (Player player : list) {
-//			player.SendMsg(Command.MSG_MainMsg, pBuffer);
-//		}
 		UserChannelMgr.broadcastMsg(Command.MSG_MainMsg, pBuffer);
 	}
 
@@ -300,5 +294,9 @@ public class MainMsgHandler {
 		arr.add(player.getUserName());
 		arr.add(colors + fbName + "[-]");
 		sendPmd(13, arr);
+	}
+	
+	public void sendWorldBossPmb(Player player, int id, List<String> arr){
+		sendPmd(id, arr);
 	}
 }

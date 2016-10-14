@@ -22,6 +22,8 @@ import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.role.MainMsgHandler;
+import com.rw.service.role.PmdMsgType;
 import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.common.RandomUtil;
 import com.rwbase.dao.randomBoss.cfg.RBServerCfgDao;
@@ -40,6 +42,7 @@ import com.rwproto.RandomBossProto.MsgType;
 import com.rwproto.RandomBossProto.RandomBossMsgResponse.Builder;
 import com.rwproto.RandomBossProto.RandomBossPushMsg;
 import com.rwproto.RandomBossProto.RandomBossSynBattleCount;
+import com.sun.org.apache.bcel.internal.classfile.PMGClass;
 
 
 /**
@@ -421,7 +424,12 @@ public class RandomBossMgr{
 			
 //			String e = DateUtils.getDateTimeFormatString(excapeTime, "yyyy-MM-dd HH:mm:ss");
 //			System.out.println("新随机boss生成，离开时间：" + e);
-			
+			List<String> pmbMsgList = new ArrayList<String>();
+			pmbMsgList.add(player.getUserName());
+			pmbMsgList.add(String.valueOf(monsterCfg.getLevel()));
+			pmbMsgList.add(monsterCfg.getName());
+			pmbMsgList.add(player.getUserId());
+			MainMsgHandler.getInstance().sendWorldBossPmb(player, PmdMsgType.RandomBoss.getId(), pmbMsgList);
 			//同步到前端
 			ClientDataSynMgr.synData(player, newBoss, eSynType.RANDOM_BOSS_DATA, eSynOpType.ADD_SINGLE);
 			
