@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.GroupCompetitionBroadcastCenter;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.GroupCompetitionRewardCenter;
@@ -18,6 +20,7 @@ import com.playerdata.groupcompetition.holder.GCompGroupScoreRankingMgr;
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompOnlineMemberMgr;
 import com.playerdata.groupcompetition.holder.GCompTeamMgr;
+import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.matching.GroupCompetitionMatchingCenter;
 import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
@@ -204,21 +207,49 @@ public class GCompEvents {
 			IGCGroup groupB = against.getGroupB();
 			String winGroupId;
 			String loseGroupId;
+			String idOfGroupA = groupA.getGroupId();
+			String idOfGroupB = groupB.getGroupId();
 			if (StringUtils.isEmpty(groupA.getGroupId())) {
 				// 帮派B轮空
-				winGroupId = groupB.getGroupId();
-				loseGroupId = groupA.getGroupId();
+				winGroupId = idOfGroupB;
+				loseGroupId = idOfGroupA;
 			} else if (StringUtils.isEmpty(groupB.getGroupId())) {
 				// 帮派A轮空
-				winGroupId = groupA.getGroupId();
-				loseGroupId = groupB.getGroupId();
+				winGroupId = idOfGroupA;
+				loseGroupId = idOfGroupB;
 			} else {
-				if (groupA.getGCompScore() >= groupB.getGCompScore()) {
+				List<GCompMember> allMembersA = GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(idOfGroupA);
+				List<GCompMember> allMembersB = GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(idOfGroupB);
+				if (allMembersA.size() < 3) {
+					winGroupId = idOfGroupB;
+					loseGroupId = idOfGroupA;
+				} else if (allMembersB.size() < 3) {
+					winGroupId = idOfGroupA;
+					loseGroupId = idOfGroupB;
+				} else if (groupA.getGCompScore() > groupB.getGCompScore()) {
 					winGroupId = groupA.getGroupId();
 					loseGroupId = groupB.getGroupId();
-				} else {
+				} else if (groupA.getGCompScore() < groupB.getGCompScore()) {
 					winGroupId = groupB.getGroupId();
 					loseGroupId = groupA.getGroupId();
+				} else {
+					// 平分
+					GCompFightingItem fightingRankItemA = GCompFightingRankMgr.getFightingRankItem(idOfGroupA);
+					GCompFightingItem fightingRankItemB = GCompFightingRankMgr.getFightingRankItem(idOfGroupB);
+					if (fightingRankItemA == null) {
+						winGroupId = idOfGroupB;
+						loseGroupId = idOfGroupA;
+					} else if (fightingRankItemB == null) {
+						winGroupId = idOfGroupA;
+						loseGroupId = idOfGroupB;
+					} else if (fightingRankItemA.getGroupFight() > fightingRankItemB.getGroupFight()) {
+						winGroupId = idOfGroupA;
+						loseGroupId = idOfGroupB;
+					} else {
+						winGroupId = idOfGroupB;
+						loseGroupId = idOfGroupA;
+					}
+
 				}
 			}
 			winGroupIds.add(winGroupId);
@@ -227,13 +258,6 @@ public class GCompEvents {
 		}
 		eventsData.setWinGroupIds(winGroupIds);
 		eventsData.setLostGroupIds(loseGroupIds);
-		// if (_type.getNext() == GCEventsType.FINAL) {
-		// int beginPos = GCompUtil.computeBeginIndex(GCEventsType.FINAL); // 计算开始索引
-		// List<GCompAgainst> next = new ArrayList<GCompAgainst>();
-		// next.add(new GCompAgainst(winGroupIds.get(0), winGroupIds.get(1), GCEventsType.FINAL, beginPos));
-		// next.add(new GCompAgainst(loseGroupIds.get(0), loseGroupIds.get(1), GCEventsType.FINAL, beginPos + 1));
-		// GCompEventsDataMgr.getInstance().setNextMatches(next);
-		// }
 		GCompEventsDataMgr.getInstance().save();
 		if (_type.getNext() != null) { // 提早生成下一组赛事
 			List<IReadOnlyPair<Integer, Integer>> againstList = Collections.emptyList();

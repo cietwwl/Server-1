@@ -15,10 +15,15 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCGroup;
+import com.playerdata.groupcompetition.holder.GCompDetailInfoMgr;
+import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.cfg.GroupLevelCfg;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
+import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
@@ -94,9 +99,6 @@ public class GCompUtil {
 			instance.add(Calendar.WEEK_OF_YEAR, cfg.getStartWeeks());
 			instance.set(Calendar.DAY_OF_WEEK, cfg.getStartDayOfWeek());
 		} else {
-			if (instance.get(Calendar.DAY_OF_WEEK) >= cfg.getStartDayOfWeek()) {
-				instance.add(Calendar.WEEK_OF_YEAR, 1);
-			}
 			instance.set(Calendar.DAY_OF_WEEK, cfg.getStartDayOfWeek());
 		}
 		instance.set(Calendar.HOUR_OF_DAY, time.getT1());
@@ -104,6 +106,9 @@ public class GCompUtil {
 			instance.set(Calendar.MINUTE, time.getT2());
 		}
 		instance.set(Calendar.SECOND, 0);
+		if (instance.getTimeInMillis() < System.currentTimeMillis()) {
+			instance.add(Calendar.WEEK_OF_YEAR, 1);
+		}
 		return instance.getTimeInMillis();
 	}
 	
@@ -121,13 +126,27 @@ public class GCompUtil {
 	}
 	
 	public static long calculateEndTimeOfStage(String stageCfgId) {
-		GroupCompetitionStageCfg cfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(String.valueOf(stageCfgId));
+		GroupCompetitionStageCfgDAO stageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
+		GroupCompetitionStageCfg cfg = stageCfgDAO.getCfgById(String.valueOf(stageCfgId));
 		Calendar currentDateTime = Calendar.getInstance();
 		IReadOnlyPair<Integer, Integer> endTimeInfo = cfg.getEndTimeInfo();
 		currentDateTime.add(Calendar.DAY_OF_YEAR, cfg.getLastDays());
 		currentDateTime.set(Calendar.HOUR_OF_DAY, endTimeInfo.getT1());
 		currentDateTime.set(Calendar.MINUTE, endTimeInfo.getT2());
 		currentDateTime.set(Calendar.SECOND, 0);
+		if (cfg.getStageType() == GCompStageType.REST.sign) {
+			// 休整期的结束时间计算比较特别
+			GroupCompetitionStageControlCfg controlCfg = GroupCompetitionStageControlCfgDAO.getInstance().getByType(GCompStartType.NUTRAL_TIME_OFFSET.sign);
+			GroupCompetitionStageCfg nextFirst = stageCfgDAO.getCfgById(String.valueOf(controlCfg.getStageDetailList().get(0)));
+			int startDay = controlCfg.getStartDayOfWeek();
+			if (startDay != currentDateTime.get(Calendar.DAY_OF_WEEK)) {
+				currentDateTime.set(Calendar.DAY_OF_WEEK, startDay);
+			}
+			endTimeInfo = nextFirst.getStartTimeInfo();
+			currentDateTime.set(Calendar.HOUR_OF_DAY, endTimeInfo.getT1());
+			currentDateTime.set(Calendar.MINUTE, endTimeInfo.getT2());
+			currentDateTime.add(Calendar.SECOND, -30); // 下个开始前1秒结束
+		}
 		return currentDateTime.getTimeInMillis();
 	}
 	
@@ -186,6 +205,10 @@ public class GCompUtil {
 		for (int i = 0, size = topGroups.size(); i < size; i++) {
 			groupId = topGroups.get(i).getGroupId();
 			group = GroupBM.get(groupId);
+			if (group == null) {
+				GCompUtil.log("找不到帮派：{}", groupId);
+				continue;
+			}
 			if (group.getGroupMemberMgr().getGroupMemberSize() < minMembersCount) {
 				GCompUtil.log("帮派：{}，人数少于：{}，不能入围！", group.getGroupBaseDataMgr().getGroupData().getGroupName(), minMembersCount);
 				continue;
@@ -198,6 +221,46 @@ public class GCompUtil {
 		}
 		GCompUtil.log("----------入围帮派id : " + groupIds + "----------");
 		return groupIds;
+	}
+	
+	public static void updateGroupInfo(List<GCompAgainst> list, Group targetGroup) {
+		if (list.size() > 0) {
+			GroupBaseDataIF baseData = targetGroup.getGroupBaseDataMgr().getGroupData();
+			String groupId = baseData.getGroupId();
+			List<GCGroup> groups = new ArrayList<GCGroup>();
+			List<Integer> againstIds = new ArrayList<Integer>();
+			for (int i = 0, size = list.size(); i < size; i++) {
+				GCompAgainst against = list.get(i);
+				if (against.getGroupA().getGroupId().equals(groupId)) {
+					groups.add(against.getGroupA());
+				} else if (against.getGroupB().getGroupId().equals(groupId)) {
+					groups.add(against.getGroupB());
+				} else {
+					continue;
+				}
+				againstIds.add(against.getId());
+			}
+			if (groups.size() > 0) {
+				GCGroup temp;
+				String leaderName = targetGroup.getGroupMemberMgr().getGroupLeader().getName();
+				int memberCount = targetGroup.getGroupMemberMgr().getGroupMemberSize();
+				String groupName = baseData.getGroupName();
+				int groupLv = baseData.getGroupLevel();
+				GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupLv);
+				int maxMemberCount = levelTemplate.getMaxMemberLimit();
+				String groupIcon = baseData.getIconId();
+				for (int i = 0, size = groups.size(); i < size; i++) {
+					temp = groups.get(i);
+					temp.setGroupName(groupName);
+					temp.setLeaderName(leaderName);
+					temp.setGroupLv(groupLv);
+					temp.setMemberNum(memberCount);
+					temp.setMaxMemberNum(maxMemberCount);
+					temp.setGroupIcon(groupIcon);
+					GCompDetailInfoMgr.getInstance().updateDetailInfo(againstIds.get(i), groupId, groupName, groupIcon);
+				}
+			}
+		}
 	}
 	
 	final static public class MessageFormatter {

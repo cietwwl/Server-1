@@ -8,11 +8,9 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.junit.Ignore;
 
 import com.playerdata.MapAnimationState;
 import com.playerdata.SkillMgr;
-import com.playerdata.dataEncode.annotation.IgnoreEncodeField;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
@@ -398,5 +396,4 @@ public class UserGameData implements TableUserOtherIF {
 	public void setCreateBossCount(int createBossCount) {
 		this.createBossCount = createBossCount;
 	}
-	
 }

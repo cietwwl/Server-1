@@ -1,5 +1,6 @@
 package com.playerdata.groupcompetition.holder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Player;
@@ -13,8 +14,10 @@ import com.playerdata.groupcompetition.stageimpl.GCGroup;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.group.pojo.Group;
 
 public class GCompEventsDataMgr {
 
@@ -167,6 +170,16 @@ public class GCompEventsDataMgr {
 		}
 
 		return null;
+	}
+	
+	public void notifyGroupInfoChange(final Group group) {
+		List<GCompAgainst> list = _dataHolder.get().getMatches();
+		GCompUtil.updateGroupInfo(list, group);
+		_dataHolder.update();
+	}
+	
+	public List<GCompAgainst> getAllAgainsts() {
+		return new ArrayList<GCompAgainst>(_dataHolder.get().getMatches());
 	}
 	
 	public void notifyAllEventsFinished() {

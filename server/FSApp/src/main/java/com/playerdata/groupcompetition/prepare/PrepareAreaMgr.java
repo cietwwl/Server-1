@@ -105,6 +105,11 @@ public class PrepareAreaMgr {
 			gcRsp.setTipMsg("请先加入帮派");
 			return;
 		}
+		if(groupScene == null || !groupScene.containsKey(groupId)){
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
+			return;
+		}
 		PositionInfo pInfo = new PositionInfo();
 		pInfo.setPx(position.getX());
 		pInfo.setPy(position.getY());
@@ -285,5 +290,14 @@ public class PrepareAreaMgr {
 	 */
 	public void inPrepareArea(Player player) {
 		GroupCompetitionMgr.getInstance().onPlayerEnterPrepareArea(player);
+	}
+	
+	/**
+	 * 获取帮派的同屏场景id
+	 * @param groupId
+	 * @return
+	 */
+	public Long getGroupScene(String groupId){
+		return groupScene.get(groupId);
 	}
 }

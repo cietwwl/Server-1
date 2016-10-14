@@ -23,6 +23,7 @@ import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCompBattleResult;
 import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchState;
 import com.playerdata.groupcompetition.util.GCompMatchConst.GCompMatchType;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleCommonRspMsg;
 import com.rwproto.GroupCompetitionBattleProto.GCBattleEndReqMsg;
@@ -71,17 +72,20 @@ public class GroupCompetitionBattleHandler {
 		GCompEventsDataMgr instance = GCompEventsDataMgr.getInstance();
 		IGCAgainst gcAgainstOfGroup = instance.getGCAgainstOfGroup(groupId, GroupCompetitionMgr.getInstance().getCurrentEventsType());
 		if (gcAgainstOfGroup == null) {
+			GCompUtil.log("请求开始战斗，找不到对垒信息，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "不能查找到对垒的信息");
 		}
 
 		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
 		GCompMatchData matchData = holder.getMatchData(userId);
 		if (matchData == null) {
+			GCompUtil.log("请求开始战斗，matchData == null，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "您当前没有匹配到对手");
 		}
 
 		int matchState = matchData.getMatchState();
 		if (matchState != GCompMatchState.START_BATTLE.state) {
+			GCompUtil.log("请求开始战斗，matchState != GCompMatchState.START_BATTLE.state，角色名字{}，当前状态{}，角色Id{}", player.getUserName(), matchState, userId);
 			return fillFailMsg(rsp, "当前不能进入战斗");
 		}
 
@@ -100,10 +104,12 @@ public class GroupCompetitionBattleHandler {
 		}
 
 		if (mine == null) {
+			GCompUtil.log("请求开始战斗，GCompTeamMember.mine == null，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "当前不能进入战斗");
 		}
 
 		if (mine.getResult() != GCompBattleResult.NonStart) {
+			GCompUtil.log("请求开始战斗，mine.getResult() != GCompBattleResult.NonStart，重复进入战斗，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "不能重复进入战斗");
 		}
 
@@ -111,23 +117,26 @@ public class GroupCompetitionBattleHandler {
 		// 先获取到我自己的上阵阵容
 		ArmyInfoSimple mineArmyInfoSimple = mine.getArmyInfo();
 		if (mineArmyInfoSimple == null) {
+			GCompUtil.log("请求开始战斗，ArmyInfoSimple mineArmyInfoSimple == null，己方ArmyInfo为null，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "获取己方阵容信息失败");
 		}
 
 		// 获取到敌人的阵容
 		GCompTeam enemyTeam = matchData.getEnemyTeam();
 		if (enemyTeam == null) {
+			GCompUtil.log("请求开始战斗，GCompTeam enemyTeam == null，敌方GCompTeam为null，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
 		List<GCompTeamMember> enemyMemberList = enemyTeam.getMembers();
 		if (enemyMemberList == null || mineIndex >= enemyMemberList.size()) {
+			GCompUtil.log("请求开始战斗，enemyMemberList == null || mineIndex >= enemyMemberList.size()，角色名字{}，角色Id{}", player.getUserName(), userId);
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
 		ArmyInfoSimple enemyArmyInfoSimple = enemyMemberList.get(mineIndex).getArmyInfo();
 		if (enemyArmyInfoSimple == null) {
-			GameLog.error("帮派争霸开始战斗", userId, "获取不到敌人对应的ArmyInfo信息");
+			GameLog.error("帮派争霸开始战斗", userId + ">>>>" + player.getUserName(), "获取不到敌人对应的ArmyInfo信息");
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
@@ -137,7 +146,7 @@ public class GroupCompetitionBattleHandler {
 			mineArmyInfoJson = ArmyInfoHelper.getArmyInfo(mineArmyInfoSimple, true).toJson();
 			enemyArmyInfoJson = ArmyInfoHelper.getArmyInfo(enemyArmyInfoSimple, true).toJson();
 		} catch (Exception e) {
-			GameLog.error("帮派争霸开始战斗", userId, "转换敌我双方的ArmyInfoSimple到json出现异常", e);
+			GameLog.error("帮派争霸开始战斗", userId + ">>>>" + player.getUserName(), "转换敌我双方的ArmyInfoSimple到json出现异常", e);
 			return fillFailMsg(rsp, "获取敌方阵容信息失败");
 		}
 
@@ -167,7 +176,7 @@ public class GroupCompetitionBattleHandler {
 			GCompTeamMember member = members.get(i);
 			if (member.isRobot() && member.getResult() == GCompBattleResult.NonStart && !member.getUserId().equals(userId)) {
 				member.setResult(GCompBattleResult.Fighting);
-				member.setStartBattleTime(now);
+				member.setStartBattleTime(now + 5000);// 机器人进入战斗时间延伸5秒，因为机器人也要模拟有加载时间限制
 			}
 		}
 
@@ -312,23 +321,27 @@ public class GroupCompetitionBattleHandler {
 
 		String groupId = GroupHelper.getGroupId(player);
 		if (StringUtils.isEmpty(groupId)) {
+			GCompUtil.log("收到战斗结果，但是返现帮派id为空！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "您没有帮派");
 		}
 
 		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
 		GCompMatchData matchData = holder.getMatchData(userId);
 		if (matchData == null) {
+			GCompUtil.log("收到战斗结果，matchData == null！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "当前阶段已经结束");
 		}
 
 		int matchState = matchData.getMatchState();
 		if (matchState != GCompMatchState.START_BATTLE.state) {
+			GCompUtil.log("收到战斗结果，matchState != GCompMatchState.START_BATTLE.state！成员的名字：{}，当前的state：{}", player.getUserName(), matchState);
 			return fillFailMsg(rsp, "战斗未开始");
 		}
 
 		// 刷新一下战斗的结果
 		GCBattleResult result = req.getResult();
 		if (result == GCBattleResult.NONE) {
+			GCompUtil.log("收到战斗结果，result == GCBattleResult.NONE！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "没有战斗结果");
 		}
 
