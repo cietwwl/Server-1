@@ -1854,7 +1854,16 @@ public class GMHandler {
 	}
 	
 	public boolean sendGroupPmd(String[] arrCommandContents, Player player) {
-		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
+		String index = arrCommandContents[0];
+		if(index.equals("1")){
+			MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
+		}
+		if(index.equals("2")){
+			MainMsgHandler.getInstance().sendMainCityMsg(24, EMsgType.PmdMsg, Arrays.asList("Fisher", "3", "随机boss"));
+		}
+		if(index.equals("3")){
+			MainMsgHandler.getInstance().sendMainCityMsg(2, EMsgType.PmdMsg, Arrays.asList("Fisher", "202002_1"));
+		}
 		return true;
 	} 
 	
