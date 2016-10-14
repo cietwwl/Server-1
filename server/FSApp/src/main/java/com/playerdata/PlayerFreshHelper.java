@@ -68,7 +68,16 @@ public class PlayerFreshHelper {
 			// 获取穿戴的法宝
 			int[] initMagicInfo = uniqueCfg.getInitMagicInfo();
 			int cfgId = initMagicInfo[0];
-			player.getItemBagMgr().addItem(cfgId, 1);// 增加一个法宝
+			// 获取初始奖励的物品
+			int[][] initItemArr = uniqueCfg.getInitItemArr();
+			int len = initItemArr == null ? 0 : initItemArr.length;
+			ArrayList<ItemInfo> list = new ArrayList<ItemInfo>(len + 1);
+			list.add(new ItemInfo(cfgId, 1));
+			for (int i = 0; i < len; i++) {
+				int[] rewardInfo = initItemArr[i];
+				list.add(new ItemInfo(rewardInfo[0], rewardInfo[1]));
+			}
+			player.getItemBagMgr().addItem(list);
 			ItemData item = player.getItemBagMgr().getItemListByCfgId(cfgId).get(0);
 			int level = initMagicInfo[1];
 			if (level > 1) {
@@ -77,24 +86,11 @@ public class PlayerFreshHelper {
 			}
 			player.getMagicMgr().wearMagic(item.getId());
 
-			// 获取初始奖励的物品
-			int[][] initItemArr = uniqueCfg.getInitItemArr();
-			int len = 0;
-			if (initItemArr != null && (len = initItemArr.length) > 0) {
-				List<ItemInfo> list = new ArrayList<ItemInfo>(len);
-				for (int i = 0; i < len; i++) {
-					int[] rewardInfo = initItemArr[i];
-//					player.getItemBagMgr().addItem(rewardInfo[0], rewardInfo[1]);
-					list.add(new ItemInfo(rewardInfo[0], rewardInfo[1]));
-				}
-				player.getItemBagMgr().addItem(list);
-			}
-
 			// 初始化佣兵
 			String[] initHeroArr = uniqueCfg.getInitHeroArr();
 			if (initHeroArr != null) {
 				for (int i = 0, len0 = initHeroArr.length; i < len0; i++) {
-//					player.getHeroMgr().addHero(initHeroArr[i]);
+					// player.getHeroMgr().addHero(initHeroArr[i]);
 					player.getHeroMgr().addHero(player, initHeroArr[i]);
 				}
 			}

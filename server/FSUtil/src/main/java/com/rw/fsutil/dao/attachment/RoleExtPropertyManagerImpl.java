@@ -51,7 +51,7 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 			this.selectArray[i] = "select id,sub_type,extention from " + tableName + " where owner_id=? and type=?";
 			this.insertArray[i] = "insert into " + tableName + " (owner_id,type,sub_type,extention) values(?,?,?,?)";
 			this.deleteArray[i] = "delete from " + tableName + " where id=?";
-			this.selectAllArray[i] = "select id,sub_type,extention from " + tableName + " where owner_id=?";
+			this.selectAllArray[i] = "select id,type,sub_type,extention from " + tableName + " where owner_id=?";
 			this.tableNameArray[i] = tableName;
 		}
 	}

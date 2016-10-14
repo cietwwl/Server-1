@@ -145,10 +145,10 @@ public class MagicEquipFetterDataHolder {
 		dataVersion.incrementAndGet();
 
 	}
-	
+
 	/**
-	 * 检查数据库内法宝羁绊记录是否与当前集合一致，如果没有则进行添加
-	 * modify by Jamaz @2016-10-13
+	 * 检查数据库内法宝羁绊记录是否与当前集合一致，如果没有则进行添加 modify by Jamaz @2016-10-13
+	 * 
 	 * @param curCfgs
 	 * @param modelID
 	 *            TODO 英雄modelID
@@ -160,12 +160,20 @@ public class MagicEquipFetterDataHolder {
 		}
 		// 检查当前拥有法宝羁绊与通过配置与法宝计算出来的羁绊是否一致
 		int cfgSize = curCfgs.size();
-		IntObjectHashMap<MagicEquipConditionCfg> curCfgsMap = new IntObjectHashMap<MagicEquipConditionCfg>(cfgSize << 1);
-		for (MagicEquipConditionCfg cfg : curCfgs.values()) {
-			curCfgsMap.put(cfg.getUniqueId(), cfg);
-		}
 		List<Integer> fetterIDs = item.getMagicFetters();
 		int size = fetterIDs.size();
+		if (cfgSize == 0 && size == 0) {
+			return false;
+		}
+		IntObjectHashMap<MagicEquipConditionCfg> curCfgsMap;
+		if (cfgSize > 0) {
+			curCfgsMap = new IntObjectHashMap<MagicEquipConditionCfg>(cfgSize << 1);
+			for (MagicEquipConditionCfg cfg : curCfgs.values()) {
+				curCfgsMap.put(cfg.getUniqueId(), cfg);
+			}
+		}else{
+			curCfgsMap = new IntObjectHashMap<MagicEquipConditionCfg>(5);
+		}
 		boolean equals = true;
 		if (size == cfgSize) {
 			for (int i = size; --i >= 0;) {
@@ -201,7 +209,7 @@ public class MagicEquipFetterDataHolder {
 			}
 
 			MagicEquipConditionCfg sameTypeCfg = curCfgs.get(cfg.getCompositeKey());
-			//TODO 如果没有此类型，不保留，需要和策划确认(原逻辑是这样跑)
+			// TODO 如果没有此类型，不保留，需要和策划确认(原逻辑是这样跑)
 			if (sameTypeCfg == null) {
 				continue;
 			}

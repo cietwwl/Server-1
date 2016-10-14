@@ -142,8 +142,8 @@ public class GMHandler {
 		funcCallBackMap.put("teambringit", "teamBringit");
 		funcCallBackMap.put("teambringitsigle", "teamBringitSigle");
 		funcCallBackMap.put("addhero", "addHero1");
-		 funcCallBackMap.put("setteam1", "setTeam1");
-		 funcCallBackMap.put("setteam2", "setTeam2");
+		funcCallBackMap.put("setteam1", "setTeam1");
+		funcCallBackMap.put("setteam2", "setTeam2");
 		funcCallBackMap.put("gainheroequip", "gainHeroEquip");
 		funcCallBackMap.put("wearequip", "wearEquip");
 		funcCallBackMap.put("reset", "resetTimes");
@@ -238,13 +238,13 @@ public class GMHandler {
 		funcCallBackMap.put("emptybag", "emptyBag");
 
 		funcCallBackMap.put("addequiptorole", "addEquipToRole");
-		
+
 		funcCallBackMap.put("upgradetaoist", "upgradeTaoist");
 		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
 		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
 		funcCallBackMap.put("upgrademagic", "upgradeMagic");
-		
-		//* callrb 1    生成随机boss,如果角色已经达到生成boss上限，这个指令会无效  
+
+		// * callrb 1 生成随机boss,如果角色已经达到生成boss上限，这个指令会无效
 		funcCallBackMap.put("callrb", "callRb");
 	}
 
@@ -581,9 +581,11 @@ public class GMHandler {
 			return false;
 		}
 		if (player != null) {
-			GMAddFixEquip.addStarUp(player);
-			GMAddFixEquip.addexp(player);
-			GMAddFixEquip.addqualityUp(player);
+			ArrayList<ItemInfo> list = new ArrayList<ItemInfo>();
+			GMAddFixEquip.addStarUp(player, list);
+			GMAddFixEquip.addexp(player, list);
+			GMAddFixEquip.addqualityUp(player, list);
+			player.getItemBagMgr().addItem(list);
 			return true;
 		}
 		return false;
@@ -654,7 +656,7 @@ public class GMHandler {
 			return false;
 		}
 		if (player != null) {
-//			ChargeMgr.getInstance().buyMonthCard(player, null);
+			// ChargeMgr.getInstance().buyMonthCard(player, null);
 			return true;
 		}
 		return false;
@@ -731,8 +733,8 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	public boolean upgradeTaoist(String[] arrCommandContents, Player player){
+
+	public boolean upgradeTaoist(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -744,8 +746,8 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	public boolean fixEquipLevelUp(String[] arrCommandContents, Player player){
+
+	public boolean fixEquipLevelUp(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -757,8 +759,8 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	public boolean fixEquipStarUp(String[] arrCommandContents, Player player){
+
+	public boolean fixEquipStarUp(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -770,8 +772,8 @@ public class GMHandler {
 		}
 		return false;
 	}
-	
-	public boolean upgradeMagic(String[] arrCommandContents, Player player){
+
+	public boolean upgradeMagic(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
 			return false;
@@ -856,8 +858,8 @@ public class GMHandler {
 		;
 		return true;
 	}
-	
-	public boolean callRb(String[] commands, Player player){
+
+	public boolean callRb(String[] commands, Player player) {
 		RandomBossMgr.getInstance().findBossBorn(player, false);
 		return true;
 	}
@@ -1171,7 +1173,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			// hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			// hero =
+			// player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
 			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
@@ -1217,7 +1220,8 @@ public class GMHandler {
 		if ("0".equalsIgnoreCase(heroId)) {
 			hero = player.getMainRoleHero();
 		} else {
-			// hero = player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
+			// hero =
+			// player.getHeroMgr().getHeroByModerId(Integer.parseInt(heroId));
 			hero = player.getHeroMgr().getHeroByModerId(player, Integer.parseInt(heroId));
 		}
 
@@ -1509,10 +1513,12 @@ public class GMHandler {
 		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
 		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
 		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
-			// if (tempData.getCreateTime() - System.currentTimeMillis() > 1800000) {
+			// if (tempData.getCreateTime() - System.currentTimeMillis() >
+			// 1800000) {
 			// tempData.setCreateTime(tempData.getCreateTime() - 1800000);
 			// }
-			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
+			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(
+					tempData.getSecretId());
 			long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 			long suppose = tempData.getCreateTime() + millis;
 			if (suppose > System.currentTimeMillis()) {
@@ -1545,7 +1551,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean requestGCompSelectionData(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1557,7 +1563,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean requestGCompMatchData(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1569,7 +1575,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean requestGroupScoreRank(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1581,7 +1587,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean requestGroupNewestScore(String[] arrCommandContents, Player player) {
 		int matchId = Integer.parseInt(arrCommandContents[0]);
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
@@ -1594,7 +1600,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean enterPrepareArea(String[] arrCommandContents, Player player) {
 		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
 		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
@@ -1606,14 +1612,14 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean requestCreateGCompTeam(String[] arrCommandContents, Player player) {
 		List<String> heroIds = player.getHeroMgr().getHeroIdList(player);
 		if (heroIds.isEmpty()) {
 			return false;
 		}
 		GCRequestType reqType;
-		if(arrCommandContents[0].equals("1")) {
+		if (arrCommandContents[0].equals("1")) {
 			reqType = GCRequestType.CreateTeam;
 		} else {
 			reqType = GCRequestType.AdjustTeamMember;
@@ -1631,7 +1637,7 @@ public class GMHandler {
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
 	}
-	
+
 	public boolean GCompTeamAction(String[] arrCommandContents, Player player) {
 		List<String> heroIds = player.getHeroMgr().getHeroIdList(player);
 		if (heroIds.isEmpty()) {
@@ -1639,7 +1645,7 @@ public class GMHandler {
 		}
 		int type = Integer.parseInt(arrCommandContents[0]);
 		GCRequestType reqType;
-		switch(type) {
+		switch (type) {
 		case 1:
 			reqType = GCRequestType.SetTeamReady;
 			break;
@@ -1762,7 +1768,7 @@ public class GMHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean moveGroupCompStage(String[] arrCommandContents, Player player) {
 		GameWorldFactory.getGameWorld().asynExecute(new Runnable() {
 
@@ -1782,8 +1788,8 @@ public class GMHandler {
 					boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
 					boolean isNoneStatus = (eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.NONE || eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.FINISH);
 					@SuppressWarnings("unchecked")
-					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField
-							.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
+					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField.get(timerInstanceField
+							.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
 					List<com.rwbase.common.timer.core.FSGameTimeSignal> list = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
 					Class<?> taskClazz = com.playerdata.groupcompetition.util.GCompCommonTask.class;
 					List<com.rwbase.common.timer.core.FSGameTimeSignal> stageList = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
@@ -1813,7 +1819,7 @@ public class GMHandler {
 									} else if (isNoneStatus && consumerName.contains("StageStartConsumer")) {
 										stageList.add(timeSignal);
 										stageSet.add(set);
-									} 
+									}
 								} else {
 									if (consumerName.contains("StageStartConsumer")) {
 										list.add(timeSignal);
@@ -1829,7 +1835,7 @@ public class GMHandler {
 							}
 						}
 					}
-					if(list.size() > 0) {
+					if (list.size() > 0) {
 						for (int i = 0; i < list.size(); i++) {
 							com.rwbase.common.timer.core.FSGameTimeSignal timeSignal = list.get(i);
 							timeSignal.getTask().onTimeSignal(timeSignal);
@@ -1852,12 +1858,12 @@ public class GMHandler {
 		});
 		return true;
 	}
-	
+
 	public boolean sendGroupPmd(String[] arrCommandContents, Player player) {
 		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
 		return true;
-	} 
-	
+	}
+
 	public boolean refreshGroupFightingRank(String[] arrCommandContents, Player player) {
 		GCompFightingRankMgr.refreshGroupFightingRank();
 		return true;
@@ -1865,7 +1871,7 @@ public class GMHandler {
 
 	public boolean refreshGCompFighting(String[] arrCommandContents, Player player) {
 		Runnable r = new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
