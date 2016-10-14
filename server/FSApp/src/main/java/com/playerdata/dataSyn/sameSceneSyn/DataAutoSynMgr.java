@@ -40,7 +40,7 @@ public class DataAutoSynMgr {
 	 * 添加一个等待同步的场景
 	 * @param sceneId
 	 */
-	public void addWaitScene(Long sceneId){
+	void addWaitScene(Long sceneId){
 		waitSynScene.addElement(sceneId);
 	}
 	
@@ -48,7 +48,7 @@ public class DataAutoSynMgr {
 	 * 添加一个等待删除的场景
 	 * @param sceneId
 	 */
-	public void addRemoveScene(Long sceneId){
+	void addRemoveScene(Long sceneId){
 		waitRemoveScene.addElement(sceneId);
 	}
 	
@@ -107,7 +107,7 @@ public class DataAutoSynMgr {
 	 * @return
 	 */
 	private <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneSynMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
 			return 0;
 		}
@@ -120,6 +120,16 @@ public class DataAutoSynMgr {
 		while(entryIterator.hasNext()){
 			Entry<String, T> entry = entryIterator.next();
 			ChannelHandlerContext ctx = UserChannelMgr.get(entry.getKey());
+			if(entry.getValue() == null){
+				//value为null说明是给子场景中的人同步主场景中的数据
+				if (ctx != null) {
+					Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
+					if(null != player){
+						players.add(player);
+					}
+				}
+				continue;
+			}
 			if (ctx == null) {
 				if(entry.getValue().isDisConn(synTime)){
 					//把玩家标记为离开
@@ -171,7 +181,7 @@ public class DataAutoSynMgr {
 	 * @return
 	 */
 	private <T extends SameSceneDataBaseIF> int synRemoveScene(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneSynMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
 			return 0;
 		}
@@ -197,14 +207,14 @@ public class DataAutoSynMgr {
 	}
 	
 	/**
-	 * 给一个玩家同步全部数据（包括旧的没改变的数据）
+	 * 给一个玩家自己场景同步全部数据（包括旧的没改变的数据）
 	 * @param player
 	 * @param sceneId
 	 * @param synType
 	 * @param synObject
 	 */
 	public <T extends SameSceneDataBaseIF> void synDataToOnePlayer(Player player, long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		Map<String, T> synData = SameSceneContainer.getInstance().getExistMembers(sceneId);
 		if(null == player || null == synData || synData.isEmpty() || sceneId <= 0){
 			return;
 		}

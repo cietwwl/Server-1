@@ -90,7 +90,7 @@ public class PrepareAreaMgr {
 		if(gcRsp.getRstType() == GCResultType.SUCCESS){
 			long sceneId = groupScene.get(groupId);
 			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
-			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
+			List<String> usersInScene = SameSceneContainer.getInstance().getSelfSceneUser(sceneId, player.getUserId());
 			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
@@ -196,7 +196,7 @@ public class PrepareAreaMgr {
 		if(needRemoveScene){
 			if(null != groupScene && !groupScene.isEmpty()){
 				for(Long sceneId : groupScene.values()){
-					DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+					SameSceneContainer.getInstance().addRemoveScene(sceneId);
 				}
 			}
 			needRemoveScene = false;
@@ -226,7 +226,7 @@ public class PrepareAreaMgr {
 				if(needRemoveScene){
 					//延时清除每个帮派的准备区
 					for(Long sceneId : groupScene.values()){
-						DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+						SameSceneContainer.getInstance().addRemoveScene(sceneId);
 					}
 					groupScene = null;
 				}
