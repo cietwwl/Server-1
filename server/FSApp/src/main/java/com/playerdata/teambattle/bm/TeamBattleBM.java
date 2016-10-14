@@ -472,11 +472,13 @@ public class TeamBattleBM {
 			}else{
 				teamMember.setState(TBMemberState.HalfFinish);
 			}
-			ItemBagMgr bagMgr = player.getItemBagMgr();
-			for (ItemInfo itm : cfg.getReward()) {
-				GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
-				if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-					GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+			if(cfg.getReward() != null && cfg.getReward().size() > 0){
+				ItemBagMgr bagMgr = player.getItemBagMgr();
+				for (ItemInfo itm : cfg.getReward()) {
+					GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
+					if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
+						GameLog.error(LogModule.TeamBattle, player.getUserId(), String.format("informFightResult, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
+				}
 			}
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
