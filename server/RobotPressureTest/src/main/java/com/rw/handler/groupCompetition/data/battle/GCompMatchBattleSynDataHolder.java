@@ -12,11 +12,7 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GCompMatchBattleSynDataHolder {
 
-	private static GCompMatchBattleSynDataHolder holder = new GCompMatchBattleSynDataHolder();
-
-	public static GCompMatchBattleSynDataHolder getInstance() {
-		return holder;
-	}
+	private volatile boolean matchFinish;// 显示是否匹配成功
 
 	public void syn(MsgDataSyn synData) {
 	}
@@ -27,8 +23,27 @@ public class GCompMatchBattleSynDataHolder {
 	 * @return
 	 */
 	public boolean sendGCOmpMatchBattleReq(Client client) {
+		matchFinish = true;
 		GCompMatchBattleHandler.getInstance().gcBattleStartReqHandler(client);// 请求战斗开始
 		GCompMatchBattleHandler.getInstance().gcBattleEndReqHandler(client);// 请求战斗结束
 		return true;
+	}
+
+	/**
+	 * 是否在战斗中
+	 * 
+	 * @return
+	 */
+	public boolean isInitBattle() {
+		return matchFinish;
+	}
+
+	/**
+	 * 当有战斗结果的时候更新一下
+	 * 
+	 * @return
+	 */
+	public void reset() {
+		matchFinish = false;
 	}
 }

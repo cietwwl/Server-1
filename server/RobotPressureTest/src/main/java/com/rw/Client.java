@@ -138,7 +138,7 @@ public class Client {
 	private GCompTeamHolder gCompTeamHolder = new GCompTeamHolder();
 	private GCompOnlineMemberHolder gCompOnlinememberHolder = new GCompOnlineMemberHolder();
 	private GCompEventsDataHolder gCompEventsDataHolder = new GCompEventsDataHolder();
-	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = GCompMatchBattleSynDataHolder.getInstance();
+	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = new GCompMatchBattleSynDataHolder();
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -150,7 +150,7 @@ public class Client {
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
 
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
-	
+
 	// last seqId
 	// private volatile int lastSeqId;
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
