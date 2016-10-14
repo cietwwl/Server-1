@@ -458,11 +458,11 @@ public class TeamBattleBM {
 				teamMember.setState(TBMemberState.Finish);
 				utbData.getFinishedHards().add(teamItem.getHardID());
 				if(cfg.getMail() != 0){
-					EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()), cfg.getMailReward());
+					EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
 					for(TeamMember mem : teamItem.getMembers()){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
-							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()), cfg.getMailReward());
-							EmailUtils.sendEmail(mem.getUserID(), String.valueOf(cfg.getMail()), cfg.getMailReward());
+							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
+							EmailUtils.sendEmail(mem.getUserID(), String.valueOf(cfg.getMail()));
 						}
 					}
 				}
