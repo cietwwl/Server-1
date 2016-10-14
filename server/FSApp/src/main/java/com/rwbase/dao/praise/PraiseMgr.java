@@ -46,7 +46,8 @@ public class PraiseMgr {
 	 * @return
 	 */
 	public boolean addPraise(String userId, String praiseId) {
-		PraiseData praiseData = PraiseDAO.getDAO().get(userId);
+		PraiseDAO dao = PraiseDAO.getDAO();
+		PraiseData praiseData = dao.get(userId);
 		if (praiseData == null) {
 			return false;
 		}
@@ -59,6 +60,7 @@ public class PraiseMgr {
 		}
 
 		praiseData.addPraise(praiseId);
+		dao.update(praiseData);
 		return true;
 	}
 
@@ -86,6 +88,7 @@ public class PraiseMgr {
 	private void checkOrResetData(PraiseData praiseData, long now) {
 		// 检查是否需要重置数据
 		if (praiseData.checkOrResetData(now)) {
+			PraiseDAO.getDAO().update(praiseData);
 			synData(praiseData.getUserId());
 		}
 	}

@@ -85,7 +85,7 @@ public class PraiseHelper {
 	 */
 	public void fillPraiseMsgByUserId(String userId, GetPraiseRspMsg.Builder rsp) {
 		Ranking<PopularityRankComparable, PopularityData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
-		int value = RankType.POPULARITY_RANK.getMaxCapacity() + 1;
+		int value = -1;
 		if (ranking == null) {
 			rsp.setPraiseNum(0);
 			rsp.setRank(value);
@@ -99,9 +99,7 @@ public class PraiseHelper {
 			return;
 		}
 
-		int rankingIndex = ranking.getRanking(userId);
-
 		rsp.setPraiseNum(rankingEntry.getComparable().getPraise());
-		rsp.setRank(rankingIndex == -1 ? value : rankingIndex);
+		rsp.setRank(ranking.getRanking(userId));
 	}
 }

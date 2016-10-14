@@ -64,6 +64,10 @@ public class PraiseHandler {
 		PraiseCommonRspMsg.Builder rsp = PraiseCommonRspMsg.newBuilder();
 		rsp.setReqType(PraiseReqType.PRAISE_SOMEONE_TYPE);
 
+		if (userId.equals(praiseId)) {
+			return fillRspMsg(rsp, false, "不能对自己点赞");
+		}
+
 		if (mgr.hasPraisedSomeOne(userId, praiseId)) {
 			return fillRspMsg(rsp, false, "每天只能对同一个玩家点赞1次");
 		}

@@ -81,6 +81,7 @@ import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.PowerInfo;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
+import com.rwbase.dao.praise.PraiseMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -430,6 +431,9 @@ public class Player implements PlayerIF {
 
 					// 为了处理掉线的情况，这里要处理一下帮派争霸的数据
 					GCompMatchDataHolder.getHolder().synPlayerMatchData(player);
+
+					// 当登录的时候，处理一下点赞的数据
+					PraiseMgr.getMgr().synData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
