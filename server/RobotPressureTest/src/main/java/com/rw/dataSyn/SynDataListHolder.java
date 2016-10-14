@@ -34,6 +34,9 @@ public class SynDataListHolder<T extends SynItem> {
 			case UPDATE_LIST:
 				updateList(synDataList);
 				break;
+			case UPDATE_PART_LIST:
+				updatePartList(synDataList);
+				break;
 			case UPDATE_SINGLE:
 				updateSingle(synDataList.get(0));
 				break;
@@ -61,6 +64,26 @@ public class SynDataListHolder<T extends SynItem> {
 			T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData().toString());
 			itemListTmp.add(item);
 		}
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		m_SynItemList = itemListTmp;
+	}
+	
+	private  void updatePartList(List<SynData> synDataList) {
+		List<T> itemListTmp = new ArrayList<T>();
+		List<String> newIds = new ArrayList<String>();
+		try{
+			for (SynData synData : synDataList) {
+				T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData().toString());
+				itemListTmp.add(item);
+				newIds.add(synData.getId());
+			}
+			for(T oldData : m_SynItemList){
+				if(!newIds.contains(oldData.getId())){
+					itemListTmp.add(oldData);
+				}
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}

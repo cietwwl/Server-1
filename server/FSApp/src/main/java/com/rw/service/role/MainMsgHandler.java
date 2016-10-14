@@ -85,25 +85,19 @@ public class MainMsgHandler {
 
 	/** 祭坛抽到物品(非佣兵),物品id为 **/
 	public void sendPmdJtGoods(Player player, String goodsId) {
-		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
-			List<String> arr = new ArrayList<String>();
-			arr.add(player.getUserName());
-			arr.add(goodsId + "");
-			sendPmd(1, arr);
-		}
+		List<String> arr = new ArrayList<String>();
+		arr.add(player.getUserName());
+		arr.add(goodsId + "");
+		sendPmd(1, arr);
 
 	}
 
 	/** 祭坛抽到特殊佣兵 **/
 	public void sendPmdJtYb(Player player, String goodsId) {
-		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
-			List<String> arr = new ArrayList<String>();
-			arr.add(player.getUserName());
-			arr.add(goodsId + "");
-			sendPmd(2, arr);
-		}
+		List<String> arr = new ArrayList<String>();
+		arr.add(player.getUserName());
+		arr.add(goodsId + "");
+		sendPmd(2, arr);
 	}
 
 	/** 领取首冲礼包 **/
