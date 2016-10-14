@@ -28,8 +28,8 @@ class MatchingData {
 	private int battleTimes; // 参与战斗的次数
 //	private long submitTime; // 提交的时间
 	private long deadline; // 最后时间
-	private boolean cancel;
-	private boolean matched;
+	private volatile boolean cancel;
+	private volatile boolean matched;
 
 	public String getTeamId() {
 		return teamId;

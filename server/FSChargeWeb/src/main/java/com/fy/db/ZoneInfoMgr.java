@@ -56,7 +56,7 @@ public class ZoneInfoMgr {
 	}
 	
 	private List<ZoneInfo> fromDb(){
-		final String sql = "SELECT zoneId,serverIp,chargePort FROM mt_zone_info;";		
+		final String sql = "SELECT zoneId,serverIp,chargePort,intranetIp FROM mt_zone_info;";		
 		List<ZoneInfo> zoneList = ChargeDbMgr.getInstance().query(sql, new Object[]{}, ZoneInfo.class);
 		return zoneList;
 		

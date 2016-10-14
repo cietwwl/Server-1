@@ -14,11 +14,8 @@ import com.rw.handler.group.data.UserGroupData;
 import com.rw.handler.groupFight.data.GFDefendArmyItem;
 import com.rw.handler.groupFight.data.GFDefendArmyItemHolder;
 import com.rw.handler.groupFight.data.GFightOnlineGroupData;
-import com.rw.handler.groupFight.data.GFightOnlineGroupHolder;
 import com.rw.handler.groupFight.data.GFightOnlineResourceData;
-import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
 import com.rw.handler.groupFight.data.UserGFightOnlineData;
-import com.rw.handler.groupFight.data.UserGFightOnlineHolder;
 import com.rw.handler.groupFight.dataForClient.DefendArmyHerosInfo;
 import com.rw.handler.groupFight.dataForClient.GFightResult;
 import com.rw.handler.groupFight.dataForRank.GFBidRankHolder;
@@ -47,7 +44,7 @@ public class GroupFightHandler {
 			RobotLog.fail("playGroupFight[send]在线帮战同步资源点信息反馈结果=" + result);
 			return result;
 		}
-		GFightOnlineResourceData gfResData = GFightOnlineResourceHolder.getInstance().getUserGFData(RESOURCE_ID);
+		GFightOnlineResourceData gfResData = client.getGFightOnlineResourceHolder().getUserGFData(RESOURCE_ID);
 		switch(gfResData.getState()){
 		case 1://休战
 			RobotLog.fail("playGroupFight[send]在线帮战资源点" + RESOURCE_ID + "正在休战中");
@@ -91,7 +88,7 @@ public class GroupFightHandler {
 	 */
 	private boolean playGroupFightPrepare(Client client) {
 		boolean result = true;
-		List<String> rankList = GFightOnlineGroupHolder.getInstance().getRankIDList();
+		List<String> rankList = client.getGFightOnlineGroupHolder().getRankIDList();
 		if(null == rankList || rankList.isEmpty()){
 			RobotLog.info("playGroupFightPrepare[send]在线帮战备战阶段,无帮派进入此阶段");
 			return true;
@@ -123,7 +120,7 @@ public class GroupFightHandler {
 	 */
 	private boolean playGFStartFight(Client client) {
 		boolean result = true;
-		List<String> rankList = GFightOnlineGroupHolder.getInstance().getRankIDList();
+		List<String> rankList = client.getGFightOnlineGroupHolder().getRankIDList();
 		if(null == rankList || rankList.isEmpty()){
 			RobotLog.info("playGFStartFight[send]在线帮战开战阶段,无帮派进入此阶段");
 			return true;
@@ -136,7 +133,7 @@ public class GroupFightHandler {
 			List<String> enimyList = new ArrayList<String>();
 			for(String groupID : rankList){
 				if(!groupID.equals(userGroup.getGroupId())){
-					GFightOnlineGroupData otherGroupData = GFightOnlineGroupHolder.getInstance().getUserGFData(groupID);
+					GFightOnlineGroupData otherGroupData = client.getGFightOnlineGroupHolder().getUserGFData(groupID);
 					if(otherGroupData.getAliveCount() > 0) enimyList.add(groupID); 
 				}
 			}
@@ -146,7 +143,7 @@ public class GroupFightHandler {
 			}
 			int rankIndex = (int)(Math.random() * enimyList.size());
 			if(getEnimyDefender(client, enimyList.get(rankIndex))){
-				UserGFightOnlineData ugfData = UserGFightOnlineHolder.getInstance().getUserGFData(client.getUserId());
+				UserGFightOnlineData ugfData = client.getUserGFightOnlineHolder().getUserGFData(client.getUserId());
 				if(null != ugfData.getRandomDefender() && System.currentTimeMillis() - ugfData.getRandomDefender().getLockArmyTime() < 2*60*1000){
 					//锁定的对手在有效期内
 					changeEnimyDefender(client, ugfData.getRandomDefender().getGroupID());
@@ -535,7 +532,7 @@ public class GroupFightHandler {
 			attrData.setId("0");
 			state.add(attrData);
 		}
-		UserGFightOnlineData ugfData = UserGFightOnlineHolder.getInstance().getUserGFData(client.getUserId());
+		UserGFightOnlineData ugfData = client.getUserGFightOnlineHolder().getUserGFData(client.getUserId());
 		GFightResult gfResult = new GFightResult();
 		gfResult.setState(1);
 		gfResult.setHurtValue((int)(Math.random() * 10000));

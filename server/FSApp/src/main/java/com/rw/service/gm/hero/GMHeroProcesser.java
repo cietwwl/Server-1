@@ -2,6 +2,7 @@ package com.rw.service.gm.hero;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -16,8 +17,8 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 
@@ -259,8 +260,32 @@ public class GMHeroProcesser {
 						GMHeroBase.gmEditHeroSkillLevel(hero, skill.getSkillId(), skillId, player);
 					}
 					GMHeroBase.gmRemoveHeroEquip(hero, player);
-					for (int i = 0; i < equip; i++) {
-						GMHeroBase.gmHeroEequip(hero, i, player);	
+					RoleQualityCfg cfg = RoleQualityCfgDAO.getInstance().getConfig(qualityId);
+					List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(cfg.getId());
+					
+					List<GMEquipInfo> equipList =new LinkedList<GMEquipInfo>();
+					int index = 0;
+					int maxLevel = -1;
+					for (Integer equipId : equips) {
+						
+						HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
+						GMEquipInfo info = new GMEquipInfo(index, heroEquipCfg.getLevel(), heroEquipCfg.getId());
+						if(maxLevel < heroEquipCfg.getLevel()){
+							maxLevel = heroEquipCfg.getLevel();
+							equipList.add(index, info);
+						}else{
+							equipList.add(0, info);
+						}
+						index++;
+					}
+					
+					int count = 0;
+					for (GMEquipInfo info : equipList) {
+						if(count >= equip){
+							break;
+						}
+						GMHeroBase.gmHeroEequip(hero, info.index, player);
+						count++;
 					}
 					//镶嵌指定宝石
 					GMHeroBase.gmUnloadGem(hero, player);
@@ -280,6 +305,8 @@ public class GMHeroProcesser {
 		});
 		
 	}
+	
+	
 	
 	/**
 	 * 有限制
@@ -333,16 +360,31 @@ public class GMHeroProcesser {
 						GMHeroBase.gmEditHeroSkillLevel(hero, skill.getSkillId(), skillId, player);
 					}
 					GMHeroBase.gmRemoveHeroEquip(hero, player);
-					List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(qualityId);
+					RoleQualityCfg cfg = RoleQualityCfgDAO.getInstance().getConfig(qualityId);
+					List<Integer> equips = RoleQualityCfgDAO.getInstance().getEquipList(cfg.getId());
+					List<GMEquipInfo> equipList =new LinkedList<GMEquipInfo>();
+					int index = 0;
+					int maxLevel = -1;
+					for (Integer equipId : equips) {
+						
+						HeroEquipCfg heroEquipCfg = (HeroEquipCfg) HeroEquipCfgDAO.getInstance().getCfgById(String.valueOf(equipId));
+						GMEquipInfo info = new GMEquipInfo(index, heroEquipCfg.getLevel(), heroEquipCfg.getId());
+						if(maxLevel < heroEquipCfg.getLevel()){
+							maxLevel = heroEquipCfg.getLevel();
+							equipList.add(index, info);
+						}else{
+							equipList.add(0, info);
+						}
+						index++;
+					}
 					
-					for (int i = 0; i < equip; i++) {
-						if(equips.size() <= i){
+					int count = 0;
+					for (GMEquipInfo info : equipList) {
+						if(count >= equip){
 							break;
 						}
-						Integer equipId = equips.get(i);
-						if (equipId != null) {
-							GMHeroBase.gmHeroEequip(hero, i, player);
-						}
+						GMHeroBase.gmHeroEequip(hero, info.index, player);
+						count++;
 					}
 					//镶嵌指定宝石
 					GMHeroBase.gmUnloadGem(hero, player);

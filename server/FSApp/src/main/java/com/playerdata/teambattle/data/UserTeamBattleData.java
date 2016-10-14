@@ -147,6 +147,7 @@ public class UserTeamBattleData {
 			hardInfo.setHardID(cfg.getId());
 			hardInfo.setBuyTimes(0);
 			hardInfo.setFinishTimes(0);
+			finishedHardMap.put(cfg.getId(), hardInfo);
 		}
 		teamID = null;
 	}

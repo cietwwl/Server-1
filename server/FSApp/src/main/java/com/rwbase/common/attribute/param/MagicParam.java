@@ -10,12 +10,14 @@ public class MagicParam {
 	private final String heroId;
 	private final String magicId;
 	private final int magicLevel;
+	private final int magicAptitude;
 
-	private MagicParam(String userId, String heroId, String magicId, int magicLevel) {
+	private MagicParam(String userId, String heroId, String magicId, int magicLevel, int magicAptitude) {
 		this.userId = userId;
 		this.heroId = heroId;
 		this.magicId = magicId;
 		this.magicLevel = magicLevel;
+		this.magicAptitude = magicAptitude;
 	}
 
 	public String getUserId() {
@@ -34,11 +36,16 @@ public class MagicParam {
 		return magicLevel;
 	}
 
+	public int getMagicAptitude() {
+		return magicAptitude;
+	}
+
 	public static class MagicBuilder {
 		private String userId;
 		private String heroId;
 		private String magicId;
 		private int magicLevel;
+		private int magicAptitude;
 
 		public void setUserId(String userId) {
 			this.userId = userId;
@@ -55,9 +62,13 @@ public class MagicParam {
 		public void setMagicLevel(int magicLevel) {
 			this.magicLevel = magicLevel;
 		}
+		
+		public void setMagicAptitude(int magicAptitude){
+			this.magicAptitude = magicAptitude;
+		}
 
 		public MagicParam build() {
-			return new MagicParam(userId, heroId, magicId, magicLevel);
+			return new MagicParam(userId, heroId, magicId, magicLevel, magicAptitude);
 		}
 	}
 }

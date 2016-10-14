@@ -73,20 +73,20 @@ public class GCompUserQuizItemHolder {
 	 */
 	public void synAllData(Player player, boolean isSynSelf){
 		List<GCompUserQuizItem> itemList = getItemList(player.getUserId());
-		List<GCQuizEventItem> eventList = new ArrayList<GCQuizEventItem>();
-		for(GCompUserQuizItem item: itemList){
-			GCompQuizMgr.getInstance().sendQuizReward(player, item);
-			GCQuizEventItem quizEventItem = GroupQuizEventItemDAO.getInstance().getQuizInfo(item.getMatchId());
-			quizEventItem.refreshRate(false);
-			if(null != quizEventItem) {
-				eventList.add(quizEventItem);
-			}
-		}
 		if(!itemList.isEmpty()){
+			ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
 			if(isSynSelf) {
-				ClientDataSynMgr.synDataList(player, itemList, selfQuizSynType, eSynOpType.UPDATE_LIST);
+				List<GCQuizEventItem> eventList = new ArrayList<GCQuizEventItem>();
+				for(GCompUserQuizItem item: itemList){
+					GCompQuizMgr.getInstance().sendQuizReward(player, item);
+					GCQuizEventItem quizEventItem = GroupQuizEventItemDAO.getInstance().getQuizInfo(item.getMatchId());
+					quizEventItem.refreshRate(false);
+					if(null != quizEventItem) {
+						eventList.add(quizEventItem);
+					}
+				}
+				ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
 			}
-			ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_LIST);
 		}
 	}
 	
@@ -96,9 +96,26 @@ public class GCompUserQuizItemHolder {
 	 */
 	public void synCanQuizItem(Player player){
 		List<GCQuizEventItem> itemList =  getCurrentFightForQuiz();
-		if(itemList != null && !itemList.isEmpty()) {
+		List<GCQuizEventItem> eventList = new ArrayList<GCQuizEventItem>();
+		boolean equlas = true;
+		for(GCQuizEventItem item: itemList){
+			boolean haveQuiz = GCompUserQuizItemHolder.getInstance().containsItem(player, item.getMatchId());
+			if(haveQuiz) {
+				eventList.add(item);
+			}else{
+				equlas = false;
+			}
+		}
+		if(!itemList.isEmpty()) {
 			ClientDataSynMgr.synDataList(player, itemList, canQuizSynType, eSynOpType.UPDATE_LIST);
-			synAllData(player, false);
+			if(!eventList.isEmpty()){
+				if(equlas){
+					GCQuizEventItem current = eventList.get(0);
+					GCQuizEventItem newEventItem = current.copy();
+					eventList.set(0, newEventItem);
+				}
+				ClientDataSynMgr.synDataList(player, eventList, quizDetailSynType, eSynOpType.UPDATE_PART_LIST);
+			}
 		}
 	}
 	
@@ -126,6 +143,7 @@ public class GCompUserQuizItemHolder {
 		}
 		if(needClear){
 			mapItem.clearAllRecords();
+			itemList.clear();
 		}
 		return itemList;
 	}

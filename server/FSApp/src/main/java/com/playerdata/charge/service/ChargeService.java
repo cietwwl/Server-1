@@ -11,33 +11,7 @@ import com.rwproto.RequestProtos.Request;
 
 public class ChargeService  implements FsService<ChargeServiceCommonReqMsg, RequestType>{
 
-	public ByteString doTask(Request request, Player player) {
-		ByteString result = null;
-		try {
-			ChargeServiceCommonReqMsg chargetReq = ChargeServiceCommonReqMsg.parseFrom(request.getBody().getSerializedContent());
-			RequestType reqType = chargetReq.getReqType();
-			switch (reqType){
-				case Charge:
-				result = ChargeHandler.getInstance().charge(player, chargetReq);
-				break;
-				case FirstChargeReward:
-					result = ChargeHandler.getInstance().getRewardForFirstPay(player, chargetReq);
-					break;
-				case BuyVipGift:
-					result = ChargeHandler.getInstance().buyVipGift(player, chargetReq);
-					break;
-				case TimeCard:
-					result= ChargeHandler.getInstance().buyMonthCard(player, chargetReq);
-					
-					break;
-				default:
-				break;
-			}
-		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+	
 
 	@Override
 	public ByteString doTask(ChargeServiceCommonReqMsg request, Player player) {
@@ -54,10 +28,6 @@ public class ChargeService  implements FsService<ChargeServiceCommonReqMsg, Requ
 					break;
 				case BuyVipGift:
 					result = ChargeHandler.getInstance().buyVipGift(player, request);
-					break;
-				case TimeCard:
-					result= ChargeHandler.getInstance().buyMonthCard(player, request);
-					
 					break;
 				default:
 				break;

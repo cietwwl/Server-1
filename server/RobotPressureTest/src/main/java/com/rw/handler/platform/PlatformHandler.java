@@ -63,7 +63,7 @@ public class PlatformHandler {
 						accountLoginSuccess(client, rsp);
 						return true;
 					}else{
-						RobotLog.fail("PlatformHandler[registerUser]  accountId:"+client.getAccountId()+" server return not success, resultType:"+resultType);
+						RobotLog.fail("PlatformHandler[registerUser]  accountId:"+client.getAccountId()+" server return not success, resultType:"+resultType+";error:"+rsp.getError());
 						
 					}
 					

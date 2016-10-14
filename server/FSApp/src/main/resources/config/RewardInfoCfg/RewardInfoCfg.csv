@@ -1,7 +1,7 @@
 RewardID,Remarks,titleAtlas,titleIcon,title,bottomTip,backTip
 Daily,,Text,ZT_GongXiHuoDe,完成日常：{0},,
 Task,,Text,ZT_GongXiHuoDe,完成任务：{0},,
-Sign,,Text,ZT_GongXiHuoDe,恭喜您获得签到奖励,VIP{0}可获得双倍奖励,已到达VIP{0}获得双倍奖励
+Sign,,Text,ZT_GongXiHuoDe,恭喜您获得签到奖励,贵族{0}可获得双倍奖励,已达到贵族{0}获得双倍奖励
 Tower,,Text,ZT_GongXiHuoDe,,,
 EquipAttach,,Text,ZT_GongXiHuoDe,装备上的附灵材料已返还,,
 SelectCareer,,Text,ZT_GongXiHuoDe,转职前装备已返还,,
@@ -10,3 +10,9 @@ FresherActivity,,Text,ZT_GongXiHuoDe,,,
 worship,,Text,ZT_GongXiHuoDe,,,
 DailyGift,,Text,ZT_GongXiHuoDe,,,
 battleTower,,Text,ZT_GongXiHuoDe,,,
+arenaScore,,Text,ZT_GongXiHuoDe,恭喜您获得竞技积分奖励,,
+arenaHistoryRank,,Text,ZT_GongXiHuoDe,,,
+Common,,Text,ZT_GongXiHuoDe,,,
+VipGift,,Text,ZT_GongXiHuoDe,,,
+GeneralActivity,,Text,ZT_GongXiHuoDe,,,
+Store,,Text,ZT_GongXiHuoDe,,,

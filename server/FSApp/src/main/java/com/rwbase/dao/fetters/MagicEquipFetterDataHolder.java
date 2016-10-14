@@ -1,13 +1,10 @@
 package com.rwbase.dao.fetters;
 
 import io.netty.util.collection.IntObjectHashMap;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -145,7 +142,7 @@ public class MagicEquipFetterDataHolder {
 		dataVersion.incrementAndGet();
 
 	}
-
+	
 	/**
 	 * 检查数据库内法宝羁绊记录是否与当前集合一致，如果没有则进行添加 modify by Jamaz @2016-10-13
 	 * 

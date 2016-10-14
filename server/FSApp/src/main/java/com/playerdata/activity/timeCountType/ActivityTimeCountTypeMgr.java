@@ -197,17 +197,35 @@ public class ActivityTimeCountTypeMgr {
 		long currentTimeMillis = System.currentTimeMillis();
 		long lastCountTime = dataItem.getLastCountTime();
 		long timeSpan = currentTimeMillis - lastCountTime;
-		boolean istimeout = true;
-		List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO
-				.getInstance().getAllCfg();
+		boolean istimeout = false;
+		boolean isAllGet = true;
+		ActivityTimeCountTypeSubCfgDAO subDao = ActivityTimeCountTypeSubCfgDAO.getInstance();
+		List<ActivityTimeCountTypeSubCfg> subCfgList = subDao.getAllCfg();
 		for (ActivityTimeCountTypeSubCfg cfg : subCfgList) {
 			if (cfg.getCount() >= dataItem.getCount()) {
-				istimeout = false;
+				isAllGet = false;
 				break;
 			}
 		}
+		
+		List<ActivityTimeCountTypeSubItem> subList = dataItem.getSubItemList();
+		for(ActivityTimeCountTypeSubItem subItem : subList){
+			ActivityTimeCountTypeSubCfg subCfg = subDao.getById(subItem.getCfgId());
+			if(subCfg.getCount() <= dataItem.getCount()&&(!subItem.isTaken())){
+				istimeout = true;
+			}
+		}
+		
+		
+		
 		if (istimeout) {
-			// 礼包处于可领取状态
+			// 某个礼包处于可领取状态，不加时间
+			dataItem.setLastCountTime(currentTimeMillis);
+			dataHolder.updateItem(player, dataItem);
+			return;
+		}
+		if(isAllGet){
+			//所有礼包全部领完
 			return;
 		}
 		if (timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond * 1000) {

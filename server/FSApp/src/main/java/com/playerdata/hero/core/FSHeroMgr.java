@@ -22,6 +22,7 @@ import com.playerdata.hero.IHeroConsumer;
 import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
 import com.playerdata.hero.core.consumer.FSCountQualityConsumer;
+import com.playerdata.hero.core.consumer.FSCountTotalStarLvConsumer;
 import com.playerdata.hero.core.consumer.FSGetAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSGetMultipleHerosConsumer;
 import com.playerdata.readonly.PlayerIF;
@@ -30,6 +31,8 @@ import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
+import com.rwbase.dao.hero.FSUserHeroGlobalDataDAO;
+import com.rwbase.dao.hero.pojo.FSUserHeroGlobalData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -46,13 +49,6 @@ public class FSHeroMgr implements HeroMgr {
 
 	public static final FSHeroMgr getInstance() {
 		return _INSTANCE;
-	}
-
-	private void loopAll(String userId, IHeroConsumer consumer) {
-		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(userId);
-		while (itr.hasMoreElements()) {
-			consumer.apply(itr.nextElement());
-		}
 	}
 
 	private List<Hero> getAllHeros(PlayerIF player, Comparator<Hero> comparator, boolean includeMain) {
@@ -112,16 +108,24 @@ public class FSHeroMgr implements HeroMgr {
 		return hero;
 	}
 
+	void loopAll(String userId, IHeroConsumer consumer) {
+		Enumeration<FSHero> itr = FSHeroDAO.getInstance().getEnumeration(userId);
+		while (itr.hasMoreElements()) {
+			consumer.apply(itr.nextElement());
+		}
+	}
+
 	void syncFighting(Hero hero, int preFighting) {
 		Player owner = this.getOwnerOfHero(hero);
 		FSHeroHolder.getInstance().syncAttributes(hero, FSHero.CURRENT_SYNC_ATTR_VERSION);
 		int nowFighting = hero.getFighting();
 		if (preFighting != nowFighting) {
 			// 保持那边的战斗力一致
-			owner.getUserGameDataMgr().notifySingleFightingChange(nowFighting, preFighting);
+			// owner.getUserGameDataMgr().notifySingleFightingChange(nowFighting, preFighting);
 			// 通知同步
 			owner.getTempAttribute().setHeroFightingChanged();
 			owner.getUserTmpGameDataFlag().setSynFightingAll(true);
+			FSUserHeroGlobalDataMgr.getInstance().notifySingleFightingChange(owner.getUserId(), hero.getId(), nowFighting, preFighting);
 		}
 	}
 
@@ -235,7 +239,6 @@ public class FSHeroMgr implements HeroMgr {
 		Hero hero = addHeroInternal(player, templateId);
 		// 任务
 		if (hero != null) {
-
 			TaskItemMgr taskMgr = player.getTaskMgr();
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Count);
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Star);
@@ -247,32 +250,54 @@ public class FSHeroMgr implements HeroMgr {
 		return hero;
 	}
 
+	@Override
 	public int getFightingTeam(PlayerIF player) {
-		List<Hero> list = getMaxFightingHeros(player);
-		int result = 0;
-		for (int i = 0; i < list.size(); i++) {
-			result += list.get(i).getFighting();
-		}
-		return result;
+		return FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(player.getUserId());
+	}
+
+
+	@Override
+	public int getFightingTeam(String userId) {
+		return FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(userId);
 	}
 
 	@Override
 	public int getFightingAll(PlayerIF player) {
-		// FSCalculateAllFightingConsumer consumer = new
-		// FSCalculateAllFightingConsumer();
-		// this.loop(player.getTableUser().getUserId(), consumer);
-		// return consumer.getTotalFighting();
-		// 总战斗力改为储存在userGameData里面
-		return player.getTableUserOther().getFightingAll();
+		// // FSCalculateAllFightingConsumer consumer = new
+		// // FSCalculateAllFightingConsumer();
+		// // this.loop(player.getTableUser().getUserId(), consumer);
+		// // return consumer.getTotalFighting();
+		// // 总战斗力改为储存在userGameData里面
+		// return player.getTableUserOther().getFightingAll();
+		return FSUserHeroGlobalDataMgr.getInstance().getFightingAll(player.getUserId());
+	}
+
+	@Override
+	public int getFightingAll(String userId) {
+		return FSUserHeroGlobalDataMgr.getInstance().getFightingAll(userId);
 	}
 
 	@Override
 	public int getStarAll(PlayerIF player) {
-		// FSCountTotalStarLvConsumer consumer = new
-		// FSCountTotalStarLvConsumer();
-		// this.loop(player.getTableUser().getUserId(), consumer);
-		// return consumer.getTotalStarLv();
-		return player.getTableUserOther().getStarAll();
+		// // FSCountTotalStarLvConsumer consumer = new
+		// // FSCountTotalStarLvConsumer();
+		// // this.loop(player.getTableUser().getUserId(), consumer);
+		// // return consumer.getTotalStarLv();
+		// return player.getTableUserOther().getStarAll();
+		return getStarAll(player.getUserId());
+	}
+
+	@Override
+	public int getStarAll(String userId) {
+		// 新的内容
+		FSUserHeroGlobalData userHeroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
+		if (userHeroGlobalData.getStartAll() == 0) {
+			FSCountTotalStarLvConsumer consumer = new FSCountTotalStarLvConsumer();
+			this.loopAll(userId, consumer);
+			userHeroGlobalData.setStartAll(consumer.getTotalStarLv());
+			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
+		}
+		return userHeroGlobalData.getStartAll();
 	}
 
 	@Override
@@ -290,8 +315,13 @@ public class FSHeroMgr implements HeroMgr {
 	}
 
 	public List<Hero> getMaxFightingHeros(PlayerIF player) {
+		return this.getMaxFightingHeros(player.getUserId());
+	}
+
+	@Override
+	public List<Hero> getMaxFightingHeros(String userId) {
 		FSGetAllHeroConsumer consumer = new FSGetAllHeroConsumer(false);
-		this.loopAll(player.getUserId(), consumer);
+		this.loopAll(userId, consumer);
 		List<Hero> targetList = consumer.getResultList();
 		int size = targetList.size();
 		ArrayList<Hero> result = new ArrayList<Hero>(size > 4 ? 5 : size + 1);
@@ -317,8 +347,13 @@ public class FSHeroMgr implements HeroMgr {
 
 	@Override
 	public List<Hero> getHeros(PlayerIF player, List<String> heroIds) {
+		return this.getHeros(player.getUserId(), heroIds);
+	}
+
+	@Override
+	public List<Hero> getHeros(String userId, List<String> heroIds) {
 		FSGetMultipleHerosConsumer consumer = new FSGetMultipleHerosConsumer(heroIds);
-		this.loopAll(player.getUserId(), consumer);
+		this.loopAll(userId, consumer);
 		return consumer.getResultHeros();
 	}
 
@@ -362,8 +397,9 @@ public class FSHeroMgr implements HeroMgr {
 			fightingAll += hero.getFighting();
 			starAll += hero.getStarLevel();
 		}
-		player.getUserGameDataMgr().setFightingAll(fightingAll);
-		player.getUserGameDataMgr().setStarAll(starAll);
+		FSUserHeroGlobalDataMgr.getInstance().setFightingAllAndStarAll(player.getUserId(), fightingAll, starAll);
+		// player.getUserGameDataMgr().setFightingAll(fightingAll);
+		// player.getUserGameDataMgr().setStarAll(starAll);
 	}
 
 	@Override
@@ -454,7 +490,7 @@ public class FSHeroMgr implements HeroMgr {
 		FSHero fshero = (FSHero) hero;
 		Player player = this.getOwnerOfHero(fshero);
 		fshero.firstInit();
-		FSHeroHolder.getInstance().synBaseInfo(player, hero);
+		FSHeroHolder.getInstance().synBaseInfoWithoutUpdate(player, hero);
 		FSHeroThirdPartyDataMgr.getInstance().notifySync(player, fshero, version);
 		FSHeroHolder.getInstance().syncAttributes(fshero, version);
 	}

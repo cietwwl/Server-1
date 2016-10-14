@@ -31,6 +31,7 @@ import com.playerdata.dataSyn.UserTmpGameDataFlag;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompMatchDataHolder;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
@@ -410,6 +411,9 @@ public class Player implements PlayerIF {
 					UserGroupSecretBaseDataMgr.getMgr().synData(player);
 					// 推送帮派秘境的Team信息
 					GroupSecretTeamDataMgr.getMgr().synData(player);
+
+					// 为了处理掉线的情况，这里要处理一下帮派争霸的数据
+					GCompMatchDataHolder.getHolder().synPlayerMatchData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);

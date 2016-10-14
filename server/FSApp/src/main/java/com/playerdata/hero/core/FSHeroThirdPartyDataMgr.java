@@ -111,7 +111,8 @@ public class FSHeroThirdPartyDataMgr {
 		}
 		marqueeMsg(player, hero, marqueeStar, hero.getStarLevel());
 		player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
-		player.getUserGameDataMgr().notifySingleStarChange(hero.getStarLevel(), preStar);
+//		player.getUserGameDataMgr().notifySingleStarChange(hero.getStarLevel(), preStar);
+		FSUserHeroGlobalDataMgr.getInstance().increaseStarAll(player.getUserId(), (hero.getStarLevel() - preStar));
 	}
 
 	void fireQualityChangeEvent(Player player, Hero hero, String preQualityId) {
@@ -128,8 +129,9 @@ public class FSHeroThirdPartyDataMgr {
 	void fireHeroAddedEvent(Player player, Hero hero) {
 		player.getTempAttribute().setHeroFightingChanged();
 		FettersBM.whenHeroChange(player, hero.getModeId());
-		player.getUserGameDataMgr().increaseFightingAll(hero.getFighting());
-		player.getUserGameDataMgr().increaseStarAll(hero.getStarLevel());
+//		player.getUserGameDataMgr().increaseFightingAll(hero.getFighting());
+//		player.getUserGameDataMgr().increaseStarAll(hero.getStarLevel());
+		FSUserHeroGlobalDataMgr.getInstance().increaseFightingAndStar(player.getUserId(), hero.getFighting(), hero.getStarLevel());
 	}
 
 	void notifySave(FSHero hero) {

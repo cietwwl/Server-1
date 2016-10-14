@@ -129,9 +129,7 @@ public class GameManager {
 
 		if (ServerSwitch.isOpenTargetSell()) {
 			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
-			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
-					zoneInfo.getBenefitLocalPort(),
-					connectTimeOutMillis, heartBeatInterval);
+			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), zoneInfo.getBenefitLocalPort(), connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
@@ -298,8 +296,7 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-		// 通知精准营销停服
-		BenefitMsgController.getInstance().shutDownNotify();
+
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);

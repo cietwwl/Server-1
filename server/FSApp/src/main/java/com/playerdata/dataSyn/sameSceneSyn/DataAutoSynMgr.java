@@ -20,7 +20,7 @@ public class DataAutoSynMgr {
 	/**
 	 * 每次同步推的人数（或者是循环查找的最大次数）
 	 */
-	public static int SYN_COUNT_ONCE = 50;
+	public static int SYN_COUNT_ONCE = 60;
 	/**
 	 * 等待数据同步的场景
 	 */

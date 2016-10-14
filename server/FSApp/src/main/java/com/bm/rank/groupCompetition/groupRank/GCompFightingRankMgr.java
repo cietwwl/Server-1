@@ -12,13 +12,15 @@ import com.bm.rank.fightingAll.FightingComparable;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
+import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -75,10 +77,11 @@ public class GCompFightingRankMgr {
 				totalFighting += memberEntry.getComparable().getFighting();
 				continue;
 			}
-			Player player = PlayerMgr.getInstance().find(member.getUserId());
-			if(null != player){
-				totalFighting += player.getHeroMgr().getFightingTeam(player);
-			}
+//			Player player = PlayerMgr.getInstance().find(member.getUserId());
+//			if(null != player){
+//				totalFighting += player.getHeroMgr().getFightingTeam(player);
+//			}
+			totalFighting += FSHeroMgr.getInstance().getFightingTeam(member.getUserId());
 		}
 		return totalFighting;
 	}
@@ -205,7 +208,12 @@ public class GCompFightingRankMgr {
 		EnumerateList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> personalItor = personalRanking.getEntriesEnumeration();
 		for (; personalItor.hasMoreElements();) {
 			MomentRankingEntry<FightingComparable, RankingLevelData> entry = personalItor.nextElement();
-			String groupId = GroupHelper.getUserGroupId(entry.getKey());
+//			String groupId = GroupHelper.getUserGroupId(entry.getKey());
+			UserGroupAttributeData groupAttr = UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(entry.getKey());
+			if(groupAttr == null) {
+				continue;
+			}
+			String groupId = groupAttr.getGroupId();
 			if(StringUtils.isNotBlank(groupId)){
 				needRefreshGroup.add(groupId);
 			}

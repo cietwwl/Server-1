@@ -52,6 +52,8 @@ import com.rwbase.dao.groupsecret.pojo.db.dao.UserCreateGroupSecretDataDAO;
 import com.rwbase.dao.groupsecret.pojo.db.dao.UserGroupSecretBaseDataDAO;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
+import com.rwbase.dao.hero.FSUserHeroGlobalDataCreator;
+import com.rwbase.dao.hero.FSUserHeroGlobalDataDAO;
 import com.rwbase.dao.setting.TableSettingDataDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.store.TableStoreDao;
@@ -101,6 +103,8 @@ public enum DataKVType {
 	DROP_RECORD(31, DropRecordDAO.class, DropRecordCreator.class),
 	// 帮战的个人数据
 	USER_GROUP_COMPETITION(32, UserGroupCompetitionDataDAO.class, UserGroupCompetitionDataCreator.class),
+	// 英雄模块的全局数据
+	USER_HERO_GLOBAL_DATA(33, FSUserHeroGlobalDataDAO.class, FSUserHeroGlobalDataCreator.class),
 	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
