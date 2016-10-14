@@ -92,7 +92,6 @@ public class GameManager {
 	private static int connectTimeOutMillis;
 	private static int heartBeatInterval;
 
-
 	/**
 	 * 初始化所有后台服务
 	 */
@@ -119,19 +118,17 @@ public class GameManager {
 		MapItemStoreFactory.init(map);
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), "dataSourceMT");
-		
+
 		// initServerProperties();
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
-		
-		/************启动精准营销**************/
 
-		if(ServerSwitch.isOpenTargetSell()){
+		/************ 启动精准营销 **************/
+
+		if (ServerSwitch.isOpenTargetSell()) {
 			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
-			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
-					zoneInfo.getBenefitLocalPort(),
-					connectTimeOutMillis, heartBeatInterval);
+			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), zoneInfo.getBenefitLocalPort(), connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
@@ -221,10 +218,9 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-
 			gmAccount = props.getProperty("gmAccount");
 			gmPassword = props.getProperty("gmPassword");
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -241,7 +237,7 @@ public class GameManager {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
 			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
-			
+
 			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
 			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
 			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
@@ -298,7 +294,7 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-		
+
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);
@@ -433,7 +429,6 @@ public class GameManager {
 	public static ServerPerformanceConfig getPerformanceConfig() {
 		return performanceConfig;
 	}
-
 
 	public static String getGmAccount() {
 		return gmAccount;
