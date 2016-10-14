@@ -159,7 +159,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		}
 		skill.setLevel(level);
 		skill.setSkillId(newSkillId);
-		updateMoreInfo(player, heroId, skill, null);
+		updateMoreInfo(player, heroId, skill);
 		getSkillItemHoder().updateItem(player, heroId, skill);
 		return true;
 	}
@@ -210,7 +210,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		for (SkillItem skill : getSkillItemHoder().getItemList(heroId)) {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
-				updateMoreInfo(player, heroId, skill, null);
+				updateMoreInfo(player, heroId, skill);
 			}
 		}
 		getSkillItemHoder().synAllData(player, heroId, -1);
@@ -254,10 +254,11 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 			String oldSkillId = oldSkill.getSkillId();
 			String newSkillId = newSkill.getSkillId().split("_")[0] + "_" + oldSkillId.split("_")[1];
 			oldSkill.setSkillId(newSkillId);
+			getSkillItemHoder().updateItem(player, heroId, oldSkill);
 		}
 
 		// 检查所有的技能
-		updateMoreInfo(player, heroId, null, getSkillItemHoder().getItemList(heroId));
+		updateMoreInfo(player, heroId, null);
 	}
 
 	/**
@@ -319,7 +320,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * 
 	 * @param pSkill
 	 */
-	private void updateMoreInfo(Player player, String heroId, SkillItem pSkill, List<SkillItem> skillList) {
+	private void updateMoreInfo(Player player, String heroId, SkillItem pSkill) {
 		if (pSkill != null) {
 			if (pSkill.getLevel() <= 0) {
 				return;
@@ -340,21 +341,6 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		List<SkillItem> itemList = getSkillItemHoder().getItemList(heroId);
 
 		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
-
-		// StringBuilder sb = new StringBuilder();
-		for (int i = 0, size = itemList.size(); i < size; i++) {
-			SkillItem skill = itemList.get(i);
-			if (skill == null) {
-				continue;
-			}
-
-			getSkillItemHoder().updateItem(player, heroId, skill);
-
-			// sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],listeners{%s}\n", skill.getOrder(), skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
-			// skill.getExtraDamage(), skill.getSkillRate(), skill.getSkillListeners().toString()));
-		}
-
-		// GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
 	}
 
 	/**
@@ -516,7 +502,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public void gmUpgradeSkillLv(Player player, String heroId, SkillItem skill) {
-		updateMoreInfo(player, heroId, skill, null);
+		updateMoreInfo(player, heroId, skill);
 		getSkillItemHoder().updateItem(player, heroId, skill);
 	}
 
@@ -572,7 +558,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		}
 
 		// 初始化各个技能之间的影响的buffer等
-		updateMoreInfo(player, heroId, null, getSkillItemHoder().getItemList(heroId));
+		updateMoreInfo(player, heroId, null);
 	}
 
 	@Override

@@ -565,7 +565,7 @@ public class Player implements PlayerIF {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
 			onNewDay5ClockTimeAction.doAction();
-			UserGroupSecretBaseDataMgr.getMgr().resetGroupSecretData(this, now);
+			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, now);
 		}
 	}
 

@@ -146,7 +146,7 @@ public class SkillHelper {
 
 			SkillCfg skillCfg = cfgDAO.getCfg(skillInfo.getSkillId());
 			if (skillCfg == null) {
-				return;
+				continue;
 			}
 
 			skillInfo.setExtraDamage(0);
