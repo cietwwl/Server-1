@@ -12,13 +12,14 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_retrievetype_item")
 public class RewardBackItem implements RoleExtProperty{
 	@Id
 	private Integer id ;
-	
+	@OwnerId
 	private String userId;
 	
 	@CombineSave

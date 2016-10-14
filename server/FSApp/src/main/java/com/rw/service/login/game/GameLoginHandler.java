@@ -33,6 +33,7 @@ public class GameLoginHandler {
 	// 全服唯一id的生成器，完整的userId完成是serverId + generateId
 	private final IdentityIdGenerator generator;
 	private final UserIdCache userIdCache;
+	private final LoginProdecessor loginProdecessor;
 
 	public GameLoginHandler() {
 		String mainDsName = DataAccessStaticSupport.getMainDataSourceName();
@@ -42,7 +43,8 @@ public class GameLoginHandler {
 		}
 		this.generator = new IdentityIdGenerator("user_identifier", dataSource);
 		this.userIdCache = new UserIdCache(mainDsName, dataSource);
-		GroupBM.init(mainDsName,dataSource);
+		GroupBM.init(mainDsName, dataSource);
+		this.loginProdecessor = new LoginProdecessor();
 	}
 
 	public void gameServerLogin(GameLoginRequest request, ChannelHandlerContext ctx, RequestHeader header) {
@@ -86,7 +88,7 @@ public class GameLoginHandler {
 			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
 		} else {
 			// 线程安全地执行角色登录操作
-			GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerLoginTask(ctx, header, request));
+			GameWorldFactory.getGameWorld().asyncExecute(userId, loginProdecessor, new PlayerLoginTask(ctx, header, request, true));
 		}
 	}
 

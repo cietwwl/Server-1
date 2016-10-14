@@ -15,6 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
 import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
@@ -24,6 +25,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
@@ -33,7 +35,7 @@ public class ActivityDailyDiscountTypeItem implements  RoleExtProperty {
 
 	@Id
 	private int id;
-	
+	@OwnerId
 	private String userId;// 对应的角色Id
 	@CombineSave
     private String cfgId;

@@ -27,6 +27,15 @@ public interface RoleExtPropertyManager {
 	public List<QueryRoleExtPropertyData> loadEntitys(String ownerId, Short type);
 
 	/**
+	 * 加载所有类型的角色附加属性列表
+	 * 
+	 * @param ownerId
+	 * @param type
+	 * @return
+	 */
+	public List<QueryRoleExtPropertyData> loadAllEntitys(String ownerId);
+
+	/**
 	 * 更新指定主键的扩展属性
 	 * 
 	 * @param ownerId
@@ -49,6 +58,13 @@ public interface RoleExtPropertyManager {
 	public long[] insert(String ownerId, List<? extends InsertRoleExtPropertyData> list) throws Exception;
 
 	/**
+	 * 获取指定ownerId对应insertSQL语句
+	 * @param ownerId
+	 * @return
+	 */
+	public String getInsertSql(String ownerId);
+
+	/**
 	 * 插入一条{@link InsertRoleExtPropertyData}记录，返回数据库生成的主键
 	 * 
 	 * @param ownerId
@@ -61,12 +77,13 @@ public interface RoleExtPropertyManager {
 
 	/**
 	 * 批量插入{@link InsertRoleExtPropertyData}和删除指定的主键
+	 * 
 	 * @param ownerId
 	 * @param list
 	 * @param deleteList
 	 * @return
 	 */
-	public long[] insertAndDelete(String ownerId, List<InsertRoleExtPropertyData> list, List<Long> deleteList)  throws DataNotExistException, Exception;
+	public long[] insertAndDelete(String ownerId, List<InsertRoleExtPropertyData> list, List<Long> deleteList) throws DataNotExistException, Exception;
 
 	/**
 	 * 根据搜索名字获取表名

@@ -423,6 +423,13 @@ public interface HeroMgr {
 
 	/**
 	 * 
+	 * @param p
+	 * @return
+	 */
+	public Hero getMainRoleHero(String userId);
+	
+	/**
+	 * 
 	 * @param playerP
 	 * @param initHeros
 	 */

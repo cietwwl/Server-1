@@ -18,7 +18,9 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
@@ -37,6 +39,7 @@ import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.common.EnumerateList;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
@@ -66,38 +69,15 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-//		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
-//				.getInstance();
-//		String userId = player.getUserId();
-//		List<ActivityRankTypeItem> addItemList = null;
-//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-//		if (addItemList != null) {
-//			dataHolder.addItemList(player, addItemList);
-//		}
-		RoleExtPropertyStoreCache<ActivityRankTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
 		String userId = player.getUserId();
-		List<ActivityRankTypeItem> addList = null;
-		PlayerExtPropertyStore<ActivityRankTypeItem> store = null;
-		try {
-			store = storeCach.getStore(userId);
-			addList = creatItems(userId, store);
-			if(addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-
+		creatItems(userId, true);
+			
 	}
 
-	public List<ActivityRankTypeItem> creatItems(String userId,
-			PlayerExtPropertyStore<ActivityRankTypeItem> itemStore) {
+	public List<ActivityRankTypeItem> creatItems(String userId,boolean isHasPlayer) {
+		RoleExtPropertyStoreCache<ActivityRankTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
+		PlayerExtPropertyStore<ActivityRankTypeItem> store = null;
+		
 		List<ActivityRankTypeItem> addItemList = null;
 		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO
 				.getInstance().getAllCfg();
@@ -113,10 +93,22 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 //			String itemId = ActivityRankTypeHelper.getItemId(userId,
 //					RankTypeEnum);
 			int id = Integer.parseInt(RankTypeEnum.getCfgId());
-			if (itemStore != null) {
-				if (itemStore.get(id) != null) {
-					continue;
+			if(isHasPlayer){
+				try {
+					store = storeCach.getStore(userId);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				if (store != null) {
+					if (store.get(id) != null) {
+						continue;
+					}
+				}				
 			}
 			ActivityRankTypeItem item = new ActivityRankTypeItem();
 			item.setId(id);
@@ -128,6 +120,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 				addItemList = new ArrayList<ActivityRankTypeItem>();
 			}
 			addItemList.add(item);
+		}
+		if(isHasPlayer&&addItemList != null){
+			try {
+				store.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return addItemList;
 	}
@@ -144,57 +144,72 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	private void checkCfgVersion(Player player) {
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
 				.getInstance();
-		ActivityRankTypeCfgDAO activityRankTypeCfgDAO = ActivityRankTypeCfgDAO
-				.getInstance();
-		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player
-				.getUserId());
-		for (ActivityRankTypeItem targetItem : itemList) {
-			ActivityRankTypeCfg targetCfg = activityRankTypeCfgDAO
-					.getCfgById(targetItem);
-			if (targetCfg == null) {
+		ActivityRankTypeCfgDAO dao = ActivityRankTypeCfgDAO.getInstance();
+		List<ActivityRankTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityRankTypeCfg> cfgList = dao.getAllCfg();
+		for(ActivityRankTypeCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
 			}
-			if (!StringUtils.equals(targetItem.getVersion(),
-					targetCfg.getVersion())) {
-				targetItem.reset(targetCfg);
-				dataHolder.updateItem(player, targetItem);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
 			}
+			ActivityRankTypeItem freshItem = null;
+			for(ActivityRankTypeItem item : itemList){
+				if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
+				continue;
+			}
+			freshItem.reset(cfg);
+			dataHolder.updateItem(player, freshItem);
 		}
 	}
 
 	private void checkClose(Player player) {
-		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
-				.getInstance();
+		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
 		ComGiftMgr comGiftMgr = ComGiftMgr.getInstance();
-		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player
-				.getUserId());
-		ActivityRankTypeCfgDAO activityRankTypeCfgDAO = ActivityRankTypeCfgDAO
-				.getInstance();
-		for (ActivityRankTypeItem activityRankTypeItem : itemList) {// 每种活动
-			ActivityRankTypeCfg cfgById = activityRankTypeCfgDAO
-					.getCfgById(activityRankTypeItem.getCfgId());
-			if (cfgById == null) {
+		List<ActivityRankTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		ActivityRankTypeCfgDAO dao = ActivityRankTypeCfgDAO.getInstance();
+		List<ActivityRankTypeCfg> cfgList = dao.getAllCfg();
+		long createTime = player.getUserDataMgr().getCreateTime();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityRankTypeCfg cfg : cfgList){
+			if(isOpen(cfg)){//配置开启
 				continue;
 			}
-			if (!isClose(activityRankTypeItem)) {
+			if(createTime>cfg.getEndTime()){//配置过旧
 				continue;
 			}
-			if (activityRankTypeItem.isClosed()) {
+			if(currentTime < cfg.getStartTime()){//配置过新
 				continue;
 			}
-			if (activityRankTypeItem.getReward() != null) {// 有奖励的进这里
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityRankTypeItem closeItem = null;
+			for(ActivityRankTypeItem item : itemList){
+				if(StringUtils.equals(item.getVersion(), cfg.getVersion())&&StringUtils.equals(item.getEnumId(), cfg.getEnumId())){
+					closeItem = item;
+					break;
+				}			
+			}
+			if(closeItem == null){
+				continue;
+			}			
+			if (closeItem.getReward() != null) {// 有奖励的进这里
 				// 派发；结算时没入榜，结算后不登陆更不会入榜，所以会在此处排除
-				activityRankTypeItem.setTaken(true);
-				activityRankTypeItem.setClosed(true);
-				dataHolder.updateItem(player, activityRankTypeItem);
-				comGiftMgr.addtagInfoTOEmail(player,
-						activityRankTypeItem.getReward(),
-						activityRankTypeItem.getEmailId(), null);
+				closeItem.setTaken(true);
+				closeItem.setClosed(true);
+				dataHolder.updateItem(player, closeItem);
+				comGiftMgr.addtagInfoTOEmail(player,closeItem.getReward(),
+				closeItem.getEmailId(), null);
 				continue;
 			}
 			// 没奖的酱油进下边设置关闭
-			SendRewardRecord record = sendMap.get(activityRankTypeItem
-					.getEnumId());
+			SendRewardRecord record = sendMap.get(closeItem.getEnumId());
 			if (record == null) {
 				continue;
 			}
@@ -209,11 +224,10 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 				nowtime = tmp;
 			}
 			if (DateUtils.getAbsoluteHourDistance(sendtime, nowtime) > 1) {// 设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
-				activityRankTypeItem.setClosed(true);
-				dataHolder.updateItem(player, activityRankTypeItem);
+				closeItem.setClosed(true);
+				dataHolder.updateItem(player, closeItem);
 			}
-
-		}
+		}	
 	}
 
 	public boolean isClose(ActivityRankTypeItem activityRankTypeItem) {
@@ -274,7 +288,15 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 						if (rankInfo.getLevel() < cfg.getLevelLimit()) {
 							// 虽让上了榜，但级别不够不能触发榜对应的活动
 							continue;
-						}	
+						}
+						if (rankInfo.getRankingLevel() > subCfg.getRankRanges()[1]) {
+							// 奖励活动有效位数小于当前榜上用户的排名
+							continue;
+						}
+						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
+						if(player.getUserGameDataMgr().getLastLoginTime()<cfg.getStartTime()){
+							continue;//最后次登陆时间不在活动时间内；
+						}
 						sendGifgSingel(rankInfo,activityRankTypeItemHolder,activityRankTypeEnum,subCfg);						
 					}						
 				}			
@@ -357,23 +379,19 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	 * @param subCfg
 	 */
 	private void sendGifgSingel(RankInfo rankInfo,ActivityRankTypeItemHolder activityRankTypeItemHolder,
-			ActivityRankTypeEnum activityRankTypeEnum,ActivityRankTypeSubCfg subCfg) {
-		if (rankInfo.getRankingLevel() > subCfg.getRankRanges()[1]) {
-			// 奖励活动有效位数小于当前榜上用户的排名
-			return;
-		}
+			ActivityRankTypeEnum activityRankTypeEnum,ActivityRankTypeSubCfg subCfg) {		
 		String userId = rankInfo.getHeroUUID();
 		PlayerExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
 				.getItemStore(userId);
 		if (itemStore == null) {
 			return;
 		}
-		ActivityRankTypeItem targetItem = activityRankTypeItemHolder
-				.getItem(userId,activityRankTypeEnum);
+		ActivityRankTypeItem targetItem = null;//activityRankTypeItemHolder.getItem(userId,activityRankTypeEnum);
+		targetItem = itemStore.get(Integer.parseInt(activityRankTypeEnum.getCfgId()));
 		if (targetItem == null) {
 			// 有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
 			return;
-		}							
+		}
 //		System.out.println(userId);
 		String tmpReward = subCfg.getReward();
 		String emaiId = subCfg.getEmailId();//
@@ -471,6 +489,41 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
+	}
+
+	public List<String> haveRedPoint(Player player) {
+		List<String> redPointList = new ArrayList<String>();
+		ActivityRankTypeItemHolder rankHolder = ActivityRankTypeItemHolder.getInstance();
+		List<ActivityRankTypeItem> rankItemList = null;
+		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityRankTypeCfg cfg : cfgList){
+			if(!isOpen(cfg)){
+				continue;
+			}
+			if(cfg.getLevelLimit()> player.getLevel()){
+				continue;
+			}
+			
+			if(rankItemList == null){
+				rankItemList = rankHolder.getItemList(player.getUserId());
+			}
+			ActivityRankTypeItem item = null;//rankItemList.get(Integer.parseInt(cfg.getEnumId()));
+			for(ActivityRankTypeItem temp : rankItemList){
+				if(StringUtils.equals(temp.getEnumId(), cfg.getEnumId())){
+					item = temp ;
+					break;
+				}
+			}
+			
+			if(item == null){
+				continue;
+			}
+			if (!item.isTouchRedPoint()) {
+				redPointList.add(item.getCfgId());
+				continue;
+			}
+		}
+		return redPointList;
 	}
 
 }

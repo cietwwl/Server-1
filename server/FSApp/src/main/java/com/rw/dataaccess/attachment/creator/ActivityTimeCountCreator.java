@@ -17,17 +17,12 @@ public class ActivityTimeCountCreator implements PlayerExtPropertyCreator<Activi
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 
 	@Override
 	public List<ActivityTimeCountTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityTimeCountTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityTimeCountTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,6 +31,12 @@ public class ActivityTimeCountCreator implements PlayerExtPropertyCreator<Activi
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

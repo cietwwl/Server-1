@@ -160,8 +160,13 @@ public class GambleDropHistory {
 	}
 
 	@JsonIgnore
-	public void reset() {
-		freeCount = 0;
+	public boolean reset() {
+		if(freeCount != 0){
+			freeCount = 0;
+			return true;
+		}else{
+			return false;
+		}
 		//lastFreeGambleTime = 0;
 	}
 

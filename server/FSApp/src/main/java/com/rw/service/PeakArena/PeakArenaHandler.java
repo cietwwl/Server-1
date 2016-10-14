@@ -49,7 +49,6 @@ import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.SkillItem;
-import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.BattleCommon.BattleHeroPosition;
@@ -316,10 +315,10 @@ public class PeakArenaHandler {
 		for (TeamInfo teamInfo : teamInfoList) {
 			TeamData team = peakData.search(teamInfo.getTeamId());
 			List<String> heroIdsList = teamInfo.getHeroIdsList();
-			List<TableSkill> heroSkillList = peakBM.getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			peakBM.getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setMagicId(teamInfo.getMagicId());
 			team.setHeros(checkedHeroIDList.value);
-			team.setHeroSkills(heroSkillList);
+//			team.setHeroSkills(heroSkillList);
 			String teamKey = "" + teamInfo.getTeamId();
 			List<BattleHeroPosition> heroPosList = teamInfo.getHeroPositionsList();
 			// TODO 保存站位信息
@@ -690,7 +689,7 @@ public class PeakArenaHandler {
 
 	private TagSkillData transfrom(SkillItem skill) {
 		TagSkillData.Builder builder = TagSkillData.newBuilder();
-		builder.setId(skill.getId());
+		builder.setId(skill.strId());
 		builder.setOwnerId(skill.getOwnerId());
 		builder.setSkillId(skill.getSkillId());
 		// builder.addAllBuffId(skill.getBuffId());
