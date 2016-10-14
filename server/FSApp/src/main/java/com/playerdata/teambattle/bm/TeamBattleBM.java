@@ -8,7 +8,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
-import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
