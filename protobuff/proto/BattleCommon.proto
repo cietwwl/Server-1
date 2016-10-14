@@ -12,6 +12,7 @@ enum ePlayerType {
 	INVISIBLE_NPC = 5; //不可见Ncp用来放技能
 	SUMMON_NORMAL = 6; //普通召唤物
 	SUMMON_ANIMAL = 7; //小型召唤物
+	HIRE_ASSIST = 8; //助战英雄
 }
 
 enum ePlayerCamp {
