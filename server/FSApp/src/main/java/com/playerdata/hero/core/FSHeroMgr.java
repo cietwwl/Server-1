@@ -478,7 +478,7 @@ public class FSHeroMgr implements HeroMgr {
 		FSHero fshero = (FSHero) hero;
 		Player player = this.getOwnerOfHero(fshero);
 		fshero.firstInit();
-		FSHeroHolder.getInstance().synBaseInfo(player, hero);
+		FSHeroHolder.getInstance().synBaseInfoWithoutUpdate(player, hero);
 		FSHeroThirdPartyDataMgr.getInstance().notifySync(player, fshero, version);
 		FSHeroHolder.getInstance().syncAttributes(fshero, version);
 	}
