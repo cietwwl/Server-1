@@ -25,7 +25,7 @@ public class UserFeatruesPower implements IUserFeatruesHandler{
 	public RewardBackTodaySubItem doEvent() {
 		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
 		subItem.setId(UserFeaturesEnum.power.getId());
-		subItem.setCount(0);
+		subItem.setCount(0);		
 		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(1));
 		subItem.setMaxCount(cfg.getMostPower());
 		return subItem;
