@@ -56,17 +56,18 @@ class HttpClientSender {
     
     private String url;
 
-    public HttpClientSender(String url){
-    	 String hostname = url.split("/")[2];
-         int port = 80;
-         if (hostname.contains(":")) {
-             String[] arr = hostname.split(":");
-             hostname = arr[0];
-             port = Integer.parseInt(arr[1]);
-         }
-         httpClient = createHttpClient(2, 2, 2, hostname, port);
-         this.url = url;
-    }
+	public HttpClientSender(String url) {
+		String hostname = url.split("/")[2];
+		int port = 80;
+		if (hostname.contains(":")) {
+			String[] arr = hostname.split(":");
+			hostname = arr[0];
+			port = Integer.parseInt(arr[1]);
+		}
+		httpClient = createHttpClient(2, 2, 2, hostname, port);
+		this.url = url;
+		System.out.println("--------------url:" + url);
+	}
 
     private void config(HttpRequestBase httpRequestBase) {
        
