@@ -94,5 +94,9 @@ public class GCompTeam implements SynItem {
 	public void setRandomTeam(boolean randomTeam) {
 		this.randomTeam = randomTeam;
 	}
+	
+	public int getMemberSize() {
+		return this.members.size();
+	}
 }
 

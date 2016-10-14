@@ -15,6 +15,8 @@ public class GCompTeamMember implements SynItem {
 	 */
 	private volatile GCompBattleResult result = GCompBattleResult.NonStart;
 	private boolean isReady; // 是否准备好
+	
+	public GCompTeamMember() {}
 
 	public GCompTeamMember(boolean pIsLeader, ArmyInfoSimple pTeamInfo) {
 		this.isLeader = pIsLeader;

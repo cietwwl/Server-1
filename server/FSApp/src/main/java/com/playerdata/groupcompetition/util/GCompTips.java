@@ -40,6 +40,7 @@ public class GCompTips {
 	private static String tipsTeamAlreadyMatched = "取消匹配失败，队伍已经匹配上了！";
 	private static String tipsYouAlreadyMatched = "取消匹配失败，您已经匹配上了！";
 	private static String tipsNotPersonalEventsNow = "当前不是个人战阶段！";
+	private static String tipsSomeoneNotReady = "队伍有队员没有准备好！";
 	
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
@@ -191,5 +192,9 @@ public class GCompTips {
 
 	public static String getTipsNotPersonalEventsNow() {
 		return tipsNotPersonalEventsNow;
+	}
+
+	public static String getTipsSomeoneNotReady() {
+		return tipsSomeoneNotReady;
 	}
 }
