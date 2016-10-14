@@ -1,0 +1,34 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "SaloonServiceProto";
+
+package saloonService;
+
+enum RequestType{
+	Enter = 1;	//进入备战区
+	Leave = 2;	//离开备战区
+	InformPosition = 3;	//通知备战区的位置	
+	GetPlayerInfo = 4; //获取用户个体信息
+}
+
+enum GCResultType {
+	SUCCESS = 1; //成功
+	FAIL= 2; //失败
+}
+
+//同屏玩家坐标
+message AreaPosition{
+	required float x = 1;
+	required float y = 2;
+}
+message CommonReqMsg{
+	required RequestType reqType = 1;		//请求功能协议类型
+	optional AreaPosition position = 2;		//玩家当前在备战区的位置
+	repeated string playerIdList = 3;	//请求同屏玩家的基本信息（list<string>）
+}
+
+message CommonRspMsg{
+	required RequestType rstType = 1; //是否成功处理
+	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
+	
+}
