@@ -52,6 +52,7 @@ import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gm.fixequip.GMAddFixEquip;
+import com.rw.service.gm.groupcomp.GCGMHandler;
 import com.rw.service.gm.hero.GMHeroBase;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
@@ -71,6 +72,8 @@ import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
+import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -232,6 +235,9 @@ public class GMHandler {
 		funcCallBackMap.put("sendGroupPmd".toLowerCase(), "sendGroupPmd");
 		funcCallBackMap.put("refreshGroupFightingRank".toLowerCase(), "refreshGroupFightingRank");
 		funcCallBackMap.put("refreshGCompFighting".toLowerCase(), "refreshGCompFighting");
+		funcCallBackMap.put("gCompGroupAction".toLowerCase(), "gCompGroupAction"); // * gcompgroupaction groupName
+		funcCallBackMap.put("gCompCheckIfLeader".toLowerCase(), "gCompCheckIfLeader");
+		funcCallBackMap.put("gCompCheckTimes".toLowerCase(), "gCompCheckTimes");
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
@@ -1856,7 +1862,16 @@ public class GMHandler {
 	}
 	
 	public boolean sendGroupPmd(String[] arrCommandContents, Player player) {
-		MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
+		String index = arrCommandContents[0];
+		if(index.equals("1")){
+			MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
+		}
+		if(index.equals("2")){
+			MainMsgHandler.getInstance().sendMainCityMsg(24, EMsgType.PmdMsg, Arrays.asList("Fisher", "3", "随机boss"));
+		}
+		if(index.equals("3")){
+			MainMsgHandler.getInstance().sendMainCityMsg(2, EMsgType.PmdMsg, Arrays.asList("Fisher", "202002_1"));
+		}
 		return true;
 	} 
 	
@@ -1883,6 +1898,28 @@ public class GMHandler {
 		};
 		GameWorldFactory.getGameWorld().asynExecute(r);
 		return true;
+	}
+	
+	public boolean gCompGroupAction(String[] arrCommandContents, Player player) {
+		UserGroupAttributeData userGroupData = UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(player.getUserId());
+		if (userGroupData.getGroupId() != null && userGroupData.getGroupId().length() > 0) {
+			return true;
+		}
+		String groupName = arrCommandContents[0];
+		String groupId = GroupBM.getGroupId(groupName);
+		if (groupId != null) {
+			return GCGMHandler.getHandler().joinGroup(arrCommandContents, player);
+		} else {
+			return GCGMHandler.getHandler().createGroup(arrCommandContents, player);
+		}
+	}
+	
+	public boolean gCompCheckIfLeader(String[] arrCommandContents, Player player) {
+		return GCGMHandler.getHandler().checkIfLeader(arrCommandContents, player);
+	}
+	
+	public boolean gCompCheckTimes(String[] arrCommandContents, Player player) {
+		return GCGMHandler.getHandler().isCheckTimesMatch(arrCommandContents, player);
 	}
 	
 	public boolean testCharge(String[] arrCommandContents, Player player) {

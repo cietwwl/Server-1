@@ -97,7 +97,7 @@ public class GCompQuizMgr {
 			return;
 		}
 		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -coin);
-		GCompUserQuizItemHolder.getInstance().synAllData(player);
+		GCompUserQuizItemHolder.getInstance().synAllData(player, false);
 		GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
@@ -213,7 +213,6 @@ public class GCompQuizMgr {
 		item.setUserID(player.getUserId());
 		item.setSessionId(GCompUserQuizItemHolder.getCurrentSessionID());
 		GCompUserQuizItemHolder.getInstance().addItem(player, item);
-		GCompUserQuizItemHolder.getInstance().synAllData(player);
 		//上面记录玩家的竞猜
 		//下面统计某个帮派被竞猜的总人数和总金额
 		GCQuizEventItem quizEvent = GroupQuizEventItemDAO.getInstance().getQuizInfo(matchId);

@@ -618,6 +618,8 @@ public class TargetSellManager {
 					recieveMap = new HashMap<Integer, Integer>();
 				}
 				recieveMap.put(itemGroupId, items.getPushCount() - 1);
+				int benefitScore = record.getBenefitScore();
+				record.setBenefitScore(benefitScore - items.getRecharge());
 			}
 			dataDao.update(record);
 			respMsg.setIsSuccess(true);

@@ -30,6 +30,12 @@ enum eAttachItemType{
 	RandomBoss = 8; // 附件類型：隨機boss
 }
 
+enum eClickEvent{
+	None = 1;//无事件
+	HeroPreview = 2;//英雄预览
+	AddFriend = 3;//添加好友
+}
+
 message MessageUserInfo{
 	required string userId = 1;//角色Id
 	optional string userName = 2;//角色名字
@@ -55,6 +61,8 @@ message ChatMessageData{
 	optional int32 treasureType = 8;//密境的类型
 	optional bool isRead = 9;//是否读取过
 	repeated ChatAttachItem attachItem = 10;//附件
+	optional eClickEvent clickEvent = 11;//点击事件
+	repeated string clickEventData = 12;//点击事件数据
 }
 
 message ChatAttachItem{

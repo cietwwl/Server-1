@@ -1240,20 +1240,8 @@ public class Robot {
 	public boolean applyAllRewardApplyInfo() {
 		return GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
 	}
-
-	public boolean requestCreateTeam() {
-		return GroupCompetitionHandler.getHandler().createGCompTeam(client);
-	}
-
-	public boolean requestRandomMatching() {
-		return GroupCompetitionHandler.getHandler().requestRandomMatching(client);
-	}
-
-	public boolean requestPersonalMatching() {
-		return GroupCompetitionHandler.getHandler().requestPersonalMatching(client);
-	}
-
-	public boolean requestInviteMember() {
-		return GroupCompetitionHandler.getHandler().requestInviteMember(client);
+	
+	public boolean testGroupCompetition() {
+		return GroupCompetitionHandler.getHandler().testGroupCompetition(client);
 	}
 }
