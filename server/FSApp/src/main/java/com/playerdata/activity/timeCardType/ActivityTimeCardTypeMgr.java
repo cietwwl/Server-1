@@ -48,9 +48,9 @@ public class ActivityTimeCardTypeMgr {
 		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem
 				.getSubItemList();
 		long logintime = dataItem.getActivityLoginTime();
-		int dayDistance = DateUtils.getDayDistance(logintime,
-				System.currentTimeMillis());
-		dataItem.setActivityLoginTime(System.currentTimeMillis());
+		long now = DateUtils.getSecondLevelMillis();
+		int dayDistance = DateUtils.getDayDistance(logintime,now);
+		dataItem.setActivityLoginTime(now);
 		if (dayDistance > 0) {
 			for (ActivityTimeCardTypeSubItem sub : monthCardList) {
 				int dayless = (sub.getDayLeft() - dayDistance) > 0 ? (sub
@@ -71,12 +71,14 @@ public class ActivityTimeCardTypeMgr {
 		int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
 		ActivityTimeCardTypeCfgDAO dao = ActivityTimeCardTypeCfgDAO.getInstance();
 		List<ActivityTimeCardTypeCfg> allcfglist = dao.getAllCfg();
+		Long now = DateUtils.getSecondLevelMillis();
 		for(ActivityTimeCardTypeCfg cfg: allcfglist){
 			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
 			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
+			item.setActivityLoginTime(now);
 			List<ActivityTimeCardTypeSubItem> subItemList = new ArrayList<ActivityTimeCardTypeSubItem>();
 			List<ActivityTimeCardTypeSubCfg> subItemCfgList = ActivityTimeCardTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 			if(subItemCfgList == null){
