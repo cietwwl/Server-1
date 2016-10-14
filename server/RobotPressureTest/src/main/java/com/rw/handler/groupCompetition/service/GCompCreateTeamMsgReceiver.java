@@ -5,8 +5,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
-import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GroupCompetitionProto.CommonRsp;
+import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
@@ -26,15 +26,17 @@ public class GCompCreateTeamMsgReceiver implements MsgReciver {
 				RobotLog.fail("GroupCompetitionHandler[send] createGCompTeam转换响应消息为null");
 				return false;
 			}
-			if (!rsp.getResultType().equals(GFResultType.SUCCESS)) {
+			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
 				RobotLog.fail("GroupCompetitionHandler[send] createGCompTeam服务器返回不成功，提示信息： " + rsp.getTips());
+				return true;
+			} else {
+				client.getGCompTeamHolder().setTeamWaitingTimeout(System.currentTimeMillis() + 30000); // 30秒内组不齐人就解散队伍
 				return true;
 			}
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 	
 }
