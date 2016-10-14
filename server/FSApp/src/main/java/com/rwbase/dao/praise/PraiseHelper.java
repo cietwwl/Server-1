@@ -6,6 +6,7 @@ import com.bm.rank.populatity.PopularityRankComparable;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rwproto.PraiseServiceProto.GetPraiseRspMsg;
 
 /**
  * @Author HC
@@ -74,5 +75,33 @@ public class PraiseHelper {
 			rankingEntry.getExtendedAttribute().setPraise(praise + 1);
 			ranking.updateRankingEntry(rankingEntry, comparable);
 		}
+	}
+
+	/**
+	 * 填充一下获取某人的点赞数据
+	 * 
+	 * @param userId
+	 * @param rsp
+	 */
+	public void fillPraiseMsgByUserId(String userId, GetPraiseRspMsg.Builder rsp) {
+		Ranking<PopularityRankComparable, PopularityData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
+		int value = RankType.POPULARITY_RANK.getMaxCapacity() + 1;
+		if (ranking == null) {
+			rsp.setPraiseNum(0);
+			rsp.setRank(value);
+			return;
+		}
+
+		RankingEntry<PopularityRankComparable, PopularityData> rankingEntry = ranking.getRankingEntry(userId);
+		if (rankingEntry == null) {
+			rsp.setPraiseNum(0);
+			rsp.setRank(value);
+			return;
+		}
+
+		int rankingIndex = ranking.getRanking(userId);
+
+		rsp.setPraiseNum(rankingEntry.getComparable().getPraise());
+		rsp.setRank(rankingIndex == -1 ? value : rankingIndex);
 	}
 }

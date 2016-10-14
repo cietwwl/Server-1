@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.util.DateUtils;
 
 /**
@@ -15,10 +17,14 @@ import com.rw.fsutil.util.DateUtils;
  * @date 2016年10月13日 下午4:14:28
  * @desc
  **/
+
+@SynClass
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class PraiseData {
 	@Id
+	@IgnoreSynField
 	private String userId;// 数据属于角色的Id
+	@IgnoreSynField
 	private long lastTime;// 更新的时间
 	private List<String> praiseIdList;// 已经赞美的人的Id列表
 
@@ -66,7 +72,7 @@ public class PraiseData {
 	 * @param userId
 	 * @return
 	 */
-	public synchronized boolean hasPraisedSomebody(String userId) {
+	public synchronized boolean hasPraisedSomeone(String userId) {
 		if (praiseIdList.isEmpty()) {
 			return false;
 		}
