@@ -19,6 +19,9 @@ public class GroupCompetitionReceivePushMsgImpl implements IReceivePushMsg {
 			return;
 		}
 		try {
+			if(client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
+				return;
+			}
 			TeamInvitation invitation = TeamInvitation.parseFrom(resp.getSerializedContent());
 			if (invitation != null && client.getGCompTeamHolder().getTeam() == null) {
 				List<String> heroIds = GCompUtil.getTeamHeroIds(client);

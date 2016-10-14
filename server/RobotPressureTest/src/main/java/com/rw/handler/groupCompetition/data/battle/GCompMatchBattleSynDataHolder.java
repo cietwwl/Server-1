@@ -13,6 +13,7 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 public class GCompMatchBattleSynDataHolder {
 
 	private volatile boolean matchFinish;// 显示是否匹配成功
+	private volatile boolean randomMatching; // 是否在随机匹配中
 
 	public void syn(MsgDataSyn synData) {
 	}
@@ -45,5 +46,14 @@ public class GCompMatchBattleSynDataHolder {
 	 */
 	public void reset() {
 		matchFinish = false;
+		randomMatching = false;
+	}
+
+	public boolean isRandomMatching() {
+		return randomMatching;
+	}
+
+	public void setRandomMatching(boolean randomMatching) {
+		this.randomMatching = randomMatching;
 	}
 }

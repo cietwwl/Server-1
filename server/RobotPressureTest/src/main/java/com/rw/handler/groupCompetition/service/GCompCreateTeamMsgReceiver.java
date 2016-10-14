@@ -29,12 +29,14 @@ public class GCompCreateTeamMsgReceiver implements MsgReciver {
 			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
 				RobotLog.fail("GroupCompetitionHandler[send] createGCompTeam服务器返回不成功，提示信息： " + rsp.getTips());
 				return true;
+			} else {
+				client.getGCompTeamHolder().setTeamWaitingTimeout(System.currentTimeMillis() + 30000); // 30秒内组不齐人就解散队伍
+				return true;
 			}
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 	
 }

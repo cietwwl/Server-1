@@ -1,7 +1,6 @@
 package com.rw.handler.groupCompetition.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +10,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.groupCompetition.data.battle.GCompMatchBattleSynDataHolder;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItem;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMember;
@@ -41,6 +41,15 @@ public class GroupCompetitionHandler {
 	public static final int[] quizCountArr = {100000, 200000, 500000};
 	
 	private static final long inviteTimeoutMillis = 10000;
+	
+	public static final long maxTeamExistsTimemillis = 30000; // 队伍组不到人的最大存活时间
+	
+	public static final long maxPersonMatchingIntervalMillis = 30000;
+	
+	/**
+	 * 帮派争霸跑的间隔
+	 */
+	public static final long runIntervalMillis = 2000;
 	
 	private static GroupCompetitionHandler handler = new GroupCompetitionHandler();
 
@@ -158,6 +167,7 @@ public class GroupCompetitionHandler {
 		String groupName;
 		if ((groupName = client.getUserGroupDataHolder().getUserGroupData().getGroupName()) != null && groupName.equals(leaderGroupName)) {
 			// 特定的帮派会长发送指令
+			RobotLog.info("目标帮派发送测试指令，userId：" + client.getUserId());
 			if (this.sendGMCommand(client, "* gCompCheckIfLeader " + groupName)) { // 向服务器查询是否会长
 				if (this.sendGMCommand(client, "* gCompCheckTimes " + this.checkTimesToOpen)) {
 					int maxRuntTime = 5;
@@ -175,56 +185,89 @@ public class GroupCompetitionHandler {
 		}
 	}
 	
-	private void getMatchData(Client client) {
+	private boolean getMatchData(Client client) {
 		CommonGetDataReqMsg.Builder builder = CommonGetDataReqMsg.newBuilder();
 		builder.setReqType(GCRequestType.GetMatchView);
-		client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_GET_DATA, builder.build().toByteString(), new MsgReciver() {
-			
-			@Override
-			public Command getCmd() {
-				return Command.MSG_GROUP_COMPETITION_GET_DATA;
+		if (client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_GET_DATA, builder.build().toByteString(), null)) {
+			try {
+				TimeUnit.SECONDS.sleep(2);
+			} catch (InterruptedException e) {
+				RobotLog.fail("发送获取对阵列表的消息成功，但是等待抛了异常！", e);
 			}
-			
-			@Override
-			public boolean execute(Client client, Response response) {
-				return false;
-			}
-		});
-	}
-	
-	private void processTeamEvents(Client client) {
-		GCompTeam team;
-		if((team = client.getGCompTeamHolder().getTeam()) != null) {
-			if (team.getLeaderId().equals(client.getUserId())) {
-				if(team.getMemberSize() < 3) {
-					this.requestInviteMember(client);
-				} else {
-					this.sendStartMatching(client);
-				}
-			} else {
-				this.sendSetReadyMsg(client);
-			}
+			return !client.getGCompEventsDataHolder().isNull();
 		} else {
-			this.createGCompTeam(client);
+			RobotLog.fail("发送获取对阵列表的消息不成功！");
+			return false;
 		}
 	}
 	
-	private void processPersonEvents(Client client) {
+	private boolean requestLeaveTeam(Client client) {
+		TeamStatusRequest.Builder builder = TeamStatusRequest.newBuilder();
+		builder.setReqType(GCRequestType.LeaveTeam);
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_TEAM_STATUS_REQ, builder.build().toByteString(), new GCompLeaveTeamMsgReceiver());
+	}
+	
+	private boolean processTeamEvents(Client client) {
+		GCompMatchBattleSynDataHolder matchDataHolder = client.getgCompMatchBattleSynDataHolder();
+		if (matchDataHolder.isInitBattle() || matchDataHolder.isRandomMatching()) {
+			return true;
+		} 
+		GCompTeam team;
+		GCompTeamHolder teamHolder = client.getGCompTeamHolder();
+		if ((team = teamHolder.getTeam()) != null) {
+			if (teamHolder.getTeamWaitingTimeout() < System.currentTimeMillis()) {
+				// 队伍超时
+				return requestLeaveTeam(client);
+			} else {
+				if (team.getLeaderId().equals(client.getUserId())) {
+					if (team.getMemberSize() < 3) {
+						return this.requestInviteMember(client);
+					} else {
+						return this.sendStartMatching(client);
+					}
+				} else {
+					return this.sendSetReadyMsg(client);
+				}
+			}
+		} else {
+			if(teamHolder.getTeamWaitingTimeout() > 0 || random.nextBoolean()) {
+				teamHolder.setTeamWaitingTimeout(0);
+				matchDataHolder.setRandomMatching(true);
+				return requestRandomMatching(client);
+			} else {
+				return createGCompTeam(client);
+			}
+		}
+	}
+	
+	private boolean processPersonEvents(Client client) {
+		if(client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
+			return true;
+		}
 		GCompTeamHolder teamHolder = client.getGCompTeamHolder();
 		if (teamHolder.getPersonalMatchingTimeOut() < System.currentTimeMillis()) {
 			if (this.requestPersonalMatching(client)) {
-				teamHolder.setPersonalMatchingTimeOut(System.currentTimeMillis() + 30000);
+				teamHolder.setPersonalMatchingTimeOut(System.currentTimeMillis() + maxPersonMatchingIntervalMillis);
+				return true;
+			} else {
+				return false;
 			}
+		} else {
+			return true;
 		}
 	}
 	
 	public boolean testGroupCompetition(Client client) {
+		if(System.currentTimeMillis() - client.getGCompBaseInfoHolder().getLastRunGCompTime() < runIntervalMillis) {
+			return true;
+		}
+		client.getGCompBaseInfoHolder().setLastRunGCompTime(System.currentTimeMillis());
 		this.sendGroupAction(client); // 尝试创建或加入帮派
 		if (client.getGCompBaseInfoHolder().isEventsStart()) {
 			// 帮战阶段
 			if (client.getGCompEventsDataHolder().isNull()) {
 				// 没有matchView数据
-				this.getMatchData(client);
+				return this.getMatchData(client);
 			} else if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) { // 未进入备战区
 				// 进入备战区
 				if (GroupCompSameSceneHandler.getHandler().enterPrepareArea(client)) {
@@ -233,25 +276,36 @@ public class GroupCompetitionHandler {
 					} catch (Exception e) {
 						RobotLog.fail("进入备战区成功，但是暂停被打断！", e);
 					}
-					GroupCompSameSceneHandler.getHandler().inPrepareArea(client);
+					return GroupCompSameSceneHandler.getHandler().inPrepareArea(client);
+				} else {
+					RobotLog.fail("进入备战区不成功！userId:" + client.getUserId());
+					return false;
 				}
 			} else { // 已经在备战区
-				GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
-				switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
-				case TEAM_EVENTS:
-					processTeamEvents(client);
-					break;
-				case PERSONAL_EVENTS:
-					processPersonEvents(client);
-					break;
-				default:
-					break;
+				boolean result = true;
+				if (!client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
+					result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
 				}
+				if (result) {
+					switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
+					case TEAM_EVENTS:
+						result &= processTeamEvents(client);
+						break;
+					case PERSONAL_EVENTS:
+						result &= processPersonEvents(client);
+						break;
+					default:
+						break;
+					}
+				} else {
+					RobotLog.fail("GroupCompSameSceneHandler#informPreparePosition失败！userId：" + client.getUserId());
+				}
+				return result;
 			}
 		} else {
 			this.sendGCompCmd(client); // 尝试发送帮战开始的指令
+			return true;
 		}
-		return true;
 	}
 	
 	/**
@@ -300,7 +354,8 @@ public class GroupCompetitionHandler {
 	 * @return
 	 */
 	public boolean requestRandomMatching(Client client) {
-		return this.sendTeamRequestCommand(client, GCRequestType.StartRandomMatching, null, new GCompRandomMatchingMsgReceiver());
+		List<String> heroIds = GCompUtil.getTeamHeroIds(client);
+		return this.sendTeamRequestCommand(client, GCRequestType.StartRandomMatching, heroIds, new GCompRandomMatchingMsgReceiver());
 	}
 	
 	/**
@@ -311,7 +366,8 @@ public class GroupCompetitionHandler {
 	 * @return
 	 */
 	public boolean requestPersonalMatching(Client client) {
-		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, Arrays.asList(client.getUserId()), new GCompPersonalMatchingMsgReceiver());
+		List<String> heroIds = GCompUtil.getTeamHeroIds(client);
+		return this.sendTeamRequestCommand(client, GCRequestType.PersonalMatching, heroIds, new GCompPersonalMatchingMsgReceiver());
 	}
 	
 	/**

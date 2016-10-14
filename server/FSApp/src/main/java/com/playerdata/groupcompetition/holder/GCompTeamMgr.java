@@ -734,10 +734,18 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
+		List<GCompTeamMember> memberList = team.getMembers();
 		// 检查队伍是否满员
-		if(team.getMembers().size() < GCompCommonConfig.getMaxMemberCountOfTeam()) {
+		if(memberList.size() < GCompCommonConfig.getMaxMemberCountOfTeam()) {
 			result.setT2(GCompTips.getTipsTeamMemberCountIsNotMax());
 			return result;
+		}
+		
+		for(int i = 0; i < memberList.size(); i++) {
+			if(!memberList.get(i).isReady()) {
+				result.setT2(GCompTips.getTipsSomeoneNotReady());
+				return result;
+			}
 		}
 		
 		// 队伍正在匹配中
@@ -824,6 +832,10 @@ public class GCompTeamMgr {
 	
 	public IReadOnlyPair<Boolean, String> randomMatching(Player player, List<String> heroIds) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
+		
+		if(!checkTeamHeroIds(player, heroIds, result)) {
+			return result;
+		}
 
 		if (!this.checkIfCanMakeTeam(result)) {
 			return result;

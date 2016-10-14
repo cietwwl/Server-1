@@ -39,7 +39,7 @@ public class Test {
 //			 System.out.println("@@@@@@@@@@@test：" + issucc);
 			while (true) {
 				robot.testGroupCompetition();
-				TimeUnit.SECONDS.sleep(2);
+				TimeUnit.MILLISECONDS.sleep(100);
 			}
 		 }
 		 

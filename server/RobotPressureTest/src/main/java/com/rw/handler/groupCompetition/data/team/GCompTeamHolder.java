@@ -10,6 +10,7 @@ public class GCompTeamHolder {
 	private SynDataListHolder<GCompTeam> _dataHolder = new SynDataListHolder<GCompTeam>(GCompTeam.class);
 	private GCompTeam team;
 	private long personalMatchingTimeOut;
+	private long teamWaitingTimeout;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 		_dataHolder.Syn(msgDataSyn);
@@ -24,6 +25,10 @@ public class GCompTeamHolder {
 	public GCompTeam getTeam() {
 		return team;
 	}
+	
+	public void clearTeam() {
+		team = null;
+	}
 
 	public long getPersonalMatchingTimeOut() {
 		return personalMatchingTimeOut;
@@ -31,5 +36,13 @@ public class GCompTeamHolder {
 
 	public void setPersonalMatchingTimeOut(long personalMatchingTimeOut) {
 		this.personalMatchingTimeOut = personalMatchingTimeOut;
+	}
+
+	public long getTeamWaitingTimeout() {
+		return teamWaitingTimeout;
+	}
+
+	public void setTeamWaitingTimeout(long teamWaitingTimeout) {
+		this.teamWaitingTimeout = teamWaitingTimeout;
 	}
 }

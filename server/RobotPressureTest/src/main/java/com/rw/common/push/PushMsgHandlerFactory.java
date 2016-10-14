@@ -29,7 +29,7 @@ public class PushMsgHandlerFactory {
 		registerPushMsgHandler(new ChatPushMsgHandler());
 		registerPushMsgHandler(new GCompTeamStatusChangeReceivePushMsgImpl());
 		registerPushMsgHandler(new GroupCompetitionReceivePushMsgImpl());
-		registerPushMsgHandler(GCompTeamBattleResultReceivePushMsgImpl.getInstance());
+		registerPushMsgHandler(new GCompTeamBattleResultReceivePushMsgImpl());
 	}
 
 	/**
