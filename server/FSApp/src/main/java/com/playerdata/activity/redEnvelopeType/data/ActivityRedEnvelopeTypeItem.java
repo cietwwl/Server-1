@@ -20,6 +20,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 
+
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfg;
 import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
@@ -28,6 +29,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 import com.rw.fsutil.util.DateUtils;
 
 
@@ -37,7 +39,7 @@ import com.rw.fsutil.util.DateUtils;
 public class ActivityRedEnvelopeTypeItem implements  RoleExtProperty {
 	@Id
 	private int id;
-	
+	@OwnerId
 	private String userId;// 对应的角色Id
 
 	@CombineSave

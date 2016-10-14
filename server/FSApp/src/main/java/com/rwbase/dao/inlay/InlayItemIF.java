@@ -5,7 +5,7 @@ package com.rwbase.dao.inlay;
 
 public interface InlayItemIF{
 
-	public String getId();
+	public Integer getId();
 
 	public String getOwnerId();
 

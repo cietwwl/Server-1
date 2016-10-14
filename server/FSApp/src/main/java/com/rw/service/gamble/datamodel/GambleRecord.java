@@ -46,11 +46,15 @@ public class GambleRecord {
 		this.userId = uid;
 	}
 	
-	public void resetHistory(){
+	public boolean resetHistory(){
+		boolean changed = false;
 		Collection<GambleDropHistory> histories = dropPlanHistoryMapping.values();
 		for (GambleDropHistory gambleDropHistory : histories) {
-			gambleDropHistory.reset();
+			if(gambleDropHistory.reset()){
+				changed = true;
+			}
 		}
+		return changed;
 	}
 	
 	public GambleDropHistory getHistory(int planId){

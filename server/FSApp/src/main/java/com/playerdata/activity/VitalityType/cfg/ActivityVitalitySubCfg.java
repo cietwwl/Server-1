@@ -1,6 +1,5 @@
 package com.playerdata.activity.VitalityType.cfg;
 
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
 
 
 public class ActivityVitalitySubCfg {

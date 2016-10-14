@@ -1,7 +1,9 @@
 package com.playerdata.activity.countType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -36,6 +38,7 @@ import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.util.DateUtils;
 
 public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
@@ -48,7 +51,9 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public void synCountTypeData(Player player) {
-		ActivityCountTypeItemHolder.getInstance().synAllData(player);
+		if(isOpen(System.currentTimeMillis())){
+			ActivityCountTypeItemHolder.getInstance().synAllData(player);
+		}		
 	}
 
 	/**
@@ -88,27 +93,21 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 	 * 也可以将方法里的addlist改为add
 	 */
 	private void checkNewOpen(Player player) {
-		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
-		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
+//		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
+//		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
 		String userId= player.getUserId();
-		List<ActivityCountTypeItem> addList = null;
-		try {
-			store = storeCache.getStore(userId);
-			addList = creatItems(userId, store);	
-			if(store != null&&addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		List<ActivityCountTypeItem> addList = null;
+//			store = storeCache.getStore(userId);
+		creatItems(userId,true);	
+//			if(store != null&&addList != null){
+//				store.addItem(addList);
+//			}
 	}
 
-	public List<ActivityCountTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityCountTypeItem> store) {
+	public List<ActivityCountTypeItem> creatItems(String userId,boolean isHasPlayer) {
+		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
+		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
+		
 		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityCountTypeItem> addItemList = null;
@@ -122,12 +121,24 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 				continue;
 			}
 			int id = Integer.parseInt(countTypeEnum.getCfgId());
-//			String itemId = ActivityCountTypeHelper.getItemId(userId, countTypeEnum);
-			if (store != null) {				
-				if (store.get(id) != null) {
-					continue;
+			if(isHasPlayer){
+				try {
+					store = storeCache.getStore(userId);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				if (store != null) {
+					if (store.get(id) != null) {
+						continue;
+					}
+				}				
 			}
+						
 			ActivityCountTypeItem item = new ActivityCountTypeItem();
 			item.setId(id);
 			item.setCfgId(cfg.getId());
@@ -151,53 +162,81 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 			}
 			addItemList.add(item);
 		}
-		
+		if(isHasPlayer&&addItemList != null){
+			try {
+				store.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return addItemList;
 	}
 
 	private void checkCfgVersion(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
-		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityCountTypeItem targetItem : itemList) {
-
-			ActivityCountTypeCfg targetCfg = activityCountTypeCfgDAO.getCfgByEnumId(targetItem);
-			if (targetCfg == null) {
+		ActivityCountTypeCfgDAO dao = ActivityCountTypeCfgDAO.getInstance();		
+		List<ActivityCountTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityCountTypeCfg> cfgList = dao.getAllCfg();
+		for(ActivityCountTypeCfg cfg : cfgList){
+			if(!dao.isOpen(cfg)){
 				continue;
 			}
-			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityCountTypeCfgDAO.newItemList(targetCfg));
-				dataHolder.updateItem(player, targetItem);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
 			}
+			ActivityCountTypeItem freshItem = null;
+			for(ActivityCountTypeItem item : itemList){
+				if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
+				continue;
+			}
+			freshItem.reset(cfg, dao.newItemList(cfg));
+			dataHolder.updateItem(player, freshItem);
 		}
 	}
 
 	private void checkClose(Player player) {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		List<ActivityCountTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
-		for (ActivityCountTypeItem activityCountTypeItem : itemList) {// 每种活动
-			String cfgId = activityCountTypeItem.getCfgId();
-			if (isClose(activityCountTypeCfgDAO, cfgId)) {
-				List<ActivityCountTypeSubItem> list = activityCountTypeItem.getSubItemList();
-				if (!activityCountTypeItem.isClosed()) {
-					sendEmailIfGiftNotTaken(player, activityCountTypeItem, list);
-					activityCountTypeItem.setClosed(true);
-					activityCountTypeItem.setTouchRedPoint(true);
-					dataHolder.updateItem(player, activityCountTypeItem);
-				}
+		List<ActivityCountTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		ActivityCountTypeCfgDAO dao = ActivityCountTypeCfgDAO.getInstance();
+		List<ActivityCountTypeCfg> cfgList = dao.getAllCfg();
+		long createTime = player.getUserDataMgr().getCreateTime();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityCountTypeCfg cfg : cfgList){
+			if(dao.isOpen(cfg)){//配置开启
+				continue;
 			}
+			if(createTime>cfg.getEndTime()){//配置过旧
+				continue;
+			}
+			if(currentTime < cfg.getStartTime()){//配置过新
+				continue;
+			}
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityCountTypeItem closeItem = null;
+			for(ActivityCountTypeItem item : itemList){
+				if(StringUtils.equals(item.getVersion(), cfg.getVersion())&&StringUtils.equals(item.getEnumId(), cfg.getEnumId())){
+					closeItem = item;
+					break;
+				}			
+			}
+			if(closeItem == null){
+				continue;
+			}			
+			if (!closeItem.isClosed()) {
+				List<ActivityCountTypeSubItem> list = closeItem.getSubItemList();
+				sendEmailIfGiftNotTaken(player, closeItem, list);
+				closeItem.setClosed(true);
+				closeItem.setTouchRedPoint(true);
+				dataHolder.updateItem(player, closeItem);
+			}			
 		}
-	}
-
-	public boolean isClose(ActivityCountTypeCfgDAO dao, String cfgId) {
-		ActivityCountTypeCfg cfgById = dao.getCfgById(cfgId);
-		if (cfgById == null) {
-			return false;
-		}
-		long endTime = cfgById.getEndTime();
-		long currentTime = System.currentTimeMillis();
-		return currentTime > endTime;
 	}
 
 	private void sendEmailIfGiftNotTaken(Player player, ActivityCountTypeItem activityCountTypeItem, List<ActivityCountTypeSubItem> list) {

@@ -21,7 +21,9 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfg;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO;
@@ -47,6 +49,8 @@ import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.gamble.datamodel.DropMissingCfg;
 import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
 import com.rw.service.gamble.datamodel.DropMissingLogic;
@@ -74,8 +78,12 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 		return instance;
 	}
 	private final static int MAKEUPEMAIL = 10055;
+	
 	public void synCountTypeData(Player player) {
-		ActivityLimitHeroTypeItemHolder.getInstance().synAllData(player);
+		if(isOpen(System.currentTimeMillis())){
+			ActivityLimitHeroTypeItemHolder.getInstance().synAllData(player);
+		}
+		
 	}
 	
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
@@ -86,40 +94,44 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	}
 	
 	private void checkNewOpen(Player player) {
-		RoleExtPropertyStoreCache<ActivityLimitHeroTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_LIMITHERO, ActivityLimitHeroTypeItem.class);
-		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
+		
 		String userId= player.getUserId();
-		List<ActivityLimitHeroTypeItem> addList = null;
-		try {
-			store = storeCache.getStore(userId);
-			addList = creatItems(userId, store);	
-			if(store != null&&addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+		creatItems(userId, true);	
+
 	}
 	
-	public List<ActivityLimitHeroTypeItem> creatItems(String userid ,PlayerExtPropertyStore<ActivityLimitHeroTypeItem> itemStore){	
+	public List<ActivityLimitHeroTypeItem> creatItems(String userid,boolean isHasPlayer){	
+		RoleExtPropertyStoreCache<ActivityLimitHeroTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_LIMITHERO, ActivityLimitHeroTypeItem.class);
+		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
 		List<ActivityLimitHeroTypeItem> addItemList = null;
 		ActivityLimitHeroBoxCfgDAO dao = ActivityLimitHeroBoxCfgDAO.getInstance();
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();
 		int id = Integer.parseInt(ActivityLimitHeroEnum.LimitHero.getCfgId());
 		for (ActivityLimitHeroCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if(itemStore != null){
-				if(itemStore.get(id) != null){					
-					return addItemList;
-				}
-			}
+			
 			if (!isOpen(cfg)) {
 				// 活动未开启
 				continue;
-			}			
+			}		
+			if(isHasPlayer){
+				try {
+					store = storeCache.getStore(userid);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if (store != null) {
+					if (store.get(id) != null) {
+						continue;
+					}
+				}				
+			}
+			
+			
 			ActivityLimitHeroTypeItem item = new ActivityLimitHeroTypeItem();
 			
 			item.setId(id);
@@ -145,6 +157,14 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 				addItemList = new ArrayList<ActivityLimitHeroTypeItem>();
 			}
 			addItemList.add(item);			
+		}		
+		if(isHasPlayer&&addItemList != null){
+			try {
+				store.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return addItemList;
 	}
@@ -161,53 +181,78 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	
 	private void checkCfgVersion(Player player) {
 		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
-		List<ActivityLimitHeroTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		ActivityLimitHeroCfgDAO activityLimitHeroCfgDAO = ActivityLimitHeroCfgDAO.getInstance();
+		List<ActivityLimitHeroTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		ActivityLimitHeroCfgDAO dao = ActivityLimitHeroCfgDAO.getInstance();
 		ServerCommonDataHolder scdhDataHolder = ServerCommonDataHolder.getInstance();
-		for (ActivityLimitHeroTypeItem targetItem : itemList) {			
-			ActivityLimitHeroCfg targetCfg = activityLimitHeroCfgDAO.getCfgListByItem(targetItem);
-			if(targetCfg == null){
+		List<ActivityLimitHeroCfg> cfgList = dao.getAllCfg();
+		for(ActivityLimitHeroCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
-			}			
-			
-			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg,activityLimitHeroCfgDAO.newSubItemList(targetCfg));
-				dataHolder.updateItem(player, targetItem);
-				
-				ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
-				if(scdData == null){
-					continue;
+			}
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityLimitHeroTypeItem freshItem = null;
+			for(ActivityLimitHeroTypeItem item : itemList){
+				if(!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
 				}
-				List<ActivityLimitHeroRankRecord> list = scdData.getActivityLimitHeroRankRecord();	
-				if(reFreshRankByVersion(list,targetCfg)){
-					scdhDataHolder.update(scdData);
-				}
+			}
+			if(freshItem == null){
+				continue;
+			}
+			freshItem.reset(cfg,dao.newSubItemList(cfg));
+			dataHolder.updateItem(player, freshItem);
+			ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
+			if(scdData == null){
+				continue;
+			}
+			List<ActivityLimitHeroRankRecord> list = scdData.getActivityLimitHeroRankRecord();	
+			if(reFreshRankByVersion(list,cfg)){
+				scdhDataHolder.update(scdData);
 			}
 		}
 	}
 
 	private void checkClose(Player player) {
 		ActivityLimitHeroTypeItemHolder dataHolder = ActivityLimitHeroTypeItemHolder.getInstance();
-		List<ActivityLimitHeroTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		ActivityLimitHeroCfgDAO activityLimitHeroCfgDAO = ActivityLimitHeroCfgDAO.getInstance();
-		for(ActivityLimitHeroTypeItem item : itemList){
-			if(item.isClosed()){
-				continue;			
-			}
-			ActivityLimitHeroCfg cfg =	activityLimitHeroCfgDAO.getCfgById(item.getCfgId());
-			if(cfg == null){
-				GameLog.error(LogModule.ComActivityLimitHero, player.getUserId(), "玩家登录时服务器配置表已更新，只能通过版本核实来刷新数据", null);
+		List<ActivityLimitHeroTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		ActivityLimitHeroCfgDAO dao = ActivityLimitHeroCfgDAO.getInstance();
+		List<ActivityLimitHeroCfg> cfgList = dao.getAllCfg();
+		long createTime = player.getUserDataMgr().getCreateTime();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityLimitHeroCfg cfg : cfgList){
+			if(isOpen(cfg)){//配置开启
 				continue;
 			}
-			if(isOpen(cfg)){
+			if(createTime>cfg.getEndTime()){//配置过旧
 				continue;
 			}
-			checkRankRewards(player,item);//邮件派发排行奖励
-			sendEmailIfGiftNotTaken(player,  item);
-			item.setClosed(true);
-			item.setTouchRedPoint(true);
-			dataHolder.updateItem(player, item);			
+			if(currentTime < cfg.getStartTime()){//配置过新
+				continue;
+			}
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityLimitHeroTypeItem closeItem = null;
+			for(ActivityLimitHeroTypeItem item : itemList){
+				if(StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					closeItem = item;
+					break;
+				}			
+			}
+			if(closeItem == null){
+				continue;
+			}			
+			if (!closeItem.isClosed()) {
+				checkRankRewards(player,closeItem);//邮件派发排行奖励
+				sendEmailIfGiftNotTaken(player,  closeItem);
+				closeItem.setClosed(true);
+				closeItem.setTouchRedPoint(true);
+				dataHolder.updateItem(player, closeItem);	
+			}			
 		}
+		
 	}
 
 	private void sendEmailIfGiftNotTaken(Player player,

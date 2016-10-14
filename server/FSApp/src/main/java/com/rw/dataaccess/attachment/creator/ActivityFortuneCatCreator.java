@@ -18,17 +18,13 @@ public class ActivityFortuneCatCreator  implements PlayerExtPropertyCreator<Acti
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityFortuneCatTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+
 
 	@Override
 	public List<ActivityFortuneCatTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityFortuneCatTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityFortuneCatTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -37,6 +33,12 @@ public class ActivityFortuneCatCreator  implements PlayerExtPropertyCreator<Acti
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityFortuneCatTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 	

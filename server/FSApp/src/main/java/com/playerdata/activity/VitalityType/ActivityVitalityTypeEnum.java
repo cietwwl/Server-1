@@ -2,9 +2,6 @@ package com.playerdata.activity.VitalityType;
 
 import java.util.HashMap;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
 
 public enum ActivityVitalityTypeEnum{	// implements TypeIdentification
 	Vitality("59999"),

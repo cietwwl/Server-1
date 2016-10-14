@@ -17,16 +17,12 @@ public class ActivityRetrieveCreator implements PlayerExtPropertyCreator<RewardB
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+
 
 	@Override
 	public List<RewardBackItem> firstCreate(PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityRetrieveTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityRetrieveTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -35,6 +31,12 @@ public class ActivityRetrieveCreator implements PlayerExtPropertyCreator<RewardB
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 

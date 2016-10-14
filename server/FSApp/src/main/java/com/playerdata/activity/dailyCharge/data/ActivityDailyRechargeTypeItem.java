@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -16,10 +17,10 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_daily_charge_item")
-public class ActivityDailyRechargeTypeItem implements  IMapItem {
+public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;		//cfgId_userId
+	private Integer id;		//cfgId_userId
 	
 	private String userId;	//对应的角色Id
 	
@@ -44,11 +45,13 @@ public class ActivityDailyRechargeTypeItem implements  IMapItem {
 	@CombineSave
 	private boolean hasViewed;	//是否已经查看过该活动
 
-	public String getId() {
+	
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

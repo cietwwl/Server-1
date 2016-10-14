@@ -3,22 +3,21 @@ package com.rw.service.guide.datamodel;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.OwnerId;
 import com.rwbase.common.INotifyChange;
 
 @Table(name = "newguide_give_item_history")
 
-public class GiveItemHistory implements IMapItem {
+public class GiveItemHistory implements RoleExtProperty {
 	@Id
-	private String storeId;
+	private Integer id;
+	@OwnerId
 	private String userId;
 	private int giveActionId;
 	private boolean given = false;
 
-	public static String Convert(String userId,int actId){
-		return userId+"_"+actId;
-	}
-	
 	/**
 	 * 仅仅用于json库的序列化/反序列化，其他人不要调用
 	 */
@@ -28,7 +27,7 @@ public class GiveItemHistory implements IMapItem {
 		GiveItemHistory result = new GiveItemHistory();
 		result.userId = userId;
 		result.giveActionId=giveActionId;
-		result.storeId = userId+"_"+giveActionId;
+		result.id = giveActionId;
 		if (!GiveItemHistoryHolder.getInstance().add(result,notifyProxy)){
 			return null;
 		}
@@ -43,9 +42,6 @@ public class GiveItemHistory implements IMapItem {
 		return true;
 	}
 
-	public String getStoreId() {
-		return storeId;
-	}
 
 	public String getUserId() {
 		return userId;
@@ -60,8 +56,9 @@ public class GiveItemHistory implements IMapItem {
 	}
 
 	@Override
-	public String getId() {
-		return storeId;
+	public Integer getId() {
+		return id;
 	}
+
 
 }

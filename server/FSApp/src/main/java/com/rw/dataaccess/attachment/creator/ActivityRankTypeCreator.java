@@ -17,16 +17,12 @@ public class ActivityRankTypeCreator implements PlayerExtPropertyCreator<Activit
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityRankTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+
 
 	@Override
 	public List<ActivityRankTypeItem> firstCreate(PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityRankTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityRankTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -35,6 +31,12 @@ public class ActivityRankTypeCreator implements PlayerExtPropertyCreator<Activit
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityRankTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }
