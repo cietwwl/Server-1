@@ -110,6 +110,6 @@ public class PraiseMgr {
 			return;
 		}
 
-		ClientDataSynMgr.synData(player, praiseData, eSynType.ACHIEVEMENT_DATA, eSynOpType.UPDATE_SINGLE);
+		ClientDataSynMgr.synData(player, praiseData, eSynType.PRAISE_SYN, eSynOpType.UPDATE_SINGLE);
 	}
 }
