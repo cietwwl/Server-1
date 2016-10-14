@@ -105,6 +105,8 @@ public class GCompTeamMgr {
 				result.setT2(CreateTeamMemberResultStatus.HERO_NOT_MATCH);
 				GCompUtil.log("请求创建TeamMember，有部分英雄不存在！英雄id列表：{}, playerId：{}", heroIds, player.getUserId());
 			}
+		} else {
+			result.setT2(CreateTeamMemberResultStatus.HERO_NOT_MATCH);
 		}
 		if (includeMagic && result.getT2() == CreateTeamMemberResultStatus.SUCCESS) {
 			gcompTeamArmyInfo.armyMagic = new ArmyMagic(player.getMagic());
