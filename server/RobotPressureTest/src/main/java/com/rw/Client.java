@@ -27,11 +27,12 @@ import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.group.holder.GroupResearchSkillDataHolder;
 import com.rw.handler.group.holder.UserGroupDataHolder;
 import com.rw.handler.groupCompetition.data.baseinfo.GCompBaseInfoHolder;
-import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
 import com.rw.handler.groupCompetition.data.battle.GCompMatchBattleSynDataHolder;
+import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItemHolder;
 import com.rw.handler.groupCompetition.data.guess.GCompUserQuizItemHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
+import com.rw.handler.groupCompetition.data.prepare.SameSceneSynDataHolder;
 import com.rw.handler.groupCompetition.data.team.GCompTeamHolder;
 import com.rw.handler.groupFight.data.GFightOnlineGroupHolder;
 import com.rw.handler.groupFight.data.GFightOnlineResourceHolder;
@@ -123,17 +124,18 @@ public class Client {
 	private MagicChapterInfoHolder magicChapterInfoHolder = new MagicChapterInfoHolder();
 
 	// 在线帮战
-	private UserGFightOnlineHolder ugfHolder = UserGFightOnlineHolder.getInstance();
-	private GFightOnlineResourceHolder gfResHolder = GFightOnlineResourceHolder.getInstance();
-	private GFightOnlineGroupHolder gfGroupHolder = GFightOnlineGroupHolder.getInstance();
+	private UserGFightOnlineHolder ugfHolder = new UserGFightOnlineHolder();
+	private GFightOnlineResourceHolder gfResHolder = new GFightOnlineResourceHolder();
+	private GFightOnlineGroupHolder gfGroupHolder = new GFightOnlineGroupHolder();
 
 	// 组队战
-	private TBTeamItemHolder tbTeamItemHolder = TBTeamItemHolder.getInstance();
-	private UserTeamBattleDataHolder utbDataHolder = UserTeamBattleDataHolder.getInstance();
+	private TBTeamItemHolder tbTeamItemHolder = new TBTeamItemHolder();
+	private UserTeamBattleDataHolder utbDataHolder = new UserTeamBattleDataHolder();
 
 	// 争霸赛
-	private GCompUserQuizItemHolder userQuizItemHolder = GCompUserQuizItemHolder.getInstance();
-	private GCQuizEventItemHolder quizEventItemHolder = GCQuizEventItemHolder.getInstance();
+	private GCompUserQuizItemHolder userQuizItemHolder = new GCompUserQuizItemHolder();
+	private GCQuizEventItemHolder quizEventItemHolder = new GCQuizEventItemHolder();
+	private SameSceneSynDataHolder prepareAreaHolder = new SameSceneSynDataHolder();
 	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
 	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
 	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
@@ -487,6 +489,10 @@ public class Client {
 
 	public GCQuizEventItemHolder getQuizEventItemHolder() {
 		return quizEventItemHolder;
+	}
+
+	public SameSceneSynDataHolder getSameSceneSynDataHolder() {
+		return prepareAreaHolder;
 	}
 
 	public ChatData getChatData() {

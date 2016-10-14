@@ -10,12 +10,6 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class SameSceneSynDataHolder {
 	
-	private static SameSceneSynDataHolder instance = new SameSceneSynDataHolder();
-	
-	public static SameSceneSynDataHolder getInstance() {
-		return instance;
-	}
-	
 	private  Map<String, PositionInfo> list = new HashMap<String, PositionInfo>();
 	
 	private SynDataListHolder<SameSceneSynData> listHolder = new SynDataListHolder<SameSceneSynData>(SameSceneSynData.class);
