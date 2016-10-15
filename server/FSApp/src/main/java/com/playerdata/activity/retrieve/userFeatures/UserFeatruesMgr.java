@@ -151,7 +151,7 @@ public class UserFeatruesMgr {
 		}
 		if (subItem == null) {
 			// 当天没生成活动数据，但功能又跑进来了
-			GameLog.error(LogModule.ComActivityRetrieve, userId, "当天没生成活动数据，但功能又跑进来了", null);
+			GameLog.error(LogModule.ComActivityRetrieve, userId, "当天没生成活动数据，但功能又跑进来了,enumid ="+iEnum.getId(), null);
 			return;
 		}		
 		int tmp = subItem.getCount()+ count;
