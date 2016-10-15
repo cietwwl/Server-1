@@ -39,4 +39,8 @@ public class GCompOnlineMemberHolder {
 	public void setInviteTimeout(String userId, long time) {
 		inviteTimeoutMap.put(userId, time);
 	}
+	
+	public void clearOnlineMembers() {
+		_allOnlineMembers.clear();
+	}
 }

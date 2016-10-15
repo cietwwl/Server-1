@@ -30,6 +30,7 @@ public class GCompCreateTeamMsgReceiver implements MsgReciver {
 				RobotLog.fail("GroupCompetitionHandler[send] createGCompTeam服务器返回不成功，提示信息： " + rsp.getTips());
 				return true;
 			} else {
+				RobotLog.info("创建队伍响应成功，userId：{}" + client.getUserId());
 				client.getGCompTeamHolder().setTeamWaitingTimeout(System.currentTimeMillis() + 30000); // 30秒内组不齐人就解散队伍
 				return true;
 			}
