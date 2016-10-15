@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,10 +28,12 @@ import org.apache.commons.lang3.StringUtils;
 import com.common.GameUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.controler.FsNettyControler;
 import com.rw.controler.PlayerMsgCache;
 import com.rw.fsutil.common.FastPair;
@@ -40,6 +43,11 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
 import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef.Command;
@@ -458,9 +466,25 @@ public class UserChannelMgr {
 	}
 
 	public static void broadcastMsg(Command command, ByteString byteString) {
-		for (ChannelHandlerContext ctx : userChannelMap.values()) {
-			sendAyncResponse(null, ctx, command, byteString);
+		for (Iterator<Entry<String, ChannelHandlerContext>> iterator = userChannelMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<String, ChannelHandlerContext> entry = iterator.next();
+			String userId = entry.getKey();
+			if (checkOpen(userId)) {
+				ChannelHandlerContext ctx = entry.getValue();
+				sendAyncResponse(null, ctx, command, byteString);
+			}
 		}
+	}
+	
+	private static boolean checkOpen(String userId){
+		User user = UserDataDao.getInstance().getByUserId(userId);
+		Hero hero = FSHeroMgr.getInstance().getMainRoleHero(userId);
+		CfgOpenLevelLimit cfg = CfgOpenLevelLimitDAO.getInstance().getCfgById(eOpenLevelType.MainMsg.getOrderString());
+		int level = hero.getLevel();
+		if(level >= cfg.getMinLevel() && level <= cfg.getMaxLevel()){
+			return true;
+		}
+		return false;
 	}
 
 	public static void sendErrorResponse(String userId, RequestHeader header, int exceptionCode) {
