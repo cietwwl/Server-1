@@ -1,9 +1,8 @@
 package com.bm.robot;
 
-import java.util.Random;
-
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.HPCUtil;
 import com.rwbase.dao.role.pojo.RoleCfg;
 
 
@@ -14,8 +13,6 @@ import com.rwbase.dao.role.pojo.RoleCfg;
  */
 
 public class RandomData {
-
-	private Random random = new Random();
 	
 	private String robotId;
 	
@@ -87,7 +84,7 @@ public class RandomData {
 	private int getValue(int value, int size){
 		int result = value;
 		if(asRecord || result >= size){			
-			result = random.nextInt(size);
+			result = HPCUtil.getRandom().nextInt(size);
 		}
 		return result;
 	}
@@ -144,6 +141,51 @@ public class RandomData {
 		return doHeroMakeUp;
 	}
 	
-	
+	public int getCareer() {		
+		return career;
+	}
 
+	public String getRobotUserId() {
+		return robotUserId;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public int getfName() {
+		return fName;
+	}
+
+	public int getsName() {
+		return sName;
+	}
+
+	public int getHeroTeam() {
+		return heroTeam;
+	}
+
+	public int getHeroCfg() {
+		return heroCfg;
+	}
+
+	public int getMainRoleLevel() {
+		return mainRoleLevel;
+	}
+
+	public int getVipLevel() {
+		return vipLevel;
+	}
+
+	public int getMagicId() {
+		return magicId;
+	}
+
+	public int getMagicLevel() {
+		return magicLevel;
+	}
+
+	public boolean isAsRecord() {
+		return asRecord;
+	}
 }
