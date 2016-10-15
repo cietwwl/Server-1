@@ -45,6 +45,14 @@ public final class SaloonServiceProto {
      * </pre>
      */
     GetPlayerInfo(3, 4),
+    /**
+     * <code>AlreadyIn = 5;</code>
+     *
+     * <pre>
+     *已经在备战区
+     * </pre>
+     */
+    AlreadyIn(4, 5),
     ;
 
     /**
@@ -79,6 +87,14 @@ public final class SaloonServiceProto {
      * </pre>
      */
     public static final int GetPlayerInfo_VALUE = 4;
+    /**
+     * <code>AlreadyIn = 5;</code>
+     *
+     * <pre>
+     *已经在备战区
+     * </pre>
+     */
+    public static final int AlreadyIn_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -89,6 +105,7 @@ public final class SaloonServiceProto {
         case 2: return Leave;
         case 3: return InformPosition;
         case 4: return GetPlayerInfo;
+        case 5: return AlreadyIn;
         default: return null;
       }
     }
@@ -141,9 +158,9 @@ public final class SaloonServiceProto {
   }
 
   /**
-   * Protobuf enum {@code saloonService.GCResultType}
+   * Protobuf enum {@code saloonService.ResultType}
    */
-  public enum GCResultType
+  public enum ResultType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>SUCCESS = 1;</code>
@@ -183,7 +200,7 @@ public final class SaloonServiceProto {
 
     public final int getNumber() { return value; }
 
-    public static GCResultType valueOf(int value) {
+    public static ResultType valueOf(int value) {
       switch (value) {
         case 1: return SUCCESS;
         case 2: return FAIL;
@@ -191,15 +208,15 @@ public final class SaloonServiceProto {
       }
     }
 
-    public static com.google.protobuf.Internal.EnumLiteMap<GCResultType>
+    public static com.google.protobuf.Internal.EnumLiteMap<ResultType>
         internalGetValueMap() {
       return internalValueMap;
     }
-    private static com.google.protobuf.Internal.EnumLiteMap<GCResultType>
+    private static com.google.protobuf.Internal.EnumLiteMap<ResultType>
         internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<GCResultType>() {
-            public GCResultType findValueByNumber(int number) {
-              return GCResultType.valueOf(number);
+          new com.google.protobuf.Internal.EnumLiteMap<ResultType>() {
+            public ResultType findValueByNumber(int number) {
+              return ResultType.valueOf(number);
             }
           };
 
@@ -216,9 +233,9 @@ public final class SaloonServiceProto {
       return com.rwproto.SaloonServiceProto.getDescriptor().getEnumTypes().get(1);
     }
 
-    private static final GCResultType[] VALUES = values();
+    private static final ResultType[] VALUES = values();
 
-    public static GCResultType valueOf(
+    public static ResultType valueOf(
         com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
       if (desc.getType() != getDescriptor()) {
         throw new java.lang.IllegalArgumentException(
@@ -230,12 +247,12 @@ public final class SaloonServiceProto {
     private final int index;
     private final int value;
 
-    private GCResultType(int index, int value) {
+    private ResultType(int index, int value) {
       this.index = index;
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:saloonService.GCResultType)
+    // @@protoc_insertion_point(enum_scope:saloonService.ResultType)
   }
 
   public interface AreaPositionOrBuilder
@@ -1704,9 +1721,9 @@ public final class SaloonServiceProto {
   public interface CommonRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .saloonService.RequestType rstType = 1;
+    // required .saloonService.ResultType rstType = 1;
     /**
-     * <code>required .saloonService.RequestType rstType = 1;</code>
+     * <code>required .saloonService.ResultType rstType = 1;</code>
      *
      * <pre>
      *是否成功处理
@@ -1714,13 +1731,13 @@ public final class SaloonServiceProto {
      */
     boolean hasRstType();
     /**
-     * <code>required .saloonService.RequestType rstType = 1;</code>
+     * <code>required .saloonService.ResultType rstType = 1;</code>
      *
      * <pre>
      *是否成功处理
      * </pre>
      */
-    com.rwproto.SaloonServiceProto.RequestType getRstType();
+    com.rwproto.SaloonServiceProto.ResultType getRstType();
 
     // optional string tipMsg = 2;
     /**
@@ -1802,7 +1819,7 @@ public final class SaloonServiceProto {
             }
             case 8: {
               int rawValue = input.readEnum();
-              com.rwproto.SaloonServiceProto.RequestType value = com.rwproto.SaloonServiceProto.RequestType.valueOf(rawValue);
+              com.rwproto.SaloonServiceProto.ResultType value = com.rwproto.SaloonServiceProto.ResultType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
@@ -1856,11 +1873,11 @@ public final class SaloonServiceProto {
     }
 
     private int bitField0_;
-    // required .saloonService.RequestType rstType = 1;
+    // required .saloonService.ResultType rstType = 1;
     public static final int RSTTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.SaloonServiceProto.RequestType rstType_;
+    private com.rwproto.SaloonServiceProto.ResultType rstType_;
     /**
-     * <code>required .saloonService.RequestType rstType = 1;</code>
+     * <code>required .saloonService.ResultType rstType = 1;</code>
      *
      * <pre>
      *是否成功处理
@@ -1870,13 +1887,13 @@ public final class SaloonServiceProto {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .saloonService.RequestType rstType = 1;</code>
+     * <code>required .saloonService.ResultType rstType = 1;</code>
      *
      * <pre>
      *是否成功处理
      * </pre>
      */
-    public com.rwproto.SaloonServiceProto.RequestType getRstType() {
+    public com.rwproto.SaloonServiceProto.ResultType getRstType() {
       return rstType_;
     }
 
@@ -1936,7 +1953,7 @@ public final class SaloonServiceProto {
     }
 
     private void initFields() {
-      rstType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
+      rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
       tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -2094,7 +2111,7 @@ public final class SaloonServiceProto {
 
       public Builder clear() {
         super.clear();
-        rstType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
+        rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
         bitField0_ = (bitField0_ & ~0x00000001);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -2189,10 +2206,10 @@ public final class SaloonServiceProto {
       }
       private int bitField0_;
 
-      // required .saloonService.RequestType rstType = 1;
-      private com.rwproto.SaloonServiceProto.RequestType rstType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
+      // required .saloonService.ResultType rstType = 1;
+      private com.rwproto.SaloonServiceProto.ResultType rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
       /**
-       * <code>required .saloonService.RequestType rstType = 1;</code>
+       * <code>required .saloonService.ResultType rstType = 1;</code>
        *
        * <pre>
        *是否成功处理
@@ -2202,23 +2219,23 @@ public final class SaloonServiceProto {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .saloonService.RequestType rstType = 1;</code>
+       * <code>required .saloonService.ResultType rstType = 1;</code>
        *
        * <pre>
        *是否成功处理
        * </pre>
        */
-      public com.rwproto.SaloonServiceProto.RequestType getRstType() {
+      public com.rwproto.SaloonServiceProto.ResultType getRstType() {
         return rstType_;
       }
       /**
-       * <code>required .saloonService.RequestType rstType = 1;</code>
+       * <code>required .saloonService.ResultType rstType = 1;</code>
        *
        * <pre>
        *是否成功处理
        * </pre>
        */
-      public Builder setRstType(com.rwproto.SaloonServiceProto.RequestType value) {
+      public Builder setRstType(com.rwproto.SaloonServiceProto.ResultType value) {
         if (value == null) {
           throw new NullPointerException();
         }
@@ -2228,7 +2245,7 @@ public final class SaloonServiceProto {
         return this;
       }
       /**
-       * <code>required .saloonService.RequestType rstType = 1;</code>
+       * <code>required .saloonService.ResultType rstType = 1;</code>
        *
        * <pre>
        *是否成功处理
@@ -2236,7 +2253,7 @@ public final class SaloonServiceProto {
        */
       public Builder clearRstType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        rstType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
+        rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
         onChanged();
         return this;
       }
@@ -2379,12 +2396,13 @@ public final class SaloonServiceProto {
       "ommonReqMsg\022+\n\007reqType\030\001 \002(\0162\032.saloonSer" +
       "vice.RequestType\022-\n\010position\030\002 \001(\0132\033.sal" +
       "oonService.AreaPosition\022\024\n\014playerIdList\030" +
-      "\003 \003(\t\"K\n\014CommonRspMsg\022+\n\007rstType\030\001 \002(\0162\032" +
-      ".saloonService.RequestType\022\016\n\006tipMsg\030\002 \001" +
-      "(\t*J\n\013RequestType\022\t\n\005Enter\020\001\022\t\n\005Leave\020\002\022" +
-      "\022\n\016InformPosition\020\003\022\021\n\rGetPlayerInfo\020\004*%" +
-      "\n\014GCResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B!\n",
-      "\013com.rwprotoB\022SaloonServiceProto"
+      "\003 \003(\t\"J\n\014CommonRspMsg\022*\n\007rstType\030\001 \002(\0162\031" +
+      ".saloonService.ResultType\022\016\n\006tipMsg\030\002 \001(" +
+      "\t*Y\n\013RequestType\022\t\n\005Enter\020\001\022\t\n\005Leave\020\002\022\022" +
+      "\n\016InformPosition\020\003\022\021\n\rGetPlayerInfo\020\004\022\r\n" +
+      "\tAlreadyIn\020\005*#\n\nResultType\022\013\n\007SUCCESS\020\001\022",
+      "\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022SaloonServiceP" +
+      "roto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
