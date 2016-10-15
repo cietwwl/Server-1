@@ -294,7 +294,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 							continue;
 						}
 						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
-						if(player.getUserGameDataMgr().getLastLoginTime()<cfg.getStartTime()){
+						if(player.getLastLoginTime() < cfg.getStartTime()){
 							continue;//最后次登陆时间不在活动时间内；
 						}
 						sendGifgSingel(rankInfo,activityRankTypeItemHolder,activityRankTypeEnum,subCfg);						

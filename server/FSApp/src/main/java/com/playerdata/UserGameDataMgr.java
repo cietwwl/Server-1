@@ -616,16 +616,6 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getLastChangeInfoTime();
 	}
 
-	public void setLastLoginTime(long time) {
-		userGameDataHolder.get().setLastLoginTime(time);
-		userGameDataHolder.update(player);
-	}
-
-	/** 登陆时间 */
-	public long getLastLoginTime() {
-		return userGameDataHolder.get().getLastLoginTime();
-	}
-
 	public long getLastResetTime() {
 		return userGameDataHolder.get().getLastResetTime();
 	}
