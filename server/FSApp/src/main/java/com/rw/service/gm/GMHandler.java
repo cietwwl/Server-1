@@ -1876,7 +1876,7 @@ public class GMHandler {
 			MainMsgHandler.getInstance().sendMainCityMsg(24, EMsgType.PmdMsg, Arrays.asList("Fisher", "3", "随机boss"));
 		}
 		if(index.equals("3")){
-			MainMsgHandler.getInstance().sendMainCityMsg(2, EMsgType.PmdMsg, Arrays.asList("Fisher", "202002_1"));
+			MainMsgHandler.getInstance().sendMainCityMsg(2, EMsgType.PmdMsg, Arrays.asList("Fisher", "203007_5"));
 		}
 		return true;
 	}
