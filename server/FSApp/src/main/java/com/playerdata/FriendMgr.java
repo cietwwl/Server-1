@@ -311,13 +311,17 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "申请成功";
 			String otherUserId = friendList.get(i);
+			Player other = PlayerMgr.getInstance().find(otherUserId);
 			if (isSelfUser(otherUserId)) {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "该玩家是自己";
 			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
-			} else {
+			}else if(other != null && other.isRobot()){
+				addRobotOrPlayerToFriend(otherUserId,tableFriend);
+				doOpenLevelTiggerService(other,otherUserId,tableFriend);
+			}else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
 				if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
 					// 如果在对方的黑名单列表中，不做操作
