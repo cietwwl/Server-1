@@ -100,9 +100,10 @@ public class OpenLevelTiggerServiceMgr {
 			if(timeBySecond > subItem.getTriggerTime()){
 //				type.doAction();
 				player.getFriendMgr().robotRequestAddPlayerToFriend(subItem,friendTable);
+				
 			}
 		}
-		
+		player.getFriendMgr().save();
 	}
 
 	/**

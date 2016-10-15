@@ -262,6 +262,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		String robotUserId = robot.getUserId();
 		TableFriend otherTable = getOtherTableFriend(robotUserId);
 		requestToAddFriend(m_pPlayer.getUserId(), robotUserId, otherTable);
+		subItem.setUserId(robotUserId);
 	}
 	
 	
