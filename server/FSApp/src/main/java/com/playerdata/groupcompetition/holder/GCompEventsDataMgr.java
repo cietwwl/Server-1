@@ -155,6 +155,15 @@ public class GCompEventsDataMgr {
 		return null;
 	}
 	
+	public boolean isEnemyEmpty(String groupId, GCEventsType eventsType) {
+		IGCAgainst agaist = this.getGCAgainstOfGroup(groupId, eventsType);
+		if (agaist == null) {
+			return true;
+		} else {
+			return agaist.getGroupA().getGroupId().length() == 0 || agaist.getGroupB().getGroupId().length() == 0;
+		}
+	}
+	
 	public GCGroup getGCGroupOfCurrentEvents(String groupId) {
 		GCEventsType type = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData eventsData = _dataHolder.get().getEventsData(type);
