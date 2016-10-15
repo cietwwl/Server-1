@@ -64,6 +64,14 @@ public class HeroPropertyMigration {
 		PlatformTransactionManager tm = new DataSourceTransactionManager(template.getDataSource());
 		DefaultTransactionDefinition df = new DefaultTransactionDefinition();
 		df.setPropagationBehavior(DefaultTransactionDefinition.PROPAGATION_REQUIRED);
+		for (int i = 0; i < 16; i++) {// hero_extended_property00
+			String tableName = "hero_extended_property" + ((i >= 10) ? i : "0" + i);
+			try {
+				template.execute("select count(1) from " + tableName);
+			} catch (Exception e) {
+				throw new ExceptionInInitializerError("请先同步表结构："+tableName);
+			}
+		}
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
 			execute(new ExplainFixExpEquip(), tableNameList);
@@ -85,7 +93,7 @@ public class HeroPropertyMigration {
 			try {
 				String createSql = (String) template.queryForMap("SHOW CREATE TABLE " + tableName).get("Create Table");
 				template.execute("RENAME table " + tableName + " to " + (tableName + '_' + backupPostfix));
-				//本来不需要,避免240被同步时删除有数据的本地表
+				// 本来不需要,避免240被同步时删除有数据的本地表
 				template.execute(createSql);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -142,7 +150,7 @@ public class HeroPropertyMigration {
 			for (Map.Entry<String, String> entry : fieldJsonMap.entrySet()) {
 				String key = entry.getKey();
 				FieldEntry field = classInfo.getFieldEntry(key);
-				if(field == null){
+				if (field == null) {
 					continue;
 				}
 				Object object = readJsonValue(entry.getValue(), field);
