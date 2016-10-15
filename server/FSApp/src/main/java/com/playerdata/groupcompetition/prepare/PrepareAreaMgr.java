@@ -1,7 +1,5 @@
 package com.playerdata.groupcompetition.prepare;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +13,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.dataSyn.sameSceneSyn.SameSceneContainer;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
+import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
 import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.fashion.FashionHandle;
@@ -25,6 +24,8 @@ import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder;
 import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.GroupCompetitionProto.PlayerBaseInfo;
+
+import io.netty.channel.ChannelHandlerContext;
 
 public class PrepareAreaMgr {
 	
@@ -78,6 +79,11 @@ public class PrepareAreaMgr {
 		if(groupScene == null || !groupScene.containsKey(groupId)){
 			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
 			gcRsp.setTipMsg("您的帮派今日没有比赛，无法进入备战区！");
+			return;
+		}
+		if (GCompEventsDataMgr.getInstance().isEnemyEmpty(groupId, GroupCompetitionMgr.getInstance().getCurrentEventsType())) {
+			gcRsp.setRstType(GCResultType.NO_SAME_SCENE);
+			gcRsp.setTipMsg("您的帮派本轮比赛轮空，已自动晋级！");
 			return;
 		}
 		informPreparePosition(player, gcRsp, position);

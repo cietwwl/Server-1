@@ -179,7 +179,21 @@ class AgainstMatchingTask implements IGameTimerTask {
 		this.submitToMatchDataHolder(team1, team2);
 	}
 	
+	private boolean recheckIfAllCancelOrRobot(List<RandomMatchingData> list) {
+		int count = 0;
+		for (RandomMatchingData data : list) {
+			if (data.isRobot() || data.isCancel()) {
+				count++;
+			}
+		}
+		return count == list.size();
+	}
+	
 	private void onRandomMatch(List<RandomMatchingData> list1, List<RandomMatchingData> list2) {
+		if (recheckIfAllCancelOrRobot(list1) && recheckIfAllCancelOrRobot(list2)) {
+			GCompUtil.log("---------- 匹配到的所有随机数据都是机器人或者都已经取消，{}：{} ----------", list1, list2);
+			return;
+		}
 		GCompTeam team1 = GCompTeamMgr.getInstance().createRandomTeam(list1);
 		GCompTeam team2 =  GCompTeamMgr.getInstance().createRandomTeam(list2);
 		if (team1 != null && team2 != null) {
@@ -314,6 +328,8 @@ class AgainstMatchingTask implements IGameTimerTask {
 				this.getRandomMember(allMemberOfGroupA, listOfGroupMatchingDataA);
 			}
 			onRandomMatch(listOfGroupMatchingDataA, listOfGroupMatchingDataB);
+			groupMatchingDataA.afterMatched(listOfGroupMatchingDataA);
+			groupMatchingDataB.afterMatched(listOfGroupMatchingDataB);
 		}
 		
 //		GCompUtil.log("---------- 帮派争霸，随机匹配结束，负责帮派：{} ----------", this.groupMatchingDatas.keySet());
