@@ -23,10 +23,8 @@ public class ArmyMagic {
 	public ArmyMagic(ItemData magicItem) {
 		this.id = magicItem.getId();
 		this.modelId = magicItem.getModelId();
-		String magicLevel = magicItem.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
-		String magicAptitude = magicItem.getExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE);
-		this.level = StringUtils.isEmpty(magicLevel) ? 0 : Integer.parseInt(magicLevel);
-		this.aptitude = StringUtils.isEmpty(magicAptitude) ? 0 : Integer.parseInt(magicAptitude);
+		this.level = magicItem.getMagicLevel();
+		this.aptitude = magicItem.getMagicAptitude();
 	}
 
 	public String getId() {
