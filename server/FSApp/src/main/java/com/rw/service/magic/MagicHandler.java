@@ -174,7 +174,7 @@ public class MagicHandler {
 		}
 		
 		
-		int aptitudeValue = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE));
+		int aptitudeValue = itemData.getMagicAptitude();
 		
 		if(aptitudeValue >= MagicSmeltMaterialCfgDAO.getInstance().getMaxAptiude()){
 			return setReturnResponse(msgMagicResponse, "当前法宝已到最高资质不需要熔炼！");
@@ -207,6 +207,11 @@ public class MagicHandler {
 		int aptitudeChange = magicSmelt.getAptitudeChange();
 		
 		int smeltAptitude = aptitudeValue + aptitudeChange;
+		
+		//防止资质变0
+		if (smeltAptitude == 0) {
+			smeltAptitude = 1;
+		}
 		
 		// 消耗物品
 		boolean success = itemBagMgr.useLikeBoxItem(useItemList, null);
@@ -278,18 +283,7 @@ public class MagicHandler {
 		}
 
 		// 检查等级
-		final String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_AdvanceLevel_VALUE);
-		int lvl = -1;
-		try {
-			lvl = Integer.parseInt(lvlStr);
-			if (lvl < 0) {
-				fillResponseInfo(response, false, "无法获取法宝等级！");
-				return response.build().toByteString();
-			}
-		} catch (Exception ex) {
-			fillResponseInfo(response, false, "无法获取法宝等级！");
-			return response.build().toByteString();
-		}
+		int lvl = item.getMagicAdvanceLevel();
 
 		if (lvl > uplevel) {
 			fillResponseInfo(response, false, "数据异常，这个法宝不能进阶！");

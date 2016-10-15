@@ -572,7 +572,7 @@ public class UserEventMgr {
 	
 	public void raiseEvent(Player player, UserEvent userEvent){
 		IUserEventHandler eventHandler = eventHandlerMap.get(userEvent.getEventType());
-		if(eventHandler!=null){
+		if(eventHandler!=null&&!player.isRobot()){
 			eventHandler.doEvent(player, userEvent.getParam());
 		
 		}
