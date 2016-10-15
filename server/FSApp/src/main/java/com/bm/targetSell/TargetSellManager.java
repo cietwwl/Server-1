@@ -201,7 +201,7 @@ public class TargetSellManager {
 		dataDao.update(record);
 		
 		//通知前端
-		if(record.getItemMap() != null && !record.getItemMap().isEmpty()){
+		if(record.getItemMap() != null){
 			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime()));
 		}
 	}
