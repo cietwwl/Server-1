@@ -1,11 +1,14 @@
 package com.rwbase.common.timer;
 
+import com.rwbase.dao.praise.task.PraisePlayerOperation;
+
 public enum FSPlayerDailyTaskType {
 
-//	ALL_PLAYER_DEMO(997, com.rwbase.common.timer.test.FSGameAllPlayerOperableDemo.class, 22, 00),
-//	EXCEPTION_DEMO(998, com.rwbase.common.timer.test.FSGamePlayerNullPointerDemo.class, 22, 00),
-//	DEMO(999, com.rwbase.common.timer.test.FSGamePlayerOperableDemo.class, 22, 00);
-	;
+	// ALL_PLAYER_DEMO(997, com.rwbase.common.timer.test.FSGameAllPlayerOperableDemo.class, 22, 00),
+	// EXCEPTION_DEMO(998, com.rwbase.common.timer.test.FSGamePlayerNullPointerDemo.class, 22, 00),
+	// DEMO(999, com.rwbase.common.timer.test.FSGamePlayerOperableDemo.class, 22, 00);
+	PRAISE_RESET_DATA(1, PraisePlayerOperation.class, 5, 0);
+
 	private int _type; // 每日任務的類型，必須唯一
 	private Class<? extends IPlayerOperable> _classOfTask; // 實例化的class
 	private int _hourOfDay; // 執行的時間（24小時制）
