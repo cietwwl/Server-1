@@ -420,6 +420,7 @@ public class ChargeMgr {
 			int money = target.getMoneyCount();			
 			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+			ChargeInfoHolder.getInstance().update(player);	
 			//升级vip，如果达到条件
 			upgradeVip(player, chargeInfo);
 			// 设置界面更新vip

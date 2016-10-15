@@ -1,10 +1,15 @@
 package com.playerdata.groupcompetition.holder;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.springframework.util.StringUtils;
+
+import com.bm.group.GroupBM;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -13,6 +18,7 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
+import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.data.IGCUnit;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeam.GCompTeamType;
@@ -44,6 +50,7 @@ public class GCompTeamMgr {
 	
 	private GCompTeamHolder _dataHolder = GCompTeamHolder.getInstance();
 	private boolean canPersonalMatching = false; // 是否可以个人匹配
+	private Map<String, Boolean> statusOfGroup = new HashMap<String, Boolean>();
 	
 	protected GCompTeamMgr() {
 		
@@ -153,7 +160,7 @@ public class GCompTeamMgr {
 	}
 	
 	// 检查角色是否在帮派里面，并且改帮派是否在本次对阵里面
-	private IReadOnlyPair<String, Integer> checkMatchAndGroup(Player player, Pair<Boolean, String> result) {
+	private IReadOnlyPair<String, Integer> checkMatchAndGroup(Player player, Pair<Boolean, String> result, boolean checkMemberSize) {
 		String groupId = GroupHelper.getGroupId(player);
 		if (groupId == null) {
 			result.setT2(GCompTips.getTipsYouAreNotInGroup());
@@ -170,7 +177,18 @@ public class GCompTeamMgr {
 			result.setT2(GCompTips.getTipsYourGroupHaveNoEnemy());
 			return null;
 		}
-
+		
+		if (checkMemberSize) {
+			if (statusOfGroup.get(groupId) != Boolean.TRUE) {
+				result.setT2(GCompTips.getTipsYourGroupMemberNotEnough());
+				return null;
+			}
+			String enemyGroupId = gcAgainst.getGroupA().getGroupId().equals(groupId) ? gcAgainst.getGroupB().getGroupId() : gcAgainst.getGroupA().getGroupId();
+			if (statusOfGroup.get(enemyGroupId) != Boolean.TRUE) {
+				result.setT2(GCompTips.getTipsEnemyGroupMemberNotEnough());
+				return null;
+			}
+		}
 		return Pair.CreateReadonly(groupId, gcAgainst.getId());
 	}
 	
@@ -259,14 +277,45 @@ public class GCompTeamMgr {
 		}
 	}
 	
+	private void initStatus(IGCGroup gcGroup) {
+		String groupId;
+		if ((groupId = gcGroup.getGroupId()).length() > 0) {
+			statusOfGroup.put(groupId, GroupBM.get(groupId).getGroupMemberMgr().getGroupMemberSize() >= GCompCommonConfig.getMinMemberCountOfGroup());
+		}
+	}
+	
+	public void onGroupMemberLeave(String groupId) {
+		if(statusOfGroup.containsKey(groupId)) {
+			boolean result = GroupBM.get(groupId).getGroupMemberMgr().getGroupMemberSize() >= GCompCommonConfig.getMinMemberCountOfGroup();
+			if(!result) {
+				statusOfGroup.put(groupId, result);
+			}
+		}
+	}
+	
 	public void onEventsStart(GCEventsType eventsType, List<? extends IGCAgainst> againsts) {
 		this._dataHolder.clearTeamData();
 		this._dataHolder.createTeamData(againsts);
+		this.statusOfGroup.clear();
+		for (IGCAgainst against : againsts) {
+			this.initStatus(against.getGroupA());
+			this.initStatus(against.getGroupB());
+		}
 	}
 	
-	public void sendTeamData(int matchId, Player player) {
-		this._dataHolder.syn(matchId, player);
+	public void onPlayerEnterPrepareArea(int matchId, Player player) {
+		String groupId = GroupHelper.getGroupId(player);
+		if (!StringUtils.isEmpty(groupId)) {
+			GCompTeam team = _dataHolder.getTeamOfUser(matchId, player.getUserId(), groupId);
+			if(team != null) {
+				this.leaveTeam(player);
+			}
+		}
 	}
+	
+//	public void sendTeamData(int matchId, Player player) {
+//		this._dataHolder.syn(matchId, player);
+//	}
 	
 	/**
 	 * 
@@ -336,7 +385,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, true);
 		if(matchAndGroupInfo == null) {
 			return result;
 		}
@@ -399,7 +448,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -444,7 +493,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -505,7 +554,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(leader, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(leader, result, true);
 		if (matchAndGroupInfo == null) {
 			// 没有帮派，或者帮派没有入围
 			return result;
@@ -541,7 +590,7 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> kickMember(Player player, String targetUserId) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 		
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -599,7 +648,7 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> leaveTeam(Player player) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -692,7 +741,7 @@ public class GCompTeamMgr {
 //			return result;
 //		}
 		
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -721,7 +770,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, true);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -741,8 +790,11 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
-		for(int i = 0; i < memberList.size(); i++) {
-			if(!memberList.get(i).isReady()) {
+		for (GCompTeamMember member : memberList) {
+			if (member.isLeader()) {
+				continue;
+			}
+			if (!member.isReady()) {
 				result.setT2(GCompTips.getTipsSomeoneNotReady());
 				return result;
 			}
@@ -781,7 +833,7 @@ public class GCompTeamMgr {
 //			return result;
 //		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			result.setT1(true); // 让他取消
 			return result;
@@ -841,7 +893,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, true);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}
@@ -872,7 +924,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			result.setT1(true); // 让他取消
 			return result;
@@ -910,7 +962,7 @@ public class GCompTeamMgr {
 			return result;
 		}
 
-		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result);
+		IReadOnlyPair<String, Integer> matchAndGroupInfo = this.checkMatchAndGroup(player, result, false);
 		if (matchAndGroupInfo == null) {
 			return result;
 		}

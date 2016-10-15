@@ -35,7 +35,7 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.common.EnumerateList;
@@ -76,7 +76,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 
 	public List<ActivityRankTypeItem> creatItems(String userId,boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityRankTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
-		PlayerExtPropertyStore<ActivityRankTypeItem> store = null;
+		RoleExtPropertyStore<ActivityRankTypeItem> store = null;
 		
 		List<ActivityRankTypeItem> addItemList = null;
 		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO
@@ -196,7 +196,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 					break;
 				}			
 			}
-			if(closeItem == null){
+			if(closeItem == null||closeItem.isTaken()||closeItem.isClosed()){
 				continue;
 			}			
 			if (closeItem.getReward() != null) {// 有奖励的进这里
@@ -281,22 +281,27 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			}
 			ActivityRankTypeEnum activityRankTypeEnum = enumValue.value;
 			for (Integer ranktype : activityRankTypeEnum.getRankTypes()) {// 该配表对应的所有排行榜，比如竞技场就分4个职业
-				List<RankInfo> rankList = new ArrayList<RankInfo>();
+				
 				for(ActivityRankTypeSubCfg subCfg : subCfgList){//根据子表去除对应的排行榜数据
+					List<RankInfo> rankList = new ArrayList<RankInfo>();
 					getRankListByRankTypeAndsubCfgNum(subCfg,ranktype,rankList,rankingMgr,activityRankTypeEnum);					
 					for (RankInfo rankInfo : rankList) {// 所有的该段榜上榜名单对应匹配用户数据						
 						if (rankInfo.getLevel() < cfg.getLevelLimit()) {
 							// 虽让上了榜，但级别不够不能触发榜对应的活动
 							continue;
-						}
+						}						
 						if (rankInfo.getRankingLevel() > subCfg.getRankRanges()[1]) {
 							// 奖励活动有效位数小于当前榜上用户的排名
 							continue;
 						}
-						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
-						if(player.getUserGameDataMgr().getLastLoginTime()<cfg.getStartTime()){
-							continue;//最后次登陆时间不在活动时间内；
+						if(rankInfo.getRankingLevel() < subCfg.getRankRanges()[0]){
+							
+							continue;
 						}
+						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
+						if(player.getLastLoginTime() < cfg.getStartTime()){
+							continue;//最后次登陆时间不在活动时间内；
+						}						
 						sendGifgSingel(rankInfo,activityRankTypeItemHolder,activityRankTypeEnum,subCfg);						
 					}						
 				}			
@@ -356,7 +361,9 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			ActivityRankTypeEnum enumType) {
 		int size = subCfg.getRankRanges()[1];
 		int offset = subCfg.getRankRanges()[0];
-
+//		if(size < 5&&ranktype == 203){
+//			System.out.println("~~~~~~~~~~~      type =" + ranktype);
+//		}
 		RankType rankType2 = RankType.getRankType(ranktype, 1);
 		Ranking<?, RankingLevelData> ranking = RankingFactory
 				.getRanking(rankType2.getType());
@@ -365,8 +372,11 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<?, RankingLevelData> entry = it.nextElement();
 			RankingLevelData rankData = entry.getExtendedAttribute();
-			RankInfo rankInfo = RankingUtils.createOneRankInfo(rankData,
-					rankData.getRankLevel());
+			int ranklevel = entry.getRanking();//没有将ranking设置进ranklevel；就用ranking
+			if(ranklevel > size || ranklevel < offset){//因为方法没有提供截取；只提供了排序；此处忽略多余部分
+				continue;
+			}
+			RankInfo rankInfo = RankingUtils.createOneRankInfo(rankData,ranklevel);
 			rankList.add(rankInfo);
 		}
 	}
@@ -381,7 +391,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	private void sendGifgSingel(RankInfo rankInfo,ActivityRankTypeItemHolder activityRankTypeItemHolder,
 			ActivityRankTypeEnum activityRankTypeEnum,ActivityRankTypeSubCfg subCfg) {		
 		String userId = rankInfo.getHeroUUID();
-		PlayerExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
+		RoleExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
 				.getItemStore(userId);
 		if (itemStore == null) {
 			return;

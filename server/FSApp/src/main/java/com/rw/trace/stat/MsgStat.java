@@ -54,6 +54,14 @@ public class MsgStat {
 		return new MsgInfo(max, times, totalAvgCost, recentlyAvgCost);
 	}
 
+	public int getTotal() {
+		return total;
+	}
+
+	public int getTimes() {
+		return times;
+	}
+
 	@Override
 	public String toString() {
 		Object key2 = key.getT2();

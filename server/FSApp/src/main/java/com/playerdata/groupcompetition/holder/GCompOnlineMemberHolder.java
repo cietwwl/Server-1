@@ -28,7 +28,7 @@ public class GCompOnlineMemberHolder {
 	}
 	
 	public void syn(Player player, String groupId) {
-		List<GCompOnlineMember> members = _dao.getOnlineMembers(groupId);
+		List<GCompOnlineMember> members = new ArrayList<GCompOnlineMember>(_dao.getOnlineMembers(groupId));
 		if (members != null) {
 			ClientDataSynMgr.updateDataList(player, members, eSynType.GCompOnlineMember, eSynOpType.UPDATE_LIST);
 //			GCompUtil.log("同步在线成员给玩家，列表：{}，玩家：{}", members, player);
@@ -36,12 +36,12 @@ public class GCompOnlineMemberHolder {
 	}
 	
 	void synToAll(String groupId, GCompOnlineMember member, eSynOpType opType) {
-		List<GCompOnlineMember> allMembers = _dao.getOnlineMembers(groupId);
+		List<GCompOnlineMember> allMembers = new ArrayList<GCompOnlineMember>(_dao.getOnlineMembers(groupId));
 		List<Player> list = new ArrayList<Player>(allMembers.size());
 		GCompOnlineMember temp;
 		for (int i = 0, size = allMembers.size(); i < size; i++) {
 			temp = allMembers.get(i);
-			if (temp != member) {
+			if (temp != member && PlayerMgr.getInstance().isOnline(temp.getUserId())) {
 				list.add(PlayerMgr.getInstance().find(temp.getUserId()));
 			}
 		}

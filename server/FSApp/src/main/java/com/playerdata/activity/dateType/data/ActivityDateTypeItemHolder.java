@@ -9,7 +9,7 @@ import com.playerdata.activity.dateType.ActivityDateTypeEnum;
 import com.playerdata.activity.dateType.ActivityDateTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -72,7 +72,7 @@ public class ActivityDateTypeItemHolder{
 	}
 
 	
-	private PlayerExtPropertyStore<ActivityDateTypeItem> getItemStore(String userId) {
+	private RoleExtPropertyStore<ActivityDateTypeItem> getItemStore(String userId) {
 		return null;
 	}
 	

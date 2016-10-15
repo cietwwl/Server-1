@@ -179,11 +179,11 @@ class GroupMatchingData {
 		return false;
 	}
 	
-	void turnBackRandomMatchingData(RandomMatchingData rmd) {
+//	void turnBackRandomMatchingData(RandomMatchingData rmd) {
 //		synchronized (this.turnBackRandomMatchingDatas) {
 //			this.turnBackRandomMatchingDatas.add(rmd);
 //		}
-	}
+//	}
 	
 	void beforeRandomMatching() {
 //		GCompUtil.log("---------- 帮派争霸，随机匹配任务前的通知！帮派id：{} ----------", this.groupId);

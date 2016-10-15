@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServerListFactory {
 	/** 服务器的列表信息 */
-	private static ConcurrentHashMap<Integer, ServerInfo> serverMap = new ConcurrentHashMap<Integer, ServerInfo>();
+	private static ConcurrentHashMap<Integer, ServerInfo> serverMap = new ConcurrentHashMap<Integer, ServerInfo>(8, 1.0f, 1);
 	/** 用户在那些服务器有账户 */
-	private static ConcurrentHashMap<String, List<Integer>> roleInServer = new ConcurrentHashMap<String, List<Integer>>();
+	private static ConcurrentHashMap<String, List<Integer>> roleInServer = new ConcurrentHashMap<String, List<Integer>>(8, 1.0f, 1);
 
 	/**
 	 * 初始化服务器列表

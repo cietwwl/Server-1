@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.netty.UserChannelMgr;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -275,7 +277,30 @@ public class ClientDataSynMgr {
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
 			player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
 		}
+		
 	}
+//	private static void sendMsg(Player player, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
+//		SynDataInReqMgr synDataInReqMgr = UserChannelMgr.getSynDataInReqMgr(player.getUserId());
+//		if(synDataInReqMgr!=null && !synDataInReqMgr.addSynData(serverData, synType, msgDataSyn)){
+//				if("ActivityDailyTypeItem".equals(serverData.getClass().getSimpleName())){
+//					ActivityDailyTypeItem item = (ActivityDailyTypeItem)serverData;
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("++++++++++++++++++++++++++++  starrt ");
+//				
+//		for (ActivityDailyTypeSubItem iterable_element : item.getSubItemList()) {						
+//						sb.append("~~~~~~~~~"+ iterable_element.getCfgId() +"   count =" + iterable_element.getCount());
+//					}					
+//					sb.append("++++++++++++++++++++++++++++  end ").append("\r\n");
+//					
+//					System.out.println(sb.toString());
+//				}
+//				
+//				Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
+//				player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
+//			}
+//		}
+
+		
 	
 	/**
 	 * 给多用户同步同一个数据

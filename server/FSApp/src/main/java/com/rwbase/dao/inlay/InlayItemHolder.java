@@ -10,7 +10,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
@@ -63,11 +63,6 @@ public class InlayItemHolder {
 		notifyChange(player.getUserId(), item.getOwnerId());
 	}
 
-	public InlayItem getItem(String heroId, int modelId) {
-		return getItem(heroId, modelId);
-	}
-
-	// public InlayItem getItem(String itemId) {
 	public InlayItem getItem(String heroId, Integer itemId) {
 		return getMapItemStore(heroId).get(itemId);
 	}
@@ -109,7 +104,7 @@ public class InlayItemHolder {
 		}
 	}
 
-	private PlayerExtPropertyStore<InlayItem> getMapItemStore(String heroId) {
+	private RoleExtPropertyStore<InlayItem> getMapItemStore(String heroId) {
 		RoleExtPropertyStoreCache<InlayItem> inlayItemCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.INLAY_ITEM, InlayItem.class);
 		try {
 			return inlayItemCache.getStore(heroId);

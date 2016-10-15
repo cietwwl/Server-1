@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
@@ -52,7 +52,7 @@ public class FresherActivityCreator implements PlayerExtPropertyCreator<FresherA
 	}
 
 	@Override
-	public List<FresherActivityBigItem> checkAndCreate(PlayerExtPropertyStore<FresherActivityBigItem> store, PlayerPropertyParams params) {
+	public List<FresherActivityBigItem> checkAndCreate(RoleExtPropertyStore<FresherActivityBigItem> store, PlayerPropertyParams params) {
 		
 		return null;
 	}

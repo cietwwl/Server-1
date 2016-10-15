@@ -11,6 +11,8 @@ import com.gm.util.GmUtils;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserGameDataMgr;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 public class GmOpCoin implements IGmTask{
 
@@ -22,22 +24,30 @@ public class GmOpCoin implements IGmTask{
 		Map<String, Object> args = request.getArgs();
 		
 		String roleIdList = GmUtils.parseString(args, "roleId");
-		long value = GmUtils.parseLong(args, "value");
-		if(StringUtils.isNotBlank(roleIdList)){ 
-			String[] roleIdArray = roleIdList.split(",");			
+		final long value = GmUtils.parseLong(args, "value");
+		if (StringUtils.isNotBlank(roleIdList)) {
+			String[] roleIdArray = roleIdList.split(",");
 			for (String roleId : roleIdArray) {
 				Player target = PlayerMgr.getInstance().find(roleId);
-				if(target!=null){
-					UserGameDataMgr userGameDataMgr = target.getUserGameDataMgr();
-					long currentCoin = userGameDataMgr.getCoin();
-					if(currentCoin + value < 0){
-						value = -currentCoin;
-					}
-					
-					userGameDataMgr.addCoin((int)value);
+				if (target != null) {
+					GameWorldFactory.getGameWorld().asyncExecute(roleId, new PlayerTask() {
+
+						@Override
+						public void run(Player e) {
+							UserGameDataMgr userGameDataMgr = e.getUserGameDataMgr();
+							long currentCoin = userGameDataMgr.getCoin();
+							long reult = value;
+							if (currentCoin + reult < 0) {
+								reult = -currentCoin;
+							}
+
+							userGameDataMgr.addCoin((int) reult);
+						}
+					});
+
 				}
 			}
-			
+
 		}
 
 

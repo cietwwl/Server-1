@@ -1,5 +1,6 @@
 package com.bm.serverStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -11,6 +12,7 @@ import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.task.GmEmailAll;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.role.MainMsgHandler;
@@ -25,6 +27,7 @@ import com.rwbase.dao.serverData.ServerGmEmail;
 import com.rwbase.dao.serverData.ServerGmEmailHolder;
 import com.rwbase.dao.serverData.ServerGmNotice;
 import com.rwbase.dao.serverData.ServerGmNoticeHolder;
+import com.rwbase.gameworld.GameWorldFactory;
 
 
 public class ServerStatusMgr {
@@ -122,9 +125,10 @@ public class ServerStatusMgr {
 	
 	public static void processGmMailWhenCreateRole(Player player){
 		List<ServerGmEmail> gmMailList = mailHolder.getGmMailList();
+		long currentTimeMillis = System.currentTimeMillis();
 		for (ServerGmEmail serverGmEmail : gmMailList) {
 			int status = serverGmEmail.getStatus();
-			if(status == GmEmailAll.STATUS_CLOSE || status == GmEmailAll.STATUS_DELETE || status == GmEmailAll.STATUS_ORIGINAL){
+			if(status == GmEmailAll.STATUS_CLOSE || status == GmEmailAll.STATUS_ORIGINAL){
 				continue;
 			}
 			List<PlayerFilterCondition> conditionList = serverGmEmail.getConditionList();
@@ -132,12 +136,20 @@ public class ServerStatusMgr {
 			for (PlayerFilterCondition condition : conditionList) {
 				if(condition.getType() == FilterType.CREATE_TIME.getValue()){
 					long endTime = condition.getMaxValue() * 1000;
-					if(endTime <= System.currentTimeMillis()){
+					if(endTime <= currentTimeMillis){
 						serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
 						isEnd = true;
 						break;
 					}
 				}
+			}
+			EmailData emailData = serverGmEmail.getSendToAllEmailData();
+			int expireTime = emailData.getExpireTime();
+			int delayTime = emailData.getDelayTime() * 1000;
+			long sendTime = emailData.getSendTime();
+			if (expireTime != 0 && (sendTime + delayTime) <= System.currentTimeMillis()) {
+				serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
+				isEnd = true;
 			}
 			if(isEnd){
 				ServerStatusMgr.updateGmMail(serverGmEmail);
@@ -151,10 +163,19 @@ public class ServerStatusMgr {
 					break;
 				}
 			}
-			EmailData emailData = serverGmEmail.getSendToAllEmailData();
+			
 			long taskId = emailData.getTaskId();
+			if (!filted && player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+				if (status == GmEmailAll.STATUS_DELETE) {
+					List<Player> temp = new ArrayList<Player>();
+					temp.add(player);
+					PlayerMgr.getInstance().callbackEmailToList(temp, emailData);
+				}
+			}
 			if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+
 				EmailUtils.sendEmail(player.getUserId(), emailData);
+
 			}
 		}
 	}

@@ -25,12 +25,14 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 	public static CfgOpenLevelLimitDAO getInstance() {
 		return SpringContextUtil.getBean(CfgOpenLevelLimitDAO.class);
 	}
-
+	
+	private Map<Integer, List<CfgOpenLevelLimit>> levelMapping;
 	private Map<Command,List<CfgOpenLevelLimit>> cmdMapping;
 	public Map<String, CfgOpenLevelLimit> initJsonCfg() {
 		Map<String, CfgOpenLevelLimit> tmpMap = CfgCsvHelper.readCsv2Map("openLevelLimit/openLevelLimit.csv", CfgOpenLevelLimit.class);
 		Set<Entry<String, CfgOpenLevelLimit>> entryLst = tmpMap.entrySet();
 		Map<Command,List<CfgOpenLevelLimit>> mapping = new HashMap<Command, List<CfgOpenLevelLimit>>();
+		Map<Integer, List<CfgOpenLevelLimit>> levelMapping = new HashMap<Integer, List<CfgOpenLevelLimit>>();
 		for (Entry<String, CfgOpenLevelLimit> entry : entryLst) {
 			CfgOpenLevelLimit cfg = entry.getValue();
 			cfg.ExraLoad();
@@ -43,8 +45,16 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 				}
 				old.add(cfg);
 			}
+			int level = cfg.getMinLevel();
+			List<CfgOpenLevelLimit> levelOld = levelMapping.get(level);
+			if(levelOld == null){
+				levelOld = new ArrayList<CfgOpenLevelLimit>();
+				levelMapping.put(level, levelOld);
+			}
+			levelOld.add(cfg);
+			
 		}
-		
+		this.levelMapping = levelMapping;
 		cmdMapping = mapping;
 		cfgCacheMap = tmpMap;
 		return cfgCacheMap;
@@ -54,6 +64,10 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		return cmdMapping.get(cmd);
 	}
 
+	public List<CfgOpenLevelLimit> getOpenByLevel(Integer level){
+		return levelMapping.get(level);
+	}
+	
 	public String getNotOpenTip(eOpenLevelType type, Player player){
 		RefParam<String> outtip = new RefParam<String>();
 		isOpen(type,player,outtip);

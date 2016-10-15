@@ -154,5 +154,20 @@ public class DailyActivityType
 	 * 巅峰竞技场战斗
 	 */
 	public static final int PEAKARENA_BATTLE = 33;
+
+	/**
+	 * 组队日常
+	 */
+	public static final int TEAM_BATTLE = 34;
+	
+	/**
+	 * 随机boss日常工作
+	 */
+	public static final int RANDOM_BOSS = 35;
+	
+	/**
+	 * 帮派副本日常
+	 */
+	public static final int GROUPCOPY_BATTLE = 36;
 	
 }

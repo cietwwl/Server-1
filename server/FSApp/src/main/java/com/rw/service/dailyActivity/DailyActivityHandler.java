@@ -109,6 +109,9 @@ public class DailyActivityHandler {
 		// 返回任务列表
 		List<DailyActivityData> taskList = activityMgr.getAllTask();
 		for (DailyActivityData td : taskList) {
+			DailyActivityCfgEntity e = DailyActivityCfgDAO.getInstance().getCfgEntity(td.getTaskId());
+			System.out.println("task id:" + td.getTaskId()+",desc:" + e.getCfg().getDescription() + ",titel:"
+					+ e.getCfg().getTitle());
 			response.addTaskList(toTaskInfo(td));
 		}
 		return response.build().toByteString();

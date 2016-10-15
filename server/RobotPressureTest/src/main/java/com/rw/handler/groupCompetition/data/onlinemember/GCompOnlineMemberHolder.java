@@ -15,6 +15,7 @@ public class GCompOnlineMemberHolder {
 	private List<GCompOnlineMember> _allOnlineMembers = Collections.emptyList();
 	private Random random = new Random();
 	private Map<String, Long> inviteTimeoutMap = new HashMap<String, Long>();
+	private long lastTryEnterPrepareTime;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 		_dataHolder.Syn(msgDataSyn);
@@ -38,5 +39,17 @@ public class GCompOnlineMemberHolder {
 	
 	public void setInviteTimeout(String userId, long time) {
 		inviteTimeoutMap.put(userId, time);
+	}
+	
+	public void clearOnlineMembers() {
+		_allOnlineMembers.clear();
+	}
+
+	public long getLastTryEnterPrepareTime() {
+		return lastTryEnterPrepareTime;
+	}
+
+	public void setLastTryEnterPrepareTime(long lastTryEnterPrepareTime) {
+		this.lastTryEnterPrepareTime = lastTryEnterPrepareTime;
 	}
 }
