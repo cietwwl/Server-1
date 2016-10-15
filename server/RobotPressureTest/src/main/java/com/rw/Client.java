@@ -136,11 +136,11 @@ public class Client {
 	private GCompUserQuizItemHolder userQuizItemHolder = new GCompUserQuizItemHolder();
 	private GCQuizEventItemHolder quizEventItemHolder = new GCQuizEventItemHolder();
 	private SameSceneSynDataHolder prepareAreaHolder = new SameSceneSynDataHolder();
-	private GCompBaseInfoHolder gCompBaseInfoHolder = GCompBaseInfoHolder.getInstance();
-	private GCompTeamHolder gCompTeamHolder = GCompTeamHolder.getInstance();
-	private GCompOnlineMemberHolder gCompOnlinememberHolder = GCompOnlineMemberHolder.getInstance();
+	private GCompBaseInfoHolder gCompBaseInfoHolder = new GCompBaseInfoHolder();
+	private GCompTeamHolder gCompTeamHolder = new GCompTeamHolder();
+	private GCompOnlineMemberHolder gCompOnlinememberHolder = new GCompOnlineMemberHolder();
 	private GCompEventsDataHolder gCompEventsDataHolder = new GCompEventsDataHolder();
-	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = GCompMatchBattleSynDataHolder.getInstance();
+	private GCompMatchBattleSynDataHolder gCompMatchBattleSynDataHolder = new GCompMatchBattleSynDataHolder();
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -152,7 +152,7 @@ public class Client {
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
 
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
-	
+
 	// last seqId
 	// private volatile int lastSeqId;
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);

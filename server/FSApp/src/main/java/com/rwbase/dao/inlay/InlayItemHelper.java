@@ -21,8 +21,7 @@ public class InlayItemHelper {
 	public static InlayItem toInlayItem(String ownerIdP, ItemData itemData, int inlaySlot) {
 		InlayItem inlayItem = new InlayItem();
 		int modelId = itemData.getModelId();
-		String inlayItemId = InlayItemHelper.getItemId(ownerIdP, modelId);
-		inlayItem.setId(inlayItemId);
+		inlayItem.setId(modelId);
 		inlayItem.setOwnerId(ownerIdP);
 		inlayItem.setModelId(modelId);
 		inlayItem.setSlotId(inlaySlot);

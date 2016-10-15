@@ -12,19 +12,18 @@ import com.rw.common.RobotLog;
 import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
-public class GCQuizEventItemHolder {
-	private static GCQuizEventItemHolder instance = new GCQuizEventItemHolder();
-	
-	public static GCQuizEventItemHolder getInstance() {
-		return instance;
-	}
-	
+public class GCQuizEventItemHolder {	
 	private Map<String, GCQuizEventItem> selfDetailList = new HashMap<String, GCQuizEventItem>();
 	private Map<String, GCQuizEventItem> canQuizList = new HashMap<String, GCQuizEventItem>();
 	
-	private SynDataListHolder<GCQuizEventItem> listHolder = new SynDataListHolder<GCQuizEventItem>(GCQuizEventItem.class);
+	private SynDataListHolder<GCQuizEventItem> selfDetailListHolder = new SynDataListHolder<GCQuizEventItem>(GCQuizEventItem.class);
+	private SynDataListHolder<GCQuizEventItem> canQuizListHolder = new SynDataListHolder<GCQuizEventItem>(GCQuizEventItem.class);
 	
-	public void syn(Client client, MsgDataSyn msgDataSyn, boolean isSelfDetail) {
+	public synchronized void syn(Client client, MsgDataSyn msgDataSyn, boolean isSelfDetail) {
+		SynDataListHolder<GCQuizEventItem> listHolder = canQuizListHolder;
+		if(isSelfDetail){
+			listHolder = selfDetailListHolder;
+		}
 		listHolder.Syn(msgDataSyn);
 		// 更新数据
 		List<GCQuizEventItem> itemList = listHolder.getItemList();

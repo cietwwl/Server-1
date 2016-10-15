@@ -20,14 +20,11 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		return ActivityCountTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+
 
 	@Override
 	public List<ActivityCountTypeItem> firstCreate(PlayerPropertyParams params) {
-		return ActivityCountTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityCountTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -35,6 +32,12 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityCountTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

@@ -1,10 +1,16 @@
 package com.rw.service.guide.datamodel;
 
 import com.log.GameLog;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.INotifyChange;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.dao.fashion.FashionItem;
 
 public class GiveItemHistoryHolder {
 	private static GiveItemHistoryHolder instance;
@@ -21,8 +27,8 @@ public class GiveItemHistoryHolder {
 			GameLog.info("引导", "", "无效参数", null);
 			return false;//illegal argument
 		}
-		MapItemStore<GiveItemHistory> cache = getCache(item.getUserId());
-		if (cache.getItem(item.getStoreId()) != null){
+		PlayerExtPropertyStore<GiveItemHistory> cache = getCache(item.getUserId());
+		if (cache.get(item.getId()) != null){
 			GameLog.info("引导", item.getUserId(), "已经存在无法添加", null);
 			return false;//item exits
 		}
@@ -41,12 +47,12 @@ public class GiveItemHistoryHolder {
 			GameLog.info("引导", "", "无效参数", null);
 			return false;//illegal argument
 		}
-		MapItemStore<GiveItemHistory> cache = getCache(item.getUserId());
-		if (cache.getItem(item.getStoreId()) == null){
+		PlayerExtPropertyStore<GiveItemHistory> cache = getCache(item.getUserId());
+		if (cache.get(item.getId()) == null){
 			GameLog.info("引导", item.getUserId(), "找不到记录:"+item.getId(), null);
 			return false;//item exits
 		}
-		if (!cache.updateItem(item)){
+		if (!cache.update(item.getId())){
 			GameLog.info("引导", item.getUserId(), "缓存更新失败", null);
 			return false;//failed to add item
 		}
@@ -56,14 +62,21 @@ public class GiveItemHistoryHolder {
 		return true;
 	}
 	
-	private MapItemStore<GiveItemHistory> getCache(String userId){
-		MapItemStoreCache<GiveItemHistory> cache = MapItemStoreFactory.getNewGuideGiveItemHistoryCache();
-		return cache.getMapItemStore(userId, GiveItemHistory.class);
+	private PlayerExtPropertyStore<GiveItemHistory> getCache(String userId){
+		RoleExtPropertyStoreCache<GiveItemHistory> heroExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.GIVEITEM_HISTORY, GiveItemHistory.class);
+		PlayerExtPropertyStore<GiveItemHistory> store = null;
+		try {
+			
+			store = heroExtCache.getStore(userId);
+		} catch (Throwable e) {
+			GameLog.error("fashion", "userId:"+userId, "can not get PlayerExtPropertyStore.", e);
+		}
+		return store;
 	}
 
 	public GiveItemHistory getHistory(String userId, int actId) {
-		MapItemStore<GiveItemHistory> cache = getCache(userId);
-		GiveItemHistory history = cache.getItem(GiveItemHistory.Convert(userId, actId));
+		PlayerExtPropertyStore<GiveItemHistory> cache = getCache(userId);
+		GiveItemHistory history = cache.get(actId);
 		return history;
 	}
 

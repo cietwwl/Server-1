@@ -19,10 +19,7 @@ import com.rwbase.dao.skill.optlisten.SkillListenOptUtils;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class SkillHelper {
-	public static String getItemId(String ownerId, String skillCfgId) {
-
-		return ownerId + "_" + skillCfgId;
-	}
+	
 
 	public static List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
 		if (skillLIst == null)
@@ -149,7 +146,7 @@ public class SkillHelper {
 
 			SkillCfg skillCfg = cfgDAO.getCfg(skillInfo.getSkillId());
 			if (skillCfg == null) {
-				return;
+				continue;
 			}
 
 			skillInfo.setExtraDamage(0);
@@ -345,4 +342,14 @@ public class SkillHelper {
 	//
 	// return buffList;
 	// }
+	
+
+	public static Integer parseSkillItemId(String skillCfgId) {
+		String skillId = skillCfgId;
+		if(skillCfgId.contains("_")){
+			skillId = StringUtils.substringBefore(skillCfgId, "_");
+		}		
+		// 生成技能id
+		return Integer.valueOf(skillId);
+	}
 }

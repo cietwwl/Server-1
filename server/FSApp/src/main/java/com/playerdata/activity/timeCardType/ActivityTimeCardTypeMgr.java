@@ -48,9 +48,9 @@ public class ActivityTimeCardTypeMgr {
 		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem
 				.getSubItemList();
 		long logintime = dataItem.getActivityLoginTime();
-		int dayDistance = DateUtils.getDayDistance(logintime,
-				System.currentTimeMillis());
-		dataItem.setActivityLoginTime(System.currentTimeMillis());
+		long now = DateUtils.getSecondLevelMillis();
+		int dayDistance = DateUtils.getDayDistance(logintime,now);
+		dataItem.setActivityLoginTime(now);
 		if (dayDistance > 0) {
 			for (ActivityTimeCardTypeSubItem sub : monthCardList) {
 				int dayless = (sub.getDayLeft() - dayDistance) > 0 ? (sub
@@ -62,51 +62,23 @@ public class ActivityTimeCardTypeMgr {
 	}
 
 	private void checkNewOpen(Player player) {
-//		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder
-//				.getInstance();
-//		String userid = player.getUserId();
-//		List<ActivityTimeCardTypeItem> addItemList = null;
-//		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
-//		if (addItemList != null) {
-//			dataHolder.addItemList(player, addItemList);
-//		}		
-		String userId = player.getUserId();
-		List<ActivityTimeCardTypeItem> addList = null;
-		RoleExtPropertyStoreCache<ActivityTimeCardTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECARD, ActivityTimeCardTypeItem.class);
-		PlayerExtPropertyStore<ActivityTimeCardTypeItem> store = null;
-		try {
-			store = cach.getStore(userId);
-			addList = creatItems(userId, store);
-			if(addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+
 	}
 
-	public List<ActivityTimeCardTypeItem> creatItems(String userId,PlayerExtPropertyStore<ActivityTimeCardTypeItem> itemStore){
+	public List<ActivityTimeCardTypeItem> creatItems(String userId,boolean isHasPlayer){
 		List<ActivityTimeCardTypeItem> addItemList = null;
 //		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, ActivityTimeCardTypeEnum.Month);
 		int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
 		ActivityTimeCardTypeCfgDAO dao = ActivityTimeCardTypeCfgDAO.getInstance();
 		List<ActivityTimeCardTypeCfg> allcfglist = dao.getAllCfg();
+		Long now = DateUtils.getSecondLevelMillis();
 		for(ActivityTimeCardTypeCfg cfg: allcfglist){
-			if(itemStore != null){
-				if(itemStore.get(id)!=null){
-					return addItemList;
-				}
-			}
+			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
 			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
+			item.setActivityLoginTime(now);
 			List<ActivityTimeCardTypeSubItem> subItemList = new ArrayList<ActivityTimeCardTypeSubItem>();
 			List<ActivityTimeCardTypeSubCfg> subItemCfgList = ActivityTimeCardTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 			if(subItemCfgList == null){

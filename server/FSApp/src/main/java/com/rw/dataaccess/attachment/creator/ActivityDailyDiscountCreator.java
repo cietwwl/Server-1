@@ -18,17 +18,13 @@ public class ActivityDailyDiscountCreator implements PlayerExtPropertyCreator<Ac
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityDailyDiscountTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+
 
 	@Override
 	public List<ActivityDailyDiscountTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityDailyDiscountTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityDailyDiscountTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -37,6 +33,12 @@ public class ActivityDailyDiscountCreator implements PlayerExtPropertyCreator<Ac
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityDailyDiscountTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

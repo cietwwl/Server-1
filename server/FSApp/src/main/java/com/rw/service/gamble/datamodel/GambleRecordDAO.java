@@ -16,8 +16,7 @@ public class GambleRecordDAO extends DataKVDao<GambleRecord> {
 	public void reset(String userId){
 		GambleRecord result = super.get(userId);
 		if (result != null && result.getUserId() != null){
-			result.resetHistory();
-			if (!super.commit(result)){
+			if (result.resetHistory() && !super.update(result)){
 				GameLog.error("钓鱼台", userId, "重置钓鱼台历史纪录失败");
 			}
 		}

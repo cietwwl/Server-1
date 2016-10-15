@@ -42,7 +42,6 @@ import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemCreator;
-import com.rw.dataaccess.mapitem.MapItemType;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.common.Pair;
@@ -59,6 +58,7 @@ import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
+import com.rw.trace.HeroPropertyMigration;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
@@ -92,7 +92,6 @@ public class GameManager {
 	private static int connectTimeOutMillis;
 	private static int heartBeatInterval;
 
-
 	/**
 	 * 初始化所有后台服务
 	 */
@@ -111,27 +110,26 @@ public class GameManager {
 
 		// 初始化MapItemStoreFactory
 		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>>();
-		MapItemType[] types = MapItemType.values();
-		for (MapItemType t : types) {
-			Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> pair = Pair.<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>> Create(t.getMapItemClass(), t.getCreatorClass());
-			map.put(t.getType(), pair);
-		}
-		MapItemStoreFactory.init(map);
+		MapItemStoreFactory.init();
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
 		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), "dataSourceMT");
-		
+
+		try {
+			HeroPropertyMigration.getInstance().execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 		// initServerProperties();
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();
-		
-		/************启动精准营销**************/
 
-		if(ServerSwitch.isOpenTargetSell()){
+		/************ 启动精准营销 **************/
+
+		if (ServerSwitch.isOpenTargetSell()) {
 			TableZoneInfo zoneInfo = ServerConfig.getInstance().getServeZoneInfo();
-			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), 
-					zoneInfo.getBenefitLocalPort(),
-					connectTimeOutMillis, heartBeatInterval);
+			BenefitMsgController.getInstance().init(zoneInfo.getBenefitServerIp(), zoneInfo.getBenefitServerPort(), zoneInfo.getBenefitLocalPort(), connectTimeOutMillis, heartBeatInterval);
 		}
 		/**** 服务器全启数据 ******/
 		// 初始化 日志服务初始化
@@ -193,6 +191,7 @@ public class GameManager {
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		WorshipMgr.getInstance().getByWorshipedList();
 		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
+
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
@@ -221,10 +220,9 @@ public class GameManager {
 			logServerIp = props.getProperty("logServerIp");
 			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
 
-
 			gmAccount = props.getProperty("gmAccount");
 			gmPassword = props.getProperty("gmPassword");
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -241,7 +239,7 @@ public class GameManager {
 			Properties props = PropertiesLoaderUtils.loadProperties(rs);
 			ServerPerformanceConfig config = new ServerPerformanceConfig(props);
 			performanceConfig = config;
-			
+
 			connectTimeOutMillis = Integer.parseInt(props.getProperty("connectTimeOutMillis"));
 			heartBeatInterval = Integer.parseInt(props.getProperty("heartBeatInterval"));
 			giftCodeTimeOut = Integer.parseInt(props.getProperty("giftCodeTimeOut"));
@@ -298,7 +296,7 @@ public class GameManager {
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-		
+
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);
@@ -433,7 +431,6 @@ public class GameManager {
 	public static ServerPerformanceConfig getPerformanceConfig() {
 		return performanceConfig;
 	}
-
 
 	public static String getGmAccount() {
 		return gmAccount;

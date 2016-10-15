@@ -16,6 +16,8 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.hero.IHeroConsumer;
 import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
@@ -24,6 +26,8 @@ import com.playerdata.hero.core.consumer.FSCountTotalStarLvConsumer;
 import com.playerdata.hero.core.consumer.FSGetAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSGetMultipleHerosConsumer;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -241,6 +245,7 @@ public class FSHeroMgr implements HeroMgr {
 			taskMgr.AddTaskTimes(eTaskFinishDef.Hero_Quality);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroNum);
 			player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
+
 		}
 		return hero;
 	}
@@ -249,6 +254,7 @@ public class FSHeroMgr implements HeroMgr {
 	public int getFightingTeam(PlayerIF player) {
 		return FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(player.getUserId());
 	}
+
 
 	@Override
 	public int getFightingTeam(String userId) {
@@ -359,6 +365,12 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public Hero getMainRoleHero(PlayerIF player) {
 		String userId = player.getUserId();
+		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(userId);
+		return mapItemStore.getItem(userId);
+	}
+
+	@Override
+	public Hero getMainRoleHero(String userId) {
 		MapItemStore<FSHero> mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(userId);
 		return mapItemStore.getItem(userId);
 	}
@@ -478,7 +490,7 @@ public class FSHeroMgr implements HeroMgr {
 		FSHero fshero = (FSHero) hero;
 		Player player = this.getOwnerOfHero(fshero);
 		fshero.firstInit();
-		FSHeroHolder.getInstance().synBaseInfo(player, hero);
+		FSHeroHolder.getInstance().synBaseInfoWithoutUpdate(player, hero);
 		FSHeroThirdPartyDataMgr.getInstance().notifySync(player, fshero, version);
 		FSHeroHolder.getInstance().syncAttributes(fshero, version);
 	}
@@ -497,4 +509,5 @@ public class FSHeroMgr implements HeroMgr {
 			return 0;
 		}
 	}
+
 }

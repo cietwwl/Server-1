@@ -18,16 +18,12 @@ public class ActivityRateCreator implements PlayerExtPropertyCreator<ActivityRat
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityRateTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+	
 
 	@Override
 	public List<ActivityRateTypeItem> firstCreate(PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityRateTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityRateTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,6 +32,12 @@ public class ActivityRateCreator implements PlayerExtPropertyCreator<ActivityRat
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityRateTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 

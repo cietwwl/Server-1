@@ -6,15 +6,10 @@ import com.rw.handler.groupCompetition.util.GCompStageType;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GCompBaseInfoHolder {
-
-	private static final GCompBaseInfoHolder _INSTANCE = new GCompBaseInfoHolder();
-	
-	public static GCompBaseInfoHolder getInstance() {
-		return _INSTANCE;
-	}
 	
 //	private SynDataListHolder<GCompBaseInfo> listHolder = new SynDataListHolder<GCompBaseInfo>(GCompBaseInfo.class);
 	private GCompBaseInfo baseInfoData;
+	private long lastRunGCompTime;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 //		listHolder.Syn(msgDataSyn);
@@ -30,5 +25,13 @@ public class GCompBaseInfoHolder {
 	public boolean isEventsStart() {
 		GCompEventsStatus status = baseInfoData.getEventStatus();
 		return baseInfoData.getCurrentStageType() == GCompStageType.EVENTS && status.sign > GCompEventsStatus.PREPARE.sign && status.sign < GCompEventsStatus.FINISH.sign;
+	}
+
+	public long getLastRunGCompTime() {
+		return lastRunGCompTime;
+	}
+
+	public void setLastRunGCompTime(long lastRunGCompTime) {
+		this.lastRunGCompTime = lastRunGCompTime;
 	}
 }

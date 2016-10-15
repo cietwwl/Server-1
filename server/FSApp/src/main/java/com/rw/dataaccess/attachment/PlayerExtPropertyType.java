@@ -3,6 +3,7 @@ package com.rw.dataaccess.attachment;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
@@ -16,6 +17,7 @@ import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.rw.dataaccess.attachment.creator.ActivityCountTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyDiscountCreator;
+import com.rw.dataaccess.attachment.creator.ActivityDailyRechargeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityExchangeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityFortuneCatCreator;
@@ -27,26 +29,54 @@ import com.rw.dataaccess.attachment.creator.ActivityRetrieveCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
+import com.rw.dataaccess.hero.FashionCreator;
+import com.rw.dataaccess.hero.GiveItemHistoryCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.service.guide.datamodel.GiveItemHistory;
+import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCreator;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
-
-	ACTIVITY_COUNTTYPE(1,ActivityCountTypeItem.class,ActivityCountTypeCreator.class),	
-	ACTIVITY_DAILYTYPE(2,ActivityDailyTypeItem.class,ActivityDailyTypeCreator.class),
-	ACTIVITY_RATE(3,ActivityRateTypeItem.class,ActivityRateCreator.class),
-	ACTIVITY_TIMECOUNT(4,ActivityTimeCountTypeItem.class,ActivityTimeCountCreator.class),
-	ACTIVITY_REDENVELOPE(5,ActivityRedEnvelopeTypeItem.class,ActivityRedEnvelopeCreator.class),
-	ACTIVITY_VITALITY(6,ActivityVitalityTypeItem.class,ActivityVitalityCreator.class),
-	ACTIVITY_EXCHANGE(7,ActivityExchangeTypeItem.class,ActivityExchangeCreator.class),
-	ACTIVITY_RANK(8,ActivityRankTypeItem.class,ActivityRankTypeCreator.class),
-	ACTIVITY_DAILYDISCOUNT(9,ActivityDailyDiscountTypeItem.class,ActivityDailyDiscountCreator.class),
-	ACTIVITY_FORTUNECAT(10,ActivityFortuneCatTypeItem.class,ActivityFortuneCatCreator.class),
-	ACTIVITY_TIMECARD(11,ActivityTimeCardTypeItem.class,ActivityTimeCardCreator.class),
-	ACTIVITY_LIMITHERO(13,ActivityLimitHeroTypeItem.class,ActivityLimitHeroCreator.class),	
-	ACTIVITY_RETRIEVE(14,RewardBackItem.class,ActivityRetrieveCreator.class),
+	/**通用活动一，计数活动；不一定触发*/
+	ACTIVITY_COUNTTYPE(1, ActivityCountTypeItem.class, ActivityCountTypeCreator.class),//
+	/**通用活动二，每日福利，不一定触发*/
+	ACTIVITY_DAILYTYPE(2, ActivityDailyTypeItem.class, ActivityDailyTypeCreator.class),//通用活动二，每日福利，不一定触发
+	/**通用活动三，双倍；不一定触发*/
+	ACTIVITY_RATE(3, ActivityRateTypeItem.class, ActivityRateCreator.class),//通用活动三，双倍；不一定触发
+	
+	/**通用活动，在线礼包；一定触发*/
+	ACTIVITY_TIMECOUNT(4, ActivityTimeCountTypeItem.class, ActivityTimeCountCreator.class),
+	/**通用活动，开服红包；不一定触发*/
+	ACTIVITY_REDENVELOPE(5, ActivityRedEnvelopeTypeItem.class, ActivityRedEnvelopeCreator.class),
+	/**通用活动，活跃之王；不一定触发*/
+	ACTIVITY_VITALITY(6, ActivityVitalityTypeItem.class, ActivityVitalityCreator.class),
+	
+	/**通用活动，兑换活动；不一定触发*/
+	ACTIVITY_EXCHANGE(7, ActivityExchangeTypeItem.class, ActivityExchangeCreator.class),
+	/**通用活动，排行榜-竞技之王，战力比拼；不一定触发*/
+	ACTIVITY_RANK(8, ActivityRankTypeItem.class, ActivityRankTypeCreator.class),
+	/**通用活动，超值欢乐购，战力比拼；不一定触发*/
+	ACTIVITY_DAILYDISCOUNT(9, ActivityDailyDiscountTypeItem.class, ActivityDailyDiscountCreator.class),
+	
+	/**通用活动，招财猫；不一定触发*/
+	ACTIVITY_FORTUNECAT(10, ActivityFortuneCatTypeItem.class, ActivityFortuneCatCreator.class),	
+	/**通用活动，月卡；一定触发*/
+	ACTIVITY_TIMECARD(11, ActivityTimeCardTypeItem.class, ActivityTimeCardCreator.class),
+	/**通用活动，每日充值；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
+	ACTIVITY_DAILYCHARGE(12, ActivityDailyRechargeTypeItem.class, ActivityDailyRechargeCreator.class),
+	
+	/**通用活动，限时神将；不一定触发*/
+	ACTIVITY_LIMITHERO(13, ActivityLimitHeroTypeItem.class, ActivityLimitHeroCreator.class),	
+	/**通用活动，每日找回；一定触发*/
+	ACTIVITY_RETRIEVE(14, RewardBackItem.class, ActivityRetrieveCreator.class),
+	/**开服活动；一定触发*/
 	FRESHER_ACTIVITY(15, FresherActivityBigItem.class, FresherActivityCreator.class),
+	
+	/**时装；一定触发*/
+	FISHION(16, FashionItem.class, FashionCreator.class),
+	/**新手引导赠送；一定触发*/
+	GIVEITEM_HISTORY(17, GiveItemHistory.class, GiveItemHistoryCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;

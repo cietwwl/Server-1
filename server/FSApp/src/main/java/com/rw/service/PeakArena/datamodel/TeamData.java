@@ -4,15 +4,14 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.rwbase.dao.skill.pojo.TableSkill;
+import com.log.GameLog;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TeamData {
 
 	private int teamId;
 	private String magicId;
-	private List<String> heros;
-	private List<TableSkill> heroSkills;
+	private List<String> heros;	
 	
 	public int getTeamId() {
 		return teamId;
@@ -31,13 +30,10 @@ public class TeamData {
 		return heros;
 	}
 	public void setHeros(List<String> heros) {
+		if(heros == null){
+			return;
+		}
 		this.heros = heros;
-	}
-	public List<TableSkill> getHeroSkills() {
-		return heroSkills;
-	}
-	public void setHeroSkills(List<TableSkill> heroSkills) {
-		this.heroSkills = heroSkills;
 	}
 	
 }
