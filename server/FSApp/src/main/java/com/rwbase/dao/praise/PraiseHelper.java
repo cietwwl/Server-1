@@ -1,11 +1,14 @@
 package com.rwbase.dao.praise;
 
 import com.bm.rank.RankType;
-import com.bm.rank.populatity.PopularityData;
 import com.bm.rank.populatity.PopularityRankComparable;
+import com.playerdata.Player;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.PraiseServiceProto.GetPraiseRspMsg;
 
 /**
@@ -22,28 +25,47 @@ public class PraiseHelper {
 	}
 
 	/**
+	 * 添加的数据
+	 */
+	private PlayerTask popularityTask = new PlayerTask() {
+
+		@Override
+		public void run(Player p) {
+			Ranking<PopularityRankComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
+			if (ranking == null) {
+				return;
+			}
+
+			PopularityRankComparable comparable = new PopularityRankComparable();
+			comparable.setPraise(1);
+
+			ranking.addOrUpdateRankingEntry(p.getUserId(), comparable, p);
+		}
+	};
+
+	/**
 	 * 获取个人的人气通过角色Id
 	 * 
 	 * @param userId
 	 * @return
 	 */
 	public int getPopularityByUserId(String userId) {
-		Ranking<PopularityRankComparable, PopularityData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
+		Ranking<PopularityRankComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
 		if (ranking == null) {
 			return 0;
 		}
 
-		RankingEntry<PopularityRankComparable, PopularityData> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<PopularityRankComparable, RankingLevelData> rankingEntry = ranking.getRankingEntry(userId);
 		if (rankingEntry == null) {
 			return 0;
 		}
 
-		PopularityData populariteData = rankingEntry.getExtendedAttribute();
-		if (populariteData == null) {
+		PopularityRankComparable comparable = rankingEntry.getComparable();
+		if (comparable == null) {
 			return 0;
 		}
 
-		return populariteData.getPraise();
+		return comparable.getPraise();
 	}
 
 	/**
@@ -52,27 +74,19 @@ public class PraiseHelper {
 	 * @param userId
 	 */
 	public void updatePopularityByUserId(String userId) {
-		Ranking<PopularityRankComparable, PopularityData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
+		Ranking<PopularityRankComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
 		if (ranking == null) {
 			return;
 		}
 
-		RankingEntry<PopularityRankComparable, PopularityData> rankingEntry = ranking.getRankingEntry(userId);
-
-		PopularityRankComparable comparable = new PopularityRankComparable();
+		RankingEntry<PopularityRankComparable, RankingLevelData> rankingEntry = ranking.getRankingEntry(userId);
 
 		if (rankingEntry == null) {
-			comparable.setPraise(1);
-
-			PopularityData data = new PopularityData(userId);
-			data.setPraise(1);
-
-			ranking.addOrUpdateRankingEntry(userId, comparable, data);
+			GameWorldFactory.getGameWorld().asyncExecute(userId, popularityTask);
 		} else {
+			PopularityRankComparable comparable = new PopularityRankComparable();
 			int praise = rankingEntry.getComparable().getPraise();
 			comparable.setPraise(praise + 1);
-
-			rankingEntry.getExtendedAttribute().setPraise(praise + 1);
 			ranking.updateRankingEntry(rankingEntry, comparable);
 		}
 	}
@@ -84,7 +98,7 @@ public class PraiseHelper {
 	 * @param rsp
 	 */
 	public void fillPraiseMsgByUserId(String userId, GetPraiseRspMsg.Builder rsp) {
-		Ranking<PopularityRankComparable, PopularityData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
+		Ranking<PopularityRankComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.POPULARITY_RANK);
 		int value = -1;
 		if (ranking == null) {
 			rsp.setPraiseNum(0);
@@ -92,7 +106,7 @@ public class PraiseHelper {
 			return;
 		}
 
-		RankingEntry<PopularityRankComparable, PopularityData> rankingEntry = ranking.getRankingEntry(userId);
+		RankingEntry<PopularityRankComparable, RankingLevelData> rankingEntry = ranking.getRankingEntry(userId);
 		if (rankingEntry == null) {
 			rsp.setPraiseNum(0);
 			rsp.setRank(value);

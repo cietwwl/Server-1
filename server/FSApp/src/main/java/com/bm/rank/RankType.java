@@ -65,7 +65,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	GROUP_FIGHTING_RANK(33, 200, "帮派战力排行榜", 1, GCompFightingExtension.class),
 
 	// 个人人气榜
-	POPULARITY_RANK(34, 1000, "个人人气排行榜", 1, PopularityRankExtension.class);
+	POPULARITY_RANK(34, 10000, "个人人气排行榜", 1, PopularityRankExtension.class);
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);
@@ -110,6 +110,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 		realTimeMap.put(203, TEAM_FIGHTING);
 		realTimeMap.put(301, LEVEL_ALL);
 		realTimeMap.put(401, MAGIC_SECRET_SCORE_RANK);
+		realTimeMap.put(601, POPULARITY_RANK);
 	}
 
 	public static RankType getRankType(int type, int realTime) {
