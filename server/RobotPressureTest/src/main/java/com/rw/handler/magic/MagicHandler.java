@@ -10,7 +10,6 @@ import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.itembag.ItemData;
-import com.rwproto.MagicServiceProtos.MagicItemData;
 import com.rwproto.MagicServiceProtos.MsgMagicRequest;
 import com.rwproto.MagicServiceProtos.MsgMagicResponse;
 import com.rwproto.MagicServiceProtos.eMagicResultType;
@@ -108,14 +107,10 @@ public class MagicHandler {
 		}
 
 		MsgMagicRequest.Builder req = MsgMagicRequest.newBuilder();
-		req.setMagicType(eMagicType.Magic_FORGE);
+		req.setMagicType(eMagicType.Magic_Upgrade);
 		req.setState(0);
 		req.setId(itemData.getId());
 
-		MagicItemData.Builder magicItemData = MagicItemData.newBuilder();
-		magicItemData.setId(mate.getId());
-		magicItemData.setCount(1);
-		req.addMagicItemData(magicItemData);
 
 		client.getMsgHandler().sendMsg(Command.MSG_MAGIC, req.build().toByteString(), new MagicMsgReceiver(command, functionName, "法宝强化"));
 		return true;
