@@ -208,6 +208,11 @@ public class MagicHandler {
 		
 		int smeltAptitude = aptitudeValue + aptitudeChange;
 		
+		//防止资质变0
+		if (smeltAptitude == 0) {
+			smeltAptitude = 1;
+		}
+		
 		// 消耗物品
 		boolean success = itemBagMgr.useLikeBoxItem(useItemList, null);
 		if (!success) {
