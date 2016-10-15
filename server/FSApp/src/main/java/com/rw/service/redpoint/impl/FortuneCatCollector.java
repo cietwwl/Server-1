@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
@@ -20,13 +23,23 @@ public class FortuneCatCollector implements RedPointCollector {
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
 		ActivityFortuneCatTypeItemHolder fortuneCatHolder = ActivityFortuneCatTypeItemHolder.getInstance();
-		List<ActivityFortuneCatTypeItem> fortuneCatItemList = fortuneCatHolder.getItemList(player.getUserId());
-		for (ActivityFortuneCatTypeItem item : fortuneCatItemList) {
-			ActivityFortuneCatTypeCfg cfg = ActivityFortuneCatTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
-			if (cfg == null) {
+		List<ActivityFortuneCatTypeItem> fortuneCatItemList = null;
+		List<ActivityFortuneCatTypeCfg> cfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
+		for(ActivityFortuneCatTypeCfg cfg : cfgList){
+			if (!ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)) {
 				continue;
 			}
-			if (!ActivityFortuneCatTypeMgr.getInstance().isOpen(cfg)) {
+			if(fortuneCatItemList == null){
+				fortuneCatItemList = fortuneCatHolder.getItemList(player.getUserId());
+			}
+			ActivityFortuneCatTypeItem item = null;
+			for(ActivityFortuneCatTypeItem temp : fortuneCatItemList){
+				if(StringUtils.equals(temp.getId()+"", ActivityFortuneTypeEnum.FortuneCat.getCfgId())){
+					item = temp;
+					break;
+				}
+			}
+			if(item == null){
 				continue;
 			}
 			if (!item.isTouchRedPoint()) {
@@ -46,8 +59,9 @@ public class FortuneCatCollector implements RedPointCollector {
 			if (sub != null && player.getUserGameDataMgr().getGold() >= Integer.parseInt(sub.getCost()) && player.getVip() >= sub.getVip()) {
 				activityList.add(item.getCfgId());
 				break;
-			}
+			}			
 		}
+		
 
 		if (!activityList.isEmpty()) {
 			map.put(RedPointType.FORTUNE_CAT, activityList);

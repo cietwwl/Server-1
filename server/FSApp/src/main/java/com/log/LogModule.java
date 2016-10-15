@@ -48,6 +48,7 @@ public enum LogModule {
 	DataSynService("数据同步服务"),
 	GameWorld("公用对象模块"),
 	RefOpt("反射优化模块"),
+	Skill("技能模块"),
 	;
 	
 	private String name;

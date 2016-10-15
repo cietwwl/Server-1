@@ -62,7 +62,7 @@ public class MapItemCache<K, V> extends DataCache<K, V> {
 		public boolean extractParams(Object key, List<Object[]> updateList) {
 			CacheValueEntity<V> entity = cache.getWithOutMove(this.key);
 			if (entity == null) {
-				FSUtilLogger.error(name + " get update params:" + key + "," + this.key + "," + getThreadAndTime());
+				FSUtilLogger.error(name + " get update params fail:" + key + "," + this.key + "," + getThreadAndTime());
 				return false;
 			}
 			return loader.extractParams(key, entity.getValue(), updateList);

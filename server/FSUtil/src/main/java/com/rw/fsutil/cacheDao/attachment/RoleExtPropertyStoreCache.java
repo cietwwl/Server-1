@@ -1,6 +1,6 @@
 package com.rw.fsutil.cacheDao.attachment;
 
-import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +13,16 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
+import com.rw.fsutil.common.NameFilterIntrospector;
+import com.rw.fsutil.dao.annotation.ClassHelper;
+import com.rw.fsutil.dao.annotation.ClassInfo;
+import com.rw.fsutil.dao.annotation.OwnerId;
 import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
 import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.MapItemCache;
-import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
 import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
@@ -30,6 +33,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 	private final MapItemCache<String, PlayerExtPropertyStoreImpl<T>> cache;
 	private final Short type;
 	private final Class<T> entityClass;
+	private final ClassInfo clasInfo;
 	private final ObjectMapper mapper;
 	private final RoleExtPropertyManager dataAccessManager;
 
@@ -37,6 +41,9 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		this.mapper = new ObjectMapper();
 		this.type = type;
 		this.entityClass = entityClass;
+		this.clasInfo = new ClassInfo(entityClass, ClassHelper.getFirstAnnotateFieldName(entityClass, OwnerId.class));
+		NameFilterIntrospector nameFilter = new NameFilterIntrospector(clasInfo.getPrimaryKey(),clasInfo.getOwnerFieldName());
+		this.mapper.setAnnotationIntrospector(nameFilter); 
 		this.dataAccessManager = extPropertyManager;
 		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
 	}
@@ -83,12 +90,20 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		});
 	}
 
-	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, IOException {
+	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, Exception {
 		int size = datas.size();
+		Field keyField = this.clasInfo.getIdField();
+		Field roleField = this.clasInfo.getOwnerField();
 		ArrayList<PlayerExtPropertyData<T>> result = new ArrayList<PlayerExtPropertyData<T>>(size);
 		for (int i = 0; i < size; i++) {
 			QueryRoleExtPropertyData query = datas.get(i);
 			T entity = mapper.readValue(query.getExtension(), entityClass);
+			if (keyField != null) {
+				keyField.set(entity, query.getSubType());
+			}
+			if (roleField != null) {
+				roleField.set(entity, query.getOwnerId());
+			}
 			if (entity == null) {
 				throw new RuntimeException("parse entity fail:" + entityClass + "," + query.getExtension());
 			}

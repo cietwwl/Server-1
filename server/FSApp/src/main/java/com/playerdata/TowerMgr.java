@@ -342,8 +342,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return;
 		}
 
-		angleArrayData.setResetTimes(0);
-		angleArrayDao.update(userId);
+		if (angleArrayData.getResetTimes() != 0) {
+			angleArrayData.setResetTimes(0);
+			angleArrayDao.update(userId);
+		}
 	}
 
 	/**

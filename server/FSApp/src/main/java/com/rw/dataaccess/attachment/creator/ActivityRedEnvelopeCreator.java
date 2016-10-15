@@ -17,17 +17,12 @@ public class ActivityRedEnvelopeCreator implements PlayerExtPropertyCreator<Acti
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityRedEnvelopeTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
 
 	@Override
 	public List<ActivityRedEnvelopeTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityRedEnvelopeTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityRedEnvelopeTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,6 +31,12 @@ public class ActivityRedEnvelopeCreator implements PlayerExtPropertyCreator<Acti
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityRedEnvelopeTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

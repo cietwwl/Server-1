@@ -2,61 +2,51 @@ package com.rwbase.dao.skill.pojo;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
-import com.rw.fsutil.dao.annotation.CombineSave;
-import com.rw.fsutil.dao.annotation.NonSave;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 @Table(name = "skill_item")
-public class SkillItem implements IMapItem, SkillIF {
+public class SkillItem implements RoleExtProperty, SkillIF {
 
 	@Id
-	private String id;
+	private Integer id;
+	@OwnerId
 	private String ownerId;
-	@CombineSave
-	private String skillId;
-	@CombineSave
-	private int level;// 如果0级说明没开放
-	@CombineSave
-	private int order;// 第几个技能
-	// /////////////////////////////////////可以用配置表中的配置获取到这些数据，不记录在数据库
-	// @Transient
-	// @NonSave
-	// private List<Integer> buffId = new ArrayList<Integer>();
-	// @Transient
-	// @NonSave
-	// private List<Integer> selfBuffId = new ArrayList<Integer>();
 
-	@Transient
-	@NonSave
+	private String skillId;
+
+	private int level;// 如果0级说明没开放
+	
+	private int order;// 第几个技能
+	@JsonIgnore
 	private float skillRate;
-	@Transient
-	@NonSave
+	@JsonIgnore
 	private int extraDamage;
-	@Transient
-	@NonSave
+	@JsonIgnore
 	private int skillDamage;
-	@Transient
+	@JsonIgnore
 	private List<String> skillListeners;// 监听的Id
 
 	public SkillItem() {
 		skillListeners = new ArrayList<String>();
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public String strId() {
+		return String.valueOf(id);
+	}
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -92,14 +82,6 @@ public class SkillItem implements IMapItem, SkillIF {
 		this.extraDamage = extraDamage;
 	}
 
-	// public List<Integer> getBuffId() {
-	// return buffId;
-	// }
-	//
-	// public void setBuffId(List<Integer> buffId) {
-	// this.buffId = buffId;
-	// }
-
 	public String getOwnerId() {
 		return ownerId;
 	}
@@ -132,11 +114,4 @@ public class SkillItem implements IMapItem, SkillIF {
 		this.skillListeners = skillListeners;
 	}
 
-	// public List<Integer> getSelfBuffId() {
-	// return selfBuffId;
-	// }
-	//
-	// public void setSelfBuffId(List<Integer> selfBuffId) {
-	// this.selfBuffId = selfBuffId;
-	// }
 }

@@ -1,12 +1,13 @@
 package com.rw.dataaccess.attachment;
 
+import java.util.Collections;
 import java.util.List;
+
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public interface RoleExtPropertyCreator<T extends RoleExtProperty,Param> {
-
 
 	/**
 	 * <pre>
@@ -20,19 +21,23 @@ public interface RoleExtPropertyCreator<T extends RoleExtProperty,Param> {
 
 	/**
 	 * <pre>
-	 * 检查是否到了开放时间
-	 * 在开放时间内或者没有开放时间限制，返回true
+	 * 检查是否需要预加载
+	 * 一般发生在玩家主动加载数据(如登录)的时候进行检查
+	 * 返回true表示需要对数据预加载
 	 * </pre>
 	 * 
 	 * @param currentTimeMillis
 	 * @return
 	 */
-	public boolean validateOpenTime(long currentTimeMillis);
+	public boolean requiredToPreload(Param params);
 
 	/**
 	 * <pre>
-	 * 首次创建
-	 * 当数据库没有任何记录的时候会调用此方法
+	 * 当{@link #requiredToPreload(Object)}返回true但数据库不存在记录时
+	 * 必然回调此方法创建记录，合并后批量插入到数据库
+	 * 如果数据库不存在记录，逻辑不希望生成新的记录但后续需要访问这个类型{@link PlayerExtPropertyStore}
+	 * 可以通过返回空列表{@link Collections#emptyList()}指定，这样可以达到在不生成记录的情况下，减少对这个类型的{@link PlayerExtPropertyStore}数据库查询操作
+	 * 如此性能是最佳的
 	 * </pre>
 	 * @param params
 	 * @return
