@@ -24,7 +24,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         userGameDataCopy.setBuyPowerTimes(entity.getBuyPowerTimes());
         userGameDataCopy.setBuyCoinTimes(entity.getBuyCoinTimes());
         userGameDataCopy.setBuySkillTimes(entity.getBuySkillTimes());
-        userGameDataCopy.setLastLoginTime(entity.getLastLoginTime());
         userGameDataCopy.setRookieFlag(entity.getRookieFlag());
         userGameDataCopy.setFreeChat(entity.getFreeChat());
         userGameDataCopy.setLastAddPowerTime(entity.getLastAddPowerTime());
@@ -107,12 +106,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         if (buySkillTimes1 != buySkillTimes2) {
             entity1.setBuySkillTimes(buySkillTimes2);
             jsonMap = writer.write(jsonMap, "buySkillTimes", buySkillTimes2);
-        }
-        long lastLoginTime1 = entity1.getLastLoginTime();
-        long lastLoginTime2 = entity2.getLastLoginTime();
-        if (lastLoginTime1 != lastLoginTime2) {
-            entity1.setLastLoginTime(lastLoginTime2);
-            jsonMap = writer.write(jsonMap, "lastLoginTime", lastLoginTime2);
         }
         int rookieFlag1 = entity1.getRookieFlag();
         int rookieFlag2 = entity2.getRookieFlag();
@@ -300,9 +293,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         if (entity1.getBuySkillTimes() != entity2.getBuySkillTimes()) {
             return true;
         }
-        if (entity1.getLastLoginTime() != entity2.getLastLoginTime()) {
-            return true;
-        }
         if (entity1.getRookieFlag() != entity2.getRookieFlag()) {
             return true;
         }
@@ -380,7 +370,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
 
     @Override
     public JSONObject toJson(UserGameData entity) {
-        JSONObject json = new JSONObject(34);
+        JSONObject json = new JSONObject(33);
         json.put("userId", entity.getUserId());
         json.put("version", entity.getVersion());
         json.put("iphone", entity.isIphone());
@@ -390,7 +380,6 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         json.put("buyPowerTimes", entity.getBuyPowerTimes());
         json.put("buyCoinTimes", entity.getBuyCoinTimes());
         json.put("buySkillTimes", entity.getBuySkillTimes());
-        json.put("lastLoginTime", entity.getLastLoginTime());
         json.put("rookieFlag", entity.getRookieFlag());
         json.put("freeChat", entity.getFreeChat());
         json.put("lastAddPowerTime", entity.getLastAddPowerTime());

@@ -1,10 +1,13 @@
 package com.playerdata.teambattle.data;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 import com.common.HPCUtil;
 
 public class TBTeamNotFullContainer {
@@ -89,6 +92,29 @@ public class TBTeamNotFullContainer {
 			}
 			int randomIndex = random.nextInt(size);
 			return list.get(randomIndex);
+		} finally {
+			readLock.unlock();
+		}
+	}
+	
+	public List<String> getRandomTeam(int count) {
+		Random random = HPCUtil.getRandom();
+		List<String> result = new ArrayList<String>();
+		readLock.lock();
+		try {
+			int size = list.size();
+			if(size <= 0) {
+				return result;
+			}
+			if(size < count){
+				Collections.copy(result, list);
+				return result;
+			}
+			int randomIndex = random.nextInt(size);
+			for(int i = 0; i < count; i++){
+				result.add(list.get((randomIndex + i)%size));
+			}
+			return result;
 		} finally {
 			readLock.unlock();
 		}

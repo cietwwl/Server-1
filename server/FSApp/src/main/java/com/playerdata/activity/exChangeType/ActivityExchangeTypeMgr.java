@@ -12,6 +12,9 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
+import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeDropCfg;
@@ -27,6 +30,8 @@ import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -42,7 +47,9 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public void synCountTypeData(Player player) {
-		ActivityExchangeTypeItemHolder.getInstance().synAllData(player);
+		if(isOpen(System.currentTimeMillis())){
+			ActivityExchangeTypeItemHolder.getInstance().synAllData(player);
+		}		
 	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
@@ -54,34 +61,23 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-//		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
-//		String userId = player.getUserId();
-//		List<ActivityExchangeTypeItem> addItemList = createItems(userId, dataHolder.getItemStore(userId));
-//		if (addItemList != null) {
-//			dataHolder.addItemList(player, addItemList);
-//		}
-		
 		String userId = player.getUserId();
-		List<ActivityExchangeTypeItem> addList = null;
-//		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityExchangeTypeItem.class);
-		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
-		PlayerExtPropertyStore<ActivityExchangeTypeItem> store = null;
-		try {
-			store = storeCach.getStore(userId);
-			addList = createItems(userId, store);
-			if(addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
+//		List<ActivityExchangeTypeItem> addList = null;
+//		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
+//		PlayerExtPropertyStore<ActivityExchangeTypeItem> store = null;
+//		try {
+//			store = storeCach.getStore(userId);
+			createItems(userId, true);
+//			if(addList != null){
+//				store.addItem(addList);
+//			}
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (Throwable e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}		
 	}
 
 	/**
@@ -92,7 +88,9 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	 * @param mapItemStore
 	 * @return
 	 */
-	public List<ActivityExchangeTypeItem> createItems(String userId, PlayerExtPropertyStore<ActivityExchangeTypeItem> itemStore) {
+	public List<ActivityExchangeTypeItem> createItems(String userId, boolean isHasPlayer) {
+		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
+		PlayerExtPropertyStore<ActivityExchangeTypeItem> store = null;
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
 		ActivityExchangeTypeSubCfgDAO dao = ActivityExchangeTypeSubCfgDAO.getInstance();
@@ -107,10 +105,22 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			}
 //			String itemID = ActivityExChangeTypeHelper.getItemId(userId, activityExChangeTypeEnum);
 			int id = Integer.parseInt(activityExChangeTypeEnum.getCfgId());
-			if (itemStore != null) {
-				if (itemStore.get(id)!= null) {
-					continue;
+			if(isHasPlayer){
+				try {
+					store = storeCach.getStore(userId);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				if (store != null) {				
+					if (store.get(id) != null) {
+						continue;
+					}
+				}				
 			}
 			ActivityExchangeTypeItem item = new ActivityExchangeTypeItem();	
 			item.setId(id);
@@ -137,6 +147,15 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			}
 			addItemList.add(item);
 		}
+		
+		if(isHasPlayer&&addItemList != null){
+			try {
+				store.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return addItemList;
 	}
 
@@ -152,63 +171,120 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 
 	private void checkCfgVersion(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
-		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
-		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem targetItem : itemList) {
-			ActivityExchangeTypeCfg targetCfg = activityExchangeTypeCfgDAO.getCfgListByItem(targetItem);
-			if (targetCfg == null) {
+		ActivityExchangeTypeCfgDAO dao = ActivityExchangeTypeCfgDAO.getInstance();
+		List<ActivityExchangeTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityExchangeTypeCfg> cfgList = dao.getAllCfg();
+		for(ActivityExchangeTypeCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
 			}
-
-			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityExchangeTypeCfgDAO.newItemList( targetCfg));
-				dataHolder.updateItem(player, targetItem);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
 			}
+			ActivityExchangeTypeItem freshItem = null;
+			for(ActivityExchangeTypeItem item : itemList){
+				if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
+				continue;
+			}
+			freshItem.reset(cfg, dao.newItemList( cfg));
+			dataHolder.updateItem(player, freshItem);
 		}
 	}
 
 	private void checkOtherDay(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
-		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
-		List<ActivityExchangeTypeItem> itemlist = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem targetItem : itemlist) {
-			ActivityExchangeTypeCfg targetCfg = activityExchangeTypeCfgDAO.getCfgById(targetItem.getCfgId());
-			if (targetCfg == null) {
+		ActivityExchangeTypeCfgDAO dao = ActivityExchangeTypeCfgDAO.getInstance();
+		List<ActivityExchangeTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityExchangeTypeCfg> cfgList = dao.getAllCfg();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityExchangeTypeCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
 			}
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, targetItem.getLasttime())) {
-				targetItem.setLasttime(System.currentTimeMillis());
-				List<ActivityExchangeTypeSubItem> subitemlist = targetItem.getSubItemList();
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityExchangeTypeItem freshItem = null;
+			for(ActivityExchangeTypeItem item : itemList){
+				if(StringUtils.equals(item.getVersion(), cfg.getVersion())&&StringUtils.equals(item.getEnumId(), cfg.getEnumId())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
+				continue;
+			}
+			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLasttime())) {
+				freshItem.setLasttime(currentTime);
+				List<ActivityExchangeTypeSubItem> subitemlist = freshItem.getSubItemList();
 				for (ActivityExchangeTypeSubItem subitem : subitemlist) {
 					if (subitem.isIsrefresh()) {
 						subitem.setTime(0);
 					}
 				}
-				dataHolder.updateItem(player, targetItem);
+				dataHolder.updateItem(player, freshItem);
 			}
-
 		}
 	}
 
 	private void checkClose(Player player) {
 		ActivityExchangeTypeItemHolder dataHolder = ActivityExchangeTypeItemHolder.getInstance();
-		ActivityExchangeTypeCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeCfgDAO.getInstance();
-		List<ActivityExchangeTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityExchangeTypeItem item : itemList) {
-			if (item.isClosed()) {
+		ActivityExchangeTypeCfgDAO dao = ActivityExchangeTypeCfgDAO.getInstance();
+		List<ActivityExchangeTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityExchangeTypeCfg> cfgList = dao.getAllCfg();
+		long createTime = player.getUserDataMgr().getCreateTime();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityExchangeTypeCfg cfg : cfgList){
+			if(isOpen(cfg)){//配置开启
 				continue;
 			}
-			ActivityExchangeTypeCfg cfg = activityExchangeTypeCfgDAO.getCfgById(item.getCfgId());
-			if (cfg == null) {
+			if(createTime>cfg.getChangeEndTime()){//配置过旧
 				continue;
 			}
-			if (isOpen(cfg)) {
+			if(currentTime < cfg.getChangeStartTime()){//配置过新
 				continue;
 			}
-			item.setClosed(true);
-			item.setTouchRedPoint(true);
-			dataHolder.updateItem(player, item);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityExchangeTypeItem closeItem = null;
+			for(ActivityExchangeTypeItem item : itemList){
+				if(StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					closeItem = item;
+					break;
+				}			
+			}
+			if(closeItem == null){
+				continue;
+			}			
+			if (!closeItem.isClosed()) {
+				closeItem.setClosed(true);
+				closeItem.setTouchRedPoint(true);
+				dataHolder.updateItem(player, closeItem);
+			}			
 		}
+		
+		
+		
+		
+//		for (ActivityExchangeTypeItem item : itemList) {
+//			if (item.isClosed()) {
+//				continue;
+//			}
+//			ActivityExchangeTypeCfg cfg = dao.getCfgById(item.getCfgId());
+//			if (cfg == null) {
+//				continue;
+//			}
+//			if (isOpen(cfg)) {
+//				continue;
+//			}
+//			item.setClosed(true);
+//			item.setTouchRedPoint(true);
+//			dataHolder.updateItem(player, item);
+//		}
 	}
 
 	public boolean isLevelEnough(Player player, ActivityExchangeTypeCfg cfg) {

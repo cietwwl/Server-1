@@ -3,7 +3,6 @@ package com.bm.arena;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -227,7 +226,8 @@ public class RobotManager {
 			lv = roleLevel;
 		}
 //		hero.SetHeroLevel(lv);
-		FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
+//		FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
+		hero.setLevel(lv);
 		heroList.add(hero);
 	}
 
@@ -239,8 +239,10 @@ public class RobotManager {
 		}
 //		hero.setStarLevel(startLevel);
 //		hero.setQualityId(getQualityId(hero, quality));
-		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
-		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
+//		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
+		hero.setStarLevel(startLevel);
+//		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
+		hero.setQualityId(getQualityId(hero, quality));
 	}
 
 	private static String getQualityId(Hero hero, int quality) {
@@ -590,10 +592,12 @@ public class RobotManager {
 			player.getUserDataMgr().setHeadId(headImage);
 			
 			player.getUserDataMgr().setUserName(userName);
-			player.SetLevel(level);
+//			player.SetLevel(level);
 
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
-			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
+			mainRoleHero.setLevel(level);
+			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
+//			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石

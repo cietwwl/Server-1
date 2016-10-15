@@ -7,12 +7,6 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class TBTeamItemHolder{
 	
-	private static TBTeamItemHolder instance = new TBTeamItemHolder();
-	
-	public static TBTeamItemHolder getInstance(){
-		return instance;
-	}
-	
 	private TBTeamItem teamItem = null;
 	
 	private SynDataListHolder<TBTeamItem> listHolder = new SynDataListHolder<TBTeamItem>(TBTeamItem.class);

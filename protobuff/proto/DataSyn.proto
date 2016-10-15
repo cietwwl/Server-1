@@ -140,6 +140,8 @@ enum eSynType	//数据同步类型
 	GCompMember = 113; // 帮战个人信息
 	DropSameScene = 114;	//删除一个同屏场景
 	GCompFightInfoInScene = 115;	//同屏场景内的积分、连胜等信息的同步
+	
+	PRAISE_SYN = 116;//点赞数据的同步
 }
 
 message MsgDataSynList

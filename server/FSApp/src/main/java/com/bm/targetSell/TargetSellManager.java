@@ -201,7 +201,7 @@ public class TargetSellManager {
 		dataDao.update(record);
 		
 		//通知前端
-		if(record.getItemMap() != null && !record.getItemMap().isEmpty()){
+		if(record.getItemMap() != null){
 			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime()));
 		}
 	}
@@ -579,10 +579,11 @@ public class TargetSellManager {
 	 * @param itemGroupId
 	 * @return
 	 */
-	public ByteString roleGetItem(Player player, int itemGroupId) {
+	public ByteString roleGetItem(Player player, TargetSellReqMsg request) {
+		int itemGroupId = request.getItemGroupId();
 		TargetSellRespMsg.Builder respMsg = TargetSellRespMsg.newBuilder();
 		try {
-			
+			respMsg.setReqType(request.getReqType());
 			TargetSellRecord record = dataDao.get(player.getUserId());
 			
 			if(record == null){
@@ -600,7 +601,7 @@ public class TargetSellManager {
 			//判断领取次数
 			Map<Integer, Integer> recieveMap = record.getRecieveMap();
 			
-			if(recieveMap.containsKey(itemGroupId) && recieveMap.get(itemGroupId) <= 0){
+			if(recieveMap!= null && recieveMap.containsKey(itemGroupId) && recieveMap.get(itemGroupId) <= 0){
 				respMsg.setIsSuccess(false);
 				respMsg.setTipsMsg("已经达到可领取上限，不可再领取");
 				return respMsg.build().toByteString();
@@ -613,7 +614,12 @@ public class TargetSellManager {
 			if(addItem){
 				//通知精准服，玩家领取了道具,同时保存一下可领取次数
 				notifyBenefitServerRoleGetItem(player, itemGroupId);
+				if(recieveMap == null){
+					recieveMap = new HashMap<Integer, Integer>();
+				}
 				recieveMap.put(itemGroupId, items.getPushCount() - 1);
+				int benefitScore = record.getBenefitScore();
+				record.setBenefitScore(benefitScore - items.getRecharge());
 			}
 			dataDao.update(record);
 			respMsg.setIsSuccess(true);
@@ -636,7 +642,7 @@ public class TargetSellManager {
 		String itemIds = item.getItemIds();
 		String[] itemData = itemIds.split(",");
 		for (String subStr : itemData) {
-			String[] sb = subStr.split("*");
+			String[] sb = subStr.split("\\*");
 			ItemInfo i;
 			if(sb.length < 2){
 				 i = new ItemInfo(Integer.parseInt(sb[0].trim()), 1);

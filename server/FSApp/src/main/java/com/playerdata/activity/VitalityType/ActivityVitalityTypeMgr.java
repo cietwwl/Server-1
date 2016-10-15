@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
@@ -22,16 +20,13 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityItemHolder;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubBoxItem;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
-import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfg;
-import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
-import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
+
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.util.DateUtils;
 
 public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 
@@ -44,8 +39,10 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public void synVitalityTypeData(Player player) {
-		checkCfgVersion(player);
-		ActivityVitalityItemHolder.getInstance().synAllData(player);
+		if(isOpen(System.currentTimeMillis())){
+			checkCfgVersion(player);
+			ActivityVitalityItemHolder.getInstance().synAllData(player);
+		}
 	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
@@ -57,38 +54,28 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-//		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-//		List<ActivityVitalityTypeItem> addItemList = null;
-//		String userId = player.getUserId();
-//		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-//		if (addItemList != null) {
-//			dataHolder.addItemList(player, addItemList);
-//		}
-		
 		String userId = player.getUserId();
-		List<ActivityVitalityTypeItem> addList = null;
-		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
-//		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityVitalityTypeItem.class);
-		
-		PlayerExtPropertyStore<ActivityVitalityTypeItem> store = null;
-		try {
-			store = storeCach.getStore(userId);
-			addList = creatItems(userId, store);
-			if(addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
+//		List<ActivityVitalityTypeItem> addList = null;
+//		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
+//		PlayerExtPropertyStore<ActivityVitalityTypeItem> store = null;
+//		try {
+//			store = storeCach.getStore(userId);
+			creatItems(userId, true);
+//			if(addList != null){
+//				store.addItem(addList);
+//			}
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (Throwable e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}		
 	}
 
-	public List<ActivityVitalityTypeItem> creatItems(String userId, PlayerExtPropertyStore<ActivityVitalityTypeItem> itemStore) {
+	public List<ActivityVitalityTypeItem> creatItems(String userId, boolean isHasPlayer) {
+		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
+		PlayerExtPropertyStore<ActivityVitalityTypeItem> store = null;
 		List<ActivityVitalityTypeItem> addItemList = null;
 		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityCfg> allCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();
@@ -104,10 +91,22 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			}
 //			String itemId = ActivityVitalityTypeHelper.getItemId(userId, acVitalityTypeEnum);
 			int id = Integer.parseInt(acVitalityTypeEnum.getCfgId());
-			if (itemStore != null) {
-				if (itemStore.get(id) != null) {
-					continue;
+			if(isHasPlayer){
+				try {
+					store = storeCach.getStore(userId);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+				
+				if (store != null) {				
+					if (store.get(id) != null) {
+						continue;
+					}
+				}				
 			}
 			ActivityVitalityTypeItem item = new ActivityVitalityTypeItem();
 			item = dao.newItem(userId, cfg);
@@ -115,6 +114,14 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 				addItemList = new ArrayList<ActivityVitalityTypeItem>();
 			}
 			addItemList.add(item);
+		}
+		if(isHasPlayer&&addItemList != null){
+			try {
+				store.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return addItemList;
 	}
@@ -128,65 +135,116 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 
 	private void checkCfgVersion(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
-		List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {
-			ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgByItemOfVersion(activityVitalityTypeItem);
-			if (cfg == null) {
+		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
+		List<ActivityVitalityTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityVitalityCfg> cfgList = dao.getAllCfg();
+		for(ActivityVitalityCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
 			}
-			ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());
-			if (cfgenum == null) {
-				dataHolder.removeItem(player, activityVitalityTypeItem);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityVitalityTypeItem freshItem = null;
+			for(ActivityVitalityTypeItem item : itemList){
+				if(StringUtils.equals(item.getEnumId(), cfg.getEnumID())&&!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
 				continue;
 			}
-			if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
-				activityVitalityTypeItem.reset(cfg);
-				dataHolder.updateItem(player, activityVitalityTypeItem);
-			}
+			freshItem.reset(cfg);
+			dataHolder.updateItem(player, freshItem);
 		}
+		
+		
+//		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {
+//			ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgByItemOfVersion(activityVitalityTypeItem);
+//			if (cfg == null) {
+//				continue;
+//			}
+//			ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getEnumID());
+//			if (cfgenum == null) {
+//				dataHolder.removeItem(player, activityVitalityTypeItem);
+//				continue;
+//			}
+//			if (!StringUtils.equals(activityVitalityTypeItem.getVersion(), cfg.getVersion())) {
+//				activityVitalityTypeItem.reset(cfg);
+//				dataHolder.updateItem(player, activityVitalityTypeItem);
+//			}
+//		}
 	}
 
 	private void checkOtherDay(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		ActivityVitalityCfgDAO activityVitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
-		List<ActivityVitalityTypeItem> item = dataHolder.getItemList(player.getUserId());
-
-		for (ActivityVitalityTypeItem activityVitalityTypeItem : item) {
-			if (!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), activityVitalityTypeItem.getEnumId())) {
+		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
+		List<ActivityVitalityTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityVitalityCfg> cfgList = dao.getAllCfg();
+		for(ActivityVitalityCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
 			}
-			ActivityVitalityCfg cfg = activityVitalityCfgDAO.getCfgById(activityVitalityTypeItem.getCfgId());
-			if (cfg == null) {
+			if(!StringUtils.equals(ActivityVitalityTypeEnum.Vitality.getCfgId(), cfg.getEnumID())){
 				continue;
 			}
-			ActivityVitalityTypeEnum cfgenum = ActivityVitalityTypeEnum.getById(cfg.getId());
-			if (cfgenum == null) {
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityVitalityTypeItem freshItem = null;
+			for(ActivityVitalityTypeItem item : itemList){
+				if(StringUtils.equals(item.getEnumId(), cfg.getEnumID())&&StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
 				continue;
 			}
-			if (ActivityTypeHelper.isNewDayHourOfActivity(5, activityVitalityTypeItem.getLastTime())) {
-				sendEmailIfGiftNotTaken(player, activityVitalityTypeItem.getSubItemList());
-				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
-				activityVitalityTypeItem.reset(cfg);
-				dataHolder.updateItem(player, activityVitalityTypeItem);
+			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLastTime())) {
+				sendEmailIfGiftNotTaken(player, freshItem.getSubItemList());
+				sendEmailIfBoxGiftNotTaken(player, freshItem);
+				freshItem.reset(cfg);
+				dataHolder.updateItem(player, freshItem);
 			}
-		}
+		}	
 	}
 
 	private void checkClose(Player player) {
 		ActivityVitalityItemHolder dataHolder = ActivityVitalityItemHolder.getInstance();
-		List<ActivityVitalityTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-
-		for (ActivityVitalityTypeItem activityVitalityTypeItem : itemList) {// 每种活动
-			if (!isHasCfg(activityVitalityTypeItem)) {
+		List<ActivityVitalityTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
+		List<ActivityVitalityCfg> cfgList = dao.getAllCfg();
+		long createTime = player.getUserDataMgr().getCreateTime();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityVitalityCfg cfg : cfgList){
+			if(isOpen(cfg)){//配置开启
 				continue;
 			}
-			if (isClose(activityVitalityTypeItem) && !activityVitalityTypeItem.isClosed()) {
-				sendEmailIfGiftNotTaken(player, activityVitalityTypeItem.getSubItemList());
-				sendEmailIfBoxGiftNotTaken(player, activityVitalityTypeItem);
-				activityVitalityTypeItem.setClosed(true);
-				dataHolder.updateItem(player, activityVitalityTypeItem);
+			if(createTime>cfg.getEndTime()){//配置过旧
+				continue;
 			}
+			if(currentTime < cfg.getStartTime()){//配置过新
+				continue;
+			}
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityVitalityTypeItem closeItem = null;
+			for(ActivityVitalityTypeItem item : itemList){
+				if(StringUtils.equals(item.getEnumId(), cfg.getEnumID())&&StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					closeItem = item;
+					break;
+				}			
+			}
+			if(closeItem == null){
+				continue;
+			}			
+			if (!closeItem.isClosed()) {
+				sendEmailIfGiftNotTaken(player, closeItem.getSubItemList());
+				sendEmailIfBoxGiftNotTaken(player, closeItem);
+				closeItem.setClosed(true);
+				dataHolder.updateItem(player, closeItem);
+			}			
 		}
 	}
 
@@ -430,5 +488,65 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;
+	}
+
+	public List<String> haveRedPoint(Player player) {
+		List<String> redPointList = new ArrayList<String>();
+		ActivityVitalityItemHolder vitalityDataHolder = ActivityVitalityItemHolder.getInstance();
+		List<ActivityVitalityTypeItem> vitalityItemList = null;//vitalityDataHolder.getItemList(player.getUserId());
+		ActivityVitalitySubCfgDAO subCfgDAO = ActivityVitalitySubCfgDAO.getInstance();
+		ActivityVitalityCfgDAO vitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
+		List<ActivityVitalityCfg> cfgList = vitalityCfgDAO.getAllCfg();
+		for(ActivityVitalityCfg cfg : cfgList){
+			if(!isOpen(cfg)){
+				continue;
+			}
+			if(vitalityItemList == null){
+				vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
+			}
+			ActivityVitalityTypeItem item = null;//vitalityItemList.get(Integer.parseInt(cfg.getEnumID()));
+			for(ActivityVitalityTypeItem temp : vitalityItemList){
+				if(StringUtils.equals(temp.getId()+"", cfg.getEnumID())){
+					item = temp ;
+					break;
+				}
+			}
+			
+			if(item == null){
+				continue;
+			}
+			if (!item.isTouchRedPoint()) {
+				redPointList.add(item.getCfgId());
+				continue;
+			}
+			
+			List<ActivityVitalityTypeSubItem> vitalitySubItemList = item.getSubItemList();
+			for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
+				ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
+				if (subItemCfg == null) {
+					continue;
+				}
+				if (subItem.getCount() >= subItemCfg.getCount() && !subItem.isTaken()) {
+					redPointList.add(item.getCfgId());
+					break;
+				}
+			}
+			
+			List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = item.getSubBoxItemList();
+			for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
+				ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
+				if (cfg.isCanGetReward()) {
+					break;
+				}
+				if (subItemCfg == null) {
+					continue;
+				}
+				if (subItem.getCount() >= subItemCfg.getActiveCount() && !subItem.isTaken()) {
+					redPointList.add(item.getCfgId());
+					break;
+				}
+			}		
+		}
+		return redPointList;
 	}
 }

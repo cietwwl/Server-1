@@ -354,11 +354,11 @@ public class DataAccessSimpleSupport {
 	 * @param delList 删除列表
 	 * @return
 	 */
-	public <K, T> boolean insertAndDelete(ClassInfo classInfo, String addSql, List<T> addList, String delSql, List<K> delList, Integer type) throws DuplicatedKeyException, DataNotExistException {
+	public <K, T> boolean insertAndDelete(ClassInfo classInfo, String addSql, List<T> addList, String delSql, List<K> delList) throws DuplicatedKeyException, DataNotExistException {
 		String itemNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
-			insert(classInfo, addSql, addList, type);
+			insert(classInfo, addSql, addList);
 			int[] result = batchDelete(delSql, delList);
 			for (int i = result.length; --i >= 0;) {
 				if (result[i] <= 0) {
@@ -393,7 +393,7 @@ public class DataAccessSimpleSupport {
 	 * @throws DuplicatedKeyException
 	 * @throws Exception
 	 */
-	public <T> void insert(ClassInfo classInfo, String sql, final List<T> list, final Integer type) throws Exception {
+	public <T> void insert(ClassInfo classInfo, String sql, final List<T> list) throws Exception {
 		final int size = list.size();
 		if (size == 0) {
 			return;
@@ -412,9 +412,6 @@ public class DataAccessSimpleSupport {
 					int index = 0;
 					for (Object param : sqlContext) {
 						ps.setObject(++index, param);
-					}
-					if (type != null) {
-						ps.setInt(++index, type);
 					}
 				}
 
@@ -441,7 +438,7 @@ public class DataAccessSimpleSupport {
 	 * @throws DuplicatedKeyException
 	 * @throws Exception
 	 */
-	public <K, T> boolean insert(final ClassInfo classInfo, final String sql, K key, T target, final Integer type) throws DuplicatedKeyException, Exception {
+	public <K, T> boolean insert(final ClassInfo classInfo, final String sql, K key, T target) throws DuplicatedKeyException, Exception {
 		final List<Object> fieldValues = classInfo.extractInsertAttributes(target);
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		try {
@@ -452,9 +449,6 @@ public class DataAccessSimpleSupport {
 					for (Object param : fieldValues) {
 						index++;
 						ps.setObject(index, param);
-					}
-					if (type != null) {
-						ps.setInt(++index, type);
 					}
 					return ps;
 				}

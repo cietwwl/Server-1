@@ -27,6 +27,7 @@ import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -58,27 +59,13 @@ public class ActivityTimeCountTypeMgr {
 
 
 	private void checkNewOpen(Player player) {
-		String userId= player.getUserId();
-		List<ActivityTimeCountTypeItem> addList=null;
-		PlayerExtPropertyStore<ActivityTimeCountTypeItem> store =null;
-		RoleExtPropertyStoreCache<ActivityTimeCountTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECOUNT, ActivityTimeCountTypeItem.class);
-		try {
-			store = cach.getStore(userId);
-			addList = creatItems(userId, store);
-			if(addList != null){
-				store.addItem(addList);
-			}
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Throwable e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+//		String userId= player.getUserId();
+//		creatItems(userId, true);		
 	}
 	
-	public List<ActivityTimeCountTypeItem> creatItems(String userId,PlayerExtPropertyStore<ActivityTimeCountTypeItem> itemStore){		
+	public List<ActivityTimeCountTypeItem> creatItems(String userId,boolean isHasPlayer){		
+
+		
 		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
 		List<ActivityTimeCountTypeItem> addItemList = null;		
 		
@@ -94,11 +81,7 @@ public class ActivityTimeCountTypeMgr {
 			}
 			int id = Integer.parseInt(TimeCountTypeEnum.getCfgId());
 //			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
-			if(itemStore != null){
-				if(itemStore.get(id)!= null){
-					continue;
-				}
-			}			
+				
 			ActivityTimeCountTypeItem item = new ActivityTimeCountTypeItem();
 			item.setId(id);
 			item.setCfgId(TimeCountTypeEnum.getCfgId());
@@ -133,6 +116,8 @@ public class ActivityTimeCountTypeMgr {
 			
 			addItemList.add(item);					
 		}		
+		
+		
 		return addItemList;
 	}
 	
@@ -237,7 +222,7 @@ public class ActivityTimeCountTypeMgr {
 		if (istimeout) {
 			// 某个礼包处于可领取状态，不加时间
 			dataItem.setLastCountTime(currentTimeMillis);
-			dataHolder.updateItem(player, dataItem);
+			dataHolder.lazyUpdateItem(player, dataItem);
 			return;
 		}
 		if(isAllGet){
@@ -251,7 +236,7 @@ public class ActivityTimeCountTypeMgr {
 		}
 		// 礼包处于有效计时状态
 		dataItem.setLastCountTime(currentTimeMillis);
-		dataHolder.updateItem(player, dataItem);
+		dataHolder.lazyUpdateItem(player, dataItem);
 	}
 
 	
@@ -292,18 +277,13 @@ public class ActivityTimeCountTypeMgr {
 				}
 			}
 			
-			
-			
 			if (targetItem != null && !targetItem.isTaken()) {			
 				dataItem.setCount(1);
+				dataItem.setLastCountTime(DateUtils.getSecondLevelMillis());
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				result.setReason("领取成功");
 				checkGiftIsAllTake(player,dataItem);
-				
-				
-				
-				
 				dataHolder.updateItem(player, dataItem);
 			}
 		}

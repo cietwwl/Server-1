@@ -14,9 +14,11 @@ import com.rw.fsutil.cacheDao.mapItem.RowMapItem;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 
-public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends RowMapItem<K>> implements IRowMapItemContainer<K, E>{
+public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends RowMapItem<K>> implements IRowMapItemContainer<K, E> {
 
-	protected static final Object PRESENT = new Object();
+	protected static final Integer PRESENT = 1;
+
+	protected static final Integer LAZY_UPDATE = 2;
 
 	protected final String searchId;
 
@@ -24,7 +26,7 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 
 	private MapItemUpdater<String, K> updater;
 
-	protected final ConcurrentHashMap<K, Object> updatedMap;
+	protected final ConcurrentHashMap<K, Integer> updatedMap;
 
 	public RowMapItemContainer(List<T> itemList, String searchId, MapItemUpdater<String, K> updater) {
 		this.searchId = searchId;
@@ -33,7 +35,7 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 		if (size < 8) {
 			size = 8;
 		}
-		this.updatedMap = new ConcurrentHashMap<K, Object>(8, 1.0f, 1);
+		this.updatedMap = new ConcurrentHashMap<K, Integer>(8, 1.0f, 1);
 		this.itemMap = new ConcurrentHashMap<K, T>(size, 0.9f, 2);
 		for (T tmpItem : itemList) {
 			itemMap.put(tmpItem.getId(), tmpItem);
@@ -45,11 +47,20 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 		if (t == null) {
 			return false;
 		}
-		if (updatedMap.putIfAbsent(key, PRESENT) == null) {
+		if (trySubmitUpdate(key)) {
 			updater.submitUpdateTask(searchId, key);
 		} else {
 			updater.submitRecordTask(searchId);
 		}
+		return true;
+	}
+
+	public boolean lazyUpdate(K key) {
+		if (!itemMap.containsKey(key)) {
+			return false;
+		}
+		updatedMap.putIfAbsent(key, LAZY_UPDATE);
+		updater.submitRecordTask(searchId);
 		return true;
 	}
 
@@ -99,7 +110,7 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 				FSUtilLogger.error("update element not found:" + key + "," + this.searchId);
 				continue;
 			}
-			if (updatedMap.putIfAbsent(key, PRESENT) == null) {
+			if (trySubmitUpdate(key)) {
 				updateList.add(key);
 			}
 		}
@@ -110,6 +121,21 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 			updater.submitUpdateList(searchId, updateList);
 		} else {
 			updater.submitRecordTask(searchId);
+		}
+	}
+
+	private boolean trySubmitUpdate(K key) {
+		for (;;) {
+			Integer current = updatedMap.get(key);
+			if (current == PRESENT) {
+				return false;
+			} else if (current == LAZY_UPDATE) {
+				if (updatedMap.replace(key, LAZY_UPDATE, PRESENT)) {
+					return true;
+				}
+			} else if (updatedMap.putIfAbsent(key, PRESENT) == null) {
+				return true;
+			}
 		}
 	}
 
@@ -336,8 +362,8 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 	public int getSize() {
 		return itemMap.size();
 	}
-	
-	public boolean isEmpty(){
+
+	public boolean isEmpty() {
 		return itemMap.isEmpty();
 	}
 
@@ -349,8 +375,8 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 	public List<K> getReadOnlyKeyList() {
 		return new ArrayList<K>(itemMap.keySet());
 	}
-	
-	public boolean hasChanged(){
+
+	public boolean hasChanged() {
 		return !this.updatedMap.isEmpty();
 	}
 

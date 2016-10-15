@@ -17,17 +17,12 @@ public class ActivityTimeCardCreator implements PlayerExtPropertyCreator<Activit
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 
 	@Override
 	public List<ActivityTimeCardTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		
-		return ActivityTimeCardTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityTimeCardTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,6 +31,12 @@ public class ActivityTimeCardCreator implements PlayerExtPropertyCreator<Activit
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

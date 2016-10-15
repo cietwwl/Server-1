@@ -10,7 +10,7 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  */
 
 public interface EquipItemIF {
-	public String getId();
+	public Integer getId();
 
 	public String getOwnerId();
 

@@ -3,12 +3,10 @@ package com.playerdata;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -71,7 +69,7 @@ import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.playerext.PlayerTempAttribute;
-import com.rwbase.dao.fetters.FettersBM;
+import com.rwbase.dao.fetters.HeroFettersData;
 import com.rwbase.dao.fetters.HeroFettersDataHolder;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
@@ -90,6 +88,8 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.CfgChangeRoleInfoDAO;
 import com.rwbase.dao.user.LevelCfgDAO;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.pojo.ChangeRoleInfoCfg;
 import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwbase.dao.user.readonly.TableUserIF;
@@ -142,6 +142,7 @@ public class Player implements PlayerIF {
 	private DailyActivityMgr m_DailyActivityMgr = new DailyActivityMgr();
 	private DailyGifMgr dailyGifMgr = new DailyGifMgr();// 七日礼包
 	private MagicEquipFetterMgr me_FetterMgr = new MagicEquipFetterMgr();
+	private HeroFettersMgr heroFettersMgr = new HeroFettersMgr();// 英雄羁绊的Mgr
 
 	// 特权管理器
 	private PrivilegeManager privilegeMgr = new PrivilegeManager();
@@ -186,8 +187,8 @@ public class Player implements PlayerIF {
 
 	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();// 用户临时数据的同步
 
-	/** 羁绊的缓存数据<英雄的ModelId,List<羁绊的推送数据>> */
-	private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>();
+	// /** 羁绊的缓存数据<英雄的ModelId,List<羁绊的推送数据>> */
+	// private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>();
 	// private int logoutTimer = 0;
 
 	// 同步数据的版本记录
@@ -196,10 +197,6 @@ public class Player implements PlayerIF {
 	// 个人帮派秘境的Holder
 	private GroupSecretBaseInfoSynDataHolder baseHolder = new GroupSecretBaseInfoSynDataHolder();
 	private GroupSecretTeamInfoSynDataHolder teamHolder = new GroupSecretTeamInfoSynDataHolder();
-
-	public static Player newOld(String userId) {
-		return new Player(userId, true);
-	}
 
 	public void synByVersion(List<SyncVersion> versionList) {
 		dataSynVersionHolder.synByVersion(this, versionList);
@@ -257,30 +254,21 @@ public class Player implements PlayerIF {
 	}
 
 	public Player(final String userId, boolean initMgr, RoleCfg roleCfg) {
+		// long start = System.currentTimeMillis();
 		this.userId = userId;
+		this.userDataMgr = new UserDataMgr(this, userId);
 		if (!initMgr) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
-		} else {
-			MapItemStoreFactory.preloadIntegration(userId, getLevel());
-
 		}
 		this.tempAttribute = new PlayerTempAttribute();
-		userDataMgr = new UserDataMgr(this, userId);
-		// TODO 标记1
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
-
 		if (!initMgr) {
-			// MapItemStoreFactory.notifyPlayerCreated(userId);
-			// TODO 标记2
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
-			// TODO 标记3
+			RoleExtPropertyFactory.firstCreatePlayerExtProperty(userId, userDataMgr.getCreateTime(), getLevel());
 			notifyCreated();
 		}
-		// TODO 标记4
-		RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, this.getUserDataMgr().getCreateTime(), getLevel());
-
 		// 这两个mgr一定要初始化
 		itemBagMgr.init(this);
 		// 法宝数据
@@ -292,17 +280,15 @@ public class Player implements PlayerIF {
 
 		if (initMgr) {
 			initMgr();
-
-			// 检查主角羁绊
-			this.me_FetterMgr.checkPlayerData(this);
 		}
 
 		this.oneSecondTimeAction = PlayerTimeActionHelper.onSecond(this);
 
 		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
 
-		// TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
-		checkAllHeroFetters();
+		// // TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
+		// checkAllHeroFetters();
+		// System.out.println("init player：" + (System.currentTimeMillis() - start));
 	}
 
 	public Player(String userId, boolean initMgr) {
@@ -412,7 +398,6 @@ public class Player implements PlayerIF {
 					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
-					userGameDataMgr.setLastLoginTime(now);
 					getFriendMgr().onPlayerChange(player);
 					// logoutTimer = 0;
 					WorshipMgr.getInstance().pushByWorshiped(player);
@@ -451,6 +436,8 @@ public class Player implements PlayerIF {
 			notifyLogin();
 			initDataVersionControl();
 			dataSynVersionHolder.synAll(this);
+			// 检查主角羁绊
+			this.me_FetterMgr.checkPlayerData(this);
 			GroupMemberHelper.onPlayerLogin(this);
 			ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 			// TODO HC 登录之后检查一下万仙阵的数据
@@ -590,7 +577,7 @@ public class Player implements PlayerIF {
 			long now = System.currentTimeMillis();
 			getUserGameDataMgr().setLastResetTime5Clock(now);
 			onNewDay5ClockTimeAction.doAction();
-			UserGroupSecretBaseDataMgr.getMgr().resetGroupSecretData(this, now);
+			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, now);
 		}
 	}
 
@@ -1063,7 +1050,8 @@ public class Player implements PlayerIF {
 	}
 
 	public int getLevel() {
-		// return getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
+		// return
+		// getMainRoleHero().getRoleBaseInfoMgr().getBaseInfo().getLevel();
 		if (level == 0) {
 			level = getMainRoleHero().getLevel();
 		}
@@ -1430,16 +1418,6 @@ public class Player implements PlayerIF {
 		return powerInfo;
 	}
 
-	/**
-	 * 通过英雄的ModelId获取英雄的羁绊
-	 * 
-	 * @param modelId
-	 * @return
-	 */
-	public SynFettersData getHeroFettersByModelId(int modelId) {
-		return fettersMap.get(modelId);
-	}
-
 	public IPrivilegeManager getPrivilegeMgr() {
 		return privilegeMgr;
 	}
@@ -1449,57 +1427,65 @@ public class Player implements PlayerIF {
 	}
 
 	/**
+	 * 通过英雄的ModelId获取英雄的羁绊
+	 *
+	 * @param modelId
+	 * @return
+	 */
+	public SynFettersData getHeroFettersByModelId(int modelId) {
+		HeroFettersData data = heroFettersMgr.get(userId);
+		if (data == null) {
+			return null;
+		}
+
+		return data.getHeroFettersByModelId(modelId);
+	}
+
+	/**
 	 * 获取所有的英雄羁绊
-	 * 
+	 *
 	 * @return
 	 */
 	public List<SynFettersData> getAllHeroFetters() {
-		return new ArrayList<SynFettersData>(fettersMap.values());
+		HeroFettersData data = heroFettersMgr.get(userId);
+		if (data == null) {
+			return null;
+		}
+
+		return data.getAllHeroFetters();
 	}
 
 	/**
 	 * 增加英雄羁绊数据
-	 * 
+	 *
 	 * @param heroModelId
 	 * @param fettersData
 	 * @param canSyn 是否可以同步数据
 	 */
 	public void addOrUpdateHeroFetters(int heroModelId, SynFettersData fettersData, boolean canSyn) {
-		if (fettersData == null) {
+		HeroFettersData data = heroFettersMgr.get(userId);
+		if (data == null) {
 			return;
 		}
 
-		fettersMap.put(heroModelId, fettersData);
-
-		if (canSyn) {
-			// 同步到前端
-			HeroFettersDataHolder.syn(this, heroModelId);
-
-			// 重新计算属性
-			Hero hero = getHeroMgr().getHeroByModerId(this, heroModelId);
-			if (hero != null) {
-				AttrMgr attrMgr = hero.getAttrMgr();
-				if (attrMgr != null) {
-					attrMgr.reCal();
-				}
-			}
-		}
+		data.addOrUpdateHeroFetters(this, heroModelId, fettersData, canSyn);
 	}
 
-	/**
-	 * 检查所有英雄的羁绊
-	 */
-	private void checkAllHeroFetters() {
-		Enumeration<? extends Hero> herosEnumeration = getHeroMgr().getHerosEnumeration(this);
-		while (herosEnumeration.hasMoreElements()) {
-			Hero hero = herosEnumeration.nextElement();
-			if (hero == null) {
-				continue;
-			}
-
-			FettersBM.checkOrUpdateHeroFetters(this, hero.getModeId(), false);
-		}
-	}
+	//
+	// /**
+	// * 检查所有英雄的羁绊
+	// */
+	// private void checkAllHeroFetters() {
+	// Enumeration<? extends Hero> herosEnumeration = getHeroMgr().getHerosEnumeration(this);
+	// while (herosEnumeration.hasMoreElements()) {
+	// Hero hero = herosEnumeration.nextElement();
+	// if (hero == null) {
+	// continue;
+	// }
+	//
+	// FettersBM.checkOrUpdateHeroFetters(this, hero.getModeId(), false);
+	// }
+	// }
 
 	public UserTmpGameDataFlag getUserTmpGameDataFlag() {
 		return userTmpGameDataFlag;
@@ -1548,5 +1534,10 @@ public class Player implements PlayerIF {
 	 */
 	public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
 		this.lastTeamChatCahceTime = lastTeamChatCahceTime;
+	}
+
+	@Override
+	public long getLastLoginTime() {
+		return UserDataDao.getInstance().getByUserId(userId).getLastLoginTime();
 	}
 }

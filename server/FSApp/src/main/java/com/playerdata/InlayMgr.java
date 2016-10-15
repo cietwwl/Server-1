@@ -344,7 +344,7 @@ public class InlayMgr /*extends IDataMgr*/ {
 		for (int i = 0, size = gemList.size(); i < size; i++) {
 			InlayItem item = new InlayItem();
 			int templateId = gemList.get(i).intValue();
-			item.setId(InlayItemHelper.getItemId(heroId, templateId));
+			item.setId(templateId);
 			item.setModelId(templateId);
 			item.setOwnerId(heroId);
 			item.setSlotId(i);

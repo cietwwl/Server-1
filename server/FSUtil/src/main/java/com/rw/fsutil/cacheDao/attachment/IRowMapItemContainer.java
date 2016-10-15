@@ -15,6 +15,13 @@ public interface IRowMapItemContainer<K, E extends RowMapItem<K>> {
 	public boolean update(K key);
 
 	/**
+	 * 在元素剔除或者其他调用{@link #update(Object)}方法进行更新的时候才会更新
+	 * @param key
+	 * @return
+	 */
+	public boolean lazyUpdate(K key);
+	
+	/**
 	 * 提交更新一组数据
 	 * 
 	 * @param list

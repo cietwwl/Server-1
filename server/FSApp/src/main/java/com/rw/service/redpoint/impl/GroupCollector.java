@@ -76,7 +76,7 @@ public class GroupCollector implements RedPointCollector {
 				continue;
 			}
 
-			int checkLevel = studySkillLevel <= 0 ? 1 : studySkillLevel;
+			int checkLevel = studySkillLevel <= 0 ? 1 : (studySkillLevel + 1);
 			GroupSkillLevelTemplate skillLevelTemplate = dao.getSkillLevelTemplate(skillId, checkLevel);
 			if (skillLevelTemplate == null) {
 				continue;

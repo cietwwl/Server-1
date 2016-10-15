@@ -16,13 +16,14 @@ import com.rwproto.BattleCommon.eBattlePositionType;
 public class FSUserHeroGlobalDataMgr {
 
 	private static FSUserHeroGlobalDataMgr _INSTANCE = new FSUserHeroGlobalDataMgr();
-	
+
 	public static FSUserHeroGlobalDataMgr getInstance() {
 		return _INSTANCE;
 	}
-	
-	protected FSUserHeroGlobalDataMgr() {}
-	
+
+	protected FSUserHeroGlobalDataMgr() {
+	}
+
 	public void notifySingleFightingChange(String userId, String heroId, int newSingleValue, int preSingleValue) {
 		if (newSingleValue != preSingleValue) {
 			FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
@@ -34,26 +35,26 @@ public class FSUserHeroGlobalDataMgr {
 			FSUserHeroGlobalDataDAO.getInstance().update(globalData);
 		}
 	}
-	
+
 	public void increaseFightingAndStar(String userId, int addFighting, int addStar) {
 		FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
 		if (addFighting > 0) {
 			globalData.setFightingAll(globalData.getFightingAll() + addFighting);
 		}
-		if(addStar > 0) {
-			globalData.setFightingAll(globalData.getStartAll() + addStar);
+		if (addStar > 0) {
+			globalData.setStartAll(globalData.getStartAll() + addStar);
 		}
 		FSUserHeroGlobalDataDAO.getInstance().update(globalData);
 	}
-	
+
 	public void increaseFightingAll(String userId, int value) {
 		this.increaseFightingAndStar(userId, value, 0);
 	}
-	
+
 	public void increaseStarAll(String userId, int value) {
 		this.increaseFightingAndStar(userId, 0, value);
 	}
-	
+
 	public int getFightingTeam(String userId) {
 		FSUserHeroGlobalData userHeroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
 		List<Hero> heroList = new ArrayList<Hero>(5);
@@ -101,14 +102,23 @@ public class FSUserHeroGlobalDataMgr {
 		}
 		return userHeroGlobalData.getFightingTeam();
 	}
-	
+
 	public void setFightingAllAndStarAll(String userId, int fightingAll, int starAll) {
 		FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
-		globalData.setFightingAll(fightingAll);
-		globalData.setStartAll(starAll);
-		FSUserHeroGlobalDataDAO.getInstance().update(globalData);
+		boolean changed = false;
+		if (globalData.getFightingAll() != fightingAll) {
+			globalData.setFightingAll(fightingAll);
+			changed = true;
+		}
+		if (globalData.getStartAll() != starAll) {
+			globalData.setStartAll(starAll);
+			changed = true;
+		}
+		if(changed){
+			FSUserHeroGlobalDataDAO.getInstance().update(globalData);
+		}
 	}
-	
+
 	public int getFightingAll(String userId) {
 		// 新的内容
 		FSUserHeroGlobalData userHeroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);

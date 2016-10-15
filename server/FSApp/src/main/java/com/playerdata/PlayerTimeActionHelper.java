@@ -88,6 +88,13 @@ public class PlayerTimeActionHelper {
 		onNewHourTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
+				// TODO　HC 每个小时都检查一下是否需要重置刷新数据
+				ActivityCountTypeMgr.getInstance().checkActivity(player);
+			}
+		});
+		onNewHourTimeAction.addTask(new TimeActionTask() {
+			@Override
+			public void doTask() {
 				// TODO　HC 每个小时都检查一下是否需要重置万仙阵的匹配数据
 				player.getTowerMgr().checkAndResetMatchData(player);
 			}

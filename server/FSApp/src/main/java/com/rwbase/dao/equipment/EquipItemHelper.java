@@ -24,7 +24,7 @@ public class EquipItemHelper {
 		EquipItem equipItem = new EquipItem();
 		equipItem.setOwnerId(ownerId);
 		equipItem.setEquipIndex(equipIndex);
-		equipItem.setId(getItemId(ownerId, equipIndex));
+		equipItem.setId(equipIndex);
 		equipItem.setModelId(itemData.getModelId());
 		equipItem.setType(itemData.getType());
 
@@ -72,10 +72,6 @@ public class EquipItemHelper {
 
 		return itemData;
 
-	}
-
-	public static String getItemId(String ownerId, int slotId) {
-		return ownerId + "_" + slotId;
 	}
 
 }

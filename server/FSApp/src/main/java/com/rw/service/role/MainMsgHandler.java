@@ -73,12 +73,6 @@ public class MainMsgHandler {
 	}
 
 	private void sendPmdAll(ByteString pBuffer) {
-//		Map<String, Player> playeMap = PlayerMgr.getInstance().getAllPlayer();
-//		List<Player> list = new ArrayList<Player>();
-//		list.addAll(playeMap.values());
-//		for (Player player : list) {
-//			player.SendMsg(Command.MSG_MainMsg, pBuffer);
-//		}
 		UserChannelMgr.broadcastMsg(Command.MSG_MainMsg, pBuffer);
 	}
 
@@ -92,7 +86,7 @@ public class MainMsgHandler {
 	/** 祭坛抽到物品(非佣兵),物品id为 **/
 	public void sendPmdJtGoods(Player player, String goodsId) {
 		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
+		if (cfg != null && cfg.goods.indexOf(String.valueOf(goodsId)) != -1) {
 			List<String> arr = new ArrayList<String>();
 			arr.add(player.getUserName());
 			arr.add(goodsId + "");
@@ -103,8 +97,8 @@ public class MainMsgHandler {
 
 	/** 祭坛抽到特殊佣兵 **/
 	public void sendPmdJtYb(Player player, String goodsId) {
-		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
+		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(2);
+		if (cfg != null && cfg.goods.indexOf(String.valueOf(goodsId)) != -1) {
 			List<String> arr = new ArrayList<String>();
 			arr.add(player.getUserName());
 			arr.add(goodsId + "");
@@ -300,5 +294,9 @@ public class MainMsgHandler {
 		arr.add(player.getUserName());
 		arr.add(colors + fbName + "[-]");
 		sendPmd(13, arr);
+	}
+	
+	public void sendWorldBossPmb(Player player, int id, List<String> arr){
+		sendPmd(id, arr);
 	}
 }

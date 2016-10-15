@@ -26,12 +26,6 @@ public class FresherActivityCreator implements PlayerExtPropertyCreator<FresherA
 	}
 
 	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-
-		return true;
-	}
-
-	@Override
 	public List<FresherActivityBigItem> firstCreate(PlayerPropertyParams params) {
 		List<FresherActivityBigItem> result = new ArrayList<FresherActivityBigItem>();
 		Map<Integer, FresherActivityBigItem> map = new HashMap<Integer, FresherActivityBigItem>();
@@ -108,5 +102,10 @@ public class FresherActivityCreator implements PlayerExtPropertyCreator<FresherA
 		} else {
 			fresherActivityItem.setEndTime(fresherActivityCfg.getStartTime() * FresherActivityChecker.DAY_TIME + openTime + fresherActivityCfg.getEndTime() * FresherActivityChecker.DAY_TIME);
 		}
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		return true;
 	}
 }

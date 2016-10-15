@@ -1,9 +1,13 @@
 package com.rw.service.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
+import com.common.Weight;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
@@ -138,24 +142,19 @@ public class MainHandler {
 		int[] it = { cfgBuyCoin.getCritPercent1(), cfgBuyCoin.getCritPercent2(), cfgBuyCoin.getCritPercent3(), cfgBuyCoin.getCritPercent4(), cfgBuyCoin.getCritPercent5(),
 				cfgBuyCoin.getCritPercent6(), cfgBuyCoin.getCritPercent7(), cfgBuyCoin.getCritPercent8(), cfgBuyCoin.getCritPercent9(), cfgBuyCoin.getCritPercent10() };
 
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		for (int i = 0; i < it.length; i++) {
-			for (int j = 0; j < it[i]; j++) {
-				list.add(it[i]);
-			}
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		for (int i = 1; i <= it.length; i++) {
+			int j = it[i-1];
+			map.put(i, j);
+			
 		}
-		if (list.size() == 0) {
+		Weight<Integer> weight = new Weight<Integer>(map);
+		Integer result = weight.getRanResult();
+		if(result == null){
 			return 1;
+		}else{
+			return result;
 		}
-		Random random = new Random();
-		int listIndex = random.nextInt(list.size());
-		Integer integer = list.get(listIndex);
-		for (int k = 0; k < it.length; k++) {
-			if (integer == it[k]) {
-				return k + 1;
-			}
-		}
-		return 1;
 	}
 
 	/** 请求购买体力 */
@@ -263,6 +262,7 @@ public class MainHandler {
 	}
 
 	private TagCfgBuyCoin transformCfgBuyCoin(CfgBuyCoin cfgBuyCoin, int cityMultiple) {
+		System.out.println("--------------------time:" + cfgBuyCoin.getTimes() + ";cityMultiple:" + cityMultiple);
 		TagCfgBuyCoin.Builder tagCfgBuyCoinBuilder = TagCfgBuyCoin.newBuilder();
 		tagCfgBuyCoinBuilder.setTimes(cfgBuyCoin.getTimes()).setNeedPurse(cfgBuyCoin.getNeedPurse()).setCoin(cfgBuyCoin.getCoin()).setCityMultiple(cityMultiple);
 		return tagCfgBuyCoinBuilder.build();

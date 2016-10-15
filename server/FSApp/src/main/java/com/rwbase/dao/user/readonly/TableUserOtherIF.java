@@ -55,8 +55,6 @@ public interface TableUserOtherIF {
 //
 //	public List<String> getHeroIds();
 
-	public long getLastLoginTime();
-
 //	public int getFightingAll();
 //
 //	public int getFightingTeam();

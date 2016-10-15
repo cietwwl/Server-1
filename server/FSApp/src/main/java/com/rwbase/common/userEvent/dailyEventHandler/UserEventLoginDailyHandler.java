@@ -25,23 +25,16 @@ public class UserEventLoginDailyHandler implements IUserEventHandler {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				ActivityDailyTypeSubCfgDAO instance = ActivityDailyTypeSubCfgDAO
-						.getInstance();
-				if (instance.isOpen(instance
-						.getCfgMapByEnumid(ActivityDailyTypeEnum.LoginDaily
-								.getCfgId()))) {
-					ActivityDailyTypeMgr.getInstance().addCount(player,
-							ActivityDailyTypeEnum.LoginDaily, 1);
+				ActivityDailyTypeSubCfgDAO instance = ActivityDailyTypeSubCfgDAO.getInstance();
+				if (instance.isOpen(instance.getCfgMapByEnumid(ActivityDailyTypeEnum.LoginDaily.getCfgId()))) {
+					ActivityDailyTypeMgr.getInstance().addCount(player, ActivityDailyTypeEnum.LoginDaily, 1);
 				}
 			}
 
 			@Override
 			public void logError(Player player, Exception ex) {
-				StringBuilder reason = new StringBuilder(
-						ActivityDailyTypeEnum.LoginDaily.toString())
-						.append(" error");
-				GameLog.error(LogModule.UserEvent,
-						"userId:" + player.getUserId(), reason.toString(), ex);
+				StringBuilder reason = new StringBuilder(ActivityDailyTypeEnum.LoginDaily.toString()).append(" error");
+				GameLog.error(LogModule.UserEvent, "userId:" + player.getUserId(), reason.toString(), ex);
 			}
 		});
 

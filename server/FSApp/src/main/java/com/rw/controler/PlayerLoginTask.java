@@ -40,10 +40,6 @@ public class PlayerLoginTask implements PlayerTask {
 	private final boolean savePlot;
 	private final long submitTime;
 
-	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request) {
-		this(ctx, header, request, true, System.currentTimeMillis());
-	}
-
 	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request, boolean savePlot) {
 		this(ctx, header, request, savePlot, System.currentTimeMillis());
 	}
@@ -157,7 +153,7 @@ public class PlayerLoginTask implements PlayerTask {
 			}
 		});
 
-		long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+		long lastLoginTime = player.getLastLoginTime();
 		UserChannelMgr.bindUserID(userId, ctx, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		ByteString loginSynData = player.onLogin();
