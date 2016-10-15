@@ -31,7 +31,6 @@ public class UserGameData implements TableUserOtherIF {
 	private int buyPowerTimes;// 当天购买体力次数
 	private int buyCoinTimes;// 当天购买铜钱次数
 	private int buySkillTimes;// 当天购买技能次数
-	private long lastLoginTime;// 登陆时间chuo
 
 	private int rookieFlag;// 新手标志
 	private int freeChat;// 免费聊天次数
@@ -214,14 +213,6 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setSkillPointCount(int skillPointCount) {
 		this.skillPointCount = skillPointCount;
-	}
-
-	public long getLastLoginTime() {
-		return lastLoginTime;
-	}
-
-	public void setLastLoginTime(long lastLoginTime) {
-		this.lastLoginTime = lastLoginTime;
 	}
 
 	public String getHeadFrame() {

@@ -46,9 +46,9 @@ public class FSHeroHolder {
 	}
 	
 	private void synBaseInfoInternal(Player player, Hero hero, boolean updateToDB) {
-		FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
 		ClientDataSynMgr.synDataFiled(player, hero, _syn_type_base_info, eSynOpType.UPDATE_SINGLE, _namesOfBaseInfoSyncFields);
 		if (updateToDB) {
+			FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
 			this.notifyBaseInfoChange(hero);
 		}
 	}

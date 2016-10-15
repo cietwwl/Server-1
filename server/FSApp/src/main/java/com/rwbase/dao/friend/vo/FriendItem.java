@@ -46,7 +46,7 @@ public class FriendItem implements FriendItemIF {
 		newItem.setLevel(tableUser.getLevel());
 		newItem.setUserHead(tableUser.getHeadImageWithDefault());
 		newItem.setCareer(mainRoleHero.getCareerType());
-		newItem.setLastLoginTime(tableUserOther.getLastLoginTime());
+		newItem.setLastLoginTime(tableUser.getLastLoginTime());
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		//TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));

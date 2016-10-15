@@ -86,6 +86,8 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.CfgChangeRoleInfoDAO;
 import com.rwbase.dao.user.LevelCfgDAO;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.pojo.ChangeRoleInfoCfg;
 import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwbase.dao.user.readonly.TableUserIF;
@@ -391,7 +393,6 @@ public class Player implements PlayerIF {
 					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
-					userGameDataMgr.setLastLoginTime(now);
 					getFriendMgr().onPlayerChange(player);
 					// logoutTimer = 0;
 					WorshipMgr.getInstance().pushByWorshiped(player);
@@ -426,10 +427,10 @@ public class Player implements PlayerIF {
 		UserChannelMgr.onBSBegin(userId);
 		try {
 			notifyLogin();
-			// 检查主角羁绊
-			this.me_FetterMgr.checkPlayerData(this);
 			initDataVersionControl();
 			dataSynVersionHolder.synAll(this);
+			// 检查主角羁绊
+			this.me_FetterMgr.checkPlayerData(this);
 			GroupMemberHelper.onPlayerLogin(this);
 			ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 			// TODO HC 登录之后检查一下万仙阵的数据
@@ -1515,5 +1516,10 @@ public class Player implements PlayerIF {
 	 */
 	public void setLastTeamChatCahceTime(long lastTeamChatCahceTime) {
 		this.lastTeamChatCahceTime = lastTeamChatCahceTime;
+	}
+
+	@Override
+	public long getLastLoginTime() {
+		return UserDataDao.getInstance().getByUserId(userId).getLastLoginTime();
 	}
 }

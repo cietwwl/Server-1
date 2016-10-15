@@ -724,7 +724,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	private void changeFriendItem(FriendItem friendItem, Player player) {
 		friendItem.setUserId(player.getUserId());
 		friendItem.setUserName(player.getUserName());
-		friendItem.setLastLoginTime(player.getUserGameDataMgr().getLastLoginTime());
+		friendItem.setLastLoginTime(player.getLastLoginTime());
 		friendItem.setLevel(player.getLevel());
 		friendItem.setUserHead(player.getHeadImage());
 		friendItem.setCareer(player.getCareer());
