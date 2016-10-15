@@ -17,9 +17,10 @@ class RandomMatchingData implements IGCUnit {
 
 	private String userId; // 主角的userId
 	private List<String> heroIds; // 上阵的英雄id
-	private boolean cancel; // 是否已经取消
+	private volatile boolean cancel; // 是否已经取消
 	private boolean robot; // 是否机器人
 	private long deadline; // 匹配超时时间
+	private volatile boolean removed; // 是否已经删除了
 	
 	private RandomMatchingData() {}
 	
@@ -96,7 +97,7 @@ class RandomMatchingData implements IGCUnit {
 	 * @param value
 	 */
 	public void setCancel(boolean value) {
-		this.cancel = true;
+		this.cancel = value;
 	}
 	
 	/**
@@ -148,5 +149,18 @@ class RandomMatchingData implements IGCUnit {
 	 */
 	public void setDeadline(long pDeadline) {
 		this.deadline = pDeadline;
+	}
+
+	@Override
+	public String toString() {
+		return "RandomMatchingData [userId=" + userId + ", cancel=" + cancel + ", robot=" + robot + "]";
+	}
+
+	public boolean isRemoved() {
+		return removed;
+	}
+
+	public void setRemoved(boolean removed) {
+		this.removed = removed;
 	}
 }
