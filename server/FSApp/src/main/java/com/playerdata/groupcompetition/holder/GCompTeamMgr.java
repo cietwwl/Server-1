@@ -741,8 +741,11 @@ public class GCompTeamMgr {
 			return result;
 		}
 		
-		for(int i = 0; i < memberList.size(); i++) {
-			if(!memberList.get(i).isReady()) {
+		for (GCompTeamMember member : memberList) {
+			if (member.isLeader()) {
+				continue;
+			}
+			if (!member.isReady()) {
 				result.setT2(GCompTips.getTipsSomeoneNotReady());
 				return result;
 			}
