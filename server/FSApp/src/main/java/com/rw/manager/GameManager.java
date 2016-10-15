@@ -113,7 +113,7 @@ public class GameManager {
 		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>>();
 		MapItemStoreFactory.init();
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
-		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), "dataSourceMT");
+		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(),performanceConfig.getHeroCapacity(), "dataSourceMT");
 
 		try {
 			HeroPropertyMigration.getInstance().execute();

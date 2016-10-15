@@ -67,3 +67,5 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 67,,67,40,100,,,,,
 68,,68,35,100,,,,,
 69,,69,35,100,,,,,
+70,,70,6,100,,,,,
+71,,71,45,100,,,,,

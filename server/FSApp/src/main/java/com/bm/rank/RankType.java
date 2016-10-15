@@ -30,6 +30,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
 	LEVEL_PLAYER(2, 5000, "实时等级排行榜", 5, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 5, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
+	
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 5, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 5, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	FIGHTING_ALL_DAILY(6, 5000, "全日战力排行榜", 5, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
@@ -68,8 +69,12 @@ public enum RankType implements TypeIdentification, RankingConfig {
 
 	// 个人人气榜
 	POPULARITY_RANK(34, 10000, "个人人气排行榜", 1, PopularityRankExtension.class),
-	WORLD_BOSS_HURT_RANK(35, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class),
+	// 机器人等级榜
+	LEVEL_ROBOT(35, 100, "机器人等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
+	WORLD_BOSS_HURT_RANK(36, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class),
 	;
+	
+	
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);
 		this.entityCopyer = copyer;

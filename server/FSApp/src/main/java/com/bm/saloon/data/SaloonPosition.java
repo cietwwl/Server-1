@@ -11,6 +11,14 @@ public class SaloonPosition {
 	private float px;
 	
 	private float py;
+	
+	public static SaloonPosition newInstance(String idP, float pxP, float pyP){
+		SaloonPosition position = new SaloonPosition();
+		position.id=idP;
+		position.px=pxP;
+		position.py=pyP;
+		return position;
+	}
 
 	public String getId() {
 		return id;

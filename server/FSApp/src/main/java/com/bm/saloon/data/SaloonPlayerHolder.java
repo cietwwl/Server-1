@@ -9,7 +9,7 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class SaloonPlayerHolder{
 	
-	final private eSynType synType = eSynType.FIX_EXP_EQUIP;
+	final private eSynType synType = eSynType.SaloonPlayer;
 	
 	private static final SaloonPlayerHolder _INSTANCE = new SaloonPlayerHolder();
 	

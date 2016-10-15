@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public interface RoleExtPropertyCreator<T extends RoleExtProperty,Param> {
@@ -35,8 +35,8 @@ public interface RoleExtPropertyCreator<T extends RoleExtProperty,Param> {
 	 * <pre>
 	 * 当{@link #requiredToPreload(Object)}返回true但数据库不存在记录时
 	 * 必然回调此方法创建记录，合并后批量插入到数据库
-	 * 如果数据库不存在记录，逻辑不希望生成新的记录但后续需要访问这个类型{@link PlayerExtPropertyStore}
-	 * 可以通过返回空列表{@link Collections#emptyList()}指定，这样可以达到在不生成记录的情况下，减少对这个类型的{@link PlayerExtPropertyStore}数据库查询操作
+	 * 如果数据库不存在记录，逻辑不希望生成新的记录但后续需要访问这个类型{@link RoleExtPropertyStore}
+	 * 可以通过返回空列表{@link Collections#emptyList()}指定，这样可以达到在不生成记录的情况下，减少对这个类型的{@link RoleExtPropertyStore}数据库查询操作
 	 * 如此性能是最佳的
 	 * </pre>
 	 * @param params
@@ -54,6 +54,6 @@ public interface RoleExtPropertyCreator<T extends RoleExtProperty,Param> {
 	 * @param params
 	 * @return
 	 */
-	public List<T> checkAndCreate(PlayerExtPropertyStore<T> store, Param params);
+	public List<T> checkAndCreate(RoleExtPropertyStore<T> store, Param params);
 
 }

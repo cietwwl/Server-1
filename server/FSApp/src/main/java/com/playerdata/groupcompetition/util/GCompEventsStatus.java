@@ -1,5 +1,9 @@
 package com.playerdata.groupcompetition.util;
 
+import java.util.concurrent.TimeUnit;
+
+import com.rwbase.dao.groupcompetition.pojo.GCompTimeCfg;
+
 /**
  * 
  * 单场赛事的状态
@@ -41,8 +45,9 @@ public enum GCompEventsStatus {
 	private String displayName;
 	
 	private static int _totalMinutes;
-	
-	static {
+
+	private static void calculateTotalMinutes() {
+		_totalMinutes = 0;
 		GCompEventsStatus[] all = values();
 		GCompEventsStatus currentStatus;
 		for (int i = 0, length = all.length, next = 1; i < length && next != length; i++, next++) {
@@ -50,6 +55,10 @@ public enum GCompEventsStatus {
 			currentStatus._nextStatus = all[next];
 			_totalMinutes += currentStatus._lastMinutes;
 		}
+	}
+	
+	static {
+		calculateTotalMinutes();
 	}
 	
 	/**
@@ -60,6 +69,22 @@ public enum GCompEventsStatus {
 	 */
 	public static int getTotalLastMinutes() {
 		return _totalMinutes;
+	}
+	
+	public static void setTimeInfo(GCompTimeCfg cfg) {
+		if (cfg.getPrepareTime() > 0) {
+			PREPARE._lastMinutes = (int) TimeUnit.SECONDS.toMinutes(cfg.getPrepareTime());
+		}
+		if (cfg.getFirstRoundTime() > 0) {
+			TEAM_EVENTS._lastMinutes = (int) TimeUnit.SECONDS.toMinutes(cfg.getFirstRoundTime());
+		}
+		if (cfg.getRest() > 0) {
+			REST._lastMinutes = (int) TimeUnit.SECONDS.toMinutes(cfg.getRest());
+		}
+		if (cfg.getPrepareTime() > 0) {
+			PERSONAL_EVENTS._lastMinutes = (int) TimeUnit.SECONDS.toMinutes(cfg.getPrepareTime());
+		}
+		calculateTotalMinutes();
 	}
 	
 	private GCompEventsStatus(int sign, int pLastMinutes, String pDisplayName) {

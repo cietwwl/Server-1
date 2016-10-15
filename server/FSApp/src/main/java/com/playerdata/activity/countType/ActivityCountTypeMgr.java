@@ -34,7 +34,7 @@ import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -106,7 +106,7 @@ public class ActivityCountTypeMgr implements ActivityRedPointUpdate {
 
 	public List<ActivityCountTypeItem> creatItems(String userId,boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
-		PlayerExtPropertyStore<ActivityCountTypeItem> store = null;
+		RoleExtPropertyStore<ActivityCountTypeItem> store = null;
 		
 		ActivityCountTypeCfgDAO activityCountTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
