@@ -198,7 +198,7 @@ public class PrepareAreaMgr {
 		if(needRemoveScene){
 			if(null != groupScene && !groupScene.isEmpty()){
 				for(Long sceneId : groupScene.values()){
-					DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+					SameSceneContainer.getInstance().addRemoveScene(sceneId);
 				}
 			}
 			needRemoveScene = false;
@@ -229,7 +229,7 @@ public class PrepareAreaMgr {
 					if(null != groupScene){
 						//延时清除每个帮派的准备区
 						for(Long sceneId : groupScene.values()){
-							DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+							SameSceneContainer.getInstance().addRemoveScene(sceneId);
 						}
 						groupScene = null;
 					}
