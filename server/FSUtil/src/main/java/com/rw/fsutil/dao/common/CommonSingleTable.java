@@ -49,7 +49,7 @@ public class CommonSingleTable<T>  {
 	}
 
 	public boolean insert(String key, T target) throws DuplicatedKeyException, Exception {
-		return simpleSupport.insert(classInfo, insertSql, key, target, null);
+		return simpleSupport.insert(classInfo, insertSql, key, target);
 	}
 
 	public boolean delete(String id) throws DataNotExistException, Exception {

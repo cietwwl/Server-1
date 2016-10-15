@@ -52,9 +52,9 @@ public class ActivityTimeCardTypeItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityTimeCardTypeItem getItem(String userId){		
-//		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, ActivityTimeCardTypeEnum.Month);
+	public ActivityTimeCardTypeItem getItem(String userId){
 		int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
+		
 		return getItemStore(userId).get(id);
 	}
 	

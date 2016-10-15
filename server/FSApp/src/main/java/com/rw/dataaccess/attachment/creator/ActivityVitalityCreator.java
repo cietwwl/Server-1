@@ -17,17 +17,13 @@ public class ActivityVitalityCreator implements PlayerExtPropertyCreator<Activit
 		return null;
 	}
 
-	@Override
-	public boolean validateOpenTime(long currentTimeMillis) {
-		// TODO Auto-generated method stub
-		return ActivityVitalityTypeMgr.getInstance().isOpen(currentTimeMillis);
-	}
+	
 
 	@Override
 	public List<ActivityVitalityTypeItem> firstCreate(
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityVitalityTypeMgr.getInstance().creatItems(params.getUserId(), null);
+		return ActivityVitalityTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,6 +32,12 @@ public class ActivityVitalityCreator implements PlayerExtPropertyCreator<Activit
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean requiredToPreload(PlayerPropertyParams params) {
+		// TODO Auto-generated method stub
+		return ActivityVitalityTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }

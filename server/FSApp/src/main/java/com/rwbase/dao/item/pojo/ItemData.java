@@ -167,7 +167,7 @@ public class ItemData implements IMapItem, ItemDataIF {
 	public int getMagicAptitude(){
 		synchronized (this) {
 			String magicAptitude = this.allExtendAttr.get(EItemAttributeType.Magic_Aptitude_VALUE);
-			return StringUtils.isEmpty(magicAptitude) ? 1 : Integer.parseInt(magicAptitude);
+			return StringUtils.isEmpty(magicAptitude) || magicAptitude.equals("0") ? 1 : Integer.parseInt(magicAptitude);
 		}
 	}
 

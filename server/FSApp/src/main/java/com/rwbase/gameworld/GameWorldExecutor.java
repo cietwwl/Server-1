@@ -33,13 +33,12 @@ public class GameWorldExecutor implements GameWorld {
 	private QueuedTaskExecutor<String, Player> queuedTaskExecutor;
 	private QueuedTaskExecutor<String, Void> createExecutor;
 
-
 	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
 		this.listeners = new ArrayList<PlayerTaskListener>(0);
 		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player"));
-		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, 
-				new LinkedBlockingQueue<Runnable>(8192), new SimpleThreadFactory("aysn_logic"),new ThreadPoolExecutor.CallerRunsPolicy());
+		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(8192), new SimpleThreadFactory("aysn_logic"),
+				new ThreadPoolExecutor.CallerRunsPolicy());
 		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
 
 			@Override
@@ -49,12 +48,16 @@ public class GameWorldExecutor implements GameWorld {
 
 			@Override
 			protected void afterExecute(String key, Player player) {
+				if (player == null) {
+					GameWorldExecutor.this.logger.error("listeners notify fail cause by player is null:" + key);
+					return;
+				}
 				for (int i = listeners.size(); --i >= 0;) {
 					try {
 						PlayerTaskListener listener = listeners.get(i);
 						listener.notifyTaskCompleted(player);
 					} catch (Throwable t) {
-						GameWorldExecutor.this.logger.error("listener notification raised an exception:"+key, t);
+						GameWorldExecutor.this.logger.error("listener notification raised an exception:" + key, t);
 					}
 				}
 			}
@@ -110,6 +113,7 @@ public class GameWorldExecutor implements GameWorld {
 
 	/**
 	 * 获取某个玩家当前执行执行的任务数量
+	 * 
 	 * @param userId
 	 * @return
 	 */
@@ -127,7 +131,19 @@ public class GameWorldExecutor implements GameWorld {
 	 * @param handler
 	 */
 	public void asyncExecute(String key, PlayerTask task, TaskExceptionHandler handler) {
-		queuedTaskExecutor.asyncExecute(key, task, handler);
+		queuedTaskExecutor.asyncExecute(key, null, task, handler);
+	}
+
+	/**
+	 * <pre>
+	 * 异步执行玩家前置任务与玩家任务，执行前置任务抛出异常，不会继续执行玩家任务
+	 * <pre>
+	 * @param key
+	 * @param predecessor
+	 * @param task
+	 */
+	public void asyncExecute(String userId, PlayerPredecessor predecessor, PlayerTask task) {
+		queuedTaskExecutor.asyncExecute(userId, predecessor, task, null);
 	}
 
 	/**
@@ -139,7 +155,7 @@ public class GameWorldExecutor implements GameWorld {
 	 * @param task
 	 */
 	public void asyncExecute(String key, PlayerTask task) {
-		queuedTaskExecutor.asyncExecute(key, task, null);
+		queuedTaskExecutor.asyncExecute(key, null, task, null);
 	}
 
 	@Override

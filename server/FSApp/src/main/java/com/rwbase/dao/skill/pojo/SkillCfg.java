@@ -4,7 +4,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
+
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.common.HPCUtil;
 import com.rwbase.common.attrdata.AttrData;
@@ -64,6 +66,7 @@ public class SkillCfg {
 	private List<String> listenerIdList;// 监听Id的列表
 	private List<Integer> optIdList;// 操作的Id列表
 
+	
 	public SkillCfg() {
 	}
 
@@ -417,6 +420,7 @@ public class SkillCfg {
 	public List<Integer> getOptIdList() {
 		return optIdList;
 	}
+	
 
 	/**
 	 * 初始化解析属性
@@ -452,5 +456,7 @@ public class SkillCfg {
 		} else {
 			this.optIdList = Collections.emptyList();
 		}
+		
 	}
+
 }

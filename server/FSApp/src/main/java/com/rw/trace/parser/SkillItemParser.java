@@ -23,8 +23,8 @@ public class SkillItemParser implements DataValueParser<SkillItem> {
     @Override
     public JSONObject recordAndUpdate(SkillItem entity1, SkillItem entity2) {
         JSONObject jsonMap = null;
-        String id1 = entity1.getId();
-        String id2 = entity2.getId();
+        Integer id1 = entity1.getId();
+        Integer id2 = entity2.getId();
         if (!writer.equals(id1, id2)) {
             entity1.setId(id2);
             jsonMap = writer.write(jsonMap, "id", id2);

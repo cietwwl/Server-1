@@ -112,19 +112,26 @@ public enum DataKVType {
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
+		this.typeValue = type;
 		this.daoClass = clazz;
 		this.creatorClass = processorClass;
 	}
 
 	// 类型
-	private int type;
+	private final int type;
+
+	private final Integer typeValue;
 	// DAO class
-	private Class<? extends DataKVDao<?>> daoClass;
+	private final Class<? extends DataKVDao<?>> daoClass;
 	// processor class
-	private Class<? extends DataCreator<?, ?>> creatorClass;
+	private final Class<? extends DataCreator<?, ?>> creatorClass;
 
 	public int getType() {
 		return type;
+	}
+
+	public Integer getTypeValue() {
+		return typeValue;
 	}
 
 	public Class<? extends DataKVDao<?>> getDaoClass() {
