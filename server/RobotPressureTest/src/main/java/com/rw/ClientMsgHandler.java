@@ -6,6 +6,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -53,7 +54,7 @@ public abstract class ClientMsgHandler {
 		return name + " accountId=" + getClient().getAccountId();
 	}
 
-	private Response getResp(int seqId) {
+	private Response getResp(int seqId, MsgReciver msgReceiverP) {
 		Response resp = null;
 		long maxTime = 20L;
 		// 超过十秒拿不到认为超时。
@@ -70,7 +71,7 @@ public abstract class ClientMsgHandler {
 		lastExecuteTime = current;
 		long cost = current - start;
 		// if (cost > 1000) {
-		RobotLog.testInfo(getName() + " 处理耗时=" + cost + "cmd=," + msgReciver.getCmd() + ",seqId=" + seqId + "," + getClient());
+		RobotLog.testInfo(getName() + " 处理耗时=" + cost + "cmd=," + msgReceiverP.getCmd() + ",seqId=" + seqId + "," + getClient());
 		// }
 		return resp;
 
@@ -336,12 +337,22 @@ public abstract class ClientMsgHandler {
 				RobotLog.info("--------------channel is close");
 				return true;
 			}
-			f.get(10, TimeUnit.SECONDS);
+			try {
+				f.get(25, TimeUnit.SECONDS);
+			} catch (TimeoutException e) {
+				if (isOffLine.get()) {
+					RobotLog.testError("ClientMsgHandler[sendMsg] 被顶号. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
+					return true;
+				} else {
+					RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+					return false;
+				}
+			}
 			if (!f.isSuccess()) {
 				return true;
 			}
 			// 当前离线发送的消息表示成功
-			if (msgReciver != null && !isOffLine.get()) {
+			if (msgReciverP != null && !isOffLine.get()) {
 				success = handleResp(msgReciverP, client, seqId);
 				msgReciver = null;
 			} else {
@@ -360,7 +371,7 @@ public abstract class ClientMsgHandler {
 
 	private boolean handleResp(MsgReciver msgReciverP, Client client, int seqId) {
 		boolean success = true;
-		Response rsp = getResp(seqId);
+		Response rsp = getResp(seqId, msgReciverP);
 		if (rsp == null) {
 			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:" + msgReciverP.getCmd() + "account :" + client.getAccountId());
 			success = false;

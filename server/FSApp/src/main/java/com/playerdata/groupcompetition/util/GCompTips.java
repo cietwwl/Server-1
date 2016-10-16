@@ -41,6 +41,8 @@ public class GCompTips {
 	private static String tipsYouAlreadyMatched = "取消匹配失败，您已经匹配上了！";
 	private static String tipsNotPersonalEventsNow = "当前不是个人战阶段！";
 	private static String tipsSomeoneNotReady = "队伍有队员没有准备好！";
+	private static String tipsYourGroupMemberNotEnough = "你的帮派不足3人，无法进行该操作！";
+	private static String tipsEnemyGroupMemberNotEnough = "对手帮派不足3人，无法进行该操作！";
 	
 	public static String getTipsNotSelectionStageNow() {
 		return tipsNotSelectionStageNow;
@@ -196,5 +198,13 @@ public class GCompTips {
 
 	public static String getTipsSomeoneNotReady() {
 		return tipsSomeoneNotReady;
+	}
+
+	public static String getTipsYourGroupMemberNotEnough() {
+		return tipsYourGroupMemberNotEnough;
+	}
+
+	public static String getTipsEnemyGroupMemberNotEnough() {
+		return tipsEnemyGroupMemberNotEnough;
 	}
 }

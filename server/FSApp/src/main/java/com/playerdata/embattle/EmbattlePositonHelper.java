@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.util.StringUtils;
+
+import com.log.GameLog;
 import com.rwproto.BattleCommon.BattleHeroPosition;
 
 /*
@@ -28,7 +31,13 @@ public class EmbattlePositonHelper {
 
 		List<EmbattleHeroPosition> emHeroList = new ArrayList<EmbattleHeroPosition>(size);
 		for (int i = 0; i < size; i++) {
+			// 检查错误数据
 			BattleHeroPosition heroPos = heroPosList.get(i);
+			if (StringUtils.isEmpty(heroPos.getHeroId())) {
+				// battlePosition不允许出现空的情况，所以这里要做数据的检验
+				GameLog.warn("EmbattlePositonHelper", "parseMsgHeroPos2Memery", "客户端传过来的heroId为空！位置：" + heroPos.getPos());
+				continue;
+			}
 
 			EmbattleHeroPosition pos = new EmbattleHeroPosition();
 			pos.setId(heroPos.getHeroId());

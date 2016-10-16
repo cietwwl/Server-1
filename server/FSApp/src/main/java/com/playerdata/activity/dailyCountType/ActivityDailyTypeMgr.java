@@ -25,7 +25,7 @@ import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -85,7 +85,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 
 	public List<ActivityDailyTypeItem> creatItems(String userId, boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityDailyTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYTYPE, ActivityDailyTypeItem.class);
-		PlayerExtPropertyStore<ActivityDailyTypeItem> store = null;
+		RoleExtPropertyStore<ActivityDailyTypeItem> store = null;
 		
 		
 		List<ActivityDailyTypeCfg> activityDailyTypeCfgList = ActivityDailyTypeCfgDAO.getInstance().getAllCfg();
@@ -205,6 +205,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player, freshItem.getSubItemList());
 				freshItem.reset(cfg);
+//				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~reset");
 				dataHolder.updateItem(player, freshItem);
 			}
 		}		

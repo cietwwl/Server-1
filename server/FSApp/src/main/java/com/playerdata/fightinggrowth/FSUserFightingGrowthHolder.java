@@ -66,7 +66,7 @@ public class FSUserFightingGrowthHolder {
 				builder.addAllGainWay(cfg.getGrowthWayList()); // 获取途径
 				builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player)); // 当前的战斗力
 				builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
-				System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
+//				System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
 				list.add(builder.build());
 			}
 		}

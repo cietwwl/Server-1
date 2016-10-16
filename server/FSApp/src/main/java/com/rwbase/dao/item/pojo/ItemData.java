@@ -174,6 +174,17 @@ public class ItemData implements IMapItem, ItemDataIF {
 			return Integer.parseInt(magicAptitude);
 		}
 	}
+	
+	@JsonIgnore
+	public int getMagicAdvanceLevel(){
+		String advanceLevel = this.allExtendAttr.get(EItemAttributeType.Magic_AdvanceLevel_VALUE);
+		if(StringUtils.isEmpty(advanceLevel) || advanceLevel.equals("0")){
+			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
+			setExtendAttr(EItemAttributeType.Magic_AdvanceLevel_VALUE, String.valueOf(magicCfg.getUplevel()));
+			advanceLevel = this.allExtendAttr.get(EItemAttributeType.Magic_AdvanceLevel_VALUE);
+		}
+		return Integer.parseInt(advanceLevel);
+	}
 
 	public int getModelId() {
 		return modelId;

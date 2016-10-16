@@ -21,4 +21,6 @@ public interface TableUserIF {
 	public String getUserName();
 
 	public String getHeadImageWithDefault();
+
+	public long getLastLoginTime();
 }

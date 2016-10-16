@@ -6,7 +6,7 @@ import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityTimeCardCreator implements PlayerExtPropertyCreator<ActivityTimeCardTypeItem>{
@@ -27,7 +27,7 @@ public class ActivityTimeCardCreator implements PlayerExtPropertyCreator<Activit
 
 	@Override
 	public List<ActivityTimeCardTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityTimeCardTypeItem> store,
+			RoleExtPropertyStore<ActivityTimeCardTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

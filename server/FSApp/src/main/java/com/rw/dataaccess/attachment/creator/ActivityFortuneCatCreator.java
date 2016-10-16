@@ -7,7 +7,7 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityFortuneCatCreator  implements PlayerExtPropertyCreator<ActivityFortuneCatTypeItem>{
@@ -29,7 +29,7 @@ public class ActivityFortuneCatCreator  implements PlayerExtPropertyCreator<Acti
 
 	@Override
 	public List<ActivityFortuneCatTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityFortuneCatTypeItem> store,
+			RoleExtPropertyStore<ActivityFortuneCatTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

@@ -14,6 +14,8 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 public class GmEmailSingleSend implements IGmTask {
 
@@ -36,16 +38,17 @@ public class GmEmailSingleSend implements IGmTask {
 
 			String roleId = GmUtils.parseString(args, "roleId");
 			Player targetPlayer = PlayerMgr.getInstance().find(roleId);
-			// long taskId = emailData.getTaskId();
 			if (targetPlayer != null) {
-				EmailUtils.sendEmail(targetPlayer.getUserId(), emailData);
-				// if(!targetPlayer.getEmailMgr().containsEmailWithTaskId(taskId)){
-				//
-				// }else{
-				// GameLog.info(LogModule.GM.getName(), "GmEmailSingleSend",
-				// "GmEmailSingleSend[doTask] 用户已经存在相同taskId的邮件， userId:"+roleId+" taskId"+taskId,
-				// null);
-				// }
+				final String userId = targetPlayer.getUserId();
+				GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerTask() {
+					
+					@Override
+					public void run(Player e) {
+						// TODO Auto-generated method stub
+						EmailUtils.sendEmail(userId, emailData);
+					}
+				});
+				
 			} else {
 				GameLog.info(LogModule.GM.getName(), "GmEmailSingleSend",
 						"GmEmailSingleSend[doTask] 没有找到用户 userId:" + roleId,

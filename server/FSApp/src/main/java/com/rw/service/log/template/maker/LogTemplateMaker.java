@@ -17,7 +17,7 @@ public class LogTemplateMaker {
 
 	
 	final private String filePath="F:\\NewGitSource\\FAQ\\server\\server\\FSApp\\src\\main\\java\\com\\rw\\service\\log\\template\\maker\\OriginalLogText";
-
+								
 	public void doTask() throws Exception{
 		File file = new File(filePath);
 		

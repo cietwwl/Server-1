@@ -12,7 +12,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -144,7 +144,7 @@ public class EquipItemHolder {
 		List<EquipItem> newEquipDatas = new ArrayList<EquipItem>();
 		List<Integer> removeItemIds = new ArrayList<Integer>();
 		List<EquipItem> removeItems = new ArrayList<EquipItem>();
-		PlayerExtPropertyStore<EquipItem> mapItemStore = getItemStore(heroId);
+		RoleExtPropertyStore<EquipItem> mapItemStore = getItemStore(heroId);
 		Enumeration<EquipItem> mapEnum = mapItemStore.getExtPropertyEnumeration();
 		int newItemSize = itemDatasOfNewEquips.size();
 		EquipItem equipItemOld = null;
@@ -261,7 +261,7 @@ public class EquipItemHolder {
 		}
 	}
 
-	private PlayerExtPropertyStore<EquipItem> getItemStore(String ownerId) {
+	private RoleExtPropertyStore<EquipItem> getItemStore(String ownerId) {
 		RoleExtPropertyStoreCache<EquipItem> cache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.EQUIP_ITEM, EquipItem.class);
 		try {
 			return cache.getStore(ownerId);

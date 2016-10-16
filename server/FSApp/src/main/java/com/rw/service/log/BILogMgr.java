@@ -16,6 +16,8 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.playerdata.charge.cfg.ChargeCfg;
+import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
@@ -43,12 +45,17 @@ import com.rw.service.log.template.CoinChangedLogTemplate;
 import com.rw.service.log.template.CopyBeginLogTemplate;
 import com.rw.service.log.template.CopyEndLogTemplate;
 import com.rw.service.log.template.EmailLogTemplate;
+import com.rw.service.log.template.FinanceMainCoinHoldLogTemplate;
+import com.rw.service.log.template.FinanceMainCoinLogTemplate;
+import com.rw.service.log.template.FinanceMainConsumeLogTemplate;
 import com.rw.service.log.template.GiftGoldChangedLogTemplate;
+import com.rw.service.log.template.GiftPackageLogTemplate;
 import com.rw.service.log.template.GoldChangeLogTemplate;
 import com.rw.service.log.template.ItemChangedEventType_1;
 import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
 import com.rw.service.log.template.OnlineCountLogTemplate;
+import com.rw.service.log.template.PayLogTemplate;
 import com.rw.service.log.template.RoleCreatedLogTemplate;
 import com.rw.service.log.template.RoleLoginLogTemplate;
 import com.rw.service.log.template.RoleLogoutLogTemplate;
@@ -123,7 +130,11 @@ public class BILogMgr {
 		templateMap.put(eBILogType.Chat, new ChatLogTemplate());
 		templateMap.put(eBILogType.GoldChange, new GoldChangeLogTemplate());
 		templateMap.put(eBILogType.Email, new EmailLogTemplate());
-
+		templateMap.put(eBILogType.Pay, new PayLogTemplate());
+		templateMap.put(eBILogType.FinanceMainCoinAdd, new FinanceMainCoinLogTemplate());
+		templateMap.put(eBILogType.FinanceMainCoinConsume, new FinanceMainConsumeLogTemplate());
+		templateMap.put(eBILogType.FinanceMainCoinHold, new FinanceMainCoinHoldLogTemplate());
+		templateMap.put(eBILogType.GiftPackage, new GiftPackageLogTemplate());
 	}
 	
 	private Logger getLogger(eBILogType type){
@@ -163,6 +174,21 @@ public class BILogMgr {
 		moreInfo.put("result", "1");
 		logPlayer(eBILogType.ZoneLogin, player, moreInfo);
 		logRoleLogin(player);
+	}
+	
+
+	
+	public void logGiftPackage(Player player, String activeCode, String giftPackageId, String giftPackageType, String opCode, String groupId, String reward){
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("giftPackageEntrance", "142");
+		moreInfo.put("activeCode", activeCode);
+		moreInfo.put("giftPackageId", giftPackageId);
+		moreInfo.put("giftPackageType", giftPackageType);
+		moreInfo.put("optype", opCode);
+		moreInfo.put("factionId", groupId);
+		moreInfo.put("giftReward", StringUtils.isEmpty(reward) ? "" : "item@num:" + reward);
+		logPlayer(eBILogType.GiftPackage, player, moreInfo);
 	}
 
 	public void logZoneLogout(Player player) {
@@ -249,11 +275,18 @@ public class BILogMgr {
 		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
 		moreInfo.put("regSubChannelId", regSubChannelId);
 		moreInfo.put("loginClientPlatForm", clientPlatForm);
-
 		log(eBILogType.ZoneCountChargeGold, null, null, null, moreInfo);
 	}
 	
-	
+	public void logZoneCountFinanceGold(String regSubChannelId, long zoneGoldRemain, String loginZoinId) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("loginZoneId_regChannelId", "" + loginZoinId+"_"+regSubChannelId);
+		moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+		moreInfo.put("regSubChannelId", regSubChannelId);
+		moreInfo.put("mainGoldGount", "" + zoneGoldRemain);
+		log(eBILogType.FinanceMainCoinHold, null, null, null, moreInfo);
+	}
 	
 	public void logZoneCountLevelSpread(String regSubChannelId, String level, long levelCount, String clientPlatForm) {
 
@@ -609,6 +642,14 @@ public class BILogMgr {
 		logPlayer(eBILogType.GiftGoldChanged, player, moreInfo);
 	}
 	
+	
+
+	/**
+	 * 充值币（变动）
+	 * @param typeList
+	 * @param coinChanged
+	 * @param coinRemain
+	 */
 	public void logGoldChanged(List<Object> typeList, int coinChanged, long coinRemain){
 		DataChangeReason reason = parseChangeReason(typeList);
 		Player player = reason.getPlayer();
@@ -631,7 +672,33 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.GoldChange, player, moreInfo);
 	}
+	
+	/**
+	 * 财务充值币消耗
+	 * @param typeList
+	 * @param coinChanged
+	 * @param coinRemain
+	 */
+	public void logFinanceMainCoinConsume(List<Object> typeList, int coinChanged, long coinRemain){
+		DataChangeReason reason = parseChangeReason(typeList);
+		Player player = reason.getPlayer();
+		
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		} 
 
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
+		}
+		moreInfo.put("mainGoldGountconsume", String.valueOf(coinChanged));
+		moreInfo.put("mainGoldGount", String.valueOf(coinRemain));
+
+		logPlayer(eBILogType.FinanceMainCoinConsume, player, moreInfo);
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
 		Object param = DataEventRecorder.getParam();
@@ -695,7 +762,6 @@ public class BILogMgr {
 					}
 				}
 			}
-
 			moreInfo.put("attachList", sbAttachList.toString());
 			moreInfo.put("attachAttr", sbAttachAttr.toString());
 
@@ -705,6 +771,30 @@ public class BILogMgr {
 		}
 	}
 
+	public void logPayFinish(Player player, ChargeContentPojo chargeContentPojo, int vipBefore,ChargeCfg cfg, String entranceId) {
+		Map<String, String> moreInfo = new HashMap<String, String>();
+		moreInfo.put("CpTradeNo", chargeContentPojo.getCpTradeNo());
+		moreInfo.put("payMoney", chargeContentPojo.getMoney()+"");
+		moreInfo.put("mainGoldGountAdd", cfg.getGoldCount() + "");
+		moreInfo.put("payEntrance", entranceId);
+		moreInfo.put("vip", vipBefore+"");
+		moreInfo.put("payInfo", "next_vip_level:"+ player.getVip()+"#");		
+		moreInfo.put("mainGoldGount", player.getUserGameDataMgr().getChargeGold()+"");
+		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		DataChangeReason reason = parseChangeReason(list);
+		if (reason.getEventTypeFirst() != null) {
+			moreInfo.put("ItemChangedEventType_1", reason.getEventTypeFirst());
+		}
+
+		if (reason.getEventTypeSecond() != null) {
+			moreInfo.put("ItemChangedEventType_2", reason.getEventTypeSecond());
+		}		
+		logPlayer(eBILogType.Pay, player, moreInfo);
+		logPlayer(eBILogType.FinanceMainCoinAdd, player, moreInfo);
+	}
+	
+	
+	
 	private String getItemListLog(List<ItemData> itemList) {
 		if (itemList == null) {
 			return null;
@@ -724,7 +814,6 @@ public class BILogMgr {
 		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player,moreInfo);
 		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
-
 	}
 	
 	/**
@@ -765,5 +854,7 @@ public class BILogMgr {
 		}
 
 	}
+
+	
 
 }

@@ -167,6 +167,13 @@ message PlayerBaseInfo{
 	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 	required int32 starLevel = 11;
 	required string qualityId = 12;
+	optional MagicInfo magic = 13;
+}
+
+message MagicInfo{
+	required int32 modelId = 1;
+	required int32 level = 2;
+	required int32 aptitude = 3;
 }
 
 // 海选响应数据

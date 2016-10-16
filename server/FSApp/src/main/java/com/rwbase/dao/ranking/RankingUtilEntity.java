@@ -23,6 +23,7 @@ import com.rwbase.dao.hero.pojo.RoleBaseInfoDAO;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.MagicCfg;
+import com.rwbase.dao.praise.PraiseHelper;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -43,8 +44,8 @@ public class RankingUtilEntity {
 		toData.setUserName(player.getUserName());
 		toData.setLevel(player.getLevel());
 		toData.setExp(player.getExp());
-//		toData.setFightingAll(player.getHeroMgr().getFightingAll());
-//		toData.setFightingTeam(player.getHeroMgr().getFightingTeam());
+		// toData.setFightingAll(player.getHeroMgr().getFightingAll());
+		// toData.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		toData.setFightingAll(player.getHeroMgr().getFightingAll(player));
 		toData.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 		toData.setUserHead(player.getHeadImage());
@@ -111,6 +112,11 @@ public class RankingUtilEntity {
 						setFromLastRank = true;
 					}
 				}
+
+				// 人气值
+				if (type == RankType.POPULARITY_RANK) {
+					rankInfo.setPopularity(PraiseHelper.getInstance().getPopularityByUserId(userId));
+				}
 			}
 			if (!setFromLastRank) {
 				rankInfo.setRankCount(levelData.getRankCount());
@@ -126,7 +132,6 @@ public class RankingUtilEntity {
 			if (fashionUsing != null) {
 				rankInfo.setFashionUsage(fashionUsing);
 			}
-
 		}
 		return rankInfo.build();
 	}

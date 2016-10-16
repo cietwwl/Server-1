@@ -174,4 +174,20 @@ public class GCompMemberMgr {
 		List<GCompMember> members = _sorted.get(groupId);
 		targetList.addAll(members);
 	}
+	
+	/**
+	 * 
+	 * 获取groupMember的大小
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public int getSizeOfGroupMember(String groupId) {
+		List<GCompMember> members = _sorted.get(groupId);
+		if(members != null) {
+			return members.size();
+		} else {
+			return 0;
+		}
+	}
 }

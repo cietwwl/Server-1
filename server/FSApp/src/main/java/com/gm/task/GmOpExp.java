@@ -12,6 +12,8 @@ import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 public class GmOpExp implements IGmTask{
 
@@ -23,7 +25,7 @@ public class GmOpExp implements IGmTask{
 
 			Map<String, Object> args = request.getArgs();
 			String roleIdList = GmUtils.parseString(args, "roleId");
-			long value = GmUtils.parseLong(args, "value");
+			final long value = GmUtils.parseLong(args, "value");
 			if (StringUtils.isNotBlank(roleIdList)) {
 				String[] roleIdArray = roleIdList.split(",");
 				for (String roleId : roleIdArray) {
@@ -31,9 +33,14 @@ public class GmOpExp implements IGmTask{
 					if (target == null) {
 						throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
 					}
-					if (target != null) {
-						target.addUserExp(value);
-					}
+					GameWorldFactory.getGameWorld().asyncExecute(roleId, new PlayerTask() {
+						
+						@Override
+						public void run(Player e) {
+							e.addUserExp(value);
+						}
+					});
+					
 				}
 
 			}

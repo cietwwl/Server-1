@@ -7,6 +7,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
@@ -109,6 +110,7 @@ public class PlayerLoginTask implements PlayerTask {
 			// 断开非当前链接
 			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
 			if (oldContext != null && oldContext != ctx) {
+				FSTraceLogger.logger("displace", 0, "DISPLACE", seqID, userId, null, false);
 				UserChannelMgr.KickOffPlayer(oldContext, nettyControler, userId);
 			}
 		}
@@ -153,7 +155,7 @@ public class PlayerLoginTask implements PlayerTask {
 			}
 		});
 
-		long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+		long lastLoginTime = player.getLastLoginTime();
 		UserChannelMgr.bindUserID(userId, ctx, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		ByteString loginSynData = player.onLogin();
@@ -167,7 +169,7 @@ public class PlayerLoginTask implements PlayerTask {
 		response.setUserId(userId);
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
-		// BILogMgr.getInstance().logZoneLogin(player);
+		ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);

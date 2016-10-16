@@ -1,5 +1,6 @@
 package com.rw.trace.stat;
 
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.rw.fsutil.common.Pair;
@@ -41,16 +42,16 @@ public class MsgStatCollector {
 		msgStat.add(cost);
 	}
 
-	public ConcurrentHashMap<Pair<Object, Object>, MsgStat> getSubmitCostContainter() {
-		return submitCostContainter;
+	public Enumeration<MsgStat> getSubmitCostContainter() {
+		return submitCostContainter.elements();
 	}
 
-	public ConcurrentHashMap<Pair<Object, Object>, MsgStat> getRunCostContainter() {
-		return runCostContainter;
+	public Enumeration<MsgStat> getRunCostContainter() {
+		return runCostContainter.elements();
 	}
 
-	public ConcurrentHashMap<Pair<Object, Object>, MsgStat> getSendCostContainter() {
-		return sendCostContainter;
+	public Enumeration<MsgStat> getSendCostContainter() {
+		return sendCostContainter.elements();
 	}
 
 }

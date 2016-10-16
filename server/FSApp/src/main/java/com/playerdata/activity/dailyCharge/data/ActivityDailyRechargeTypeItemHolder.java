@@ -15,7 +15,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -76,7 +76,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 		List<ActivityDailyChargeCfg> activeDailyList = ActivityDetector.getInstance().getAllDailyActivity();
 		List<ActivityDailyRechargeTypeItem> newAddItems = new ArrayList<ActivityDailyRechargeTypeItem>();
 		ActivityDailyChargeSubCfgDAO  chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
-		PlayerExtPropertyStore<ActivityDailyRechargeTypeItem> itemStore = getItemStore(userId);
+		RoleExtPropertyStore<ActivityDailyRechargeTypeItem> itemStore = getItemStore(userId);
 		for(ActivityDailyChargeCfg cfg : activeDailyList){
 //			String activityID = getActivityID(String.valueOf(cfg.getId()), userId);
 			ActivityDailyRechargeTypeItem item = itemStore.get(cfg.getId());
@@ -115,7 +115,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 	private ArrayList<ActivityDailyRechargeTypeItem> removeExpireActivity(String userId){
 		List<Integer> removeList = new ArrayList<Integer>();
 		Map<String, ActivityDailyRechargeTypeItem> activeItemMap = new HashMap<String, ActivityDailyRechargeTypeItem>();
-		PlayerExtPropertyStore<ActivityDailyRechargeTypeItem> rechargeStore = getItemStore(userId);
+		RoleExtPropertyStore<ActivityDailyRechargeTypeItem> rechargeStore = getItemStore(userId);
 		Enumeration<ActivityDailyRechargeTypeItem> mapEnum = rechargeStore.getExtPropertyEnumeration();
 		ActivityDetector detector = ActivityDetector.getInstance();
 		while (mapEnum.hasMoreElements()) {
@@ -137,7 +137,7 @@ public class ActivityDailyRechargeTypeItemHolder{
 		return cfgId + "_" + userId;
 	}
 	
-	private PlayerExtPropertyStore<ActivityDailyRechargeTypeItem> getItemStore(String userId) {
+	private RoleExtPropertyStore<ActivityDailyRechargeTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityDailyRechargeTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYCHARGE, ActivityDailyRechargeTypeItem.class);
 		try {
 			return storeCache.getStore(userId);

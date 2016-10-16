@@ -10,6 +10,7 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 public class GCompEventsDataHolder {
 
 	private GCompEventsData eventsData;
+	private long waitingTimeout;
 
 	public void syn(MsgDataSyn msgDataSyn) {
 		switch (msgDataSyn.getSynOpType()) {
@@ -36,5 +37,17 @@ public class GCompEventsDataHolder {
 	
 	public boolean isNull() {
 		return eventsData == null;
+	}
+	
+	public void clear() {
+		this.eventsData = null;
+	}
+
+	public long getWaitingTimeout() {
+		return waitingTimeout;
+	}
+
+	public void setWaitingTimeout(long waitingTimeout) {
+		this.waitingTimeout = waitingTimeout;
 	}
 }

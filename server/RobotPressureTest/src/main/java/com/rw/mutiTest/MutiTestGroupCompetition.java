@@ -15,11 +15,10 @@ import org.apache.log4j.Logger;
 
 import com.rw.Robot;
 
-import io.netty.util.internal.chmv8.ConcurrentHashMapV8.Fun;
-
 public class MutiTestGroupCompetition {
 	
-	private static List<String> accountList = Arrays.asList("071529340","0718483047","amy","jenifer","angelina","hclovehf","scarlett","wayne","christian","brad","hclovehf0007","0804702605","0804113374","hclovehf0014","finland","sweden","norway","m26","m27","denmark","belgium","0826959354","0826738580","0826346791","testunlock10","0830365823","0830903579","0830982570","0830275643","luxembourg","0830550456","0831703387","0831736990","nederland","hungary","0906261546","0908457734","0908268797","0908250747","0908660972","0908815215","0908717934","0908644814","0908515517","0908910836","0908369709","0908871319","0908581907","0908943253","0908941592","0908882243","0908692200","0908841316","0908421189","0908964771","0908233600","0908150835","0908842629","austria","09097878","0910279714","czechia","slovenia","ireland","switzerland","slovak","testguide108","nb3","0922440419","0923797785","0924991182","nb4","0926392080","0926929998","0926118983","korea","singapore","newzealand","australia","canada","usa","mexico","melbourne","maryland","auckland","malaysia","0926799097","mtest1","mtest2","0929758373","1005508353","1005685080","france","germany","italy","texas","1005789957","1005443950","1005642914","1006301647","iceland","greenland","helsinki","1008422856","oslo","wellington","1010181833","1011931859","1011606979","ontario","qatar","saudi","1013433729","1013464059","1013353914","101380051","1014174680","anne","0705412825","0705753456");
+//	private static List<String> accountList = Arrays.asList("071529340","0718483047","amy","jenifer","angelina","hclovehf","scarlett","wayne","christian","brad","hclovehf0007","0804702605","0804113374","hclovehf0014","finland","sweden","norway","m26","m27","denmark","belgium","0826959354","0826738580","0826346791","testunlock10","0830365823","0830903579","0830982570","0830275643","luxembourg","0830550456","0831703387","0831736990","nederland","hungary","0906261546","0908457734","0908268797","0908250747","0908660972","0908815215","0908717934","0908644814","0908515517","0908910836","0908369709","0908871319","0908581907","0908943253","0908941592","0908882243","0908692200","0908841316","0908421189","0908964771","0908233600","0908150835","0908842629","austria","09097878","0910279714","czechia","slovenia","ireland","switzerland","slovak","testguide108","nb3","0922440419","0923797785","0924991182","nb4","0926392080","0926929998","0926118983","korea","singapore","newzealand","australia","canada","usa","mexico","melbourne","maryland","auckland","malaysia","0926799097","mtest1","mtest2","0929758373","1005508353","1005685080","france","germany","italy","texas","1005789957","1005443950","1005642914","1006301647","iceland","greenland","helsinki","1008422856","oslo","wellington","1010181833","1011931859","1011606979","ontario","qatar","saudi","1013433729","1013464059","1013353914","101380051","1014174680","anne","0705412825","0705753456");
+	private static List<String> accountList = Arrays.asList("canada", "usa", "maryland", "ontario", "texas", "stockholm", "slovak", "slovenia", "hungary", "czechia", "switzerland", "luxembourg", "norway");
 	private static Logger tmpLog = Logger.getLogger("tmpLog");
 
 	// 执行线程数，并发数
@@ -40,7 +39,7 @@ public class MutiTestGroupCompetition {
 	final static private AtomicLong timeCost = new AtomicLong();
 	final static private AtomicLong maxTimecost = new AtomicLong();
 	private static AtomicInteger executeCount = new AtomicInteger(0);
-	private static volatile boolean shutdown = true;
+	private static volatile boolean shutdown = false;
 
 	public static void main(String[] args) throws Exception {
 
@@ -95,7 +94,9 @@ public class MutiTestGroupCompetition {
 				public void run() {
 					long start = System.currentTimeMillis();
 					boolean success = robot.testGroupCompetition();
-					tmpLog.info(Thread.currentThread().getName() + ", 争霸赛综合测试:" + success + ", userId:" + robot.getUserId());
+					if (!success) {
+						tmpLog.info(Thread.currentThread().getName() + ", 争霸赛综合测试:" + success + ", userId:" + robot.getUserId());
+					}
 					long cost = System.currentTimeMillis() - start;
 					timeCost.addAndGet(cost);
 					if (success)

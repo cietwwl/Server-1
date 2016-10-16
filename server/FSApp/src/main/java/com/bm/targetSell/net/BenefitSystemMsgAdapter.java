@@ -79,15 +79,18 @@ public class BenefitSystemMsgAdapter {
 	}
 	
 	// 网络重连
-	public boolean connect(){
+	public synchronized boolean connect(){
 //		System.out.println("================try to connet target sell server~");
+		if(isAvaliable()){
+			return true;
+		}
 		try {
 			this.socket = createSocket();//重新创建一个
 			this.socket.bind(localAddress);//绑定本地端口
 			socket.connect(remoteAddress , timeoutMillis);//这个会阻塞,到超时或连接成功
 			this.output = new DataOutputStream(socket.getOutputStream());
 			this.reader = new DataInputStream(socket.getInputStream());
-			System.out.println("BenefitSystemMsgAdapter.connect() sucess~~");
+			System.out.println("BenefitSystemMsgAdapter.connect() sucess~~" );
 			connectComplete.compareAndSet(false, true);
 			
 		} catch (Exception e) {
