@@ -52,10 +52,11 @@ public class GmHandler {
 					}
 
 					eGMResultType result = rsp.getEGMResultType();
-					if (result == eGMResultType.FAIL) {
-						RobotLog.fail("ChatHandler[sendGm] 服务器处理消息失败:"+result);
-						return false;
-					}
+//					return true;
+//					if (result == eGMResultType.FAIL) {
+//						RobotLog.fail("ChatHandler[sendGm] 服务器处理消息失败:"+result);
+//						return false;
+//					}
 
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("ChatHandler[sendGm] 失败", e);

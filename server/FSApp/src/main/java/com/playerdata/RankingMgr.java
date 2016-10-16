@@ -100,6 +100,7 @@ public class RankingMgr {
 		arenaCalculate();
 		initAngelArrayTeamInfo();
 		checkPlayerLevel();
+		checkRobotLevel();
 	}
 
 	public void checkPlayerLevel() {
@@ -110,6 +111,14 @@ public class RankingMgr {
 		changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_PLAYER, true);
 	}
 
+	public void checkRobotLevel() {
+		Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);
+		if (levelRanking.size() > 0) {
+			return;
+		}
+		changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ROBOT, false);
+	}
+	
 	/**
 	 * 初始化竞技场阵容排行榜
 	 */

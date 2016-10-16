@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.common.Utils;
+import com.log.GameLog;
 import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.rwbase.common.IFunction;
@@ -34,6 +35,10 @@ public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero
 			Map<Integer, Integer> attrMap = new HashMap<Integer, Integer>(heroEquipCfgDAO.getCfgById(String.valueOf(equipList.get(0).getModelId())).getAttrDataMap());
 			for (int i = 1, size = equipList.size(); i < size; i++) {
 				HeroEquipCfg equipCfg = heroEquipCfgDAO.getCfgById(String.valueOf(equipList.get(i).getModelId()));
+				if (equipCfg == null) {
+					GameLog.error("FSGetNormEquipCurrentFightingOfSingleFunc", hero.getId(), "HeroEquipCfgDAO找不到装备配置，id：" + equipList.get(i).getModelId());
+					continue;
+				}
 				Utils.combineAttrMap(equipCfg.getAttrDataMap(), attrMap);
 			}
 			fighting = FightingCalculator.calculateFighting(hero.getTemplateId(), attrMap);
