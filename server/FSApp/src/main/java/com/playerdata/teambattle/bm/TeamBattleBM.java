@@ -912,6 +912,10 @@ public class TeamBattleBM {
 		teamBuilder.setHardID(teamItem.getHardID());
 		synchronized (teamItem) {
 			List<StaticMemberTeamInfo> members = teamItem.getTeamMembers();
+			if(members.isEmpty()){
+				TBTeamItemMgr.getInstance().setTeamMemberTeams(teamItem);
+				members = teamItem.getTeamMembers();
+			}
 			for(StaticMemberTeamInfo member : members){
 				TeamMember memSimple = teamItem.findMember(member.getUserID());
 				if(null == memSimple) {

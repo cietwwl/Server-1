@@ -114,7 +114,7 @@ public class TBTeamItemMgr{
 		}
 	}
 	
-	private void setTeamMemberTeams(TBTeamItem teamItem){
+	public void setTeamMemberTeams(TBTeamItem teamItem){
 		if(null == teamItem) return;
 		List<StaticMemberTeamInfo> memTeams = new ArrayList<StaticMemberTeamInfo>();
 		List<TeamMember> members = teamItem.getMembers();
