@@ -29,6 +29,8 @@ public class GCompRandomMatchingMsgReceiver implements MsgReciver {
 			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
 				RobotLog.fail("GroupCompetitionHandler[send] requestRandomMatching服务器返回不成功，提示信息：" + rsp.getTips());
 				return true;
+			} else {
+				RobotLog.info("创建队伍成功，userId：{}" + client.getUserId());
 			}
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);

@@ -52,13 +52,13 @@ public class GroupCompetitionHandler {
 	private int checkTimesToOpen = 20; // 检查次数
 	
 	private GroupCompetitionHandler() {
-		groupNames.add("12301");
-		groupNames.add("12302");
-		groupNames.add("12309");
-		groupNames.add("12311");
-		groupNames.add("12314");
-		groupNames.add("12317");
-		groupNames.add("12320");
+//		groupNames.add("12301");
+//		groupNames.add("12302");
+//		groupNames.add("12309");
+//		groupNames.add("12311");
+//		groupNames.add("12314");
+//		groupNames.add("12317");
+//		groupNames.add("12320");
 		groupNames.add("亞洲");
 		groupNames.add("北美洲");
 		groupNames.add("大洋洲");
@@ -106,6 +106,7 @@ public class GroupCompetitionHandler {
 	private void sendGroupAction(Client client) {
 		String groupId = client.getUserGroupDataHolder().getUserGroupData().getGroupId();
 		if (groupId == null || groupId.length() == 0) {
+			RobotLog.info("没有加入帮派，尝试加入或创建帮派，userId：" + client.getUserId());
 			this.sendGMCommand(client, "* gcompgroupaction " + groupNames.get(random.nextInt(groupNames.size())));
 		}
 	}
@@ -158,22 +159,27 @@ public class GroupCompetitionHandler {
 	private boolean processTeamEvents(Client client) {
 		GCompMatchBattleSynDataHolder matchDataHolder = client.getgCompMatchBattleSynDataHolder();
 		if (matchDataHolder.isInitBattle() || matchDataHolder.isRandomMatching()) {
+			RobotLog.info("等待" + (matchDataHolder.isInitBattle() ? "战斗" : "随机匹配") + "中，userId：" + client.getUserId());
 			return true;
-		} 
+		}
 		GCompTeam team;
 		GCompTeamHolder teamHolder = client.getGCompTeamHolder();
 		if ((team = teamHolder.getTeam()) != null) {
 			if (teamHolder.getTeamWaitingTimeout() < System.currentTimeMillis()) {
 				// 队伍超时
+				RobotLog.info("队伍超过30秒没有组齐人，请求解散队伍，userId:" + client.getUserId());
 				return requestLeaveTeam(client);
 			} else {
 				if (team.getLeaderId().equals(client.getUserId())) {
 					if (team.getMemberSize() < 3) {
+						RobotLog.info("尝试邀请组队，userId:" + client.getUserId());
 						return this.requestInviteMember(client);
 					} else {
+						RobotLog.info("请求队伍匹配，userId:" + client.getUserId());
 						return this.sendStartMatching(client);
 					}
 				} else {
+					RobotLog.info("发送准备状态，userId:" + client.getUserId());
 					return this.sendSetReadyMsg(client);
 				}
 			}
@@ -181,8 +187,10 @@ public class GroupCompetitionHandler {
 			if(teamHolder.getTeamWaitingTimeout() > 0 || random.nextBoolean()) {
 				teamHolder.setTeamWaitingTimeout(0);
 				matchDataHolder.setRandomMatching(true);
+				RobotLog.info("请求随机匹配，userId:" + client.getUserId());
 				return requestRandomMatching(client);
 			} else {
+				RobotLog.info("请求创建队伍，userId:" + client.getUserId());
 				return createGCompTeam(client);
 			}
 		}
@@ -215,6 +223,7 @@ public class GroupCompetitionHandler {
 			// 帮战阶段
 			if (client.getGCompEventsDataHolder().isNull()) {
 				// 没有matchView数据
+				RobotLog.info("获取对阵信息，userId：" + client.getUserId());
 				return this.getMatchData(client);
 			} else if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) { // 未进入备战区
 				// 进入备战区
@@ -232,7 +241,8 @@ public class GroupCompetitionHandler {
 			} else { // 已经在备战区
 				boolean result = true;
 				if (!client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
-					//result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+					RobotLog.info("随机移动，userId：" + client.getUserId());
+					result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
 				}
 				if (result) {
 					switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
@@ -251,8 +261,17 @@ public class GroupCompetitionHandler {
 				return result;
 			}
 		} else {
-			this.sendGCompCmd(client); // 尝试发送帮战开始的指令
-			return true;
+			if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() > 0) {
+				if (GroupCompSameSceneHandler.getHandler().leavePreareArea(client)) {
+					client.getGCompOnlinememberHolder().clearOnlineMembers();
+				}
+				RobotLog.info("帮战结束，退出备战区，userId:" + client.getUserId());
+				return true;
+			} else {
+				RobotLog.info("帮战未开始，尝试发送GM指令，userId:" + client.getUserId());
+				this.sendGCompCmd(client); // 尝试发送帮战开始的指令
+				return true;
+			}
 		}
 	}
 	
