@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.targetSell.TargetSellManager;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
@@ -28,6 +29,7 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -162,10 +164,9 @@ public class ChargeMgr {
 		
 		
 		if(target!=null){
-//			if(chargeContentPojo.getMoney() == 1){//合入的时候需注释
-//				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-//			}else
-			if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+			if(ServerSwitch.isTestCharge()){
+				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
@@ -178,13 +179,14 @@ public class ChargeMgr {
 				List<ActivityTimeCardTypeSubCfg>  timeCardList = ActivityTimeCardTypeSubCfgDAO.getInstance().getAllCfg();
 				for(ActivityTimeCardTypeSubCfg timecardcfg : timeCardList){
 					if(timecardcfg.getChargeType() == target.getChargeType()){
-						success = buyMonthCard(player, timecardcfg.getId()).isSuccess();
+						success = buyMonthCard(player, timecardcfg.getId(),target).isSuccess();
 						break;
 					}
 				}
 			}
 			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
-			
+			//这里检查一下精准营销有没有此角色的充值请求
+			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
 			if(success){
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
@@ -223,9 +225,12 @@ public class ChargeMgr {
 		int addGold = target.getGoldCount();
 		int money = target.getMoneyCount();
 		
-		player.getUserGameDataMgr().addReCharge(addGold);
+		
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+		player.getUserGameDataMgr().addReCharge(addGold);
+		chargeInfo.setLastChargeTime(System.currentTimeMillis());
+		chargeInfo.setLastCharge(money);
 		
 		//派发限购的钻石奖励
 		ChargeInfoSubRecording sublist = null;
@@ -335,7 +340,7 @@ public class ChargeMgr {
 					.getInstance().getAllCfg();
 			for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
 				if (timecardcfg.getChargeType() == target.getChargeType()) {
-					result = buyMonthCard(player, timecardcfg.getId());
+					result = buyMonthCard(player, timecardcfg.getId(),target);
 					break;
 				}
 			}
@@ -350,7 +355,7 @@ public class ChargeMgr {
 	
 	
 	
-	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId) {
+	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId,ChargeCfg target) {
 		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
@@ -411,6 +416,15 @@ public class ChargeMgr {
 			} catch (Exception e) {
 				GameLog.info("特权", player.getUserId(), "无法获取充值类型:"+orderStr, e);
 			}
+			int addGold = target.getVipExp();
+			int money = target.getMoneyCount();			
+			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+			ChargeInfoHolder.getInstance().update(player);	
+			//升级vip，如果达到条件
+			upgradeVip(player, chargeInfo);
+			// 设置界面更新vip
+			player.getSettingMgr().checkOpen();
 		}
 		return result;
 	}

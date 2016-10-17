@@ -195,6 +195,7 @@ public class CopyHandler {
 		}else if(copyType == CopyType.COPY_TYPE_CELESTIAL){
 			int randomNum = Test.random.nextInt(CelestialCopyId.length);			
 			levelId = CelestialCopyId[randomNum];
+			System.out.println("~~~~~~~~~~~~~~~~~~生存幻境的id" + levelId);
 		}
 		
 		

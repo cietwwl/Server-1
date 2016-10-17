@@ -8,6 +8,10 @@ import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
 import com.bm.rank.group.membernum.GroupMemberNumRankExtension;
+import com.bm.rank.groupCompetition.groupRank.GCompFightingExtension;
+import com.bm.rank.groupCompetition.killRank.GCompKillExtension;
+import com.bm.rank.groupCompetition.scoreRank.GCompScoreExtension;
+import com.bm.rank.groupCompetition.winRank.GCompContinueWinExtension;
 import com.bm.rank.groupFightOnline.GFGroupBiddingExtension;
 import com.bm.rank.groupFightOnline.GFOnlineHurtExtension;
 import com.bm.rank.groupFightOnline.GFOnlineKillExtension;
@@ -53,6 +57,12 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	GF_ONLINE_GROUP_BID_RANK(27, 2000, "在线帮战竞标排行榜", 1, GFGroupBiddingExtension.class),
 	GF_ONLINE_KILL_RANK(28, 8000, "在线帮战杀敌排行榜", 1, GFOnlineKillExtension.class),
 	GF_ONLINE_HURT_RANK(29, 8000, "在线帮战伤害排行榜", 1, GFOnlineHurtExtension.class),
+	
+	//帮派争霸赛排行榜
+	GCOMP_CONTINUE_WIN_RANK(30, 1000, "帮派争霸赛最高连胜排行榜", 1, GCompContinueWinExtension.class),
+	GCOMP_KILL_RANK(31, 1000, "帮派争霸赛杀敌排行榜", 1, GCompKillExtension.class),
+	GCOMP_SCORE_RANK(32, 1000, "帮派争霸赛最得分排行榜", 1, GCompScoreExtension.class),
+	GROUP_FIGHTING_RANK(33, 200, "帮派战力排行榜", 1, GCompFightingExtension.class),
 	WORLD_BOSS_HURT_RANK(30, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class);
 
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {

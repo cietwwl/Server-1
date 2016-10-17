@@ -12,7 +12,11 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCf
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -37,7 +41,7 @@ public class ActivityDailyDiscountTypeItemHolder{
 	{
 		
 		List<ActivityDailyDiscountTypeItem> itemList = new ArrayList<ActivityDailyDiscountTypeItem>();
-		Enumeration<ActivityDailyDiscountTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityDailyDiscountTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		ActivityDailyDiscountTypeCfgDAO activityDailyDiscountTypeCfgDAO = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		while (mapEnum.hasMoreElements()) {
 			ActivityDailyDiscountTypeItem item = (ActivityDailyDiscountTypeItem) mapEnum.nextElement();		
@@ -51,13 +55,14 @@ public class ActivityDailyDiscountTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityDailyDiscountTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
 	public ActivityDailyDiscountTypeItem getItem(String userId,ActivityDailyDiscountTypeEnum countTypeEnum){
-		String itemId=ActivityDailyDiscountTypeHelper.getItemId(userId, countTypeEnum);
-		return getItemStore(userId).getItem(itemId);
+//		String itemId=ActivityDailyDiscountTypeHelper.getItemId(userId, countTypeEnum);
+		int id = Integer.parseInt(countTypeEnum.getCfgId());
+		return getItemStore(userId).get(id);
 	}
 	
 	public boolean addItem(Player player, ActivityDailyDiscountTypeItem item){
@@ -104,9 +109,18 @@ public class ActivityDailyDiscountTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityDailyDiscountTypeItem> cache = MapItemStoreFactory.getActivityDailyDiscountTypeItemCache();
-		MapItemStore<ActivityDailyDiscountTypeItem> map = cache.getMapItemStore(userId, ActivityDailyDiscountTypeItem.class);
+	public PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityDailyDiscountTypeItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYDISCOUNT, ActivityDailyDiscountTypeItem.class);
+		PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> map = null;
+		try {
+			map = cache.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return map;
 	}
 	

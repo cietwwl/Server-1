@@ -28,7 +28,10 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public void synData(Player player) {
-		ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
+		if(ActivityDetector.getInstance().hasDailyCharge()){
+			ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
+		}
+		
 	}
 
 	/**
@@ -171,7 +174,13 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 		}
 		return redPointList;
 	}
-
+	
+	
+	
+	
+	
+	
+	
 	/**
 	 * 刷新每日充值
 	 * 

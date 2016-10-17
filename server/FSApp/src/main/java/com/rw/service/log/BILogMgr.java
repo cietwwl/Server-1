@@ -77,6 +77,7 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
+import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.MsgDef.Command;
 
@@ -391,6 +392,19 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.TaskBegin, player, moreInfo);
 	}
+	
+	public void logTaskBegin(Player player, List<TaskItem> list, BITaskType biTaskType){
+		for (TaskItem taskItem : list) {
+			String taskId = String.valueOf(taskItem.getTaskId());
+			Map<String, String> moreInfo = new HashMap<String, String>();
+			moreInfo.put("taskId", taskId);
+			moreInfo.put("result", "1");
+			moreInfo.put("optype", "task_start");
+			moreInfo.put("biTaskType", "" + biTaskType.getTypeNo());
+
+			logPlayer(eBILogType.TaskBegin, player, moreInfo);
+		}
+	}
 
 	/**
 	 * 任务结束
@@ -620,7 +634,11 @@ public class BILogMgr {
 
 	@SuppressWarnings("unchecked")
 	public void logRoleUpgrade(Player player, int oldlevel,int fightbeforelevelup) {
-		List<Object> list = (List<Object>)DataEventRecorder.getParam();
+		Object param = DataEventRecorder.getParam();
+		if(param == null){
+			return;
+		}
+		List<Object> list = (List<Object>)param;
 		DataChangeReason changeReason = parseChangeReason(list);
 		
 		
@@ -636,19 +654,23 @@ public class BILogMgr {
 		try {
 			Map<String, String> moreInfo = new HashMap<String, String>();
 			moreInfo.put("opType", opType.getId());
+			moreInfo.put("userId", userId);
 			moreInfo.put("emailId", emailData.getEmailId());
-			moreInfo.put("emailTitle", emailData.getTitle());
-			moreInfo.put("emailContent", emailData.getContent());
-			moreInfo.put("coolTime", DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
-			moreInfo.put("expireTime", DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("emailTitle", emailData.getTitle().replace("\n", "\\n").replace("\r", "\\r"));
+			moreInfo.put("emailContent", emailData.getContent().replace("\n", "\\n").replace("\r", "\\r"));
+			moreInfo.put("coolTime", emailData.getCoolTime() == 0 ? "" : DateUtils.getDateTimeFormatString(emailData.getCoolTime(), "yyyy-MM-dd HH:mm:ss"));
+			moreInfo.put("expireTime", emailData.getDeadlineTimeInMill() == 0 ? "" : DateUtils.getDateTimeFormatString(emailData.getDeadlineTimeInMill(), "yyyy-MM-dd HH:mm:ss"));
 
 			String emailAttachment = emailData.getEmailAttachment();
 			String[] split = emailAttachment.split(",");
 			StringBuilder sbAttachList = new StringBuilder();
 			StringBuilder sbAttachAttr = new StringBuilder();
 			int index = 0;
-			if (split.length > 1) {
+			if (split.length > 0) {
 				for (String value : split) {
+					if(StringUtils.isEmpty(value)){
+						continue;
+					}
 					String[] split2 = value.split("~");
 					if (split2.length > 1) {
 						int model = Integer.parseInt(split2[0]);
@@ -663,8 +685,7 @@ public class BILogMgr {
 						} else {
 							SpecialItemCfg cfg = SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(model));
 							String name = cfg != null ? cfg.getName() : "";
-							String desc = cfg != null ? cfg.getDescription() : "";
-							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+							sbAttachAttr.append(model).append("(").append(name).append(")");
 						}
 						index++;
 						if (index < split.length) {

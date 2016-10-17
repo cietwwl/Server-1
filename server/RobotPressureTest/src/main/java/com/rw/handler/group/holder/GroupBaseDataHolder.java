@@ -1,7 +1,5 @@
 package com.rw.handler.group.holder;
 
-import java.util.List;
-
 import com.rw.dataSyn.SynDataListHolder;
 import com.rw.handler.group.data.GroupBaseData;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -14,10 +12,12 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 public class GroupBaseDataHolder {
 	private int version;
 	private SynDataListHolder<GroupBaseData> listHolder = new SynDataListHolder<GroupBaseData>(GroupBaseData.class);
+	private GroupBaseData groupBaseData;
 
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
 		version = msgDataSyn.getVersion();
+		groupBaseData = listHolder.getItemList().get(0);
 	}
 
 	/**
@@ -34,8 +34,16 @@ public class GroupBaseDataHolder {
 	 * @return
 	 */
 	public int getGroupLevel(){
-		List<GroupBaseData> list = listHolder.getItemList();
-		GroupBaseData data = list.get(0);
-		return data.getGroupLevel();
+		return groupBaseData.getGroupLevel();
+	}
+	
+	/**
+	 * 
+	 * 获取帮派的等级
+	 * 
+	 * @return
+	 */
+	public String getGroupId() {
+		return groupBaseData.getId();
 	}
 }

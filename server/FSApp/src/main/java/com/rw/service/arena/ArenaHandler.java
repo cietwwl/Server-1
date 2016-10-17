@@ -30,6 +30,7 @@ import com.playerdata.army.ArmyMagic;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -779,7 +780,8 @@ public class ArenaHandler {
 			// HeroIF hero = player.getHeroMgr().getHeroById(heroId);
 			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero != null) {
-				heroImages.add(hero.getHeroCfg().getImageId());
+//				heroImages.add(hero.getHeroCfg().getImageId());
+				heroImages.add(FSHeroMgr.getInstance().getHeroCfg(hero).getImageId());
 			}
 		}
 
@@ -891,7 +893,7 @@ public class ArenaHandler {
 
 	private TagSkillData transfrom(SkillItem skill) {
 		TagSkillData.Builder builder = TagSkillData.newBuilder();
-		builder.setId(skill.getId());
+		builder.setId(skill.strId());
 		builder.setOwnerId(skill.getOwnerId());
 		builder.setSkillId(skill.getSkillId());
 		// builder.addAllBuffId(skill.getBuffId());

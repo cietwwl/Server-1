@@ -21,7 +21,7 @@ public class TableZoneInfo {
 	private String zonePath;    //大区路径
 	//subzone 是用户注册的时候分配的，一个zone有一个或椟个subZone组成
 	private String channelId; //渠道id
-	private String subZone;
+	private int subZone;
 	private int enabled;  //分区是否已开启. 0 否 1 是
 	private int status;  //状态  参考 LoginServiceProtos.java ZoneStatusType  0 hot 1 recommanded 2 new
 	private int recommand;  //是否推荐  1是0否
@@ -36,6 +36,9 @@ public class TableZoneInfo {
 	private int chargePort;
 	private String giftCodeServerIp; // 兑换码服务器Id
 	private int giftCodeServerPort;  // 兑换码服务器端口
+	private String benefitServerIp;//精准营销服ip
+	private int benefitServerPort;//精准营销服端口
+	private int benefitLocalPort;//本地绑定端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -51,10 +54,10 @@ public class TableZoneInfo {
 	public void setZoneName(String zoneName) {
 		this.zoneName = zoneName;
 	}
-	public String getSubZone() {
+	public int getSubZone() {
 		return subZone;
 	}
-	public void setSubZone(String subZone) {
+	public void setSubZone(int subZone) {
 		this.subZone = subZone;
 	}
 	public int getEnabled() {
@@ -103,15 +106,6 @@ public class TableZoneInfo {
 	}
 	public void setIsSubZone(int isSubZone) {
 		this.isSubZone = isSubZone;
-	}
-	@Transient
-	public List<Integer> getSubZoneIdList(){
-		List<Integer> subZoneIdList = new ArrayList<Integer>();
-		String[] split = subZone.split(";");
-		for (String zoneId : split) {
-			subZoneIdList.add(Integer.valueOf(zoneId));
-		}
-		return subZoneIdList;
 	}
 	public String getServerIp() {
 		return serverIp;
@@ -173,6 +167,26 @@ public class TableZoneInfo {
 	public void setGiftCodeServerPort(int giftCodeServerPort) {
 		this.giftCodeServerPort = giftCodeServerPort;
 	}
+	public String getBenefitServerIp() {
+		return benefitServerIp;
+	}
+	public void setBenefitServerIp(String benefitServerIp) {
+		this.benefitServerIp = benefitServerIp;
+	}
+	public int getBenefitServerPort() {
+		return benefitServerPort;
+	}
+	public void setBenefitServerPort(int benefitServerPort) {
+		this.benefitServerPort = benefitServerPort;
+	}
+	public int getBenefitLocalPort() {
+		return benefitLocalPort;
+	}
+	public void setBenefitLocalPort(int benefitLocalPort) {
+		this.benefitLocalPort = benefitLocalPort;
+	}
+	
+	
 	
 	
 }

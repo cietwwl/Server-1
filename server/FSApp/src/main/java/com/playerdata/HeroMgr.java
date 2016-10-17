@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.playerdata.readonly.PlayerIF;
 import com.rwbase.dao.role.pojo.RoleCfg;
+import com.rwbase.dao.user.pojo.LevelCfg;
 
 //public class HeroMgr implements HeroMgrIF {
 //	
@@ -404,7 +405,7 @@ public interface HeroMgr {
 	 * @param version
 	 */
 	public void synAllHeroToClient(Player player, int version);
-	
+
 	/**
 	 * 
 	 * @param player
@@ -412,7 +413,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public Hero addHero(Player player, String templateId);
-	
+
 	/**
 	 * 
 	 * @param p
@@ -422,16 +423,23 @@ public interface HeroMgr {
 
 	/**
 	 * 
+	 * @param p
+	 * @return
+	 */
+	public Hero getMainRoleHero(String userId);
+
+	/**
+	 * 
 	 * @param playerP
 	 * @param initHeros
 	 */
 	public void init(PlayerIF playerP, boolean initHeros);
-	
+
 	/**
 	 * 
 	 */
 	public void regAttrChangeCallBack();
-	
+
 	/**
 	 * 
 	 * 获取玩家所有的英雄的id
@@ -440,7 +448,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<String> getHeroIdList(PlayerIF player);
-	
+
 	/**
 	 * 
 	 * 根据英雄的id，获取英雄的对象
@@ -450,7 +458,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public Hero getHeroById(PlayerIF player, String uuid);
-	
+
 	/**
 	 * 
 	 * 根据模型ID，获取英雄对象
@@ -460,7 +468,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public Hero getHeroByModerId(PlayerIF player, int moderId);
-	
+
 	/**
 	 * 
 	 * 获取前四名的英雄的战力总和
@@ -468,7 +476,23 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public int getFightingTeam(PlayerIF player);
-	
+
+	/**
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public int getFightingTeam(String userId);
+
+	/**
+	 * 
+	 * 获取所有英雄的总战斗力
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public int getFightingAll(PlayerIF player);
+
 	/**
 	 * 
 	 * 获取所有英雄的总战斗力
@@ -476,8 +500,17 @@ public interface HeroMgr {
 	 * @param userId
 	 * @return
 	 */
-	public int getFightingAll(PlayerIF player);
-	
+	public int getFightingAll(String userId);
+
+	/**
+	 * 
+	 * 获取所有英雄的总星星数量
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public int getStarAll(PlayerIF player);
+
 	/**
 	 * 
 	 * 获取所有英雄的总星星数量
@@ -485,8 +518,8 @@ public interface HeroMgr {
 	 * @param userId
 	 * @return
 	 */
-	public int getStarAll(PlayerIF player);
-	
+	public int getStarAll(String userId);
+
 	/**
 	 * 
 	 * 检查是否有指定星级的英雄
@@ -496,7 +529,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public int isHasStar(PlayerIF player, int star);
-	
+
 	/**
 	 * 
 	 * 检查是否有指定品质的英雄
@@ -506,7 +539,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public int checkQuality(PlayerIF player, int quality);
-	
+
 	/**
 	 * 
 	 * 获取战斗力最大的四个英雄
@@ -515,7 +548,15 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<Hero> getMaxFightingHeros(PlayerIF player);
-	
+
+	/**
+	 * 获取战斗力最大的四个英雄
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Hero> getMaxFightingHeros(String userId);
+
 	/**
 	 * 
 	 * 获取所有英雄列表
@@ -524,7 +565,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public Enumeration<? extends Hero> getHerosEnumeration(PlayerIF player);
-	
+
 	/**
 	 * 
 	 * @param player
@@ -532,7 +573,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<Hero> getAllHeros(PlayerIF player, Comparator<Hero> comparator);
-	
+
 	/**
 	 * 
 	 * @param player
@@ -540,7 +581,27 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<Hero> getAllHerosExceptMainRole(Player player, Comparator<Hero> comparator);
-	
+
+	/**
+	 * 
+	 * 获取heroIds里面的hero实例
+	 * 
+	 * @param player
+	 * @param heroIds
+	 * @return
+	 */
+	public List<Hero> getHeros(PlayerIF player, List<String> heroIds);
+
+	/**
+	 * 
+	 * 根据角色id获取heroIds里面的hero实例
+	 * 
+	 * @param userId
+	 * @param heroIds
+	 * @return
+	 */
+	public List<Hero> getHeros(String userId, List<String> heroIds);
+
 	/**
 	 * 
 	 * 获取所有英雄数量
@@ -549,7 +610,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public int getHerosSize(PlayerIF player);
-	
+
 	/**
 	 * 
 	 * @param player
@@ -557,7 +618,7 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public Hero addHeroWhenCreatUser(Player player, String templateId);
-	
+
 	/**
 	 * 
 	 * @param playerP
@@ -565,19 +626,111 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public Hero addMainRoleHero(Player playerP, RoleCfg playerCfg);
-	
+
 	/**
+	 * 
+	 * 为所有英雄添加经验
 	 * 
 	 * @param player
 	 * @param exp
 	 */
 	public void AddAllHeroExp(PlayerIF player, long exp);
-	
+
 	/**
+	 * 
+	 * 根据模板id获取英雄
 	 * 
 	 * @param player
 	 * @param templateId
 	 * @return
 	 */
 	public Hero getHeroByTemplateId(Player player, String templateId);
+
+	/**
+	 * 
+	 * 为英雄添加经验
+	 * 
+	 * @param hero
+	 * @param heroExp
+	 * @return
+	 */
+	public int addHeroExp(Hero hero, long heroExp);
+
+	/**
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public int canUpgradeStar(Hero hero);
+
+	/**
+	 * 
+	 * gm編輯英雄的等級
+	 * 
+	 * @param hero
+	 * @param pLevel
+	 */
+	public void gmEditHeroLevel(Hero hero, int pLevel);
+
+	/**
+	 * 
+	 * gm檢查英雄是否激活技能
+	 * 
+	 * @param hero
+	 */
+	public void gmCheckActiveSkill(Hero hero);
+
+	/**
+	 * 
+	 * 获取英雄的模板数据
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public RoleCfg getHeroCfg(Hero hero);
+
+	/**
+	 * 
+	 * 获取英雄的升级经验信息
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public LevelCfg getLevelCfg(Hero hero);
+
+	/**
+	 * 
+	 * <pre>
+	 * 同步英雄信息到客户端
+	 * </pre>
+	 * 
+	 * @param version
+	 */
+	public void synHero(Hero hero, int version);
+
+	/**
+	 * 
+	 * <pre>
+	 * 获取英雄的主人
+	 * </pre>
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public Player getOwnerOfHero(Hero hero);
+
+	/**
+	 * 获取佣兵品质
+	 * 
+	 * @param hero
+	 * @return
+	 */
+	public int getHeroQuality(Hero hero);
+
+	/**
+	 * 当阵容发现改变的时候，通知进行修改队伍战力
+	 * 
+	 * @param userId
+	 */
+	public void updateFightingTeamWhenEmBattleChange(String userId);
 }

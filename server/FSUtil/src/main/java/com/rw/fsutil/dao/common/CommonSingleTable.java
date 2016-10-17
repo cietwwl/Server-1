@@ -8,31 +8,40 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DataAccessSimpleSupport;
 
 /**
  * @author allen
  * @version 1.0
  */
-public class CommonSingleTable<T> extends BaseJdbc<T> {
+public class CommonSingleTable<T>  {
 
 	private final String selectSql;
 	private final String deleteSql;
 	private final String updateSql;
 	private final String insertSql;
+	private final ClassInfo classInfo;
+	private final JdbcTemplate template;
+	private final DataAccessSimpleSupport simpleSupport;
+	protected final OwnerRowMapper<T> rowMapper;
 
-	public CommonSingleTable(JdbcTemplate templateP, ClassInfo classInfoPojo) {
-		super(templateP, classInfoPojo);
-		String currentName = classInfoPojo.getTableName();
+	public CommonSingleTable(String dsName, JdbcTemplate template, ClassInfo classInfo) {
+		this.classInfo = classInfo;
+		this.template = template;
+		this.rowMapper = new OwnerRowMapper<T>(classInfo);
+		this.simpleSupport = DataAccessFactory.getSimpleSupport(dsName);
+		String currentName = classInfo.getTableName();
 		StringBuilder insertFields = new StringBuilder();
 		StringBuilder insertHolds = new StringBuilder();
 		StringBuilder updateFields = new StringBuilder();
 		try {
-			extractColumn(insertFields, insertHolds, updateFields);
+			classInfo.extractColumn(insertFields, insertHolds, updateFields);
 		} catch (Throwable t) {
 			throw new ExceptionInInitializerError(t);
 		}
 
-		String idFieldName = classInfoPojo.getPrimaryKey();
+		String idFieldName = classInfo.getPrimaryKey();
 		this.selectSql = "select * from " + currentName + " where " + idFieldName + "=?";
 		this.deleteSql = "delete from " + currentName + " where " + idFieldName + "=?";
 		this.updateSql = "update " + currentName + " set " + updateFields.toString() + " where " + idFieldName + " = ?";
@@ -40,20 +49,19 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 	}
 
 	public boolean insert(String key, T target) throws DuplicatedKeyException, Exception {
-		return super.insert(insertSql, key, target, null);
+		return simpleSupport.insert(classInfo, insertSql, key, target);
 	}
 
 	public boolean delete(String id) throws DataNotExistException, Exception {
-		return super.update(deleteSql, id) > 0;
+		return simpleSupport.update(deleteSql, id) > 0;
 	}
 
 	public boolean updateToDB(String key, T target) throws Exception {
-		return super.updateToDB(updateSql, key, target);
+		return simpleSupport.updateToDB(classInfo, updateSql, key, target);
 	}
 
 	public T load(String key) throws DataNotExistException, Exception {
 		List<T> resultList = template.query(selectSql, rowMapper, key);
-		// return resultList.size() > 0 ? resultList.get(0) : null;
 		if (resultList.size() > 0) {
 			return resultList.get(0);
 		} else {
@@ -103,4 +111,7 @@ public class CommonSingleTable<T> extends BaseJdbc<T> {
 		return classInfo.getTableName();
 	}
 
+	public String getUpdateSql() {
+		return updateSql;
+	}
 }

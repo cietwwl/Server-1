@@ -56,8 +56,9 @@ public final class ActivityTimeCountTypeCfgDAO extends CfgCsvDao<ActivityTimeCou
 		ActivityTimeCountTypeCfg cfgById = getCfgById(cfgId );
 		if(cfgById!=null){			
 			ActivityTimeCountTypeItem item = new ActivityTimeCountTypeItem();
-			String itemId = ActivityTimeCountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
-			item.setId(itemId);
+//			String itemId = ActivityTimeCountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
+			int id = Integer.parseInt(countTypeEnum.getCfgId());
+			item.setId(id);
 			item.setCfgId(cfgId);
 			item.setUserId(player.getUserId());
 			item.setVersion(cfgById.getVersion());

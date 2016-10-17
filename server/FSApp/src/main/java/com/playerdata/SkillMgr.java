@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 
 import com.common.IHeroAction;
-import com.log.GameLog;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.SkillMgrIF;
 import com.playerdata.refactor.IDataMgrSingletone;
@@ -21,10 +20,10 @@ import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
 import com.rwbase.dao.skill.SkillFeeCfgDAO;
-import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillFeeCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillItemHolder;
 import com.rwbase.dao.skill.pojo.TableSkill;
 import com.rwbase.dao.user.CfgBuySkill;
@@ -49,7 +48,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	}
 
 	// private SkillItemHolder skillItemHolder;
-	private final SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
+//	private final SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
 
 	public void init(Hero pRole) {
 		// initPlayer(pRole);
@@ -57,8 +56,13 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		// skillItemHolder = new SkillItemHolder(ownerId);
 	}
 
+	public SkillItemHolder getSkillItemHoder(){
+		return SkillItemHolder.getSkillItemHolder();
+	}
+	
+	
 	public void regDataChangeCallback(IHeroAction callback) {
-		skillItemHolder.regDataChangeCallback(callback);
+		getSkillItemHoder().regDataChangeCallback(callback);
 	}
 
 	@Override
@@ -66,19 +70,9 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		return false;
 	}
 
-	@Override
-	public boolean save(String heroId) {
-		skillItemHolder.flush(heroId, false);
-		return true;
-	}
-
-	public boolean flush(String heroId) {
-		skillItemHolder.flush(heroId, true);
-		return true;
-	}
 
 	public List<SkillItem> getSkillList(String heroId) {
-		return skillItemHolder.getItemList(heroId);
+		return getSkillItemHoder().getItemList(heroId);
 	}
 
 	public boolean canUpgradeSkill(Player player, String heroId) {
@@ -145,7 +139,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 
 	public boolean updateSkill(Player player, String heroId, String skillId, int addLevel) {
 		SkillItem skill = null;
-		List<SkillItem> skillList = skillItemHolder.getItemList(heroId);
+		List<SkillItem> skillList = getSkillItemHoder().getItemList(heroId);
 		for (SkillItem current : skillList) {
 			if (current.getSkillId().equals(skillId)) {
 				skill = current;
@@ -165,8 +159,8 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		}
 		skill.setLevel(level);
 		skill.setSkillId(newSkillId);
-		updateMoreInfo(player, heroId, skill, null);
-		skillItemHolder.updateItem(player, heroId, skill);
+		updateMoreInfo(player, heroId, skill);
+		getSkillItemHoder().updateItem(player, heroId, skill);
 		return true;
 	}
 
@@ -213,13 +207,13 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	public void activeSkill(Player player, String heroId, int level, int quality) {
 		// int maxOrder = -1;
 		// modify by Jamaz 2015-11-23 抽取判断能否激活技能的方法
-		for (SkillItem skill : skillItemHolder.getItemList(heroId)) {
+		for (SkillItem skill : getSkillItemHoder().getItemList(heroId)) {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
-				updateMoreInfo(player, heroId, skill, null);
+				updateMoreInfo(player, heroId, skill);
 			}
 		}
-		skillItemHolder.synAllData(player, heroId, -1);
+		getSkillItemHoder().synAllData(player, heroId, -1);
 	}
 
 	/**
@@ -260,10 +254,11 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 			String oldSkillId = oldSkill.getSkillId();
 			String newSkillId = newSkill.getSkillId().split("_")[0] + "_" + oldSkillId.split("_")[1];
 			oldSkill.setSkillId(newSkillId);
+			getSkillItemHoder().updateItem(player, heroId, oldSkill);
 		}
 
 		// 检查所有的技能
-		updateMoreInfo(player, heroId, null, skillItemHolder.getItemList(heroId));
+		updateMoreInfo(player, heroId, null);
 	}
 
 	/**
@@ -272,8 +267,8 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @param pRole
 	 */
 	public void initSkill(Player player, Hero m_pOwner, RoleCfg rolecfg) {
-		List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
-		skillItemHolder.addItem(player, m_pOwner.getId(), battleSkillList);
+//		List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
+//		getSkillItemHoder().addItem(player, m_pOwner.getId(), battleSkillList);
 	}
 
 	// /**
@@ -299,7 +294,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	// }
 	// }
 	//
-	// List<Skill> itemList = skillItemHolder.getItemList();
+	// List<Skill> itemList = getSkillItemHoder().getItemList();
 	//
 	// SkillHelper.checkAllSkill(itemList);// 检查所有的技能
 	//
@@ -310,7 +305,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	// continue;
 	// }
 	//
-	// skillItemHolder.updateItem(m_pPlayer, skill);
+	// getSkillItemHoder().updateItem(m_pPlayer, skill);
 	//
 	// // sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
 	// // skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
@@ -325,7 +320,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * 
 	 * @param pSkill
 	 */
-	private void updateMoreInfo(Player player, String heroId, SkillItem pSkill, List<SkillItem> skillList) {
+	private void updateMoreInfo(Player player, String heroId, SkillItem pSkill) {
 		if (pSkill != null) {
 			if (pSkill.getLevel() <= 0) {
 				return;
@@ -343,24 +338,9 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 			}
 		}
 
-		List<SkillItem> itemList = skillItemHolder.getItemList(heroId);
+		List<SkillItem> itemList = getSkillItemHoder().getItemList(heroId);
 
 		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
-
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0, size = itemList.size(); i < size; i++) {
-			SkillItem skill = itemList.get(i);
-			if (skill == null) {
-				continue;
-			}
-
-			skillItemHolder.updateItem(player, heroId, skill);
-
-			sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],listeners{%s}\n", skill.getOrder(), skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
-					skill.getExtraDamage(), skill.getSkillRate(), skill.getSkillListeners().toString()));
-		}
-
-		GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
 	}
 
 	/**
@@ -368,7 +348,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 */
 	public void syncAllSkill(Player player, String heroId, int version) {
 		reshSkillPoint(player);
-		skillItemHolder.synAllData(player, heroId, version);
+		getSkillItemHoder().synAllData(player, heroId, version);
 	}
 
 	/**
@@ -379,7 +359,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public List<TagSkillData> getSkillProtoList(String heroId) {
-		List<SkillItem> skillItemList = skillItemHolder.getItemList(heroId);
+		List<SkillItem> skillItemList = getSkillItemHoder().getItemList(heroId);
 		List<TagSkillData> list = getSkillProtoList(skillItemList);
 		return list;
 	}
@@ -480,7 +460,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public TableSkill getTableSkill(Player player, String heroId) {
-		List<SkillItem> skillList = skillItemHolder.getItemList(heroId);
+		List<SkillItem> skillList = getSkillItemHoder().getItemList(heroId);
 
 		TableSkill skillTable = new TableSkill();
 		skillTable.setSkillList(skillList);
@@ -495,7 +475,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public SkillItem getSkill(String heroId, int order) {
-		return skillItemHolder.getByOrder(heroId, order);
+		return getSkillItemHoder().getByOrder(heroId, order);
 	}
 
 	/**
@@ -522,8 +502,8 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public void gmUpgradeSkillLv(Player player, String heroId, SkillItem skill) {
-		updateMoreInfo(player, heroId, skill, null);
-		skillItemHolder.updateItem(player, heroId, skill);
+		updateMoreInfo(player, heroId, skill);
+		getSkillItemHoder().updateItem(player, heroId, skill);
 	}
 
 	/**
@@ -554,10 +534,18 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 					continue;
 				}
 
+				if (skill.getOrder() != SkillConstant.NORMAL_SKILL_ORDER) {
+					continue;
+				}
+
 				if (skill.getSkillId().equals(attackId)) {
 					hasNormalSkill = true;
 					break;
 				}
+
+				skill.setSkillId(attackId);
+				getSkillItemHoder().updateItem(player, heroId, skill);
+				hasNormalSkill = true;
 			}
 
 			if (!hasNormalSkill) {
@@ -565,11 +553,17 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 				normalSkill.setSkillId(attackId);
 				normalSkill.setOrder(SkillConstant.NORMAL_SKILL_ORDER);
 				normalSkill.setLevel(1);
-				skillItemHolder.addItem(player, heroId, normalSkill, false);
+				getSkillItemHoder().addItem(player, heroId, normalSkill, false);
 			}
 		}
 
 		// 初始化各个技能之间的影响的buffer等
-		updateMoreInfo(player, heroId, null, skillItemHolder.getItemList(heroId));
+		updateMoreInfo(player, heroId, null);
+	}
+
+	@Override
+	public boolean save(String key) {
+		//do nothing 
+		return false;
 	}
 }

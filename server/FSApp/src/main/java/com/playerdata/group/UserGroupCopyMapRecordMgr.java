@@ -3,13 +3,14 @@ package com.playerdata.group;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.common.PlayerEventListener;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
 import com.rwbase.dao.groupCopy.db.UserGroupCopyMapRecordHolder;
 
 
-public class UserGroupCopyMapRecordMgr {
+public class UserGroupCopyMapRecordMgr implements PlayerEventListener{
 	
 	private UserGroupCopyMapRecordHolder holder;// 个人帮派数据的管理
 	@SuppressWarnings("unused")
@@ -49,6 +50,23 @@ public class UserGroupCopyMapRecordMgr {
 	//作弊添加次数
 	public void setRoleBattleTime(int count, Player player){
 		holder.setFigntCount(count, player);
+	}
+
+
+	@Override
+	public void notifyPlayerCreated(Player player) {
+	}
+
+
+	@Override
+	public void notifyPlayerLogin(Player player) {
+		holder.checkAndInitData();
+	}
+
+
+	@Override
+	public void init(Player player) {
+		
 	}
 
 }

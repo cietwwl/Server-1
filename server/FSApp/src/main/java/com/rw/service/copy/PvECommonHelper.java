@@ -10,6 +10,7 @@ import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
+import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.ItemInfoIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
@@ -21,6 +22,9 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.BuyLevelCfg;
 import com.rwbase.dao.copy.cfg.BuyLevelCfgDAO;
 import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
+import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.pojo.CopyData;
@@ -43,9 +47,10 @@ public class PvECommonHelper {
 		List<String> listUpHero = new ArrayList<String>();
 		List<String> heroIdList = copyRequest.getTagBattleData().getHeroIdList();
 		for (String heroId : heroIdList) {
-//			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			// Hero hero = player.getHeroMgr().getHeroById(heroId);
 			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
-			int addHeroExp = hero.addHeroExp(copyCfg.getHeroExp());
+			// int addHeroExp = hero.addHeroExp(copyCfg.getHeroExp());
+			int addHeroExp = player.getHeroMgr().addHeroExp(hero, copyCfg.getHeroExp());
 			if (hero != null && addHeroExp == 1) {
 				listUpHero.add(heroId);
 			}
@@ -58,50 +63,114 @@ public class PvECommonHelper {
 		// CopyRewardsIF copyRewards = copyRecordMgr.getCopyRewards();
 
 		int levelId = copyCfg.getLevelID();
-		
-		
-		if (dropItems != null) {	
-//			for (ItemInfoIF item : dropItems) {
-//				player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
-//			}
+
+		if (dropItems != null) {
+			// for (ItemInfoIF item : dropItems) {
+			// player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+			// }
 			List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(dropItems);
 			player.getItemBagMgr().addItem(itemInfoList);
-			
-//			ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
-			
+
+			// ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+
 			StringBuilder rewardInfo = new StringBuilder();
 			rewardInfo.append("成功获取战斗奖励 levelId=").append(levelId).append(" rewards:").append(JsonUtil.writeValue(dropItems));
 			GameLog.info(LogModule.COPY.getName(), player.getUserId(), rewardInfo.toString(), null);
 		}
 	}
-	/**手动副本经验金币增加*/
+
+	/** 手动副本经验金币增加 */
 	public static void addPlayerAttr4Battle(Player player, CopyCfg copyCfg) {
-//		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 1);
-//		int multiplecoin = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 2);		
-		
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+		// int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 1);
+		// int multiplecoin = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 2);
+
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 		int multiplePower = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Power.getValue());
 		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
 		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
-		
-		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower())*multiplePower);
-		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiplePlayerExp);
-		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin()*multipleCoin);
+
+		List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
+		if (multipleCoin - 1 >= 0.001f || multipleCoin - 1 <= -0.001f) {
+			PrivilegeDescItem privDescItem_Coin = new PrivilegeDescItem(eSpecialItemId.Coin.getValue(), multipleCoin - 1);
+			totalPriv.add(privDescItem_Coin);
+		}
+		if (multiplePlayerExp - 1 >= 0.001f || multiplePlayerExp - 1 <= -0.001f) {
+			PrivilegeDescItem privDescItem_Exp = new PrivilegeDescItem(eSpecialItemId.PlayerExp.getValue(), multiplePlayerExp - 1);
+			totalPriv.add(privDescItem_Exp);
+		}
+		if (CopyCfgDAO.getInstance().isNormalOrElite(copyCfg)) {
+			List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+			if (null != privList && !privList.isEmpty()) {
+				totalPriv.addAll(privList);
+			}
+		}
+		ArrayList<ItemInfo> dropItem = new ArrayList<ItemInfo>();
+		ItemInfo exp = new ItemInfo(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp());
+		ItemInfo coin = new ItemInfo(eSpecialItemId.Coin.getValue(), copyCfg.getCoin());
+		dropItem.add(exp);
+		dropItem.add(coin);
+		if (!totalPriv.isEmpty()) {
+			System.currentTimeMillis();
+			ArrayList<ItemInfo> dropItemUnderBuff = new ArrayList<ItemInfo>();
+			for (ItemInfo iteminfo : dropItem) {
+				ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, totalPriv);
+				dropItemUnderBuff.add(ItemPrivilegeFactory.getItemInfo(newItemIF));
+			}
+			dropItem = dropItemUnderBuff;
+		}
+		player.getItemBagMgr().addItem(dropItem);
+		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()) * multiplePower);
+		// player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiplePlayerExp);
+		// player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin()*multipleCoin);
 	}
-	/**副本扫荡经验增加*/
+
+	/** 副本扫荡经验增加 */
 	public static void addPlayerAttr4Sweep(Player player, CopyCfg copyCfg, int times) {
-//		int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 1);
-//		int multiplecoin = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 2);
-		
-		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());		
+		// int multiple = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 1);
+		// int multiplecoin = ActivityRateTypeMgr.getInstance().checkEnumIsExistAndActivityIsOpen(player,copyCfg.getLevelType(), 2);
+
+		Map<Integer, Integer> map = ActivityRateTypeMgr.getInstance().getEspecialItemtypeAndEspecialWithTime(player, copyCfg.getLevelType());
 		int multiplePower = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Power.getValue());
 		int multiplePlayerExp = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.PlayerExp.getValue());
 		int multipleCoin = 1 + ActivityRateTypeMgr.getInstance().getMultiple(map, eSpecialItemId.Coin.getValue());
-		
-		
-		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times*multiplePower);
-		player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiplePlayerExp);
-		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times*multipleCoin);
+
+		List<PrivilegeDescItem> totalPriv = new ArrayList<PrivilegeDescItem>();
+		if (multipleCoin - 1 >= 0.001f || multipleCoin - 1 <= -0.001f) {
+			PrivilegeDescItem privDescItem_Coin = new PrivilegeDescItem(eSpecialItemId.Coin.getValue(), multipleCoin - 1);
+			totalPriv.add(privDescItem_Coin);
+		}
+		if (multiplePlayerExp - 1 >= 0.001f || multiplePlayerExp - 1 <= -0.001f) {
+			PrivilegeDescItem privDescItem_Exp = new PrivilegeDescItem(eSpecialItemId.PlayerExp.getValue(), multiplePlayerExp - 1);
+			totalPriv.add(privDescItem_Exp);
+		}
+		if (CopyCfgDAO.getInstance().isNormalOrElite(copyCfg)) {
+			List<? extends PrivilegeDescItem> privList = FSuserFightingGrowthMgr.getInstance().getPrivilegeDescItem(player);
+			if (null != privList && !privList.isEmpty()) {
+				totalPriv.addAll(privList);
+			}
+		}
+
+		ArrayList<ItemInfo> dropItem = new ArrayList<ItemInfo>();
+		// 总的乘以一个倍数吧，现在10连扫都只掉落一次了
+		ItemInfo exp = new ItemInfo(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times);
+		ItemInfo coin = new ItemInfo(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times);
+		dropItem.add(exp);
+		dropItem.add(coin);
+
+		if (!totalPriv.isEmpty()) {
+			ArrayList<ItemInfo> dropItemUnderBuff = new ArrayList<ItemInfo>();
+			for (ItemInfo iteminfo : dropItem) {
+				ItemInfoIF newItemIF = ItemPrivilegeFactory.createPrivilegeItem(iteminfo, totalPriv);
+				ItemInfo newItem = ItemPrivilegeFactory.getItemInfo(newItemIF);
+				newItem.setItemNum(newItem.getItemNum());
+				dropItemUnderBuff.add(newItem);
+			}
+			dropItem = dropItemUnderBuff;
+		}
+		player.getItemBagMgr().addItem(dropItem);
+		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times * multiplePower);
+		// player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiplePlayerExp);
+		// player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times*multipleCoin);
 	}
 
 	public static List<TagSweepInfo> gainSweepRewards(Player player, int times, CopyCfg copyCfg) {
@@ -132,26 +201,20 @@ public class PvECommonHelper {
 					int itemNum = item.getItemNum();
 					listItem.add(itemId + "," + itemNum);
 					// 将奖励放入背包
-//					player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+					// player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
 				player.getItemBagMgr().addItem(dropItems);
-//				Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
-//				for(Map.Entry<Integer, Integer> entry:map.entrySet()){
-//					listItem.add(entry.getKey()+","+entry.getValue());
-//				}
-			
-				
-				
+				// Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
+				// for(Map.Entry<Integer, Integer> entry:map.entrySet()){
+				// listItem.add(entry.getKey()+","+entry.getValue());
+				// }
+
 				tagsweepInfo.addAllTagItemList(listItem);
 				listSweepInfo.add(tagsweepInfo.build());
-				
+
 			}
 		}
-		
-		
-		
-		
-		
+
 		String extraRewards = copyCfg.getExtraRewards();
 		if (extraRewards != null && !extraRewards.isEmpty()) {
 			try {
@@ -218,7 +281,7 @@ public class PvECommonHelper {
 			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
 			return EResultType.NOT_ENOUGH_TIMES;
 		}
-		if (isTimesLimit(player, copyCfg, copyRecord,times)) {
+		if (isTimesLimit(player, copyCfg, copyRecord, times)) {
 			player.NotifyCommonMsg(CommonTip.TIMES_NOT_ENOUGH);
 			return EResultType.NOT_ENOUGH_TIMES;
 		}
@@ -243,26 +306,22 @@ public class PvECommonHelper {
 		return (copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()) * times > player.getUserGameDataMgr().getPower();
 	}
 
-	private static boolean isTimesLimit(Player player, CopyCfg copyCfg,CopyLevelRecordIF copyRecord, int times) {
-	
+	private static boolean isTimesLimit(Player player, CopyCfg copyCfg, CopyLevelRecordIF copyRecord, int times) {
+
 		boolean isLimit = false;
 		int levelType = copyCfg.getLevelType();
-		if(levelType == CopyType.COPY_TYPE_TRIAL_JBZD 
-				||levelType == CopyType.COPY_TYPE_TRIAL_LQSG
-				||levelType == CopyType.COPY_TYPE_CELESTIAL ){			
-			//历史原因  ， 聚宝之地 练气山谷 生存幻境 的次数保存在copydata, 
-			isLimit = player.getCopyDataMgr().getCopyCount(String.valueOf(copyCfg.getLevelID())) - times < 0;				
-		}else if(levelType == CopyType.COPY_TYPE_ELITE){
-			//精英和普通副本保存在copylevelRecord
-			isLimit = copyRecord.getCurrentCount()+times > copyCfg.getResetNum();
-		}else {
-			//do nothing 另外的pve都有自己的次数判断,普通副本不做限制
+		if (levelType == CopyType.COPY_TYPE_TRIAL_JBZD || levelType == CopyType.COPY_TYPE_TRIAL_LQSG || levelType == CopyType.COPY_TYPE_CELESTIAL) {
+			// 历史原因 ， 聚宝之地 练气山谷 生存幻境 的次数保存在copydata,
+			isLimit = player.getCopyDataMgr().getCopyCount(String.valueOf(copyCfg.getLevelID())) - times < 0;
+		} else if (levelType == CopyType.COPY_TYPE_ELITE) {
+			// 精英和普通副本保存在copylevelRecord
+			isLimit = copyRecord.getCurrentCount() + times > copyCfg.getResetNum();
+		} else {
+			// do nothing 另外的pve都有自己的次数判断,普通副本不做限制
 		}
-		
+
 		return isLimit;
 	}
-	
-	
 
 	public static void deduceSweepCost(Player player, MsgCopyRequest copyRequest, MsgCopyResponse.Builder copyResponse, int times) {
 		ERequestType requestType = copyRequest.getRequestType();

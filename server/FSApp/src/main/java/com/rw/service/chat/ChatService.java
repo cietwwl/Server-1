@@ -1,7 +1,6 @@
 package com.rw.service.chat;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
@@ -29,17 +28,20 @@ public class ChatService implements FsService<Request, Command> {
 				eChatType chatType = msgChatRequest.getChatType();
 				if (isChatBan(player, msgChatRequest) == null) {
 					switch (chatType) {
-					case CHAT_WORLD:
+					case CHANNEL_WORLD:
 						result = chatHandler.chatWorld(player, msgChatRequest);
 						break;
-					case CHAT_FAMILY:
+					case CHANNEL_GROUP:
 						result = chatHandler.chatInGroup(player, msgChatRequest);
 						break;
-					case CHAT_PERSON:
+					case CHANNEL_PERSON:
 						result = chatHandler.chatPerson(player, msgChatRequest);
 						break;
 					case CHAT_TREASURE:
 						result = chatHandler.getChatTreasure(player, msgChatRequest);
+						break;
+					case CHANNEL_TEAM:
+						result = chatHandler.chatTeam(player, msgChatRequest);
 						break;
 					default:
 						break;

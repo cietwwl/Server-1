@@ -85,8 +85,7 @@ enum Command {
 	MSG_ACTIVITY_DailyDiscount_TYPE = 183;//通用活动每日折扣
 	MSG_ACTIVITY_VipDiscount_TYPE = 184;//通用活动七日VIp折扣
 	MSG_ACTIVITY_RedEnvelope_TYPE = 185;//通用活动开服红包
-	MSG_ACTIVITY_FORTUNECAT_TYPE = 210;//通用活动招财猫
-	MSG_ACTIVITY_LimitHero_TYPE = 211;//通用活动限时神将
+
 	
 	MSG_GROUP_COPY_ADMIN = 186;//帮派副本管理
 	MSG_GROUP_COPY_BATTLE = 187;//帮派副本战斗
@@ -110,14 +109,31 @@ enum Command {
 	MSG_TEAM_BATTLE = 207;
 	MSG_ONE_KEY_REWARD = 208;	//一键领取奖励
 	MSG_BATTLE_COMMON = 209;//保存客户端阵容到服务器
-	
+	MSG_ACTIVITY_FORTUNECAT_TYPE = 210;//通用活动招财猫
+	MSG_ACTIVITY_LimitHero_TYPE = 211;//通用活动限时神将
 	MSG_ACTIVITY_DAILY_CHARGE_TYPE = 212;	//每日充值活动
 	MSG_SYN_DATA_SERVICE = 213;//数据同步请求服务
 	MSG_RANDOM_BOSS = 214;     //随机boss
 	MSG_WORLD_BOSS = 215;      //世界boss
 	
-	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛
+	MSG_GROUP_COMPETITION = 216;	//帮派争霸赛同屏
+	MSG_GROUP_COMPETITION_GET_DATA = 217; // 帮派争霸：获取数据通用协议（CommonGetDataReqMsg）
+	MSG_GROUP_COMPETITION_TEAM_REQ = 218; // 帮派争霸：队伍请求（对应GroupCompetition.proto里的TeamRequest）
+	MSG_GROUP_JOIN_TEAM_REQ = 219; // 帮派争霸：加入队伍（对应GroupCompetition.proto里的JoinTeamReq）
 	
+	MSG_BENEFIT_ITEM = 220;//精准营销消息协议
+	
+	MSG_ACTIVITY_RETRIEVE = 221;//每日找回
+	
+	MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ = 222; // 帮派争霸：队伍成员请求（对应GroupCompetition.proto里的TeamMemberRequest）
+	MSG_GROUP_COMPETITION_TEAM_STATUS_REQ = 223; // 帮派争霸：队伍准备状态请求（对应GroupCompetition.proto里的TeamStatusRequest）
+	MSG_GROUP_COMPETITION_QUIZ = 224;	//帮派争霸:竞猜（对应GroupCompetition.proto里的ReqNewGuess）
+	MSG_GROUP_COMPETITION_QUIZ_SYN = 225;	//帮派争霸:同步可竞猜的项（对应GroupCompetition.proto里的ReqAllGuessInfo）
+	MSG_GROUP_COMPETITION_BATTLE = 226;//帮派争霸：战斗处理
+	MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE = 227; // 帮派争霸：队伍状态发生变化，服务器推送给客户端，发送GroupCompetition.proto里的TeamStatusChange
+	MSG_GROUP_COMPETITION_EVENTS_FINISHED = 228; // 帮派争霸：赛事结束，发送GroupCompetition.proto里的EventsResult
+	
+	MSG_PRAISE = 229;//点赞的消息
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆

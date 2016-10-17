@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rwbase.common.IFunction;
@@ -33,11 +34,11 @@ public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, I
 
 	@Override
 	public Integer apply(Hero hero) {
-		if (_openLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, hero.getPlayer())) {
+		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
+		if (_openLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, player)) {
 			int fighting = 0;
 			TaoistFightingCfg taoistFightingCfg;
 			TaoistMagicCfg taoistMagicCfg;
-			Player player = hero.getPlayer();
 			Iterable<Map.Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
 			for (Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
 				Map.Entry<Integer, Integer> entry = itr.next();

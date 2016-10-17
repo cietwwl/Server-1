@@ -1,0 +1,58 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "RandomBossProto";
+
+package RandomBoss;
+
+enum MsgType{
+	FIND_BOSS = 1;//发现怪物    服务器发送此消息到客户端前会先把新的怪物数据同步过去
+	GET_BOSS_LIST = 2; //请求boss列表
+	INVITE_FRIEND_BATTLE = 3;//邀请好友参加帮派战        参数：bossID,好友列表
+	ACCEPTED_INVITED = 4;//接受邀请                                 参数：bossID
+	APPLY_BATTLE = 5;//请求进入boss战                       参数：bossID 如果可以进入战斗  则返回 armyInfo
+	END_BATTLE = 6;//通知战斗结束                            参数：bossID,当前血量,返回   战斗结算数据  BattleRewardInfo
+	GET_BATTLE_INFO = 7;//请求讨伐信息     参数：bossID
+	UPDATE_BATTLE_COUNT = 8;//更新总战斗次数
+}
+
+message RandomBossSynBattleCount{
+	required int32 curCount = 1;//当前次数
+	required int32 maxCount = 2;//最大次数
+}
+
+message RandomMsgRequest{
+	required MsgType msgType  = 1; //请求协议类型
+	optional string bossID = 2; 
+	optional InvitedFriends friends = 3;//邀请的朋友列表
+	optional int64 curHp = 4; //boss当前血量
+}
+
+message RandomBossMsgResponse{
+	required MsgType msgType = 1; 
+	required bool isSuccess = 2; //是否成功
+	optional string tips = 3;
+	optional BattleRewardInfo reward = 4;
+	optional string army = 5;//这是armyinfo 的json字段
+	repeated string battleInfo = 6;//讨伐信息 BattleNewsData json字符串
+}
+
+//推送到前端的消息
+message RandomBossPushMsg{
+	required MsgType msgType = 1;
+	optional string bossID = 2;//这个应该是boss 模板id, 不是服务器生成的id
+	optional RandomBossSynBattleCount battleCount = 3;//当天战斗总次数
+}
+
+message InvitedFriends{
+ 	repeated string friendID = 1;
+	required int32 type = 2; //类型，好友是1，帮派是2 
+}
+
+message BattleRewardInfo{
+	repeated ItemInfo  items = 1;
+}
+
+message ItemInfo{
+	required int32 itemID = 1;
+	required int32 count = 2;
+}

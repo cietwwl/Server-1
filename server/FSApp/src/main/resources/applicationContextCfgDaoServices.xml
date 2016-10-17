@@ -210,6 +210,10 @@
 	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitGamblePlanCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.limitHeroType.cfg.ActivityLimitGambleDropCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->
@@ -298,6 +302,8 @@
 	<bean class="com.rwbase.dao.fighting.MagicLevelFightingCfgDAO" init-method="init" />
 	<!--  法宝品质战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.MagicQualityFightingCfgDAO" init-method="init" />
+	<!--  法宝资质战力配置表 -->
+	<bean class="com.rwbase.dao.fighting.MagicAptitudeFightingCfgDAO" init-method="init" />
 	<!--  技能战力配置表 -->
 	<bean class="com.rwbase.dao.fighting.SkillFightingCfgDAO" init-method="init" />
 	<!--  神器羁绊战力配置表 -->
@@ -312,6 +318,48 @@
 	<bean class="com.rwbase.dao.fighting.FashionFightingCfgDAO" init-method="init" />
 	<!-- 技能监听Id修改配置表  -->
 	<bean class="com.rwbase.dao.skill.SkillListenOptCfgDAO"  init-method="init" />
+	<!-- 帮派争霸对阵信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionAgainstCfgDAO" init-method="init" />
+	<!-- 帮派争霸阶段信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO" init-method="init" />
+	<!-- 帮派争霸阶段控制信息配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO" init-method="init" />
+	<!-- 帮派争霸每轮赛事的积分排名奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompScoreRewardCfgDAO" init-method="init" />
+	<!-- 帮派争霸每轮赛事的排名奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalContinueWinRankRewardDAO" init-method="init" />
+	<!-- 帮派争霸每轮赛事的击杀奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalKillRankRewardDAO" init-method="init" />
+	<!-- 帮派争霸最后的总排名 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompGroupRewardCfgDAO" init-method="init" />
+	<!-- 帮派争霸最后的冠军奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompChampionRewardCfgDAO" init-method="init" />
+	<!-- 帮派争霸每场战斗的个积分奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompPersonalScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸每场战斗的帮派积分奖励 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompGroupScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸标准积分配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompBasicScoreCfgDAO" init-method="init" />
+	<!-- 帮派争霸竞猜配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompGeneralCfgDAO"  init-method="init" />
+	<!-- 广播配置表 -->
+	<bean class="com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO" init-method="init" />
+	<!-- 技能监听的配置表 -->
+	<bean class="com.rwbase.dao.skill.SkillListenerCfgDAO"  init-method="init" />
+	
+	<!-- 随机boss -->
+	<bean class="com.rwbase.dao.randomBoss.cfg.RandomBossCfgDao" init-method="init" />
+	<bean class="com.rwbase.dao.randomBoss.cfg.RBServerCfgDao" init-method="init" />
+	
+	<bean class="com.playerdata.teambattle.cfg.TeamMatchCfgDAO" init-method="init" />
+	
+	<bean class="com.bm.robot.cfg.RobotFNameCfgDAO" init-method="init" />
+	<bean class="com.bm.robot.cfg.RobotSNameCfgDAO" init-method="init" />
+	
+	<bean class="com.rwbase.dao.magicweapon.MagicSmeltMaterialCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCfgDAO" init-method="init" />
+	
 	
 	<!-- 世界boss配置表 -->
 	<bean class="com.bm.worldBoss.cfg.WBCfgDAO" init-method="init" />

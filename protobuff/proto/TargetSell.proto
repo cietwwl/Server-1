@@ -1,0 +1,27 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "TargetSellProto";
+
+package TargetSell;
+
+enum RequestType{
+	CHARGE_ITEM = 1;//充值购买道具，这里发送道具GoupID
+	GET_ITEM = 2;//领取道具，这个操作会消耗优惠积分
+}
+
+message TargetSellReqMsg{
+	required RequestType reqType = 1;
+	required int32 itemGroupId = 2;
+}
+
+message TargetSellRespMsg{
+	required RequestType reqType = 1;
+	required bool isSuccess = 2;//是否处理成功
+	optional string tipsMsg = 3;//提示消息
+}
+
+//服务器通知客户端更新优惠积分
+message UpdateBenefitScore{
+	required int32 score = 1;//当前积分
+	required int64 nextRefreshTime = 2;//下次刷新时间
+}

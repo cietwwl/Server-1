@@ -6,6 +6,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.type.JavaType;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -15,16 +16,16 @@ import com.rw.fsutil.dao.annotation.FieldEntry;
 import com.rw.fsutil.log.SqlLog;
 import com.rw.fsutil.util.jackson.JsonUtil;
 
-class CommonRowMapper<T> implements RowMapper<T> {
-	
+public class CommonRowMapper<T> implements RowMapper<T> {
+
 	private final Object ownerId;
 	protected ClassInfo classInfo;
 
-	public CommonRowMapper(ClassInfo classInfoP,Object ownerId) {
+	public CommonRowMapper(ClassInfo classInfoP, Object ownerId) {
 		this.classInfo = classInfoP;
 		this.ownerId = ownerId;
 	}
-	
+
 	@Override
 	public T mapRow(ResultSet rs, int arg1) throws SQLException {
 		try {
@@ -43,8 +44,11 @@ class CommonRowMapper<T> implements RowMapper<T> {
 					combine = classInfo.isCombineSave(columnName);
 					// 本次循环是combine，则进行处理
 					if (combine) {
-						handleCombineSave(newInstance, columnName, (String) value, classInfo.getCombineSaveFields());
-						continue;
+						String convert = (String) value;
+						if (StringUtils.isNotBlank(convert)) {
+							handleCombineSave(newInstance, columnName, convert, classInfo.getCombineSaveFields());
+							continue;
+						}
 					}
 				}
 				FieldEntry field = classInfo.getSingleField(columnName);
@@ -67,7 +71,6 @@ class CommonRowMapper<T> implements RowMapper<T> {
 		}
 		return null;
 	}
-
 
 	protected void handleCombineSave(T newInstance, String columnName, String value, FieldEntry[] combineFields) {
 		try {
@@ -96,8 +99,11 @@ class CommonRowMapper<T> implements RowMapper<T> {
 	protected void handleSingleSave(T newInstance, FieldEntry fieldEntry, Object value) {
 		try {
 			if (fieldEntry.saveAsJson) {
-				value = readJsonValue((String) value, fieldEntry);
-				fieldEntry.field.set(newInstance, value);
+				String convert = (String) value;
+				if (!StringUtils.isBlank(convert)) {
+					value = readJsonValue(convert, fieldEntry);
+					fieldEntry.field.set(newInstance, value);
+				}
 			} else {
 				fieldEntry.field.set(newInstance, value);
 			}

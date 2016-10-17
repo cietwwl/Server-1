@@ -5,10 +5,17 @@ import java.util.Enumeration;
 import java.util.List;
 
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.readonly.FashionMgrIF.ItemFilter;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.NotifyChangeCallBack;
@@ -31,9 +38,9 @@ public class FashionItemHolder{
 	}
 
 	public List<FashionItemIF> search(ItemFilter predicate){
-		MapItemStore<FashionItem> itemStore = getItemStore();
+		PlayerExtPropertyStore<FashionItem> itemStore = getItemStore();
 		if (itemStore == null){ return new ArrayList<FashionItemIF>();}
-		Enumeration<FashionItem> mapEnum = itemStore.getEnum();
+		Enumeration<FashionItem> mapEnum = itemStore.getExtPropertyEnumeration();
 		if (mapEnum == null){ return new ArrayList<FashionItemIF>();}
 		
 		List<FashionItemIF> itemList = new ArrayList<FashionItemIF>();
@@ -52,7 +59,7 @@ public class FashionItemHolder{
 	public List<FashionItem> getItemList()
 	{
 		List<FashionItem> itemList = new ArrayList<FashionItem>();
-		Enumeration<FashionItem> mapEnum = getItemStore().getEnum();
+		Enumeration<FashionItem> mapEnum = getItemStore().getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			FashionItem item = (FashionItem) mapEnum.nextElement();
 			if (userId.equals(item.getUserId())){
@@ -65,7 +72,7 @@ public class FashionItemHolder{
 	public List<FashionItem> getBroughtItemList()
 	{
 		List<FashionItem> itemList = new ArrayList<FashionItem>();
-		Enumeration<FashionItem> mapEnum = getItemStore().getEnum();
+		Enumeration<FashionItem> mapEnum = getItemStore().getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			FashionItem item = (FashionItem) mapEnum.nextElement();
 			if (item.isBrought() && userId.equals(item.getUserId())){
@@ -76,7 +83,7 @@ public class FashionItemHolder{
 	}
 	
 	public void updateItem(Player player, FashionItem item){
-		boolean updateResult = getItemStore().updateItem(item);
+		boolean updateResult = getItemStore().update(item.getId());
 		if (!updateResult){
 			GameLog.error("时装", player.getUserId(), "更新FashionItem失败，ID="+item.getId());
 		}
@@ -85,7 +92,7 @@ public class FashionItemHolder{
 	}
 	
 	public FashionItem getItem(int fashionModelId){
-		return getItemStore().getItem(userId + "_" + fashionModelId);
+		return getItemStore().get(fashionModelId);
 	}
 	
 	public boolean removeItem(Player player, FashionItem item){
@@ -104,7 +111,7 @@ public class FashionItemHolder{
 	}
 	
 	public boolean directRemove(String uid, int oldFashionId){
-		boolean success = getItemStore().removeItem(uid+"_"+oldFashionId);//player.getUserId()+"_"+
+		boolean success = getItemStore().removeItem(oldFashionId);
 		if(success){
 		}else{
 			GameLog.error("时装", uid, "删除时装失败:"+oldFashionId);
@@ -113,8 +120,18 @@ public class FashionItemHolder{
 	}
 
 	public void directAddItem(String uid, FashionItem item) {
-		MapItemStoreCache<FashionItem> cache = MapItemStoreFactory.getFashionCache();
-		MapItemStore<FashionItem> other = cache.getMapItemStore(uid, FashionItem.class);
+		RoleExtPropertyStoreCache<FashionItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FISHION, FashionItem.class);
+		
+		PlayerExtPropertyStore<FashionItem> other = null;
+		try {
+			other = cache.getStore(uid);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (Throwable e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			boolean addSuccess = other.addItem(item);
 			if(addSuccess){
@@ -142,11 +159,20 @@ public class FashionItemHolder{
 
 	
 	public void flush(){
-		getItemStore().flush();
+//		getItemStore().update(userId);
 	}
 	
-	private MapItemStore<FashionItem> getItemStore(){
-		MapItemStoreCache<FashionItem> cache = MapItemStoreFactory.getFashionCache();
-		return cache.getMapItemStore(userId, FashionItem.class);
+	private PlayerExtPropertyStore<FashionItem> getItemStore(){
+		RoleExtPropertyStoreCache<FashionItem> heroExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FISHION, FashionItem.class);
+		PlayerExtPropertyStore<FashionItem> store = null;
+		try {
+			
+			store = heroExtCache.getStore(userId);
+		} catch (Throwable e) {
+			GameLog.error("fashion", "userId:"+userId, "can not get PlayerExtPropertyStore.", e);
+		}
+		return store;
+		
+		
 	}
 }

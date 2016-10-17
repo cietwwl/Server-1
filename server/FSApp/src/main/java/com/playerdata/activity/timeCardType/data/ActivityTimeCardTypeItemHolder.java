@@ -9,7 +9,11 @@ import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeHelper;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
@@ -31,7 +35,7 @@ public class ActivityTimeCardTypeItemHolder{
 	{
 		ActivityTimeCardTypeCfgDAO dao = ActivityTimeCardTypeCfgDAO.getInstance();
 		List<ActivityTimeCardTypeItem> itemList = new ArrayList<ActivityTimeCardTypeItem>();
-		Enumeration<ActivityTimeCardTypeItem> mapEnum = getItemStore(userId).getEnum();
+		Enumeration<ActivityTimeCardTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityTimeCardTypeItem item = (ActivityTimeCardTypeItem) mapEnum.nextElement();
 			if(dao.getCfgById(item.getCfgId()) == null){
@@ -44,13 +48,14 @@ public class ActivityTimeCardTypeItemHolder{
 	}
 	
 	public void updateItem(Player player, ActivityTimeCardTypeItem item){
-		getItemStore(player.getUserId()).updateItem(item);
+		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
-	public ActivityTimeCardTypeItem getItem(String userId){		
-		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, ActivityTimeCardTypeEnum.Month);
-		return getItemStore(userId).getItem(itemId);
+	public ActivityTimeCardTypeItem getItem(String userId){
+		int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
+		
+		return getItemStore(userId).get(id);
 	}
 	
 	
@@ -70,9 +75,20 @@ public class ActivityTimeCardTypeItemHolder{
 	}
 
 	
-	public MapItemStore<ActivityTimeCardTypeItem> getItemStore(String userId) {
-		MapItemStoreCache<ActivityTimeCardTypeItem> cache = MapItemStoreFactory.getActivityTimeCardTypeItemCache();
-		return cache.getMapItemStore(userId, ActivityTimeCardTypeItem.class);
+	public PlayerExtPropertyStore<ActivityTimeCardTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityTimeCardTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECARD, ActivityTimeCardTypeItem.class);
+		PlayerExtPropertyStore<ActivityTimeCardTypeItem> store = null;
+		try {
+			store = cach.getStore(userId);
+			
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return store;
 	}
 
 	public boolean addItemList(Player player, List<ActivityTimeCardTypeItem> addItemList) {

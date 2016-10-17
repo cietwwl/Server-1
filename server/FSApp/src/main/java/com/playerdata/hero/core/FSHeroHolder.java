@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -38,9 +39,17 @@ public class FSHeroHolder {
 		return _INSTANCE;
 	}
 	
-	private void notifyBaseInfoChange(FSHero hero) {
+	private void notifyBaseInfoChange(Hero hero) {
 		for(IHeroCallbackAction action : _baseInfoChangeCallbackList) {
 			action.doAction(hero);
+		}
+	}
+	
+	private void synBaseInfoInternal(Player player, Hero hero, boolean updateToDB) {
+		ClientDataSynMgr.synDataFiled(player, hero, _syn_type_base_info, eSynOpType.UPDATE_SINGLE, _namesOfBaseInfoSyncFields);
+		if (updateToDB) {
+			FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
+			this.notifyBaseInfoChange(hero);
 		}
 	}
 	
@@ -48,15 +57,17 @@ public class FSHeroHolder {
 		_baseInfoChangeCallbackList.add(action);
 	}
 	
-	public void syncAttributes(FSHero hero, int version) {
+	public void syncAttributes(Hero hero, int version) {
 		Player player = PlayerMgr.getInstance().find(hero.getOwnerUserId());
 		ClientDataSynMgr.synData(player, hero.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, version);
 	}
 	
-	public void synBaseInfo(Player player, FSHero hero) {
-		FSHeroDAO.getInstance().notifyUpdate(hero.getOwnerUserId(), hero.getId());
-		ClientDataSynMgr.synDataFiled(player, hero, _syn_type_base_info, eSynOpType.UPDATE_SINGLE, _namesOfBaseInfoSyncFields);
-		this.notifyBaseInfoChange(hero);
+	public void synBaseInfo(Player player, Hero hero) {
+		this.synBaseInfoInternal(player, hero, true);
+	}
+	
+	public void synBaseInfoWithoutUpdate(Player player, Hero hero) {
+		this.synBaseInfoInternal(player, hero, false);
 	}
 	
 	public void syncUserHeros(Player player, List<String> heroIds) {

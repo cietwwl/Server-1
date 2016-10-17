@@ -9,18 +9,20 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_timecard_item")
-public class ActivityTimeCardTypeItem implements  IMapItem {
+public class ActivityTimeCardTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
-	
+	private Integer id;
+	@OwnerId
 	private String userId;// 对应的角色Id
 	
 	
@@ -51,16 +53,17 @@ public class ActivityTimeCardTypeItem implements  IMapItem {
 		this.activityLoginTime = activityLoginTime;
 	}
 
-	public String getId() {
+
+
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-
-
-
 
 	public List<ActivityTimeCardTypeSubItem> getSubItemList() {
 		return subItemList;

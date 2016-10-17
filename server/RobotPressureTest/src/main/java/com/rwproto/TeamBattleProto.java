@@ -133,6 +133,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     BUY_TIMES(14, 15),
+    /**
+     * <code>ADD_ROBOT = 16;</code>
+     *
+     * <pre>
+     *请求机器人
+     * </pre>
+     */
+    ADD_ROBOT(15, 16),
+    /**
+     * <code>GET_CAN_JION_TEAMS = 17;</code>
+     *
+     * <pre>
+     *请求可以加入的队伍列表
+     * </pre>
+     */
+    GET_CAN_JION_TEAMS(16, 17),
     ;
 
     /**
@@ -255,6 +271,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     public static final int BUY_TIMES_VALUE = 15;
+    /**
+     * <code>ADD_ROBOT = 16;</code>
+     *
+     * <pre>
+     *请求机器人
+     * </pre>
+     */
+    public static final int ADD_ROBOT_VALUE = 16;
+    /**
+     * <code>GET_CAN_JION_TEAMS = 17;</code>
+     *
+     * <pre>
+     *请求可以加入的队伍列表
+     * </pre>
+     */
+    public static final int GET_CAN_JION_TEAMS_VALUE = 17;
 
 
     public final int getNumber() { return value; }
@@ -276,6 +308,8 @@ public final class TeamBattleProto {
         case 13: return SCORE_EXCHANGE;
         case 14: return SAVE_MEMBER_POSITION;
         case 15: return BUY_TIMES;
+        case 16: return ADD_ROBOT;
+        case 17: return GET_CAN_JION_TEAMS;
         default: return null;
       }
     }
@@ -3342,6 +3376,51 @@ public final class TeamBattleProto {
      * </pre>
      */
     boolean getFreeJoin();
+
+    // repeated .teamBattle.TeamItem canJoinTeams = 5;
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.TeamBattleProto.TeamItem> 
+        getCanJoinTeamsList();
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    com.rwproto.TeamBattleProto.TeamItem getCanJoinTeams(int index);
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    int getCanJoinTeamsCount();
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.TeamBattleProto.TeamItemOrBuilder> 
+        getCanJoinTeamsOrBuilderList();
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    com.rwproto.TeamBattleProto.TeamItemOrBuilder getCanJoinTeamsOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code teamBattle.TeamBattleRspMsg}
@@ -3423,6 +3502,14 @@ public final class TeamBattleProto {
               freeJoin_ = input.readBool();
               break;
             }
+            case 42: {
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                canJoinTeams_ = new java.util.ArrayList<com.rwproto.TeamBattleProto.TeamItem>();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              canJoinTeams_.add(input.readMessage(com.rwproto.TeamBattleProto.TeamItem.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3433,6 +3520,9 @@ public final class TeamBattleProto {
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           armyInfo_ = new com.google.protobuf.UnmodifiableLazyStringList(armyInfo_);
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          canJoinTeams_ = java.util.Collections.unmodifiableList(canJoinTeams_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3615,11 +3705,68 @@ public final class TeamBattleProto {
       return freeJoin_;
     }
 
+    // repeated .teamBattle.TeamItem canJoinTeams = 5;
+    public static final int CANJOINTEAMS_FIELD_NUMBER = 5;
+    private java.util.List<com.rwproto.TeamBattleProto.TeamItem> canJoinTeams_;
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.TeamBattleProto.TeamItem> getCanJoinTeamsList() {
+      return canJoinTeams_;
+    }
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.TeamBattleProto.TeamItemOrBuilder> 
+        getCanJoinTeamsOrBuilderList() {
+      return canJoinTeams_;
+    }
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    public int getCanJoinTeamsCount() {
+      return canJoinTeams_.size();
+    }
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    public com.rwproto.TeamBattleProto.TeamItem getCanJoinTeams(int index) {
+      return canJoinTeams_.get(index);
+    }
+    /**
+     * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+     *
+     * <pre>
+     *可以加入的队伍列表
+     * </pre>
+     */
+    public com.rwproto.TeamBattleProto.TeamItemOrBuilder getCanJoinTeamsOrBuilder(
+        int index) {
+      return canJoinTeams_.get(index);
+    }
+
     private void initFields() {
       rstType_ = com.rwproto.TeamBattleProto.TBResultType.SUCCESS;
       tipMsg_ = "";
       armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       freeJoin_ = false;
+      canJoinTeams_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3629,6 +3776,12 @@ public final class TeamBattleProto {
       if (!hasRstType()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getCanJoinTeamsCount(); i++) {
+        if (!getCanJoinTeams(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -3648,6 +3801,9 @@ public final class TeamBattleProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(4, freeJoin_);
+      }
+      for (int i = 0; i < canJoinTeams_.size(); i++) {
+        output.writeMessage(5, canJoinTeams_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3678,6 +3834,10 @@ public final class TeamBattleProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(4, freeJoin_);
+      }
+      for (int i = 0; i < canJoinTeams_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, canJoinTeams_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3787,6 +3947,7 @@ public final class TeamBattleProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getCanJoinTeamsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3803,6 +3964,12 @@ public final class TeamBattleProto {
         bitField0_ = (bitField0_ & ~0x00000004);
         freeJoin_ = false;
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (canJoinTeamsBuilder_ == null) {
+          canJoinTeams_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        } else {
+          canJoinTeamsBuilder_.clear();
+        }
         return this;
       }
 
@@ -3849,6 +4016,15 @@ public final class TeamBattleProto {
           to_bitField0_ |= 0x00000004;
         }
         result.freeJoin_ = freeJoin_;
+        if (canJoinTeamsBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010)) {
+            canJoinTeams_ = java.util.Collections.unmodifiableList(canJoinTeams_);
+            bitField0_ = (bitField0_ & ~0x00000010);
+          }
+          result.canJoinTeams_ = canJoinTeams_;
+        } else {
+          result.canJoinTeams_ = canJoinTeamsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3886,6 +4062,32 @@ public final class TeamBattleProto {
         if (other.hasFreeJoin()) {
           setFreeJoin(other.getFreeJoin());
         }
+        if (canJoinTeamsBuilder_ == null) {
+          if (!other.canJoinTeams_.isEmpty()) {
+            if (canJoinTeams_.isEmpty()) {
+              canJoinTeams_ = other.canJoinTeams_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+            } else {
+              ensureCanJoinTeamsIsMutable();
+              canJoinTeams_.addAll(other.canJoinTeams_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.canJoinTeams_.isEmpty()) {
+            if (canJoinTeamsBuilder_.isEmpty()) {
+              canJoinTeamsBuilder_.dispose();
+              canJoinTeamsBuilder_ = null;
+              canJoinTeams_ = other.canJoinTeams_;
+              bitField0_ = (bitField0_ & ~0x00000010);
+              canJoinTeamsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCanJoinTeamsFieldBuilder() : null;
+            } else {
+              canJoinTeamsBuilder_.addAllMessages(other.canJoinTeams_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3894,6 +4096,12 @@ public final class TeamBattleProto {
         if (!hasRstType()) {
           
           return false;
+        }
+        for (int i = 0; i < getCanJoinTeamsCount(); i++) {
+          if (!getCanJoinTeams(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -4245,6 +4453,318 @@ public final class TeamBattleProto {
         return this;
       }
 
+      // repeated .teamBattle.TeamItem canJoinTeams = 5;
+      private java.util.List<com.rwproto.TeamBattleProto.TeamItem> canJoinTeams_ =
+        java.util.Collections.emptyList();
+      private void ensureCanJoinTeamsIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          canJoinTeams_ = new java.util.ArrayList<com.rwproto.TeamBattleProto.TeamItem>(canJoinTeams_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.TeamBattleProto.TeamItem, com.rwproto.TeamBattleProto.TeamItem.Builder, com.rwproto.TeamBattleProto.TeamItemOrBuilder> canJoinTeamsBuilder_;
+
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.TeamBattleProto.TeamItem> getCanJoinTeamsList() {
+        if (canJoinTeamsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(canJoinTeams_);
+        } else {
+          return canJoinTeamsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public int getCanJoinTeamsCount() {
+        if (canJoinTeamsBuilder_ == null) {
+          return canJoinTeams_.size();
+        } else {
+          return canJoinTeamsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.TeamItem getCanJoinTeams(int index) {
+        if (canJoinTeamsBuilder_ == null) {
+          return canJoinTeams_.get(index);
+        } else {
+          return canJoinTeamsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder setCanJoinTeams(
+          int index, com.rwproto.TeamBattleProto.TeamItem value) {
+        if (canJoinTeamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.set(index, value);
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder setCanJoinTeams(
+          int index, com.rwproto.TeamBattleProto.TeamItem.Builder builderForValue) {
+        if (canJoinTeamsBuilder_ == null) {
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder addCanJoinTeams(com.rwproto.TeamBattleProto.TeamItem value) {
+        if (canJoinTeamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.add(value);
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder addCanJoinTeams(
+          int index, com.rwproto.TeamBattleProto.TeamItem value) {
+        if (canJoinTeamsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.add(index, value);
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder addCanJoinTeams(
+          com.rwproto.TeamBattleProto.TeamItem.Builder builderForValue) {
+        if (canJoinTeamsBuilder_ == null) {
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.add(builderForValue.build());
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder addCanJoinTeams(
+          int index, com.rwproto.TeamBattleProto.TeamItem.Builder builderForValue) {
+        if (canJoinTeamsBuilder_ == null) {
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder addAllCanJoinTeams(
+          java.lang.Iterable<? extends com.rwproto.TeamBattleProto.TeamItem> values) {
+        if (canJoinTeamsBuilder_ == null) {
+          ensureCanJoinTeamsIsMutable();
+          super.addAll(values, canJoinTeams_);
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder clearCanJoinTeams() {
+        if (canJoinTeamsBuilder_ == null) {
+          canJoinTeams_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000010);
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public Builder removeCanJoinTeams(int index) {
+        if (canJoinTeamsBuilder_ == null) {
+          ensureCanJoinTeamsIsMutable();
+          canJoinTeams_.remove(index);
+          onChanged();
+        } else {
+          canJoinTeamsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.TeamItem.Builder getCanJoinTeamsBuilder(
+          int index) {
+        return getCanJoinTeamsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.TeamItemOrBuilder getCanJoinTeamsOrBuilder(
+          int index) {
+        if (canJoinTeamsBuilder_ == null) {
+          return canJoinTeams_.get(index);  } else {
+          return canJoinTeamsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.TeamBattleProto.TeamItemOrBuilder> 
+           getCanJoinTeamsOrBuilderList() {
+        if (canJoinTeamsBuilder_ != null) {
+          return canJoinTeamsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(canJoinTeams_);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.TeamItem.Builder addCanJoinTeamsBuilder() {
+        return getCanJoinTeamsFieldBuilder().addBuilder(
+            com.rwproto.TeamBattleProto.TeamItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.TeamItem.Builder addCanJoinTeamsBuilder(
+          int index) {
+        return getCanJoinTeamsFieldBuilder().addBuilder(
+            index, com.rwproto.TeamBattleProto.TeamItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .teamBattle.TeamItem canJoinTeams = 5;</code>
+       *
+       * <pre>
+       *可以加入的队伍列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.TeamBattleProto.TeamItem.Builder> 
+           getCanJoinTeamsBuilderList() {
+        return getCanJoinTeamsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.TeamBattleProto.TeamItem, com.rwproto.TeamBattleProto.TeamItem.Builder, com.rwproto.TeamBattleProto.TeamItemOrBuilder> 
+          getCanJoinTeamsFieldBuilder() {
+        if (canJoinTeamsBuilder_ == null) {
+          canJoinTeamsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.TeamBattleProto.TeamItem, com.rwproto.TeamBattleProto.TeamItem.Builder, com.rwproto.TeamBattleProto.TeamItemOrBuilder>(
+                  canJoinTeams_,
+                  ((bitField0_ & 0x00000010) == 0x00000010),
+                  getParentForChildren(),
+                  isClean());
+          canJoinTeams_ = null;
+        }
+        return canJoinTeamsBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:teamBattle.TeamBattleRspMsg)
     }
 
@@ -4254,6 +4774,3426 @@ public final class TeamBattleProto {
     }
 
     // @@protoc_insertion_point(class_scope:teamBattle.TeamBattleRspMsg)
+  }
+
+  public interface TeamItemOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string teamID = 1;
+    /**
+     * <code>required string teamID = 1;</code>
+     */
+    boolean hasTeamID();
+    /**
+     * <code>required string teamID = 1;</code>
+     */
+    java.lang.String getTeamID();
+    /**
+     * <code>required string teamID = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getTeamIDBytes();
+
+    // required string hardID = 2;
+    /**
+     * <code>required string hardID = 2;</code>
+     */
+    boolean hasHardID();
+    /**
+     * <code>required string hardID = 2;</code>
+     */
+    java.lang.String getHardID();
+    /**
+     * <code>required string hardID = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getHardIDBytes();
+
+    // repeated .teamBattle.TBMember members = 3;
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    java.util.List<com.rwproto.TeamBattleProto.TBMember> 
+        getMembersList();
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    com.rwproto.TeamBattleProto.TBMember getMembers(int index);
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    int getMembersCount();
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    java.util.List<? extends com.rwproto.TeamBattleProto.TBMemberOrBuilder> 
+        getMembersOrBuilderList();
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    com.rwproto.TeamBattleProto.TBMemberOrBuilder getMembersOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code teamBattle.TeamItem}
+   *
+   * <pre>
+   **
+   * 当前可以加入的队伍
+   * </pre>
+   */
+  public static final class TeamItem extends
+      com.google.protobuf.GeneratedMessage
+      implements TeamItemOrBuilder {
+    // Use TeamItem.newBuilder() to construct.
+    private TeamItem(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TeamItem(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TeamItem defaultInstance;
+    public static TeamItem getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TeamItem getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TeamItem(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              teamID_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              hardID_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                members_ = new java.util.ArrayList<com.rwproto.TeamBattleProto.TBMember>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              members_.add(input.readMessage(com.rwproto.TeamBattleProto.TBMember.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          members_ = java.util.Collections.unmodifiableList(members_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.TeamBattleProto.internal_static_teamBattle_TeamItem_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.TeamBattleProto.internal_static_teamBattle_TeamItem_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.TeamBattleProto.TeamItem.class, com.rwproto.TeamBattleProto.TeamItem.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TeamItem> PARSER =
+        new com.google.protobuf.AbstractParser<TeamItem>() {
+      public TeamItem parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TeamItem(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TeamItem> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string teamID = 1;
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private java.lang.Object teamID_;
+    /**
+     * <code>required string teamID = 1;</code>
+     */
+    public boolean hasTeamID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string teamID = 1;</code>
+     */
+    public java.lang.String getTeamID() {
+      java.lang.Object ref = teamID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          teamID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string teamID = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTeamIDBytes() {
+      java.lang.Object ref = teamID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        teamID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string hardID = 2;
+    public static final int HARDID_FIELD_NUMBER = 2;
+    private java.lang.Object hardID_;
+    /**
+     * <code>required string hardID = 2;</code>
+     */
+    public boolean hasHardID() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string hardID = 2;</code>
+     */
+    public java.lang.String getHardID() {
+      java.lang.Object ref = hardID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          hardID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string hardID = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHardIDBytes() {
+      java.lang.Object ref = hardID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        hardID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .teamBattle.TBMember members = 3;
+    public static final int MEMBERS_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.TeamBattleProto.TBMember> members_;
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    public java.util.List<com.rwproto.TeamBattleProto.TBMember> getMembersList() {
+      return members_;
+    }
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    public java.util.List<? extends com.rwproto.TeamBattleProto.TBMemberOrBuilder> 
+        getMembersOrBuilderList() {
+      return members_;
+    }
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    public int getMembersCount() {
+      return members_.size();
+    }
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    public com.rwproto.TeamBattleProto.TBMember getMembers(int index) {
+      return members_.get(index);
+    }
+    /**
+     * <code>repeated .teamBattle.TBMember members = 3;</code>
+     */
+    public com.rwproto.TeamBattleProto.TBMemberOrBuilder getMembersOrBuilder(
+        int index) {
+      return members_.get(index);
+    }
+
+    private void initFields() {
+      teamID_ = "";
+      hardID_ = "";
+      members_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTeamID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHardID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getMembersCount(); i++) {
+        if (!getMembers(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getTeamIDBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getHardIDBytes());
+      }
+      for (int i = 0; i < members_.size(); i++) {
+        output.writeMessage(3, members_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getTeamIDBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getHardIDBytes());
+      }
+      for (int i = 0; i < members_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, members_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.TeamItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.TeamBattleProto.TeamItem prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code teamBattle.TeamItem}
+     *
+     * <pre>
+     **
+     * 当前可以加入的队伍
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.TeamBattleProto.TeamItemOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_TeamItem_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_TeamItem_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.TeamBattleProto.TeamItem.class, com.rwproto.TeamBattleProto.TeamItem.Builder.class);
+      }
+
+      // Construct using com.rwproto.TeamBattleProto.TeamItem.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMembersFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        teamID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        hardID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (membersBuilder_ == null) {
+          members_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          membersBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_TeamItem_descriptor;
+      }
+
+      public com.rwproto.TeamBattleProto.TeamItem getDefaultInstanceForType() {
+        return com.rwproto.TeamBattleProto.TeamItem.getDefaultInstance();
+      }
+
+      public com.rwproto.TeamBattleProto.TeamItem build() {
+        com.rwproto.TeamBattleProto.TeamItem result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.TeamBattleProto.TeamItem buildPartial() {
+        com.rwproto.TeamBattleProto.TeamItem result = new com.rwproto.TeamBattleProto.TeamItem(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.teamID_ = teamID_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.hardID_ = hardID_;
+        if (membersBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            members_ = java.util.Collections.unmodifiableList(members_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.members_ = members_;
+        } else {
+          result.members_ = membersBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.TeamBattleProto.TeamItem) {
+          return mergeFrom((com.rwproto.TeamBattleProto.TeamItem)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.TeamBattleProto.TeamItem other) {
+        if (other == com.rwproto.TeamBattleProto.TeamItem.getDefaultInstance()) return this;
+        if (other.hasTeamID()) {
+          bitField0_ |= 0x00000001;
+          teamID_ = other.teamID_;
+          onChanged();
+        }
+        if (other.hasHardID()) {
+          bitField0_ |= 0x00000002;
+          hardID_ = other.hardID_;
+          onChanged();
+        }
+        if (membersBuilder_ == null) {
+          if (!other.members_.isEmpty()) {
+            if (members_.isEmpty()) {
+              members_ = other.members_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureMembersIsMutable();
+              members_.addAll(other.members_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.members_.isEmpty()) {
+            if (membersBuilder_.isEmpty()) {
+              membersBuilder_.dispose();
+              membersBuilder_ = null;
+              members_ = other.members_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              membersBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getMembersFieldBuilder() : null;
+            } else {
+              membersBuilder_.addAllMessages(other.members_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTeamID()) {
+          
+          return false;
+        }
+        if (!hasHardID()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getMembersCount(); i++) {
+          if (!getMembers(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.TeamBattleProto.TeamItem parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.TeamBattleProto.TeamItem) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string teamID = 1;
+      private java.lang.Object teamID_ = "";
+      /**
+       * <code>required string teamID = 1;</code>
+       */
+      public boolean hasTeamID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string teamID = 1;</code>
+       */
+      public java.lang.String getTeamID() {
+        java.lang.Object ref = teamID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          teamID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string teamID = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTeamIDBytes() {
+        java.lang.Object ref = teamID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          teamID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string teamID = 1;</code>
+       */
+      public Builder setTeamID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        teamID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string teamID = 1;</code>
+       */
+      public Builder clearTeamID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        teamID_ = getDefaultInstance().getTeamID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string teamID = 1;</code>
+       */
+      public Builder setTeamIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        teamID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string hardID = 2;
+      private java.lang.Object hardID_ = "";
+      /**
+       * <code>required string hardID = 2;</code>
+       */
+      public boolean hasHardID() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string hardID = 2;</code>
+       */
+      public java.lang.String getHardID() {
+        java.lang.Object ref = hardID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          hardID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string hardID = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHardIDBytes() {
+        java.lang.Object ref = hardID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          hardID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string hardID = 2;</code>
+       */
+      public Builder setHardID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        hardID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string hardID = 2;</code>
+       */
+      public Builder clearHardID() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        hardID_ = getDefaultInstance().getHardID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string hardID = 2;</code>
+       */
+      public Builder setHardIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        hardID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .teamBattle.TBMember members = 3;
+      private java.util.List<com.rwproto.TeamBattleProto.TBMember> members_ =
+        java.util.Collections.emptyList();
+      private void ensureMembersIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          members_ = new java.util.ArrayList<com.rwproto.TeamBattleProto.TBMember>(members_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.TeamBattleProto.TBMember, com.rwproto.TeamBattleProto.TBMember.Builder, com.rwproto.TeamBattleProto.TBMemberOrBuilder> membersBuilder_;
+
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public java.util.List<com.rwproto.TeamBattleProto.TBMember> getMembersList() {
+        if (membersBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(members_);
+        } else {
+          return membersBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public int getMembersCount() {
+        if (membersBuilder_ == null) {
+          return members_.size();
+        } else {
+          return membersBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public com.rwproto.TeamBattleProto.TBMember getMembers(int index) {
+        if (membersBuilder_ == null) {
+          return members_.get(index);
+        } else {
+          return membersBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder setMembers(
+          int index, com.rwproto.TeamBattleProto.TBMember value) {
+        if (membersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMembersIsMutable();
+          members_.set(index, value);
+          onChanged();
+        } else {
+          membersBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder setMembers(
+          int index, com.rwproto.TeamBattleProto.TBMember.Builder builderForValue) {
+        if (membersBuilder_ == null) {
+          ensureMembersIsMutable();
+          members_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          membersBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder addMembers(com.rwproto.TeamBattleProto.TBMember value) {
+        if (membersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMembersIsMutable();
+          members_.add(value);
+          onChanged();
+        } else {
+          membersBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder addMembers(
+          int index, com.rwproto.TeamBattleProto.TBMember value) {
+        if (membersBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMembersIsMutable();
+          members_.add(index, value);
+          onChanged();
+        } else {
+          membersBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder addMembers(
+          com.rwproto.TeamBattleProto.TBMember.Builder builderForValue) {
+        if (membersBuilder_ == null) {
+          ensureMembersIsMutable();
+          members_.add(builderForValue.build());
+          onChanged();
+        } else {
+          membersBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder addMembers(
+          int index, com.rwproto.TeamBattleProto.TBMember.Builder builderForValue) {
+        if (membersBuilder_ == null) {
+          ensureMembersIsMutable();
+          members_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          membersBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder addAllMembers(
+          java.lang.Iterable<? extends com.rwproto.TeamBattleProto.TBMember> values) {
+        if (membersBuilder_ == null) {
+          ensureMembersIsMutable();
+          super.addAll(values, members_);
+          onChanged();
+        } else {
+          membersBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder clearMembers() {
+        if (membersBuilder_ == null) {
+          members_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          membersBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public Builder removeMembers(int index) {
+        if (membersBuilder_ == null) {
+          ensureMembersIsMutable();
+          members_.remove(index);
+          onChanged();
+        } else {
+          membersBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public com.rwproto.TeamBattleProto.TBMember.Builder getMembersBuilder(
+          int index) {
+        return getMembersFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public com.rwproto.TeamBattleProto.TBMemberOrBuilder getMembersOrBuilder(
+          int index) {
+        if (membersBuilder_ == null) {
+          return members_.get(index);  } else {
+          return membersBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public java.util.List<? extends com.rwproto.TeamBattleProto.TBMemberOrBuilder> 
+           getMembersOrBuilderList() {
+        if (membersBuilder_ != null) {
+          return membersBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(members_);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public com.rwproto.TeamBattleProto.TBMember.Builder addMembersBuilder() {
+        return getMembersFieldBuilder().addBuilder(
+            com.rwproto.TeamBattleProto.TBMember.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public com.rwproto.TeamBattleProto.TBMember.Builder addMembersBuilder(
+          int index) {
+        return getMembersFieldBuilder().addBuilder(
+            index, com.rwproto.TeamBattleProto.TBMember.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .teamBattle.TBMember members = 3;</code>
+       */
+      public java.util.List<com.rwproto.TeamBattleProto.TBMember.Builder> 
+           getMembersBuilderList() {
+        return getMembersFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.TeamBattleProto.TBMember, com.rwproto.TeamBattleProto.TBMember.Builder, com.rwproto.TeamBattleProto.TBMemberOrBuilder> 
+          getMembersFieldBuilder() {
+        if (membersBuilder_ == null) {
+          membersBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.TeamBattleProto.TBMember, com.rwproto.TeamBattleProto.TBMember.Builder, com.rwproto.TeamBattleProto.TBMemberOrBuilder>(
+                  members_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          members_ = null;
+        }
+        return membersBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:teamBattle.TeamItem)
+    }
+
+    static {
+      defaultInstance = new TeamItem(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:teamBattle.TeamItem)
+  }
+
+  public interface TBMemberOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string userID = 1;
+    /**
+     * <code>required string userID = 1;</code>
+     */
+    boolean hasUserID();
+    /**
+     * <code>required string userID = 1;</code>
+     */
+    java.lang.String getUserID();
+    /**
+     * <code>required string userID = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUserIDBytes();
+
+    // required string userName = 2;
+    /**
+     * <code>required string userName = 2;</code>
+     */
+    boolean hasUserName();
+    /**
+     * <code>required string userName = 2;</code>
+     */
+    java.lang.String getUserName();
+    /**
+     * <code>required string userName = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getUserNameBytes();
+
+    // required bool isRobot = 3;
+    /**
+     * <code>required bool isRobot = 3;</code>
+     */
+    boolean hasIsRobot();
+    /**
+     * <code>required bool isRobot = 3;</code>
+     */
+    boolean getIsRobot();
+
+    // required int32 state = 4;
+    /**
+     * <code>required int32 state = 4;</code>
+     *
+     * <pre>
+     *完成状态（TBMemberState）
+     * </pre>
+     */
+    boolean hasState();
+    /**
+     * <code>required int32 state = 4;</code>
+     *
+     * <pre>
+     *完成状态（TBMemberState）
+     * </pre>
+     */
+    int getState();
+
+    // required string playerHeadImage = 5;
+    /**
+     * <code>required string playerHeadImage = 5;</code>
+     */
+    boolean hasPlayerHeadImage();
+    /**
+     * <code>required string playerHeadImage = 5;</code>
+     */
+    java.lang.String getPlayerHeadImage();
+    /**
+     * <code>required string playerHeadImage = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getPlayerHeadImageBytes();
+
+    // repeated .teamBattle.HeroSimple heros = 6;
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    java.util.List<com.rwproto.TeamBattleProto.HeroSimple> 
+        getHerosList();
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    com.rwproto.TeamBattleProto.HeroSimple getHeros(int index);
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    int getHerosCount();
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.TeamBattleProto.HeroSimpleOrBuilder> 
+        getHerosOrBuilderList();
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    com.rwproto.TeamBattleProto.HeroSimpleOrBuilder getHerosOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code teamBattle.TBMember}
+   */
+  public static final class TBMember extends
+      com.google.protobuf.GeneratedMessage
+      implements TBMemberOrBuilder {
+    // Use TBMember.newBuilder() to construct.
+    private TBMember(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private TBMember(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final TBMember defaultInstance;
+    public static TBMember getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public TBMember getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private TBMember(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              userID_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              userName_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              isRobot_ = input.readBool();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              state_ = input.readInt32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              playerHeadImage_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              if (!((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+                heros_ = new java.util.ArrayList<com.rwproto.TeamBattleProto.HeroSimple>();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              heros_.add(input.readMessage(com.rwproto.TeamBattleProto.HeroSimple.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
+          heros_ = java.util.Collections.unmodifiableList(heros_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.TeamBattleProto.internal_static_teamBattle_TBMember_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.TeamBattleProto.internal_static_teamBattle_TBMember_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.TeamBattleProto.TBMember.class, com.rwproto.TeamBattleProto.TBMember.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<TBMember> PARSER =
+        new com.google.protobuf.AbstractParser<TBMember>() {
+      public TBMember parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new TBMember(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<TBMember> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string userID = 1;
+    public static final int USERID_FIELD_NUMBER = 1;
+    private java.lang.Object userID_;
+    /**
+     * <code>required string userID = 1;</code>
+     */
+    public boolean hasUserID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string userID = 1;</code>
+     */
+    public java.lang.String getUserID() {
+      java.lang.Object ref = userID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userID = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUserIDBytes() {
+      java.lang.Object ref = userID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string userName = 2;
+    public static final int USERNAME_FIELD_NUMBER = 2;
+    private java.lang.Object userName_;
+    /**
+     * <code>required string userName = 2;</code>
+     */
+    public boolean hasUserName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string userName = 2;</code>
+     */
+    public java.lang.String getUserName() {
+      java.lang.Object ref = userName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          userName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string userName = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUserNameBytes() {
+      java.lang.Object ref = userName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        userName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required bool isRobot = 3;
+    public static final int ISROBOT_FIELD_NUMBER = 3;
+    private boolean isRobot_;
+    /**
+     * <code>required bool isRobot = 3;</code>
+     */
+    public boolean hasIsRobot() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required bool isRobot = 3;</code>
+     */
+    public boolean getIsRobot() {
+      return isRobot_;
+    }
+
+    // required int32 state = 4;
+    public static final int STATE_FIELD_NUMBER = 4;
+    private int state_;
+    /**
+     * <code>required int32 state = 4;</code>
+     *
+     * <pre>
+     *完成状态（TBMemberState）
+     * </pre>
+     */
+    public boolean hasState() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required int32 state = 4;</code>
+     *
+     * <pre>
+     *完成状态（TBMemberState）
+     * </pre>
+     */
+    public int getState() {
+      return state_;
+    }
+
+    // required string playerHeadImage = 5;
+    public static final int PLAYERHEADIMAGE_FIELD_NUMBER = 5;
+    private java.lang.Object playerHeadImage_;
+    /**
+     * <code>required string playerHeadImage = 5;</code>
+     */
+    public boolean hasPlayerHeadImage() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required string playerHeadImage = 5;</code>
+     */
+    public java.lang.String getPlayerHeadImage() {
+      java.lang.Object ref = playerHeadImage_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          playerHeadImage_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string playerHeadImage = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPlayerHeadImageBytes() {
+      java.lang.Object ref = playerHeadImage_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        playerHeadImage_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .teamBattle.HeroSimple heros = 6;
+    public static final int HEROS_FIELD_NUMBER = 6;
+    private java.util.List<com.rwproto.TeamBattleProto.HeroSimple> heros_;
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    public java.util.List<com.rwproto.TeamBattleProto.HeroSimple> getHerosList() {
+      return heros_;
+    }
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.TeamBattleProto.HeroSimpleOrBuilder> 
+        getHerosOrBuilderList() {
+      return heros_;
+    }
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    public int getHerosCount() {
+      return heros_.size();
+    }
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    public com.rwproto.TeamBattleProto.HeroSimple getHeros(int index) {
+      return heros_.get(index);
+    }
+    /**
+     * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+     *
+     * <pre>
+     *第一个位置放主角的
+     * </pre>
+     */
+    public com.rwproto.TeamBattleProto.HeroSimpleOrBuilder getHerosOrBuilder(
+        int index) {
+      return heros_.get(index);
+    }
+
+    private void initFields() {
+      userID_ = "";
+      userName_ = "";
+      isRobot_ = false;
+      state_ = 0;
+      playerHeadImage_ = "";
+      heros_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUserID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUserName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasIsRobot()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasState()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPlayerHeadImage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getHerosCount(); i++) {
+        if (!getHeros(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUserIDBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getUserNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(3, isRobot_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, state_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getPlayerHeadImageBytes());
+      }
+      for (int i = 0; i < heros_.size(); i++) {
+        output.writeMessage(6, heros_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUserIDBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getUserNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, isRobot_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, state_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getPlayerHeadImageBytes());
+      }
+      for (int i = 0; i < heros_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, heros_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.TBMember parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.TeamBattleProto.TBMember prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code teamBattle.TBMember}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.TeamBattleProto.TBMemberOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_TBMember_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_TBMember_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.TeamBattleProto.TBMember.class, com.rwproto.TeamBattleProto.TBMember.Builder.class);
+      }
+
+      // Construct using com.rwproto.TeamBattleProto.TBMember.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHerosFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        userID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        isRobot_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        state_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        playerHeadImage_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        if (herosBuilder_ == null) {
+          heros_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        } else {
+          herosBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_TBMember_descriptor;
+      }
+
+      public com.rwproto.TeamBattleProto.TBMember getDefaultInstanceForType() {
+        return com.rwproto.TeamBattleProto.TBMember.getDefaultInstance();
+      }
+
+      public com.rwproto.TeamBattleProto.TBMember build() {
+        com.rwproto.TeamBattleProto.TBMember result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.TeamBattleProto.TBMember buildPartial() {
+        com.rwproto.TeamBattleProto.TBMember result = new com.rwproto.TeamBattleProto.TBMember(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userID_ = userID_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.userName_ = userName_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.isRobot_ = isRobot_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.state_ = state_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.playerHeadImage_ = playerHeadImage_;
+        if (herosBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020)) {
+            heros_ = java.util.Collections.unmodifiableList(heros_);
+            bitField0_ = (bitField0_ & ~0x00000020);
+          }
+          result.heros_ = heros_;
+        } else {
+          result.heros_ = herosBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.TeamBattleProto.TBMember) {
+          return mergeFrom((com.rwproto.TeamBattleProto.TBMember)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.TeamBattleProto.TBMember other) {
+        if (other == com.rwproto.TeamBattleProto.TBMember.getDefaultInstance()) return this;
+        if (other.hasUserID()) {
+          bitField0_ |= 0x00000001;
+          userID_ = other.userID_;
+          onChanged();
+        }
+        if (other.hasUserName()) {
+          bitField0_ |= 0x00000002;
+          userName_ = other.userName_;
+          onChanged();
+        }
+        if (other.hasIsRobot()) {
+          setIsRobot(other.getIsRobot());
+        }
+        if (other.hasState()) {
+          setState(other.getState());
+        }
+        if (other.hasPlayerHeadImage()) {
+          bitField0_ |= 0x00000010;
+          playerHeadImage_ = other.playerHeadImage_;
+          onChanged();
+        }
+        if (herosBuilder_ == null) {
+          if (!other.heros_.isEmpty()) {
+            if (heros_.isEmpty()) {
+              heros_ = other.heros_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+            } else {
+              ensureHerosIsMutable();
+              heros_.addAll(other.heros_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.heros_.isEmpty()) {
+            if (herosBuilder_.isEmpty()) {
+              herosBuilder_.dispose();
+              herosBuilder_ = null;
+              heros_ = other.heros_;
+              bitField0_ = (bitField0_ & ~0x00000020);
+              herosBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHerosFieldBuilder() : null;
+            } else {
+              herosBuilder_.addAllMessages(other.heros_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUserID()) {
+          
+          return false;
+        }
+        if (!hasUserName()) {
+          
+          return false;
+        }
+        if (!hasIsRobot()) {
+          
+          return false;
+        }
+        if (!hasState()) {
+          
+          return false;
+        }
+        if (!hasPlayerHeadImage()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getHerosCount(); i++) {
+          if (!getHeros(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.TeamBattleProto.TBMember parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.TeamBattleProto.TBMember) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string userID = 1;
+      private java.lang.Object userID_ = "";
+      /**
+       * <code>required string userID = 1;</code>
+       */
+      public boolean hasUserID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string userID = 1;</code>
+       */
+      public java.lang.String getUserID() {
+        java.lang.Object ref = userID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userID = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserIDBytes() {
+        java.lang.Object ref = userID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userID = 1;</code>
+       */
+      public Builder setUserID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userID = 1;</code>
+       */
+      public Builder clearUserID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userID_ = getDefaultInstance().getUserID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userID = 1;</code>
+       */
+      public Builder setUserIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string userName = 2;
+      private java.lang.Object userName_ = "";
+      /**
+       * <code>required string userName = 2;</code>
+       */
+      public boolean hasUserName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string userName = 2;</code>
+       */
+      public java.lang.String getUserName() {
+        java.lang.Object ref = userName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          userName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string userName = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUserNameBytes() {
+        java.lang.Object ref = userName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          userName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string userName = 2;</code>
+       */
+      public Builder setUserName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        userName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userName = 2;</code>
+       */
+      public Builder clearUserName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userName_ = getDefaultInstance().getUserName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string userName = 2;</code>
+       */
+      public Builder setUserNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        userName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required bool isRobot = 3;
+      private boolean isRobot_ ;
+      /**
+       * <code>required bool isRobot = 3;</code>
+       */
+      public boolean hasIsRobot() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool isRobot = 3;</code>
+       */
+      public boolean getIsRobot() {
+        return isRobot_;
+      }
+      /**
+       * <code>required bool isRobot = 3;</code>
+       */
+      public Builder setIsRobot(boolean value) {
+        bitField0_ |= 0x00000004;
+        isRobot_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool isRobot = 3;</code>
+       */
+      public Builder clearIsRobot() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        isRobot_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required int32 state = 4;
+      private int state_ ;
+      /**
+       * <code>required int32 state = 4;</code>
+       *
+       * <pre>
+       *完成状态（TBMemberState）
+       * </pre>
+       */
+      public boolean hasState() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 state = 4;</code>
+       *
+       * <pre>
+       *完成状态（TBMemberState）
+       * </pre>
+       */
+      public int getState() {
+        return state_;
+      }
+      /**
+       * <code>required int32 state = 4;</code>
+       *
+       * <pre>
+       *完成状态（TBMemberState）
+       * </pre>
+       */
+      public Builder setState(int value) {
+        bitField0_ |= 0x00000008;
+        state_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 state = 4;</code>
+       *
+       * <pre>
+       *完成状态（TBMemberState）
+       * </pre>
+       */
+      public Builder clearState() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        state_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string playerHeadImage = 5;
+      private java.lang.Object playerHeadImage_ = "";
+      /**
+       * <code>required string playerHeadImage = 5;</code>
+       */
+      public boolean hasPlayerHeadImage() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string playerHeadImage = 5;</code>
+       */
+      public java.lang.String getPlayerHeadImage() {
+        java.lang.Object ref = playerHeadImage_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          playerHeadImage_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string playerHeadImage = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPlayerHeadImageBytes() {
+        java.lang.Object ref = playerHeadImage_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          playerHeadImage_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string playerHeadImage = 5;</code>
+       */
+      public Builder setPlayerHeadImage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        playerHeadImage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string playerHeadImage = 5;</code>
+       */
+      public Builder clearPlayerHeadImage() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        playerHeadImage_ = getDefaultInstance().getPlayerHeadImage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string playerHeadImage = 5;</code>
+       */
+      public Builder setPlayerHeadImageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        playerHeadImage_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .teamBattle.HeroSimple heros = 6;
+      private java.util.List<com.rwproto.TeamBattleProto.HeroSimple> heros_ =
+        java.util.Collections.emptyList();
+      private void ensureHerosIsMutable() {
+        if (!((bitField0_ & 0x00000020) == 0x00000020)) {
+          heros_ = new java.util.ArrayList<com.rwproto.TeamBattleProto.HeroSimple>(heros_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.TeamBattleProto.HeroSimple, com.rwproto.TeamBattleProto.HeroSimple.Builder, com.rwproto.TeamBattleProto.HeroSimpleOrBuilder> herosBuilder_;
+
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public java.util.List<com.rwproto.TeamBattleProto.HeroSimple> getHerosList() {
+        if (herosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heros_);
+        } else {
+          return herosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public int getHerosCount() {
+        if (herosBuilder_ == null) {
+          return heros_.size();
+        } else {
+          return herosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.HeroSimple getHeros(int index) {
+        if (herosBuilder_ == null) {
+          return heros_.get(index);
+        } else {
+          return herosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder setHeros(
+          int index, com.rwproto.TeamBattleProto.HeroSimple value) {
+        if (herosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHerosIsMutable();
+          heros_.set(index, value);
+          onChanged();
+        } else {
+          herosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder setHeros(
+          int index, com.rwproto.TeamBattleProto.HeroSimple.Builder builderForValue) {
+        if (herosBuilder_ == null) {
+          ensureHerosIsMutable();
+          heros_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          herosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder addHeros(com.rwproto.TeamBattleProto.HeroSimple value) {
+        if (herosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHerosIsMutable();
+          heros_.add(value);
+          onChanged();
+        } else {
+          herosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder addHeros(
+          int index, com.rwproto.TeamBattleProto.HeroSimple value) {
+        if (herosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHerosIsMutable();
+          heros_.add(index, value);
+          onChanged();
+        } else {
+          herosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder addHeros(
+          com.rwproto.TeamBattleProto.HeroSimple.Builder builderForValue) {
+        if (herosBuilder_ == null) {
+          ensureHerosIsMutable();
+          heros_.add(builderForValue.build());
+          onChanged();
+        } else {
+          herosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder addHeros(
+          int index, com.rwproto.TeamBattleProto.HeroSimple.Builder builderForValue) {
+        if (herosBuilder_ == null) {
+          ensureHerosIsMutable();
+          heros_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          herosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder addAllHeros(
+          java.lang.Iterable<? extends com.rwproto.TeamBattleProto.HeroSimple> values) {
+        if (herosBuilder_ == null) {
+          ensureHerosIsMutable();
+          super.addAll(values, heros_);
+          onChanged();
+        } else {
+          herosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder clearHeros() {
+        if (herosBuilder_ == null) {
+          heros_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000020);
+          onChanged();
+        } else {
+          herosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public Builder removeHeros(int index) {
+        if (herosBuilder_ == null) {
+          ensureHerosIsMutable();
+          heros_.remove(index);
+          onChanged();
+        } else {
+          herosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.HeroSimple.Builder getHerosBuilder(
+          int index) {
+        return getHerosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.HeroSimpleOrBuilder getHerosOrBuilder(
+          int index) {
+        if (herosBuilder_ == null) {
+          return heros_.get(index);  } else {
+          return herosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.TeamBattleProto.HeroSimpleOrBuilder> 
+           getHerosOrBuilderList() {
+        if (herosBuilder_ != null) {
+          return herosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heros_);
+        }
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.HeroSimple.Builder addHerosBuilder() {
+        return getHerosFieldBuilder().addBuilder(
+            com.rwproto.TeamBattleProto.HeroSimple.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public com.rwproto.TeamBattleProto.HeroSimple.Builder addHerosBuilder(
+          int index) {
+        return getHerosFieldBuilder().addBuilder(
+            index, com.rwproto.TeamBattleProto.HeroSimple.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .teamBattle.HeroSimple heros = 6;</code>
+       *
+       * <pre>
+       *第一个位置放主角的
+       * </pre>
+       */
+      public java.util.List<com.rwproto.TeamBattleProto.HeroSimple.Builder> 
+           getHerosBuilderList() {
+        return getHerosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.TeamBattleProto.HeroSimple, com.rwproto.TeamBattleProto.HeroSimple.Builder, com.rwproto.TeamBattleProto.HeroSimpleOrBuilder> 
+          getHerosFieldBuilder() {
+        if (herosBuilder_ == null) {
+          herosBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.TeamBattleProto.HeroSimple, com.rwproto.TeamBattleProto.HeroSimple.Builder, com.rwproto.TeamBattleProto.HeroSimpleOrBuilder>(
+                  heros_,
+                  ((bitField0_ & 0x00000020) == 0x00000020),
+                  getParentForChildren(),
+                  isClean());
+          heros_ = null;
+        }
+        return herosBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:teamBattle.TBMember)
+    }
+
+    static {
+      defaultInstance = new TBMember(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:teamBattle.TBMember)
+  }
+
+  public interface HeroSimpleOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 modeId = 1;
+    /**
+     * <code>required int32 modeId = 1;</code>
+     *
+     * <pre>
+     *英雄模型Id
+     * </pre>
+     */
+    boolean hasModeId();
+    /**
+     * <code>required int32 modeId = 1;</code>
+     *
+     * <pre>
+     *英雄模型Id
+     * </pre>
+     */
+    int getModeId();
+
+    // required int32 level = 2;
+    /**
+     * <code>required int32 level = 2;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required int32 level = 2;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required int32 starLevel = 3;
+    /**
+     * <code>required int32 starLevel = 3;</code>
+     *
+     * <pre>
+     *星级
+     * </pre>
+     */
+    boolean hasStarLevel();
+    /**
+     * <code>required int32 starLevel = 3;</code>
+     *
+     * <pre>
+     *星级
+     * </pre>
+     */
+    int getStarLevel();
+
+    // required string qualityId = 4;
+    /**
+     * <code>required string qualityId = 4;</code>
+     *
+     * <pre>
+     *品阶Id
+     * </pre>
+     */
+    boolean hasQualityId();
+    /**
+     * <code>required string qualityId = 4;</code>
+     *
+     * <pre>
+     *品阶Id
+     * </pre>
+     */
+    java.lang.String getQualityId();
+    /**
+     * <code>required string qualityId = 4;</code>
+     *
+     * <pre>
+     *品阶Id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getQualityIdBytes();
+  }
+  /**
+   * Protobuf type {@code teamBattle.HeroSimple}
+   */
+  public static final class HeroSimple extends
+      com.google.protobuf.GeneratedMessage
+      implements HeroSimpleOrBuilder {
+    // Use HeroSimple.newBuilder() to construct.
+    private HeroSimple(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HeroSimple(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HeroSimple defaultInstance;
+    public static HeroSimple getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HeroSimple getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HeroSimple(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              modeId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              level_ = input.readInt32();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              starLevel_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              qualityId_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.TeamBattleProto.internal_static_teamBattle_HeroSimple_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.TeamBattleProto.internal_static_teamBattle_HeroSimple_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.TeamBattleProto.HeroSimple.class, com.rwproto.TeamBattleProto.HeroSimple.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HeroSimple> PARSER =
+        new com.google.protobuf.AbstractParser<HeroSimple>() {
+      public HeroSimple parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HeroSimple(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HeroSimple> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 modeId = 1;
+    public static final int MODEID_FIELD_NUMBER = 1;
+    private int modeId_;
+    /**
+     * <code>required int32 modeId = 1;</code>
+     *
+     * <pre>
+     *英雄模型Id
+     * </pre>
+     */
+    public boolean hasModeId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 modeId = 1;</code>
+     *
+     * <pre>
+     *英雄模型Id
+     * </pre>
+     */
+    public int getModeId() {
+      return modeId_;
+    }
+
+    // required int32 level = 2;
+    public static final int LEVEL_FIELD_NUMBER = 2;
+    private int level_;
+    /**
+     * <code>required int32 level = 2;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 level = 2;</code>
+     *
+     * <pre>
+     *等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required int32 starLevel = 3;
+    public static final int STARLEVEL_FIELD_NUMBER = 3;
+    private int starLevel_;
+    /**
+     * <code>required int32 starLevel = 3;</code>
+     *
+     * <pre>
+     *星级
+     * </pre>
+     */
+    public boolean hasStarLevel() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 starLevel = 3;</code>
+     *
+     * <pre>
+     *星级
+     * </pre>
+     */
+    public int getStarLevel() {
+      return starLevel_;
+    }
+
+    // required string qualityId = 4;
+    public static final int QUALITYID_FIELD_NUMBER = 4;
+    private java.lang.Object qualityId_;
+    /**
+     * <code>required string qualityId = 4;</code>
+     *
+     * <pre>
+     *品阶Id
+     * </pre>
+     */
+    public boolean hasQualityId() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string qualityId = 4;</code>
+     *
+     * <pre>
+     *品阶Id
+     * </pre>
+     */
+    public java.lang.String getQualityId() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          qualityId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string qualityId = 4;</code>
+     *
+     * <pre>
+     *品阶Id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getQualityIdBytes() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        qualityId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      modeId_ = 0;
+      level_ = 0;
+      starLevel_ = 0;
+      qualityId_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasModeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStarLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasQualityId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, modeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, level_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, starLevel_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getQualityIdBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, modeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, level_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, starLevel_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getQualityIdBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.TeamBattleProto.HeroSimple parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.TeamBattleProto.HeroSimple prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code teamBattle.HeroSimple}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.TeamBattleProto.HeroSimpleOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_HeroSimple_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_HeroSimple_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.TeamBattleProto.HeroSimple.class, com.rwproto.TeamBattleProto.HeroSimple.Builder.class);
+      }
+
+      // Construct using com.rwproto.TeamBattleProto.HeroSimple.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        modeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        starLevel_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        qualityId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.TeamBattleProto.internal_static_teamBattle_HeroSimple_descriptor;
+      }
+
+      public com.rwproto.TeamBattleProto.HeroSimple getDefaultInstanceForType() {
+        return com.rwproto.TeamBattleProto.HeroSimple.getDefaultInstance();
+      }
+
+      public com.rwproto.TeamBattleProto.HeroSimple build() {
+        com.rwproto.TeamBattleProto.HeroSimple result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.TeamBattleProto.HeroSimple buildPartial() {
+        com.rwproto.TeamBattleProto.HeroSimple result = new com.rwproto.TeamBattleProto.HeroSimple(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.modeId_ = modeId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.starLevel_ = starLevel_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.qualityId_ = qualityId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.TeamBattleProto.HeroSimple) {
+          return mergeFrom((com.rwproto.TeamBattleProto.HeroSimple)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.TeamBattleProto.HeroSimple other) {
+        if (other == com.rwproto.TeamBattleProto.HeroSimple.getDefaultInstance()) return this;
+        if (other.hasModeId()) {
+          setModeId(other.getModeId());
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasStarLevel()) {
+          setStarLevel(other.getStarLevel());
+        }
+        if (other.hasQualityId()) {
+          bitField0_ |= 0x00000008;
+          qualityId_ = other.qualityId_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasModeId()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasStarLevel()) {
+          
+          return false;
+        }
+        if (!hasQualityId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.TeamBattleProto.HeroSimple parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.TeamBattleProto.HeroSimple) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 modeId = 1;
+      private int modeId_ ;
+      /**
+       * <code>required int32 modeId = 1;</code>
+       *
+       * <pre>
+       *英雄模型Id
+       * </pre>
+       */
+      public boolean hasModeId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 modeId = 1;</code>
+       *
+       * <pre>
+       *英雄模型Id
+       * </pre>
+       */
+      public int getModeId() {
+        return modeId_;
+      }
+      /**
+       * <code>required int32 modeId = 1;</code>
+       *
+       * <pre>
+       *英雄模型Id
+       * </pre>
+       */
+      public Builder setModeId(int value) {
+        bitField0_ |= 0x00000001;
+        modeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 modeId = 1;</code>
+       *
+       * <pre>
+       *英雄模型Id
+       * </pre>
+       */
+      public Builder clearModeId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        modeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 level = 2;
+      private int level_ ;
+      /**
+       * <code>required int32 level = 2;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 level = 2;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required int32 level = 2;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000002;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 level = 2;</code>
+       *
+       * <pre>
+       *等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 starLevel = 3;
+      private int starLevel_ ;
+      /**
+       * <code>required int32 starLevel = 3;</code>
+       *
+       * <pre>
+       *星级
+       * </pre>
+       */
+      public boolean hasStarLevel() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 starLevel = 3;</code>
+       *
+       * <pre>
+       *星级
+       * </pre>
+       */
+      public int getStarLevel() {
+        return starLevel_;
+      }
+      /**
+       * <code>required int32 starLevel = 3;</code>
+       *
+       * <pre>
+       *星级
+       * </pre>
+       */
+      public Builder setStarLevel(int value) {
+        bitField0_ |= 0x00000004;
+        starLevel_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 starLevel = 3;</code>
+       *
+       * <pre>
+       *星级
+       * </pre>
+       */
+      public Builder clearStarLevel() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        starLevel_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string qualityId = 4;
+      private java.lang.Object qualityId_ = "";
+      /**
+       * <code>required string qualityId = 4;</code>
+       *
+       * <pre>
+       *品阶Id
+       * </pre>
+       */
+      public boolean hasQualityId() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required string qualityId = 4;</code>
+       *
+       * <pre>
+       *品阶Id
+       * </pre>
+       */
+      public java.lang.String getQualityId() {
+        java.lang.Object ref = qualityId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          qualityId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string qualityId = 4;</code>
+       *
+       * <pre>
+       *品阶Id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getQualityIdBytes() {
+        java.lang.Object ref = qualityId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          qualityId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string qualityId = 4;</code>
+       *
+       * <pre>
+       *品阶Id
+       * </pre>
+       */
+      public Builder setQualityId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string qualityId = 4;</code>
+       *
+       * <pre>
+       *品阶Id
+       * </pre>
+       */
+      public Builder clearQualityId() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        qualityId_ = getDefaultInstance().getQualityId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string qualityId = 4;</code>
+       *
+       * <pre>
+       *品阶Id
+       * </pre>
+       */
+      public Builder setQualityIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:teamBattle.HeroSimple)
+    }
+
+    static {
+      defaultInstance = new HeroSimple(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:teamBattle.HeroSimple)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -4266,6 +8206,21 @@ public final class TeamBattleProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_teamBattle_TeamBattleRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_teamBattle_TeamItem_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_teamBattle_TeamItem_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_teamBattle_TBMember_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_teamBattle_TBMember_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_teamBattle_HeroSimple_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_teamBattle_HeroSimple_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4283,21 +8238,30 @@ public final class TeamBattleProto {
       "ightResult\030\010 \001(\005\022\016\n\006loopID\030\t \001(\t\022\022\n\nbatt" +
       "leTime\030\n \001(\005\022\016\n\006memPos\030\013 \001(\t\022\022\n\ninviteTy" +
       "pe\030\014 \001(\005\022\023\n\013inviteUsers\030\r \003(\t\022\025\n\rinviteC" +
-      "ontent\030\016 \001(\t\"q\n\020TeamBattleRspMsg\022)\n\007rstT" +
-      "ype\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006t",
-      "ipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJoi" +
-      "n\030\004 \001(\010*\273\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BA" +
-      "TTLE\020\001\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_" +
-      "TEAM_INFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEA" +
-      "M\020\005\022\016\n\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026" +
-      "\n\022SET_TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMBE" +
-      "R\020\t\022\021\n\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022" +
-      "\027\n\023INFORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHAN" +
-      "GE\020\r\022\030\n\024SAVE_MEMBER_POSITION\020\016\022\r\n\tBUY_TI" +
-      "MES\020\017*W\n\014TBResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDA",
-      "TA_ERROR\020\002\022\026\n\022DIAMOND_NOT_ENOUGH\020\003\022\022\n\016VI" +
-      "P_NOT_ENOUGH\020\004B\036\n\013com.rwprotoB\017TeamBattl" +
-      "eProto"
+      "ontent\030\016 \001(\t\"\235\001\n\020TeamBattleRspMsg\022)\n\007rst" +
+      "Type\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006",
+      "tipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJo" +
+      "in\030\004 \001(\010\022*\n\014canJoinTeams\030\005 \003(\0132\024.teamBat" +
+      "tle.TeamItem\"Q\n\010TeamItem\022\016\n\006teamID\030\001 \002(\t" +
+      "\022\016\n\006hardID\030\002 \002(\t\022%\n\007members\030\003 \003(\0132\024.team" +
+      "Battle.TBMember\"\214\001\n\010TBMember\022\016\n\006userID\030\001" +
+      " \002(\t\022\020\n\010userName\030\002 \002(\t\022\017\n\007isRobot\030\003 \002(\010\022" +
+      "\r\n\005state\030\004 \002(\005\022\027\n\017playerHeadImage\030\005 \002(\t\022" +
+      "%\n\005heros\030\006 \003(\0132\026.teamBattle.HeroSimple\"Q" +
+      "\n\nHeroSimple\022\016\n\006modeId\030\001 \002(\005\022\r\n\005level\030\002 " +
+      "\002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\021\n\tqualityId\030\004 \002(",
+      "\t*\342\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BATTLE\020\001" +
+      "\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_TEAM_I" +
+      "NFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEAM\020\005\022\016\n" +
+      "\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026\n\022SET_" +
+      "TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMBER\020\t\022\021\n" +
+      "\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022\027\n\023INF" +
+      "ORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHANGE\020\r\022\030" +
+      "\n\024SAVE_MEMBER_POSITION\020\016\022\r\n\tBUY_TIMES\020\017\022" +
+      "\r\n\tADD_ROBOT\020\020\022\026\n\022GET_CAN_JION_TEAMS\020\021*W" +
+      "\n\014TBResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERRO",
+      "R\020\002\022\026\n\022DIAMOND_NOT_ENOUGH\020\003\022\022\n\016VIP_NOT_E" +
+      "NOUGH\020\004B\036\n\013com.rwprotoB\017TeamBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4315,7 +8279,25 @@ public final class TeamBattleProto {
           internal_static_teamBattle_TeamBattleRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_teamBattle_TeamBattleRspMsg_descriptor,
-              new java.lang.String[] { "RstType", "TipMsg", "ArmyInfo", "FreeJoin", });
+              new java.lang.String[] { "RstType", "TipMsg", "ArmyInfo", "FreeJoin", "CanJoinTeams", });
+          internal_static_teamBattle_TeamItem_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_teamBattle_TeamItem_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_teamBattle_TeamItem_descriptor,
+              new java.lang.String[] { "TeamID", "HardID", "Members", });
+          internal_static_teamBattle_TBMember_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_teamBattle_TBMember_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_teamBattle_TBMember_descriptor,
+              new java.lang.String[] { "UserID", "UserName", "IsRobot", "State", "PlayerHeadImage", "Heros", });
+          internal_static_teamBattle_HeroSimple_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_teamBattle_HeroSimple_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_teamBattle_HeroSimple_descriptor,
+              new java.lang.String[] { "ModeId", "Level", "StarLevel", "QualityId", });
           return null;
         }
       };

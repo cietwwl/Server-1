@@ -4,6 +4,9 @@ import java.util.EnumMap;
 
 import com.rw.Client;
 import com.rw.handler.chat.ChatPushMsgHandler;
+import com.rw.handler.groupCompetition.service.GCompTeamBattleResultReceivePushMsgImpl;
+import com.rw.handler.groupCompetition.service.GCompTeamStatusChangeReceivePushMsgImpl;
+import com.rw.handler.groupCompetition.service.GroupCompetitionReceivePushMsgImpl;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
@@ -24,6 +27,9 @@ public class PushMsgHandlerFactory {
 
 	private PushMsgHandlerFactory() {
 		registerPushMsgHandler(new ChatPushMsgHandler());
+		registerPushMsgHandler(new GCompTeamStatusChangeReceivePushMsgImpl());
+		registerPushMsgHandler(new GroupCompetitionReceivePushMsgImpl());
+		registerPushMsgHandler(new GCompTeamBattleResultReceivePushMsgImpl());
 	}
 
 	/**
@@ -71,6 +77,9 @@ public class PushMsgHandlerFactory {
 		}
 
 		Command command = resp.getHeader().getCommand();
+		if (command.equals(Command.MSG_GROUP_COMPETITION_TEAM_REQ)) {
+			System.out.println();
+		}
 		IReceivePushMsg handler = getPushMsgHandler(command);
 		if (handler == null) {
 			return;

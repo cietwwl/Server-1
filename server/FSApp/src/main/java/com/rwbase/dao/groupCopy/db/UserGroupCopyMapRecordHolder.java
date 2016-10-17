@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -28,10 +25,9 @@ public class UserGroupCopyMapRecordHolder {
 
 	public UserGroupCopyMapRecordHolder(String userID) {
 		userId = userID;
-		checkAndInitData();
 	}
 
-	private void checkAndInitData() {
+	public void checkAndInitData() {
 		List<GroupCopyMapCfg> allCfg = GroupCopyMapCfgDao.getInstance().getAllCfg();
 		ArrayList<UserGroupCopyMapRecord> addList = null;
 		MapItemStore<UserGroupCopyMapRecord> itemStore = getItemStore();
@@ -116,8 +112,9 @@ public class UserGroupCopyMapRecordHolder {
 	public void resetFightCount() {
 		GroupCopyMapCfgDao mapCfgDAO = GroupCopyMapCfgDao.getInstance();
 		List<UserGroupCopyMapRecord> list = getItemList();
+		GroupCopyMapCfgDao instance = GroupCopyMapCfgDao.getInstance();
 		for (UserGroupCopyMapRecord record : list) {
-			GroupCopyMapCfg cfg = mapCfgDAO.getCfgById(record.getChaterID());
+			GroupCopyMapCfg cfg = instance.getCfgById(record.getChaterID());
 			record.setLeftFightCount(cfg.getEnterCount());
 		}
 		update();

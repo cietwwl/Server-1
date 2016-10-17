@@ -1,23 +1,18 @@
 package com.rw.controler;
 
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.Map;
 
 import com.bm.login.AccoutBM;
-import com.common.GameUtil;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
-import com.rw.fsutil.dao.cache.SimpleCache;
-import com.rw.netty.UserSession;
 import com.rw.netty.UserChannelMgr;
+import com.rw.netty.UserSession;
 import com.rw.service.FsService;
 import com.rw.service.login.game.GameLoginHandler;
 import com.rw.service.platformgs.PlatformGSService;
@@ -28,15 +23,10 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ReConnectionProtos.ReConnectRequest;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.RequestProtos.RequestHeader;
-import com.rwproto.ResponseProtos.Response;
-import com.rwproto.ResponseProtos.ResponseHeader;
-import com.rwproto.ResponseProtos.ResponseHeader.Builder;
 
 public class FsNettyControler {
 
 	private GameLoginHandler gameLoginHandler = new GameLoginHandler();
-	// 容量需要做成配置
-	private SimpleCache<String, PlayerMsgCache> msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
 	private Map<Command, FsService<GeneratedMessage, ProtocolMessageEnum>> commandMap;
 
 	public void doMyService(Request exRequest, ChannelHandlerContext ctx) {
@@ -104,120 +94,9 @@ public class FsNettyControler {
 		}
 	}
 
-	public void sendErrorResponse(String userId, RequestHeader header, int exceptionCode) {
-		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-		sendResponse(userId, header, null, exceptionCode, ctx);
-	}
-
 	private void doPlatformGSMsg(Request exRequest, ChannelHandlerContext ctx) {
 		ByteString resultContent = PlatformGSService.doTask(exRequest);
-		sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx);
-	}
-
-	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx, ByteString synData) {
-		return sendResponse(userId, header, resultContent, 200, ctx, synData);
-	}
-
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
-		sendResponse(userId, header, resultContent, 200, ctx);
-	}
-
-	public ChannelFuture sendResponse(RequestHeader header, ByteString resultContent, ChannelHandlerContext ctx) {
-		return sendResponse(null, header, resultContent, 200, ctx);
-	}
-
-	public void sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId) {
-		sendResponse(userId, header, resultContent, sessionId, null);
-	}
-
-	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, long sessionId, ByteString synData) {
-		if (userId == null) {
-			return null;
-		}
-		ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-		if (ctx != null && sessionId != UserChannelMgr.getUserSessionId(ctx)) {
-			ctx = null;
-		}
-		return sendResponse(userId, header, resultContent, 200, ctx, synData);
-	}
-
-	/**
-	 * <pre>
-	 * 发送异步消息(指客户端不强制等待此消息，如同步数据变化)
-	 * </pre>
-	 * 
-	 * @param userId
-	 * @param ctx
-	 * @param Cmd
-	 * @param pBuffer
-	 */
-	public ChannelFuture sendAyncResponse(String userId, ChannelHandlerContext ctx, Command Cmd, ByteString pBuffer) {
-		if (ctx == null) {
-			return null;
-		}
-		if (!ctx.channel().isActive()) {
-			return null;
-		}
-		Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
-		if (pBuffer != null) {
-			builder.setSerializedContent(pBuffer);
-		} else {
-			builder.setSerializedContent(ByteString.EMPTY);
-		}
-		if (!GameUtil.checkMsgSize(builder, userId)) {
-			return null;
-		}
-		Response response = builder.build();
-		return ctx.channel().writeAndFlush(response);
-	}
-
-	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx) {
-		return sendResponse(userId, header, resultContent, statusCode, ctx, null);
-	}
-
-	public ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx, ByteString synData) {
-		boolean sendMsg = ctx != null;
-		boolean saveMsg = userId != null;
-		if (!sendMsg && !saveMsg) {
-			return null;
-		}
-		ResponseHeader responseHeader = getResponseHeader(header, header.getCommand(), statusCode, synData);
-
-		Response.Builder builder = Response.newBuilder().setHeader(responseHeader);
-		if (resultContent != null) {
-			builder.setSerializedContent(resultContent);
-		} else {
-			builder.setSerializedContent(ByteString.EMPTY);
-		}
-		Response result = builder.build();
-		if (!GameUtil.checkMsgSize(result)) {
-			return null;
-		}
-		if (saveMsg) {
-			addResponse(userId, result);
-		}
-		if (sendMsg) {
-			ChannelFuture future = ctx.channel().writeAndFlush(result);
-			GameLog.debug("##发送消息" + "  " + result.getHeader().getCommand().toString() + "  Size:" + result.getSerializedContent().size());
-			return future;
-		} else {
-			return null;
-		}
-	}
-
-	// public ResponseHeader getResponseHeader(RequestHeader header, Command
-	// command) {
-	// return getResponseHeader(header, command, 200);
-	// }
-
-	public ResponseHeader getResponseHeader(RequestHeader header, Command command, int statusCode, ByteString synData) {
-		String token = header.getToken();
-		int seqId = header.getSeqID();
-		Builder headerBuilder = ResponseHeader.newBuilder().setSeqID(seqId).setToken(token).setCommand(command).setStatusCode(statusCode);
-		if (synData != null) {
-			headerBuilder.setSynData(synData);
-		}
-		return headerBuilder.build();
+		UserChannelMgr.sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx);
 	}
 
 	public FsService<GeneratedMessage, ProtocolMessageEnum> getSerivice(Command command) {
@@ -232,40 +111,7 @@ public class FsNettyControler {
 		return gameLoginHandler;
 	}
 
-	public void addResponse(String userId, Response response) {
-		int seqId = response.getHeader().getSeqID();
-		if (seqId == 0) {
-			return;
-		}
-		PlayerMsgCache msg = msgCache.get(userId);
-		if (msg == null) {
-			// 消息容量也需要做成配置
-			msg = new PlayerMsgCache(10);
-			PlayerMsgCache old = msgCache.putIfAbsent(userId, msg);
-			if (old != null) {
-				msg = old;
-			}
-		}
-		msg.add(seqId, response);
-	}
-
-	public Response getResponse(String userId, int seqId) {
-		PlayerMsgCache msg = msgCache.get(userId);
-		if (msg == null) {
-			return null;
-		}
-		return msg.getResponse(seqId);
-	}
-
-	public void clearMsgCache(String userId) {
-		PlayerMsgCache msg = msgCache.get(userId);
-		if (msg == null) {
-			return;
-		}
-		msg.clear();
-	}
-
 	public void functionNotOpen(String userId, RequestHeader header) {
-		sendErrorResponse(userId, header, 403);
+		UserChannelMgr.sendErrorResponse(userId, header, 403);
 	}
 }

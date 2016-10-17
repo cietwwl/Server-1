@@ -18,11 +18,13 @@ import java.net.InetSocketAddress;
 import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.common.refOpt.RefOptClassGener;
 import com.log.GameLog;
 import com.playerdata.GambleMgr;
 import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.gamble.GambleTest;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -32,8 +34,11 @@ public class Server {
 
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		GameWorldFactory.init(64, 16);
+		//预加载需要反射优化的类，如果出错则启动失败
+		RefOptClassGener.getInstance().setOpen(true).preLoadClassList();
+		
 		DataCacheInitialization.init();
 		PropertyConfigurator.configure(Server.class.getClassLoader().getResource("log4j.properties"));
 		System.setProperty("io.netty.recycler.maxCapacity.default", "512");
@@ -61,7 +66,7 @@ public class Server {
 
 			//初始化每日热点数据
 			GambleMgr.resetWhenStart();
-			//GambleTest.Test();
+			GambleTest.Test();
 
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			

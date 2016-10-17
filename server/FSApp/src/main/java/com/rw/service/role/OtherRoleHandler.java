@@ -8,14 +8,22 @@ import java.util.List;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
+import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.embattle.EmBattlePositionKey;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.dao.equipment.EquipItemIF;
+import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.pojo.SkillIF;
 import com.rwbase.dao.user.readonly.TableUserIF;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.EquipProtos.EquipAttrData;
 import com.rwproto.EquipProtos.EquipData;
 import com.rwproto.FashionServiceProtos.FashionUsed;
@@ -51,15 +59,16 @@ public class OtherRoleHandler {
 		return res.build().toByteString();
 	}
 
-	public void setOtherInfo(OtherRoleAttr.Builder otherRoleAttr,PlayerIF player) {
+	public void setOtherInfo(OtherRoleAttr.Builder otherRoleAttr, PlayerIF player) {
 		TableUserIF tableUser = player.getTableUser();
-		otherRoleAttr.setUserId(tableUser.getUserId());
+		String userId = tableUser.getUserId();
+		otherRoleAttr.setUserId(userId);
 		otherRoleAttr.setLevel(player.getLevel());
 		otherRoleAttr.setUserName(tableUser.getUserName());
-		
-		//by franky
-		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(tableUser.getUserId());
-		if (usingFashion != null){
+
+		// by franky
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
+		if (usingFashion != null) {
 			otherRoleAttr.setFashionUsage(usingFashion);
 		}
 		otherRoleAttr.setJob(player.getCareer());
@@ -72,30 +81,13 @@ public class OtherRoleHandler {
 		}
 		otherRoleAttr.setHeadbox(player.getHeadFrame());
 
-		Hero mainPHero = null;
-		List<Hero> heroList = null;
-		List<Hero> tempHeroList = new ArrayList<Hero>();
-//		Enumeration<? extends HeroIF> pHeroMap = player.getHeroMgr()
-//				.getHerosEnumeration();
-		Enumeration<? extends Hero> pHeroMap = player.getHeroMgr()
-				.getHerosEnumeration(player);
-		while (pHeroMap.hasMoreElements()) { // 佣兵信息的遍历
-			Hero pHero = (Hero) pHeroMap.nextElement();
-			if (!pHero.isMainRole()) {
-				tempHeroList.add(pHero);
-			} else {
-				mainPHero = pHero;
-			}
-		}
+		HeroMgr heroMgr = player.getHeroMgr();
 
 		Hero mainRoleHero = player.getMainRoleHero();
 		otherRoleAttr.setTemplateId(mainRoleHero.getTemplateId());
 		otherRoleAttr.setFighting(mainRoleHero.getFighting());
 
-//		List<? extends EquipItemIF> equipList = player.getEquipMgr()
-//				.getEquipList(mainRoleHero.getHeroData().getId());
-		List<? extends EquipItemIF> equipList = player.getEquipMgr()
-				.getEquipList(mainRoleHero.getId());
+		List<? extends EquipItemIF> equipList = player.getEquipMgr().getEquipList(mainRoleHero.getId());
 		ItemDataIF itemDataIFfb = player.getMagic();
 		if (itemDataIFfb != null) {
 
@@ -135,7 +127,6 @@ public class OtherRoleHandler {
 			otherRoleAttr.addEquipInfo(tagItem);
 		}
 
-//		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getHeroData().getId());// player.getSkillMgr().getTableSkill().getSkillLIst();
 		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getId());
 		for (int j = 0; j < skillList.size(); j++) {
 
@@ -146,29 +137,62 @@ public class OtherRoleHandler {
 			skillInfo.setOrder(skill.getOrder());
 			otherRoleAttr.addSkillInfo(skillInfo);
 		}
-
-		// 服务器筛选最强佣兵优先级：筛选依次为：高到低品阶>高到低等级>高到低资质>高到低战力>低到高佣兵ID
-		if (tempHeroList.size() > 4) {
-			heroList = new ArrayList<Hero>(sortHero(tempHeroList).subList(0, 4));
-		} else {
-			heroList = new ArrayList<Hero>(tempHeroList);
+		
+		//获取显示的五人
+		ArrayList<Hero> heroList = new ArrayList<Hero>(5);
+		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
+		if (embattleInfo != null) {
+			List<EmbattleHeroPosition> heroPosition = embattleInfo.getPos();
+			if (heroPosition != null && !heroPosition.isEmpty()) {
+				for (int i = 0, size = heroPosition.size(); i < size; i++) {
+					Hero hero = heroMgr.getHeroById(player, heroPosition.get(i).getId());
+					if (hero != null) {
+						heroList.add(hero);
+					}
+				}
+			}
 		}
+		if (heroList.isEmpty()) {
+			Hero mainPHero = null;
+			ArrayList<Hero> tempHeroList = new ArrayList<Hero>();
+			Enumeration<? extends Hero> pHeroMap = heroMgr.getHerosEnumeration(player);
+			while (pHeroMap.hasMoreElements()) { // 佣兵信息的遍历
+				Hero pHero = (Hero) pHeroMap.nextElement();
+				if (!pHero.isMainRole()) {
+					tempHeroList.add(pHero);
+				} else {
+					mainPHero = pHero;
+				}
+			}
 
-		heroList.add(0, mainPHero);
-
+			// 服务器筛选最强佣兵优先级：筛选依次为：高到低品阶>高到低等级>高到低资质>高到低战力>低到高佣兵ID
+			if (tempHeroList.size() > 4) {
+				heroList = new ArrayList<Hero>(sortHero(tempHeroList).subList(0, 4));
+			} else {
+				heroList = new ArrayList<Hero>(tempHeroList);
+			}
+			if (mainPHero != null) {
+				heroList.add(0, mainPHero);
+			}
+		}
+		
 		for (Hero hero : heroList) {
+			RoleCfg roleCfg = FSHeroMgr.getInstance().getHeroCfg(hero);
 			OtherHero.Builder otherHero = OtherHero.newBuilder();
-//			otherHero.setHeroId(hero.getHeroData().getTemplateId());
-//			otherHero.setModeId(String.valueOf(hero.getHeroData().getModeId()));
 			otherHero.setHeroId(hero.getTemplateId());
 			otherHero.setModeId(String.valueOf(hero.getModeId()));
-			if (hero.getHeroCfg().getImageId() != null) {
-				otherHero.setIcon(hero.getHeroCfg().getImageId());
+			// if (hero.getHeroCfg().getImageId() != null) {
+			// otherHero.setIcon(hero.getHeroCfg().getImageId());
+			// }
+			if (roleCfg.getImageId() != null) {
+				otherHero.setIcon(roleCfg.getImageId());
 			}
 			otherHero.setLevel(hero.getLevel());
 			otherHero.setQualityId(hero.getQualityId());
-			otherHero.setName(hero.getHeroCfg().getName());
-			otherHero.setStarLevel(hero.getHeroCfg().getStarLevel());
+			// otherHero.setName(hero.getHeroCfg().getName());
+			// otherHero.setStarLevel(hero.getHeroCfg().getStarLevel());
+			otherHero.setName(roleCfg.getName());
+			otherHero.setStarLevel(roleCfg.getStarLevel());
 			otherHero.setFighting(hero.getFighting());
 
 			skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
@@ -182,8 +206,7 @@ public class OtherRoleHandler {
 				otherHero.addSkillInfo(skillInfo);
 			}
 
-			List<? extends EquipItemIF> heroequipList = hero.getEquipMgr()
-					.getEquipList(hero.getUUId());
+			List<? extends EquipItemIF> heroequipList = hero.getEquipMgr().getEquipList(hero.getUUId());
 
 			if (itemDataIFfb != null && hero.isMainRole()) {
 				EquipData.Builder tagItem = EquipData.newBuilder();
@@ -235,9 +258,13 @@ public class OtherRoleHandler {
 
 		@Override
 		public int compare(Hero o1, Hero o2) {
-			if (o1.GetHeroQuality() > o2.GetHeroQuality()) {
+			RoleCfg o1Cfg = FSHeroMgr.getInstance().getHeroCfg(o1);
+			RoleCfg o2Cfg = FSHeroMgr.getInstance().getHeroCfg(o2);
+			int o1Quality = FSHeroMgr.getInstance().getHeroQuality(o1);
+			int o2Quality = FSHeroMgr.getInstance().getHeroQuality(o2);
+			if (o1Quality > o2Quality) {
 				return -1;
-			} else if (o1.GetHeroQuality() < o2.GetHeroQuality()) {
+			} else if (o1Quality < o2Quality) {
 				return 1;
 			}
 
@@ -247,10 +274,9 @@ public class OtherRoleHandler {
 				return 1;
 			}
 
-			if (o1.getHeroCfg().getStarLevel() > o2.getHeroCfg().getStarLevel()) {
+			if (o1Cfg.getStarLevel() > o2Cfg.getStarLevel()) {
 				return -1;
-			} else if (o1.getHeroCfg().getStarLevel() < o2.getHeroCfg()
-					.getStarLevel()) {
+			} else if (o1Cfg.getStarLevel() < o2Cfg.getStarLevel()) {
 				return 1;
 			}
 
@@ -260,10 +286,9 @@ public class OtherRoleHandler {
 				return 1;
 			}
 
-			if (o1.getHeroCfg().getModelId() > o2.getHeroCfg().getModelId()) {
+			if (o1Cfg.getModelId() > o2Cfg.getModelId()) {
 				return 1;
-			} else if (o1.getHeroCfg().getModelId() < o2.getHeroCfg()
-					.getModelId()) {
+			} else if (o1Cfg.getModelId() < o2Cfg.getModelId()) {
 				return -1;
 			}
 

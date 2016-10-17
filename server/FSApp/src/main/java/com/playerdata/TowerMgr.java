@@ -145,7 +145,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		}
 
 		if (totalFighting == -1) {
-//			List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
+			// List<Hero> allHeros = player.getHeroMgr().getAllHeros(comparator);
 			List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, comparator);
 
 			// 要看一下总共要获取多少个佣兵的战力
@@ -227,8 +227,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, floor + 1, allEnemyIdList);
 			boolean isNewRobot = false;
 			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
-				angelArrayTeamInfo = AngelArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList,
-						matchCfg.getRobotId());
+				angelArrayTeamInfo = AngelArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList, matchCfg.getRobotId());
 				holder.addAngelArrayTeamInfo(angelArrayTeamInfo);
 				isNewRobot = true;
 			}
@@ -248,8 +247,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 					allEnemyIdList.add(uuid);
 				}
 
-				GameLog.info("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，己方等级[%s]，己方匹配战力区间战力是[%s,%s]，匹配到的玩家Id是[%s]，匹配阵容战力是[%s]，名字[%s]，来源于[%s]", floor, level, minFighting, maxFighting, uuid,
-						teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
+				GameLog.info("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，己方等级[%s]，己方匹配战力区间战力是[%s,%s]，匹配到的玩家Id是[%s]，匹配阵容战力是[%s]，名字[%s]，来源于[%s]", floor, level, minFighting, maxFighting, uuid, teamInfo.getTeamFighting(), teamInfo.getName(), isNewRobot ? "新生成万仙阵机器人" : "匹配阵容池"), null);
 			} else {
 				GameLog.error("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，匹配不到玩家阵容", floor));
 			}
@@ -263,8 +261,9 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * 更新角色的属性修改
 	 * 
 	 * @param heroChangeList
+	 * @param magicEnergy
 	 */
-	public void updateHeroChange(List<TowerHeroChange> heroChangeList) {
+	public void updateHeroChange(List<TowerHeroChange> heroChangeList, float magicEnergy) {
 		if (heroChangeList == null || heroChangeList.isEmpty()) {
 			return;
 		}
@@ -279,6 +278,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			angleData.updateHeroChange(heroChange.getRoleId(), heroChange);
 		}
 
+		angleData.setMagic(magicEnergy);
+
 		saveAngleArrayData();
 	}
 
@@ -288,7 +289,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	 * @param floor
 	 * @param heroChangeList
 	 */
-	public void updateEnemyChange(Player player, int floor, List<TowerHeroChange> heroChangeList) {
+	public void updateEnemyChange(Player player, int floor, List<TowerHeroChange> heroChangeList, float magicEnergy) {
 		if (heroChangeList == null || heroChangeList.isEmpty()) {
 			return;
 		}
@@ -323,6 +324,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			angelArrayEnemyInfoData.updateHeroAttrData(heroId, heroAttrData);
 		}
 
+		angelArrayEnemyInfoData.setMagic(magicEnergy);
+
 		if (isInsert) {
 			angelArrayEnemyInfoDataHolder.addAngelArrayEnemyInfoData(angelArrayEnemyInfoData);
 		} else {
@@ -339,8 +342,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return;
 		}
 
-		angleArrayData.setResetTimes(0);
-		angleArrayDao.update(userId);
+		if (angleArrayData.getResetTimes() != 0) {
+			angleArrayData.setResetTimes(0);
+			angleArrayDao.update(userId);
+		}
 	}
 
 	/**
@@ -430,20 +435,20 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			int num = Integer.valueOf(goodList[1]);
 			EItemTypeDef eItemType = ItemCfgHelper.getItemType(templateId);
 			if (eItemType == EItemTypeDef.HeroItem) {// 是添加英雄物品
-//				player.getHeroMgr().addHero(String.valueOf(templateId));
+				// player.getHeroMgr().addHero(String.valueOf(templateId));
 				player.getHeroMgr().addHero(player, String.valueOf(templateId));
 				player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "得到英雄id=" + templateId);
 			} else {
-//				player.getItemBagMgr().addItem(templateId, num);
+				// player.getItemBagMgr().addItem(templateId, num);
 				list.add(new ItemInfo(templateId, num));
 			}
 			if (templateId == eSpecialItemId.BraveCoin.getValue()) {
 				UserEventMgr.getInstance().TowerVitality(player, num);
 			}
 		}
-		if(list.size() > 1) {
+		if (list.size() > 1) {
 			player.getItemBagMgr().addItem(list);
-		} else if(list.size() > 0) {
+		} else if (list.size() > 0) {
 			ItemInfo itemInfo = list.get(0);
 			player.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
 		}
@@ -496,6 +501,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 		AngelArrayEnemyInfoData angelArrayEnemyInfoData = angelArrayEnemyInfoDataHolder.getAngelArrayEnemyInfoData(id);
 		if (angelArrayEnemyInfoData != null) {
 			attrMap = angelArrayEnemyInfoData.getEnemyChangeMap();
+			// 设置一下法宝的能量
+			armyInfo.getArmyMagic().setMagicPer(angelArrayEnemyInfoData.getMagic());
 		}
 
 		// 按照客户端的旧规则，主角存的是RoleBaseInfo的Id字段
@@ -525,13 +532,19 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 	private CurAttrData fillArmyHeroCurAttrData(String heroId, AttrData attrData, Map<String, CurAttrData> map) {
 		CurAttrData curAttrData = map == null ? null : map.get(heroId);
 
+		CurAttrData attr = new CurAttrData();
+		attr.setId(heroId);
+
 		if (curAttrData == null) {
-			curAttrData = new CurAttrData();
-			curAttrData.setId(heroId);
-			curAttrData.setCurLife(attrData.getLife());
+			attr.setCurLife(attrData.getLife());
+		} else {
+			attr.setCurLife(curAttrData.getCurLife());
+			attr.setCurEnergy(curAttrData.getCurEnergy());
 		}
 
-		return curAttrData;
+		attr.setMaxLife(attrData.getLife());
+		attr.setMaxEnergy(1000);
+		return attr;
 	}
 
 	@Override

@@ -22,7 +22,12 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -54,37 +59,31 @@ public class ActivityTimeCountTypeMgr {
 
 
 	private void checkNewOpen(Player player) {
-		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();
-		String userId = player.getUserId();
-		List<ActivityTimeCountTypeItem> addItemList = null;
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));		
-		
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}
+//		String userId= player.getUserId();
+//		creatItems(userId, true);		
 	}
 	
-	public List<ActivityTimeCountTypeItem> creatItems(String userId,MapItemStore<ActivityTimeCountTypeItem> itemStore){		
+	public List<ActivityTimeCountTypeItem> creatItems(String userId,boolean isHasPlayer){		
+
+		
 		List<ActivityTimeCountTypeCfg> allCfgList = ActivityTimeCountTypeCfgDAO.getInstance().getAllCfg();
 		List<ActivityTimeCountTypeItem> addItemList = null;		
-		BILogMgr biLogMgr = BILogMgr.getInstance();
+		
 		for (ActivityTimeCountTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据			
 			if (!isOpen(cfg)) {
 				// 活动未开启
 				continue;
 			}
 			ActivityTimeCountTypeEnum TimeCountTypeEnum = ActivityTimeCountTypeEnum.getById(cfg.getId());
+			
 			if (TimeCountTypeEnum == null) {
 				continue;
 			}
-			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
-			if(itemStore != null){
-				if(itemStore.getItem(itemId)!= null){
-					continue;
-				}
-			}			
+			int id = Integer.parseInt(TimeCountTypeEnum.getCfgId());
+//			String itemId = ActivityTimeCountTypeHelper.getItemId(userId,TimeCountTypeEnum);
+				
 			ActivityTimeCountTypeItem item = new ActivityTimeCountTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setCfgId(TimeCountTypeEnum.getCfgId());
 			item.setUserId(userId);
 			item.setVersion(cfg.getVersion());
@@ -110,12 +109,15 @@ public class ActivityTimeCountTypeMgr {
 				GameLog.error(LogModule.ComActivityTimeCount, userId, "同时有多个活动开启", null);
 				continue;
 			}
-			Player player = PlayerMgr.getInstance().find(userId);//蛋疼
-			if(player != null){
-				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
-			}			
+//			Player player = PlayerMgr.getInstance().find(userId);//蛋疼
+//			if(player != null){
+//				biLogMgr.logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);	
+//			}			
+			
 			addItemList.add(item);					
 		}		
+		
+		
 		return addItemList;
 	}
 	
@@ -196,17 +198,36 @@ public class ActivityTimeCountTypeMgr {
 		long currentTimeMillis = System.currentTimeMillis();
 		long lastCountTime = dataItem.getLastCountTime();
 		long timeSpan = currentTimeMillis - lastCountTime;
-		boolean istimeout = true;
-		List<ActivityTimeCountTypeSubCfg> subCfgList = ActivityTimeCountTypeSubCfgDAO
-				.getInstance().getAllCfg();
+		boolean istimeout = false;
+		boolean isAllGet = true;
+		ActivityTimeCountTypeSubCfgDAO subDao = ActivityTimeCountTypeSubCfgDAO.getInstance();
+		List<ActivityTimeCountTypeSubCfg> subCfgList = subDao.getAllCfg();
 		for (ActivityTimeCountTypeSubCfg cfg : subCfgList) {
 			if (cfg.getCount() >= dataItem.getCount()) {
-				istimeout = false;
+				isAllGet = false;
 				break;
 			}
 		}
+		
+		List<ActivityTimeCountTypeSubItem> subList = dataItem.getSubItemList();
+		for(ActivityTimeCountTypeSubItem subItem : subList){
+			ActivityTimeCountTypeSubCfg subCfg = subDao.getById(subItem.getCfgId());
+			if(subCfg.getCount() <= dataItem.getCount()&&(!subItem.isTaken())){
+				istimeout = true;
+			}
+		}
+		
+		
+		
 		if (istimeout) {
-			// 礼包处于可领取状态
+			// 某个礼包处于可领取状态，不加时间
+			dataItem.setLastCountTime(currentTimeMillis);
+			dataHolder.lazyUpdateItem(player, dataItem);
+			return;
+		}
+		if(isAllGet){
+			//所有礼包全部领完
+			dataHolder.lazyUpdateItem(player, dataItem);
 			return;
 		}
 		if (timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond * 1000) {
@@ -216,7 +237,7 @@ public class ActivityTimeCountTypeMgr {
 		}
 		// 礼包处于有效计时状态
 		dataItem.setLastCountTime(currentTimeMillis);
-		dataHolder.updateItem(player, dataItem);
+		dataHolder.lazyUpdateItem(player, dataItem);
 	}
 
 	
@@ -257,18 +278,13 @@ public class ActivityTimeCountTypeMgr {
 				}
 			}
 			
-			
-			
 			if (targetItem != null && !targetItem.isTaken()) {			
 				dataItem.setCount(1);
+				dataItem.setLastCountTime(DateUtils.getSecondLevelMillis());
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				result.setReason("领取成功");
 				checkGiftIsAllTake(player,dataItem);
-				
-				
-				
-				
 				dataHolder.updateItem(player, dataItem);
 			}
 		}

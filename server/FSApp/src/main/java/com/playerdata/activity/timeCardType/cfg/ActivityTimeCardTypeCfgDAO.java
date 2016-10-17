@@ -42,8 +42,8 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 		ActivityTimeCardTypeCfg cfgById = getCfgById("1");
 		if(cfgById!=null){			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
-			String itemId = ActivityTimeCardTypeHelper.getItemId(player.getUserId(), ActivityTimeCardTypeEnum.Month);
-			item.setId(itemId);
+			int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
+			item.setId(id);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfgById.getId());
 			newAndAddSubItemList(item);

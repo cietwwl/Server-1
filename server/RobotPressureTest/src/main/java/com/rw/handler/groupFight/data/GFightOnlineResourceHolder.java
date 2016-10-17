@@ -9,13 +9,6 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class GFightOnlineResourceHolder {
 	
-	private static GFightOnlineResourceHolder instance = new GFightOnlineResourceHolder();
-	
-
-	public static GFightOnlineResourceHolder getInstance() {
-		return instance;
-	}
-	
 	private  Map<Integer, GFightOnlineResourceData> list = new HashMap<Integer, GFightOnlineResourceData>();
 	
 	private SynDataListHolder<GFightOnlineResourceData> listHolder = new SynDataListHolder<GFightOnlineResourceData>(GFightOnlineResourceData.class);

@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.DetectionTool;
+import com.common.RefParam;
 import com.log.GameLog;
 import com.mysql.jdbc.TimeUtil;
 import com.playerdata.common.PlayerEventListener;
@@ -123,10 +124,13 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				}
 			}
 			
-			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
+			eOpenLevelType openLevelType = storeType.getType();
+			RefParam<String> outTip = new RefParam<String>();
+			if(CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, m_pPlayer, outTip)){
+//			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
 				UserGroupAttributeDataIF groupData = m_pPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
-				boolean hasGroup = StringUtils.isNotBlank(groupData.getGroupId());
+				boolean hasGroup = groupData == null ? false : StringUtils.isNotBlank(groupData.getGroupId());
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
 					continue;
 				}

@@ -16,9 +16,9 @@ public class TaskCfgDAO extends CfgCsvDao<TaskCfg> {
 		return SpringContextUtil.getBean(TaskCfgDAO.class);
 	}
 
-	private List<TaskCfg> initTask;
+	private List<TaskCfg> initTask;//初始任务列表
 	private HashMap<Integer, TaskCfg> map;
-	private HashMap<Integer, TaskCfg> preIdMap;
+	private HashMap<Integer, TaskCfg> preIdMap;//key=上一个任务id
 
 	@Override
 	public Map<String, TaskCfg> initJsonCfg() {

@@ -39,9 +39,9 @@ public abstract class QueuedTaskExecutor<K, E> {
 	 * @param task
 	 * @param handler
 	 */
-	public void asyncExecute(K key, ParametricTask<E> task, TaskExceptionHandler handler) {
-		TaskQueue keyTask = map.get(key);	
-		TaskDecoration decoratioin = new TaskDecoration(task, handler);
+	public void asyncExecute(K key, ParametricTask<K> preTask, ParametricTask<E> task, TaskExceptionHandler handler) {
+		TaskQueue keyTask = map.get(key);
+		TaskDecoration decoratioin = new TaskDecoration(preTask, task, handler);
 		if (keyTask != null && keyTask.addTask(decoratioin)) {
 			return;
 		}
@@ -75,7 +75,7 @@ public abstract class QueuedTaskExecutor<K, E> {
 	 * @param task
 	 */
 	public void asyncExecute(K key, ParametricTask<E> task) {
-		asyncExecute(key, task, null);
+		asyncExecute(key, null, task, null);
 	}
 
 	class TaskQueue implements Runnable {
@@ -110,13 +110,33 @@ public abstract class QueuedTaskExecutor<K, E> {
 			return true;
 		}
 
+		private TaskDecoration safeExtractTask() {
+			int size = -2;
+			try {
+				synchronized (this) {
+					size = taskQueue.size();
+					if (size > 0) {
+						return taskQueue.poll();
+					}
+				}
+			} catch (Throwable t) {
+				logger.error("raised an exception cause by fetch task again,size=" + size, t);
+			}
+			return null;
+		}
+
 		@Override
 		public void run() {
-			TaskDecoration taskDecoratioin = null;
+			TaskDecoration taskDecoratioin;
 			E param = null;
 			for (;;) {
 				synchronized (this) {
-					taskDecoratioin = taskQueue.poll();
+					try {
+						taskDecoratioin = taskQueue.poll();
+					} catch (Throwable t) {
+						logger.error("raised an exception cause by fetch task", t);
+						taskDecoratioin = safeExtractTask();
+					}
 					if (taskDecoratioin == null) {
 						map.remove(key);
 						removed = true;
@@ -124,6 +144,10 @@ public abstract class QueuedTaskExecutor<K, E> {
 					}
 				}
 				try {
+					ParametricTask<K> preTask = taskDecoratioin.getPreTask();
+					if (preTask != null) {
+						preTask.run(key);
+					}
 					// 若为null，每次都会去尝试获取一次
 					if (param == null) {
 						param = tryFetchParam(key);
@@ -156,14 +180,20 @@ public abstract class QueuedTaskExecutor<K, E> {
 
 	class TaskDecoration {
 
+		private final ParametricTask<K> preTask;
 		private final ParametricTask<E> task;
 		private final TaskExceptionHandler handler;
 		private final long createTimeMillis;
 
-		public TaskDecoration(ParametricTask<E> task, TaskExceptionHandler handler) {
+		public TaskDecoration(ParametricTask<K> preTask, ParametricTask<E> task, TaskExceptionHandler handler) {
 			this.task = task;
+			this.preTask = preTask;
 			this.handler = handler;
 			this.createTimeMillis = System.currentTimeMillis();
+		}
+
+		public ParametricTask<K> getPreTask() {
+			return preTask;
 		}
 
 		public ParametricTask<E> getTask() {
@@ -186,12 +216,15 @@ public abstract class QueuedTaskExecutor<K, E> {
 	 * @param key
 	 * @return
 	 */
-	protected abstract E tryFetchParam(K key);
+	protected E tryFetchParam(K key) {
+		return null;
+	}
 
 	/**
 	 * 
 	 * @param param
 	 */
-	protected abstract void afterExecute(K key, E param);
+	protected void afterExecute(K key, E param) {
+	}
 
 }

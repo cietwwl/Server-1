@@ -70,7 +70,7 @@ public class FSTraceLogger {
 		if (account != null) {
 			sb.append(account).append(',');
 		}
-		sb.append(userId).append(']');
+		sb.append(userId).append(']').append("(t=").append(Thread.currentThread().getName()).append(')');
 		logger(sb.toString());
 	}
 

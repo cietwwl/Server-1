@@ -32,12 +32,14 @@ public enum LogModule {
 	ComActivityFortuneCat("通用活动_FortuneCat"),
 	
 	ComActivityLimitHero("通用活动_LimitHero"),
+	ComActivityRetrieve("通用活动_Retrieve_每日找回"),
 	
 	FixEquip("专属装备"),
 	GroupChamp("帮派竞技"),
 	GroupSecret("帮派秘境"),
 	MagicSecret("法宝秘境"),
 	GroupFightOnline("在线帮派战斗"), 
+	GroupCompetition("帮派争霸赛"), 
 	RedPoint("红点"),
 	GroupCopy("帮派副本"),
 	TeamBattle("组队副本"),
@@ -45,6 +47,8 @@ public enum LogModule {
 	DataEncode("加密校验"),
 	DataSynService("数据同步服务"),
 	GameWorld("公用对象模块"),
+	RefOpt("反射优化模块"),
+	Skill("技能模块"),
 	WorldBoss("世界boss"),
 	;
 	

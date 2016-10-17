@@ -22,6 +22,7 @@ private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolde
 	
 
 	private  List<String> equiplist = new ArrayList<String>();
+	private List<FixExpEquipDataItem> fixExpEquipDataItems = new ArrayList<FixExpEquipDataItem>();
 	
 	private static FixExpEquipDataItemHolder instance = new FixExpEquipDataItemHolder();
 	
@@ -31,6 +32,10 @@ private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolde
 
 	public List<String> getEquiplist() {
 		return equiplist;
+	}
+
+	public List<FixExpEquipDataItem> getFixExpEquipDataItems() {
+		return fixExpEquipDataItems;
 	}
 
 	public void setEquiplist(List<String> equiplist) {
@@ -44,7 +49,7 @@ private SynDataListHolder<FixExpEquipDataItem> listHolder = new SynDataListHolde
 		for(FixExpEquipDataItem item : itemList){
 			String tmp = item.getOwnerId()+"_"+item.getCfgId();
 			equiplist.add(tmp);
-			
+			fixExpEquipDataItems.add(item);
 			if(equiplist.size()%2==0){
 				check();
 			}

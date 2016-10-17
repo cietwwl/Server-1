@@ -542,6 +542,22 @@ public final class BattleCommon {
      * </pre>
      */
     GroupCopy(13, 14),
+    /**
+     * <code>WorldBoss = 15;</code>
+     *
+     * <pre>
+     *世界Boss
+     * </pre>
+     */
+    WorldBoss(14, 15),
+    /**
+     * <code>GroupCompetition = 16;</code>
+     *
+     * <pre>
+     *帮派争霸
+     * </pre>
+     */
+    GroupCompetition(15, 16),
     ;
 
     /**
@@ -656,6 +672,22 @@ public final class BattleCommon {
      * </pre>
      */
     public static final int GroupCopy_VALUE = 14;
+    /**
+     * <code>WorldBoss = 15;</code>
+     *
+     * <pre>
+     *世界Boss
+     * </pre>
+     */
+    public static final int WorldBoss_VALUE = 15;
+    /**
+     * <code>GroupCompetition = 16;</code>
+     *
+     * <pre>
+     *帮派争霸
+     * </pre>
+     */
+    public static final int GroupCompetition_VALUE = 16;
 
 
     public final int getNumber() { return value; }
@@ -676,6 +708,8 @@ public final class BattleCommon {
         case 12: return TowerBattle;
         case 13: return TeamBattle;
         case 14: return GroupCopy;
+        case 15: return WorldBoss;
+        case 16: return GroupCompetition;
         default: return null;
       }
     }
@@ -3261,13 +3295,14 @@ public final class BattleCommon {
       "\022\026\n\022MONSTER_LARGE_BOSS\020\004\022\021\n\rINVISIBLE_NP" +
       "C\020\005\022\021\n\rSUMMON_NORMAL\020\006\022\021\n\rSUMMON_ANIMAL\020" +
       "\007\022\017\n\013HIRE_ASSIST\020\010*+\n\013ePlayerCamp\022\006\n\002Me\020" +
-      "\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\341\001\n\023eBattlePosit" +
+      "\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\206\002\n\023eBattlePosit" +
       "ionType\022\022\n\016GroupSecretPos\020\001\022\020\n\014PeakArena" +
       "Pos\020\002\022\014\n\010ArenaPos\020\003\022\021\n\rGroupFightPos\020\004\022\n" +
       "\n\006Normal\020\005\022\r\n\tEliteCopy\020\006\022\010\n\004Jbzd\020\007\022\010\n\004L" +
       "xsg\020\010\022\010\n\004Schj\020\t\022\017\n\013MagicSecret\020\n\022\t\n\005Towe",
       "r\020\013\022\017\n\013TowerBattle\020\014\022\016\n\nTeamBattle\020\r\022\r\n\t" +
-      "GroupCopy\020\016B\033\n\013com.rwprotoB\014BattleCommon"
+      "GroupCopy\020\016\022\r\n\tWorldBoss\020\017\022\024\n\020GroupCompe" +
+      "tition\020\020B\033\n\013com.rwprotoB\014BattleCommon"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

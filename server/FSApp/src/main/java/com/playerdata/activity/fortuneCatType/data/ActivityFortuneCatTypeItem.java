@@ -15,18 +15,20 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_fortunecattype_item")
-public class ActivityFortuneCatTypeItem implements  IMapItem {
+public class ActivityFortuneCatTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
-	
+	private Integer id;
+	@OwnerId
 	private String userId;// 对应的角色Id
 
 	
@@ -103,15 +105,17 @@ public class ActivityFortuneCatTypeItem implements  IMapItem {
 
 
 
-	public String getId() {
+	
+
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-
-
 
 	public List<ActivityFortuneCatTypeSubItem> getSubItemList() {
 		return subItemList;

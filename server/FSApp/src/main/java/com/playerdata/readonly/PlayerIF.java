@@ -97,4 +97,10 @@ public interface PlayerIF {
 	public ITaoistMgr getTaoistMgr();
 
 	public SynFettersData getHeroFettersByModelId(int modelId);
+	
+	/**
+	 * 获取上次登录时间
+	 * @return
+	 */
+	public long getLastLoginTime();
 }

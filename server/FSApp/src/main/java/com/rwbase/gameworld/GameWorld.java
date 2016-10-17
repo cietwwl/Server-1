@@ -21,6 +21,15 @@ public interface GameWorld {
 	public void asyncExecute(String userId, PlayerTask task);
 
 	/**
+	 * 异步执行前置任务，再执行玩家任务,保证同一个角色任务的执行是线程安全
+	 * 
+	 * @param userId
+	 * @param task
+	 * @param predecessor
+	 */
+	public void asyncExecute(String userId, PlayerPredecessor predecessor, PlayerTask task);
+
+	/**
 	 * <pre>
 	 * 异步执行指定主键的任务
 	 * </pre>

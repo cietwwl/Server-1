@@ -7,6 +7,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.JsonCfgTransfer;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.copypve.CopyType;
 
 public class CopyCfgDAO extends CfgCsvDao<CopyCfg>{
 
@@ -29,5 +30,14 @@ public class CopyCfgDAO extends CfgCsvDao<CopyCfg>{
 	public CopyCfg getCfg(int id){
 //		return (CopyCfg)getCfgById(String.valueOf(id));
 		return this.map.get(id);
+	}
+	
+	/**
+	 * 是否是精英本或者普通本
+	 * @param cfg
+	 * @return
+	 */
+	public boolean isNormalOrElite(CopyCfg cfg){
+		return cfg.getLevelType() == CopyType.COPY_TYPE_NORMAL || cfg.getLevelType() == CopyType.COPY_TYPE_ELITE;
 	}
 }

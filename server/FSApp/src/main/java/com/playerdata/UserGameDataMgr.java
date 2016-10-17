@@ -1,5 +1,6 @@
 package com.playerdata;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.player.Observer;
@@ -7,6 +8,9 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -55,6 +59,10 @@ public class UserGameDataMgr {
 		tableUserOther.setBuyCoinTimes(0);
 		tableUserOther.setBuySkillTimes(0);
 		tableUserOther.setBuyPowerTimes(0);
+
+		tableUserOther.setRandomBossFightCount(0);// 重置随机boss的战斗次数
+		tableUserOther.setKillBossRewardCount(0);
+		tableUserOther.setCreateBossCount(0);
 		userGameDataHolder.update(player);
 	}
 
@@ -81,6 +89,7 @@ public class UserGameDataMgr {
 					userGameData.setLastAddPowerTime(0);
 					userGameDataHolder.flush();
 				}
+				ActivityRetrieveTypeMgr.getInstance().addPowerTime(player);// 刷新下找回功能的体力流失时间
 				return;
 			} else {
 				if (lastTime <= 0) {
@@ -101,6 +110,12 @@ public class UserGameDataMgr {
 					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
+					int tmp = tempPower - maxPower;// 流失量
+					if (tmp > 0) {// 有流失就直接更新活动子项数据
+						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power, tmp);
+					} else {// 没流失就刷新活动主数据，让活动自己的逻辑去判断是否属于达顶值后的流失
+						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);
+					}
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
@@ -135,6 +150,8 @@ public class UserGameDataMgr {
 		}
 		userGameData.setPower(newPower);
 		userGameDataHolder.update(player);
+		// TODO HC 把改变数据推送到前台
+		PowerInfoDataHolder.synPowerInfo(player);
 		return true;
 	}
 
@@ -313,7 +330,6 @@ public class UserGameDataMgr {
 		majordata.setGiftGold(majordata.getGiftGold() + value);
 		majordata.updateGold();
 
-
 		return 0;
 	}
 
@@ -406,7 +422,7 @@ public class UserGameDataMgr {
 		} else {
 			result = -1;
 		}
-		
+
 		return result;
 	}
 
@@ -600,16 +616,6 @@ public class UserGameDataMgr {
 		return userGameDataHolder.get().getLastChangeInfoTime();
 	}
 
-	public void setLastLoginTime(long time) {
-		userGameDataHolder.get().setLastLoginTime(time);
-		userGameDataHolder.update(player);
-	}
-
-	/** 登陆时间 */
-	public long getLastLoginTime() {
-		return userGameDataHolder.get().getLastLoginTime();
-	}
-
 	public long getLastResetTime() {
 		return userGameDataHolder.get().getLastResetTime();
 	}
@@ -744,68 +750,68 @@ public class UserGameDataMgr {
 	public void setLastWorshipTime(long lastWorshipTime) {
 		this.userGameDataHolder.get().setLastWorshipTime(lastWorshipTime);
 	}
-	
-	public int getFightingAll() {
-		return this.userGameDataHolder.get().getFightingAll();
-	}
-	
-	public void setFightingAll(int fightingAll) {
-		UserGameData gameData = this.userGameDataHolder.get();
-		int pre = gameData.getFightingAll();
-		gameData.setFightingAll(fightingAll);
-		if (pre != gameData.getFightingAll()) {
-			this.userGameDataHolder.update(player);
-		}
-	}
-	
-	public void setMapAnimationState(MapAnimationState animationState){
+
+	// public int getFightingAll() {
+	// return this.userGameDataHolder.get().getFightingAll();
+	// }
+	//
+	// public void setFightingAll(int fightingAll) {
+	// UserGameData gameData = this.userGameDataHolder.get();
+	// int pre = gameData.getFightingAll();
+	// gameData.setFightingAll(fightingAll);
+	// if (pre != gameData.getFightingAll()) {
+	// this.userGameDataHolder.update(player);
+	// }
+	// }
+
+	public void setMapAnimationState(MapAnimationState animationState) {
 		userGameDataHolder.get().setMapAnimationState(animationState);
 		userGameDataHolder.update(player);
 	}
 
-	public void notifySingleFightingChange(int newSingleValue, int preSingleValue) {
-		UserGameData gameData = this.userGameDataHolder.get();
-		int pre = gameData.getFightingAll();
-		gameData.notifySingleFightingChange(newSingleValue, preSingleValue);
-		if (pre != gameData.getFightingAll()) {
-			this.userGameDataHolder.update(player);
-		}
-	}
-	
-	public void increaseFightingAll(int value) {
-		this.userGameDataHolder.get().increaseFightingAll(value);
-		this.userGameDataHolder.update(player);
-	}
-	
-	public int getStarAll() {
-		return userGameDataHolder.get().getStarAll();
-	}
-	
-	public void setStarAll(int pStarAll) {
-		UserGameData gameData = this.userGameDataHolder.get();
-		int pre = gameData.getStarAll();
-		gameData.setStarAll(pStarAll);
-		if (pre != gameData.getStarAll()) {
-			this.userGameDataHolder.update(player);
-		}
-	}
-	
-	public void increaseStarAll(int value) {
-		this.userGameDataHolder.get().increaseStarAll(value);
-		this.userGameDataHolder.update(player);
-	}
-	
-	public void notifySingleStarChange(int newStarLv, int preStarLv) {
-		if(newStarLv == preStarLv) {
-			return;
-		}
-		UserGameData gameData = this.userGameDataHolder.get();
-		int pre = gameData.getFightingAll();
-		gameData.notifySingleStarChange(newStarLv, preStarLv);
-		if (pre != gameData.getStarAll()) {
-			this.userGameDataHolder.update(player);
-		}
-	}
+	// public void notifySingleFightingChange(int newSingleValue, int preSingleValue) {
+	// UserGameData gameData = this.userGameDataHolder.get();
+	// int pre = gameData.getFightingAll();
+	// gameData.notifySingleFightingChange(newSingleValue, preSingleValue);
+	// if (pre != gameData.getFightingAll()) {
+	// this.userGameDataHolder.update(player);
+	// }
+	// }
+	//
+	// public void increaseFightingAll(int value) {
+	// this.userGameDataHolder.get().increaseFightingAll(value);
+	// this.userGameDataHolder.update(player);
+	// }
+	//
+	// public int getStarAll() {
+	// return userGameDataHolder.get().getStarAll();
+	// }
+	//
+	// public void setStarAll(int pStarAll) {
+	// UserGameData gameData = this.userGameDataHolder.get();
+	// int pre = gameData.getStarAll();
+	// gameData.setStarAll(pStarAll);
+	// if (pre != gameData.getStarAll()) {
+	// this.userGameDataHolder.update(player);
+	// }
+	// }
+	//
+	// public void increaseStarAll(int value) {
+	// this.userGameDataHolder.get().increaseStarAll(value);
+	// this.userGameDataHolder.update(player);
+	// }
+	//
+	// public void notifySingleStarChange(int newStarLv, int preStarLv) {
+	// if(newStarLv == preStarLv) {
+	// return;
+	// }
+	// UserGameData gameData = this.userGameDataHolder.get();
+	// int pre = gameData.getFightingAll();
+	// gameData.notifySingleStarChange(newStarLv, preStarLv);
+	// if (pre != gameData.getStarAll()) {
+	// this.userGameDataHolder.update(player);
+	// }
+	// }
 
 	/**
 	 * 扣除某种货币
@@ -921,5 +927,44 @@ public class UserGameDataMgr {
 			return result;
 
 		return old >= count;
+	}
+
+	public List<String> getRandomBossIDs() {
+		return userGameDataHolder.get().getRandomBossIds();
+	}
+
+	public int getFightRandomBossCount() {
+		return userGameDataHolder.get().getRandomBossFightCount();
+	}
+
+	public int getKillBossRewardCount() {
+		return userGameDataHolder.get().getKillBossRewardCount();
+	}
+
+	public int getCreateBossCount() {
+		return userGameDataHolder.get().getCreateBossCount();
+	}
+
+	public void increaseRandomBossFightCount() {
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getRandomBossFightCount();
+		data.setRandomBossFightCount(count + 1);
+		userGameDataHolder.update(player);
+	}
+
+	public void addRandomBoss(String id) {
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getCreateBossCount();
+		data.setCreateBossCount(count + 1);
+		List<String> list = data.getRandomBossIds();
+		list.add(id);
+		userGameDataHolder.update(player);
+	}
+
+	public void increaseBossRewardCount() {
+		UserGameData data = userGameDataHolder.get();
+		int count = data.getKillBossRewardCount();
+		data.setKillBossRewardCount(count + 1);
+		userGameDataHolder.update(player);
 	}
 }

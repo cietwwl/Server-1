@@ -12,6 +12,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.activity.dateType.cfg.ActivityDateTypeSubCfg;
 import com.playerdata.activity.dateType.cfg.ActivityDateTypeSubCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -19,10 +20,10 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_datetype_item")
-public class ActivityDateTypeItem implements  IMapItem {
+public class ActivityDateTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private Integer id;
 	
 	private String userId;// 对应的角色Id
 
@@ -45,11 +46,13 @@ public class ActivityDateTypeItem implements  IMapItem {
 	private boolean taken = false;//活动昂大奖是否领取
 
 
-	public String getId() {
+
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

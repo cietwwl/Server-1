@@ -6,18 +6,23 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.dataSyn.json.FieldTypeHelper;
 import com.playerdata.dataSyn.json.IFieldToJson;
+import com.playerdata.dataSyn.json.JsonOpt;
 
 public class FieldPrimitive implements IFieldToJson{
 
 	private Field field;
 	
-	public FieldPrimitive(Field fieldP){
+	private boolean isRefOpt;
+	
+	public FieldPrimitive(Field fieldP,boolean isRefOptP){
 		field = fieldP;
+		isRefOpt = isRefOptP;
 	}
 
 	@Override
-	public String toJson(Object target) throws Exception {
-		Object objectValue = field.get(target);
+	public String toJson(Object target, JsonOpt jsonOpt) throws Exception {
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
+		
 		if(objectValue == null){
 			return null;
 		}
@@ -31,7 +36,7 @@ public class FieldPrimitive implements IFieldToJson{
 			sendToClient =!StringUtils.equals(strValue, "0");
 		}
 		
-		return sendToClient?strValue:null;
+		return sendToClient?jsonOpt.getShort(strValue):null;
 	}
 
 	

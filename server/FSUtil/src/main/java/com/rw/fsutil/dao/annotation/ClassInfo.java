@@ -4,7 +4,6 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -31,24 +30,29 @@ public class ClassInfo {
 
 	// 在数据库以单列保存的属性集
 	private HashMap<String, FieldEntry> singleFieldsMap = new HashMap<String, FieldEntry>();
+	// 以字段名字映射当前属性集
+	private HashMap<String, FieldEntry> fieldsMap = new HashMap<String, FieldEntry>();
+
 	private FieldEntry[] singleFields;
 
 	// 在数据库合并成一列保存的属性集
 	private FieldEntry[] combineSaveFields;// combineSave的属性集合
 	// 数据库中合并保存的列名
 	private String combineColumnName;
-	// 更新列名集
+	// 更新列名集(不包括ownerId、primaryKey、IgnoreUpdate)
 	private String[] updateColumns;
 	// 更新属性集
 	private FieldEntry[] updateSingleFields;
-	// 插入列名集
+	// 插入列名集(全集)
 	private String[] insertColumns;
 	// 插入属性集
 	private FieldEntry[] insertSingleFields;
-	// 读取列名集
+	// 读取列名集(不包括ownerId)
 	private String[] selectColumns;
 	// 读取属性集
 	private FieldEntry[] selectSingleFields;
+	// 除cfgId外的属性集
+	private Field[] attachmentFields;
 
 	public Object newInstance() throws Exception {
 		return clazz.newInstance();
@@ -119,6 +123,7 @@ public class ClassInfo {
 			}
 			FieldEntry fieldEntry = new FieldEntry(field, fieldName, saveAsJson, collectionType, isPrimaryKey);
 			this.singleFieldsMap.put(fieldName, fieldEntry);
+			this.fieldsMap.put(field.getName(), fieldEntry);
 			if (combineSave) {
 				// 按数据库列名缓存Field
 				CombineSave combineField = field.getAnnotation(CombineSave.class);
@@ -138,7 +143,7 @@ public class ClassInfo {
 					ownerField = fieldEntry;
 				} else {
 					selectColumns.add(fieldName);
-					if (!isPrimaryKey) {
+					if (!isPrimaryKey && !field.isAnnotationPresent(IgnoreUpdate.class)) {
 						updateColumns.add(fieldName);
 					}
 				}
@@ -169,12 +174,12 @@ public class ClassInfo {
 		this.selectColumns = new String[selectColumns.size()];
 		selectColumns.toArray(this.selectColumns);
 		this.selectSingleFields = createSingleFields(this.selectColumns);
-//		System.out.println("=========================");
-//		System.out.println("表名：" + this.getTableName() + "," + this.getClazz());
-//		System.out.println("insert:" + Arrays.toString(this.insertColumns));
-//		System.out.println("select:" + Arrays.toString(this.selectColumns));
-//		System.out.println("update" + Arrays.toString(this.updateColumns));
-//		System.out.println("=========================");
+		ArrayList<Field> attachmentList = new ArrayList<Field>(insertColumns.size());
+		for (int i = 0; i < insertSingleFields.length; i++) {
+			attachmentList.add(insertSingleFields[i].field);
+		}
+		this.attachmentFields = new Field[attachmentList.size()];
+		attachmentList.toArray(attachmentFields);
 	}
 
 	private FieldEntry[] createSingleFields(String[] nameArray) {
@@ -236,8 +241,24 @@ public class ClassInfo {
 		return singleFields;
 	}
 
+	/**
+	 * 以列名获取属性(不是属性名)
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public FieldEntry getSingleField(String name) {
 		return singleFieldsMap.get(name);
+	}
+
+	/**
+	 * 以属性名字获取属性
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public FieldEntry getFieldEntry(String name) {
+		return this.fieldsMap.get(name);
 	}
 
 	public boolean isCombineSave(String columnName) {
@@ -346,4 +367,51 @@ public class ClassInfo {
 		}
 		return fieldValues;
 	}
+
+	// 提取数据库列名
+	public void extractColumn(StringBuilder insertFields, StringBuilder insertHolds, StringBuilder updateFieldNames) throws IllegalAccessException {
+		String[] columns = getInsertColumns();
+		for (int i = 0, len = columns.length; i < len; i++) {
+			String columnName = columns[i];
+			addSplit(insertFields).append(columnName);
+			addSplit(insertHolds).append("?");
+		}
+		columns = getUpdateColumns();
+		for (int i = 0, len = columns.length; i < len; i++) {
+			String columnName = columns[i];
+			addSplit(updateFieldNames).append(columnName).append("=?");
+		}
+	}
+
+	private StringBuilder addSplit(StringBuilder sb) {
+		if (sb.length() > 0) {
+			sb.append(",");
+		}
+		return sb;
+	}
+
+	public <T> Object[] extractUpdateParams(Object key, T t) {
+		try {
+			List<Object> list = extractUpdateAttributes(t);
+			int size = list.size();
+			Object[] array = new Object[size + 1];
+			list.toArray(array);
+			array[size] = key;
+			return array;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public String extractAttachment(Object entity) throws IllegalArgumentException, IllegalAccessException {
+		int len = this.attachmentFields.length;
+		HashMap<String, Object> map = new HashMap<String, Object>(len);
+		for (int i = 0; i < len; i++) {
+			Field field = attachmentFields[i];
+			map.put(field.getName(), field.get(entity));
+		}
+		return JsonUtil.writeValue(map);
+	}
+
 }

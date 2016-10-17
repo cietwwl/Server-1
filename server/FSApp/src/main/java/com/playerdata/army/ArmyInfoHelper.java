@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
@@ -14,7 +16,8 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
-import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
+import com.rwbase.dao.battle.pojo.BattleCfgDAO;
+import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.FashionServiceProtos.FashionUsed;
@@ -135,8 +138,8 @@ public class ArmyInfoHelper {
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<SkillItem> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
-		RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
-		ArmyHero armyHero = new ArmyHero(baseInfo, totalAttrData, skillList);
+//		RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
+		ArmyHero armyHero = new ArmyHero(role, totalAttrData, skillList);
 		armyHero.setFighting(role.getFighting());
 		return armyHero;
 	}
@@ -145,10 +148,11 @@ public class ArmyInfoHelper {
 		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
 	}
 	
-	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList, List<CurAttrData> attrDataList)
+	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList, List<CurAttrData> attrDataList, String copyID)
 	{
 		ArmyInfo armyInfo = buildMonsterArmy(monsterIdList);
 		setCurAttrData(armyInfo, attrDataList);
+		setPositionOffset(armyInfo, copyID);
 		return armyInfo;		
 	}
 
@@ -161,6 +165,35 @@ public class ArmyInfoHelper {
 		army.addHero(armyHero);
 
 		return army;
+	}
+
+	/**
+	 * 设置位置信息
+	 * @param armyInfo
+	 * @param copyID
+	 */
+	private static void setPositionOffset(ArmyInfo armyInfo, String copyID) {
+		CopyMonsterInfoCfg cfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(copyID);
+		if(cfg == null){
+			GameLog.cfgError(LogModule.COMMON, "ArmyInfoHelper[setPositionOffset]", "读取armyInfo 位置信息时battle表无法找到copyID="+copyID+"的数据记录");
+			return;
+		}
+		
+		if(armyInfo.getPlayer() != null){
+			
+			ArmyVector3 position = cfg.getPosition(armyInfo.getPlayer().getRoleBaseInfo().getId());
+			if(position != null){
+				armyInfo.getPlayer().setPositionOffset(position);
+			}
+		}
+		
+		for (ArmyHero h : armyInfo.getHeroList()) {
+			ArmyVector3 v = cfg.getPosition(h.getRoleBaseInfo().getId());
+			if(v != null){
+				h.setPositionOffset(v);
+			}
+		}
+		
 	}
 
 	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList)

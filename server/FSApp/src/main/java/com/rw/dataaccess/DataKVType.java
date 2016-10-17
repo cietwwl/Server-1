@@ -9,6 +9,7 @@ import com.playerdata.teambattle.data.UserTeamBattleDAO;
 import com.rw.dataaccess.processor.BattleTowerCreator;
 import com.rw.dataaccess.processor.CopyCreator;
 import com.rw.dataaccess.processor.DailyActivityCreator;
+import com.rw.dataaccess.processor.DropRecordCreator;
 import com.rw.dataaccess.processor.EmailCreator;
 import com.rw.dataaccess.processor.FSUserFightingGrowthDataCreator;
 import com.rw.dataaccess.processor.FriendCreator;
@@ -22,7 +23,6 @@ import com.rw.dataaccess.processor.StoreCreator;
 import com.rw.dataaccess.processor.UnendingWarCreator;
 import com.rw.dataaccess.processor.UserGFightDataCreator;
 import com.rw.dataaccess.processor.UserGameDataProcessor;
-import com.rw.dataaccess.processor.UserHeroCreator;
 import com.rw.dataaccess.processor.UserTeamBattleDataCreator;
 import com.rw.dataaccess.processor.VipCreator;
 import com.rw.fsutil.cacheDao.DataKVDao;
@@ -36,9 +36,12 @@ import com.rwbase.dao.business.SevenDayGifInfoDAO;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.creator.UserChatCreator;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
+import com.rwbase.dao.dropitem.DropRecordDAO;
 import com.rwbase.dao.email.TableEmailDAO;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
 import com.rwbase.dao.friend.TableFriendDAO;
+import com.rwbase.dao.groupcompetition.UserGroupCompetitionDataCreator;
+import com.rwbase.dao.groupcompetition.UserGroupCompetitionDataDAO;
 import com.rwbase.dao.groupsecret.creator.GroupSecretDefendRecordDataCreator;
 import com.rwbase.dao.groupsecret.creator.GroupSecretMatchEnemyDataCreator;
 import com.rwbase.dao.groupsecret.creator.GroupSecretTeamDataCreator;
@@ -51,10 +54,13 @@ import com.rwbase.dao.groupsecret.pojo.db.dao.UserCreateGroupSecretDataDAO;
 import com.rwbase.dao.groupsecret.pojo.db.dao.UserGroupSecretBaseDataDAO;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
-import com.rwbase.dao.hero.UserHeroDAO;
+import com.rwbase.dao.hero.FSUserHeroGlobalDataCreator;
+import com.rwbase.dao.hero.FSUserHeroGlobalDataDAO;
 import com.rwbase.dao.setting.TableSettingDataDAO;
 import com.rwbase.dao.sign.TableSignDataDAO;
 import com.rwbase.dao.store.TableStoreDao;
+import com.rwbase.dao.targetSell.BenefitDataCreator;
+import com.rwbase.dao.targetSell.BenefitDataDAO;
 import com.rwbase.dao.task.TableDailyActivityItemDAO;
 import com.rwbase.dao.unendingwar.UnendingWarDAO;
 import com.rwbase.dao.user.UserGameDataDao;
@@ -63,7 +69,7 @@ import com.rwbase.dao.vip.TableVipDAO;
 public enum DataKVType {
 
 	USER_GAME_DATA(1, UserGameDataDao.class, UserGameDataProcessor.class),
-	USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
+	// USER_HERO(2, UserHeroDAO.class, UserHeroCreator.class),
 	FRIEND(4, TableFriendDAO.class, FriendCreator.class),
 	SIGN(5, TableSignDataDAO.class, SignCreator.class),
 	VIP(6, TableVipDAO.class, VipCreator.class),
@@ -91,26 +97,42 @@ public enum DataKVType {
 	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
-	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
+	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),	
+	WB_USER_DATA(30, WBUserDataDao.class, WBUserDataCreator.class),
 	
-	WB_USER_DATA(30, WBUserDataDao.class, WBUserDataCreator.class);
-	
+
+	// 精准营销数据
+	USER_BENEFIT_SELL_DATA(30, BenefitDataDAO.class, BenefitDataCreator.class),
+	// 首掉
+	DROP_RECORD(31, DropRecordDAO.class, DropRecordCreator.class),
+	// 帮战的个人数据
+	USER_GROUP_COMPETITION(32, UserGroupCompetitionDataDAO.class, UserGroupCompetitionDataCreator.class),
+	// 英雄模块的全局数据
+	USER_HERO_GLOBAL_DATA(33, FSUserHeroGlobalDataDAO.class, FSUserHeroGlobalDataCreator.class),
+	;
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
+		this.typeValue = type;
 		this.daoClass = clazz;
 		this.creatorClass = processorClass;
 	}
 
 	// 类型
-	private int type;
+	private final int type;
+
+	private final Integer typeValue;
 	// DAO class
-	private Class<? extends DataKVDao<?>> daoClass;
+	private final Class<? extends DataKVDao<?>> daoClass;
 	// processor class
-	private Class<? extends DataCreator<?, ?>> creatorClass;
+	private final Class<? extends DataCreator<?, ?>> creatorClass;
 
 	public int getType() {
 		return type;
+	}
+
+	public Integer getTypeValue() {
+		return typeValue;
 	}
 
 	public Class<? extends DataKVDao<?>> getDaoClass() {

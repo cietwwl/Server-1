@@ -22,40 +22,40 @@ public class UserTeamBattleData {
 
 	@Id
 	private String id;
-	
+
 	@CombineSave
 	private String teamID;
-	
+
 	@CombineSave
-	private String memPos;	//为前端保存成员上阵顺序
-	
+	private String memPos; // 为前端保存成员上阵顺序
+
 	@CombineSave
 	private int score;
 
 	@CombineSave
 	private int tbGold; // 组队战货币
-	
+
 	@CombineSave
-	private List<Integer> finishedLoops = new ArrayList<Integer>();	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
-	
+	private List<Integer> finishedLoops = new ArrayList<Integer>(); // 假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
+
 	@CombineSave
-	private HashMap<String, TeamHardInfo> finishedHardMap = new HashMap<String, TeamHardInfo>();	//章节完成的情况
-	
+	private HashMap<String, TeamHardInfo> finishedHardMap = new HashMap<String, TeamHardInfo>(); // 章节完成的情况
+
 	@CombineSave
 	@IgnoreSynField
-	private StaticMemberTeamInfo selfTeamInfo;	//个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
-	
+	private StaticMemberTeamInfo selfTeamInfo; // 个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
+
 	@NonSave
-	private HashMap<String, String> enimyMap = new HashMap<String, String>();	//每个难度里的，怪物组（每天不同的怪物组，前端用）
-	
+	private HashMap<String, String> enimyMap = new HashMap<String, String>(); // 每个难度里的，怪物组（每天不同的怪物组，前端用）
+
 	@NonSave
 	@IgnoreSynField
 	private boolean isSynTeam = false;
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -67,7 +67,7 @@ public class UserTeamBattleData {
 	public void setTeamID(String teamID) {
 		this.teamID = teamID;
 	}
-	
+
 	public String getMemPos() {
 		return memPos;
 	}
@@ -107,7 +107,7 @@ public class UserTeamBattleData {
 	public void setTbGold(int tbGold) {
 		this.tbGold = tbGold;
 	}
-	
+
 	public HashMap<String, TeamHardInfo> getFinishedHardMap() {
 		return finishedHardMap;
 	}
@@ -132,22 +132,56 @@ public class UserTeamBattleData {
 		this.enimyMap = enimyMap;
 	}
 
-	public void clearCurrentTeam(){
+	public void clearCurrentTeam() {
 		finishedLoops.clear();
 		teamID = null;
 	}
-	
-	public void dailyReset(){
-		enimyMap = null;
-		finishedLoops.clear();
-		finishedHardMap.clear();
-		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
-		for(TeamCfg cfg : teamCfgs){
-			TeamHardInfo hardInfo = new TeamHardInfo();
-			hardInfo.setHardID(cfg.getId());
-			hardInfo.setBuyTimes(0);
-			hardInfo.setFinishTimes(0);
+
+	public boolean dailyReset() {
+		boolean changed = false;
+		if (enimyMap != null) {
+			enimyMap = null;
+			changed = true;
 		}
-		teamID = null;
+		if (!finishedLoops.isEmpty()) {
+			finishedLoops.clear();
+			changed = true;
+		}
+		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
+		int size = teamCfgs.size();
+		int currentSize = finishedHardMap.size();
+		boolean hardMapChanged;
+		if (size != currentSize) {
+			hardMapChanged = false;
+		} else {
+			hardMapChanged = true;
+			//根据原来的语义翻译
+			for (TeamCfg cfg : teamCfgs) {
+				TeamHardInfo hardInfo = finishedHardMap.get(cfg.getId());
+				if (hardInfo == null) {
+					hardMapChanged = false;
+					break;
+				}
+				if (hardInfo.getBuyTimes() != 0 || hardInfo.getFinishTimes() != 0) {
+					hardMapChanged = false;
+					break;
+				}
+			}
+		}
+		if (!hardMapChanged) {
+			changed = true;
+			for (TeamCfg cfg : teamCfgs) {
+				TeamHardInfo hardInfo = new TeamHardInfo();
+				hardInfo.setHardID(cfg.getId());
+				hardInfo.setBuyTimes(0);
+				hardInfo.setFinishTimes(0);
+				finishedHardMap.put(cfg.getId(), hardInfo);
+			}
+		}
+		if (teamID != null) {
+			teamID = null;
+			changed = true;
+		}
+		return changed;
 	}
 }
