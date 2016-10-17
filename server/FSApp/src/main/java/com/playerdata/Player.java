@@ -36,6 +36,7 @@ import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.hero.core.FSUserHeroGlobalDataMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -86,7 +87,6 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.CfgChangeRoleInfoDAO;
 import com.rwbase.dao.user.LevelCfgDAO;
-import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.pojo.ChangeRoleInfoCfg;
 import com.rwbase.dao.user.pojo.LevelCfg;
@@ -415,6 +415,9 @@ public class Player implements PlayerIF {
 
 					// 为了处理掉线的情况，这里要处理一下帮派争霸的数据
 					GCompMatchDataHolder.getHolder().synPlayerMatchData(player);
+
+					// 发送角色的全局数据
+					FSUserHeroGlobalDataMgr.getInstance().synData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
