@@ -109,6 +109,7 @@ public class PlayerLoginTask implements PlayerTask {
 			// 断开非当前链接
 			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
 			if (oldContext != null && oldContext != ctx) {
+				FSTraceLogger.logger("displace", 0, "DISPLACE", seqID, userId, null, false);
 				UserChannelMgr.KickOffPlayer(oldContext, nettyControler, userId);
 			}
 		}

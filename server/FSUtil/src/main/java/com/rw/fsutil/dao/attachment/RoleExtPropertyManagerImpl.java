@@ -19,6 +19,7 @@ import com.rw.fsutil.util.SpringContextUtil;
 
 public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 
+	private static final long[] EMPTY_LONG_RESULT = new long[0];
 	private JdbcTemplate template;
 	private final String[] selectAllArray;
 	private final String[] selectRangeArray;
@@ -63,6 +64,9 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 	}
 
 	public long[] insert(final String ownerId, final List<? extends InsertRoleExtPropertyData> list) throws Exception {
+		if (list.isEmpty()) {
+			return EMPTY_LONG_RESULT;
+		}
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		final String sql = insertArray[index];
 		final BatchPreparedStatementSetter pss = new BatchPreparedStatementSetter() {
@@ -143,6 +147,9 @@ public class RoleExtPropertyManagerImpl implements RoleExtPropertyManager {
 
 	@Override
 	public long[] insertAndDelete(String ownerId, final List<InsertRoleExtPropertyData> list, List<Long> deleteList) throws DataNotExistException, Exception {
+		if (deleteList.isEmpty()) {
+			return insert(ownerId, list);
+		}
 		int index = DataAccessFactory.getSimpleSupport().getTableIndex(ownerId, tableSize);
 		String insertSql = this.insertArray[index];
 		String deleteSql = this.deleteArray[index];

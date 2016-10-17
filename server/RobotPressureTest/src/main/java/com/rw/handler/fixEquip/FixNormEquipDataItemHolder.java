@@ -23,6 +23,7 @@ public class FixNormEquipDataItemHolder{
 	private SynDataListHolder<FixNormEquipDataItem> listHolder = new SynDataListHolder<FixNormEquipDataItem>(FixNormEquipDataItem.class);
 	
 	private  List<String> equiplist = new ArrayList<String>();
+	private List<FixNormEquipDataItem> fixNormEquipDataItems = new ArrayList<FixNormEquipDataItem>();
 	
 	private static FixNormEquipDataItemHolder instance = new FixNormEquipDataItemHolder();
 	
@@ -37,6 +38,12 @@ public class FixNormEquipDataItemHolder{
 	}
 
 
+	public List<FixNormEquipDataItem> getFixNormEquipDataItems() {
+		return fixNormEquipDataItems;
+	}
+
+
+
 	public void setEquiplist(List<String> equiplist) {
 		this.equiplist = equiplist;
 	}
@@ -49,6 +56,7 @@ public class FixNormEquipDataItemHolder{
 		for(FixNormEquipDataItem item : itemList){
 			String tmp = item.getId();
 			equiplist.add(tmp);
+			fixNormEquipDataItems.add(item);
 		}
 	}
 		
