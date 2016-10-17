@@ -491,6 +491,12 @@ public class MagicHandler {
 		
 		MagicExpCfg cfg = MagicExpCfgDAO.getInstance().getInheritCfg(toMagicLevel, inheritItemMap);
 		int tempLevel = cfg.getLevel();
+		
+		//规定法宝继承后的等级不能比超过被继承法宝原来的等级
+		if(tempLevel > magicLevel){
+			tempLevel = magicLevel;
+		}
+		
 		if(tempLevel == toMagicLevel){
 			return setReturnResponse(rsp, "继承的法宝升级不了被继承法宝！");
 		}
