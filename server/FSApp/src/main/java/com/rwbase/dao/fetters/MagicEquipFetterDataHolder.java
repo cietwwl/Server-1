@@ -1,10 +1,12 @@
 package com.rwbase.dao.fetters;
 
 import io.netty.util.collection.IntObjectHashMap;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
@@ -69,11 +71,11 @@ public class MagicEquipFetterDataHolder {
 			return;
 		}
 
-		// StringBuffer sb = new StringBuffer("同步羁绊数据：");
-		// for (Integer id : item.getAllFetters()) {
-		// sb.append("[").append(id).append("]");
-		// }
-		// System.out.println(sb.toString());
+		 StringBuffer sb = new StringBuffer("同步羁绊数据：");
+		 for (Integer id : item.getAllFetters()) {
+		 sb.append("[").append(id).append("]");
+		 }
+		 System.out.println(sb.toString());
 		SynMagicEquipFetterData synData = new SynMagicEquipFetterData(userID, item.getAllFetters());
 
 		ClientDataSynMgr.synData(player, synData, syType, eSynOpType.UPDATE_SINGLE);
@@ -184,6 +186,8 @@ public class MagicEquipFetterDataHolder {
 					break;
 				}
 			}
+		}else{
+			equals = false;
 		}
 		// 配置没有变化
 		if (equals) {
