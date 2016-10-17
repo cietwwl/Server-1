@@ -207,7 +207,6 @@ public class DataKvManagerImpl implements DataKvManager {
 		}
 		sb.append(')');
 		String sql = sb.toString();
-		System.out.println(sql);
 		List<DataKvEntity> l = jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
 		return l;
 	}

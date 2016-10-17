@@ -27,6 +27,7 @@ import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -221,7 +222,7 @@ public class ActivityTimeCountTypeMgr {
 		if (istimeout) {
 			// 某个礼包处于可领取状态，不加时间
 			dataItem.setLastCountTime(currentTimeMillis);
-			dataHolder.updateItem(player, dataItem);
+			dataHolder.lazyUpdateItem(player, dataItem);
 			return;
 		}
 		if(isAllGet){
@@ -235,7 +236,7 @@ public class ActivityTimeCountTypeMgr {
 		}
 		// 礼包处于有效计时状态
 		dataItem.setLastCountTime(currentTimeMillis);
-		dataHolder.updateItem(player, dataItem);
+		dataHolder.lazyUpdateItem(player, dataItem);
 	}
 
 	
@@ -276,18 +277,13 @@ public class ActivityTimeCountTypeMgr {
 				}
 			}
 			
-			
-			
 			if (targetItem != null && !targetItem.isTaken()) {			
 				dataItem.setCount(1);
+				dataItem.setLastCountTime(DateUtils.getSecondLevelMillis());
 				takeGift(player, targetItem);
 				result.setSuccess(true);
 				result.setReason("领取成功");
 				checkGiftIsAllTake(player,dataItem);
-				
-				
-				
-				
 				dataHolder.updateItem(player, dataItem);
 			}
 		}

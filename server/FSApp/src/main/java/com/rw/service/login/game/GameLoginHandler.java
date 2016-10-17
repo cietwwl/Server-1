@@ -121,7 +121,7 @@ public class GameLoginHandler {
 		ZoneInfo.setLevel(player.getLevel());
 		ZoneInfo.setVipLevel(player.getVip());
 		ZoneInfo.setHeadImage(player.getHeadImage());
-		ZoneInfo.setLastLoginMillis(player.getUserGameDataMgr().getLastLoginTime());
+		ZoneInfo.setLastLoginMillis(player.getLastLoginTime());
 		ZoneInfo.setCareer(player.getCareer());
 		ZoneInfo.setUserName(player.getUserName());
 	}

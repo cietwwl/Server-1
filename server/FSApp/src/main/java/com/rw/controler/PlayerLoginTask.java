@@ -109,6 +109,7 @@ public class PlayerLoginTask implements PlayerTask {
 			// 断开非当前链接
 			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
 			if (oldContext != null && oldContext != ctx) {
+				FSTraceLogger.logger("displace", 0, "DISPLACE", seqID, userId, null, false);
 				UserChannelMgr.KickOffPlayer(oldContext, nettyControler, userId);
 			}
 		}
@@ -153,7 +154,7 @@ public class PlayerLoginTask implements PlayerTask {
 			}
 		});
 
-		long lastLoginTime = player.getUserGameDataMgr().getLastLoginTime();
+		long lastLoginTime = player.getLastLoginTime();
 		UserChannelMgr.bindUserID(userId, ctx, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		ByteString loginSynData = player.onLogin();

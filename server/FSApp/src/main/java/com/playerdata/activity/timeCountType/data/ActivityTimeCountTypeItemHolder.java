@@ -53,6 +53,11 @@ public class ActivityTimeCountTypeItemHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
+	public void lazyUpdateItem(Player player, ActivityTimeCountTypeItem item){
+		getItemStore(player.getUserId()).lazyUpdate(item.getId());
+		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
 	public ActivityTimeCountTypeItem getItem(String userId, ActivityTimeCountTypeEnum countTypeEnum){		
 		int id = Integer.parseInt(countTypeEnum.getCfgId());
 		return getItemStore(userId).get(id);

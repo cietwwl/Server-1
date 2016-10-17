@@ -29,7 +29,7 @@ public class GameOperationFactory {
 		DataKVType[] preloadTypesArray = new DataKVType[] { DataKVType.USER_GAME_DATA, DataKVType.FRIEND, DataKVType.SIGN, DataKVType.VIP, DataKVType.EMAIL, DataKVType.GAMBLE, DataKVType.STORE,
 				DataKVType.DAILY_ACTIVITY, DataKVType.SEVEN_DAY_GIF, DataKVType.BATTLE_TOWER, DataKVType.PLOT_PROGRESS, DataKVType.GUIDE_PROGRESS, DataKVType.COPY, DataKVType.TAOIST,
 				DataKVType.USERMSDATA, DataKVType.GROUP_SECRET_BASE, DataKVType.GROUP_SECRE_TEAM, DataKVType.USER_CHAT, DataKVType.USER_GFIGHT_DATA, DataKVType.USER_TEAMBATTLE_DATA,
-				DataKVType.USER_FIGHT_GROWTH_DATA };
+				DataKVType.USER_FIGHT_GROWTH_DATA,DataKVType.USER_HERO_GLOBAL_DATA };
 		preloadTypes = new HashSet<DataKVType>();
 		Collections.addAll(preloadTypes, preloadTypesArray);
 	}

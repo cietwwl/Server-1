@@ -147,7 +147,9 @@ public class RoleExtPropertyFactory {
 		}
 		// load from database
 		List<QueryRoleExtPropertyData> loadDatas;
-		if (size < roleExtCreators.length) {
+		if (size == 1) {
+			loadDatas = extPropertyManager.loadEntitys(roleId, typeList.get(0));
+		} else if (size < roleExtCreators.length) {
 			loadDatas = extPropertyManager.loadRangeEntitys(roleId, typeList);
 		} else {
 			loadDatas = extPropertyManager.loadAllEntitys(roleId);

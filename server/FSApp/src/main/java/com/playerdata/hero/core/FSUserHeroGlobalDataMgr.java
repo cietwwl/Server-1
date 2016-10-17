@@ -105,9 +105,18 @@ public class FSUserHeroGlobalDataMgr {
 
 	public void setFightingAllAndStarAll(String userId, int fightingAll, int starAll) {
 		FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
-		globalData.setFightingAll(fightingAll);
-		globalData.setStartAll(starAll);
-		FSUserHeroGlobalDataDAO.getInstance().update(globalData);
+		boolean changed = false;
+		if (globalData.getFightingAll() != fightingAll) {
+			globalData.setFightingAll(fightingAll);
+			changed = true;
+		}
+		if (globalData.getStartAll() != starAll) {
+			globalData.setStartAll(starAll);
+			changed = true;
+		}
+		if(changed){
+			FSUserHeroGlobalDataDAO.getInstance().update(globalData);
+		}
 	}
 
 	public int getFightingAll(String userId) {

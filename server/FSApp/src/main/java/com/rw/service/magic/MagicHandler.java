@@ -283,18 +283,7 @@ public class MagicHandler {
 		}
 
 		// 检查等级
-		final String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_AdvanceLevel_VALUE);
-		int lvl = -1;
-		try {
-			lvl = Integer.parseInt(lvlStr);
-			if (lvl < 0) {
-				fillResponseInfo(response, false, "无法获取法宝等级！");
-				return response.build().toByteString();
-			}
-		} catch (Exception ex) {
-			fillResponseInfo(response, false, "无法获取法宝等级！");
-			return response.build().toByteString();
-		}
+		int lvl = item.getMagicAdvanceLevel();
 
 		if (lvl > uplevel) {
 			fillResponseInfo(response, false, "数据异常，这个法宝不能进阶！");

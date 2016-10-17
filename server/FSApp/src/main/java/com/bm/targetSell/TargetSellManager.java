@@ -437,7 +437,7 @@ public class TargetSellManager {
 	
 	
 	/**
-	 * 推送角色属性
+	 * 推送角色属性到精准服
 	 * @param player
 	 * @param attrs   这个可以是全部属性或者是部分属性
 	 */
@@ -457,7 +457,7 @@ public class TargetSellManager {
 	}
 	
 	/**
-	 * 推送玩家所有属性 
+	 * 推送玩家所有属性 到精准服
 	 * @param player
 	 * @param data 
 	 */

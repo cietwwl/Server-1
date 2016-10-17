@@ -27,6 +27,8 @@ public class GCompStartMatchingMsgReceiver implements MsgReciver {
 			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
 				RobotLog.fail("GroupCompetitionHandler[send] sendStartMatching服务器返回不成功，提示信息：" + rsp.getTips());
 				return true;
+			} else {
+				RobotLog.info("请求队伍匹配响应成功，userId：{}" + client.getUserId());
 			}
 		} catch (InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);

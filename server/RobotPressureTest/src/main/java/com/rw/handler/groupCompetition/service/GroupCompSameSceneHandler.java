@@ -37,6 +37,13 @@ public class GroupCompSameSceneHandler {
 		return areaBuilder.build();
 	}
 	
+	boolean leavePreareArea(Client client) {
+		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
+		req.setReqType(GCRequestType.LeavePrepareArea);
+		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION, req.build().toByteString(), null);
+		return success;
+	}
+	
 	boolean inPrepareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.InPrepareArea);
@@ -67,6 +74,8 @@ public class GroupCompSameSceneHandler {
 					if (!result.equals(GCResultType.SUCCESS)) {
 						RobotLog.info("GroupCompSameSceneHandler[send] enterPreparePosition服务器返回不成功:" + rsp.getTipMsg());
 						return true;
+					} else {
+						RobotLog.info("GroupCompSameSceneHandler[send] enterPreparePosition成功！");
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GroupCompSameSceneHandler[send] enterPreparePosition失败", e);
