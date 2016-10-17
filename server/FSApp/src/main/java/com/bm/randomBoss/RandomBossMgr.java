@@ -22,6 +22,7 @@ import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.role.MainMsgHandler;
 import com.rw.service.role.PmdMsgType;
 import com.rw.shareCfg.ChineseStringHelper;
@@ -363,6 +364,9 @@ public class RandomBossMgr{
 		clone.setBattleTime(count);
 		ClientDataSynMgr.synData(player, clone, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_SINGLE);
 		synBattleCount(player);
+		
+		//通知日常任务系统
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.RANDOM_BOSS, 1);
 		return rewardInfo;
 	}
 
