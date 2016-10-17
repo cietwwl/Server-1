@@ -38,13 +38,21 @@ public final class ChargeServiceProto {
      */
     BuyVipGift(2, 3),
     /**
-     * <code>CheckFriend = 4;</code>
+     * <code>TimeCard = 4;</code>
+     *
+     * <pre>
+     *模拟购买月卡
+     * </pre>
+     */
+    TimeCard(3, 4),
+    /**
+     * <code>CheckFriend = 5;</code>
      *
      * <pre>
      *获取好友月卡信息用于赠送
      * </pre>
      */
-    CheckFriend(3, 4),
+    CheckFriend(4, 5),
     ;
 
     /**
@@ -72,13 +80,21 @@ public final class ChargeServiceProto {
      */
     public static final int BuyVipGift_VALUE = 3;
     /**
-     * <code>CheckFriend = 4;</code>
+     * <code>TimeCard = 4;</code>
+     *
+     * <pre>
+     *模拟购买月卡
+     * </pre>
+     */
+    public static final int TimeCard_VALUE = 4;
+    /**
+     * <code>CheckFriend = 5;</code>
      *
      * <pre>
      *获取好友月卡信息用于赠送
      * </pre>
      */
-    public static final int CheckFriend_VALUE = 4;
+    public static final int CheckFriend_VALUE = 5;
 
 
     public final int getNumber() { return value; }
@@ -88,7 +104,8 @@ public final class ChargeServiceProto {
         case 1: return Charge;
         case 2: return FirstChargeReward;
         case 3: return BuyVipGift;
-        case 4: return CheckFriend;
+        case 4: return TimeCard;
+        case 5: return CheckFriend;
         default: return null;
       }
     }
@@ -4249,10 +4266,10 @@ public final class ChargeServiceProto {
       "imeCardOfFriend\022\014\n\004name\030\001 \002(\t\022\r\n\005level\030\002" +
       " \002(\005\022\024\n\014headPortrait\030\003 \002(\t\022\031\n\021headPortra" +
       "itFrame\030\004 \002(\t\022\025\n\rleftDayNumOne\030\005 \002(\005\022\025\n\r" +
-      "leftDayNumTwo\030\006 \002(\005*Q\n\013RequestType\022\n\n\006Ch" +
+      "leftDayNumTwo\030\006 \002(\005*_\n\013RequestType\022\n\n\006Ch" +
       "arge\020\001\022\025\n\021FirstChargeReward\020\002\022\016\n\nBuyVipG" +
-      "ift\020\003\022\017\n\013CheckFriend\020\004B!\n\013com.rwprotoB\022C" +
-      "hargeServiceProto"
+      "ift\020\003\022\014\n\010TimeCard\020\004\022\017\n\013CheckFriend\020\005B!\n\013" +
+      "com.rwprotoB\022ChargeServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
