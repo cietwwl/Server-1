@@ -29,6 +29,9 @@ public class ChargeService  implements FsService<ChargeServiceCommonReqMsg, Requ
 				case BuyVipGift:
 					result = ChargeHandler.getInstance().buyVipGift(player, request);
 					break;
+				case TimeCard:
+					result = ChargeHandler.getInstance().buyMonthCard(player, request);
+					break;
 				default:
 				break;
 			}
