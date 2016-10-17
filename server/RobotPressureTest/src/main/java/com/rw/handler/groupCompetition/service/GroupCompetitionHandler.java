@@ -119,22 +119,25 @@ public class GroupCompetitionHandler {
 			RobotLog.info("目标帮派发送测试指令，userId：" + client.getUserId());
 			if (this.sendGMCommand(client, "* gCompCheckIfLeader " + groupName)) { // 向服务器查询是否会长
 				if (this.sendGMCommand(client, "* gCompCheckTimes " + this.checkTimesToOpen)) {
-					int maxRuntTime = 5;
-					do {
-						this.sendGMCommand(client, "* mgcs 1");
-						maxRuntTime--;
-						try {
-							TimeUnit.SECONDS.sleep(2);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					} while (!client.getGCompBaseInfoHolder().isEventsStart() && maxRuntTime > 0);
+//					int maxRuntTime = 5;
+//					do {
+//						this.sendGMCommand(client, "* mgcs 1");
+//						maxRuntTime--;
+//						try {
+//							TimeUnit.SECONDS.sleep(2);
+//						} catch (Exception e) {
+//							e.printStackTrace();
+//						}
+//					} while (!client.getGCompBaseInfoHolder().isEventsStart() && maxRuntTime > 0);
+					this.sendGMCommand(client, "* mgcs 1");
+					RobotLog.info("发送测试开启帮战的GM指令，userId：" + client.getUserId());
 				}
 			}
 		}
 	}
 	
 	private boolean getMatchData(Client client) {
+		RobotLog.info("获取对阵信息，userId：" + client.getUserId());
 		CommonGetDataReqMsg.Builder builder = CommonGetDataReqMsg.newBuilder();
 		builder.setReqType(GCRequestType.GetMatchView);
 		if (client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION_GET_DATA, builder.build().toByteString(), null)) {
@@ -196,19 +199,76 @@ public class GroupCompetitionHandler {
 		}
 	}
 	
+	// 参与个人战
 	private boolean processPersonEvents(Client client) {
-		if(client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
+		if (client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
+			RobotLog.info("等待个人战斗中，userId：" + client.getUserId());
 			return true;
 		}
 		GCompTeamHolder teamHolder = client.getGCompTeamHolder();
 		if (teamHolder.getPersonalMatchingTimeOut() < System.currentTimeMillis()) {
 			if (this.requestPersonalMatching(client)) {
+				RobotLog.info("请求个人匹配成功！userId：" + client.getUserId());
 				teamHolder.setPersonalMatchingTimeOut(System.currentTimeMillis() + maxPersonMatchingIntervalMillis);
 				return true;
 			} else {
+				RobotLog.fail("请求个人匹配失败！userId：" + client.getUserId());
 				return false;
 			}
 		} else {
+			return true;
+		}
+	}
+	
+	// 模拟进入备战区
+	private boolean processEnterPrepareArea(Client client) {
+		if (GroupCompSameSceneHandler.getHandler().enterPrepareArea(client)) {
+			try {
+				TimeUnit.MILLISECONDS.sleep(500);
+			} catch (Exception e) {
+				RobotLog.fail("进入备战区成功，但是暂停被打断！", e);
+			}
+			return GroupCompSameSceneHandler.getHandler().inPrepareArea(client);
+		} else {
+			RobotLog.fail("进入备战区不成功！userId:" + client.getUserId());
+			return false;
+		}
+	}
+	
+	// 帮派战已经开始，并且已经在备战区
+	private boolean processEventsBehavior(Client client) {
+		boolean result = true;
+		if (!client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
+			RobotLog.info("随机移动，userId：" + client.getUserId());
+			result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+		}
+		if (result) {
+			switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
+			case TEAM_EVENTS:
+				result &= processTeamEvents(client);
+				break;
+			case PERSONAL_EVENTS:
+				result &= processPersonEvents(client);
+				break;
+			default:
+				break;
+			}
+		} else {
+			RobotLog.fail("GroupCompSameSceneHandler#informPreparePosition失败！userId：" + client.getUserId());
+		}
+		return result;
+	}
+	
+	private boolean processBehaviorWhenEventsNotStart(Client client) {
+		if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() > 0) {
+			if (GroupCompSameSceneHandler.getHandler().leavePreareArea(client)) {
+				client.getGCompOnlinememberHolder().clearOnlineMembers();
+			}
+			RobotLog.info("帮战结束，退出备战区，userId:" + client.getUserId());
+			return true;
+		} else {
+			RobotLog.info("帮战未开始，尝试发送GM指令，userId:" + client.getUserId());
+			this.sendGCompCmd(client); // 尝试发送帮战开始的指令
 			return true;
 		}
 	}
@@ -223,55 +283,15 @@ public class GroupCompetitionHandler {
 			// 帮战阶段
 			if (client.getGCompEventsDataHolder().isNull()) {
 				// 没有matchView数据
-				RobotLog.info("获取对阵信息，userId：" + client.getUserId());
 				return this.getMatchData(client);
 			} else if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) { // 未进入备战区
 				// 进入备战区
-				if (GroupCompSameSceneHandler.getHandler().enterPrepareArea(client)) {
-					try {
-						TimeUnit.MILLISECONDS.sleep(500);
-					} catch (Exception e) {
-						RobotLog.fail("进入备战区成功，但是暂停被打断！", e);
-					}
-					return GroupCompSameSceneHandler.getHandler().inPrepareArea(client);
-				} else {
-					RobotLog.fail("进入备战区不成功！userId:" + client.getUserId());
-					return false;
-				}
+				return this.processEnterPrepareArea(client);
 			} else { // 已经在备战区
-				boolean result = true;
-				if (!client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
-					RobotLog.info("随机移动，userId：" + client.getUserId());
-					result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
-				}
-				if (result) {
-					switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
-					case TEAM_EVENTS:
-						result &= processTeamEvents(client);
-						break;
-					case PERSONAL_EVENTS:
-						result &= processPersonEvents(client);
-						break;
-					default:
-						break;
-					}
-				} else {
-					RobotLog.fail("GroupCompSameSceneHandler#informPreparePosition失败！userId：" + client.getUserId());
-				}
-				return result;
+				return this.processEventsBehavior(client);
 			}
 		} else {
-			if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() > 0) {
-				if (GroupCompSameSceneHandler.getHandler().leavePreareArea(client)) {
-					client.getGCompOnlinememberHolder().clearOnlineMembers();
-				}
-				RobotLog.info("帮战结束，退出备战区，userId:" + client.getUserId());
-				return true;
-			} else {
-				RobotLog.info("帮战未开始，尝试发送GM指令，userId:" + client.getUserId());
-				this.sendGCompCmd(client); // 尝试发送帮战开始的指令
-				return true;
-			}
+			return this.processBehaviorWhenEventsNotStart(client);
 		}
 	}
 	

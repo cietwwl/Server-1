@@ -273,16 +273,17 @@ class AgainstMatchingTask implements IGameTimerTask {
 			// 只有一个人的时候
 			RandomMatchingData data = list.get(0); // 只需要检查第一个有没有超时，因为只要有一个人超时，就必须给他组成一个队伍
 			if (isNotTimeout(System.currentTimeMillis(), data.getDeadline()) && !force) {
-				if (sizeOfList == 1) {
-//					GCompUtil.log("未到时间，移除：{}", data.getUserId());
-					groupMatchingData.turnBackRandomMatchingData(data);
-					list.remove(data);
-				} else {
-					for (int i = 0; i < sizeOfList; i++) {
-						groupMatchingData.turnBackRandomMatchingData(list.get(i));
-					}
-					list.clear();
-				}
+//				if (sizeOfList == 1) {
+////					GCompUtil.log("未到时间，移除：{}", data.getUserId());
+////					groupMatchingData.turnBackRandomMatchingData(data);
+//					list.remove(data);
+//				} else {
+////					for (int i = 0; i < sizeOfList; i++) {
+////						groupMatchingData.turnBackRandomMatchingData(list.get(i));
+////					}
+//					list.clear();
+//				}
+				list.clear();
 			}
 		}
 		if (list.size() > 0 && list.size() < maxMemberSize) {
@@ -426,7 +427,7 @@ class AgainstMatchingTask implements IGameTimerTask {
 				for (MatchingData md : queue) {
 					synchronized (md) {
 						myGroupMatchingData = groupMatchingDatas.get(md.getGroupId());
-						if (matched.contains(md)) {
+						if (md.isMatched()) {
 							continue;
 						} else if (md.isCancel()) {
 							matched.add(md);

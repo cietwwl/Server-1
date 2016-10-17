@@ -11,11 +11,16 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
-@JsonIgnoreProperties(ignoreUnknown=true)
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@SynClass
 public class FSUserHeroGlobalData {
 
 	@Id
+	@IgnoreSynField
 	@JsonProperty("userId")
 	private String userId;
 	@JsonProperty("1")
@@ -24,35 +29,37 @@ public class FSUserHeroGlobalData {
 	private int startAll;
 	@JsonProperty("3")
 	private int fightingAll;
+	@IgnoreSynField
 	@JsonProperty("4")
 	private List<String> fightingTeamHeroIds = new ArrayList<String>();
-	
-	public FSUserHeroGlobalData() {}
-	
+
+	public FSUserHeroGlobalData() {
+	}
+
 	public FSUserHeroGlobalData(String userId) {
 		this.userId = userId;
 	}
-	
+
 	public int getFightingTeam() {
 		return fightingTeam;
 	}
-	
+
 	public void setFightingTeam(int fightingTeam) {
 		this.fightingTeam = fightingTeam;
 	}
-	
+
 	public int getStartAll() {
 		return startAll;
 	}
-	
+
 	public void setStartAll(int startAll) {
 		this.startAll = startAll;
 	}
-	
+
 	public int getFightingAll() {
 		return fightingAll;
 	}
-	
+
 	public void setFightingAll(int fightingAll) {
 		this.fightingAll = fightingAll;
 	}
@@ -63,5 +70,9 @@ public class FSUserHeroGlobalData {
 
 	public void setFightingTeamHeroIds(List<String> fightingTeamHeroIds) {
 		this.fightingTeamHeroIds = new ArrayList<String>(fightingTeamHeroIds);
+	}
+
+	public String getUserId() {
+		return userId;
 	}
 }
