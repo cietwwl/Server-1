@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public enum ActivityRankTypeEnum{	// implements TypeIdentification
 	
-	FIGHTING("70001",new int[]{201}),//战力大比拼
+	FIGHTING("70001",new int[]{203}),//战力大比拼
 	ARENA("70002",new int[]{101,102,103,104});//竞技之王
 	
 	

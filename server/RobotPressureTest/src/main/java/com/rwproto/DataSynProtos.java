@@ -1055,6 +1055,14 @@ public final class DataSynProtos {
      * </pre>
      */
     PRAISE_SYN(108, 116),
+    /**
+     * <code>USER_GLOBAL_DATA_SYN = 117;</code>
+     *
+     * <pre>
+     *角色全局战力等数据的同步
+     * </pre>
+     */
+    USER_GLOBAL_DATA_SYN(109, 117),
     ;
 
     /**
@@ -1929,6 +1937,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int PRAISE_SYN_VALUE = 116;
+    /**
+     * <code>USER_GLOBAL_DATA_SYN = 117;</code>
+     *
+     * <pre>
+     *角色全局战力等数据的同步
+     * </pre>
+     */
+    public static final int USER_GLOBAL_DATA_SYN_VALUE = 117;
 
 
     public final int getNumber() { return value; }
@@ -2044,6 +2060,7 @@ public final class DataSynProtos {
         case 114: return DropSameScene;
         case 115: return GCompFightInfoInScene;
         case 116: return PRAISE_SYN;
+        case 117: return USER_GLOBAL_DATA_SYN;
         default: return null;
       }
     }
@@ -8132,7 +8149,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\307\022\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\341\022\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8192,8 +8209,9 @@ public final class DataSynProtos {
       "l\020n\022\025\n\021GCompCanGuessItem\020o\022\023\n\017GCompMatch" +
       "Enemy\020p\022\017\n\013GCompMember\020q\022\021\n\rDropSameScen" +
       "e\020r\022\031\n\025GCompFightInfoInScene\020s\022\016\n\nPRAISE" +
-      "_SYN\020t*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n\013" +
-      "com.rwprotoB\rDataSynProtos"
+      "_SYN\020t\022\030\n\024USER_GLOBAL_DATA_SYN\020u*\034\n\013Requ" +
+      "estType\022\r\n\tSynByType\020\001B\034\n\013com.rwprotoB\rD",
+      "ataSynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

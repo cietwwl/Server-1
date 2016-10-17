@@ -16,8 +16,6 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
-import com.playerdata.fixEquip.exp.FixExpEquipMgr;
-import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.playerdata.hero.IHeroConsumer;
 import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
@@ -26,8 +24,6 @@ import com.playerdata.hero.core.consumer.FSCountTotalStarLvConsumer;
 import com.playerdata.hero.core.consumer.FSGetAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSGetMultipleHerosConsumer;
 import com.playerdata.readonly.PlayerIF;
-import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -254,7 +250,6 @@ public class FSHeroMgr implements HeroMgr {
 	public int getFightingTeam(PlayerIF player) {
 		return FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(player.getUserId());
 	}
-
 
 	@Override
 	public int getFightingTeam(String userId) {
@@ -510,4 +505,8 @@ public class FSHeroMgr implements HeroMgr {
 		}
 	}
 
+	@Override
+	public void updateFightingTeamWhenEmBattleChange(String userId) {
+		FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(userId);
+	}
 }

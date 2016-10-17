@@ -5,15 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.tools.ant.taskdefs.Replace;
-
 import com.alibaba.druid.util.StringUtils;
 import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.rw.fsutil.util.StringUtil;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.log.template.maker.LogTemplateMaker;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailCfg;
@@ -51,7 +45,14 @@ public class ComGiftMgr {
 		while (iterable.hasNext()) {
 			String giftid = iterable.next();
 			int count = giftcfg.getGiftMap().get(giftid);
-			list.add(new ItemInfo(Integer.parseInt(giftid), count));
+			int itemCfgId = Integer.parseInt(giftid);
+			//时装特殊处理
+			if(ItemCfgHelper.isFashionSpecialItem(itemCfgId)){
+				player.getItemBagMgr().addItem(itemCfgId, count);
+			}else{
+				list.add(new ItemInfo(itemCfgId, count));
+			}
+			
 		}
 		player.getItemBagMgr().addItem(list);
 	}
