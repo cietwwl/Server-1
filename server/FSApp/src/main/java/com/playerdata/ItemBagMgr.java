@@ -184,16 +184,25 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
 	public boolean addItem(int cfgId, int count) {
+		boolean success = false;
 		// 增加特殊物品时装的判断，时装物品不会设计为可以使用的物品
 		// TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
 		if (ItemCfgHelper.isFashionSpecialItem(cfgId)) {
-			RefInt fashionId = new RefInt();
-			RefInt expireTimeCount = new RefInt();
-			ItemCfgHelper.parseFashionSpecialItem(cfgId, fashionId, expireTimeCount);
-			return FashionMgr.giveFashionItem(fashionId.value, expireTimeCount.value, player, false, true, null);
+			success = addFashion(cfgId);
+		}else{
+			success = addItem0(cfgId, count);
 		}
 
-		return addItem0(cfgId, count);
+		return success;
+	}
+
+	private boolean addFashion(int cfgId) {
+		boolean success;
+		RefInt fashionId = new RefInt();
+		RefInt expireTimeCount = new RefInt();
+		ItemCfgHelper.parseFashionSpecialItem(cfgId, fashionId, expireTimeCount);
+		success = FashionMgr.giveFashionItem(fashionId.value, expireTimeCount.value, player, false, true, null);
+		return success;
 	}
 
 	/**
@@ -898,6 +907,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		// 发送邮件
 		EmailUtils.sendEmail(userId, emailData);
 	}
+	
+	
 
 	/**
 	 * <pre>
