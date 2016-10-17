@@ -370,8 +370,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		EnumerateList<? extends MomentRankingEntry<?, RankingLevelData>> it = ranking
 				.getEntriesEnumeration(offset, size);
 		for (; it.hasMoreElements();) {
-			
-			
 			MomentRankingEntry<?, RankingLevelData> entry = it.nextElement();
 			RankingLevelData rankData = entry.getExtendedAttribute();
 			int ranklevel = entry.getRanking();//没有将ranking设置进ranklevel；就用ranking

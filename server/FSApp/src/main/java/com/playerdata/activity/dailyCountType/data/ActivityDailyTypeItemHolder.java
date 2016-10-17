@@ -52,6 +52,10 @@ public class ActivityDailyTypeItemHolder {
 
 	public void updateItem(Player player, ActivityDailyTypeItem item) {
 		getItemStore(player.getUserId()).update(item.getId());
+		List<ActivityDailyTypeSubItem> subList = item.getSubItemList();
+		for(ActivityDailyTypeSubItem sub : subList){
+//			System.out.println("~~~~~~~~~~~~~~~update.singel .sub.id=" + sub.getCfgId() + "     count = " + sub.getCount());
+		}
 		ClientDataSynMgr.updateData(player, item, synType,
 				eSynOpType.UPDATE_SINGLE);
 	}
@@ -74,7 +78,11 @@ public class ActivityDailyTypeItemHolder {
 
 	public void synAllData(Player player) {
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());
-			
+		ActivityDailyTypeItem item = itemList.get(0);
+		List<ActivityDailyTypeSubItem> subList = item.getSubItemList();
+		for(ActivityDailyTypeSubItem sub : subList){
+//			System.out.println("~~~~~~~~~~~~~~~update.all .sub.id=" + sub.getCfgId() + "     count = " + sub.getCount());
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType,
 				eSynOpType.UPDATE_LIST);
 	}
