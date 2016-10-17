@@ -31,7 +31,6 @@ import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
 import com.rw.dataaccess.hero.FashionCreator;
 import com.rw.dataaccess.hero.GiveItemHistoryCreator;
-import com.rw.dataaccess.attachment.creator.OpenLevelTiggerServiceCreator;
 import com.rw.fsutil.dao.cache.CacheKey;
 import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.fashion.FashionItem;

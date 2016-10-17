@@ -305,6 +305,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public FriendResultVo requestAddFriendList(List<String> friendList) {
 		FriendResultVo resultVo = new FriendResultVo();
 		TableFriend tableFriend = getTableFriend();
+		String userId = m_pPlayer.getUserId();
 		resultVo.resultType = EFriendResultType.FAIL;
 		resultVo.resultMsg = "没有向人申请好友";
 		for (int i = 0; i < friendList.size(); i++) {
@@ -319,14 +320,13 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
 			}else if(other != null && other.isRobot()){
-				addRobotOrPlayerToFriend(otherUserId,tableFriend);
-				doOpenLevelTiggerService(other,otherUserId,tableFriend);
+				requestAddOneRobotToFriend(otherUserId,userId);
 			}else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
-				if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
+				if (otherTable.getBlackList().containsKey(userId)) {
 					// 如果在对方的黑名单列表中，不做操作
 				} else {
-					FriendItem friendItem = FriendItem.newInstance(m_pPlayer.getUserId());
+					FriendItem friendItem = FriendItem.newInstance(userId);
 					if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
 						otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
 						FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
