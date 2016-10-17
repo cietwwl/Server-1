@@ -15,9 +15,9 @@ public class ExpectedHeroStatusCfg {
 	private int expectedStar;
 	@FightingIndexKey(1)
 	private int levelOfTaoist1;
-	@FightingIndexKey(1)
+	@FightingIndexKey(2)
 	private int levelOfTaoist2;
-	@FightingIndexKey(1)
+	@FightingIndexKey(3)
 	private int levelOfTaoist3;
 	private int fashionSuitCount;
 	private int fashionWingCount;
