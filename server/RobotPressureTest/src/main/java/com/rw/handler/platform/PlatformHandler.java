@@ -9,7 +9,7 @@ import com.config.PlatformConfig;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
-import com.rw.ClientPool;
+//import com.rw.ClientPool;
 import com.rw.account.ServerInfo;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
@@ -79,7 +79,7 @@ public class PlatformHandler {
 			accountId = client.getAccountId();
 			RobotLog.info("user Created accountId:"+client.getAccountId()+" password:"+client.getPassword());
 		}else{
-			ClientPool.remove(client.getAccountId());
+//			ClientPool.remove(client.getAccountId());
 			client = null;
 		}
 		
@@ -151,7 +151,7 @@ public class PlatformHandler {
 		return null;
 
 	}
-	private void accountLoginSuccess(Client client, AccountLoginResponse rsp) {
+	private Client accountLoginSuccess(Client client, AccountLoginResponse rsp) {
 		AccountInfo account = rsp.getAccount();
 		String accountId = account.getAccountId();
 		String password = account.getPassword();
@@ -168,9 +168,9 @@ public class PlatformHandler {
 		serverInfo.setServerIP(serverIp);
 		serverInfo.setServerPort(port);
 		client.addServerInfo(serverInfo);
-		ClientPool.put(client);
+//		ClientPool.put(client);
 		RobotLog.info("PlatformHandler[execute] 验证或者创建成功, accoutId:"+accountId+" password:"+password+" lastZondId:"+lastZone.getZoneId() +" address:"+serverIp+":"+port);
-	
+		return client;
 	}
 	
 

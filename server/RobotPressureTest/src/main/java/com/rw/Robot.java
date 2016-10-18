@@ -91,10 +91,10 @@ public class Robot {
 
 	public Robot(String accountIdP) {
 		this.accountId = accountIdP;
-		Client clientTmp = ClientPool.getByAccountId(accountIdP);
-		if (clientTmp != null) {
-			client = clientTmp;
-		}
+//		Client clientTmp = ClientPool.getByAccountId(accountIdP);
+//		if (clientTmp != null) {
+//			client = clientTmp;
+//		}
 	}
 
 	public synchronized static Robot newInstance(String accountIdP) {
@@ -663,7 +663,7 @@ public class Robot {
 
 	public void quitPlatForm() {
 		if (client != null) {
-			ClientPool.remove(client.getAccountId());
+//			ClientPool.remove(client.getAccountId());
 			try {
 				client.closeConnect();
 			} catch (Exception e) {
