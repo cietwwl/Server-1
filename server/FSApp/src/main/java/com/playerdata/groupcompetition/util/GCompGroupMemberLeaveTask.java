@@ -1,6 +1,7 @@
 package com.playerdata.groupcompetition.util;
 
 import com.playerdata.groupcompetition.holder.GCompMemberMgr;
+import com.playerdata.groupcompetition.holder.GCompTeamMgr;
 
 public class GCompGroupMemberLeaveTask implements Runnable {
 
@@ -15,6 +16,7 @@ public class GCompGroupMemberLeaveTask implements Runnable {
 	@Override
 	public void run() {
 		GCompMemberMgr.getInstance().removeGCompMember(targetGroupId, targetUserId);
+		GCompTeamMgr.getInstance().onGroupMemberLeave(targetGroupId);
 	}
 
 }
