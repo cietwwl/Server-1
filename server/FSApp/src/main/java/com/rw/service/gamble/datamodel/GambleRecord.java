@@ -88,10 +88,12 @@ public class GambleRecord {
 	 */
 	public void adjustCountOfSameGroup(GamblePlanCfg planCfg,IDropGambleItemPlan dropPlan,int incrCount){
 		if (incrCount <= 0) return;
-		int mainKey = planCfg.getKey();
+//		int mainKey = planCfg.getKey();
+		int dropType = planCfg.getDropType();
 		List<GamblePlanCfg> lst = GamblePlanCfgHelper.getInstance().getCfgOfSameGroup(planCfg);
 		for (GamblePlanCfg cfg : lst) {
-			if (cfg.getKey() == mainKey){
+//			if (cfg.getKey() == mainKey){//这里用key判断，但是获取GambleDropHistory 用dropType,配置表内存在key不同但dropType相同的配置，所以这里判断会出错
+			if(cfg.getDropType() == dropType){
 				continue;
 			}
 			GambleDropHistory his = getHistory(cfg.getDropType());
