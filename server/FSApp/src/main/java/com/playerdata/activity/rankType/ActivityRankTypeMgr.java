@@ -293,10 +293,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 							// 奖励活动有效位数小于当前榜上用户的排名
 							continue;
 						}
+						if(rankInfo.getRankingLevel() < subCfg.getRankRanges()[0]){
+							
+							continue;
+						}
 						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
 						if(player.getLastLoginTime() < cfg.getStartTime()){
 							continue;//最后次登陆时间不在活动时间内；
-						}
+						}						
 						sendGifgSingel(rankInfo,activityRankTypeItemHolder,activityRankTypeEnum,subCfg);						
 					}						
 				}			
