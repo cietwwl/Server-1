@@ -1,6 +1,7 @@
 package com.rw.handler.groupCompetition.data.battle;
 
 import com.rw.Client;
+import com.rw.AsynExecuteTask;
 import com.rw.handler.groupCompetition.service.GCompMatchBattleHandler;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
@@ -25,8 +26,7 @@ public class GCompMatchBattleSynDataHolder {
 	 */
 	public boolean sendGCOmpMatchBattleReq(Client client) {
 		matchFinish = true;
-		GCompMatchBattleHandler.getInstance().gcBattleStartReqHandler(client);// 请求战斗开始
-		GCompMatchBattleHandler.getInstance().gcBattleEndReqHandler(client);// 请求战斗结束
+		client.addAsynExecuteResp(new MatchBattleAsynTask());
 		return true;
 	}
 
@@ -55,5 +55,15 @@ public class GCompMatchBattleSynDataHolder {
 
 	public void setRandomMatching(boolean randomMatching) {
 		this.randomMatching = randomMatching;
+	}
+	
+	private static class MatchBattleAsynTask implements AsynExecuteTask {
+
+		@Override
+		public void executeResp(Client client) {
+			GCompMatchBattleHandler.getInstance().gcBattleStartReqHandler(client);// 请求战斗开始
+			GCompMatchBattleHandler.getInstance().gcBattleEndReqHandler(client);// 请求战斗结束
+		}
+
 	}
 }

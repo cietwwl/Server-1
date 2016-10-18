@@ -135,6 +135,7 @@ public class GambleHandler {
 		if (hasFirst.value && adjustCount >0){
 			adjustCount--;
 		}
+		//调整同类型的保底次数
 		record.adjustCountOfSameGroup(planCfg,dropPlan, adjustCount);
 		
 		//必掉经验丹，个数跟掉落物品个数一样

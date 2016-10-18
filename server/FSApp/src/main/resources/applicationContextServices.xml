@@ -130,6 +130,8 @@
      			<entry key="MSG_GROUP_COMPETITION_BATTLE" value-ref="groupCompetitionBattleService" />
 
      			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
+     			
+     			<entry key="MSG_PRAISE" value-ref="praiseService" />
 			</map>
 		</property>
 	</bean>
@@ -232,4 +234,6 @@
 	<bean id="groupCompetitionBattleService" class="com.playerdata.groupcompetition.service.GroupCompetitionBattleService" />
 	
 	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
+	
+	<bean id="praiseService" class="com.rw.service.praise.PraiseService" />
 </beans>  

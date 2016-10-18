@@ -19,6 +19,7 @@ import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
+import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
@@ -36,6 +37,7 @@ public class PlayerTimeActionHelper {
 				player.getUserGameDataMgr().addPowerByTime(level);
 				// 秘境钥石恢复
 				UserGroupSecretBaseDataMgr.getMgr().checkAndUpdateKeyData(player);
+				OpenLevelTiggerServiceMgr.getInstance().oneSecondAction(player);
 			}
 		});
 		return onSecondTimeAction;

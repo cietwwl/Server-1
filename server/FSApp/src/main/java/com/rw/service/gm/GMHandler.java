@@ -243,6 +243,7 @@ public class GMHandler {
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
 
 		funcCallBackMap.put("emptybag", "emptyBag");
+		funcCallBackMap.put("emptyAccount".toLowerCase(), "emptyAccount");
 
 		funcCallBackMap.put("addequiptorole", "addEquipToRole");
 
@@ -1934,6 +1935,31 @@ public class GMHandler {
 		}
 		Integer status = Integer.valueOf(arrCommandContents[0]);
 		ServerSwitch.setTestCharge(status == 1);
+		return true;
+	}
+	
+	public boolean emptyAccount(String[] arrCommandContents, Player player) {
+		long coin = player.getUserGameDataMgr().getCoin();
+		int max = Integer.MAX_VALUE;
+		if (coin < max) {
+			player.getUserGameDataMgr().addCoin(-(int) coin);
+		} else {
+			while (coin > 0) {
+				int value = coin > max ? max : (int) coin;
+				player.getUserGameDataMgr().addCoin(-value);
+				coin -= max;
+			}
+		}
+		long gold = player.getUserGameDataMgr().getGold();
+		if (gold < max) {
+			player.getUserGameDataMgr().addGold(-(int) gold);
+		} else {
+			while (gold > 0) {
+				int value = coin > max ? max : (int) gold;
+				player.getUserGameDataMgr().addGold(-value);
+				gold -= max;
+			}
+		}
 		return true;
 	}
 }

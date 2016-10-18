@@ -134,6 +134,13 @@ enum Command {
 	MSG_GROUP_COMPETITION_EVENTS_FINISHED = 228; // 帮派争霸：赛事结束，发送GroupCompetition.proto里的EventsResult
 	
 	MSG_PRAISE = 229;//点赞的消息
+	
+	
+	
+	
+	
+	MSG_ACTIVITY_TIMECARD_TYPE = 600;//活动；月卡;不是活动的协议不要往下接啊；往上接
+	
 
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆

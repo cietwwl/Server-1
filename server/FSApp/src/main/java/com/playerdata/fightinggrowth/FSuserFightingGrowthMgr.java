@@ -31,16 +31,16 @@ public class FSuserFightingGrowthMgr {
 	
 	private Pair<String, Boolean> checkUpgradeCondition(Player player, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		// 检查晋级条件
-		if(player.getHeroMgr().getFightingAll(player) < nextTitleCfg.getFightingRequired()) {
+		if (player.getHeroMgr().getFightingTeam(player.getUserId()) < nextTitleCfg.getFightingRequired()) {
 			// 战斗力不符合
 			return Pair.Create(FSFightingGrowthTips.getTipsFightingNotReached(nextTitleCfg.getFightingRequired()), false);
-		} 
+		}
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
 		if (itemMap.size() > 0) {
 			for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
 				Integer itemCfgId = keyItr.next();
 				int count = itemMap.get(itemCfgId).intValue();
-				if(player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
+				if (player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
 					// 材料数量不符合
 					return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(itemCfgId).getName(), count), false);
 				}

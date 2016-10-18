@@ -62,12 +62,45 @@ public class GCompQuizMgr {
 			gcRsp.setTipMsg("竞猜项目不存在");
 			return;
 		}
-		int currentEventSign = GroupCompetitionMgr.getInstance().getCurrentEventsStatus().getSign();
-		if(currentEventSign > GCompEventsStatus.PREPARE.getSign()){
+		GCompEventsStatus currentStatus = GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
+		switch(currentStatus) {
+		case FINISH: // 结束
+			if (GroupCompetitionMgr.getInstance().getCurrentEventsType() == GCEventsType.FINAL) {
+				gcRsp.setRstType(GCResultType.DATA_ERROR);
+				gcRsp.setTipMsg("已经开战，不可竞猜");
+				break;
+			} else {
+				List<GCompAgainst> allAgainsts = GCompEventsDataMgr.getInstance().getAllAgainsts();
+				GCompAgainst targetAgainst = null;
+				for (GCompAgainst against : allAgainsts) {
+					if (against.getId() == matchId) {
+						targetAgainst = against;
+						break;
+					}
+				}
+				if (targetAgainst != null && !StringUtils.isEmpty(targetAgainst.getGroupA().getGroupId()) && !StringUtils.isEmpty(targetAgainst.getGroupB().getGroupId())
+						&& StringUtils.isEmpty(targetAgainst.getWinGroupId())) {
+					break;
+				} else {
+					gcRsp.setRstType(GCResultType.DATA_ERROR);
+					gcRsp.setTipMsg("已经开战，不可竞猜");
+					return;
+				}
+			}
+		case NONE: // 未开始
+		case PREPARE: // 准备阶段
+			// 可以竞猜
+			break;
+		default: // 其他阶段，不可竞猜
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("已经开战，不可竞猜");
 			return;
 		}
+//		if (currentStatus.sign > GCompEventsStatus.PREPARE.getSign()) {
+//			gcRsp.setRstType(GCResultType.DATA_ERROR);
+//			gcRsp.setTipMsg("已经开战，不可竞猜");
+//			return;
+//		}
 		if(StringUtils.isNotBlank(quizEvent.getWinGroupId())){
 			gcRsp.setRstType(GCResultType.DATA_ERROR);
 			gcRsp.setTipMsg("胜负已分，无法竞猜");
