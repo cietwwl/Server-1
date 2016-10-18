@@ -31,11 +31,11 @@ public class GCompRandomMatchingMsgReceiver implements MsgReciver {
 				return true;
 			} else {
 				RobotLog.info("创建队伍成功，userId：{}" + client.getUserId());
+				return true;
 			}
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 }
