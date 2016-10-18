@@ -4,7 +4,6 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -12,8 +11,8 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.timeout.TimeoutException;
-import io.netty.util.AttributeKey;
 import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
@@ -42,7 +41,7 @@ public class ChannelServer {
 	// private Map<Channel, Client> ccMap = new ConcurrentHashMap<Channel,
 	// Client>() ;
 
-	private Map<Client, Channel> ccReverMap = new ConcurrentHashMap<Client, Channel>();
+	private Map<Client, Channel> ccReverMap = new ConcurrentHashMap<Client, Channel>(8, 1.0f, 1);
 
 	public ChannelServer() {
 		EventLoopGroup eventGroup = new NioEventLoopGroup(16);// 创建处理事件的线程池
