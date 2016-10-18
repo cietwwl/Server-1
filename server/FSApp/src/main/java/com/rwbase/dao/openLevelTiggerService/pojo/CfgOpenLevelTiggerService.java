@@ -4,6 +4,7 @@ public class CfgOpenLevelTiggerService {
 	private int type; //功能ID  triggerTime  triggerNumber
 	private int triggerTime;
 	private int triggerNumber;
+	private boolean isGive;
 	public int getType() {
 		return type;
 	}
@@ -21,6 +22,12 @@ public class CfgOpenLevelTiggerService {
 	}
 	public void setTriggerNumber(int triggerNumber) {
 		this.triggerNumber = triggerNumber;
+	}
+	public boolean isGive() {
+		return isGive;
+	}
+	public void setGive(boolean isGive) {
+		this.isGive = isGive;
 	}
 	
 	

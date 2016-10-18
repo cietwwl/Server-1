@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.RankType;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.log.GameLog;
@@ -110,8 +112,9 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 添加好友 */
 	private FriendResultVo addFriend(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
-		List<FriendItem> list = new ArrayList<FriendItem>();
+		
 		TableFriend tableFriend = getTableFriend();
+		Player other = PlayerMgr.getInstance().find(otherUserId);
 		if (isSelfUser(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "该玩家是自己";
@@ -124,32 +127,62 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		} else if (!isOtherFriendLimit(otherUserId, this.userId)) {// 对方好友达到上限
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方好友数量已达上限";
-		} else {
-			FriendItem friendItem = FriendItem.newInstance(otherUserId);
-			tableFriend.getFriendList().put(otherUserId, friendItem);
-
-			FriendGiveState giveState = tableFriend.getFriendGiveList().get(otherUserId);
-			if (giveState == null) {
-				giveState = new FriendGiveState();
-				giveState.setUserId(otherUserId);
-				tableFriend.getFriendGiveList().put(otherUserId, giveState);
+		} else if(other != null && other.isRobot()){
+			resultVo = addRobotOrPlayerToFriend(otherUserId,tableFriend);
+			doOpenLevelTiggerService(other,otherUserId,tableFriend);
+		}	else {			
+			resultVo = addRobotOrPlayerToFriend(otherUserId,tableFriend);			
+		}
+		return resultVo;
+	}
+	
+	/**
+	 * 
+	 * @param tableFriend  执行添加机器人为好友的一些引导性操作
+	 */
+	private void doOpenLevelTiggerService(Player other,String otherUserId,TableFriend tableFriend) {
+		List<OpenLevelTiggerServiceSubItem> subItemlist = tableFriend.getOpenLevelTiggerServiceItem().getSubItemList();
+		for(OpenLevelTiggerServiceSubItem subItem : subItemlist){	
+			if(!StringUtils.equals(subItem.getUserId(), otherUserId)){
+				continue;
 			}
+			boolean isOver = subItem.isOver();
+			subItem.setOver(true);
+			if(isOver||!subItem.isGivePower()){
+				continue;
+			}			
+			other.getFriendMgr().givePower(m_pPlayer.getUserId());
+		}
+		save();
+	}
 
-			if (tableFriend.getBlackList().containsKey(otherUserId)) {// 从黑名单中移除
-				tableFriend.getBlackList().remove(otherUserId);
-			}
+	private FriendResultVo addRobotOrPlayerToFriend(String otherUserId,TableFriend tableFriend) {
+		FriendResultVo resultVo = new FriendResultVo();
+		List<FriendItem> list = new ArrayList<FriendItem>();
+		FriendItem friendItem = FriendItem.newInstance(otherUserId);
+		tableFriend.getFriendList().put(otherUserId, friendItem);
 
-			list.add(friendItem);
-			resultVo.updateList = friendItemToInfoList(list);
-			resultVo.resultType = EFriendResultType.SUCCESS;
-			resultVo.resultMsg = "添加成功";
+		FriendGiveState giveState = tableFriend.getFriendGiveList().get(otherUserId);
+		if (giveState == null) {
+			giveState = new FriendGiveState();
+			giveState.setUserId(otherUserId);
+			tableFriend.getFriendGiveList().put(otherUserId, giveState);
+		}
 
-			// 添加任务
-			m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
-			Player otherUser = PlayerMgr.getInstance().find(otherUserId);
-			if (otherUser != null) {
-				otherUser.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
-			}
+		if (tableFriend.getBlackList().containsKey(otherUserId)) {// 从黑名单中移除
+			tableFriend.getBlackList().remove(otherUserId);
+		}
+
+		list.add(friendItem);
+		resultVo.updateList = friendItemToInfoList(list);
+		resultVo.resultType = EFriendResultType.SUCCESS;
+		resultVo.resultMsg = "添加成功";
+
+		// 添加任务
+		m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
+		Player otherUser = PlayerMgr.getInstance().find(otherUserId);
+		if (otherUser != null) {
+			otherUser.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
 		}
 		return resultVo;
 	}
@@ -261,7 +294,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		FriendInfo robot = robotList.get(0);
 		String robotUserId = robot.getUserId();
 		TableFriend otherTable = getOtherTableFriend(robotUserId);
-		requestToAddFriend(m_pPlayer.getUserId(), robotUserId, otherTable);
+		Player robotPlayer = PlayerMgr.getInstance().find(robotUserId);
+		robotPlayer.getFriendMgr().requestToAddFriend(m_pPlayer.getUserId(), robotUserId, otherTable);
 		subItem.setUserId(robotUserId);
 	}
 	

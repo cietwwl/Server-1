@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
@@ -63,6 +65,7 @@ public class OpenLevelTiggerServiceMgr {
 						subItem.setOver(false);
 						subItem.setTriggerTime(serviceCfg.getTriggerTime());
 						subItem.setTriggerNumber(serviceCfg.getTriggerNumber());
+						subItem.setGivePower(serviceCfg.isGive());
 						subItemList.add(subItem);
 					}
 					item.setSubItemList(subItemList);
@@ -91,9 +94,12 @@ public class OpenLevelTiggerServiceMgr {
 		Long currentTime = DateUtils.getSecondLevelMillis();
 		TableFriend friendTable = player.getFriendMgr().getTableFriend();
 		OpenLevelTiggerServiceItem item = friendTable.getOpenLevelTiggerServiceItem();
+		if(item.getCreatTime() == 0){
+			return;
+		}
 		List<OpenLevelTiggerServiceSubItem> subItemList = item.getSubItemList();
 		for(OpenLevelTiggerServiceSubItem subItem : subItemList){
-			if(subItem.isOver()){
+			if(!StringUtils.isBlank(subItem.getUserId())){
 				continue;
 			}
 			long timeBySecond = (currentTime - item.getCreatTime())/1000;
