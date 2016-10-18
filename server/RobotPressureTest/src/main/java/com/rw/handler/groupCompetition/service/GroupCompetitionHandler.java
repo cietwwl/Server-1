@@ -295,8 +295,8 @@ public class GroupCompetitionHandler {
 		this.sendGroupAction(client); // 尝试创建或加入帮派
 		if (client.getGCompBaseInfoHolder().isEventsStart()) {
 			// 帮战阶段
-//			GCompEventsDataHolder eventsDaaHolder = client.getGCompEventsDataHolder();
-			/*if (client.getGCompEventsDataHolder().isNull()) {
+			GCompEventsDataHolder eventsDaaHolder = client.getGCompEventsDataHolder();
+			if (client.getGCompEventsDataHolder().isNull()) {
 				// 没有matchView数据
 				if (eventsDaaHolder.getWaitingTimeout() == 0) {
 					// 随机等待一下，防止扎堆请求数据
@@ -309,7 +309,7 @@ public class GroupCompetitionHandler {
 					// 等待未超时
 					return true;
 				}
-			} else */if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) { // 未进入备战区
+			} else if (client.getGCompOnlinememberHolder().getSizeOfOnlineMember() == 0) { // 未进入备战区
 				// 进入备战区
 				if (client.getGCompOnlinememberHolder().getLastTryEnterPrepareTime() < System.currentTimeMillis()) {
 					client.getGCompOnlinememberHolder().setLastTryEnterPrepareTime(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(random.nextInt(15) + 15)); // 如果进入不了，等30秒再进入
