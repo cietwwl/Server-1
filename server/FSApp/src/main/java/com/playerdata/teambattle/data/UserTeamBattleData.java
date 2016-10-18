@@ -125,7 +125,7 @@ public class UserTeamBattleData {
 	}
 	
 	public void dailyReset(){
-		enimyMap.clear();
+		enimyMap = null;
 		finishedLoops.clear();
 		finishedHards.clear();
 		teamID = null;
