@@ -167,10 +167,7 @@ public class FSHeroThirdPartyDataMgr {
 		_skillMgr.init(hero);
 		_inlayMgr.init(hero);
 		_equipMgr.init(hero);
-		if (!player.isRobot()) {
-			_fixExpEquipMgr.initIfNeed(player, hero);
-			_fixNromEquipMgr.initIfNeed(player, hero);
-		}
+
 		_skillMgr.checkSkill(player, hero.getId(), hero.getTemplateId());
 		_initingHeroIds.remove(hero.getId());
 	}

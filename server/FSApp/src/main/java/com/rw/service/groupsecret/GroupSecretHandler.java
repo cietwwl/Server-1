@@ -26,7 +26,6 @@ import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
-import com.rw.service.group.helper.GroupCmdHelper;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -36,7 +35,6 @@ import com.rwbase.dao.groupsecret.GroupSecretHelper;
 import com.rwbase.dao.groupsecret.GroupSecretMatchHelper;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretBaseTemplate;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretLevelGetResTemplate;
-import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretMemberAdditionCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretBaseCfgDAO;
 import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretDiamondDropCfgDAO;
@@ -71,7 +69,6 @@ import com.rwproto.GroupSecretProto.InviteGroupMemberDefendReqMsg;
 import com.rwproto.GroupSecretProto.JoinSecretDefendReqMsg;
 import com.rwproto.GroupSecretProto.RequestType;
 import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
-import com.rwproto.TowerServiceProtos.eTowerResultType;
 
 /*
  * @author HC

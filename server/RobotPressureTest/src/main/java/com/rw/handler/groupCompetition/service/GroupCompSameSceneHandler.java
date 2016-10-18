@@ -76,12 +76,12 @@ public class GroupCompSameSceneHandler {
 						return true;
 					} else {
 						RobotLog.info("GroupCompSameSceneHandler[send] enterPreparePosition成功！");
+						return true;
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GroupCompSameSceneHandler[send] enterPreparePosition失败", e);
 					return false;
 				}
-				return true;
 			}
 		});
 		return success;

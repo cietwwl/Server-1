@@ -30,13 +30,13 @@ public class GCompPersonalMatchingMsgReceiver implements MsgReciver {
 				RobotLog.fail("GroupCompetitionHandler[send] requestPersonalMatching服务器返回不成功，提示信息：" + rsp.getTips());
 				return true;
 			} else {
-				RobotLog.info("跟人匹配响应成功，userId：{}" + client.getUserId());
+				RobotLog.info("个人匹配响应成功，userId：{}" + client.getUserId());
+				return true;
 			}
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 
 }

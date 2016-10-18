@@ -104,7 +104,7 @@ public class GroupCompetitionRewardCenter {
 	}
 	
 	// 处理个人击杀排名奖励
-	private void processPersonalWinTimesReward(List<GCompMember> allMembers, GCEventsType eventsType) {
+	private void processPersonalWinTimesReward(GCEventsType eventsType) {
 		List<GCompKillItem> rankList = GCompKillRankMgr.getKillRankList();
 		if (rankList.size() > 0) {
 			List<String> allUserIds = new ArrayList<String>(rankList.size());
@@ -117,7 +117,7 @@ public class GroupCompetitionRewardCenter {
 	}
 
 	// 处理个人连胜排名奖励
-	private void processPersonalContinueWinTimesReward(List<GCompMember> allMembers, GCEventsType eventsType) {
+	private void processPersonalContinueWinTimesReward(GCEventsType eventsType) {
 		List<GCompContinueWinItem> continueWinRankList = GCompContinueWinRankMgr.getContinueWinRankList();
 		if (continueWinRankList.size() > 0) {
 			List<String> allUserIds = new ArrayList<String>(continueWinRankList.size());
@@ -144,12 +144,8 @@ public class GroupCompetitionRewardCenter {
 	
 	// 发放个人奖励
 	private void sendPersonalReward(List<IGCGroup> groups, GCEventsType eventsType) {
-		List<GCompMember> allMembers = new ArrayList<GCompMember>(groups.size() * 50);
-		for(IGCGroup group : groups) {
-			GCompMemberMgr.getInstance().getCopyOfAllMembers(group.getGroupId(), allMembers);
-		}
-		processPersonalWinTimesReward(allMembers, eventsType); // 击杀奖励
-		processPersonalContinueWinTimesReward(allMembers, eventsType); // 连胜奖励
+		processPersonalWinTimesReward(eventsType); // 击杀奖励
+		processPersonalContinueWinTimesReward(eventsType); // 连胜奖励
 	}
 	
 	private void addFinalGroups(Deque<IGCGroup> queue, IGCAgainst against) {

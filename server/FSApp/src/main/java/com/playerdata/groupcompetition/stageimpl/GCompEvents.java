@@ -133,11 +133,11 @@ public class GCompEvents {
 		for (GCompAgainst against : againsts) {
 			GCompQuizMgr.getInstance().groupCompEventsEnd(against.getId(), against.getWinGroupId());
 		}
+		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts); // 先发奖励，不然排行榜会被清掉
 		GCompRankMgr.getInstance().stageEnd(_type);
 		GroupCompetitionMgr.getInstance().notifyEventsEnd(_type, againsts);
 		GCompOnlineMemberMgr.getInstance().onEventsEnd(_type, againsts);
 		GCompFightingRecordMgr.getInstance().endLiveRecord();
-		GroupCompetitionRewardCenter.getInstance().notifyEventsFinished(_type, againsts);
 		GroupCompetitionBroadcastCenter.getInstance().onEventsEnd();
 		GCompGroupScoreRankingMgr.getInstance().onEventsEnd(_type, againsts);
 		GCompDetailInfoMgr.getInstance().onEventsEnd(eventsData.getAgainsts());

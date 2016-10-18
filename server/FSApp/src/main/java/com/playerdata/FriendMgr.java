@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.RankType;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.log.GameLog;
@@ -31,6 +33,7 @@ import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendResultVo;
+import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -109,8 +112,9 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 添加好友 */
 	private FriendResultVo addFriend(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
-		List<FriendItem> list = new ArrayList<FriendItem>();
+		
 		TableFriend tableFriend = getTableFriend();
+		Player other = PlayerMgr.getInstance().find(otherUserId);
 		if (isSelfUser(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "该玩家是自己";
@@ -123,32 +127,62 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		} else if (!isOtherFriendLimit(otherUserId, this.userId)) {// 对方好友达到上限
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方好友数量已达上限";
-		} else {
-			FriendItem friendItem = FriendItem.newInstance(otherUserId);
-			tableFriend.getFriendList().put(otherUserId, friendItem);
-
-			FriendGiveState giveState = tableFriend.getFriendGiveList().get(otherUserId);
-			if (giveState == null) {
-				giveState = new FriendGiveState();
-				giveState.setUserId(otherUserId);
-				tableFriend.getFriendGiveList().put(otherUserId, giveState);
+		} else if(other != null && other.isRobot()){
+			resultVo = addRobotOrPlayerToFriend(otherUserId,tableFriend);
+			doOpenLevelTiggerService(other,otherUserId,tableFriend);
+		}	else {			
+			resultVo = addRobotOrPlayerToFriend(otherUserId,tableFriend);			
+		}
+		return resultVo;
+	}
+	
+	/**
+	 * 
+	 * @param tableFriend  执行添加机器人为好友的一些引导性操作
+	 */
+	private void doOpenLevelTiggerService(Player other,String otherUserId,TableFriend tableFriend) {
+		List<OpenLevelTiggerServiceSubItem> subItemlist = tableFriend.getOpenLevelTiggerServiceItem().getSubItemList();
+		for(OpenLevelTiggerServiceSubItem subItem : subItemlist){	
+			if(!StringUtils.equals(subItem.getUserId(), otherUserId)){
+				continue;
 			}
+			boolean isOver = subItem.isOver();
+			subItem.setOver(true);
+			if(isOver||!subItem.isGivePower()){
+				continue;
+			}			
+			other.getFriendMgr().givePower(m_pPlayer.getUserId());
+		}
+		save();
+	}
 
-			if (tableFriend.getBlackList().containsKey(otherUserId)) {// 从黑名单中移除
-				tableFriend.getBlackList().remove(otherUserId);
-			}
+	private FriendResultVo addRobotOrPlayerToFriend(String otherUserId,TableFriend tableFriend) {
+		FriendResultVo resultVo = new FriendResultVo();
+		List<FriendItem> list = new ArrayList<FriendItem>();
+		FriendItem friendItem = FriendItem.newInstance(otherUserId);
+		tableFriend.getFriendList().put(otherUserId, friendItem);
 
-			list.add(friendItem);
-			resultVo.updateList = friendItemToInfoList(list);
-			resultVo.resultType = EFriendResultType.SUCCESS;
-			resultVo.resultMsg = "添加成功";
+		FriendGiveState giveState = tableFriend.getFriendGiveList().get(otherUserId);
+		if (giveState == null) {
+			giveState = new FriendGiveState();
+			giveState.setUserId(otherUserId);
+			tableFriend.getFriendGiveList().put(otherUserId, giveState);
+		}
 
-			// 添加任务
-			m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
-			Player otherUser = PlayerMgr.getInstance().find(otherUserId);
-			if (otherUser != null) {
-				otherUser.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
-			}
+		if (tableFriend.getBlackList().containsKey(otherUserId)) {// 从黑名单中移除
+			tableFriend.getBlackList().remove(otherUserId);
+		}
+
+		list.add(friendItem);
+		resultVo.updateList = friendItemToInfoList(list);
+		resultVo.resultType = EFriendResultType.SUCCESS;
+		resultVo.resultMsg = "添加成功";
+
+		// 添加任务
+		m_pPlayer.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
+		Player otherUser = PlayerMgr.getInstance().find(otherUserId);
+		if (otherUser != null) {
+			otherUser.getTaskMgr().AddTaskTimes(eTaskFinishDef.Add_Friend);
 		}
 		return resultVo;
 	}
@@ -178,6 +212,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 请求添加好友 */
 	public FriendResultVo requestAddFriend(String otherUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
+		String userId = m_pPlayer.getUserId();
 		TableFriend tableFriend = getTableFriend();
 		if (isSelfUser(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
@@ -185,49 +220,113 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方已经是你的好友";
-		} else {
-			TableFriend otherTable = getOtherTableFriend(otherUserId);
-			if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
-				// 如果在对方的黑名单列表中，不做操作
-			} else {
-				FriendItem friendItem = FriendItem.newInstance(m_pPlayer.getUserId());
-				if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
-					otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
-					FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
-					tableFriend.removeFromBlackList(otherUserId);
-				}
-				friendDAO.update(otherTable);
-			}
-			resultVo.resultType = EFriendResultType.SUCCESS;
-			resultVo.resultMsg = "已向对方发送添加好友请求";
-			// 增加红点检查
-			PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+		} else if(PlayerMgr.getInstance().find(otherUserId).isRobot()){
+			resultVo=requestAddOneRobotToFriend(otherUserId,userId);		
+		}else {
+			resultVo = requestToAddFriend(otherUserId,userId,tableFriend);			
 		}
 		return resultVo;
 	}
+	
+	/**请求添加好友*/
+	private FriendResultVo requestToAddFriend(String otherUserId, String userId2,
+			TableFriend tableFriend) {
+		FriendResultVo resultVo = new FriendResultVo();
+		TableFriend otherTable = getOtherTableFriend(otherUserId);
+		if (otherTable.getBlackList().containsKey(userId)) {
+			// 如果在对方的黑名单列表中，不做操作
+		} else {
+			FriendItem friendItem = FriendItem.newInstance(userId);
+			if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
+				otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
+				FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
+				tableFriend.removeFromBlackList(otherUserId);
+			}
+			friendDAO.update(otherTable);
+		}
+		resultVo.resultType = EFriendResultType.SUCCESS;
+		resultVo.resultMsg = "已向对方发送添加好友请求";
+		// 增加红点检查
+		PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+		return resultVo;
+	}
+
+	/**
+	 * 
+	 * @param otherUserId
+	 * @param userId2
+	 * @return 加的是机器人好友,跳过申请过程直接加上；
+	 */
+	private FriendResultVo requestAddOneRobotToFriend(String otherUserId,
+			String userId2) {
+		FriendResultVo resultVo = new FriendResultVo();
+		TableFriend otherTable = getOtherTableFriend(otherUserId);
+		TableFriend friendTable = getTableFriend();
+		FriendItem friendItem = FriendItem.newInstance(userId);
+		FriendItem robotFriendItem = FriendItem.newInstance(otherUserId);
+		Player otherPlayer = PlayerMgr.getInstance().find(otherUserId);
+		if (!otherTable.getFriendList().containsKey(friendItem.getUserId())) {
+			otherPlayer.getFriendMgr().consentAddFriend(userId);
+		}
+		if(friendTable.getReCommandfriendList().isEmpty()){//加的是第一个机器人，机器人会立刻赠送体力
+			otherPlayer.getFriendMgr().givePower(userId);
+		}
+		if(!friendTable.getReCommandfriendList().containsKey(otherUserId)){
+			friendTable.getReCommandfriendList().put(otherUserId, robotFriendItem);
+		}			
+		friendDAO.update(otherTable);
+		resultVo.resultType = EFriendResultType.SUCCESS;
+		resultVo.resultMsg = "已向对方发送添加好友请求";
+		PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
+		return resultVo;
+	}
+	
+	/**
+	 * 
+	 * @param subItem
+	 */
+	public void robotRequestAddPlayerToFriend(OpenLevelTiggerServiceSubItem subItem,TableFriend friendTable){
+		FriendHandler handler = FriendHandler.getInstance();
+		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ALL_DAILY,false);
+		if(robotList == null|| robotList.isEmpty()){
+			return;
+		}
+		FriendInfo robot = robotList.get(0);
+		String robotUserId = robot.getUserId();
+		TableFriend otherTable = getOtherTableFriend(robotUserId);
+		Player robotPlayer = PlayerMgr.getInstance().find(robotUserId);
+		robotPlayer.getFriendMgr().requestToAddFriend(m_pPlayer.getUserId(), robotUserId, otherTable);
+		subItem.setUserId(robotUserId);
+	}
+	
+	
 
 	/** 请求添加一群人好友 */
 	public FriendResultVo requestAddFriendList(List<String> friendList) {
 		FriendResultVo resultVo = new FriendResultVo();
 		TableFriend tableFriend = getTableFriend();
+		String userId = m_pPlayer.getUserId();
 		resultVo.resultType = EFriendResultType.FAIL;
 		resultVo.resultMsg = "没有向人申请好友";
 		for (int i = 0; i < friendList.size(); i++) {
 			resultVo.resultType = EFriendResultType.SUCCESS;
 			resultVo.resultMsg = "申请成功";
 			String otherUserId = friendList.get(i);
+			Player other = PlayerMgr.getInstance().find(otherUserId);
 			if (isSelfUser(otherUserId)) {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "该玩家是自己";
 			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
-			} else {
+			}else if(other != null && other.isRobot()){
+				requestAddOneRobotToFriend(otherUserId,userId);
+			}else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
-				if (otherTable.getBlackList().containsKey(m_pPlayer.getUserId())) {
+				if (otherTable.getBlackList().containsKey(userId)) {
 					// 如果在对方的黑名单列表中，不做操作
 				} else {
-					FriendItem friendItem = FriendItem.newInstance(m_pPlayer.getUserId());
+					FriendItem friendItem = FriendItem.newInstance(userId);
 					if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
 						otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
 						FriendHandler.getInstance().pushRequestAddFriend(PlayerMgr.getInstance().find(otherUserId), friendItem);
@@ -465,7 +564,15 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			if (giveState.isGiveState()) {// 可赠送
 				TableFriend otherFriend = getOtherTableFriend(giveState.getUserId());
 				if (otherFriend != null) {
-					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
+//					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
+					FriendGiveState otherGiveState = otherFriend.getFriendGiveList().get(m_pPlayer.getUserId());
+					if (otherGiveState == null) {
+						// 2016-10-17 by Perry : 有个bug是在对方的列表没有找到自身的数据，看了添加的逻辑，没有发现什么问题，这里先在这里做一个保护，后续有时间继续跟进
+						otherGiveState = new FriendGiveState();
+						otherGiveState.setUserId(m_pPlayer.getUserId());
+						otherFriend.getFriendGiveList().put(m_pPlayer.getUserId(), otherGiveState);
+					}
+					otherGiveState.setGiveState(true);
 					friendDAO.update(otherFriend);
 					UserEventMgr.getInstance().givePowerVitality(m_pPlayer, 1);
 				}

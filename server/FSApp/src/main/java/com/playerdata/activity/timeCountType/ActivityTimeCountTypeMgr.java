@@ -227,6 +227,7 @@ public class ActivityTimeCountTypeMgr {
 		}
 		if(isAllGet){
 			//所有礼包全部领完
+			dataHolder.lazyUpdateItem(player, dataItem);
 			return;
 		}
 		if (timeSpan < ActivityTimeCountTypeHelper.FailCountTimeSpanInSecond * 1000) {

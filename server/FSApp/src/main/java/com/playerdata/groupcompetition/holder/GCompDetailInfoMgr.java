@@ -114,8 +114,8 @@ public class GCompDetailInfoMgr {
 		if (detailInfo != null) {
 			GCompGroupScoreRecord record = detailInfo.getByGroupId(groupId);
 			if (record != null) {
-//				record.setGroupName(groupName);
-//				record.setGroupIcon(iconId);
+				record.setGroupName(groupName);
+				record.setGroupIcon(iconId);
 			}
 			_dataHolder.update();
 		}
