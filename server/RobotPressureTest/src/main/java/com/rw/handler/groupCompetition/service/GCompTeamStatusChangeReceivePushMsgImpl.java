@@ -12,10 +12,14 @@ public class GCompTeamStatusChangeReceivePushMsgImpl implements IReceivePushMsg 
 
 	@Override
 	public void onReceivePushMsg(Client client, Response resp) {
+		if(resp.getHeader().getSeqID() > 0) {
+			return;
+		}
 		try {
 			TeamStatusChange status = TeamStatusChange.parseFrom(resp.getSerializedContent());
 			switch (status.getStatus()) {
 			case BecomeLeader:
+				client.getGCompTeamHolder().getTeam().setLeaderId(client.getUserId());
 				client.getGCompTeamHolder().setTeamWaitingTimeout(System.currentTimeMillis() + GroupCompetitionHandler.maxTeamExistsTimemillis);
 				break;
 			case CanMatch:

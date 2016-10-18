@@ -26,6 +26,9 @@ public class GCompTeamBattleResultReceivePushMsgImpl implements IReceivePushMsg 
 
 	@Override
 	public void onReceivePushMsg(Client client, Response resp) {
+		if(resp.getHeader().getSeqID() > 0) {
+			return;
+		}
 		ByteString seriallizedContent = resp.getSerializedContent();
 		try {
 			GCBattleCommonRspMsg rsp = GCBattleCommonRspMsg.parseFrom(seriallizedContent);
