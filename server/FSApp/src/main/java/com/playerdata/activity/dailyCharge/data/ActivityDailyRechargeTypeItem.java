@@ -10,14 +10,13 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_daily_charge_item")
-public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
+public class ActivityDailyRechargeTypeItem implements RoleExtProperty {
 
 	@Id
 	private Integer id;		//cfgId_userId
@@ -44,9 +43,7 @@ public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 	
 	@CombineSave
 	private boolean hasViewed;	//是否已经查看过该活动
-
 	
-
 	public Integer getId() {
 		return id;
 	}

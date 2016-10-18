@@ -1,8 +1,9 @@
 package com.playerdata.activity.dailyCharge.cfg;
 import com.common.BaseConfig;
+import com.playerdata.activityCommon.ActivityCfgIF;
 import com.rw.fsutil.util.DateUtils;
 
-public class ActivityDailyChargeCfg extends BaseConfig {
+public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private int id; //活动id
 	private String title; //标题
 	private String titleBG; //右上角说明文字
