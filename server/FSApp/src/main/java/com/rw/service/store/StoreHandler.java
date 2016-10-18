@@ -45,7 +45,6 @@ public class StoreHandler {
 		openStoreNotification.hold(null);//clear cache 
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		player.getStoreMgr().OpenStore(storeType);
-		player.getTempAttribute().setRefreshStore(false);
 		return resp.build().toByteString();
 	}
 
@@ -140,6 +139,15 @@ public class StoreHandler {
 		StoreResponse.Builder resp =StoreResponse.newBuilder();
 		player.getStoreMgr().refreshStoreInfo(eStoreType.Waken.getOrder());
 		resp.setRequestType(eStoreRequestType.RefreshExchangeItem);
+		resp.setReslutType(eStoreResultType.SUCCESS);
+		return resp.build().toByteString();
+	}
+	
+	public ByteString viewStore(Player player, StoreRequest req){
+		int storeType = req.getStoreType();
+		player.getStoreMgr().viewStore(storeType);
+		StoreResponse.Builder resp =StoreResponse.newBuilder();
+		resp.setRequestType(eStoreRequestType.ViewStore);
 		resp.setReslutType(eStoreResultType.SUCCESS);
 		return resp.build().toByteString();
 	}
