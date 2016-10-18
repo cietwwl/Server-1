@@ -10,17 +10,18 @@ import com.rw.service.sdkVerifyToken.SDKVerifyResult;
 import com.rw.service.sdkVerifyToken.handler.ISDKHandler;
 import com.rwproto.SDKVerifyProtos.SDKVerifyRequest;
 
-public class YinHanSDKHandler implements ISDKHandler{
-	
-	private final String URL = "http://nsdk.01234.com.cn:4003/verifyToken";
-	private final String gameKey = "6489CD1B7E9AE5BD8311435";
-	private String gameId;
-	private String channel;
-	private String userId;
-	private String sid;
-	private String ext;
-	private String version;
-	private String sign;
+public class AbsSDKHandler implements ISDKHandler{
+
+	protected String URL = "http://nsdk.01234.com.cn:4003/verifyToken";
+	protected String BackupURL = "http://nsdk.01234.com.cn:4003/verifyToken";
+	protected String gameKey = "6489CD1B7E9AE5BD8311435";
+	protected String gameId;
+	protected String channel;
+	protected String userId;
+	protected String sid;
+	protected String ext;
+	protected String version;
+	protected String sign;
 	
 	
 	SDKVerifyResult sdkVerifyResult = new SDKVerifyResult();
@@ -46,6 +47,9 @@ public class YinHanSDKHandler implements ISDKHandler{
 		
 		
 		InputStream streamResult = HttpUtils.sentHttpPostMsg(URL, para);
+		if(streamResult == null){
+			streamResult = HttpUtils.sentHttpPostMsg(BackupURL, para);
+		}
 		String strResult = HttpUtils.getInputStreamToString(streamResult);
 		
 		//解析json
