@@ -26,6 +26,7 @@ import com.playerdata.groupcompetition.prepare.PrepareAreaMgr;
 import com.playerdata.groupcompetition.quiz.GCompQuizMgr;
 import com.playerdata.groupcompetition.rank.GCompRankMgr;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompCommonConfig;
 import com.playerdata.groupcompetition.util.GCompEventsStatus;
 import com.playerdata.groupcompetition.util.GCompTips;
 import com.playerdata.groupcompetition.util.GCompUtil;
@@ -220,10 +221,11 @@ public class GCompEvents {
 			} else {
 				List<GCompMember> allMembersA = GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(idOfGroupA);
 				List<GCompMember> allMembersB = GCompMemberMgr.getInstance().getArrayCopyOfAllMembers(idOfGroupB);
-				if (allMembersA.size() < 3) {
+				int minMemberCount = GCompCommonConfig.getMinMemberCountOfGroup();
+				if (allMembersA.size() < minMemberCount && allMembersB.size() > minMemberCount) {
 					winGroupId = idOfGroupB;
 					loseGroupId = idOfGroupA;
-				} else if (allMembersB.size() < 3) {
+				} else if (allMembersB.size() < minMemberCount && allMembersA.size() > minMemberCount) {
 					winGroupId = idOfGroupA;
 					loseGroupId = idOfGroupB;
 				} else if (groupA.getGCompScore() > groupB.getGCompScore()) {
