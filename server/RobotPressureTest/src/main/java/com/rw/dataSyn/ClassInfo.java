@@ -1,15 +1,10 @@
 package com.rw.dataSyn;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -45,7 +40,10 @@ public class ClassInfo {
 			target = clazz.newInstance();
 			
 			JSONObject tableData = JSON.parseObject(json);			
-//			Map<String,String> tableData = JsonUtil.readToMap(json);//map.value is an Object, not String type in fact	
+//			Map<String,String> tableData = JsonUtil.readToMap(json);//map.value is an Object, not String type in fact
+			if (tableData == null) {
+				RobotLog.testError("tableData = null, json = " + json + ", clazz = " + clazz);
+			}
 
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
@@ -56,8 +54,8 @@ public class ClassInfo {
 			}
 			
 		}catch(Exception e){
-			RobotLog.fail("classinfo~~~~~~~~~~~~~~~~~~~~~~,fieldname"+ fieldName + "  json ="+ fieldJson);
-			e.printStackTrace();
+			RobotLog.fail("classinfo~~~~~~~~~~~~~~~~~~~~~~,fieldname"+ fieldName + "  json ="+ fieldJson, e);
+//			e.printStackTrace();
 			
 		}
 	
