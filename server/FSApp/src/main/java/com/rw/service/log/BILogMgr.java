@@ -281,6 +281,8 @@ public class BILogMgr {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		moreInfo.put("loginZoneId_regChannelId", "" + loginZoinId+"_"+regSubChannelId);
 		moreInfo.put("threadId", "" + Thread.currentThread().getId());
+		moreInfo.put("loginZoneId", "" + ServerConfig.getInstance().getZoneId());
+		moreInfo.put("regSubChannelId", regSubChannelId);
 		moreInfo.put("mainGoldGount", "" + zoneGoldRemain);
 		log(eBILogType.FinanceMainCoinHold, null, null, null, moreInfo);
 	}
