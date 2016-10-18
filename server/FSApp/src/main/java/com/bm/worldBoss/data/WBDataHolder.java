@@ -71,10 +71,10 @@ public class WBDataHolder {
 	private boolean init(WBData data, WBCfg wbCfg){
 		
 		
-		List<CopyMonsterInfoCfg> monsterBattleList = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
+		CopyMonsterInfoCfg cfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
 		String monsterCfgId=null;
-		if(monsterBattleList.size() > 0 ){
-			List<String> enemyList = monsterBattleList.get(0).getEnemyList();
+		if(cfg.getEnemyList().size() > 0 ){
+			List<String> enemyList = cfg.getEnemyList();
 			for (String monsterId : enemyList) {
 				if(StringUtils.isNotBlank(monsterId)){
 					monsterCfgId = monsterId;
