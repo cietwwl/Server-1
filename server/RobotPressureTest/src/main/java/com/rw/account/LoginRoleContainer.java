@@ -13,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class LoginRoleContainer {
 	/** 所有登录的角色 */
-	private static ConcurrentHashMap<Integer, Map<String, Role>> loginGameRole = new ConcurrentHashMap<Integer, Map<String, Role>>();
+	private static ConcurrentHashMap<Integer, Map<String, Role>> loginGameRole = new ConcurrentHashMap<Integer, Map<String, Role>>(8, 1.0f, 1);
 	/** 所有登录的角色 */
-	private static ConcurrentHashMap<String, Role> loginPlatformRole = new ConcurrentHashMap<String, Role>();
+	private static ConcurrentHashMap<String, Role> loginPlatformRole = new ConcurrentHashMap<String, Role>(8, 1.0f, 1);
 
 	/**
 	 * 加入注册的新角色

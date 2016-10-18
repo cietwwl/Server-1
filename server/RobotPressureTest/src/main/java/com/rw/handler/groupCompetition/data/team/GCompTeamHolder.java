@@ -11,6 +11,7 @@ public class GCompTeamHolder {
 	private GCompTeam team;
 	private long personalMatchingTimeOut;
 	private long teamWaitingTimeout;
+	private long lastSendReadyTime;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 		_dataHolder.Syn(msgDataSyn);
@@ -44,5 +45,13 @@ public class GCompTeamHolder {
 
 	public void setTeamWaitingTimeout(long teamWaitingTimeout) {
 		this.teamWaitingTimeout = teamWaitingTimeout;
+	}
+
+	public long getLastSendReadyTime() {
+		return lastSendReadyTime;
+	}
+
+	public void setLastSendReadyTime(long lastSendReadyTime) {
+		this.lastSendReadyTime = lastSendReadyTime;
 	}
 }
