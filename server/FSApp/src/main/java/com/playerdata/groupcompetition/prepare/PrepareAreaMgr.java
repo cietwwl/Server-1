@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.prepare;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,14 +20,14 @@ import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.MagicInfo;
 import com.rwproto.GroupCompetitionProto.PlayerBaseInfo;
-
-import io.netty.channel.ChannelHandlerContext;
 
 public class PrepareAreaMgr {
 	
@@ -263,6 +265,14 @@ public class PrepareAreaMgr {
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(userId);
 			if (fashionUsing != null){
 				infoBuilder.setFashionUsage(fashionUsing);
+			}
+			ItemData magicItem = player.getMagic();
+			if(null != magicItem){
+				MagicInfo.Builder magicBuilder = MagicInfo.newBuilder();
+				magicBuilder.setModelId(magicItem.getModelId());
+				magicBuilder.setAptitude(magicItem.getMagicAptitude());
+				magicBuilder.setLevel(magicItem.getMagicLevel());
+				infoBuilder.setMagic(magicBuilder.build());
 			}
 			result.add(infoBuilder.build());
 		}
