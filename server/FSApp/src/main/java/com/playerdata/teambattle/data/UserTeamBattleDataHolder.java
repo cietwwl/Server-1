@@ -4,11 +4,15 @@ import java.util.List;
 
 import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.Player;
+import com.playerdata.army.ArmyFashion;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
+import com.rw.service.fashion.FashionHandle;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 
 public class UserTeamBattleDataHolder {
 	private static UserTeamBattleDataHolder instance = new UserTeamBattleDataHolder();
@@ -26,6 +30,10 @@ public class UserTeamBattleDataHolder {
 	public void update(Player player, UserTeamBattleData data) {
 		UserTeamBattleDAO.getInstance().update(data);
 		ClientDataSynMgr.synData(player, data, synType, eSynOpType.UPDATE_SINGLE);
+	}
+	
+	public void updateWithoutSyn(Player player, UserTeamBattleData data) {
+		UserTeamBattleDAO.getInstance().update(data);
 	}
 	
 	/**
@@ -60,5 +68,30 @@ public class UserTeamBattleDataHolder {
 		if(simpleArmy == null) return;
 		utbData.getSelfTeamInfo().setUserStaticTeam(simpleArmy);
 		update(player, utbData);
+	}
+	
+	/**
+	 * 当角色时装变化时
+	 * @param player
+	 */
+	public void updateUserTBFashion(Player player){
+		UserTeamBattleData utbData = get(player.getUserId());
+		if(null == utbData || null == utbData.getSelfTeamInfo() || null == utbData.getSelfTeamInfo().getUserStaticTeam()) return;
+		StaticMemberTeamInfo teamMemInfo = utbData.getSelfTeamInfo();
+		teamMemInfo.setFashionUsing(toArmyFashionFromBuilder(player));
+		updateWithoutSyn(player, utbData);
+	}
+
+	public static ArmyFashion toArmyFashionFromBuilder(Player player) {
+		FashionUsed.Builder builder = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		ArmyFashion fashion = new ArmyFashion();
+		if(null != builder){
+			fashion.setSuitId(builder.getSuitId());
+			fashion.setWingId(builder.getWingId());
+			fashion.setPetId(builder.getPetId());
+			fashion.setCareer(player.getCareer());
+			fashion.setGender(player.getSex());
+		}
+		return fashion;
 	}
 }

@@ -265,11 +265,11 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 
 		private volatile CacheValueEntity<V> value;
 		private final EvictedUpdateTask<Object> updateTask;
-		private final String threadName;
+//		private final String threadName;
 
 		public EvictedTask(K key, CacheValueEntity<V> value, EvictedUpdateTask<Object> updateTask) {
 			super(key);
-			this.threadName = Thread.currentThread().getName();
+//			this.threadName = Thread.currentThread().getName();
 			this.value = value;
 			this.updateTask = updateTask;
 		}
@@ -278,7 +278,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		public Void call() throws Exception {
 			CacheValueEntity<V> value = this.value;
 			if (value == null) {
-				FSUtilLogger.info(name + " 被复活了：" + key);
+				FSUtilLogger.info(name + " has been relive：" + key);
 				return null;
 			}
 			HashMap<Object, Object[]> entityMap = new HashMap<Object, Object[]>();
@@ -292,67 +292,12 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 			return "evicted";
 		}
 
-		public CacheValueEntity<V> extractValue() {
-			CacheValueEntity<V> v = value;
-			value = null;
-			return v;
-		}
-
 		public CacheValueEntity<V> getValue() {
 			return value;
 		}
 
 		public void clear() {
-			this.value = value;
-		}
-	}
-
-	class EvictedCallable implements Callable<Void> {
-
-		private HashMap<K, CacheValueEntity<V>> map;
-		private EvictedUpdateTask<Object> updateTask;
-		private List<K> notSafeList; // 移除时不安全的列表
-
-		public EvictedCallable(EvictedUpdateTask<Object> updateTask) {
-			this.map = new HashMap<K, CacheValueEntity<V>>();
-			this.updateTask = updateTask;
-		}
-
-		@Override
-		public Void call() throws Exception {
-			HashMap<Object, Object[]> entityMap = new HashMap<Object, Object[]>(map.size());
-			synchronized (map) {
-				for (Map.Entry<K, CacheValueEntity<V>> entry : map.entrySet()) {
-					K key = entry.getKey();
-					CacheValueEntity<V> entity = entry.getValue();
-					loader.extractParams(key, entity.getValue(), entityMap);
-				}
-			}
-			updateTask.updateForEvict(entityMap);
-			return null;
-		}
-
-		public CacheValueEntity<V> getValue(K key) {
-			synchronized (map) {
-				return map.get(key);
-			}
-		}
-
-		public CacheValueEntity<V> removeValue(K key) {
-			synchronized (map) {
-				return map.remove(key);
-			}
-		}
-
-		public void putValue(K key, CacheValueEntity<V> entity) {
-			map.put(key, entity);
-		}
-
-		public void add(K key) {
-			if (notSafeList == null) {
-				notSafeList = new ArrayList<K>(2);
-			}
-			notSafeList.add(key);
+			this.value = null;
 		}
 	}
 

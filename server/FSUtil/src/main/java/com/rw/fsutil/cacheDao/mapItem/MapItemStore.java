@@ -74,10 +74,6 @@ public class MapItemStore<T extends IMapItem> extends RowMapItemContainer<String
 		return list;
 	}
 
-	Map<String, T> getItemMap() {
-		return this.itemMap;
-	}
-
 	@Override
 	public List<T> insertAndDelete(String searchId, List<T> addList, List<String> delList) throws DuplicatedKeyException, DataNotExistException {
 		if (commonJdbc.insertAndDelete(searchId, addList, delList)) {

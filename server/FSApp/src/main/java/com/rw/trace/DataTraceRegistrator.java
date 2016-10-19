@@ -3,9 +3,12 @@ package com.rw.trace;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
+import com.playerdata.hero.core.FSHero;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.dropitem.DropRecord;
+import com.rwbase.dao.email.TableEmail;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.inlay.InlayItem;
@@ -32,13 +35,13 @@ public enum DataTraceRegistrator {
 	MAJOR_DATA(MajorData.class),
 	SKILL(SkillItem.class),
 	COPY_DATA(TableCopyData.class),
-//	USER_HERO(TableUserHero.class),
 	USER_GAME_DATA(UserGameData.class),
-	//MAIN_ROLE_HERO(FSHero.class, MapItemStoreFactory.MAIN_ROLE_NAME),
+	MAIN_ROLE(FSHero.class, MapItemStoreFactory.MAIN_ROLE_NAME),
+	HERO(FSHero.class, MapItemStoreFactory.HERO_NAME),
 	USER(User.class),
 	CHARGE_DATA(ChargeInfo.class),
 	MAGIC_EQUIP_FETTER(MagicEquipFetterRecord.class),
-	;
+	EMAIL(TableEmail.class);
 
 	DataTraceRegistrator(Class<?> dataTraceClass) {
 		this.dataCacheKey = new CacheKey(dataTraceClass);

@@ -38,14 +38,14 @@ public class InlayItemHelper {
 		openLvMap.put(3, 40);
 		openLvMap.put(4, 50);
 		openLvMap.put(5, 60);
-		
+
 		List<Integer> list = new ArrayList<Integer>(openLvMap.values());
 		Collections.sort(list);
-		
-		for(int i = 0; i < list.size(); i++) {
+
+		for (int i = 0; i < list.size(); i++) {
 			openCountOfLevel.put(list.get(i), 0);
 		}
-		
+
 		for (Iterator<Map.Entry<Integer, Integer>> itr = openLvMap.entrySet().iterator(); itr.hasNext();) {
 			Map.Entry<Integer, Integer> entry = itr.next();
 			openCountOfLevel.put(entry.getValue(), entry.getKey() + 1);
@@ -124,16 +124,27 @@ public class InlayItemHelper {
 		if (cfg == null) {
 			return level >= openLvMap.get(i);
 		}
-		int openLevel = Integer.valueOf(cfg.getOpenLv().split(",")[i]);
-		return level >= openLevel;
+
+		List<Integer> openLevelList = cfg.getOpenLevelList();
+		int size = openLevelList.size();
+		if (i >= size) {
+			return false;
+		}
+
+		Integer openLevelObj = openLevelList.get(i);
+		if (openLevelObj == null) {
+			return true;
+		}
+
+		return level >= openLevelObj;
 	}
-	
+
 	public static int getOpenCount(int lv) {
 		Map.Entry<Integer, Integer> entry;
 		int count = 0;
-		for(Iterator<Map.Entry<Integer, Integer>> itr = openCountOfLevel.entrySet().iterator(); itr.hasNext();) {
+		for (Iterator<Map.Entry<Integer, Integer>> itr = openCountOfLevel.entrySet().iterator(); itr.hasNext();) {
 			entry = itr.next();
-			if(entry.getKey() > lv) {
+			if (entry.getKey() > lv) {
 				break;
 			} else {
 				count = entry.getValue();

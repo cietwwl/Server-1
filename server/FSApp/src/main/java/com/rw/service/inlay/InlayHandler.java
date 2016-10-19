@@ -7,6 +7,7 @@ import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.InlayProtos.InlayResult;
@@ -130,7 +131,7 @@ public class InlayHandler {
 			inlayMgr = playe.getMainRoleHero().getInlayMgr();
 		} else {
 			// Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
-			Hero hero = playe.getHeroMgr().getHeroById(playe, msgReques.getRoleId());
+			Hero hero = FSHeroMgr.getInstance().getHeroById(playe, msgReques.getRoleId());
 			if (hero == null) {
 				playe.NotifyCommonMsg("找不到佣兵");
 				return null;

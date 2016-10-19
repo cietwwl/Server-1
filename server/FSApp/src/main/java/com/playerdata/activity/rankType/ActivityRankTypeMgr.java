@@ -299,10 +299,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 							continue;
 						}
 						Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
-						if(player.getLastLoginTime() < cfg.getStartTime()){
-							continue;//最后次登陆时间不在活动时间内；
-						}						
-						sendGifgSingel(rankInfo,activityRankTypeItemHolder,activityRankTypeEnum,subCfg);						
+						if (player == null) {
+							GameLog.error("ActivityRankTypeMgr", "rankInfo.getHeroUUID():" + rankInfo.getHeroUUID(), "找不到玩家信息id:" + rankInfo.getHeroUUID());
+						} else {
+							if (player.getLastLoginTime() < cfg.getStartTime()) {
+								continue;// 最后次登陆时间不在活动时间内；
+							}
+							sendGifgSingel(rankInfo, activityRankTypeItemHolder, activityRankTypeEnum, subCfg);
+						}					
 					}						
 				}			
 			}

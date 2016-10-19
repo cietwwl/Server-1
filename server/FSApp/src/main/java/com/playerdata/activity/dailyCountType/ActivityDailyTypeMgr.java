@@ -431,6 +431,9 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 			if(dailyTargetItem == null){
 				dailyTargetItem = dailyDataHolder.getItem(player.getUserId());
 			}
+			if(dailyTargetItem == null){
+				continue;
+			}
 			if (!dailyTargetItem.isTouchRedPoint()) {
 				redPointList.add(cfg.getId());
 				continue;

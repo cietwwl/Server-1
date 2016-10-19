@@ -111,6 +111,71 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 			writeLock.unlock();
 		}
 	}
+	
+	public RankingImpl(int type, int maxCapacity, String name, RankingExtension<C, E> parser, int period, RankingEntrySequence generator, ScheduledExecutorService executor,List<RankingEntryData> dataList) {
+		if (maxCapacity < 1) {
+			throw new ExceptionInInitializerError("maxCapacity < 1");
+		}
+		this.type = type;
+		this.name = name;
+		this.parser = parser;
+		this.maxCapacity = maxCapacity;
+		this.hashMap = new ConcurrentHashMap<String, RankingEntryImpl<C, E>>();
+		ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
+		this.readLock = rwLock.readLock();
+		this.writeLock = rwLock.writeLock();
+		this.generator = generator;
+		writeLock.lock();
+		try {
+			this.treeMap = new TreeMap<RankingEntryImpl<C, E>, C>();
+		} finally {
+			writeLock.unlock();
+		}
+		this.orderListTask = new FixTaskLatch(new Runnable() {
+
+			@Override
+			public void run() {
+				ArrayList<MomentEntry<C, E>> list = new ArrayList<MomentEntry<C, E>>();
+				Set<RankingEntryImpl<C, E>> set = RankingImpl.this.treeMap.keySet();
+				int count = 0;
+				for (RankingEntryImpl<C, E> entry : set) {
+					list.add(new MomentEntry<C, E>(entry, ++count));
+				}
+				RankingImpl.this.orderList = list;
+			}
+		});
+		this.dataUpdater = new DataUpdater(TimeUnit.MINUTES.toSeconds(period), executor) {
+
+			@Override
+			public boolean notifyDataUpdated() {
+				try {
+					updateEntityDataToDB();
+					return true;
+				} catch (Throwable ex) {
+					logger.error("更新排行榜异常：" + RankingImpl.this.type, ex);
+					return false;
+				}
+			}
+		};
+		writeLock.lock();
+		try {
+			int size = dataList.size();
+			for (int i = 0; i < size; i++) {
+				RankingEntryData entryData = dataList.get(i);
+				C comparable = parser.decodeComparable(entryData.getCondition());
+				RankingEntryImpl<C, E> entry = new RankingEntryImpl<C, E>(entryData.getKey(), entryData.getId(), comparable, parser.decodeExtendedAttribute(entryData.getExtension()));
+				insertRanking(entry, comparable);
+			}
+		} catch (Exception e) {
+			throw new ExceptionInInitializerError(e);
+		} finally {
+			writeLock.unlock();
+		}
+	}
+	
+	
+	
+	
 
 	/**
 	 * 同步到数据库
@@ -254,6 +319,11 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		dataUpdater.submitUpdateTask();
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public <P> RankingEntry<C, E> addOrUpdateRankingEntry(String key, C newComparable, P customParam) {
 		if (key == null) {

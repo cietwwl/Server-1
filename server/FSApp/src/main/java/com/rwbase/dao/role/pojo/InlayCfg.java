@@ -41,28 +41,15 @@ public class InlayCfg {
 	/** <等级，属性> */
 	private Map<Integer, AttrDataInfo> attrDataInfoMap3;// 额外宝石增加的属性Map
 
+	private List<Integer> priorityList;// 优先级
+	private List<Integer> openLevelList;// 每个宝石孔开放的等级
+
 	public String getRoleId() {
 		return roleId;
 	}
 
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
-	}
-
-	public String getOpenLv() {
-		return openLv;
-	}
-
-	public void setOpenLv(String openLv) {
-		this.openLv = openLv;
-	}
-
-	public String getPrior() {
-		return prior;
-	}
-
-	public void setPrior(String prior) {
-		this.prior = prior;
 	}
 
 	public int getExtraNum1() {
@@ -195,6 +182,24 @@ public class InlayCfg {
 	}
 
 	/**
+	 * 获取一键镶嵌宝石的优先级列表
+	 * 
+	 * @return
+	 */
+	public List<Integer> getPriorityList() {
+		return priorityList;
+	}
+
+	/**
+	 * 获取宝石孔的开放等级
+	 * 
+	 * @return
+	 */
+	public List<Integer> getOpenLevelList() {
+		return openLevelList;
+	}
+
+	/**
 	 * 加载的时候解析下数据
 	 */
 	public void initData() {
@@ -221,5 +226,19 @@ public class InlayCfg {
 			extraLvList3 = Collections.unmodifiableList(HPCUtil.parseIntegerList(extraLv3, ","));
 		}
 		attrDataInfoMap3 = AttributeUtils.parseStr2AttrInfoReadOnlyMap("InlayCfg", extraLvList3, attrData3, precentAttrData3);
+
+		// 解析下消耗宝石的优先级
+		if (StringUtils.isEmpty(prior)) {
+			priorityList = Collections.emptyList();
+		} else {
+			priorityList = Collections.unmodifiableList(HPCUtil.parseIntegerList(prior, ","));
+		}
+
+		// 解析一下宝石孔开放的等级
+		if (StringUtils.isEmpty(openLv)) {
+			openLevelList = Collections.emptyList();
+		} else {
+			openLevelList = Collections.unmodifiableList(HPCUtil.parseIntegerList(openLv, ","));
+		}
 	}
 }
