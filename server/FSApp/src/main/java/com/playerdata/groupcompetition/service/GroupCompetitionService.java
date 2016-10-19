@@ -40,10 +40,13 @@ public class GroupCompetitionService implements FsService<CommonReqMsg, GCReques
 				result = mHandler.getPlayersBaseInfo(player, request);
 				break;
 			case InPrepareArea:
-				mHandler.inPrepareArea(player);
+				result = mHandler.inPrepareArea(player);
 				break;
 			default:
 				GameLog.error(LogModule.GroupCompetition, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
+				CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
+				gcRsp.setRstType(GCResultType.DATA_ERROR);
+				result = gcRsp.build().toByteString();
 				break;
 			}
 		} catch (Exception e) {

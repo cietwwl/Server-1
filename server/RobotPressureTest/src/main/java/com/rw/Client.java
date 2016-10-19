@@ -1,7 +1,10 @@
 package com.rw;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.account.ServerInfo;
@@ -53,6 +56,7 @@ import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
 import com.rw.handler.teamBattle.data.TBTeamItemHolder;
 import com.rw.handler.teamBattle.data.UserTeamBattleDataHolder;
+import com.rwproto.ResponseProtos.Response;
 
 /*
  * 角色信息
@@ -158,6 +162,8 @@ public class Client {
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
 
 	private AtomicBoolean closeFlat = new AtomicBoolean();
+	
+	private Queue<AsynExecuteTask> asynExecuteResps = new ConcurrentLinkedQueue<AsynExecuteTask>();
 
 	// 聊天数据缓存
 	private ChatData chatData = new ChatData();
@@ -285,6 +291,25 @@ public class Client {
 			}
 		}
 		this.serverList.add(serverInfo);
+	}
+	
+	public void addAsynExecuteResp(AsynExecuteTask task) {
+		synchronized (this.asynExecuteResps) {
+			this.asynExecuteResps.add(task);
+		}
+	}
+	
+	public void executeAsynResp() {
+		Queue<AsynExecuteTask> queue = null;
+		if (this.asynExecuteResps.size() > 0) {
+			queue = new LinkedList<AsynExecuteTask>(this.asynExecuteResps);
+			this.asynExecuteResps.clear();
+		}
+		if (queue != null) {
+			for (AsynExecuteTask task : queue) {
+				task.executeResp(this);
+			}
+		}
 	}
 
 	public GroupNormalMemberHolder getNormalMemberHolder() {

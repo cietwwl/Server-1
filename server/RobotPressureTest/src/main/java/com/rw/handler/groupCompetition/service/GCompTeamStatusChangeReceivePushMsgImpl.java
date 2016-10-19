@@ -2,6 +2,7 @@ package com.rw.handler.groupCompetition.service;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.AsynExecuteTask;
 import com.rw.common.RobotLog;
 import com.rw.common.push.IReceivePushMsg;
 import com.rwproto.GroupCompetitionProto.TeamStatusChange;
@@ -12,30 +13,46 @@ public class GCompTeamStatusChangeReceivePushMsgImpl implements IReceivePushMsg 
 
 	@Override
 	public void onReceivePushMsg(Client client, Response resp) {
-		if(resp.getHeader().getSeqID() > 0) {
+		if (resp.getHeader().getSeqID() > 0) {
 			return;
 		}
-		try {
-			TeamStatusChange status = TeamStatusChange.parseFrom(resp.getSerializedContent());
-			switch (status.getStatus()) {
-			case BecomeLeader:
-				client.getGCompTeamHolder().getTeam().setLeaderId(client.getUserId());
-				client.getGCompTeamHolder().setTeamWaitingTimeout(System.currentTimeMillis() + GroupCompetitionHandler.maxTeamExistsTimemillis);
-				break;
-			case CanMatch:
-				GroupCompetitionHandler.getHandler().sendStartMatching(client);
-				break;
-			default:
-				break;
-			}
-		} catch (InvalidProtocolBufferException e) {
-			RobotLog.fail("接收：MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE，转化数据失败！", e);
-		}
+		client.addAsynExecuteResp(new GroupCompetitionTeamStatusAsynTask(resp));
 	}
 
 	@Override
 	public Command getCommand() {
 		return Command.MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE;
+	}
+
+	private static class GroupCompetitionTeamStatusAsynTask implements AsynExecuteTask {
+
+		private Response resp;
+
+		public GroupCompetitionTeamStatusAsynTask(Response resp) {
+			super();
+			this.resp = resp;
+		}
+
+		@Override
+		public void executeResp(Client client) {
+			try {
+				TeamStatusChange status = TeamStatusChange.parseFrom(resp.getSerializedContent());
+				switch (status.getStatus()) {
+				case BecomeLeader:
+					client.getGCompTeamHolder().getTeam().setLeaderId(client.getUserId());
+					client.getGCompTeamHolder().setTeamWaitingTimeout(System.currentTimeMillis() + GroupCompetitionHandler.maxTeamExistsTimemillis);
+					break;
+				case CanMatch:
+					GroupCompetitionHandler.getHandler().sendStartMatching(client);
+					break;
+				default:
+					break;
+				}
+			} catch (InvalidProtocolBufferException e) {
+				RobotLog.fail("接收：MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE，转化数据失败！", e);
+			}
+		}
+
 	}
 
 }

@@ -135,7 +135,7 @@ public class GCompOnlineMemberMgr {
 					tempPlayer = playerMgr.find(members.get(i).getUserId());
 					if (tempPlayer != null && playerMgr.isOnline(tempPlayer.getUserId())) {
 						tempPlayer.SendMsg(Command.MSG_GROUP_COMPETITION_EVENTS_FINISHED, result.toByteString());
-						GCompUtil.log("发送结束消息给客户端：{}", tempPlayer);
+						GCompUtil.log("发送结束消息给客户端：{}，winnerId：{}", tempPlayer, result.getWinGroupId());
 					}
 				}
 			}

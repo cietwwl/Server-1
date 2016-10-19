@@ -157,7 +157,7 @@ EQUIP_ATTACH_MAX_EXP,,EQUIP_ATTACH_MAX_EXP,经验已满
 COPY_NOT_OPEN,,COPY_NOT_OPEN,副本章节尚未开启
 EXTRACT_RESOURCE,,,解压资源中(不消耗流量)
 BATTLE_RATE_TIP_1,,,主角{0}级开启{1}倍加速
-BATTLE_RATE_TIP_2,,,主角{0}级或{1}开启{2}倍加速
+BATTLE_RATE_TIP_2,,,主角{0}级或贵族{1}开启{2}倍加速
 TIPS_CONNECT,,TIPS_CONNECT,网络连接中
 FASHION_PAY_STR,,,{0}天
 CAMERA_EFFECT_TIP,,,战斗加速开启时默认关闭特写镜头
@@ -208,7 +208,7 @@ TIMES_NOT_ENOUGH,,,挑战次数不足
 DATA_ERROR,,,数据异常
 PEAK_LOSE_UPGRADE_TIP,,,巅峰竞技场战斗中无法进行该跳转
 Recommend_Fight_Power_NotEnough,,,战斗力不足，是否继续挑战？
-Recommend_Fight_Power_Less_Tip,,,我要变强
+Recommend_Fight_Power_Less_Tip,,,提升战力
 Recommend_Fight_Power_Normal_Tip,,,继续战斗
 INVALID_CHARGE_REWARD,,,请输入未获得道具
 FASHION_EXPIRE_LABEL,,,到期
@@ -311,7 +311,7 @@ RandomBossTotalFightMax,,RandomBossTotalFightMax,今天已经参与了{0}次讨�
 BossFightMax,,BossFightMax,你讨伐此魔神已达{0}次，不能再继续啦！
 BossWasKilled,,BossWasKilled,魔神已经被击杀
 RandomBossRule,,RandomBossRule,"
-[ffbb00]魔神讨伐规则[-]
+[ff7200]魔神讨伐规则[-]
 
 [2f2f2f]1.通关与扫荡各关卡，既有几率触发魔神讨伐事件。[-]
 
@@ -323,7 +323,7 @@ RandomBossRule,,RandomBossRule,"
 
 [2f2f2f]5.若在规定时间内没有成功讨伐，魔神会逃走。[-]
 
-[ffbb00]魔神讨伐奖励[-]
+[ff7200]魔神讨伐奖励[-]
 
 [2f2f2f]1.只要参与讨伐战斗，即可获得奖励！[-]
 
@@ -331,3 +331,8 @@ RandomBossRule,,RandomBossRule,"
 "
 FightUpNoNextTitle,,FightUpNoNextTitle,已晋级到最高等级称号
 NotOpenAtLevelAtCopy,,NotOpenAtLevelAtCopy,主角 {0} 级并且通关“{2}-{3} {4}” {1} 开启
+NotOpenAtLevel,,,主角 {0} 级 {1} 开启
+FightingNeedMaterial,,,所需晋级材料{0}个
+RB_BOSS_NOT_FOUND,,RB_BOSS_NOT_FOUND,还没发现魔神，可通过好友邀请或打战役发现魔神
+FightingNeedMaterialLess,,FightingNeedMaterialLess,晋级材料不足
+FightingNeedFightLess,,FightingNeedFightLess,战力未达到晋级要求
