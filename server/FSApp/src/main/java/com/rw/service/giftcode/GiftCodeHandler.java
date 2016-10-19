@@ -99,9 +99,7 @@ public class GiftCodeHandler {
 				String giftPackageId = String.valueOf(gift_id);
 				String giftPackageType = String.valueOf(type);
 				String optype = "";
-				UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
-				UserGroupAttributeDataIF userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData();
-				String factionId = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupId();
+				String factionId = gmResponse.getGuildId();
 				StringBuilder giftReward = new StringBuilder();
 				
 				
