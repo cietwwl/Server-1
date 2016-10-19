@@ -27,14 +27,16 @@ public class GCompInviteMemberMsgReceiver implements MsgReciver {
 				return false;
 			}
 			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
-				RobotLog.fail("GroupCompetitionHandler[send] requestInviteMember服务器返回不成功，响应内容： " + rsp.getTips());
+				RobotLog.info("GroupCompetitionHandler[send] requestInviteMember服务器返回不成功，响应内容： " + rsp.getTips());
+				return true;
+			} else {
+				RobotLog.info("GroupCompetitionHandler[send] requestInviteMember服务返回成功！");
 				return true;
 			}
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 
 }

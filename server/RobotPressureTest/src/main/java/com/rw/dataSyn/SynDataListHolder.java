@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.rw.common.RobotLog;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.SynData;
@@ -60,10 +62,13 @@ public class SynDataListHolder<T extends SynItem> {
 	private  void updateList(List<SynData> synDataList) {
 		List<T> itemListTmp = new ArrayList<T>();
 		try{
-		for (SynData synData : synDataList) {
-			T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData().toString());
-			itemListTmp.add(item);
-		}
+			for (SynData synData : synDataList) {
+				String jsonData = synData.getJsonData().toString();
+				if (StringUtils.isNotBlank(jsonData)) { // 有可能会发送一个空的列表过来
+					T item = DataSynHelper.ToObject(itemClazz, synData.getJsonData().toString());
+					itemListTmp.add(item);
+				}
+			}
 		}catch(Exception ex){
 			ex.printStackTrace();
 		}
@@ -96,7 +101,7 @@ public class SynDataListHolder<T extends SynItem> {
 	}
 
 	private void update(T newItem) {
-		for (Iterator iterator = m_SynItemList.iterator(); iterator.hasNext();) {
+		for (Iterator<T> iterator = m_SynItemList.iterator(); iterator.hasNext();) {
 			T tempItem = (T) iterator.next();
 			if(tempItem.getId().equals(newItem.getId())){
 				iterator.remove();
@@ -106,7 +111,7 @@ public class SynDataListHolder<T extends SynItem> {
 	}
 	
 	private void remove(String Id){
-		for (Iterator iterator = m_SynItemList.iterator(); iterator.hasNext();) {
+		for (Iterator<T> iterator = m_SynItemList.iterator(); iterator.hasNext();) {
 			T tempItem = (T) iterator.next();
 			if(tempItem.getId().equals(Id)){
 				iterator.remove();

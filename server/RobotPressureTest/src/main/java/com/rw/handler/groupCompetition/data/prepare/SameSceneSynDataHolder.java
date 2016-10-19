@@ -13,6 +13,7 @@ public class SameSceneSynDataHolder {
 	private  Map<String, PositionInfo> list = new HashMap<String, PositionInfo>();
 	
 	private SynDataListHolder<SameSceneSynData> listHolder = new SynDataListHolder<SameSceneSynData>(SameSceneSynData.class);
+	private long lastMoveTime;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
@@ -36,5 +37,13 @@ public class SameSceneSynDataHolder {
 	
 	public PositionInfo getUserGFData(String userID){
 		return list.get(userID);
+	}
+
+	public long getLastMoveTime() {
+		return lastMoveTime;
+	}
+
+	public void setLastMoveTime(long lastMoveTime) {
+		this.lastMoveTime = lastMoveTime;
 	}
 }

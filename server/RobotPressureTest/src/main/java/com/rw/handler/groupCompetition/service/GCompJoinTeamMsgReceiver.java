@@ -27,14 +27,15 @@ public class GCompJoinTeamMsgReceiver implements MsgReciver {
 				return false;
 			}
 			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
-				RobotLog.fail("GroupCompetitionHandler[send] requestJoinTeam服务器返回不成功，提示消息：" + rsp.getTips());
-				return true;
+				RobotLog.info("GroupCompetitionHandler[send] requestJoinTeam服务器返回不成功，提示消息：" + rsp.getTips());
+			} else {
+				RobotLog.info("GroupCompetitionHandler[send] requestJoinTeam返回成功，提示消息");
 			}
+			return true;
 		} catch(InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 
 }

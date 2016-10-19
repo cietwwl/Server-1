@@ -14,6 +14,7 @@ import com.rw.handler.groupCompetition.data.battle.GCompMatchBattleSynDataHolder
 import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMember;
 import com.rw.handler.groupCompetition.data.onlinemember.GCompOnlineMemberHolder;
+import com.rw.handler.groupCompetition.data.prepare.SameSceneSynDataHolder;
 import com.rw.handler.groupCompetition.data.team.GCompTeam;
 import com.rw.handler.groupCompetition.data.team.GCompTeamHolder;
 import com.rw.handler.groupCompetition.util.GCompUtil;
@@ -252,8 +253,12 @@ public class GroupCompetitionHandler {
 	private boolean processEventsBehavior(Client client) {
 		boolean result = true;
 		if (!client.getgCompMatchBattleSynDataHolder().isInitBattle()) {
-//			RobotLog.info("随机移动，userId：" + client.getUserId());
-//			result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+			RobotLog.info("随机移动，userId：" + client.getUserId());
+			SameSceneSynDataHolder sameSceneSynDataHolder = client.getSameSceneSynDataHolder();
+			if (sameSceneSynDataHolder.getLastMoveTime() < System.currentTimeMillis()) {
+				result = GroupCompSameSceneHandler.getHandler().informPreparePosition(client);
+				sameSceneSynDataHolder.setLastMoveTime(System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(random.nextInt(5) + 5));
+			}
 		}
 		if (result) {
 			switch (client.getGCompBaseInfoHolder().getGCompBaseInfo().getEventStatus()) {
