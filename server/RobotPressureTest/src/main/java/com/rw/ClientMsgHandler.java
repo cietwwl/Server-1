@@ -6,6 +6,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -336,7 +337,17 @@ public abstract class ClientMsgHandler {
 				RobotLog.info("--------------channel is close");
 				return true;
 			}
-			f.get(10, TimeUnit.SECONDS);
+			try {
+				f.get(25, TimeUnit.SECONDS);
+			} catch (TimeoutException e) {
+				if (isOffLine.get()) {
+					RobotLog.testError("ClientMsgHandler[sendMsg] 被顶号. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId);
+					return true;
+				} else {
+					RobotLog.testException("ClientMsgHandler[sendMsg] 与服务器通信异常. accountId:" + client.getAccountId() + ",command=" + command + ",seqId=" + seqId, e);
+					return false;
+				}
+			}
 			if (!f.isSuccess()) {
 				return true;
 			}
