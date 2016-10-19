@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rwbase.dao.friend.readonly.TableFriendIF;
@@ -73,6 +74,7 @@ public class TableFriend implements TableFriendIF {
 		this.friendGiveList = friendGiveList;
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendItem> getFriendMap() {
 		return friendList.elements();
 	}
@@ -81,6 +83,7 @@ public class TableFriend implements TableFriendIF {
 		return friendList.get(key);
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendItem> getRequestMap() {
 		return requestList.elements();
 	}
@@ -89,6 +92,7 @@ public class TableFriend implements TableFriendIF {
 		return requestList.get(key);
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendItem> getBlackMap() {
 		return blackList.elements();
 	}
@@ -97,6 +101,7 @@ public class TableFriend implements TableFriendIF {
 		return blackList.get(key);
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendGiveState> getFriendGiveMap() {
 		return friendGiveList.elements();
 	}

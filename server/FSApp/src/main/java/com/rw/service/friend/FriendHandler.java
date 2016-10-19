@@ -401,7 +401,7 @@ public class FriendHandler {
 		response.addAllUpdateList(resultVo.updateList);
 		if(resultVo.resultType == EFriendResultType.SUCCESS){
 			//通知角色日常任务 by Alex
-			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.DONATE_FRIEND_POWER, 1);
+			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.DONATE_FRIEND_POWER, resultVo.updateList.size());
 		}
 		return response.build().toByteString();
 	}

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.playerdata.Hero;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
@@ -12,6 +15,8 @@ import com.playerdata.hero.core.consumer.FSCalculateAllFightingConsumer;
 import com.rwbase.dao.hero.FSUserHeroGlobalDataDAO;
 import com.rwbase.dao.hero.pojo.FSUserHeroGlobalData;
 import com.rwproto.BattleCommon.eBattlePositionType;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 public class FSUserHeroGlobalDataMgr {
 
@@ -114,7 +119,7 @@ public class FSUserHeroGlobalDataMgr {
 			globalData.setStartAll(starAll);
 			changed = true;
 		}
-		if(changed){
+		if (changed) {
 			FSUserHeroGlobalDataDAO.getInstance().update(globalData);
 		}
 	}
@@ -129,5 +134,33 @@ public class FSUserHeroGlobalDataMgr {
 			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
 		}
 		return userHeroGlobalData.getFightingAll();
+	}
+
+	/**
+	 * 同步数据
+	 * 
+	 * @param userId
+	 */
+	public void synData(String userId) {
+		Player player = PlayerMgr.getInstance().find(userId);
+		if (player == null) {
+			return;
+		}
+
+		synData(player);
+	}
+
+	/**
+	 * 同步数据
+	 * 
+	 * @param player
+	 */
+	public void synData(Player player) {
+		FSUserHeroGlobalData heroGlobalData = FSUserHeroGlobalDataDAO.getInstance().get(player.getUserId());
+		if (heroGlobalData == null) {
+			return;
+		}
+
+		ClientDataSynMgr.synData(player, heroGlobalData, eSynType.USER_GLOBAL_DATA_SYN, eSynOpType.UPDATE_SINGLE);
 	}
 }

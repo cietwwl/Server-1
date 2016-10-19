@@ -52,6 +52,7 @@ public class DataAccessSimpleSupport {
 	private final DefaultTransactionDefinition df;
 	private final JdbcTemplate template;
 	private final int[] charMapper;
+	private final int[] emptyIntResult;
 
 	public DataAccessSimpleSupport(String dsName) {
 		// 初始化事务相关
@@ -59,6 +60,7 @@ public class DataAccessSimpleSupport {
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("find dataSource fail:" + dsName);
 		}
+		this.emptyIntResult = new int[0];
 		this.template = JdbcTemplateFactory.buildJdbcTemplate(dataSource);
 		this.tm = new DataSourceTransactionManager(dataSource);
 		this.df = new DefaultTransactionDefinition();
@@ -267,6 +269,9 @@ public class DataAccessSimpleSupport {
 	 * @throws Exception
 	 */
 	public <K extends Object> boolean forceDelete(String sql, final List<K> idList) throws Exception {
+		if (idList.isEmpty()) {
+			return false;
+		}
 		String recordNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
@@ -304,6 +309,9 @@ public class DataAccessSimpleSupport {
 	 */
 	public <K extends Object> List<K> delete(String sql, final List<K> idList) throws Exception {
 		final int size = idList.size();
+		if (size == 0) {
+			return Collections.emptyList();
+		}
 		try {
 			int[] result = batchDelete(sql, idList);
 			ArrayList<K> resultList = new ArrayList<K>(size);
@@ -355,6 +363,16 @@ public class DataAccessSimpleSupport {
 	 * @return
 	 */
 	public <K, T> boolean insertAndDelete(ClassInfo classInfo, String addSql, List<T> addList, String delSql, List<K> delList) throws DuplicatedKeyException, DataNotExistException {
+		if (delList.isEmpty()) {
+			//删除列表为空转换成insert
+			try {
+				insert(classInfo, addSql, addList);
+				return true;
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
 		String itemNotExist = null;
 		TransactionStatus ts = tm.getTransaction(df);
 		try {
@@ -574,10 +592,10 @@ public class DataAccessSimpleSupport {
 		}
 		return Math.abs(userId.hashCode() % tableCount);
 	}
-	
+
 	public int getTableIndex(String userId, int tableCount) {
-		//兼容旧数据，如果清数据可以直接调用上面的方法
-		if(userId.length() == 12 || tableCount == 16){
+		// 兼容旧数据，如果清数据可以直接调用上面的方法
+		if (userId.length() == 12 || tableCount == 16) {
 			return getTableIndex_(userId, tableCount);
 		}
 		boolean isNumber = true;
@@ -598,7 +616,6 @@ public class DataAccessSimpleSupport {
 		}
 		return tableIndex;
 	}
-	
 
 	@Deprecated
 	public <T> List<T> findByKey(ClassInfo classInfo, String tableName, String keyName, Object value) throws Exception {

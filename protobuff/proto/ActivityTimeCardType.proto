@@ -1,0 +1,37 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "ActivityTimeCardTypeProto";
+
+package timeCardType;
+
+
+enum RequestType{
+
+	CheckFriend = 1;//获取好友月卡信息用于赠送
+
+}
+
+message ActivityCommonReqMsg{
+	required RequestType reqType = 1;//请求功能协议类型
+
+}
+
+
+message ActivityCommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	repeated TimeCardOfFriend timeCardOfFriend = 3;//好友月卡信息模块
+
+}
+
+
+message TimeCardOfFriend{
+	required string name = 1;//名字
+	required int32 level = 2;//等级
+	required string headPortrait = 3;//头像
+	required string headPortraitFrame = 4;//头像框
+	required int32 leftDayNumOne = 5;//类型一的卡剩余日期；默认普通
+	required int32 leftDayNumTwo = 6;//类型二的卡剩余日期；默认至尊
+	required bool  isCanGiftNumOen =7;//类型一是否能赠送；默认普通
+	required bool  isCanGiftNumTwo =8;//类型二是否能赠送；默认至尊
+}

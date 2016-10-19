@@ -1,8 +1,10 @@
 package com.playerdata.groupcompetition;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,12 +36,15 @@ import com.playerdata.groupcompetition.util.GCompUpdateGroupInfoTask;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
+import com.rw.manager.GameManager;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
+import com.rwbase.dao.zone.TableZoneInfo;
+import com.rwbase.dao.zone.TableZoneInfoDAO;
 import com.rwbase.gameworld.GameWorldFactory;
 
 /**
@@ -61,12 +66,22 @@ public class GroupCompetitionMgr {
 	
 	private GroupCompetitionDataHolder _dataHolder = GroupCompetitionDataHolder.getInstance();
 	private final AtomicInteger _againstIdGenerator = new AtomicInteger();
+	private static final SimpleDateFormat _FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 	
 	private long getServerStartTime() {
 		Calendar instance = Calendar.getInstance();
-		instance.add(Calendar.WEEK_OF_YEAR, -3);
-		instance.set(Calendar.HOUR_OF_DAY, 11);
-		instance.set(Calendar.MINUTE, 0);
+//		instance.add(Calendar.WEEK_OF_YEAR, -3);
+//		instance.set(Calendar.HOUR_OF_DAY, 11);
+//		instance.set(Calendar.MINUTE, 0);
+		TableZoneInfo zoneInfo = TableZoneInfoDAO.getInstance().getObject(GameManager.getZoneId());
+		try {
+			Date date = _FORMATTER.parse(zoneInfo.getOpenTime());
+			instance.setTime(date);
+			instance.set(Calendar.HOUR_OF_DAY, 10);
+			instance.set(Calendar.MINUTE, 0);
+		} catch (Exception e) {
+			throw new IllegalArgumentException("开服时间不正确：" + zoneInfo.getOpenTime());
+		}
 		return instance.getTimeInMillis();
 	}
 	
