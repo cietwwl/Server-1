@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public enum ActivityRankTypeEnum{	// implements TypeIdentification
 	
-	FIGHTING("70001",new int[]{201}),//战力大比拼
+	FIGHTING("70001",new int[]{203}),//战力大比拼
 	ARENA("70002",new int[]{101,102,103,104});//竞技之王
 	
 	
@@ -20,6 +20,22 @@ public enum ActivityRankTypeEnum{	// implements TypeIdentification
 		return cfgId;
 	}
 	
+
+	public static HashMap<String, ActivityRankTypeEnum> getMap() {
+		return map;
+	}
+
+	public static void setMap(HashMap<String, ActivityRankTypeEnum> map) {
+		ActivityRankTypeEnum.map = map;
+	}
+
+	public void setCfgId(String cfgId) {
+		this.cfgId = cfgId;
+	}
+
+	public void setRankTypes(int[] rankTypes) {
+		this.rankTypes = rankTypes;
+	}
 
 	public int[] getRankTypes() {
 		return rankTypes;

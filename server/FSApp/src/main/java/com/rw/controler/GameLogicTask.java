@@ -62,7 +62,8 @@ public class GameLogicTask implements PlayerTask {
 		ProtocolMessageEnum msgType = null;
 		ByteString synData = null;// 同步数据
 		try {
-			FSTraceLogger.logger("run", executeTime - submitTime, command, seqID, player != null ? player.getUserId() : null);
+//			FSTraceLogger.logger("run", executeTime - submitTime, command, seqID, player != null ? player.getUserId() : null);
+			FSTraceLogger.logger("run", executeTime - submitTime, command, null, seqID, player != null ? player.getUserId() : null);
 			// plyaer为null不敢做过滤
 			if (player != null) {
 				UserDataMgr userDataMgr = player.getUserDataMgr();
@@ -77,13 +78,13 @@ public class GameLogicTask implements PlayerTask {
 				}
 				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(player.getUserDataMgr().getZoneId());
 				if (zone == null || (zone.getEnabled() != 1)) {
-					nettyControler.sendResponse(userId, request.getHeader(), null, 600, ctx);
+					UserChannelMgr.sendResponse(userId, request.getHeader(), null, 600, ctx);
 					return;
 				}
-				Response response = nettyControler.getResponse(userId, seqID);
+				Response response = UserChannelMgr.getResponse(userId, seqID);
 				if (response != null) {
 					System.err.println("send reconnect:" + UserChannelMgr.getCtxInfo(ctx));
-					nettyControler.sendResponse(request.getHeader(), response.getSerializedContent(), UserChannelMgr.get(userId));
+					UserChannelMgr.sendResponse(request.getHeader(), response.getSerializedContent(), UserChannelMgr.get(userId));
 					return;
 				}
 				handleGuildance(header, userId);
@@ -124,11 +125,11 @@ public class GameLogicTask implements PlayerTask {
 			}
 		} catch (Throwable t) {
 			GameLog.error("GameLogicTask", "#run()", "run business service exception:", t);
-			nettyControler.sendErrorResponse(userId, request.getHeader(), 500);
+			UserChannelMgr.sendErrorResponse(userId, request.getHeader(), 500);
 			FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 			return;
 		}
-		ChannelFuture future = nettyControler.sendResponse(userId, header, resultContent, sessionId, synData);
+		ChannelFuture future = UserChannelMgr.sendResponse(userId, header, resultContent, sessionId, synData);
 		if (future == null) {
 			FSTraceLogger.logger("send fail", 0, command, null, seqID, player != null ? player.getUserId() : null);
 		} else {
@@ -152,7 +153,7 @@ public class GameLogicTask implements PlayerTask {
 
 	private void proceeMsgRequestException(Player player, String userId, String msg, Command command, long executeTime, int seqID) {
 		GameLog.error("GameLogicTask", "run business service exception:", msg);
-		nettyControler.sendErrorResponse(userId, request.getHeader(), 503);
+		UserChannelMgr.sendErrorResponse(userId, request.getHeader(), 503);
 		FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 	}
 

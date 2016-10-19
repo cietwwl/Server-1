@@ -7,18 +7,20 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_ratetype_item")
-public class ActivityRateTypeItem implements IMapItem {
+public class ActivityRateTypeItem implements RoleExtProperty {
 
 	@Id
-	private String id;
-
+	private Integer id;
+	@OwnerId
 	private String userId;// 对应的角色Id
 
 	@CombineSave
@@ -82,11 +84,11 @@ public class ActivityRateTypeItem implements IMapItem {
 		this.version = version;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -118,6 +120,7 @@ public class ActivityRateTypeItem implements IMapItem {
 		this.version = activityRateTypeCfg.getVersion();
 		isTouchRedPoint = false;
 		cfgId = activityRateTypeCfg.getId();
+		this.closed = false;
 	}
 
 }

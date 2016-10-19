@@ -2,11 +2,9 @@ package com.rw.service.role;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.mainmsg.CfgPmdDAO;
 import com.rwbase.dao.mainmsg.PmdCfg;
@@ -26,6 +24,29 @@ public class MainMsgHandler {
 
 	public static MainMsgHandler getInstance() {
 		return instance;
+	}
+	
+	public void sendMainCityMsg(int id, EMsgType msgType, List<String> arr) {
+		MainMsgResponse.Builder res = MainMsgResponse.newBuilder();
+		res.setId(id);
+		res.setType(msgType);
+		if (arr != null && arr.size() > 0) {
+			for (int i = 0; i < arr.size(); i++) {
+				if (i == 0) {
+					res.setInfo1(arr.get(i));
+				} else if (i == 1) {
+					res.setInfo2(arr.get(i));
+				} else if (i == 2) {
+					res.setInfo3(arr.get(i));
+				} else if (i == 3) {
+					res.setInfo4(arr.get(i));
+				} else if (i == 4) {
+					res.setInfo5(arr.get(i));
+				}
+			}
+		}
+
+		sendPmdAll(res.build().toByteString());
 	}
 
 	public void sendPmdGm(Player player, String[] arrCommandContents) {
@@ -48,35 +69,10 @@ public class MainMsgHandler {
 	/*** 发送跑码灯信息 *****/
 	public void sendPmd(int id, List<String> arr) {
 
-		MainMsgResponse.Builder res = MainMsgResponse.newBuilder();
-		res.setId(id);
-		res.setType(EMsgType.PmdMsg);
-		if (arr != null && arr.size() > 0) {
-			for (int i = 0; i < arr.size(); i++) {
-				if (i == 0) {
-					res.setInfo1(arr.get(i));
-				} else if (i == 1) {
-					res.setInfo2(arr.get(i));
-				} else if (i == 2) {
-					res.setInfo3(arr.get(i));
-				} else if (i == 3) {
-					res.setInfo4(arr.get(i));
-				} else if (i == 4) {
-					res.setInfo5(arr.get(i));
-				}
-			}
-		}
-
-		sendPmdAll(res.build().toByteString());
+		this.sendMainCityMsg(id, EMsgType.PmdMsg, arr);
 	}
 
 	private void sendPmdAll(ByteString pBuffer) {
-//		Map<String, Player> playeMap = PlayerMgr.getInstance().getAllPlayer();
-//		List<Player> list = new ArrayList<Player>();
-//		list.addAll(playeMap.values());
-//		for (Player player : list) {
-//			player.SendMsg(Command.MSG_MainMsg, pBuffer);
-//		}
 		UserChannelMgr.broadcastMsg(Command.MSG_MainMsg, pBuffer);
 	}
 
@@ -90,7 +86,7 @@ public class MainMsgHandler {
 	/** 祭坛抽到物品(非佣兵),物品id为 **/
 	public void sendPmdJtGoods(Player player, String goodsId) {
 		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
+		if (cfg != null && cfg.goods.indexOf(String.valueOf(goodsId)) != -1) {
 			List<String> arr = new ArrayList<String>();
 			arr.add(player.getUserName());
 			arr.add(goodsId + "");
@@ -101,8 +97,8 @@ public class MainMsgHandler {
 
 	/** 祭坛抽到特殊佣兵 **/
 	public void sendPmdJtYb(Player player, String goodsId) {
-		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(1);
-		if (cfg != null && cfg.content.indexOf(goodsId + "") != -1) {
+		PmdCfg cfg = CfgPmdDAO.getInstance().getCfg(2);
+		if (cfg != null && cfg.goods.indexOf(String.valueOf(goodsId)) != -1) {
 			List<String> arr = new ArrayList<String>();
 			arr.add(player.getUserName());
 			arr.add(goodsId + "");
@@ -298,5 +294,9 @@ public class MainMsgHandler {
 		arr.add(player.getUserName());
 		arr.add(colors + fbName + "[-]");
 		sendPmd(13, arr);
+	}
+	
+	public void sendWorldBossPmb(Player player, int id, List<String> arr){
+		sendPmd(id, arr);
 	}
 }

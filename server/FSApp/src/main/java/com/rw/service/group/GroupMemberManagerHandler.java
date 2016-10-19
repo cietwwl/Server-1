@@ -14,6 +14,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupCmdHelper;
@@ -347,6 +348,8 @@ public class GroupMemberManagerHandler {
 		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
 		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+		// 帮派信息发生改变
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 
 		commonRsp.setIsSuccess(true);
 		if (needRsp) {
@@ -542,12 +545,12 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, tip);
 		}
 
-		if (playerId.equals(memberId)) {// 转让给自己
+		if (playerId.equals(memberId) && playerId.equals(memberMgr.getGroupLeader().getUserId())) {// 帮主不能取消自己
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您不能对自己取消任命");
 		}
 
 		int post = memberData.getPost();// 被取消任命的成员的当前职位
-		if (selfPost >= post) {// 自己的职位低于要操作的角色
+		if (!playerId.equals(memberId) && selfPost >= post) {// 自己的职位低于要操作的角色
 			GameLog.error("帮派取消任命", playerId, String.format("自己的职位[%s]，取消任命Id[%s]的职位[%s]，", selfPost, memberId, post));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "不能对同职位或职位高的成员取消任命");
 		}
@@ -799,6 +802,8 @@ public class GroupMemberManagerHandler {
 		group.getGroupCopyMgr().nofityCreateRoleLeaveTask(kickMemberId);
 
 		commonRsp.setIsSuccess(true);
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
+		GroupCompetitionMgr.getInstance().notifyGroupMemberLeave(group, playerId);
 		return commonRsp.build().toByteString();
 	}
 }

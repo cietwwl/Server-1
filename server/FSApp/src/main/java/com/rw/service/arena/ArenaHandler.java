@@ -893,7 +893,7 @@ public class ArenaHandler {
 
 	private TagSkillData transfrom(SkillItem skill) {
 		TagSkillData.Builder builder = TagSkillData.newBuilder();
-		builder.setId(skill.getId());
+		builder.setId(skill.strId());
 		builder.setOwnerId(skill.getOwnerId());
 		builder.setSkillId(skill.getSkillId());
 		// builder.addAllBuffId(skill.getBuffId());

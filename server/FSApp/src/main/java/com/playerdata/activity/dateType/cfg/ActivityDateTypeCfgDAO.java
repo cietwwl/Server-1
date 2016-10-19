@@ -55,8 +55,8 @@ public final class ActivityDateTypeCfgDAO extends CfgCsvDao<ActivityDateTypeCfg>
 		ActivityDateTypeCfg cfgById = getCfgById(cfgId );
 		if(cfgById!=null){			
 			ActivityDateTypeItem item = new ActivityDateTypeItem();
-			String itemId = ActivityDateTypeHelper.getItemId(player.getUserId(), typeEnum);
-			item.setId(itemId);
+			Integer id = Integer.parseInt(typeEnum.getCfgId());
+			item.setId(id);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfgId);
 			newAndAddSubItemList(item);

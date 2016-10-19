@@ -13,7 +13,6 @@ public class MajorDataParser implements DataValueParser<MajorData> {
     public MajorData copy(MajorData entity) {
         MajorData majorDataCopy = new MajorData();
         majorDataCopy.setId(entity.getId());
-        majorDataCopy.setOwnerId(entity.getOwnerId());
         majorDataCopy.setCoin(entity.getCoin());
         majorDataCopy.setGold(entity.getGold());
         majorDataCopy.setGiftGold(entity.getGiftGold());
@@ -29,12 +28,6 @@ public class MajorDataParser implements DataValueParser<MajorData> {
         if (!writer.equals(id1, id2)) {
             entity1.setId(id2);
             jsonMap = writer.write(jsonMap, "id", id2);
-        }
-        String ownerId1 = entity1.getOwnerId();
-        String ownerId2 = entity2.getOwnerId();
-        if (!writer.equals(ownerId1, ownerId2)) {
-            entity1.setOwnerId(ownerId2);
-            jsonMap = writer.write(jsonMap, "ownerId", ownerId2);
         }
         long coin1 = entity1.getCoin();
         long coin2 = entity2.getCoin();
@@ -68,9 +61,6 @@ public class MajorDataParser implements DataValueParser<MajorData> {
         if (!writer.equals(entity1.getId(), entity2.getId())) {
             return true;
         }
-        if (!writer.equals(entity1.getOwnerId(), entity2.getOwnerId())) {
-            return true;
-        }
         if (entity1.getCoin() != entity2.getCoin()) {
             return true;
         }
@@ -88,9 +78,8 @@ public class MajorDataParser implements DataValueParser<MajorData> {
 
     @Override
     public JSONObject toJson(MajorData entity) {
-        JSONObject json = new JSONObject(6);
+        JSONObject json = new JSONObject(5);
         json.put("id", entity.getId());
-        json.put("ownerId", entity.getOwnerId());
         json.put("coin", entity.getCoin());
         json.put("gold", entity.getGold());
         json.put("giftGold", entity.getGiftGold());

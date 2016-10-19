@@ -1,11 +1,13 @@
 package com.rw.trace;
 
+import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.fsutil.dao.cache.CacheKey;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.dropitem.DropRecord;
 import com.rwbase.dao.equipment.EquipItem;
+import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
@@ -33,7 +35,9 @@ public enum DataTraceRegistrator {
 //	USER_HERO(TableUserHero.class),
 	USER_GAME_DATA(UserGameData.class),
 	//MAIN_ROLE_HERO(FSHero.class, MapItemStoreFactory.MAIN_ROLE_NAME),
-	USER(User.class)
+	USER(User.class),
+	CHARGE_DATA(ChargeInfo.class),
+	MAGIC_EQUIP_FETTER(MagicEquipFetterRecord.class),
 	;
 
 	DataTraceRegistrator(Class<?> dataTraceClass) {

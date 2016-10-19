@@ -62,6 +62,13 @@ public class GambleHotHeroPlan {
 	public GambleHotHeroPlan() {
 	}
 
+	/**
+	 * 生成热点外其他三个
+	 * @param r
+	 * @param hotPlanId
+	 * @param hotCount
+	 * @param errDefaultModelId
+	 */
 	@JsonIgnore
 	private void Init(Random r, int hotPlanId, int hotCount, String errDefaultModelId) {
 		this.errDefaultModelId = errDefaultModelId;

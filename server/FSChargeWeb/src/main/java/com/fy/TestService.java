@@ -25,7 +25,7 @@ public class TestService {
 		ContentPojo content = new ContentPojo();
 		content.setCpTradeNo("1040");
 		content.setGameId(3);
-		content.setUserId("100100000455");
+//		content.setUserId("100100000455");
 		content.setRoleId("100100007337");
 		
 		content.setServerId(27);

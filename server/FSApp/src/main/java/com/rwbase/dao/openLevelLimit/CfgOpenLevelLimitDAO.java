@@ -25,12 +25,14 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 	public static CfgOpenLevelLimitDAO getInstance() {
 		return SpringContextUtil.getBean(CfgOpenLevelLimitDAO.class);
 	}
-
+	
+	private Map<Integer, List<CfgOpenLevelLimit>> levelMapping;
 	private Map<Command,List<CfgOpenLevelLimit>> cmdMapping;
 	public Map<String, CfgOpenLevelLimit> initJsonCfg() {
 		Map<String, CfgOpenLevelLimit> tmpMap = CfgCsvHelper.readCsv2Map("openLevelLimit/openLevelLimit.csv", CfgOpenLevelLimit.class);
 		Set<Entry<String, CfgOpenLevelLimit>> entryLst = tmpMap.entrySet();
 		Map<Command,List<CfgOpenLevelLimit>> mapping = new HashMap<Command, List<CfgOpenLevelLimit>>();
+		Map<Integer, List<CfgOpenLevelLimit>> levelMapping = new HashMap<Integer, List<CfgOpenLevelLimit>>();
 		for (Entry<String, CfgOpenLevelLimit> entry : entryLst) {
 			CfgOpenLevelLimit cfg = entry.getValue();
 			cfg.ExraLoad();
@@ -43,8 +45,16 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 				}
 				old.add(cfg);
 			}
+			int level = cfg.getMinLevel();
+			List<CfgOpenLevelLimit> levelOld = levelMapping.get(level);
+			if(levelOld == null){
+				levelOld = new ArrayList<CfgOpenLevelLimit>();
+				levelMapping.put(level, levelOld);
+			}
+			levelOld.add(cfg);
+			
 		}
-		
+		this.levelMapping = levelMapping;
 		cmdMapping = mapping;
 		cfgCacheMap = tmpMap;
 		return cfgCacheMap;
@@ -54,6 +64,10 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 		return cmdMapping.get(cmd);
 	}
 
+	public List<CfgOpenLevelLimit> getOpenByLevel(Integer level){
+		return levelMapping.get(level);
+	}
+	
 	public String getNotOpenTip(eOpenLevelType type, Player player){
 		RefParam<String> outtip = new RefParam<String>();
 		isOpen(type,player,outtip);
@@ -73,9 +87,10 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 	public boolean isOpen(eOpenLevelType type, Player player, RefParam<String> outTip){
 		boolean result = false;
 		int level = player.getLevel();
+		int vip = player.getVip();
 		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
 		if (cfg != null) {
-			if (level >= cfg.getMinLevel() && level <= cfg.getMaxLevel()) {
+			if (level >= cfg.getMinLevel() && level <= cfg.getMaxLevel() && vip >= cfg.getVip()) {
 				int checkPointID = cfg.getCheckPointID();
 				if (checkPointID > 0){
 					result = player.getCopyRecordMgr().isCopyLevelPassed(checkPointID);
@@ -91,23 +106,29 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 			}else{
 				ChineseStringHelper helper = ChineseStringHelper.getInstance();
 				int checkPointID = cfg.getCheckPointID();
-				level = cfg.getMinLevel();
-				if (checkPointID > 0){
-					CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(checkPointID);
-					if (copyCfg != null){
-						RefInt chapter = new RefInt();
-						RefInt order = new RefInt();
-						GetCopyChapterAndOrder(checkPointID,chapter,order);
-						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关“%s-%s %s”开启");
-						outTip.value = String.format(tipTemplate, level,chapter.value,order.value,copyCfg.getName());
-					}else{
-						GameLog.error("功能开发", "", "配置错误：openLevelLimit配置了不存在的关卡ID:"+checkPointID);
+				int cfgMinlevel = cfg.getMinLevel();
+				int cfgVip = cfg.getVip();
+				if (vip < cfgVip) {
+					String tipTemplate = helper.getLanguageString("FunctionOpenAtVipLevel", "vip等级%s级开启");
+					outTip.value = String.format(tipTemplate, cfgVip);
+				} else {
+					if (checkPointID > 0) {
+						CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(checkPointID);
+						if (copyCfg != null) {
+							RefInt chapter = new RefInt();
+							RefInt order = new RefInt();
+							GetCopyChapterAndOrder(checkPointID, chapter, order);
+							String tipTemplate = helper.getLanguageString("FunctionOpenAtLevelAtCopy", "主角%s级并且通关“%s-%s %s”开启");
+							outTip.value = String.format(tipTemplate, cfgMinlevel, chapter.value, order.value, copyCfg.getName());
+						} else {
+							GameLog.error("功能开发", "", "配置错误：openLevelLimit配置了不存在的关卡ID:" + checkPointID);
+							String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
+							outTip.value = String.format(tipTemplate, cfgMinlevel);
+						}
+					} else {
 						String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
-						outTip.value = String.format(tipTemplate, level);
+						outTip.value = String.format(tipTemplate, cfgMinlevel);
 					}
-				}else{
-					String tipTemplate = helper.getLanguageString("FunctionOpenAtLevel", "主角%s级开启");
-					outTip.value = String.format(tipTemplate, level);
 				}
 			}
 		}
@@ -118,32 +139,5 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 	private 	void GetCopyChapterAndOrder(int copyId,RefInt chapterNum,RefInt orderInChapter){
 		orderInChapter.value = copyId % 100;
 		chapterNum.value = (copyId / 100) % 100;
-	}
-
-	/**
-	 * 判断是否开放等级
-	 * 
-	 * @param type 检测开放的功能类型
-	 * @param player 当前角色
-	 * @return 返回开启需要的等级
-	 */
-	public int checkIsOpen(eOpenLevelType type, Player player) {
-		int level = player.getLevel();
-		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
-		if (cfg == null) {
-			return -1;
-		}
-
-		int minLevel = cfg.getMinLevel();
-		if (level >= minLevel) {
-			return -1;
-		}
-		
-		int checkPointID = cfg.getCheckPointID();
-		if (checkPointID > 0 && !player.getCopyRecordMgr().isCopyLevelPassed(checkPointID)){
-			 return -1;
-		}
-
-		return minLevel;
 	}
 }

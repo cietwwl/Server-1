@@ -266,7 +266,6 @@ public class ClientDataSynMgr {
 		if (StringUtils.isNotBlank(jsonData)) {
 			synData.setJsonData(jsonData);
 		}
-		
 		return synData;
 	}
 
@@ -275,6 +274,44 @@ public class ClientDataSynMgr {
 		if(synDataInReqMgr!=null && !synDataInReqMgr.addSynData(serverData, synType, msgDataSyn)){
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
 			player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
+		}
+	}
+	
+	/**
+	 * 给多用户同步同一个数据
+	 * @param players
+	 * @param serverData
+	 * @param synType
+	 * @param msgDataSyn
+	 */
+	private static void sendMsgMutiple(List<Player> players, Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
+		if(null == players) return;
+		for(Player player : players){
+			if(null == player) continue;
+			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
+			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
+			UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
+		}
+	}
+	
+	/**
+	 * 给多用户同步同一个数据
+	 * 
+	 * @param players 给多用户同步同一个数据
+	 * @param serverData 要同步的数据
+	 * @param synType <b><i>同步数据模块类型</i></b> {@link eSynType} 例如，同步背包模块的道具数据----->类型就是{@link eSynType#USER_ITEM_BAG}
+	 * @param synOpType <b><i>数据类型</i></b> {@link eSynOpType} 例如同步了一个道具的数据，----->类型就是{@link eSynOpType#UPDATE_SINGLE}
+	 */
+	public static void synDataMutiple(List<Player> players, Object serverData, eSynType synType, eSynOpType synOpType) {
+		try {
+			MsgDataSyn.Builder msgDataSyn = MsgDataSyn.newBuilder();
+			SynData.Builder synData = transferToClientData(serverData, JsonOpt.newWithOpt());
+			msgDataSyn.addSynData(synData);
+			msgDataSyn.setSynOpType(synOpType);
+			msgDataSyn.setSynType(synType);
+			sendMsgMutiple(players, serverData, synType, msgDataSyn);
+		} catch (Exception e) {
+			GameLog.error(LogModule.Util.getName(), "synDataMutiple", "ClientDataSynMgr[synData] synType:" + synType + " synOpType:" + synOpType, e);
 		}
 	}
 	
@@ -289,5 +326,4 @@ public class ClientDataSynMgr {
 		ClassInfo4Client serverClassInfo = DataSynClassInfoMgr.getByClass(clazz);
 		return serverClassInfo.fromJson(json);
 	}
-	
 }

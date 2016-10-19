@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.common.IHeroAction;
-import com.log.GameLog;
-import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
@@ -39,9 +37,6 @@ import com.rwproto.FixEquipProto.SelectItem;
 
 public class FixExpEquipMgr {
 
-	// private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = new
-	// FixExpEquipDataItemHolder();
-	private FixExpEquipDataItemHolder fixExpEquipDataItemHolder = FixExpEquipDataItemHolder.getInstance();
 
 	private static final FixExpEquipMgr _INSTANCE = new FixExpEquipMgr();
 
@@ -49,6 +44,10 @@ public class FixExpEquipMgr {
 		return _INSTANCE;
 	}
 
+	public FixExpEquipDataItemHolder getFixExpEquipDataItemHolder(){
+		return FixExpEquipDataItemHolder.getInstance();	
+	}
+	
 	protected FixExpEquipMgr() {
 	}
 
@@ -61,21 +60,6 @@ public class FixExpEquipMgr {
 
 	};
 
-	public boolean initIfNeed(Player player, Hero hero) {
-		if (!isInited(player, hero)) {
-			try {
-				newHeroInit(player, hero.getUUId(), hero.getModeId());
-			} catch (Exception e) {
-				GameLog.error(LogModule.FixEquip, "playerId:" + player.getUserId(), "英雄神器初始化失败,heroId:" + hero.getUUId(), e);
-			}
-		}
-		return true;
-	}
-
-	private boolean isInited(Player player, Hero hero) {
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(hero.getUUId());
-		return !itemList.isEmpty();
-	}
 
 	public boolean newHeroInit(Player player, String ownerId, int modelId) {
 		List<FixExpEquipDataItem> equipItemList = new ArrayList<FixExpEquipDataItem>();
@@ -87,7 +71,7 @@ public class FixExpEquipMgr {
 
 		int slot = 4;
 		for (String cfgId : roleFixEquipCfg.getExpCfgIdList()) {
-			String id = FixEquipHelper.getExpItemId(ownerId, cfgId);
+			Integer id = FixEquipHelper.getExpItemId(ownerId, cfgId);
 
 			FixExpEquipDataItem FixExpEquipDataItem = new FixExpEquipDataItem();
 			FixExpEquipDataItem.setId(id);
@@ -105,7 +89,7 @@ public class FixExpEquipMgr {
 
 		Collections.sort(equipItemList, comparator);
 
-		return fixExpEquipDataItemHolder.initItems(player, ownerId, equipItemList);
+		return getFixExpEquipDataItemHolder().initItems(player, ownerId, equipItemList);
 	}
 
 	public boolean onCarrerChange(Player player) {
@@ -114,7 +98,7 @@ public class FixExpEquipMgr {
 		int newModelId = mainRoleHero.getModeId();
 		String ownerId = player.getUserId();
 
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 
 		RoleFixEquipCfg newRoleFixEquipCfg = RoleFixEquipCfgDAO.getInstance().getCfgById(String.valueOf(newModelId));
 
@@ -127,7 +111,7 @@ public class FixExpEquipMgr {
 			slot++;
 		}
 
-		fixExpEquipDataItemHolder.updateItemList(player, itemList);
+		getFixExpEquipDataItemHolder().updateItemList(player, itemList);
 		return true;
 
 	}
@@ -144,27 +128,27 @@ public class FixExpEquipMgr {
 	}
 
 	public void regDataChangeCallback(IHeroAction callback) {
-		fixExpEquipDataItemHolder.regDataChangeCallback(callback);
+		getFixExpEquipDataItemHolder().regDataChangeCallback(callback);
 	}
 
 	public void synAllData(Player player, Hero hero) {
-		fixExpEquipDataItemHolder.synAllData(player, hero);
+		getFixExpEquipDataItemHolder().synAllData(player, hero);
 	}
 
 	public List<AttributeItem> levelToAttrItems(String ownerId) {
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipLevelAttr(ownerId, itemList).values());
 		return attrItemList;
 	}
 
 	public List<AttributeItem> qualityToAttrItems(String ownerId) {
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipQualityAttr(ownerId, itemList).values());
 		return attrItemList;
 	}
 
 	public List<AttributeItem> starToAttrItems(String ownerId) {
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		List<AttributeItem> attrItemList = new ArrayList<AttributeItem>(FixEquipHelper.parseFixExpEquipStarAttr(ownerId, itemList).values());
 		return attrItemList;
 	}
@@ -179,7 +163,7 @@ public class FixExpEquipMgr {
 		}
 		List<String> upIdList = new ArrayList<String>();
 
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		for (FixExpEquipDataItem dataItem : itemList) {
 			int level = dataItem.getLevel();
 			FixExpEquipQualityCfg curQualityCfg = equipQualityCfgDAO.getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());
@@ -187,7 +171,7 @@ public class FixExpEquipMgr {
 			if (level == nextQualityLevel) {
 				FixEquipResult result = checkQualityUp(player, ownerId, dataItem, equipQualityCfgDAO);
 				if (result.isSuccess()) {
-					upIdList.add(dataItem.getId());
+					upIdList.add(dataItem.strId());
 				}
 			}
 		}
@@ -198,11 +182,13 @@ public class FixExpEquipMgr {
 	public List<String> starUpList(Player player, String ownerId) {
 		List<String> upIdList = new ArrayList<String>();
 
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		for (FixExpEquipDataItem dataItem : itemList) {
-			FixEquipResult result = checkStarUp(player, ownerId, dataItem);
+			
+			boolean checkOpen = false;
+			FixEquipResult result = checkStarUp(player, ownerId, dataItem, checkOpen );
 			if (result.isSuccess()) {
-				upIdList.add(dataItem.getId());
+				upIdList.add(dataItem.strId());
 			}
 
 		}
@@ -216,7 +202,7 @@ public class FixExpEquipMgr {
 
 		HashMap<eConsumeTypeDef, List<ItemData>> consumeItemMap = FixEquipHelper.getFixConsumeItemMap(player);
 
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		for (FixExpEquipDataItem dataItem : itemList) {
 			FixEquipResult result = null;
 			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());
@@ -242,7 +228,7 @@ public class FixExpEquipMgr {
 				result = checkLevelUpCost(player, dataItem, totalExp);
 			}
 			if (result != null && result.isSuccess()) {
-				canUpList.add(dataItem.getId());
+				canUpList.add(dataItem.strId());
 			}
 		}
 		return canUpList;
@@ -272,7 +258,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult checkStoredExp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams) {
 
-		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
+		List<FixExpEquipDataItem> itemList = getFixExpEquipDataItemHolder().getItemList(ownerId);
 		for (FixExpEquipDataItem dataItem : itemList) {
 			doLevelUpByStoredExp(player, dataItem);
 		}
@@ -284,7 +270,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult levelUp(Player player, String ownerId, String itemId, ExpLevelUpReqParams reqParams) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = getFixExpEquipDataItemHolder().getItem(ownerId, Integer.valueOf(itemId));
 		FixEquipResult result = checkLevel(player, ownerId, dataItem);
 		if (result.isSuccess()) {
 			result = doLevelUp(player, dataItem, reqParams);
@@ -387,7 +373,7 @@ public class FixExpEquipMgr {
 					dataItem.setStoredExp(leftExp);
 					adjustExpShow(dataItem);
 				}
-				fixExpEquipDataItemHolder.updateItem(player, dataItem);
+				getFixExpEquipDataItemHolder().updateItem(player, dataItem);
 			}
 		}
 
@@ -406,7 +392,7 @@ public class FixExpEquipMgr {
 			dataItem.setStoredExp(leftExp);
 			iterateLevelUp(dataItem, upExp);
 			adjustExpShow(dataItem);
-			fixExpEquipDataItemHolder.updateItem(player, dataItem);
+			getFixExpEquipDataItemHolder().updateItem(player, dataItem);
 		}
 	}
 
@@ -487,7 +473,7 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult qualityUp(Player player, String ownerId, String itemId) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = getFixExpEquipDataItemHolder().getItem(ownerId, Integer.valueOf(itemId));
 
 		FixEquipResult result = checkQualityUp(player, ownerId, dataItem, null);
 		if (result.isSuccess()) {
@@ -551,7 +537,7 @@ public class FixExpEquipMgr {
 		if (result.isSuccess()) {
 			dataItem.setQuality(curQuality + 1);
 			doLevelUpByStoredExp(player, dataItem);
-			fixExpEquipDataItemHolder.updateItem(player, dataItem);
+			getFixExpEquipDataItemHolder().updateItem(player, dataItem);
 		}
 
 		return result;
@@ -560,9 +546,10 @@ public class FixExpEquipMgr {
 
 	public FixEquipResult starUp(Player player, String ownerId, String itemId) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = getFixExpEquipDataItemHolder().getItem(ownerId, Integer.valueOf(itemId));
 
-		FixEquipResult result = checkStarUp(player, ownerId, dataItem);
+		boolean checkOpen = true;
+		FixEquipResult result = checkStarUp(player, ownerId, dataItem,checkOpen);
 		if (result.isSuccess()) {
 			result = doStarUp(player, dataItem);
 		}
@@ -570,11 +557,11 @@ public class FixExpEquipMgr {
 		return result;
 	}
 
-	private FixEquipResult checkStarUp(Player player, String ownerId, FixExpEquipDataItem dataItem) {
+	private FixEquipResult checkStarUp(Player player, String ownerId, FixExpEquipDataItem dataItem,boolean checkOpen) {
 
 		FixEquipResult result = FixEquipResult.newInstance(false);
 
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player)) {
+		if (checkOpen && !CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.FIX_EQUIP_STAR,player)) {
 			result.setReason("未到功能开放等级");
 		} else if (dataItem == null) {
 			result.setReason("装备不存在。");
@@ -619,14 +606,14 @@ public class FixExpEquipMgr {
 
 		if (result.isSuccess()) {
 			dataItem.setStar(curStar + 1);
-			fixExpEquipDataItemHolder.updateItem(player, dataItem);
+			getFixExpEquipDataItemHolder().updateItem(player, dataItem);
 		}
 		return result;
 	}
 
 	public FixEquipResult starDown(Player player, String ownerId, String itemId) {
 
-		FixExpEquipDataItem dataItem = fixExpEquipDataItemHolder.getItem(ownerId, itemId);
+		FixExpEquipDataItem dataItem = getFixExpEquipDataItemHolder().getItem(ownerId, Integer.valueOf(itemId));
 
 		FixEquipResult result = checkStarDown(player, ownerId, dataItem);
 		if (result.isSuccess()) {
@@ -639,7 +626,7 @@ public class FixExpEquipMgr {
 
 			if (result.isSuccess()) {
 				dataItem.setStar(nextStar);
-				fixExpEquipDataItemHolder.updateItem(player, dataItem);
+				getFixExpEquipDataItemHolder().updateItem(player, dataItem);
 
 				Map<Integer, Integer> itemsNeed = nextStarCfg.getItemsNeed();
 				result = FixEquipHelper.turnBackItemCost(player, itemsNeed);
@@ -667,6 +654,16 @@ public class FixExpEquipMgr {
 	}
 
 	public List<HeroFixEquipInfo> getHeroFixSimpleInfo(String heroId) {
-		return FixEquipHelper.parseFixExpEquip2SimpleList(fixExpEquipDataItemHolder.getItemList(heroId));
+		return FixEquipHelper.parseFixExpEquip2SimpleList(getFixExpEquipDataItemHolder().getItemList(heroId));
 	}
+	
+	/*******************************只限gm使用*************************************/
+	public void gmSaveFixEquip(Player player, FixExpEquipDataItem fixExpEquipDataItem){
+		getFixExpEquipDataItemHolder().updateItem(player, fixExpEquipDataItem);
+	}
+	
+	public List<FixExpEquipDataItem> gmGetHeroFixExpEquipDataItems(String heroId){
+		return getFixExpEquipDataItemHolder().getItemList(heroId);
+	}
+	/*******************************只限gm使用*************************************/
 }

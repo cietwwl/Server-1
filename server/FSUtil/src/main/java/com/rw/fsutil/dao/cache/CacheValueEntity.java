@@ -1,25 +1,16 @@
 package com.rw.fsutil.dao.cache;
 
-import com.rw.fsutil.dao.cache.DataCache.CacheValueState;
-
 public class CacheValueEntity<V> {
 
 	private volatile V value;
-	private volatile CacheValueState state;
 	private final Object record;
+	private final String tableName;
 
-	public CacheValueEntity(V value, CacheValueState state, Object record) {
+	public CacheValueEntity(V value, Object record, String tableName) {
 		this.value = value;
-		this.state = state;
+		// this.state = state;
 		this.record = record;
-	}
-
-	public CacheValueState getState() {
-		return state;
-	}
-
-	public void setCacheValueState(CacheValueState state) {
-		this.state = state;
+		this.tableName = tableName;
 	}
 
 	public Object getRecord() {
@@ -34,9 +25,13 @@ public class CacheValueEntity<V> {
 		this.value = value;
 	}
 
+	public String getTableName() {
+		return tableName;
+	}
+
 	@Override
 	public String toString() {
-		return value + "[" + state + "]";
+		return String.valueOf(value);
 	}
 
 }

@@ -57,7 +57,10 @@ public class EmbattleInfoMgr {
 	 * @param recordKey 当没有特殊的记录Key是填null
 	 * @param heroPos
 	 */
-	public synchronized void updateOrAddEmbattleInfo(Player player, int type, String recordKey, List<EmbattleHeroPosition> heroPos) {
+	public synchronized boolean updateOrAddEmbattleInfo(Player player, int type, String recordKey, List<EmbattleHeroPosition> heroPos) {
+		if(heroPos.isEmpty()) {
+			return false;
+		}
 		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
 
 		String userId = player.getUserId();
@@ -76,6 +79,7 @@ public class EmbattleInfoMgr {
 			// 推送
 			updateSyn(player, type);
 		}
+		return true;
 	}
 
 	/**

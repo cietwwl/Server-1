@@ -84,6 +84,7 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.pojo.DailyActivityCfg;
+import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.MsgDef.Command;
 
@@ -424,6 +425,19 @@ public class BILogMgr {
 
 		logPlayer(eBILogType.TaskBegin, player, moreInfo);
 	}
+	
+	public void logTaskBegin(Player player, List<TaskItem> list, BITaskType biTaskType){
+		for (TaskItem taskItem : list) {
+			String taskId = String.valueOf(taskItem.getTaskId());
+			Map<String, String> moreInfo = new HashMap<String, String>();
+			moreInfo.put("taskId", taskId);
+			moreInfo.put("result", "1");
+			moreInfo.put("optype", "task_start");
+			moreInfo.put("biTaskType", "" + biTaskType.getTypeNo());
+
+			logPlayer(eBILogType.TaskBegin, player, moreInfo);
+		}
+	}
 
 	/**
 	 * 任务结束
@@ -738,8 +752,7 @@ public class BILogMgr {
 						} else {
 							SpecialItemCfg cfg = SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(model));
 							String name = cfg != null ? cfg.getName() : "";
-							String desc = cfg != null ? cfg.getDescription() : "";
-							sbAttachAttr.append(model).append("(").append(name).append("+").append(desc).append(")");
+							sbAttachAttr.append(model).append("(").append(name).append(")");
 						}
 						index++;
 						if (index < split.length) {

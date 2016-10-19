@@ -5,7 +5,7 @@ option java_outer_classname = "MainMsgProtos";
 enum EMsgType {
 	PmdMsg = 0;//ÅÜÂëµÆ
 	OtherMsg = 1;//
-
+	GroupCompetitionMsg = 3; // °ïÕ½µÄ²¥±¨
 }
 
 message MainMsgResponse {

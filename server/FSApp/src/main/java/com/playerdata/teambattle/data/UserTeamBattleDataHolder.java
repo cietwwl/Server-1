@@ -42,10 +42,9 @@ public class UserTeamBattleDataHolder {
 	
 	public void dailyReset(Player player) {
 		UserTeamBattleData userTBData = get(player.getUserId());
-		if (userTBData != null) {
-			userTBData.dailyReset();
+		if (userTBData != null && userTBData.dailyReset()) {
+			update(player, userTBData);
 		}
-		update(player, userTBData);
 	}
 	
 	/**

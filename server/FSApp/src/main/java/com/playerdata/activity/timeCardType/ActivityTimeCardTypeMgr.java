@@ -15,6 +15,10 @@ import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItemHolder;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 
@@ -44,9 +48,9 @@ public class ActivityTimeCardTypeMgr {
 		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem
 				.getSubItemList();
 		long logintime = dataItem.getActivityLoginTime();
-		int dayDistance = DateUtils.getDayDistance(logintime,
-				System.currentTimeMillis());
-		dataItem.setActivityLoginTime(System.currentTimeMillis());
+		long now = DateUtils.getSecondLevelMillis();
+		int dayDistance = DateUtils.getDayDistance(logintime,now);
+		dataItem.setActivityLoginTime(now);
 		if (dayDistance > 0) {
 			for (ActivityTimeCardTypeSubItem sub : monthCardList) {
 				int dayless = (sub.getDayLeft() - dayDistance) > 0 ? (sub
@@ -58,31 +62,23 @@ public class ActivityTimeCardTypeMgr {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder
-				.getInstance();
-		String userid = player.getUserId();
-		List<ActivityTimeCardTypeItem> addItemList = null;
-		addItemList = creatItems(userid, dataHolder.getItemStore(userid));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}		
+
 	}
 
-	public List<ActivityTimeCardTypeItem> creatItems(String userId,MapItemStore<ActivityTimeCardTypeItem> itemStore){
+	public List<ActivityTimeCardTypeItem> creatItems(String userId,boolean isHasPlayer){
 		List<ActivityTimeCardTypeItem> addItemList = null;
-		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, ActivityTimeCardTypeEnum.Month);
+//		String itemId = ActivityTimeCardTypeHelper.getItemId(userId, ActivityTimeCardTypeEnum.Month);
+		int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
 		ActivityTimeCardTypeCfgDAO dao = ActivityTimeCardTypeCfgDAO.getInstance();
 		List<ActivityTimeCardTypeCfg> allcfglist = dao.getAllCfg();
+		Long now = DateUtils.getSecondLevelMillis();
 		for(ActivityTimeCardTypeCfg cfg: allcfglist){
-			if(itemStore != null){
-				if(itemStore.getItem(itemId)!=null){
-					return addItemList;
-				}
-			}
+			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
-			item.setId(itemId);
+			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
+			item.setActivityLoginTime(now);
 			List<ActivityTimeCardTypeSubItem> subItemList = new ArrayList<ActivityTimeCardTypeSubItem>();
 			List<ActivityTimeCardTypeSubCfg> subItemCfgList = ActivityTimeCardTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 			if(subItemCfgList == null){
@@ -105,6 +101,7 @@ public class ActivityTimeCardTypeMgr {
 				GameLog.error(LogModule.ComActivityTimeCard, userId, "同时有多个活动开启", null);
 				continue;
 			}
+
 			addItemList.add(item);
 		}		
 		return addItemList;

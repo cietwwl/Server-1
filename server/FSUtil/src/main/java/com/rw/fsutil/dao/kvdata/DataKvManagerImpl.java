@@ -2,6 +2,7 @@ package com.rw.fsutil.dao.kvdata;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,14 +33,13 @@ public class DataKvManagerImpl implements DataKvManager {
 	private final String[] updateSqlArray;
 	private final String[] insertSqlArray;
 	private final String[] checkSelectArray;
+	private final String[] tableNameArray;
 	private final int length;
 	private final HashMap<Class<? extends DataKVDao<?>>, Integer> dataKvMap;
 	private final HashMap<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> creatorMap;
-//	private final DataKvRowMapper rowMapper = new DataKvRowMapper();
 	private final int dataKvCapacity;
 
-	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity,
-			int[] selectRangeParam) {
+	public DataKvManagerImpl(String dsName, Map<Integer, Class<? extends DataKVDao<?>>> map, Map<Class<? extends DataKVDao<?>>, DataExtensionCreator<?>> extensionMap, int dataKvCapacity) {
 		DruidDataSource dataSource = SpringContextUtil.getBean(dsName);
 		if (dataSource == null) {
 			throw new ExceptionInInitializerError("Ranking dataSource is null");
@@ -59,17 +59,7 @@ public class DataKvManagerImpl implements DataKvManager {
 		this.insertSqlArray = new String[this.length];
 		this.checkSelectArray = new String[this.length];
 		this.selectRangeSqlArray = new String[this.length];
-		StringBuilder sb = new StringBuilder();
-		sb.append('(');
-		int lastIndex = selectRangeParam.length - 1;
-		for (int i = 0, size = selectRangeParam.length; i < size; i++) {
-			sb.append(selectRangeParam[i]);
-			if (i < lastIndex) {
-				sb.append(',');
-			}
-		}
-		sb.append(')');
-		String selectRange = sb.toString();
+		this.tableNameArray = new String[this.length];
 		for (int i = 0; i < this.length; i++) {
 			String tableName = tableNameList.get(i);
 			selectAllSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=?";
@@ -78,11 +68,8 @@ public class DataKvManagerImpl implements DataKvManager {
 			updateSqlArray[i] = "update " + tableName + " set dbvalue=? where dbkey=? and type=?";
 			insertSqlArray[i] = "insert into " + tableName + "(dbkey,dbvalue,type) values(?,?,?)";
 			checkSelectArray[i] = "select count(1) from " + tableName + " where dbkey=?";
-			if (selectRangeParam.length == 0) {
-				selectRangeSqlArray[i] = selectAllSqlArray[i];
-			} else {
-				selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in " + selectRange;
-			}
+			tableNameArray[i] = tableName;
+			selectRangeSqlArray[i] = "select dbvalue,type from " + tableName + " where dbkey=? and type in(";
 		}
 		dataKvMap = new HashMap<Class<? extends DataKVDao<?>>, Integer>();
 		for (Map.Entry<Integer, Class<? extends DataKVDao<?>>> entry : map.entrySet()) {
@@ -196,10 +183,32 @@ public class DataKvManagerImpl implements DataKvManager {
 	}
 
 	@Override
-	public List<DataKvEntity> getRangeDataKvEntitys(String userId) {
+	public String[] getTableNameArray() {
+		return tableNameArray;
+	}
+
+	@Override
+	public List<DataKvEntity> getRangeDataKvEntitys(String userId, List<Integer> typeList) {
+		if (typeList.isEmpty()) {
+			return Collections.emptyList();
+		}
 		int tableIndex = DataAccessFactory.getSimpleSupport().getTableIndex(userId, length);
-		String sql = selectRangeSqlArray[tableIndex];
-		return jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
+		int typeSize = typeList.size();
+		String partialSql = selectRangeSqlArray[tableIndex];
+		int totalSize = partialSql.length() + typeList.size() * 3 + 1;
+		StringBuilder sb = new StringBuilder(totalSize);
+		sb.append(partialSql);
+		int lastIndex = typeSize - 1;
+		for (int i = 0; i < typeSize; i++) {
+			sb.append(typeList.get(i));
+			if (i < lastIndex) {
+				sb.append(',');
+			}
+		}
+		sb.append(')');
+		String sql = sb.toString();
+		List<DataKvEntity> l = jdbcTemplate.query(sql, new DataKvRowMapper(userId), userId);
+		return l;
 	}
 
 }

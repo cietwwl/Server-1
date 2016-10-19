@@ -43,8 +43,8 @@ public final class GroupBM {
 	private static final ConcurrentHashMap<String, Group> cacheGroupDataMap = new ConcurrentHashMap<String, Group>();
 	private static GroupIdCache groupIdCache;
 	
-	public static void init(DruidDataSource dataSource){
-		groupIdCache = new GroupIdCache(dataSource);
+	public static void init(String dsName,DruidDataSource dataSource){
+		groupIdCache = new GroupIdCache(dsName,dataSource);
 	}
 	
 	public static String getGroupId(String groupName){

@@ -300,7 +300,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 				team.setMagicId(magic.getId());
 			}
 			team.setHeros(Collections.<String>emptyList());
-			team.setHeroSkills(Collections.<TableSkill>emptyList());
+//			team.setHeroSkills(Collections.<TableSkill>emptyList());
 			peakData.setTeam(team, i);
 		}
 		
@@ -337,9 +337,9 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			}
 			heroIndex += distributions[i];
 			
-			List<TableSkill> heroSkillList = getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
+			getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setHeros(checkedHeroIDList.value);
-			team.setHeroSkills(heroSkillList);
+//			team.setHeroSkills(heroSkillList);
 		}
 	}
 	
@@ -498,8 +498,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	 */
 	public boolean isOpen(Player player){
 		if (!player.isRobot()){
-			int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.PEAK_ARENA, player);
-			if (openLevel != -1) {
+			if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.PEAK_ARENA, player)) {
 				return false;
 			}
 		}

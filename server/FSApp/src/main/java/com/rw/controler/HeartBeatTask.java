@@ -1,15 +1,13 @@
 package com.rw.controler;
 
 import com.playerdata.Player;
-import com.rw.fsutil.util.SpringContextUtil;
-import com.rw.netty.UserSession;
 import com.rw.netty.UserChannelMgr;
+import com.rw.netty.UserSession;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.RequestProtos.Request;
 
 public class HeartBeatTask implements PlayerTask {
 
-	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private final UserSession session;
 	private final Request request;
 
@@ -29,7 +27,7 @@ public class HeartBeatTask implements PlayerTask {
 			return;
 		}
 		player.heartBeatCheck();
-		nettyControler.sendResponse(player.getUserId(), request.getHeader(), null, sessionId);
+		UserChannelMgr.sendResponse(player.getUserId(), request.getHeader(), null, sessionId);
 	}
 
 }

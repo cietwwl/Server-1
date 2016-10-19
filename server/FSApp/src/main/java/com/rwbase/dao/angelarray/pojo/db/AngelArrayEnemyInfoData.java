@@ -24,6 +24,8 @@ public class AngelArrayEnemyInfoData implements IMapItem {
 	/** <对应的ArmyHero中的Id，CurAttribute当前剩余的属性> */
 	@CombineSave(Column = "enemyChange")
 	private Map<String, CurAttrData> enemyChange;// 敌人剩余的血量信息
+	@CombineSave(Column = "enemyChange")
+	private float magic;
 
 	public AngelArrayEnemyInfoData() {
 		enemyChange = new HashMap<String, CurAttrData>();
@@ -79,5 +81,13 @@ public class AngelArrayEnemyInfoData implements IMapItem {
 	 */
 	public CurAttrData getHeroAttrData(String heroId) {
 		return enemyChange.get(heroId);
+	}
+
+	public float getMagic() {
+		return magic;
+	}
+
+	public void setMagic(float magic) {
+		this.magic = magic;
 	}
 }

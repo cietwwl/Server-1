@@ -69,6 +69,9 @@ public class GambleDropGroup extends RandomStringGroups {
 		return getRandomGroup(r,slotCount,null);
 	}
 	
+	/**
+	 * 随机英雄身上缺少一个装备位置
+	 */
 	@JsonIgnore
 	public String getRandomGroup(Random r, RefInt slotCount,RefInt weight) {
 		RefInt planIndex = new RefInt();

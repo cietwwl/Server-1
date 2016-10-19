@@ -21,12 +21,39 @@ enum GCRequestType{
 	SetTeamReady = 12; // 设置准备状态
 	CancelTeamReady = 13; // 取消准备状态
 	LeaveTeam = 14; // 离开队伍
+	InviteMember = 15; // 邀请成员
+	KickMember = 16; // 剔除成员
+	CreateTeam = 17; // 创建队伍
+	AdjustTeamMember = 18; // 调整队伍成员
+	StartMatching = 19; // 开始匹配
+	CancelMatching = 20; // 取消匹配
+	StartRandomMatching = 21; // 开始随机匹配
+	CancelRandomMatching = 22; // 取消随机匹配
+	PersonalMatching = 23; // 个人匹配
+	PersonalCancelMatching = 24; // 取消个人匹配
+	LeaveLivePage = 25; //离开直播页面
+	GetKillRank = 26;	//个人击杀排行榜
+	GetWinRank = 27;	//连胜排行榜
+	GetScoreRank = 28;	//积分排行榜
+	GetGroupScoreRank = 29; // 帮派积分排行榜
+	InPrepareArea = 30;		//加载完了备战区
+	GetNewestScore = 31; // 请求当前最新的积分
+	GetFightInfoInScene = 32;	//在同屏场景内请求积分、连胜等信息
+}
+
+enum TeamStatusType {
+	Kicked = 1; // 被踢
+	BecomeLeader = 2; // 成为队长
+	CanMatch = 3; // 可匹配
+	StartMatch = 4; // 开始匹配
+	CancelMatch = 5; // 取消匹配
 }
 
 enum GCResultType {
 	SUCCESS = 1; //成功
 	DATA_ERROR = 2; //数据异常
 	COIN_NOT_ENOUGH = 3;	//金币不足
+	NO_SAME_SCENE = 4;		//同屏场景不存在
 }
 
 message CommonReqMsg{
@@ -35,16 +62,30 @@ message CommonReqMsg{
 	repeated string playersIdList = 3;	//请求同屏玩家的基本信息（list<string>）
 }
 
-message CommonGetDataReqMsg {
-	required GCRequestType reqType = 1; // 请求的类型
-}
-
 message CommonRspMsg{
 	required GCResultType rstType = 1; //是否成功处理
 	optional string tipMsg = 2;	//提示消息，可以是成功，也可以是失败的提示消息
 	repeated PlayerBaseInfo players = 3;	//同屏玩家的基本信息
 }
 
+message CommonGetDataReqMsg {
+	required GCRequestType reqType = 1; // 请求的类型
+	optional ParaForLiveMsg livePara = 2;	//赛事直播（和回放）的参数
+	optional ParaForGetRank getRankPara = 3;	//获取排行榜的参数
+	optional fixed32 matchId = 4; // 请求更新积分的matchId（reqType == GCRequestType.GetNewestScore）
+}
+
+message CommonGetDataRspMsg {
+	required GCResultType rstType = 1; // 请求结果
+	optional string tipMsg = 2; // 提示消息
+	optional SelectionRspData selectionData = 3; // 海选信息（对于GCRequestType.GetSelectionData可用）
+	repeated GCompRankItem rankData = 4;	//排行榜数据
+	optional GCompGroupScoreRankRspData groupScoreRankRspData = 5; // 帮派积分排行榜数据
+	optional GCompRankItem selfRankData = 6;	//自己的排行数据
+	repeated GroupScoreData groupScoreData = 7; // 帮派积分的信息
+}
+
+//备战区同屏玩家坐标
 message AreaPosition{
 	required float x = 1;
 	required float y = 2;
@@ -124,6 +165,15 @@ message PlayerBaseInfo{
 	required int32 fightingAll = 8;//总战斗力
 	optional int32 modelId = 9;//模型ID
 	optional FashionService.FashionUsed fashionUsage = 10;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	required int32 starLevel = 11;
+	required string qualityId = 12;
+	optional MagicInfo magic = 13;
+}
+
+message MagicInfo{
+	required int32 modelId = 1;
+	required int32 level = 2;
+	required int32 aptitude = 3;
 }
 
 // 海选响应数据
@@ -143,7 +193,7 @@ message SelectionGroupData {
 
 // 队伍请求，返回CommonRsp
 message TeamRequest {
-	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember）
+	required GCRequestType reqType = 1; // 请求的类型（仅限GCRequestType.CreateTeam和GCRequestType.AdjustTeamMember、GCRequestType.StartRandomMatching、GCRequestType.CancelRandomMatching、GCRequestType.PersonalMatching、GCRequestType.PersonalCancelMatching）
 	repeated string heroId = 2; // 整容的英雄id
 }
 
@@ -161,10 +211,11 @@ message TeamMemberRequest {
 
 // 准备状态请求，返回CommonRsp
 message TeamStatusRequest {
-	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam）
+	required GCRequestType reqType = 1; // 仅限（GCRequestType.SetTeamReady、GCRequestType.CancleTeamReady、GCRequestType.LeaveTeam、GCRequestType.StartMatching、GCRequestType.CancelMatching）
 }
 
-// 队伍邀请
+// 队伍邀请，服务器收到MsgDef.proto里的MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command之后
+// 如果处理成功，会通过MSG_GROUP_COMPETITION_TEAM_MEMBER_REQ command发送这个message给被邀请的用户
 message TeamInvitation {
 	required string teamId = 1; // 队伍id
 	required string tips = 2; // 提示消息
@@ -173,4 +224,69 @@ message TeamInvitation {
 message CommonRsp {
 	required GCResultType resultType = 1;
 	optional string tips = 2;
+}
+
+// 队伍状态发生变化
+message TeamStatusChange {
+	required TeamStatusType status = 1;
+}
+
+
+// 赛事直播的参数
+message ParaForLiveMsg{
+	required fixed32 matchId = 1;		//赛事阶段的id
+	optional fixed64 latestTime = 2;	//赛事记录最新的时间(LeaveLivePage的时候，不需要这个参数)
+}
+
+// 获取排行榜的参数
+message ParaForGetRank{
+	required int32 eventsType = 1;	//赛事阶段的id
+}
+
+//排行榜的数据结构（击杀、连胜、积分，三个排行榜共用的）
+message GCompRankItem{
+	required string userId = 1;
+	required string userName = 2;
+	required string headImage = 3;	//头像
+	required int32 value = 4;	//击杀数、或连胜数、或积分
+	required string groupName = 5;
+	optional int32 rank = 6;	//排名，如果代表个人项，就没有该字段
+}
+
+// 帮派积分排行榜请求的响应数据
+message GCompGroupScoreRankRspData {
+	repeated GCompGroupScoreRankItem scoreRankItem = 1;
+	repeated GCompHistoryChampion historyChampion = 2;
+	required fixed32 totalScoreRankItemCount = 3; // 积分榜总共的条目数量
+}
+
+// 帮派积分排行榜数据
+message GCompGroupScoreRankItem {
+	required string groupName = 1; // 帮派名字
+	required string groupIcon = 2; // 帮派的icon
+	required fixed64 fighting = 3; // 战斗力
+	required fixed32 currentScore = 4; // 帮派的当前积分
+	required fixed32 totalScore = 5; // 帮派的总积分
+	required fixed32 ranking = 6; // 排名
+}
+
+// 帮战历史冠军数据
+message GCompHistoryChampion {
+	required string groupName = 1;
+	required string groupIconId = 2;
+	required string leaderName = 3;
+	repeated string assistantName = 4; // 副帮主的名字
+	required fixed32 score = 5; // 赛事总结分
+	required fixed32 session = 6; // 第几届
+}
+
+// 胜利的帮派id
+message EventsResult {
+	required string winGroupId = 1;
+}
+
+// 帮派积分的更新数据
+message GroupScoreData {
+	required string groupId = 1; // 帮派id
+	required fixed32 score = 2; // 积分
 }

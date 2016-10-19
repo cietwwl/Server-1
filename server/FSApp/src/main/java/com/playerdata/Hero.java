@@ -445,7 +445,7 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 	/**
 	 * 获取职业
 	 */
-	public int getCareer();
+	public int getCareerType();
 
 //	/**
 //	 * 
@@ -493,11 +493,11 @@ public interface Hero extends IMapItem, RoleBaseInfoIF {
 //	 */
 //	public void syn(int version);
 
-	/**
-	 * 
-	 * @param immediately
-	 */
-	public void save(boolean immediately);
+//	/**
+//	 * 
+//	 * @param immediately
+//	 */
+//	public void save(boolean immediately);
 
 	/**
 	 * 

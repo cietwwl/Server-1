@@ -18,4 +18,9 @@ public class ServerCommonDataHolder {
 	public synchronized void update(ServerCommonData data) {
 		ServerCommonDataDAO.getInstance().update(data);
 	}
+	
+	public ServerCommonData get(String id){
+		return ServerCommonDataDAO.getInstance().get(id);
+	}
+	
 }

@@ -7,18 +7,19 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_ranktype_item")
-public class ActivityRankTypeItem implements  IMapItem {
+public class ActivityRankTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
-	
+	private int id;
+	@OwnerId
 	private String userId;// 对应的角色Id
 
 	@CombineSave
@@ -85,9 +86,7 @@ public class ActivityRankTypeItem implements  IMapItem {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
 	
-	public String getId() {
-		return id;
-	}
+	
 	
 	public String getEmailId() {
 		return emailId;
@@ -113,9 +112,17 @@ public class ActivityRankTypeItem implements  IMapItem {
 		this.version = version;
 	}
 
-	public void setId(String id) {
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
 		this.id = id;
 	}
+
 
 	public String getUserId() {
 		return userId;

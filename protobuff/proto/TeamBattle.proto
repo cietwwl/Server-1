@@ -21,6 +21,7 @@ enum TBRequestType{
 	SAVE_MEMBER_POSITION = 14;	//保存成员上阵顺序
 	BUY_TIMES = 15;		//购买挑战次数
 	ADD_ROBOT=16;		//请求机器人
+	GET_CAN_JION_TEAMS = 17;	//请求可以加入的队伍列表
 }
 
 enum TBResultType {
@@ -53,4 +54,30 @@ message TeamBattleRspMsg{
 	optional string tipMsg = 2;		//提示消息，可以是成功，也可以是失败的提示消息
 	repeated string armyInfo = 3;	//队友队伍详情
 	optional bool freeJoin = 4;		//组队当前是否可以自由加入
+	repeated TeamItem canJoinTeams = 5;	//可以加入的队伍列表
+}
+
+/**
+ * 当前可以加入的队伍
+ */
+message TeamItem{
+	required string teamID = 1;
+	required string hardID = 2;
+	repeated TBMember members = 3;
+}
+
+message TBMember{
+	required string userID = 1;
+	required string userName = 2;
+	required bool isRobot = 3;
+	required int32 state = 4;	//完成状态（TBMemberState）
+	required string playerHeadImage = 5;
+	repeated HeroSimple heros = 6;	//第一个位置放主角的
+}
+
+message HeroSimple{
+	required int32 modeId = 1;	//英雄模型Id
+	required int32 level = 2;	//等级
+	required int32 starLevel = 3;	//星级
+	required string qualityId = 4;	//品阶Id
 }

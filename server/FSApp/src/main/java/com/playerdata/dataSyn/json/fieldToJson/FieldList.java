@@ -16,12 +16,15 @@ public class FieldList implements IFieldToJson{
 
 	private Field field;
 	
+	private boolean isRefOpt;
+	
 	private ClassInfo4Client genericClassInfo;
 	
 	private FieldType genericType;
 	
-	public FieldList(Field fieldP){
+	public FieldList(Field fieldP, boolean isRefOptP){
 		field = fieldP;
+		isRefOpt = isRefOptP;
 		Class<?> genericClass = FieldTypeHelper.getGenericClass(fieldP);
 		genericType = FieldTypeHelper.getFieldType(genericClass);
 		if(genericType ==  FieldType.Class){
@@ -32,7 +35,7 @@ public class FieldList implements IFieldToJson{
 	@Override
 	@SuppressWarnings({ "rawtypes" })
 	public Object toJson(Object target,JsonOpt jsonOpt) throws Exception {
-		Object objectValue = field.get(target);
+		Object objectValue = FieldTypeHelper.getValue(target,field,isRefOpt);
 		if(objectValue == null){
 			return null;
 		}	

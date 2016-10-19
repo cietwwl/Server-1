@@ -29,6 +29,7 @@ public class HeroMagicAttributeComponent extends AbstractAttributeCalc {
 
 		int modelId = magic.getModelId();// 法宝的模版Id
 		int magicLevel = magic.getMagicLevel();// 法宝的等级
+		int magicAptitude = magic.getMagicAptitude();//法宝资质
 		if (magicLevel <= 0) {
 			// GameLog.error("计算法宝属性", userId, String.format("主角法宝[%s]，法宝等级[%s]，不能计算属性", modelId, magicLevel));
 			return null;
@@ -39,6 +40,7 @@ public class HeroMagicAttributeComponent extends AbstractAttributeCalc {
 		builder.setHeroId(hero.getUUId());
 		builder.setMagicId(String.valueOf(modelId));
 		builder.setMagicLevel(magicLevel);
+		builder.setMagicAptitude(magicAptitude);
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {

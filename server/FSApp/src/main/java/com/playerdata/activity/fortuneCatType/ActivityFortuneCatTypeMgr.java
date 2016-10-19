@@ -14,6 +14,9 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
@@ -25,8 +28,13 @@ import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
+import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
@@ -46,7 +54,10 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public void synFortuneCatTypeData(Player player) {
-		ActivityFortuneCatTypeItemHolder.getInstance().synAllData(player);
+		if(isOpen(System.currentTimeMillis())){
+			ActivityFortuneCatTypeItemHolder.getInstance().synAllData(player);
+		}
+		
 	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
@@ -57,32 +68,44 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkNewOpen(Player player) {
-		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
-		List<ActivityFortuneCatTypeItem> addItemList = null;
-		String userId = player.getUserId();
-		addItemList = creatItems(userId, dataHolder.getItemStore(userId));
-		if (addItemList != null) {
-			dataHolder.addItemList(player, addItemList);
-		}
+		
+		String userId= player.getUserId();
+		
+		creatItems(userId, true);	
+	
 	}
 
-	public List<ActivityFortuneCatTypeItem> creatItems(String userId, MapItemStore<ActivityFortuneCatTypeItem> itemStore) {
+	public List<ActivityFortuneCatTypeItem> creatItems(String userId,boolean isHasPlayer) {
+		RoleExtPropertyStoreCache<ActivityFortuneCatTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_FORTUNECAT, ActivityFortuneCatTypeItem.class);
+		PlayerExtPropertyStore<ActivityFortuneCatTypeItem> store = null;
 		List<ActivityFortuneCatTypeItem> addItemList = null;
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
-		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
-		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			
-			if (itemStore != null) {
-				if (itemStore.getItem(itemID) != null) {
-					return addItemList;
-				}
-			}
+//		String itemID = ActivityFortuneCatHelper.getItemId(userId, ActivityFortuneTypeEnum.FortuneCat);
+		int id = Integer.parseInt(ActivityFortuneTypeEnum.FortuneCat.getCfgId());
+		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据			
 			if (!isOpen(cfg)) {
 				// 活动未开启
 				continue;
 			}
+			if(isHasPlayer){
+				try {
+					store = storeCache.getStore(userId);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Throwable e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if (store != null) {
+					if (store.get(id) != null) {
+						continue;
+					}
+				}				
+			}			
 			ActivityFortuneCatTypeItem item = new ActivityFortuneCatTypeItem();
-			item.setId(itemID);
+			item.setId(id);
 			item.setUserId(userId);
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());			
@@ -107,6 +130,14 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 			}
 			addItemList.add(item);				
 		}
+		if(isHasPlayer&&addItemList != null){
+			try {
+				store.addItem(addItemList);
+			} catch (DuplicatedKeyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return addItemList;
 	}
 
@@ -123,42 +154,84 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 
 	private void checkCfgVersion(Player player) {
 		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
-		ActivityFortuneCatTypeCfgDAO activityFortuneCatTypeCfgDAO = ActivityFortuneCatTypeCfgDAO.getInstance();
-		List<ActivityFortuneCatTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityFortuneCatTypeItem targetItem : itemList) {
-			ActivityFortuneCatTypeCfg targetCfg = activityFortuneCatTypeCfgDAO.getCfgListByItem(targetItem);
-			if (targetCfg == null) {
-				GameLog.error(LogModule.ComActivityFortuneCat, null, "通用活动找不到配置文件", null);
+		ActivityFortuneCatTypeCfgDAO dao = ActivityFortuneCatTypeCfgDAO.getInstance();
+		List<ActivityFortuneCatTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityFortuneCatTypeCfg> cfgList = dao.getAllCfg();
+		for(ActivityFortuneCatTypeCfg cfg : cfgList){
+			if(!isOpen(cfg)){
 				continue;
 			}
-
-			if (!StringUtils.equals(targetItem.getVersion(), targetCfg.getVersion())) {
-				targetItem.reset(targetCfg, activityFortuneCatTypeCfgDAO.newSubItemList(targetCfg));
-				dataHolder.updateItem(player, targetItem);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
 			}
+			ActivityFortuneCatTypeItem freshItem = null;
+			for(ActivityFortuneCatTypeItem item : itemList){
+				if(!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					freshItem = item;
+				}
+			}
+			if(freshItem == null){
+				continue;
+			}
+			freshItem.reset(cfg, dao.newSubItemList(cfg));
+			dataHolder.updateItem(player, freshItem);
 		}
 	}
 
 	private void checkClose(Player player) {
 		ActivityFortuneCatTypeItemHolder dataHolder = ActivityFortuneCatTypeItemHolder.getInstance();
-		ActivityFortuneCatTypeCfgDAO activityFortuneCatTypeCfgDAO = ActivityFortuneCatTypeCfgDAO.getInstance();
-		List<ActivityFortuneCatTypeItem> itemList = dataHolder.getItemList(player.getUserId());
-		for (ActivityFortuneCatTypeItem item : itemList) {
-			if (item.isClosed()) {
+		ActivityFortuneCatTypeCfgDAO dao = ActivityFortuneCatTypeCfgDAO.getInstance();
+		List<ActivityFortuneCatTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityFortuneCatTypeCfg> cfgList = dao.getAllCfg();
+		long createTime = player.getUserDataMgr().getCreateTime();
+		long currentTime = DateUtils.getSecondLevelMillis();
+		for(ActivityFortuneCatTypeCfg cfg : cfgList){
+			if(isOpen(cfg)){//配置开启
 				continue;
 			}
-			ActivityFortuneCatTypeCfg cfg = activityFortuneCatTypeCfgDAO.getCfgById(item.getCfgId());
-			if (cfg == null) {
-				GameLog.error(LogModule.ComActivityFortuneCat, player.getUserId(), "玩家登录时服务器配置表已更新，只能通过版本核实来刷新数据", null);
+			if(createTime>cfg.getEndTime()){//配置过旧
 				continue;
 			}
-			if (isOpen(cfg)) {
+			if(currentTime < cfg.getStartTime()){//配置过新
 				continue;
 			}
-			item.setClosed(true);
-			item.setTouchRedPoint(true);
-			dataHolder.updateItem(player, item);
+			if(itemList == null){
+				itemList = dataHolder.getItemList(player.getUserId());
+			}
+			ActivityFortuneCatTypeItem closeItem = null;
+			for(ActivityFortuneCatTypeItem item : itemList){
+				if(StringUtils.equals(item.getVersion(), cfg.getVersion())){
+					closeItem = item;
+					break;
+				}			
+			}
+			if(closeItem == null){
+				continue;
+			}			
+			if (!closeItem.isClosed()) {
+				closeItem.setClosed(true);
+				closeItem.setTouchRedPoint(true);
+				dataHolder.updateItem(player, closeItem);
+			}			
 		}
+		
+		
+//		for (ActivityFortuneCatTypeItem item : itemList) {
+//			if (item.isClosed()) {
+//				continue;
+//			}
+//			ActivityFortuneCatTypeCfg cfg = dao.getCfgById(item.getCfgId());
+//			if (cfg == null) {
+//				GameLog.error(LogModule.ComActivityFortuneCat, player.getUserId(), "玩家登录时服务器配置表已更新，只能通过版本核实来刷新数据", null);
+//				continue;
+//			}
+//			if (isOpen(cfg)) {
+//				continue;
+//			}
+//			item.setClosed(true);
+//			item.setTouchRedPoint(true);
+//			dataHolder.updateItem(player, item);
+//		}
 	}
 
 	public ActivityComResult getGold(Player player, Builder rsp) {
@@ -229,7 +302,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	public ActivityComResult getRecord(Player player, Builder response) {
 		ActivityComResult result = ActivityComResult.newInstance(true);
 		result.setReason("");
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		if (scdData == null) {
 			result.setSuccess(false);
 			return result;
@@ -254,7 +327,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	 *            保存三条 {666,uid+gold 667,uid+gold 668,uid+gold}格式的摇奖数据
 	 */
 	private void reFreshRecord(Player player, int getGold) {
-		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get("2");
 		if (scdData == null) {
 			return;
 		}
@@ -315,7 +388,7 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		activityFortuneCatTypeItemHolder.updateItem(player, dataItem);
 	}
 
-	public boolean isOpen(MapItemValidateParam param) {
+	public boolean isOpen(long param) {
 		List<ActivityFortuneCatTypeCfg> allCfgList = ActivityFortuneCatTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityFortuneCatTypeCfg cfg : allCfgList) {
 			if (isOpen(cfg, param)) {
@@ -325,12 +398,12 @@ public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
-	public boolean isOpen(ActivityFortuneCatTypeCfg cfg, MapItemValidateParam param) {
+	public boolean isOpen(ActivityFortuneCatTypeCfg cfg, long param) {
 		if (cfg != null) {
 
 			long startTime = cfg.getStartTime();
 			long endTime = cfg.getEndTime();
-			long currentTime = param.getCurrentTime();
+			long currentTime = param;
 			return currentTime < endTime && currentTime >= startTime;
 		}
 		return false;

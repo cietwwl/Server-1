@@ -18,6 +18,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 import com.playerdata.readonly.ItemDataIF;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
+import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 
@@ -54,10 +55,13 @@ public class ItemData implements IMapItem, ItemDataIF {
 	}
 
 	public boolean init(int modelId, int count) {
-		if (!ItemCfgHelper.checkItem(modelId)) {
+
+		ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
+		if (cfg == null) {
 			System.out.println("Item's ID is Out of Range");
 			return false;
 		}
+
 		if (count <= 0) {
 			return false;
 		}
@@ -66,20 +70,33 @@ public class ItemData implements IMapItem, ItemDataIF {
 		this.count = count;
 		EItemTypeDef type = ItemCfgHelper.getItemType(modelId);
 		if (type == EItemTypeDef.Magic) {
+			MagicCfg magicCfg = null;
+			if (cfg instanceof MagicCfg) {
+				magicCfg = (MagicCfg) cfg;
+			} else {
+				magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
+			}
+
+			if (magicCfg == null) {
+				return false;
+			}
+
 			allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
 			allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
 			allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
-		} else if (type == EItemTypeDef.Magic_Piece) {
-			allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
-			allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
-			allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
+			allExtendAttr.put(EItemAttributeType.Magic_Aptitude_VALUE, String.valueOf(magicCfg.getFirstAptitude()));
+			allExtendAttr.put(EItemAttributeType.Magic_AdvanceLevel_VALUE, String.valueOf(magicCfg.getUplevel()));
+			// } else if (type == EItemTypeDef.Magic_Piece) {
+			// allExtendAttr.put(EItemAttributeType.Magic_Exp_VALUE, "0");
+			// allExtendAttr.put(EItemAttributeType.Magic_Level_VALUE, "1");
+			// allExtendAttr.put(EItemAttributeType.Magic_State_VALUE, "0");
 		} else if (type == EItemTypeDef.HeroEquip) {
 			allExtendAttr.put(EItemAttributeType.Equip_AttachLevel_VALUE, "0");
 			allExtendAttr.put(EItemAttributeType.Equip_AttachExp_VALUE, "0");
-		} else if (type == EItemTypeDef.Piece) {
-		} else if (type == EItemTypeDef.SoulStone) {
-		} else if (type == EItemTypeDef.Gem) {
-		} else if (type == EItemTypeDef.Consume) {
+			// } else if (type == EItemTypeDef.Piece) {
+			// } else if (type == EItemTypeDef.SoulStone) {
+			// } else if (type == EItemTypeDef.Gem) {
+			// } else if (type == EItemTypeDef.Consume) {
 		}
 		// this.type = type;
 		return true;
@@ -144,6 +161,29 @@ public class ItemData implements IMapItem, ItemDataIF {
 			String magicLevel = this.allExtendAttr.get(EItemAttributeType.Magic_Level_VALUE);
 			return StringUtils.isEmpty(magicLevel) ? 1 : Integer.parseInt(magicLevel);
 		}
+	}
+	
+	@JsonIgnore
+	public int getMagicAptitude(){
+		synchronized (this) {
+			String magicAptitude = this.allExtendAttr.get(EItemAttributeType.Magic_Aptitude_VALUE);
+			if(StringUtils.isEmpty(magicAptitude) || magicAptitude.equals("0")){
+				setExtendAttr(EItemAttributeType.Magic_Aptitude_VALUE, "1");
+				magicAptitude = this.allExtendAttr.get(EItemAttributeType.Magic_Aptitude_VALUE);
+			}
+			return Integer.parseInt(magicAptitude);
+		}
+	}
+	
+	@JsonIgnore
+	public int getMagicAdvanceLevel(){
+		String advanceLevel = this.allExtendAttr.get(EItemAttributeType.Magic_AdvanceLevel_VALUE);
+		if(StringUtils.isEmpty(advanceLevel) || advanceLevel.equals("0")){
+			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(String.valueOf(modelId));
+			setExtendAttr(EItemAttributeType.Magic_AdvanceLevel_VALUE, String.valueOf(magicCfg.getUplevel()));
+			advanceLevel = this.allExtendAttr.get(EItemAttributeType.Magic_AdvanceLevel_VALUE);
+		}
+		return Integer.parseInt(advanceLevel);
 	}
 
 	public int getModelId() {

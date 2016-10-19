@@ -13,9 +13,9 @@ import com.rw.fsutil.cacheDao.loader.DataKvNotExistHandler;
 import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.CacheValueEntity;
-import com.rw.fsutil.dao.cache.DataCache;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
+import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistHandler;
 import com.rw.fsutil.dao.cache.PersistentLoader;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
@@ -34,7 +34,7 @@ import com.rw.fsutil.log.SqlLog;
 public class DataKVDao<T> {
 
 	private final ClassInfo classInfo;
-	private final DataCache<String, T> cache;
+	private final DataKVCache<String, T> cache;
 	private final JdbcTemplate template;
 	private final Integer type;
 
@@ -44,9 +44,8 @@ public class DataKVDao<T> {
 		this.template = simpleSupport.getMainTemplate();
 		int cacheSize = getCacheSize();
 		DataValueParser<T> parser = DataCacheFactory.getParser(clazz);
-		this.cache = DataCacheFactory.createDataDache(clazz, cacheSize, getUpdatedSeconds(), 
-				new DataKVSactter<T>(classInfo, template), 
-				parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataKVCache(clazz, cacheSize, getUpdatedSeconds(), new DataKVSactter<T>(classInfo, template), parser != null ? new ObjectConvertor<T>(parser) : null,
+				SingleChangedListener.class);
 		this.type = null;
 	}
 
@@ -60,7 +59,7 @@ public class DataKVDao<T> {
 		if (this.type == null) {
 			persistentLoader = new DataKVSactter<T>(classInfo, template);
 		} else {
-			persistentLoader = new DataKVIntegration<T>(type, classInfo, template);
+			persistentLoader = new DataKVIntegration<T>(type, classInfo, template, forceUpdateOnEviction());
 		}
 		final DataExtensionCreator<T> creator = DataAccessFactory.getDataKvManager().getCreator(clazz);
 		DataNotExistHandler<String, T> handler;
@@ -70,8 +69,8 @@ public class DataKVDao<T> {
 			handler = new DataKvNotExistHandler<T>(type, creator, classInfo);
 		}
 		DataValueParser<T> parser = (DataValueParser<T>) DataCacheFactory.getParser(classInfo.getClazz());
-		this.cache = DataCacheFactory.createDataDache(classInfo.getClazz(), cacheSize,
-				getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null, SingleChangedListener.class);
+		this.cache = DataCacheFactory.createDataKVCache(classInfo.getClazz(), cacheSize, getUpdatedSeconds(), persistentLoader, handler, parser != null ? new ObjectConvertor<T>(parser) : null,
+				SingleChangedListener.class);
 	}
 
 	/**
@@ -96,7 +95,7 @@ public class DataKVDao<T> {
 	public boolean update(T t) {
 		String id = getId(t);
 		if (!StringUtils.isNotBlank(id)) {
-			System.err.println("更新对象没有设置主键："+classInfo.getTableName()+","+classInfo.getClazz());
+			FSUtilLogger.error("更新对象没有设置主键：" + classInfo.getTableName() + "," + classInfo.getClazz());
 			return false;
 		}
 		try {
@@ -166,6 +165,10 @@ public class DataKVDao<T> {
 		return this.cache.getFromMemory(id);
 	}
 
+	public boolean contains(String id) {
+		return this.cache.containsKey(id);
+	}
+
 	/**
 	 * <pre>
 	 * 当缓存中不存在指定键值对时，插入一个指定键值对到缓存，但不会发起数据库操作
@@ -195,7 +198,8 @@ public class DataKVDao<T> {
 			@SuppressWarnings("unchecked")
 			@Override
 			public T call() throws Exception {
-				return (T) classInfo.fromJson(dbString);
+				T t = (T) classInfo.fromJson(dbString);
+				return t;
 			}
 		});
 	}
@@ -225,6 +229,10 @@ public class DataKVDao<T> {
 	 */
 	protected int getUpdatedSeconds() {
 		return 60;
+	}
+
+	protected boolean forceUpdateOnEviction() {
+		return true;
 	}
 
 }

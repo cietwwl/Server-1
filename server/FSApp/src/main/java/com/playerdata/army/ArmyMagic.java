@@ -14,6 +14,8 @@ public class ArmyMagic {
 	private String id;
 	private int modelId;
 	private int level;
+	private int aptitude;
+	private float magicPer = -1;// 初始能量,这个默认值不要随便改
 
 	public ArmyMagic() {
 	}
@@ -21,8 +23,8 @@ public class ArmyMagic {
 	public ArmyMagic(ItemData magicItem) {
 		this.id = magicItem.getId();
 		this.modelId = magicItem.getModelId();
-		String magicLevel = magicItem.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
-		this.level = StringUtils.isEmpty(magicLevel) ? 0 : Integer.parseInt(magicLevel);
+		this.level = magicItem.getMagicLevel();
+		this.aptitude = magicItem.getMagicAptitude();
 	}
 
 	public String getId() {
@@ -49,4 +51,19 @@ public class ArmyMagic {
 		this.level = level;
 	}
 
+	public float getMagicPer() {
+		return magicPer;
+	}
+
+	public void setMagicPer(float magicPer) {
+		this.magicPer = magicPer;
+	}
+
+	public int getAptitude() {
+		return aptitude;
+	}
+
+	public void setAptitude(int aptitude) {
+		this.aptitude = aptitude;
+	}
 }

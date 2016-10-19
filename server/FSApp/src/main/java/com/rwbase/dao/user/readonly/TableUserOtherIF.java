@@ -55,8 +55,6 @@ public interface TableUserOtherIF {
 //
 //	public List<String> getHeroIds();
 
-	public long getLastLoginTime();
-
 //	public int getFightingAll();
 //
 //	public int getFightingTeam();
@@ -80,8 +78,8 @@ public interface TableUserOtherIF {
 
 	public int getStrenCoin();
 	
-	public int getFightingAll();
-	
-	public int getStarAll();
+//	public int getFightingAll();
+//	
+//	public int getStarAll();
 
 }

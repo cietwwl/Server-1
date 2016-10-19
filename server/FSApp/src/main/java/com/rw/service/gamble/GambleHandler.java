@@ -76,15 +76,15 @@ public class GambleHandler {
 		String planIdStr = String.valueOf(gamblePlanId);
 		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(gamblePlanId,player.getLevel());
 		if (planCfg == null){
-			return GambleLogicHelper.SetError(response,player,String.format("找不到配置:ID=%s,level=%i", planIdStr,player.getLevel()),"没有配置");
+			return GambleLogicHelper.SetError(response,player,String.format("找不到配置:ID=%s,level=%d", planIdStr,player.getLevel()),"没有配置");
 		}
 		
 		if (player.getLevel() < planCfg.getOpenLevel()){
-			return GambleLogicHelper.SetError(response,player,String.format("等级不足，配置:%s", planIdStr),String.format("%i级开放", planCfg.getOpenLevel()));
+			return GambleLogicHelper.SetError(response,player,String.format("等级不足，配置:%s", planIdStr),String.format("%d级开放", planCfg.getOpenLevel()));
 		}
 		
 		if (player.getVip() < planCfg.getOpenVipLevel()){
-			return GambleLogicHelper.SetError(response,player,String.format("VIP等级不足，配置:%s", planIdStr),String.format("VIP%i级开放", planCfg.getOpenVipLevel()));
+			return GambleLogicHelper.SetError(response,player,String.format("VIP等级不足，配置:%s", planIdStr),String.format("VIP%d级开放", planCfg.getOpenVipLevel()));
 		}
 		
 		if (planCfg.getDropItemCount() <= 0){
@@ -135,6 +135,7 @@ public class GambleHandler {
 		if (hasFirst.value && adjustCount >0){
 			adjustCount--;
 		}
+		//调整同类型的保底次数
 		record.adjustCountOfSameGroup(planCfg,dropPlan, adjustCount);
 		
 		//必掉经验丹，个数跟掉落物品个数一样

@@ -16,7 +16,7 @@ public class GambleDropHistory {
 	private int freeCount;// 当天使用免费抽卡次数，每日重置
 	private long lastFreeGambleTime;
 	private int hotCount;// 热点英雄抽卡次数，保底时重置
-	private int hotCheckRandomThreshold;
+	private int hotCheckRandomThreshold;//出现保留英雄的次数， 会在每次起服的时候进行初始化
 	private boolean firstChargeGamble = true;
 	
 	private int chargeGuaranteePlanIndex=0;//收费保底检索的索引
@@ -133,6 +133,7 @@ public class GambleDropHistory {
 		return hotCheckRandomThreshold;
 	}
 
+	
 	@JsonIgnore
 	public void GenerateHotCheckCount(Random r, int min, int max) {
 		if (min <= 0) {
@@ -159,8 +160,13 @@ public class GambleDropHistory {
 	}
 
 	@JsonIgnore
-	public void reset() {
-		freeCount = 0;
+	public boolean reset() {
+		if(freeCount != 0){
+			freeCount = 0;
+			return true;
+		}else{
+			return false;
+		}
 		//lastFreeGambleTime = 0;
 	}
 
@@ -184,7 +190,7 @@ public class GambleDropHistory {
 		if (isGuarantee){
 			GambleLogicHelper.logTrace(trace,"isGuarantee trigger clearHistory");
 			clearGuaranteeRecord(groupRec,dropPlan, trace);
-			System.out.println("guarantee trigger!");
+			//System.out.println("guarantee trigger!");
 		}else{
 			List<String> history = groupRec.getChargeGambleHistory();
 			int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);//寻找当前保底次数
@@ -203,7 +209,9 @@ public class GambleDropHistory {
 		GambleLogicHelper.logTrace(trace,this,groupRec);
 		List<String> history = groupRec.getChargeGambleHistory();
 		if (history.size() >= 20){//TODO 获取最大的历史记录数值
-			history.clear();
+			while (history.size() > 20){
+				history.remove(0);
+			}
 		}
 		increaseGuaranteePlanIndex(dropPlan.getLastCheckIndex());
 	}	
@@ -234,6 +242,7 @@ public class GambleDropHistory {
 		}
 		
 		//检查最后(checkNum - 1)个历史!
+		historySize = history.size();
 		for (int i = historySize-1; i > historySize - checkNum; i--){
 			String itemModelId  = history.get(i);
 			if (dropPlan.checkInList(itemModelId)) {

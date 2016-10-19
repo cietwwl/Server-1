@@ -2,18 +2,22 @@ package com.rwbase.dao.friend;
 
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rwbase.dao.friend.readonly.TableFriendIF;
 import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendVo;
+import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
+import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "mt_table_friend")
@@ -25,6 +29,10 @@ public class TableFriend implements TableFriendIF {
 	private ConcurrentHashMap<String, FriendItem> requestList = new ConcurrentHashMap<String, FriendItem>();
 	private ConcurrentHashMap<String, FriendItem> blackList = new ConcurrentHashMap<String, FriendItem>();
 	private ConcurrentHashMap<String, FriendGiveState> friendGiveList = new ConcurrentHashMap<String, FriendGiveState>();
+	/**主动搜索到的机器人，可能会很多个，但第一个会自动送体力给用户*/
+	private ConcurrentHashMap<String, FriendItem> reCommandfriendList = new ConcurrentHashMap<String, FriendItem>();
+	/**被动让系统推过来的机器人，可能有多个，是否自动送体根据表格来*/
+	private OpenLevelTiggerServiceItem openLevelTiggerServiceItem = new OpenLevelTiggerServiceItem();
 
 	public String getUserId() {
 		return userId;
@@ -66,6 +74,7 @@ public class TableFriend implements TableFriendIF {
 		this.friendGiveList = friendGiveList;
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendItem> getFriendMap() {
 		return friendList.elements();
 	}
@@ -74,6 +83,7 @@ public class TableFriend implements TableFriendIF {
 		return friendList.get(key);
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendItem> getRequestMap() {
 		return requestList.elements();
 	}
@@ -82,6 +92,7 @@ public class TableFriend implements TableFriendIF {
 		return requestList.get(key);
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendItem> getBlackMap() {
 		return blackList.elements();
 	}
@@ -90,12 +101,22 @@ public class TableFriend implements TableFriendIF {
 		return blackList.get(key);
 	}
 
+	@JsonIgnore
 	public Enumeration<FriendGiveState> getFriendGiveMap() {
 		return friendGiveList.elements();
 	}
 
 	public FriendGiveState getFriendGiveState(String key) {
 		return friendGiveList.get(key);
+	}
+
+	public ConcurrentHashMap<String, FriendItem> getReCommandfriendList() {
+		return reCommandfriendList;
+	}
+
+	public void setReCommandfriendList(
+			ConcurrentHashMap<String, FriendItem> reCommandfriendList) {
+		this.reCommandfriendList = reCommandfriendList;
 	}
 
 	public boolean resetGiveState() {
@@ -164,4 +185,13 @@ public class TableFriend implements TableFriendIF {
 	public boolean removeFromFriendList(String userId) {
 		return this.friendList.remove(userId) != null;
 	}
+
+	public OpenLevelTiggerServiceItem getOpenLevelTiggerServiceItem() {
+		return openLevelTiggerServiceItem;
+	}
+
+	public void setOpenLevelTiggerServiceItem(
+			OpenLevelTiggerServiceItem openLevelTiggerServiceItem) {
+		this.openLevelTiggerServiceItem = openLevelTiggerServiceItem;
+	}	
 }

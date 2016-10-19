@@ -8,9 +8,7 @@ import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.teamBattle.data.TBTeamItem;
-import com.rw.handler.teamBattle.data.TBTeamItemHolder;
 import com.rw.handler.teamBattle.data.UserTeamBattleData;
-import com.rw.handler.teamBattle.data.UserTeamBattleDataHolder;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.TeamBattleProto.TBRequestType;
@@ -35,7 +33,7 @@ public class TeamBattleHandler {
 	 */
 	private boolean startTBCreateTeam(Client client){
 		boolean result = true;
-		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
+		UserTeamBattleData utbData = client.getUserTeamBattleDataHolder().getUserTBData();
 		if(null == utbData){
 			RobotLog.fail("startTBCreateTeam[send]玩家数据同步不成功");
 			return true;
@@ -72,11 +70,11 @@ public class TeamBattleHandler {
 			RobotLog.fail("startTBFight[send]组队开战数据同步反馈结果=" + result);
 			return result;
 		}
-		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
+		UserTeamBattleData utbData = client.getUserTeamBattleDataHolder().getUserTBData();
 		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())) {
 			return startTBCreateTeam(client);
 		}
-		TBTeamItem teamItem = TBTeamItemHolder.getInstance().getTeamData();
+		TBTeamItem teamItem = client.getTBTeamItemHolder().getTeamData();
 		if(null == teamItem){
 			RobotLog.fail("startTBFight[send]队伍数据同步失败");
 			return false;
@@ -132,7 +130,7 @@ public class TeamBattleHandler {
 	}
 	
 	private boolean createTeam(Client client){
-		String currentHardID = UserTeamBattleDataHolder.getInstance().getCurrentHardID();
+		String currentHardID = client.getUserTeamBattleDataHolder().getCurrentHardID();
 		if(null == currentHardID){
 			RobotLog.info("createTeam[send] 没有可以打的关卡，或者已经全部通关");
 			return true;
@@ -171,7 +169,7 @@ public class TeamBattleHandler {
 	}
 	
 	private boolean jionTeam(Client client){
-		String currentHardID = UserTeamBattleDataHolder.getInstance().getCurrentHardID();
+		String currentHardID = client.getUserTeamBattleDataHolder().getCurrentHardID();
 		if(null == currentHardID){
 			RobotLog.info("createTeam[send] 没有可以打的关卡，或者已经全部通关");
 			return true;
@@ -210,12 +208,12 @@ public class TeamBattleHandler {
 	}
 	
 	private boolean startTeamFight(Client client){
-		String currentHardID = UserTeamBattleDataHolder.getInstance().getCurrentHardID();
+		String currentHardID = client.getUserTeamBattleDataHolder().getCurrentHardID();
 		if(null == currentHardID){
 			RobotLog.info("createTeam[send] 没有可以打的关卡，或者已经全部通关");
 			return true;
 		}
-		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
+		UserTeamBattleData utbData = client.getUserTeamBattleDataHolder().getUserTBData();
 		TeamBattleReqMsg.Builder req = TeamBattleReqMsg.newBuilder();
 		req.setReqType(TBRequestType.START_FIGHT);
 		req.setLoopID(utbData.getEnimyMap().get(currentHardID));
@@ -251,12 +249,12 @@ public class TeamBattleHandler {
 	}
 	
 	private boolean informTBFightResult(Client client){
-		String currentHardID = UserTeamBattleDataHolder.getInstance().getCurrentHardID();
+		String currentHardID = client.getUserTeamBattleDataHolder().getCurrentHardID();
 		if(null == currentHardID){
 			RobotLog.info("createTeam[send] 没有可以打的关卡，或者已经全部通关");
 			return true;
 		}
-		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
+		UserTeamBattleData utbData = client.getUserTeamBattleDataHolder().getUserTBData();
 		TeamBattleReqMsg.Builder req = TeamBattleReqMsg.newBuilder();
 		req.setReqType(TBRequestType.INFORM_FIGHT_RESULT);
 		req.setLoopID(utbData.getEnimyMap().get(currentHardID));

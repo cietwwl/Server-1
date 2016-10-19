@@ -4,7 +4,6 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.rwproto.ActivityVitalityTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityVitalityTypeProto.ActivityCommonRspMsg;
 

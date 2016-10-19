@@ -18,6 +18,8 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eActivityType;
@@ -552,7 +554,10 @@ public class BattleTowerHandler {
 
 		int highestFloor = tableBattleTower.getHighestFloor();
 		int startFloor = req.getFloor();
-		if (startFloor <= 0 || startFloor >= highestFloor) {
+		if(startFloor == highestFloor) {
+			SetFail(commonRsp, "试练塔扫荡", userId, String.format("请求扫荡的开始层是%s，历史最高层是%s", startFloor, highestFloor), "已经扫荡到最高层，请重置！");
+			return;
+		} else if (startFloor <= 0 || startFloor > highestFloor) {
 			SetFail(commonRsp, "试练塔扫荡", userId, String.format("请求扫荡的开始层是%s，历史最高层是%s", startFloor, highestFloor), "不能扫荡未通关层");
 			return;
 		}
@@ -940,7 +945,7 @@ public class BattleTowerHandler {
 		// 重置数据
 		tableBattleTower.resetBattleTowerData();
 		dao.update(tableBattleTower);
-
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.battleTower);
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
 

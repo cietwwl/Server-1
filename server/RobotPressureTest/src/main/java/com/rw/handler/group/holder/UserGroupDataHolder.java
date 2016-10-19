@@ -13,17 +13,19 @@ import com.rwproto.DataSynProtos.MsgDataSyn;
  */
 public class UserGroupDataHolder {
 	private SynDataListHolder<UserGroupData> listHolder = new SynDataListHolder<UserGroupData>(UserGroupData.class);
+	private UserGroupData userGroupData;
 
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
+		List<UserGroupData> list = listHolder.getItemList();
+		if(list.size() > 0) {
+			userGroupData = list.get(0);
+		} else {
+			userGroupData = null;
+		}
 	}
 
 	public UserGroupData getUserGroupData() {
-		List<UserGroupData> itemList = listHolder.getItemList();
-		if (itemList == null || itemList.isEmpty()) {
-			return null;
-		}
-
-		return itemList.get(0);
+		return userGroupData;
 	}
 }

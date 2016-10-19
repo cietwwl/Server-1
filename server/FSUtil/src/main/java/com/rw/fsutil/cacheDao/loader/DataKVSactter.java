@@ -1,7 +1,8 @@
 package com.rw.fsutil.cacheDao.loader;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,37 +11,40 @@ import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.PersistentLoader;
+import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 
 /**
  * 把原来代码拷贝过来，还没整理
  * 
  * @param <T>
  */
-public class DataKVSactter<T> implements PersistentLoader<String, T> {
+public class DataKVSactter<T> extends PersistentLoader<String, T> {
 
-	private final ClassInfo classInfoPojo;
+	private final ClassInfo classInfo;
 	private final JdbcTemplate template;
+	private final String tableName;
+	private final String updateSql;
 
 	public DataKVSactter(ClassInfo classInfoPojo, JdbcTemplate template) {
-		this.classInfoPojo = classInfoPojo;
+		this.classInfo = classInfoPojo;
 		this.template = template;
+		this.tableName = classInfoPojo.getTableName();
+		this.updateSql = "update " + tableName + " set dbvalue = ? where dbkey = ?";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T load(String key) throws DataNotExistException, Exception {
 		if (StringUtils.isBlank(key)) {
 			return null;
 		}
-		String sql = "select dbvalue from " + classInfoPojo.getTableName() + " where dbkey=?";
+		String sql = "select dbvalue from " + classInfo.getTableName() + " where dbkey=?";
 		List<String> result = template.queryForList(sql, String.class, key);
 
 		if (result == null || result.isEmpty()) {
 			throw new DataNotExistException();
 		}
-//		String value = new String(result.get(0));
-//		T t = toT(value);
-//		return t;
-		return toT(result.get(0));
+		return (T) classInfo.fromJson(result.get(0));
 	}
 
 	@Override
@@ -48,7 +52,7 @@ public class DataKVSactter<T> implements PersistentLoader<String, T> {
 		if (StringUtils.isBlank(key)) {
 			return false;
 		}
-		String sql = "delete from " + classInfoPojo.getTableName() + " where dbkey=?";
+		String sql = "delete from " + classInfo.getTableName() + " where dbkey=?";
 		int result = template.update(sql, key);
 		return result > 0;
 	}
@@ -59,9 +63,7 @@ public class DataKVSactter<T> implements PersistentLoader<String, T> {
 			return false;
 		}
 		StringBuilder sql = new StringBuilder();
-		sql.append("insert into ").append(classInfoPojo.getTableName()).append(" (dbkey, dbvalue) values(?,?)");
-		// this.template.update(sql.toString(),new Object[]{key,
-		// HexUtil.bytes2HexStr(value.getBytes("UTF-8"))});
+		sql.append("insert into ").append(classInfo.getTableName()).append(" (dbkey, dbvalue) values(?,?)");
 		String writeValue = toJson(value);
 		int affectedRows = template.update(sql.toString(), new Object[] { key, writeValue });
 		// lida 2015-09-23 执行成功返回的结果是2
@@ -70,36 +72,48 @@ public class DataKVSactter<T> implements PersistentLoader<String, T> {
 
 	@Override
 	public boolean updateToDB(String key, T value) {
-		String sql = "update " + classInfoPojo.getTableName() + " set dbvalue = ? where dbkey = ?";
+		String sql = "update " + classInfo.getTableName() + " set dbvalue = ? where dbkey = ?";
 		String writeValue = toJson(value);
 		int affectedRows = template.update(sql, new Object[] { writeValue, key });
 		// lida 2015-09-23 执行成功返回的结果是2
 		return affectedRows > 0;
 	}
 
-	@SuppressWarnings("unchecked")
-	private T toT(String value) {
-		T t = null;
-		if (StringUtils.isNotBlank(value)) {
-			try {
-				t = (T) classInfoPojo.fromJson(value);
-			} catch (Exception e) {
-				// 数据解释出错，不能往下继续，直接抛出RuntimeException给顶层捕获
-				throw (new RuntimeException("DataKVDao[toT] json转换异常", e));
-			}
-
-		}
-		return t;
-	}
-
 	private String toJson(T t) {
 		String json = null;
 		try {
-			json = classInfoPojo.toJson(t);
+			json = classInfo.toJson(t);
 		} catch (Exception e) {
 			// 数据解释出错，不能往下继续，直接抛出RuntimeException给顶层捕获
 			throw (new RuntimeException("DataKVDao[toJson] json转换异常", e));
 		}
 		return json;
+	}
+
+	@Override
+	public String getTableName(String key) {
+		return tableName;
+	}
+
+	@Override
+	public Map<String, String> getUpdateSqlMapping() {
+		HashMap<String, String> map = new HashMap<String, String>(2);
+		map.put(tableName, updateSql);
+		return map;
+	}
+
+	@Override
+	public Object[] extractParams(String key, T value) {
+		String writeValue = toJson(value);
+		if (writeValue == null) {
+			return null;
+		}
+		return new Object[] { writeValue, key };
+	}
+
+	@Override
+	public boolean hasChanged(String key, T value) {
+		//强制更新
+		return true;
 	}
 }

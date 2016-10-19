@@ -17,6 +17,8 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
@@ -45,6 +47,7 @@ import com.playerdata.teambattle.manager.TeamMatchMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfg;
@@ -629,6 +632,9 @@ public class TeamBattleBM {
 		teamMember.setFightStartTime(0);
 		TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		tbRsp.setRstType(TBResultType.SUCCESS);
+		//通知日常任务系统
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.TEAM_BATTLE, 1);
+		UserFeatruesMgr.getInstance().doFinishOfHardId(player, UserFeaturesEnum.teamBattle,Integer.parseInt(teamItem.getHardID()));
 	}
 
 	/**

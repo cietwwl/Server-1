@@ -10,15 +10,16 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_limitherotype_item")
-public class ActivityLimitHeroTypeItem implements  IMapItem{
+public class ActivityLimitHeroTypeItem implements  RoleExtProperty{
 	@Id
-	private String id ;
-	
+	private Integer id ;
+	@OwnerId
 	private String userId;
 	
 	@CombineSave
@@ -59,16 +60,15 @@ public class ActivityLimitHeroTypeItem implements  IMapItem{
 		this.subList = subList;
 		this.guarantee = 0;
 	}
-
-	public String getId() {
+	
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	
 	public int getGuarantee() {
 		return guarantee;
 	}

@@ -13,13 +13,12 @@ import com.rw.fsutil.dao.cache.trace.CacheJsonConverter;
 import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.rw.fsutil.dao.common.DBThreadPoolMgr;
+import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 @SuppressWarnings("rawtypes")
 public class DataCacheFactory {
 
 	private static ConcurrentHashMap<CacheKey, DataCache<?, ?>> cacheMap;
-
 	private static HashMap<Class<?>, DataValueParser<?>> parserMap;
 	private static HashMap<CacheKey, List<DataChangedVisitor<DataChangedEvent<?>>>> dataChangedVisitor;
 	static {
@@ -56,22 +55,28 @@ public class DataCacheFactory {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> DataValueParser<T> getParser(Class<T> clazz) {
 		return (DataValueParser<T>) parserMap.get(clazz);
 	}
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, String name, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
+	public static <K, V> MapItemCache<K, V> createMapItemDache(Class<?> clazz, String name, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ?> loader,
 			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
 		if (name == null || name.isEmpty()) {
 			throw new ExceptionInInitializerError("cache name is empty:" + name);
 		}
 		CacheKey key = new CacheKey(clazz, name);
-		DataCache oldCache = cacheMap.get(key);
-		if (oldCache != null) {
-			System.err.println("fatal error DataCache duplicate name1:" + clazz);
-			return oldCache;
+		// 构造监听者
+		List<DataChangedVisitor<DataChangedEvent<?>>> listenerList = buildListeners(key, listenerType);
+		MapItemCache<K, V> cache = new MapItemCache<K, V>(key, maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerList);
+		DataCache oldCache = cacheMap.putIfAbsent(key, cache);
+		if (oldCache == null) {
+			return cache;
 		}
-		
+		throw new ExceptionInInitializerError("fatal error DataCache duplicate name1:" + key);
+	}
+
+	private static List<DataChangedVisitor<DataChangedEvent<?>>> buildListeners(CacheKey key, Class<? extends DataChangedVisitor> listenerType) {
 		List<DataChangedVisitor<DataChangedEvent<?>>> listenerList = dataChangedVisitor.get(key);
 		if (listenerList != null) {
 			boolean reBuild = false;
@@ -91,30 +96,38 @@ public class DataCacheFactory {
 				}
 			}
 		}
-		DataCache<K, V> cache = new DataCache<K, V>(key, maxCapacity, updatePeriod, DBThreadPoolMgr.getExecutor(), loader, handler, jsonConverter, listenerList);
-		oldCache = cacheMap.putIfAbsent(key, cache);
+		return listenerList;
+	}
+
+	public static <K, V> DataKVCache<K, V> createDataKVCache(Class<?> clazz, String name, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ?> loader, DataNotExistHandler<K, V> handler,
+			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+		if (name == null || name.isEmpty()) {
+			throw new ExceptionInInitializerError("cache name is empty:" + name);
+		}
+		CacheKey key = new CacheKey(clazz, name);
+		// 构造监听者
+		List<DataChangedVisitor<DataChangedEvent<?>>> listenerList = buildListeners(key, listenerType);
+		DataKVCache<K, V> cache = new DataKVCache<K, V>(key, maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerList);
+		DataCache oldCache = cacheMap.putIfAbsent(key, cache);
 		if (oldCache == null) {
 			return cache;
 		} else {
-			System.err.println("fatal error DataCache duplicate name1:" + key);
-			return oldCache;
+			throw new ExceptionInInitializerError("fatal error DataCache duplicate name1:" + key);
 		}
 	}
-	
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
-			DataNotExistHandler<K, V> handler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType){
-		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerType);
-	}
-	
-	
 
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int initialCapacity, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
-		return createDataDache(clazz, clazz.getSimpleName(), initialCapacity, maxCapacity, updatePeriod, loader, null, null, null);
-	}
-
-	public static <K, V> DataCache<K, V> createDataDache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
+	public static <K, V> DataKVCache<K, V> createDataKVCache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader, DataNotExistHandler<K, V> handler,
 			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
-		return createDataDache(clazz, clazz.getSimpleName(), maxCapacity, maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
+		return createDataKVCache(clazz, clazz.getSimpleName(), maxCapacity, updatePeriod, loader, handler, jsonConverter, listenerType);
+	}
+
+	public static <K, V> DataKVCache<K, V> createDataKVCache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader) {
+		return createDataKVCache(clazz, clazz.getSimpleName(), maxCapacity, updatePeriod, loader, null, null, null);
+	}
+
+	public static <K, V> DataKVCache<K, V> createDataKVCache(Class<?> clazz, int maxCapacity, int updatePeriod, PersistentLoader<K, V> loader,
+			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, Class<? extends DataChangedVisitor> listenerType) {
+		return createDataKVCache(clazz, clazz.getSimpleName(), maxCapacity, updatePeriod, loader, null, jsonConverter, listenerType);
 	}
 
 	public static Map<String, Integer> getCacheStat() {
@@ -131,7 +144,4 @@ public class DataCacheFactory {
 		return cacheMap.values();
 	}
 
-	public static DataCache<?, ?> getDataCache(CacheKey key) {
-		return cacheMap.get(key);
-	}
 }

@@ -7,11 +7,6 @@ import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class UserTeamBattleDataHolder {
-	private static UserTeamBattleDataHolder instance = new UserTeamBattleDataHolder();
-	
-	public static UserTeamBattleDataHolder getInstance() {
-		return instance;
-	}
 	
 	private UserTeamBattleData utbData = null;
 	private String currentHardID = null;

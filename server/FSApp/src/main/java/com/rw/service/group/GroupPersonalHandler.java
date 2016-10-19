@@ -16,12 +16,14 @@ import com.bm.group.GroupMemberMgr;
 import com.bm.rank.RankType;
 import com.bm.rank.group.GroupSimpleExtAttribute;
 import com.bm.rank.group.base.GroupBaseRankExtAttribute;
+import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
+import com.playerdata.groupcompetition.GroupCompetitionMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -192,9 +194,9 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.GET_GROUP_RANK_INFO_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查一下唯一的配置表
@@ -253,9 +255,9 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.FIND_GROUP_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查是否有帮派
@@ -317,9 +319,9 @@ public class GroupPersonalHandler {
 		commonRsp.setReqType(RequestType.APPLY_JOIN_GROUP_TYPE);
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		int openLevel = CfgOpenLevelLimitDAO.getInstance().checkIsOpen(eOpenLevelType.GROUP, player);
-		if (openLevel != -1) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("主角%s级开启", openLevel));
+		RefParam<String> outTip = new RefParam<String>();
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
 		// 检查一下唯一的配置表
@@ -451,6 +453,8 @@ public class GroupPersonalHandler {
 			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 			// 更新下基础排行榜中记录的数据
 			GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+			// 帮派争霸
+			GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		}
 
 		commonRsp.setIsSuccess(true);
@@ -807,7 +811,8 @@ public class GroupPersonalHandler {
 
 		// 准备换职位
 		memberMgr.transferGroupLeader(playerId, transferMemberId);
-
+		// 改变帮派的信息
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
 	}
@@ -908,6 +913,8 @@ public class GroupPersonalHandler {
 		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
 
 		commonRsp.setIsSuccess(true);
+		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
+		GroupCompetitionMgr.getInstance().notifyGroupMemberLeave(group, playerId);
 		return commonRsp.build().toByteString();
 	}
 

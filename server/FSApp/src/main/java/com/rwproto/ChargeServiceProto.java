@@ -17,7 +17,7 @@ public final class ChargeServiceProto {
      * <code>Charge = 1;</code>
      *
      * <pre>
-     *充值
+     *充值;付费月卡走的是sdk，模拟月卡走的是充值
      * </pre>
      */
     Charge(0, 1),
@@ -41,7 +41,7 @@ public final class ChargeServiceProto {
      * <code>TimeCard = 4;</code>
      *
      * <pre>
-     *购买月卡
+     *模拟购买月卡
      * </pre>
      */
     TimeCard(3, 4),
@@ -51,7 +51,7 @@ public final class ChargeServiceProto {
      * <code>Charge = 1;</code>
      *
      * <pre>
-     *充值
+     *充值;付费月卡走的是sdk，模拟月卡走的是充值
      * </pre>
      */
     public static final int Charge_VALUE = 1;
@@ -75,7 +75,7 @@ public final class ChargeServiceProto {
      * <code>TimeCard = 4;</code>
      *
      * <pre>
-     *购买月卡
+     *模拟购买月卡
      * </pre>
      */
     public static final int TimeCard_VALUE = 4;

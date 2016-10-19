@@ -89,7 +89,7 @@ public class RandomBossMsgHandler {
 		try {
 			boolean invied = RandomBossMgr.getInstance().recordInvitedTime(type, bossID);
 			if(invied){
-				ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornTips(), bossID, bossID, idList);
+				ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornInvitedTips(), bossID, bossID, idList);
 				response.setIsSuccess(true);
 			}else{
 				response.setIsSuccess(false);

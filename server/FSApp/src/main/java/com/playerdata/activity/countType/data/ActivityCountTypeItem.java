@@ -10,18 +10,20 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
+import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "activity_counttype_item")
-public class ActivityCountTypeItem implements  IMapItem {
+public class ActivityCountTypeItem implements  RoleExtProperty {
 
 	@Id
-	private String id;
+	private Integer id;
 	
+	@OwnerId
 	private String userId;// 对应的角色Id
 	
 	@CombineSave
@@ -102,11 +104,11 @@ public class ActivityCountTypeItem implements  IMapItem {
 		count = 0;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

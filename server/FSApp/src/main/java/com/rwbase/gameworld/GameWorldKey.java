@@ -54,9 +54,29 @@ public enum GameWorldKey {
 	 */
 	TIMER_DATA("TIMER_DATA"),
 	/**
+	 * 帮派争霸保存的数据
+	 */
+	GROUP_COMPETITION("GROUP_COMPETITION"),
+	/**
 	 * 世界boss 
 	 */
 	WORLD_BOSS("WORLD_BOSS"),
+	/**
+	 * 帮派争霸，当前对阵
+	 */
+	GROUP_COMPETITION_AGAINSTS_CURRENT("AGAINSTS_CURRENT"),
+	/**
+	 * 帮派争霸，上一届对阵
+	 */
+	GROUP_COMPETITION_AGAINSTS_LAST("AGAINSTS_LAST"),
+	/**
+	 * 帮派争霸，比赛的详情
+	 */
+	GROUP_COMPETITION_AGAINSTS_DETAIL("AGAINSTS_DETAIL"),
+	/**
+	 * 帮派争霸：积分排名
+	 */
+	GROUP_COMPETITION_SCORE_RANKING("GROUP_COMPETITION_SCORE_RANKING"),
 	;
 	
 	

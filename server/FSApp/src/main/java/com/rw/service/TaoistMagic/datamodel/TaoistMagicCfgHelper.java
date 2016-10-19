@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -313,5 +314,14 @@ public class TaoistMagicCfgHelper extends CfgCsvDao<TaoistMagicCfg> {
 			return list.size();
 		}
 		return 0;
+	}
+	
+	public List<TaoistMagicCfg> getAllTaoistMagic(){
+		List<TaoistMagicCfg> list = new ArrayList<TaoistMagicCfg>();
+		for (Iterator<Entry<Integer, List<TaoistMagicCfg>>> iterator = openMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, List<TaoistMagicCfg>> entry = iterator.next();
+			list.addAll(entry.getValue());
+		}
+		return list;
 	}
 }
