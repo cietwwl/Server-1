@@ -196,7 +196,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 					break;
 				}			
 			}
-			if(closeItem == null){
+			if(closeItem == null||closeItem.isTaken()||closeItem.isClosed()){
 				continue;
 			}			
 			if (closeItem.getReward() != null) {// 有奖励的进这里
