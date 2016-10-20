@@ -31,7 +31,7 @@ public class RoleExtPropertyFactory {
 	private static RoleExtPropertyManager roleExtPropertyManager;
 	private static RoleExtPropertyManager heroExtPropertyManager;
 
-	public synchronized static void init(int defaultCapacity, String datasourceName) {
+	public synchronized static void init(int defaultCapacity,int heroCapacity, String datasourceName) {
 		if (init) {
 			throw new ExceptionInInitializerError("duplicate init");
 		}
@@ -50,7 +50,7 @@ public class RoleExtPropertyFactory {
 		HPCUtil.toMappedArray(propertyTypeArray, "type");
 		heroExtCaches = new RoleExtPropertyStoreCache<?>[propertyTypeArray.length];
 		heroExtCreators = new RoleExtCreateInfo[propertyTypeArray.length];
-		init(heroExtPropertyManager, defaultCapacity, datasourceName, propertyTypeArray, heroExtCaches, heroExtCreators);
+		init(heroExtPropertyManager, heroCapacity, datasourceName, propertyTypeArray, heroExtCaches, heroExtCreators);
 	}
 
 	public static void init(RoleExtPropertyManager extPropertyManager, int defaultCapacity, String datasourceName, RoleExtPropertyType[] typeList,
