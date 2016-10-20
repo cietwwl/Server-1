@@ -964,6 +964,9 @@ public class Player implements PlayerIF {
 		case MagicSecretCoin:
 			reslut = userGameDataMgr.getMagicSecretCoin();
 			break;
+		case TEAM_BATTLE_GOLD:
+			reslut = userGameDataMgr.getTeamBattleCoin();
+			break;
 		case WAKEN_KEY:
 			reslut = userGameDataMgr.getWakenKey();
 			break;

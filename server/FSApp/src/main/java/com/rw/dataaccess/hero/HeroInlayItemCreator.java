@@ -3,7 +3,7 @@ package com.rw.dataaccess.hero;
 import java.util.Collections;
 import java.util.List;
 
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
@@ -25,7 +25,7 @@ public class HeroInlayItemCreator implements HeroExtPropertyCreator<InlayItem> {
 	}
 
 	@Override
-	public List<InlayItem> checkAndCreate(PlayerExtPropertyStore<InlayItem> store, HeroCreateParam params) {
+	public List<InlayItem> checkAndCreate(RoleExtPropertyStore<InlayItem> store, HeroCreateParam params) {
 		return null;
 	}
 

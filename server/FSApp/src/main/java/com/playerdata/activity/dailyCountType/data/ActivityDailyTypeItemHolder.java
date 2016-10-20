@@ -13,7 +13,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -87,9 +87,9 @@ public class ActivityDailyTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	public PlayerExtPropertyStore<ActivityDailyTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityDailyTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityDailyTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYTYPE, ActivityDailyTypeItem.class);
-		PlayerExtPropertyStore<ActivityDailyTypeItem> store = null;
+		RoleExtPropertyStore<ActivityDailyTypeItem> store = null;
 		try {
 			store = cach.getStore(userId);
 		} catch (InterruptedException e) {

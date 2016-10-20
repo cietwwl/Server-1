@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,17 +28,26 @@ import org.apache.commons.lang3.StringUtils;
 import com.common.GameUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.controler.FsNettyControler;
 import com.rw.controler.PlayerMsgCache;
+import com.rw.fsutil.common.FastPair;
 import com.rw.fsutil.dao.cache.SimpleCache;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.GameLoginProtos.GameLoginResponse;
 import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef.Command;
@@ -52,12 +62,14 @@ public class UserChannelMgr {
 	private static final AttributeKey<SessionInfo> SESSION_INFO;
 	private static final AttributeKey<SynDataInReqMgr> SYN_DATA;
 	public static final long RECONNECT_TIME;
+	private static long msgHoldMillis;
 	private static final UserSession CLOSE_SESSION;
 	private static ConcurrentHashMap<String, ChannelHandlerContext> userChannelMap;
 	private static ConcurrentHashMap<String, Long> disconnectMap;
 	private static AtomicLong seesionIdGenerator;
 	// 容量需要做成配置
-	private static SimpleCache<String, PlayerMsgCache> msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
+	private static SimpleCache<String, PlayerMsgCache> msgCache;
+	private static ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
 
 	static {
 		USER_ID = AttributeKey.valueOf("userId");
@@ -65,9 +77,13 @@ public class UserChannelMgr {
 		SYN_DATA = AttributeKey.valueOf("syn_data");
 		RECONNECT_TIME = TimeUnit.MINUTES.toMillis(5);
 		CLOSE_SESSION = new UserSession("close", 0);
+		msgHoldMillis = TimeUnit.MINUTES.toMillis(10);
 		userChannelMap = new ConcurrentHashMap<String, ChannelHandlerContext>();
 		disconnectMap = new ConcurrentHashMap<String, Long>();
 		seesionIdGenerator = new AtomicLong();
+		// TODO config capacity
+		msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
+		purgeStat = new ConcurrentHashMap<Command, FastPair<Command, AtomicLong>>();
 	}
 
 	private static void logger(UserSession oldSession) {
@@ -450,9 +466,25 @@ public class UserChannelMgr {
 	}
 
 	public static void broadcastMsg(Command command, ByteString byteString) {
-		for (ChannelHandlerContext ctx : userChannelMap.values()) {
-			sendAyncResponse(null, ctx, command, byteString);
+		for (Iterator<Entry<String, ChannelHandlerContext>> iterator = userChannelMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<String, ChannelHandlerContext> entry = iterator.next();
+			String userId = entry.getKey();
+			if (checkOpen(userId)) {
+				ChannelHandlerContext ctx = entry.getValue();
+				sendAyncResponse(null, ctx, command, byteString);
+			}
 		}
+	}
+	
+	private static boolean checkOpen(String userId){
+		User user = UserDataDao.getInstance().getByUserId(userId);
+		Hero hero = FSHeroMgr.getInstance().getMainRoleHero(userId);
+		CfgOpenLevelLimit cfg = CfgOpenLevelLimitDAO.getInstance().getCfgById(eOpenLevelType.MainMsg.getOrderString());
+		int level = hero.getLevel();
+		if(level >= cfg.getMinLevel() && level <= cfg.getMaxLevel()){
+			return true;
+		}
+		return false;
 	}
 
 	public static void sendErrorResponse(String userId, RequestHeader header, int exceptionCode) {
@@ -520,7 +552,9 @@ public class UserChannelMgr {
 	/**
 	 * <pre>
 	 * 发送异步消息，若指定userId的玩家不在线，不会执行发送操作(发送失败)
-	 * 对{@link #sendAyncResponse(String, ChannelHandlerContext, Command, ByteString)}的简单封装
+	 * 对
+	 * {@link #sendAyncResponse(String, ChannelHandlerContext, Command, ByteString)}的简单封装
+	 * 
 	 * <pre>
 	 * @param userId
 	 * @param Cmd
@@ -584,7 +618,7 @@ public class UserChannelMgr {
 		PlayerMsgCache msg = msgCache.get(userId);
 		if (msg == null) {
 			// 消息容量也需要做成配置
-			msg = new PlayerMsgCache(10);
+			msg = new PlayerMsgCache(10, purgeStat);
 			PlayerMsgCache old = msgCache.putIfAbsent(userId, msg);
 			if (old != null) {
 				msg = old;
@@ -607,5 +641,17 @@ public class UserChannelMgr {
 			return;
 		}
 		msg.clear();
+	}
+
+	public static void purgeMsgRecord() {
+		long purgeTime = DateUtils.getSecondLevelMillis() - msgHoldMillis;
+		List<PlayerMsgCache> msgCaches = msgCache.values();
+		for (int i = msgCaches.size(); --i >= 0;) {
+			msgCaches.get(i).purge(purgeTime);
+		}
+	}
+	
+	public static Enumeration<FastPair<Command, AtomicLong>> getPurgeCount(){
+		return purgeStat.elements();
 	}
 }

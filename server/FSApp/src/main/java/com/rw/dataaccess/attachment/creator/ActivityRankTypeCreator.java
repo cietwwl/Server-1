@@ -6,7 +6,7 @@ import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityRankTypeCreator implements PlayerExtPropertyCreator<ActivityRankTypeItem>{
@@ -27,7 +27,7 @@ public class ActivityRankTypeCreator implements PlayerExtPropertyCreator<Activit
 
 	@Override
 	public List<ActivityRankTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityRankTypeItem> store,
+			RoleExtPropertyStore<ActivityRankTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

@@ -12,7 +12,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -85,8 +85,8 @@ public class ActivityTimeCountTypeItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
-		PlayerExtPropertyStore<ActivityTimeCountTypeItem> store =null;
+	public RoleExtPropertyStore<ActivityTimeCountTypeItem> getItemStore(String userId) {
+		RoleExtPropertyStore<ActivityTimeCountTypeItem> store =null;
 		RoleExtPropertyStoreCache<ActivityTimeCountTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECOUNT, ActivityTimeCountTypeItem.class);
 		try {
 			store = cach.getStore(userId);
