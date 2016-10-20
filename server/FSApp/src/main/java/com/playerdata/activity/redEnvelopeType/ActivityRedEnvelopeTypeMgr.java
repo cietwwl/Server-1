@@ -37,7 +37,7 @@ import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeSubIt
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -79,7 +79,7 @@ public class ActivityRedEnvelopeTypeMgr implements ActivityRedPointUpdate{
 	
 	public List<ActivityRedEnvelopeTypeItem> creatItems(String userId,boolean isHasPlayer ){
 		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_REDENVELOPE, ActivityRedEnvelopeTypeItem.class);
-		PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> store = null;
+		RoleExtPropertyStore<ActivityRedEnvelopeTypeItem> store = null;
 		
 		List<ActivityRedEnvelopeTypeItem> addItemList = null;
 		ActivityRedEnvelopeTypeSubCfgDAO subDao = ActivityRedEnvelopeTypeSubCfgDAO.getInstance();

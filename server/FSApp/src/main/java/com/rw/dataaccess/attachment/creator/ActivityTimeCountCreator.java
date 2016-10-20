@@ -6,7 +6,7 @@ import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityTimeCountCreator implements PlayerExtPropertyCreator<ActivityTimeCountTypeItem>{
@@ -27,7 +27,7 @@ public class ActivityTimeCountCreator implements PlayerExtPropertyCreator<Activi
 
 	@Override
 	public List<ActivityTimeCountTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityTimeCountTypeItem> store,
+			RoleExtPropertyStore<ActivityTimeCountTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

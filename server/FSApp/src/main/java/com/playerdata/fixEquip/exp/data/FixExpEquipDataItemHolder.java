@@ -12,7 +12,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -99,9 +99,9 @@ public class FixExpEquipDataItemHolder{
 	}
 
 	
-	private PlayerExtPropertyStore<FixExpEquipDataItem> getItemStore(String heroId) {
+	private RoleExtPropertyStore<FixExpEquipDataItem> getItemStore(String heroId) {
 		RoleExtPropertyStoreCache<FixExpEquipDataItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.FIX_EXP_EQUIP, FixExpEquipDataItem.class);
-		PlayerExtPropertyStore<FixExpEquipDataItem> store = null;
+		RoleExtPropertyStore<FixExpEquipDataItem> store = null;
 		try {
 			store = heroExtCache.getStore(heroId);
 		} catch (Throwable e) {

@@ -12,7 +12,7 @@ import com.common.HPCUtil;
 import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyData;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyData;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.attachment.QueryRoleExtPropertyData;
@@ -232,7 +232,7 @@ public class RoleExtPropertyFactory {
 			RoleExtPropertyStoreCache<RoleExtProperty> cache = createWrap.createInfo.cache;
 			// 创建一个没有记录的对象
 			if (createPropList.isEmpty()) {
-				cache.putIfAbsent(roleId, Collections.<PlayerExtPropertyData<RoleExtProperty>> emptyList());
+				cache.putIfAbsent(roleId, Collections.<RoleExtPropertyData<RoleExtProperty>> emptyList());
 				continue;
 			}
 			try {
@@ -265,7 +265,7 @@ public class RoleExtPropertyFactory {
 			if (insertData == null) {
 				continue;
 			}
-			List<PlayerExtPropertyData<RoleExtProperty>> list = create(insertData);
+			List<RoleExtPropertyData<RoleExtProperty>> list = create(insertData);
 			createWrap.createInfo.cache.putIfAbsent(roleId, list);
 		}
 	}
@@ -324,17 +324,17 @@ public class RoleExtPropertyFactory {
 		return list;
 	}
 
-	public static List<PlayerExtPropertyData<RoleExtProperty>> create(List<InsertRoleExtDataWrap<RoleExtProperty>> insertData) {
+	public static List<RoleExtPropertyData<RoleExtProperty>> create(List<InsertRoleExtDataWrap<RoleExtProperty>> insertData) {
 		if(insertData == null){
 			return Collections.EMPTY_LIST;
 		}
 		int size = insertData.size();
-		ArrayList<PlayerExtPropertyData<RoleExtProperty>> result = new ArrayList<PlayerExtPropertyData<RoleExtProperty>>(size);
+		ArrayList<RoleExtPropertyData<RoleExtProperty>> result = new ArrayList<RoleExtPropertyData<RoleExtProperty>>(size);
 		for (int i = 0; i < size; i++) {
 			InsertRoleExtDataWrap<?> data = insertData.get(i);
 			RoleExtProperty t = data.getExtProperty();
 			long key = data.getId();
-			result.add(new PlayerExtPropertyData<RoleExtProperty>(key, t));
+			result.add(new RoleExtPropertyData<RoleExtProperty>(key, t));
 		}
 		return result;
 	}

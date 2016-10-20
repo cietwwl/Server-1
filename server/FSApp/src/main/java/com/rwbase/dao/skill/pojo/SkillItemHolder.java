@@ -13,7 +13,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -208,9 +208,9 @@ public class SkillItemHolder {
 		}
 	}
 	
-	private PlayerExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
+	private RoleExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
 		RoleExtPropertyStoreCache<SkillItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SKILL_ITEM, SkillItem.class);
-		PlayerExtPropertyStore<SkillItem> store = null;
+		RoleExtPropertyStore<SkillItem> store = null;
 		try {
 			store = heroExtCache.getStore(heroId);
 		} catch (Throwable e) {

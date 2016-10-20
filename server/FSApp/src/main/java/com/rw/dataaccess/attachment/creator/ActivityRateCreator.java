@@ -7,7 +7,7 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityRateCreator implements PlayerExtPropertyCreator<ActivityRateTypeItem>{
@@ -28,7 +28,7 @@ public class ActivityRateCreator implements PlayerExtPropertyCreator<ActivityRat
 
 	@Override
 	public List<ActivityRateTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityRateTypeItem> store,
+			RoleExtPropertyStore<ActivityRateTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

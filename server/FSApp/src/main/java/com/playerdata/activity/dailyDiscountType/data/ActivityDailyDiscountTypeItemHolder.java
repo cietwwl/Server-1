@@ -15,7 +15,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -109,9 +109,9 @@ public class ActivityDailyDiscountTypeItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityDailyDiscountTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityDailyDiscountTypeItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYDISCOUNT, ActivityDailyDiscountTypeItem.class);
-		PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> map = null;
+		RoleExtPropertyStore<ActivityDailyDiscountTypeItem> map = null;
 		try {
 			map = cache.getStore(userId);
 		} catch (InterruptedException e) {
