@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class FSUserFightingGrowthTitleCfg {
 
@@ -21,6 +22,7 @@ public class FSUserFightingGrowthTitleCfg {
 	private boolean isFirst; // 是否第一个title
 	private Map<Integer, Integer> _itemRequiredMap; // 通过itemRequired解析过来的{key=道具的cfgId，value=需求的数量}
 	private Map<Integer, Integer> _itemRewardMap; // 通过rewards解析过来的{key=道具的cfgId，value=需求的数量}
+	private List<ItemInfo> _itemRewardList; // 奖励道具的list
 	private List<PrivilegeDescItem> _privItems;	//掉落特权的描述类 
 	
 	public void setItemRequiredMap(Map<Integer, Integer> map) {
@@ -29,6 +31,10 @@ public class FSUserFightingGrowthTitleCfg {
 	
 	public void setItemRewardMap(Map<Integer, Integer> map) {
 		this._itemRewardMap = Collections.unmodifiableMap(map);
+	}
+	
+	public void setItemRewardList(List<ItemInfo> list) {
+		this._itemRewardList = Collections.unmodifiableList(list);
 	}
 	
 	public void setPrivilegeDescItem(List<PrivilegeDescItem> privItems){
@@ -101,6 +107,16 @@ public class FSUserFightingGrowthTitleCfg {
 	 */
 	public Map<Integer, Integer> getItemRewardMap() {
 		return _itemRewardMap;
+	}
+	
+	/**
+	 * 
+	 * 获取奖励道具的list
+	 * 
+	 * @return
+	 */
+	public List<ItemInfo> getItemRewardList() {
+		return _itemRewardList;
 	}
 	
 	public String getEmailCfgIdOfReward() {
