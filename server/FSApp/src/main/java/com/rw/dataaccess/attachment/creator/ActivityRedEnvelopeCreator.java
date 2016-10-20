@@ -6,7 +6,7 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityRedEnvelopeCreator implements PlayerExtPropertyCreator<ActivityRedEnvelopeTypeItem>{
@@ -27,7 +27,7 @@ public class ActivityRedEnvelopeCreator implements PlayerExtPropertyCreator<Acti
 
 	@Override
 	public List<ActivityRedEnvelopeTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> store,
+			RoleExtPropertyStore<ActivityRedEnvelopeTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

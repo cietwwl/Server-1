@@ -17,9 +17,12 @@ import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.email.EmailItem;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 public class GmEmailSingleDelete implements IGmTask {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public GmResponse doTask(GmRequest request) {
 		GmResponse response = new GmResponse();
@@ -33,26 +36,29 @@ public class GmEmailSingleDelete implements IGmTask {
 
 			String roleId = GmUtils.parseString(args, "roleId");
 			String mailIds = GmUtils.parseString(args, "mailId");
-			List<String> mailIdList = (List<String>) FastJsonUtil.deserialize(mailIds, List.class);
+			final List<String> mailIdList = (List<String>) FastJsonUtil.deserialize(mailIds, List.class);
 			Player targetPlayer = PlayerMgr.getInstance().find(roleId);
-			for (String mailId : mailIdList) {
+			if (targetPlayer != null) {
+				GameWorldFactory.getGameWorld().asyncExecute(roleId, new PlayerTask() {
+					
+					@Override
+					public void run(Player e) {
+						
+						for (String mailId : mailIdList) {
 
-				if (targetPlayer != null) {
-					EmailMgr emailMgr = targetPlayer.getEmailMgr();
-					EmailItem emailItem = emailMgr.getEmailItem(mailId);
-					if (emailItem != null) {
-						emailMgr.delEmail(mailId, false);
-					} else {
-						GameLog.info(LogModule.GM.getName(),
-								"GmEmailSingleDelete",
-								"GmEmailSingleDelete[doTask] 邮件不存在， userId:"
-										+ roleId + " mailId" + mailId, null);
+							EmailMgr emailMgr = e.getEmailMgr();
+							EmailItem emailItem = emailMgr.getEmailItem(mailId);
+							if (emailItem != null) {
+								emailMgr.delEmail(mailId, false);
+							} else {
+								GameLog.info(LogModule.GM.getName(), "GmEmailSingleDelete", "GmEmailSingleDelete[doTask] 邮件不存在， userId:" + e.getUserId() + " mailId" + mailId, null);
+							}
+						}
 					}
-				} else {
-					GameLog.info(LogModule.GM.getName(), "GmEmailSingleDelete",
-							"GmEmailSingleDelete[doTask] 没有找到用户 userId:"
-									+ roleId, null);
-				}
+				});
+				
+			} else {
+				GameLog.info(LogModule.GM.getName(), "GmEmailSingleDelete", "GmEmailSingleDelete[doTask] 没有找到用户 userId:" + roleId, null);
 			}
 
 			response.addResult(resultMap);

@@ -36,16 +36,18 @@ public class FSGetTaoistMaxFightingFunc implements IFunction<Player, Integer> {
 	@Override
 	public Integer apply(Player player) {
 		if (_cfgOpenLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, player) || player.isRobot()) {
-			// TODO 道术最大战力未知如何计算
 			ExpectedHeroStatusCfg cfg = _expectedHeroStatusCfgDAO.getCfgById(String.valueOf(player.getLevel()));
 			Map<Integer, Integer> map = cfg.getExpectedLevelOfTag();
 			TaoistFightingCfg taoistFightingCfg;
 			int fighting = 0;
 			for (Iterator<Integer> itr = map.keySet().iterator(); itr.hasNext();) {
 				int tag = itr.next();
-				int count = _taoistMagicCfgHelper.getCountOfTag(tag);
-				taoistFightingCfg = _taoistFightingCfgDAO.getByLevel(map.get(tag));
-				fighting += taoistFightingCfg.getFightingOfIndex(tag) * count;
+				int level = map.get(tag);
+				if (level > 0) {
+					int count = _taoistMagicCfgHelper.getCountOfTag(tag);
+					taoistFightingCfg = _taoistFightingCfgDAO.getByLevel(map.get(tag));
+					fighting += taoistFightingCfg.getFightingOfIndex(tag) * count;
+				}
 			}
 			return fighting * cfg.getExpectedHeroCount();
 		}

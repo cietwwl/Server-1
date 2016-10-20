@@ -18,6 +18,7 @@ public class EmailData {
 	private int delayTime = 604800;//删除延时(默认7天)
 	private String deadlineTime = "";//到期删除 格式：2015/6/9
 	private long taskId;//任务id， 同一个任务的email只能有一封,避免重发，
+	private long sendTime; //发送时间
 	
 	//冷冻时间
 	private long  coolTime;
@@ -148,5 +149,11 @@ public class EmailData {
 	}
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
+	}
+	public long getSendTime() {
+		return sendTime;
+	}
+	public void setSendTime(long sendTime) {
+		this.sendTime = sendTime;
 	}
 }

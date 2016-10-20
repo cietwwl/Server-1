@@ -1,5 +1,6 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.MagicAptitudeFightingCfgDAO;
@@ -42,6 +43,10 @@ public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer>
 		ItemData magic = player.getMagicMgr().getMagic();
 		if (magic != null) {
 			MagicCfg cfg = magicCfgDAO.getCfgById(String.valueOf(magic.getModelId()));
+			if (cfg == null) {
+				GameLog.error("FSGetMagicCurrentFightingFunc", player.getUserId(), "找不到对应的法宝配置，modelId：" + magic.getModelId());
+				return 0;
+			}
 			OneToOneTypeFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magic.getMagicLevel()));
 			OneToOneTypeFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
 			OneToOneTypeFightingCfg magicAptitudeCfg = magicAptitudeFightingCfgDAO.getCfgById(String.valueOf(magic.getMagicAptitude()));

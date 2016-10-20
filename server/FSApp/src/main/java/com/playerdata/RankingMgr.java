@@ -69,7 +69,7 @@ public class RankingMgr {
 	private final RankingGetOperation defaultGetOp;
 	private final EnumMap<ListRankingType, Pair<String, String>> emailMap;
 	private final EnumMap<RankType, RankType> dailyMapping;
-	
+
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
 		this.operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
@@ -84,7 +84,7 @@ public class RankingMgr {
 		this.emailMap.put(ListRankingType.SWORDMAN_ARENA, Pair.Create("10012", "10016"));
 		this.emailMap.put(ListRankingType.MAGICAN_ARENA, Pair.Create("10013", "10017"));
 		this.emailMap.put(ListRankingType.PRIEST_ARENA, Pair.Create("10014", "10018"));
-		//TODO 实时榜与昨日榜的映射关系
+		// TODO 实时榜与昨日榜的映射关系
 		this.dailyMapping = new EnumMap<RankType, RankType>(RankType.class);
 		this.dailyMapping.put(RankType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY);
 		this.dailyMapping.put(RankType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY);
@@ -100,6 +100,7 @@ public class RankingMgr {
 		arenaCalculate();
 		initAngelArrayTeamInfo();
 		checkPlayerLevel();
+		checkRobotLevel();
 	}
 
 	public void checkPlayerLevel() {
@@ -110,6 +111,14 @@ public class RankingMgr {
 		changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_PLAYER, true);
 	}
 
+	public void checkRobotLevel() {
+		Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);
+		if (levelRanking.size() > 0) {
+			return;
+		}
+		changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ROBOT, false);
+	}
+	
 	/**
 	 * 初始化竞技场阵容排行榜
 	 */
@@ -163,7 +172,7 @@ public class RankingMgr {
 	 */
 	@SuppressWarnings("unchecked")
 	public void resetUpdateState() {
-		GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
+		GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			GameWorld world = GameWorldFactory.getGameWorld();
 			String lastResetText = world.getAttribute(GameWorldKey.DAILY_RANKING_RESET);
@@ -173,7 +182,7 @@ public class RankingMgr {
 					return;
 				}
 			}
-			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置开始："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
+			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置开始：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 			// 第一次初始化的时候调用
 			if (lastResetText == null || lastResetText.isEmpty()) {
 				ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
@@ -210,14 +219,14 @@ public class RankingMgr {
 			// // 初始化万仙阵数据
 			// changeAngleArrayMatchRankData(RankType.ANGLE_ARRAY_RANK);
 			world.updateAttribute(GameWorldKey.DAILY_RANKING_RESET, String.valueOf(System.currentTimeMillis()));
-			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置结束："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
+			GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置结束：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		} catch (Exception e) {
 			GameLog.error("RankingMgr", "#resetUpdateState()", "重置排行榜异常", e);
 		}
 	}
 
 	public void arenaCalculate() {
-		GameLog.info("RankingMgr", "arenaCalculate", "执行结算："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
+		GameLog.info("RankingMgr", "arenaCalculate", "执行结算：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		GameWorld world = GameWorldFactory.getGameWorld();
 		String lastResetText = world.getAttribute(GameWorldKey.ARENA_CALCULATE);
 		long resetMillis = DateUtils.getResetTime(GameWorldConstant.ARENA_CALCULATE_HOUR, GameWorldConstant.ARENA_CALCULATE_MINUTE, GameWorldConstant.ARENA_CALCULATE_SECOND);
@@ -227,7 +236,7 @@ public class RankingMgr {
 				return;
 			}
 		}
-		GameLog.info("RankingMgr", "arenaCalculate", "执行结算开始："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
+		GameLog.info("RankingMgr", "arenaCalculate", "执行结算开始：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList = new ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>>();
 			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, resetMillis);
@@ -239,7 +248,7 @@ public class RankingMgr {
 			rewardOnlinePlayers();
 		} finally {
 			world.updateAttribute(GameWorldKey.ARENA_CALCULATE, String.valueOf(System.currentTimeMillis()));
-			GameLog.info("RankingMgr", "arenaCalculate", "执行结算结束："+DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
+			GameLog.info("RankingMgr", "arenaCalculate", "执行结算结束：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		}
 	}
 
@@ -310,7 +319,7 @@ public class RankingMgr {
 			RankingLevelData levelData = RankingUtils.createRankingLevelData(entry);
 			if (i == 1) {
 				RankingEntry<ArenaRankingComparable, RankingLevelData> lastChampion = ranking.getRankingEntry(1);
-				
+
 				if (lastChampion == null) {
 					// 第一名悬空
 					currentChampoin = key;
@@ -324,7 +333,6 @@ public class RankingMgr {
 				}
 			}
 
-			
 			ArenaSettleComparable sc = new ArenaSettleComparable();
 			sc.setRanking(i);
 			ArenaSettlement settlement = new ArenaSettlement();
@@ -391,8 +399,8 @@ public class RankingMgr {
 			toData.setUserName(p.getUserName());
 			toData.setLevel(p.getLevel());
 			toData.setExp(p.getExp());
-//			toData.setFightingAll(p.getHeroMgr().getFightingAll());
-//			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+			// toData.setFightingAll(p.getHeroMgr().getFightingAll());
+			// toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
 			toData.setFightingAll(p.getHeroMgr().getFightingAll(p));
 			toData.setFightingTeam(p.getHeroMgr().getFightingTeam(p));
 			toData.setUserHead(p.getHeadImage());
@@ -429,8 +437,8 @@ public class RankingMgr {
 				break;
 			default:
 				return null;
-//				rankingType = RankType.WARRIOR_ARENA_DAILY;
-//				break;
+				// rankingType = RankType.WARRIOR_ARENA_DAILY;
+				// break;
 			}
 
 			Ranking<?, ?> ranking = RankingFactory.getRanking(rankingType);
@@ -454,8 +462,8 @@ public class RankingMgr {
 			toData.setUserName(p.getUserName());
 			toData.setLevel(p.getLevel());
 			toData.setExp(p.getExp());
-//			toData.setFightingAll(p.getHeroMgr().getFightingAll());
-//			toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
+			// toData.setFightingAll(p.getHeroMgr().getFightingAll());
+			// toData.setFightingTeam(p.getHeroMgr().getFightingTeam());
 			toData.setFightingAll(p.getHeroMgr().getFightingAll(p));
 			toData.setFightingTeam(p.getHeroMgr().getFightingTeam(p));
 			toData.setUserHead(p.getHeadImage());
@@ -520,8 +528,8 @@ public class RankingMgr {
 	 * @param player
 	 */
 	public void onHeroFightingChanged(Player player) {
-//		int teamFighting = player.getHeroMgr().getFightingTeam();
-//		int fighting = player.getHeroMgr().getFightingAll();
+		// int teamFighting = player.getHeroMgr().getFightingTeam();
+		// int fighting = player.getHeroMgr().getFightingAll();
 		int teamFighting = player.getHeroMgr().getFightingTeam(player);
 		int fighting = player.getHeroMgr().getFightingAll(player);
 		String userId = player.getUserId();
@@ -552,7 +560,7 @@ public class RankingMgr {
 			List<String> list = teamData.getHeros();
 			for (int j = list.size(); --j >= 0;) {
 				String id = list.get(j);
-//				Hero hero = heroMgr.getHeroById(id);
+				// Hero hero = heroMgr.getHeroById(id);
 				Hero hero = heroMgr.getHeroById(player, id);
 				if (hero == null) {
 					continue;
@@ -580,6 +588,7 @@ public class RankingMgr {
 		updateLevelAndExp(RankType.LEVEL_ALL, level, exp, userId);
 		updateLevelAndExp(RankType.TEAM_FIGHTING, level, exp, userId);
 		updateLevelAndExp(RankType.FIGHTING_ALL, level, exp, userId);
+		updateLevelAndExp(RankType.POPULARITY_RANK, level, exp, userId);
 		if (!player.isRobot()) {
 			changeLevel(player, RankType.LEVEL_PLAYER, level, exp);
 			updateLevelAndExp(RankType.LEVEL_PLAYER, level, exp, userId);
@@ -687,8 +696,8 @@ public class RankingMgr {
 		}
 		return defaultGetOp;
 	}
-	
-	public RankType getDailyRankType(RankType type){
+
+	public RankType getDailyRankType(RankType type) {
 		return this.dailyMapping.get(type);
 	}
 
@@ -720,6 +729,9 @@ public class RankingMgr {
 			break;
 		case LEVEL_ALL_DAILY:
 			id = 301;
+			break;
+		case POPULARITY_RANK:
+			id = 601;
 			break;
 		default:
 			id = 101;

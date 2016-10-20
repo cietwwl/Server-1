@@ -11,6 +11,7 @@ import com.playerdata.RankingMgr;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.praise.PraiseHelper;
 import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
@@ -49,7 +50,12 @@ public class RankingHandler {
 		response.setBaseRankInfo(getBaseRankInfo(request.getUserId(), ERankingType.valueOf(requestType)));
 		RankType rankType = RankType.getRankType(requestType, cfgRanking.getRealTime());
 		Ranking ranking = RankingFactory.getRanking(rankType);
-		response.setMyRankInfo(RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId), RankingMgr.getInstance().getRankLevel(rankType, requestUserId)));
+		RankInfo myRankInfo = RankingUtils.createOneRankInfo(RankingMgr.getInstance().getRankLevelData(rankType, requestUserId), RankingMgr.getInstance().getRankLevel(rankType, requestUserId));
+		// 人气值
+		if (rankType == RankType.POPULARITY_RANK) {
+			myRankInfo.toBuilder().setPopularity(PraiseHelper.getInstance().getPopularityByUserId(player.getUserId()));
+		}
+		response.setMyRankInfo(myRankInfo);
 		return response.build().toByteString();
 	}
 
@@ -110,7 +116,7 @@ public class RankingHandler {
 		baseRankInfo.setGlory(0);// 荣耀山谷排行
 		// baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.ATHLETICS_FIGHTING, userId));//巅峰竞技战斗力排行
 		baseRankInfo.setAthleticsFighting(RankingMgr.getInstance().getRankLevel(RankType.PEAK_ARENA_FIGHTING, userId));// 巅峰竞技战斗力排行
-		//MAGIC_SECRET_SCORE_RANK
+		// MAGIC_SECRET_SCORE_RANK
 		baseRankInfo.setEndless(RankingMgr.getInstance().getRankLevel(RankType.MAGIC_SECRET_SCORE_RANK, userId));
 		RefInt refInt = new RefInt();
 		baseRankInfo.addAllTeamData(RankingUtils.createTeamData(rankType, userId, refInt));// 获取队伍数据

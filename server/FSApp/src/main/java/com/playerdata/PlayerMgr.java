@@ -24,6 +24,8 @@ import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 
@@ -303,48 +305,42 @@ public class PlayerMgr {
 
 	}
 
-	public int callbackEmailToList(List<Player> playerList, final EmailData emailData) {
-		PlayerCallBackTask playerTask = new PlayerCallBackTask() {
-			@Override
-			public void doCallBack(Player player) {
-				long taskId = emailData.getTaskId();
-				EmailUtils.deleteEmail(player.getUserId(), taskId);
-			}
-
-			@Override
-			public String getName() {
-				return "sendEmailToList";
-			}
-		};
-		return gamePlayerEmailHelper.addTask(playerList, playerTask);
+	public void callbackEmailToList(List<Player> playerList, final EmailData emailData) {
+		
+		for (Player player : playerList) {
+			GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
+				
+				@Override
+				public void run(Player e) {
+					long taskId = emailData.getTaskId();
+					EmailUtils.deleteEmail(e.getUserId(), taskId);
+				}
+			});
+		}
 
 	}
 
-	public int sendEmailToAll(final EmailData emailData, final List<PlayerFilterCondition> conditionList) {
-		List<Player> playerList = new ArrayList<Player>();
-
-		List<User> allUserList = UserDataDao.getInstance().queryAll();
-		for (User user : allUserList) {
-			Player player = find(user.getUserId());
-			if (player != null) {
-				playerList.add(player);
-			}
+	public void sendEmailToAll(final EmailData emailData, final List<PlayerFilterCondition> conditionList) {
+		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
+		for (Player player : onlinePlayers) {
+			GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
+				
+				@Override
+				public void run(Player e) {
+					// TODO Auto-generated method stub
+					List<Player> temp = new ArrayList<Player>();
+					temp.add(e);
+					sendEmailToList(temp, emailData, conditionList);
+				}
+			});
 		}
-		return sendEmailToList(playerList, emailData, conditionList);
 
 	}
 
-	public int callbackEmail(final EmailData emailData) {
-		List<Player> playerList = new ArrayList<Player>();
+	public void callbackEmail(final EmailData emailData) {
 
-		List<User> allUserList = UserDataDao.getInstance().queryAll();
-		for (User user : allUserList) {
-			Player player = find(user.getUserId());
-			if (player != null) {
-				playerList.add(player);
-			}
-		}
-		return callbackEmailToList(playerList, emailData);
+		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
+		callbackEmailToList(onlinePlayers, emailData);
 	}
 
 	/****

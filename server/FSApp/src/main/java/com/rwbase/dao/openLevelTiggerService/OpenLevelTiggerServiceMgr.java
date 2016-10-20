@@ -13,7 +13,7 @@ import com.playerdata.activity.retrieve.userFeatures.IUserFeatruesHandler;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.friend.TableFriend;
@@ -54,7 +54,7 @@ public class OpenLevelTiggerServiceMgr {
 //			List<OpenLevelTiggerServiceItem> itemList = new ArrayList<OpenLevelTiggerServiceItem>();
 		for(int i = (oldRecord.getLevel() + 1);i < (currentRecord.getLevel()+1);i++){//很少连升多级；先取引导的配置，再用引导配置取对应等级的功能服务配置；防止出现两份表不统一的情况出现
 			List<CfgOpenLevelLimit> cfgList = cfgLimitDao.getOpenByLevel(i);
-			System.out.println("~~~~~~~~~~~~level = " +i);
+//			System.out.println("~~~~~~~~~~~~level = " +i);
 			if(cfgList == null){
 				continue;
 			}

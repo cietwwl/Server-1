@@ -4,7 +4,6 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 public class UserTmpGameData {
-
 	private int fightingAll;
 
 	public int getFightingAll() {
@@ -14,7 +13,4 @@ public class UserTmpGameData {
 	public void setFightingAll(int fightingAll) {
 		this.fightingAll = fightingAll;
 	}
-	
-	
-	
 }

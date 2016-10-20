@@ -144,6 +144,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		int size = arrPrizes.length;
 		List<INewItem> newItemList = new ArrayList<INewItem>(size);
 		List<ItemInfo> items = new ArrayList<ItemInfo>();
+		
 		for (int i = 0; i < size; i++) {
 			String[] arrItem = arrPrizes[i].split("~");
 			if (arrItem.length < 2)
@@ -151,12 +152,14 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemId = Integer.valueOf(arrItem[0]);
 			int itemCount = Integer.valueOf(arrItem[1]);
 
-			if (itemId < eSpecialItemId.eSpecial_End.getValue() || ItemCfgHelper.isFashionSpecialItem(itemId)) {
+			if (itemId < eSpecialItemId.eSpecial_End.getValue() ) {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(itemId);
 				item.setItemNum(itemCount);
 				items.add(item);
-			} else {
+			} else if(ItemCfgHelper.isFashionSpecialItem(itemId)){
+				addItem(itemId,itemId);
+			}	else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);
 				newItemList.add(newItem);
 			}
@@ -184,16 +187,25 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
 	public boolean addItem(int cfgId, int count) {
+		boolean success = false;
 		// 增加特殊物品时装的判断，时装物品不会设计为可以使用的物品
 		// TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
 		if (ItemCfgHelper.isFashionSpecialItem(cfgId)) {
-			RefInt fashionId = new RefInt();
-			RefInt expireTimeCount = new RefInt();
-			ItemCfgHelper.parseFashionSpecialItem(cfgId, fashionId, expireTimeCount);
-			return FashionMgr.giveFashionItem(fashionId.value, expireTimeCount.value, player, false, true, null);
+			success = addFashion(cfgId);
+		}else{
+			success = addItem0(cfgId, count);
 		}
 
-		return addItem0(cfgId, count);
+		return success;
+	}
+
+	private boolean addFashion(int cfgId) {
+		boolean success;
+		RefInt fashionId = new RefInt();
+		RefInt expireTimeCount = new RefInt();
+		ItemCfgHelper.parseFashionSpecialItem(cfgId, fashionId, expireTimeCount);
+		success = FashionMgr.giveFashionItem(fashionId.value, expireTimeCount.value, player, false, true, null);
+		return success;
 	}
 
 	/**
@@ -342,6 +354,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				return player.getUserGameDataMgr().getWakenPiece() >= count;
 			} else if (cfgId == eSpecialItemId.WAKEN_KEY.getValue()) {
 				return player.getUserGameDataMgr().getWakenKey() >= count;
+			} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()){
+				return player.getUserGameDataMgr().getTeamBattleCoin() >= count;
 			}
 		} else {// 操作道具
 			if (count <= 0) {
@@ -501,7 +515,9 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			player.getUserGameDataMgr().addWakenPiece(value);
 		} else if (cfgId == eSpecialItemId.WAKEN_KEY.getValue()) {
 			player.getUserGameDataMgr().addWakenKey(value);
-		}
+		} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()) {
+			player.getUserGameDataMgr().addTeamBattleCoin(value);
+		} 
 	}
 
 	/**
@@ -898,6 +914,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		// 发送邮件
 		EmailUtils.sendEmail(userId, emailData);
 	}
+	
+	
 
 	/**
 	 * <pre>

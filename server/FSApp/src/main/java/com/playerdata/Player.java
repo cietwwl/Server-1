@@ -36,6 +36,7 @@ import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.hero.core.FSUserHeroGlobalDataMgr;
 import com.playerdata.mgcsecret.data.MagicChapterInfoHolder;
 import com.playerdata.readonly.EquipMgrIF;
 import com.playerdata.readonly.FresherActivityMgrIF;
@@ -81,6 +82,7 @@ import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
 import com.rwbase.dao.power.pojo.PowerInfo;
 import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
+import com.rwbase.dao.praise.PraiseMgr;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -88,7 +90,6 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.CfgChangeRoleInfoDAO;
 import com.rwbase.dao.user.LevelCfgDAO;
-import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.pojo.ChangeRoleInfoCfg;
 import com.rwbase.dao.user.pojo.LevelCfg;
@@ -422,6 +423,10 @@ public class Player implements PlayerIF {
 
 					// 为了处理掉线的情况，这里要处理一下帮派争霸的数据
 					GCompMatchDataHolder.getHolder().synPlayerMatchData(player);
+					// 当登录的时候，处理一下点赞的数据
+					PraiseMgr.getMgr().synData(player);
+					// 发送角色的全局数据
+					FSUserHeroGlobalDataMgr.getInstance().synData(player);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -826,6 +831,10 @@ public class Player implements PlayerIF {
 			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().checkAndAddList();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
+			
+			//升级添加日常任务通知,刷新一下任务红点----by Alex
+			m_DailyActivityMgr.resRed();
+			
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
 			if (mainRoleHero.getTemplateId() != null && currentLevel > 0) {
@@ -843,6 +852,7 @@ public class Player implements PlayerIF {
 				m_FresherActivityMgr.doCheck(eActivityType.A_PlayerLv);
 			}
 
+			
 			mainRoleHero.save();
 			// this.m_EquipMgr.CheckHot();
 			getStoreMgr().AddStore();
@@ -953,6 +963,9 @@ public class Player implements PlayerIF {
 			break;
 		case MagicSecretCoin:
 			reslut = userGameDataMgr.getMagicSecretCoin();
+			break;
+		case TEAM_BATTLE_GOLD:
+			reslut = userGameDataMgr.getTeamBattleCoin();
 			break;
 		case WAKEN_KEY:
 			reslut = userGameDataMgr.getWakenKey();

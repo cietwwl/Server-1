@@ -287,7 +287,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	 */
 	public void robotRequestAddPlayerToFriend(OpenLevelTiggerServiceSubItem subItem,TableFriend friendTable){
 		FriendHandler handler = FriendHandler.getInstance();
-		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ALL,false);
+		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ROBOT,false);
 		if(robotList == null|| robotList.isEmpty()){
 			return;
 		}
@@ -564,7 +564,15 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			if (giveState.isGiveState()) {// 可赠送
 				TableFriend otherFriend = getOtherTableFriend(giveState.getUserId());
 				if (otherFriend != null) {
-					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
+//					otherFriend.getFriendGiveList().get(m_pPlayer.getUserId()).setReceiveState(true);
+					FriendGiveState otherGiveState = otherFriend.getFriendGiveList().get(m_pPlayer.getUserId());
+					if (otherGiveState == null) {
+						// 2016-10-17 by Perry : 有个bug是在对方的列表没有找到自身的数据，看了添加的逻辑，没有发现什么问题，这里先在这里做一个保护，后续有时间继续跟进
+						otherGiveState = new FriendGiveState();
+						otherGiveState.setUserId(m_pPlayer.getUserId());
+						otherFriend.getFriendGiveList().put(m_pPlayer.getUserId(), otherGiveState);
+					}
+					otherGiveState.setGiveState(true);
 					friendDAO.update(otherFriend);
 					UserEventMgr.getInstance().givePowerVitality(m_pPlayer, 1);
 				}

@@ -62,6 +62,9 @@ public enum eOpenLevelType {
 	Union_Store(65,false),	//帮派商店
 	Tower_Store(66,false),	//仙阵商店
 	Waken_Store(67,false),	//觉醒商店
+	Maigc_Upgrade(68,false),  //法宝进化
+	Magic_Smelt(69,false), 	//法宝熔炼
+	MainMsg(70,false),		//跑马灯
 	;
 
 	private int order;

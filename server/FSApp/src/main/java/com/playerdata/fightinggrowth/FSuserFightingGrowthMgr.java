@@ -1,6 +1,5 @@
 package com.playerdata.fightinggrowth;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,6 @@ import org.springframework.util.StringUtils;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
-import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
@@ -31,16 +29,16 @@ public class FSuserFightingGrowthMgr {
 	
 	private Pair<String, Boolean> checkUpgradeCondition(Player player, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		// 检查晋级条件
-		if(player.getHeroMgr().getFightingAll(player) < nextTitleCfg.getFightingRequired()) {
+		if (player.getHeroMgr().getFightingTeam(player.getUserId()) < nextTitleCfg.getFightingRequired()) {
 			// 战斗力不符合
 			return Pair.Create(FSFightingGrowthTips.getTipsFightingNotReached(nextTitleCfg.getFightingRequired()), false);
-		} 
+		}
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
 		if (itemMap.size() > 0) {
 			for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
 				Integer itemCfgId = keyItr.next();
 				int count = itemMap.get(itemCfgId).intValue();
-				if(player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
+				if (player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
 					// 材料数量不符合
 					return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(itemCfgId).getName(), count), false);
 				}
@@ -64,10 +62,11 @@ public class FSuserFightingGrowthMgr {
 	
 	private void sendUpgradeTitleReward(Player player, FSUserFightingGrowthTitleCfg cfg) {
 		// 发送战力提升晋级奖励
-		if (cfg.getItemRewardMap().size() > 0) {
-			String attachment = EmailUtils.createEmailAttachment(cfg.getItemRewardMap());
-			EmailUtils.sendEmail(player.getUserId(), cfg.getEmailCfgIdOfReward(), attachment, Arrays.asList(cfg.getFightingTitle()));
-		}
+//		if (cfg.getItemRewardMap().size() > 0) {
+//			String attachment = EmailUtils.createEmailAttachment(cfg.getItemRewardMap());
+//			EmailUtils.sendEmail(player.getUserId(), cfg.getEmailCfgIdOfReward(), attachment, Arrays.asList(cfg.getFightingTitle()));
+//		}
+		player.getItemBagMgr().addItem(cfg.getItemRewardList());
 	}
 	
 	/**

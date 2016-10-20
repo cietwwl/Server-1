@@ -7,6 +7,7 @@ import com.bm.groupCopy.GroupCopyResult;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
@@ -111,6 +112,7 @@ public class GroupCopyBattleHandler {
 			}
 			
 		}	
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPCOPY_BATTLE, 1);
 		commonRsp.setIsSuccess(success);		
 		return commonRsp.build().toByteString();
 	}

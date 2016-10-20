@@ -58,17 +58,23 @@ public class ServiceTiggerToFriend implements IServiceTiggerHandler{
 			return;
 		}
 		List<OpenLevelTiggerServiceSubItem> subItemList = item.getSubItemList();
+		boolean isSave = false;
 		for(OpenLevelTiggerServiceSubItem subItem : subItemList){
 			if(!StringUtils.isBlank(subItem.getUserId())){
 				continue;
 			}
+			
 			long timeBySecond = (currentTime - item.getCreatTime())/1000;
 			if(timeBySecond > subItem.getTriggerTime()){
 //				type.doAction();
+				isSave = true;
 				player.getFriendMgr().robotRequestAddPlayerToFriend(subItem,friendTable);				
 			}
 		}
-		player.getFriendMgr().save();			
+		if(isSave){
+			player.getFriendMgr().save();	
+		}
+				
 	}
 
 	
