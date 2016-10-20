@@ -287,7 +287,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	 */
 	public void robotRequestAddPlayerToFriend(OpenLevelTiggerServiceSubItem subItem,TableFriend friendTable){
 		FriendHandler handler = FriendHandler.getInstance();
-		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ALL_DAILY,false);
+		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ALL,false);
 		if(robotList == null|| robotList.isEmpty()){
 			return;
 		}

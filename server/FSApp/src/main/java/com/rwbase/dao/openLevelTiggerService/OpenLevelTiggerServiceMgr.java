@@ -22,6 +22,7 @@ import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 import com.rwbase.dao.openLevelTiggerService.IServiceTiggerHandler.IServiceTiggerHandler;
+import com.rwbase.dao.openLevelTiggerService.IServiceTiggerHandler.ServiceTiggerToFriend;
 import com.rwbase.dao.openLevelTiggerService.pojo.CfgOpenLevelTiggerService;
 import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
 import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
@@ -37,6 +38,11 @@ public class OpenLevelTiggerServiceMgr {
 
 	private Map<eOpenLevelType, IServiceTiggerHandler> serviceTiggerHandlerMap = new HashMap<eOpenLevelType, IServiceTiggerHandler>();
 	
+	private OpenLevelTiggerServiceMgr(){
+		serviceTiggerHandlerMap.put(eOpenLevelType.FRIEND, new ServiceTiggerToFriend());
+		
+	}
+	
 	public void tiggerServiceByLevel(Player player, User oldRecord,
 			User currentRecord) {
 		String userId = player.getUserId();
@@ -48,6 +54,7 @@ public class OpenLevelTiggerServiceMgr {
 //			List<OpenLevelTiggerServiceItem> itemList = new ArrayList<OpenLevelTiggerServiceItem>();
 		for(int i = (oldRecord.getLevel() + 1);i < (currentRecord.getLevel()+1);i++){//很少连升多级；先取引导的配置，再用引导配置取对应等级的功能服务配置；防止出现两份表不统一的情况出现
 			List<CfgOpenLevelLimit> cfgList = cfgLimitDao.getOpenByLevel(i);
+			System.out.println("~~~~~~~~~~~~level = " +i);
 			if(cfgList == null){
 				continue;
 			}
