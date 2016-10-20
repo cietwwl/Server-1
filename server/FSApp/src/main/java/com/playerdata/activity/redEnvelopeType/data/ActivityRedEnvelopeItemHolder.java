@@ -18,7 +18,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -102,11 +102,11 @@ public class ActivityRedEnvelopeItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityRedEnvelopeTypeItem> getItemStore(String userId) {
 //		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityRedEnvelopeTypeItem.class);
 		RoleExtPropertyStoreCache<ActivityRedEnvelopeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_REDENVELOPE, ActivityRedEnvelopeTypeItem.class);
 		
-		PlayerExtPropertyStore<ActivityRedEnvelopeTypeItem> store = null;
+		RoleExtPropertyStore<ActivityRedEnvelopeTypeItem> store = null;
 		try {
 			store = cach.getStore(userId);
 			

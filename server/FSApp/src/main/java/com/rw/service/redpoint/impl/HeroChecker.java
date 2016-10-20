@@ -50,6 +50,8 @@ public class HeroChecker implements RedPointCollector {
 		Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
 
 		Map<String, RoleCfg> roleCfgCopys = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
+		ComposeCfgDAO composeCfgDAO = ComposeCfgDAO.getInstance();
+		RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
 		for (String id : heroIdList) {
 			// Hero hero = heroMgr.getHeroById(id);
 			Hero hero = heroMgr.getHeroById(player, id);
@@ -89,7 +91,7 @@ public class HeroChecker implements RedPointCollector {
 
 					ItemData itemData = modelFirstItemDataMap.get(equipCfgId);
 					if (itemData == null) {
-						HashMap<Integer, Integer> composeItems = ComposeCfgDAO.getInstance().getMate(equipCfgId);
+						HashMap<Integer, Integer> composeItems = composeCfgDAO.getMate(equipCfgId);
 						if (composeItems == null) {
 							continue;
 						}
@@ -111,7 +113,7 @@ public class HeroChecker implements RedPointCollector {
 				}
 			}
 
-			RoleCfg heroCfg = RoleCfgDAO.getInstance().getConfig(hero.getTemplateId());
+			RoleCfg heroCfg = roleCfgDAO.getConfig(hero.getTemplateId());
 			int risingNumber = heroCfg.getRisingNumber();
 			if (risingNumber <= 0) {
 				continue;

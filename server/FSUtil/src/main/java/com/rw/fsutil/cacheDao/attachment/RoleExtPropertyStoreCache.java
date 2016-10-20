@@ -30,7 +30,7 @@ import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 
 public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements MapItemUpdater<String, Integer>, DAOStoreCache<T, QueryRoleExtPropertyData> {
 
-	private final MapItemCache<String, PlayerExtPropertyStoreImpl<T>> cache;
+	private final MapItemCache<String, RoleExtPropertyStoreImpl<T>> cache;
 	private final Short type;
 	private final Class<T> entityClass;
 	private final ClassInfo clasInfo;
@@ -63,7 +63,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		cache.submitRecordTask(key);
 	}
 
-	public PlayerExtPropertyStore<T> getStore(String userId) throws InterruptedException, Throwable {
+	public RoleExtPropertyStore<T> getStore(String userId) throws InterruptedException, Throwable {
 		return this.cache.getOrLoadFromDB(userId);
 	}
 
@@ -71,30 +71,30 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		return this.cache.containsKey(userId);
 	}
 
-	public PlayerExtPropertyStore<T> getStoreFromMemory(String userId) {
+	public RoleExtPropertyStore<T> getStoreFromMemory(String userId) {
 		return this.cache.getFromMemory(userId);
 	}
 
-	public boolean putIfAbsent(final String key, List<PlayerExtPropertyData<T>> datas) {
-		PlayerExtPropertyStoreImpl<T> storeImpl = new PlayerExtPropertyStoreImpl<T>(dataAccessManager, datas, key, RoleExtPropertyStoreCache.this, type, mapper);
+	public boolean putIfAbsent(final String key, List<RoleExtPropertyData<T>> datas) {
+		RoleExtPropertyStoreImpl<T> storeImpl = new RoleExtPropertyStoreImpl<T>(dataAccessManager, datas, key, RoleExtPropertyStoreCache.this, type, mapper);
 		return cache.preInsertIfAbsent(key, storeImpl);
 	}
 
 	public boolean putIfAbsentByDBString(final String key, final List<QueryRoleExtPropertyData> datas) {
-		return this.cache.preInsertIfAbsent(key, new Callable<PlayerExtPropertyStoreImpl<T>>() {
+		return this.cache.preInsertIfAbsent(key, new Callable<RoleExtPropertyStoreImpl<T>>() {
 
 			@Override
-			public PlayerExtPropertyStoreImpl<T> call() throws Exception {
+			public RoleExtPropertyStoreImpl<T> call() throws Exception {
 				return create(key, datas);
 			}
 		});
 	}
 
-	private PlayerExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, Exception {
+	private RoleExtPropertyStoreImpl<T> create(String key, List<QueryRoleExtPropertyData> datas) throws JsonParseException, JsonMappingException, Exception {
 		int size = datas.size();
 		Field keyField = this.clasInfo.getIdField();
 		Field roleField = this.clasInfo.getOwnerField();
-		ArrayList<PlayerExtPropertyData<T>> result = new ArrayList<PlayerExtPropertyData<T>>(size);
+		ArrayList<RoleExtPropertyData<T>> result = new ArrayList<RoleExtPropertyData<T>>(size);
 		for (int i = 0; i < size; i++) {
 			QueryRoleExtPropertyData query = datas.get(i);
 			T entity = mapper.readValue(query.getExtension(), entityClass);
@@ -107,15 +107,15 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 			if (entity == null) {
 				throw new RuntimeException("parse entity fail:" + entityClass + "," + query.getExtension());
 			}
-			result.add(new PlayerExtPropertyData<T>(query.getId(), entity));
+			result.add(new RoleExtPropertyData<T>(query.getId(), entity));
 		}
-		return new PlayerExtPropertyStoreImpl<T>(dataAccessManager, result, key, RoleExtPropertyStoreCache.this, type, mapper);
+		return new RoleExtPropertyStoreImpl<T>(dataAccessManager, result, key, RoleExtPropertyStoreCache.this, type, mapper);
 	}
 
-	private PersistentGenericHandler<String, PlayerExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>> loader = new PersistentGenericHandler<String, PlayerExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>>() {
+	private PersistentGenericHandler<String, RoleExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>> loader = new PersistentGenericHandler<String, RoleExtPropertyStoreImpl<T>, CacheCompositKey<String, Integer>>() {
 
 		@Override
-		public PlayerExtPropertyStoreImpl<T> load(String key) throws DataNotExistException, Exception {
+		public RoleExtPropertyStoreImpl<T> load(String key) throws DataNotExistException, Exception {
 			List<QueryRoleExtPropertyData> datas = dataAccessManager.loadEntitys(key, type);
 			return create(key, datas);
 		}
@@ -126,12 +126,12 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		}
 
 		@Override
-		public boolean insert(String key, PlayerExtPropertyStoreImpl<T> value) throws DuplicatedKeyException, Exception {
+		public boolean insert(String key, RoleExtPropertyStoreImpl<T> value) throws DuplicatedKeyException, Exception {
 			return false;
 		}
 
 		@Override
-		public boolean updateToDB(String key, PlayerExtPropertyStoreImpl<T> value) {
+		public boolean updateToDB(String key, RoleExtPropertyStoreImpl<T> value) {
 			return false;
 		}
 
@@ -146,9 +146,9 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		}
 
 		@Override
-		public boolean extractParams(CacheCompositKey<String, Integer> key, PlayerExtPropertyStoreImpl<T> value, List<Object[]> updateList) {
+		public boolean extractParams(CacheCompositKey<String, Integer> key, RoleExtPropertyStoreImpl<T> value, List<Object[]> updateList) {
 			Integer key2 = key.getSecondKey();
-			PlayerExtPropertyData<T> data = value.getItem(key2);
+			RoleExtPropertyData<T> data = value.getItem(key2);
 			if (data == null) {
 				return false;
 			}
@@ -168,11 +168,11 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		}
 
 		@Override
-		public boolean extractParams(String key, PlayerExtPropertyStoreImpl<T> value, Map<CacheCompositKey<String, Integer>, Object[]> map) {
-			HashMap<Integer, PlayerExtPropertyData<T>> dirtyMap = value.getDirtyItems();
-			for (Map.Entry<Integer, PlayerExtPropertyData<T>> entry : dirtyMap.entrySet()) {
+		public boolean extractParams(String key, RoleExtPropertyStoreImpl<T> value, Map<CacheCompositKey<String, Integer>, Object[]> map) {
+			HashMap<Integer, RoleExtPropertyData<T>> dirtyMap = value.getDirtyItems();
+			for (Map.Entry<Integer, RoleExtPropertyData<T>> entry : dirtyMap.entrySet()) {
 				Integer k = entry.getKey();
-				PlayerExtPropertyData<T> data = entry.getValue();
+				RoleExtPropertyData<T> data = entry.getValue();
 				String ext;
 				try {
 					ext = mapper.writeValueAsString(entry.getValue().getAttachment());
@@ -191,7 +191,7 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		}
 
 		@Override
-		public boolean hasChanged(String key, PlayerExtPropertyStoreImpl<T> value) {
+		public boolean hasChanged(String key, RoleExtPropertyStoreImpl<T> value) {
 			return value.hasChanged();
 		}
 

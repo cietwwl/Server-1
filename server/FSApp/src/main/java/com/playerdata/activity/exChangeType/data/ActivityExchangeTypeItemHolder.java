@@ -20,7 +20,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -46,7 +46,7 @@ public class ActivityExchangeTypeItemHolder{
 	{
 		
 		List<ActivityExchangeTypeItem> itemList = new ArrayList<ActivityExchangeTypeItem>();
-		PlayerExtPropertyStore<ActivityExchangeTypeItem> itemStore = getItemStore(userId);
+		RoleExtPropertyStore<ActivityExchangeTypeItem> itemStore = getItemStore(userId);
 		Enumeration<ActivityExchangeTypeItem> mapEnum = itemStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityExchangeTypeItem item = (ActivityExchangeTypeItem) mapEnum.nextElement();
@@ -125,7 +125,7 @@ public class ActivityExchangeTypeItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityExchangeTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityExchangeTypeItem> getItemStore(String userId) {
 //		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityExchangeTypeItem.class);
 		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
 		

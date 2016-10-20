@@ -9,7 +9,7 @@ import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfg;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class HeroFixExpEquipCreator implements HeroExtPropertyCreator<FixExpEquipDataItem> {
@@ -63,7 +63,7 @@ public class HeroFixExpEquipCreator implements HeroExtPropertyCreator<FixExpEqui
 	}
 
 	@Override
-	public List<FixExpEquipDataItem> checkAndCreate(PlayerExtPropertyStore<FixExpEquipDataItem> store, HeroCreateParam params) {
+	public List<FixExpEquipDataItem> checkAndCreate(RoleExtPropertyStore<FixExpEquipDataItem> store, HeroCreateParam params) {
 		// do nothing
 		return null;
 	}

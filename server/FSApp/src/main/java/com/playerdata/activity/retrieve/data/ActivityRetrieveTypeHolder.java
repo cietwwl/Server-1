@@ -23,7 +23,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -95,7 +95,7 @@ public class ActivityRetrieveTypeHolder{
 	public boolean addItemList(Player player, List<RewardBackItem> itemList){
 		try {
 //			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
-			PlayerExtPropertyStore<RewardBackItem> itemstore = getItemStore(player.getUserId());
+			RoleExtPropertyStore<RewardBackItem> itemstore = getItemStore(player.getUserId());
 			boolean addSuccess = itemstore.addItem(itemList);
 			
 			if(addSuccess){
@@ -119,7 +119,7 @@ public class ActivityRetrieveTypeHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<RewardBackItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<RewardBackItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<RewardBackItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RETRIEVE, RewardBackItem.class);
 		try {
 			return storeCache.getStore(userId);

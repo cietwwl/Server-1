@@ -14,13 +14,13 @@ import com.rw.fsutil.dao.attachment.RoleExtPropertyManager;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 
-public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMapItemContainer<Integer, PlayerExtPropertyData<T>, T> implements PlayerExtPropertyStore<T> {
+public class RoleExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMapItemContainer<Integer, RoleExtPropertyData<T>, T> implements RoleExtPropertyStore<T> {
 
 	private final short type;
 	private final ObjectMapper mapper;
 	private final RoleExtPropertyManager dataAccessManager;
 	
-	public PlayerExtPropertyStoreImpl(RoleExtPropertyManager dataAccessManager,List<PlayerExtPropertyData<T>> itemList, String searchId, MapItemUpdater<String, Integer> updater, short type, ObjectMapper mapper) {
+	public RoleExtPropertyStoreImpl(RoleExtPropertyManager dataAccessManager,List<RoleExtPropertyData<T>> itemList, String searchId, MapItemUpdater<String, Integer> updater, short type, ObjectMapper mapper) {
 		super(itemList, searchId, updater);
 		this.type = type;
 		this.mapper = mapper;
@@ -28,7 +28,7 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 	}
 
 	@Override
-	public List<PlayerExtPropertyData<T>> insertAndDelete(String searchId, List<T> addList, List<Integer> delList) throws DuplicatedKeyException, DataNotExistException, Exception {
+	public List<RoleExtPropertyData<T>> insertAndDelete(String searchId, List<T> addList, List<Integer> delList) throws DuplicatedKeyException, DataNotExistException, Exception {
 		int size = addList.size();
 		ArrayList<InsertRoleExtPropertyData> newList = new ArrayList<InsertRoleExtPropertyData>(size);
 		for (int i = 0; i < size; i++) {
@@ -38,7 +38,7 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 		ArrayList<Long> deleteKeys = new ArrayList<Long>(size);
 		for (int i = 0; i < size; i++) {
 			Integer configId = delList.get(i);
-			PlayerExtPropertyData<T> attachment = super.getItem(configId);
+			RoleExtPropertyData<T> attachment = super.getItem(configId);
 			if (attachment == null) {
 				throw new DataNotExistException("record not exist:" + configId);
 			}
@@ -49,14 +49,14 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 	}
 
 	@Override
-	public PlayerExtPropertyData<T> insert(String searchId, T item) throws DuplicatedKeyException, Exception {
+	public RoleExtPropertyData<T> insert(String searchId, T item) throws DuplicatedKeyException, Exception {
 		long id = dataAccessManager.insert(searchId, PlayerExtPropertyUtil.convert(mapper, searchId, type, item));
-		PlayerExtPropertyData<T> entity = new PlayerExtPropertyData<T>(id, item);
+		RoleExtPropertyData<T> entity = new RoleExtPropertyData<T>(id, item);
 		return entity;
 	}
 
 	@Override
-	public List<PlayerExtPropertyData<T>> insert(String searchId, List<T> itemList) throws DuplicatedKeyException, Exception {
+	public List<RoleExtPropertyData<T>> insert(String searchId, List<T> itemList) throws DuplicatedKeyException, Exception {
 		int size = itemList.size();
 		ArrayList<InsertRoleExtPropertyData> list = new ArrayList<InsertRoleExtPropertyData>(size);
 		for (int i = 0; i < size; i++) {
@@ -66,12 +66,12 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 		return create(itemList, keys, size);
 	}
 
-	public List<PlayerExtPropertyData<T>> create(List<T> itemList, long[] keys, int size) {
-		ArrayList<PlayerExtPropertyData<T>> result = new ArrayList<PlayerExtPropertyData<T>>(size);
+	public List<RoleExtPropertyData<T>> create(List<T> itemList, long[] keys, int size) {
+		ArrayList<RoleExtPropertyData<T>> result = new ArrayList<RoleExtPropertyData<T>>(size);
 		for (int i = 0; i < size; i++) {
 			T t = itemList.get(i);
 			long key = keys[i];
-			result.add(new PlayerExtPropertyData<T>(key, t));
+			result.add(new RoleExtPropertyData<T>(key, t));
 		}
 		return result;
 	}
@@ -91,7 +91,7 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 		HashMap<Long, Integer> tempMapping = new HashMap<Long, Integer>((int) (size / 0.75f + 1));
 		for (int i = 0; i < size; i++) {
 			Integer configId = list.get(i);
-			PlayerExtPropertyData<T> entity = super.getItem(configId);
+			RoleExtPropertyData<T> entity = super.getItem(configId);
 			if (entity == null) {
 				FSUtilLogger.error("PlayerAttachmentStore find item to delete fail:" + list.get(i));
 				continue;
@@ -117,7 +117,7 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 
 	@Override
 	public boolean delete(String searchId, Integer key) throws DataNotExistException, Exception {
-		PlayerExtPropertyData<T> entity = super.getItem(key);
+		RoleExtPropertyData<T> entity = super.getItem(key);
 		if (entity == null) {
 			return false;
 		}
@@ -130,13 +130,13 @@ public class PlayerExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMa
 
 	@Override
 	public T get(Integer cfgId) {
-		PlayerExtPropertyData<T> entity = super.getItem(cfgId);
+		RoleExtPropertyData<T> entity = super.getItem(cfgId);
 		return entity == null ? null : entity.getAttachment();
 	}
 
 	@Override
 	public Enumeration<T> getExtPropertyEnumeration() {
-		final Enumeration<PlayerExtPropertyData<T>> entityEnumeration = super.getEnum();
+		final Enumeration<RoleExtPropertyData<T>> entityEnumeration = super.getEnum();
 		return new Enumeration<T>() {
 
 			@Override

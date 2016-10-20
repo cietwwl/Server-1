@@ -19,14 +19,16 @@ import com.rwbase.dao.user.readonly.TableUserIF;
 public class User implements TableUserIF {
 	@Id
 	private String userId;
+	@IgnoreUpdate
 	private int zoneId;
 	private int vip;
 	private int sex;
+	@IgnoreUpdate
 	private String account;
 	@IgnoreUpdate
 	private String userName;
 	private String headImage;
-
+	@IgnoreUpdate
 	private long createTime; // 创建的时间
 	private long lastLoginTime; // 上次登录时间
 
@@ -43,6 +45,7 @@ public class User implements TableUserIF {
 	private long exp;
 	// 用于后台数据查询
 	private int level;
+	@IgnoreUpdate
 	private boolean isRobot;// 是否是机器人
 
 	@NonSave

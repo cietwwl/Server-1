@@ -46,7 +46,7 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -102,7 +102,7 @@ public class ActivityLimitHeroTypeMgr implements ActivityRedPointUpdate{
 	
 	public List<ActivityLimitHeroTypeItem> creatItems(String userid,boolean isHasPlayer){	
 		RoleExtPropertyStoreCache<ActivityLimitHeroTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_LIMITHERO, ActivityLimitHeroTypeItem.class);
-		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
+		RoleExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
 		List<ActivityLimitHeroTypeItem> addItemList = null;
 		ActivityLimitHeroBoxCfgDAO dao = ActivityLimitHeroBoxCfgDAO.getInstance();
 		List<ActivityLimitHeroCfg> allCfgList = ActivityLimitHeroCfgDAO.getInstance().getAllCfg();

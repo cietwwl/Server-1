@@ -3,7 +3,7 @@ package com.rw.dataaccess.hero;
 import java.util.Collections;
 import java.util.List;
 
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
@@ -25,7 +25,7 @@ public class HeroEquipItemCreator implements HeroExtPropertyCreator<EquipItem> {
 	}
 
 	@Override
-	public List<EquipItem> checkAndCreate(PlayerExtPropertyStore<EquipItem> store, HeroCreateParam params) {
+	public List<EquipItem> checkAndCreate(RoleExtPropertyStore<EquipItem> store, HeroCreateParam params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
