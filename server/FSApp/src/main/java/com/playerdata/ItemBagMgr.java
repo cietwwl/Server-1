@@ -144,6 +144,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		int size = arrPrizes.length;
 		List<INewItem> newItemList = new ArrayList<INewItem>(size);
 		List<ItemInfo> items = new ArrayList<ItemInfo>();
+		
 		for (int i = 0; i < size; i++) {
 			String[] arrItem = arrPrizes[i].split("~");
 			if (arrItem.length < 2)
@@ -151,12 +152,14 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemId = Integer.valueOf(arrItem[0]);
 			int itemCount = Integer.valueOf(arrItem[1]);
 
-			if (itemId < eSpecialItemId.eSpecial_End.getValue() || ItemCfgHelper.isFashionSpecialItem(itemId)) {
+			if (itemId < eSpecialItemId.eSpecial_End.getValue() ) {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(itemId);
 				item.setItemNum(itemCount);
 				items.add(item);
-			} else {
+			} else if(ItemCfgHelper.isFashionSpecialItem(itemId)){
+				addItem(itemId,itemId);
+			}	else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);
 				newItemList.add(newItem);
 			}
