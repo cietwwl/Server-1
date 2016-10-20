@@ -1,6 +1,8 @@
 package com.rw.fsutil.dao.cache;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -63,6 +65,15 @@ public class SimpleCache<K, V> {
 		lock.lock();
 		try {
 			return map.remove(key);
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	public List<V> values() {
+		lock.lock();
+		try {
+			return new ArrayList<V>(this.map.values());
 		} finally {
 			lock.unlock();
 		}
