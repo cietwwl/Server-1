@@ -1187,13 +1187,13 @@ public class Robot {
 	 * 获取随机一个帮派地图
 	 * @return
 	 */
-	public String getRandomGroupCopyID(){
+	public int getRandomGroupCopyID(){
 		GroupCopyMapRecord record = GroupCopyMgr.getInstance().getRandomOpenChater(client);
 		if(record == null){
 			RobotLog.info("当前机器人没有可进入的帮派副本");
-			return "";
+			return 0;
 		}
-		return record.getCurLevelID();
+		return Integer.parseInt(record.getCurLevelID());
 	}
 	
 	/**
@@ -1201,9 +1201,9 @@ public class Robot {
 	 * 跑这个方法前，要依次调用 {@link Robot#applyOpenGroupCopy()},{@link Robot#getRandomGroupCopyID()},{@link Robot#applySynGroupCopyData()}
 	 * @return
 	 */
-	public boolean playerGroupCopy(String copyID) {
+	public boolean playerGroupCopy(int copyID) {
 		
-		return GroupCopyMgr.getInstance().playGroupCopy(client, copyID);
+		return GroupCopyMgr.getInstance().playGroupCopy(client, String.valueOf(copyID));
 	}
 
 	/**
