@@ -205,6 +205,7 @@ public class ActivityDailyTypeMgr implements ActivityRedPointUpdate {
 			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLastTime())) {
 				sendEmailIfGiftNotTaken(player, freshItem.getSubItemList());
 				freshItem.reset(cfg);
+//				System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~reset");
 				dataHolder.updateItem(player, freshItem);
 			}
 		}		
