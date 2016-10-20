@@ -1198,7 +1198,7 @@ public class Robot {
 	
 	/**
 	 * 帮派副本战斗
-	 * 
+	 * 跑这个方法前，要依次调用 {@link Robot#applyOpenGroupCopy()},{@link Robot#getRandomGroupCopyID()},{@link Robot#applySynGroupCopyData()}
 	 * @return
 	 */
 	public boolean playerGroupCopy(String copyID) {
