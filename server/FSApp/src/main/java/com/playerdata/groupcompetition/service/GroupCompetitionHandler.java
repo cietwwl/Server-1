@@ -482,8 +482,11 @@ public class GroupCompetitionHandler {
 		return rspBuilder.build().toByteString();
 	}
 
-	public void inPrepareArea(Player player) {
+	public ByteString inPrepareArea(Player player) {
 		PrepareAreaMgr.getInstance().inPrepareArea(player);
+		CommonRspMsg.Builder gcRsp = CommonRspMsg.newBuilder();
+		gcRsp.setRstType(GCResultType.SUCCESS);
+		return gcRsp.build().toByteString();
 	}
 
 	public ByteString getFightInfoInScene(Player player, CommonGetDataReqMsg request) {

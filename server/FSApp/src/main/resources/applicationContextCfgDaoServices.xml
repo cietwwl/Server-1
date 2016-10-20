@@ -73,6 +73,7 @@
 	
 	<bean class="com.rwbase.dao.mainmsg.CfgPmdDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.openLevelTiggerService.CfgOpenLevelTiggerServiceDAO"  init-method="init" />
 	
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper"  init-method="init" />

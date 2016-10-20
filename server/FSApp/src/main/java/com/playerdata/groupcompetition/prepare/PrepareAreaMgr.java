@@ -1,5 +1,7 @@
 package com.playerdata.groupcompetition.prepare;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,14 +20,14 @@ import com.playerdata.groupcompetition.util.GCompStageType;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg.Builder;
 import com.rwproto.GroupCompetitionProto.GCResultType;
+import com.rwproto.GroupCompetitionProto.MagicInfo;
 import com.rwproto.GroupCompetitionProto.PlayerBaseInfo;
-
-import io.netty.channel.ChannelHandlerContext;
 
 public class PrepareAreaMgr {
 	
@@ -90,7 +92,7 @@ public class PrepareAreaMgr {
 		if(gcRsp.getRstType() == GCResultType.SUCCESS){
 			long sceneId = groupScene.get(groupId);
 			DataAutoSynMgr.getInstance().synDataToOnePlayer(player, sceneId, synType, new SameSceneSynData());
-			List<String> usersInScene = SameSceneContainer.getInstance().getSelfSceneUser(sceneId, player.getUserId());
+			List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
 			List<PlayerBaseInfo> allBaseInfo = getAllPlayer(usersInScene);
 			if(null != allBaseInfo && !allBaseInfo.isEmpty()){
 				gcRsp.addAllPlayers(allBaseInfo);
@@ -196,7 +198,7 @@ public class PrepareAreaMgr {
 		if(needRemoveScene){
 			if(null != groupScene && !groupScene.isEmpty()){
 				for(Long sceneId : groupScene.values()){
-					SameSceneContainer.getInstance().addRemoveScene(sceneId);
+					DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
 				}
 			}
 			needRemoveScene = false;
@@ -224,11 +226,13 @@ public class PrepareAreaMgr {
 			@Override
 			public void run() {
 				if(needRemoveScene){
-					//延时清除每个帮派的准备区
-					for(Long sceneId : groupScene.values()){
-						SameSceneContainer.getInstance().addRemoveScene(sceneId);
+					if(null != groupScene){
+						//延时清除每个帮派的准备区
+						for(Long sceneId : groupScene.values()){
+							DataAutoSynMgr.getInstance().addRemoveScene(sceneId);
+						}
+						groupScene = null;
 					}
-					groupScene = null;
 				}
 			}
 		}, SCENE_KEEP_TIME);
@@ -263,6 +267,14 @@ public class PrepareAreaMgr {
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(userId);
 			if (fashionUsing != null){
 				infoBuilder.setFashionUsage(fashionUsing);
+			}
+			ItemData magicItem = player.getMagic();
+			if(null != magicItem){
+				MagicInfo.Builder magicBuilder = MagicInfo.newBuilder();
+				magicBuilder.setModelId(magicItem.getModelId());
+				magicBuilder.setAptitude(magicItem.getMagicAptitude());
+				magicBuilder.setLevel(magicItem.getMagicLevel());
+				infoBuilder.setMagic(magicBuilder.build());
 			}
 			result.add(infoBuilder.build());
 		}

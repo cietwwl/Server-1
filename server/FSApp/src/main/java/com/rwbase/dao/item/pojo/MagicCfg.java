@@ -1,7 +1,11 @@
 package com.rwbase.dao.item.pojo;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -11,6 +15,10 @@ import com.log.GameLog;
 import com.rw.fsutil.common.Pair;
 
 public class MagicCfg extends ItemBaseCfg {
+	
+	public static final int TYPE_PIECE = 1;
+	public static final int TYPE_MAGIC = 2;
+	
 	private int property; // 属性
 	private int smeltperc; // 熔炼生成概率
 	private String trainItemId; // 锻造材料ID
@@ -28,6 +36,8 @@ public class MagicCfg extends ItemBaseCfg {
 	private int initialEnergy;// 初始能量值
 	private String skillId_passive;// 法宝的被动技能列表
 	private List<Integer> passiveSkillIdList;// 被动技能列表
+	private String Skill_UnLock;
+	private Map<Integer, List<String>> unlockSkills;
 	private int firstAptitude;// 法宝的资质
 
 	public void ExtraInitAfterLoad() {
@@ -256,6 +266,16 @@ public class MagicCfg extends ItemBaseCfg {
 	public List<Integer> getPassiveSkillIdList() {
 		return passiveSkillIdList;
 	}
+	
+	/**
+	 * 
+	 * 解锁技能列表
+	 * 
+	 * @return
+	 */
+	public Map<Integer, List<String>> getUnlockSkillIdList() {
+		return unlockSkills;
+	}
 
 	/**
 	 * 获取法宝默认的资质
@@ -275,6 +295,35 @@ public class MagicCfg extends ItemBaseCfg {
 			this.passiveSkillIdList = Collections.emptyList();
 		} else {
 			this.passiveSkillIdList = Collections.unmodifiableList(HPCUtil.parseIntegerList(skillId_passive, ","));
+		}
+		if(StringUtils.isEmpty(Skill_UnLock)) {
+			this.unlockSkills = Collections.emptyMap();
+		} else {
+			Map<Integer, List<String>> map = new HashMap<Integer, List<String>>();
+			String[] unlocks = Skill_UnLock.split(",");
+			for (int i = 0; i < unlocks.length; i++) {
+				String[] skillInfos = unlocks[i].split("_");
+				// 新的法宝解析式两段式的
+				if (skillInfos.length == 2) {
+					Integer itemId = Integer.valueOf(skillInfos[1]);
+					String skillId = skillInfos[0];
+					List<String> skills = map.get(skillId);
+					if(skills == null) {
+						skills = new ArrayList<String>();
+						map.put(itemId, skills);
+					}
+					skills.add(skillId);
+				}
+			}
+			Map<Integer, List<String>> copyMap = new HashMap<Integer, List<String>>(map.size(), 1.5f);
+			for (Iterator<Integer> keyItr = map.keySet().iterator(); keyItr.hasNext();) {
+				Integer key = keyItr.next();
+				List<String> tempList = map.get(key);
+				List<String> list = new ArrayList<String>(tempList.size());
+				list.addAll(tempList);
+				copyMap.put(key, list);
+			}
+			unlockSkills = Collections.unmodifiableMap(copyMap);
 		}
 	}
 }

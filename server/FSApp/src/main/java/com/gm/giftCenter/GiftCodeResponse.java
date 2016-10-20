@@ -9,6 +9,8 @@ public class GiftCodeResponse {
 	private long iSequenceNum;
 	private String title;
 	private String content;
+	private String guildId;
+	private String activateCode;
 	private List<GiftItem> itemData;
 
 	public int getGift_id() {
@@ -57,5 +59,21 @@ public class GiftCodeResponse {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getGuildId() {
+		return guildId;
+	}
+
+	public void setGuildId(String guildId) {
+		this.guildId = guildId;
+	}
+
+	public String getActivateCode() {
+		return activateCode;
+	}
+
+	public void setActivateCode(String activateCode) {
+		this.activateCode = activateCode;
 	}
 }

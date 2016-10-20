@@ -634,7 +634,7 @@ public interface HeroMgr {
 	 * @param player
 	 * @param exp
 	 */
-	public void AddAllHeroExp(PlayerIF player, long exp);
+	public void AddAllHeroExp(Player player, long exp);
 
 	/**
 	 * 
@@ -654,7 +654,7 @@ public interface HeroMgr {
 	 * @param heroExp
 	 * @return
 	 */
-	public int addHeroExp(Hero hero, long heroExp);
+	public int addHeroExp(Player player, Hero hero, long heroExp);
 
 	/**
 	 * 
@@ -706,7 +706,7 @@ public interface HeroMgr {
 	 * 
 	 * @param version
 	 */
-	public void synHero(Hero hero, int version);
+	public void synHero(Player player, Hero hero, int version);
 
 	/**
 	 * 

@@ -5,6 +5,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
+import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceMgr;
 import com.rwbase.dao.user.User;
 
 /**
@@ -23,6 +24,7 @@ public class UserDataListener implements SingleChangedListener<User>{
 //			System.err.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  old level:" + oldRecord.getLevel() 
 //					+", new level:" + currentRecord.getLevel());
 			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
+			OpenLevelTiggerServiceMgr.getInstance().tiggerServiceByLevel(player,oldRecord,currentRecord);
 		}
 		if(oldRecord.getExp() != currentRecord.getExp()){
 //			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()

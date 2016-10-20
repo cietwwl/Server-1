@@ -25,16 +25,16 @@ public class GCompSetReadyMsgReceiver implements MsgReciver {
 				return false;
 			}
 			if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
-				RobotLog.fail("GroupCompetitionHandler[send] sendSetReady服务器返回不成功，提示信息：" + rsp.getTips());
+				RobotLog.info("GroupCompetitionHandler[send] sendSetReady服务器返回不成功，提示信息：" + rsp.getTips());
 				return true;
 			} else {
 				RobotLog.info("请求准备状态响应成功，userId：{}" + client.getUserId());
+				return true;
 			}
 		} catch (InvalidProtocolBufferException e) {
 			RobotLog.fail("GroupCompetitionHandler[send] 失败", e);
 			return false;
 		}
-		return false;
 	}
 
 }

@@ -10,6 +10,7 @@ public class GCompBaseInfoHolder {
 //	private SynDataListHolder<GCompBaseInfo> listHolder = new SynDataListHolder<GCompBaseInfo>(GCompBaseInfo.class);
 	private GCompBaseInfo baseInfoData;
 	private long lastRunGCompTime;
+	private long lastRequestGroupTime;
 	
 	public void syn(MsgDataSyn msgDataSyn) {
 //		listHolder.Syn(msgDataSyn);
@@ -33,5 +34,13 @@ public class GCompBaseInfoHolder {
 
 	public void setLastRunGCompTime(long lastRunGCompTime) {
 		this.lastRunGCompTime = lastRunGCompTime;
+	}
+
+	public long getLastRequestGroupTime() {
+		return lastRequestGroupTime;
+	}
+
+	public void setLastRequestGroupTime(long lastRequestGroupTime) {
+		this.lastRequestGroupTime = lastRequestGroupTime;
 	}
 }

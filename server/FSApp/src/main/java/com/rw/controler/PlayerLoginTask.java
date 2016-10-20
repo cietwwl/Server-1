@@ -7,6 +7,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
@@ -168,7 +169,7 @@ public class PlayerLoginTask implements PlayerTask {
 		response.setUserId(userId);
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
-		// BILogMgr.getInstance().logZoneLogin(player);
+		ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);

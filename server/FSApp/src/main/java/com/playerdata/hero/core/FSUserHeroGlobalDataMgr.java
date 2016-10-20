@@ -101,7 +101,12 @@ public class FSUserHeroGlobalDataMgr {
 				result += hero.getFighting();
 				heroIds.add(hero.getId());
 			}
-			userHeroGlobalData.setFightingTeam(result);
+
+			if (userHeroGlobalData.getFightingTeam() != result) {
+				userHeroGlobalData.setFightingTeam(result);
+				PlayerMgr.getInstance().find(userId).getTempAttribute().setHeroFightingChanged();
+			}
+
 			userHeroGlobalData.setFightingTeamHeroIds(heroIds);
 			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
 		}

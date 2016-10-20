@@ -62,7 +62,8 @@ public class GameLogicTask implements PlayerTask {
 		ProtocolMessageEnum msgType = null;
 		ByteString synData = null;// 同步数据
 		try {
-			FSTraceLogger.logger("run", executeTime - submitTime, command, seqID, player != null ? player.getUserId() : null);
+//			FSTraceLogger.logger("run", executeTime - submitTime, command, seqID, player != null ? player.getUserId() : null);
+			FSTraceLogger.logger("run", executeTime - submitTime, command, null, seqID, player != null ? player.getUserId() : null);
 			// plyaer为null不敢做过滤
 			if (player != null) {
 				UserDataMgr userDataMgr = player.getUserDataMgr();
@@ -161,6 +162,8 @@ public class GameLogicTask implements PlayerTask {
 		if (msgType != null) {
 			String value = String.valueOf(msgType.getNumber());
 			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+		}else{
+			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
 		}
 	}
 

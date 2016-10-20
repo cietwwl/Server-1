@@ -18,6 +18,7 @@ import com.bm.rank.groupFightOnline.GFOnlineKillExtension;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.magicsecret.MagicSecretExtension;
+import com.bm.rank.populatity.PopularityRankExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.bm.worldBoss.rank.WBHurtExtension;
 import com.rw.fsutil.common.TypeIdentification;
@@ -42,7 +43,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	MAGICAN_ARENA_DAILY(14, 5000, "全日术士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	PRIEST_ARENA(15, 5000, "实时祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	PRIEST_ARENA_DAILY(16, 5000, "全日祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	GROUP_BASE_RANK(17, 99, "帮派排行榜", 5 , GroupBaseRankExtension.class),
+	GROUP_BASE_RANK(17, 99, "帮派排行榜", 5, GroupBaseRankExtension.class),
 	GROUP_MEMBER_NUM_RANK(18, 5000, "帮派成员排行榜", 5, GroupMemberNumRankExtension.class),
 	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 5, GroupCreateTimeRankExtension.class),
 	// ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),
@@ -57,14 +58,18 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	GF_ONLINE_GROUP_BID_RANK(27, 2000, "在线帮战竞标排行榜", 1, GFGroupBiddingExtension.class),
 	GF_ONLINE_KILL_RANK(28, 8000, "在线帮战杀敌排行榜", 1, GFOnlineKillExtension.class),
 	GF_ONLINE_HURT_RANK(29, 8000, "在线帮战伤害排行榜", 1, GFOnlineHurtExtension.class),
-	
-	//帮派争霸赛排行榜
+
+	// 帮派争霸赛排行榜
 	GCOMP_CONTINUE_WIN_RANK(30, 1000, "帮派争霸赛最高连胜排行榜", 1, GCompContinueWinExtension.class),
 	GCOMP_KILL_RANK(31, 1000, "帮派争霸赛杀敌排行榜", 1, GCompKillExtension.class),
 	GCOMP_SCORE_RANK(32, 1000, "帮派争霸赛最得分排行榜", 1, GCompScoreExtension.class),
 	GROUP_FIGHTING_RANK(33, 200, "帮派战力排行榜", 1, GCompFightingExtension.class),
-	WORLD_BOSS_HURT_RANK(30, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class);
+	
 
+	// 个人人气榜
+	POPULARITY_RANK(34, 10000, "个人人气排行榜", 1, PopularityRankExtension.class),
+	WORLD_BOSS_HURT_RANK(35, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class),
+	;
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);
 		this.entityCopyer = copyer;
@@ -108,6 +113,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 		realTimeMap.put(203, TEAM_FIGHTING);
 		realTimeMap.put(301, LEVEL_ALL);
 		realTimeMap.put(401, MAGIC_SECRET_SCORE_RANK);
+		realTimeMap.put(601, POPULARITY_RANK);
 	}
 
 	public static RankType getRankType(int type, int realTime) {

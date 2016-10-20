@@ -1,0 +1,38 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "PraiseServiceProto";
+
+enum PraiseReqType{
+	GET_PRAISE_TYPE = 1;//获取点赞的数据（排名，点赞数）
+	PRAISE_SOMEONE_TYPE = 2;//给某人点赞
+}
+
+//获取某个人的点赞数据请求消息
+message GetPraiseReqMsg{
+	required string userId = 1;//获取点赞数据的人的Id
+}
+
+//获取某个人的点赞数据响应消息
+message GetPraiseRspMsg{
+	required int32 praiseNum = 1;//点赞的数量
+	required int32 rank = 2;//排名
+}
+
+//给某人点赞的请求消息
+message PraiseSomeoneReqMsg{
+	required string userId = 1;//要点赞的人的Id
+}
+
+///////////////////////////////////////////////////模块的通用协议
+message PraiseCommonReqMsg{
+	required PraiseReqType reqType = 1;//请求的类型
+	optional GetPraiseReqMsg getPraiseReqMsg = 2;//获取某人的点赞数据的请求消息
+	optional PraiseSomeoneReqMsg praiseSomeoneReqMsg = 3;//给某人点赞的消息
+}
+
+message PraiseCommonRspMsg{
+	required PraiseReqType reqType = 1;//请求的类型
+	required bool isSuccess = 2;//是否成功
+	optional string tipMsg = 3;//提示的消息
+	optional GetPraiseRspMsg getPraiseRspMsg = 4;//获取某人点赞数据的回应消息
+}

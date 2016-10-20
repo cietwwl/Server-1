@@ -96,7 +96,7 @@ public class MagicHandler {
 		int maxMagicLevel = MagicExpCfgDAO.getInstance().getMaxMagicLevel();
 		
 		int currentLevel = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Level_VALUE));
-		int nextLevel = ++currentLevel;
+		int nextLevel = currentLevel + 1;
 		if(currentLevel >= maxMagicLevel){
 			return setReturnResponse(msgMagicResponse, "当亲法宝已经达到最高等级");
 		}
