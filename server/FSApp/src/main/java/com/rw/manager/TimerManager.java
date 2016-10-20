@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
 import com.bm.groupCopy.GroupCopyMailHelper;
+import com.bm.saloon.SaloonBmFactory;
 import com.bm.worldBoss.WBMgr;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
@@ -60,6 +61,7 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				try{
+					SaloonBmFactory.getInstance().update();
 					DataAutoSynMgr.getInstance().synDataAuto();
 				}catch(Exception ex){
 					
