@@ -36,7 +36,9 @@ import com.playerdata.dataSyn.SynDataInReqMgr;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.controler.FsNettyControler;
 import com.rw.controler.PlayerMsgCache;
+import com.rw.fsutil.common.FastPair;
 import com.rw.fsutil.dao.cache.SimpleCache;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -60,12 +62,14 @@ public class UserChannelMgr {
 	private static final AttributeKey<SessionInfo> SESSION_INFO;
 	private static final AttributeKey<SynDataInReqMgr> SYN_DATA;
 	public static final long RECONNECT_TIME;
+	private static long msgHoldMillis;
 	private static final UserSession CLOSE_SESSION;
 	private static ConcurrentHashMap<String, ChannelHandlerContext> userChannelMap;
 	private static ConcurrentHashMap<String, Long> disconnectMap;
 	private static AtomicLong seesionIdGenerator;
 	// 容量需要做成配置
-	private static SimpleCache<String, PlayerMsgCache> msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
+	private static SimpleCache<String, PlayerMsgCache> msgCache;
+	private static ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
 
 	static {
 		USER_ID = AttributeKey.valueOf("userId");
@@ -73,9 +77,13 @@ public class UserChannelMgr {
 		SYN_DATA = AttributeKey.valueOf("syn_data");
 		RECONNECT_TIME = TimeUnit.MINUTES.toMillis(5);
 		CLOSE_SESSION = new UserSession("close", 0);
+		msgHoldMillis = TimeUnit.MINUTES.toMillis(10);
 		userChannelMap = new ConcurrentHashMap<String, ChannelHandlerContext>();
 		disconnectMap = new ConcurrentHashMap<String, Long>();
 		seesionIdGenerator = new AtomicLong();
+		// TODO config capacity
+		msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
+		purgeStat = new ConcurrentHashMap<Command, FastPair<Command, AtomicLong>>();
 	}
 
 	private static void logger(UserSession oldSession) {
@@ -544,7 +552,9 @@ public class UserChannelMgr {
 	/**
 	 * <pre>
 	 * 发送异步消息，若指定userId的玩家不在线，不会执行发送操作(发送失败)
-	 * 对{@link #sendAyncResponse(String, ChannelHandlerContext, Command, ByteString)}的简单封装
+	 * 对
+	 * {@link #sendAyncResponse(String, ChannelHandlerContext, Command, ByteString)}的简单封装
+	 * 
 	 * <pre>
 	 * @param userId
 	 * @param Cmd
@@ -608,7 +618,7 @@ public class UserChannelMgr {
 		PlayerMsgCache msg = msgCache.get(userId);
 		if (msg == null) {
 			// 消息容量也需要做成配置
-			msg = new PlayerMsgCache(10);
+			msg = new PlayerMsgCache(10, purgeStat);
 			PlayerMsgCache old = msgCache.putIfAbsent(userId, msg);
 			if (old != null) {
 				msg = old;
@@ -631,5 +641,17 @@ public class UserChannelMgr {
 			return;
 		}
 		msg.clear();
+	}
+
+	public static void purgeMsgRecord() {
+		long purgeTime = DateUtils.getSecondLevelMillis() - msgHoldMillis;
+		List<PlayerMsgCache> msgCaches = msgCache.values();
+		for (int i = msgCaches.size(); --i >= 0;) {
+			msgCaches.get(i).purge(purgeTime);
+		}
+	}
+	
+	public static Enumeration<FastPair<Command, AtomicLong>> getPurgeCount(){
+		return purgeStat.elements();
 	}
 }

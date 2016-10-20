@@ -6,7 +6,7 @@ import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityExchangeCreator implements PlayerExtPropertyCreator<ActivityExchangeTypeItem>{
@@ -28,7 +28,7 @@ public class ActivityExchangeCreator implements PlayerExtPropertyCreator<Activit
 
 	@Override
 	public List<ActivityExchangeTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityExchangeTypeItem> store,
+			RoleExtPropertyStore<ActivityExchangeTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

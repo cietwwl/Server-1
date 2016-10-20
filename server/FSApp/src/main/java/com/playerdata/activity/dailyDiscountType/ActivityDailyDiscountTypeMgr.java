@@ -36,7 +36,7 @@ import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -74,7 +74,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 
 	public List<ActivityDailyDiscountTypeItem> creatItems(String userid,boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityDailyDiscountTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYDISCOUNT, ActivityDailyDiscountTypeItem.class);
-		PlayerExtPropertyStore<ActivityDailyDiscountTypeItem> store = null;
+		RoleExtPropertyStore<ActivityDailyDiscountTypeItem> store = null;
 		
 		List<ActivityDailyDiscountTypeCfg> activitydailydiscountcfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityDailyDiscountTypeItem> addItemList = null;

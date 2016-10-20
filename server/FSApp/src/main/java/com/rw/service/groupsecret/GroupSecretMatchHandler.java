@@ -99,7 +99,7 @@ public class GroupSecretMatchHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player, outTip)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
@@ -248,7 +248,7 @@ public class GroupSecretMatchHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player, outTip)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
@@ -374,7 +374,7 @@ public class GroupSecretMatchHandler {
 		for (int i = 0, size = teamHeroList.size(); i < size; i++) {
 			BattleHeroPosition heroPos = teamHeroList.get(i);
 			String heroId = heroPos.getHeroId();
-//			Hero hero = player.getHeroMgr().getHeroById(heroId);
+			// Hero hero = player.getHeroMgr().getHeroById(heroId);
 			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero == null) {
 				GroupSecretHelper.fillMatchRspInfo(rsp, false, "英雄状态错误");
@@ -446,15 +446,18 @@ public class GroupSecretMatchHandler {
 		HeroInfoData heroData = teamAttrInfoMap.get(mainRoleId);
 		HeroLeftInfoSynData left = heroData.getLeft();
 
+		AttrData attrData = armyInfo.getPlayer().getAttrData();
+
 		CurAttrData leftInfo = new CurAttrData();
 		leftInfo.setId(mainRoleId);
 		if (left == null) {
-			AttrData attrData = armyInfo.getPlayer().getAttrData();
 			leftInfo.setCurLife(attrData.getLife());
 		} else {
 			leftInfo.setCurLife(left.getLife());
 			leftInfo.setCurEnergy(left.getEnergy());
 		}
+
+		leftInfo.setMaxLife(attrData.getLife());
 
 		armyInfo.getPlayer().setCurAttrData(leftInfo);
 
@@ -466,15 +469,18 @@ public class GroupSecretMatchHandler {
 			heroData = teamAttrInfoMap.get(heroId);
 			left = heroData.getLeft();
 
+			attrData = armyHero.getAttrData();
+
 			CurAttrData leftAttrData = new CurAttrData();
 			leftAttrData.setId(heroId);
 			if (left == null) {
-				AttrData attrData = armyHero.getAttrData();
 				leftAttrData.setCurLife(attrData.getLife());
 			} else {
 				leftAttrData.setCurLife(left.getLife());
 				leftAttrData.setCurEnergy(left.getEnergy());
 			}
+
+			leftAttrData.setMaxLife(attrData.getLife());
 
 			armyHero.setPosition(heroData.getPos());
 			armyHero.setCurAttrData(leftAttrData);
@@ -501,7 +507,7 @@ public class GroupSecretMatchHandler {
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, BattleCommon.eBattlePositionType.GroupSecretPos_VALUE, id, EmbattlePositonHelper.parseMsgHeroPos2Memery(teamHeroList));
 
 		rsp.setIsSuccess(true);
-		 rsp.setTipMsg("");
+		rsp.setTipMsg("");
 		rsp.setAttackStartRsp(endRsp);
 		return rsp.build().toByteString();
 	}
@@ -522,7 +528,7 @@ public class GroupSecretMatchHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)) {
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player, outTip)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
@@ -603,8 +609,8 @@ public class GroupSecretMatchHandler {
 			}
 
 			PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(matchUserId);
-			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, readOnlyPlayer.getLevel(), secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(),
-				matchEnemyData.getRobGE(), matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(), matchEnemyData.getZoneName());
+			UserCreateGroupSecretDataMgr.getMgr().updateGroupSecretRobInfo(matchUserId, readOnlyPlayer.getLevel(), secretId, matchEnemyData.getRobRes(), matchEnemyData.getRobGS(), matchEnemyData.getRobGE(), matchEnemyData.getAtkTimes(), groupName, player.getUserName(), matchEnemyData.getZoneId(),
+					matchEnemyData.getZoneName());
 		}
 
 		// 通知角色日常任务 by Alex
@@ -629,7 +635,7 @@ public class GroupSecretMatchHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派秘境功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.SECRET_AREA, player, outTip)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, outTip.value);
 			return rsp.build().toByteString();
 		}
