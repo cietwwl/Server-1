@@ -289,6 +289,7 @@ public class FriendHandler {
 			int randomRecommand,boolean isLimitRobot) {
 		if(!isLimitRobot){
 			start = 1;
+			end = 60;
 		}
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
 		int size = segmentList.getRefSize();
