@@ -1,16 +1,11 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.atomic.AtomicLong;
 
-import org.springframework.util.CollectionUtils;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
@@ -28,19 +23,14 @@ import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
-import com.rw.fsutil.ranking.RankingConfig;
 import com.rw.fsutil.ranking.RankingEntityOfRank;
 import com.rw.fsutil.ranking.RankingEntry;
-import com.rw.fsutil.ranking.RankingExtension;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rw.fsutil.ranking.RankingFactory.RankingEntrySequence;
 import com.rw.fsutil.ranking.impl.RankingEntryData;
-import com.rw.fsutil.ranking.impl.RankingImpl;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
@@ -73,14 +63,7 @@ import com.rwbase.gameworld.GameWorldKey;
  */
 public class RankingMgr {
 	private static BILogDbMgr biLogDbMgr;
-	private static AtomicLong generator; // 排行榜条目序列生成器
-	private static RankingEntrySequence sequence = new RankingEntrySequence() {
 
-		@Override
-		public long assignId() {
-			return generator.incrementAndGet();
-		}
-	};
 	
 	private static RankingMgr m_instance = new RankingMgr();
 
@@ -145,16 +128,11 @@ public class RankingMgr {
 	}
 
 	public void checkRobotLevel() {
-		Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);
-		Ranking<LevelComparable, RankingLevelData> levelPlayerRanking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);		
-//		if (levelRanking.size() > 0) {
-//			return;
-//		}
-		if(levelPlayerRanking.size()>0){
-			creatRobotRankFromUserTable();
-		}else{
-			changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ROBOT, false);
+		Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);	
+		if (levelRanking.size() > 0) {
+			return;
 		}
+		creatRobotRankFromUserTable();
 		
 	}
 	
@@ -208,34 +186,12 @@ public class RankingMgr {
 			return;
 		}
 		ArrayList<RankingEntryData> rankingList = userToRankingEntryList(userList,RankType.LEVEL_ROBOT);
-//		RankingConfig config = (RankingConfig)RankType.LEVEL_ROBOT;
-//		int type = config.getType();
-//		int maxCapacity = config.getMaxCapacity();
-//		Class<? extends RankingExtension> extensionClass = config.getRankingExtension();
-//		int periodMinutes = config.getUpdatePeriodMinutes();
-//		String name = config.getName();
-//		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("ranking"));
-//		
-//		try {
-//			RankingImpl ranking = new RankingImpl(type, maxCapacity, name, extensionClass.newInstance(), periodMinutes, sequence, rankingPool,rankingList);
-//			
-//		} catch (Throwable t) {
-//			throw new ExceptionInInitializerError(t);
-//		}
 		
 		for (int i = 1, size = rankingList.size(); i <= size; i++) {
 			RankingEntryData entry = rankingList.get(i - 1);
-			Comparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
-			Object ext;
+			LevelComparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
 			RankingLevelData levelData = RankingUtils.createRankingLevelDataByEntryData(entry);
-//			robotRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
-//			ext = copyer.copyExtension(entry.getExtendedAttribute());
-//			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
-//			if (ext instanceof RankingLevelData) {
-//				RankingLevelData levelData = (RankingLevelData) ext;
-//				levelData.setRankLevel(i);
-//			}
-//			copyList.add(re);
+			robotRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
 		}		
 	}
 	
@@ -263,7 +219,7 @@ public class RankingMgr {
 			
 			@Override
 			public void doCount(User user) {				
-				if(user.getUserId().length()<= 20||userList.size()>100){
+				if(user.getUserId().length()<= 20||userList.size()>99){
 					return;
 				}
 				userList.add(user);				
