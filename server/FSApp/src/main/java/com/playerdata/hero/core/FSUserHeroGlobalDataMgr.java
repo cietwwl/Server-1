@@ -1,7 +1,9 @@
 package com.playerdata.hero.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -33,8 +35,9 @@ public class FSUserHeroGlobalDataMgr {
 		if (newSingleValue != preSingleValue) {
 			FSUserHeroGlobalData globalData = FSUserHeroGlobalDataDAO.getInstance().get(userId);
 			int sub = newSingleValue - preSingleValue;
-			if (globalData.getFightingTeamHeroIdsRO().contains(heroId)) {
+			if (globalData.getFighting(heroId) != null) {
 				globalData.setFightingTeam(globalData.getFightingTeam() + sub);
+				globalData.updateHeroFighting(heroId, newSingleValue);
 			}
 			globalData.setFightingAll(globalData.getFightingAll() + sub);
 			FSUserHeroGlobalDataDAO.getInstance().update(globalData);
@@ -80,10 +83,13 @@ public class FSUserHeroGlobalDataMgr {
 		}
 		boolean recal = userHeroGlobalData.getFightingTeam() == 0;
 		if (!recal) {
-			List<String> heroIds = userHeroGlobalData.getFightingTeamHeroIdsRO();
+			Map<String, Integer> heroIds = userHeroGlobalData.getFightingTeamInfosRO();
 			if (heroIds.size() > 0 && heroList.size() == heroIds.size()) {
+				Hero hero;
 				for (int i = 0, size = heroList.size(); i < size; i++) {
-					if (!heroIds.contains(heroList.get(i).getId())) {
+					hero = heroList.get(i);
+					Integer fighting = heroIds.get(hero.getId());
+					if (fighting == null || fighting.intValue() != hero.getFighting()) {
 						recal = true;
 						break;
 					}
@@ -94,12 +100,12 @@ public class FSUserHeroGlobalDataMgr {
 		}
 		if (recal) {
 			int result = 0;
-			List<String> heroIds = new ArrayList<String>();
+			Map<String, Integer> heroFightingInfos = new HashMap<String, Integer>(heroList.size(), 1.5f);
 			Hero hero;
 			for (int i = 0; i < heroList.size(); i++) {
 				hero = heroList.get(i);
 				result += hero.getFighting();
-				heroIds.add(hero.getId());
+				heroFightingInfos.put(hero.getId(), hero.getFighting());
 			}
 
 			if (userHeroGlobalData.getFightingTeam() != result) {
@@ -107,7 +113,7 @@ public class FSUserHeroGlobalDataMgr {
 				PlayerMgr.getInstance().find(userId).getTempAttribute().setHeroFightingChanged();
 			}
 
-			userHeroGlobalData.setFightingTeamHeroIds(heroIds);
+			userHeroGlobalData.setFightingTeamInfos(heroFightingInfos);
 			FSUserHeroGlobalDataDAO.getInstance().update(userHeroGlobalData);
 		}
 		return userHeroGlobalData.getFightingTeam();

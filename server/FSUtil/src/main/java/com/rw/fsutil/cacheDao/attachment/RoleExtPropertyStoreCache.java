@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
+import com.rw.fsutil.cacheDao.mapItem.RoleExtConvertor;
 import com.rw.fsutil.common.NameFilterIntrospector;
 import com.rw.fsutil.dao.annotation.ClassHelper;
 import com.rw.fsutil.dao.annotation.ClassInfo;
@@ -23,6 +24,8 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.MapItemCache;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.fsutil.dao.cache.trace.RoleExtChangedListener;
 import com.rw.fsutil.dao.optimize.CacheCompositKey;
 import com.rw.fsutil.dao.optimize.DAOStoreCache;
 import com.rw.fsutil.dao.optimize.DoubleKey;
@@ -45,7 +48,10 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		NameFilterIntrospector nameFilter = new NameFilterIntrospector(clasInfo.getPrimaryKey(),clasInfo.getOwnerFieldName());
 		this.mapper.setAnnotationIntrospector(nameFilter); 
 		this.dataAccessManager = extPropertyManager;
-		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
+		DataValueParser<T> parser = DataCacheFactory.getParser(entityClass);
+//		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
+		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, parser != null ? new RoleExtConvertor<T>(parser) : null, RoleExtChangedListener.class);
+
 	}
 
 	@Override

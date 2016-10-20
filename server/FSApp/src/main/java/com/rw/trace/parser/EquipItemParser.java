@@ -16,6 +16,7 @@ public class EquipItemParser implements DataValueParser<EquipItem> {
         equipItemCopy.setId(entity.getId());
         equipItemCopy.setOwnerId(entity.getOwnerId());
         equipItemCopy.setEquipIndex(entity.getEquipIndex());
+        equipItemCopy.setType(writer.copyObject(entity.getType()));
         equipItemCopy.setModelId(entity.getModelId());
         equipItemCopy.setLevel(entity.getLevel());
         equipItemCopy.setExp(entity.getExp());
@@ -102,6 +103,10 @@ public class EquipItemParser implements DataValueParser<EquipItem> {
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());
         json.put("equipIndex", entity.getEquipIndex());
+        Object typeJson = writer.toJSON(entity.getType());
+        if (typeJson != null) {
+            json.put("type", typeJson);
+        }
         json.put("modelId", entity.getModelId());
         json.put("level", entity.getLevel());
         json.put("exp", entity.getExp());

@@ -904,6 +904,86 @@ public final class RequestProtos {
      * <code>optional int32 seqID = 4;</code>
      */
     int getSeqID();
+
+    // optional .ClientView.ClientViewData clientGenerated = 6;
+    /**
+     * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+     *
+     * <pre>
+     *客户端产生的数据，需要保存到服务端
+     * </pre>
+     */
+    boolean hasClientGenerated();
+    /**
+     * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+     *
+     * <pre>
+     *客户端产生的数据，需要保存到服务端
+     * </pre>
+     */
+    com.rwproto.ClientViewProtos.ClientViewData getClientGenerated();
+    /**
+     * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+     *
+     * <pre>
+     *客户端产生的数据，需要保存到服务端
+     * </pre>
+     */
+    com.rwproto.ClientViewProtos.ClientViewDataOrBuilder getClientGeneratedOrBuilder();
+
+    // optional int32 redpointVersion = 7;
+    /**
+     * <code>optional int32 redpointVersion = 7;</code>
+     *
+     * <pre>
+     *红点版本号
+     * </pre>
+     */
+    boolean hasRedpointVersion();
+    /**
+     * <code>optional int32 redpointVersion = 7;</code>
+     *
+     * <pre>
+     *红点版本号
+     * </pre>
+     */
+    int getRedpointVersion();
+
+    // optional int32 entranceId = 8;
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    boolean hasEntranceId();
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    int getEntranceId();
+
+    // optional int32 viewId = 9;
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    boolean hasViewId();
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    int getViewId();
   }
   /**
    * Protobuf type {@code RequestHeader}
@@ -984,6 +1064,34 @@ public final class RequestProtos {
             case 32: {
               bitField0_ |= 0x00000008;
               seqID_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              com.rwproto.ClientViewProtos.ClientViewData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = clientGenerated_.toBuilder();
+              }
+              clientGenerated_ = input.readMessage(com.rwproto.ClientViewProtos.ClientViewData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(clientGenerated_);
+                clientGenerated_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000020;
+              redpointVersion_ = input.readInt32();
+              break;
+            }
+            case 64: {
+              bitField0_ |= 0x00000040;
+              entranceId_ = input.readInt32();
+              break;
+            }
+            case 72: {
+              bitField0_ |= 0x00000080;
+              viewId_ = input.readInt32();
               break;
             }
           }
@@ -1176,11 +1284,121 @@ public final class RequestProtos {
       return seqID_;
     }
 
+    // optional .ClientView.ClientViewData clientGenerated = 6;
+    public static final int CLIENTGENERATED_FIELD_NUMBER = 6;
+    private com.rwproto.ClientViewProtos.ClientViewData clientGenerated_;
+    /**
+     * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+     *
+     * <pre>
+     *客户端产生的数据，需要保存到服务端
+     * </pre>
+     */
+    public boolean hasClientGenerated() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+     *
+     * <pre>
+     *客户端产生的数据，需要保存到服务端
+     * </pre>
+     */
+    public com.rwproto.ClientViewProtos.ClientViewData getClientGenerated() {
+      return clientGenerated_;
+    }
+    /**
+     * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+     *
+     * <pre>
+     *客户端产生的数据，需要保存到服务端
+     * </pre>
+     */
+    public com.rwproto.ClientViewProtos.ClientViewDataOrBuilder getClientGeneratedOrBuilder() {
+      return clientGenerated_;
+    }
+
+    // optional int32 redpointVersion = 7;
+    public static final int REDPOINTVERSION_FIELD_NUMBER = 7;
+    private int redpointVersion_;
+    /**
+     * <code>optional int32 redpointVersion = 7;</code>
+     *
+     * <pre>
+     *红点版本号
+     * </pre>
+     */
+    public boolean hasRedpointVersion() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 redpointVersion = 7;</code>
+     *
+     * <pre>
+     *红点版本号
+     * </pre>
+     */
+    public int getRedpointVersion() {
+      return redpointVersion_;
+    }
+
+    // optional int32 entranceId = 8;
+    public static final int ENTRANCEID_FIELD_NUMBER = 8;
+    private int entranceId_;
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    public boolean hasEntranceId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 entranceId = 8;</code>
+     *
+     * <pre>
+     *入口id
+     * </pre>
+     */
+    public int getEntranceId() {
+      return entranceId_;
+    }
+
+    // optional int32 viewId = 9;
+    public static final int VIEWID_FIELD_NUMBER = 9;
+    private int viewId_;
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    public boolean hasViewId() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional int32 viewId = 9;</code>
+     *
+     * <pre>
+     *场景id
+     * </pre>
+     */
+    public int getViewId() {
+      return viewId_;
+    }
+
     private void initFields() {
       command_ = com.rwproto.MsgDef.Command.MSG_HeartBeat;
       userId_ = "";
       token_ = "";
       seqID_ = 0;
+      clientGenerated_ = com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance();
+      redpointVersion_ = 0;
+      entranceId_ = 0;
+      viewId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1190,6 +1408,12 @@ public final class RequestProtos {
       if (!hasCommand()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasClientGenerated()) {
+        if (!getClientGenerated().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -1209,6 +1433,18 @@ public final class RequestProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeInt32(4, seqID_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(6, clientGenerated_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(7, redpointVersion_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(8, entranceId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(9, viewId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1234,6 +1470,22 @@ public final class RequestProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(4, seqID_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, clientGenerated_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, redpointVersion_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(8, entranceId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(9, viewId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1347,6 +1599,7 @@ public final class RequestProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getClientGeneratedFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1363,6 +1616,18 @@ public final class RequestProtos {
         bitField0_ = (bitField0_ & ~0x00000004);
         seqID_ = 0;
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (clientGeneratedBuilder_ == null) {
+          clientGenerated_ = com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance();
+        } else {
+          clientGeneratedBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        redpointVersion_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        entranceId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        viewId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -1407,6 +1672,26 @@ public final class RequestProtos {
           to_bitField0_ |= 0x00000008;
         }
         result.seqID_ = seqID_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (clientGeneratedBuilder_ == null) {
+          result.clientGenerated_ = clientGenerated_;
+        } else {
+          result.clientGenerated_ = clientGeneratedBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.redpointVersion_ = redpointVersion_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.entranceId_ = entranceId_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.viewId_ = viewId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1439,6 +1724,18 @@ public final class RequestProtos {
         if (other.hasSeqID()) {
           setSeqID(other.getSeqID());
         }
+        if (other.hasClientGenerated()) {
+          mergeClientGenerated(other.getClientGenerated());
+        }
+        if (other.hasRedpointVersion()) {
+          setRedpointVersion(other.getRedpointVersion());
+        }
+        if (other.hasEntranceId()) {
+          setEntranceId(other.getEntranceId());
+        }
+        if (other.hasViewId()) {
+          setViewId(other.getViewId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1447,6 +1744,12 @@ public final class RequestProtos {
         if (!hasCommand()) {
           
           return false;
+        }
+        if (hasClientGenerated()) {
+          if (!getClientGenerated().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1747,6 +2050,306 @@ public final class RequestProtos {
       public Builder clearSeqID() {
         bitField0_ = (bitField0_ & ~0x00000008);
         seqID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional .ClientView.ClientViewData clientGenerated = 6;
+      private com.rwproto.ClientViewProtos.ClientViewData clientGenerated_ = com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ClientViewProtos.ClientViewData, com.rwproto.ClientViewProtos.ClientViewData.Builder, com.rwproto.ClientViewProtos.ClientViewDataOrBuilder> clientGeneratedBuilder_;
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public boolean hasClientGenerated() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public com.rwproto.ClientViewProtos.ClientViewData getClientGenerated() {
+        if (clientGeneratedBuilder_ == null) {
+          return clientGenerated_;
+        } else {
+          return clientGeneratedBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public Builder setClientGenerated(com.rwproto.ClientViewProtos.ClientViewData value) {
+        if (clientGeneratedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          clientGenerated_ = value;
+          onChanged();
+        } else {
+          clientGeneratedBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public Builder setClientGenerated(
+          com.rwproto.ClientViewProtos.ClientViewData.Builder builderForValue) {
+        if (clientGeneratedBuilder_ == null) {
+          clientGenerated_ = builderForValue.build();
+          onChanged();
+        } else {
+          clientGeneratedBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public Builder mergeClientGenerated(com.rwproto.ClientViewProtos.ClientViewData value) {
+        if (clientGeneratedBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              clientGenerated_ != com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance()) {
+            clientGenerated_ =
+              com.rwproto.ClientViewProtos.ClientViewData.newBuilder(clientGenerated_).mergeFrom(value).buildPartial();
+          } else {
+            clientGenerated_ = value;
+          }
+          onChanged();
+        } else {
+          clientGeneratedBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public Builder clearClientGenerated() {
+        if (clientGeneratedBuilder_ == null) {
+          clientGenerated_ = com.rwproto.ClientViewProtos.ClientViewData.getDefaultInstance();
+          onChanged();
+        } else {
+          clientGeneratedBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public com.rwproto.ClientViewProtos.ClientViewData.Builder getClientGeneratedBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getClientGeneratedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      public com.rwproto.ClientViewProtos.ClientViewDataOrBuilder getClientGeneratedOrBuilder() {
+        if (clientGeneratedBuilder_ != null) {
+          return clientGeneratedBuilder_.getMessageOrBuilder();
+        } else {
+          return clientGenerated_;
+        }
+      }
+      /**
+       * <code>optional .ClientView.ClientViewData clientGenerated = 6;</code>
+       *
+       * <pre>
+       *客户端产生的数据，需要保存到服务端
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.ClientViewProtos.ClientViewData, com.rwproto.ClientViewProtos.ClientViewData.Builder, com.rwproto.ClientViewProtos.ClientViewDataOrBuilder> 
+          getClientGeneratedFieldBuilder() {
+        if (clientGeneratedBuilder_ == null) {
+          clientGeneratedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.ClientViewProtos.ClientViewData, com.rwproto.ClientViewProtos.ClientViewData.Builder, com.rwproto.ClientViewProtos.ClientViewDataOrBuilder>(
+                  clientGenerated_,
+                  getParentForChildren(),
+                  isClean());
+          clientGenerated_ = null;
+        }
+        return clientGeneratedBuilder_;
+      }
+
+      // optional int32 redpointVersion = 7;
+      private int redpointVersion_ ;
+      /**
+       * <code>optional int32 redpointVersion = 7;</code>
+       *
+       * <pre>
+       *红点版本号
+       * </pre>
+       */
+      public boolean hasRedpointVersion() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 redpointVersion = 7;</code>
+       *
+       * <pre>
+       *红点版本号
+       * </pre>
+       */
+      public int getRedpointVersion() {
+        return redpointVersion_;
+      }
+      /**
+       * <code>optional int32 redpointVersion = 7;</code>
+       *
+       * <pre>
+       *红点版本号
+       * </pre>
+       */
+      public Builder setRedpointVersion(int value) {
+        bitField0_ |= 0x00000020;
+        redpointVersion_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 redpointVersion = 7;</code>
+       *
+       * <pre>
+       *红点版本号
+       * </pre>
+       */
+      public Builder clearRedpointVersion() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        redpointVersion_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 entranceId = 8;
+      private int entranceId_ ;
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public boolean hasEntranceId() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public int getEntranceId() {
+        return entranceId_;
+      }
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public Builder setEntranceId(int value) {
+        bitField0_ |= 0x00000040;
+        entranceId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 entranceId = 8;</code>
+       *
+       * <pre>
+       *入口id
+       * </pre>
+       */
+      public Builder clearEntranceId() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        entranceId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 viewId = 9;
+      private int viewId_ ;
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public boolean hasViewId() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public int getViewId() {
+        return viewId_;
+      }
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public Builder setViewId(int value) {
+        bitField0_ |= 0x00000080;
+        viewId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 viewId = 9;</code>
+       *
+       * <pre>
+       *场景id
+       * </pre>
+       */
+      public Builder clearViewId() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        viewId_ = 0;
         onChanged();
         return this;
       }
@@ -2185,14 +2788,17 @@ public final class RequestProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\rrequest.proto\032\014MsgDef.proto\"R\n\007Request" +
-      "\022\036\n\006header\030\001 \002(\0132\016.RequestHeader\022\032\n\004body" +
-      "\030\002 \002(\0132\014.RequestBody\022\013\n\003num\030\003 \001(\005\"_\n\rReq" +
-      "uestHeader\022 \n\007command\030\001 \002(\0162\017.MsgDef.Com" +
-      "mand\022\016\n\006userId\030\002 \001(\t\022\r\n\005token\030\003 \001(\t\022\r\n\005s" +
-      "eqID\030\004 \001(\005\")\n\013RequestBody\022\032\n\022serialized_" +
-      "content\030\001 \001(\014B\034\n\013com.rwprotoB\rRequestPro" +
-      "tos"
+      "\n\rrequest.proto\032\020ClientView.proto\032\014MsgDe" +
+      "f.proto\"R\n\007Request\022\036\n\006header\030\001 \002(\0132\016.Req" +
+      "uestHeader\022\032\n\004body\030\002 \002(\0132\014.RequestBody\022\013" +
+      "\n\003num\030\003 \001(\005\"\321\001\n\rRequestHeader\022 \n\007command" +
+      "\030\001 \002(\0162\017.MsgDef.Command\022\016\n\006userId\030\002 \001(\t\022" +
+      "\r\n\005token\030\003 \001(\t\022\r\n\005seqID\030\004 \001(\005\0223\n\017clientG" +
+      "enerated\030\006 \001(\0132\032.ClientView.ClientViewDa" +
+      "ta\022\027\n\017redpointVersion\030\007 \001(\005\022\022\n\nentranceI" +
+      "d\030\010 \001(\005\022\016\n\006viewId\030\t \001(\005\")\n\013RequestBody\022\032" +
+      "\n\022serialized_content\030\001 \001(\014B\034\n\013com.rwprot",
+      "oB\rRequestProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2210,7 +2816,7 @@ public final class RequestProtos {
           internal_static_RequestHeader_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RequestHeader_descriptor,
-              new java.lang.String[] { "Command", "UserId", "Token", "SeqID", });
+              new java.lang.String[] { "Command", "UserId", "Token", "SeqID", "ClientGenerated", "RedpointVersion", "EntranceId", "ViewId", });
           internal_static_RequestBody_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_RequestBody_fieldAccessorTable = new
@@ -2223,6 +2829,7 @@ public final class RequestProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.ClientViewProtos.getDescriptor(),
           com.rwproto.MsgDef.getDescriptor(),
         }, assigner);
   }
