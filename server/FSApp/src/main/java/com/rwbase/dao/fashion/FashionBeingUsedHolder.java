@@ -1,6 +1,9 @@
 package com.rwbase.dao.fashion;
 
 import com.log.GameLog;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.fsutil.cacheDao.DataRdbDao;
 
 /**
@@ -33,6 +36,7 @@ public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 			return false;
 		}
 		super.update(fashionUsed.getUserId());
+		TBListenerPlayerChange.playerChangeFashion(PlayerMgr.getInstance().findPlayerFromMemory(fashionUsed.getUserId()));
 		return true;
 	}
 

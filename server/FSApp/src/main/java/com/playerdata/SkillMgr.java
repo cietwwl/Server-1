@@ -1,5 +1,6 @@
 package com.playerdata;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
@@ -7,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.StringUtils;
 
 import com.common.IHeroAction;
+import com.log.GameLog;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.SkillMgrIF;
 import com.playerdata.refactor.IDataMgrSingletone;
@@ -143,6 +145,10 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		if (skill == null) {
 			return false;
 		}
+		if (addLevel < 0) {
+			GameLog.error("SkillMgr", heroId, player + "增加技能等级少于0:" + addLevel);
+			return false;
+		}
 		int level = skill.getLevel() + addLevel;
 		StringTokenizer token = new StringTokenizer(skill.getSkillId(), "_");
 		String newSkillId = token.nextToken() + "_" + level;
@@ -203,13 +209,22 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	public void activeSkill(Player player, String heroId, int level, int quality) {
 		// int maxOrder = -1;
 		// modify by Jamaz 2015-11-23 抽取判断能否激活技能的方法
-		for (SkillItem skill : getSkillItemHoder().getItemList(heroId)) {
+		SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
+		ArrayList<Integer> updateList = null;
+		for (SkillItem skill : skillItemHolder.getItemList(heroId)) {
 			if (skill.getLevel() <= 0 && isSkillCanActive(skill, level, quality)) {
 				skill.setLevel(1);
 				updateMoreInfo(player, heroId, skill);
+				if (updateList == null) {
+					updateList = new ArrayList<Integer>(5);
+				}
+				updateList.add(skill.getId());
 			}
 		}
-		getSkillItemHoder().synAllData(player, heroId, -1);
+		if (updateList != null) {
+			skillItemHolder.getMapItemStore(heroId).updateItems(updateList);
+			skillItemHolder.synAllData(player, heroId, -1);
+		}
 	}
 
 	/**
@@ -236,7 +251,9 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 */
 	public void changeSkill(Player player, String heroId, RoleCfg cfg) {
 		List<SkillItem> cfgList = RoleCfgDAO.getInstance().getSkill(cfg.getRoleId());
-		for (int i = cfgList.size() - 1; i >= 0; --i) {
+		int size = cfgList.size();
+		ArrayList<Integer> updateList = new ArrayList<Integer>(size);
+		for (int i = size - 1; i >= 0; --i) {
 			SkillItem newSkill = cfgList.get(i);
 			if (newSkill == null) {
 				continue;
@@ -246,15 +263,18 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 			if (oldSkill == null) {
 				continue;
 			}
-
 			String oldSkillId = oldSkill.getSkillId();
 			String newSkillId = newSkill.getSkillId().split("_")[0] + "_" + oldSkillId.split("_")[1];
 			oldSkill.setSkillId(newSkillId);
-			getSkillItemHoder().updateItem(player, heroId, oldSkill);
+			// getSkillItemHoder().updateItem(player, heroId, oldSkill);
+			updateList.add(oldSkill.getId());
 		}
-
-		// 检查所有的技能
-		updateMoreInfo(player, heroId, null);
+		if (!updateList.isEmpty()) {
+			SkillItemHolder.getSkillItemHolder().getMapItemStore(heroId).updateItems(updateList);
+			// 检查所有的技能
+			updateMoreInfo(player, heroId, null);
+			SkillItemHolder.getSkillItemHolder().synAllData(player, heroId, -1);
+		}
 	}
 
 	/**
@@ -263,8 +283,8 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @param pRole
 	 */
 	public void initSkill(Player player, Hero m_pOwner, RoleCfg rolecfg) {
-//		List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
-//		getSkillItemHoder().addItem(player, m_pOwner.getId(), battleSkillList);
+		// List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
+		// getSkillItemHoder().addItem(player, m_pOwner.getId(), battleSkillList);
 	}
 
 	/**
