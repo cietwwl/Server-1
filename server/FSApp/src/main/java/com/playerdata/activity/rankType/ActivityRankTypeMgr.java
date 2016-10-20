@@ -35,7 +35,7 @@ import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.common.EnumerateList;
@@ -76,7 +76,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 
 	public List<ActivityRankTypeItem> creatItems(String userId,boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityRankTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
-		PlayerExtPropertyStore<ActivityRankTypeItem> store = null;
+		RoleExtPropertyStore<ActivityRankTypeItem> store = null;
 		
 		List<ActivityRankTypeItem> addItemList = null;
 		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO
@@ -370,8 +370,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		EnumerateList<? extends MomentRankingEntry<?, RankingLevelData>> it = ranking
 				.getEntriesEnumeration(offset, size);
 		for (; it.hasMoreElements();) {
-			
-			
 			MomentRankingEntry<?, RankingLevelData> entry = it.nextElement();
 			RankingLevelData rankData = entry.getExtendedAttribute();
 			int ranklevel = entry.getRanking();//没有将ranking设置进ranklevel；就用ranking
@@ -393,7 +391,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	private void sendGifgSingel(RankInfo rankInfo,ActivityRankTypeItemHolder activityRankTypeItemHolder,
 			ActivityRankTypeEnum activityRankTypeEnum,ActivityRankTypeSubCfg subCfg) {		
 		String userId = rankInfo.getHeroUUID();
-		PlayerExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
+		RoleExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder
 				.getItemStore(userId);
 		if (itemStore == null) {
 			return;

@@ -12,7 +12,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -57,7 +57,7 @@ public class ActivityRankTypeItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityRankTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityRankTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityRankTypeItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
 		try {
 			return cache.getStore(userId);

@@ -10,7 +10,7 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -97,7 +97,7 @@ public class ActivityCountTypeItemHolder {
 				eSynOpType.UPDATE_LIST);
 	}
 
-	public PlayerExtPropertyStore<ActivityCountTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityCountTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityCountTypeItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_COUNTTYPE, ActivityCountTypeItem.class);
 		try {
 			return storeCache.getStore(userId);

@@ -10,7 +10,7 @@ import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -90,7 +90,7 @@ public class ActivityVitalityItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityVitalityTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityVitalityTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
 //		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityVitalityTypeItem.class);
 		

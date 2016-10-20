@@ -13,7 +13,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rwbase.common.enu.eActivityType;
@@ -42,10 +42,10 @@ public class FresherActivityItemHolder {
 		ownerId = userId;
 	}
 	
-	private PlayerExtPropertyStore<FresherActivityBigItem> getMapItemStroe(){
+	private RoleExtPropertyStore<FresherActivityBigItem> getMapItemStroe(){
 		RoleExtPropertyStoreCache<FresherActivityBigItem> playerExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FRESHER_ACTIVITY, FresherActivityBigItem.class);
 		
-		PlayerExtPropertyStore<FresherActivityBigItem> store;
+		RoleExtPropertyStore<FresherActivityBigItem> store;
 		try {
 			store = playerExtCache.getStore(ownerId);
 			return store;
@@ -61,7 +61,7 @@ public class FresherActivityItemHolder {
 	}
 	
 	private Map<Integer, FresherActivityBigItem> getFresherActivityBigItemMap(){
-		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		RoleExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
 		Enumeration<FresherActivityBigItem> mapEnumeration = mapItemStroe.getExtPropertyEnumeration();
 		Map<Integer, FresherActivityBigItem> map = new HashMap<Integer, FresherActivityBigItem>();
 		while(mapEnumeration.hasMoreElements()){
@@ -73,7 +73,7 @@ public class FresherActivityItemHolder {
 	}
 
 	public List<FresherActivityItem> getFresherActivityItemList(){
-		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		RoleExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
 		Enumeration<FresherActivityBigItem> mapEnumeration = mapItemStroe.getExtPropertyEnumeration();
 		List<FresherActivityItem> list = new ArrayList<FresherActivityItem>();
 		while(mapEnumeration.hasMoreElements()){
@@ -85,7 +85,7 @@ public class FresherActivityItemHolder {
 	}
 	
 	private Map<Integer, FresherActivityItem> getFresherActivityItemMap(){
-		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		RoleExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
 		Enumeration<FresherActivityBigItem> mapEnumeration = mapItemStroe.getExtPropertyEnumeration();
 		 Map<Integer, FresherActivityItem> map = new HashMap<Integer, FresherActivityItem>();
 		while(mapEnumeration.hasMoreElements()){
@@ -213,7 +213,7 @@ public class FresherActivityItemHolder {
 	private void updateFresherActivityItem(FresherActivityItem fresherActivityItem){
 		Map<Integer, FresherActivityBigItem> map = getFresherActivityBigItemMap();
 		FresherActivityBigItem fresherActivityBigItem = map.get(fresherActivityItem.getType().ordinal());
-		PlayerExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
+		RoleExtPropertyStore<FresherActivityBigItem> mapItemStroe = getMapItemStroe();
 		mapItemStroe.update(fresherActivityBigItem.getId());
 	}
 	

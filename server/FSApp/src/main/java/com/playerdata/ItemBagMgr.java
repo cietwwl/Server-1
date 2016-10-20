@@ -351,6 +351,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				return player.getUserGameDataMgr().getWakenPiece() >= count;
 			} else if (cfgId == eSpecialItemId.WAKEN_KEY.getValue()) {
 				return player.getUserGameDataMgr().getWakenKey() >= count;
+			} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()){
+				return player.getUserGameDataMgr().getTeamBattleCoin() >= count;
 			}
 		} else {// 操作道具
 			if (count <= 0) {
@@ -510,7 +512,9 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			player.getUserGameDataMgr().addWakenPiece(value);
 		} else if (cfgId == eSpecialItemId.WAKEN_KEY.getValue()) {
 			player.getUserGameDataMgr().addWakenKey(value);
-		}
+		} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()) {
+			player.getUserGameDataMgr().addTeamBattleCoin(value);
+		} 
 	}
 
 	/**

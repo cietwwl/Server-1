@@ -7,7 +7,7 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<ActivityDailyTypeItem>{
@@ -29,7 +29,7 @@ public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<Activi
 
 	@Override
 	public List<ActivityDailyTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityDailyTypeItem> store,
+			RoleExtPropertyStore<ActivityDailyTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

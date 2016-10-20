@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.friend.TableFriend;
