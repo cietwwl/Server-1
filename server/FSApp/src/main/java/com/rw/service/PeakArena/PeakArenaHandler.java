@@ -1,5 +1,6 @@
 package com.rw.service.PeakArena;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,14 +25,20 @@ import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.exception.ReplaceTargetNotExistException;
 import com.rw.fsutil.ranking.exception.ReplacerAlreadyExistException;
+import com.rw.service.PeakArena.datamodel.PeakArenaActionType;
 import com.rw.service.PeakArena.datamodel.PeakArenaCloseCfgHelper;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
+import com.rw.service.PeakArena.datamodel.PeakArenaResultType;
+import com.rw.service.PeakArena.datamodel.PeakRecordDetail;
+import com.rw.service.PeakArena.datamodel.PeakRecordHeroInfo;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
+import com.rw.service.PeakArena.datamodel.PeakRecordMagicInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
@@ -60,6 +67,8 @@ import com.rwproto.PeakArenaServiceProtos.ArenaData;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
 import com.rwproto.PeakArenaServiceProtos.ArenaRecord;
 import com.rwproto.PeakArenaServiceProtos.HeroData;
+import com.rwproto.PeakArenaServiceProtos.HurtRecord;
+import com.rwproto.PeakArenaServiceProtos.HurtValue;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaRequest;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaResponse;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaResponse.Builder;
@@ -521,37 +530,23 @@ public class PeakArenaHandler {
 					});
 				}
 			}
+			
+			int placeUp = playerPlace - enemyPlace;
 
 			// 排名上升
-			PeakRecordInfo recordForPlayer = new PeakRecordInfo();
-			recordForPlayer.setUserId(enemyUserId);
-			recordForPlayer.setWin(win ? 1 : 0);
-			recordForPlayer.setName(enemyUser.getUserName());
-			recordForPlayer.setHeadImage(enemyUser.getHeadImage());
-			recordForPlayer.setLevel(enemyUser.getLevel());
-			recordForPlayer.setTime(currentTimeMillis);
-			recordForPlayer.setChallenge(1);
-
-			int placeUp = playerPlace - enemyPlace;
-			if (win && placeUp > 0) {
-				recordForPlayer.setPlaceUp(placeUp);
-				response.setPlaceUp(placeUp);
-				response.setPlace(enemyPlace);// 排名对调了
-			}
+			PeakRecordInfo recordForPlayer = this.createPeakRecord(player, enemyUser, win, true, placeUp); // 自己的record
+			PeakRecordInfo recordForEnemy = this.createPeakRecord(enemyUser, player, !win, false, 0); // 对方的record
+			recordForPlayer.setDetails(this.createHurtRecords(request.getHurtRecordList(), player, playerArenaData, enemyUser, enemyArenaData, true));
+			recordForEnemy.setDetails(this.createHurtRecords(request.getHurtRecordList(), enemyUser, enemyArenaData, player, playerArenaData, false));
 			peakBM.addOthersRecord(playerArenaData, recordForPlayer);
-
-			PeakRecordInfo recordForEnemy = new PeakRecordInfo();
-			recordForEnemy.setUserId(userId);
-			recordForEnemy.setWin(win ? 0 : 1);// 取反
-			recordForEnemy.setName(player.getUserName());
-			recordForEnemy.setHeadImage(player.getHeadImage());
-			recordForEnemy.setLevel(player.getLevel());
-			recordForEnemy.setTime(currentTimeMillis);
-			recordForEnemy.setChallenge(0);
-			peakBM.addOthersRecord(enemyArenaData, recordForEnemy);
+			peakBM.addOthersRecord(enemyArenaData, recordForEnemy); // 对手的record
 
 			playerArenaData.setFightStartTime(currentTimeMillis);
 
+			if (win && placeUp > 0) {
+				response.setPlaceUp(placeUp);
+				response.setPlace(enemyPlace);// 排名对调了
+			}
 			// 向双方发送战报
 			MsgArenaResponse.Builder recordResponse = MsgArenaResponse.newBuilder();
 			recordResponse.setArenaType(eArenaType.SYNC_RECORD);
@@ -583,6 +578,71 @@ public class PeakArenaHandler {
 				enemyEntry.getExtension().setNotFighting();
 			}
 		}
+	}
+	
+	private List<PeakRecordHeroInfo> createPeakHeroInfo(String playerId, List<HurtValue> hurtValues) {
+		List<PeakRecordHeroInfo> list = new ArrayList<PeakRecordHeroInfo>(hurtValues.size());
+		for(HurtValue hv : hurtValues) {
+			Hero hero = FSHeroMgr.getInstance().getHeroById(playerId, hv.getHeroId());
+			if (hero == null) {
+				continue;
+			}
+			PeakRecordHeroInfo heroInfo = new PeakRecordHeroInfo();
+			heroInfo.setCfgId(hero.getTemplateId());
+			heroInfo.setQualityId(hero.getQualityId());
+			heroInfo.setDead(hv.getIsDead());
+			heroInfo.setLevel(hero.getLevel());
+			heroInfo.setHpDamage(hv.getValue());
+			list.add(heroInfo);
+		}
+		return list;
+	}
+	
+	private PeakRecordMagicInfo createPeakMagicInfo(Player player, String magicId) {
+		ItemData magic = player.getItemBagMgr().findBySlotId(magicId);
+		PeakRecordMagicInfo magicInfo = new PeakRecordMagicInfo();
+		magicInfo.setCfgId(magic.getModelId());
+		magicInfo.setLevel(magic.getMagicLevel());
+		return magicInfo;
+	}
+	
+	private List<PeakRecordDetail> createHurtRecords(List<HurtRecord> hurtRecords, Player me, TablePeakArenaData arenaDataMe, Player theOther, TablePeakArenaData arenaDataTheOther,
+			boolean isChallenge) {
+		List<PeakRecordDetail> peakRecordDetailList = new ArrayList<PeakRecordDetail>(hurtRecords.size());
+		for (int i = 0, size = hurtRecords.size(); i < size; i++) {
+			PeakRecordDetail peakRecordDetail = new PeakRecordDetail();
+			HurtRecord record = hurtRecords.get(i);
+			List<HurtValue> myHurtValue;
+			List<HurtValue> theOtherHurtValue;
+			if (isChallenge) {
+				myHurtValue = record.getMyHurtValueList();
+				theOtherHurtValue = record.getEnemyHurtValueList();
+			} else {
+				myHurtValue = record.getEnemyHurtValueList();
+				theOtherHurtValue = record.getEnemyHurtValueList();
+			}
+			peakRecordDetail.setMyCamp(createPeakHeroInfo(me.getUserId(), myHurtValue));
+			peakRecordDetail.setMyMagic(createPeakMagicInfo(me, arenaDataMe.getTeam(i).getMagicId()));
+			peakRecordDetail.setEnemyCamp(createPeakHeroInfo(theOther.getUserId(), theOtherHurtValue));
+			peakRecordDetail.setEnemyMagic(createPeakMagicInfo(theOther, arenaDataTheOther.getTeam(0).getMagicId()));
+			peakRecordDetailList.add(peakRecordDetail);
+		}
+		return peakRecordDetailList;
+	}
+	
+	private PeakRecordInfo createPeakRecord(Player player, Player enemy, boolean isWin, boolean isChallenge, int placeUp) {
+		PeakRecordInfo record = new PeakRecordInfo();
+		record.setUserId(enemy.getUserId());
+		record.setResult(isWin ? PeakArenaResultType.WIN : PeakArenaResultType.LOSE);
+		record.setEnemyName(enemy.getUserName());
+		record.setHeadImage(enemy.getHeadImage());
+		record.setLevel(enemy.getLevel());
+		record.setTime(System.currentTimeMillis());
+		record.setActionType(isChallenge ? PeakArenaActionType.CHALLENGE : PeakArenaActionType.DEFEND);
+		if (placeUp > 0) {
+			record.setPlaceUp(placeUp);
+		}
+		return record;
 	}
 
 	private void pushMainViewData(Player player) {
@@ -839,13 +899,13 @@ public class PeakArenaHandler {
 	public ArenaRecord getPeakArenaRecord(PeakRecordInfo record) {
 		ArenaRecord.Builder result = ArenaRecord.newBuilder();
 		result.setUserId(record.getUserId());
-		result.setWin(record.getWin() == 1);
+		result.setWin(record.getResult() == PeakArenaResultType.WIN);
 		result.setPlaceUp(record.getPlaceUp());
-		result.setName(record.getName());
+		result.setName(record.getEnemyName());
 		result.setHeadImage(record.getHeadImage());
 		result.setLevel(record.getLevel());
 		result.setTime(record.getTime());
-		result.setChallenge(record.getChallenge());
+		result.setChallenge(record.getActionType().sign);
 		return result.build();
 	}
 

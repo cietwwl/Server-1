@@ -20,6 +20,11 @@ enum eArenaType {
 	SWITCH_OVER = 12;//更换玩家队伍顺序,使用 reorder 参数表示1，2，3队伍的ID
 	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
 	FIGHT_CONTINUE = 14;//挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
+	GET_SCORE_REWARD = 15; // 领取积分奖励
+	GET_ALL_SCORE_REWARD = 16; // 领取所有的积分奖励
+	GET_RECORD = 17; // 获取战报
+	GET_RECORD_DETAIL = 18; // 获取战报详情
+	GET_HURT_DETAIL = 19; // 查看伤害的详细信息
 }
 
 enum eArenaResultType {
@@ -95,6 +100,32 @@ message ArenaRecord{
 	optional int32 level = 6;
 	optional int64 time = 7;
 	optional int32 challenge = 8;
+	required fixed32 recordId = 9;
+}
+
+message PeakArenaHeroData {
+	required string heroId = 1;
+	required string headImage = 2; // 头像资源id
+	required fixed32 level = 3; // 等级
+	required fixed32 starLv = 4; // 星级
+	required string qualityId = 5; // 品质id
+	optional fixed32 modelId = 6; // 英雄的modelId，主角不用发
+}
+
+message PeakArenaMagicData {
+	required fixed32 modelId = 1; // 法宝的modelId
+	required fixed32 level = 2;
+}
+
+message PeakArenaUserData {
+	required string name = 1; // 名字
+	repeated PeakArenaHeroData heroData = 2; // 英雄数据，包括主角
+	required PeakArenaMagicData magicData = 3; // 法宝数据
+}
+
+message PeakArenaDetailRecord {
+	required PeakArenaUserData challenger = 1; // 挑战者
+	required PeakArenaUserData defender = 2; // 防守者
 }
 
 message MsgArenaRequest{
@@ -104,6 +135,9 @@ message MsgArenaRequest{
 	optional ArenaInfo enemy = 4;
 	optional bool win = 5;
 	repeated int32 reorder = 6;// 重新排列玩家队伍：按照顺序列出1、2、3队伍的ID
+	repeated HurtRecord hurtRecord = 7; // 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+	optional fixed32 recordId = 8; // 查看战报详情时的战报id
+	optional fixed32 hurtIndex = 9; // 查看伤害详情的时候发送的索引（0、1、2）
 }
 
 message MsgArenaResponse{
@@ -122,4 +156,17 @@ message MsgArenaResponse{
 	optional int32 gainCurrencyPerHour = 13;	//每小时能获得的巅峰币
 	optional int32 resetCost = 14;//重置需要的费用
 	optional int32 placeUp = 15; //战斗胜利后发送
+	repeated PeakArenaDetailRecord challengeRecords = 16; // 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+	optional HurtRecord hurtDetail = 17; // 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+}
+
+message HurtRecord {
+	required fixed32 teamId = 1; // 队伍id
+	repeated HurtValue myHurtValue = 2; // 自身的伤害信息
+	repeated HurtValue enemyHurtValue = 3; // 对手的伤害信息
+}
+
+message HurtValue {
+	required string heroId = 1; // 英雄id
+	required fixed64 value = 2;	//伤害值
 }

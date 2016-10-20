@@ -45,6 +45,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	private TablePeakArenaDataDAO tablePeakArenaDataDAO = TablePeakArenaDataDAO.getInstance();
 	private static int RESULT_COUNT = 3; // 随机后的结果人数
 	private static long MILLIS_PER_HOUR = TimeUnit.HOURS.toMillis(1);
+	private static int MAX_RECORD_COUNT = 20;
 
 	public static PeakArenaBM getInstance() {
 		if (instance == null) {
@@ -473,7 +474,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	public void addOthersRecord(TablePeakArenaData table, PeakRecordInfo record) {
 		List<PeakRecordInfo> list = table.getRecordList();
 		// 需要限制战报的数量
-		int removeCount = list.size()- 9;
+		int removeCount = list.size() - MAX_RECORD_COUNT;
 		if (removeCount > 0){
 			for (int i = 0; i<removeCount; i++){
 				list.remove(list.size()-1);

@@ -1,63 +1,105 @@
 package com.rw.service.PeakArena.datamodel;
 
+import java.util.List;
+
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class PeakRecordInfo {
 
-	private int win;//TODO 这次不管 0是输，1是赢
-	private int placeUp;//交换名次后计算排名变化
-	private String name;
-	private String headImage;
-	private int level;
-	private long time;
-	private String userId;
-	private int challenge;//TODO 这次不管 1是我打别人，0是别人打我
+	@JsonProperty("1")
+	private PeakArenaResultType result; // 
+	@JsonProperty("2")
+	private int placeUp; // 交换名次后计算排名变化
+	@JsonProperty("3")
+	private String enemyName; // 对手的名字
+	@JsonProperty("4")
+	private String enemyHeadImage; // 对手的头像
+	@JsonProperty("5")
+	private int enemyLevel; // 等级
+	@JsonProperty("6")
+	private long time; // 挑战的时间
+	@JsonProperty("7")
+	private String enemyUserId; // 对手的userId
+	@JsonProperty("8")
+	private PeakArenaActionType actionType; // 
+	@JsonProperty("9")
+	private List<PeakRecordDetail> details; // 详细信息
 	
-	public int getWin() {
-		return win;
+	public PeakArenaResultType getResult() {
+		return result;
 	}
-	public void setWin(int win) {
-		this.win = win;
+
+	public void setResult(PeakArenaResultType result) {
+		this.result = result;
 	}
+	
 	public int getPlaceUp() {
 		return placeUp;
 	}
+	
 	public void setPlaceUp(int placeUp) {
 		this.placeUp = placeUp;
 	}
-	public String getName() {
-		return name;
+	
+	public String getEnemyName() {
+		return enemyName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	
+	public void setEnemyName(String name) {
+		this.enemyName = name;
 	}
+	
 	public String getHeadImage() {
-		return headImage;
+		return enemyHeadImage;
 	}
+	
 	public void setHeadImage(String headImage) {
-		this.headImage = headImage;
+		this.enemyHeadImage = headImage;
 	}
+	
 	public int getLevel() {
-		return level;
+		return enemyLevel;
 	}
+	
 	public void setLevel(int level) {
-		this.level = level;
+		this.enemyLevel = level;
 	}
+	
 	public long getTime() {
 		return time;
 	}
+	
 	public void setTime(long time) {
 		this.time = time;
 	}
+	
 	public String getUserId() {
-		return userId;
+		return enemyUserId;
 	}
+	
 	public void setUserId(String userId) {
-		this.userId = userId;
+		this.enemyUserId = userId;
 	}
-	public int getChallenge() {
-		return challenge;
+	
+	public PeakArenaActionType getActionType() {
+		return actionType;
 	}
-	public void setChallenge(int challenge) {
-		this.challenge = challenge;
+
+	public void setActionType(PeakArenaActionType actionType) {
+		this.actionType = actionType;
+	}
+	
+	public List<PeakRecordDetail> getDetails() {
+		return details;
+	}
+	
+	public void setDetails(List<PeakRecordDetail> details) {
+		this.details = details;
 	}
 	
 }
