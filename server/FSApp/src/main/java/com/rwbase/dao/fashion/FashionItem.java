@@ -17,7 +17,7 @@ public class FashionItem implements RoleExtProperty, FashionItemIF {
 	@Id
 	private Integer id; //数据库存取id，用userId+"_"+fanshionId并起来,客户端不需要使用，因为每一件时装只允许购买一次
 	
-	private int fashionId;// 时装模型id
+	private int fashionId;// 时装模型id	
 	
 	@OwnerId
 	@IgnoreSynField
