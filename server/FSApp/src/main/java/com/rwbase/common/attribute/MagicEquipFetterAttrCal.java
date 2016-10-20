@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -40,7 +41,10 @@ public class MagicEquipFetterAttrCal implements IComponentCalc{
 		MagicEquipConditionCfg cfg;
 		for (int id : list) {
 			cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
-			
+			if(cfg == null){
+				GameLog.error("magic", param.getUserID(), "找不到法宝FetterMagicEquipCfg id:"+id);
+				continue;
+			}
 			// 计算固定值
 			Map<Integer, Integer> attrDataMap = cfg.getAttrDataMap();
 			for (Entry<Integer, Integer> entry : attrDataMap.entrySet()) {
