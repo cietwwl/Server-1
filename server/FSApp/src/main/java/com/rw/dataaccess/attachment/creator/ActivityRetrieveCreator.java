@@ -6,7 +6,7 @@ import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityRetrieveCreator implements PlayerExtPropertyCreator<RewardBackItem>{
@@ -27,7 +27,7 @@ public class ActivityRetrieveCreator implements PlayerExtPropertyCreator<RewardB
 
 	@Override
 	public List<RewardBackItem> checkAndCreate(
-			PlayerExtPropertyStore<RewardBackItem> store,
+			RoleExtPropertyStore<RewardBackItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

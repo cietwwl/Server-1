@@ -171,7 +171,7 @@ public class ActivityRetrieveTypeMgr {
 			type = subItem.getNormalType();
 		}else{
 			tmp = subItem.getPerfectCost();
-			rewards = subItem.getNormalReward();
+			rewards = subItem.getPerfectReward();
 			type = subItem.getPerfectType();
 		}
 		if(subItem.getCount() == subItem.getMaxCount()){
