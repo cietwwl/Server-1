@@ -1,8 +1,11 @@
 package com.playerdata.army;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ArmyFashion {
 	private int career;
 	private int gender;

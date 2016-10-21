@@ -1,14 +1,16 @@
 package com.rwbase.dao.magicweapon.pojo;
 
+import java.util.HashMap;
+
 public class MagicExpCfg {
 
 	private int level;
-	private int goodsId;// 需要消耗的材料Id
+	private String goodsId;// 需要消耗的材料Id
 	private int factor;// 继承时把材料转换成801001要的系数
-	private int goods;// 需要的数量
 	private int exp;
 	private int moneyType;
 	private int cost;
+	private HashMap<Integer, Integer> consumeMap = new HashMap<Integer, Integer>();
 
 	public int getLevel() {
 		return level;
@@ -19,7 +21,7 @@ public class MagicExpCfg {
 	 * 
 	 * @return
 	 */
-	public int getGoodsId() {
+	public String getGoodsId() {
 		return goodsId;
 	}
 
@@ -32,15 +34,6 @@ public class MagicExpCfg {
 		return factor;
 	}
 
-	/**
-	 * 强化需要的材料数量
-	 * 
-	 * @return
-	 */
-	public int getGoods() {
-		return goods;
-	}
-
 	public int getExp() {
 		return exp;
 	}
@@ -51,5 +44,13 @@ public class MagicExpCfg {
 
 	public int getCost() {
 		return cost;
+	}
+
+	public HashMap<Integer, Integer> getConsumeMap() {
+		return consumeMap;
+	}
+
+	public void setConsumeMap(HashMap<Integer, Integer> consumeMap) {
+		this.consumeMap = consumeMap;
 	}
 }

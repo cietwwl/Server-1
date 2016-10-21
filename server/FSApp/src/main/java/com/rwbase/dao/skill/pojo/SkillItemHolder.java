@@ -57,6 +57,21 @@ public class SkillItemHolder {
 		ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), heroId);
 	}
+	
+	/**
+	 * 同步变化的技能到前端并且调用notifyChange
+	 * @param player
+	 * @param heroId
+	 * @param skillList
+	 */
+	public void notifyChangedAndSynData(Player player, String heroId, List<SkillItem> skillList){
+		//TODO 要改前端换成eSynOpType.UPDATE_PART_LIST
+		//如果更改的技能是全部，可以调用eSynOpType.UPDATE_LIST
+		for(int i = 0,size = skillList.size();i<size;i++){
+			ClientDataSynMgr.updateData(player, skillList.get(i), skillSynType, eSynOpType.UPDATE_SINGLE);
+		}
+		notifyChange(player.getUserId(), heroId);
+	}
 
 //	/**
 //	 * 
@@ -208,7 +223,7 @@ public class SkillItemHolder {
 		}
 	}
 	
-	private RoleExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
+	public RoleExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
 		RoleExtPropertyStoreCache<SkillItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SKILL_ITEM, SkillItem.class);
 		RoleExtPropertyStore<SkillItem> store = null;
 		try {
