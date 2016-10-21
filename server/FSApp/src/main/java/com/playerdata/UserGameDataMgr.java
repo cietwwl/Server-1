@@ -12,6 +12,7 @@ import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -465,6 +466,16 @@ public class UserGameDataMgr {
 			return 0;
 		return -1;
 	}
+	
+	public int getTeamBattleCoin() {
+		return UserTeamBattleDataMgr.getInstance().getTeamBattleCoin(player);
+	}
+
+	public int addTeamBattleCoin(int count) {
+		if (UserTeamBattleDataMgr.getInstance().addTeamBattleCoin(player, count))
+			return 0;
+		return -1;
+	}
 
 	public int getTowerCoin() {
 		return userGameDataHolder.get().getTowerCoin();
@@ -868,6 +879,9 @@ public class UserGameDataMgr {
 		case MagicSecretCoin:
 			result = this.addMagicSecretCoin(dec) == 0;
 			break;
+		case TEAM_BATTLE_GOLD:
+			result = this.addTeamBattleCoin(dec) == 0;
+			break;
 		default:
 			break;
 		}
@@ -910,6 +924,9 @@ public class UserGameDataMgr {
 			break;
 		case MagicSecretCoin:
 			old = this.getMagicSecretCoin();
+			break;
+		case TEAM_BATTLE_GOLD:
+			old = this.getTeamBattleCoin();
 			break;
 		default:
 			break;

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -60,7 +61,12 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 		if (fetters.size() > 0) {
 			MagicEquipConditionCfg fetterMagicEquipCfg;
 			for (int i = 0; i < fetters.size(); i++) {
-				fetterMagicEquipCfg = fetterMagicEquipCfgDao.getCfgById(String.valueOf(fetters.get(i)));
+				String fetterId = fetters.get(i).toString();
+				fetterMagicEquipCfg = fetterMagicEquipCfgDao.getCfgById(fetterId);
+				if (fetterMagicEquipCfg == null) {
+					GameLog.error("FSGetFetterCurrentFightingOfSingleFunc", "getEquipFetterFighting", "FetterMagicEquipCfgDao找不到羁绊配置，id：" + fetterId + "");
+					continue;
+				}
 				fighting += getFightingFunc.apply(fetterMagicEquipCfg.getConditionLevel(), fetterMagicEquipCfg.getSeq());
 			}
 		}

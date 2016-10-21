@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthTitleCfgDAO;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
@@ -38,7 +39,24 @@ public class FSuserFightingGrowthMgr {
 			for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
 				Integer itemCfgId = keyItr.next();
 				int count = itemMap.get(itemCfgId).intValue();
-				if (player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
+				if (itemCfgId < eSpecialItemId.eSpecial_End.getValue()) {
+					eSpecialItemId currencyType = eSpecialItemId.getDef(itemCfgId);
+					if (!player.getUserGameDataMgr().isEnoughCurrency(currencyType, count)) {
+						String currencyName;
+						switch (currencyType) {
+						case Gold:
+							currencyName = "钻石";
+							break;
+						case Coin:
+							currencyName = "金币";
+							break;
+						default:
+							currencyName = "货币";
+							break;
+						}
+						return Pair.Create(FSFightingGrowthTips.getTipsCurrencyNotEnough(currencyName, count), false);
+					}
+				} else if (player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
 					// 材料数量不符合
 					return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(itemCfgId).getName(), count), false);
 				}
@@ -50,10 +68,14 @@ public class FSuserFightingGrowthMgr {
 	private boolean executeUpgradeCondition(Player player, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		// 执行晋级条件
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
-		for(Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
+		for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
 			Integer itemCfgId = keyItr.next();
 			int count = itemMap.get(itemCfgId);
-			if(!player.getItemBagMgr().useItemByCfgId(itemCfgId, count)) {
+			if (itemCfgId < eSpecialItemId.eSpecial_End.getValue()) {
+				if (!player.getUserGameDataMgr().deductCurrency(eSpecialItemId.getDef(itemCfgId), count)) {
+					return false;
+				}
+			} else if (!player.getItemBagMgr().useItemByCfgId(itemCfgId, count)) {
 				return false;
 			}
 		}

@@ -8,6 +8,9 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
+import com.playerdata.activity.retrieve.userFeatures.IUserFeatruesHandler;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -16,7 +19,10 @@ import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.friend.TableFriend;
 import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
+import com.rwbase.dao.openLevelTiggerService.IServiceTiggerHandler.IServiceTiggerHandler;
+import com.rwbase.dao.openLevelTiggerService.IServiceTiggerHandler.ServiceTiggerToFriend;
 import com.rwbase.dao.openLevelTiggerService.pojo.CfgOpenLevelTiggerService;
 import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
 import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
@@ -30,6 +36,13 @@ public class OpenLevelTiggerServiceMgr {
 		return instance;
 	}
 
+	private Map<eOpenLevelType, IServiceTiggerHandler> serviceTiggerHandlerMap = new HashMap<eOpenLevelType, IServiceTiggerHandler>();
+	
+	private OpenLevelTiggerServiceMgr(){
+		serviceTiggerHandlerMap.put(eOpenLevelType.FRIEND, new ServiceTiggerToFriend());
+		
+	}
+	
 	public void tiggerServiceByLevel(Player player, User oldRecord,
 			User currentRecord) {
 		String userId = player.getUserId();
@@ -37,83 +50,45 @@ public class OpenLevelTiggerServiceMgr {
 		CfgOpenLevelLimitDAO cfgLimitDao = CfgOpenLevelLimitDAO.getInstance();
 		CfgOpenLevelTiggerServiceDAO cfgServiceDao = CfgOpenLevelTiggerServiceDAO.getInstance();
 //		RoleExtPropertyStoreCache<OpenLevelTiggerServiceItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.OPENLEVEL_TIGGERSERVICE, OpenLevelTiggerServiceItem.class);
-		TableFriend friendTable = player.getFriendMgr().getTableFriend();
 //			PlayerExtPropertyStore<OpenLevelTiggerServiceItem> store = cach.getStore(userId);
 //			List<OpenLevelTiggerServiceItem> itemList = new ArrayList<OpenLevelTiggerServiceItem>();
-			for(int i = (oldRecord.getLevel() + 1);i < (currentRecord.getLevel()+1);i++){//很少连升多级；先取引导的配置，再用引导配置取对应等级的功能服务配置；防止出现两份表不统一的情况出现
-				List<CfgOpenLevelLimit> cfgList = cfgLimitDao.getOpenByLevel(i);
-				if(cfgList == null){
-					continue;
-				}
-				for(CfgOpenLevelLimit cfg : cfgList){//很少一个级别配置多个引导；获得该等级各激活的功能的对应辅助配置
-					List<CfgOpenLevelTiggerService> tiggerCfgList = cfgServiceDao.getListByType(cfg.getType());
-					if(tiggerCfgList == null){
-						continue;
-					}
-//					TableFriend friendTable = player.getFriendMgr().getTableFriend();
-					OpenLevelTiggerServiceItem item = friendTable.getOpenLevelTiggerServiceItem();//store.get(cfg.getType());
-					if(item.getCreatTime() != 0){
-						continue;
-					}
-					item = new OpenLevelTiggerServiceItem();
-					item.setId(cfg.getType());
-					item.setCreatTime(currentTime);
-					item.setUserId(userId);
-					List<OpenLevelTiggerServiceSubItem> subItemList = new ArrayList<OpenLevelTiggerServiceSubItem>();
-					for(CfgOpenLevelTiggerService serviceCfg : tiggerCfgList){
-						OpenLevelTiggerServiceSubItem subItem = new OpenLevelTiggerServiceSubItem();
-						subItem.setOver(false);
-						subItem.setTriggerTime(serviceCfg.getTriggerTime());
-						subItem.setTriggerNumber(serviceCfg.getTriggerNumber());
-						subItem.setGivePower(serviceCfg.isGive());
-						subItemList.add(subItem);
-					}
-					item.setSubItemList(subItemList);
-//					itemList.add(item);
-//					TableFriendDAO.getInstance().update(friendTable);
-					friendTable.setOpenLevelTiggerServiceItem(item);
-					player.getFriendMgr().save();
-				}				
+		for(int i = (oldRecord.getLevel() + 1);i < (currentRecord.getLevel()+1);i++){//很少连升多级；先取引导的配置，再用引导配置取对应等级的功能服务配置；防止出现两份表不统一的情况出现
+			List<CfgOpenLevelLimit> cfgList = cfgLimitDao.getOpenByLevel(i);
+//			System.out.println("~~~~~~~~~~~~level = " +i);
+			if(cfgList == null){
+				continue;
 			}
-//			regeditByLevelUp(player,itemList);
-//			store.addItem(itemList);
-
-		
-		
-		
+			for(CfgOpenLevelLimit cfg : cfgList){//很少一个级别配置多个引导；获得该等级各激活的功能的对应辅助配置
+				for (Map.Entry<eOpenLevelType, IServiceTiggerHandler> entry : serviceTiggerHandlerMap.entrySet()) {
+					if(entry.getKey().getOrder() != cfg.getType()){
+						continue;
+					}
+					entry.getValue().openLevelToCreatItem( player, currentTime, userId, cfg, cfgServiceDao);
+				}					
+			}				
+		}		
 	}
 	
 	/**加好友赠送体力，功能开启5秒后就要触发，使用秒时效
 	 * 
 	 * @param player
 	 */
-	public void oneSecondAction(Player player) {
-//		if(player.getOpenLevelTiggerServiceRegeditInfo().getEventListByType().isEmpty()){//遍历注册数据，目前不用；改为直接遍历功能表
-//			return;
-//		}
-		Long currentTime = DateUtils.getSecondLevelMillis();
-		TableFriend friendTable = player.getFriendMgr().getTableFriend();
-		OpenLevelTiggerServiceItem item = friendTable.getOpenLevelTiggerServiceItem();
-		if(item.getCreatTime() == 0){
-			return;
-		}
-		List<OpenLevelTiggerServiceSubItem> subItemList = item.getSubItemList();
-		for(OpenLevelTiggerServiceSubItem subItem : subItemList){
-			if(!StringUtils.isBlank(subItem.getUserId())){
+	public void oneSecondAction(Player player) {		
+		for(eOpenLevelType type : eOpenLevelType.getMapoforder().values()){
+			if(!type.isTigger()){//客户端有引导；服务器没引导
 				continue;
 			}
-			long timeBySecond = (currentTime - item.getCreatTime())/1000;
-			if(timeBySecond > subItem.getTriggerTime()){
-//				type.doAction();
-				player.getFriendMgr().robotRequestAddPlayerToFriend(subItem,friendTable);
-				
-			}
-		}
-		player.getFriendMgr().save();
+			for (Map.Entry<eOpenLevelType, IServiceTiggerHandler> entry : serviceTiggerHandlerMap.entrySet()) {
+				if(entry.getKey().getOrder() != type.getOrder()){
+					continue;
+				}
+				entry.getValue().doActionByTimerManager(player);
+			}			
+		}		
 	}
 
 	/**
-	 * 登陆时会读取并把已开启未完成的数据注册；目前模式不采用
+	 * 登陆时会读取并把已开启未完成的数据注册；目前模式不采用;维护的话应该移到接口去
 	 * @param player
 	 */
 	public void regeditByLogin(Player player) {
@@ -140,7 +115,7 @@ public class OpenLevelTiggerServiceMgr {
 	}
 	
 	/**
-	 * 升级时会把已开启未完成的数据注册；目前模式不采用
+	 * 升级时会把已开启未完成的数据注册；目前模式不采用;维护的话应该移到接口去
 	 * @param player
 	 */
 	public void regeditByLevelUp(Player player,List<OpenLevelTiggerServiceItem> itemList) {

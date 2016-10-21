@@ -231,6 +231,9 @@ class MSConditionJudger {
 			} else if (cost.getItemID() == eSpecialItemId.MagicSecretCoin.getValue()){
 				if(cost.getItemNum() > UserMagicSecretHolder.getInstance().get(player).getSecretGold())
 					return false;
+			} else if (cost.getItemID() == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()){
+				if(cost.getItemNum() > player.getUserGameDataMgr().getTeamBattleCoin())
+					return false;
 			} else{
 				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("judgeOpenBoxCost, 需要消耗一种未处理的资源[%s]", cost.getItemID()), null);
 				return false;
