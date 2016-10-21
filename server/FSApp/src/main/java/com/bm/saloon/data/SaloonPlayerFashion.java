@@ -1,6 +1,7 @@
 package com.bm.saloon.data;
 
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rwbase.dao.fashion.FashionBeingUsed;
 
 @SynClass
 public class SaloonPlayerFashion {
@@ -26,6 +27,15 @@ public class SaloonPlayerFashion {
 	}
 	public void setPetId(int petId) {
 		this.petId = petId;
+	}
+	public static SaloonPlayerFashion from(FashionBeingUsed fashionBeingUsed) {
+		
+		SaloonPlayerFashion fashion = new SaloonPlayerFashion();
+		fashion.wingId = fashionBeingUsed.getWingId();
+		fashion.suitId = fashionBeingUsed.getSuitId();
+		fashion.petId = fashionBeingUsed.getPetId();
+		
+		return fashion;
 	}
 	
 	

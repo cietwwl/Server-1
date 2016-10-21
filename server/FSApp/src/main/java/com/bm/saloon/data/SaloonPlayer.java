@@ -28,6 +28,8 @@ public class SaloonPlayer {
 	private String qualityId;
 	
 	private SaloonPlayerFashion playerFashion;
+	
+	private SaloonMagic magic;
 
 	public String getUserId() {
 		return userId;
@@ -123,6 +125,14 @@ public class SaloonPlayer {
 
 	public void setPlayerFashion(SaloonPlayerFashion playerFashion) {
 		this.playerFashion = playerFashion;
+	}
+
+	public SaloonMagic getMagic() {
+		return magic;
+	}
+
+	public void setMagic(SaloonMagic magic) {
+		this.magic = magic;
 	}
 	
 	
