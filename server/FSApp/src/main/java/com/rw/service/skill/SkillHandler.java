@@ -111,7 +111,7 @@ public class SkillHandler {
 				SkillFeeCfg skillFeeCfg = skillCfgDAO.getSkillFeeCfg(getRoleType(player, heroId).ordinal(), skill.getOrder(), skill.getLevel() + add);
 				// 计算升级总价钱
 				cost += skillFeeCfg.getCoin();
-				totalMoney += cost;
+				totalMoney += skillFeeCfg.getCoin();
 			}
 			updateInfos.add(new UpdateSkillInfo(skill, addLevel, cost, skillId));
 			totalPoints += addLevel;
