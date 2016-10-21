@@ -1085,8 +1085,8 @@ public class Robot {
 
 	}
 
-	public void getGroupMatchSecretReward() {
-		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	public boolean getGroupMatchSecretReward() {
+		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 	}
 
 	public boolean inviteMemberDefend() {

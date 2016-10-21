@@ -160,14 +160,15 @@ public class GroupSecretMatchHandler {
 	 * 
 	 * @param client
 	 */
-	public void getGroupSecretReward(Client client) {
+	public boolean getGroupSecretReward(Client client) {
 		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
 				.getGroupSecretBaseInfoSynDataHolder();
 		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder
 				.getDefanceList();
 		if (defendSecretIdList == null) {
-			return;
+			return true;
 		}
+		boolean result = true;
 		for (int i = 0; i < defendSecretIdList.size(); i++) {
 			if (defendSecretIdList.get(i).getMainPos() != 0) {
 				continue;// 掠夺的数据，不在此处发送
@@ -178,10 +179,14 @@ public class GroupSecretMatchHandler {
 			GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg
 					.newBuilder();
 			req.setReqType(MatchRequestType.GET_REWARD);
-			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
+			result = client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
 					req.build().toByteString(),
 					new GroupSecretMatchReceier(command, functionName, "进攻奖励"));
+			if(!result){
+				break;
+			}
 		}
+		return result;
 	}
 
 	private class GroupSecretMatchReceier extends PrintMsgReciver {
