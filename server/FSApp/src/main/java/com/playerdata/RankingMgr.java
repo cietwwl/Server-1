@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
@@ -33,6 +34,7 @@ import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.ranking.impl.RankingEntryData;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -132,8 +134,20 @@ public class RankingMgr {
 		if (levelRanking.size() > 0) {
 			return;
 		}
-		creatRobotRankFromUserTable();
+//		RankingEntityCopyer copyer = RankType.LEVEL_ROBOT.getEntityCopyer();
+		List<User> userList = getRobotFromUserTable();
+		if(userList == null|| userList.isEmpty()){
+			GameLog.error(LogModule.COMMON, null, "从user表获取机器人失败,无法生成榜单", null);
+			return;
+		}
+		ArrayList<RankingEntryData> rankingList = userToRankingEntryList(userList,RankType.LEVEL_ROBOT);
 		
+		for (int i = 1, size = rankingList.size(); i <= size; i++) {
+			RankingEntryData entry = rankingList.get(i - 1);
+			LevelComparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
+			RankingLevelData levelData = RankingUtils.createRankingLevelDataByEntryData(entry);
+			levelRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
+		}		
 	}
 	
 	/* 把实时排行榜数据拷贝到每日排行榜 */
@@ -175,26 +189,6 @@ public class RankingMgr {
 		copyRanking.clearAndInsert(copyList);
 	}
 	
-	
-	
-	private void creatRobotRankFromUserTable() {
-		Ranking<LevelComparable, RankingLevelData> robotRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);
-//		RankingEntityCopyer copyer = RankType.LEVEL_ROBOT.getEntityCopyer();
-		List<User> userList = getRobotFromUserTable();
-		if(userList == null|| userList.isEmpty()){
-			GameLog.error(LogModule.COMMON, null, "从user表获取机器人失败,无法生成榜单", null);
-			return;
-		}
-		ArrayList<RankingEntryData> rankingList = userToRankingEntryList(userList,RankType.LEVEL_ROBOT);
-		
-		for (int i = 1, size = rankingList.size(); i <= size; i++) {
-			RankingEntryData entry = rankingList.get(i - 1);
-			LevelComparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
-			RankingLevelData levelData = RankingUtils.createRankingLevelDataByEntryData(entry);
-			robotRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
-		}		
-	}
-	
 	/**将取出来的机器人user转为排行榜entry*/
 	private ArrayList<RankingEntryData> userToRankingEntryList(
 			List<User> userList,RankType type) {
@@ -214,7 +208,7 @@ public class RankingMgr {
 
 	private List<User> getRobotFromUserTable() {
 		final List<User> userList = new ArrayList<User>();
-		final String sql = "SELECT userId,vip,level FROM user ORDER BY userId LIMIT ? OFFSET ?;";
+		final String sql = "SELECT userId,vip,level FROM user where userId not like '%"+String.valueOf(GameManager.getZoneId())+"%' limit 105" ;
 		doReadRobotDb(sql,new RobotInteface() {
 			
 			@Override
@@ -231,7 +225,7 @@ public class RankingMgr {
 	private void doReadRobotDb(String sql, RobotInteface robotInteface) {
 		int OFFSET = 0;
 		final int LIMIT = 1000;
-		List<User> userList = biLogDbMgr.query(sql, new Object[]{LIMIT, OFFSET}, User.class);
+		List<User> userList = biLogDbMgr.query(sql, new Object[]{}, User.class);
 		for (User user : userList) {
 			robotInteface.doCount(user);
 		}
