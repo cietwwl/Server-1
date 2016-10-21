@@ -229,7 +229,7 @@ public class ArenaBM {
 		}
 		TableArenaData arena = tableArenaDataDAO.get(userId);
 		if (arena == null) {
-			GameLog.error("arena", "转职", "转职时找不到ArenaData:" + player);
+			GameLog.error("arena", "转职", "转职时找不到ArenaData:" + player+","+player.getLevel());
 		} else {
 			arena.setCareer(player.getCareer());
 		}

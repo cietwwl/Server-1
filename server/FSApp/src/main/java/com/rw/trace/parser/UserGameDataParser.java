@@ -43,6 +43,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         userGameDataCopy.setWakenKey(entity.getWakenKey());
         userGameDataCopy.setCarrerChangeTime(entity.getCarrerChangeTime());
         userGameDataCopy.setLastWorshipTime(entity.getLastWorshipTime());
+        userGameDataCopy.setExtendInfo(writer.copyObject(entity.getExtendInfo()));
         userGameDataCopy.setRandomBossIds(writer.copyObject(entity.getRandomBossIds()));
         userGameDataCopy.setRandomBossFightCount(entity.getRandomBossFightCount());
         userGameDataCopy.setKillBossRewardCount(entity.getKillBossRewardCount());
@@ -399,6 +400,10 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         json.put("wakenKey", entity.getWakenKey());
         json.put("carrerChangeTime", entity.getCarrerChangeTime());
         json.put("lastWorshipTime", entity.getLastWorshipTime());
+        Object extendInfoJson = writer.toJSON(entity.getExtendInfo());
+        if (extendInfoJson != null) {
+            json.put("extendInfo", extendInfoJson);
+        }
         Object randomBossIdsJson = writer.toJSON(entity.getRandomBossIds());
         if (randomBossIdsJson != null) {
             json.put("randomBossIds", randomBossIdsJson);
