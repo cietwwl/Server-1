@@ -10,6 +10,8 @@ import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.copypve.CopyType;
 
 public class ArenaInfoCfgDAO extends CfgCsvDao<ArenaInfoCfg> {
+	
+	private ArenaInfoCfg peakArenaInfo;
 
 	private ArenaInfoCfgDAO() {
 	}
@@ -24,6 +26,9 @@ public class ArenaInfoCfgDAO extends CfgCsvDao<ArenaInfoCfg> {
 		Iterable<ArenaInfoCfg> values = getIterateAllCfg();
 		for (ArenaInfoCfg cfg : values) {
 			cfg.ExtraInitAfterLoad();
+			if (cfg.getCopyType() == CopyType.COPY_TYPE_PEAK_ARENA) {
+				peakArenaInfo = cfg;
+			}
 		}
 		return cfgCacheMap;
 	}
@@ -36,5 +41,9 @@ public class ArenaInfoCfgDAO extends CfgCsvDao<ArenaInfoCfg> {
 			}
 		}
 		return null;
+	}
+	
+	public ArenaInfoCfg getPeakArenaInfo() {
+		return peakArenaInfo;
 	}
 }

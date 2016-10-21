@@ -281,6 +281,10 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		return result;
 	}
 	
+	public void update(TablePeakArenaData data) {
+		tablePeakArenaDataDAO.update(data);
+	}
+	
 	private void initTeamInfo(TablePeakArenaData peakData,Player player){
 		HeroMgr heroMgr = player.getHeroMgr();
 //		List<Hero> heroList = heroMgr.getAllHerosExceptMainRole(HeroFightPowerComparator.getInstance());

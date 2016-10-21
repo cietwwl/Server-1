@@ -120,45 +120,53 @@ public final class PeakArenaServiceProtos {
      */
     FIGHT_CONTINUE(13, 14),
     /**
-     * <code>GET_SCORE_REWARD = 15;</code>
+     * <code>GET_SCORE_REWARD_VIEW = 15;</code>
+     *
+     * <pre>
+     * 积分奖励界面
+     * </pre>
+     */
+    GET_SCORE_REWARD_VIEW(14, 15),
+    /**
+     * <code>GET_SCORE_REWARD = 16;</code>
      *
      * <pre>
      * 领取积分奖励
      * </pre>
      */
-    GET_SCORE_REWARD(14, 15),
+    GET_SCORE_REWARD(15, 16),
     /**
-     * <code>GET_ALL_SCORE_REWARD = 16;</code>
+     * <code>GET_ALL_SCORE_REWARD = 17;</code>
      *
      * <pre>
      * 领取所有的积分奖励
      * </pre>
      */
-    GET_ALL_SCORE_REWARD(15, 16),
+    GET_ALL_SCORE_REWARD(16, 17),
     /**
-     * <code>GET_RECORD = 17;</code>
+     * <code>GET_RECORD = 18;</code>
      *
      * <pre>
      * 获取战报
      * </pre>
      */
-    GET_RECORD(16, 17),
+    GET_RECORD(17, 18),
     /**
-     * <code>GET_RECORD_DETAIL = 18;</code>
+     * <code>GET_RECORD_DETAIL = 19;</code>
      *
      * <pre>
      * 获取战报详情
      * </pre>
      */
-    GET_RECORD_DETAIL(17, 18),
+    GET_RECORD_DETAIL(18, 19),
     /**
-     * <code>GET_HURT_DETAIL = 19;</code>
+     * <code>GET_HURT_DETAIL = 20;</code>
      *
      * <pre>
      * 查看伤害的详细信息
      * </pre>
      */
-    GET_HURT_DETAIL(18, 19),
+    GET_HURT_DETAIL(19, 20),
     ;
 
     /**
@@ -268,45 +276,53 @@ public final class PeakArenaServiceProtos {
      */
     public static final int FIGHT_CONTINUE_VALUE = 14;
     /**
-     * <code>GET_SCORE_REWARD = 15;</code>
+     * <code>GET_SCORE_REWARD_VIEW = 15;</code>
+     *
+     * <pre>
+     * 积分奖励界面
+     * </pre>
+     */
+    public static final int GET_SCORE_REWARD_VIEW_VALUE = 15;
+    /**
+     * <code>GET_SCORE_REWARD = 16;</code>
      *
      * <pre>
      * 领取积分奖励
      * </pre>
      */
-    public static final int GET_SCORE_REWARD_VALUE = 15;
+    public static final int GET_SCORE_REWARD_VALUE = 16;
     /**
-     * <code>GET_ALL_SCORE_REWARD = 16;</code>
+     * <code>GET_ALL_SCORE_REWARD = 17;</code>
      *
      * <pre>
      * 领取所有的积分奖励
      * </pre>
      */
-    public static final int GET_ALL_SCORE_REWARD_VALUE = 16;
+    public static final int GET_ALL_SCORE_REWARD_VALUE = 17;
     /**
-     * <code>GET_RECORD = 17;</code>
+     * <code>GET_RECORD = 18;</code>
      *
      * <pre>
      * 获取战报
      * </pre>
      */
-    public static final int GET_RECORD_VALUE = 17;
+    public static final int GET_RECORD_VALUE = 18;
     /**
-     * <code>GET_RECORD_DETAIL = 18;</code>
+     * <code>GET_RECORD_DETAIL = 19;</code>
      *
      * <pre>
      * 获取战报详情
      * </pre>
      */
-    public static final int GET_RECORD_DETAIL_VALUE = 18;
+    public static final int GET_RECORD_DETAIL_VALUE = 19;
     /**
-     * <code>GET_HURT_DETAIL = 19;</code>
+     * <code>GET_HURT_DETAIL = 20;</code>
      *
      * <pre>
      * 查看伤害的详细信息
      * </pre>
      */
-    public static final int GET_HURT_DETAIL_VALUE = 19;
+    public static final int GET_HURT_DETAIL_VALUE = 20;
 
 
     public final int getNumber() { return value; }
@@ -327,11 +343,12 @@ public final class PeakArenaServiceProtos {
         case 12: return SWITCH_OVER;
         case 13: return BUY_CHALLENGE_COUNT;
         case 14: return FIGHT_CONTINUE;
-        case 15: return GET_SCORE_REWARD;
-        case 16: return GET_ALL_SCORE_REWARD;
-        case 17: return GET_RECORD;
-        case 18: return GET_RECORD_DETAIL;
-        case 19: return GET_HURT_DETAIL;
+        case 15: return GET_SCORE_REWARD_VIEW;
+        case 16: return GET_SCORE_REWARD;
+        case 17: return GET_ALL_SCORE_REWARD;
+        case 18: return GET_RECORD;
+        case 19: return GET_RECORD_DETAIL;
+        case 20: return GET_HURT_DETAIL;
         default: return null;
       }
     }
@@ -15288,6 +15305,24 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getHurtIndex();
+
+    // optional fixed32 scoreRewardId = 10;
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    boolean hasScoreRewardId();
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    int getScoreRewardId();
   }
   /**
    * Protobuf type {@code MsgArenaRequest}
@@ -15419,6 +15454,11 @@ public final class PeakArenaServiceProtos {
             case 77: {
               bitField0_ |= 0x00000020;
               hurtIndex_ = input.readFixed32();
+              break;
+            }
+            case 85: {
+              bitField0_ |= 0x00000040;
+              scoreRewardId_ = input.readFixed32();
               break;
             }
           }
@@ -15742,6 +15782,30 @@ public final class PeakArenaServiceProtos {
       return hurtIndex_;
     }
 
+    // optional fixed32 scoreRewardId = 10;
+    public static final int SCOREREWARDID_FIELD_NUMBER = 10;
+    private int scoreRewardId_;
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    public boolean hasScoreRewardId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    public int getScoreRewardId() {
+      return scoreRewardId_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       userId_ = "";
@@ -15752,6 +15816,7 @@ public final class PeakArenaServiceProtos {
       hurtRecord_ = java.util.Collections.emptyList();
       recordId_ = 0;
       hurtIndex_ = 0;
+      scoreRewardId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -15814,6 +15879,9 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeFixed32(9, hurtIndex_);
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeFixed32(10, scoreRewardId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -15863,6 +15931,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(9, hurtIndex_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(10, scoreRewardId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -16013,6 +16085,8 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         hurtIndex_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        scoreRewardId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -16092,6 +16166,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.hurtIndex_ = hurtIndex_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.scoreRewardId_ = scoreRewardId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -16189,6 +16267,9 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasHurtIndex()) {
           setHurtIndex(other.getHurtIndex());
+        }
+        if (other.hasScoreRewardId()) {
+          setScoreRewardId(other.getScoreRewardId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -17243,6 +17324,55 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // optional fixed32 scoreRewardId = 10;
+      private int scoreRewardId_ ;
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public boolean hasScoreRewardId() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public int getScoreRewardId() {
+        return scoreRewardId_;
+      }
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public Builder setScoreRewardId(int value) {
+        bitField0_ |= 0x00000200;
+        scoreRewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public Builder clearScoreRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        scoreRewardId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaRequest)
     }
 
@@ -17612,6 +17742,50 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtDetailOrBuilder();
+
+    // repeated fixed32 alreadyGetRewardId = 18;
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getAlreadyGetRewardIdList();
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    int getAlreadyGetRewardIdCount();
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    int getAlreadyGetRewardId(int index);
+
+    // optional fixed32 currentScore = 19;
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    boolean hasCurrentScore();
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    int getCurrentScore();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -17786,6 +17960,32 @@ public final class PeakArenaServiceProtos {
               bitField0_ |= 0x00002000;
               break;
             }
+            case 149: {
+              if (!((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
+                alreadyGetRewardId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00020000;
+              }
+              alreadyGetRewardId_.add(input.readFixed32());
+              break;
+            }
+            case 146: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00020000) == 0x00020000) && input.getBytesUntilLimit() > 0) {
+                alreadyGetRewardId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00020000;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                alreadyGetRewardId_.add(input.readFixed32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 157: {
+              bitField0_ |= 0x00004000;
+              currentScore_ = input.readFixed32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -17802,6 +18002,9 @@ public final class PeakArenaServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
           challengeRecords_ = java.util.Collections.unmodifiableList(challengeRecords_);
+        }
+        if (((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
+          alreadyGetRewardId_ = java.util.Collections.unmodifiableList(alreadyGetRewardId_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -18334,6 +18537,65 @@ public final class PeakArenaServiceProtos {
       return hurtDetail_;
     }
 
+    // repeated fixed32 alreadyGetRewardId = 18;
+    public static final int ALREADYGETREWARDID_FIELD_NUMBER = 18;
+    private java.util.List<java.lang.Integer> alreadyGetRewardId_;
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getAlreadyGetRewardIdList() {
+      return alreadyGetRewardId_;
+    }
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    public int getAlreadyGetRewardIdCount() {
+      return alreadyGetRewardId_.size();
+    }
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    public int getAlreadyGetRewardId(int index) {
+      return alreadyGetRewardId_.get(index);
+    }
+
+    // optional fixed32 currentScore = 19;
+    public static final int CURRENTSCORE_FIELD_NUMBER = 19;
+    private int currentScore_;
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    public boolean hasCurrentScore() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    public int getCurrentScore() {
+      return currentScore_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       arenaResultType_ = com.rwproto.PeakArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -18352,6 +18614,8 @@ public final class PeakArenaServiceProtos {
       placeUp_ = 0;
       challengeRecords_ = java.util.Collections.emptyList();
       hurtDetail_ = com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance();
+      alreadyGetRewardId_ = java.util.Collections.emptyList();
+      currentScore_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -18450,6 +18714,12 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeMessage(17, hurtDetail_);
       }
+      for (int i = 0; i < alreadyGetRewardId_.size(); i++) {
+        output.writeFixed32(18, alreadyGetRewardId_.get(i));
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeFixed32(19, currentScore_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -18526,6 +18796,16 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(17, hurtDetail_);
+      }
+      {
+        int dataSize = 0;
+        dataSize = 4 * getAlreadyGetRewardIdList().size();
+        size += dataSize;
+        size += 2 * getAlreadyGetRewardIdList().size();
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(19, currentScore_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -18702,6 +18982,10 @@ public final class PeakArenaServiceProtos {
           hurtDetailBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00010000);
+        alreadyGetRewardId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00020000);
+        currentScore_ = 0;
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
@@ -18821,6 +19105,15 @@ public final class PeakArenaServiceProtos {
         } else {
           result.hurtDetail_ = hurtDetailBuilder_.build();
         }
+        if (((bitField0_ & 0x00020000) == 0x00020000)) {
+          alreadyGetRewardId_ = java.util.Collections.unmodifiableList(alreadyGetRewardId_);
+          bitField0_ = (bitField0_ & ~0x00020000);
+        }
+        result.alreadyGetRewardId_ = alreadyGetRewardId_;
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.currentScore_ = currentScore_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -18958,6 +19251,19 @@ public final class PeakArenaServiceProtos {
         }
         if (other.hasHurtDetail()) {
           mergeHurtDetail(other.getHurtDetail());
+        }
+        if (!other.alreadyGetRewardId_.isEmpty()) {
+          if (alreadyGetRewardId_.isEmpty()) {
+            alreadyGetRewardId_ = other.alreadyGetRewardId_;
+            bitField0_ = (bitField0_ & ~0x00020000);
+          } else {
+            ensureAlreadyGetRewardIdIsMutable();
+            alreadyGetRewardId_.addAll(other.alreadyGetRewardId_);
+          }
+          onChanged();
+        }
+        if (other.hasCurrentScore()) {
+          setCurrentScore(other.getCurrentScore());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -20747,6 +21053,149 @@ public final class PeakArenaServiceProtos {
           hurtDetail_ = null;
         }
         return hurtDetailBuilder_;
+      }
+
+      // repeated fixed32 alreadyGetRewardId = 18;
+      private java.util.List<java.lang.Integer> alreadyGetRewardId_ = java.util.Collections.emptyList();
+      private void ensureAlreadyGetRewardIdIsMutable() {
+        if (!((bitField0_ & 0x00020000) == 0x00020000)) {
+          alreadyGetRewardId_ = new java.util.ArrayList<java.lang.Integer>(alreadyGetRewardId_);
+          bitField0_ |= 0x00020000;
+         }
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getAlreadyGetRewardIdList() {
+        return java.util.Collections.unmodifiableList(alreadyGetRewardId_);
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public int getAlreadyGetRewardIdCount() {
+        return alreadyGetRewardId_.size();
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public int getAlreadyGetRewardId(int index) {
+        return alreadyGetRewardId_.get(index);
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder setAlreadyGetRewardId(
+          int index, int value) {
+        ensureAlreadyGetRewardIdIsMutable();
+        alreadyGetRewardId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder addAlreadyGetRewardId(int value) {
+        ensureAlreadyGetRewardIdIsMutable();
+        alreadyGetRewardId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder addAllAlreadyGetRewardId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureAlreadyGetRewardIdIsMutable();
+        super.addAll(values, alreadyGetRewardId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder clearAlreadyGetRewardId() {
+        alreadyGetRewardId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00020000);
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 currentScore = 19;
+      private int currentScore_ ;
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public boolean hasCurrentScore() {
+        return ((bitField0_ & 0x00040000) == 0x00040000);
+      }
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public int getCurrentScore() {
+        return currentScore_;
+      }
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public Builder setCurrentScore(int value) {
+        bitField0_ |= 0x00040000;
+        currentScore_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public Builder clearCurrentScore() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        currentScore_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
@@ -22931,40 +23380,43 @@ public final class PeakArenaServiceProtos {
       "oData\022&\n\tmagicData\030\003 \002(\0132\023.PeakArenaMagi" +
       "cData\"e\n\025PeakArenaDetailRecord\022&\n\nchalle",
       "nger\030\001 \002(\0132\022.PeakArenaUserData\022$\n\010defend" +
-      "er\030\002 \002(\0132\022.PeakArenaUserData\"\332\001\n\017MsgAren" +
+      "er\030\002 \002(\0132\022.PeakArenaUserData\"\361\001\n\017MsgAren" +
       "aRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType" +
       "\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamIn" +
       "fo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001" +
       "(\010\022\017\n\007reorder\030\006 \003(\005\022\037\n\nhurtRecord\030\007 \003(\0132" +
       "\013.HurtRecord\022\020\n\010recordId\030\010 \001(\007\022\021\n\thurtIn" +
-      "dex\030\t \001(\007\"\340\003\n\020MsgArenaResponse\022\036\n\tarenaT" +
-      "ype\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultTyp" +
-      "e\030\002 \001(\0162\021.eArenaResultType\022\035\n\tarenaData\030",
-      "\003 \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.Ar" +
-      "enaInfo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecor" +
-      "d\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021m" +
-      "axChallengeCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005" +
-      "\022\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016challengeCou" +
-      "nt\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrency" +
-      "PerHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007plac" +
-      "eUp\030\017 \001(\005\0220\n\020challengeRecords\030\020 \003(\0132\026.Pe" +
-      "akArenaDetailRecord\022\037\n\nhurtDetail\030\021 \001(\0132" +
-      "\013.HurtRecord\"a\n\nHurtRecord\022\016\n\006teamId\030\001 \002",
-      "(\007\022\037\n\013myHurtValue\030\002 \003(\0132\n.HurtValue\022\"\n\016e" +
-      "nemyHurtValue\030\003 \003(\0132\n.HurtValue\"*\n\tHurtV" +
-      "alue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\006*\201\003\n\n" +
-      "eArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY" +
-      "\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n" +
-      "\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_F" +
-      "IGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n" +
-      "\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r" +
-      "\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CH" +
-      "ALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016\022\024\n\020G",
-      "ET_SCORE_REWARD\020\017\022\030\n\024GET_ALL_SCORE_REWAR" +
-      "D\020\020\022\016\n\nGET_RECORD\020\021\022\025\n\021GET_RECORD_DETAIL" +
-      "\020\022\022\023\n\017GET_HURT_DETAIL\020\023*5\n\020eArenaResultT" +
-      "ype\022\021\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%" +
-      "\n\013com.rwprotoB\026PeakArenaServiceProtos"
+      "dex\030\t \001(\007\022\025\n\rscoreRewardId\030\n \001(\007\"\222\004\n\020Msg" +
+      "ArenaResponse\022\036\n\tarenaType\030\001 \002(\0162\013.eAren" +
+      "aType\022*\n\017arenaResultType\030\002 \001(\0162\021.eArenaR",
+      "esultType\022\035\n\tarenaData\030\003 \001(\0132\n.ArenaData" +
+      "\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n\nlistRe" +
+      "cord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place\030\006 \001(\005\022" +
+      "\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChallengeCount\030" +
+      "\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016currentBuyCos" +
+      "t\030\n \001(\005\022\026\n\016challengeCount\030\013 \001(\005\022\016\n\006cdTim" +
+      "e\030\014 \001(\005\022\033\n\023gainCurrencyPerHour\030\r \001(\005\022\021\n\t" +
+      "resetCost\030\016 \001(\005\022\017\n\007placeUp\030\017 \001(\005\0220\n\020chal" +
+      "lengeRecords\030\020 \003(\0132\026.PeakArenaDetailReco" +
+      "rd\022\037\n\nhurtDetail\030\021 \001(\0132\013.HurtRecord\022\032\n\022a",
+      "lreadyGetRewardId\030\022 \003(\007\022\024\n\014currentScore\030" +
+      "\023 \001(\007\"a\n\nHurtRecord\022\016\n\006teamId\030\001 \002(\007\022\037\n\013m" +
+      "yHurtValue\030\002 \003(\0132\n.HurtValue\022\"\n\016enemyHur" +
+      "tValue\030\003 \003(\0132\n.HurtValue\"*\n\tHurtValue\022\016\n" +
+      "\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\006*\234\003\n\neArenaT" +
+      "ype\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013C" +
+      "HANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_" +
+      "INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PR" +
+      "EPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_" +
+      "FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_P",
+      "LACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE" +
+      "_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016\022\031\n\025GET_SCOR" +
+      "E_REWARD_VIEW\020\017\022\024\n\020GET_SCORE_REWARD\020\020\022\030\n" +
+      "\024GET_ALL_SCORE_REWARD\020\021\022\016\n\nGET_RECORD\020\022\022" +
+      "\025\n\021GET_RECORD_DETAIL\020\023\022\023\n\017GET_HURT_DETAI" +
+      "L\020\024*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS" +
+      "\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakA" +
+      "renaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -23030,13 +23482,13 @@ public final class PeakArenaServiceProtos {
           internal_static_MsgArenaRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaRequest_descriptor,
-              new java.lang.String[] { "ArenaType", "UserId", "Teams", "Enemy", "Win", "Reorder", "HurtRecord", "RecordId", "HurtIndex", });
+              new java.lang.String[] { "ArenaType", "UserId", "Teams", "Enemy", "Win", "Reorder", "HurtRecord", "RecordId", "HurtIndex", "ScoreRewardId", });
           internal_static_MsgArenaResponse_descriptor =
             getDescriptor().getMessageTypes().get(10);
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", "ChallengeCount", "CdTime", "GainCurrencyPerHour", "ResetCost", "PlaceUp", "ChallengeRecords", "HurtDetail", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", "ChallengeCount", "CdTime", "GainCurrencyPerHour", "ResetCost", "PlaceUp", "ChallengeRecords", "HurtDetail", "AlreadyGetRewardId", "CurrentScore", });
           internal_static_HurtRecord_descriptor =
             getDescriptor().getMessageTypes().get(11);
           internal_static_HurtRecord_fieldAccessorTable = new

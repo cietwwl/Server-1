@@ -20,11 +20,12 @@ enum eArenaType {
 	SWITCH_OVER = 12;//更换玩家队伍顺序,使用 reorder 参数表示1，2，3队伍的ID
 	BUY_CHALLENGE_COUNT = 13;// 购买挑战次数
 	FIGHT_CONTINUE = 14;//挑战不同队伍的中间过渡时间发送 只需要设置把对手ID放入MsgArenaRequest.userId
-	GET_SCORE_REWARD = 15; // 领取积分奖励
-	GET_ALL_SCORE_REWARD = 16; // 领取所有的积分奖励
-	GET_RECORD = 17; // 获取战报
-	GET_RECORD_DETAIL = 18; // 获取战报详情
-	GET_HURT_DETAIL = 19; // 查看伤害的详细信息
+	GET_SCORE_REWARD_VIEW = 15; // 积分奖励界面
+	GET_SCORE_REWARD = 16; // 领取积分奖励
+	GET_ALL_SCORE_REWARD = 17; // 领取所有的积分奖励
+	GET_RECORD = 18; // 获取战报
+	GET_RECORD_DETAIL = 19; // 获取战报详情
+	GET_HURT_DETAIL = 20; // 查看伤害的详细信息
 }
 
 enum eArenaResultType {
@@ -138,6 +139,7 @@ message MsgArenaRequest{
 	repeated HurtRecord hurtRecord = 7; // 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
 	optional fixed32 recordId = 8; // 查看战报详情时的战报id
 	optional fixed32 hurtIndex = 9; // 查看伤害详情的时候发送的索引（0、1、2）
+	optional fixed32 scoreRewardId = 10; // 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
 }
 
 message MsgArenaResponse{
@@ -158,6 +160,8 @@ message MsgArenaResponse{
 	optional int32 placeUp = 15; //战斗胜利后发送
 	repeated PeakArenaDetailRecord challengeRecords = 16; // 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
 	optional HurtRecord hurtDetail = 17; // 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+	repeated fixed32 alreadyGetRewardId = 18; // 已经领取的积分奖励id
+	optional fixed32 currentScore = 19; // 当前的积分
 }
 
 message HurtRecord {

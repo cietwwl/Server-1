@@ -10,24 +10,19 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class PeakRecordHeroInfo {
 
 	@JsonProperty("1")
-	private String cfgId; // 模板id
+	private String heroId;
 	@JsonProperty("2")
-	private int level; // 等级
+	private String headImage;
 	@JsonProperty("3")
-	private String qualityId; // 品质id
+	private int modelId;
 	@JsonProperty("4")
-	private long hpDamage; // hp伤害
+	private int level; // 等级
 	@JsonProperty("5")
-	private boolean dead; // 是否已经死亡
-	
-	
-	public String getCfgId() {
-		return cfgId;
-	}
-	
-	public void setCfgId(String cfgId) {
-		this.cfgId = cfgId;
-	}
+	private int starLv;
+	@JsonProperty("6")
+	private String qualityId; // 品质id
+	@JsonProperty("7")
+	private long hpDamage; // hp伤害
 	
 	public int getLevel() {
 		return level;
@@ -53,11 +48,35 @@ public class PeakRecordHeroInfo {
 		this.hpDamage = hpDamage;
 	}
 
-	public boolean isDead() {
-		return dead;
+	public String getHeroId() {
+		return heroId;
 	}
 
-	public void setDead(boolean dead) {
-		this.dead = dead;
+	public void setHeroId(String heroId) {
+		this.heroId = heroId;
+	}
+
+	public String getHeadImage() {
+		return headImage;
+	}
+
+	public void setHeadImage(String headImage) {
+		this.headImage = headImage;
+	}
+
+	public int getModelId() {
+		return modelId;
+	}
+
+	public void setModelId(int modelId) {
+		this.modelId = modelId;
+	}
+
+	public int getStarLv() {
+		return starLv;
+	}
+
+	public void setStarLv(int starLv) {
+		this.starLv = starLv;
 	}
 }

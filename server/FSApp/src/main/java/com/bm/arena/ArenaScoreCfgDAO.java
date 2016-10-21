@@ -17,7 +17,7 @@ public class ArenaScoreCfgDAO extends CfgCsvDao<ArenaScore> {
 
 	@Override
 	protected Map<String, ArenaScore> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("arena/arenaScore.csv", ArenaScore.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map(getFilePath(), ArenaScore.class);
 		HashMap<Integer, ArenaScoreTemplate> templateMap = new HashMap<Integer, ArenaScoreTemplate>(cfgCacheMap.size());
 		TreeMap<Integer, ArenaScoreTemplate> scoreMap = new TreeMap<Integer, ArenaScoreTemplate>();
 		for (Map.Entry<String, ArenaScore> entry : cfgCacheMap.entrySet()) {
@@ -40,6 +40,10 @@ public class ArenaScoreCfgDAO extends CfgCsvDao<ArenaScore> {
 			System.out.println("积分：" + i + ",奖励数：" + getRewardCount(i));
 		}
 		return cfgCacheMap;
+	}
+	
+	protected String getFilePath() {
+		return "arena/arenaScore.csv";
 	}
 
 	public static ArenaScoreCfgDAO getInstance() {

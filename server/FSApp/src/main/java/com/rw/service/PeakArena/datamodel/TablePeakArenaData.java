@@ -2,11 +2,13 @@ package com.rw.service.PeakArena.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -30,6 +32,9 @@ public class TablePeakArenaData {
 	private List<PeakRecordInfo> recordList;
 	private long lastGainCurrencyTime; // 上次获取货币的时间
 	private String lastFightEnemy;
+	private int score; // 积分
+	private List<Integer> rewardList = new ArrayList<Integer>();
+	private AtomicInteger recordIdGenerator = new AtomicInteger();
 
 	public TablePeakArenaData() {
 		this.recordList = new ArrayList<PeakRecordInfo>();
@@ -177,5 +182,27 @@ public class TablePeakArenaData {
 
 	public String getLastFightEnemy() {
 		return lastFightEnemy;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Integer> getRewardList() {
+		return rewardList;
+	}
+
+	public void setRewardList(List<Integer> rewardList) {
+		this.rewardList = rewardList;
+	}
+	
+	@JsonIgnore
+	public int getNextId() {
+		this.recordIdGenerator.compareAndSet(Integer.MAX_VALUE, 0);
+		return this.recordIdGenerator.incrementAndGet();
 	}
 }

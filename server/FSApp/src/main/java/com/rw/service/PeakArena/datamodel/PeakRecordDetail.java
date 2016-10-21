@@ -17,13 +17,23 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class PeakRecordDetail {
 
 	@JsonProperty("1")
-	private List<PeakRecordHeroInfo> myCamp;
+	private int teamId;
 	@JsonProperty("2")
-	private PeakRecordMagicInfo myMagic;
+	private List<PeakRecordHeroInfo> myCamp;
 	@JsonProperty("3")
-	private List<PeakRecordHeroInfo> enemyCamp;
+	private PeakRecordMagicInfo myMagic;
 	@JsonProperty("4")
+	private List<PeakRecordHeroInfo> enemyCamp;
+	@JsonProperty("5")
 	private PeakRecordMagicInfo enemyMagic;
+	
+	public int getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(int pTeamId) {
+		this.teamId = pTeamId;
+	}
 	
 	public List<PeakRecordHeroInfo> getMyCamp() {
 		return myCamp;

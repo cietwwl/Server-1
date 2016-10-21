@@ -12,23 +12,33 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class PeakRecordInfo {
 
 	@JsonProperty("1")
-	private PeakArenaResultType result; // 
+	private int id;
 	@JsonProperty("2")
-	private int placeUp; // 交换名次后计算排名变化
+	private PeakArenaResultType result; // 
 	@JsonProperty("3")
-	private String enemyName; // 对手的名字
+	private int placeUp; // 交换名次后计算排名变化
 	@JsonProperty("4")
-	private String enemyHeadImage; // 对手的头像
+	private String enemyName; // 对手的名字
 	@JsonProperty("5")
-	private int enemyLevel; // 等级
+	private String enemyHeadImage; // 对手的头像
 	@JsonProperty("6")
-	private long time; // 挑战的时间
+	private int enemyLevel; // 等级
 	@JsonProperty("7")
-	private String enemyUserId; // 对手的userId
+	private long time; // 挑战的时间
 	@JsonProperty("8")
-	private PeakArenaActionType actionType; // 
+	private String enemyUserId; // 对手的userId
 	@JsonProperty("9")
+	private PeakArenaActionType actionType; // 
+	@JsonProperty("10")
 	private List<PeakRecordDetail> details; // 详细信息
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 	public PeakArenaResultType getResult() {
 		return result;
