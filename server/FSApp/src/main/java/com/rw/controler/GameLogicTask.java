@@ -107,15 +107,15 @@ public class GameLogicTask implements PlayerTask {
 				msgType = serivice.getMsgType(msg);
 				registerBehavior(player, serivice, command, msgType, msg, header.getViewId());
 
-//				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
+				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
 					resultContent = serivice.doTask(msg, player);
 					player.getAssistantMgr().doCheck();
 					FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime) + "," + command + ","
 							+ seqID + ")[" + player.getUserId() + "]");
-//				} else {
-//					nettyControler.functionNotOpen(userId, request.getHeader());
-//					return;
-//				}
+				} else {
+					nettyControler.functionNotOpen(userId, request.getHeader());
+					return;
+				}
 
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
