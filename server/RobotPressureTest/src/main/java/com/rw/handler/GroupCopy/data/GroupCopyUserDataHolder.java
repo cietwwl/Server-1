@@ -34,6 +34,9 @@ public class GroupCopyUserDataHolder {
 	
 	
 	public int getLeftFightCount(String chaterID){
+		if(!dataMap.containsKey(chaterID)){
+			return 0;
+		}
 		return dataMap.get(chaterID);
 	}
 }
