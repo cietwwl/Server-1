@@ -31,6 +31,9 @@ import com.playerdata.team.HeroFixEquipInfo;
 import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rwbase.common.enu.eActivityType;
+import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -491,51 +494,34 @@ public class GMHeroBase {
 		}
 	}
 	
-	public static void gmUpgradeMagic(Player player, int upgradeLevel){
+	public static void gmUpgradeMagic(Player player, int upgradeLevel) {
 		MagicMgr magicMgr = player.getMagicMgr();
-		ItemData magic = magicMgr.getMagic();
+		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemData itemData = magicMgr.getMagic();
 		int level = player.getLevel();
-		if(upgradeLevel > level){
+		if (upgradeLevel > level) {
 			upgradeLevel = level;
 		}
-		int magicLevel = magic.getMagicLevel();
-		String modelId = String.valueOf(magic.getModelId());
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		if(upgradeLevel == magicLevel){
-			return;
-		}
-		if(upgradeLevel > magicLevel){
-			//升级
-			
-			MagicCfg magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelId);
-			while (magicCfg.getUplevel() < upgradeLevel) {
-				modelId = magicCfg.getUpMagic();
-				magicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelId);
-				if(magicCfg == null){
-					break;
-				}
-			}
-			
-		}else{
-			//降级
-			String beforeMagicModelId = beforeMagicModelId(modelId);
-			MagicCfg beforeMagicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(beforeMagicModelId);
-			
-			while(beforeMagicCfg.getUplevel() > upgradeLevel){
-				modelId = beforeMagicModelId;
-				beforeMagicModelId = beforeMagicModelId(modelId);
-				beforeMagicCfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(beforeMagicModelId);
-			}
-			
-			
-		}
-		magic.setModelId(Integer.parseInt(modelId));
-		magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(upgradeLevel));
-		itemBagMgr.updateItem(magic);
+		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE,
+				String.valueOf(upgradeLevel));
+
 		player.getMagicMgr().updateMagic();
+		UserEventMgr.getInstance()
+				.StrengthenMagicVitality(player, upgradeLevel);
+		itemBagMgr.updateItem(itemData);
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
-		updateItems.add(magic);
+		updateItems.add(itemData);
 		itemBagMgr.syncItemData(updateItems);
+
+		player.getFresherActivityMgr().doCheck(eActivityType.A_MagicLv);
+
+		// 通知角色日常任务 by Alex
+		player.getDailyActivityMgr().AddTaskTimesByType(
+				DailyActivityType.MAGIC_STRENGTH, 1);
+
+		// 通知法宝神器羁绊
+		player.getMe_FetterMgr().notifyMagicChange(player);
+
 	}
 	
 	private static String beforeMagicModelId(String modelId){
