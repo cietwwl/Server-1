@@ -156,9 +156,9 @@ public class FriendHandler {
 		TableFriend tableFriend = player.getFriendMgr().getTableFriend();
 		if(tableFriend.getReCommandfriendList().isEmpty()){//新手引导部分;取机器人	
 			List<FriendInfo> friendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();
-			friendInfoList =  reCommandRobot(player,tableFriend,RankType.LEVEL_ALL_DAILY,false);//一个机器人，强制点
+			friendInfoList =  reCommandRobot(player,tableFriend,RankType.LEVEL_ROBOT,false);//一个机器人，强制点
 			List<FriendInfo> realFriendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();	
-			realFriendInfoList = erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//一群真是用户
+			realFriendInfoList = erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//一群真实用户
 			int size = realFriendInfoList.size();
 			int i = 0;
 			for(FriendInfo info : realFriendInfoList){
@@ -287,6 +287,10 @@ public class FriendHandler {
 
 	private void fillSegmentPlayers(String hostUserId, TableFriend tableFriend, HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days,
 			int randomRecommand,boolean isLimitRobot) {
+		if(!isLimitRobot){//用添加玩家好友的配置文件来添加机器人好友，不要加等级的限制
+			start = 1;
+			end = 60;
+		}
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
 		int size = segmentList.getRefSize();
 		ArrayList<String> list = new ArrayList<String>(size);
@@ -320,7 +324,9 @@ public class FriendHandler {
 			Player player = it.next();
 			User user = player.getUserDataMgr().getUser();
 			if (user == null || System.currentTimeMillis() - user.getLastLoginTime() > MAX_OFF_LINE_TIME) {
-				if(isLimitRobot)it.remove();
+				if(isLimitRobot){
+					it.remove();
+				}
 //				continue;
 			}
 //			TableFriend otherTableFriend = player.getFriendMgr().getTableFriend();

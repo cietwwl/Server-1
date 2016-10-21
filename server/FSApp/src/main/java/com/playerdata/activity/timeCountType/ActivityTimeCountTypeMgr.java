@@ -24,7 +24,7 @@ import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolde
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;

@@ -41,9 +41,9 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 		}
 		if (updateMap.putIfAbsent(key, PRESENT) == null) {
 			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
-			//FSUtilLogger.info("新增提交任务:" + name + "," + tableName + "," + entity.getValue() + "," + key);
+//			FSUtilLogger.info("新增提交任务:" + name + "," + tableName + "," + entity.getValue() + "," + key);
 		} else {
-			//FSUtilLogger.info("重复提交任务:" + name + "," + entity.getTableName() + "," + entity.getValue() + "," + key);
+//			FSUtilLogger.info("重复提交任务:" + name + "," + entity.getTableName() + "," + entity.getValue() + "," + key);
 		}
 	}
 
