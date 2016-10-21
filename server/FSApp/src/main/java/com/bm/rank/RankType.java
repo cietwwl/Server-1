@@ -70,7 +70,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// 个人人气榜
 	POPULARITY_RANK(34, 10000, "个人人气排行榜", 1, PopularityRankExtension.class),
 	// 机器人等级榜
-	LEVEL_ROBOT(35, 100, "机器人等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer());
+	LEVEL_ROBOT(35, 100, "机器人等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	WORLD_BOSS_HURT_RANK(36, 8000, "世界boss伤害排行榜", 1, WBHurtExtension.class),
 	;
 	
