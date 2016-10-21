@@ -46,7 +46,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-		PlatformLog.info("channelRegistered", "", "open connection", null);
+		UserChannelMgr.createSession(ctx);
+		System.out.println("open connection:" + ctx.channel().remoteAddress());
 		super.channelRegistered(ctx);
 	}
 
@@ -54,7 +55,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter{
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
 		PlatformFactory.getPlatformService().removeAccount(ctx);
 		super.channelUnregistered(ctx);
-		UserChannelMgr.exit(ctx);
+		UserChannelMgr.closeSession(ctx);
 	}
 	
 
