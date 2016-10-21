@@ -2,19 +2,24 @@ package com.rw.service.PeakArena.datamodel;
 
 import java.util.List;
 
+import javax.persistence.Id;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
+
 @JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class PeakRecordInfo {
+public class PeakRecordInfo implements RoleExtProperty {
 
+	@Id
 	@JsonProperty("1")
-	private int id;
+	private int id; // 记录的唯一id
 	@JsonProperty("2")
-	private PeakArenaResultType result; // 
+	private PeakArenaResultType result; // 胜负
 	@JsonProperty("3")
 	private int placeUp; // 交换名次后计算排名变化
 	@JsonProperty("4")
@@ -28,11 +33,12 @@ public class PeakRecordInfo {
 	@JsonProperty("8")
 	private String enemyUserId; // 对手的userId
 	@JsonProperty("9")
-	private PeakArenaActionType actionType; // 
+	private PeakArenaActionType actionType; // 防守还是挑战
 	@JsonProperty("10")
 	private List<PeakRecordDetail> details; // 详细信息
 	
-	public int getId() {
+	@Override
+	public Integer getId() {
 		return id;
 	}
 	
@@ -88,11 +94,11 @@ public class PeakRecordInfo {
 		this.time = time;
 	}
 	
-	public String getUserId() {
+	public String getEnemyUserId() {
 		return enemyUserId;
 	}
 	
-	public void setUserId(String userId) {
+	public void setEnemyUserId(String userId) {
 		this.enemyUserId = userId;
 	}
 	

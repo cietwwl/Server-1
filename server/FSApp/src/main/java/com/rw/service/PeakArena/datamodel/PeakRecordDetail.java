@@ -9,6 +9,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * 
+ * 巅峰竞技场战报的详细信息，记录两方的出阵阵容
+ * 
  * @author CHEN.P
  *
  */
@@ -17,15 +19,15 @@ import org.codehaus.jackson.annotate.JsonProperty;
 public class PeakRecordDetail {
 
 	@JsonProperty("1")
-	private int teamId;
+	private int teamId; // 队伍id
 	@JsonProperty("2")
-	private List<PeakRecordHeroInfo> myCamp;
+	private List<PeakRecordHeroInfo> myCamp; // 我方英雄的记录
 	@JsonProperty("3")
-	private PeakRecordMagicInfo myMagic;
+	private PeakRecordMagicInfo myMagic; // 我方法宝的记录
 	@JsonProperty("4")
-	private List<PeakRecordHeroInfo> enemyCamp;
+	private List<PeakRecordHeroInfo> enemyCamp; // 敌方英雄的记录
 	@JsonProperty("5")
-	private PeakRecordMagicInfo enemyMagic;
+	private PeakRecordMagicInfo enemyMagic; // 敌方法宝的记录
 	
 	public int getTeamId() {
 		return teamId;

@@ -5,24 +5,30 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 
+/**
+ * 
+ * 
+ * @author CHEN.P
+ *
+ */
 @JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PeakRecordHeroInfo {
 
 	@JsonProperty("1")
-	private String heroId;
+	private String heroId; // 英雄的ID
 	@JsonProperty("2")
-	private String headImage;
+	private String headImage; // 头像（主角才有）
 	@JsonProperty("3")
-	private int modelId;
+	private int modelId; // 英雄数据的modelId
 	@JsonProperty("4")
 	private int level; // 等级
 	@JsonProperty("5")
-	private int starLv;
+	private int starLv; // 星级
 	@JsonProperty("6")
 	private String qualityId; // 品质id
 	@JsonProperty("7")
-	private long hpDamage; // hp伤害
+	private long hpDamage; // HP伤害
 	
 	public int getLevel() {
 		return level;

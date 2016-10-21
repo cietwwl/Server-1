@@ -29,7 +29,7 @@ public class TablePeakArenaData {
 	private volatile long fightStartTime;//开战时间,0表示没有开战
 	private TeamData[] teams = new TeamData[3];
 	
-	private List<PeakRecordInfo> recordList;
+//	private List<PeakRecordInfo> recordList;
 	private long lastGainCurrencyTime; // 上次获取货币的时间
 	private String lastFightEnemy;
 	private int score; // 积分
@@ -37,7 +37,7 @@ public class TablePeakArenaData {
 	private AtomicInteger recordIdGenerator = new AtomicInteger();
 
 	public TablePeakArenaData() {
-		this.recordList = new ArrayList<PeakRecordInfo>();
+//		this.recordList = new ArrayList<PeakRecordInfo>();
 	}
 	
 	public TeamData[] getTeams() {
@@ -150,15 +150,15 @@ public class TablePeakArenaData {
 		return hasRanking;
 	}
 
-	public List<PeakRecordInfo> getRecordList() {
-		return recordList;
-	}
-
-	public void setRecordList(List<PeakRecordInfo> recordList) {
-		if (recordList != null) {
-			this.recordList = recordList;
-		}
-	}
+//	public List<PeakRecordInfo> getRecordList() {
+//		return recordList;
+//	}
+//
+//	public void setRecordList(List<PeakRecordInfo> recordList) {
+//		if (recordList != null) {
+//			this.recordList = recordList;
+//		}
+//	}
 
 	public int getExpectCurrency() {
 		return expectCurrency;
@@ -200,9 +200,13 @@ public class TablePeakArenaData {
 		this.rewardList = rewardList;
 	}
 	
+	public void resetRewardList() {
+		this.rewardList.clear();
+	}
+	
 	@JsonIgnore
 	public int getNextId() {
-		this.recordIdGenerator.compareAndSet(Integer.MAX_VALUE, 0);
+		this.recordIdGenerator.compareAndSet(Short.MAX_VALUE, 0);
 		return this.recordIdGenerator.incrementAndGet();
 	}
 }

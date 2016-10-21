@@ -3,6 +3,7 @@ package com.rw.service.PeakArena;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +17,7 @@ import com.playerdata.HeroFightPowerComparator;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.RankingMgr;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.common.stream.IStream;
@@ -43,9 +45,11 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 
 	private static PeakArenaBM instance;
 	private TablePeakArenaDataDAO tablePeakArenaDataDAO = TablePeakArenaDataDAO.getInstance();
+	private static final Comparator<PeakRecordInfo> recordComparator = new PeakRecordComparator();
 	private static int RESULT_COUNT = 3; // 随机后的结果人数
 	private static long MILLIS_PER_HOUR = TimeUnit.HOURS.toMillis(1);
-	private static int MAX_RECORD_COUNT = 20;
+	private static final int MAX_RECORD_COUNT = 30;
+	public static final int MAX_DISPLAY_COUNT = 20;
 
 	public static PeakArenaBM getInstance() {
 		if (instance == null) {
@@ -426,7 +430,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		
 		initTeamInfo(data,player);
 		
-		data.setRecordList(new ArrayList<PeakRecordInfo>());
+//		data.setRecordList(new ArrayList<PeakRecordInfo>());
 		tablePeakArenaDataDAO.commit(data);
 		return data;
 	}
@@ -475,25 +479,50 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		return TablePeakArenaData.search(teamId, teams);
 	}
 
-	public void addOthersRecord(TablePeakArenaData table, PeakRecordInfo record) {
-		List<PeakRecordInfo> list = table.getRecordList();
-		// 需要限制战报的数量
-		int removeCount = list.size() - MAX_RECORD_COUNT;
-		if (removeCount > 0){
-			for (int i = 0; i<removeCount; i++){
-				list.remove(list.size()-1);
+	public void addOthersRecord(String userId, PeakRecordInfo record) {
+//		List<PeakRecordInfo> list = table.getRecordList();
+//		// 需要限制战报的数量
+//		int removeCount = list.size() - MAX_RECORD_COUNT;
+//		if (removeCount > 0){
+//			for (int i = 0; i<removeCount; i++){
+//				list.remove(list.size()-1);
+//			}
+//		}
+//		list.add(record);
+// 		tablePeakArenaDataDAO.commit(table);
+		RoleExtPropertyStore<PeakRecordInfo> mapItemStroe = PeakArenaRecordHolder.getInstance().getMapItemStroe(userId);
+		synchronized (mapItemStroe) {
+			if (mapItemStroe.getSize() >= MAX_RECORD_COUNT) {
+				Enumeration<PeakRecordInfo> enm = mapItemStroe.getExtPropertyEnumeration();
+				List<PeakRecordInfo> list = new ArrayList<PeakRecordInfo>();
+				while (enm.hasMoreElements()) {
+					list.add(enm.nextElement());
+				}
+				Collections.sort(list, recordComparator);
+				List<Integer> deleteIds = new ArrayList<Integer>(10);
+				for (int i = MAX_DISPLAY_COUNT, size = list.size(); i < size; i++) {
+					deleteIds.add(list.get(i).getId());
+				}
+				mapItemStroe.removeItem(deleteIds);
 			}
+			mapItemStroe.addItem(record);
 		}
-		list.add(record);
-		tablePeakArenaDataDAO.commit(table);
 	}
 
 	public List<PeakRecordInfo> getArenaRecordList(String userId) {
-		TablePeakArenaData tablePeakArenaData = tablePeakArenaDataDAO.get(userId);
-		if (tablePeakArenaData == null) {
-			return Collections.emptyList();
+//		TablePeakArenaData tablePeakArenaData = tablePeakArenaDataDAO.get(userId);
+//		if (tablePeakArenaData == null) {
+//			return Collections.emptyList();
+//		}
+//		return tablePeakArenaData.getRecordList();
+		RoleExtPropertyStore<PeakRecordInfo> mapItemStore = PeakArenaRecordHolder.getInstance().getMapItemStroe(userId);
+		List<PeakRecordInfo> list = new ArrayList<PeakRecordInfo>(mapItemStore.getSize());
+		Enumeration<PeakRecordInfo> enm = mapItemStore.getExtPropertyEnumeration();
+		while(enm.hasMoreElements()) {
+			list.add(enm.nextElement());
 		}
-		return tablePeakArenaData.getRecordList();
+		Collections.sort(list, recordComparator);
+		return list;
 	}
 	
 	/**
