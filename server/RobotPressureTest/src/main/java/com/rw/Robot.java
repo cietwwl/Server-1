@@ -552,12 +552,12 @@ public class Robot {
 	 * @return
 	 */
 	public boolean addGroupExp() {
-		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 1000000");
+		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 100");
 		return sendSuccess;
 	}
 
 	public boolean addGroupSpplis() {
-		return GmHandler.instance().send(client, "* setgp 1000000");
+		return GmHandler.instance().send(client, "* group gs 100");
 	}
 
 	public boolean getFinishTaskReward() {

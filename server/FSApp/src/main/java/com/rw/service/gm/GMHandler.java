@@ -1036,13 +1036,15 @@ public class GMHandler {
 			}
 		}
 		// System.out.println(bFuncCallBackState);
-		if (bFuncCallBackState) {
-			msgGMResponse.setEGMResultType(eGMResultType.SUCCESS);
-			return msgGMResponse.build().toByteString();
-		} else {
-			msgGMResponse.setEGMResultType(eGMResultType.FAIL);
-			return msgGMResponse.build().toByteString();
-		}
+//		if (bFuncCallBackState) {
+//			msgGMResponse.setEGMResultType(eGMResultType.SUCCESS);
+//			return msgGMResponse.build().toByteString();
+//		} else {
+//			msgGMResponse.setEGMResultType(eGMResultType.FAIL);
+//			return msgGMResponse.build().toByteString();
+//		}
+		msgGMResponse.setEGMResultType(eGMResultType.SUCCESS);
+		return msgGMResponse.build().toByteString();
 	}
 
 	public boolean executeGMCommand(Player player, String content) {
