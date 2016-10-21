@@ -552,12 +552,12 @@ public class Robot {
 	 * @return
 	 */
 	public boolean addGroupExp() {
-		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 1000000");
+		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 100");
 		return sendSuccess;
 	}
 
 	public boolean addGroupSpplis() {
-		return GmHandler.instance().send(client, "* setgp 1000000");
+		return GmHandler.instance().send(client, "* group gs 100");
 	}
 
 	public boolean getFinishTaskReward() {
@@ -1085,8 +1085,8 @@ public class Robot {
 
 	}
 
-	public void getGroupMatchSecretReward() {
-		GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
+	public boolean getGroupMatchSecretReward() {
+		return GroupSecretMatchHandler.getInstance().getGroupSecretReward(client);
 	}
 
 	public boolean inviteMemberDefend() {
@@ -1155,14 +1155,13 @@ public class Robot {
 	}
 
 	/**
-	 * 帮派副本战斗
-	 * 
+	 * 申请开启帮派副本
 	 * @return
 	 */
-	public boolean playerGroupCopy() {
+	public boolean applyOpenGroupCopy(){
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 		List<GroupCopyMapRecord> list = GroupCopyMgr.getInstance().getAllOnGoingChaters(client);
-		if (list.isEmpty()) {
+		if(list.isEmpty()){
 			RobotLog.info("发现角色无已开启帮派副本，执行开启请求!");
 			// 增加一下帮派经验
 			addGroupExp();
@@ -1171,7 +1170,40 @@ public class Robot {
 				GroupCopyHandler.getInstance().openLevel(client, record.getChaterID(), RequestType.OPEN_COPY);
 			}
 		}
-		return GroupCopyMgr.getInstance().playGroupCopy(client);
+		return true;
+	}
+	
+	/**
+	 * 请求同步帮派关卡数据
+	 * @return
+	 */
+	public boolean applySynGroupCopyData(){
+		//同步地图关卡数据
+		GroupCopyHandler.getInstance().applyCopyInfo(client);
+		return true;
+	}
+	
+	/**
+	 * 获取随机一个帮派地图
+	 * @return
+	 */
+	public int getRandomGroupCopyID(){
+		GroupCopyMapRecord record = GroupCopyMgr.getInstance().getRandomOpenChater(client);
+		if(record == null){
+			RobotLog.info("当前机器人没有可进入的帮派副本");
+			return 0;
+		}
+		return Integer.parseInt(record.getCurLevelID());
+	}
+	
+	/**
+	 * 帮派副本战斗
+	 * 跑这个方法前，要依次调用 {@link Robot#applyOpenGroupCopy()},{@link Robot#getRandomGroupCopyID()},{@link Robot#applySynGroupCopyData()}
+	 * @return
+	 */
+	public boolean playerGroupCopy(int copyID) {
+		
+		return GroupCopyMgr.getInstance().playGroupCopy(client, String.valueOf(copyID));
 	}
 
 	/**
