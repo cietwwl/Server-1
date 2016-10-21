@@ -131,7 +131,7 @@ public class SameSceneContainer {
 				putIntoScene(subSceneId, mainSceneId, userId, value);
 			}else if(sceneCount < MAIN_SCENE_DOWN_PRESURE_COUNT){
 				//主场景人数过少，加入主场景，如果在子场景中，则把自己从子场景移除
-				putIntoScene(mainSceneId, mainSceneId, userId, value);
+				putIntoScene(mainSceneId, subSceneId, userId, value);
 			}else{
 				//主场景人数适中，如果自己不在子场景，就加入主场景，否则仍留子场景
 				ConcurrentHashMap<String, ? extends SameSceneDataBaseIF> scene = container.get(subSceneId);
