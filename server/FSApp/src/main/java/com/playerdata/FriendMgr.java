@@ -291,7 +291,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if(robotList == null|| robotList.isEmpty()){
 			return;
 		}
-		FriendInfo robot = robotList.get(0);
+		handler.updataRobotLoginTime(robotList);
+		FriendInfo robot = robotList.get(0);		
 		String robotUserId = robot.getUserId();
 		TableFriend otherTable = getOtherTableFriend(robotUserId);
 		Player robotPlayer = PlayerMgr.getInstance().find(robotUserId);
