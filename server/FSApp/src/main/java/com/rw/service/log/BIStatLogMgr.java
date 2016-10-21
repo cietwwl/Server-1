@@ -211,8 +211,7 @@ public class BIStatLogMgr {
 			}
 			OFFSET = OFFSET + LIMIT;
 			userList = biLogDbMgr.query(sql, new Object[]{LIMIT, OFFSET}, BIUser.class);
-		}
-		
+		}		
 	}
 	
 	private void logTotalAccount(Map<String, BICounter> totalAccount) {
