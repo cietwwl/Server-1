@@ -1,11 +1,18 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.atomic.AtomicLong;
 
+import org.springframework.util.CollectionUtils;
+
+import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankType;
@@ -19,21 +26,30 @@ import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.level.LevelComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingConfig;
 import com.rw.fsutil.ranking.RankingEntityOfRank;
 import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.fsutil.ranking.RankingExtension;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.ranking.RankingFactory.RankingEntrySequence;
+import com.rw.fsutil.ranking.impl.RankingEntryData;
+import com.rw.fsutil.ranking.impl.RankingImpl;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
+import com.rw.service.log.db.BILogDbMgr;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
@@ -41,6 +57,7 @@ import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
+import com.rwbase.dao.user.User;
 import com.rwbase.gameworld.GameWorld;
 import com.rwbase.gameworld.GameWorldConstant;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -55,7 +72,16 @@ import com.rwbase.gameworld.GameWorldKey;
  * 
  */
 public class RankingMgr {
+	private static BILogDbMgr biLogDbMgr;
+	private static AtomicLong generator; // 排行榜条目序列生成器
+	private static RankingEntrySequence sequence = new RankingEntrySequence() {
 
+		@Override
+		public long assignId() {
+			return generator.incrementAndGet();
+		}
+	};
+	
 	private static RankingMgr m_instance = new RankingMgr();
 
 	public static RankingMgr getInstance() {
@@ -93,14 +119,21 @@ public class RankingMgr {
 		this.dailyMapping.put(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
 		this.dailyMapping.put(RankType.FIGHTING_ALL, RankType.FIGHTING_ALL_DAILY);
 		this.dailyMapping.put(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
+		
+		
+		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
+		biLogDbMgr = new BILogDbMgr(dataSource);
+		
+		
 	}
 
 	public void onInitRankData() {
 		resetUpdateState();
 		arenaCalculate();
 		initAngelArrayTeamInfo();
+		checkRobotLevel();//此处机器人生成要比玩家生成优先；如果玩家榜没人说明是新区；可以用方法拷贝；如果玩家榜有人说明是老区；从数据库拷贝
 		checkPlayerLevel();
-		checkRobotLevel();
+		
 	}
 
 	public void checkPlayerLevel() {
@@ -113,12 +146,141 @@ public class RankingMgr {
 
 	public void checkRobotLevel() {
 		Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);
-		if (levelRanking.size() > 0) {
-			return;
+		Ranking<LevelComparable, RankingLevelData> levelPlayerRanking = RankingFactory.getRanking(RankType.LEVEL_PLAYER);		
+//		if (levelRanking.size() > 0) {
+//			return;
+//		}
+		if(levelPlayerRanking.size()>0){
+			creatRobotRankFromUserTable();
+		}else{
+			changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ROBOT, false);
 		}
-		changeDailyData(RankType.LEVEL_ALL, RankType.LEVEL_ROBOT, false);
+		
 	}
 	
+	/* 把实时排行榜数据拷贝到每日排行榜 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void changeDailyData(RankType ordinalType, RankType copyType, boolean ignoreRobot) {
+		Ranking ordinalRanking = RankingFactory.getRanking(ordinalType);
+		Ranking copyRanking = RankingFactory.getRanking(copyType);
+		List<? extends MomentRankingEntry> list = ordinalRanking.getReadOnlyRankingEntries();
+		ArrayList<RankingEntityOfRank> copyList = new ArrayList<RankingEntityOfRank>();
+		RankingEntityCopyer copyer = copyType.getEntityCopyer();
+		// 暂时记log
+		if (copyer == null) {
+			// TODO 这里可以考虑使用默认深拷贝的BeanUtil复制
+			GameLog.error("Ranking", "RankingMgr#changeDailyData()", "#getEntityCopyer()为null:" + ordinalType + "," + copyType, null);
+		} else if (copyer != ordinalType.getEntityCopyer()) {
+			GameLog.error("Ranking", "RankingMgr#changeDailyData()", "#getEntityCopyer()类型不一致:" + ordinalType + "," + copyType, null);
+		}
+		for (int i = 1, size = list.size(); i <= size; i++) {
+			MomentRankingEntry entry = list.get(i - 1);
+			if (ignoreRobot && entry.getKey().length() > 20) {
+				continue;
+			}
+			Comparable comparable;
+			Object ext;
+			if (copyer != null) {
+				comparable = copyer.copyComparable(entry.getComparable());
+				ext = copyer.copyExtension(entry.getExtendedAttribute());
+			} else {
+				comparable = entry.getComparable();
+				ext = entry.getExtendedAttribute();
+			}
+			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
+			if (ext instanceof RankingLevelData) {
+				RankingLevelData levelData = (RankingLevelData) ext;
+				levelData.setRankLevel(i);
+			}
+			copyList.add(re);
+		}
+		copyRanking.clearAndInsert(copyList);
+	}
+	
+	
+	
+	private void creatRobotRankFromUserTable() {
+		Ranking<LevelComparable, RankingLevelData> robotRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);
+//		RankingEntityCopyer copyer = RankType.LEVEL_ROBOT.getEntityCopyer();
+		List<User> userList = getRobotFromUserTable();
+		if(userList == null|| userList.isEmpty()){
+			GameLog.error(LogModule.COMMON, null, "从user表获取机器人失败,无法生成榜单", null);
+			return;
+		}
+		ArrayList<RankingEntryData> rankingList = userToRankingEntryList(userList,RankType.LEVEL_ROBOT);
+//		RankingConfig config = (RankingConfig)RankType.LEVEL_ROBOT;
+//		int type = config.getType();
+//		int maxCapacity = config.getMaxCapacity();
+//		Class<? extends RankingExtension> extensionClass = config.getRankingExtension();
+//		int periodMinutes = config.getUpdatePeriodMinutes();
+//		String name = config.getName();
+//		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("ranking"));
+//		
+//		try {
+//			RankingImpl ranking = new RankingImpl(type, maxCapacity, name, extensionClass.newInstance(), periodMinutes, sequence, rankingPool,rankingList);
+//			
+//		} catch (Throwable t) {
+//			throw new ExceptionInInitializerError(t);
+//		}
+		
+		for (int i = 1, size = rankingList.size(); i <= size; i++) {
+			RankingEntryData entry = rankingList.get(i - 1);
+			Comparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
+			Object ext;
+			RankingLevelData levelData = RankingUtils.createRankingLevelDataByEntryData(entry);
+//			robotRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
+//			ext = copyer.copyExtension(entry.getExtendedAttribute());
+//			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
+//			if (ext instanceof RankingLevelData) {
+//				RankingLevelData levelData = (RankingLevelData) ext;
+//				levelData.setRankLevel(i);
+//			}
+//			copyList.add(re);
+		}		
+	}
+	
+	/**将取出来的机器人user转为排行榜entry*/
+	private ArrayList<RankingEntryData> userToRankingEntryList(
+			List<User> userList,RankType type) {
+		int size = userList.size();
+		ArrayList<RankingEntryData> rankingList = new ArrayList<RankingEntryData>(size);
+		for (int i = 0; i < size; i++) {
+			User user = userList.get(i);
+			Long id = (long)(i+1);
+			String key = user.getUserId();
+			String condition = user.getLevel()+"";
+			String extension = user.getLevel()+","+user.getVip();
+			RankingEntryData data = new RankingEntryData(id, type.getType(), key, condition, extension);
+			rankingList.add(data);
+		}
+		return rankingList;
+	}
+
+	private List<User> getRobotFromUserTable() {
+		final List<User> userList = new ArrayList<User>();
+		final String sql = "SELECT userId,vip,level FROM user ORDER BY userId LIMIT ? OFFSET ?;";
+		doReadRobotDb(sql,new RobotInteface() {
+			
+			@Override
+			public void doCount(User user) {				
+				if(user.getUserId().length()<= 20||userList.size()>100){
+					return;
+				}
+				userList.add(user);				
+			}
+		});		
+		return userList;
+	}
+
+	private void doReadRobotDb(String sql, RobotInteface robotInteface) {
+		int OFFSET = 0;
+		final int LIMIT = 1000;
+		List<User> userList = biLogDbMgr.query(sql, new Object[]{LIMIT, OFFSET}, User.class);
+		for (User user : userList) {
+			robotInteface.doCount(user);
+		}
+	}
+
 	/**
 	 * 初始化竞技场阵容排行榜
 	 */
@@ -198,13 +360,16 @@ public class RankingMgr {
 					RankingLevelData levelData = RankingUtils.createRankingLevelData(m);
 					ArenaExtAttribute areanExt = m.getExtension();
 					String key = m.getKey();
+					
 					FightingComparable fightingComparable = new FightingComparable();
 					fightingComparable.setFighting(areanExt.getFighting());
 					fightingRanking.addOrUpdateRankingEntry(key, fightingComparable, levelData);
 
+					
 					fightingComparable = new FightingComparable();
 					fightingComparable.setFighting(areanExt.getFightingTeam());
 					fightingTeamRanking.addOrUpdateRankingEntry(key, fightingComparable, levelData);
+					
 					LevelComparable lc = new LevelComparable();
 					lc.setLevel(areanExt.getLevel());
 					lc.setExp(0);
@@ -261,44 +426,7 @@ public class RankingMgr {
 		}
 	}
 
-	/* 把实时排行榜数据拷贝到每日排行榜 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void changeDailyData(RankType ordinalType, RankType copyType, boolean ignoreRobot) {
-		Ranking ordinalRanking = RankingFactory.getRanking(ordinalType);
-		Ranking copyRanking = RankingFactory.getRanking(copyType);
-		List<? extends MomentRankingEntry> list = ordinalRanking.getReadOnlyRankingEntries();
-		ArrayList<RankingEntityOfRank> copyList = new ArrayList<RankingEntityOfRank>();
-		RankingEntityCopyer copyer = copyType.getEntityCopyer();
-		// 暂时记log
-		if (copyer == null) {
-			// TODO 这里可以考虑使用默认深拷贝的BeanUtil复制
-			GameLog.error("Ranking", "RankingMgr#changeDailyData()", "#getEntityCopyer()为null:" + ordinalType + "," + copyType, null);
-		} else if (copyer != ordinalType.getEntityCopyer()) {
-			GameLog.error("Ranking", "RankingMgr#changeDailyData()", "#getEntityCopyer()类型不一致:" + ordinalType + "," + copyType, null);
-		}
-		for (int i = 1, size = list.size(); i <= size; i++) {
-			MomentRankingEntry entry = list.get(i - 1);
-			if (ignoreRobot && entry.getKey().length() > 20) {
-				continue;
-			}
-			Comparable comparable;
-			Object ext;
-			if (copyer != null) {
-				comparable = copyer.copyComparable(entry.getComparable());
-				ext = copyer.copyExtension(entry.getExtendedAttribute());
-			} else {
-				comparable = entry.getComparable();
-				ext = entry.getExtendedAttribute();
-			}
-			RankingEntityOfRankImpl re = new RankingEntityOfRankImpl(i, comparable, entry.getKey(), ext);
-			if (ext instanceof RankingLevelData) {
-				RankingLevelData levelData = (RankingLevelData) ext;
-				levelData.setRankLevel(i);
-			}
-			copyList.add(re);
-		}
-		copyRanking.clearAndInsert(copyList);
-	}
+	
 
 	/* 把竞技场排行榜的数据拷贝到每日排行榜 */
 	private void changeDailyData(ListRankingType ordinalType, RankType copyType, ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList, long currentTime) {
@@ -739,6 +867,13 @@ public class RankingMgr {
 		}
 		return id;
 	}
+	
+	private interface RobotInteface{
+		public void doCount(User user);
+	}
+	
+	
+	
 }
 
 class RankingEntityOfRankImpl<C extends Comparable<C>, E> implements RankingEntityOfRank<C, E> {
@@ -775,5 +910,8 @@ class RankingEntityOfRankImpl<C extends Comparable<C>, E> implements RankingEnti
 	public E getExtendedAttribute() {
 		return this.extendedAttribute;
 	}
+	
+	
+	
 
 }
