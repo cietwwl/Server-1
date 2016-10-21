@@ -50,7 +50,11 @@ public class RoleExtConvertor<T extends RoleExtProperty> implements CacheJsonCon
 		Map<Integer, RoleExtPropertyData<T>> items = value.getItemMap();
 		HashMap<Integer, T> map = new HashMap<Integer, T>((int) (items.size() / 0.75) + 1);
 		for (Map.Entry<Integer, RoleExtPropertyData<T>> entry : items.entrySet()) {
-			T valueCopy = parser.copy(entry.getValue().getAttachment());
+			RoleExtPropertyData<T> dataExtProperty = entry.getValue();
+			if (dataExtProperty == null) {
+				continue;
+			}
+			T valueCopy = parser.copy(dataExtProperty.getAttachment());
 			if (valueCopy == null) {
 				FSUtilLogger.error("copy value fail:" + key + "," + entry.getKey());
 				continue;
@@ -61,7 +65,7 @@ public class RoleExtConvertor<T extends RoleExtProperty> implements CacheJsonCon
 	}
 
 	@Override
-	public DataLoggerRecord parseAndUpdate(Object key, RoleExtStoreCopy<Integer, T> oldRecord,RoleExtPropertyStoreImpl<T> newRecord, RoleExtChangedEvent<T> event) {
+	public DataLoggerRecord parseAndUpdate(Object key, RoleExtStoreCopy<Integer, T> oldRecord, RoleExtPropertyStoreImpl<T> newRecord, RoleExtChangedEvent<T> event) {
 		HashMap<Integer, T> oldMap = oldRecord.getJsonMap();
 		List<Pair<Integer, T>> addEventList = event.getAddList();
 		ArrayList<Object> addList = null;
@@ -133,20 +137,20 @@ public class RoleExtConvertor<T extends RoleExtProperty> implements CacheJsonCon
 			Map.Entry<Integer, T> entry = it.next();
 			Integer entryKey = entry.getKey();
 			T oldValue = entry.getValue();
-			T newValue = newMap.get(entryKey).getAttachment();
-			if (newValue == null) {
+			RoleExtPropertyData<T> roleExtPropertyData = newMap.get(entryKey);
+			if (roleExtPropertyData == null) {
 				if (removeList == null) {
 					removeList = new ArrayList<Pair<Integer, T>>();
 				}
 				removeList.add(Pair.Create(entryKey, entry.getValue()));
-			} else if (oldValue == null || parser.hasChanged(oldValue, newValue)) {
+			} else if (oldValue == null || parser.hasChanged(oldValue, roleExtPropertyData.getAttachment())) {
 				// 此处不做比较
-				otherMap.put(entryKey, Pair.Create(oldValue, newValue));
+				otherMap.put(entryKey, Pair.Create(oldValue, roleExtPropertyData.getAttachment()));
 			}
 		}
 		for (Map.Entry<Integer, RoleExtPropertyData<T>> entry : newMap.entrySet()) {
-			T entryValue = entry.getValue().getAttachment();
-			if (entryValue == null) {
+			RoleExtPropertyData<T> roleExtData = entry.getValue();
+			if (roleExtData == null) {
 				continue;
 			}
 			Integer entryKey = entry.getKey();
@@ -155,7 +159,7 @@ public class RoleExtConvertor<T extends RoleExtProperty> implements CacheJsonCon
 				if (addList == null) {
 					addList = new ArrayList<Pair<Integer, T>>();
 				}
-				addList.add(Pair.Create(entryKey, entryValue));
+				addList.add(Pair.Create(entryKey, roleExtData.getAttachment()));
 			}
 		}
 		return new RoleExtChangedEvent<T>(addList, removeList, otherMap);
