@@ -369,7 +369,7 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("不能踢出非空闲状态的玩家");
 			return;
 		}
-		UserTeamBattleDataMgr.getInstance().leaveTeam(userID);
+		UserTeamBattleDataMgr.getInstance().leaveTeam(userID, teamID);
 		UserTeamBattleDataMgr.getInstance().synData(userID);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
@@ -580,6 +580,9 @@ public class TeamBattleBM {
 				if(cfg.getMail() != 0){
 					List<TeamMember> members = teamItem.getMembers();
 					for(TeamMember mem : members){
+						if(mem.isRobot()){
+							mem.setState(TBMemberState.Finish);
+						}
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
 							EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(String.valueOf(cfg.getMail()));
 							if(null == emailCfg) {

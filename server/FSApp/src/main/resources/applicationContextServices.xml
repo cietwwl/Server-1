@@ -115,6 +115,8 @@
      			
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UI_DATA" value-ref="userFightingGrowthService" />
      			<entry key="MSG_FIGHTING_GROWTH_REQUEST_UPGRADE" value-ref="userFightingGrowthService" />
+     			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
+     			
 			</map>
 		</property>
 	</bean>
@@ -208,4 +210,6 @@
 
 
 
+	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
+	
 </beans>  

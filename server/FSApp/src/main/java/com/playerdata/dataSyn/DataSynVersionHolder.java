@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.bm.randomBoss.RandomBossMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -375,6 +376,17 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.MAGICEQUIP_FETTER);
+		
+		
+		versionMap.put(eSynType.RANDOM_BOSS_DATA, new PlayerDataMgr(new RecordSynchronization() {
+			
+			@Override
+			public void synAllData(Player player, int version) {
+				RandomBossMgr.getInstance().checkAndSynRandomBossData(player);
+			}
+		}));
+		orderList.add(eSynType.RANDOM_BOSS_DATA);
+		
 		
 //		
 //		versionMap.put(eSynType.GFDefendArmyData, new PlayerDataMgr(new RecordSynchronization() {
