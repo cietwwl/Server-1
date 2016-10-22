@@ -319,7 +319,13 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("该玩家不在队伍中");
 			return;
 		}
-		if(!kickMember.getState().equals(TBMemberState.Ready)){
+		if(kickMember.getState().equals(TBMemberState.Fight)){
+			if(System.currentTimeMillis() - kickMember.getFightStartTime() < TeamBattleConst.MAX_FIGHT_TIME){
+				tbRsp.setRstType(TBResultType.DATA_ERROR);
+				tbRsp.setTipMsg("该玩家已经进入战斗");
+				return;
+			}
+		}else if(!kickMember.getState().equals(TBMemberState.Ready)){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("不能踢出非空闲状态的玩家");
 			return;
@@ -400,14 +406,12 @@ public class TeamBattleBM {
 		}
 		if(teamMember.getState().equals(TBMemberState.Ready)) {
 			teamMember.setState(TBMemberState.Fight);
+			teamMember.setFightStartTime(System.currentTimeMillis());
 			TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		}
 		for(StaticMemberTeamInfo teamInfoSimple : teamItem.getTeamMembers()){
 			if(StringUtils.equals(teamInfoSimple.getUserID(), player.getUserId())) continue;
 			ArmyInfo army = ArmyInfoHelper.getArmyInfo(teamInfoSimple.getUserStaticTeam(), false);
-//			for(ArmyHero hero : army.getHeroList()){
-//				hero.setPosition(teamInfoSimple.getHeroPosMap().get(hero.getRoleBaseInfo().getId()));
-//			}
 			tbRsp.addArmyInfo(ClientDataSynMgr.toClientData(army));
 		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
@@ -490,6 +494,7 @@ public class TeamBattleBM {
 		}else if(teamMember.getState().equals(TBMemberState.Fight)){
 			teamMember.setState(TBMemberState.Ready);
 		}
+		teamMember.setFightStartTime(0);
 		TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
@@ -563,6 +568,12 @@ public class TeamBattleBM {
 		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
 	}
 
+	/**
+	 * 保存队伍成员的位置信息
+	 * @param player
+	 * @param tbRsp
+	 * @param memPos
+	 */
 	public void saveMemPosition(Player player, Builder tbRsp, String memPos) {
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		if(utbData == null){
