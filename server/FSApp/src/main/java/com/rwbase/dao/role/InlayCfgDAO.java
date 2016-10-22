@@ -28,8 +28,6 @@ public class InlayCfgDAO extends CfgCsvDao<InlayCfg> {
 			Map<String, InlayTemplate> inlayTmpMap = new HashMap<String, InlayTemplate>();
 			for (Entry<String, InlayCfg> e : readCsv2Map.entrySet()) {
 				e.getValue().initData();
-				// InlayTemplate tmp = new InlayTemplate(value);
-				// inlayTmpMap.put(e.getKey(), tmp);
 			}
 
 			this.inlayTmpMap = inlayTmpMap;
