@@ -53,7 +53,7 @@ public class TableWhiteListDAO extends PFDataRdbDao<TableWhiteList> {
 		if(tableWhiteList == null){
 			return false;
 		}else{
-			return tableWhiteList.isClose();
+			return !tableWhiteList.isClose();
 		}
 	}
 }
