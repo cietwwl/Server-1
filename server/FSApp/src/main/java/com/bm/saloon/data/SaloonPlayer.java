@@ -5,7 +5,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 public class SaloonPlayer {
 
-	private String userId;//玩家ID
+	private String id;//玩家ID
 	
 	private String userName;//玩家名字
 	
@@ -30,14 +30,22 @@ public class SaloonPlayer {
 	private SaloonPlayerFashion playerFashion;
 	
 	private SaloonMagic magic;
-
-	public String getUserId() {
-		return userId;
+	
+	public static SaloonPlayer newInstance(String userIdP){
+		SaloonPlayer target = new SaloonPlayer();
+		target.id = userIdP;
+		return target;
 	}
 
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public String getId() {
+		return id;
 	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+
 
 	public String getUserName() {
 		return userName;

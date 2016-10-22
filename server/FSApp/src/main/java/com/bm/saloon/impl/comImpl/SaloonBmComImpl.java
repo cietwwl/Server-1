@@ -101,7 +101,7 @@ public class SaloonBmComImpl implements ISaloonBm{
 		return result;
 	}
 	@Override
-	public SaloonResult informPosition(String userId, float px, float py) {
+	public SaloonResult updatePosition(String userId, float px, float py) {
 		SaloonCom targetSaloon = getByUserId(userId);
 		SaloonResult result = SaloonResult.newInstance(false);
 		if(targetSaloon!=null){

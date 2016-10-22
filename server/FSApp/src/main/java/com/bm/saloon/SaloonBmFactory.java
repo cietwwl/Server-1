@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.bm.saloon.impl.comImpl.SaloonBmComImpl;
+import com.rwproto.SaloonServiceProto.SaloonType;
 
 public class SaloonBmFactory {
 	

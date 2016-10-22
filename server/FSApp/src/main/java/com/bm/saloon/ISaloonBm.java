@@ -12,6 +12,6 @@ public interface ISaloonBm {
 
 	public SaloonResult synAllPlayerInfo(Player player);
 
-	public SaloonResult informPosition(String userId, float px, float py );
+	public SaloonResult updatePosition(String userId, float px, float py );
 	 
 }

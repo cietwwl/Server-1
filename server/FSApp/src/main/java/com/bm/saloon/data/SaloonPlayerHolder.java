@@ -23,12 +23,13 @@ public class SaloonPlayerHolder{
 	public void synAddData(Player player, SaloonPlayer addItem){
 		ClientDataSynMgr.updateData(player, addItem, synType,eSynOpType.ADD_SINGLE);
 	}
-	public void synRemoveData(Player player, SaloonPlayer addItem){
-		ClientDataSynMgr.updateData(player, addItem, synType,eSynOpType.REMOVE_SINGLE);
+	public void synRemoveData(Player player, String removeId){
+		SaloonPlayer removeItem = SaloonPlayer.newInstance(removeId);
+		ClientDataSynMgr.updateData(player, removeItem, synType,eSynOpType.REMOVE_SINGLE);
 	}
-	public void synUpdateData(Player player, SaloonPlayer addItem){
-		ClientDataSynMgr.updateData(player, addItem, synType,eSynOpType.UPDATE_SINGLE);
-	}
+//	public void synUpdateData(Player player, SaloonPlayer addItem){
+//		ClientDataSynMgr.updateData(player, addItem, synType,eSynOpType.UPDATE_SINGLE);
+//	}
 
 	
 	

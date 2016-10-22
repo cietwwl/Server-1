@@ -43,6 +43,8 @@ public class SaloonCom {
 	private SaloonPositionAction newAddSynAction = new SaloonPositionAction() {			
 		@Override
 		public void doAction(Player player, SaloonPosition position) {
+			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().toPlayer(player);
+			SaloonPlayerHolder.getInstance().synAddData(player, saloonPlayer);
 			SaloonPositionHolder.getInstance().synAddData(player, position);
 		}
 	};
@@ -50,6 +52,7 @@ public class SaloonCom {
 		@Override
 		public void doAction(Player player, SaloonPosition position) {
 			SaloonPositionHolder.getInstance().synRemoveData(player, position);
+			SaloonPlayerHolder.getInstance().synRemoveData(player, position.getId());
 		}
 	};
 	private SaloonPositionAction newUpdateSynAction = new SaloonPositionAction() {			
@@ -130,7 +133,7 @@ public class SaloonCom {
 		
 		List<SaloonPlayer> sPlayerList = new ArrayList<SaloonPlayer>();
 		for (String userId : postionMap.keySet()) {
-			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().getPlayer(userId);
+			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().getSaloonPlayer(userId);
 			sPlayerList.add(saloonPlayer);
 		}
 		SaloonPlayerHolder.getInstance().synAllData(player, sPlayerList);

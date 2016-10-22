@@ -18,37 +18,44 @@ public class SaloonHelper {
 	}
 
 	
-	public SaloonPlayer getPlayer(String userId){
+	public SaloonPlayer getSaloonPlayer(String userId){
 		
 		Player player = PlayerMgr.getInstance().findPlayerFromMemory(userId);
 		if(player == null){
 			return null;
 		}
-		SaloonPlayer infoBuilder = new SaloonPlayer();
-		infoBuilder.setUserId(userId);
-		infoBuilder.setUserName(player.getUserName());
-		infoBuilder.setLevel(player.getLevel());
-		infoBuilder.setImageId(player.getHeadImage());
-		infoBuilder.setCareer(player.getCareer());
-		infoBuilder.setSex(player.getSex());
-		infoBuilder.setCareerLevel(player.getStarLevel());
-		infoBuilder.setFightingAll(player.getHeroMgr().getFightingAll(player));
-		infoBuilder.setModelId(player.getModelId());
-		infoBuilder.setStarLevel(player.getStarLevel());
-		infoBuilder.setQualityId(player.getHeroMgr().getMainRoleHero(player).getQualityId());
+		
+		return toPlayer( player);
+	}
+
+
+	public SaloonPlayer toPlayer(Player player) {
+		String userId = player.getUserId();
+		SaloonPlayer saloonPlayer = new SaloonPlayer();
+		saloonPlayer.setId(userId);
+		saloonPlayer.setUserName(player.getUserName());
+		saloonPlayer.setLevel(player.getLevel());
+		saloonPlayer.setImageId(player.getHeadImage());
+		saloonPlayer.setCareer(player.getCareer());
+		saloonPlayer.setSex(player.getSex());
+		saloonPlayer.setCareerLevel(player.getStarLevel());
+		saloonPlayer.setFightingAll(player.getHeroMgr().getFightingAll(player));
+		saloonPlayer.setModelId(player.getModelId());
+		saloonPlayer.setStarLevel(player.getStarLevel());
+		saloonPlayer.setQualityId(player.getHeroMgr().getMainRoleHero(player).getQualityId());
 		
 		FashionBeingUsedHolder holder = FashionBeingUsedHolder.getInstance();
 		FashionBeingUsed fashUsed = holder.get(userId);		
 		
 		if (fashUsed != null){
 			SaloonPlayerFashion fashion = SaloonPlayerFashion.from(fashUsed);
-			infoBuilder.setPlayerFashion(fashion);
+			saloonPlayer.setPlayerFashion(fashion);
 		}
 		ItemData magicItem = player.getMagic();
 		if(null != magicItem){
 			SaloonMagic magic = SaloonMagic.from(magicItem);
-			infoBuilder.setMagic(magic);
+			saloonPlayer.setMagic(magic);
 		}
-		return null;
+		return saloonPlayer;
 	}
 }
