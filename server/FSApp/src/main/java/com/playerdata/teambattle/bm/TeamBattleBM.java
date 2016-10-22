@@ -224,7 +224,7 @@ public class TeamBattleBM {
 		TBTeamItemMgr.getInstance().synData(player);
 		//创建完队伍，在世界频道发邀请
 		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName());
-		String extraInfo = player.getUserName() + "_" + cfg.getName();
+		String extraInfo = player.getUserName() + "_" + cfg.getName() + "_" + 1;
 		ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
@@ -492,7 +492,7 @@ public class TeamBattleBM {
 			return;
 		}
 		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName()) + "\n" + inviteContent;
-		String extraInfo = player.getUserName() + "_" + cfg.getName();
+		String extraInfo = player.getUserName() + "_" + cfg.getName() + "_" + inviteType;
 		switch (inviteType) {
 		case 1:
 			//世界邀请
