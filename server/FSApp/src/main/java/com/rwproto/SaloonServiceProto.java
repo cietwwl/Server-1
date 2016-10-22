@@ -30,29 +30,13 @@ public final class SaloonServiceProto {
      */
     Leave(1, 2),
     /**
-     * <code>InformPosition = 3;</code>
+     * <code>UpdatePosition = 3;</code>
      *
      * <pre>
-     *通知备战区的位置	
+     *更新玩家自己的位置
      * </pre>
      */
-    InformPosition(2, 3),
-    /**
-     * <code>GetPlayerInfo = 4;</code>
-     *
-     * <pre>
-     *获取用户个体信息
-     * </pre>
-     */
-    GetPlayerInfo(3, 4),
-    /**
-     * <code>AlreadyIn = 5;</code>
-     *
-     * <pre>
-     *已经在备战区
-     * </pre>
-     */
-    AlreadyIn(4, 5),
+    UpdatePosition(2, 3),
     ;
 
     /**
@@ -72,29 +56,13 @@ public final class SaloonServiceProto {
      */
     public static final int Leave_VALUE = 2;
     /**
-     * <code>InformPosition = 3;</code>
+     * <code>UpdatePosition = 3;</code>
      *
      * <pre>
-     *通知备战区的位置	
+     *更新玩家自己的位置
      * </pre>
      */
-    public static final int InformPosition_VALUE = 3;
-    /**
-     * <code>GetPlayerInfo = 4;</code>
-     *
-     * <pre>
-     *获取用户个体信息
-     * </pre>
-     */
-    public static final int GetPlayerInfo_VALUE = 4;
-    /**
-     * <code>AlreadyIn = 5;</code>
-     *
-     * <pre>
-     *已经在备战区
-     * </pre>
-     */
-    public static final int AlreadyIn_VALUE = 5;
+    public static final int UpdatePosition_VALUE = 3;
 
 
     public final int getNumber() { return value; }
@@ -103,9 +71,7 @@ public final class SaloonServiceProto {
       switch (value) {
         case 1: return Enter;
         case 2: return Leave;
-        case 3: return InformPosition;
-        case 4: return GetPlayerInfo;
-        case 5: return AlreadyIn;
+        case 3: return UpdatePosition;
         default: return null;
       }
     }
@@ -255,7 +221,93 @@ public final class SaloonServiceProto {
     // @@protoc_insertion_point(enum_scope:saloonService.ResultType)
   }
 
-  public interface AreaPositionOrBuilder
+  /**
+   * Protobuf enum {@code saloonService.SaloonType}
+   *
+   * <pre>
+   *同屏所用在的功能块
+   * </pre>
+   */
+  public enum SaloonType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>WorldBoss = 1;</code>
+     */
+    WorldBoss(0, 1),
+    /**
+     * <code>GroupComp = 2;</code>
+     */
+    GroupComp(1, 2),
+    ;
+
+    /**
+     * <code>WorldBoss = 1;</code>
+     */
+    public static final int WorldBoss_VALUE = 1;
+    /**
+     * <code>GroupComp = 2;</code>
+     */
+    public static final int GroupComp_VALUE = 2;
+
+
+    public final int getNumber() { return value; }
+
+    public static SaloonType valueOf(int value) {
+      switch (value) {
+        case 1: return WorldBoss;
+        case 2: return GroupComp;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<SaloonType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<SaloonType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<SaloonType>() {
+            public SaloonType findValueByNumber(int number) {
+              return SaloonType.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.SaloonServiceProto.getDescriptor().getEnumTypes().get(2);
+    }
+
+    private static final SaloonType[] VALUES = values();
+
+    public static SaloonType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private SaloonType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:saloonService.SaloonType)
+  }
+
+  public interface PositionOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
     // required float x = 1;
@@ -279,28 +331,28 @@ public final class SaloonServiceProto {
     float getY();
   }
   /**
-   * Protobuf type {@code saloonService.AreaPosition}
+   * Protobuf type {@code saloonService.Position}
    *
    * <pre>
    *同屏玩家坐标
    * </pre>
    */
-  public static final class AreaPosition extends
+  public static final class Position extends
       com.google.protobuf.GeneratedMessage
-      implements AreaPositionOrBuilder {
-    // Use AreaPosition.newBuilder() to construct.
-    private AreaPosition(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      implements PositionOrBuilder {
+    // Use Position.newBuilder() to construct.
+    private Position(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private AreaPosition(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private Position(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final AreaPosition defaultInstance;
-    public static AreaPosition getDefaultInstance() {
+    private static final Position defaultInstance;
+    public static Position getDefaultInstance() {
       return defaultInstance;
     }
 
-    public AreaPosition getDefaultInstanceForType() {
+    public Position getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -310,7 +362,7 @@ public final class SaloonServiceProto {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private AreaPosition(
+    private Position(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -357,28 +409,28 @@ public final class SaloonServiceProto {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.rwproto.SaloonServiceProto.internal_static_saloonService_AreaPosition_descriptor;
+      return com.rwproto.SaloonServiceProto.internal_static_saloonService_Position_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.rwproto.SaloonServiceProto.internal_static_saloonService_AreaPosition_fieldAccessorTable
+      return com.rwproto.SaloonServiceProto.internal_static_saloonService_Position_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.rwproto.SaloonServiceProto.AreaPosition.class, com.rwproto.SaloonServiceProto.AreaPosition.Builder.class);
+              com.rwproto.SaloonServiceProto.Position.class, com.rwproto.SaloonServiceProto.Position.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<AreaPosition> PARSER =
-        new com.google.protobuf.AbstractParser<AreaPosition>() {
-      public AreaPosition parsePartialFrom(
+    public static com.google.protobuf.Parser<Position> PARSER =
+        new com.google.protobuf.AbstractParser<Position>() {
+      public Position parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new AreaPosition(input, extensionRegistry);
+        return new Position(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<AreaPosition> getParserForType() {
+    public com.google.protobuf.Parser<Position> getParserForType() {
       return PARSER;
     }
 
@@ -474,53 +526,53 @@ public final class SaloonServiceProto {
       return super.writeReplace();
     }
 
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(byte[] data)
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(java.io.InputStream input)
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseDelimitedFrom(java.io.InputStream input)
+    public static com.rwproto.SaloonServiceProto.Position parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseDelimitedFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static com.rwproto.SaloonServiceProto.AreaPosition parseFrom(
+    public static com.rwproto.SaloonServiceProto.Position parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -529,7 +581,7 @@ public final class SaloonServiceProto {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.rwproto.SaloonServiceProto.AreaPosition prototype) {
+    public static Builder newBuilder(com.rwproto.SaloonServiceProto.Position prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -541,7 +593,7 @@ public final class SaloonServiceProto {
       return builder;
     }
     /**
-     * Protobuf type {@code saloonService.AreaPosition}
+     * Protobuf type {@code saloonService.Position}
      *
      * <pre>
      *同屏玩家坐标
@@ -549,20 +601,20 @@ public final class SaloonServiceProto {
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.rwproto.SaloonServiceProto.AreaPositionOrBuilder {
+       implements com.rwproto.SaloonServiceProto.PositionOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.rwproto.SaloonServiceProto.internal_static_saloonService_AreaPosition_descriptor;
+        return com.rwproto.SaloonServiceProto.internal_static_saloonService_Position_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.rwproto.SaloonServiceProto.internal_static_saloonService_AreaPosition_fieldAccessorTable
+        return com.rwproto.SaloonServiceProto.internal_static_saloonService_Position_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.rwproto.SaloonServiceProto.AreaPosition.class, com.rwproto.SaloonServiceProto.AreaPosition.Builder.class);
+                com.rwproto.SaloonServiceProto.Position.class, com.rwproto.SaloonServiceProto.Position.Builder.class);
       }
 
-      // Construct using com.rwproto.SaloonServiceProto.AreaPosition.newBuilder()
+      // Construct using com.rwproto.SaloonServiceProto.Position.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -595,23 +647,23 @@ public final class SaloonServiceProto {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.rwproto.SaloonServiceProto.internal_static_saloonService_AreaPosition_descriptor;
+        return com.rwproto.SaloonServiceProto.internal_static_saloonService_Position_descriptor;
       }
 
-      public com.rwproto.SaloonServiceProto.AreaPosition getDefaultInstanceForType() {
-        return com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance();
+      public com.rwproto.SaloonServiceProto.Position getDefaultInstanceForType() {
+        return com.rwproto.SaloonServiceProto.Position.getDefaultInstance();
       }
 
-      public com.rwproto.SaloonServiceProto.AreaPosition build() {
-        com.rwproto.SaloonServiceProto.AreaPosition result = buildPartial();
+      public com.rwproto.SaloonServiceProto.Position build() {
+        com.rwproto.SaloonServiceProto.Position result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public com.rwproto.SaloonServiceProto.AreaPosition buildPartial() {
-        com.rwproto.SaloonServiceProto.AreaPosition result = new com.rwproto.SaloonServiceProto.AreaPosition(this);
+      public com.rwproto.SaloonServiceProto.Position buildPartial() {
+        com.rwproto.SaloonServiceProto.Position result = new com.rwproto.SaloonServiceProto.Position(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -628,16 +680,16 @@ public final class SaloonServiceProto {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.rwproto.SaloonServiceProto.AreaPosition) {
-          return mergeFrom((com.rwproto.SaloonServiceProto.AreaPosition)other);
+        if (other instanceof com.rwproto.SaloonServiceProto.Position) {
+          return mergeFrom((com.rwproto.SaloonServiceProto.Position)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.rwproto.SaloonServiceProto.AreaPosition other) {
-        if (other == com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.rwproto.SaloonServiceProto.Position other) {
+        if (other == com.rwproto.SaloonServiceProto.Position.getDefaultInstance()) return this;
         if (other.hasX()) {
           setX(other.getX());
         }
@@ -664,11 +716,11 @@ public final class SaloonServiceProto {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.rwproto.SaloonServiceProto.AreaPosition parsedMessage = null;
+        com.rwproto.SaloonServiceProto.Position parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.rwproto.SaloonServiceProto.AreaPosition) e.getUnfinishedMessage();
+          parsedMessage = (com.rwproto.SaloonServiceProto.Position) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -745,15 +797,15 @@ public final class SaloonServiceProto {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:saloonService.AreaPosition)
+      // @@protoc_insertion_point(builder_scope:saloonService.Position)
     }
 
     static {
-      defaultInstance = new AreaPosition(true);
+      defaultInstance = new Position(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:saloonService.AreaPosition)
+    // @@protoc_insertion_point(class_scope:saloonService.Position)
   }
 
   public interface CommonReqMsgOrBuilder
@@ -777,67 +829,49 @@ public final class SaloonServiceProto {
      */
     com.rwproto.SaloonServiceProto.RequestType getReqType();
 
-    // optional .saloonService.AreaPosition position = 2;
+    // required .saloonService.SaloonType saloonType = 2;
     /**
-     * <code>optional .saloonService.AreaPosition position = 2;</code>
+     * <code>required .saloonService.SaloonType saloonType = 2;</code>
      *
      * <pre>
-     *玩家当前在备战区的位置
+     *备战区被使用的功能模块
+     * </pre>
+     */
+    boolean hasSaloonType();
+    /**
+     * <code>required .saloonService.SaloonType saloonType = 2;</code>
+     *
+     * <pre>
+     *备战区被使用的功能模块
+     * </pre>
+     */
+    com.rwproto.SaloonServiceProto.SaloonType getSaloonType();
+
+    // optional .saloonService.Position position = 3;
+    /**
+     * <code>optional .saloonService.Position position = 3;</code>
+     *
+     * <pre>
+     *玩家自己的坐标信息
      * </pre>
      */
     boolean hasPosition();
     /**
-     * <code>optional .saloonService.AreaPosition position = 2;</code>
+     * <code>optional .saloonService.Position position = 3;</code>
      *
      * <pre>
-     *玩家当前在备战区的位置
+     *玩家自己的坐标信息
      * </pre>
      */
-    com.rwproto.SaloonServiceProto.AreaPosition getPosition();
+    com.rwproto.SaloonServiceProto.Position getPosition();
     /**
-     * <code>optional .saloonService.AreaPosition position = 2;</code>
+     * <code>optional .saloonService.Position position = 3;</code>
      *
      * <pre>
-     *玩家当前在备战区的位置
+     *玩家自己的坐标信息
      * </pre>
      */
-    com.rwproto.SaloonServiceProto.AreaPositionOrBuilder getPositionOrBuilder();
-
-    // repeated string playerIdList = 3;
-    /**
-     * <code>repeated string playerIdList = 3;</code>
-     *
-     * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
-     * </pre>
-     */
-    java.util.List<java.lang.String>
-    getPlayerIdListList();
-    /**
-     * <code>repeated string playerIdList = 3;</code>
-     *
-     * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
-     * </pre>
-     */
-    int getPlayerIdListCount();
-    /**
-     * <code>repeated string playerIdList = 3;</code>
-     *
-     * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
-     * </pre>
-     */
-    java.lang.String getPlayerIdList(int index);
-    /**
-     * <code>repeated string playerIdList = 3;</code>
-     *
-     * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
-     * </pre>
-     */
-    com.google.protobuf.ByteString
-        getPlayerIdListBytes(int index);
+    com.rwproto.SaloonServiceProto.PositionOrBuilder getPositionOrBuilder();
   }
   /**
    * Protobuf type {@code saloonService.CommonReqMsg}
@@ -901,25 +935,28 @@ public final class SaloonServiceProto {
               }
               break;
             }
-            case 18: {
-              com.rwproto.SaloonServiceProto.AreaPosition.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            case 16: {
+              int rawValue = input.readEnum();
+              com.rwproto.SaloonServiceProto.SaloonType value = com.rwproto.SaloonServiceProto.SaloonType.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(2, rawValue);
+              } else {
+                bitField0_ |= 0x00000002;
+                saloonType_ = value;
+              }
+              break;
+            }
+            case 26: {
+              com.rwproto.SaloonServiceProto.Position.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000004) == 0x00000004)) {
                 subBuilder = position_.toBuilder();
               }
-              position_ = input.readMessage(com.rwproto.SaloonServiceProto.AreaPosition.PARSER, extensionRegistry);
+              position_ = input.readMessage(com.rwproto.SaloonServiceProto.Position.PARSER, extensionRegistry);
               if (subBuilder != null) {
                 subBuilder.mergeFrom(position_);
                 position_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000002;
-              break;
-            }
-            case 26: {
-              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-                playerIdList_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000004;
-              }
-              playerIdList_.add(input.readBytes());
+              bitField0_ |= 0x00000004;
               break;
             }
           }
@@ -930,9 +967,6 @@ public final class SaloonServiceProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
-          playerIdList_ = new com.google.protobuf.UnmodifiableLazyStringList(playerIdList_);
-        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -989,90 +1023,68 @@ public final class SaloonServiceProto {
       return reqType_;
     }
 
-    // optional .saloonService.AreaPosition position = 2;
-    public static final int POSITION_FIELD_NUMBER = 2;
-    private com.rwproto.SaloonServiceProto.AreaPosition position_;
+    // required .saloonService.SaloonType saloonType = 2;
+    public static final int SALOONTYPE_FIELD_NUMBER = 2;
+    private com.rwproto.SaloonServiceProto.SaloonType saloonType_;
     /**
-     * <code>optional .saloonService.AreaPosition position = 2;</code>
+     * <code>required .saloonService.SaloonType saloonType = 2;</code>
      *
      * <pre>
-     *玩家当前在备战区的位置
+     *备战区被使用的功能模块
      * </pre>
      */
-    public boolean hasPosition() {
+    public boolean hasSaloonType() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional .saloonService.AreaPosition position = 2;</code>
+     * <code>required .saloonService.SaloonType saloonType = 2;</code>
      *
      * <pre>
-     *玩家当前在备战区的位置
+     *备战区被使用的功能模块
      * </pre>
      */
-    public com.rwproto.SaloonServiceProto.AreaPosition getPosition() {
-      return position_;
-    }
-    /**
-     * <code>optional .saloonService.AreaPosition position = 2;</code>
-     *
-     * <pre>
-     *玩家当前在备战区的位置
-     * </pre>
-     */
-    public com.rwproto.SaloonServiceProto.AreaPositionOrBuilder getPositionOrBuilder() {
-      return position_;
+    public com.rwproto.SaloonServiceProto.SaloonType getSaloonType() {
+      return saloonType_;
     }
 
-    // repeated string playerIdList = 3;
-    public static final int PLAYERIDLIST_FIELD_NUMBER = 3;
-    private com.google.protobuf.LazyStringList playerIdList_;
+    // optional .saloonService.Position position = 3;
+    public static final int POSITION_FIELD_NUMBER = 3;
+    private com.rwproto.SaloonServiceProto.Position position_;
     /**
-     * <code>repeated string playerIdList = 3;</code>
+     * <code>optional .saloonService.Position position = 3;</code>
      *
      * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
+     *玩家自己的坐标信息
      * </pre>
      */
-    public java.util.List<java.lang.String>
-        getPlayerIdListList() {
-      return playerIdList_;
+    public boolean hasPosition() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>repeated string playerIdList = 3;</code>
+     * <code>optional .saloonService.Position position = 3;</code>
      *
      * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
+     *玩家自己的坐标信息
      * </pre>
      */
-    public int getPlayerIdListCount() {
-      return playerIdList_.size();
+    public com.rwproto.SaloonServiceProto.Position getPosition() {
+      return position_;
     }
     /**
-     * <code>repeated string playerIdList = 3;</code>
+     * <code>optional .saloonService.Position position = 3;</code>
      *
      * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
+     *玩家自己的坐标信息
      * </pre>
      */
-    public java.lang.String getPlayerIdList(int index) {
-      return playerIdList_.get(index);
-    }
-    /**
-     * <code>repeated string playerIdList = 3;</code>
-     *
-     * <pre>
-     *请求同屏玩家的基本信息（list&lt;string&gt;）
-     * </pre>
-     */
-    public com.google.protobuf.ByteString
-        getPlayerIdListBytes(int index) {
-      return playerIdList_.getByteString(index);
+    public com.rwproto.SaloonServiceProto.PositionOrBuilder getPositionOrBuilder() {
+      return position_;
     }
 
     private void initFields() {
       reqType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
-      position_ = com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance();
-      playerIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      saloonType_ = com.rwproto.SaloonServiceProto.SaloonType.WorldBoss;
+      position_ = com.rwproto.SaloonServiceProto.Position.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1080,6 +1092,10 @@ public final class SaloonServiceProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSaloonType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1100,10 +1116,10 @@ public final class SaloonServiceProto {
         output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, position_);
+        output.writeEnum(2, saloonType_.getNumber());
       }
-      for (int i = 0; i < playerIdList_.size(); i++) {
-        output.writeBytes(3, playerIdList_.getByteString(i));
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeMessage(3, position_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1120,16 +1136,11 @@ public final class SaloonServiceProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, position_);
+          .computeEnumSize(2, saloonType_.getNumber());
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < playerIdList_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(playerIdList_.getByteString(i));
-        }
-        size += dataSize;
-        size += 1 * getPlayerIdListList().size();
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, position_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1250,13 +1261,13 @@ public final class SaloonServiceProto {
         super.clear();
         reqType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
         bitField0_ = (bitField0_ & ~0x00000001);
+        saloonType_ = com.rwproto.SaloonServiceProto.SaloonType.WorldBoss;
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (positionBuilder_ == null) {
-          position_ = com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance();
+          position_ = com.rwproto.SaloonServiceProto.Position.getDefaultInstance();
         } else {
           positionBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        playerIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -1293,17 +1304,15 @@ public final class SaloonServiceProto {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
+        result.saloonType_ = saloonType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
         if (positionBuilder_ == null) {
           result.position_ = position_;
         } else {
           result.position_ = positionBuilder_.build();
         }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          playerIdList_ = new com.google.protobuf.UnmodifiableLazyStringList(
-              playerIdList_);
-          bitField0_ = (bitField0_ & ~0x00000004);
-        }
-        result.playerIdList_ = playerIdList_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1323,18 +1332,11 @@ public final class SaloonServiceProto {
         if (other.hasReqType()) {
           setReqType(other.getReqType());
         }
+        if (other.hasSaloonType()) {
+          setSaloonType(other.getSaloonType());
+        }
         if (other.hasPosition()) {
           mergePosition(other.getPosition());
-        }
-        if (!other.playerIdList_.isEmpty()) {
-          if (playerIdList_.isEmpty()) {
-            playerIdList_ = other.playerIdList_;
-            bitField0_ = (bitField0_ & ~0x00000004);
-          } else {
-            ensurePlayerIdListIsMutable();
-            playerIdList_.addAll(other.playerIdList_);
-          }
-          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1342,6 +1344,10 @@ public final class SaloonServiceProto {
 
       public final boolean isInitialized() {
         if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasSaloonType()) {
           
           return false;
         }
@@ -1425,28 +1431,80 @@ public final class SaloonServiceProto {
         return this;
       }
 
-      // optional .saloonService.AreaPosition position = 2;
-      private com.rwproto.SaloonServiceProto.AreaPosition position_ = com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.SaloonServiceProto.AreaPosition, com.rwproto.SaloonServiceProto.AreaPosition.Builder, com.rwproto.SaloonServiceProto.AreaPositionOrBuilder> positionBuilder_;
+      // required .saloonService.SaloonType saloonType = 2;
+      private com.rwproto.SaloonServiceProto.SaloonType saloonType_ = com.rwproto.SaloonServiceProto.SaloonType.WorldBoss;
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>required .saloonService.SaloonType saloonType = 2;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *备战区被使用的功能模块
        * </pre>
        */
-      public boolean hasPosition() {
+      public boolean hasSaloonType() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>required .saloonService.SaloonType saloonType = 2;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *备战区被使用的功能模块
        * </pre>
        */
-      public com.rwproto.SaloonServiceProto.AreaPosition getPosition() {
+      public com.rwproto.SaloonServiceProto.SaloonType getSaloonType() {
+        return saloonType_;
+      }
+      /**
+       * <code>required .saloonService.SaloonType saloonType = 2;</code>
+       *
+       * <pre>
+       *备战区被使用的功能模块
+       * </pre>
+       */
+      public Builder setSaloonType(com.rwproto.SaloonServiceProto.SaloonType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000002;
+        saloonType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required .saloonService.SaloonType saloonType = 2;</code>
+       *
+       * <pre>
+       *备战区被使用的功能模块
+       * </pre>
+       */
+      public Builder clearSaloonType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        saloonType_ = com.rwproto.SaloonServiceProto.SaloonType.WorldBoss;
+        onChanged();
+        return this;
+      }
+
+      // optional .saloonService.Position position = 3;
+      private com.rwproto.SaloonServiceProto.Position position_ = com.rwproto.SaloonServiceProto.Position.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.SaloonServiceProto.Position, com.rwproto.SaloonServiceProto.Position.Builder, com.rwproto.SaloonServiceProto.PositionOrBuilder> positionBuilder_;
+      /**
+       * <code>optional .saloonService.Position position = 3;</code>
+       *
+       * <pre>
+       *玩家自己的坐标信息
+       * </pre>
+       */
+      public boolean hasPosition() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional .saloonService.Position position = 3;</code>
+       *
+       * <pre>
+       *玩家自己的坐标信息
+       * </pre>
+       */
+      public com.rwproto.SaloonServiceProto.Position getPosition() {
         if (positionBuilder_ == null) {
           return position_;
         } else {
@@ -1454,13 +1512,13 @@ public final class SaloonServiceProto {
         }
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
-      public Builder setPosition(com.rwproto.SaloonServiceProto.AreaPosition value) {
+      public Builder setPosition(com.rwproto.SaloonServiceProto.Position value) {
         if (positionBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1470,40 +1528,40 @@ public final class SaloonServiceProto {
         } else {
           positionBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
       public Builder setPosition(
-          com.rwproto.SaloonServiceProto.AreaPosition.Builder builderForValue) {
+          com.rwproto.SaloonServiceProto.Position.Builder builderForValue) {
         if (positionBuilder_ == null) {
           position_ = builderForValue.build();
           onChanged();
         } else {
           positionBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
-      public Builder mergePosition(com.rwproto.SaloonServiceProto.AreaPosition value) {
+      public Builder mergePosition(com.rwproto.SaloonServiceProto.Position value) {
         if (positionBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              position_ != com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance()) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              position_ != com.rwproto.SaloonServiceProto.Position.getDefaultInstance()) {
             position_ =
-              com.rwproto.SaloonServiceProto.AreaPosition.newBuilder(position_).mergeFrom(value).buildPartial();
+              com.rwproto.SaloonServiceProto.Position.newBuilder(position_).mergeFrom(value).buildPartial();
           } else {
             position_ = value;
           }
@@ -1511,46 +1569,46 @@ public final class SaloonServiceProto {
         } else {
           positionBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
+        bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
       public Builder clearPosition() {
         if (positionBuilder_ == null) {
-          position_ = com.rwproto.SaloonServiceProto.AreaPosition.getDefaultInstance();
+          position_ = com.rwproto.SaloonServiceProto.Position.getDefaultInstance();
           onChanged();
         } else {
           positionBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
-      public com.rwproto.SaloonServiceProto.AreaPosition.Builder getPositionBuilder() {
-        bitField0_ |= 0x00000002;
+      public com.rwproto.SaloonServiceProto.Position.Builder getPositionBuilder() {
+        bitField0_ |= 0x00000004;
         onChanged();
         return getPositionFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
-      public com.rwproto.SaloonServiceProto.AreaPositionOrBuilder getPositionOrBuilder() {
+      public com.rwproto.SaloonServiceProto.PositionOrBuilder getPositionOrBuilder() {
         if (positionBuilder_ != null) {
           return positionBuilder_.getMessageOrBuilder();
         } else {
@@ -1558,153 +1616,24 @@ public final class SaloonServiceProto {
         }
       }
       /**
-       * <code>optional .saloonService.AreaPosition position = 2;</code>
+       * <code>optional .saloonService.Position position = 3;</code>
        *
        * <pre>
-       *玩家当前在备战区的位置
+       *玩家自己的坐标信息
        * </pre>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.SaloonServiceProto.AreaPosition, com.rwproto.SaloonServiceProto.AreaPosition.Builder, com.rwproto.SaloonServiceProto.AreaPositionOrBuilder> 
+          com.rwproto.SaloonServiceProto.Position, com.rwproto.SaloonServiceProto.Position.Builder, com.rwproto.SaloonServiceProto.PositionOrBuilder> 
           getPositionFieldBuilder() {
         if (positionBuilder_ == null) {
           positionBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              com.rwproto.SaloonServiceProto.AreaPosition, com.rwproto.SaloonServiceProto.AreaPosition.Builder, com.rwproto.SaloonServiceProto.AreaPositionOrBuilder>(
+              com.rwproto.SaloonServiceProto.Position, com.rwproto.SaloonServiceProto.Position.Builder, com.rwproto.SaloonServiceProto.PositionOrBuilder>(
                   position_,
                   getParentForChildren(),
                   isClean());
           position_ = null;
         }
         return positionBuilder_;
-      }
-
-      // repeated string playerIdList = 3;
-      private com.google.protobuf.LazyStringList playerIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      private void ensurePlayerIdListIsMutable() {
-        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
-          playerIdList_ = new com.google.protobuf.LazyStringArrayList(playerIdList_);
-          bitField0_ |= 0x00000004;
-         }
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public java.util.List<java.lang.String>
-          getPlayerIdListList() {
-        return java.util.Collections.unmodifiableList(playerIdList_);
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public int getPlayerIdListCount() {
-        return playerIdList_.size();
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public java.lang.String getPlayerIdList(int index) {
-        return playerIdList_.get(index);
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public com.google.protobuf.ByteString
-          getPlayerIdListBytes(int index) {
-        return playerIdList_.getByteString(index);
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public Builder setPlayerIdList(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensurePlayerIdListIsMutable();
-        playerIdList_.set(index, value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public Builder addPlayerIdList(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensurePlayerIdListIsMutable();
-        playerIdList_.add(value);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public Builder addAllPlayerIdList(
-          java.lang.Iterable<java.lang.String> values) {
-        ensurePlayerIdListIsMutable();
-        super.addAll(values, playerIdList_);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public Builder clearPlayerIdList() {
-        playerIdList_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000004);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string playerIdList = 3;</code>
-       *
-       * <pre>
-       *请求同屏玩家的基本信息（list&lt;string&gt;）
-       * </pre>
-       */
-      public Builder addPlayerIdListBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensurePlayerIdListIsMutable();
-        playerIdList_.add(value);
-        onChanged();
-        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:saloonService.CommonReqMsg)
@@ -1721,27 +1650,37 @@ public final class SaloonServiceProto {
   public interface CommonRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .saloonService.ResultType rstType = 1;
+    // required .saloonService.RequestType reqType = 1;
     /**
-     * <code>required .saloonService.ResultType rstType = 1;</code>
-     *
-     * <pre>
-     *是否成功处理
-     * </pre>
+     * <code>required .saloonService.RequestType reqType = 1;</code>
      */
-    boolean hasRstType();
+    boolean hasReqType();
     /**
-     * <code>required .saloonService.ResultType rstType = 1;</code>
-     *
-     * <pre>
-     *是否成功处理
-     * </pre>
+     * <code>required .saloonService.RequestType reqType = 1;</code>
      */
-    com.rwproto.SaloonServiceProto.ResultType getRstType();
+    com.rwproto.SaloonServiceProto.RequestType getReqType();
 
-    // optional string tipMsg = 2;
+    // required bool success = 2;
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>required bool success = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    boolean hasSuccess();
+    /**
+     * <code>required bool success = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    boolean getSuccess();
+
+    // optional string tipMsg = 3;
+    /**
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息，可以是成功，也可以是失败的提示消息
@@ -1749,7 +1688,7 @@ public final class SaloonServiceProto {
      */
     boolean hasTipMsg();
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息，可以是成功，也可以是失败的提示消息
@@ -1757,7 +1696,7 @@ public final class SaloonServiceProto {
      */
     java.lang.String getTipMsg();
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息，可以是成功，也可以是失败的提示消息
@@ -1819,17 +1758,22 @@ public final class SaloonServiceProto {
             }
             case 8: {
               int rawValue = input.readEnum();
-              com.rwproto.SaloonServiceProto.ResultType value = com.rwproto.SaloonServiceProto.ResultType.valueOf(rawValue);
+              com.rwproto.SaloonServiceProto.RequestType value = com.rwproto.SaloonServiceProto.RequestType.valueOf(rawValue);
               if (value == null) {
                 unknownFields.mergeVarintField(1, rawValue);
               } else {
                 bitField0_ |= 0x00000001;
-                rstType_ = value;
+                reqType_ = value;
               }
               break;
             }
-            case 18: {
+            case 16: {
               bitField0_ |= 0x00000002;
+              success_ = input.readBool();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
               tipMsg_ = input.readBytes();
               break;
             }
@@ -1873,45 +1817,61 @@ public final class SaloonServiceProto {
     }
 
     private int bitField0_;
-    // required .saloonService.ResultType rstType = 1;
-    public static final int RSTTYPE_FIELD_NUMBER = 1;
-    private com.rwproto.SaloonServiceProto.ResultType rstType_;
+    // required .saloonService.RequestType reqType = 1;
+    public static final int REQTYPE_FIELD_NUMBER = 1;
+    private com.rwproto.SaloonServiceProto.RequestType reqType_;
     /**
-     * <code>required .saloonService.ResultType rstType = 1;</code>
-     *
-     * <pre>
-     *是否成功处理
-     * </pre>
+     * <code>required .saloonService.RequestType reqType = 1;</code>
      */
-    public boolean hasRstType() {
+    public boolean hasReqType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .saloonService.ResultType rstType = 1;</code>
+     * <code>required .saloonService.RequestType reqType = 1;</code>
+     */
+    public com.rwproto.SaloonServiceProto.RequestType getReqType() {
+      return reqType_;
+    }
+
+    // required bool success = 2;
+    public static final int SUCCESS_FIELD_NUMBER = 2;
+    private boolean success_;
+    /**
+     * <code>required bool success = 2;</code>
      *
      * <pre>
      *是否成功处理
      * </pre>
      */
-    public com.rwproto.SaloonServiceProto.ResultType getRstType() {
-      return rstType_;
+    public boolean hasSuccess() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool success = 2;</code>
+     *
+     * <pre>
+     *是否成功处理
+     * </pre>
+     */
+    public boolean getSuccess() {
+      return success_;
     }
 
-    // optional string tipMsg = 2;
-    public static final int TIPMSG_FIELD_NUMBER = 2;
+    // optional string tipMsg = 3;
+    public static final int TIPMSG_FIELD_NUMBER = 3;
     private java.lang.Object tipMsg_;
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息，可以是成功，也可以是失败的提示消息
      * </pre>
      */
     public boolean hasTipMsg() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+      return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息，可以是成功，也可以是失败的提示消息
@@ -1932,7 +1892,7 @@ public final class SaloonServiceProto {
       }
     }
     /**
-     * <code>optional string tipMsg = 2;</code>
+     * <code>optional string tipMsg = 3;</code>
      *
      * <pre>
      *提示消息，可以是成功，也可以是失败的提示消息
@@ -1953,7 +1913,8 @@ public final class SaloonServiceProto {
     }
 
     private void initFields() {
-      rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
+      reqType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
+      success_ = false;
       tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
@@ -1961,7 +1922,11 @@ public final class SaloonServiceProto {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasRstType()) {
+      if (!hasReqType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasSuccess()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1973,10 +1938,13 @@ public final class SaloonServiceProto {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, rstType_.getNumber());
+        output.writeEnum(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTipMsgBytes());
+        output.writeBool(2, success_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTipMsgBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -1989,11 +1957,15 @@ public final class SaloonServiceProto {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, rstType_.getNumber());
+          .computeEnumSize(1, reqType_.getNumber());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTipMsgBytes());
+          .computeBoolSize(2, success_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2111,10 +2083,12 @@ public final class SaloonServiceProto {
 
       public Builder clear() {
         super.clear();
-        rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
+        reqType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
         bitField0_ = (bitField0_ & ~0x00000001);
-        tipMsg_ = "";
+        success_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -2146,9 +2120,13 @@ public final class SaloonServiceProto {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.rstType_ = rstType_;
+        result.reqType_ = reqType_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
+        }
+        result.success_ = success_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
         }
         result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
@@ -2167,11 +2145,14 @@ public final class SaloonServiceProto {
 
       public Builder mergeFrom(com.rwproto.SaloonServiceProto.CommonRspMsg other) {
         if (other == com.rwproto.SaloonServiceProto.CommonRspMsg.getDefaultInstance()) return this;
-        if (other.hasRstType()) {
-          setRstType(other.getRstType());
+        if (other.hasReqType()) {
+          setReqType(other.getReqType());
+        }
+        if (other.hasSuccess()) {
+          setSuccess(other.getSuccess());
         }
         if (other.hasTipMsg()) {
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
@@ -2180,7 +2161,11 @@ public final class SaloonServiceProto {
       }
 
       public final boolean isInitialized() {
-        if (!hasRstType()) {
+        if (!hasReqType()) {
+          
+          return false;
+        }
+        if (!hasSuccess()) {
           
           return false;
         }
@@ -2206,72 +2191,105 @@ public final class SaloonServiceProto {
       }
       private int bitField0_;
 
-      // required .saloonService.ResultType rstType = 1;
-      private com.rwproto.SaloonServiceProto.ResultType rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
+      // required .saloonService.RequestType reqType = 1;
+      private com.rwproto.SaloonServiceProto.RequestType reqType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
       /**
-       * <code>required .saloonService.ResultType rstType = 1;</code>
-       *
-       * <pre>
-       *是否成功处理
-       * </pre>
+       * <code>required .saloonService.RequestType reqType = 1;</code>
        */
-      public boolean hasRstType() {
+      public boolean hasReqType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .saloonService.ResultType rstType = 1;</code>
-       *
-       * <pre>
-       *是否成功处理
-       * </pre>
+       * <code>required .saloonService.RequestType reqType = 1;</code>
        */
-      public com.rwproto.SaloonServiceProto.ResultType getRstType() {
-        return rstType_;
+      public com.rwproto.SaloonServiceProto.RequestType getReqType() {
+        return reqType_;
       }
       /**
-       * <code>required .saloonService.ResultType rstType = 1;</code>
-       *
-       * <pre>
-       *是否成功处理
-       * </pre>
+       * <code>required .saloonService.RequestType reqType = 1;</code>
        */
-      public Builder setRstType(com.rwproto.SaloonServiceProto.ResultType value) {
+      public Builder setReqType(com.rwproto.SaloonServiceProto.RequestType value) {
         if (value == null) {
           throw new NullPointerException();
         }
         bitField0_ |= 0x00000001;
-        rstType_ = value;
+        reqType_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required .saloonService.ResultType rstType = 1;</code>
+       * <code>required .saloonService.RequestType reqType = 1;</code>
+       */
+      public Builder clearReqType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        reqType_ = com.rwproto.SaloonServiceProto.RequestType.Enter;
+        onChanged();
+        return this;
+      }
+
+      // required bool success = 2;
+      private boolean success_ ;
+      /**
+       * <code>required bool success = 2;</code>
        *
        * <pre>
        *是否成功处理
        * </pre>
        */
-      public Builder clearRstType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        rstType_ = com.rwproto.SaloonServiceProto.ResultType.SUCCESS;
+      public boolean hasSuccess() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required bool success = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>required bool success = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public Builder setSuccess(boolean value) {
+        bitField0_ |= 0x00000002;
+        success_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool success = 2;</code>
+       *
+       * <pre>
+       *是否成功处理
+       * </pre>
+       */
+      public Builder clearSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        success_ = false;
         onChanged();
         return this;
       }
 
-      // optional string tipMsg = 2;
+      // optional string tipMsg = 3;
       private java.lang.Object tipMsg_ = "";
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
       public boolean hasTipMsg() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+        return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息，可以是成功，也可以是失败的提示消息
@@ -2289,7 +2307,7 @@ public final class SaloonServiceProto {
         }
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息，可以是成功，也可以是失败的提示消息
@@ -2309,7 +2327,7 @@ public final class SaloonServiceProto {
         }
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息，可以是成功，也可以是失败的提示消息
@@ -2320,26 +2338,26 @@ public final class SaloonServiceProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         tipMsg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息，可以是成功，也可以是失败的提示消息
        * </pre>
        */
       public Builder clearTipMsg() {
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         tipMsg_ = getDefaultInstance().getTipMsg();
         onChanged();
         return this;
       }
       /**
-       * <code>optional string tipMsg = 2;</code>
+       * <code>optional string tipMsg = 3;</code>
        *
        * <pre>
        *提示消息，可以是成功，也可以是失败的提示消息
@@ -2350,7 +2368,7 @@ public final class SaloonServiceProto {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
+  bitField0_ |= 0x00000004;
         tipMsg_ = value;
         onChanged();
         return this;
@@ -2368,10 +2386,10 @@ public final class SaloonServiceProto {
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_saloonService_AreaPosition_descriptor;
+    internal_static_saloonService_Position_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_saloonService_AreaPosition_fieldAccessorTable;
+      internal_static_saloonService_Position_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_saloonService_CommonReqMsg_descriptor;
   private static
@@ -2391,42 +2409,43 @@ public final class SaloonServiceProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023SaloonService.proto\022\rsaloonService\"$\n\014" +
-      "AreaPosition\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\"\200\001\n\014C" +
-      "ommonReqMsg\022+\n\007reqType\030\001 \002(\0162\032.saloonSer" +
-      "vice.RequestType\022-\n\010position\030\002 \001(\0132\033.sal" +
-      "oonService.AreaPosition\022\024\n\014playerIdList\030" +
-      "\003 \003(\t\"J\n\014CommonRspMsg\022*\n\007rstType\030\001 \002(\0162\031" +
-      ".saloonService.ResultType\022\016\n\006tipMsg\030\002 \001(" +
-      "\t*Y\n\013RequestType\022\t\n\005Enter\020\001\022\t\n\005Leave\020\002\022\022" +
-      "\n\016InformPosition\020\003\022\021\n\rGetPlayerInfo\020\004\022\r\n" +
-      "\tAlreadyIn\020\005*#\n\nResultType\022\013\n\007SUCCESS\020\001\022",
-      "\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022SaloonServiceP" +
-      "roto"
+      "\n\023SaloonService.proto\022\rsaloonService\" \n\010" +
+      "Position\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\"\225\001\n\014Commo" +
+      "nReqMsg\022+\n\007reqType\030\001 \002(\0162\032.saloonService" +
+      ".RequestType\022-\n\nsaloonType\030\002 \002(\0162\031.saloo" +
+      "nService.SaloonType\022)\n\010position\030\003 \001(\0132\027." +
+      "saloonService.Position\"\\\n\014CommonRspMsg\022+" +
+      "\n\007reqType\030\001 \002(\0162\032.saloonService.RequestT" +
+      "ype\022\017\n\007success\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*7\n\013" +
+      "RequestType\022\t\n\005Enter\020\001\022\t\n\005Leave\020\002\022\022\n\016Upd" +
+      "atePosition\020\003*#\n\nResultType\022\013\n\007SUCCESS\020\001",
+      "\022\010\n\004FAIL\020\002**\n\nSaloonType\022\r\n\tWorldBoss\020\001\022" +
+      "\r\n\tGroupComp\020\002B!\n\013com.rwprotoB\022SaloonSer" +
+      "viceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_saloonService_AreaPosition_descriptor =
+          internal_static_saloonService_Position_descriptor =
             getDescriptor().getMessageTypes().get(0);
-          internal_static_saloonService_AreaPosition_fieldAccessorTable = new
+          internal_static_saloonService_Position_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_saloonService_AreaPosition_descriptor,
+              internal_static_saloonService_Position_descriptor,
               new java.lang.String[] { "X", "Y", });
           internal_static_saloonService_CommonReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_saloonService_CommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_saloonService_CommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Position", "PlayerIdList", });
+              new java.lang.String[] { "ReqType", "SaloonType", "Position", });
           internal_static_saloonService_CommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_saloonService_CommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_saloonService_CommonRspMsg_descriptor,
-              new java.lang.String[] { "RstType", "TipMsg", });
+              new java.lang.String[] { "ReqType", "Success", "TipMsg", });
           return null;
         }
       };

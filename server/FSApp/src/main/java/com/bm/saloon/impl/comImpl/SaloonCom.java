@@ -1,6 +1,7 @@
 package com.bm.saloon.impl.comImpl;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +17,7 @@ import com.bm.saloon.data.SaloonPosition;
 import com.bm.saloon.data.SaloonPositionHolder;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.netty.UserChannelMgr;
 
 public class SaloonCom {
 	
@@ -41,6 +43,8 @@ public class SaloonCom {
 	private SaloonPositionAction newAddSynAction = new SaloonPositionAction() {			
 		@Override
 		public void doAction(Player player, SaloonPosition position) {
+			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().toPlayer(player);
+			SaloonPlayerHolder.getInstance().synAddData(player, saloonPlayer);
 			SaloonPositionHolder.getInstance().synAddData(player, position);
 		}
 	};
@@ -48,6 +52,7 @@ public class SaloonCom {
 		@Override
 		public void doAction(Player player, SaloonPosition position) {
 			SaloonPositionHolder.getInstance().synRemoveData(player, position);
+			SaloonPlayerHolder.getInstance().synRemoveData(player, position.getId());
 		}
 	};
 	private SaloonPositionAction newUpdateSynAction = new SaloonPositionAction() {			
@@ -60,11 +65,24 @@ public class SaloonCom {
 	public void update() {
 		
 		handleQueueAction(newAddQueue, newAddSynAction);
-		handleQueueAction(removeQueue, newRemoveSynAction);
 		handleQueueAction(updateQueue, newUpdateSynAction);
+		
+		checkLogout();
+		handleQueueAction(removeQueue, newRemoveSynAction);
 		
 	}
 	
+	private void checkLogout() {
+		Enumeration<String> userIds = postionMap.keys();
+		while(userIds.hasMoreElements()){
+			String userId = userIds.nextElement();
+			if(UserChannelMgr.isLogout(userId)){
+				leave(userId);
+			}
+		}
+		
+	}
+
 	private List<Player> getSaloonPlayers(){
 		List<Player>  playerList = new ArrayList<Player>();
 		for (String userId : postionMap.keySet()) {
@@ -115,7 +133,7 @@ public class SaloonCom {
 		
 		List<SaloonPlayer> sPlayerList = new ArrayList<SaloonPlayer>();
 		for (String userId : postionMap.keySet()) {
-			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().getPlayer(userId);
+			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().getSaloonPlayer(userId);
 			sPlayerList.add(saloonPlayer);
 		}
 		SaloonPlayerHolder.getInstance().synAllData(player, sPlayerList);

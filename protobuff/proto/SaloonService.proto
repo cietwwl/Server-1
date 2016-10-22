@@ -7,9 +7,7 @@ package saloonService;
 enum RequestType{
 	Enter = 1;	//进入备战区
 	Leave = 2;	//离开备战区
-	InformPosition = 3;	//通知备战区的位置	
-	GetPlayerInfo = 4; //获取用户个体信息
-	AlreadyIn = 5;	//已经在备战区
+	UpdatePosition = 3;	//更新玩家自己的位置
 }
 
 enum ResultType {
@@ -18,26 +16,25 @@ enum ResultType {
 }
 
 //同屏所用在的功能块
-enum FunctionType {
+enum SaloonType {
 	WorldBoss = 1;
 	GroupComp = 2;
 }
 
 //同屏玩家坐标
-message AreaPosition{
+message Position{
 	required float x = 1;
 	required float y = 2;
 }
 
 message CommonReqMsg{
 	required RequestType reqType = 1;		//请求功能协议类型
-	required FunctionType funType = 2		//备战区被使用的功能模块
-	optional AreaPosition position = 3;		//玩家当前在备战区的位置
-	repeated string playerIdList = 4;	//请求同屏玩家的基本信息（list<string>）
+	required SaloonType saloonType = 2;		//备战区被使用的功能模块
+	optional Position position = 3;			//玩家自己的坐标信息
 }
 
-message CommonRspMsg{
-	required FunctionType funType = 1	//备战区被使用的功能模块
-	required ResultType rstType = 2; //是否成功处理
+message CommonRspMsg{	
+	required RequestType reqType = 1;
+	required bool success = 2; //是否成功处理
 	optional string tipMsg = 3;	//提示消息，可以是成功，也可以是失败的提示消息
 }

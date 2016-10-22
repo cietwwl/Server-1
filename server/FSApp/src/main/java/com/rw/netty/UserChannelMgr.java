@@ -654,4 +654,8 @@ public class UserChannelMgr {
 	public static Enumeration<FastPair<Command, AtomicLong>> getPurgeCount(){
 		return purgeStat.elements();
 	}
+	
+	public static boolean isLogout(String userId){
+		return !userChannelMap.containsKey(userId)&&!disconnectMap.containsKey(userId);
+	}
 }
