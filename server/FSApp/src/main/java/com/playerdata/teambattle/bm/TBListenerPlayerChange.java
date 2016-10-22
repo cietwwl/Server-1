@@ -48,4 +48,9 @@ public class TBListenerPlayerChange extends PlayerChangePopertySubscribe {
 	public static void heroChangeHandler(Player player){
 		UserTeamBattleDataHolder.getInstance().updateArmyInfoSimple(player);
 	}
+	
+	public static void playerChangeFashion(Player player){
+		if(null == player) return;
+		UserTeamBattleDataHolder.getInstance().updateUserTBFashion(player);
+	}
 }

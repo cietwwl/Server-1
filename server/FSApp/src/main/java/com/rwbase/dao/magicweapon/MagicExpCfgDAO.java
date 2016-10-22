@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.common.RefInt;
 import com.log.GameLog;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -42,41 +43,27 @@ public class MagicExpCfgDAO extends CfgCsvDao<MagicExpCfg> {
 		return result;
 	}
 	
-	public MagicExpCfg getInheritCfg(int level, HashMap<Integer, Integer> inheritItemMap){
+	public MagicExpCfg getInheritCfg(int level, int inheritExp){
 		MagicExpCfg magicExpCfg = magicCfgMap.get(level);
-		HashMap<Integer, Integer> consumeMap = new HashMap<Integer, Integer>();
-		consumeMap.put(magicExpCfg.getGoodsId(), magicExpCfg.getExp());
-		while (checkEnoughInheritItems(consumeMap, inheritItemMap)) {
+		RefInt consumeExp = new RefInt();
+		RefInt resourceExp = new RefInt(inheritExp);
+		consumeExp.value += magicExpCfg.getExp();
+		while (checkEnoughInheritExp(consumeExp, resourceExp)) {
 			level++;
 			if (magicCfgMap.containsKey(level)) {
 				magicExpCfg = magicCfgMap.get(level);
 			} else {
 				break;
 			}
-			int goodsId = magicExpCfg.getGoodsId();
 			int exp = magicExpCfg.getExp();
-			if (consumeMap.containsKey(goodsId)) {
-				Integer value = consumeMap.get(goodsId);
-				consumeMap.put(goodsId, exp + value);
-			} else {
-				consumeMap.put(goodsId, exp);
-			}
+			consumeExp.value+=exp;
+			
 		}
 		return magicExpCfg;
 	}
 	
-	private boolean checkEnoughInheritItems(HashMap<Integer, Integer> consumeMap, HashMap<Integer, Integer> sourceMap){
-		for (Iterator<Entry<Integer, Integer>> iterator = consumeMap.entrySet().iterator(); iterator.hasNext();) {
-			Entry<Integer, Integer> entry = iterator.next();
-			Integer modelId = entry.getKey();
-			Integer count = entry.getValue();
-			
-			Integer sourceCount = sourceMap.get(modelId);
-			if(sourceCount == null || count > sourceCount){
-				return false;
-			}
-		}
-		return true;
+	private boolean checkEnoughInheritExp(RefInt consumeExp, RefInt sourceExp){
+		return consumeExp.value <= sourceExp.value;
 	}
 
 	@Override
@@ -97,6 +84,18 @@ public class MagicExpCfgDAO extends CfgCsvDao<MagicExpCfg> {
 				continue;
 
 			}
+			String goodsId = cfg.getGoodsId();
+			String[] value = goodsId.split(";");
+			HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+			for (String str : value) {
+				String[] split = str.split("_");
+				if(split.length==2){
+					int goodId = Integer.parseInt(split[0]);
+					int goodCount = Integer.parseInt(split[1]);
+					map.put(goodId, goodCount);
+				}
+			}
+			cfg.setConsumeMap(map);
 
 			int level = cfg.getLevel();
 			if (level > maxLevel) {

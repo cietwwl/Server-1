@@ -6,6 +6,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
@@ -348,6 +349,10 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 			updater.submitRecordTask(searchId);
 		}
 		return true;
+	}
+	
+	public Map<K, T> getItemMap(){
+		return this.itemMap;
 	}
 
 	public T getItem(K key) {

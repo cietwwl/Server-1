@@ -1,8 +1,8 @@
 package com.rwbase.dao.hero.pojo;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Id;
 
@@ -29,9 +29,12 @@ public class FSUserHeroGlobalData {
 	private int startAll;
 	@JsonProperty("3")
 	private int fightingAll;
+//	@IgnoreSynField
+//	@JsonProperty("4")
+//	private List<String> fightingTeamHeroIds = new ArrayList<String>();
 	@IgnoreSynField
-	@JsonProperty("4")
-	private List<String> fightingTeamHeroIds = new ArrayList<String>();
+	@JsonProperty("5")
+	private Map<String, Integer> fightingTeamInfos = new HashMap<String, Integer>();
 
 	public FSUserHeroGlobalData() {
 	}
@@ -64,12 +67,30 @@ public class FSUserHeroGlobalData {
 		this.fightingAll = fightingAll;
 	}
 
-	public List<String> getFightingTeamHeroIdsRO() {
-		return Collections.unmodifiableList(fightingTeamHeroIds);
+//	public List<String> getFightingTeamHeroIdsRO() {
+//		return Collections.unmodifiableList(fightingTeamHeroIds);
+//	}
+//
+//	public void setFightingTeamHeroIds(List<String> fightingTeamHeroIds) {
+//		this.fightingTeamHeroIds = new ArrayList<String>(fightingTeamHeroIds);
+//	}
+	
+	public Map<String, Integer> getFightingTeamInfosRO() {
+		return Collections.unmodifiableMap(fightingTeamInfos);
 	}
-
-	public void setFightingTeamHeroIds(List<String> fightingTeamHeroIds) {
-		this.fightingTeamHeroIds = new ArrayList<String>(fightingTeamHeroIds);
+	
+	public void setFightingTeamInfos(Map<String, Integer> map) {
+		this.fightingTeamInfos = new HashMap<String, Integer>(map);
+	}
+	
+	public Integer getFighting(String heroId) {
+		return fightingTeamInfos.get(heroId);
+	}
+	
+	public void updateHeroFighting(String heroId, int nowFighting) {
+		if(fightingTeamInfos.containsKey(heroId)) {
+			fightingTeamInfos.put(heroId, nowFighting);
+		}
 	}
 
 	public String getUserId() {

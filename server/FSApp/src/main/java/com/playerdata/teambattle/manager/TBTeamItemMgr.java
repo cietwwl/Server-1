@@ -32,7 +32,6 @@ import com.playerdata.teambattle.enums.TBMemberState;
 import com.rw.fsutil.util.DateUtils;
 
 public class TBTeamItemMgr{
-	
 	private HashMap<String, TBTeamNotFullContainer> tbContainerMap = new HashMap<String, TBTeamNotFullContainer>();
 	private static TBTeamItemMgr instance = new TBTeamItemMgr();
 	
@@ -115,7 +114,7 @@ public class TBTeamItemMgr{
 		}
 	}
 	
-	private void setTeamMemberTeams(TBTeamItem teamItem){
+	public void setTeamMemberTeams(TBTeamItem teamItem){
 		if(null == teamItem) return;
 		List<StaticMemberTeamInfo> memTeams = new ArrayList<StaticMemberTeamInfo>();
 		List<TeamMember> members = teamItem.getMembers();
@@ -141,7 +140,9 @@ public class TBTeamItemMgr{
 						teamInfo.setUserID(member.getUserID());
 						teamInfo.setHeroPosMap(heroPosMap);
 						teamInfo.setUserStaticTeam(ArmyInfoHelper.getSimpleInfo(member.getUserID(), "", (heroIDs.isEmpty() ? null : heroIDs)));
+						teamInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player));
 						utbMemData.setSelfTeamInfo(teamInfo);
+						
 					}
 				}
 				memTeams.add(utbMemData.getSelfTeamInfo());
@@ -278,5 +279,19 @@ public class TBTeamItemMgr{
 	public void addNewTeam(TBTeamItem teamItem) {
 		TBTeamItemHolder.getInstance().addNewTeam(teamItem);
 		changeTeamSelectable(teamItem);
+	}
+
+	/**
+	 * 获取一定数量的可加入队伍
+	 * @param player
+	 * @param hardID
+	 * @return
+	 */
+	public List<String> getCanJionTeams(Player player, String hardID, int getCount) {
+		TBTeamNotFullContainer container = tbContainerMap.get(hardID);
+		if(null == container) {
+			return new ArrayList<String>();
+		}
+		return container.getRandomTeam(getCount);
 	}
 }

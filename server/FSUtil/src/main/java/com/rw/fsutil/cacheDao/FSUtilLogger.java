@@ -1,21 +1,25 @@
 package com.rw.fsutil.cacheDao;
 
+import org.apache.log4j.Logger;
+
 public class FSUtilLogger {
 
+	private static Logger fsutilLog = Logger.getLogger("fsutilLog");
+	private static Logger infoLogger = Logger.getLogger("fsutilInfo");
+	
 	public static void error(String text) {
-		System.err.println("error(temp):" + text);
+		fsutilLog.error(text);
 	}
 
 	public static void error(String text, Throwable t) {
-		System.err.println("error(temp2):" +text);
-		t.printStackTrace();
+		fsutilLog.error(text, t);
 	}
 
 	public static void warn(String text) {
-		System.err.println(text);
+		fsutilLog.warn(text);
 	}
 
 	public static void info(String text) {
-		System.err.println(text);
+		infoLogger.info(text);
 	}
 }
