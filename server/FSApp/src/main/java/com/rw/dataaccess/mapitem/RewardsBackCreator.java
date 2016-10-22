@@ -17,7 +17,7 @@ public class RewardsBackCreator implements MapItemCreator<RewardBackItem>{
 	@Override
 	public boolean isOpen(MapItemValidateParam param) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 	
 	

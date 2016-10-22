@@ -12,7 +12,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RewardBackTodaySubItem {
-	private int id;//功能id
+	private String id;//功能id
 	private int maxCount;//今天最大次数
 	private int count;//今天已参与次数
 	
@@ -24,14 +24,15 @@ public class RewardBackTodaySubItem {
 //	private int perfectType;
 //	private int perfectCost;
 	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public int getMaxCount() {
 		return maxCount;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public void setMaxCount(int maxCount) {
 		this.maxCount = maxCount;

@@ -17,6 +17,8 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.simple.ArmyInfoSimple;
@@ -615,6 +617,7 @@ public class TeamBattleBM {
 		teamMember.setFightStartTime(0);
 		TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		tbRsp.setRstType(TBResultType.SUCCESS);
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.teamBattle);
 	}
 
 	/**

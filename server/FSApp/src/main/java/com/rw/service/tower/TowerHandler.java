@@ -9,6 +9,8 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.TowerMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.army.ArmyInfo;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.log.BILogMgr;
@@ -530,6 +532,7 @@ public class TowerHandler {
 			TagTowerData towerData = getTowerData(player, 0, false);
 			response.setTowerData(towerData);
 			response.setTowerResultType(eTowerResultType.TOWER_SUCCESS);
+			UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.tower);
 		} else {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			GameLog.error("万仙阵重置数据", userId, "万仙阵个人的数据重置次数用完了。Reset Times less 1");

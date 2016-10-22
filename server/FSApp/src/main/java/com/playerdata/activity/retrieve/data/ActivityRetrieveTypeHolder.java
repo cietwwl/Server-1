@@ -14,6 +14,8 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroEnum;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroHelper;
 import com.playerdata.activity.limitHeroType.cfg.ActivityLimitHeroCfgDAO;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeEnum;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeHelper;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -62,7 +64,7 @@ public class ActivityRetrieveTypeHolder{
 	
 	
 	public RewardBackItem getItem(String userId){	
-		String itemId = ActivityLimitHeroHelper.getItemId(userId, ActivityLimitHeroEnum.LimitHero);
+		String itemId = ActivityRetrieveTypeHelper.getItemId(userId, ActivityRetrieveTypeEnum.retrieve);
 		return getItemStore(userId).getItem(itemId);
 	}
 	
@@ -103,7 +105,10 @@ public class ActivityRetrieveTypeHolder{
 	
 	public void synAllData(Player player){
 		List<RewardBackItem> itemList = getItemList(player.getUserId());
-		RewardBackItem item = itemList.get(0);
+		RewardBackItem item = new RewardBackItem();
+		if(!itemList.isEmpty()){
+			item = itemList.get(0);
+		}
 		ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 

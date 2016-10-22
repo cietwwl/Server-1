@@ -7,6 +7,8 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -101,6 +103,10 @@ public class UserGameDataMgr {
 					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
+					int tmp = tempPower - maxPower;//流失量
+					if(tmp > 0){
+						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.tower,tmp);
+					}
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);

@@ -7,6 +7,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.DailyActivityMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BILogTemplateHelper;
@@ -97,7 +98,7 @@ public class DailyActivityHandler {
 			List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
 			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
-			
+			UserFeatruesMgr.getInstance().checkDailyTask(player,entity.getCfg().getId());
 		}
 		else
 		{
@@ -140,6 +141,8 @@ public class DailyActivityHandler {
 					List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
 					String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
 					BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
+					UserFeatruesMgr.getInstance().checkDailyTask(player,entity.getCfg().getId());
+				
 				}else{
 					GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + data.getTaskId(), null);
 					continue;

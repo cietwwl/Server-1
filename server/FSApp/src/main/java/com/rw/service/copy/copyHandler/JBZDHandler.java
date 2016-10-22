@@ -5,6 +5,8 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
 import com.rw.service.copy.PvECommonHelper;
@@ -68,6 +70,7 @@ public class JBZDHandler {
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
 		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.COPY_TYPE_TRIAL_JBZD, copyCfg.getLevelID(), isWin,fightTime,rewardInfoActivity,0);
+		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.jbzd);
 		if(!isWin){
 			return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
 		}

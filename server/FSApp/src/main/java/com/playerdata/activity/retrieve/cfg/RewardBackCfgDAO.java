@@ -21,7 +21,7 @@ public class RewardBackCfgDAO extends CfgCsvDao<RewardBackCfg>{
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("rewardBack/RewardsBack.csv", RewardBackCfg.class);
 		for (RewardBackCfg cfgTmp : cfgCacheMap.values()) {		
 			parse(cfgTmp);
-		}		
+		}
 		return cfgCacheMap;
 	}
 

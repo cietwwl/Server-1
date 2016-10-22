@@ -20,7 +20,9 @@ public class RewardBackSubItem {
 	
 	private String perfectReward;//完美奖励
 	private int perfectType;
-	private int perfectCost;
+	private int perfectCost;	
+	
+
 	public int getId() {
 		return id;
 	}

@@ -1,9 +1,18 @@
 package com.playerdata.activity.retrieve;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
+import com.playerdata.UserGameDataMgr;
+import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
@@ -11,9 +20,16 @@ import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
 import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
+import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rwbase.common.enu.eSpecialItemId;
+import com.rwbase.dao.user.UserGameData;
+import com.rwbase.dao.user.UserGameDataHolder;
 
 public class ActivityRetrieveTypeMgr {
+	
+	private static final int normal = 0;
+	private static final int perfect = 1;
 	
 	private static ActivityRetrieveTypeMgr instance = new ActivityRetrieveTypeMgr();
 	
@@ -52,12 +68,13 @@ public class ActivityRetrieveTypeMgr {
 		if(itemStore.getItem(itemId) != null){
 			return addItemList;
 		}
+		Player player = PlayerMgr.getInstance().find(userId);
 		RewardBackItem item = new RewardBackItem();
 		item.setId(itemId);
 		item.setUserId(userId);
 		item.setLastSingleTime(System.currentTimeMillis());
 		List<RewardBackTodaySubItem> subTodayItemList = new ArrayList<RewardBackTodaySubItem>();
-		subTodayItemList = UserFeatruesMgr.getInstance().doCreat(userId);
+		subTodayItemList = UserFeatruesMgr.getInstance().doCreat(player);
 		item.setTodaySubitemList(subTodayItemList);
 		List<RewardBackSubItem> subItemList = new ArrayList<RewardBackSubItem>();
 		item.setSubList(subItemList);
@@ -75,28 +92,102 @@ public class ActivityRetrieveTypeMgr {
 			return;
 		}
 		for(RewardBackItem item : itemList){
-//			if (ActivityTypeHelper.isNewDayHourOfActivity(5, targetItem.getLastTime())) {
-//				sendEmailIfGiftNotTaken(player, targetItem.getSubItemList());
-//				targetItem.reset(targetCfg);
-//				dataHolder.updateItem(player, targetItem);
-//			}
 			if(ActivityTypeHelper.isNewDayHourOfActivity(5, item.getLastSingleTime())){
 				List<RewardBackSubItem> subItemList = new ArrayList<RewardBackSubItem>();
 				subItemList = UserFeatruesMgr.getInstance().doFresh(player.getUserId(),item.getTodaySubitemList());
 				item.setSubList(subItemList);
 				List<RewardBackTodaySubItem> subTodayItemList = new ArrayList<RewardBackTodaySubItem>();
-				subTodayItemList = UserFeatruesMgr.getInstance().doCreat(player.getUserId());
+				subTodayItemList = UserFeatruesMgr.getInstance().doCreat(player);
 				item.setTodaySubitemList(subTodayItemList);
 				item.setLastSingleTime(System.currentTimeMillis());
 				dataHolder.updateItem(player, item);
 			}			
 		}		
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	public ActivityComResult retrieve(Player player, String typeId, int costType) {
+		ActivityComResult result = ActivityComResult.newInstance(false);		
+		if(costType != normal && costType != perfect){
+			result.setReason("无效的找回类型");
+			return result;
+		}
+		UserFeaturesEnum iEnum = UserFeaturesEnum.getById(typeId);
+		if(iEnum == null){
+			result.setReason("无效的功能类型");
+			return result;
+		}
+		String userId= player.getUserId();
+		ActivityRetrieveTypeHolder dataHolder =ActivityRetrieveTypeHolder.getInstance();
+		
+		RewardBackItem item = dataHolder.getItem(userId);
+		if(item == null) {
+			GameLog.error(LogModule.ComActivityRetrieve, userId, "异常了", null);
+			result.setReason("");
+			return result;
+		}
+		List<RewardBackSubItem> subItemList = item.getSubList();
+		if(subItemList == null){
+			GameLog.error(LogModule.ComActivityRetrieve, userId, "异常了，list", null);
+			result.setReason("");
+			return result;
+		}
+		RewardBackSubItem subItem = null;
+		for(RewardBackSubItem tmp : subItemList){
+			if(StringUtils.equals(tmp.getId()+"", typeId)){
+				subItem = tmp ;
+				break;
+			}
+		}
+		if(subItem == null){
+			result.setReason("没找到昨日的未完成数据");
+			return result;
+		}
+		result = checkEnoughByType(player,costType,subItem);
+		if(result.isSuccess()){
+			dataHolder.updateItem(player, item);
+		}
+		return result;
+	}
+
+	private ActivityComResult checkEnoughByType(Player player, int retrieveType, RewardBackSubItem subItem) {
+		ActivityComResult result = ActivityComResult.newInstance(false);	
+		int tmp = 0;
+		int type = 0;//货币类型
+		String rewards = null;
+		if(retrieveType == normal){
+			tmp = subItem.getNormalCost();
+			rewards = subItem.getNormalReward();
+			type = subItem.getNormalType();
+		}else{
+			tmp = subItem.getPerfectCost();
+			rewards = subItem.getNormalReward();
+			type = subItem.getPerfectType();
+		}
+		if(subItem.getCount() == subItem.getMaxCount()){
+			result.setReason("已经找回过了或者昨天该功能未开放");
+			return result;
+		}
+		if(type >= eSpecialItemId.eSpecial_End.getValue()){
+			result.setReason("货币类型不对，策划填错表");
+			return result;
+		}		
+		if(player.getReward(eSpecialItemId.getDef(type)) >= tmp){
+			result.setReason("找回成功");
+			result.setSuccess(true);
+			Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+			map.put(type, -tmp);
+			player.getItemBagMgr().useLikeBoxItem(null, null, map);	
+			
+			String[] reward = rewards.split(";");
+			for(String tmpreward : reward){
+				String[] str = tmpreward.split(":");
+				player.getItemBagMgr().addItem(Integer.parseInt(str[0]), Integer.parseInt(str[1]));				
+			}
+			subItem.setIstaken(true);
+			subItem.setCount(subItem.getMaxCount());
+		}else{
+			result.setReason("没有足够货币");
+		}
+		return result;
+	}	
 }
