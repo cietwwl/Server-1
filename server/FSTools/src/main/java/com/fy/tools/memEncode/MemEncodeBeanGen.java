@@ -99,6 +99,7 @@ public class MemEncodeBeanGen {
 	public static void main(String[] args) throws IOException {
 	
 		new MemEncodeBeanGen().doGen("CsFile");
+
 	}
 
 }

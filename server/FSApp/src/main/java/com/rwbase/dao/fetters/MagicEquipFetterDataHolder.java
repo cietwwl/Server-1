@@ -61,7 +61,7 @@ public class MagicEquipFetterDataHolder {
 	/**
 	 * 同步所有法宝神器羁绊数据
 	 * @param player
-	 * @param version 版本
+	 * @param version 版本 0表示强制同步
 	 */
 	public void synAllData(Player player, int version){
 		if(version != 0 && version == dataVersion.get()){
@@ -156,6 +156,7 @@ public class MagicEquipFetterDataHolder {
 		}
 		item.setFixEquipFetters(fetterIDs);
 		getItemStore().updateItem(item);
+		dataVersion.incrementAndGet();
 		
 	}
 	
@@ -226,6 +227,7 @@ public class MagicEquipFetterDataHolder {
 		
 		item.setMagicFetters(newList);
 		getItemStore().updateItem(item);
+		dataVersion.incrementAndGet();
 	}
 	
 	
