@@ -6,11 +6,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfg;
-import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
+import org.apache.commons.lang3.StringUtils;
+
+import com.playerdata.Player;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 
 
 /**
@@ -19,16 +25,25 @@ import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
  * @author aken
  */
 @SuppressWarnings("rawtypes")
-public abstract class UserActivityChecker<T extends RoleExtProperty> {
+public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
 	private ActivityDetector detector = ActivityDetector.getInstance();
+	
+	public List<T> getItemList(String userId){
+		return refreshActivity(userId);
+	}
+	
+	public T getItem(String userId, String cfgId){		
+		int id = Integer.parseInt(cfgId);
+		return getItemStore(userId).get(id);
+	}
 	
 	/**
 	 * 刷新活动
 	 * @param userId
 	 * @return
 	 */
-	public List<T> refreshActivity(String userId, ActivityType<?, T> type){
+	public List<T> refreshActivity(String userId){
 		List<T> afterRemove = removeExpireActivity(userId);
 		List<T> newAdd = addNewActivity(userId);
 		afterRemove.addAll(newAdd);
@@ -40,31 +55,33 @@ public abstract class UserActivityChecker<T extends RoleExtProperty> {
 	 * @param userId
 	 * @return 新添加的活动
 	 */
+	@SuppressWarnings("unchecked")
 	private List<T> addNewActivity(String userId){
-		List<ActivityDailyChargeCfg> activeDailyList = detector.getAllActivityOfType(Class<T>);
+		List<? extends ActivityCfgIF> activeDailyList = detector.getAllActivityOfType(getActivityType());
 		List<T> newAddItems = new ArrayList<T>();
-		ActivityDailyChargeSubCfgDAO  chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
-		for(ActivityDailyChargeCfg cfg : activeDailyList){
-//			String activityID = getActivityID(String.valueOf(cfg.getId()), userId);
-			ActivityDailyRechargeTypeItem item = itemStore.get(cfg.getId());
+		for(ActivityCfgIF cfg : activeDailyList){
+			T item = itemStore.get(cfg.getId());
 			if(null == item){
 				// 有新增的活动
-				item = new ActivityDailyRechargeTypeItem();
-				item.setId(cfg.getId());
-				item.setCfgId(String.valueOf(cfg.getId()));
-				item.setUserId(userId);
-				item.setVersion(cfg.getVersion());
-				List<ActivityDailyRechargeTypeSubItem> subItemList = new ArrayList<ActivityDailyRechargeTypeSubItem>();
-				List<String> todaySubs = chargeSubCfgDAO.getTodaySubActivity(String.valueOf(cfg.getId()));
-				for(String subId : todaySubs){
-					ActivityDailyRechargeTypeSubItem subItem = new ActivityDailyRechargeTypeSubItem();
-					subItem.setCfgId(subId);
-					subItem.setGet(false);
-					subItemList.add(subItem);
+				item = (T) getActivityType().getNewActivityTypeItem();
+				if(null != item){
+					item.setId(cfg.getId());
+					item.setCfgId(String.valueOf(cfg.getId()));
+					item.setUserId(userId);
+					item.setVersion(cfg.getVersion());
+					List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
+					List<String> todaySubs = getTodaySubActivity(String.valueOf(cfg.getId()));
+					for(String subId : todaySubs){
+						ActivityTypeSubItemIF subItem = getActivityType().getNewActivityTypeSubItem();
+						if(null != subItem){
+							subItem.setCfgId(subId);
+							subItemList.add(subItem);
+						}
+					}
+					item.setSubItemList(subItemList);
+					newAddItems.add(item);
 				}
-				item.setSubItemList(subItemList);
-				newAddItems.add(item);
 			}
 		}
 		try {
@@ -82,15 +99,14 @@ public abstract class UserActivityChecker<T extends RoleExtProperty> {
 	 */
 	private ArrayList<T> removeExpireActivity(String userId){
 		List<Integer> removeList = new ArrayList<Integer>();
-		Map<String, ActivityDailyRechargeTypeItem> activeItemMap = new HashMap<String, ActivityDailyRechargeTypeItem>();
-		RoleExtPropertyStore<ActivityDailyRechargeTypeItem> rechargeStore = getItemStore(userId);
-		Enumeration<ActivityDailyRechargeTypeItem> mapEnum = rechargeStore.getExtPropertyEnumeration();
-		ActivityDetector detector = ActivityDetector.getInstance();
+		Map<Integer, T> activeItemMap = new HashMap<Integer, T>();
+		RoleExtPropertyStore<T> rechargeStore = getItemStore(userId);
+		Enumeration<T> mapEnum = rechargeStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
-			ActivityDailyRechargeTypeItem item = mapEnum.nextElement();
-			boolean isActive = detector.containsActivity(item.getCfgId());
+			T item = mapEnum.nextElement();
+			boolean isActive = detector.containsActivity(getActivityType(), item.getCfgId());
 			if(isActive){
-				activeItemMap.put(item.getId()+"", item);
+				activeItemMap.put(item.getId(), item);
 			}else{
 				//TODO 需要添加活动结束的事件
 				item.setClosed(true);
@@ -98,23 +114,42 @@ public abstract class UserActivityChecker<T extends RoleExtProperty> {
 			}
 		}
 		if(!removeList.isEmpty()) rechargeStore.removeItem(removeList);
-		return new ArrayList<ActivityDailyRechargeTypeItem>(activeItemMap.values());
+		return new ArrayList<T>(activeItemMap.values());
 	}
 	
-	private String getActivityID(String cfgId, String userId){
-		return cfgId + "_" + userId;
-	}
-
 	/**
 	 * 获取活动当前第几天
 	 * 
 	 * @return
 	 */
-	public int getCurrentDay(ActivityCfgIF cfg) {
+	private int getCurrentDay(ActivityCfgIF cfg) {
 		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / (24 * 60 * 60 * 1000)) + 1;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getTodaySubActivity(String cfgID){
+		List<String> todaySubs = new ArrayList<String>();
+		CfgCsvDao<? extends ActivityCfgIF> actDao = getActivityType().getActivityDao();
+		CfgCsvDao<? extends ActivitySubCfgIF> subDao = getActivityType().getSubActivityDao();
+		ActivityCfgIF cfg = actDao.getCfgById(cfgID);
+		if(null == cfg || null == subDao) return todaySubs;
+		if(!detector.isActive(cfg)) return todaySubs;
+		//还在活跃期内，取当天的数据
+		int todayNum = getCurrentDay(cfg);
+		for(ActivitySubCfgIF subCfg : subDao.getAllCfg()){
+			if(StringUtils.equals(subCfg.getDay(), String.valueOf(todayNum)) && 
+					StringUtils.equals(String.valueOf(subCfg.getType()), cfgID)){
+				todaySubs.add(String.valueOf(subCfg.getId()));
+			}
+		}
+		return todaySubs;
 	}
 	
 	public abstract RoleExtPropertyStore<T> getItemStore(String userId);
 	
 	public abstract ActivityType getActivityType();
+	
+	public abstract void updateItem(Player player, T item);
+	
+	public abstract void synAllData(Player player);
 }

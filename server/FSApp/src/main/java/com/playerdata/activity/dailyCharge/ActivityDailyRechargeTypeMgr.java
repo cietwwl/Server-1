@@ -10,7 +10,6 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfg;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfg;
@@ -18,20 +17,15 @@ import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItemHolder;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
+import com.playerdata.activityCommon.AbstractActivityMgr;
+import com.playerdata.activityCommon.UserActivityChecker;
 
-public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
+public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDailyRechargeTypeItem> {
 
 	private static ActivityDailyRechargeTypeMgr instance = new ActivityDailyRechargeTypeMgr();
 
 	public static ActivityDailyRechargeTypeMgr getInstance() {
 		return instance;
-	}
-
-	public void synData(Player player) {
-		if(ActivityDetector.getInstance().hasDailyCharge()){
-			ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
-		}
-		
 	}
 
 	/**
@@ -50,12 +44,7 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 		}
 		ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
 	}
-
-	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时清空 */
-	public void checkActivityOpen(Player player) {
-		ActivityDailyRechargeTypeItemHolder.getInstance().refreshDailyRecharge(player.getUserId());
-	}
-
+	
 	/**
 	 * 领取充值奖励
 	 * 
@@ -73,7 +62,7 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 			result.setReason("活动尚未开启");
 		} else {
 			ActivityDailyRechargeTypeSubItem targetItem = null;
-			List<ActivityDailyRechargeTypeSubItem> subItemList = dataItem.getSubItemList();
+			List<ActivityDailyRechargeTypeSubItem> subItemList = (List<ActivityDailyRechargeTypeSubItem>) dataItem.getSubItemList();
 			for (ActivityDailyRechargeTypeSubItem itemTmp : subItemList) {
 				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
 					targetItem = itemTmp;
@@ -111,12 +100,6 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 		return result;
 	}
 
-	private boolean isLevelEnough(Player player, ActivityDailyChargeCfg cfg) {
-		if (null == cfg)
-			return false;
-		return player.getLevel() >= cfg.getLevelLimit();
-	}
-
 	private boolean takeGift(Player player, ActivityDailyRechargeTypeSubItem targetItem) {
 		ActivityDailyChargeSubCfg subCfg = ActivityDailyChargeSubCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
 		if (subCfg == null) {
@@ -127,92 +110,17 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 		ComGiftMgr.getInstance().addGiftById(player, subCfg.getGiftId());
 		return true;
 	}
-
-	/**
-	 * 设置活动是否被查看的红点
-	 */
-	public void updateRedPoint(Player player, String eNum) {
-		ActivityDailyRechargeTypeItemHolder activityDailyRechargeItemHolder = ActivityDailyRechargeTypeItemHolder.getInstance();
-		ActivityDailyChargeCfg cfg = ActivityDailyChargeCfgDAO.getInstance().getCfgById(eNum);
-		if (cfg == null) {
-			return;
-		}
-		ActivityDailyRechargeTypeItem dataItem = activityDailyRechargeItemHolder.getItem(player.getUserId(), eNum);
-		if (dataItem == null) {
-			GameLog.error(LogModule.ComActivityDailyRecharge, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
-			return;
-		}
-
-		if (!dataItem.isHasViewed()) {
-			dataItem.setHasViewed(true);
-		}
-		activityDailyRechargeItemHolder.updateItem(player, dataItem);
-	}
-
-	/**
-	 * 判断红点
-	 * 
-	 * @param player
-	 * @return
-	 */
-	public List<String> haveRedPoint(Player player) {
-		List<String> redPointList = new ArrayList<String>();
-		List<ActivityDailyRechargeTypeItem> items = ActivityDailyRechargeTypeItemHolder.getInstance().getItemList(player.getUserId());
-		if (null == items || items.isEmpty())
-			return redPointList;
-		ActivityDailyChargeSubCfgDAO chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
-		for (ActivityDailyRechargeTypeItem item : items) {
-			for (ActivityDailyRechargeTypeSubItem subItem : item.getSubItemList()) {
-				ActivityDailyChargeSubCfg subCfg = chargeSubCfgDAO.getCfgById(subItem.getCfgId());
-				if (null == subCfg)
-					continue;
-				if ((subCfg.getCount() <= item.getFinishCount() && !subItem.isGet()) || !item.isHasViewed()) {
-					redPointList.add(String.valueOf(item.getCfgId()));
-					break;
-				}
-			}
-		}
-		return redPointList;
-	}
 	
-	/**
-	 * 刷新每日充值
-	 * 
-	 * @param player
-	 */
-	public void dailyRefreshNewDaySubActivity(Player player) {
-		ActivityDailyRechargeTypeItemHolder itemHolder = ActivityDailyRechargeTypeItemHolder.getInstance();
-		ActivityDailyChargeSubCfgDAO chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
-		List<ActivityDailyRechargeTypeItem> items = itemHolder.getItemList(player.getUserId());
-		if (null == items || items.isEmpty()) {
-			return;
-		}
-		for (ActivityDailyRechargeTypeItem item : items) {
-			expireActivityEmail(player, item);
-			// 这里要看，充值是否累计
-			item.setFinishCount(0);
-			List<ActivityDailyRechargeTypeSubItem> subItemList = new ArrayList<ActivityDailyRechargeTypeSubItem>();
-			List<String> todaySubs = chargeSubCfgDAO.getTodaySubActivity(item.getCfgId());
-			for (String subId : todaySubs) {
-				ActivityDailyRechargeTypeSubItem subItem = new ActivityDailyRechargeTypeSubItem();
-				subItem.setCfgId(subId);
-				subItem.setGet(false);
-				subItemList.add(subItem);
-			}
-			item.setSubItemList(subItemList);
-			itemHolder.updateItem(player, item);
-		}
-		itemHolder.synAllData(player);
-	}
-
 	/**
 	 * 邮件补发过期未领取的奖励
 	 * 
 	 * @param player
 	 * @param item
 	 */
-	private void expireActivityEmail(Player player, ActivityDailyRechargeTypeItem item) {
-		List<ActivityDailyRechargeTypeSubItem> subItems = item.getSubItemList();
+	@Override
+	public void expireActivityHandler(Player player, ActivityDailyRechargeTypeItem item) {
+		super.expireActivityHandler(player, item);
+		List<ActivityDailyRechargeTypeSubItem> subItems = (List<ActivityDailyRechargeTypeSubItem>) item.getSubItemList();
 		ActivityDailyChargeCfg cfg = ActivityDailyChargeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if (isLevelEnough(player, cfg)) {
 			ActivityDailyChargeSubCfgDAO chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
@@ -227,5 +135,30 @@ public class ActivityDailyRechargeTypeMgr implements ActivityRedPointUpdate {
 				}
 			}
 		}
+	}
+
+	@Override
+	protected List<String> checkRedPoint(ActivityDailyRechargeTypeItem item) {
+		List<String> redPointList = new ArrayList<String>();
+		ActivityDailyChargeSubCfgDAO subCfgDao = ActivityDailyChargeSubCfgDAO.getInstance();
+		List<ActivityDailyRechargeTypeSubItem> subItems = (List<ActivityDailyRechargeTypeSubItem>) item.getSubItemList();
+		for (ActivityDailyRechargeTypeSubItem subItem : subItems) {
+			ActivityDailyChargeSubCfg subCfg = subCfgDao.getCfgById(subItem.getCfgId());
+			if (null == subCfg)
+				continue;
+			if ((subCfg.getCount() <= item.getFinishCount() && !subItem.isGet()) || !item.isHasViewed()) {
+				redPointList.add(String.valueOf(item.getCfgId()));
+				break;
+			}
+		}
+		return redPointList;
+	}
+	
+	protected UserActivityChecker<ActivityDailyRechargeTypeItem> getHolder(){
+		return ActivityDailyRechargeTypeItemHolder.getInstance();
+	}
+	
+	protected boolean isThisActivityIndex(int index){
+		return index < 120000 && index > 110000;
 	}
 }

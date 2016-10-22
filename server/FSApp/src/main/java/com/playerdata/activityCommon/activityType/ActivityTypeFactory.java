@@ -3,9 +3,12 @@ package com.playerdata.activityCommon.activityType;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
+import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
-import com.playerdata.activityCommon.ActivityType;
+import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
+import com.playerdata.activityCommon.activityType.exception.RepeatedActivityTypeException;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ActivityTypeFactory {
@@ -13,20 +16,25 @@ public class ActivityTypeFactory {
 	public static final ActivityType DailyRecharge;
 	private static List<ActivityType> typeList;
 	
-	static {
-		DailyRecharge = new ActivityType(1001, ActivityDailyChargeCfgDAO.class, ActivityDailyRechargeTypeItem.class);
+	static{
+		DailyRecharge = new ActivityType(1001, ActivityDailyChargeCfgDAO.class, ActivityDailyRechargeTypeItem.class, 
+				ActivityDailyChargeSubCfgDAO.class, ActivityDailyRechargeTypeSubItem.class, ActivityDailyRechargeTypeMgr.getInstance());
 		
 		typeList = new ArrayList<ActivityType>();
-		typeList.add(DailyRecharge);
+		addType(DailyRecharge);
 	}
 	
-	public List<ActivityType> getAllTypes(){
+	public static List<ActivityType> getAllTypes(){
 		return typeList;
 	}
 	
-	synchronized static void addType(ActivityType type){
-		List<ActivityType> newList = new ArrayList<ActivityType>(typeList);
-		newList.add(type);
-		typeList = newList;
+	public static void addType(ActivityType type){
+		for(ActivityType at : typeList){
+			if(at.getTypeId() == type.getTypeId()){
+				new RepeatedActivityTypeException("活动类型的id重复").printStackTrace();
+				return;
+			}
+		}
+		typeList.add(type);
 	}
 }

@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
+import com.rw.fsutil.cacheDao.CfgCsvDao;
+
 /**
  * 活动状态检测
  * 
@@ -14,7 +20,7 @@ import java.util.Map.Entry;
  */
 public class ActivityDetector {
 	
-	private Map<ActivityType1, HashMap<String, ActivityCfgIF>> activityMap = new HashMap<ActivityType1, HashMap<String, ActivityCfgIF>>();
+	private Map<Integer, HashMap<String, ? extends ActivityCfgIF>> activityMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
 	
 	private static ActivityDetector instance = new ActivityDetector();
 
@@ -22,11 +28,13 @@ public class ActivityDetector {
 		return instance;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void detectActive() {
-		Map<ActivityType1, HashMap<String, ActivityCfgIF>> currentTotalMap = new HashMap<ActivityType1, HashMap<String, ActivityCfgIF>>();
-		for(ActivityType1 activityType : ActivityType1.values()){
+		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
+		List<ActivityType> types = ActivityTypeFactory.getAllTypes();
+		for(ActivityType activityType : types){
 			HashMap<String, ActivityCfgIF> currentSubMap = new HashMap<String, ActivityCfgIF>();
-			List<? extends ActivityCfgIF> actCfgs = activityType.getDao().getAllCfg();
+			List<? extends ActivityCfgIF> actCfgs = activityType.getActivityDao().getAllCfg();
 			if (null != actCfgs && !actCfgs.isEmpty()) {
 				for (ActivityCfgIF cfg : actCfgs) {
 					if (isActive(cfg)) {
@@ -37,24 +45,27 @@ public class ActivityDetector {
 			if(isMapChanged(currentSubMap, activityMap.get(activityType))){
 				activityType.addVerStamp();
 			}
-			currentTotalMap.put(activityType, currentSubMap);
+			currentTotalMap.put(activityType.getTypeId(), currentSubMap);
 		}
 		activityMap = currentTotalMap;
 	}
 
-	public List<? extends ActivityCfgIF> getAllActivityOfType(ActivityType1 type) {
-		HashMap<String, ActivityCfgIF> subMap = activityMap.get(type);
+	@SuppressWarnings("unchecked")
+	public <C extends ActivityCfgIF, T extends ActivityTypeItemIF> List<C> getAllActivityOfType(ActivityType<? extends CfgCsvDao<C>, T> type) {
+		HashMap<String, C> subMap = (HashMap<String, C>) activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return Collections.emptyList();
-		return new ArrayList<ActivityCfgIF>(subMap.values());
+		return new ArrayList<C>(subMap.values());
 	}
 
-	public boolean hasActivityOfType(ActivityType1 type) {
-		HashMap<String, ActivityCfgIF> subMap = activityMap.get(type);
+	@SuppressWarnings("rawtypes")
+	public boolean hasActivityOfType(ActivityType type) {
+		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		return null != subMap && !subMap.isEmpty();
 	}
 
-	public boolean containsActivity(ActivityType1 type, String cfgId) {
-		HashMap<String, ActivityCfgIF> subMap = activityMap.get(type);
+	@SuppressWarnings("rawtypes")
+	public boolean containsActivity(ActivityType type, String cfgId) {
+		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return false;
 		return subMap.containsKey(cfgId);
 	}
@@ -74,15 +85,6 @@ public class ActivityDetector {
 		}
 		return false;
 	}
-
-	/**
-	 * 获取活动当前第几天
-	 * 
-	 * @return
-	 */
-	public int getCurrentDay(ActivityCfgIF cfg) {
-		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / (24 * 60 * 60 * 1000)) + 1;
-	}
 	
 	/**
 	 * 检查两个map是否一样
@@ -90,11 +92,11 @@ public class ActivityDetector {
 	 * @param oldMap
 	 * @return 一样返回false，不一样返回true
 	 */
-	private boolean isMapChanged(HashMap<String, ActivityCfgIF> currentMap, HashMap<String, ActivityCfgIF> oldMap){
-		if(currentMap.size() != oldMap.size() || null == oldMap){
+	private boolean isMapChanged(HashMap<String, ? extends ActivityCfgIF> currentMap, HashMap<String, ? extends ActivityCfgIF> oldMap){
+		if(null == oldMap || currentMap.size() != oldMap.size()){
 			return true;
 		}
-		for(Entry<String, ActivityCfgIF> entry : currentMap.entrySet()){
+		for(Entry<String, ? extends ActivityCfgIF> entry : currentMap.entrySet()){
 			ActivityCfgIF oldCfg = oldMap.get(entry.getKey());
 			if(null == oldCfg){
 				return true;

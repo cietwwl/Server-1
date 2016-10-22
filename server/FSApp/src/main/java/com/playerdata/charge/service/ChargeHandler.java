@@ -2,13 +2,8 @@ package com.playerdata.charge.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
-import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.ChargeResult;
-import com.playerdata.charge.cfg.ChargeCfgDao;
-import com.playerdata.charge.cfg.VipGiftCfg;
-import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsg;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonRspMsg;
 

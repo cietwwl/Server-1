@@ -10,7 +10,6 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;

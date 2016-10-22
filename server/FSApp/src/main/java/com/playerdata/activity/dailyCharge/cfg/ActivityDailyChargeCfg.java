@@ -1,6 +1,6 @@
 package com.playerdata.activity.dailyCharge.cfg;
 import com.common.BaseConfig;
-import com.playerdata.activityCommon.ActivityCfgIF;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.util.DateUtils;
 
 public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
