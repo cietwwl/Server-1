@@ -4,6 +4,7 @@ import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 
+@SuppressWarnings("rawtypes")
 public class ActivityType<D extends CfgCsvDao<? extends ActivityCfgIF>, T extends ActivityTypeItemIF> {
 	private int typeId;
 	private Class<D> activityDao;

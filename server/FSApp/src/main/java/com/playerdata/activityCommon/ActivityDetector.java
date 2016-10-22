@@ -18,6 +18,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
  * 
  * @author aken
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class ActivityDetector {
 	
 	private Map<Integer, HashMap<String, ? extends ActivityCfgIF>> activityMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
@@ -28,7 +29,6 @@ public class ActivityDetector {
 		return instance;
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void detectActive() {
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
 		List<ActivityType> types = ActivityTypeFactory.getAllTypes();
@@ -50,20 +50,17 @@ public class ActivityDetector {
 		activityMap = currentTotalMap;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <C extends ActivityCfgIF, T extends ActivityTypeItemIF> List<C> getAllActivityOfType(ActivityType<? extends CfgCsvDao<C>, T> type) {
 		HashMap<String, C> subMap = (HashMap<String, C>) activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return Collections.emptyList();
 		return new ArrayList<C>(subMap.values());
 	}
 
-	@SuppressWarnings("rawtypes")
 	public boolean hasActivityOfType(ActivityType type) {
 		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		return null != subMap && !subMap.isEmpty();
 	}
 
-	@SuppressWarnings("rawtypes")
 	public boolean containsActivity(ActivityType type, String cfgId) {
 		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return false;

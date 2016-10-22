@@ -39,7 +39,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 		}
 		T dataItem = getHolder().getItem(player.getUserId(), eNum);
 		if (dataItem == null) {
-			GameLog.error(LogModule.ComActivityDailyRecharge, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动数据", null);
+			GameLog.error(LogModule.ComActivity, player.getUserId(), "心跳传入id[" + eNum + "]获得的页签枚举无法找到活动数据", null);
 			return;
 		}
 		if (!dataItem.isHasViewed()) {
@@ -70,6 +70,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * 
 	 * @param player
 	 */
+	@SuppressWarnings("unchecked")
 	public void dailyRefreshNewDaySubActivity(Player player) {
 		List<T> items = getHolder().getItemList(player.getUserId());
 		if (null == items || items.isEmpty()) {
