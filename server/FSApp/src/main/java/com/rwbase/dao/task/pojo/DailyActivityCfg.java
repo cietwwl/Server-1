@@ -16,7 +16,7 @@ public class DailyActivityCfg {
 	private int maxLevel; // 最大生效等级
 	private int vip; // vip等级
 	private int maxVip; // 最大vip等级
-	private String mapId;// 开启关卡
+	private int mapId;// 开启关卡
 	private int taskInitNum;// 任务初始化数量
 	
 	private int BICode;//对应的日志code
@@ -141,11 +141,11 @@ public class DailyActivityCfg {
 		this.maxVip = maxVip;
 	}
 
-	public String getMapId() {
+	public int getMapId() {
 		return mapId;
 	}
 
-	public void setMapId(String mapId) {
+	public void setMapId(int mapId) {
 		this.mapId = mapId;
 	}
 
