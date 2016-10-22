@@ -13,6 +13,7 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private String endTimeStr; //结束时间
 	private long endTime;
 	private int version; //活动版本
+	private int isDailyRefresh;
 
 	public int getId() {
 		return id;
@@ -55,4 +56,9 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
  		startTime = DateUtils.YyyymmddhhmmToMillionseconds(startTimeStr);
 		endTime = DateUtils.YyyymmddhhmmToMillionseconds(endTimeStr);	
  	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return isDailyRefresh == 1;
+	}
 }

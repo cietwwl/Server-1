@@ -2,13 +2,15 @@ package com.playerdata.activityCommon.activityType;
 
 public interface ActivityCfgIF {
 	
-	int getId();
+	public int getId();
 	
-	long getStartTime();
+	public long getStartTime();
 	
-	long getEndTime();
+	public long getEndTime();
 	
 	public int getVersion();
 	
 	public int getLevelLimit();
+	
+	public boolean isDailyRefresh();
 }

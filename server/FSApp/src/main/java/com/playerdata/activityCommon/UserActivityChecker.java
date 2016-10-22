@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
@@ -108,7 +109,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			if(isActive){
 				activeItemMap.put(item.getId(), item);
 			}else{
-				//TODO 需要添加活动结束的事件
+				expireActivityHandler(userId, item);
 				item.setClosed(true);
 				removeList.add(item.getId());
 			}
@@ -123,6 +124,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 * @return
 	 */
 	private int getCurrentDay(ActivityCfgIF cfg) {
+		if(!cfg.isDailyRefresh()) return 1;
 		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / (24 * 60 * 60 * 1000)) + 1;
 	}
 	
@@ -143,6 +145,19 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			}
 		}
 		return todaySubs;
+	}
+	
+	/**
+	 * 重载该函数做活动过期处理
+	 * @param player
+	 * @param item
+	 */
+	@SuppressWarnings("unchecked")
+	private void expireActivityHandler(String userId, T item){
+		Player player = PlayerMgr.getInstance().find(userId);
+		if(null != player){
+			getActivityType().getActivityMgr().expireActivityHandler(player, item);
+		}
 	}
 	
 	public abstract RoleExtPropertyStore<T> getItemStore(String userId);

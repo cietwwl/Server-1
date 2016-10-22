@@ -42,7 +42,7 @@ public class ActivityDetector {
 					}
 				}
 			}
-			if(isMapChanged(currentSubMap, activityMap.get(activityType))){
+			if(isMapChanged(currentSubMap, activityMap.get(activityType.getTypeId()))){
 				activityType.addVerStamp();
 			}
 			currentTotalMap.put(activityType.getTypeId(), currentSubMap);

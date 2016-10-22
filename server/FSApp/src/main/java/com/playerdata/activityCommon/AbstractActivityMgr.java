@@ -11,6 +11,7 @@ import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
+import com.rw.fsutil.cacheDao.CfgCsvDao;
 
 
 @SuppressWarnings({ "rawtypes" })
@@ -77,18 +78,21 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 			return;
 		}
 		ActivityType activityType = getHolder().getActivityType();
+		CfgCsvDao<? extends ActivityCfgIF> actDao = activityType.getActivityDao();
 		for (T item : items) {
-			expireActivityHandler(player, item);
-			item.reset();
-			List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-			List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
-			for (String subId : todaySubs) {
-				ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
-				subItem.setCfgId(subId);
-				subItemList.add(subItem);
+			ActivityCfgIF cfg = actDao.getCfgById(item.getCfgId());
+			if(cfg.isDailyRefresh()){
+				expireActivityHandler(player, item);
+				List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
+				List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
+				for (String subId : todaySubs) {
+					ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
+					subItem.setCfgId(subId);
+					subItemList.add(subItem);
+				}
+				item.setSubItemList(subItemList);
+				getHolder().updateItem(player, item);
 			}
-			item.setSubItemList(subItemList);
-			getHolder().updateItem(player, item);
 		}
 		getHolder().synAllData(player);
 	}
@@ -114,7 +118,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param item
 	 */
 	public void expireActivityHandler(Player player, T item){
-		//Do Nothing...
+		item.reset();
 	}
 	
 	protected abstract UserActivityChecker<T> getHolder();
