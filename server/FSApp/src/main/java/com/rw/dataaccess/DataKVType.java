@@ -100,7 +100,6 @@ public enum DataKVType {
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
 	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),	
-	WB_USER_DATA(30, WBUserDataDao.class, WBUserDataCreator.class),
 	
 
 	// 精准营销数据
@@ -112,8 +111,9 @@ public enum DataKVType {
 	// 英雄模块的全局数据
 	USER_HERO_GLOBAL_DATA(33, FSUserHeroGlobalDataDAO.class, FSUserHeroGlobalDataCreator.class),
 	// 点赞的个人数据
-	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class);
+	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class),
 
+	WB_USER_DATA(35, WBUserDataDao.class, WBUserDataCreator.class);
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
 		this.typeValue = type;

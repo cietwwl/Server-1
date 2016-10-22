@@ -18,7 +18,8 @@ public class pvePrivilege extends AbstractConfigChargeSource<PvePrivilegeNames> 
   private int survivalResetCnt; // 生存幻境可重置次数
   private int teamBattleTimes;	//购买心魔录次数
   private int worldBossMaxBuyBuffCount;//购买世界boss的buff上限
-
+  private boolean worldBossAutoPlay;//是否可以开启世界boss自动战斗
+  
 	@Override
 	public String getSource() {
 		return source;
