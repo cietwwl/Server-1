@@ -142,6 +142,12 @@ public class DailyActivityMgr implements PlayerEventListener {
 		for (DailyActivityCfgEntity cfgEntity : subTypeList) {
 			if(cfgEntity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip) 
 					&& !finishMap.containsKey(cfgEntity.getCfg().getId()) && !hasNoRight(cfgEntity.getCfg(), playerLevel, playerVip)){
+				
+				//按策划要求，加入关卡开启条件  ---by Alex 10.22.2016
+				if(cfgEntity.getCfg().getMapId() != 0 && !player.getCopyRecordMgr().isCopyLevelPassed(cfgEntity.getCfg().getMapId())){
+					continue;
+				}
+				
 				newMission = cfgEntity;
 				break;
 			}
@@ -197,6 +203,9 @@ public class DailyActivityMgr implements PlayerEventListener {
 		List<DailyActivityData> removeList = taskItem.getRemoveTaskList();
 		List<Integer> firstInitTaskIds = taskItem.getFirstIncrementTaskIds();
 
+		
+		
+		
 		int playerLevel = player.getLevel();
 		int playerVip = player.getVip();
 		String userId = player.getUserId();
@@ -240,6 +249,10 @@ public class DailyActivityMgr implements PlayerEventListener {
 			} else {
 				// 检查开启条件
 				if (!entity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip)) {
+					continue;
+				}
+				//按策划要求，加入关卡开启条件  ---by Alex 10.22.2016
+				if(cfg.getMapId() != 0 && !player.getCopyRecordMgr().isCopyLevelPassed(cfg.getMapId())){
 					continue;
 				}
 				DailyActivityData data = new DailyActivityData();
@@ -313,6 +326,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 	public boolean hasNoRight(DailyActivityCfg cfg, int playerLevel, int playerVip) {
 		// return cfg.getMaxLevel() < player.getLevel() || player.getVip() <
 		// cfg.getVip() || cfg.getMaxVip() < player.getVip();
+		//根据策划要求，加入
 		return cfg.getMaxLevel() < playerLevel || playerVip < cfg.getVip() || cfg.getMaxVip() < playerVip;
 	}
 
@@ -387,7 +401,12 @@ public class DailyActivityMgr implements PlayerEventListener {
 				if (!entity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip)) {
 					continue;
 				}
-
+				//按策划要求，加入关卡开启条件  ---by Alex 10.22.2016
+				if(entity.getCfg().getMapId() != 0 && !player.getCopyRecordMgr().isCopyLevelPassed(entity.getCfg().getMapId())){
+					continue;
+				}
+				
+				
 				int currentProgress = taskData.getCurrentProgress();
 				currentProgress += count;
 				int totalProgress = entity.getTotalProgress();
