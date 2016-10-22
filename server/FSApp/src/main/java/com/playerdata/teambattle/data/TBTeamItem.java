@@ -104,6 +104,20 @@ public class TBTeamItem implements IMapItem{
 		}
 		return result;
 	}
+	
+	public void changeLeaderAfterFinish(String userID){
+		if(StringUtils.equals(userID, leaderID) && members.size() >= 2){
+			TeamMember member = findMember(userID);
+			if(null == member) return;
+			for(TeamMember mem : members){
+				if(mem.getState().equals(TBMemberState.Ready) 
+						|| mem.getState().equals(TBMemberState.Fight) 
+						|| mem.getState().equals(TBMemberState.HalfFinish)){
+					leaderID = mem.getUserID();
+				}
+			}
+		}
+	}
 
 	public boolean isCanFreeJion() {
 		return canFreeJion;

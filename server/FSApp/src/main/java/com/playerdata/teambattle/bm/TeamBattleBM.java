@@ -161,6 +161,7 @@ public class TeamBattleBM {
 		teamItem.addMember(tMem);
 		TBTeamItemHolder.getInstance().addNewTeam(teamItem);
 		utbData.setTeamID(teamID);
+		utbData.setMemPos("");
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		UserTeamBattleDataMgr.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(player);
@@ -459,6 +460,7 @@ public class TeamBattleBM {
 			MonsterCombinationCfg cfg = cfgMap.get(battleTime);
 			if(battleTime >= cfgMap.size()){
 				teamMember.setState(TBMemberState.Finish);
+				teamItem.changeLeaderAfterFinish(player.getUserId());
 				utbData.getFinishedHards().add(teamItem.getHardID());
 				if(cfg.getMail() != 0){
 					// EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
@@ -553,10 +555,23 @@ public class TeamBattleBM {
 			throw new JoinTeamException("加入失败");
 		}
 		utbData.setTeamID(canJionTeam.getTeamID());
+		utbData.setMemPos("");
 		
 		TBTeamItemHolder.getInstance().updateTeam(canJionTeam);
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		UserTeamBattleDataHolder.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(canJionTeam.getId());
+	}
+
+	public void saveMemPosition(Player player, Builder tbRsp, String memPos) {
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队副本数据异常");
+			return;
+		}
+		utbData.setMemPos(memPos);
+		UserTeamBattleDataHolder.getInstance().update(player, utbData);
+		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 }

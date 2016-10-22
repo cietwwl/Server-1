@@ -25,6 +25,9 @@ public class UserTeamBattleData {
 	private String teamID;
 	
 	@CombineSave
+	private String memPos;	//为前端保存成员上阵顺序
+	
+	@CombineSave
 	private int score;
 
 	@CombineSave
@@ -61,6 +64,14 @@ public class UserTeamBattleData {
 
 	public void setTeamID(String teamID) {
 		this.teamID = teamID;
+	}
+	
+	public String getMemPos() {
+		return memPos;
+	}
+
+	public void setMemPos(String memPos) {
+		this.memPos = memPos;
 	}
 
 	public List<Integer> getFinishedLoops() {
