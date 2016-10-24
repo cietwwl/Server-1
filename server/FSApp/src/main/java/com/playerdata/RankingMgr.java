@@ -132,6 +132,7 @@ public class RankingMgr {
 	public void checkRobotLevel() {
 		Ranking<LevelComparable, RankingLevelData> levelRanking = RankingFactory.getRanking(RankType.LEVEL_ROBOT);	
 		if (levelRanking.size() > 0) {
+			GameLog.error(LogModule.robotFriend, "", "重启发现机器人榜有数据，size =" + levelRanking.size()+"  榜id = " + RankType.LEVEL_ROBOT.getType(), null);
 			return;
 		}
 //		RankingEntityCopyer copyer = RankType.LEVEL_ROBOT.getEntityCopyer();
@@ -141,13 +142,18 @@ public class RankingMgr {
 			return;
 		}
 		ArrayList<RankingEntryData> rankingList = userToRankingEntryList(userList,RankType.LEVEL_ROBOT);
-		
+		if(rankingList == null || rankingList.isEmpty()){
+			GameLog.error(LogModule.COMMON, null, "取出的数据无法生成entrydata", null);
+			return;
+		}
+		GameLog.info("机器人好友", null, "机器人榜单处理开始，size = " + rankingList.size(), null);
 		for (int i = 1, size = rankingList.size(); i <= size; i++) {
 			RankingEntryData entry = rankingList.get(i - 1);
 			LevelComparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
 			RankingLevelData levelData = RankingUtils.createRankingLevelDataByEntryData(entry);
 			levelRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
 		}		
+		GameLog.info("机器人好友", null, "机器人榜单处理结束，size = " + rankingList.size(), null);
 	}
 	
 	/* 把实时排行榜数据拷贝到每日排行榜 */
