@@ -16,6 +16,7 @@ import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
+import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.netty.UserChannelMgr;
 import com.rw.netty.UserSession;
@@ -121,6 +122,7 @@ public class GameLogicTask implements PlayerTask {
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				synData = UserChannelMgr.getDataOnBSEnd(userId);
+				DataEventRecorder.endAndPollCollections();
 				// UserChannelMgr.synDataOnBSEnd(userId);
 			}
 		} catch (Throwable t) {
