@@ -1,4 +1,4 @@
-package com.rwbase.dao.spriteattach.pojo;
+package com.rwbase.dao.spriteattach;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.spriteattach.pojo.SpriteAttachAttrCfg;
 
 public class SpriteAttachAttrCfgDAO extends CfgCsvDao<SpriteAttachAttrCfg>{
 

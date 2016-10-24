@@ -9,7 +9,6 @@ import com.rw.dataaccess.hero.HeroExtPropertyCreator;
 import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfg;
-import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfgDAO;
 
 public class SpriteAttachSynCreator implements HeroExtPropertyCreator<SpriteAttachSyn>{
 

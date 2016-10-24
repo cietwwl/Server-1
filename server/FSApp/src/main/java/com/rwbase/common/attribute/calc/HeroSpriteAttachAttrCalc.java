@@ -10,11 +10,11 @@ import com.rwbase.common.attribute.AttributeSet;
 import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.common.attribute.IComponentCalc;
 import com.rwbase.common.attribute.param.SpriteAttachParam;
+import com.rwbase.dao.spriteattach.SpriteAttachAttrCfgDAO;
+import com.rwbase.dao.spriteattach.SpriteAttachCfgDAO;
 import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwbase.dao.spriteattach.pojo.SpriteAttachAttrCfg;
-import com.rwbase.dao.spriteattach.pojo.SpriteAttachAttrCfgDAO;
 import com.rwbase.dao.spriteattach.pojo.SpriteAttachCfg;
-import com.rwbase.dao.spriteattach.pojo.SpriteAttachCfgDAO;
 
 public class HeroSpriteAttachAttrCalc implements IComponentCalc{
 

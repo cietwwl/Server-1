@@ -8,8 +8,8 @@ import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.SpriteAttachFightingCfgDAO;
 import com.rwbase.dao.fighting.pojo.SpriteAttachFightingCfg;
 import com.rwbase.dao.spriteattach.SpriteAttachItem;
+import com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO;
 import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfg;
-import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfgDAO;
 
 public class FSGetSpriteAttachCurrentFightingOfSingleFunc implements IFunction<Hero, Integer>{
 

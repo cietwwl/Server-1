@@ -361,6 +361,13 @@
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCfgDAO" init-method="init" />
 	
+	<!-- 附灵 -->
+	<bean class="com.rwbase.dao.fighting.SpriteAttachFightingCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachAttrCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO" init-method="init" />
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

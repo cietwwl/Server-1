@@ -1,4 +1,4 @@
-package com.rwbase.dao.spriteattach.pojo;
+package com.rwbase.dao.spriteattach;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
+import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfg;
 
 public class SpriteAttachRoleCfgDAO extends CfgCsvDao<SpriteAttachRoleCfg>{
 
