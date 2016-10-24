@@ -1479,7 +1479,7 @@ public class GMHandler {
 	}
 
 	public boolean shutdownServer(String[] arrCommandContents, Player player) {
-		com.rw.manager.GameManager.shutdown();
+		System.exit(0);
 		return true;
 	}
 
