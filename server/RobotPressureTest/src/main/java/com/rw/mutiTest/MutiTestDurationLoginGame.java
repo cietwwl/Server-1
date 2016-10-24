@@ -23,9 +23,8 @@ public class MutiTestDurationLoginGame {
 	private static String preName = MutiTestAccount.preName;
 	//执行间隔 ms
 	private static long span = 1000L;
-
 	
-	private static ExecutorService executorService = Executors.newFixedThreadPool(totalCount);
+	private static ExecutorService executorService = Executors.newFixedThreadPool(100);
 	
 	private static AtomicInteger finishCount = new AtomicInteger(0);
 	private static AtomicInteger successCount = new AtomicInteger(0);
@@ -43,13 +42,14 @@ public class MutiTestDurationLoginGame {
 		
 		
 		final long startTime = System.currentTimeMillis();
-		
+		long startName  = 1014200000;
 		for (int i = start; i < start+ totalCount; i++) {
 			final int index = i;
+			final long name = startName + i;
 			executorService.submit(new Runnable() {
 				@Override
 				public void run() {
-					String accountId = preName+index;
+					String accountId = String.valueOf(name);
 					final Robot robot = Robot.newInstance(accountId);
 					boolean loginPlatformSuccess = robot.loginPlatform();
 					try {
