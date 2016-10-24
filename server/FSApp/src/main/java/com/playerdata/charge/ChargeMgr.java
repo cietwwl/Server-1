@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.targetSell.TargetSellManager;
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
@@ -28,13 +29,18 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
+import com.rwproto.ChargeServiceProto;
+import com.rwproto.MsgDef;
 
 public class ChargeMgr {
 
@@ -154,12 +160,17 @@ public class ChargeMgr {
 	}
 
 	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
+		int vipBefore = player.getVip();
 		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
-		if(target == null){//ios
-			itemId= chargeContentPojo.getPrivateField();
-			target = ChargeCfgDao.getInstance().getConfig(itemId);
-		}
+		String privateField = chargeContentPojo.getPrivateField();
+	    String[] split = privateField.split(",");
+	    String entranceId = split[1];
+	    if (target == null)
+	    {
+	      itemId = split[0];
+	      target = ChargeCfgDao.getInstance().getConfig(itemId);
+	    }
 		
 		
 		if(target!=null){
@@ -188,6 +199,10 @@ public class ChargeMgr {
 			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
 			if(success){
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
+				
+				registerBehavior(player);
+		        BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
+		        DataEventRecorder.endAndPollCollections();
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}else{
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
@@ -198,7 +213,15 @@ public class ChargeMgr {
 		return true;
 	}
 
-	
+	  private void registerBehavior(Player player)
+	  {
+	    MsgDef.Command command = MsgDef.Command.MSG_CHARGE;
+	    ChargeServiceProto.ChargeServiceCommonReqMsg.Builder req = ChargeServiceProto.ChargeServiceCommonReqMsg.newBuilder();
+	    req.setReqType(ChargeServiceProto.RequestType.Charge);
+	    ProtocolMessageEnum type = req.getReqType();
+	    String value = String.valueOf(type.getNumber());
+	    GameBehaviorMgr.getInstance().registerBehavior(player, command, type, value, 0);
+	  }
 	
 	
 
