@@ -22,6 +22,7 @@ public class SaloonHandler {
 
 	public ByteString enter(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
 		response.setSuccess(false);
 		
 		SaloonType saloonType = commonReq.getSaloonType();
@@ -45,6 +46,7 @@ public class SaloonHandler {
 	}
 	public ByteString updatePosition(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
 		response.setSuccess(true);
 		
 		SaloonType saloonType = commonReq.getSaloonType();
@@ -65,6 +67,7 @@ public class SaloonHandler {
 
 	public ByteString leave(Player player, CommonReqMsg commonReq) {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
 		response.setSuccess(true);
 		
 		SaloonType saloonType = commonReq.getSaloonType();

@@ -31,7 +31,7 @@ public class WBUserDataHolder {
 	}
 
 	public WBUserData get(String userId) {
-		boolean success = false;
+		boolean success = true;
 		WBUserData data = WBUserDataDao.getInstance().get(userId);
 		if(data==null){
 			data = WBUserData.newInstance(userId);			

@@ -20,8 +20,6 @@ public class SaloonService implements FsService<CommonReqMsg, RequestType> {
 		ByteString byteString = null;
 		try {
 			
-			player.getUserTmpGameDataFlag().setSynFightingAll(true);
-			
 			RequestType reqType = request.getReqType();
 			switch (reqType) {
 			case Enter:

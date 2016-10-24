@@ -132,11 +132,14 @@ public class SaloonCom {
 	public SaloonResult synAllPlayerInfo(Player player) {
 		
 		List<SaloonPlayer> sPlayerList = new ArrayList<SaloonPlayer>();
+		List<SaloonPosition> sPositionList = new ArrayList<SaloonPosition>();
 		for (String userId : postionMap.keySet()) {
+			sPositionList.add(postionMap.get(userId));
 			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().getSaloonPlayer(userId);
 			sPlayerList.add(saloonPlayer);
 		}
 		SaloonPlayerHolder.getInstance().synAllData(player, sPlayerList);
+		SaloonPositionHolder.getInstance().synAllData(player, sPositionList);
 		
 		return SaloonResult.newInstance(true);
 	}

@@ -132,6 +132,7 @@
      			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
      			
      			<entry key="MSG_PRAISE" value-ref="praiseService" />
+     			<entry key="MSG_SALOON" value-ref="saloonService" />
 			</map>
 		</property>
 	</bean>
@@ -236,4 +237,6 @@
 	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
 	
 	<bean id="praiseService" class="com.rw.service.praise.PraiseService" />
+	
+	<bean id="saloonService" class="com.bm.saloon.service.SaloonService" />
 </beans>  
