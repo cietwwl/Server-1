@@ -15,6 +15,7 @@ import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FashionMgrIF;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.NotifyChangeCallBack;
@@ -23,6 +24,7 @@ import com.rwbase.common.attribute.AttributeUtils;
 import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.fashion.FashionBuyRenewCfg;
+import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfg;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfg;
@@ -299,6 +301,18 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		checkExpired();
 		fashionItemHolder.synAllData(m_player, 0);
 		notifyProxy.checkDelayNotify();
+		//TODO 临时解决客户端木有时装配置的问题
+		FashionResponse.Builder fashionResponse = FashionResponse.newBuilder();
+		fashionResponse.setEventType(FashionEventType.getFashiondata);
+		FashionCommon.Builder common = FashionCommon.newBuilder();
+		FashionBuyRenewCfgDao cfgHelper = FashionBuyRenewCfgDao.getInstance();
+		common.setBuyRenewCfg(cfgHelper.getConfigProto());
+		String userId = m_player.getUserId();
+		FashionUsed.Builder fashion = m_player.getFashionMgr().getFashionUsedBuilder(userId);
+		common.setUsedFashion(fashion);
+		fashionResponse.setFashionCommon(common);
+		fashionResponse.setError(ErrorType.SUCCESS);
+		UserChannelMgr.sendAyncResponse(userId, MsgDef.Command.MSG_FASHION, fashionResponse.build().toByteString());
 	}
 
 	/**

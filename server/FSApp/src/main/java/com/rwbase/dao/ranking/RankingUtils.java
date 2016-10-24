@@ -6,6 +6,7 @@ import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefInt;
 import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.fsutil.ranking.impl.RankingEntryData;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.RankServiceProtos;
@@ -50,4 +51,11 @@ public class RankingUtils {
 	public static RankingLevelData createRankingLevelData(ListRankingEntry<String, ArenaExtAttribute> entry) {
 		return entity.createRankingLevelData(entry);
 	}
+	
+	/*通过一条RankingEntryData来创建一个排行榜实体*/
+	public static RankingLevelData createRankingLevelDataByEntryData(RankingEntryData entry) {
+		return entity.createRankingLevelDataByEntryData(entry);
+	}
+	
+	
 }

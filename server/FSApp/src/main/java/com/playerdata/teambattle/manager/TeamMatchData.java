@@ -31,7 +31,6 @@ public class TeamMatchData {
 		staticMemberTeamInfo.setUserStaticTeam(armySimpleInfo);
 		staticMemberTeamInfo.setUserID(armySimpleInfo.getPlayer().getId());
 		return staticMemberTeamInfo;
-		
 	}
 	
 }

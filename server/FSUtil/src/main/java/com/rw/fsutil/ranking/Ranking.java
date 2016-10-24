@@ -271,4 +271,5 @@ public interface Ranking<C extends Comparable<C>, E> {
 	 * @return
 	 */
 	public int lowerRanking(C condation);
+
 }

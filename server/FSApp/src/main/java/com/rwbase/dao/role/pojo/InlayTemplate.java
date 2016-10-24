@@ -1,6 +1,5 @@
 package com.rwbase.dao.role.pojo;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -34,38 +33,10 @@ public class InlayTemplate {
 		this.modelId = cfg.getRoleId();
 
 		// 宝石解锁等级
-		String openLvStr = cfg.getOpenLv();
-		if (!StringUtils.isEmpty(openLvStr)) {
-			String[] strArr = openLvStr.split(",");
-
-			int len = strArr.length;
-			List<Integer> openLv = new ArrayList<Integer>(len);
-
-			for (int i = 0; i < len; i++) {
-				openLv.add(Integer.valueOf(strArr[i]));
-			}
-
-			this.openLv = Collections.unmodifiableList(openLv);
-		} else {
-			this.openLv = Collections.unmodifiableList(Collections.EMPTY_LIST);
-		}
+		this.openLv = cfg.getOpenLevelList();
 
 		// 优先级
-		String priorStr = cfg.getPrior();
-		if (!StringUtils.isEmpty(priorStr)) {
-			String[] strArr = priorStr.split(",");
-
-			int len = strArr.length;
-			List<Integer> prior = new ArrayList<Integer>();
-
-			for (int i = 0; i < len; i++) {
-				prior.add(Integer.valueOf(strArr[i]));
-			}
-
-			this.prior = Collections.unmodifiableList(prior);
-		} else {
-			this.prior = Collections.unmodifiableList(Collections.EMPTY_LIST);
-		}
+		this.prior = cfg.getPriorityList();
 
 		this.extraNum1 = cfg.getExtraNum1();
 		this.extraNum2 = cfg.getExtraNum2();

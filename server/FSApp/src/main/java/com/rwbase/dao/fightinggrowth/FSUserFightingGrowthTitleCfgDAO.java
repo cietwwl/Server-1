@@ -32,7 +32,9 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 		String[] array = str.split(";");
 		for(int i = 0; i < array.length; i++) {
 			String[] single = array[i].split(",");
-			map.put(Integer.parseInt(single[0]), Integer.parseInt(single[1]));
+			if (single.length > 1 && single[0].trim().length() > 0) {
+				map.put(Integer.parseInt(single[0]), Integer.parseInt(single[1]));
+			}
 		}
 		return map;
 	}
