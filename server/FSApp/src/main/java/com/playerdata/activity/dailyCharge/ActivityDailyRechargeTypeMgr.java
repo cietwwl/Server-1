@@ -119,7 +119,6 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 	 */
 	@Override
 	public void expireActivityHandler(Player player, ActivityDailyRechargeTypeItem item) {
-		super.expireActivityHandler(player, item);
 		List<ActivityDailyRechargeTypeSubItem> subItems = (List<ActivityDailyRechargeTypeSubItem>) item.getSubItemList();
 		ActivityDailyChargeCfg cfg = ActivityDailyChargeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if (isLevelEnough(player, cfg)) {
@@ -135,6 +134,7 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 				}
 			}
 		}
+		item.reset();
 	}
 
 	@Override
