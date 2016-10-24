@@ -30,7 +30,7 @@ public class FSGetSpriteAttachCurrentFightingOfSingleFunc implements IFunction<H
 		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(hero.getModeId()));
 		List<SpriteAttachItem> spriteAttachItemList = SpriteAttachMgr.getInstance().getSpriteAttachHolder().getSpriteAttachItemList(hero.getUUId());
 		for (SpriteAttachItem spriteAttachItem : spriteAttachItemList) {
-			int id = spriteAttachItem.getId();
+			int id = spriteAttachItem.getSpriteAttachId();
 			int level = spriteAttachItem.getLevel();
 			if (spriteAttachRoleCfg != null) {
 				int index = spriteAttachRoleCfg.getIndex(id);

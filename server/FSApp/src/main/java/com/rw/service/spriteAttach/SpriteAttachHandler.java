@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.druid.sql.ast.expr.SQLCaseExpr.Item;
+import com.common.RefInt;
 import com.common.RefLong;
 import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
@@ -16,7 +18,9 @@ import com.playerdata.SpriteAttachMgr;
 import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
+import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
+import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.spriteattach.SpriteAttachCfgDAO;
 import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO;
@@ -68,6 +72,7 @@ public class SpriteAttachHandler {
 			return sendFailMsg("找不到对应的英雄的灵蕴信息!", res, requestType);
 		}
 		SpriteAttachMgr spriteAttachMgr = SpriteAttachMgr.getInstance();
+		SpriteAttachSyn synItem = spriteAttachMgr.getSpriteAttachHolder().getItemList(hero.getUUId()).get(0);
 		Map<Integer, SpriteAttachItem> itemMap = spriteAttachMgr.getSpriteAttachHolder().getSpriteAttachItemMap(hero.getUUId());
 		
 		SpriteAttachItem spriteAttachItem = itemMap.get(spriteAttachId);
@@ -106,10 +111,11 @@ public class SpriteAttachHandler {
 			return sendFailMsg("附灵配置的货币类型无效,附灵失败!", res, requestType);
 		}
 		
-		HashMap<Integer, Integer> consumeMap =new HashMap<Integer, Integer>();
 		RefLong cost = new RefLong();
-		List<IUseItem> useItemList = new ArrayList<IUseItem>(consumeMap.size());
-		calcConsume(materialsList, spriteAttachLevel, currentExp, levelCostPlanId, spriteAttachLevelCost, consumeMap, cost, useItemList);
+		RefInt upgradeLevel = new RefInt(spriteAttachLevel);
+		RefLong upgradeExp = new RefLong(currentExp);
+		List<IUseItem> useItemList = new ArrayList<IUseItem>(materialsList.size());
+		calcConsume(itemBagMgr, materialsList, upgradeLevel, upgradeExp, levelCostPlanId, spriteAttachLevelCost, cost, useItemList);
 		
 		Map<Integer, Integer> modifyMoneyMap = new HashMap<Integer, Integer>(1);
 		modifyMoneyMap.put(costType, -(int)(cost.value));
@@ -125,43 +131,50 @@ public class SpriteAttachHandler {
 			return sendFailMsg("法宝升级失败，消耗升级材料失败！", res, requestType);
 		}
 		
-		spriteAttachItem.setLevel(nextSpriteAttachLevel);
-		FSHeroThirdPartyDataMgr.getInstance().notifyAll();
+		spriteAttachItem.setLevel(upgradeLevel.value);
+		spriteAttachItem.setExp(upgradeExp.value);
+		SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, synItem);
+		res.setRequestType(requestType);
+		res.setReslutType(eSpriteAttachResultType.Success);
 		
 		return res.build().toByteString();
 	}
 	
 
-	private void calcConsume(List<spriteAttachMaterial> materialsList, int spriteAttachLevel, long currentExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, HashMap<Integer, Integer> consumeMap, RefLong Cost, List<IUseItem> useItemList) {
+	private void calcConsume(ItemBagMgr itemBagMgr, List<spriteAttachMaterial> materialsList, RefInt upgradeLevel, RefLong upgradeExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, RefLong Cost, List<IUseItem> useItemList) {
 		int totalCost = 0;
 		int materialsExp = 0;
-		SpriteAttachLevelCostCfg currentCfg = spriteAttachLevelCost;
+		
 		for (Iterator<spriteAttachMaterial> iterator = materialsList.iterator(); iterator.hasNext();) {
 			spriteAttachMaterial spriteAttachMaterial = (spriteAttachMaterial) iterator.next();
 			int itemModelId = spriteAttachMaterial.getItemModelId();
 			int count = spriteAttachMaterial.getCount();
 			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 			materialsExp += itemBaseCfg.getEnchantExp()* count;
-			consumeMap.put(itemModelId, count);
+			
+			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+			ItemData itemData = modelFirstItemDataMap.get(itemModelId);
+			useItemList.add(new UseItem(itemData.getId(), count));
 		}
 		
 		SpriteAttachLevelCostCfg levelCostCfg = spriteAttachLevelCost;
-		long tmpExp = currentExp;
-		int upgradeLevel = spriteAttachLevel;
 		while(materialsExp > 0){
 			long exp = levelCostCfg.getExp();
-			long upgradeExp = exp - tmpExp;
-			if(materialsExp > upgradeExp){
-				materialsExp -= upgradeExp;
-				totalCost += (exp - tmpExp) * levelCostCfg.getCostCount();
-				upgradeLevel++;
-				levelCostCfg = SpriteAttachLevelCostCfgDAO.getInstance().getSpriteAttachLevelCost(upgradeLevel, levelCostPlanId);
+			long uExp = exp - upgradeExp.value;
+			if(materialsExp > uExp){
+				
+				materialsExp -= uExp;
+				totalCost += (exp - upgradeExp.value) * levelCostCfg.getCostCount();
+				upgradeLevel.value++;
+				upgradeExp.value = 0;
+				levelCostCfg = SpriteAttachLevelCostCfgDAO.getInstance().getSpriteAttachLevelCost(upgradeLevel.value, levelCostPlanId);
 				if(levelCostCfg == null){
 					break;
 				}
 			}else{
-				materialsExp = 0;
+				upgradeExp.value += materialsExp;
 				totalCost += materialsExp * levelCostCfg.getCostCount();
+				materialsExp = 0;
 			}
 			
 		}

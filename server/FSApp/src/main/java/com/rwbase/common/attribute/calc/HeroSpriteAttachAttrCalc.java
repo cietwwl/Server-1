@@ -25,7 +25,7 @@ public class HeroSpriteAttachAttrCalc implements IComponentCalc{
 		List<SpriteAttachItem> items = spriteAttachParam.getItems();
 		HashMap<Integer, AttributeItem> map = new HashMap<Integer, AttributeItem>();
 		for (SpriteAttachItem spriteAttachItem : items) {
-			int id = spriteAttachItem.getId();
+			int id = spriteAttachItem.getSpriteAttachId();
 			SpriteAttachCfg spriteAttachCfg = SpriteAttachCfgDAO.getInstance().getCfgById(String.valueOf(id));
 			int levelPlanId = spriteAttachCfg.getLevelPlanId();
 			int level = spriteAttachItem.getLevel();

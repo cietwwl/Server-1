@@ -27,9 +27,10 @@ public class SpriteAttachSynCreator implements HeroExtPropertyCreator<SpriteAtta
 	@Override
 	public List<SpriteAttachSyn> firstCreate(HeroCreateParam params) {
 		// TODO Auto-generated method stub
+		int heroModelId = params.getModelId();
 		String heroId = params.getHeroId();
 		String userId = params.getUserId();
-		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(heroId);
+		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(heroModelId));
 		if (spriteAttachRoleCfg != null) {
 			List<SpriteAttachItem> list = new ArrayList<SpriteAttachItem>();
 			int spriteItem1 = spriteAttachRoleCfg.getSpriteItem1();
@@ -48,6 +49,7 @@ public class SpriteAttachSynCreator implements HeroExtPropertyCreator<SpriteAtta
 			List<SpriteAttachSyn> result = new ArrayList<SpriteAttachSyn>();
 			SpriteAttachSyn syn = new SpriteAttachSyn();
 			syn.setItems(list);
+			syn.setId(heroModelId);
 			syn.setOwnerId(heroId);
 			result.add(syn);
 			return result;
@@ -60,7 +62,7 @@ public class SpriteAttachSynCreator implements HeroExtPropertyCreator<SpriteAtta
 	
 	private void craeteSpriteAttach(int spriteAttachId, List<SpriteAttachItem> list){
 		SpriteAttachItem item = new SpriteAttachItem();
-		item.setId(spriteAttachId);
+		item.setSpriteAttachId(spriteAttachId);
 		item.setLevel(1);
 		list.add(item);
 	}

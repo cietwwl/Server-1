@@ -57,7 +57,7 @@ public class SpriteAttachHolder {
 		SpriteAttachSyn spriteAttachSyn = itemList.get(0);
 		List<SpriteAttachItem> items = spriteAttachSyn.getItems();
 		for (SpriteAttachItem spriteAttachItem : items) {
-			itemMap.put(spriteAttachItem.getId(), spriteAttachItem);
+			itemMap.put(spriteAttachItem.getSpriteAttachId(), spriteAttachItem);
 		}
 		
 		return itemMap;
@@ -66,10 +66,14 @@ public class SpriteAttachHolder {
 	public List<SpriteAttachItem> getSpriteAttachItemList(String heroId){
 		List<SpriteAttachItem> SpriteAttachItemList = new ArrayList<SpriteAttachItem>();
 		List<SpriteAttachSyn> itemList = getItemList(heroId);
-		SpriteAttachSyn spriteAttachSyn = itemList.get(0);
-		List<SpriteAttachItem> items = spriteAttachSyn.getItems();
-		for (SpriteAttachItem spriteAttachItem : items) {
-			SpriteAttachItemList.add(spriteAttachItem);
+		if (itemList != null && itemList.size() > 0) {
+			SpriteAttachSyn spriteAttachSyn = itemList.get(0);
+			if (spriteAttachSyn != null) {
+				List<SpriteAttachItem> items = spriteAttachSyn.getItems();
+				for (SpriteAttachItem spriteAttachItem : items) {
+					SpriteAttachItemList.add(spriteAttachItem);
+				}
+			}
 		}
 		return SpriteAttachItemList;
 	}

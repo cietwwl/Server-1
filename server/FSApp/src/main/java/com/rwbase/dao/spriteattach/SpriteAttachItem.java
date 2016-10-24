@@ -4,14 +4,14 @@ import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 public class SpriteAttachItem {
-	private int id;
+	private int spriteAttachId;
 	private int level; //附灵等级
 	private long exp;   //附灵经验
-	public int getId() {
-		return id;
+	public int getSpriteAttachId() {
+		return spriteAttachId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setSpriteAttachId(int id) {
+		this.spriteAttachId = id;
 	}
 	public int getLevel() {
 		return level;
