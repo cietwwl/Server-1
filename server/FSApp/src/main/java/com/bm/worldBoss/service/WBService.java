@@ -67,14 +67,14 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 
 	@Override
 	public CommonReqMsg parseMsg(Request request) throws InvalidProtocolBufferException {
-		// TODO Auto-generated method stub
-		return null;
+		CommonReqMsg msgRequest = CommonReqMsg.parseFrom(request.getBody().getSerializedContent());
+		return msgRequest;
 	}
 
 	@Override
 	public RequestType getMsgType(CommonReqMsg request) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return request.getReqType();
 	}
 
 

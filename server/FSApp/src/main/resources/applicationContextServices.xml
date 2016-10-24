@@ -133,6 +133,7 @@
      			
      			<entry key="MSG_PRAISE" value-ref="praiseService" />
      			<entry key="MSG_SALOON" value-ref="saloonService" />
+     			<entry key="MSG_WORLD_BOSS" value-ref="worldBossService" />
 			</map>
 		</property>
 	</bean>
@@ -239,4 +240,6 @@
 	<bean id="praiseService" class="com.rw.service.praise.PraiseService" />
 	
 	<bean id="saloonService" class="com.bm.saloon.service.SaloonService" />
+	
+	<bean id="worldBossService"  class="com.bm.worldBoss.service.WBService" />
 </beans>  

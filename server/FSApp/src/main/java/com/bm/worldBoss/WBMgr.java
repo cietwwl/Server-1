@@ -19,6 +19,7 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
+import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Woodstox;
 
 
 public class WBMgr {
@@ -183,6 +184,9 @@ public class WBMgr {
 
 	public boolean isSameBoss(int bossVersion) {
 		WBData wbData = WBDataHolder.getInstance().get();
+		if(wbData == null){
+			return false;
+		}
 		return wbData.getVersion() == bossVersion;
 	}
 	
