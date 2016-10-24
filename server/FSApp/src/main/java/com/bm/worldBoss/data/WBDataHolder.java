@@ -34,7 +34,7 @@ public class WBDataHolder {
 
 
 	public void syn(Player player, int versionP) {
-		if(versionP == -1 || version.get()!=versionP){
+		if(versionP == -1 || version.get() == versionP){
 			
 			WBData wbData = get();
 			if (wbData != null) {
