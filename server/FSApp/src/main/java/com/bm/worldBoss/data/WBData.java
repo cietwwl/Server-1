@@ -34,6 +34,7 @@ public class WBData {
 	private int version = 0;
 	//最后一击信息
 	private LastFightInfo lastFightInfo;
+	private long rankBossHP;//上一个boss总hp
 	
 	public static WBData newInstance(){
 		WBData data = new WBData();
@@ -188,6 +189,14 @@ public class WBData {
 		long killTimeCost = this.lastFightInfo.getTime()-this.startTime;
 		
 		return killTimeCost;
+	}
+
+	public long getRankBossHP() {
+		return rankBossHP;
+	}
+
+	public void setRankBossHP(long rankBossHP) {
+		this.rankBossHP = rankBossHP;
 	}
 
 
