@@ -111,7 +111,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 		realTimeMap.put(102, SWORDMAN_ARENA);
 		realTimeMap.put(103, MAGICAN_ARENA);
 		realTimeMap.put(104, PRIEST_ARENA);
-		realTimeMap.put(105, PEAK_ARENA_FIGHTING);
+		realTimeMap.put(105, PEAK_ARENA);
 		realTimeMap.put(201, FIGHTING_ALL);
 		realTimeMap.put(203, TEAM_FIGHTING);
 		realTimeMap.put(301, LEVEL_ALL);

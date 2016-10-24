@@ -372,7 +372,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		return heroSkillList;
 	}
 
-	private TablePeakArenaData getOrAddPeakArenaData(Player player, RefInt temp) {
+	/*private */TablePeakArenaData getOrAddPeakArenaData(Player player, RefInt temp) {
 		String userId = player.getUserId();
 		TablePeakArenaData data = tablePeakArenaDataDAO.get(userId);
 		if (data == null) {

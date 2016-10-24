@@ -254,7 +254,9 @@ public class PeakArenaHandler {
 			if(enemy.isRobot()) {
 				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaDataForRobot(enemy);
 			} else {
-				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(enemy);
+//				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(enemy);
+				// 2016-10-24 上面那个方法会检查openLevel，但是这里能获取到的数据，不应该再得到一个null，所以先暂时这样处理
+				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player, null);
 			}
 			info.setUserId(key);
 			info.setWinCount(otherArenaData.getWinCount());
@@ -349,8 +351,9 @@ public class PeakArenaHandler {
 //			team.setHeroSkills(heroSkillList);
 			String teamKey = "" + teamInfo.getTeamId();
 			List<BattleHeroPosition> heroPosList = teamInfo.getHeroPositionsList();
+			List<EmbattleHeroPosition> embattleHeroPosList = EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList);
 			// TODO 保存站位信息
-			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.PeakArenaPos_VALUE, teamKey, EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
+			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.PeakArenaPos_VALUE, teamKey, embattleHeroPosList);
 		}
 		TablePeakArenaDataDAO.getInstance().update(peakData);
 		response.setArenaData(getPeakArenaData(peakData, player));
