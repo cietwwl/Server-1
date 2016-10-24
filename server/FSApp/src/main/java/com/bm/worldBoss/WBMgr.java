@@ -11,6 +11,7 @@ import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
+import com.bm.worldBoss.rank.WBHurtRankMgr;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -43,7 +44,7 @@ public class WBMgr {
 	public void synWBData(Player player, int wbDataVersion){
 		
 		WBDataHolder.getInstance().syn(player, wbDataVersion);
-		
+		WBHurtRankMgr.syn(player);
 	}
 	
 	public boolean isBossDie(){

@@ -96,7 +96,7 @@ public class WBDataHolder {
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
 			data.setFinishTime(wbCfg.getFinishTime());
-			
+			data.setWbcfgId(wbCfg.getId());
 			boolean update = WBDataDao.getInstance().update(data);
 			
 			GameLog.info(LogModule.WorldBoss.getName(), "WBDataHolder[init]", "world boss update wbdata result: " + update);
