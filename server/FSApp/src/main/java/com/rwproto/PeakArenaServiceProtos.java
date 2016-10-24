@@ -9928,14 +9928,26 @@ public final class PeakArenaServiceProtos {
     // required string userId = 1;
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     boolean hasUserId();
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     java.lang.String getUserId();
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     com.google.protobuf.ByteString
         getUserIdBytes();
@@ -9943,34 +9955,62 @@ public final class PeakArenaServiceProtos {
     // optional bool win = 2;
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     boolean hasWin();
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     boolean getWin();
 
     // optional int32 placeUp = 3;
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     boolean hasPlaceUp();
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     int getPlaceUp();
 
     // optional string name = 4;
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     boolean hasName();
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     java.lang.String getName();
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -9978,14 +10018,26 @@ public final class PeakArenaServiceProtos {
     // optional string headImage = 5;
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     boolean hasHeadImage();
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     java.lang.String getHeadImage();
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     com.google.protobuf.ByteString
         getHeadImageBytes();
@@ -9993,42 +10045,128 @@ public final class PeakArenaServiceProtos {
     // optional int32 level = 6;
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     boolean hasLevel();
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     int getLevel();
 
     // optional int64 time = 7;
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     boolean hasTime();
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     long getTime();
 
     // optional int32 challenge = 8;
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     boolean hasChallenge();
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     int getChallenge();
 
     // required fixed32 recordId = 9;
     /**
      * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
      */
     boolean hasRecordId();
     /**
      * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
      */
     int getRecordId();
+
+    // optional fixed32 suitId = 10;
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    boolean hasSuitId();
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    int getSuitId();
+
+    // optional fixed32 gender = 11;
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    boolean hasGender();
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    int getGender();
+
+    // optional fixed32 vipLv = 12;
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    boolean hasVipLv();
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    int getVipLv();
   }
   /**
    * Protobuf type {@code ArenaRecord}
@@ -10126,6 +10264,21 @@ public final class PeakArenaServiceProtos {
               recordId_ = input.readFixed32();
               break;
             }
+            case 85: {
+              bitField0_ |= 0x00000200;
+              suitId_ = input.readFixed32();
+              break;
+            }
+            case 93: {
+              bitField0_ |= 0x00000400;
+              gender_ = input.readFixed32();
+              break;
+            }
+            case 101: {
+              bitField0_ |= 0x00000800;
+              vipLv_ = input.readFixed32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10171,12 +10324,20 @@ public final class PeakArenaServiceProtos {
     private java.lang.Object userId_;
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     public boolean hasUserId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     public java.lang.String getUserId() {
       java.lang.Object ref = userId_;
@@ -10194,6 +10355,10 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getUserIdBytes() {
@@ -10214,12 +10379,20 @@ public final class PeakArenaServiceProtos {
     private boolean win_;
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     public boolean hasWin() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     public boolean getWin() {
       return win_;
@@ -10230,12 +10403,20 @@ public final class PeakArenaServiceProtos {
     private int placeUp_;
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     public boolean hasPlaceUp() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     public int getPlaceUp() {
       return placeUp_;
@@ -10246,12 +10427,20 @@ public final class PeakArenaServiceProtos {
     private java.lang.Object name_;
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     public boolean hasName() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -10269,6 +10458,10 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -10289,12 +10482,20 @@ public final class PeakArenaServiceProtos {
     private java.lang.Object headImage_;
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     public boolean hasHeadImage() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     public java.lang.String getHeadImage() {
       java.lang.Object ref = headImage_;
@@ -10312,6 +10513,10 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getHeadImageBytes() {
@@ -10332,12 +10537,20 @@ public final class PeakArenaServiceProtos {
     private int level_;
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     public boolean hasLevel() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     public int getLevel() {
       return level_;
@@ -10348,12 +10561,20 @@ public final class PeakArenaServiceProtos {
     private long time_;
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     public boolean hasTime() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     public long getTime() {
       return time_;
@@ -10364,12 +10585,20 @@ public final class PeakArenaServiceProtos {
     private int challenge_;
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     public boolean hasChallenge() {
       return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     public int getChallenge() {
       return challenge_;
@@ -10380,15 +10609,95 @@ public final class PeakArenaServiceProtos {
     private int recordId_;
     /**
      * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
      */
     public boolean hasRecordId() {
       return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
      */
     public int getRecordId() {
       return recordId_;
+    }
+
+    // optional fixed32 suitId = 10;
+    public static final int SUITID_FIELD_NUMBER = 10;
+    private int suitId_;
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    public boolean hasSuitId() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    public int getSuitId() {
+      return suitId_;
+    }
+
+    // optional fixed32 gender = 11;
+    public static final int GENDER_FIELD_NUMBER = 11;
+    private int gender_;
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    public boolean hasGender() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    public int getGender() {
+      return gender_;
+    }
+
+    // optional fixed32 vipLv = 12;
+    public static final int VIPLV_FIELD_NUMBER = 12;
+    private int vipLv_;
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    public boolean hasVipLv() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    public int getVipLv() {
+      return vipLv_;
     }
 
     private void initFields() {
@@ -10401,6 +10710,9 @@ public final class PeakArenaServiceProtos {
       time_ = 0L;
       challenge_ = 0;
       recordId_ = 0;
+      suitId_ = 0;
+      gender_ = 0;
+      vipLv_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10449,6 +10761,15 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeFixed32(9, recordId_);
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeFixed32(10, suitId_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeFixed32(11, gender_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeFixed32(12, vipLv_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -10493,6 +10814,18 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(9, recordId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(10, suitId_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(11, gender_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(12, vipLv_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10628,6 +10961,12 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         recordId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
+        suitId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        gender_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        vipLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -10692,6 +11031,18 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000100;
         }
         result.recordId_ = recordId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.suitId_ = suitId_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.gender_ = gender_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.vipLv_ = vipLv_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10741,6 +11092,15 @@ public final class PeakArenaServiceProtos {
         if (other.hasRecordId()) {
           setRecordId(other.getRecordId());
         }
+        if (other.hasSuitId()) {
+          setSuitId(other.getSuitId());
+        }
+        if (other.hasGender()) {
+          setGender(other.getGender());
+        }
+        if (other.hasVipLv()) {
+          setVipLv(other.getVipLv());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -10780,12 +11140,20 @@ public final class PeakArenaServiceProtos {
       private java.lang.Object userId_ = "";
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public boolean hasUserId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public java.lang.String getUserId() {
         java.lang.Object ref = userId_;
@@ -10800,6 +11168,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getUserIdBytes() {
@@ -10816,6 +11188,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public Builder setUserId(
           java.lang.String value) {
@@ -10829,6 +11205,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public Builder clearUserId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -10838,6 +11218,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public Builder setUserIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10854,18 +11238,30 @@ public final class PeakArenaServiceProtos {
       private boolean win_ ;
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public boolean hasWin() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public boolean getWin() {
         return win_;
       }
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public Builder setWin(boolean value) {
         bitField0_ |= 0x00000002;
@@ -10875,6 +11271,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public Builder clearWin() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -10887,18 +11287,30 @@ public final class PeakArenaServiceProtos {
       private int placeUp_ ;
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public boolean hasPlaceUp() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public int getPlaceUp() {
         return placeUp_;
       }
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public Builder setPlaceUp(int value) {
         bitField0_ |= 0x00000004;
@@ -10908,6 +11320,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public Builder clearPlaceUp() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -10920,12 +11336,20 @@ public final class PeakArenaServiceProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -10940,6 +11364,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -10956,6 +11384,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public Builder setName(
           java.lang.String value) {
@@ -10969,6 +11401,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -10978,6 +11414,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -10994,12 +11434,20 @@ public final class PeakArenaServiceProtos {
       private java.lang.Object headImage_ = "";
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public boolean hasHeadImage() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public java.lang.String getHeadImage() {
         java.lang.Object ref = headImage_;
@@ -11014,6 +11462,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getHeadImageBytes() {
@@ -11030,6 +11482,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public Builder setHeadImage(
           java.lang.String value) {
@@ -11043,6 +11499,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public Builder clearHeadImage() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -11052,6 +11512,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public Builder setHeadImageBytes(
           com.google.protobuf.ByteString value) {
@@ -11068,18 +11532,30 @@ public final class PeakArenaServiceProtos {
       private int level_ ;
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public boolean hasLevel() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public int getLevel() {
         return level_;
       }
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public Builder setLevel(int value) {
         bitField0_ |= 0x00000020;
@@ -11089,6 +11565,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public Builder clearLevel() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -11101,18 +11581,30 @@ public final class PeakArenaServiceProtos {
       private long time_ ;
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public boolean hasTime() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public long getTime() {
         return time_;
       }
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public Builder setTime(long value) {
         bitField0_ |= 0x00000040;
@@ -11122,6 +11614,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -11134,18 +11630,30 @@ public final class PeakArenaServiceProtos {
       private int challenge_ ;
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public boolean hasChallenge() {
         return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public int getChallenge() {
         return challenge_;
       }
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public Builder setChallenge(int value) {
         bitField0_ |= 0x00000080;
@@ -11155,6 +11663,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public Builder clearChallenge() {
         bitField0_ = (bitField0_ & ~0x00000080);
@@ -11167,18 +11679,30 @@ public final class PeakArenaServiceProtos {
       private int recordId_ ;
       /**
        * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
        */
       public boolean hasRecordId() {
         return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
        */
       public int getRecordId() {
         return recordId_;
       }
       /**
        * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
        */
       public Builder setRecordId(int value) {
         bitField0_ |= 0x00000100;
@@ -11188,10 +11712,161 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
        */
       public Builder clearRecordId() {
         bitField0_ = (bitField0_ & ~0x00000100);
         recordId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 suitId = 10;
+      private int suitId_ ;
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public boolean hasSuitId() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public int getSuitId() {
+        return suitId_;
+      }
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public Builder setSuitId(int value) {
+        bitField0_ |= 0x00000200;
+        suitId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public Builder clearSuitId() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        suitId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 gender = 11;
+      private int gender_ ;
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public boolean hasGender() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public int getGender() {
+        return gender_;
+      }
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public Builder setGender(int value) {
+        bitField0_ |= 0x00000400;
+        gender_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public Builder clearGender() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        gender_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 vipLv = 12;
+      private int vipLv_ ;
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public boolean hasVipLv() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public int getVipLv() {
+        return vipLv_;
+      }
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public Builder setVipLv(int value) {
+        bitField0_ |= 0x00000800;
+        vipLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public Builder clearVipLv() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        vipLv_ = 0;
         onChanged();
         return this;
       }
@@ -23366,57 +24041,58 @@ public final class PeakArenaServiceProtos {
       "\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\t" +
       "qualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadF" +
       "rame\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.Fashi" +
-      "onService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\236\001\n\013A" +
+      "onService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\315\001\n\013A" +
       "renaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022" +
       "\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadIm",
       "age\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021" +
-      "\n\tchallenge\030\010 \001(\005\022\020\n\010recordId\030\t \002(\007\"y\n\021P" +
-      "eakArenaHeroData\022\016\n\006heroId\030\001 \002(\t\022\021\n\thead" +
-      "Image\030\002 \002(\t\022\r\n\005level\030\003 \002(\007\022\016\n\006starLv\030\004 \002" +
-      "(\007\022\021\n\tqualityId\030\005 \002(\t\022\017\n\007modelId\030\006 \001(\007\"4" +
-      "\n\022PeakArenaMagicData\022\017\n\007modelId\030\001 \002(\007\022\r\n" +
-      "\005level\030\002 \002(\007\"o\n\021PeakArenaUserData\022\014\n\004nam" +
-      "e\030\001 \002(\t\022$\n\010heroData\030\002 \003(\0132\022.PeakArenaHer" +
-      "oData\022&\n\tmagicData\030\003 \002(\0132\023.PeakArenaMagi" +
-      "cData\"e\n\025PeakArenaDetailRecord\022&\n\nchalle",
-      "nger\030\001 \002(\0132\022.PeakArenaUserData\022$\n\010defend" +
-      "er\030\002 \002(\0132\022.PeakArenaUserData\"\361\001\n\017MsgAren" +
-      "aRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eArenaType" +
-      "\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamIn" +
-      "fo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001" +
-      "(\010\022\017\n\007reorder\030\006 \003(\005\022\037\n\nhurtRecord\030\007 \003(\0132" +
-      "\013.HurtRecord\022\020\n\010recordId\030\010 \001(\007\022\021\n\thurtIn" +
-      "dex\030\t \001(\007\022\025\n\rscoreRewardId\030\n \001(\007\"\222\004\n\020Msg" +
-      "ArenaResponse\022\036\n\tarenaType\030\001 \002(\0162\013.eAren" +
-      "aType\022*\n\017arenaResultType\030\002 \001(\0162\021.eArenaR",
-      "esultType\022\035\n\tarenaData\030\003 \001(\0132\n.ArenaData" +
-      "\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n\nlistRe" +
-      "cord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place\030\006 \001(\005\022" +
-      "\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChallengeCount\030" +
-      "\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016currentBuyCos" +
-      "t\030\n \001(\005\022\026\n\016challengeCount\030\013 \001(\005\022\016\n\006cdTim" +
-      "e\030\014 \001(\005\022\033\n\023gainCurrencyPerHour\030\r \001(\005\022\021\n\t" +
-      "resetCost\030\016 \001(\005\022\017\n\007placeUp\030\017 \001(\005\0220\n\020chal" +
-      "lengeRecords\030\020 \003(\0132\026.PeakArenaDetailReco" +
-      "rd\022\037\n\nhurtDetail\030\021 \001(\0132\013.HurtRecord\022\032\n\022a",
-      "lreadyGetRewardId\030\022 \003(\007\022\024\n\014currentScore\030" +
-      "\023 \001(\007\"a\n\nHurtRecord\022\016\n\006teamId\030\001 \002(\007\022\037\n\013m" +
-      "yHurtValue\030\002 \003(\0132\n.HurtValue\022\"\n\016enemyHur" +
-      "tValue\030\003 \003(\0132\n.HurtValue\"*\n\tHurtValue\022\016\n" +
-      "\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\006*\234\003\n\neArenaT" +
-      "ype\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY\020\001\022\017\n\013C" +
-      "HANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n\nENEMY_" +
-      "INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_FIGHT_PR" +
-      "EPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n\022ARENA_" +
-      "FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r\n\tGET_P",
-      "LACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CHALLENGE" +
-      "_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016\022\031\n\025GET_SCOR" +
-      "E_REWARD_VIEW\020\017\022\024\n\020GET_SCORE_REWARD\020\020\022\030\n" +
-      "\024GET_ALL_SCORE_REWARD\020\021\022\016\n\nGET_RECORD\020\022\022" +
-      "\025\n\021GET_RECORD_DETAIL\020\023\022\023\n\017GET_HURT_DETAI" +
-      "L\020\024*5\n\020eArenaResultType\022\021\n\rARENA_SUCCESS" +
-      "\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026PeakA" +
-      "renaServiceProtos"
+      "\n\tchallenge\030\010 \001(\005\022\020\n\010recordId\030\t \002(\007\022\016\n\006s" +
+      "uitId\030\n \001(\007\022\016\n\006gender\030\013 \001(\007\022\r\n\005vipLv\030\014 \001" +
+      "(\007\"y\n\021PeakArenaHeroData\022\016\n\006heroId\030\001 \002(\t\022" +
+      "\021\n\theadImage\030\002 \002(\t\022\r\n\005level\030\003 \002(\007\022\016\n\006sta" +
+      "rLv\030\004 \002(\007\022\021\n\tqualityId\030\005 \002(\t\022\017\n\007modelId\030" +
+      "\006 \001(\007\"4\n\022PeakArenaMagicData\022\017\n\007modelId\030\001" +
+      " \002(\007\022\r\n\005level\030\002 \002(\007\"o\n\021PeakArenaUserData" +
+      "\022\014\n\004name\030\001 \002(\t\022$\n\010heroData\030\002 \003(\0132\022.PeakA" +
+      "renaHeroData\022&\n\tmagicData\030\003 \002(\0132\023.PeakAr",
+      "enaMagicData\"e\n\025PeakArenaDetailRecord\022&\n" +
+      "\nchallenger\030\001 \002(\0132\022.PeakArenaUserData\022$\n" +
+      "\010defender\030\002 \002(\0132\022.PeakArenaUserData\"\361\001\n\017" +
+      "MsgArenaRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eAr" +
+      "enaType\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t" +
+      ".TeamInfo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003" +
+      "win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\022\037\n\nhurtRecord" +
+      "\030\007 \003(\0132\013.HurtRecord\022\020\n\010recordId\030\010 \001(\007\022\021\n" +
+      "\thurtIndex\030\t \001(\007\022\025\n\rscoreRewardId\030\n \001(\007\"" +
+      "\222\004\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162",
+      "\013.eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021." +
+      "eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.Ar" +
+      "enaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n" +
+      "\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place" +
+      "\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChalleng" +
+      "eCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016curren" +
+      "tBuyCost\030\n \001(\005\022\026\n\016challengeCount\030\013 \001(\005\022\016" +
+      "\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyPerHour\030\r " +
+      "\001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007placeUp\030\017 \001(\005\022" +
+      "0\n\020challengeRecords\030\020 \003(\0132\026.PeakArenaDet",
+      "ailRecord\022\037\n\nhurtDetail\030\021 \001(\0132\013.HurtReco" +
+      "rd\022\032\n\022alreadyGetRewardId\030\022 \003(\007\022\024\n\014curren" +
+      "tScore\030\023 \001(\007\"a\n\nHurtRecord\022\016\n\006teamId\030\001 \002" +
+      "(\007\022\037\n\013myHurtValue\030\002 \003(\0132\n.HurtValue\022\"\n\016e" +
+      "nemyHurtValue\030\003 \003(\0132\n.HurtValue\"*\n\tHurtV" +
+      "alue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\006*\234\003\n\n" +
+      "eArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY" +
+      "\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n" +
+      "\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_F" +
+      "IGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n",
+      "\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r" +
+      "\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CH" +
+      "ALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016\022\031\n\025G" +
+      "ET_SCORE_REWARD_VIEW\020\017\022\024\n\020GET_SCORE_REWA" +
+      "RD\020\020\022\030\n\024GET_ALL_SCORE_REWARD\020\021\022\016\n\nGET_RE" +
+      "CORD\020\022\022\025\n\021GET_RECORD_DETAIL\020\023\022\023\n\017GET_HUR" +
+      "T_DETAIL\020\024*5\n\020eArenaResultType\022\021\n\rARENA_" +
+      "SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwproto" +
+      "B\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -23452,7 +24128,7 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaRecord_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaRecord_descriptor,
-              new java.lang.String[] { "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", "RecordId", });
+              new java.lang.String[] { "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", "RecordId", "SuitId", "Gender", "VipLv", });
           internal_static_PeakArenaHeroData_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_PeakArenaHeroData_fieldAccessorTable = new

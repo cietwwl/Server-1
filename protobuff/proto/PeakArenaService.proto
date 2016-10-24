@@ -93,15 +93,18 @@ message ArenaInfo{//保存对手概要信息
 }
 
 message ArenaRecord{
-	required string userId = 1;
-	optional bool win = 2;
-	optional int32 placeUp = 3;
-	optional string name = 4;
-	optional string headImage = 5;
-	optional int32 level = 6;
-	optional int64 time = 7;
-	optional int32 challenge = 8;
-	required fixed32 recordId = 9;
+	required string userId = 1; // 对手的userId
+	optional bool win = 2; // 是否胜利
+	optional int32 placeUp = 3; // 排名升降
+	optional string name = 4; // 对手的名字
+	optional string headImage = 5; // 头像资源
+	optional int32 level = 6; // 等级
+	optional int64 time = 7; // 记录产生的时间
+	optional int32 challenge = 8; // 0=防守，1=挑战
+	required fixed32 recordId = 9; // 记录的id
+	optional fixed32 suitId = 10; // 时装的套装id
+	optional fixed32 gender = 11; // 性别
+	optional fixed32 vipLv = 12; // VIP等级
 }
 
 message PeakArenaHeroData {

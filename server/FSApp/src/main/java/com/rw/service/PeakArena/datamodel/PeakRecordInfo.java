@@ -36,6 +36,12 @@ public class PeakRecordInfo implements RoleExtProperty {
 	private PeakArenaActionType actionType; // 防守还是挑战
 	@JsonProperty("10")
 	private List<PeakRecordDetail> details; // 详细信息
+	@JsonProperty("11")
+	private int fashionSuitId; // 时装套装id
+	@JsonProperty("12")
+	private int gender; // 性别
+	@JsonProperty("13")
+	private int vipLv; // VIP等级
 	
 	@Override
 	public Integer getId() {
@@ -116,6 +122,30 @@ public class PeakRecordInfo implements RoleExtProperty {
 	
 	public void setDetails(List<PeakRecordDetail> details) {
 		this.details = details;
+	}
+
+	public int getFashionSuitId() {
+		return fashionSuitId;
+	}
+	
+	public void setFashionSuitId(int fashionSuitId) {
+		this.fashionSuitId = fashionSuitId;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public int getVipLv() {
+		return vipLv;
+	}
+
+	public void setVipLv(int vipLv) {
+		this.vipLv = vipLv;
 	}
 	
 }
