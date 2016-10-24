@@ -143,6 +143,7 @@ enum eSynType	//数据同步类型
 	
 	PRAISE_SYN = 116;//点赞数据的同步
 	USER_GLOBAL_DATA_SYN = 117;//角色全局战力等数据的同步
+	SPRITE_ATTACH_SYN = 118;//附灵同步
 }
 
 message MsgDataSynList
