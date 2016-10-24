@@ -22,7 +22,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时清空 */
-	public void checkActivityOpen(Player player) {
+	protected void checkActivityOpen(Player player) {
 		getHolder().refreshActivity(player.getUserId());
 	}
 	
@@ -55,7 +55,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param player
 	 * @return
 	 */
-	public List<String> haveRedPoint(Player player) {
+	protected List<String> haveRedPoint(Player player) {
 		List<String> redPointList = new ArrayList<String>();
 		List<T> items = getHolder().getItemList(player.getUserId());
 		if (null == items || items.isEmpty())
@@ -72,7 +72,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param player
 	 */
 	@SuppressWarnings("unchecked")
-	public void dailyRefreshNewDaySubActivity(Player player) {
+	protected void dailyRefreshNewDaySubActivity(Player player) {
 		List<T> items = getHolder().getItemList(player.getUserId());
 		if (null == items || items.isEmpty()) {
 			return;
