@@ -16,6 +16,7 @@ import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.SpriteAttachMgr;
 import com.playerdata.army.ArmyFashion;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -53,6 +54,7 @@ import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
 import com.rwbase.dao.skill.pojo.SkillIF;
+import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
@@ -542,6 +544,12 @@ public class AngelArrayTeamInfoHelper {
 		if (fixEquipList != null) {
 			heroInfo.setFixEquip(fixEquipList);
 		}
+		
+		//附灵
+		List<SpriteAttachItem> spriteAttachList = changeHeroSpriteAttach(p, hero);
+		if(spriteAttachList != null){
+			heroInfo.setSpriteAttach(spriteAttachList);
+		}
 
 		return heroInfo;
 	}
@@ -683,7 +691,24 @@ public class AngelArrayTeamInfoHelper {
 
 		return fixInfoList;
 	}
-
+	
+	/**
+	 * 设置附灵信息
+	 * @param player
+	 * @param hero
+	 * @return
+	 */
+	private static List<SpriteAttachItem> changeHeroSpriteAttach(PlayerIF player, Hero hero){
+		List<SpriteAttachItem> spriteAttachList = new ArrayList<SpriteAttachItem>();
+		if (!player.isRobot()) {
+			List<SpriteAttachItem> spriteAttachItemList = SpriteAttachMgr.getInstance().getSpriteAttachHolder().getSpriteAttachItemList(hero.getUUId());
+			if (!spriteAttachItemList.isEmpty()) {
+				spriteAttachList.addAll(spriteAttachItemList);
+			}
+		}
+		return spriteAttachList;
+	}
+	
 	/**
 	 * <pre>
 	 * 把TeamInfo转换成ArmyInfo
