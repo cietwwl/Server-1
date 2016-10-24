@@ -721,6 +721,10 @@ public class RankingMgr {
 		case PRIEST_ARENA:
 			id = 104;
 			break;
+		case PEAK_ARENA:
+		case PEAK_ARENA_FIGHTING:
+			id = 105;
+			break;
 		case FIGHTING_ALL_DAILY:
 			id = 201;
 			break;
