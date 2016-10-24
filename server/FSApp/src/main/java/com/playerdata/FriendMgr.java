@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.rank.RankType;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -289,6 +290,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		FriendHandler handler = FriendHandler.getInstance();
 		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ROBOT,false);
 		if(robotList == null|| robotList.isEmpty()){
+			GameLog.error(LogModule.robotFriend, m_pPlayer.getUserId(),"隔时推送没找到机器人",null);
 			return false;
 		}
 		handler.updataRobotLoginTime(robotList);
