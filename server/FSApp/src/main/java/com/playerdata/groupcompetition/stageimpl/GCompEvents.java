@@ -102,6 +102,9 @@ public class GCompEvents {
 			eventsData.setRelativeGroupIds(groupIds);
 			GCompEventsDataMgr.getInstance().addEvents(eventsData, eventsType);
 			GCompQuizMgr.getInstance().groupCompEventsStart(eventsType); // 竞猜模块
+		} else {
+			GCompEventsData eventsData = new GCompEventsData();
+			eventsData.setCurrentStatus(GCompEventsStatus.NONE);
 		}
 	}
 
