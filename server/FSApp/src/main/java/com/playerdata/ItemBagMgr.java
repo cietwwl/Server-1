@@ -997,9 +997,9 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			List<ItemData> itemDatas = getItemListByCfgId(itemModelId);
 			boolean enough = false;
 			if(selfItem != null){
-				enough = itemDatas.size() < count;
+				enough = itemDatas.size() > count;
 			}else{
-				enough = itemDatas.size() < (selfItem.getModelId() == itemModelId ? count +1 : count);
+				enough = itemDatas.size() > (selfItem.getModelId() == itemModelId ? count +1 : count);
 			}
 			if(enough){
 				int index = 0;
@@ -1016,10 +1016,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 					useItemList.add(new UseItem(itemData.getId(), 1));
 					index++;
 				}
+				return useItemList;
 			}else{
 				return null;
 			}
 		}
-		return null;
 	}
 }
