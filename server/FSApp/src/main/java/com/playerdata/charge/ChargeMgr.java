@@ -11,7 +11,6 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
@@ -459,19 +458,18 @@ public class ChargeMgr {
 		return result;
 	}
 	
-	public boolean isPlayerHaveVipMonthCard(String userId) {
-		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(userId);
-		List<ActivityTimeCardTypeSubItem> subItemList = dataItem.getSubItemList();
-		ActivityTimeCardTypeSubItem subItem;
-		for (int i = 0, size = subItemList.size(); i < size; i++) {
-			subItem = subItemList.get(i);
-			ChargeTypeEnum type = ChargeTypeEnum.getById(String.valueOf(subItem.getTimeCardType()));
-			if(type == ChargeTypeEnum.VipMonthCard) {
-				return subItem.getDayLeft() > 0;
-			}
-		}
-		return false;
-	}
-	
+//	public boolean isPlayerHaveVipMonthCard(String userId) {
+//		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
+//		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(userId);
+//		List<ActivityTimeCardTypeSubItem> subItemList = dataItem.getSubItemList();
+//		ActivityTimeCardTypeSubItem subItem;
+//		for (int i = 0, size = subItemList.size(); i < size; i++) {
+//			subItem = subItemList.get(i);
+//			ChargeTypeEnum type = ChargeTypeEnum.getById(String.valueOf(subItem.getTimeCardType()));
+//			if(type == ChargeTypeEnum.VipMonthCard) {
+//				return subItem.getDayLeft() > 0;
+//			}
+//		}
+//		return false;
+//	}
 }

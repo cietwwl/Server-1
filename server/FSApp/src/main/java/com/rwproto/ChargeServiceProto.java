@@ -45,6 +45,22 @@ public final class ChargeServiceProto {
      * </pre>
      */
     TimeCard(3, 4),
+    /**
+     * <code>GetFriendMonthCardInfo = 5;</code>
+     *
+     * <pre>
+     *获取好友的月卡拥有情况（没有请求参数）
+     * </pre>
+     */
+    GetFriendMonthCardInfo(4, 5),
+    /**
+     * <code>SendFriendMonthCard = 6;</code>
+     *
+     * <pre>
+     *赠送好友月卡（1. chargeItemId是月卡类型，按配置表id; 2. friendId）
+     * </pre>
+     */
+    SendFriendMonthCard(5, 6),
     ;
 
     /**
@@ -79,6 +95,22 @@ public final class ChargeServiceProto {
      * </pre>
      */
     public static final int TimeCard_VALUE = 4;
+    /**
+     * <code>GetFriendMonthCardInfo = 5;</code>
+     *
+     * <pre>
+     *获取好友的月卡拥有情况（没有请求参数）
+     * </pre>
+     */
+    public static final int GetFriendMonthCardInfo_VALUE = 5;
+    /**
+     * <code>SendFriendMonthCard = 6;</code>
+     *
+     * <pre>
+     *赠送好友月卡（1. chargeItemId是月卡类型，按配置表id; 2. friendId）
+     * </pre>
+     */
+    public static final int SendFriendMonthCard_VALUE = 6;
 
 
     public final int getNumber() { return value; }
@@ -89,6 +121,8 @@ public final class ChargeServiceProto {
         case 2: return FirstChargeReward;
         case 3: return BuyVipGift;
         case 4: return TimeCard;
+        case 5: return GetFriendMonthCardInfo;
+        case 6: return SendFriendMonthCard;
         default: return null;
       }
     }
@@ -187,6 +221,33 @@ public final class ChargeServiceProto {
      */
     com.google.protobuf.ByteString
         getChargeItemIdBytes();
+
+    // optional string friendId = 3;
+    /**
+     * <code>optional string friendId = 3;</code>
+     *
+     * <pre>
+     *要赠送月卡的好友id
+     * </pre>
+     */
+    boolean hasFriendId();
+    /**
+     * <code>optional string friendId = 3;</code>
+     *
+     * <pre>
+     *要赠送月卡的好友id
+     * </pre>
+     */
+    java.lang.String getFriendId();
+    /**
+     * <code>optional string friendId = 3;</code>
+     *
+     * <pre>
+     *要赠送月卡的好友id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getFriendIdBytes();
   }
   /**
    * Protobuf type {@code chargeProto.ChargeServiceCommonReqMsg}
@@ -253,6 +314,11 @@ public final class ChargeServiceProto {
             case 18: {
               bitField0_ |= 0x00000002;
               chargeItemId_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              friendId_ = input.readBytes();
               break;
             }
           }
@@ -374,9 +440,65 @@ public final class ChargeServiceProto {
       }
     }
 
+    // optional string friendId = 3;
+    public static final int FRIENDID_FIELD_NUMBER = 3;
+    private java.lang.Object friendId_;
+    /**
+     * <code>optional string friendId = 3;</code>
+     *
+     * <pre>
+     *要赠送月卡的好友id
+     * </pre>
+     */
+    public boolean hasFriendId() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string friendId = 3;</code>
+     *
+     * <pre>
+     *要赠送月卡的好友id
+     * </pre>
+     */
+    public java.lang.String getFriendId() {
+      java.lang.Object ref = friendId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          friendId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string friendId = 3;</code>
+     *
+     * <pre>
+     *要赠送月卡的好友id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getFriendIdBytes() {
+      java.lang.Object ref = friendId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        friendId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.ChargeServiceProto.RequestType.Charge;
       chargeItemId_ = "";
+      friendId_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -404,6 +526,9 @@ public final class ChargeServiceProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getChargeItemIdBytes());
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getFriendIdBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -420,6 +545,10 @@ public final class ChargeServiceProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getChargeItemIdBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getFriendIdBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -541,6 +670,8 @@ public final class ChargeServiceProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         chargeItemId_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        friendId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -577,6 +708,10 @@ public final class ChargeServiceProto {
           to_bitField0_ |= 0x00000002;
         }
         result.chargeItemId_ = chargeItemId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.friendId_ = friendId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -599,6 +734,11 @@ public final class ChargeServiceProto {
         if (other.hasChargeItemId()) {
           bitField0_ |= 0x00000002;
           chargeItemId_ = other.chargeItemId_;
+          onChanged();
+        }
+        if (other.hasFriendId()) {
+          bitField0_ |= 0x00000004;
+          friendId_ = other.friendId_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -782,6 +922,104 @@ public final class ChargeServiceProto {
   }
   bitField0_ |= 0x00000002;
         chargeItemId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string friendId = 3;
+      private java.lang.Object friendId_ = "";
+      /**
+       * <code>optional string friendId = 3;</code>
+       *
+       * <pre>
+       *要赠送月卡的好友id
+       * </pre>
+       */
+      public boolean hasFriendId() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string friendId = 3;</code>
+       *
+       * <pre>
+       *要赠送月卡的好友id
+       * </pre>
+       */
+      public java.lang.String getFriendId() {
+        java.lang.Object ref = friendId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          friendId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string friendId = 3;</code>
+       *
+       * <pre>
+       *要赠送月卡的好友id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getFriendIdBytes() {
+        java.lang.Object ref = friendId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          friendId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string friendId = 3;</code>
+       *
+       * <pre>
+       *要赠送月卡的好友id
+       * </pre>
+       */
+      public Builder setFriendId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        friendId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string friendId = 3;</code>
+       *
+       * <pre>
+       *要赠送月卡的好友id
+       * </pre>
+       */
+      public Builder clearFriendId() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        friendId_ = getDefaultInstance().getFriendId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string friendId = 3;</code>
+       *
+       * <pre>
+       *要赠送月卡的好友id
+       * </pre>
+       */
+      public Builder setFriendIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        friendId_ = value;
         onChanged();
         return this;
       }
@@ -1586,15 +1824,17 @@ public final class ChargeServiceProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023ChargeService.proto\022\013chargeProto\"\\\n\031Ch" +
+      "\n\023ChargeService.proto\022\013chargeProto\"n\n\031Ch" +
       "argeServiceCommonReqMsg\022)\n\007reqType\030\001 \002(\016" +
       "2\030.chargeProto.RequestType\022\024\n\014chargeItem" +
-      "Id\030\002 \002(\t\"i\n\031ChargeServiceCommonRspMsg\022)\n" +
-      "\007reqType\030\001 \002(\0162\030.chargeProto.RequestType" +
-      "\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*N\n\013R" +
-      "equestType\022\n\n\006Charge\020\001\022\025\n\021FirstChargeRew" +
-      "ard\020\002\022\016\n\nBuyVipGift\020\003\022\014\n\010TimeCard\020\004B!\n\013c" +
-      "om.rwprotoB\022ChargeServiceProto"
+      "Id\030\002 \002(\t\022\020\n\010friendId\030\003 \001(\t\"i\n\031ChargeServ" +
+      "iceCommonRspMsg\022)\n\007reqType\030\001 \002(\0162\030.charg" +
+      "eProto.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n" +
+      "\006tipMsg\030\003 \001(\t*\203\001\n\013RequestType\022\n\n\006Charge\020" +
+      "\001\022\025\n\021FirstChargeReward\020\002\022\016\n\nBuyVipGift\020\003" +
+      "\022\014\n\010TimeCard\020\004\022\032\n\026GetFriendMonthCardInfo" +
+      "\020\005\022\027\n\023SendFriendMonthCard\020\006B!\n\013com.rwpro",
+      "toB\022ChargeServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1606,7 +1846,7 @@ public final class ChargeServiceProto {
           internal_static_chargeProto_ChargeServiceCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_chargeProto_ChargeServiceCommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "ChargeItemId", });
+              new java.lang.String[] { "ReqType", "ChargeItemId", "FriendId", });
           internal_static_chargeProto_ChargeServiceCommonRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_chargeProto_ChargeServiceCommonRspMsg_fieldAccessorTable = new
