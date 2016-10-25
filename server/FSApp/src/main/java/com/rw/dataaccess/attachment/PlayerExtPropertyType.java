@@ -1,6 +1,5 @@
 package com.rw.dataaccess.attachment;
 
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
@@ -31,12 +30,14 @@ import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
 import com.rw.dataaccess.hero.FashionCreator;
 import com.rw.dataaccess.hero.GiveItemHistoryCreator;
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.service.PeakArena.PeakRecordCreator;
+import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityBigItem;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCreator;
-import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
 
 public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	/**通用活动一，计数活动；不一定触发*/
@@ -78,6 +79,8 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	FISHION(16, FashionItem.class, FashionCreator.class),
 	/**新手引导赠送；一定触发*/
 	GIVEITEM_HISTORY(17, GiveItemHistory.class, GiveItemHistoryCreator.class),
+	/**巅峰竞技场战报*/
+	PEAK_ARENA_RECORD(18, PeakRecordInfo.class, PeakRecordCreator.class),
 //	OPENLEVEL_TIGGERSERVICE(19,OpenLevelTiggerServiceItem.class,OpenLevelTiggerServiceCreator.class),//暂时将等级开放推送的辅助数据存在各功能模块
 	;
 

@@ -4,8 +4,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.common.BeanOperationHelper;
-
 public class AttributeCalculator<T> {
 
 	private final ReentrantLock lock = new ReentrantLock();
@@ -16,7 +14,8 @@ public class AttributeCalculator<T> {
 	private final String heroId;
 	private volatile T resultObject;// 计算的总结果
 	private volatile T resultBaseObject;// 只获取到固定值
-	private volatile StringBuilder sb;// 打印属性
+
+	// private volatile StringBuilder sb;// 打印属性
 
 	public AttributeCalculator(String roleId, String heroId, List<IAttributeComponent> list, IAttributeFormula<T> formula) {
 		this.roleId = roleId;
@@ -46,7 +45,7 @@ public class AttributeCalculator<T> {
 	}
 
 	private T calcAttributeNode(List<IAttributeComponent> list) {
-		sb = new StringBuilder();
+		// sb = new StringBuilder();
 		AttributeSet current = null;
 
 		for (int i = list.size(); --i >= 0;) {
@@ -71,10 +70,13 @@ public class AttributeCalculator<T> {
 				current = current.add(att);
 			}
 
-			T add = formula.convertOne(readOnlyAttributes, false);
-			T precent = formula.convertOne(readOnlyAttributes, true);
-			sb.append(component.getComponentTypeEnum()).append(">>>[固定]-").append(BeanOperationHelper.getPositiveValueDiscription(add));
-			sb.append("\n").append(">>>[万分]-").append(BeanOperationHelper.getPositiveValueDiscription(precent)).append("\n");
+			formula.convertOne(readOnlyAttributes, false);
+			formula.convertOne(readOnlyAttributes, true);
+
+			// T add = formula.convertOne(readOnlyAttributes, false);
+			// T precent = formula.convertOne(readOnlyAttributes, true);
+			// sb.append(component.getComponentTypeEnum()).append(">>>[固定]-").append(BeanOperationHelper.getPositiveValueDiscription(add));
+			// sb.append("\n").append(">>>[万分]-").append(BeanOperationHelper.getPositiveValueDiscription(precent)).append("\n");
 		}
 
 		attribute = current;
@@ -115,14 +117,14 @@ public class AttributeCalculator<T> {
 		return resultObject;
 	}
 
-	/**
-	 * 获取属性描述
-	 * 
-	 * @return
-	 */
-	public String getAttrDesc() {
-		return sb.toString();
-	}
+	// /**
+	// * 获取属性描述
+	// *
+	// * @return
+	// */
+	// public String getAttrDesc() {
+	// return sb.toString();
+	// }
 
 	public AttributeSet getAttribute() {
 		lock.lock();

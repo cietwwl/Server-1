@@ -2,11 +2,13 @@ package com.rw.service.PeakArena.datamodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -27,12 +29,15 @@ public class TablePeakArenaData {
 	private volatile long fightStartTime;//开战时间,0表示没有开战
 	private TeamData[] teams = new TeamData[3];
 	
-	private List<PeakRecordInfo> recordList;
+//	private List<PeakRecordInfo> recordList;
 	private long lastGainCurrencyTime; // 上次获取货币的时间
 	private String lastFightEnemy;
+	private int score; // 积分
+	private List<Integer> rewardList = new ArrayList<Integer>();
+	private AtomicInteger recordIdGenerator = new AtomicInteger();
 
 	public TablePeakArenaData() {
-		this.recordList = new ArrayList<PeakRecordInfo>();
+//		this.recordList = new ArrayList<PeakRecordInfo>();
 	}
 	
 	public TeamData[] getTeams() {
@@ -145,15 +150,15 @@ public class TablePeakArenaData {
 		return hasRanking;
 	}
 
-	public List<PeakRecordInfo> getRecordList() {
-		return recordList;
-	}
-
-	public void setRecordList(List<PeakRecordInfo> recordList) {
-		if (recordList != null) {
-			this.recordList = recordList;
-		}
-	}
+//	public List<PeakRecordInfo> getRecordList() {
+//		return recordList;
+//	}
+//
+//	public void setRecordList(List<PeakRecordInfo> recordList) {
+//		if (recordList != null) {
+//			this.recordList = recordList;
+//		}
+//	}
 
 	public int getExpectCurrency() {
 		return expectCurrency;
@@ -177,5 +182,31 @@ public class TablePeakArenaData {
 
 	public String getLastFightEnemy() {
 		return lastFightEnemy;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public List<Integer> getRewardList() {
+		return rewardList;
+	}
+
+	public void setRewardList(List<Integer> rewardList) {
+		this.rewardList = rewardList;
+	}
+	
+	public void resetRewardList() {
+		this.rewardList.clear();
+	}
+	
+	@JsonIgnore
+	public int getNextId() {
+		this.recordIdGenerator.compareAndSet(Short.MAX_VALUE, 0);
+		return this.recordIdGenerator.incrementAndGet();
 	}
 }
