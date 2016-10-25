@@ -61,7 +61,11 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		List<? extends ActivityCfgIF> activeDailyList = detector.getAllActivityOfType(getActivityType());
 		List<T> newAddItems = new ArrayList<T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
+		Player player = PlayerMgr.getInstance().find(userId);
 		for(ActivityCfgIF cfg : activeDailyList){
+			if(null != player && player.getLevel() < cfg.getLevelLimit()){
+				continue;
+			}
 			T item = itemStore.get(cfg.getId());
 			if(null == item){
 				// 有新增的活动
