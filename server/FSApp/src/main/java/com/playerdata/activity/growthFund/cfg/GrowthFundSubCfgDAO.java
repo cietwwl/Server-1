@@ -1,5 +1,6 @@
 package com.playerdata.activity.growthFund.cfg;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
@@ -16,9 +17,9 @@ public class GrowthFundSubCfgDAO extends CfgCsvDao<ActivitySubCfgIF> {
 
 	@Override
 	public Map<String, ActivitySubCfgIF> initJsonCfg() {
+		cfgCacheMap = new HashMap<String, ActivitySubCfgIF>();
 		Map<String, GrowthFundGiftCfg> giftCfgMap = CfgCsvHelper.readCsv2Map("growthFund/GrowthFundGift.csv",GrowthFundGiftCfg.class);
 		Map<String, GrowthFundRewardCfg> rewardCfgMap = CfgCsvHelper.readCsv2Map("growthFund/GrowthFundGift.csv",GrowthFundRewardCfg.class);
-		
 		if(null != giftCfgMap){
 			for(GrowthFundGiftCfg cfg : giftCfgMap.values()){
 				cfgCacheMap.put(String.valueOf(cfg.getId()), cfg);
@@ -30,7 +31,6 @@ public class GrowthFundSubCfgDAO extends CfgCsvDao<ActivitySubCfgIF> {
 				cfgCacheMap.put(String.valueOf(cfg.getId()), cfg);
 			}
 		}
-
 		return cfgCacheMap;
 	}
 }
