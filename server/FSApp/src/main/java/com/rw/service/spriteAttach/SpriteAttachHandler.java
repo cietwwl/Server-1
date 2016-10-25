@@ -115,7 +115,10 @@ public class SpriteAttachHandler {
 		RefInt upgradeLevel = new RefInt(spriteAttachLevel);
 		RefLong upgradeExp = new RefLong(currentExp);
 		List<IUseItem> useItemList = new ArrayList<IUseItem>(materialsList.size());
-		calcConsume(itemBagMgr, materialsList, upgradeLevel, upgradeExp, levelCostPlanId, spriteAttachLevelCost, cost, useItemList);
+		boolean calcResult = calcConsume(itemBagMgr, materialsList, upgradeLevel, upgradeExp, levelCostPlanId, spriteAttachLevelCost, cost, useItemList);
+		if(!calcResult){
+			return sendFailMsg("附灵失败，消耗升级材料失败！", res, requestType);
+		}
 		
 		Map<Integer, Integer> modifyMoneyMap = new HashMap<Integer, Integer>(1);
 		modifyMoneyMap.put(costType, -(int)(cost.value));
@@ -128,7 +131,7 @@ public class SpriteAttachHandler {
 		}
 		
 		if (!itemBagMgr.useLikeBoxItem(useItemList, null, modifyMoneyMap)) {
-			return sendFailMsg("法宝升级失败，消耗升级材料失败！", res, requestType);
+			return sendFailMsg("附灵失败，消耗升级材料失败！", res, requestType);
 		}
 		
 		spriteAttachItem.setLevel(upgradeLevel.value);
@@ -141,7 +144,7 @@ public class SpriteAttachHandler {
 	}
 	
 
-	private void calcConsume(ItemBagMgr itemBagMgr, List<spriteAttachMaterial> materialsList, RefInt upgradeLevel, RefLong upgradeExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, RefLong Cost, List<IUseItem> useItemList) {
+	private boolean calcConsume(ItemBagMgr itemBagMgr, List<spriteAttachMaterial> materialsList, RefInt upgradeLevel, RefLong upgradeExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, RefLong Cost, List<IUseItem> useItemList) {
 		int totalCost = 0;
 		int materialsExp = 0;
 		
@@ -149,12 +152,18 @@ public class SpriteAttachHandler {
 			spriteAttachMaterial spriteAttachMaterial = (spriteAttachMaterial) iterator.next();
 			int itemModelId = spriteAttachMaterial.getItemModelId();
 			int count = spriteAttachMaterial.getCount();
+			if(count <=0){
+				continue;
+			}
 			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 			materialsExp += itemBaseCfg.getEnchantExp()* count;
 			
-			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
-			ItemData itemData = modelFirstItemDataMap.get(itemModelId);
-			useItemList.add(new UseItem(itemData.getId(), count));
+			List<IUseItem> items = itemBagMgr.checkEnoughItem(itemModelId, count, null);
+			if(items == null){
+				return false;
+			}else{
+				useItemList.addAll(items);
+			}
 		}
 		
 		SpriteAttachLevelCostCfg levelCostCfg = spriteAttachLevelCost;
@@ -179,6 +188,7 @@ public class SpriteAttachHandler {
 			
 		}
 		Cost.value = totalCost;
+		return true;
 	}
 	
 	public ByteString sendFailMsg(String failMsg, SpriteAttachResponse.Builder res, eSpriteAttachRequestType requestType){

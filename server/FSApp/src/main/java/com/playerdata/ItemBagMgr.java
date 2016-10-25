@@ -972,4 +972,54 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		return useLikeBoxItem(null, newItemList, currencyMap);
 	}
+	
+	/**
+	 * 区分叠加和不叠加是否足够道具
+	 * @param itemModelId
+	 * @param count
+	 * @param selfModelId
+	 * @return
+	 */
+	public List<IUseItem> checkEnoughItem(int itemModelId, int count, ItemData selfItem){
+		List<IUseItem> useItemList = new ArrayList<IUseItem>(); 
+		ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
+		int stackNum = itemBaseCfg.getStackNum();
+		if (stackNum > 1) {
+			if(!checkEnoughItem(itemModelId, count)){
+				return null;
+			}else{
+				Map<Integer, ItemData> modelFirstItemDataMap = getModelFirstItemDataMap();
+				ItemData itemData = modelFirstItemDataMap.get(itemModelId);
+				useItemList.add(new UseItem(itemData.getId(), count));
+				return useItemList;
+			}
+		} else {
+			List<ItemData> itemDatas = getItemListByCfgId(itemModelId);
+			boolean enough = false;
+			if(selfItem != null){
+				enough = itemDatas.size() < count;
+			}else{
+				enough = itemDatas.size() < (selfItem.getModelId() == itemModelId ? count +1 : count);
+			}
+			if(enough){
+				int index = 0;
+				for (int i = 0; i < count; i++) {
+					ItemData itemData = itemDatas.get(index);
+					while (itemData.getId().equals(selfItem.getId())) {
+						index++;
+						if (index >= itemDatas.size()) {
+							break;
+						}
+						itemData = itemDatas.get(index);
+
+					}
+					useItemList.add(new UseItem(itemData.getId(), 1));
+					index++;
+				}
+			}else{
+				return null;
+			}
+		}
+		return null;
+	}
 }
