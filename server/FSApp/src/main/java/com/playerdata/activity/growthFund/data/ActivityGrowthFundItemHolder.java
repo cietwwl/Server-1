@@ -23,7 +23,7 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityDailyRechargeType;
+	final private eSynType synType = eSynType.ActivityGrowthFund;
 	
 	public void updateItem(Player player, ActivityGrowthFundItem item){
 		getItemStore(player.getUserId()).update(item.getId());
@@ -38,7 +38,7 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 	}
 	
 	public RoleExtPropertyStore<ActivityGrowthFundItem> getItemStore(String userId) {
-		RoleExtPropertyStoreCache<ActivityGrowthFundItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYCHARGE, ActivityGrowthFundItem.class);
+		RoleExtPropertyStoreCache<ActivityGrowthFundItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_GROWTHFUND, ActivityGrowthFundItem.class);
 		try {
 			return storeCache.getStore(userId);
 		} catch (InterruptedException e) {
