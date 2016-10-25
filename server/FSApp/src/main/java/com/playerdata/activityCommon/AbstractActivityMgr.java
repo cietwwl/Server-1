@@ -117,7 +117,9 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param player
 	 * @param item
 	 */
-	public abstract void expireActivityHandler(Player player, T item);
+	protected void expireActivityHandler(Player player, T item){
+		//如果有过期处理，就需要重载这个方法
+	}
 	
 	protected abstract UserActivityChecker<T> getHolder();
 	
