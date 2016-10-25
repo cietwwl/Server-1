@@ -59,6 +59,8 @@ public enum RedPointType {
     PVE_TEAMBATTLE,
     FORTUNE_CAT,
     LIMIT_HERO,
+    HOME_WINDOW_PEAK_ARENA, // 巅峰竞技场入口
+    PEAK_ARENA_SCORE_REWARD, // 巅峰竞技场积分入口
     ;
     private RedPointType(){
     	
