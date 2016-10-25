@@ -3,9 +3,6 @@ package com.playerdata.activity.growthFund;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfg;
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
-import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
@@ -42,6 +39,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	}
 	
 	private boolean canGetReward(ActivityGrowthFundSubItem subItem){
-		return ?? && !subItem.isGet();
+		return false;
+		//return ?? && !subItem.isGet();
 	}
 }

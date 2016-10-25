@@ -7,7 +7,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
-//	<bean class="com.rw.service.growthFund.datamodel.GrowthFundBasicHelper"  init-method="init" />
+//	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO"  init-method="init" />
 
 public class GrowthFundBasicCfgDAO extends CfgCsvDao<GrowthFundBasicCfg> {
 	

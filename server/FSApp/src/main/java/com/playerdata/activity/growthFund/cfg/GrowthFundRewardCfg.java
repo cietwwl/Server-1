@@ -7,6 +7,7 @@ public class GrowthFundRewardCfg extends BaseConfig implements ActivitySubCfgIF{
 	private int key; //关键字
 	private int requiredCount; //需求人数
 	private String rewardContents; //奖励内容
+	private int type;	//父类型
 
 	public int getKey() {
 		return key;
@@ -32,7 +33,6 @@ public class GrowthFundRewardCfg extends BaseConfig implements ActivitySubCfgIF{
 	
 	@Override
 	public int getType() {
-		// TODO Auto-generated method stub
-		return 0;
+		return type;
 	}
 }
