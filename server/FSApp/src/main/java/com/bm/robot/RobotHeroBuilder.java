@@ -12,17 +12,16 @@ import com.bm.arena.RobotHelper;
 import com.bm.arena.RobotHeroCfg;
 import com.bm.arena.RobotHeroCfgDAO;
 import com.bm.arena.RobotManager;
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.bm.robot.cfg.RobotFNameCfgDAO;
 import com.bm.robot.cfg.RobotSNameCfgDAO;
 import com.log.GameLog;
-import com.playerdata.FightingCalculator;
 import com.playerdata.army.ArmyMagic;
 import com.playerdata.team.HeroBaseInfo;
 import com.playerdata.team.HeroInfo;
 import com.playerdata.team.SkillInfo;
 import com.playerdata.team.TeamInfo;
 import com.rwbase.common.RandomUtil;
-import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -300,10 +299,8 @@ public final class RobotHeroBuilder {
 		return RandomUtil.nextInt(len);
 	}
 
-//	private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
-//	private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
-
-	
+	// private static final String[] fNameArr = { "赵", "钱", "孙", "李", "周", "吴", "郑", "王", "胡", "司马", "欧阳", "裴", "戚", "西门", "朴" };
+	// private static final String[] sNameArr = { "豆儿", "菲菲", "正熙", "仲基", "吹水", "月云", "雨", "雪", "雅莉", "永志", "诗涵", "紫琼", "敏之", "雨涵", "冰" };
 
 	/**
 	 * 获取角色信息
@@ -311,10 +308,11 @@ public final class RobotHeroBuilder {
 	 * @param robotId
 	 * @return
 	 */
-	public static TeamInfo getRobotTeamInfo(int robotId) {		
-		
+	public static TeamInfo getRobotTeamInfo(int robotId) {
+
 		return getRobotTeamInfo(RandomData.newInstance(robotId));
 	}
+
 	/**
 	 * 获取角色信息
 	 * 
@@ -322,8 +320,7 @@ public final class RobotHeroBuilder {
 	 * @return
 	 */
 	public static TeamInfo getRobotTeamInfo(RandomData randomData) {
-		
-		
+
 		RobotEntryCfg angelRobotCfg = RobotCfgDAO.getInstance().getRobotCfg(randomData.getRobotId());
 		if (angelRobotCfg == null) {
 			return null;
@@ -338,7 +335,7 @@ public final class RobotHeroBuilder {
 		int[] starArr = angelRobotCfg.getStar();
 		int star = starArr[RobotHelper.getRandomIndex(starArr.length)];
 		// 获取英雄模版
-		
+
 		int career = careerType.getValue();
 		RoleCfg roleCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
 		if (roleCfg == null) {
@@ -362,12 +359,12 @@ public final class RobotHeroBuilder {
 		}
 
 		BuildRoleInfo roleInfo = new BuildRoleInfo(robotUserId, name, headImage, "", career, heroTmpIdList);
-		
+
 		return getRobotTeamInfo(roleInfo, true, randomData);
 	}
 
 	private static List<Integer> getHeroIdList(RobotEntryCfg angelRobotCfg, RoleCfg roleCfg, RandomData randomData) {
-		
+
 		List<Integer> heroTmpIdList = new ArrayList<Integer>();
 		heroTmpIdList.add(roleCfg.getModelId());
 		// 阵容组合
@@ -408,7 +405,6 @@ public final class RobotHeroBuilder {
 		return heroTmpIdList;
 	}
 
-	
 	/**
 	 * 获取机器人
 	 * 
@@ -417,8 +413,9 @@ public final class RobotHeroBuilder {
 	 * @return
 	 */
 	public static TeamInfo getRobotTeamInfo(int robotId, BuildRoleInfo roleInfo, boolean needMainRole) {
-		return  getRobotTeamInfo( roleInfo, needMainRole, RandomData.newInstance(robotId));
+		return getRobotTeamInfo(roleInfo, needMainRole, RandomData.newInstance(robotId));
 	}
+
 	/**
 	 * 获取机器人
 	 * 
@@ -448,7 +445,7 @@ public final class RobotHeroBuilder {
 		// ----------------------------------------额外属性
 		teamInfo.setExtraId(robotCfg.getExtraAttrId());
 		// ----------------------------------------法宝信息
-		ArmyMagic magic = buildMagic(robotCfg, mainRoleLevel,randomData);
+		ArmyMagic magic = buildMagic(robotCfg, mainRoleLevel, randomData);
 		teamInfo.setMagic(magic);
 		int finalMagicId = magic.getModelId();
 		int magicLevel = magic.getLevel();
@@ -466,7 +463,7 @@ public final class RobotHeroBuilder {
 		}
 
 		// 补阵容机制，不够5人的情况下，就直接从机器人当中随机需要的个数出来
-		if(randomData.isDoHeroMakeUp()){
+		if (randomData.isDoHeroMakeUp()) {
 			checkHeroSize(hasList, robotCfg);
 		}
 
@@ -517,8 +514,9 @@ public final class RobotHeroBuilder {
 				}
 
 				// 战力
-				int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
-						AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
+				// int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
+				// AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
+				int calFighting = AngelArrayTeamInfoHelper.calcRobotFighting(heroInfo, teamInfo);
 				fighting += calFighting;
 			}
 		}
@@ -540,7 +538,7 @@ public final class RobotHeroBuilder {
 	 * 
 	 * @return 返回构造的主角的等级
 	 */
-	private static int buildMainRole(RobotEntryCfg robotCfg, TeamInfo teamInfo, BuildRoleInfo roleInfo, int mainRoleLevel, RandomData randomData ) {
+	private static int buildMainRole(RobotEntryCfg robotCfg, TeamInfo teamInfo, BuildRoleInfo roleInfo, int mainRoleLevel, RandomData randomData) {
 		String userId = roleInfo == null ? null : roleInfo.getUserId();
 		String robotName = roleInfo == null ? null : roleInfo.getRobotName();
 		String groupName = roleInfo == null ? null : roleInfo.getGroupName();
@@ -600,7 +598,7 @@ public final class RobotHeroBuilder {
 	 */
 	private static void checkHeroSize(List<Integer> heroTmpIdList, RobotEntryCfg angelRobotCfg) {
 		Random r = new Random();
-		
+
 		int heroSize = heroTmpIdList == null ? 0 : heroTmpIdList.size();
 		if (heroSize < 5) {
 			int needSize = 5 - heroSize;// 需要随机的数量

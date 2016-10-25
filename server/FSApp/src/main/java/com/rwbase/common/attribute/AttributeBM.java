@@ -247,4 +247,56 @@ public class AttributeBM {
 		attributeCalculator.updateAttribute();
 		return attributeCalculator.getResult();
 	}
+
+	/**
+	 * 获取机器人的基础属性
+	 * 
+	 * @param userId
+	 * @param heroInfo
+	 * @param teamInfo
+	 * @return
+	 */
+	public static AttrData getRobotBaseAttrData(String userId, HeroInfo heroInfo, TeamInfo teamInfo) {
+		List<IAttributeComponent> componentList = new ArrayList<IAttributeComponent>();
+		componentList.add(new RobotBaseAttributeComponent(heroInfo));
+		componentList.add(new RobotEquipAttributeComponent(heroInfo));
+		componentList.add(new RobotGemAttributeComponent(heroInfo));
+
+		ArmyMagic magic = teamInfo.getMagic();
+		MagicParam magicParam = null;
+		if (magic != null) {
+			MagicParam.MagicBuilder builder = new MagicBuilder();
+			builder.setMagicId(String.valueOf(magic.getModelId()));
+			builder.setMagicLevel(magic.getLevel());
+			builder.setUserId(teamInfo.getUuid());
+			builder.setMagicAptitude(magic.getAptitude());
+			magicParam = builder.build();
+			componentList.add(new RobotMagicAttributeComponent(magicParam));
+		}
+
+		componentList.add(new RobotSkillAttributeComponent(heroInfo));
+		componentList.add(new RobotFettersAttributeComponent(heroInfo.getFetters()));
+
+		int heroModelId = Integer.parseInt(heroInfo.getBaseInfo().getTmpId().split("_")[0]);
+		componentList.add(new RobotFixExpEquipAttributeComponent(heroModelId, heroInfo.getFixEquip()));
+		componentList.add(new RobotFixNormEquipAttributeComponent(heroModelId, heroInfo.getFixEquip()));
+
+		FashionInfo fashion = teamInfo.getFashion();
+		RoleCfg roleCfg = RoleCfgDAO.getInstance().getRoleCfgByModelId(heroModelId);
+		if (roleCfg != null && roleCfg.getRoleType() == 1 && fashion != null) {
+			int[] fashionId = new int[3];
+			fashionId[0] = fashion.getSuit();
+			fashionId[1] = fashion.getWing();
+			fashionId[2] = fashion.getPet();
+			componentList.add(new RobotFashionAttributeComponent(fashionId, teamInfo.getCareer(), fashion.getCount()));
+		}
+
+		componentList.add(new RobotTaoistAttributeComponent(teamInfo.getTaoist()));
+		componentList.add(new RobotGroupSkillAttributeComponent(teamInfo.getGs()));
+		componentList.add(new RobotExtraAttributeComponent(teamInfo.getExtraId()));
+
+		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);
+		attributeCalculator.updateAttribute();
+		return attributeCalculator.getBaseResult();
+	}
 }

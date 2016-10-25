@@ -12,10 +12,10 @@ import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall.TeamInfoCallback;
 import com.common.RefInt;
 import com.log.GameLog;
-import com.playerdata.FightingCalculator;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.eRoleType;
 import com.playerdata.army.ArmyFashion;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -23,6 +23,12 @@ import com.playerdata.army.ArmyMagic;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
+import com.playerdata.fightinggrowth.calc.FightingCalcComponentType;
+import com.playerdata.fightinggrowth.calc.param.FashionFightingParam;
+import com.playerdata.fightinggrowth.calc.param.FettersFightingParam;
+import com.playerdata.fightinggrowth.calc.param.FixEquipFightingParam;
+import com.playerdata.fightinggrowth.calc.param.HeroBaseFightingParam;
+import com.playerdata.fightinggrowth.calc.param.HeroBaseFightingParam.Builder;
 import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.hero.core.RoleBaseInfo;
 import com.playerdata.readonly.ItemDataIF;
@@ -39,6 +45,12 @@ import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.common.attribute.AttributeBM;
+import com.rwbase.common.attribute.param.EquipParam.EquipBuilder;
+import com.rwbase.common.attribute.param.GemParam.GemBuilder;
+import com.rwbase.common.attribute.param.GroupSkillParam.GroupSkillBuilder;
+import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
+import com.rwbase.common.attribute.param.SkillParam.SkillBuilder;
+import com.rwbase.common.attribute.param.TaoistParam.TaoistBuilder;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.equipment.EquipItemIF;
 import com.rwbase.dao.fashion.FashionUsedIF;
@@ -49,10 +61,10 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.SkillCfgDAO;
-import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.skill.pojo.SkillCfg;
 import com.rwbase.dao.skill.pojo.SkillHelper;
 import com.rwbase.dao.skill.pojo.SkillIF;
+import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwproto.ArenaServiceProtos.ArenaEmbattleType;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
@@ -795,7 +807,7 @@ public class AngelArrayTeamInfoHelper {
 		roleBaseInfo.setCareerType(roleCfg.getCareerType());
 		armyHero.setRoleBaseInfo(roleBaseInfo);
 		// 技能
-		int skillLevel = 0;
+		// int skillLevel = 0;
 		List<SkillInfo> skillInfoList = heroInfo.getSkill();
 		int size = skillInfoList.size();
 
@@ -834,7 +846,7 @@ public class AngelArrayTeamInfoHelper {
 				skill.setSkillId(skillModelId + "_" + sLevel);
 			}
 
-			skillLevel += sLevel;
+			// skillLevel += sLevel;
 		}
 
 		armyHero.setSkillList(skillList);
@@ -850,10 +862,106 @@ public class AngelArrayTeamInfoHelper {
 		armyHero.setCurAttrData(curAttrData);
 
 		// 计算战斗力
-		armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "", heroAttrData));
+		// armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
+		armyHero.setFighting(calcRobotFighting(heroInfo, teamInfo));
+		// heroAttrData));
 		// 设置站位
 		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 
 		return armyHero;
+	}
+
+	/**
+	 * 获取机器人战斗力
+	 * 
+	 * @param heroInfo
+	 * @param teamInfo
+	 * @return
+	 */
+	public static int calcRobotFighting(HeroInfo heroInfo, TeamInfo teamInfo) {
+		String tmpId = heroInfo.getBaseInfo().getTmpId();
+		RoleCfg roleCfg = RoleCfgDAO.getInstance().getCfgById(tmpId);
+		if (roleCfg == null) {
+			return 0;
+		}
+
+		boolean isMainRole = roleCfg.getRoleType() == eRoleType.Player.ordinal();// 是否是主角
+
+		int fighting = 0;
+
+		// 基础战力
+		HeroBaseFightingParam.Builder heroBaseBuilder = new Builder();
+		heroBaseBuilder.setHeroTmpId(tmpId);
+		heroBaseBuilder.setBaseData(AttributeBM.getRobotAttrData(tmpId, heroInfo, teamInfo));
+		fighting += FightingCalcComponentType.BASE.calc.calc(heroBaseBuilder.build());
+
+		// 装备战力
+		EquipBuilder eb = new EquipBuilder();
+		eb.setHeroId(tmpId);
+		eb.setEquipList(heroInfo.getEquip());
+		fighting += FightingCalcComponentType.EQUIP.calc.calc(eb.build());
+
+		// 羁绊战力
+		FettersFightingParam.Builder ffb = new com.playerdata.fightinggrowth.calc.param.FettersFightingParam.Builder();
+		ffb.setHeroFetters(heroInfo.getFetters());
+		fighting += FightingCalcComponentType.FETTERS.calc.calc(ffb.build());
+
+		// 神器战力
+		FixEquipFightingParam.Builder feb = new com.playerdata.fightinggrowth.calc.param.FixEquipFightingParam.Builder();
+		feb.setFixEquips(heroInfo.getFixEquip());
+		fighting += FightingCalcComponentType.FIX_EQUIP.calc.calc(feb.build());
+
+		// 宝石战力
+		GemBuilder gb = new GemBuilder();
+		gb.setHeroId(tmpId);
+		gb.setGemList(heroInfo.getGem());
+		fighting += FightingCalcComponentType.GEM.calc.calc(gb.build());
+
+		// 帮派技能战力
+		GroupSkillBuilder gsb = new GroupSkillBuilder();
+		gsb.setHeroId(tmpId);
+		gsb.setGroupSkillMap(teamInfo.getGs());
+		fighting += FightingCalcComponentType.GROUP_SKILL.calc.calc(gsb.build());
+
+		// 技能战力
+		SkillBuilder sb = new SkillBuilder();
+		sb.setHeroId(tmpId);
+		sb.setSkillList(heroInfo.getSkill());
+		fighting += FightingCalcComponentType.SKILL.calc.calc(sb.build());
+
+		// 道术战力
+		TaoistBuilder tb = new TaoistBuilder();
+		tb.setHeroId(tmpId);
+		tb.setTaoistMap(teamInfo.getTaoist());
+		fighting += FightingCalcComponentType.TAOIST.calc.calc(tb.build());
+
+		// =======================================================主角才有的战力
+		if (isMainRole) {
+			// 法宝战力
+			ArmyMagic magic = teamInfo.getMagic();
+			if (magic != null) {
+				MagicBuilder mb = new MagicBuilder();
+				mb.setHeroId(tmpId);
+				mb.setMagicId(String.valueOf(magic.getModelId()));
+				mb.setMagicLevel(magic.getLevel());
+				mb.setMagicAptitude(magic.getAptitude());
+				fighting += FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+			}
+
+			// 时装战力
+			FashionInfo fashion = teamInfo.getFashion();
+			if (fashion != null) {
+				int suitCount = fashion.getSuit() <= 0 ? 0 : 1;
+				int wingCount = fashion.getWing() <= 0 ? 0 : 1;
+				int petCount = fashion.getPet() <= 0 ? 0 : 1;
+
+				FashionFightingParam.Builder fashionB = new com.playerdata.fightinggrowth.calc.param.FashionFightingParam.Builder();
+				fashionB.setSuitCount(suitCount);
+				fashionB.setWingCount(wingCount);
+				fashionB.setPetCount(petCount);
+				fighting += FightingCalcComponentType.FASHION.calc.calc(fashionB.build());
+			}
+		}
+		return fighting;
 	}
 }
