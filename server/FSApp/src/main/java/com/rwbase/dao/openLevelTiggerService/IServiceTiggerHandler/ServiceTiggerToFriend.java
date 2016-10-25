@@ -68,7 +68,7 @@ public class ServiceTiggerToFriend implements IServiceTiggerHandler{
 			if(timeBySecond > subItem.getTriggerTime()){
 //				type.doAction();
 				isSave = true;
-				player.getFriendMgr().robotRequestAddPlayerToFriend(subItem,friendTable);				
+				isSave = player.getFriendMgr().robotRequestAddPlayerToFriend(subItem,friendTable);				
 			}
 		}
 		if(isSave){

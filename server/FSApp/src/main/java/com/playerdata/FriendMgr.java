@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.rank.RankType;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
@@ -93,6 +94,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 获取好友列表 */
 	public List<FriendInfo> getFriendList() {
 		return friendItemToInfoList(getTableFriend().getFriendList());
+	}
+	
+	public int getFriendCount(){
+		return getTableFriend().getFriendList().size();
 	}
 
 	/** 获取请求列表 */
@@ -220,7 +225,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方已经是你的好友";
-		} else if(PlayerMgr.getInstance().find(otherUserId).isRobot()){
+		} else if(otherUserId.length() > 20){
 			resultVo=requestAddOneRobotToFriend(otherUserId,userId);		
 		}else {
 			resultVo = requestToAddFriend(otherUserId,userId,tableFriend);			
@@ -282,14 +287,15 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	}
 	
 	/**
-	 * 
+	 * false 排行榜没有找到机器人
 	 * @param subItem
 	 */
-	public void robotRequestAddPlayerToFriend(OpenLevelTiggerServiceSubItem subItem,TableFriend friendTable){
+	public boolean robotRequestAddPlayerToFriend(OpenLevelTiggerServiceSubItem subItem,TableFriend friendTable){
 		FriendHandler handler = FriendHandler.getInstance();
 		List<FriendInfo> robotList = handler.reCommandRobot(m_pPlayer,friendTable,RankType.LEVEL_ROBOT,false);
 		if(robotList == null|| robotList.isEmpty()){
-			return;
+			GameLog.error(LogModule.robotFriend, m_pPlayer.getUserId(),"隔时推送没找到机器人",null);
+			return false;
 		}
 		handler.updataRobotLoginTime(robotList);
 		FriendInfo robot = robotList.get(0);		
@@ -298,6 +304,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		Player robotPlayer = PlayerMgr.getInstance().find(robotUserId);
 		robotPlayer.getFriendMgr().requestToAddFriend(m_pPlayer.getUserId(), robotUserId, otherTable);
 		subItem.setUserId(robotUserId);
+		return true;
 	}
 	
 	
@@ -320,7 +327,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
-			}else if(other != null && other.isRobot()){
+			}else if(other != null && otherUserId.length() > 20){
 				requestAddOneRobotToFriend(otherUserId,userId);
 			}else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
