@@ -65,26 +65,38 @@ public class PlayerLoadOperationImpl implements PlayerLoadOperation {
 			typeList.add(preloadInfo.type.getTypeValue());
 		}
 		long start = System.currentTimeMillis();
-		List<DataKvEntity> list = DataAccessFactory.getDataKvManager().getRangeDataKvEntitys(userId, typeList);
-		int size = list.size();
-		for (int i = 0; i < size; i++) {
-			DataKvEntity entity = list.get(i);
-			Integer type = entity.getType();
-			if (type > maxType) {
-				FSUtilLogger.error("out of range of load kv type:" + type + ",max = " + maxType);
-				continue;
+		if (!typeList.isEmpty()) {
+			List<DataKvEntity> list = DataAccessFactory.getDataKvManager().getRangeDataKvEntitys(userId, typeList);
+			long recordTime = System.currentTimeMillis();
+			FSTraceLogger.recordRun("LOAD_KV", recordTime - start);
+			start = recordTime;
+			int size = list.size();
+			if (size > 0) {
+				for (int i = 0; i < size; i++) {
+					DataKvEntity entity = list.get(i);
+					Integer type = entity.getType();
+					if (type > maxType) {
+						FSUtilLogger.error("out of range of load kv type:" + type + ",max = " + maxType);
+						continue;
+					}
+					DataKVDao<?> kvDao = dataKVArray[type];
+					if (kvDao == null) {
+						GameLog.error("PlayerLoadOperation", "#execute()", "获取DataKvDao失败：" + type);
+						continue;
+					}
+					kvDao.putIntoCacheByDBString(entity.getUserId(), entity.getValue());
+				}
+				recordTime = System.currentTimeMillis();
+				FSTraceLogger.recordRun("PUT_KV", recordTime - start);
+				start = recordTime;
 			}
-			DataKVDao<?> kvDao = dataKVArray[type];
-			if (kvDao == null) {
-				GameLog.error("PlayerLoadOperation", "#execute()", "获取DataKvDao失败：" + type);
-				continue;
-			}
-			kvDao.putIntoCacheByDBString(entity.getUserId(), entity.getValue());
 		}
-		long end = System.currentTimeMillis();
-		long cost = end - start;
-		FSTraceLogger.recordRun("LOAD_KV", cost);
-		RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, createTime, level);
-		FSTraceLogger.recordRun("LOAD_EXT", System.currentTimeMillis() - end);
+
+		long loadTimeStamp = RoleExtPropertyFactory.loadAndCreatePlayerExtProperty(userId, createTime, level);
+		if (loadTimeStamp > 0) {
+			long putTimeStamp = System.currentTimeMillis();
+			FSTraceLogger.recordRun("LOAD_EXT", loadTimeStamp - start);
+			FSTraceLogger.recordRun("PUT_EXT", putTimeStamp - loadTimeStamp);
+		}
 	}
 }

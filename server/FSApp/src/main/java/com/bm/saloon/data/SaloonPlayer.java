@@ -1,10 +1,13 @@
 package com.bm.saloon.data;
 
+import javax.persistence.Id;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 public class SaloonPlayer {
 
+	@Id
 	private String id;//玩家ID
 	
 	private String userName;//玩家名字

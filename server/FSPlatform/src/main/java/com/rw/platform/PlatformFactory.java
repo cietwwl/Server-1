@@ -10,6 +10,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import com.rw.fsutil.log.EngineLoggerFactory;
 import com.rw.netty.client.ClientManager;
 import com.rw.service.log.LogService;
+import com.rwbase.gameworld.GameWorldFactory;
 
 public class PlatformFactory {
 	private static PlatformService service;
@@ -25,7 +26,7 @@ public class PlatformFactory {
 	public static ClientManager clientManager;
 	
 	public static void init() {
-		
+		GameWorldFactory.init(64, 16);
 		Resource resource = new ClassPathResource("server.properties");
 		try {
 			Properties props = PropertiesLoaderUtils.loadProperties(resource);

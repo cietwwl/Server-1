@@ -61,6 +61,7 @@ public class PlatformService {
 	private ScheduledThreadPoolExecutor checkExecutor;
 	
 	private PlatformServer platformServer;
+	private int runCount = 0;
 
 	public void init() {
 		platformNoticeDataHolder = new PlatformNoticeDataHolder();
@@ -76,6 +77,11 @@ public class PlatformService {
 			public void run() {
 				try {
 					refresh();
+					
+					if(++runCount >= 10){
+						runCount = 0;
+						UserChannelMgr.purgeMsgRecord();
+					}
 					
 				} catch (Throwable t) {
 					t.printStackTrace();

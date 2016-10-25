@@ -1,17 +1,25 @@
 package com.bm.saloon.data;
 
+import javax.persistence.Id;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
 
 @SynClass
 public class SaloonPosition {
 	
+	@Id
 	private String id;
 	
 	private float px;
 	
 	private float py;
 	
+	public static SaloonPosition newInstance(String idP){
+		SaloonPosition position = new SaloonPosition();
+		position.id=idP;
+		return position;
+	}
 	public static SaloonPosition newInstance(String idP, float pxP, float pyP){
 		SaloonPosition position = new SaloonPosition();
 		position.id=idP;

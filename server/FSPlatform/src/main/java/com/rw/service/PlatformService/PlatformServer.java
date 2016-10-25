@@ -51,14 +51,14 @@ public class PlatformServer {
 					}
 				});
 			}
-		}catch(Exception e){
-			PlatformLog.error("platformService", "", e.getMessage());
-		}finally{
-			if(serverSocket != null){
-				try{
+		} catch (Exception e) {
+			PlatformLog.error("platformService", "PlatformFactory.getHttpPort():" + PlatformFactory.getHttpPort(), e.getMessage());
+		} finally {
+			if (serverSocket != null) {
+				try {
 					serverSocket.close();
-				}catch(IOException e){
-					PlatformLog.error("platformService", "", e.getMessage());
+				} catch (IOException e) {
+					PlatformLog.error("platformService", "PlatformFactory.getHttpPort():" + PlatformFactory.getHttpPort(), e.getMessage());
 				}
 			}
 		}

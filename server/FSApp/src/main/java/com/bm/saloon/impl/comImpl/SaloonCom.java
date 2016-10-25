@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -43,32 +44,30 @@ public class SaloonCom {
 	private SaloonPositionAction newAddSynAction = new SaloonPositionAction() {			
 		@Override
 		public void doAction(Player player, SaloonPosition position) {
-			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().toPlayer(player);
+			SaloonPlayer saloonPlayer = SaloonHelper.getInstance().getSaloonPlayer(position.getId());
 			SaloonPlayerHolder.getInstance().synAddData(player, saloonPlayer);
 			SaloonPositionHolder.getInstance().synAddData(player, position);
 		}
 	};
-	private SaloonPositionAction newRemoveSynAction = new SaloonPositionAction() {			
-		@Override
-		public void doAction(Player player, SaloonPosition position) {
-			SaloonPositionHolder.getInstance().synRemoveData(player, position);
-			SaloonPlayerHolder.getInstance().synRemoveData(player, position.getId());
-		}
-	};
+
 	private SaloonPositionAction newUpdateSynAction = new SaloonPositionAction() {			
 		@Override
 		public void doAction(Player player, SaloonPosition position) {
-			SaloonPositionHolder.getInstance().synRemoveData(player, position);
+			SaloonPositionHolder.getInstance().synUpdateData(player, position);
 		}
 	};
-	
+	private long lastCheckTime = System.currentTimeMillis();
+	final private long checkSpan = TimeUnit.SECONDS.toMillis(10);
 	public void update() {
 		
 		handleQueueAction(newAddQueue, newAddSynAction);
 		handleQueueAction(updateQueue, newUpdateSynAction);
-		
-		checkLogout();
-		handleQueueAction(removeQueue, newRemoveSynAction);
+		long currentTimeMillis = System.currentTimeMillis();
+		if(currentTimeMillis - lastCheckTime > checkSpan){
+			lastCheckTime = currentTimeMillis;
+			checkLogout();
+		}
+		handleRemoveQueueAction();
 		
 	}
 	
@@ -97,18 +96,39 @@ public class SaloonCom {
 	private void handleQueueAction(BlockingQueue<String> targetQueue, SaloonPositionAction positionAction){
 		
 		if(!targetQueue.isEmpty()){
-			List<Player>  playerList = getSaloonPlayers();
+			List<Player>  onlineList = getSaloonPlayers();
 			String userId = targetQueue.poll();
 			while(StringUtils.isNotBlank(userId)){				
 				SaloonPosition saloonPosition = postionMap.get(userId);
 				if(saloonPosition!=null){
-					for (Player playerTmp : playerList) {
+					for (Player playerTmp : onlineList) {
 						if(!StringUtils.equals(playerTmp.getUserId(), userId)){
 							positionAction.doAction(playerTmp, saloonPosition);
 						}
 					}				
 				}
 				userId = targetQueue.poll();
+			}
+		}
+		
+	}
+	private void handleRemoveQueueAction(){
+		
+		if(!removeQueue.isEmpty()){
+			List<Player>  onlineList = getSaloonPlayers();
+			String removeId = removeQueue.poll();
+			while(StringUtils.isNotBlank(removeId)){		
+				SaloonPosition position = SaloonPosition.newInstance(removeId);
+				SaloonPlayer removeItem = SaloonPlayer.newInstance(removeId);
+				
+				for (Player playerTmp : onlineList) {
+					if(!StringUtils.equals(playerTmp.getUserId(), removeId)){
+						SaloonPositionHolder.getInstance().synRemoveData(playerTmp, position);
+						SaloonPlayerHolder.getInstance().synRemoveData(playerTmp, removeItem);
+					}
+				}				
+				
+				removeId = removeQueue.poll();
 			}
 		}
 		

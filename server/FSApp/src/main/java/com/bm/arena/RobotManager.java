@@ -30,7 +30,6 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
-import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.common.SimpleThreadFactory;
@@ -343,7 +342,6 @@ public class RobotManager {
 			if (!hero.getSkillMgr().isSkillCanActive(skill, hero.getLevel(), cfg.getQuality())) {
 				continue;
 			}
-			String skillId = skill.getSkillId();
 			int lv = skill.getLevel();
 			int order = skill.getOrder();
 
@@ -357,7 +355,7 @@ public class RobotManager {
 				continue;
 			}
 			// 升级技能
-			skillMgr.updateSkill(player, hero.getUUId(), skillId, expectLv - lv);
+			skillMgr.updateSkill(player, hero.getUUId(), skill, expectLv - lv);
 		}
 	}
 

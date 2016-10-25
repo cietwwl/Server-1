@@ -27,7 +27,6 @@ public class GroupSecretMatchHandler {
 	private static GroupSecretMatchHandler handler = new GroupSecretMatchHandler();
 	private static final Command command = Command.MSG_GROUP_SECRET_MATCH;
 	private static final String functionName = "帮派秘境匹配";
-	private static ArmyInfo armyInfo = new ArmyInfo();
 
 	public static GroupSecretMatchHandler getInstance() {
 		return handler;
@@ -134,15 +133,20 @@ public class GroupSecretMatchHandler {
 				break;
 			}
 		}
-		int length = armyInfo.getHeroList().size();
-		for (int i = 0; i < length; i++) {
-			String heroId = (String) armyInfo.getHeroList().get(i)
-					.getRoleBaseInfo().getId();
-			HeroLeftInfo.Builder info = HeroLeftInfo.newBuilder();
-			info.setId(heroId);
-			info.setLeftLife(0);
-			info.setLeftEnergy(0);
-			msg.addEnemyLeft(info);
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
+				.getGroupSecretBaseInfoSynDataHolder();
+		ArmyInfo armyInfo = groupSecretBaseInfoSynDataHolder.getArmyInfo();
+		if (armyInfo != null) {
+			int length = armyInfo.getHeroList().size();
+			for (int i = 0; i < length; i++) {
+				String heroId = (String) armyInfo.getHeroList().get(i)
+						.getRoleBaseInfo().getId();
+				HeroLeftInfo.Builder info = HeroLeftInfo.newBuilder();
+				info.setId(heroId);
+				info.setLeftLife(0);
+				info.setLeftEnergy(0);
+				msg.addEnemyLeft(info);
+			}
 		}
 
 		req.setAttackEndReq(msg);
@@ -156,14 +160,15 @@ public class GroupSecretMatchHandler {
 	 * 
 	 * @param client
 	 */
-	public void getGroupSecretReward(Client client) {
+	public boolean getGroupSecretReward(Client client) {
 		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
 				.getGroupSecretBaseInfoSynDataHolder();
 		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder
 				.getDefanceList();
 		if (defendSecretIdList == null) {
-			return;
+			return true;
 		}
+		boolean result = true;
 		for (int i = 0; i < defendSecretIdList.size(); i++) {
 			if (defendSecretIdList.get(i).getMainPos() != 0) {
 				continue;// 掠夺的数据，不在此处发送
@@ -174,10 +179,14 @@ public class GroupSecretMatchHandler {
 			GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg
 					.newBuilder();
 			req.setReqType(MatchRequestType.GET_REWARD);
-			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
+			result = client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
 					req.build().toByteString(),
 					new GroupSecretMatchReceier(command, functionName, "进攻奖励"));
+			if(!result){
+				break;
+			}
 		}
+		return result;
 	}
 
 	private class GroupSecretMatchReceier extends PrintMsgReciver {
@@ -201,8 +210,11 @@ public class GroupSecretMatchHandler {
 						AttackEnemyStartRspMsg startInfo = resp
 								.getAttackStartRsp();
 						String armyInfoStr = startInfo.getArmyInfo();
-						armyInfo = new ArmyInfo();
+						GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
+								.getGroupSecretBaseInfoSynDataHolder();
+						ArmyInfo armyInfo = new ArmyInfo();
 						armyInfo = ArmyInfo.fromJson(armyInfoStr);
+						groupSecretBaseInfoSynDataHolder.setArmyInfo(armyInfo);
 					}
 					return true;
 				} else {
@@ -259,8 +271,11 @@ public class GroupSecretMatchHandler {
 					RobotLog.info(parseFunctionDesc() + "成功");
 					AttackEnemyStartRspMsg startInfo = resp.getAttackStartRsp();
 					String armyInfoStr = startInfo.getArmyInfo();
-					armyInfo = new ArmyInfo();
+					GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
+							.getGroupSecretBaseInfoSynDataHolder();
+					ArmyInfo armyInfo = new ArmyInfo();
 					armyInfo = ArmyInfo.fromJson(armyInfoStr);
+					groupSecretBaseInfoSynDataHolder.setArmyInfo(armyInfo);
 					return true;
 				} else {
 
