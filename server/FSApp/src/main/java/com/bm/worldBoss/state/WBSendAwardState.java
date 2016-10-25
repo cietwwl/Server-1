@@ -14,7 +14,7 @@ class WBSendAwardState implements  IwbState{
 		boolean isSendAwardFinish = !WBAwardServer.getInstance().isRunning();
 		long curTime = System.currentTimeMillis();
 		WBData wbData = WBDataHolder.getInstance().get();
-		if(isSendAwardFinish && wbData.getFinishTime() < curTime){			
+		if(isSendAwardFinish && wbData.getFinishTime() <= curTime){			
 			return new WBFinishState();	
 		}
 		return null;
@@ -32,5 +32,5 @@ class WBSendAwardState implements  IwbState{
 		WBDataHolder.getInstance().update();	
 		
 		WBAwardServer.getInstance().doAwardTask();
-	}
+	}//1477311660920   1477311660920  1477311707151  1477315800000
 }

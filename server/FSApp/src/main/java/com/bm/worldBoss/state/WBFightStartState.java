@@ -14,7 +14,7 @@ import com.bm.worldBoss.data.WBState;
 		WBData wbData = WBDataHolder.getInstance().get();
 		
 		long currentTimeMillis = System.currentTimeMillis();
-		if(wbData.getEndTime() > currentTimeMillis || wbData.getCurLife() <= 0){
+		if(wbData.getEndTime() <= currentTimeMillis || wbData.getCurLife() <= 0){
 			return new WBFightEndState();
 		}
 		

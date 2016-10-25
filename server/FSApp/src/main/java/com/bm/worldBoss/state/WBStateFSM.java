@@ -33,9 +33,9 @@ public class WBStateFSM {
 		WBState state = wbData.getState();
 		IwbState curStateTmp = null;
 		switch (state) {
-			case NewBoss:
-				curStateTmp = new WBNewBossState();
-				break;
+//			case NewBoss:
+//				curStateTmp = new WBNewBossState();
+//				break;
 
 			case PreStart:
 				curStateTmp = new WBPreStartState();

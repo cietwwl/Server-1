@@ -22,6 +22,7 @@ import com.rwproto.WorldBossProtos.CommonRspMsg;
 import com.rwproto.WorldBossProtos.FightBeginParam;
 import com.rwproto.WorldBossProtos.FightBeginRep;
 import com.rwproto.WorldBossProtos.FightEndParam;
+import com.rwproto.WorldBossProtos.FightEndReward;
 
 public class WBHandler {
 	
@@ -99,6 +100,12 @@ public class WBHandler {
 			int awardCoin = addAwardCoin(player, totalHurt);
 			boolean success = WBMgr.getInstance().decrHp(player,totalHurt);
 			if(success){
+				//TODO 这里加上结算的奖励
+				FightEndReward.Builder b = FightEndReward.newBuilder();
+				//TODO 组装奖励数据
+				
+				
+				response.setReward(b);
 				WBUserMgr.getInstance().fightEndUpdate(player, totalHurt, awardCoin);
 			}else{
 				result.setSuccess(false);

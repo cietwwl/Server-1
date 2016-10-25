@@ -13,8 +13,8 @@ class WBPreStartState implements  IwbState{
 	public IwbState doTransfer() {
 		WBData wbData = WBDataHolder.getInstance().get();
 		
-		long curTime = System.currentTimeMillis();
-		if(wbData.getStartTime() > curTime){
+		long curTime = System.currentTimeMillis();//1477364091320
+		if(wbData.getStartTime() <= curTime){     //1477367100000
 			return new WBFightStartState();
 		}
 		

@@ -15,18 +15,34 @@ public final class WorldBossProtos {
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
      * <code>Enter = 1;</code>
+     *
+     * <pre>
+     *首页
+     * </pre>
      */
     Enter(0, 1),
     /**
      * <code>FightBegin = 2;</code>
+     *
+     * <pre>
+     *开始打
+     * </pre>
      */
     FightBegin(1, 2),
     /**
      * <code>FightEnd = 3;</code>
+     *
+     * <pre>
+     *结算
+     * </pre>
      */
     FightEnd(2, 3),
     /**
      * <code>BuyBuff = 4;</code>
+     *
+     * <pre>
+     *购买鼓舞
+     * </pre>
      */
     BuyBuff(3, 4),
     /**
@@ -41,7 +57,7 @@ public final class WorldBossProtos {
      * <code>BuyCD = 6;</code>
      *
      * <pre>
-     *购买复活
+     *购买复活	
      * </pre>
      */
     BuyCD(5, 6),
@@ -49,18 +65,34 @@ public final class WorldBossProtos {
 
     /**
      * <code>Enter = 1;</code>
+     *
+     * <pre>
+     *首页
+     * </pre>
      */
     public static final int Enter_VALUE = 1;
     /**
      * <code>FightBegin = 2;</code>
+     *
+     * <pre>
+     *开始打
+     * </pre>
      */
     public static final int FightBegin_VALUE = 2;
     /**
      * <code>FightEnd = 3;</code>
+     *
+     * <pre>
+     *结算
+     * </pre>
      */
     public static final int FightEnd_VALUE = 3;
     /**
      * <code>BuyBuff = 4;</code>
+     *
+     * <pre>
+     *购买鼓舞
+     * </pre>
      */
     public static final int BuyBuff_VALUE = 4;
     /**
@@ -75,7 +107,7 @@ public final class WorldBossProtos {
      * <code>BuyCD = 6;</code>
      *
      * <pre>
-     *购买复活
+     *购买复活	
      * </pre>
      */
     public static final int BuyCD_VALUE = 6;
@@ -637,14 +669,26 @@ public final class WorldBossProtos {
     // optional string vCode = 2;
     /**
      * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
      */
     boolean hasVCode();
     /**
      * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
      */
     java.lang.String getVCode();
     /**
      * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
      */
     com.google.protobuf.ByteString
         getVCodeBytes();
@@ -771,12 +815,20 @@ public final class WorldBossProtos {
     private java.lang.Object vCode_;
     /**
      * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
      */
     public boolean hasVCode() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
      */
     public java.lang.String getVCode() {
       java.lang.Object ref = vCode_;
@@ -794,6 +846,10 @@ public final class WorldBossProtos {
     }
     /**
      * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getVCodeBytes() {
@@ -1100,12 +1156,20 @@ public final class WorldBossProtos {
       private java.lang.Object vCode_ = "";
       /**
        * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
        */
       public boolean hasVCode() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
        */
       public java.lang.String getVCode() {
         java.lang.Object ref = vCode_;
@@ -1120,6 +1184,10 @@ public final class WorldBossProtos {
       }
       /**
        * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getVCodeBytes() {
@@ -1136,6 +1204,10 @@ public final class WorldBossProtos {
       }
       /**
        * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
        */
       public Builder setVCode(
           java.lang.String value) {
@@ -1149,6 +1221,10 @@ public final class WorldBossProtos {
       }
       /**
        * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
        */
       public Builder clearVCode() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1158,6 +1234,10 @@ public final class WorldBossProtos {
       }
       /**
        * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
        */
       public Builder setVCodeBytes(
           com.google.protobuf.ByteString value) {
@@ -2501,20 +2581,36 @@ public final class WorldBossProtos {
     // optional int32 wbDataVersion = 2;
     /**
      * <code>optional int32 wbDataVersion = 2;</code>
+     *
+     * <pre>
+     *数据版本：世界boss自己的数据
+     * </pre>
      */
     boolean hasWbDataVersion();
     /**
      * <code>optional int32 wbDataVersion = 2;</code>
+     *
+     * <pre>
+     *数据版本：世界boss自己的数据
+     * </pre>
      */
     int getWbDataVersion();
 
     // optional int32 wbUserDataVersion = 3;
     /**
      * <code>optional int32 wbUserDataVersion = 3;</code>
+     *
+     * <pre>
+     *数据版本：玩家关于世界boss的数据
+     * </pre>
      */
     boolean hasWbUserDataVersion();
     /**
      * <code>optional int32 wbUserDataVersion = 3;</code>
+     *
+     * <pre>
+     *数据版本：玩家关于世界boss的数据
+     * </pre>
      */
     int getWbUserDataVersion();
 
@@ -2732,12 +2828,20 @@ public final class WorldBossProtos {
     private int wbDataVersion_;
     /**
      * <code>optional int32 wbDataVersion = 2;</code>
+     *
+     * <pre>
+     *数据版本：世界boss自己的数据
+     * </pre>
      */
     public boolean hasWbDataVersion() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional int32 wbDataVersion = 2;</code>
+     *
+     * <pre>
+     *数据版本：世界boss自己的数据
+     * </pre>
      */
     public int getWbDataVersion() {
       return wbDataVersion_;
@@ -2748,12 +2852,20 @@ public final class WorldBossProtos {
     private int wbUserDataVersion_;
     /**
      * <code>optional int32 wbUserDataVersion = 3;</code>
+     *
+     * <pre>
+     *数据版本：玩家关于世界boss的数据
+     * </pre>
      */
     public boolean hasWbUserDataVersion() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int32 wbUserDataVersion = 3;</code>
+     *
+     * <pre>
+     *数据版本：玩家关于世界boss的数据
+     * </pre>
      */
     public int getWbUserDataVersion() {
       return wbUserDataVersion_;
@@ -3236,18 +3348,30 @@ public final class WorldBossProtos {
       private int wbDataVersion_ ;
       /**
        * <code>optional int32 wbDataVersion = 2;</code>
+       *
+       * <pre>
+       *数据版本：世界boss自己的数据
+       * </pre>
        */
       public boolean hasWbDataVersion() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional int32 wbDataVersion = 2;</code>
+       *
+       * <pre>
+       *数据版本：世界boss自己的数据
+       * </pre>
        */
       public int getWbDataVersion() {
         return wbDataVersion_;
       }
       /**
        * <code>optional int32 wbDataVersion = 2;</code>
+       *
+       * <pre>
+       *数据版本：世界boss自己的数据
+       * </pre>
        */
       public Builder setWbDataVersion(int value) {
         bitField0_ |= 0x00000002;
@@ -3257,6 +3381,10 @@ public final class WorldBossProtos {
       }
       /**
        * <code>optional int32 wbDataVersion = 2;</code>
+       *
+       * <pre>
+       *数据版本：世界boss自己的数据
+       * </pre>
        */
       public Builder clearWbDataVersion() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3269,18 +3397,30 @@ public final class WorldBossProtos {
       private int wbUserDataVersion_ ;
       /**
        * <code>optional int32 wbUserDataVersion = 3;</code>
+       *
+       * <pre>
+       *数据版本：玩家关于世界boss的数据
+       * </pre>
        */
       public boolean hasWbUserDataVersion() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int32 wbUserDataVersion = 3;</code>
+       *
+       * <pre>
+       *数据版本：玩家关于世界boss的数据
+       * </pre>
        */
       public int getWbUserDataVersion() {
         return wbUserDataVersion_;
       }
       /**
        * <code>optional int32 wbUserDataVersion = 3;</code>
+       *
+       * <pre>
+       *数据版本：玩家关于世界boss的数据
+       * </pre>
        */
       public Builder setWbUserDataVersion(int value) {
         bitField0_ |= 0x00000004;
@@ -3290,6 +3430,10 @@ public final class WorldBossProtos {
       }
       /**
        * <code>optional int32 wbUserDataVersion = 3;</code>
+       *
+       * <pre>
+       *数据版本：玩家关于世界boss的数据
+       * </pre>
        */
       public Builder clearWbUserDataVersion() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -3751,6 +3895,32 @@ public final class WorldBossProtos {
      * </pre>
      */
     com.rwproto.WorldBossProtos.FightBeginRepOrBuilder getFightBeginRepOrBuilder();
+
+    // optional .WorldBoss.FightEndReward reward = 5;
+    /**
+     * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+     *
+     * <pre>
+     *战斗结算奖励
+     * </pre>
+     */
+    boolean hasReward();
+    /**
+     * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+     *
+     * <pre>
+     *战斗结算奖励
+     * </pre>
+     */
+    com.rwproto.WorldBossProtos.FightEndReward getReward();
+    /**
+     * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+     *
+     * <pre>
+     *战斗结算奖励
+     * </pre>
+     */
+    com.rwproto.WorldBossProtos.FightEndRewardOrBuilder getRewardOrBuilder();
   }
   /**
    * Protobuf type {@code WorldBoss.CommonRspMsg}
@@ -3835,6 +4005,19 @@ public final class WorldBossProtos {
                 fightBeginRep_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              com.rwproto.WorldBossProtos.FightEndReward.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = reward_.toBuilder();
+              }
+              reward_ = input.readMessage(com.rwproto.WorldBossProtos.FightEndReward.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(reward_);
+                reward_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -4014,11 +4197,46 @@ public final class WorldBossProtos {
       return fightBeginRep_;
     }
 
+    // optional .WorldBoss.FightEndReward reward = 5;
+    public static final int REWARD_FIELD_NUMBER = 5;
+    private com.rwproto.WorldBossProtos.FightEndReward reward_;
+    /**
+     * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+     *
+     * <pre>
+     *战斗结算奖励
+     * </pre>
+     */
+    public boolean hasReward() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+     *
+     * <pre>
+     *战斗结算奖励
+     * </pre>
+     */
+    public com.rwproto.WorldBossProtos.FightEndReward getReward() {
+      return reward_;
+    }
+    /**
+     * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+     *
+     * <pre>
+     *战斗结算奖励
+     * </pre>
+     */
+    public com.rwproto.WorldBossProtos.FightEndRewardOrBuilder getRewardOrBuilder() {
+      return reward_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.WorldBossProtos.RequestType.Enter;
       isSuccess_ = false;
       tipMsg_ = "";
       fightBeginRep_ = com.rwproto.WorldBossProtos.FightBeginRep.getDefaultInstance();
+      reward_ = com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4035,6 +4253,12 @@ public final class WorldBossProtos {
       }
       if (hasFightBeginRep()) {
         if (!getFightBeginRep().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasReward()) {
+        if (!getReward().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -4057,6 +4281,9 @@ public final class WorldBossProtos {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, fightBeginRep_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, reward_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4082,6 +4309,10 @@ public final class WorldBossProtos {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, fightBeginRep_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, reward_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4192,6 +4423,7 @@ public final class WorldBossProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getFightBeginRepFieldBuilder();
+          getRewardFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4212,6 +4444,12 @@ public final class WorldBossProtos {
           fightBeginRepBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (rewardBuilder_ == null) {
+          reward_ = com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance();
+        } else {
+          rewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -4260,6 +4498,14 @@ public final class WorldBossProtos {
         } else {
           result.fightBeginRep_ = fightBeginRepBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (rewardBuilder_ == null) {
+          result.reward_ = reward_;
+        } else {
+          result.reward_ = rewardBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4290,6 +4536,9 @@ public final class WorldBossProtos {
         if (other.hasFightBeginRep()) {
           mergeFightBeginRep(other.getFightBeginRep());
         }
+        if (other.hasReward()) {
+          mergeReward(other.getReward());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4305,6 +4554,12 @@ public final class WorldBossProtos {
         }
         if (hasFightBeginRep()) {
           if (!getFightBeginRep().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasReward()) {
+          if (!getReward().isInitialized()) {
             
             return false;
           }
@@ -4683,6 +4938,159 @@ public final class WorldBossProtos {
         return fightBeginRepBuilder_;
       }
 
+      // optional .WorldBoss.FightEndReward reward = 5;
+      private com.rwproto.WorldBossProtos.FightEndReward reward_ = com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.WorldBossProtos.FightEndReward, com.rwproto.WorldBossProtos.FightEndReward.Builder, com.rwproto.WorldBossProtos.FightEndRewardOrBuilder> rewardBuilder_;
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public boolean hasReward() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public com.rwproto.WorldBossProtos.FightEndReward getReward() {
+        if (rewardBuilder_ == null) {
+          return reward_;
+        } else {
+          return rewardBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public Builder setReward(com.rwproto.WorldBossProtos.FightEndReward value) {
+        if (rewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          reward_ = value;
+          onChanged();
+        } else {
+          rewardBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public Builder setReward(
+          com.rwproto.WorldBossProtos.FightEndReward.Builder builderForValue) {
+        if (rewardBuilder_ == null) {
+          reward_ = builderForValue.build();
+          onChanged();
+        } else {
+          rewardBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public Builder mergeReward(com.rwproto.WorldBossProtos.FightEndReward value) {
+        if (rewardBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              reward_ != com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance()) {
+            reward_ =
+              com.rwproto.WorldBossProtos.FightEndReward.newBuilder(reward_).mergeFrom(value).buildPartial();
+          } else {
+            reward_ = value;
+          }
+          onChanged();
+        } else {
+          rewardBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public Builder clearReward() {
+        if (rewardBuilder_ == null) {
+          reward_ = com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance();
+          onChanged();
+        } else {
+          rewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public com.rwproto.WorldBossProtos.FightEndReward.Builder getRewardBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getRewardFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      public com.rwproto.WorldBossProtos.FightEndRewardOrBuilder getRewardOrBuilder() {
+        if (rewardBuilder_ != null) {
+          return rewardBuilder_.getMessageOrBuilder();
+        } else {
+          return reward_;
+        }
+      }
+      /**
+       * <code>optional .WorldBoss.FightEndReward reward = 5;</code>
+       *
+       * <pre>
+       *战斗结算奖励
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.WorldBossProtos.FightEndReward, com.rwproto.WorldBossProtos.FightEndReward.Builder, com.rwproto.WorldBossProtos.FightEndRewardOrBuilder> 
+          getRewardFieldBuilder() {
+        if (rewardBuilder_ == null) {
+          rewardBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.WorldBossProtos.FightEndReward, com.rwproto.WorldBossProtos.FightEndReward.Builder, com.rwproto.WorldBossProtos.FightEndRewardOrBuilder>(
+                  reward_,
+                  getParentForChildren(),
+                  isClean());
+          reward_ = null;
+        }
+        return rewardBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:WorldBoss.CommonRspMsg)
     }
 
@@ -4692,6 +5100,1049 @@ public final class WorldBossProtos {
     }
 
     // @@protoc_insertion_point(class_scope:WorldBoss.CommonRspMsg)
+  }
+
+  public interface FightEndRewardOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 totalHarm = 1;
+    /**
+     * <code>required int64 totalHarm = 1;</code>
+     *
+     * <pre>
+     *boss受到的总伤害
+     * </pre>
+     */
+    boolean hasTotalHarm();
+    /**
+     * <code>required int64 totalHarm = 1;</code>
+     *
+     * <pre>
+     *boss受到的总伤害
+     * </pre>
+     */
+    long getTotalHarm();
+
+    // required int64 curHarm = 2;
+    /**
+     * <code>required int64 curHarm = 2;</code>
+     *
+     * <pre>
+     *本次战斗伤害
+     * </pre>
+     */
+    boolean hasCurHarm();
+    /**
+     * <code>required int64 curHarm = 2;</code>
+     *
+     * <pre>
+     *本次战斗伤害
+     * </pre>
+     */
+    long getCurHarm();
+
+    // repeated .RandomBoss.ItemInfo itemList = 3;
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.RandomBossProto.ItemInfo> 
+        getItemListList();
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    com.rwproto.RandomBossProto.ItemInfo getItemList(int index);
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    int getItemListCount();
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.RandomBossProto.ItemInfoOrBuilder> 
+        getItemListOrBuilderList();
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    com.rwproto.RandomBossProto.ItemInfoOrBuilder getItemListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code WorldBoss.FightEndReward}
+   */
+  public static final class FightEndReward extends
+      com.google.protobuf.GeneratedMessage
+      implements FightEndRewardOrBuilder {
+    // Use FightEndReward.newBuilder() to construct.
+    private FightEndReward(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FightEndReward(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FightEndReward defaultInstance;
+    public static FightEndReward getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FightEndReward getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FightEndReward(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              totalHarm_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              curHarm_ = input.readInt64();
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                itemList_ = new java.util.ArrayList<com.rwproto.RandomBossProto.ItemInfo>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              itemList_.add(input.readMessage(com.rwproto.RandomBossProto.ItemInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          itemList_ = java.util.Collections.unmodifiableList(itemList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightEndReward_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightEndReward_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.WorldBossProtos.FightEndReward.class, com.rwproto.WorldBossProtos.FightEndReward.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FightEndReward> PARSER =
+        new com.google.protobuf.AbstractParser<FightEndReward>() {
+      public FightEndReward parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FightEndReward(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FightEndReward> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 totalHarm = 1;
+    public static final int TOTALHARM_FIELD_NUMBER = 1;
+    private long totalHarm_;
+    /**
+     * <code>required int64 totalHarm = 1;</code>
+     *
+     * <pre>
+     *boss受到的总伤害
+     * </pre>
+     */
+    public boolean hasTotalHarm() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 totalHarm = 1;</code>
+     *
+     * <pre>
+     *boss受到的总伤害
+     * </pre>
+     */
+    public long getTotalHarm() {
+      return totalHarm_;
+    }
+
+    // required int64 curHarm = 2;
+    public static final int CURHARM_FIELD_NUMBER = 2;
+    private long curHarm_;
+    /**
+     * <code>required int64 curHarm = 2;</code>
+     *
+     * <pre>
+     *本次战斗伤害
+     * </pre>
+     */
+    public boolean hasCurHarm() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 curHarm = 2;</code>
+     *
+     * <pre>
+     *本次战斗伤害
+     * </pre>
+     */
+    public long getCurHarm() {
+      return curHarm_;
+    }
+
+    // repeated .RandomBoss.ItemInfo itemList = 3;
+    public static final int ITEMLIST_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.RandomBossProto.ItemInfo> itemList_;
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.RandomBossProto.ItemInfo> getItemListList() {
+      return itemList_;
+    }
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.RandomBossProto.ItemInfoOrBuilder> 
+        getItemListOrBuilderList() {
+      return itemList_;
+    }
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    public int getItemListCount() {
+      return itemList_.size();
+    }
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    public com.rwproto.RandomBossProto.ItemInfo getItemList(int index) {
+      return itemList_.get(index);
+    }
+    /**
+     * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+     *
+     * <pre>
+     *奖励道具列表
+     * </pre>
+     */
+    public com.rwproto.RandomBossProto.ItemInfoOrBuilder getItemListOrBuilder(
+        int index) {
+      return itemList_.get(index);
+    }
+
+    private void initFields() {
+      totalHarm_ = 0L;
+      curHarm_ = 0L;
+      itemList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTotalHarm()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCurHarm()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getItemListCount(); i++) {
+        if (!getItemList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, totalHarm_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, curHarm_);
+      }
+      for (int i = 0; i < itemList_.size(); i++) {
+        output.writeMessage(3, itemList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, totalHarm_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, curHarm_);
+      }
+      for (int i = 0; i < itemList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, itemList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.WorldBossProtos.FightEndReward parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.WorldBossProtos.FightEndReward prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code WorldBoss.FightEndReward}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.WorldBossProtos.FightEndRewardOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightEndReward_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightEndReward_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.WorldBossProtos.FightEndReward.class, com.rwproto.WorldBossProtos.FightEndReward.Builder.class);
+      }
+
+      // Construct using com.rwproto.WorldBossProtos.FightEndReward.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getItemListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        totalHarm_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        curHarm_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        if (itemListBuilder_ == null) {
+          itemList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          itemListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightEndReward_descriptor;
+      }
+
+      public com.rwproto.WorldBossProtos.FightEndReward getDefaultInstanceForType() {
+        return com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance();
+      }
+
+      public com.rwproto.WorldBossProtos.FightEndReward build() {
+        com.rwproto.WorldBossProtos.FightEndReward result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.WorldBossProtos.FightEndReward buildPartial() {
+        com.rwproto.WorldBossProtos.FightEndReward result = new com.rwproto.WorldBossProtos.FightEndReward(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.totalHarm_ = totalHarm_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.curHarm_ = curHarm_;
+        if (itemListBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            itemList_ = java.util.Collections.unmodifiableList(itemList_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.itemList_ = itemList_;
+        } else {
+          result.itemList_ = itemListBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.WorldBossProtos.FightEndReward) {
+          return mergeFrom((com.rwproto.WorldBossProtos.FightEndReward)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.WorldBossProtos.FightEndReward other) {
+        if (other == com.rwproto.WorldBossProtos.FightEndReward.getDefaultInstance()) return this;
+        if (other.hasTotalHarm()) {
+          setTotalHarm(other.getTotalHarm());
+        }
+        if (other.hasCurHarm()) {
+          setCurHarm(other.getCurHarm());
+        }
+        if (itemListBuilder_ == null) {
+          if (!other.itemList_.isEmpty()) {
+            if (itemList_.isEmpty()) {
+              itemList_ = other.itemList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureItemListIsMutable();
+              itemList_.addAll(other.itemList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.itemList_.isEmpty()) {
+            if (itemListBuilder_.isEmpty()) {
+              itemListBuilder_.dispose();
+              itemListBuilder_ = null;
+              itemList_ = other.itemList_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              itemListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getItemListFieldBuilder() : null;
+            } else {
+              itemListBuilder_.addAllMessages(other.itemList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTotalHarm()) {
+          
+          return false;
+        }
+        if (!hasCurHarm()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getItemListCount(); i++) {
+          if (!getItemList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.WorldBossProtos.FightEndReward parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.WorldBossProtos.FightEndReward) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 totalHarm = 1;
+      private long totalHarm_ ;
+      /**
+       * <code>required int64 totalHarm = 1;</code>
+       *
+       * <pre>
+       *boss受到的总伤害
+       * </pre>
+       */
+      public boolean hasTotalHarm() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 totalHarm = 1;</code>
+       *
+       * <pre>
+       *boss受到的总伤害
+       * </pre>
+       */
+      public long getTotalHarm() {
+        return totalHarm_;
+      }
+      /**
+       * <code>required int64 totalHarm = 1;</code>
+       *
+       * <pre>
+       *boss受到的总伤害
+       * </pre>
+       */
+      public Builder setTotalHarm(long value) {
+        bitField0_ |= 0x00000001;
+        totalHarm_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 totalHarm = 1;</code>
+       *
+       * <pre>
+       *boss受到的总伤害
+       * </pre>
+       */
+      public Builder clearTotalHarm() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        totalHarm_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // required int64 curHarm = 2;
+      private long curHarm_ ;
+      /**
+       * <code>required int64 curHarm = 2;</code>
+       *
+       * <pre>
+       *本次战斗伤害
+       * </pre>
+       */
+      public boolean hasCurHarm() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 curHarm = 2;</code>
+       *
+       * <pre>
+       *本次战斗伤害
+       * </pre>
+       */
+      public long getCurHarm() {
+        return curHarm_;
+      }
+      /**
+       * <code>required int64 curHarm = 2;</code>
+       *
+       * <pre>
+       *本次战斗伤害
+       * </pre>
+       */
+      public Builder setCurHarm(long value) {
+        bitField0_ |= 0x00000002;
+        curHarm_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 curHarm = 2;</code>
+       *
+       * <pre>
+       *本次战斗伤害
+       * </pre>
+       */
+      public Builder clearCurHarm() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        curHarm_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // repeated .RandomBoss.ItemInfo itemList = 3;
+      private java.util.List<com.rwproto.RandomBossProto.ItemInfo> itemList_ =
+        java.util.Collections.emptyList();
+      private void ensureItemListIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          itemList_ = new java.util.ArrayList<com.rwproto.RandomBossProto.ItemInfo>(itemList_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.RandomBossProto.ItemInfo, com.rwproto.RandomBossProto.ItemInfo.Builder, com.rwproto.RandomBossProto.ItemInfoOrBuilder> itemListBuilder_;
+
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.RandomBossProto.ItemInfo> getItemListList() {
+        if (itemListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(itemList_);
+        } else {
+          return itemListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public int getItemListCount() {
+        if (itemListBuilder_ == null) {
+          return itemList_.size();
+        } else {
+          return itemListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.ItemInfo getItemList(int index) {
+        if (itemListBuilder_ == null) {
+          return itemList_.get(index);
+        } else {
+          return itemListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder setItemList(
+          int index, com.rwproto.RandomBossProto.ItemInfo value) {
+        if (itemListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemListIsMutable();
+          itemList_.set(index, value);
+          onChanged();
+        } else {
+          itemListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder setItemList(
+          int index, com.rwproto.RandomBossProto.ItemInfo.Builder builderForValue) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder addItemList(com.rwproto.RandomBossProto.ItemInfo value) {
+        if (itemListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemListIsMutable();
+          itemList_.add(value);
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder addItemList(
+          int index, com.rwproto.RandomBossProto.ItemInfo value) {
+        if (itemListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemListIsMutable();
+          itemList_.add(index, value);
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder addItemList(
+          com.rwproto.RandomBossProto.ItemInfo.Builder builderForValue) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder addItemList(
+          int index, com.rwproto.RandomBossProto.ItemInfo.Builder builderForValue) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder addAllItemList(
+          java.lang.Iterable<? extends com.rwproto.RandomBossProto.ItemInfo> values) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          super.addAll(values, itemList_);
+          onChanged();
+        } else {
+          itemListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder clearItemList() {
+        if (itemListBuilder_ == null) {
+          itemList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          itemListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public Builder removeItemList(int index) {
+        if (itemListBuilder_ == null) {
+          ensureItemListIsMutable();
+          itemList_.remove(index);
+          onChanged();
+        } else {
+          itemListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.ItemInfo.Builder getItemListBuilder(
+          int index) {
+        return getItemListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.ItemInfoOrBuilder getItemListOrBuilder(
+          int index) {
+        if (itemListBuilder_ == null) {
+          return itemList_.get(index);  } else {
+          return itemListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.RandomBossProto.ItemInfoOrBuilder> 
+           getItemListOrBuilderList() {
+        if (itemListBuilder_ != null) {
+          return itemListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(itemList_);
+        }
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.ItemInfo.Builder addItemListBuilder() {
+        return getItemListFieldBuilder().addBuilder(
+            com.rwproto.RandomBossProto.ItemInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public com.rwproto.RandomBossProto.ItemInfo.Builder addItemListBuilder(
+          int index) {
+        return getItemListFieldBuilder().addBuilder(
+            index, com.rwproto.RandomBossProto.ItemInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .RandomBoss.ItemInfo itemList = 3;</code>
+       *
+       * <pre>
+       *奖励道具列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.RandomBossProto.ItemInfo.Builder> 
+           getItemListBuilderList() {
+        return getItemListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.RandomBossProto.ItemInfo, com.rwproto.RandomBossProto.ItemInfo.Builder, com.rwproto.RandomBossProto.ItemInfoOrBuilder> 
+          getItemListFieldBuilder() {
+        if (itemListBuilder_ == null) {
+          itemListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.RandomBossProto.ItemInfo, com.rwproto.RandomBossProto.ItemInfo.Builder, com.rwproto.RandomBossProto.ItemInfoOrBuilder>(
+                  itemList_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          itemList_ = null;
+        }
+        return itemListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:WorldBoss.FightEndReward)
+    }
+
+    static {
+      defaultInstance = new FightEndReward(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:WorldBoss.FightEndReward)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -4724,6 +6175,11 @@ public final class WorldBossProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_WorldBoss_CommonRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_WorldBoss_FightEndReward_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_WorldBoss_FightEndReward_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4733,25 +6189,28 @@ public final class WorldBossProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017WorldBoss.proto\022\tWorldBoss\"\035\n\014BuyBuffP" +
-      "aram\022\r\n\005cfgId\030\001 \002(\t\"1\n\rFightEndParam\022\021\n\t" +
-      "totalHurt\030\001 \002(\003\022\r\n\005vCode\030\002 \001(\t\"\"\n\017FightB" +
-      "eginParam\022\017\n\007heroIds\030\001 \003(\t\"3\n\rFightBegin" +
-      "Rep\022\020\n\010bossArmy\030\001 \002(\t\022\020\n\010selfArmy\030\002 \002(\t\"" +
-      "\376\001\n\014CommonReqMsg\022\'\n\007reqType\030\001 \002(\0162\026.Worl" +
-      "dBoss.RequestType\022\025\n\rwbDataVersion\030\002 \001(\005" +
-      "\022\031\n\021wbUserDataVersion\030\003 \001(\005\022-\n\014buyBuffPa" +
-      "ram\030\004 \001(\0132\027.WorldBoss.BuyBuffParam\0223\n\017fi" +
-      "ghtBeginParam\030\005 \001(\0132\032.WorldBoss.FightBeg",
-      "inParam\022/\n\rfightEndParam\030\006 \001(\0132\030.WorldBo" +
-      "ss.FightEndParam\"\213\001\n\014CommonRspMsg\022\'\n\007req" +
-      "Type\030\001 \002(\0162\026.WorldBoss.RequestType\022\021\n\tis" +
-      "Success\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022/\n\rfightBe" +
-      "ginRep\030\004 \001(\0132\030.WorldBoss.FightBeginRep*[" +
-      "\n\013RequestType\022\t\n\005Enter\020\001\022\016\n\nFightBegin\020\002" +
-      "\022\014\n\010FightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynData\020\005" +
-      "\022\t\n\005BuyCD\020\006B\036\n\013com.rwprotoB\017WorldBossPro" +
-      "tos"
+      "\n\017WorldBoss.proto\022\tWorldBoss\032\020RandomBoss" +
+      ".proto\"\035\n\014BuyBuffParam\022\r\n\005cfgId\030\001 \002(\t\"1\n" +
+      "\rFightEndParam\022\021\n\ttotalHurt\030\001 \002(\003\022\r\n\005vCo" +
+      "de\030\002 \001(\t\"\"\n\017FightBeginParam\022\017\n\007heroIds\030\001" +
+      " \003(\t\"3\n\rFightBeginRep\022\020\n\010bossArmy\030\001 \002(\t\022" +
+      "\020\n\010selfArmy\030\002 \002(\t\"\376\001\n\014CommonReqMsg\022\'\n\007re" +
+      "qType\030\001 \002(\0162\026.WorldBoss.RequestType\022\025\n\rw" +
+      "bDataVersion\030\002 \001(\005\022\031\n\021wbUserDataVersion\030" +
+      "\003 \001(\005\022-\n\014buyBuffParam\030\004 \001(\0132\027.WorldBoss." +
+      "BuyBuffParam\0223\n\017fightBeginParam\030\005 \001(\0132\032.",
+      "WorldBoss.FightBeginParam\022/\n\rfightEndPar" +
+      "am\030\006 \001(\0132\030.WorldBoss.FightEndParam\"\266\001\n\014C" +
+      "ommonRspMsg\022\'\n\007reqType\030\001 \002(\0162\026.WorldBoss" +
+      ".RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMs" +
+      "g\030\003 \001(\t\022/\n\rfightBeginRep\030\004 \001(\0132\030.WorldBo" +
+      "ss.FightBeginRep\022)\n\006reward\030\005 \001(\0132\031.World" +
+      "Boss.FightEndReward\"\\\n\016FightEndReward\022\021\n" +
+      "\ttotalHarm\030\001 \002(\003\022\017\n\007curHarm\030\002 \002(\003\022&\n\010ite" +
+      "mList\030\003 \003(\0132\024.RandomBoss.ItemInfo*[\n\013Req" +
+      "uestType\022\t\n\005Enter\020\001\022\016\n\nFightBegin\020\002\022\014\n\010F",
+      "ightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynData\020\005\022\t\n\005B" +
+      "uyCD\020\006B\036\n\013com.rwprotoB\017WorldBossProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -4793,13 +6252,20 @@ public final class WorldBossProtos {
           internal_static_WorldBoss_CommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_CommonRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "FightBeginRep", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "FightBeginRep", "Reward", });
+          internal_static_WorldBoss_FightEndReward_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_WorldBoss_FightEndReward_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_WorldBoss_FightEndReward_descriptor,
+              new java.lang.String[] { "TotalHarm", "CurHarm", "ItemList", });
           return null;
         }
       };
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.RandomBossProto.getDescriptor(),
         }, assigner);
   }
 

@@ -83,9 +83,9 @@ public class WBCfg {
 		current.set(Calendar.SECOND, 0);
 		current.set(Calendar.MILLISECOND, 0);
 		
-		long startTime = current.getTimeInMillis();
+		long time = current.getTimeInMillis();
 		
-		return startTime;
+		return time;
 	}
 
 	public String getKillAttackAwardId() {
@@ -98,7 +98,14 @@ public class WBCfg {
 	
 	
 	
-
+	public static void main(String[] args) {
+//		String tt = "20:30";
+//		WBCfg cfg = new WBCfg();
+//		long t = cfg.getTime(tt);
+		String timeStr = DateUtils.getDateTimeFormatString(1477365300000L, "yyyy-MM-dd HH:mm");
+		System.out.println(timeStr);
+		
+	}
 	
 	
 	

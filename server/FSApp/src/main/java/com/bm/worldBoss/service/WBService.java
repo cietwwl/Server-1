@@ -7,6 +7,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
+import com.rwproto.RandomBossProto.ItemInfo;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.RequestType;

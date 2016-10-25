@@ -7,7 +7,7 @@ public class WBHPCfg {
 
 	private String id;//id 就是level
 	
-	private float factor;
+	private float factor = 1;
 
 	public String getId() {
 		return id;
