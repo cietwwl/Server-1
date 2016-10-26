@@ -66,6 +66,7 @@ public class WBHandler {
 			
 		}
 		response.setIsSuccess(result.isSuccess());
+		if(result.getReason() != null)
 		response.setTipMsg(result.getReason());	
 				
 		return response.build().toByteString();
@@ -155,7 +156,7 @@ public class WBHandler {
 		}else if(!WBMgr.getInstance().isAfterBossStartTime()){
 			result.setSuccess(false);
 			result.setReason("世界boss尚未抵达。");			
-		}else if(!WBMgr.getInstance().isBeginBossEndTime()){
+		}else if(!WBMgr.getInstance().isBeforeBossEndTime()){
 			result.setSuccess(false);
 			result.setReason("世界boss已离开。");			
 		}

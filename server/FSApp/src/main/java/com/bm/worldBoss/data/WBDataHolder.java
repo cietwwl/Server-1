@@ -68,22 +68,12 @@ public class WBDataHolder {
 		return success;
 	}
 	
+	
+	
 	private boolean init(WBData data, WBCfg wbCfg){
 		
 		
-		CopyMonsterInfoCfg cfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
-		String monsterCfgId=null;
-		if(cfg.getEnemyList().size() > 0 ){
-			List<String> enemyList = cfg.getEnemyList();
-			for (String monsterId : enemyList) {
-				if(StringUtils.isNotBlank(monsterId)){
-					monsterCfgId = monsterId;
-					break;
-				}
-			}			
-		}		
-		
-		MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getCfgById(monsterCfgId);
+		MonsterCfg monsterCfg = getMonsterCfg(wbCfg);
 		if(monsterCfg!=null){
 			data.setMonsterCfgId(monsterCfg.getId());
 			WBHPCfg wbHpCfg = WBHPCfgDAO.getInstance().getCfgById(String.valueOf(data.getBossLevel()));
@@ -106,6 +96,40 @@ public class WBDataHolder {
 		return false;
 		
 	
+	}
+
+
+
+	private MonsterCfg getMonsterCfg(WBCfg wbCfg) {
+		CopyMonsterInfoCfg cfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
+		String monsterCfgId=null;
+		if(cfg.getEnemyList().size() > 0 ){
+			List<String> enemyList = cfg.getEnemyList();
+			for (String monsterId : enemyList) {
+				if(StringUtils.isNotBlank(monsterId)){
+					monsterCfgId = monsterId;
+					break;
+				}
+			}			
+		}		
+		
+		MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getCfgById(monsterCfgId);
+		return monsterCfg;
+	}
+	
+	public void reCfg(WBData data, WBCfg wbCfg){
+		MonsterCfg monsterCfg = getMonsterCfg(wbCfg);
+		if(monsterCfg!=null){
+			
+			data.setPreStartTime(wbCfg.getPreStartTime());
+			data.setStartTime(wbCfg.getStartTime());
+			data.setEndTime(wbCfg.getEndTime());
+			data.setFinishTime(wbCfg.getFinishTime());
+			
+			boolean update = WBDataDao.getInstance().update(data);
+			
+			GameLog.info(LogModule.WorldBoss.getName(), "WBDataHolder[init]", "world boss update wbdata result: " + update);
+		}
 	}
 	 
 	

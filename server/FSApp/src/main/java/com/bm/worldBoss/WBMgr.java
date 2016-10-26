@@ -54,9 +54,9 @@ public class WBMgr {
 	
 	public boolean isAfterBossStartTime(){
 		WBData wbData = WBDataHolder.getInstance().get();
-		return wbData.getStartTime() > System.currentTimeMillis();
+		return wbData.getStartTime() <= System.currentTimeMillis();
 	}
-	public boolean isBeginBossEndTime(){
+	public boolean isBeforeBossEndTime(){
 		WBData wbData = WBDataHolder.getInstance().get();
 		return wbData.getEndTime() > System.currentTimeMillis();
 	}

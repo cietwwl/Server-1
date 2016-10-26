@@ -1,5 +1,7 @@
 package com.bm.worldBoss.state;
 
+import com.bm.worldBoss.cfg.WBCfg;
+import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
@@ -60,8 +62,21 @@ public class WBStateFSM {
 		default:
 			break;
 		}
+		
+		//
+		checkCfg();
+		
 		return curStateTmp;
 		
+	}
+	
+	/**
+	 * 检查一下配置文件
+	 */
+	private void checkCfg(){
+		WBData data = WBDataHolder.getInstance().get();
+		WBCfg cfg = WBCfgDAO.getInstance().getCfgById(data.getWbcfgId());
+		WBDataHolder.getInstance().reCfg(data, cfg);
 	}
 
 	public void tranfer(){
