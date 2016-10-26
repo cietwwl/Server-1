@@ -9,6 +9,8 @@ key,remarks,time,cost,coinType
 8,,8,50,Gold
 9,,9,50,Gold
 10,,10,50,Gold
-11,,11~20,50,Gold
-12,,21~40,80,Gold
-13,,21~100,100,Gold
+11,,11,50,Gold
+12,,12,50,Gold
+13,,13,50,Gold
+14,,14,50,Gold
+15,,15~100,50,Gold
