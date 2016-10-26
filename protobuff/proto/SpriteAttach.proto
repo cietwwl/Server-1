@@ -5,6 +5,7 @@ option java_outer_classname = "SpriteAttachProtos";
 
 enum eSpriteAttachRequestType{
 	SpriteAttach = 1;
+	UnlockSpriteAttach = 2;
 }
 
 enum eSpriteAttachResultType{
