@@ -207,4 +207,36 @@ public class SpriteAttachMgr implements IDataMgrSingletone{
 
 		return list;
 	}
+	
+	/**
+	 * 角色专职
+	 * @param player
+	 */
+	public void onCarrerChange(Player player){
+		HeroMgr heroMgr = player.getHeroMgr();
+		Hero hero = heroMgr.getMainRoleHero(player);
+		SpriteAttachHolder spriteAttachHolder = getSpriteAttachHolder();
+		SpriteAttachSyn spriteAttachSyn = spriteAttachHolder.getSpriteAttachSyn(hero.getId());
+		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(hero.getModeId()));
+		HashMap<Integer,Integer> indexMap = spriteAttachRoleCfg.getIndexMap();
+		Map<Integer, SpriteAttachItem> itemMap = spriteAttachSyn.getItemMap();
+		for (Iterator<Entry<Integer, SpriteAttachItem>> iterator = itemMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, SpriteAttachItem> entry = iterator.next();
+			Integer index = entry.getKey();
+			SpriteAttachItem spriteAttachItem = entry.getValue();
+			int newSpriteAttachId = 0;
+			for (Iterator<Entry<Integer, Integer>> iterator2 = indexMap.entrySet().iterator(); iterator2.hasNext();) {
+				Entry<Integer, Integer> entry2 = iterator2.next();
+				Integer templateIndex = entry2.getValue();
+				Integer id = entry2.getKey();
+				if(templateIndex == index){
+					newSpriteAttachId = id;
+					break;
+				}
+				
+			}
+			spriteAttachItem.setSpriteAttachId(newSpriteAttachId);
+		}
+		spriteAttachHolder.updateItem(player, spriteAttachSyn);
+	}
 }

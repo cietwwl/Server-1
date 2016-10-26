@@ -910,6 +910,9 @@ public class Player implements PlayerIF {
 			getSettingMgr().setCareerHeadImage();
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
+			
+			SpriteAttachMgr.getInstance().onCarrerChange(this);
+			
 			// 改技能Id
 			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
@@ -920,6 +923,8 @@ public class Player implements PlayerIF {
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
 			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
 
+			
+			
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);
