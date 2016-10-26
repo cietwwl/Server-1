@@ -30,6 +30,8 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
@@ -375,86 +377,101 @@ public class ChargeMgr {
 		return result;
 	}
 
-	
-	
-	
-	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId,ChargeCfg target) {
-		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
+	// 发送月卡给指定的玩家
+	private IReadOnlyPair<ChargeResult, ActivityTimeCardTypeSubItem> sendMonthCardToTarget(Player targetPlayer, String timeCardSubCfgId) {
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		if(dataItem == null){//首次读取创建记录
-			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player);
-			if(dataItem != null){
-				dataHolder.addItem(player, dataItem);
-				}
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(targetPlayer.getUserId());
+		if (dataItem == null) {// 首次读取创建记录
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(targetPlayer);
+			if (dataItem != null) {
+				dataHolder.addItem(targetPlayer, dataItem);
+			}
 		}
-		
-		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
+
+		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
 		ChargeTypeEnum cardtypenume = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getChargeType();
-		
-		
-		
-		String cardtype= cardtypenume.getCfgId();
+
+		String cardtype = cardtypenume.getCfgId();
 		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
-			if(StringUtils.equals(itemTmp.getChargetype(), cardtype)){
+			if (StringUtils.equals(itemTmp.getChargetype(), cardtype)) {
 				targetItem = itemTmp;
 				break;
 			}
 		}
-		
-		if(targetItem == null){//newitem已添加list，不会null
-			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
+
+		if (targetItem == null) {// newitem已添加list，不会null
+			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！" + targetPlayer);
 			result.setTips("购买月卡异常");
-		}else{
+		} else {
 			int tempdayleft = targetItem.getDayLeft();
-			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
-			dataHolder.updateItem(player, dataItem);
+//			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
+			if (cardtypenume == ChargeTypeEnum.VipMonthCard) {
+				targetItem.setDayLeft(Short.MAX_VALUE * 2); // 至尊月卡，现在是终身的，所以这里设置一个很长的剩余天数
+			} else {
+				targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
+			}
+			dataHolder.updateItem(targetPlayer, dataItem);
 			result.setSuccess(true);
-			
-			DailyActivityHandler.getInstance().sendTaskList(player);
-			
-			
-			
-			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()){				
-				result.setTips("购买月卡成功");				
-			}else{				
+
+			DailyActivityHandler.getInstance().sendTaskList(targetPlayer);
+
+			if (tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()) {
+				result.setTips("购买月卡成功");
+			} else {
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
-				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡cfgid =" + timeCardSubCfgId);
+				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 =" + targetPlayer.getUserName() + " 月卡cfgid =" + timeCardSubCfgId);
 			}
 		}
-		if (result.isSuccess()){
-			String orderStr = targetItem.getChargetype();
+		return Pair.Create(result, targetItem);
+	}
+	
+	
+	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId, ChargeCfg target) {
+//		UserEventMgr.getInstance().charge(player, 30);// 模拟充值的充值活动传入，测试用，正式服需注释
+		IReadOnlyPair<ChargeResult, ActivityTimeCardTypeSubItem> pairResult = this.sendMonthCardToTarget(player, timeCardSubCfgId);
+		ChargeResult result = pairResult.getT1();
+		if (result.isSuccess()) {
+			String orderStr = pairResult.getT2().getChargetype();
 			try {
-				if (StringUtils.isNotBlank(orderStr)){
+				if (StringUtils.isNotBlank(orderStr)) {
 					int order = Integer.parseInt(orderStr);
 					ChargeTypeEnum[] values = ChargeTypeEnum.values();
-					if (0 <= order && order < values.length){
+					if (0 <= order && order < values.length) {
 						ChargeTypeEnum type = values[order];
 						MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(player, type, true);
 					}
 				}
 			} catch (Exception e) {
-				GameLog.info("特权", player.getUserId(), "无法获取充值类型:"+orderStr, e);
+				GameLog.info("特权", player.getUserId(), "无法获取充值类型:" + orderStr, e);
 			}
 			int addGold = target.getVipExp();
-			int money = target.getMoneyCount();			
+			int money = target.getMoneyCount();
 			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
-			ChargeInfoHolder.getInstance().update(player);	
-			//升级vip，如果达到条件
+			ChargeInfoHolder.getInstance().update(player);
+			// 升级vip，如果达到条件
 			upgradeVip(player, chargeInfo);
 			// 设置界面更新vip
 			player.getSettingMgr().checkOpen();
 		}
 		return result;
 	}
-
-
 	
-	
-	
+	public boolean isPlayerHaveVipMonthCard(String userId) {
+		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(userId);
+		List<ActivityTimeCardTypeSubItem> subItemList = dataItem.getSubItemList();
+		ActivityTimeCardTypeSubItem subItem;
+		for (int i = 0, size = subItemList.size(); i < size; i++) {
+			subItem = subItemList.get(i);
+			ChargeTypeEnum type = ChargeTypeEnum.getById(String.valueOf(subItem.getTimeCardType()));
+			if(type == ChargeTypeEnum.VipMonthCard) {
+				return subItem.getDayLeft() > 0;
+			}
+		}
+		return false;
+	}
 	
 }
