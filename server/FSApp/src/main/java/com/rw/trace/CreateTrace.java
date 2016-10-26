@@ -37,7 +37,7 @@ public class CreateTrace {
 	private static final String MAP = "jsonMap";
 	private static final char SP = ' ';
 	public static final String PARSER_PATH = "com.rw.trace.parser";
-	private static final String SUPPORT_PATH = "com.rw.trace.support";
+	public static final String SUPPORT_PATH = "com.rw.trace.support";
 
 	private static HashSet<String> parserSet = new HashSet<String>();
 
@@ -45,14 +45,14 @@ public class CreateTrace {
 		DataTraceRegistrator[] classArray = DataTraceRegistrator.values();
 		for (DataTraceRegistrator trace : classArray) {
 			Class<?> clazz = trace.getDataCacheKey().getClazz();
-			if (parserSet.contains(clazz.getName())) {
-				continue;
-			}
 			write(clazz, PARSER_PATH);
 		}
 	}
 
 	public static void write(Class<?> clazz, String packagePath) {
+		if (parserSet.contains(clazz.getName())) {
+			return;
+		}
 		HashSet<String> importList = new HashSet<String>();
 		importList.add(DataValueParser.class.getName());
 		importList.add(clazz.getName());
@@ -161,7 +161,7 @@ public class CreateTrace {
 			if (DataValueParserMap.isPrimityType(fc)) {
 				indent2(sb).append("json.put(").append(field.name_).append(", ");
 				sb.append(OLD).append('.').append(field.getMethodName).append("());").append(ENTER);
-			} else if (JsonValueWriter.getInstance().isCloneable(fc)) {
+			} else if (isCloneable(fc)) {
 				indent2(sb).append("Object ").append(name).append("Json = writer.toJSON(");
 				sb.append(OLD).append('.').append(field.getMethodName).append("());").append(ENTER);
 				indent2(sb).append("if (").append(name).append("Json != null) {").append(ENTER);
@@ -185,7 +185,7 @@ public class CreateTrace {
 			if (DataValueParserMap.isPrimityType(fieldInfo.field.getType())) {
 				indent2(sb).append(copyName).append('.').append(setMethodName).append('(');
 				sb.append(OLD).append('.').append(getMethodName).append("());").append(ENTER);
-			} else if (JsonValueWriter.getInstance().isCloneable(fieldInfo.field.getType())) {
+			} else if (isCloneable(fieldInfo.field.getType())) {
 				indent2(sb).append(copyName).append('.').append(setMethodName).append('(').append(WRITER).append('.');
 				sb.append("copyObject(").append(OLD).append('.').append(getMethodName).append("()));").append(ENTER);
 			}
@@ -455,6 +455,23 @@ public class CreateTrace {
 			return true;
 		}
 		return false;
+	}
+	
+
+	private static boolean isCloneable(Class<?> clazz) {
+		if (Map.class.isAssignableFrom(clazz)) {
+			return true;
+		}
+		if (List.class.isAssignableFrom(clazz)) {
+			return true;
+		}
+		if(clazz.isEnum()){
+			return true;
+		}
+		if(!parserSet.contains(clazz.getName())){
+			System.out.println();
+		}
+		return parserSet.contains(clazz.getName());
 	}
 
 	private static class FieldInfo {

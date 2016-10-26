@@ -19,6 +19,7 @@ import com.rw.fsutil.common.SegmentList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.datamodel.RecommandCfgDAO;
 import com.rw.service.friend.datamodel.RecommandConditionCfg;
@@ -157,6 +158,7 @@ public class FriendHandler {
 		if(tableFriend.getReCommandfriendList().isEmpty()){//新手引导部分;取机器人	
 			List<FriendInfo> friendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();
 			friendInfoList =  reCommandRobot(player,tableFriend,RankType.LEVEL_ROBOT,false);//一个机器人，强制点
+			updataRobotLoginTime(friendInfoList);
 			List<FriendInfo> realFriendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();	
 			realFriendInfoList = erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//一群真实用户
 			int size = realFriendInfoList.size();
@@ -172,6 +174,39 @@ public class FriendHandler {
 		}else{			
 			return erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//正常好友逻辑；取玩家
 		}
+	}
+
+	/**机器人都是没登陆的；每个机器人送完体力都会更新登陆时间*/
+	public void updataRobotLoginTime(List<FriendInfo> friendInfoList) {
+		if(friendInfoList == null ||friendInfoList.isEmpty()){
+			return;
+		}
+		FriendInfo info = friendInfoList.get(0);		
+		FriendInfo infonew = setLastLoginTip(info);		
+		friendInfoList.removeAll(friendInfoList);
+		friendInfoList.add(infonew);
+		Player player = PlayerMgr.getInstance().find(info.getUserId());
+		player.getUserDataMgr().setLastLoginTime(DateUtils.getSecondLevelMillis());
+	}
+	private FriendInfo setLastLoginTip(FriendInfo info){
+		
+		FriendInfo.Builder tmp = FriendInfo.newBuilder();
+		tmp.setLastLoginTip("一分钟前.");
+		tmp.setUserId(info.getUserId());
+		tmp.setUserName(info.getUserName());
+		tmp.setHeadImage(info.getHeadImage());
+		tmp.setCareer(info.getCareer());
+		tmp.setLastLoginTime(info.getLastLoginTime());
+		tmp.setLevel(info.getLevel());
+		tmp.setUnionName(info.getUnionName());
+		tmp.setGiveState(info.getGiveState());
+		tmp.setReceiveState(info.getReceiveState());
+		tmp.setHeadbox(info.getHeadbox());
+		tmp.setGroupId(info.getGroupId());
+		tmp.setGroupName(info.getGroupName());
+		tmp.setFighting(info.getFighting());
+		FriendInfo newinfo = tmp.build();		
+		return newinfo;
 	}
 
 	/**
@@ -277,7 +312,8 @@ public class FriendHandler {
 		ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(1);
 		List<FriendInfo> resultListTmp = erecommandFriends(player,tableFriend,rankType,isLimitRobot);
 		for(FriendInfo info : resultListTmp){
-			if(PlayerMgr.getInstance().find(info.getUserId()).isRobot()){				
+			boolean isrobot = info.getUserId().length() >20?true:false;
+			if(isrobot){				
 				resultList.add(info);
 				break;
 			}

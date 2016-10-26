@@ -16,6 +16,7 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.ranking.impl.RankingEntryData;
 import com.rw.service.fashion.FashionHandle;
 import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -220,5 +221,18 @@ public class RankingUtilEntity {
 		levelData.setRankLevel(last == 0 ? entry.getRanking() : last);
 		return levelData;
 	}
+	
+	/* 通过竞技场记录创建一个排行榜实体 */
+	public RankingLevelData createRankingLevelDataByEntryData(RankingEntryData entry) {
+		RankingLevelData levelData = new RankingLevelData();
+		String userId = entry.getKey();
+		levelData.setUserId(userId);
+		levelData.setLevel(Integer.parseInt(entry.getCondition()));
+		
+		return levelData;
+	}
+	
+	
+	
 
 }

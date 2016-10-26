@@ -53,7 +53,9 @@ public class GroupCopyRewardDistRecord implements IMapItem {
 	}
 	
 	
-	public void addRecord(DistRewRecordItem item){
+	public synchronized void addRecord(DistRewRecordItem item){
+		if(recordList.size() >= 40)
+			recordList.remove(recordList.size() - 1);
 		recordList.add(item);
 	}
 	

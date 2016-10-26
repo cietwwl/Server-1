@@ -118,7 +118,8 @@ public class RoleExtPropertyFactory {
 		firstCreateExpProperty(extPropertyManager, requiredLoadList, roleId, param);
 	}
 
-	static void preload(RoleExtPropertyManager extPropertyManager, Object param, String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] roleExtCaches,
+	/* 返回是否进行了数据库加载操作的时间戳,方便调用者做时间统计,如果没有进行数据库操作,返回0 */
+	static long preload(RoleExtPropertyManager extPropertyManager, Object param, String roleId, RoleExtPropertyStoreCache<? extends RoleExtProperty>[] roleExtCaches,
 			RoleExtCreateInfo[] roleExtCreators) {
 		// long start = System.currentTimeMillis();
 		int len = roleExtCreators.length;
@@ -143,7 +144,7 @@ public class RoleExtPropertyFactory {
 
 		int size = typeList.size();
 		if (size == 0) {
-			return;
+			return 0;
 		}
 		// load from database
 		List<QueryRoleExtPropertyData> loadDatas;
@@ -154,6 +155,7 @@ public class RoleExtPropertyFactory {
 		} else {
 			loadDatas = extPropertyManager.loadAllEntitys(roleId);
 		}
+		long loadTimeStamp = System.currentTimeMillis();
 		HashMap<Short, ArrayList<QueryRoleExtPropertyData>> loadDatasMap = new HashMap<Short, ArrayList<QueryRoleExtPropertyData>>();
 		// 按类型分区从数据库中读取的数据
 		for (int i = loadDatas.size(); --i >= 0;) {
@@ -191,6 +193,7 @@ public class RoleExtPropertyFactory {
 				}
 			}
 		}
+		return loadTimeStamp;
 		// System.out.println("消耗:" + (System.currentTimeMillis() - start) + ","
 		// + param);
 	}
@@ -289,9 +292,9 @@ public class RoleExtPropertyFactory {
 	 * @param createTime
 	 * @param level
 	 */
-	public static void loadAndCreatePlayerExtProperty(String userId, long createTime, int level) {
+	public static long loadAndCreatePlayerExtProperty(String userId, long createTime, int level) {
 		PlayerPropertyParams param = new PlayerPropertyParams(userId, level, createTime, System.currentTimeMillis());
-		preload(roleExtPropertyManager, param, userId, playerExtCaches, playerExtCreators);
+		return preload(roleExtPropertyManager, param, userId, playerExtCaches, playerExtCreators);
 	}
 
 	/**
@@ -310,8 +313,8 @@ public class RoleExtPropertyFactory {
 	 * @param heroId
 	 * @param heroCreateParam
 	 */
-	public static void loadAndCreateHeroExtProperty(String heroId, HeroCreateParam heroCreateParam) {
-		preload(heroExtPropertyManager, heroCreateParam, heroId, heroExtCaches, heroExtCreators);
+	public static long loadAndCreateHeroExtProperty(String heroId, HeroCreateParam heroCreateParam) {
+		return preload(heroExtPropertyManager, heroCreateParam, heroId, heroExtCaches, heroExtCreators);
 	}
 
 	public static List<InsertRoleExtDataWrap<RoleExtProperty>> convertNewEntry(ObjectMapper mapper, String searchId, short type, List<RoleExtProperty> itemList) throws JsonGenerationException,
