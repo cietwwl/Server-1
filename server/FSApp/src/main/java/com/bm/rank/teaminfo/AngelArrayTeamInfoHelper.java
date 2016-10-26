@@ -10,6 +10,7 @@ import com.bm.arena.ArenaRobotDataMgr;
 import com.bm.rank.RankType;
 import com.bm.rank.angelarray.AngelArrayComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall.TeamInfoCallback;
+import com.common.BeanOperationHelper;
 import com.common.RefInt;
 import com.log.GameLog;
 import com.playerdata.Hero;
@@ -863,8 +864,8 @@ public class AngelArrayTeamInfoHelper {
 
 		// 计算战斗力
 		// armyHero.setFighting(FightingCalculator.calFighting(tmpId, skillLevel, isPlayer ? teamInfo.getMagic().getLevel() : 0, isPlayer ? String.valueOf(teamInfo.getMagic().getModelId()) : "",
-		armyHero.setFighting(calcRobotFighting(heroInfo, teamInfo));
 		// heroAttrData));
+		armyHero.setFighting(calcRobotFighting(heroInfo, teamInfo));
 		// 设置站位
 		armyHero.setPosition(heroInfo.getBaseInfo().getPos());
 
@@ -889,51 +890,72 @@ public class AngelArrayTeamInfoHelper {
 
 		int fighting = 0;
 
+		StringBuilder printSB = new StringBuilder();
+		printSB.append(teamInfo.getName()).append("：[").append(tmpId).append("]-->");
+
 		// 基础战力
 		HeroBaseFightingParam.Builder heroBaseBuilder = new Builder();
 		heroBaseBuilder.setHeroTmpId(tmpId);
-		heroBaseBuilder.setBaseData(AttributeBM.getRobotAttrData(tmpId, heroInfo, teamInfo));
-		fighting += FightingCalcComponentType.BASE.calc.calc(heroBaseBuilder.build());
+		AttrData robotBaseAttrData = AttributeBM.getRobotBaseAttrData(tmpId, heroInfo, teamInfo);
+		printSB.append("属性：").append(BeanOperationHelper.getPositiveValueDiscription(robotBaseAttrData)).append("\n");
+		heroBaseBuilder.setBaseData(robotBaseAttrData);
+		int base = FightingCalcComponentType.BASE.calc.calc(heroBaseBuilder.build());
+		fighting += base;
+		printSB.append("\t基础战力：").append(base).append("--");
 
 		// 装备战力
 		EquipBuilder eb = new EquipBuilder();
 		eb.setHeroId(tmpId);
 		eb.setEquipList(heroInfo.getEquip());
-		fighting += FightingCalcComponentType.EQUIP.calc.calc(eb.build());
+		int equip = FightingCalcComponentType.EQUIP.calc.calc(eb.build());
+		fighting += equip;
+		printSB.append("装备战力：").append(equip).append("--");
 
 		// 羁绊战力
 		FettersFightingParam.Builder ffb = new com.playerdata.fightinggrowth.calc.param.FettersFightingParam.Builder();
 		ffb.setHeroFetters(heroInfo.getFetters());
-		fighting += FightingCalcComponentType.FETTERS.calc.calc(ffb.build());
+		int fetters = FightingCalcComponentType.FETTERS.calc.calc(ffb.build());
+		fighting += fetters;
+		printSB.append("羁绊战力：").append(equip).append("--");
 
 		// 神器战力
 		FixEquipFightingParam.Builder feb = new com.playerdata.fightinggrowth.calc.param.FixEquipFightingParam.Builder();
 		feb.setFixEquips(heroInfo.getFixEquip());
-		fighting += FightingCalcComponentType.FIX_EQUIP.calc.calc(feb.build());
+		int fixEquip = FightingCalcComponentType.FIX_EQUIP.calc.calc(feb.build());
+		fighting += fixEquip;
+		printSB.append("神器战力：").append(fixEquip).append("--");
 
 		// 宝石战力
 		GemBuilder gb = new GemBuilder();
 		gb.setHeroId(tmpId);
 		gb.setGemList(heroInfo.getGem());
-		fighting += FightingCalcComponentType.GEM.calc.calc(gb.build());
+		int gem = FightingCalcComponentType.GEM.calc.calc(gb.build());
+		fighting += gem;
+		printSB.append("宝石战力：").append(gem).append("--");
 
 		// 帮派技能战力
 		GroupSkillBuilder gsb = new GroupSkillBuilder();
 		gsb.setHeroId(tmpId);
 		gsb.setGroupSkillMap(teamInfo.getGs());
-		fighting += FightingCalcComponentType.GROUP_SKILL.calc.calc(gsb.build());
+		int gs = FightingCalcComponentType.GROUP_SKILL.calc.calc(gsb.build());
+		fighting += gs;
+		printSB.append("帮派技能战力：").append(gs).append("--");
 
 		// 技能战力
 		SkillBuilder sb = new SkillBuilder();
 		sb.setHeroId(tmpId);
 		sb.setSkillList(heroInfo.getSkill());
-		fighting += FightingCalcComponentType.SKILL.calc.calc(sb.build());
+		int skill = FightingCalcComponentType.SKILL.calc.calc(sb.build());
+		fighting += skill;
+		printSB.append("技能战力：").append(skill).append("--");
 
 		// 道术战力
 		TaoistBuilder tb = new TaoistBuilder();
 		tb.setHeroId(tmpId);
 		tb.setTaoistMap(teamInfo.getTaoist());
-		fighting += FightingCalcComponentType.TAOIST.calc.calc(tb.build());
+		int taoist = FightingCalcComponentType.TAOIST.calc.calc(tb.build());
+		fighting += taoist;
+		printSB.append("道术战力：").append(taoist).append("--");
 
 		// =======================================================主角才有的战力
 		if (isMainRole) {
@@ -945,7 +967,9 @@ public class AngelArrayTeamInfoHelper {
 				mb.setMagicId(String.valueOf(magic.getModelId()));
 				mb.setMagicLevel(magic.getLevel());
 				mb.setMagicAptitude(magic.getAptitude());
-				fighting += FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+				int mf = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+				fighting += mf;
+				printSB.append("法宝战力：").append(mf).append("--");
 			}
 
 			// 时装战力
@@ -959,9 +983,13 @@ public class AngelArrayTeamInfoHelper {
 				fashionB.setSuitCount(suitCount);
 				fashionB.setWingCount(wingCount);
 				fashionB.setPetCount(petCount);
-				fighting += FightingCalcComponentType.FASHION.calc.calc(fashionB.build());
+				int fashionF = FightingCalcComponentType.FASHION.calc.calc(fashionB.build());
+				fighting += fashionF;
+				printSB.append("时装战力：").append(fashionF).append("--");
 			}
 		}
+
+		System.err.println(printSB.toString());
 		return fighting;
 	}
 }

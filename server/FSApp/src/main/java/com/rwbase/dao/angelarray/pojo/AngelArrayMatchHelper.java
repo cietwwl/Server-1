@@ -35,6 +35,7 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.angelarray.AngelArrayConst;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -216,7 +217,8 @@ public final class AngelArrayMatchHelper {
 							}
 						}
 
-						groupName = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName();
+						UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+						groupName = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupName();
 						headId = readOnlyPlayer.getHeadImage();
 						playerName = readOnlyPlayer.getUserName();
 						career = readOnlyPlayer.getMainRoleHero().getCareerType();
@@ -260,7 +262,7 @@ public final class AngelArrayMatchHelper {
 					}
 				}
 
-				System.err.println(String.format("匹配到的成员的是否合适【%s】，【%s】", fit, hasTeam));
+				System.err.println(String.format("匹配到的成员的是否合适【%s】，【%s】，默认的阵容战力【%s】", fit, hasTeam, teamFighting));
 			} else {
 				finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 				ranResult = finalTeamInfo.getUuid();
