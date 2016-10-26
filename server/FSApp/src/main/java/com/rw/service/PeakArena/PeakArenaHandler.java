@@ -561,7 +561,7 @@ public class PeakArenaHandler {
 
 			// 排名上升
 			PeakRecordInfo recordForPlayer = this.createPeakRecord(player, enemyUser, win, true, placeUp, playerArenaData.getNextId()); // 自己的record
-			PeakRecordInfo recordForEnemy = this.createPeakRecord(enemyUser, player, !win, false, 0, enemyArenaData.getNextId()); // 对方的record
+			PeakRecordInfo recordForEnemy = this.createPeakRecord(enemyUser, player, !win, false, placeUp, enemyArenaData.getNextId()); // 对方的record
 			recordForPlayer.setDetails(this.createHurtRecords(request.getHurtRecordList(), player, playerArenaData, enemyUser, enemyArenaData, true));
 			recordForEnemy.setDetails(this.createHurtRecords(request.getHurtRecordList(), enemyUser, enemyArenaData, player, playerArenaData, false));
 			peakBM.addOthersRecord(player.getUserId(), recordForPlayer);
@@ -705,8 +705,10 @@ public class PeakArenaHandler {
 		record.setTime(System.currentTimeMillis());
 		record.setActionType(isChallenge ? PeakArenaActionType.CHALLENGE : PeakArenaActionType.DEFEND);
 		record.setId(id);
-		if (placeUp > 0) {
+		if (isWin && placeUp > 0) {
 			record.setPlaceUp(placeUp);
+		} else if (!isWin && placeUp > 0) {
+			record.setPlaceUp(-placeUp);
 		}
 		record.setGender(enemy.getSex());
 		FashionUsedIF fashionUsed;
