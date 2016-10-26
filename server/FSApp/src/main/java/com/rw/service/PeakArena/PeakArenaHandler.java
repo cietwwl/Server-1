@@ -567,7 +567,7 @@ public class PeakArenaHandler {
 			peakBM.addOthersRecord(player.getUserId(), recordForPlayer);
 			peakBM.addOthersRecord(enemyUserId, recordForEnemy); // 对手的record
 
-			playerArenaData.setFightStartTime(currentTimeMillis);
+//			playerArenaData.setFightStartTime(currentTimeMillis);
 
 			if (win && placeUp > 0) {
 				response.setPlaceUp(placeUp);
@@ -589,7 +589,14 @@ public class PeakArenaHandler {
 			// 通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.PEAKARENA_BATTLE, 1);
 
-			response.setCdTime(computeCdTime(playerArenaData));
+			if (!win) {
+				playerArenaData.setFightStartTime(currentTimeMillis);
+				response.setCdTime(computeCdTime(playerArenaData));
+			} else {
+				// 赢了没有cd时间
+				playerArenaData.setFightStartTime(0);
+				response.setCdTime(0);
+			}
 			response.setChallengeCount(playerArenaData.getChallengeCount());
 			response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 
@@ -608,14 +615,14 @@ public class PeakArenaHandler {
 	
 	private List<PeakRecordHeroInfo> createPeakHeroInfo(Player player, List<HurtValue> hurtValues) {
 		List<PeakRecordHeroInfo> list = new ArrayList<PeakRecordHeroInfo>(hurtValues.size());
-		for(HurtValue hv : hurtValues) {
+		for (HurtValue hv : hurtValues) {
 			Hero hero = FSHeroMgr.getInstance().getHeroById(player.getUserId(), hv.getHeroId());
 			if (hero == null) {
 				continue;
 			}
 			PeakRecordHeroInfo heroInfo = new PeakRecordHeroInfo();
 			heroInfo.setHeroId(hero.getId());
-			if(hero.isMainRole()) {
+			if (hero.isMainRole()) {
 				heroInfo.setHeadImage(player.getHeadImage());
 			} else {
 				heroInfo.setHeadImage("");
@@ -628,6 +635,24 @@ public class PeakArenaHandler {
 			list.add(heroInfo);
 		}
 		return list;
+	}
+	
+	private List<PeakRecordHeroInfo> createPeakHeroInfo(Player player, List<HurtValue> hurtValues, List<String> allHeroIds) {
+		if (allHeroIds.size() > hurtValues.size()) {
+			for (String heroId : allHeroIds) {
+				boolean notFound = true;
+				for (HurtValue hv : hurtValues) {
+					if (hv.getHeroId().equals(heroId)) {
+						notFound = false;
+						break;
+					}
+				}
+				if (notFound) {
+					hurtValues.add(HurtValue.newBuilder().setHeroId(heroId).setValue(0).build());
+				}
+			}
+		}
+		return this.createPeakHeroInfo(player, hurtValues);
 	}
 	
 	private PeakRecordMagicInfo createPeakMagicInfo(Player player, String magicId) {
@@ -647,6 +672,12 @@ public class PeakArenaHandler {
 			List<HurtValue> myHurtValue;
 			List<HurtValue> theOtherHurtValue;
 			int teamId = record.getTeamId();
+			TeamData myTeam = arenaDataMe.search(teamId);
+			TeamData theOtherTeam = arenaDataTheOther.search(teamId);
+			List<String> myHeroIds = new ArrayList<String>(myTeam.getHeros());
+			myHeroIds.add(me.getUserId());
+			List<String> theOtherHeroIds = new ArrayList<String>(theOtherTeam.getHeros());
+			theOtherHeroIds.add(theOther.getUserId());
 			if (isChallenge) {
 				myHurtValue = record.getMyHurtValueList();
 				theOtherHurtValue = record.getEnemyHurtValueList();
@@ -655,10 +686,10 @@ public class PeakArenaHandler {
 				theOtherHurtValue = record.getMyHurtValueList();
 			}
 			peakRecordDetail.setTeamId(teamId);
-			peakRecordDetail.setMyCamp(createPeakHeroInfo(me, myHurtValue));
-			peakRecordDetail.setMyMagic(createPeakMagicInfo(me, arenaDataMe.search(teamId).getMagicId()));
-			peakRecordDetail.setEnemyCamp(createPeakHeroInfo(theOther, theOtherHurtValue));
-			peakRecordDetail.setEnemyMagic(createPeakMagicInfo(theOther, arenaDataTheOther.search(teamId).getMagicId()));
+			peakRecordDetail.setMyCamp(createPeakHeroInfo(me, myHurtValue, myHeroIds));
+			peakRecordDetail.setMyMagic(createPeakMagicInfo(me, myTeam.getMagicId()));
+			peakRecordDetail.setEnemyCamp(createPeakHeroInfo(theOther, theOtherHurtValue, theOtherHeroIds));
+			peakRecordDetail.setEnemyMagic(createPeakMagicInfo(theOther, theOtherTeam.getMagicId()));
 			peakRecordDetailList.add(peakRecordDetail);
 		}
 		return peakRecordDetailList;
