@@ -247,4 +247,21 @@ public class AttributeBM {
 		attributeCalculator.updateAttribute();
 		return attributeCalculator.getResult();
 	}
+
+	/**
+	 * 获取机器人的基础属性
+	 * 
+	 * @param userId
+	 * @param heroInfo
+	 * @param teamInfo
+	 * @return
+	 */
+	public static AttrData getRobotBaseAttrData(String userId, HeroInfo heroInfo, TeamInfo teamInfo) {
+		List<IAttributeComponent> componentList = new ArrayList<IAttributeComponent>();
+		componentList.add(new RobotBaseAttributeComponent(heroInfo));
+
+		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);
+		attributeCalculator.updateAttribute();
+		return attributeCalculator.getBaseResult();
+	}
 }

@@ -31,7 +31,6 @@ import com.playerdata.charge.dao.ChargeOrder;
 import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
-import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
@@ -216,7 +215,6 @@ public class ChargeMgr {
 				
 				registerBehavior(player);
 		        BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
-		        DataEventRecorder.endAndPollCollections();
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}else{
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());

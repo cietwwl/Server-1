@@ -975,7 +975,7 @@ public class ArenaHandler {
 			return fillArenaScore(arenaData, response);
 		}
 		int score = arenaData.getScore();
-		if (template.getSocre() > score) {
+		if (template.getScore() > score) {
 			GameLog.error("ArenaHandler", "#getScoreReward()", "领取奖励的积分不够:id = " + id + ",score = " + score);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return fillArenaScore(arenaData, response);
@@ -1024,7 +1024,7 @@ public class ArenaHandler {
 			}
 			ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
 			int score = arenaData.getScore();
-			if (template.getSocre() > score) {
+			if (template.getScore() > score) {
 				// 积分不够
 				continue;
 			}

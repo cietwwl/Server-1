@@ -116,6 +116,8 @@ public class GmQueryPlayerRanking implements IGmTask {
 		while (it.hasMoreElements()) {
 			MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> nextElement = it.nextElement();
 			RankingEntry<MagicSecretComparable, MSScoreDataItem> entry = nextElement.getEntry();
+			int totalScore = nextElement.getComparable().getTotalScore();
+			nextElement.getEntry().getExtendedAttribute().setTotalScore(totalScore);
 			MSScoreDataItem extendedAttribute = entry.getExtendedAttribute();
 			String userId = extendedAttribute.getUserId();
 			String userName = extendedAttribute.getUserName();
