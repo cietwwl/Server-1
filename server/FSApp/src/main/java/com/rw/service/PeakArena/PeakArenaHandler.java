@@ -307,7 +307,9 @@ public class PeakArenaHandler {
 		response.setArenaType(request.getArenaType());
 
 		List<PeakRecordInfo> listRecord = PeakArenaBM.getInstance().getArenaRecordList(player.getUserId());
-		for (PeakRecordInfo record : listRecord) {
+		int size = listRecord.size() > PeakArenaBM.MAX_DISPLAY_COUNT ? PeakArenaBM.MAX_DISPLAY_COUNT : listRecord.size();
+		for (int i = 0; i < size; i++) {
+			PeakRecordInfo record = listRecord.get(i);
 			response.addListRecord(createPeakArenaRecordProto(record));
 		}
 
@@ -560,12 +562,14 @@ public class PeakArenaHandler {
 			int placeUp = playerPlace - enemyPlace;
 
 			// 排名上升
-			PeakRecordInfo recordForPlayer = this.createPeakRecord(player, enemyUser, win, true, placeUp, playerArenaData.getNextId()); // 自己的record
-			PeakRecordInfo recordForEnemy = this.createPeakRecord(enemyUser, player, !win, false, placeUp, enemyArenaData.getNextId()); // 对方的record
+			PeakRecordInfo recordForPlayer = this.createPeakRecord(player, enemyUser, win, true, (win & placeUp > 0) ? placeUp : 0, playerArenaData.getNextId()); // 自己的record
 			recordForPlayer.setDetails(this.createHurtRecords(request.getHurtRecordList(), player, playerArenaData, enemyUser, enemyArenaData, true));
-			recordForEnemy.setDetails(this.createHurtRecords(request.getHurtRecordList(), enemyUser, enemyArenaData, player, playerArenaData, false));
 			peakBM.addOthersRecord(player.getUserId(), recordForPlayer);
-			peakBM.addOthersRecord(enemyUserId, recordForEnemy); // 对手的record
+			if (!enemyUser.isRobot()) {
+				PeakRecordInfo recordForEnemy = this.createPeakRecord(enemyUser, player, !win, false, (win & placeUp > 0) ? -placeUp : 0, enemyArenaData.getNextId()); // 对方的record
+				recordForEnemy.setDetails(this.createHurtRecords(request.getHurtRecordList(), enemyUser, enemyArenaData, player, playerArenaData, false));
+				peakBM.addOthersRecord(enemyUserId, recordForEnemy); // 对手的record
+			}
 
 //			playerArenaData.setFightStartTime(currentTimeMillis);
 
@@ -705,11 +709,7 @@ public class PeakArenaHandler {
 		record.setTime(System.currentTimeMillis());
 		record.setActionType(isChallenge ? PeakArenaActionType.CHALLENGE : PeakArenaActionType.DEFEND);
 		record.setId(id);
-		if (isWin && placeUp > 0) {
-			record.setPlaceUp(placeUp);
-		} else if (!isWin && placeUp > 0) {
-			record.setPlaceUp(-placeUp);
-		}
+		record.setPlaceUp(placeUp);
 		record.setGender(enemy.getSex());
 		FashionUsedIF fashionUsed;
 		if ((fashionUsed = enemy.getFashionMgr().getFashionUsed()) != null) {
