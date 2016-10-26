@@ -5,6 +5,7 @@ option java_outer_classname = "SpriteAttachProtos";
 
 enum eSpriteAttachRequestType{
 	SpriteAttach = 1;
+	UnlockSpriteAttach = 2;
 }
 
 enum eSpriteAttachResultType{
@@ -21,7 +22,7 @@ message SpriteAttachRequest {
 	required eSpriteAttachRequestType requestType = 1;
 	required int32 heroModelId = 2;
 	required int32 spriteAttachId = 3;
-    repeated spriteAttachMaterial materials = 4;
+    optional spriteAttachMaterial materials = 4;
 }
 
 message SpriteAttachResponse {
