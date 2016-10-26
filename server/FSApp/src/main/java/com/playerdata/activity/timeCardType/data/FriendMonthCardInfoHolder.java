@@ -22,7 +22,7 @@ public class FriendMonthCardInfoHolder{
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityTimeCardType;
+	final private eSynType synType = eSynType.FriendMonthCardInfo;
 	
 	public void synAllFriendData(Player player){
 		List<FriendMonthCardInfo> synList = new ArrayList<FriendMonthCardInfo>();

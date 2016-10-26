@@ -9,11 +9,14 @@ enum RequestType{
 	FirstChargeReward = 2;//领取首充奖励
 	BuyVipGift = 3;//购买VIP礼包
 	TimeCard = 4;//模拟购买月卡
+	GetFriendMonthCardInfo = 5;	//获取好友的月卡拥有情况（没有请求参数）
+	SendFriendMonthCard = 6;	//赠送好友月卡（1. chargeItemId是月卡类型，按配置表id; 2. friendId）
 }
 
 message ChargeServiceCommonReqMsg{
 	required RequestType reqType = 1;//请求功能协议类型
 	required string chargeItemId=2;//充值项id
+	optional string friendId = 3;	//要赠送月卡的好友id
 }
 
 message ChargeServiceCommonRspMsg{

@@ -98,6 +98,7 @@ enum eSynType	//数据同步类型
 	ActivityLimitHeroType = 75;//活动，限时神将
 	ActivityDailyRechargeType = 76; //每日充值活动
 	ActivityRetrieveType = 77;//每日找回活动
+	ActivityGrowthFund = 78;	//成长基金
 
 	QuestionList = 80; //反馈问题列表	
 	GFBiddingData = 81;	//在线帮战个人压标数据
@@ -146,6 +147,7 @@ enum eSynType	//数据同步类型
 	
 	SaloonPlayer = 118;//同屏人物数据
 	SaloonPosition = 119;//同屏人物位置数据
+	FriendMonthCardInfo = 120;	//好友月卡状况，用于赠送月卡的判断
 }
 
 message MsgDataSynList
