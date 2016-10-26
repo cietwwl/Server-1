@@ -10,7 +10,6 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,8 +24,6 @@ public class ChargeInfo {
 	private boolean isFirstAwardTaken = false;
 	//限购商品的购买次数记录列表
 	private List<ChargeInfoSubRecording> payTimesList = new ArrayList<ChargeInfoSubRecording>();
-	
-
 
 	//充值次数
 	private int count;
