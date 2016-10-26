@@ -1,5 +1,7 @@
 package com.playerdata.activity.retrieve.data;
 
+import java.util.HashMap;
+
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -22,7 +24,16 @@ public class RewardBackSubItem {
 	private int perfectType;
 	private int perfectCost;	
 	
+	private HashMap<Integer, TeamBattleRecord> teambattleCountMap = new HashMap<Integer, TeamBattleRecord>();//心魔录记录
 
+	
+	
+	public HashMap<Integer, TeamBattleRecord> getTeambattleCountMap() {
+		return teambattleCountMap;
+	}
+	public void setTeambattleCountMap(HashMap<Integer, TeamBattleRecord> teambattleCountMap) {
+		this.teambattleCountMap = teambattleCountMap;
+	}
 	public int getId() {
 		return id;
 	}

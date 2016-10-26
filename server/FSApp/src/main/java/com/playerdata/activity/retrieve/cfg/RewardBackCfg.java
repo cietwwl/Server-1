@@ -1,6 +1,8 @@
 package com.playerdata.activity.retrieve.cfg;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import com.rwbase.common.enu.eSpecialItemId;
 
@@ -20,7 +22,8 @@ public class RewardBackCfg {
 	
 	private String normalCost2;
 	
-	private HashMap<Integer, Integer> normalCost2Map = new HashMap<Integer, Integer>();
+	private List<CostOrder> normalCostList = new ArrayList<CostOrder>();
+	
 	
 	private String perfectRewards;
 	
@@ -32,7 +35,7 @@ public class RewardBackCfg {
 	
 	private String perfectCost2;	
 	
-	private HashMap<Integer, Integer> perfectCost2Map = new HashMap<Integer, Integer>();
+	private List<CostOrder> perfectCostList = new ArrayList<CostOrder>();
 
 	public String getId() {
 		return id;
@@ -106,13 +109,7 @@ public class RewardBackCfg {
 		this.normalCost2 = normalCost2;
 	}
 
-	public HashMap<Integer, Integer> getNormalCost2Map() {
-		return normalCost2Map;
-	}
-
-	public void setNormalCost2Map(HashMap<Integer, Integer> normalCost2Map) {
-		this.normalCost2Map = normalCost2Map;
-	}
+	
 
 	public String getPerfectCost2() {
 		return perfectCost2;
@@ -122,13 +119,7 @@ public class RewardBackCfg {
 		this.perfectCost2 = perfectCost2;
 	}
 
-	public HashMap<Integer, Integer> getPerfectCost2Map() {
-		return perfectCost2Map;
-	}
 
-	public void setPerfectCost2Map(HashMap<Integer, Integer> perfectCost2Map) {
-		this.perfectCost2Map = perfectCost2Map;
-	}
 
 	public int getNormalCost() {
 		return normalCost;
@@ -144,7 +135,24 @@ public class RewardBackCfg {
 
 	public void setPerfectCost(int perfectCost) {
 		this.perfectCost = perfectCost;
+	}
+
+	public List<CostOrder> getNormalCostList() {
+		return normalCostList;
+	}
+
+	public void setNormalCostList(List<CostOrder> normalCostList) {
+		this.normalCostList = normalCostList;
+	}
+
+	public List<CostOrder> getPerfectCostList() {
+		return perfectCostList;
+	}
+
+	public void setPerfectCostList(List<CostOrder> perfectCostList) {
+		this.perfectCostList = perfectCostList;
 	}	
+	
 	
 	
 }

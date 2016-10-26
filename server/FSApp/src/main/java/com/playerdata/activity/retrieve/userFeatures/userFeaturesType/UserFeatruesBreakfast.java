@@ -55,14 +55,14 @@ public class UserFeatruesBreakfast implements IUserFeatruesHandler{
 
 
 	@Override
-	public int getNorCost(NormalRewardsCfg cfg) {
+	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 
 	@Override
-	public int getPerCost(PerfectRewardsCfg cfg) {
+	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

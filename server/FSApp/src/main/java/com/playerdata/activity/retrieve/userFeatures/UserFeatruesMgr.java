@@ -20,6 +20,7 @@ import com.playerdata.activity.retrieve.data.ActivityRetrieveTypeHolder;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
+import com.playerdata.activity.retrieve.data.TeamBattleRecord;
 import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBattleTower;
 import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBreakfast;
 import com.playerdata.activity.retrieve.userFeatures.userFeaturesType.UserFeatruesBuyPowerFive;
@@ -62,6 +63,8 @@ public class UserFeatruesMgr {
 	public static final int buyPowerFour = 10;
 	public static final int buyPowerFive = 13;
 	public static final int buyPowerLength = 3;
+	
+	public static final int[] idArr = {170101,170201,170301,170401,170501,170601};
 
 	private static UserFeatruesMgr instance = new UserFeatruesMgr();
 
@@ -113,15 +116,27 @@ public class UserFeatruesMgr {
 
 	// 玩家触发功能计数
 	public void doFinish(Player player, UserFeaturesEnum iEnum) {
-		doFinishFinally(player, iEnum, 1);
+		doFinishFinally(player, iEnum, 1,0);
 	}
 
 	// 带参数的计数
 	public void doFinishOfCount(Player player, UserFeaturesEnum iEnum, int count) {
-		doFinishFinally(player, iEnum, count);
+		doFinishFinally(player, iEnum, count,0);
 	}
-
-	private void doFinishFinally(Player player, UserFeaturesEnum iEnum, int count) {
+	
+	// 玩家触发功能计数
+	public void doFinishOfHardId(Player player, UserFeaturesEnum iEnum, int hardId) {
+		doFinishFinally(player, iEnum, 1, hardId);
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param iEnum
+	 * @param count 普通的传入1；体力溢出传入count；心魔录传入id
+	 * @param hardId
+	 */
+	private void doFinishFinally(Player player, UserFeaturesEnum iEnum, int count,int hardId) {
 		ActivityRetrieveTypeHolder dataholder = ActivityRetrieveTypeHolder.getInstance();
 		String userId = player.getUserId();
 		RewardBackTodaySubItem subItem = null;
@@ -138,11 +153,20 @@ public class UserFeatruesMgr {
 			// 当天没生成活动数据，但功能又跑进来了
 			GameLog.error(LogModule.ComActivityRetrieve, userId, "当天没生成活动数据，但功能又跑进来了", null);
 			return;
-		}
-
+		}		
 		int tmp = subItem.getCount()+ count;
 		subItem.setCount(tmp);
+		addTeamBattleMap(subItem,hardId);
 		dataholder.updateItem(player, item);
+	}
+	
+	/**唯独心魔录不能像其他功能直接增加次数，而是要将hardid和增加次数一并存入；心魔录可以看做是-1用等级vip匹配和-2分段计算的综合*/
+	private void addTeamBattleMap(RewardBackTodaySubItem subItem, int hardId) {
+		if(!StringUtils.equals(subItem.getId(), UserFeaturesEnum.teamBattle.getId())||hardId == 0){
+			return;
+		}
+		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
+		map.get(hardId).setCount(map.get(hardId).getCount() + 1);	
 	}
 
 	/** 完成日常任务时判断下是否为早午晚餐等 */
@@ -225,7 +249,7 @@ public class UserFeatruesMgr {
 		subItem.setId(Integer.parseInt(todaySubItem.getId()));
 		subItem.setMaxCount(todaySubItem.getMaxCount());
 		subItem.setCount(todaySubItem.getCount());
-
+		subItem.setTeambattleCountMap(todaySubItem.getTeambattleCountMap());
 		if(cfg == null){
 			//创建时遍历枚举,没使用cfg；此处没有cfg
 			return subItem;
@@ -307,23 +331,20 @@ public class UserFeatruesMgr {
 	}	
 	
 	private void setCost(UserFeaturesEnum ienum, RewardBackSubItem subItem, RewardBackCfg cfg, int level, int vip, NormalRewardsCfgDAO normalDao, PerfectRewardsCfgDAO perfectDao) {
-
-		
-		
 		if (-1==cfg.getNormalCost()||cfg.getNormalCost() == -2) {
-			setNorCostByLevelAndVip(ienum,subItem, level, vip, normalDao);
+			setNorCostByLevelAndVip(ienum,subItem, level, vip, normalDao,cfg);
 		} else {
 			subItem.setNormalCost(cfg.getNormalCost());
 		}
 		if (-1==cfg.getPerfectCost()||cfg.getPerfectCost() == -2) {
-			setPerCostByLevelAndVip(ienum,subItem, level, vip, perfectDao);
+			setPerCostByLevelAndVip(ienum,subItem, level, vip, perfectDao,cfg);
 		} else {
 			subItem.setPerfectCost(cfg.getPerfectCost());
 		}
 		
 	}
 
-	private void setPerCostByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, PerfectRewardsCfgDAO perfectDao) {
+	private void setPerCostByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, PerfectRewardsCfgDAO perfectDao,RewardBackCfg mainCfg) {
 		HashMap<Integer, PerfectRewardsCfg> map = perfectDao.get_levelCfgMapping().get(level);
 		if(map == null){
 			return;
@@ -332,12 +353,12 @@ public class UserFeatruesMgr {
 		if(cfg == null){
 			return;
 		}
-		int cost = featruesHandlerMap.get(ienum).getPerCost(cfg);
+		int cost = featruesHandlerMap.get(ienum).getPerCost(cfg,subItem,mainCfg);
 		subItem.setPerfectCost(cost);
 		
 	}
 
-	private void setNorCostByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, NormalRewardsCfgDAO normalDao) {
+	private void setNorCostByLevelAndVip(UserFeaturesEnum ienum, RewardBackSubItem subItem, int level, int vip, NormalRewardsCfgDAO normalDao,RewardBackCfg mainCfg) {
 		HashMap<Integer, NormalRewardsCfg> map = normalDao.get_levelCfgMapping().get(level);
 		if(map == null){
 			return;
@@ -346,7 +367,7 @@ public class UserFeatruesMgr {
 		if(cfg == null){
 			return;
 		}
-		int cost = featruesHandlerMap.get(ienum).getNorCost(cfg);
+		int cost = featruesHandlerMap.get(ienum).getNorCost(cfg,subItem,mainCfg);
 		subItem.setNormalCost(cost);
 		
 	}

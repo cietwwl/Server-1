@@ -620,7 +620,7 @@ public class TeamBattleBM {
 		teamMember.setFightStartTime(0);
 		TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		tbRsp.setRstType(TBResultType.SUCCESS);
-		UserFeatruesMgr.getInstance().doFinish(player, UserFeaturesEnum.teamBattle);
+		UserFeatruesMgr.getInstance().doFinishOfHardId(player, UserFeaturesEnum.teamBattle,Integer.parseInt(teamItem.getHardID()));
 	}
 
 	/**

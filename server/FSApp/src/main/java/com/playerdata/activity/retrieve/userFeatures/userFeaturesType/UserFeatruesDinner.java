@@ -5,6 +5,7 @@ import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO;
+import com.playerdata.activity.retrieve.cfg.RewardBackCfg;
 import com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
@@ -48,13 +49,13 @@ public class UserFeatruesDinner implements IUserFeatruesHandler{
 	}
 
 	@Override
-	public int getNorCost(NormalRewardsCfg cfg) {
+	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public int getPerCost(PerfectRewardsCfg cfg) {
+	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

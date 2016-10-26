@@ -1,10 +1,12 @@
 package com.playerdata.activity.retrieve.userFeatures.userFeaturesType;
 
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeHelper;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO;
+import com.playerdata.activity.retrieve.cfg.RewardBackCfg;
 import com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
@@ -32,7 +34,8 @@ public class UserFeatruesPower implements IUserFeatruesHandler{
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
 		RoleUpgradeCfg cfg = (RoleUpgradeCfg) RoleUpgradeCfgDAO.getInstance().getCfgById(String.valueOf(player.getLevel()));
-		todaySubItem.setMaxCount(cfg.getMostPower());
+		int maxCount = todaySubItem.getCount() <= 0?0:cfg.getMostPower();
+		todaySubItem.setMaxCount(maxCount);
 		return null;
 	}
 
@@ -50,15 +53,17 @@ public class UserFeatruesPower implements IUserFeatruesHandler{
 	}
 
 	@Override
-	public int getNorCost(NormalRewardsCfg cfg) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
+		
+		
+		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getNormalCostList(), subItem.getCount());
 	}
 
 	@Override
-	public int getPerCost(PerfectRewardsCfg cfg) {
+	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
-		return 0;
+		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getPerfectCostList(), subItem.getCount());
+		
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.playerdata.activity.retrieve.userFeatures.userFeaturesType;
 
 import com.playerdata.Player;
+import com.playerdata.activity.retrieve.ActivityRetrieveTypeHelper;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
@@ -14,6 +15,7 @@ import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
 
 public class UserFeatruesBuyPowerOne implements IUserFeatruesHandler{
 	//写的挫了点，有时间5抽1
@@ -28,15 +30,20 @@ public class UserFeatruesBuyPowerOne implements IUserFeatruesHandler{
 
 	@Override
 	public RewardBackSubItem doFresh(RewardBackTodaySubItem todaySubItem, Player player, CfgOpenLevelLimitDAO dao) {
-		int level = player.getLevel();
+		int level = player.getLevel();		
 		if(level >= dao.checkIsOpen(eOpenLevelType.MAIN_CITY, player)){
-			todaySubItem.setMaxCount(3);			
+			int time = player.getPrivilegeMgr().getIntPrivilege(LoginPrivilegeNames.buyPowerCount);
+			int cutTime = time >= UserFeatruesMgr.buyPowerOne?time:0;
+			cutTime = cutTime > UserFeatruesMgr.buyPowerLength?UserFeatruesMgr.buyPowerLength : cutTime;
+			todaySubItem.setMaxCount(cutTime);			
 		}else{
 			todaySubItem.setMaxCount(0);
 		}
 		return null;
 	}
-
+	/**
+	 * 奖励应该有个附表来读取，字段3:1，字段60或120这样，策划没有提供则写死，普通3:60；完美3:120；
+	 */
 	@Override
 	public String getNorReward(NormalRewardsCfg cfg,RewardBackSubItem subItem) {
 		int times = subItem.getMaxCount() - subItem.getCount();
@@ -58,15 +65,17 @@ public class UserFeatruesBuyPowerOne implements IUserFeatruesHandler{
 	}
 
 	@Override
-	public int getNorCost(NormalRewardsCfg cfg) {
+	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
-		return 0;
+		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getNormalCostList(), subItem.getMaxCount() - subItem.getCount());
+		
 	}
 
 	@Override
-	public int getPerCost(PerfectRewardsCfg cfg) {
+	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
 		// TODO Auto-generated method stub
-		return 0;
+		return ActivityRetrieveTypeHelper.getCostByCountWithCostOrderList(mainCfg.getPerfectCostList(), subItem.getMaxCount() - subItem.getCount());
+		
 	}
 
 

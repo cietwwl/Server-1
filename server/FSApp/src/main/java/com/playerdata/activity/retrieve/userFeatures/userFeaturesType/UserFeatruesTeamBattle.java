@@ -1,16 +1,21 @@
 package com.playerdata.activity.retrieve.userFeatures.userFeaturesType;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.playerdata.Player;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfg;
 import com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO;
+import com.playerdata.activity.retrieve.cfg.RewardBackCfg;
 import com.playerdata.activity.retrieve.cfg.RewardBackCfgDAO;
 import com.playerdata.activity.retrieve.data.RewardBackSubItem;
 import com.playerdata.activity.retrieve.data.RewardBackTodaySubItem;
+import com.playerdata.activity.retrieve.data.TeamBattleRecord;
 import com.playerdata.activity.retrieve.userFeatures.IUserFeatruesHandler;
+import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
@@ -26,12 +31,15 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		subItem.setCount(0);		
 		int tmp = 0;
 		subItem.setMaxCount(tmp);
-		List<TeamCfg> teamList = TeamCfgDAO.getInstance().getAllCfg();
-		int level = player.getLevel();
-		for(TeamCfg cfg : teamList){
-			if(level >= cfg.getLevel())tmp += cfg.getTimes();
+		HashMap<Integer, TeamBattleRecord> map = new HashMap<Integer, TeamBattleRecord>();
+		for(Integer id : UserFeatruesMgr.idArr){
+			TeamBattleRecord record = new TeamBattleRecord();
+			record.setId(id);
+			record.setMaxCount(2);
+			record.setCount(0);
+			map.put(id, record);
 		}
-		subItem.setMaxCount(tmp);
+		subItem.setTeambattleCountMap(map);
 		return subItem;
 	}
 
@@ -43,32 +51,173 @@ public class UserFeatruesTeamBattle implements	IUserFeatruesHandler{
 		for(TeamCfg cfg : teamList){
 			if(level >= cfg.getLevel())tmp += cfg.getTimes();
 		}
-		todaySubItem.setMaxCount(tmp);		
+		todaySubItem.setMaxCount(tmp);	
+		HashMap<Integer, TeamBattleRecord> map = todaySubItem.getTeambattleCountMap();
+		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
+			TeamBattleRecord record = new TeamBattleRecord();
+			TeamCfg tmpCfg = null;
+			for(TeamCfg cfg : teamList){
+				if(Integer.parseInt(cfg.getId()) == entry.getKey()){
+					tmpCfg = cfg;
+					break;
+				}
+			}
+			if(tmpCfg == null){
+				continue;
+			}
+			if(tmpCfg.getLevel() <= level){
+				record.setMaxCount(2);
+			}else{
+				record.setMaxCount(0);
+			}
+			record.setId(entry.getValue().getId());
+			
+			record.setCount(entry.getValue().getCount());
+			map.put(entry.getValue().getId(), record);
+		}
+		
+		
 		return null;
 	}
 
 	@Override
 	public String getNorReward(NormalRewardsCfg cfg,RewardBackSubItem subItem) {
-		// TODO Auto-generated method stub
-		return cfg.getXinmo1NorRewards();
+		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
+		HashMap<Integer, Integer> rewardHashMap  = new HashMap<Integer, Integer>();
+		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
+			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo1NorRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo2NorRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo3NorRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo4NorRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo5NorRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo6NorRewards());
+			}
+		}
+		String reward = toReward(rewardHashMap);
+		return reward;
+	}
+
+	private void add(HashMap<Integer, Integer> rewardHashMap, String xinmo1NorRewards) {
+		String[] rewards = xinmo1NorRewards.split(";");
+		for(String reward : rewards){
+			String[] idAndCount = reward.split(":");
+			int id = Integer.parseInt(idAndCount[0]);
+			int count = Integer.parseInt(idAndCount[1]);
+			if(rewardHashMap.get(id)==null){
+				rewardHashMap.put(id, count);
+			}else{
+				rewardHashMap.put(id, rewardHashMap.get(id)+count);				
+			}			
+		}		
 	}
 
 	@Override
 	public String getPerReward(PerfectRewardsCfg cfg,RewardBackSubItem subItem) {
-		// TODO Auto-generated method stub
-		return cfg.getXinmo1PerRewards();
+		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
+		HashMap<Integer, Integer> rewardHashMap  = new HashMap<Integer, Integer>();
+		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
+			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo1PerRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo2PerRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo3PerRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo4PerRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo5PerRewards());
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				add(rewardHashMap,cfg.getXinmo6PerRewards());
+			}
+		}
+		String reward = toReward(rewardHashMap);
+		return reward;
+	}
+	
+	
+	private String toReward(HashMap<Integer, Integer> rewardHashMap) {
+		StringBuilder str = new StringBuilder();
+		int count = 0;
+		for(Map.Entry<Integer, Integer> entry: rewardHashMap.entrySet()){			
+			if(count == rewardHashMap.size()-1){
+				str.append(entry.getKey()).append(":").append(entry.getValue());
+			}else{
+				str.append(entry.getKey()).append(":").append(entry.getValue()).append(";");
+			}
+			
+			count ++;
+		}
+		return str.toString();
 	}
 
 	@Override
-	public int getNorCost(NormalRewardsCfg cfg) {
-		// TODO Auto-generated method stub
-		return cfg.getXinmo1NorCost();
+	public int getNorCost(NormalRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
+		int cost = 0;
+		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
+		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
+			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo1NorCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo2NorCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo3NorCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo4NorCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo5NorCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo6NorCost();
+			}
+		}		
+		return cost;
 	}
 
 	@Override
-	public int getPerCost(PerfectRewardsCfg cfg) {
-		// TODO Auto-generated method stub
-		return cfg.getXinmo1PerCost();
+	public int getPerCost(PerfectRewardsCfg cfg,RewardBackSubItem subItem,RewardBackCfg mainCfg) {
+		int cost = 0;
+		HashMap<Integer, TeamBattleRecord> map = subItem.getTeambattleCountMap();
+		for(Map.Entry<Integer, TeamBattleRecord> entry: map.entrySet()){
+			if(entry.getKey() == UserFeatruesMgr.idArr[0]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo1PerCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[1]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo2PerCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[2]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo3PerCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[3]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo4PerCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[4]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo5PerCost();
+			}
+			if(entry.getKey() == UserFeatruesMgr.idArr[5]&&entry.getValue().getCount() <entry.getValue().getMaxCount()){
+				cost += cfg.getXinmo6PerCost();
+			}
+		}		
+		return cost;
 	}
 
 }
