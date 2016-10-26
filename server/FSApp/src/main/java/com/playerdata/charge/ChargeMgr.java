@@ -28,9 +28,11 @@ import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeOrder;
+import com.playerdata.charge.data.ChargeParam;
 import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
@@ -163,17 +165,16 @@ public class ChargeMgr {
 		int vipBefore = player.getVip();
 		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		
 		String privateField = chargeContentPojo.getPrivateField();
-	    String[] split = privateField.split(",");
-	    String entranceId = split[1];
-	    String friendId = null;
+		ChargeParam chargeParam = JsonUtil.readValue(privateField, ChargeParam.class);
+	    String entranceId = chargeParam.getChargeEntrance();
+	    String friendId = chargeParam.getFriendId();
+	    
 	    if (target == null)
 	    {
-	      itemId = split[0];
+	      itemId = chargeParam.getProductId();
 	      target = ChargeCfgDao.getInstance().getConfig(itemId);
-	    }
-	    if(split.length >= 3){
-	    	friendId = split[2];
 	    }
 
 		if(target!=null){
@@ -193,10 +194,12 @@ public class ChargeMgr {
 				for(ActivityTimeCardTypeSubCfg timecardcfg : timeCardList){
 					if(timecardcfg.getChargeType() == target.getChargeType()){
 						Player friendPlayer = null;
-						if(friendId != null){
+						if(StringUtils.isNotBlank(friendId)){
 							friendPlayer = PlayerMgr.getInstance().find(friendId);
 							//找不到要赠送的好友
-							sendMonthCardFailHandler(player);
+							if(null == friendPlayer){
+								sendMonthCardFailHandler(player);
+							}
 						}
 						if(null != friendPlayer){
 							success = sendMonthCard(friendPlayer, player, timecardcfg.getId(), target).isSuccess();

@@ -195,9 +195,9 @@ public final class ChargeServiceProto {
      */
     com.rwproto.ChargeServiceProto.RequestType getReqType();
 
-    // required string chargeItemId = 2;
+    // optional string chargeItemId = 2;
     /**
-     * <code>required string chargeItemId = 2;</code>
+     * <code>optional string chargeItemId = 2;</code>
      *
      * <pre>
      *充值项id
@@ -205,7 +205,7 @@ public final class ChargeServiceProto {
      */
     boolean hasChargeItemId();
     /**
-     * <code>required string chargeItemId = 2;</code>
+     * <code>optional string chargeItemId = 2;</code>
      *
      * <pre>
      *充值项id
@@ -213,7 +213,7 @@ public final class ChargeServiceProto {
      */
     java.lang.String getChargeItemId();
     /**
-     * <code>required string chargeItemId = 2;</code>
+     * <code>optional string chargeItemId = 2;</code>
      *
      * <pre>
      *充值项id
@@ -385,11 +385,11 @@ public final class ChargeServiceProto {
       return reqType_;
     }
 
-    // required string chargeItemId = 2;
+    // optional string chargeItemId = 2;
     public static final int CHARGEITEMID_FIELD_NUMBER = 2;
     private java.lang.Object chargeItemId_;
     /**
-     * <code>required string chargeItemId = 2;</code>
+     * <code>optional string chargeItemId = 2;</code>
      *
      * <pre>
      *充值项id
@@ -399,7 +399,7 @@ public final class ChargeServiceProto {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required string chargeItemId = 2;</code>
+     * <code>optional string chargeItemId = 2;</code>
      *
      * <pre>
      *充值项id
@@ -420,7 +420,7 @@ public final class ChargeServiceProto {
       }
     }
     /**
-     * <code>required string chargeItemId = 2;</code>
+     * <code>optional string chargeItemId = 2;</code>
      *
      * <pre>
      *充值项id
@@ -506,10 +506,6 @@ public final class ChargeServiceProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasReqType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasChargeItemId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -750,10 +746,6 @@ public final class ChargeServiceProto {
           
           return false;
         }
-        if (!hasChargeItemId()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -828,10 +820,10 @@ public final class ChargeServiceProto {
         return this;
       }
 
-      // required string chargeItemId = 2;
+      // optional string chargeItemId = 2;
       private java.lang.Object chargeItemId_ = "";
       /**
-       * <code>required string chargeItemId = 2;</code>
+       * <code>optional string chargeItemId = 2;</code>
        *
        * <pre>
        *充值项id
@@ -841,7 +833,7 @@ public final class ChargeServiceProto {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string chargeItemId = 2;</code>
+       * <code>optional string chargeItemId = 2;</code>
        *
        * <pre>
        *充值项id
@@ -859,7 +851,7 @@ public final class ChargeServiceProto {
         }
       }
       /**
-       * <code>required string chargeItemId = 2;</code>
+       * <code>optional string chargeItemId = 2;</code>
        *
        * <pre>
        *充值项id
@@ -879,7 +871,7 @@ public final class ChargeServiceProto {
         }
       }
       /**
-       * <code>required string chargeItemId = 2;</code>
+       * <code>optional string chargeItemId = 2;</code>
        *
        * <pre>
        *充值项id
@@ -896,7 +888,7 @@ public final class ChargeServiceProto {
         return this;
       }
       /**
-       * <code>required string chargeItemId = 2;</code>
+       * <code>optional string chargeItemId = 2;</code>
        *
        * <pre>
        *充值项id
@@ -909,7 +901,7 @@ public final class ChargeServiceProto {
         return this;
       }
       /**
-       * <code>required string chargeItemId = 2;</code>
+       * <code>optional string chargeItemId = 2;</code>
        *
        * <pre>
        *充值项id
@@ -1827,7 +1819,7 @@ public final class ChargeServiceProto {
       "\n\023ChargeService.proto\022\013chargeProto\"n\n\031Ch" +
       "argeServiceCommonReqMsg\022)\n\007reqType\030\001 \002(\016" +
       "2\030.chargeProto.RequestType\022\024\n\014chargeItem" +
-      "Id\030\002 \002(\t\022\020\n\010friendId\030\003 \001(\t\"i\n\031ChargeServ" +
+      "Id\030\002 \001(\t\022\020\n\010friendId\030\003 \001(\t\"i\n\031ChargeServ" +
       "iceCommonRspMsg\022)\n\007reqType\030\001 \002(\0162\030.charg" +
       "eProto.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n" +
       "\006tipMsg\030\003 \001(\t*\203\001\n\013RequestType\022\n\n\006Charge\020" +
