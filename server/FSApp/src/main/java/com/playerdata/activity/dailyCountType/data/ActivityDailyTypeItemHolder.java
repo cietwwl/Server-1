@@ -78,6 +78,9 @@ public class ActivityDailyTypeItemHolder {
 
 	public void synAllData(Player player) {
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());
+		if(itemList == null || itemList.isEmpty()){
+			return;
+		}
 		ActivityDailyTypeItem item = itemList.get(0);
 		List<ActivityDailyTypeSubItem> subList = item.getSubItemList();
 		for(ActivityDailyTypeSubItem sub : subList){
