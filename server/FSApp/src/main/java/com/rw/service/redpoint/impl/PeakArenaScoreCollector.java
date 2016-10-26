@@ -28,7 +28,7 @@ public class PeakArenaScoreCollector implements RedPointCollector {
 		if (score <= 0) {
 			return;
 		}
-		int count = PeakArenaScoreRewardCfgDAO.getInstance().getRewardCount(score);
+		int count = PeakArenaScoreRewardCfgDAO.getInstance().getRewardCount(score, level);
 		if (count == 0) {
 			return;
 		}

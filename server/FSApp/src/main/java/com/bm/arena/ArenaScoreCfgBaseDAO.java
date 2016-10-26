@@ -24,10 +24,10 @@ public abstract class ArenaScoreCfgBaseDAO extends CfgCsvDao<ArenaScore> {
 		for (Map.Entry<String, ArenaScore> entry : cfgCacheMap.entrySet()) {
 			String key = entry.getKey();
 			ArenaScore arenaScore = entry.getValue();
-			ArenaScoreTemplate template = new ArenaScoreTemplate(arenaScore.getScore(), arenaScore.getReward());
+			ArenaScoreTemplate template = new ArenaScoreTemplate(arenaScore.getScore(), arenaScore.getReward(), arenaScore.getMinLevel(), arenaScore.getMaxLevel());
 			templateMap.put(Integer.parseInt(key), template);
-			if (scoreMap.put(template.getSocre(), template) != null) {
-				throw new ExceptionInInitializerError("ArenaScore重复积分定义：" + template.getSocre());
+			if (scoreMap.put(template.getScore(), template) != null) {
+				throw new ExceptionInInitializerError("ArenaScore重复积分定义：" + template.getScore());
 			}
 		}
 		TreeMap<Integer, Integer> scoreRewardsCount = new TreeMap<Integer, Integer>();

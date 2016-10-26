@@ -1097,30 +1097,36 @@ public class PeakArenaHandler {
 		MsgArenaResponse.Builder response = MsgArenaResponse.newBuilder();
 		response.setArenaType(request.getArenaType());
 		TablePeakArenaData arenaData = PeakArenaBM.getInstance().getPeakArenaData(player.getUserId());
+		PeakArenaScoreRewardCfgDAO scoreRewardCfgDAO = PeakArenaScoreRewardCfgDAO.getInstance();
 		if (arenaData == null) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-		int id = request.getScoreRewardId();
+		int typeId = request.getScoreRewardId();
 		List<Integer> rewardList = arenaData.getRewardList();
-		if (rewardList.contains(id)) {
-			GameLog.error("ArenaHandler", "#getScoreReward()", "重复领取积分奖励：" + id);
+		if (rewardList.contains(typeId)) {
+			GameLog.error("ArenaHandler", "#getScoreReward()", "重复领取积分奖励：" + typeId);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return fillArenaScore(arenaData, response);
 		}
-		ArenaScoreTemplate template = PeakArenaScoreRewardCfgDAO.getInstance().getScoreTemplate(id);
+		ArenaScoreTemplate template = scoreRewardCfgDAO.getScoreTemplate(typeId, player.getLevel());
 		if (template == null) {
-			GameLog.error("ArenaHandler", "#getScoreReward()", "领取不存在的积分奖励：" + id);
+			GameLog.error("ArenaHandler", "#getScoreReward()", "领取不存在的积分奖励：" + typeId);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return fillArenaScore(arenaData, response);
 		}
 		int score = arenaData.getScore();
-		if (template.getSocre() > score) {
-			GameLog.error("ArenaHandler", "#getScoreReward()", "领取奖励的积分不够:id = " + id + ",score = " + score);
+		if (template.getScore() > score) {
+			GameLog.error("ArenaHandler", "#getScoreReward()", "领取奖励的积分不够:id = " + typeId + ",score = " + score);
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return fillArenaScore(arenaData, response);
 		}
-		rewardList.add(id);
+		if (template.getMinLevel() > player.getLevel() || template.getMaxLevel() < player.getLevel()) {
+			GameLog.error("ArenaHandler", "#getScoreReward()", "该奖励不属于该等极段！ id = " + typeId + ",level = " + template.getMinLevel() + ", " + template.getMaxLevel() + ", player等级：" + player.getLevel());
+			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+			return fillArenaScore(arenaData, response);
+		}
+		rewardList.add(typeId);
 		Map<Integer, Integer> rewards = template.getRewards();
 		addItem(rewards, player);
 		
@@ -1146,7 +1152,7 @@ public class PeakArenaHandler {
 			response.setResultTip("数据错误！");
 			return response.build().toByteString();
 		}
-		List<Integer> scoreRewardKeys = PeakArenaScoreRewardCfgDAO.getInstance().getKeys();
+		List<Integer> scoreRewardKeys = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewardTypes(player.getLevel());
 		if (null == scoreRewardKeys || scoreRewardKeys.isEmpty()) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			response.setResultTip("没有可领取的奖励");
@@ -1160,7 +1166,7 @@ public class PeakArenaHandler {
 			}
 			ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
 			int score = arenaData.getScore();
-			if (template.getSocre() > score) {
+			if (template.getScore() > score) {
 				// 积分不够
 				continue;
 			}
