@@ -39,8 +39,8 @@ public class MonsterArmyHelper {
 
 	private static AttrData getAttrData(MonsterCfg monster) {
 		AttrData.Builder builder = new Builder();
+		FastBeanCopyer.getInstance().copy(monster, builder);
 		AttrData data = builder.build();
-		FastBeanCopyer.getInstance().copy(monster, data);
 		return data;
 	}
 
