@@ -22,7 +22,7 @@ message SpriteAttachRequest {
 	required eSpriteAttachRequestType requestType = 1;
 	required int32 heroModelId = 2;
 	required int32 spriteAttachId = 3;
-    optional spriteAttachMaterial materials = 4;
+    repeated spriteAttachMaterial materials = 4;
 }
 
 message SpriteAttachResponse {
