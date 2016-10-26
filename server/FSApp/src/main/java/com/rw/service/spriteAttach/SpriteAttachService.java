@@ -19,7 +19,9 @@ public class SpriteAttachService implements FsService<SpriteAttachRequest, eSpri
 			case SpriteAttach:
 				result = SpriteAttachHandler.getInstance().spriteAttach(player, request);
 				break;
-
+			case UnlockSpriteAttach:
+				result = SpriteAttachHandler.getInstance().unlockSpriteAttach(player, request);
+				break;
 			default:
 				break;
 			}

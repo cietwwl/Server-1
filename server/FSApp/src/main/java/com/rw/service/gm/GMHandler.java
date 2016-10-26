@@ -255,6 +255,8 @@ public class GMHandler {
 		// * callrb 1 生成随机boss,如果角色已经达到生成boss上限，这个指令会无效
 		funcCallBackMap.put("callrb", "callRb");
 		funcCallBackMap.put("testcharge", "testCharge");
+		
+		funcCallBackMap.put("addsaexp", "addSaExp");
 	}
 
 	public boolean isActive() {
@@ -1962,4 +1964,13 @@ public class GMHandler {
 		}
 		return true;
 	}
+	
+	public boolean addSAExp(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length != 1) {
+			return false;
+		}
+		
+		return true;
+	}
+	
 }

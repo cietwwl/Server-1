@@ -3,8 +3,10 @@ package com.rwbase.dao.spriteattach;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.common.IHeroAction;
 import com.playerdata.Hero;
@@ -37,68 +39,121 @@ public class SpriteAttachHolder {
 		}
 		return null;
 	}
-	
-	public List<SpriteAttachSyn> getItemList(String heroId)	
-	{
-		
+
+	private List<SpriteAttachSyn> getItemList(String heroId) {
+
 		List<SpriteAttachSyn> itemList = new ArrayList<SpriteAttachSyn>();
-		Enumeration<SpriteAttachSyn> mapEnum = getItemStore(heroId).getExtPropertyEnumeration();
+		PlayerExtPropertyStore<SpriteAttachSyn> itemStore = getItemStore(heroId);
+		if(itemStore == null){
+			return itemList;
+		}
+		Enumeration<SpriteAttachSyn> mapEnum = itemStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			SpriteAttachSyn item = (SpriteAttachSyn) mapEnum.nextElement();
 			itemList.add(item);
 		}
-		
+
 		return itemList;
 	}
-	
-	public Map<Integer, SpriteAttachItem> getSpriteAttachItemMap(String heroId){
-		Map<Integer, SpriteAttachItem> itemMap = new HashMap<Integer, SpriteAttachItem>();
+
+	public SpriteAttachSyn getSpriteAttachSyn(String heroId) {
 		List<SpriteAttachSyn> itemList = getItemList(heroId);
-		SpriteAttachSyn spriteAttachSyn = itemList.get(0);
-		List<SpriteAttachItem> items = spriteAttachSyn.getItems();
-		for (SpriteAttachItem spriteAttachItem : items) {
-			itemMap.put(spriteAttachItem.getSpriteAttachId(), spriteAttachItem);
+		if (itemList.size() > 0) {
+			return itemList.get(0);
+		} else {
+			return null;
 		}
-		
+	}
+
+	// public void createSpriteAttachItem(Player player, Hero hero){
+	// int heroModelId = hero.getModeId();
+	// String heroId = hero.getId();
+	// String userId = player.getUserId();
+	// SpriteAttachRoleCfg spriteAttachRoleCfg =
+	// SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(heroModelId));
+	// if (spriteAttachRoleCfg != null) {
+	// List<SpriteAttachItem> list = new ArrayList<SpriteAttachItem>();
+	// int spriteItem1 = spriteAttachRoleCfg.getSpriteItem1();
+	// craeteSpriteAttach(spriteItem1, list);
+	// int spriteItem2 = spriteAttachRoleCfg.getSpriteItem2();
+	// craeteSpriteAttach(spriteItem2, list);
+	// int spriteItem3 = spriteAttachRoleCfg.getSpriteItem3();
+	// craeteSpriteAttach(spriteItem3, list);
+	// int spriteItem4 = spriteAttachRoleCfg.getSpriteItem4();
+	// craeteSpriteAttach(spriteItem4, list);
+	// int spriteItem5 = spriteAttachRoleCfg.getSpriteItem5();
+	// craeteSpriteAttach(spriteItem5, list);
+	// int spriteItem6 = spriteAttachRoleCfg.getSpriteItem6();
+	// craeteSpriteAttach(spriteItem6, list);
+	//
+	// List<SpriteAttachSyn> result = new ArrayList<SpriteAttachSyn>();
+	// SpriteAttachSyn syn = new SpriteAttachSyn();
+	// syn.setItems(list);
+	// syn.setId(heroModelId);
+	// syn.setOwnerId(heroId);
+	// result.add(syn);
+	// return result;
+	//
+	// } else {
+	// GameLog.error("SpriteAttach", "userId:" + userId, "找不到对应英雄的灵蕴点,英雄id：" +
+	// heroId);
+	// return null;
+	// }
+	// }
+
+	public Map<Integer, SpriteAttachItem> getSpriteAttachItemMap(String heroId) {
+		Map<Integer, SpriteAttachItem> itemMap = new HashMap<Integer, SpriteAttachItem>();
+
+		SpriteAttachSyn spriteAttachSyn = getSpriteAttachSyn(heroId);
+		if (spriteAttachSyn != null) {
+			Map<Integer, SpriteAttachItem> items = spriteAttachSyn.getItemMap();
+			for (Iterator<Entry<Integer, SpriteAttachItem>> iterator = items.entrySet().iterator(); iterator.hasNext();) {
+				Entry<Integer, SpriteAttachItem> entry = iterator.next();
+				SpriteAttachItem spriteAttachItem = entry.getValue();
+				itemMap.put(spriteAttachItem.getSpriteAttachId(), spriteAttachItem);
+			}
+		}
+
 		return itemMap;
 	}
-	
-	public List<SpriteAttachItem> getSpriteAttachItemList(String heroId){
+
+	public List<SpriteAttachItem> getSpriteAttachItemList(String heroId) {
 		List<SpriteAttachItem> SpriteAttachItemList = new ArrayList<SpriteAttachItem>();
-		List<SpriteAttachSyn> itemList = getItemList(heroId);
-		if (itemList != null && itemList.size() > 0) {
-			SpriteAttachSyn spriteAttachSyn = itemList.get(0);
-			if (spriteAttachSyn != null) {
-				List<SpriteAttachItem> items = spriteAttachSyn.getItems();
-				for (SpriteAttachItem spriteAttachItem : items) {
-					SpriteAttachItemList.add(spriteAttachItem);
-				}
+
+		SpriteAttachSyn spriteAttachSyn = getSpriteAttachSyn(heroId);
+		if (spriteAttachSyn != null) {
+			Map<Integer, SpriteAttachItem> items = spriteAttachSyn.getItemMap();
+			for (Iterator<Entry<Integer, SpriteAttachItem>> iterator = items.entrySet().iterator(); iterator.hasNext();) {
+				Entry<Integer, SpriteAttachItem> entry = iterator.next();
+				SpriteAttachItemList.add(entry.getValue());	
 			}
 		}
 		return SpriteAttachItemList;
 	}
 	
-	public void updateItem(Player player, SpriteAttachSyn item){
+	
+
+	public void updateItem(Player player, SpriteAttachSyn item) {
 		getItemStore(item.getOwnerId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), item.getOwnerId());
 	}
-	
-	
+
 	private void notifyChange(String playerId, String heroId) {
-		for(IHeroAction heroAction : _dataChangeCallbacks) {
+		for (IHeroAction heroAction : _dataChangeCallbacks) {
 			heroAction.doAction(playerId, heroId);
 		}
 	}
-	
-	public void synAllData(Player player, Hero hero){
-		List<SpriteAttachSyn> itemList = getItemList(hero.getUUId());			
-		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+
+	public void synAllData(Player player, Hero hero) {
+		SpriteAttachSyn spriteAttachSyn = getSpriteAttachSyn(hero.getId());
+		if (spriteAttachSyn != null) {
+			ClientDataSynMgr.synData(player, spriteAttachSyn, synType, eSynOpType.ADD_SINGLE);
+		}
 	}
-	
+
 	private List<IHeroAction> _dataChangeCallbacks = new ArrayList<IHeroAction>();
-	
-	
+
 	public void regDataChangeCallback(IHeroAction callback) {
 		_dataChangeCallbacks.add(callback);
 	}

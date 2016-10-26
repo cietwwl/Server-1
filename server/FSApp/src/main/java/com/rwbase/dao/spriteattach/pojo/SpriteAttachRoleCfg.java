@@ -48,4 +48,8 @@ public class SpriteAttachRoleCfg {
 	public int getIndex(int spriteItemId) {
 		return IndexMap.get(spriteItemId);
 	}
+	
+	public HashMap<Integer, Integer> getIndexMap(){
+		return IndexMap;
+	}
 }

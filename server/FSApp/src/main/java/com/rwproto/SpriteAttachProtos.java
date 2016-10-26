@@ -17,12 +17,20 @@ public final class SpriteAttachProtos {
      * <code>SpriteAttach = 1;</code>
      */
     SpriteAttach(0, 1),
+    /**
+     * <code>UnlockSpriteAttach = 2;</code>
+     */
+    UnlockSpriteAttach(1, 2),
     ;
 
     /**
      * <code>SpriteAttach = 1;</code>
      */
     public static final int SpriteAttach_VALUE = 1;
+    /**
+     * <code>UnlockSpriteAttach = 2;</code>
+     */
+    public static final int UnlockSpriteAttach_VALUE = 2;
 
 
     public final int getNumber() { return value; }
@@ -30,6 +38,7 @@ public final class SpriteAttachProtos {
     public static eSpriteAttachRequestType valueOf(int value) {
       switch (value) {
         case 1: return SpriteAttach;
+        case 2: return UnlockSpriteAttach;
         default: return null;
       }
     }
@@ -2305,10 +2314,11 @@ public final class SpriteAttachProtos {
       "\211\001\n\024SpriteAttachResponse\022.\n\013requestType\030" +
       "\001 \001(\0162\031.eSpriteAttachRequestType\022,\n\nresl" +
       "utType\030\002 \001(\0162\030.eSpriteAttachResultType\022\023" +
-      "\n\013reslutValue\030\003 \001(\t*,\n\030eSpriteAttachRequ",
-      "estType\022\020\n\014SpriteAttach\020\001*0\n\027eSpriteAtta" +
-      "chResultType\022\010\n\004Fail\020\000\022\013\n\007Success\020\001B!\n\013c" +
-      "om.rwprotoB\022SpriteAttachProtos"
+      "\n\013reslutValue\030\003 \001(\t*D\n\030eSpriteAttachRequ",
+      "estType\022\020\n\014SpriteAttach\020\001\022\026\n\022UnlockSprit" +
+      "eAttach\020\002*0\n\027eSpriteAttachResultType\022\010\n\004" +
+      "Fail\020\000\022\013\n\007Success\020\001B!\n\013com.rwprotoB\022Spri" +
+      "teAttachProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

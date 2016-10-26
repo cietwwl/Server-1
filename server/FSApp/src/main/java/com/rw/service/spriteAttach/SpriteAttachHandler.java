@@ -22,6 +22,7 @@ import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.spriteattach.SpriteAttachCfgDAO;
+import com.rwbase.dao.spriteattach.SpriteAttachHolder;
 import com.rwbase.dao.spriteattach.SpriteAttachItem;
 import com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO;
 import com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO;
@@ -44,158 +45,196 @@ public class SpriteAttachHandler {
 	public static SpriteAttachHandler getInstance() {
 		return instance;
 	}
-	
+
+	private SpriteAttachMgr spriteAttachMgr = SpriteAttachMgr.getInstance();
+
 	/**
 	 * 附灵
+	 * 
 	 * @param player
 	 * @param request
 	 * @return
 	 */
-	public ByteString spriteAttach(Player player, SpriteAttachRequest request){
+	public ByteString spriteAttach(Player player, SpriteAttachRequest request) {
 		SpriteAttachResponse.Builder res = SpriteAttachResponse.newBuilder();
 		eSpriteAttachRequestType requestType = request.getRequestType();
 		int heroModelId = request.getHeroModelId();
 		int spriteAttachId = request.getSpriteAttachId();
 		List<spriteAttachMaterial> materialsList = request.getMaterialsList();
-		
+
 		Hero hero = player.getHeroMgr().getHeroByModerId(player, heroModelId);
-		if(hero == null){
+		if (hero == null) {
 			return sendFailMsg("找不到对应的英雄!", res, requestType);
 		}
-		
+
 		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(hero.getModeId()));
-		if(spriteAttachRoleCfg == null){
+		if (spriteAttachRoleCfg == null) {
 			return sendFailMsg("找不到对应的英雄的灵蕴信息!", res, requestType);
 		}
 		SpriteAttachCfg spriteAttachCfg = SpriteAttachCfgDAO.getInstance().getCfgById(String.valueOf(spriteAttachId));
-		if(spriteAttachCfg == null){
+		if (spriteAttachCfg == null) {
 			return sendFailMsg("找不到对应的英雄的灵蕴信息!", res, requestType);
 		}
-		SpriteAttachMgr spriteAttachMgr = SpriteAttachMgr.getInstance();
-		SpriteAttachSyn synItem = spriteAttachMgr.getSpriteAttachHolder().getItemList(hero.getUUId()).get(0);
-		Map<Integer, SpriteAttachItem> itemMap = spriteAttachMgr.getSpriteAttachHolder().getSpriteAttachItemMap(hero.getUUId());
-		
+		SpriteAttachHolder spriteAttachHolder = spriteAttachMgr.getSpriteAttachHolder();
+		SpriteAttachSyn synItem = spriteAttachHolder.getSpriteAttachSyn(hero.getUUId());
+		Map<Integer, SpriteAttachItem> itemMap = spriteAttachHolder.getSpriteAttachItemMap(hero.getUUId());
+
 		SpriteAttachItem spriteAttachItem = itemMap.get(spriteAttachId);
-		//查找对应的灵蕴点
-		if(spriteAttachItem == null){
+		// 查找对应的灵蕴点
+		if (spriteAttachItem == null) {
 			return sendFailMsg("找不到对应的英雄的灵蕴信息!", res, requestType);
 		}
-		
-		//判断灵蕴点是否激活
-		if(!spriteAttachMgr.checkSpriteAttachActive(player, hero, spriteAttachCfg)){
+
+		// 判断灵蕴点是否激活
+		if (!spriteAttachMgr.checkSpriteAttachActive(player, hero, spriteAttachCfg, itemMap)) {
 			return sendFailMsg("英雄的灵蕴点尚未激活,附灵失败!", res, requestType);
 		}
-		
+
 		int spriteAttachLevel = spriteAttachItem.getLevel();
 		long currentExp = spriteAttachItem.getExp();
 		int nextSpriteAttachLevel = spriteAttachLevel + 1;
-		
-		//执行附灵
+
+		// 执行附灵
 		int levelCostPlanId = spriteAttachCfg.getLevelCostPlanId();
-		
+
 		SpriteAttachLevelCostCfg spriteAttachLevelCost = SpriteAttachLevelCostCfgDAO.getInstance().getSpriteAttachLevelCost(spriteAttachLevel, levelCostPlanId);
-		
+
 		long levelExp = spriteAttachLevelCost.getExp();
-		
+
 		SpriteAttachLevelCostCfg nextSpriteAttachLevelCost = SpriteAttachLevelCostCfgDAO.getInstance().getSpriteAttachLevelCost(nextSpriteAttachLevel, levelCostPlanId);
-		if(nextSpriteAttachLevelCost == null && currentExp >= levelExp){
+		if (nextSpriteAttachLevelCost == null && currentExp >= levelExp) {
 			return sendFailMsg("当前附灵已到最高等级!", res, requestType);
 		}
-		
+
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		
+
 		int costType = spriteAttachLevelCost.getCostType();
-		
+
 		final eSpecialItemId currencyType = eSpecialItemId.getDef(costType);
 		if (currencyType == null) {
 			return sendFailMsg("附灵配置的货币类型无效,附灵失败!", res, requestType);
 		}
-		
+
 		RefLong cost = new RefLong();
 		RefInt upgradeLevel = new RefInt(spriteAttachLevel);
 		RefLong upgradeExp = new RefLong(currentExp);
 		List<IUseItem> useItemList = new ArrayList<IUseItem>(materialsList.size());
 		boolean calcResult = calcConsume(itemBagMgr, materialsList, upgradeLevel, upgradeExp, levelCostPlanId, spriteAttachLevelCost, cost, useItemList);
-		if(!calcResult){
+		if (!calcResult) {
 			return sendFailMsg("附灵失败，消耗升级材料失败！", res, requestType);
 		}
-		
+
 		Map<Integer, Integer> modifyMoneyMap = new HashMap<Integer, Integer>(1);
-		modifyMoneyMap.put(costType, -(int)(cost.value));
-		
-		long costCount =cost.value;
+		modifyMoneyMap.put(costType, -(int) (cost.value));
+
+		long costCount = cost.value;
 		// 扣金币和扣材料
 		long curValue = player.getReward(currencyType);
 		if (costCount > curValue) {
 			return sendFailMsg("货币不足,附灵失败!", res, requestType);
 		}
-		
+
 		if (!itemBagMgr.useLikeBoxItem(useItemList, null, modifyMoneyMap)) {
 			return sendFailMsg("附灵失败，消耗升级材料失败！", res, requestType);
 		}
-		
-		spriteAttachItem.setLevel(upgradeLevel.value);
+		if (upgradeLevel.value != spriteAttachLevel) {
+			spriteAttachItem.setLevel(upgradeLevel.value);
+		}
 		spriteAttachItem.setExp(upgradeExp.value);
 		SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, synItem);
 		res.setRequestType(requestType);
 		res.setReslutType(eSpriteAttachResultType.Success);
-		
+
 		return res.build().toByteString();
 	}
-	
+
+	public ByteString unlockSpriteAttach(Player player, SpriteAttachRequest request) {
+		SpriteAttachResponse.Builder res = SpriteAttachResponse.newBuilder();
+		eSpriteAttachRequestType requestType = request.getRequestType();
+		int heroModelId = request.getHeroModelId();
+		int spriteAttachId = request.getSpriteAttachId();
+
+		Hero hero = player.getHeroMgr().getHeroByModerId(player, heroModelId);
+		if (hero == null) {
+			return sendFailMsg("找不到对应的英雄!", res, requestType);
+		}
+		SpriteAttachCfg spriteAttachCfg = SpriteAttachCfgDAO.getInstance().getCfgById(String.valueOf(spriteAttachId));
+		if (spriteAttachCfg == null) {
+			return sendFailMsg("找不到对应的英雄的灵蕴信息!", res, requestType);
+		}
+		SpriteAttachHolder spriteAttachHolder = spriteAttachMgr.getSpriteAttachHolder();
+		SpriteAttachSyn spriteAttachSyn = spriteAttachHolder.getSpriteAttachSyn(hero.getId());
+		Map<Integer, SpriteAttachItem> items = spriteAttachHolder.getSpriteAttachItemMap(hero.getId());
+		boolean blnActive = spriteAttachMgr.checkSpriteAttachActive(player, hero, spriteAttachCfg, items);
+		if (!blnActive) {
+			return sendFailMsg("该英雄的灵蕴尚未到达解锁条件，解锁失败!", res, requestType);
+		}
+		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(heroModelId));
+		int index = spriteAttachRoleCfg.getIndex(spriteAttachId);
+		
+		if (spriteAttachMgr.createSpriteAttachItem(spriteAttachSyn, index, spriteAttachCfg.getId())) {
+			SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, spriteAttachSyn);
+			res.setRequestType(requestType);
+			res.setReslutType(eSpriteAttachResultType.Success);
+		} else {
+			return sendFailMsg("该英雄的灵蕴解锁失败!", res, requestType);
+		}
+
+		return res.build().toByteString();
+	}
 
 	private boolean calcConsume(ItemBagMgr itemBagMgr, List<spriteAttachMaterial> materialsList, RefInt upgradeLevel, RefLong upgradeExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, RefLong Cost, List<IUseItem> useItemList) {
 		int totalCost = 0;
 		int materialsExp = 0;
-		
+
 		for (Iterator<spriteAttachMaterial> iterator = materialsList.iterator(); iterator.hasNext();) {
 			spriteAttachMaterial spriteAttachMaterial = (spriteAttachMaterial) iterator.next();
 			int itemModelId = spriteAttachMaterial.getItemModelId();
 			int count = spriteAttachMaterial.getCount();
-			if(count <=0){
+			if (count <= 0) {
 				continue;
 			}
 			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
-			materialsExp += itemBaseCfg.getEnchantExp()* count;
-			
+			materialsExp += itemBaseCfg.getEnchantExp() * count;
+
 			List<IUseItem> items = itemBagMgr.checkEnoughItem(itemModelId, count, null);
-			if(items == null){
+			if (items == null) {
 				return false;
-			}else{
+			} else {
 				useItemList.addAll(items);
 			}
 		}
-		
+
 		SpriteAttachLevelCostCfg levelCostCfg = spriteAttachLevelCost;
-		while(materialsExp > 0){
+		while (materialsExp > 0) {
 			long exp = levelCostCfg.getExp();
 			long uExp = exp - upgradeExp.value;
-			if(materialsExp > uExp){
-				
+			if (materialsExp > uExp) {
+
 				materialsExp -= uExp;
 				totalCost += (exp - upgradeExp.value) * levelCostCfg.getCostCount();
 				upgradeLevel.value++;
 				upgradeExp.value = 0;
 				levelCostCfg = SpriteAttachLevelCostCfgDAO.getInstance().getSpriteAttachLevelCost(upgradeLevel.value, levelCostPlanId);
-				if(levelCostCfg == null){
+				if (levelCostCfg == null) {
 					break;
 				}
-			}else{
+			} else {
 				upgradeExp.value += materialsExp;
 				totalCost += materialsExp * levelCostCfg.getCostCount();
 				materialsExp = 0;
 			}
-			
+
 		}
 		Cost.value = totalCost;
 		return true;
 	}
-	
-	public ByteString sendFailMsg(String failMsg, SpriteAttachResponse.Builder res, eSpriteAttachRequestType requestType){
+
+	public ByteString sendFailMsg(String failMsg, SpriteAttachResponse.Builder res, eSpriteAttachRequestType requestType) {
 		res.setRequestType(requestType);
 		res.setReslutType(eSpriteAttachResultType.Fail);
 		res.setReslutValue(failMsg);
-		
+
 		return res.build().toByteString();
 	}
 }
