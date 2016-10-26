@@ -35,6 +35,7 @@ import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.angelarray.AngelArrayConst;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
@@ -81,8 +82,7 @@ public final class AngelArrayMatchHelper {
 	 * @param robotId
 	 * @return
 	 */
-	public static AngelArrayTeamInfoData getMatchAngelArrayTeamInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList,
-			int robotId) {
+	public static AngelArrayTeamInfoData getMatchAngelArrayTeamInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, int robotId) {
 		// 第一步等级匹配 && 第二步战力匹配
 		Map<String, MatchUserInfo> matchUserInfo = getMatchUserInfo(userId, level, maxLevel, minFighting, maxFighting, enemyIdList, hasUserIdList, RankType.ANGEL_TEAM_INFO_RANK);
 
@@ -217,7 +217,8 @@ public final class AngelArrayMatchHelper {
 							}
 						}
 
-						groupName = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupName();
+						UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+						groupName = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupName();
 						headId = readOnlyPlayer.getHeadImage();
 						playerName = readOnlyPlayer.getUserName();
 						career = readOnlyPlayer.getMainRoleHero().getCareerType();
@@ -260,6 +261,8 @@ public final class AngelArrayMatchHelper {
 						isRobot = false;
 					}
 				}
+
+				System.err.println(String.format("匹配到的成员的是否合适【%s】，【%s】，默认的阵容战力【%s】", fit, hasTeam, teamFighting));
 			} else {
 				finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 				ranResult = finalTeamInfo.getUuid();
@@ -286,8 +289,8 @@ public final class AngelArrayMatchHelper {
 			ranking.addOrUpdateRankingEntry(ranResult, comparable, attribute);
 		}
 
-		GameLog.info("万仙阵匹配的数据", userId, String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting,
-				(finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
+		GameLog.info("万仙阵匹配的数据", userId,
+				String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting, (finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
 
 		AngelArrayTeamInfoData angelArrayTeamInfoData = new AngelArrayTeamInfoData();
 		int saveMinFighting = (int) (minFighting * (1 - AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_LOW_RATE));
@@ -353,8 +356,7 @@ public final class AngelArrayMatchHelper {
 	 * @param enemyIdList 已经匹配到的数据
 	 * @return
 	 */
-	private static Map<String, MatchUserInfo> getMatchUserInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList,
-			RankType rankType) {
+	private static Map<String, MatchUserInfo> getMatchUserInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, RankType rankType) {
 		Map<String, MatchUserInfo> matchUserInfo = new HashMap<String, MatchUserInfo>(AngelArrayConst.MIN_MATCH_SIZE);
 
 		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(rankType);
@@ -412,8 +414,7 @@ public final class AngelArrayMatchHelper {
 	 * @param hasMatchList 已经匹配到的数据
 	 * @return
 	 */
-	private static void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, Map<String, MatchUserInfo> matchUserInfo, List<String> enemyIdList,
-			List<String> hasUserIdList) {
+	private static void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, Map<String, MatchUserInfo> matchUserInfo, List<String> enemyIdList, List<String> hasUserIdList) {
 		Ranking<FightingComparable, RankingLevelData> rank = RankingFactory.getRanking(RankType.FIGHTING_ALL_DAILY);
 		if (rank == null) {
 			GameLog.error("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), "获取不到对应某个排行榜的数据");
