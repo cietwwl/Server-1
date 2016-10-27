@@ -157,7 +157,7 @@ public class UserFeatruesMgr {
 		int tmp = subItem.getCount()+ count;
 		subItem.setCount(tmp);
 		addTeamBattleMap(subItem,hardId);
-		dataholder.updateItem(player, item);
+		dataholder.updateItemsingel(player, item);
 	}
 	
 	/**唯独心魔录不能像其他功能直接增加次数，而是要将hardid和增加次数一并存入；心魔录可以看做是-1用等级vip匹配和-2分段计算的综合*/

@@ -213,6 +213,7 @@ public class ActivityRetrieveTypeMgr {
 		ActivityRetrieveTypeHolder dataHolder = ActivityRetrieveTypeHolder.getInstance();
 		RewardBackItem item = dataHolder.getItem(player.getUserId());
 		long lastTime = item.getLastAddPowerTime();
+		
 		long now = System.currentTimeMillis();
 		long flowTime = now - lastTime;// 流失的时间
 		long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
