@@ -14,7 +14,7 @@ import com.rwbase.common.attribute.param.SpriteAttachParam;
 import com.rwbase.common.attribute.param.SpriteAttachParam.SpriteAttachBuilder;
 import com.rwbase.dao.spriteattach.SpriteAttachItem;
 
-public class HeroSpriteAttributeComponent extends AbstractAttributeCalc{
+public class HeroSpriteAttachAttributeComponent extends AbstractAttributeCalc{
 
 	@Override
 	public AttributeComponentEnum getComponentTypeEnum() {

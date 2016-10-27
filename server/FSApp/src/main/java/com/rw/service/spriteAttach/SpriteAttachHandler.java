@@ -176,8 +176,9 @@ public class SpriteAttachHandler {
 			SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, spriteAttachSyn);
 			res.setRequestType(requestType);
 			res.setReslutType(eSpriteAttachResultType.Success);
-		} else {
-			return sendFailMsg("该英雄的灵蕴解锁失败!", res, requestType);
+		}else{
+			res.setRequestType(requestType);
+			res.setReslutType(eSpriteAttachResultType.UnlockRepeat);
 		}
 
 		return res.build().toByteString();

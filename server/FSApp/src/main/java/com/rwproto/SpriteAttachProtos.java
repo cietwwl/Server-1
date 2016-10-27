@@ -103,6 +103,10 @@ public final class SpriteAttachProtos {
      * <code>Success = 1;</code>
      */
     Success(1, 1),
+    /**
+     * <code>UnlockRepeat = 2;</code>
+     */
+    UnlockRepeat(2, 2),
     ;
 
     /**
@@ -113,6 +117,10 @@ public final class SpriteAttachProtos {
      * <code>Success = 1;</code>
      */
     public static final int Success_VALUE = 1;
+    /**
+     * <code>UnlockRepeat = 2;</code>
+     */
+    public static final int UnlockRepeat_VALUE = 2;
 
 
     public final int getNumber() { return value; }
@@ -121,6 +129,7 @@ public final class SpriteAttachProtos {
       switch (value) {
         case 0: return Fail;
         case 1: return Success;
+        case 2: return UnlockRepeat;
         default: return null;
       }
     }
@@ -2316,9 +2325,9 @@ public final class SpriteAttachProtos {
       "utType\030\002 \001(\0162\030.eSpriteAttachResultType\022\023" +
       "\n\013reslutValue\030\003 \001(\t*D\n\030eSpriteAttachRequ",
       "estType\022\020\n\014SpriteAttach\020\001\022\026\n\022UnlockSprit" +
-      "eAttach\020\002*0\n\027eSpriteAttachResultType\022\010\n\004" +
-      "Fail\020\000\022\013\n\007Success\020\001B!\n\013com.rwprotoB\022Spri" +
-      "teAttachProtos"
+      "eAttach\020\002*B\n\027eSpriteAttachResultType\022\010\n\004" +
+      "Fail\020\000\022\013\n\007Success\020\001\022\020\n\014UnlockRepeat\020\002B!\n" +
+      "\013com.rwprotoB\022SpriteAttachProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
