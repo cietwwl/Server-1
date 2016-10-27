@@ -51,7 +51,7 @@ public class FriendMonthCardInfoHolder{
 		boolean isMonthCardMax = false;
 		boolean isEternalCardMax = false;
 		for(ActivityTimeCardTypeSubItem subItem : monthCardList){
-			ChargeTypeEnum type = ChargeTypeEnum.getById(String.valueOf(subItem.getTimeCardType()));
+			ChargeTypeEnum type = ChargeTypeEnum.getById(String.valueOf(subItem.getChargetype()));
 			if(type == ChargeTypeEnum.MonthCard) {
 				isMonthCardMax = subItem.getDayLeft() > normalCardLimit ? true : false;
 			}else if(type == ChargeTypeEnum.VipMonthCard && subItem.getDayLeft() > 0){
