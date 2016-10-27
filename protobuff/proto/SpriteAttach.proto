@@ -11,6 +11,7 @@ enum eSpriteAttachRequestType{
 enum eSpriteAttachResultType{
 	Fail = 0;
 	Success = 1;
+	UnlockRepeat = 2;
 }
 
 message spriteAttachMaterial{
