@@ -17,6 +17,16 @@ public class ActivityMgrHelper {
 	}
 	
 	/**
+	 * 同步活动数据
+	 * @param player
+	 */
+	public void synActivityData(Player player){
+		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
+			type.getActivityMgr().synData(player);
+		}
+	}
+	
+	/**
 	 * 检查活动是否开启
 	 * @param player
 	 */

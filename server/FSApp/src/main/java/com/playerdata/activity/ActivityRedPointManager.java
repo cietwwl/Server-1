@@ -48,6 +48,9 @@ public class ActivityRedPointManager {
 		boolean issucce = false;
 		int tmp = Integer.parseInt(str);
 		ActivityMgrHelper.getInstance().updateRedPoint(player, str);
+		if(tmp < 150000 && tmp > 0){
+			issucce = true;
+		}
 		if (tmp < 10000 && tmp > 0) {
 			ActivityCountTypeMgr.getInstance().updateRedPoint(player, str);
 		} else if (tmp < 20000 && tmp > 10000) {
@@ -70,17 +73,15 @@ public class ActivityRedPointManager {
 			ActivityFortuneCatTypeMgr.getInstance().updateRedPoint(player,str);
 		}else if (tmp < 110000 && tmp > 100000) {
 			//月卡占用编号
-		}else if (tmp < 120000 && tmp > 110000) {
-			// ActivityDailyRechargeTypeMgr.getInstance().updateRedPoint(player, str);
 		}else if (tmp < 130000 && tmp > 120000) {
 			ActivityLimitHeroTypeMgr.getInstance().updateRedPoint(player,str);
 		}else{
-			GameLog.error(LogModule.RedPoint, player.getUserId(), "传来的id异常"+str, null);
+			if(!issucce){
+				GameLog.error(LogModule.RedPoint, player.getUserId(), "传来的id异常"+str, null);
+			}
 			return issucce;
 		}
 		issucce = true;
 		return issucce;
-	}	
-	
-	
+	}
 }
