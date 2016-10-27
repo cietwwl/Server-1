@@ -490,7 +490,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.WB_USER_DATA, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				WBUserMgr.getInstance().synWBUserData(player, version);
+				WBUserMgr.getInstance().synWBUserData(player, -1);
 
 			}
 		}));

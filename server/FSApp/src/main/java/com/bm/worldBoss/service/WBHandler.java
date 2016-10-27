@@ -101,12 +101,7 @@ public class WBHandler {
 			int awardCoin = addAwardCoin(player, totalHurt);
 			boolean success = WBMgr.getInstance().decrHp(player,totalHurt);
 			if(success){
-				//TODO 这里加上结算的奖励
-				FightEndReward.Builder b = FightEndReward.newBuilder();
-				//TODO 组装奖励数据
 				
-				
-				response.setReward(b);
 				WBUserMgr.getInstance().fightEndUpdate(player, totalHurt, awardCoin);
 			}else{
 				result.setSuccess(false);
@@ -116,6 +111,7 @@ public class WBHandler {
 			
 		}
 		response.setIsSuccess(result.isSuccess());
+		if(result.getReason() != null)
 		response.setTipMsg(result.getReason());	
 				
 		return response.build().toByteString();
