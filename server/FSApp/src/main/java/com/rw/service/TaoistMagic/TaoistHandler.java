@@ -39,8 +39,12 @@ public class TaoistHandler {
 			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
 		}
 
-		int upgradeCount = req.getUpgradeCount();
 		int plvl = player.getLevel();
+		if (plvl < cfg.getOpenLevel()) {
+			return ErrorResponse(String.format("主角%s级开启", cfg.getOpenLevel()), ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
+		}
+
+		int upgradeCount = req.getUpgradeCount();
 		ITaoistMgr taoistMgr = player.getTaoistMgr();
 		int currentLvl = taoistMgr.getLevel(tid);
 		int newLevel = currentLvl + upgradeCount;
@@ -51,13 +55,11 @@ public class TaoistHandler {
 		int consumeId = cfg.getConsumeId();
 		int maxCfgLevel = consumeHelper.getMaxLevel(consumeId);
 		if (newLevel > maxCfgLevel) {
-			GameLog.info("道术", player.getUserId(),
-					"升级道术不能超过最大配置等级,当前等级:" + currentLvl + "升级次数:" + upgradeCount + ",最大配置等级" + maxCfgLevel, null);
+			GameLog.info("道术", player.getUserId(), "升级道术不能超过最大配置等级,当前等级:" + currentLvl + "升级次数:" + upgradeCount + ",最大配置等级" + maxCfgLevel, null);
 		}
 
 		if (newLevel > plvl) {
-			GameLog.info("道术", player.getUserId(),
-					"升级道术不能超过玩家等级,当前等级:" + currentLvl + "升级次数:" + upgradeCount + ",玩家等级" + plvl, null);
+			GameLog.info("道术", player.getUserId(), "升级道术不能超过玩家等级,当前等级:" + currentLvl + "升级次数:" + upgradeCount + ",玩家等级" + plvl, null);
 		}
 
 		int maxUpgradeCount = Math.min(maxCfgLevel, plvl) - currentLvl;
@@ -68,18 +70,17 @@ public class TaoistHandler {
 
 		// 验证暴击次数
 		RefInt total = new RefInt();
-		int[] planNums = helper.generateCriticalPlan(taoistMgr.getRandomSeed(), taoistMgr.getSeedRange(), tid,
-				currentLvl,upgradeCount, maxUpgradeCount, total);
+		int[] planNums = helper.generateCriticalPlan(taoistMgr.getRandomSeed(), taoistMgr.getSeedRange(), tid, currentLvl, upgradeCount, maxUpgradeCount, total);
 		if (planNums == null) {
 			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
 		}
-		
-//		System.out.print("道术暴击序列:");
-//		for(int i = 0; i<planNums.length;i++){
-//			System.out.print(planNums[i]+",");
-//		}
-//		System.out.println();
-		
+
+		// System.out.print("道术暴击序列:");
+		// for(int i = 0; i<planNums.length;i++){
+		// System.out.print(planNums[i]+",");
+		// }
+		// System.out.println();
+
 		int criticalCount = 0;
 		if (total.value > upgradeCount) {
 			criticalCount = total.value - upgradeCount;
@@ -90,18 +91,16 @@ public class TaoistHandler {
 		// 计算消耗货币值，需要跳过暴击
 		int coinCount = consumeHelper.getConsumeCoin(consumeId, currentLvl, planNums);
 		if (coinCount == -1) {
-			return ErrorResponse("升级次数无效", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player,
-					req);
+			return ErrorResponse("升级次数无效", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player, req);
 		}
-		
+
 		// 扣钱
 		if (!userGameDataMgr.deductCurrency(cfg.getCoinType(), coinCount)) {
 			return ErrorResponse("不够钱升级", ",新等级为:" + newLevel, ErrorCode_Taoist.NotEnoughMoney, response, player, req);
 		}
 
 		if (!taoistMgr.setLevel(tid, newLevel)) {
-			return ErrorResponse("升级失败，次数", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player,
-					req);
+			return ErrorResponse("升级失败，次数", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player, req);
 		}
 
 		// 发送更新
@@ -113,9 +112,9 @@ public class TaoistHandler {
 		taoistMgr.RefreshSeed();
 		response.setCriticalRamdom(taoistMgr.getRandomSeed());
 		response.setErrorCode(ErrorCode_Taoist.Success);
-		response.setResultTip("暴击增加倍数:"+criticalCount+",消耗货币:"+coinCount);
+		response.setResultTip("暴击增加倍数:" + criticalCount + ",消耗货币:" + coinCount);
 
-		//通知角色日常任务 by Alex
+		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.TAOIST_STRENGTH, 1);
 		return response.build().toByteString();
 	}
@@ -140,8 +139,7 @@ public class TaoistHandler {
 		return response.build().toByteString();
 	}
 
-	private ByteString ErrorResponse(String userTip, String errLog, ErrorCode_Taoist errCode, Builder response,
-			Player player, TaoistRequest req) {
+	private ByteString ErrorResponse(String userTip, String errLog, ErrorCode_Taoist errCode, Builder response, Player player, TaoistRequest req) {
 		if (StringUtils.isNotBlank(userTip)) {
 			response.setResultTip(userTip);
 		}
