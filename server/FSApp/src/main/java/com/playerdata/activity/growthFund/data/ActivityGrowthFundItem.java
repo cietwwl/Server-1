@@ -17,22 +17,25 @@ import com.rw.fsutil.dao.annotation.CombineSave;
 public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowthFundSubItem> {
 
 	@Id
-	private Integer id;		//cfgId_userId
-	
-	private String userId;	//对应的角色Id
-	
+	private Integer id; // cfgId_userId
+
+	private String userId; // 对应的角色Id
+
 	@CombineSave
-	private String cfgId;	//活动的id
-	
+	private String cfgId; // 活动的id
+
 	@CombineSave
 	private boolean closed = false;
-	
+
 	@CombineSave
 	private List<ActivityGrowthFundSubItem> subItemList = new ArrayList<ActivityGrowthFundSubItem>();
-	
+
 	@CombineSave
-	private boolean hasViewed;	//是否已经查看过该活动
-	
+	private boolean hasViewed; // 是否已经查看过该活动
+
+	@CombineSave
+	private boolean bought; // 是否已经购买了成长基金的礼包
+
 	public Integer getId() {
 		return id;
 	}
@@ -68,7 +71,7 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 	public List<ActivityGrowthFundSubItem> getSubItemList() {
 		return subItemList;
 	}
-	
+
 	public void setSubItemList(List<ActivityGrowthFundSubItem> subItemList) {
 		this.subItemList = (List<ActivityGrowthFundSubItem>) subItemList;
 	}
@@ -80,14 +83,22 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 	public void setHasViewed(boolean hasViewed) {
 		this.hasViewed = hasViewed;
 	}
-	
+
 	@Override
-	public synchronized void reset(){
+	public synchronized void reset() {
 		// 重置需要做的事情
 	}
 
 	@Override
 	public void setVersion(int version) {
-		// Do Nothing
+		
+	}
+
+	public boolean isBought() {
+		return bought;
+	}
+
+	public void setBought(boolean pBoughtValue) {
+		this.bought = pBoughtValue;
 	}
 }

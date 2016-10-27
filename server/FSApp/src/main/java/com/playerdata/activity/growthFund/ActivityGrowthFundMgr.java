@@ -3,9 +3,6 @@ package com.playerdata.activity.growthFund;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfg;
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
-import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
@@ -23,11 +20,13 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	@Override
 	protected List<String> checkRedPoint(ActivityGrowthFundItem item) {
 		List<String> redPointList = new ArrayList<String>();
-		List<ActivityGrowthFundSubItem> subItems = (List<ActivityGrowthFundSubItem>) item.getSubItemList();
-		for (ActivityGrowthFundSubItem subItem : subItems) {
-			if (canGetReward(subItem) || !item.isHasViewed()) {
-				redPointList.add(String.valueOf(item.getCfgId()));
-				break;
+		if (item.isBought()) {
+			List<ActivityGrowthFundSubItem> subItems = (List<ActivityGrowthFundSubItem>) item.getSubItemList();
+			for (ActivityGrowthFundSubItem subItem : subItems) {
+				if (canGetReward(subItem) || !item.isHasViewed()) {
+					redPointList.add(String.valueOf(item.getCfgId()));
+					break;
+				}
 			}
 		}
 		return redPointList;
@@ -41,7 +40,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 		return index < 150000 && index > 140000;
 	}
 	
-	private boolean canGetReward(ActivityGrowthFundSubItem subItem){
-		return ?? && !subItem.isGet();
+	private boolean canGetReward(ActivityGrowthFundSubItem subItem) {
+		return !subItem.isGet();
 	}
 }
