@@ -20,6 +20,7 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.datamodel.RecommandCfgDAO;
 import com.rw.service.friend.datamodel.RecommandConditionCfg;
@@ -593,7 +594,8 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, response.build().toByteString());
 	}
 
 	/** 推送同意添加的好友 */
@@ -606,7 +608,8 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, response.build().toByteString());
 	}
 
 	/** 推送移除好友 */
@@ -619,7 +622,8 @@ public class FriendHandler {
 		response.setRequestType(EFriendRequestType.REMOVE_FRIEND);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(otherUserId);
-		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, response.build().toByteString());
 	}
 
 	/** 推送好友列表 */

@@ -1,7 +1,6 @@
 package com.rw.controler;
 
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
@@ -14,6 +13,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -35,18 +35,18 @@ import com.rwproto.RequestProtos.RequestHeader;
 public class PlayerLoginTask implements PlayerTask {
 
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
-	private final ChannelHandlerContext ctx;
+	private final Long sessionId;
 	private final GameLoginRequest request;
 	private final RequestHeader header;
 	private final boolean savePlot;
 	private final long submitTime;
 
-	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request, boolean savePlot) {
-		this(ctx, header, request, savePlot, System.currentTimeMillis());
+	public PlayerLoginTask(Long sessionId, RequestHeader header, GameLoginRequest request, boolean savePlot) {
+		this(sessionId, header, request, savePlot, System.currentTimeMillis());
 	}
 
-	public PlayerLoginTask(ChannelHandlerContext ctx, RequestHeader header, GameLoginRequest request, boolean savePlot, long submitTime) {
-		this.ctx = ctx;
+	public PlayerLoginTask(Long sessionId, RequestHeader header, GameLoginRequest request, boolean savePlot, long submitTime) {
+		this.sessionId = sessionId;
 		this.header = header;
 		this.request = request;
 		this.savePlot = savePlot;
@@ -55,8 +55,8 @@ public class PlayerLoginTask implements PlayerTask {
 
 	@Override
 	public void run(Player player) {
-		if (!this.ctx.channel().isActive()) {
-			GameLog.error("PlayerLoginTask", player.getUserId(), "login fail by disconnect:" + UserChannelMgr.getCtxInfo(ctx));
+		if (!ServerHandler.isConnecting(sessionId)) {
+			GameLog.error("PlayerLoginTask", player.getUserId(), "login fail by disconnect:" + sessionId);
 			return;
 		}
 		final int seqID = header.getSeqID();
@@ -66,7 +66,7 @@ public class PlayerLoginTask implements PlayerTask {
 		if (player == null) {
 			response.setError("服务器繁忙，请稍后再次尝试登录。");
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
 			return;
 		}
 		final String userId = player.getUserId();
@@ -93,13 +93,13 @@ public class PlayerLoginTask implements PlayerTask {
 			}
 			response.setError(error + "\n" + releaseTime);
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
 			return;
 		}
 		if (user.isInKickOffCoolTime()) {
 			response.setError("亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。");
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
 			return;
 		}
 		if (clientInfo != null) {
@@ -108,10 +108,10 @@ public class PlayerLoginTask implements PlayerTask {
 
 		if (player != null) {
 			// 断开非当前链接
-			final ChannelHandlerContext oldContext = UserChannelMgr.get(userId);
-			if (oldContext != null && oldContext != ctx) {
+			Long oldSessionId = UserChannelMgr.getSessionId(userId);
+			if (oldSessionId != null && oldSessionId.longValue() != sessionId.longValue()) {
 				FSTraceLogger.logger("displace", 0, "DISPLACE", seqID, userId, null, false);
-				UserChannelMgr.KickOffPlayer(oldContext, nettyControler, userId);
+				UserChannelMgr.KickOffPlayer(oldSessionId, nettyControler, userId);
 			}
 		}
 		// 检查发送版本更新
@@ -156,7 +156,7 @@ public class PlayerLoginTask implements PlayerTask {
 		});
 
 		long lastLoginTime = player.getLastLoginTime();
-		UserChannelMgr.bindUserID(userId, ctx, true);
+		UserChannelMgr.bindUserId(userId, sessionId, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		ByteString loginSynData = player.onLogin();
 		if (StringUtils.isBlank(player.getUserName())) {
@@ -176,18 +176,20 @@ public class PlayerLoginTask implements PlayerTask {
 
 		// 补充进入主城需要同步的数据
 		LoginSynDataHelper.setData(player, response);
-		
+
 		// clear操作有风险
 		UserChannelMgr.clearMsgCache(userId);
 		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
-		ChannelFuture future = UserChannelMgr.sendResponse(userId, header, response.build().toByteString(), ctx, loginSynData);
-		
-		//触发红点
+		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, response.build().toByteString(), sessionId, loginSynData);
+		if (future == null) {
+			return;
+		}
+		// 触发红点
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
 		}
-		
+
 		future.addListener(new GenericFutureListener<Future<? super Void>>() {
 
 			@Override

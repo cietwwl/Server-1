@@ -1,19 +1,19 @@
 package com.rw.controler;
 
 import com.playerdata.Player;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
-import com.rw.netty.UserSession;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.RequestProtos.Request;
 
 public class HeartBeatTask implements PlayerTask {
 
-	private final UserSession session;
+	private final Long sessionId;
 	private final Request request;
 
-	public HeartBeatTask(UserSession session, Request request) {
+	public HeartBeatTask(Long sessionId, Request request) {
 		super();
-		this.session = session;
+		this.sessionId = sessionId;
 		this.request = request;
 	}
 
@@ -22,12 +22,11 @@ public class HeartBeatTask implements PlayerTask {
 		if (player == null) {
 			return;
 		}
-		long sessionId = session.getSessionId();
-		if (sessionId != UserChannelMgr.getCurrentSessionId(session.getUserId())) {
+		if (!ServerHandler.isConnecting(sessionId)) {
 			return;
 		}
 		player.heartBeatCheck();
-		UserChannelMgr.sendResponse(player.getUserId(), request.getHeader(), null, sessionId);
+		UserChannelMgr.sendSyncResponse(request.getHeader(), null, sessionId);
 	}
 
 }

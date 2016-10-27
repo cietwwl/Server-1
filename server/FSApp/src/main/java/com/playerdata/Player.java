@@ -46,6 +46,7 @@ import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -76,7 +77,6 @@ import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamInfoSynDataHolder;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceMgr;
 import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceRegeditInfo;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -163,14 +163,13 @@ public class Player implements PlayerIF {
 
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
-	
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 
 	// 客户端管理工具
 	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
 
 	private ZoneLoginInfo zoneLoginInfo;
-	
+
 	private OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -410,10 +409,10 @@ public class Player implements PlayerIF {
 					PowerInfoDataHolder.synPowerInfo(player);
 					// 登录推送所有的羁绊属性
 					HeroFettersDataHolder.synAll(player);
-					//登陆检查通用活动的所有相关，包括根据新配置表创建新纪录；用新版本表刷新老纪录；给老纪录未领奖用户补发奖励以及关闭红点
+					// 登陆检查通用活动的所有相关，包括根据新配置表创建新纪录；用新版本表刷新老纪录；给老纪录未领奖用户补发奖励以及关闭红点
 					ActivityCountTypeMgr.getInstance().checkActivity(player);
-//					OpenLevelTiggerServiceMgr.getInstance().regeditByLogin(player);//数据不分开处理前，初始化会在好友处处理；策划给出大量相似引导需求后需剥离开后并在此注册
-					
+					// OpenLevelTiggerServiceMgr.getInstance().regeditByLogin(player);//数据不分开处理前，初始化会在好友处处理；策划给出大量相似引导需求后需剥离开后并在此注册
+
 					m_AssistantMgr.synData();
 
 					// 推送帮派秘境基础数据
@@ -660,44 +659,10 @@ public class Player implements PlayerIF {
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
 
-	/**
-	 * 非当前玩家发送消息给该玩家，但也有可能是自己发送消息给自己 added by kevin
-	 * 
-	 * @param Cmd
-	 * @param pBuffer
-	 */
-	public void SendMsgByOther(MsgDef.Command Cmd, ByteString pBuffer) {
-		if (StringUtils.isNotBlank(getUserId())) {
-			SendMsg(Cmd, pBuffer);
-		} else {
-			System.out.println("获取玩家userid出现异常！");
-		}
-
-	}
-
 	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
-		String userId = getUserId();
 		try {
-			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-			if (ctx == null) {
-				return;
-			}
-			Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
-			if (pBuffer != null) {
-				builder.setSerializedContent(pBuffer);
-			}
-
-			ResponseProtos.Response.Builder response = ResponseProtos.Response.newBuilder();
-			ResponseHeader.Builder header = ResponseHeader.newBuilder();
-			header.mergeFrom(builder.getHeader());
-			header.setStatusCode(200);
-			response.setHeader(header.build());
-			response.setSerializedContent(builder.getSerializedContent());
-			if (!GameUtil.checkMsgSize(response, userId)) {
-				return;
-			}
-			ctx.channel().writeAndFlush(response.build());
-
+			String userId = getUserId();
+			UserChannelMgr.sendAyncResponse(userId, Cmd, pBuffer);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -772,8 +737,6 @@ public class Player implements PlayerIF {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
-	
-	
 	public OpenLevelTiggerServiceRegeditInfo getOpenLevelTiggerServiceRegeditInfo() {
 		return openLevelTiggerServiceRegeditInfo;
 	}
@@ -831,10 +794,10 @@ public class Player implements PlayerIF {
 			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().checkAndAddList();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
-			
-			//升级添加日常任务通知,刷新一下任务红点----by Alex
+
+			// 升级添加日常任务通知,刷新一下任务红点----by Alex
 			m_DailyActivityMgr.resRed();
-			
+
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
 			if (mainRoleHero.getTemplateId() != null && currentLevel > 0) {
@@ -852,7 +815,6 @@ public class Player implements PlayerIF {
 				m_FresherActivityMgr.doCheck(eActivityType.A_PlayerLv);
 			}
 
-			
 			mainRoleHero.save();
 			// this.m_EquipMgr.CheckHot();
 			getStoreMgr().AddStore();

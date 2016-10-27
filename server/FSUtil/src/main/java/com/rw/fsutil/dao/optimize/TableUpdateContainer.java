@@ -29,7 +29,6 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 	private boolean running;
 	private final long checkRunPeriodMillis;
 	private final AtomicLong seqGenerator;
-	private static final Boolean PRESENT = Boolean.TRUE;
 
 	public TableUpdateContainer(String tableName, String sql, long checkRunPeriodMillis) {
 		this.tableName = tableName;
