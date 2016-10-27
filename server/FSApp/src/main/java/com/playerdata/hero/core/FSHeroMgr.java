@@ -99,7 +99,7 @@ public class FSHeroMgr implements HeroMgr {
 		FSHero hero = this.createAndAddHeroToItemStore(player, eRoleType.Hero, heroCfg, roleUUId);
 
 		FSHeroHolder.getInstance().syncUserHeros(player, this.getHeroIdList(player));
-		this.synHero(hero, -1);
+		this.synHero(player, hero, -1);
 		FSHeroThirdPartyDataMgr.getInstance().fireHeroAddedEvent(player, hero);
 		return hero;
 	}
@@ -187,8 +187,8 @@ public class FSHeroMgr implements HeroMgr {
 	}
 
 	@Override
-	public void AddAllHeroExp(PlayerIF player, long exp) {
-		this.loopAll(player.getUserId(), new FSAddExpToAllHeroConsumer(exp));
+	public void AddAllHeroExp(Player player, long exp) {
+		this.loopAll(player.getUserId(), new FSAddExpToAllHeroConsumer(player, exp));
 	}
 
 	@Override
@@ -388,7 +388,7 @@ public class FSHeroMgr implements HeroMgr {
 		}
 		FSHeroHolder.getInstance().syncUserHeros(player, allIds);
 		for (Hero hero : allHeros) {
-			this.synHero(hero, -1);
+			this.synHero(player, hero, -1);
 			fightingAll += hero.getFighting();
 			starAll += hero.getStarLevel();
 		}
@@ -398,8 +398,7 @@ public class FSHeroMgr implements HeroMgr {
 	}
 
 	@Override
-	public int addHeroExp(Hero hero, long heroExp) {
-		Player player = this.getOwnerOfHero(hero);
+	public int addHeroExp(Player player, Hero hero, long heroExp) {
 		if (hero.isMainRole()) {
 			// 2016-09-05 添加主角经验不能走这个流程，因为主角和英雄的添加规则有些不一样。
 			GameLog.info("FSHero", player.getUserId(), "addHeroExp不能添加主角的经验！");
@@ -481,9 +480,8 @@ public class FSHeroMgr implements HeroMgr {
 	}
 
 	@Override
-	public void synHero(Hero hero, int version) {
+	public void synHero(Player player, Hero hero, int version) {
 		FSHero fshero = (FSHero) hero;
-		Player player = this.getOwnerOfHero(fshero);
 		fshero.firstInit();
 		FSHeroHolder.getInstance().synBaseInfoWithoutUpdate(player, hero);
 		FSHeroThirdPartyDataMgr.getInstance().notifySync(player, fshero, version);

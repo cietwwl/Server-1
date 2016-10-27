@@ -8,7 +8,7 @@ import com.playerdata.activity.dailyCharge.ActivityDetector;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityDailyRechargeCreator implements PlayerExtPropertyCreator<ActivityDailyRechargeTypeItem>{
@@ -34,7 +34,7 @@ public class ActivityDailyRechargeCreator implements PlayerExtPropertyCreator<Ac
 
 	@Override
 	public List<ActivityDailyRechargeTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityDailyRechargeTypeItem> store,
+			RoleExtPropertyStore<ActivityDailyRechargeTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

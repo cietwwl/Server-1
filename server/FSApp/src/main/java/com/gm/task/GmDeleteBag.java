@@ -11,6 +11,8 @@ import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 
 public class GmDeleteBag implements IGmTask {
 
@@ -22,8 +24,8 @@ public class GmDeleteBag implements IGmTask {
 			Map<String, Object> args = request.getArgs();
 			String roleId = GmUtils.parseString(args, "roleId");
 			int serverId = GmUtils.parseInt(args, "serverId");
-			String uniCode = GmUtils.parseString(args, "uniCode");
-			int amount =  GmUtils.parseInt(args, "amount");
+			final String uniCode = GmUtils.parseString(args, "uniCode");
+			final int amount =  GmUtils.parseInt(args, "amount");
 			
 			if (StringUtils.isBlank(roleId) || serverId <= 0 || StringUtils.isBlank(uniCode) || amount <= 0) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
@@ -33,10 +35,13 @@ public class GmDeleteBag implements IGmTask {
 			if (player == null) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
 			}
-			boolean useItemBySlotId = player.getItemBagMgr().useItemBySlotId(uniCode, amount);
-			if(!useItemBySlotId){
-				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_DELETE_ITEM_FAIL.getStatus()));
-			}
+			GameWorldFactory.getGameWorld().asyncExecute(roleId, new PlayerTask() {
+				
+				@Override
+				public void run(Player e) {
+					e.getItemBagMgr().useItemBySlotId(uniCode, amount);
+				}
+			});
 			response.setStatus(0);
 			response.setCount(1);
 		}catch(Exception ex){

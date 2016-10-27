@@ -11,7 +11,7 @@ import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.dao.optimize.PersistentGenericHandler;
 import com.rw.fsutil.dao.optimize.PersistentParamsExtractor;
 
-public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K> {
+public class DataKVCache<K, V> extends DataCache<K, V>  {
 
 	private static final Object PRESENT = new Object();
 	private final ConcurrentHashMap<K, Object> updateMap;
@@ -40,7 +40,7 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 			return;
 		}
 		if (updateMap.putIfAbsent(key, PRESENT) == null) {
-			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor());
+			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, key, new SignleParamsExtractor(key));
 			//FSUtilLogger.info("新增提交任务:" + name + "," + tableName + "," + entity.getValue() + "," + key);
 		} else {
 			//FSUtilLogger.info("重复提交任务:" + name + "," + entity.getTableName() + "," + entity.getValue() + "," + key);
@@ -57,6 +57,12 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 
 	class SignleParamsExtractor implements PersistentParamsExtractor<K> {
 
+		private final K key;
+		
+		public SignleParamsExtractor(K key){
+			this.key = key;
+		}
+		
 		@Override
 		public boolean extractParams(K key, List<Object[]> updateList) {
 			CacheValueEntity<V> entity = cache.getWithOutMove(key);
@@ -73,7 +79,7 @@ public class DataKVCache<K, V> extends DataCache<K, V> implements DataUpdater<K>
 		}
 
 		public String toString() {
-			return name;
+			return '['+name+'-'+key+']';
 		}
 	}
 

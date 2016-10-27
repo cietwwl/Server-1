@@ -9,6 +9,7 @@ public class FSFightingGrowthTips {
 	private static String tipsUpgradeTitleSuccess = "战力称号晋级成功！";
 	private static String tipsUpgradeRewardMailTitle = "战力晋级奖励";
 	private static String tipsUpgradeRewardMailContent = "恭喜你晋级到[%s]，以下是你的晋级奖励！";
+	private static String tipsCurrencyNotEnough = "[%s]不足[%d]";
 	
 	public static String getTipsFightingNotReached(int fightingRequired) {
 		return String.format(tipsFightingNotReached, fightingRequired);
@@ -36,5 +37,9 @@ public class FSFightingGrowthTips {
 	
 	public static String getTipsUpgradeRewardMailContent(String title) {
 		return String.format(tipsUpgradeRewardMailContent, title);
+	}
+
+	public static String getTipsCurrencyNotEnough(String currencyName, int count) {
+		return String.format(tipsCurrencyNotEnough, currencyName, count);
 	}
 }

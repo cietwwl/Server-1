@@ -8,7 +8,7 @@ import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
@@ -28,7 +28,7 @@ public  class  ActivityCountTypeCreator implements PlayerExtPropertyCreator<Acti
 	}
 
 	@Override
-	public List<ActivityCountTypeItem> checkAndCreate(PlayerExtPropertyStore store,
+	public List<ActivityCountTypeItem> checkAndCreate(RoleExtPropertyStore store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

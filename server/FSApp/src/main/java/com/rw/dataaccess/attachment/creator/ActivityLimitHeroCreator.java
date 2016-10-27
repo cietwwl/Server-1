@@ -8,7 +8,7 @@ import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityLimitHeroCreator implements PlayerExtPropertyCreator<ActivityLimitHeroTypeItem>{
@@ -24,13 +24,13 @@ public class ActivityLimitHeroCreator implements PlayerExtPropertyCreator<Activi
 	@Override
 	public List<ActivityLimitHeroTypeItem> firstCreate(
 			PlayerPropertyParams params) {
-		PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
+		RoleExtPropertyStore<ActivityLimitHeroTypeItem> store = null;
 		return ActivityLimitHeroTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
 	public List<ActivityLimitHeroTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityLimitHeroTypeItem> store,
+			RoleExtPropertyStore<ActivityLimitHeroTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

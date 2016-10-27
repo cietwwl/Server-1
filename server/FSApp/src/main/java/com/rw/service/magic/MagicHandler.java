@@ -96,7 +96,7 @@ public class MagicHandler {
 		int maxMagicLevel = MagicExpCfgDAO.getInstance().getMaxMagicLevel();
 		
 		int currentLevel = Integer.parseInt(itemData.getExtendAttr(EItemAttributeType.Magic_Level_VALUE));
-		int nextLevel = ++currentLevel;
+		int nextLevel = currentLevel + 1;
 		if(currentLevel >= maxMagicLevel){
 			return setReturnResponse(msgMagicResponse, "当亲法宝已经达到最高等级");
 		}
@@ -106,10 +106,8 @@ public class MagicHandler {
 		}
 		
 		MagicExpCfg magicCfg = MagicExpCfgDAO.getInstance().getMagicCfgByLevel(currentLevel);
-		int goodsId = magicCfg.getGoodsId();
-		int goodsNum = magicCfg.getGoods();
-		HashMap<Integer, Integer> consumeItemMap = new HashMap<Integer, Integer>();
-		consumeItemMap.put(goodsId, goodsNum);
+		HashMap<Integer, Integer> consumeItemMap = magicCfg.getConsumeMap();
+		
 		
 		Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
 		List<IUseItem> useItemList = new ArrayList<IUseItem>(consumeItemMap.size());
@@ -446,20 +444,15 @@ public class MagicHandler {
 		int currencyType = -1;
 		int totalCost = 0;
 		
-		HashMap<Integer, Integer> inheritItemMap = new HashMap<Integer, Integer>();
+		int inheritExp = 0;
 		MagicExpCfg magicCfg = MagicExpCfgDAO.getInstance().getMagicCfgByLevel(magicLevel);
 		currencyType = magicCfg.getMoneyType();
 		totalCost = magicCfg.getCost();
 		List<MagicExpCfg> inheritList = MagicExpCfgDAO.getInstance().getInheritList(toMagicLevel, magicLevel);
 		for (MagicExpCfg magicExpCfg : inheritList) {
-			int goodsId = magicExpCfg.getGoodsId();
+			
 			int exp = magicExpCfg.getExp();
-			if(inheritItemMap.containsKey(goodsId)){
-				Integer value = inheritItemMap.get(goodsId);
-				inheritItemMap.put(goodsId, exp + value);
-			}else{
-				inheritItemMap.put(goodsId, exp);
-			}
+			inheritExp+=exp;
 		}
 		eSpecialItemId specialItemId = eSpecialItemId.getDef(currencyType);
 		// 扣金币和扣材料
@@ -468,7 +461,7 @@ public class MagicHandler {
 			return setReturnResponse(rsp, "货币不足！");
 		}
 		
-		MagicExpCfg cfg = MagicExpCfgDAO.getInstance().getInheritCfg(toMagicLevel, inheritItemMap);
+		MagicExpCfg cfg = MagicExpCfgDAO.getInstance().getInheritCfg(toMagicLevel, inheritExp);
 		int tempLevel = cfg.getLevel();
 		
 		//规定法宝继承后的等级不能比超过被继承法宝原来的等级

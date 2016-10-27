@@ -13,6 +13,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthTitleCfg;
 
 public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGrowthTitleCfg> {
@@ -31,7 +32,9 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 		String[] array = str.split(";");
 		for(int i = 0; i < array.length; i++) {
 			String[] single = array[i].split(",");
-			map.put(Integer.parseInt(single[0]), Integer.parseInt(single[1]));
+			if (single.length > 1 && single[0].trim().length() > 0) {
+				map.put(Integer.parseInt(single[0]), Integer.parseInt(single[1]));
+			}
 		}
 		return map;
 	}
@@ -54,8 +57,15 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("fightingGrowth/FightingGrowthTitle.csv", FSUserFightingGrowthTitleCfg.class);
 		for (Iterator<String> itr = this.cfgCacheMap.keySet().iterator(); itr.hasNext();) {
 			FSUserFightingGrowthTitleCfg temp = cfgCacheMap.get(itr.next());
+			Map<Integer, Integer> itemRewardMap = this.parseItemString(temp.getRewards());
 			temp.setItemRequiredMap(this.parseItemString(temp.getItemRequired()));
-			temp.setItemRewardMap(this.parseItemString(temp.getRewards()));
+			temp.setItemRewardMap(itemRewardMap);
+			List<ItemInfo> itemRewardList = new ArrayList<ItemInfo>(itemRewardMap.size());
+			for (Iterator<Integer> keyItr = itemRewardMap.keySet().iterator(); keyItr.hasNext();) {
+				Integer itemCfgId = keyItr.next();
+				itemRewardList.add(new ItemInfo(itemCfgId, itemRewardMap.get(itemCfgId)));
+			}
+			temp.setItemRewardList(itemRewardList);
 			if (temp.isFirst()) {
 				if (this._firstTitleKey == null) {
 					this._firstTitleKey = temp.getKey();

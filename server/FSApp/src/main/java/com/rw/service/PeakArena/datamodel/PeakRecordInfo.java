@@ -1,63 +1,151 @@
 package com.rw.service.PeakArena.datamodel;
 
-public class PeakRecordInfo {
+import java.util.List;
 
-	private int win;//TODO 这次不管 0是输，1是赢
-	private int placeUp;//交换名次后计算排名变化
-	private String name;
-	private String headImage;
-	private int level;
-	private long time;
-	private String userId;
-	private int challenge;//TODO 这次不管 1是我打别人，0是别人打我
+import javax.persistence.Id;
+
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
+
+import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
+
+@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class PeakRecordInfo implements RoleExtProperty {
+
+	@Id
+	@JsonProperty("1")
+	private int id; // 记录的唯一id
+	@JsonProperty("2")
+	private PeakArenaResultType result; // 胜负
+	@JsonProperty("3")
+	private int placeUp; // 交换名次后计算排名变化
+	@JsonProperty("4")
+	private String enemyName; // 对手的名字
+	@JsonProperty("5")
+	private String enemyHeadImage; // 对手的头像
+	@JsonProperty("6")
+	private int enemyLevel; // 等级
+	@JsonProperty("7")
+	private long time; // 挑战的时间
+	@JsonProperty("8")
+	private String enemyUserId; // 对手的userId
+	@JsonProperty("9")
+	private PeakArenaActionType actionType; // 防守还是挑战
+	@JsonProperty("10")
+	private List<PeakRecordDetail> details; // 详细信息
+	@JsonProperty("11")
+	private int fashionSuitId; // 时装套装id
+	@JsonProperty("12")
+	private int gender; // 性别
+	@JsonProperty("13")
+	private int vipLv; // VIP等级
 	
-	public int getWin() {
-		return win;
+	@Override
+	public Integer getId() {
+		return id;
 	}
-	public void setWin(int win) {
-		this.win = win;
+	
+	public void setId(int id) {
+		this.id = id;
 	}
+	
+	public PeakArenaResultType getResult() {
+		return result;
+	}
+
+	public void setResult(PeakArenaResultType result) {
+		this.result = result;
+	}
+	
 	public int getPlaceUp() {
 		return placeUp;
 	}
+	
 	public void setPlaceUp(int placeUp) {
 		this.placeUp = placeUp;
 	}
-	public String getName() {
-		return name;
+	
+	public String getEnemyName() {
+		return enemyName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	
+	public void setEnemyName(String name) {
+		this.enemyName = name;
 	}
+	
 	public String getHeadImage() {
-		return headImage;
+		return enemyHeadImage;
 	}
+	
 	public void setHeadImage(String headImage) {
-		this.headImage = headImage;
+		this.enemyHeadImage = headImage;
 	}
+	
 	public int getLevel() {
-		return level;
+		return enemyLevel;
 	}
+	
 	public void setLevel(int level) {
-		this.level = level;
+		this.enemyLevel = level;
 	}
+	
 	public long getTime() {
 		return time;
 	}
+	
 	public void setTime(long time) {
 		this.time = time;
 	}
-	public String getUserId() {
-		return userId;
+	
+	public String getEnemyUserId() {
+		return enemyUserId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	
+	public void setEnemyUserId(String userId) {
+		this.enemyUserId = userId;
 	}
-	public int getChallenge() {
-		return challenge;
+	
+	public PeakArenaActionType getActionType() {
+		return actionType;
 	}
-	public void setChallenge(int challenge) {
-		this.challenge = challenge;
+
+	public void setActionType(PeakArenaActionType actionType) {
+		this.actionType = actionType;
+	}
+	
+	public List<PeakRecordDetail> getDetails() {
+		return details;
+	}
+	
+	public void setDetails(List<PeakRecordDetail> details) {
+		this.details = details;
+	}
+
+	public int getFashionSuitId() {
+		return fashionSuitId;
+	}
+	
+	public void setFashionSuitId(int fashionSuitId) {
+		this.fashionSuitId = fashionSuitId;
+	}
+
+	public int getGender() {
+		return gender;
+	}
+
+	public void setGender(int gender) {
+		this.gender = gender;
+	}
+
+	public int getVipLv() {
+		return vipLv;
+	}
+
+	public void setVipLv(int vipLv) {
+		this.vipLv = vipLv;
 	}
 	
 }

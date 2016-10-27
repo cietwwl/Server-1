@@ -34,7 +34,7 @@ public class UserTeamBattleDataMgr {
 	 * @param userID
 	 */
 	public void synData(String userID){
-		Player player = PlayerMgr.getInstance().find(userID);
+		Player player = PlayerMgr.getInstance().findPlayerFromMemory(userID);
 		if(player == null) return;
 		UserTeamBattleDataHolder.getInstance().synData(player);
 	}
@@ -153,5 +153,26 @@ public class UserTeamBattleDataMgr {
 			staticMemberTeamInfo = matchTeamArmy.toStaticMemberTeamInfo(); 
 		}
 		return staticMemberTeamInfo;
+	}
+	
+	public int getTeamBattleCoin(Player player){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null){
+			return 0;
+		}
+		return utbData.getScore();
+	}
+	
+	public boolean addTeamBattleCoin(Player player, int count){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null){
+			return false;
+		}
+		if(count + utbData.getScore() < 0){
+			return false;
+		}
+		utbData.setScore(utbData.getScore() + count);
+		UserTeamBattleDataHolder.getInstance().update(player, utbData);
+		return true;
 	}
 }

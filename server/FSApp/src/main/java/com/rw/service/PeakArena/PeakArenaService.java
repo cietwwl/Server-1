@@ -59,6 +59,24 @@ public class PeakArenaService implements FsService<MsgArenaRequest, eArenaType> 
 			case BUY_CHALLENGE_COUNT:
 				result = peakArenaHandler.buyChallengeCount(request, player);
 				break;
+			case GET_SCORE_REWARD_VIEW:
+				result = peakArenaHandler.getScoreRewardView(request, player);
+				break;
+			case GET_SCORE_REWARD:
+				result = peakArenaHandler.getOneScoreReward(request, player);
+				break;
+			case GET_ALL_SCORE_REWARD:
+				result = peakArenaHandler.getAllScoreReward(player);
+				break;
+			case GET_RECORD:
+				result = peakArenaHandler.getRecords(request, player);
+				break;
+			case GET_RECORD_DETAIL:
+				result = peakArenaHandler.getPeakArenaRecordDetail(request, player);
+				break;
+			case GET_HURT_DETAIL:
+				result = peakArenaHandler.getHurtDetail(request, player);
+				break;
 			default:
 				break;
 			}

@@ -49,7 +49,7 @@ public final class TeamBattleProto {
      * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
-     *加入队伍
+     *加入队伍（快速加入）
      * </pre>
      */
     JOIN_TEAM(4, 5),
@@ -149,6 +149,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     GET_CAN_JION_TEAMS(16, 17),
+    /**
+     * <code>JION_TEAM_SINGLE_HARD = 18;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从单一难度组队列表界面）
+     * </pre>
+     */
+    JION_TEAM_SINGLE_HARD(17, 18),
+    /**
+     * <code>JION_TEAM_ALL_HARD = 19;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从综合难度组队列表界面）
+     * </pre>
+     */
+    JION_TEAM_ALL_HARD(18, 19),
     ;
 
     /**
@@ -187,7 +203,7 @@ public final class TeamBattleProto {
      * <code>JOIN_TEAM = 5;</code>
      *
      * <pre>
-     *加入队伍
+     *加入队伍（快速加入）
      * </pre>
      */
     public static final int JOIN_TEAM_VALUE = 5;
@@ -287,6 +303,22 @@ public final class TeamBattleProto {
      * </pre>
      */
     public static final int GET_CAN_JION_TEAMS_VALUE = 17;
+    /**
+     * <code>JION_TEAM_SINGLE_HARD = 18;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从单一难度组队列表界面）
+     * </pre>
+     */
+    public static final int JION_TEAM_SINGLE_HARD_VALUE = 18;
+    /**
+     * <code>JION_TEAM_ALL_HARD = 19;</code>
+     *
+     * <pre>
+     *选择一个可加入的队伍加入（从综合难度组队列表界面）
+     * </pre>
+     */
+    public static final int JION_TEAM_ALL_HARD_VALUE = 19;
 
 
     public final int getNumber() { return value; }
@@ -310,6 +342,8 @@ public final class TeamBattleProto {
         case 15: return BUY_TIMES;
         case 16: return ADD_ROBOT;
         case 17: return GET_CAN_JION_TEAMS;
+        case 18: return JION_TEAM_SINGLE_HARD;
+        case 19: return JION_TEAM_ALL_HARD;
         default: return null;
       }
     }
@@ -3421,6 +3455,24 @@ public final class TeamBattleProto {
      */
     com.rwproto.TeamBattleProto.TeamItemOrBuilder getCanJoinTeamsOrBuilder(
         int index);
+
+    // optional bool refreshJoinAble = 6;
+    /**
+     * <code>optional bool refreshJoinAble = 6;</code>
+     *
+     * <pre>
+     *是否有刷新可加入的组队列表
+     * </pre>
+     */
+    boolean hasRefreshJoinAble();
+    /**
+     * <code>optional bool refreshJoinAble = 6;</code>
+     *
+     * <pre>
+     *是否有刷新可加入的组队列表
+     * </pre>
+     */
+    boolean getRefreshJoinAble();
   }
   /**
    * Protobuf type {@code teamBattle.TeamBattleRspMsg}
@@ -3508,6 +3560,11 @@ public final class TeamBattleProto {
                 mutable_bitField0_ |= 0x00000010;
               }
               canJoinTeams_.add(input.readMessage(com.rwproto.TeamBattleProto.TeamItem.PARSER, extensionRegistry));
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000008;
+              refreshJoinAble_ = input.readBool();
               break;
             }
           }
@@ -3761,12 +3818,37 @@ public final class TeamBattleProto {
       return canJoinTeams_.get(index);
     }
 
+    // optional bool refreshJoinAble = 6;
+    public static final int REFRESHJOINABLE_FIELD_NUMBER = 6;
+    private boolean refreshJoinAble_;
+    /**
+     * <code>optional bool refreshJoinAble = 6;</code>
+     *
+     * <pre>
+     *是否有刷新可加入的组队列表
+     * </pre>
+     */
+    public boolean hasRefreshJoinAble() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bool refreshJoinAble = 6;</code>
+     *
+     * <pre>
+     *是否有刷新可加入的组队列表
+     * </pre>
+     */
+    public boolean getRefreshJoinAble() {
+      return refreshJoinAble_;
+    }
+
     private void initFields() {
       rstType_ = com.rwproto.TeamBattleProto.TBResultType.SUCCESS;
       tipMsg_ = "";
       armyInfo_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       freeJoin_ = false;
       canJoinTeams_ = java.util.Collections.emptyList();
+      refreshJoinAble_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3805,6 +3887,9 @@ public final class TeamBattleProto {
       for (int i = 0; i < canJoinTeams_.size(); i++) {
         output.writeMessage(5, canJoinTeams_.get(i));
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(6, refreshJoinAble_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3838,6 +3923,10 @@ public final class TeamBattleProto {
       for (int i = 0; i < canJoinTeams_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, canJoinTeams_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, refreshJoinAble_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3970,6 +4059,8 @@ public final class TeamBattleProto {
         } else {
           canJoinTeamsBuilder_.clear();
         }
+        refreshJoinAble_ = false;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -4025,6 +4116,10 @@ public final class TeamBattleProto {
         } else {
           result.canJoinTeams_ = canJoinTeamsBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.refreshJoinAble_ = refreshJoinAble_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4087,6 +4182,9 @@ public final class TeamBattleProto {
               canJoinTeamsBuilder_.addAllMessages(other.canJoinTeams_);
             }
           }
+        }
+        if (other.hasRefreshJoinAble()) {
+          setRefreshJoinAble(other.getRefreshJoinAble());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4763,6 +4861,55 @@ public final class TeamBattleProto {
           canJoinTeams_ = null;
         }
         return canJoinTeamsBuilder_;
+      }
+
+      // optional bool refreshJoinAble = 6;
+      private boolean refreshJoinAble_ ;
+      /**
+       * <code>optional bool refreshJoinAble = 6;</code>
+       *
+       * <pre>
+       *是否有刷新可加入的组队列表
+       * </pre>
+       */
+      public boolean hasRefreshJoinAble() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional bool refreshJoinAble = 6;</code>
+       *
+       * <pre>
+       *是否有刷新可加入的组队列表
+       * </pre>
+       */
+      public boolean getRefreshJoinAble() {
+        return refreshJoinAble_;
+      }
+      /**
+       * <code>optional bool refreshJoinAble = 6;</code>
+       *
+       * <pre>
+       *是否有刷新可加入的组队列表
+       * </pre>
+       */
+      public Builder setRefreshJoinAble(boolean value) {
+        bitField0_ |= 0x00000020;
+        refreshJoinAble_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool refreshJoinAble = 6;</code>
+       *
+       * <pre>
+       *是否有刷新可加入的组队列表
+       * </pre>
+       */
+      public Builder clearRefreshJoinAble() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        refreshJoinAble_ = false;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:teamBattle.TeamBattleRspMsg)
@@ -8230,38 +8377,41 @@ public final class TeamBattleProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020TeamBattle.proto\022\nteamBattle\"\253\002\n\020TeamB" +
-      "attleReqMsg\022*\n\007reqType\030\001 \002(\0162\031.teamBattl" +
-      "e.TBRequestType\022\016\n\006hardID\030\002 \001(\t\022\016\n\006teamI" +
-      "D\030\003 \001(\t\022\016\n\006userID\030\004 \001(\t\022\021\n\tarmyHeros\030\005 \001" +
-      "(\t\022\020\n\010rewardID\030\006 \001(\t\022\r\n\005count\030\007 \001(\005\022\023\n\013f" +
-      "ightResult\030\010 \001(\005\022\016\n\006loopID\030\t \001(\t\022\022\n\nbatt" +
-      "leTime\030\n \001(\005\022\016\n\006memPos\030\013 \001(\t\022\022\n\ninviteTy" +
-      "pe\030\014 \001(\005\022\023\n\013inviteUsers\030\r \003(\t\022\025\n\rinviteC" +
-      "ontent\030\016 \001(\t\"\235\001\n\020TeamBattleRspMsg\022)\n\007rst" +
-      "Type\030\001 \002(\0162\030.teamBattle.TBResultType\022\016\n\006",
-      "tipMsg\030\002 \001(\t\022\020\n\010armyInfo\030\003 \003(\t\022\020\n\010freeJo" +
-      "in\030\004 \001(\010\022*\n\014canJoinTeams\030\005 \003(\0132\024.teamBat" +
-      "tle.TeamItem\"Q\n\010TeamItem\022\016\n\006teamID\030\001 \002(\t" +
-      "\022\016\n\006hardID\030\002 \002(\t\022%\n\007members\030\003 \003(\0132\024.team" +
-      "Battle.TBMember\"\214\001\n\010TBMember\022\016\n\006userID\030\001" +
-      " \002(\t\022\020\n\010userName\030\002 \002(\t\022\017\n\007isRobot\030\003 \002(\010\022" +
-      "\r\n\005state\030\004 \002(\005\022\027\n\017playerHeadImage\030\005 \002(\t\022" +
-      "%\n\005heros\030\006 \003(\0132\026.teamBattle.HeroSimple\"Q" +
-      "\n\nHeroSimple\022\016\n\006modeId\030\001 \002(\005\022\r\n\005level\030\002 " +
-      "\002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\021\n\tqualityId\030\004 \002(",
-      "\t*\342\002\n\rTBRequestType\022\023\n\017SYN_TEAM_BATTLE\020\001" +
-      "\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE_TEAM_I" +
-      "NFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TEAM\020\005\022\016\n" +
-      "\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022\026\n\022SET_" +
-      "TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMBER\020\t\022\021\n" +
-      "\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013\022\027\n\023INF" +
-      "ORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHANGE\020\r\022\030" +
-      "\n\024SAVE_MEMBER_POSITION\020\016\022\r\n\tBUY_TIMES\020\017\022" +
-      "\r\n\tADD_ROBOT\020\020\022\026\n\022GET_CAN_JION_TEAMS\020\021*W" +
-      "\n\014TBResultType\022\013\n\007SUCCESS\020\001\022\016\n\nDATA_ERRO",
-      "R\020\002\022\026\n\022DIAMOND_NOT_ENOUGH\020\003\022\022\n\016VIP_NOT_E" +
-      "NOUGH\020\004B\036\n\013com.rwprotoB\017TeamBattleProto"
+      "\n\020TeamBattle.proto\022\nteamBattle\032\024FashionS" +
+      "ervice.proto\"\253\002\n\020TeamBattleReqMsg\022*\n\007req" +
+      "Type\030\001 \002(\0162\031.teamBattle.TBRequestType\022\016\n" +
+      "\006hardID\030\002 \001(\t\022\016\n\006teamID\030\003 \001(\t\022\016\n\006userID\030" +
+      "\004 \001(\t\022\021\n\tarmyHeros\030\005 \001(\t\022\020\n\010rewardID\030\006 \001" +
+      "(\t\022\r\n\005count\030\007 \001(\005\022\023\n\013fightResult\030\010 \001(\005\022\016" +
+      "\n\006loopID\030\t \001(\t\022\022\n\nbattleTime\030\n \001(\005\022\016\n\006me" +
+      "mPos\030\013 \001(\t\022\022\n\ninviteType\030\014 \001(\005\022\023\n\013invite" +
+      "Users\030\r \003(\t\022\025\n\rinviteContent\030\016 \001(\t\"\266\001\n\020T" +
+      "eamBattleRspMsg\022)\n\007rstType\030\001 \002(\0162\030.teamB",
+      "attle.TBResultType\022\016\n\006tipMsg\030\002 \001(\t\022\020\n\010ar" +
+      "myInfo\030\003 \003(\t\022\020\n\010freeJoin\030\004 \001(\010\022*\n\014canJoi" +
+      "nTeams\030\005 \003(\0132\024.teamBattle.TeamItem\022\027\n\017re" +
+      "freshJoinAble\030\006 \001(\010\"Q\n\010TeamItem\022\016\n\006teamI" +
+      "D\030\001 \002(\t\022\016\n\006hardID\030\002 \002(\t\022%\n\007members\030\003 \003(\013" +
+      "2\024.teamBattle.TBMember\"\214\001\n\010TBMember\022\016\n\006u" +
+      "serID\030\001 \002(\t\022\020\n\010userName\030\002 \002(\t\022\017\n\007isRobot" +
+      "\030\003 \002(\010\022\r\n\005state\030\004 \002(\005\022\027\n\017playerHeadImage" +
+      "\030\005 \002(\t\022%\n\005heros\030\006 \003(\0132\026.teamBattle.HeroS" +
+      "imple\"Q\n\nHeroSimple\022\016\n\006modeId\030\001 \002(\005\022\r\n\005l",
+      "evel\030\002 \002(\005\022\021\n\tstarLevel\030\003 \002(\005\022\021\n\tquality" +
+      "Id\030\004 \002(\t*\225\003\n\rTBRequestType\022\023\n\017SYN_TEAM_B" +
+      "ATTLE\020\001\022\027\n\023NON_SYN_TEAM_BATTLE\020\002\022\022\n\016SAVE" +
+      "_TEAM_INFO\020\003\022\017\n\013CREATE_TEAM\020\004\022\r\n\tJOIN_TE" +
+      "AM\020\005\022\016\n\nLEAVE_TEAM\020\006\022\021\n\rACCEPT_INVITE\020\007\022" +
+      "\026\n\022SET_TEAM_FREE_JION\020\010\022\023\n\017KICK_OFF_MEMB" +
+      "ER\020\t\022\021\n\rINVITE_PLAYER\020\n\022\017\n\013START_FIGHT\020\013" +
+      "\022\027\n\023INFORM_FIGHT_RESULT\020\014\022\022\n\016SCORE_EXCHA" +
+      "NGE\020\r\022\030\n\024SAVE_MEMBER_POSITION\020\016\022\r\n\tBUY_T" +
+      "IMES\020\017\022\r\n\tADD_ROBOT\020\020\022\026\n\022GET_CAN_JION_TE",
+      "AMS\020\021\022\031\n\025JION_TEAM_SINGLE_HARD\020\022\022\026\n\022JION" +
+      "_TEAM_ALL_HARD\020\023*W\n\014TBResultType\022\013\n\007SUCC" +
+      "ESS\020\001\022\016\n\nDATA_ERROR\020\002\022\026\n\022DIAMOND_NOT_ENO" +
+      "UGH\020\003\022\022\n\016VIP_NOT_ENOUGH\020\004B\036\n\013com.rwproto" +
+      "B\017TeamBattleProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8279,7 +8429,7 @@ public final class TeamBattleProto {
           internal_static_teamBattle_TeamBattleRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_teamBattle_TeamBattleRspMsg_descriptor,
-              new java.lang.String[] { "RstType", "TipMsg", "ArmyInfo", "FreeJoin", "CanJoinTeams", });
+              new java.lang.String[] { "RstType", "TipMsg", "ArmyInfo", "FreeJoin", "CanJoinTeams", "RefreshJoinAble", });
           internal_static_teamBattle_TeamItem_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_teamBattle_TeamItem_fieldAccessorTable = new
@@ -8304,6 +8454,7 @@ public final class TeamBattleProto {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.FashionServiceProtos.getDescriptor(),
         }, assigner);
   }
 

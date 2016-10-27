@@ -8,6 +8,9 @@ public class ArenaInfoCfg extends BaseConfig {
 	private int cdTime;
 	private int winCdTime;
 	private int loseCdTime;
+	private int winScore;
+	private int failScore;
+
 
 	public int getCopyType() {
 		return copyType;
@@ -33,6 +36,14 @@ public class ArenaInfoCfg extends BaseConfig {
 
 	public int getCdTimeInMillSecond() {
 		return cdTimeInMillSecond;
+	}
+	
+	public int getWinScore() {
+		return winScore;
+	}
+
+	public int getFailScore() {
+		return failScore;
 	}
 
 	@Override

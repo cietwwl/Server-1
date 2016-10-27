@@ -176,16 +176,6 @@ public class JsonValueWriter {
 		return null;
 	}
 
-	public boolean isCloneable(Class<?> clazz) {
-		if (Map.class.isAssignableFrom(clazz)) {
-			return true;
-		}
-		if (List.class.isAssignableFrom(clazz)) {
-			return true;
-		}
-		return DataValueParserMap.getParser(clazz) != null;
-	}
-
 	public Object toJSON(Object value) {
 		if (value == null) {
 			return NULL;
@@ -672,6 +662,10 @@ public class JsonValueWriter {
 		}
 		if (newValue instanceof List) {
 			return hasChanged((List<?>) oldValue, (List<?>) newValue);
+		}
+		//not support distributed
+		if (newValueClass.isEnum()) {
+			return oldValue != newValue;
 		}
 		DataValueParser parser = DataValueParserMap.getParser(newValueClass);
 		if (parser == null) {

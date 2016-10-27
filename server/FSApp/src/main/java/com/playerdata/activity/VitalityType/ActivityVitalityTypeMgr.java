@@ -23,7 +23,7 @@ import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeSubItem;
 
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
@@ -75,7 +75,7 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 
 	public List<ActivityVitalityTypeItem> creatItems(String userId, boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
-		PlayerExtPropertyStore<ActivityVitalityTypeItem> store = null;
+		RoleExtPropertyStore<ActivityVitalityTypeItem> store = null;
 		List<ActivityVitalityTypeItem> addItemList = null;
 		ActivityVitalityCfgDAO dao = ActivityVitalityCfgDAO.getInstance();
 		List<ActivityVitalityCfg> allCfgList = ActivityVitalityCfgDAO.getInstance().getAllCfg();

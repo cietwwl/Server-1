@@ -26,7 +26,7 @@ public class GCompLeaveTeamMsgReceiver implements MsgReciver {
 					return false;
 				}
 				if (!rsp.getResultType().equals(GCResultType.SUCCESS)) {
-					RobotLog.fail("GroupCompetitionHandler[send] requestLeaveTeam服务器返回不成功，提示消息：" + rsp.getTips());
+					RobotLog.info("GroupCompetitionHandler[send] requestLeaveTeam服务器返回不成功，提示消息：" + rsp.getTips());
 					return true;
 				} else {
 					client.getGCompTeamHolder().clearTeam();

@@ -77,7 +77,9 @@ import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
@@ -241,6 +243,7 @@ public class GMHandler {
 
 		// 批量添加物品
 		funcCallBackMap.put("addbatchitem", "addBatchItem");
+		funcCallBackMap.put("addAllMagicPieces".toLowerCase(), "addAllMagicPieces");
 
 		funcCallBackMap.put("emptybag", "emptyBag");
 		funcCallBackMap.put("emptyAccount".toLowerCase(), "emptyAccount");
@@ -907,7 +910,7 @@ public class GMHandler {
 		if (player != null) {
 			// player.getHeroMgr().getHeroByModerId(heroId).addHeroExp(addExp);
 			Hero h = player.getHeroMgr().getHeroByModerId(player, heroId);
-			player.getHeroMgr().addHeroExp(h, addExp);
+			player.getHeroMgr().addHeroExp(player, h, addExp);
 			return true;
 		}
 		return false;
@@ -1478,7 +1481,7 @@ public class GMHandler {
 	}
 
 	public boolean shutdownServer(String[] arrCommandContents, Player player) {
-		com.rw.manager.GameManager.shutdown();
+		System.exit(0);
 		return true;
 	}
 
@@ -1965,12 +1968,28 @@ public class GMHandler {
 		return true;
 	}
 	
-	public boolean addSAExp(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length != 1) {
-			return false;
+	public boolean addAllMagicPieces(String[] arrCommandContents, Player player) {
+//		List<Integer> allPieceIds = Arrays.asList(604901, 604902, 604903, 604904, 604905, 604906, 604907, 604908, 604909, 604910, 604911, 604912, 604913, 604914, 604915, 604916, 604917, 604918,
+//				604919, 604920, 604921, 604922, 604923, 604924, 604925, 604926, 604927);
+		List<MagicCfg> magicCfgList = MagicCfgDAO.getInstance().getAllCfg();
+		List<Integer> newMagicCfgIds = new ArrayList<Integer>();
+		for (MagicCfg cfg : magicCfgList) { // 这里包含了新旧法宝
+			if (cfg.getFirstAptitude() > 0) {
+				// 新版的才会 > 0
+				newMagicCfgIds.add(cfg.getId());
+			}
 		}
-		
+		List<Integer> piecesIds = new ArrayList<Integer>(newMagicCfgIds.size());
+		for (MagicCfg cfg : magicCfgList) {
+			if (newMagicCfgIds.contains(cfg.getComposeItemID())) {
+				piecesIds.add(cfg.getId());
+			}
+		}
+		List<ItemInfo> itemInfos = new ArrayList<ItemInfo>(piecesIds.size());
+		for (Integer pieceId : piecesIds) {
+			itemInfos.add(new ItemInfo(pieceId, 999));
+		}
+		player.getItemBagMgr().addItem(itemInfos);
 		return true;
 	}
-	
 }

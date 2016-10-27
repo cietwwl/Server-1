@@ -908,13 +908,13 @@ public final class MsgDef {
      */
     MSG_PRAISE(118, 229),
     /**
-     * <code>MSG_SPRITE_ATTACH_UPGRADE = 230;</code>
+     * <code>MSG_BUY_GROWTH_FUND = 230;</code>
      *
      * <pre>
-     *升级附灵
+     * 购买成长基金礼包
      * </pre>
      */
-    MSG_SPRITE_ATTACH_UPGRADE(119, 230),
+    MSG_BUY_GROWTH_FUND(119, 230),
     /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
@@ -1860,13 +1860,13 @@ public final class MsgDef {
      */
     public static final int MSG_PRAISE_VALUE = 229;
     /**
-     * <code>MSG_SPRITE_ATTACH_UPGRADE = 230;</code>
+     * <code>MSG_BUY_GROWTH_FUND = 230;</code>
      *
      * <pre>
-     *升级附灵
+     * 购买成长基金礼包
      * </pre>
      */
-    public static final int MSG_SPRITE_ATTACH_UPGRADE_VALUE = 230;
+    public static final int MSG_BUY_GROWTH_FUND_VALUE = 230;
     /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
@@ -2040,7 +2040,7 @@ public final class MsgDef {
         case 227: return MSG_GROUP_COMPETITION_TEAM_STATUS_CHANGE;
         case 228: return MSG_GROUP_COMPETITION_EVENTS_FINISHED;
         case 229: return MSG_PRAISE;
-        case 230: return MSG_SPRITE_ATTACH_UPGRADE;
+        case 230: return MSG_BUY_GROWTH_FUND;
         case 600: return MSG_ACTIVITY_TIMECARD_TYPE;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
@@ -2107,7 +2107,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\333\027\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\325\027\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2179,12 +2179,11 @@ public final class MsgDef {
       "MPETITION_BATTLE\020\342\001\022-\n(MSG_GROUP_COMPETI",
       "TION_TEAM_STATUS_CHANGE\020\343\001\022*\n%MSG_GROUP_" +
       "COMPETITION_EVENTS_FINISHED\020\344\001\022\017\n\nMSG_PR" +
-      "AISE\020\345\001\022\036\n\031MSG_SPRITE_ATTACH_UPGRADE\020\346\001\022" +
-      "\037\n\032MSG_ACTIVITY_TIMECARD_TYPE\020\330\004\022\021\n\014MSG_" +
-      "FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_" +
-      "NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007" +
-      "\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006Msg" +
-      "Def"
+      "AISE\020\345\001\022\030\n\023MSG_BUY_GROWTH_FUND\020\346\001\022\037\n\032MSG" +
+      "_ACTIVITY_TIMECARD_TYPE\020\330\004\022\021\n\014MSG_FEEDBA" +
+      "CK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERI" +
+      "C_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMS" +
+      "G_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

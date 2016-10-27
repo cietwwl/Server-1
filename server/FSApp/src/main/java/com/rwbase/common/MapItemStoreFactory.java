@@ -1,7 +1,7 @@
 package com.rwbase.common;
 
 import java.util.ArrayList;
-import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
+
 import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.groupFightOnline.data.GFBiddingItem;
 import com.playerdata.groupFightOnline.data.GFDefendArmyItem;
@@ -15,13 +15,11 @@ import com.rw.fsutil.cacheDao.PFMapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerPerformanceConfig;
-import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayEnemyInfoData;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayFloorData;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.copy.pojo.CopyLevelRecord;
 import com.rwbase.dao.copy.pojo.CopyMapRecord;
-import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.fetters.pojo.MagicEquipFetterRecord;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.groupCopy.db.CopyItemDropAndApplyRecord;
@@ -43,10 +41,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<CopyLevelRecord> copyLevelRecord;
 	// CopyMapRecord
 	private static MapItemStoreCache<CopyMapRecord> copyMapRecord;
-	// FashionItem
-//	private static MapItemStoreCache<FashionItem> fashionCache;
-	// new guide
-//	private static MapItemStoreCache<GiveItemHistory> newGuideGiveItemHistoryCache;
 	// Magic
 	private static MapItemStoreCache<Magic> magicCache;
 	// TaskItem
@@ -66,8 +60,6 @@ public class MapItemStoreFactory {
 	private static MapItemStoreCache<UserGroupCopyMapRecord> userGroupCopyLevelRecordCache;
 	private static MapItemStoreCache<ServerGroupCopyDamageRecord> serverGroupCopyDamageRecordCache;
 	private static MapItemStoreCache<CopyItemDropAndApplyRecord> itemDropAndApplyRecordCache;
-
-//	private static MapItemStoreCache<ActivityDateTypeItem> activityDateTypeItemCache;
 
 	private static MapItemStoreCache<MagicChapterInfo> magicChapterInfoCache;
 
@@ -98,8 +90,8 @@ public class MapItemStoreFactory {
 
 	private static boolean init = false;
 
-
 	public static final String MAIN_ROLE_NAME = "main";
+	public static final String HERO_NAME = "other";
 
 	public static void init() {
 		synchronized (MapItemStoreFactory.class) {
@@ -111,8 +103,6 @@ public class MapItemStoreFactory {
 		ServerPerformanceConfig config = GameManager.getPerformanceConfig();
 
 		int heroCapacity = config.getPlayerCapacity();
-
-		int actualHeroCapacity = config.getHeroCapacity();
 		list = new ArrayList<MapItemStoreCache<? extends IMapItem>>();
 		notifyCreateList = new ArrayList<MapItemStoreCache<? extends IMapItem>>();
 
@@ -121,10 +111,6 @@ public class MapItemStoreFactory {
 		copyLevelRecord = createForPerload(CopyLevelRecord.class, "userId", heroCapacity);
 
 		copyMapRecord = createForPerload(CopyMapRecord.class, "userId", heroCapacity);
-
-//		fashionCache = createForPerload(FashionItem.class, "userId", heroCapacity);
-
-//		newGuideGiveItemHistoryCache = createForPerload(GiveItemHistory.class, "userId", heroCapacity);
 
 		magicCache = createForPerload(Magic.class, "id", heroCapacity);
 
@@ -158,7 +144,7 @@ public class MapItemStoreFactory {
 
 		teamBattleItemCache = createForPerload(TBTeamItem.class, "hardID", heroCapacity);
 
-		heroItemCache = createForPerload(FSHero.class, "other", "user_id", heroCapacity, true);
+		heroItemCache = createForPerload(FSHero.class, HERO_NAME, "user_id", heroCapacity, true);
 
 		mainHeroItemCache = createForPerload(FSHero.class, MAIN_ROLE_NAME, "id", heroCapacity, true);
 
@@ -223,15 +209,6 @@ public class MapItemStoreFactory {
 		return copyMapRecord;
 	}
 
-//	/**
-//	 * 获取时装缓存
-//	 * 
-//	 * @return
-//	 */
-//	public static MapItemStoreCache<FashionItem> getFashionCache() {
-//		return fashionCache;
-//	}
-
 	/**
 	 * 获取法宝缓存
 	 * 
@@ -292,12 +269,6 @@ public class MapItemStoreFactory {
 	public static MapItemStoreCache<CopyItemDropAndApplyRecord> getItemDropAndApplyRecordCache() {
 		return itemDropAndApplyRecordCache;
 	}
-
-//	public static MapItemStoreCache<GiveItemHistory> getNewGuideGiveItemHistoryCache() {
-//		return newGuideGiveItemHistoryCache;
-//	}
-
-
 
 	/**
 	 * 获取万仙阵阵容信息缓存

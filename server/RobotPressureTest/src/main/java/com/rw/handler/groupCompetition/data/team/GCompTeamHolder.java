@@ -29,6 +29,8 @@ public class GCompTeamHolder {
 	
 	public void clearTeam() {
 		team = null;
+		lastSendReadyTime = 0;
+		teamWaitingTimeout = 0;
 	}
 
 	public long getPersonalMatchingTimeOut() {

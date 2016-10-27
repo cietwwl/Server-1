@@ -831,6 +831,10 @@ public class Player implements PlayerIF {
 			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().checkAndAddList();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
+			
+			//升级添加日常任务通知,刷新一下任务红点----by Alex
+			m_DailyActivityMgr.resRed();
+			
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
 			if (mainRoleHero.getTemplateId() != null && currentLevel > 0) {
@@ -848,6 +852,7 @@ public class Player implements PlayerIF {
 				m_FresherActivityMgr.doCheck(eActivityType.A_PlayerLv);
 			}
 
+			
 			mainRoleHero.save();
 			// this.m_EquipMgr.CheckHot();
 			getStoreMgr().AddStore();
@@ -963,6 +968,9 @@ public class Player implements PlayerIF {
 			break;
 		case MagicSecretCoin:
 			reslut = userGameDataMgr.getMagicSecretCoin();
+			break;
+		case TEAM_BATTLE_GOLD:
+			reslut = userGameDataMgr.getTeamBattleCoin();
 			break;
 		case WAKEN_KEY:
 			reslut = userGameDataMgr.getWakenKey();

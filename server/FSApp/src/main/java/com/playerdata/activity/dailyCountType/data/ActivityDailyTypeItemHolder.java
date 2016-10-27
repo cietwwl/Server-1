@@ -13,7 +13,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -52,6 +52,10 @@ public class ActivityDailyTypeItemHolder {
 
 	public void updateItem(Player player, ActivityDailyTypeItem item) {
 		getItemStore(player.getUserId()).update(item.getId());
+		List<ActivityDailyTypeSubItem> subList = item.getSubItemList();
+		for(ActivityDailyTypeSubItem sub : subList){
+//			System.out.println("~~~~~~~~~~~~~~~update.singel .sub.id=" + sub.getCfgId() + "     count = " + sub.getCount());
+		}
 		ClientDataSynMgr.updateData(player, item, synType,
 				eSynOpType.UPDATE_SINGLE);
 	}
@@ -74,14 +78,21 @@ public class ActivityDailyTypeItemHolder {
 
 	public void synAllData(Player player) {
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());
-			
+		if(itemList == null|| itemList.isEmpty()){
+			return;//一般不会如此，但如果玩家创建时没开启活动；但服务器直接改表当天触发，而有没有经过12点、5点、整点的checkopen生成数据就会为空
+		}
+		ActivityDailyTypeItem item = itemList.get(0);
+		List<ActivityDailyTypeSubItem> subList = item.getSubItemList();
+		for(ActivityDailyTypeSubItem sub : subList){
+//			System.out.println("~~~~~~~~~~~~~~~update.all .sub.id=" + sub.getCfgId() + "     count = " + sub.getCount());
+		}
 		ClientDataSynMgr.synDataList(player, itemList, synType,
 				eSynOpType.UPDATE_LIST);
 	}
 
-	public PlayerExtPropertyStore<ActivityDailyTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityDailyTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityDailyTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYTYPE, ActivityDailyTypeItem.class);
-		PlayerExtPropertyStore<ActivityDailyTypeItem> store = null;
+		RoleExtPropertyStore<ActivityDailyTypeItem> store = null;
 		try {
 			store = cach.getStore(userId);
 		} catch (InterruptedException e) {

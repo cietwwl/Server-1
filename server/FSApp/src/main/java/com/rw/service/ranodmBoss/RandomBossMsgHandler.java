@@ -113,6 +113,9 @@ public class RandomBossMsgHandler {
 			
 			boolean suc = RandomBossMgr.getInstance().checkAndSynRandomBossData(player);
 			response.setIsSuccess(suc);
+			if(!suc){
+				response.setTips("所有boss已经离开！");
+			}
 		} catch (Exception e) {
 			GameLog.error("RandomBoss", "RandomBossMsgHandler[getBossList]", "获取随机boss数据时出现异常", e);
 			response.setIsSuccess(false);

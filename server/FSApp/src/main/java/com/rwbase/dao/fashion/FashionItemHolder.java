@@ -14,7 +14,7 @@ import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.MapItemStoreFactory;
@@ -38,7 +38,7 @@ public class FashionItemHolder{
 	}
 
 	public List<FashionItemIF> search(ItemFilter predicate){
-		PlayerExtPropertyStore<FashionItem> itemStore = getItemStore();
+		RoleExtPropertyStore<FashionItem> itemStore = getItemStore();
 		if (itemStore == null){ return new ArrayList<FashionItemIF>();}
 		Enumeration<FashionItem> mapEnum = itemStore.getExtPropertyEnumeration();
 		if (mapEnum == null){ return new ArrayList<FashionItemIF>();}
@@ -122,7 +122,7 @@ public class FashionItemHolder{
 	public void directAddItem(String uid, FashionItem item) {
 		RoleExtPropertyStoreCache<FashionItem> cache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FISHION, FashionItem.class);
 		
-		PlayerExtPropertyStore<FashionItem> other = null;
+		RoleExtPropertyStore<FashionItem> other = null;
 		try {
 			other = cache.getStore(uid);
 		} catch (InterruptedException e1) {
@@ -162,9 +162,9 @@ public class FashionItemHolder{
 //		getItemStore().update(userId);
 	}
 	
-	private PlayerExtPropertyStore<FashionItem> getItemStore(){
+	private RoleExtPropertyStore<FashionItem> getItemStore(){
 		RoleExtPropertyStoreCache<FashionItem> heroExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.FISHION, FashionItem.class);
-		PlayerExtPropertyStore<FashionItem> store = null;
+		RoleExtPropertyStore<FashionItem> store = null;
 		try {
 			
 			store = heroExtCache.getStore(userId);

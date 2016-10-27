@@ -14,7 +14,8 @@ public class GiftCodeTest {
 
 		final String code = null;
 		final String userId = null;
-		GiftCodeItem giftCodeItem = new GiftCodeItem(code, userId, 1, new GmCallBack<GiftCodeResponse>() {
+		final String account = null;
+		GiftCodeItem giftCodeItem = new GiftCodeItem(code, userId, account, 1, new GmCallBack<GiftCodeResponse>() {
 			@Override
 			public void doCallBack(GiftCodeResponse gmResponse) {
 				// TODO Auto-generated method stub

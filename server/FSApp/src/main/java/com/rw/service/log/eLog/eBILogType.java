@@ -29,6 +29,11 @@ public enum eBILogType {
 	Chat(26,"聊天日志","Chat"),
 	GoldChange(27, "充值币变动", "GoldChanged"),
 	Email(28, "邮件监控", "Email"),
+	Pay(29, "付费", "Pay"),
+	FinanceMainCoinAdd(30, "财务充值币新增", "FinanceMainCoinAdd"),
+	FinanceMainCoinConsume(31, "财务充值币消耗", "FinanceMainCoinConsume"),
+	FinanceMainCoinHold(32, "财务充值币持有", "FinanceMainCoinHold"),
+	GiftPackage(33, "市场推广_礼包", "GiftPackage"),
 	;
 	
 	

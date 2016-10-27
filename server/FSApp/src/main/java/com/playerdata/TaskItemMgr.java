@@ -161,7 +161,7 @@ public class TaskItemMgr implements TaskMgrIF {
 			curplan = m_pPlayer.getCareer() > 0 ? 1 : 0;
 			break;
 		case Add_Friend:
-			curplan = m_pPlayer.getFriendMgr().getFriendList().size();
+			curplan = m_pPlayer.getFriendMgr().getFriendCount();
 			break;
 		case Challage_BattleTower:
 			curplan = m_pPlayer.getBattleTowerMgr().getTableBattleTower().getHighestFloor();

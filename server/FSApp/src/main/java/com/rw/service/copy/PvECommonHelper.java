@@ -50,7 +50,7 @@ public class PvECommonHelper {
 			// Hero hero = player.getHeroMgr().getHeroById(heroId);
 			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			// int addHeroExp = hero.addHeroExp(copyCfg.getHeroExp());
-			int addHeroExp = player.getHeroMgr().addHeroExp(hero, copyCfg.getHeroExp());
+			int addHeroExp = player.getHeroMgr().addHeroExp(player, hero, copyCfg.getHeroExp());
 			if (hero != null && addHeroExp == 1) {
 				listUpHero.add(heroId);
 			}

@@ -20,7 +20,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 
 	private String tableName;
 	private ConcurrentLinkedQueue<EvictedElementTaker> evictedQueue;
-	private ConcurrentSkipListMap<QueueObject, Object> updateQueue;
+	private ConcurrentSkipListMap<QueueObject, PersistentParamsExtractor<K2>> updateQueue;
 	private String sql;
 	private final int updateCount;
 	private final JdbcTemplate template;
@@ -33,7 +33,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 
 	public TableUpdateContainer(String tableName, String sql, long checkRunPeriodMillis) {
 		this.tableName = tableName;
-		this.updateQueue = new ConcurrentSkipListMap<QueueObject, Object>();
+		this.updateQueue = new ConcurrentSkipListMap<QueueObject, PersistentParamsExtractor<K2>>();
 		this.evictedQueue = new ConcurrentLinkedQueue<EvictedElementTaker>();
 		this.template = DataAccessFactory.getSimpleSupport().getMainTemplate();
 		this.updateStat = new UpdateCountStat(tableName, "update");
@@ -45,7 +45,10 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 	}
 
 	public void addChanged(K2 key, long period, PersistentParamsExtractor<K2> extractor) {
-		updateQueue.put(new QueueObject(key, DateUtils.getSecondLevelMillis() + period,extractor), PRESENT);
+		PersistentParamsExtractor<K2> old = updateQueue.put(new QueueObject(key, DateUtils.getSecondLevelMillis() + period), extractor);
+		if (old != null) {
+			FSUtilLogger.error("update replace@" + old + ",new value=" + extractor);
+		}
 	}
 
 	public boolean addEvictedTask(EvictedElementTaker evictedElementTaker) {
@@ -75,16 +78,16 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 
 	private long updateToDB(long startTime, List<Object[]> paramsList, UpdateCountStat stat) {
 		int count = 0;
-		//FSUtilLogger.info("执行同步：" + tableName + "," + paramsList);
+		// FSUtilLogger.info("执行同步：" + tableName + "," + paramsList);
 		int[] result = template.batchUpdate(sql, paramsList);
 		for (int i = result.length; --i >= 0;) {
 			int rows = result[i];
 			if (rows == 1) {
 				count++;
-				//FSUtilLogger.info("执行同步成功：" + tableName);
+				// FSUtilLogger.info("执行同步成功：" + tableName);
 			} else {
 				recordException(stat, paramsList.get(i), rows);
-				//FSUtilLogger.info("执行同步失败：" + tableName);
+				// FSUtilLogger.info("执行同步失败：" + tableName);
 			}
 		}
 		long end = System.currentTimeMillis();
@@ -135,7 +138,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 			ArrayList<Object[]> paramsList = new ArrayList<Object[]>();
 			long nextStartTime = System.currentTimeMillis();
 			for (;;) {
-				Map.Entry<QueueObject, Object> firstEntry = updateQueue.firstEntry();
+				Map.Entry<QueueObject, PersistentParamsExtractor<K2>> firstEntry = updateQueue.firstEntry();
 				if (firstEntry == null) {
 					break;
 				}
@@ -149,7 +152,7 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 				}
 				queueObject = firstEntry.getKey();
 				K2 key = queueObject.key;
-				if (!queueObject.extractor.extractParams(key, paramsList)) {
+				if (!firstEntry.getValue().extractParams(key, paramsList)) {
 					FSUtilLogger.error("extract params fail:" + key + "," + tableName);
 					continue;
 				}
@@ -216,14 +219,15 @@ public class TableUpdateContainer<K, K2> implements ParametricTask<Void>, Evicte
 		final K2 key;
 		final long executeTimeMillis;
 		final long seqId;
-		final PersistentParamsExtractor<K2> extractor;
 
-		public QueueObject(K2 key, long executeTimeMillis,PersistentParamsExtractor<K2> extractor) {
+		// final PersistentParamsExtractor<K2> extractor;
+
+		public QueueObject(K2 key, long executeTimeMillis) {
 			super();
 			this.key = key;
 			this.executeTimeMillis = executeTimeMillis;
 			this.seqId = seqGenerator.incrementAndGet();
-			this.extractor = extractor;
+			// this.extractor = extractor;
 		}
 
 		@Override

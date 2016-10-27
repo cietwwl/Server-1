@@ -81,6 +81,7 @@
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.PeakArenaCloseCfgHelper"  init-method="init" />
+	<bean class="com.rwbase.dao.peakarena.PeakArenaScoreRewardCfgDAO" init-method="init" />
 	
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
@@ -343,6 +344,8 @@
 	<bean class="com.rwbase.dao.groupcompetition.GCompBasicScoreCfgDAO" init-method="init" />
 	<!-- 帮派争霸竞猜配置表 -->
 	<bean class="com.rwbase.dao.groupcompetition.GCompGeneralCfgDAO"  init-method="init" />
+	<!-- 帮派争霸时间配置 -->
+	<bean class="com.rwbase.dao.groupcompetition.GCompTimeCfgDAO" init-method="init" />
 	<!-- 广播配置表 -->
 	<bean class="com.rwbase.dao.groupcompetition.ContinueWinsBroadcastCfgDAO" init-method="init" />
 	<!-- 技能监听的配置表 -->

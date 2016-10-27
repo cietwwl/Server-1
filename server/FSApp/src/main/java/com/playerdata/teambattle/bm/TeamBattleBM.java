@@ -1,6 +1,8 @@
 package com.playerdata.teambattle.bm;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
+import com.common.HPCUtil;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
@@ -21,6 +24,7 @@ import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.teambattle.cfg.MonsterCombinationCfg;
@@ -47,6 +51,7 @@ import com.playerdata.teambattle.manager.TeamMatchMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfg;
@@ -54,8 +59,11 @@ import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
+import com.rwproto.TeamBattleProto.HeroSimple;
+import com.rwproto.TeamBattleProto.TBMember;
 import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg.Builder;
+import com.rwproto.TeamBattleProto.TeamItem;
 
 
 /**
@@ -64,6 +72,9 @@ import com.rwproto.TeamBattleProto.TeamBattleRspMsg.Builder;
  *
  */
 public class TeamBattleBM {
+	
+	public static int GET_TEAM_COUNT_ONCE = 15;	//每次客户端请求可加入组队的数量
+	public static int GET_TOTAL_COUNT_ONCE = 3;	//获取所有难度可加入的组队的数量
 	
 	private static class InstanceHolder{
 		private static TeamBattleBM instance = new TeamBattleBM();
@@ -118,6 +129,7 @@ public class TeamBattleBM {
 		StaticMemberTeamInfo staticMemInfo = new StaticMemberTeamInfo();
 		staticMemInfo.setUserID(player.getUserId());
 		staticMemInfo.setUserStaticTeam(simpleArmy);
+		staticMemInfo.setFashionUsing(UserTeamBattleDataHolder.toArmyFashionFromBuilder(player));
 		HashMap<String, Integer> heroPosMap = new HashMap<String, Integer>();
 		if(item.getHeroIDs() != null){
 			for(int i = 0; i < item.getHeroIDs().size(); i++){
@@ -175,6 +187,19 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("挑战次数不足！");
 			return;
 		}
+		ServerCommonData scData = ServerCommonDataHolder.getInstance().get();
+		if(null == scData){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("副本信息有误");
+			return;
+		}
+		String enimyID = scData.getTeamBattleEnimyMap().get(hardID);
+		MonsterCombinationCfg cfg = MonsterCombinationDAO.getInstance().getCfgById(enimyID + "_1");
+		if(null == cfg){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("组队怪物信息有误");
+			return;
+		}
 		if(TBTeamItemHolder.getInstance().isItemCountMax(hardID)){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("战斗过于火爆，请您试试快速加入");
@@ -197,6 +222,10 @@ public class TeamBattleBM {
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		UserTeamBattleDataMgr.getInstance().synData(player);
 		TBTeamItemMgr.getInstance().synData(player);
+		//创建完队伍，在世界频道发邀请
+		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName());
+		String extraInfo = player.getUserName() + "_" + cfg.getName() + "_" + 1;
+		ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
@@ -208,14 +237,17 @@ public class TeamBattleBM {
 	 */
 	public void joinTeam(Player player, Builder tbRsp, String hardID) {
 		if(StringUtils.isBlank(hardID)){
+			hardID = getJionAbleHard(player);
+		}
+		if(StringUtils.isBlank(hardID)){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不存在该难度的副本");
+			tbRsp.setTipMsg("没有合适的副本可供加入");
 			return;
 		}
 		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardID);
 		if(teamCfg == null){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("不存在该难度的副本");
+			tbRsp.setTipMsg("没有合适的副本可供加入");
 			return;
 		}
 		if(player.getLevel() < teamCfg.getLevel()){
@@ -257,8 +289,9 @@ public class TeamBattleBM {
 	 * @param tbRsp
 	 * @param hardID
 	 * @param teamID
+	 * @param needRefreshJionAble 是否需要刷新可加入的队伍列表（接受邀请不用，在列表界面主动加入，需要）
 	 */
-	public void acceptInvite(Player player, Builder tbRsp, String hardID, String teamID) {
+	public void acceptInvite(Player player, Builder tbRsp, String hardID, String teamID, boolean isRefreshAllHard, boolean needRefreshJionAble) {
 		if(StringUtils.isBlank(hardID)){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("不存在该难度的副本");
@@ -301,11 +334,25 @@ public class TeamBattleBM {
 		//获取的是玩家想要加入的队伍
 		TBTeamItem teamItem = TBTeamItemHolder.getInstance().getItem(hardID, teamID);
 		if(teamItem == null) {
+			if(needRefreshJionAble) {
+				if(isRefreshAllHard){
+					getCanJionTeams(player, tbRsp);
+				}else{
+					getCanJionTeamsForClient(player, tbRsp, hardID, GET_TEAM_COUNT_ONCE);
+				}
+			}
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("队伍不存在");
 			return;
 		}
 		if(teamItem.isFull()) {
+			if(needRefreshJionAble) {
+				if(isRefreshAllHard){
+					getCanJionTeams(player, tbRsp);
+				}else{
+					getCanJionTeamsForClient(player, tbRsp, hardID, GET_TEAM_COUNT_ONCE);
+				}
+			}
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("队伍已满");
 			return;
@@ -315,6 +362,13 @@ public class TeamBattleBM {
 			TBTeamItemMgr.getInstance().joinTeam(player, teamItem);
 			tbRsp.setRstType(TBResultType.SUCCESS);
 		} catch (JoinTeamException e) {
+			if(needRefreshJionAble) {
+				if(isRefreshAllHard){
+					getCanJionTeams(player, tbRsp);
+				}else{
+					getCanJionTeamsForClient(player, tbRsp, hardID, GET_TEAM_COUNT_ONCE);
+				}
+			}
 			utbData.setSynTeam(false);
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg(e.getMessage());
@@ -398,6 +452,14 @@ public class TeamBattleBM {
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
 
+	/**
+	 * 组队战邀请
+	 * @param player
+	 * @param tbRsp
+	 * @param inviteType
+	 * @param inviteUsers
+	 * @param inviteContent
+	 */
 	public void invitePlayer(Player player, Builder tbRsp, int inviteType, List<String> inviteUsers, String inviteContent) {
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		if(null == utbData || StringUtils.isBlank(utbData.getTeamID())){
@@ -430,7 +492,7 @@ public class TeamBattleBM {
 			return;
 		}
 		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName()) + "\n" + inviteContent;
-		String extraInfo = player.getUserName() + "_" + cfg.getName();
+		String extraInfo = player.getUserName() + "_" + cfg.getName() + "_" + inviteType;
 		switch (inviteType) {
 		case 1:
 			//世界邀请
@@ -631,6 +693,8 @@ public class TeamBattleBM {
 		teamMember.setFightStartTime(0);
 		TBTeamItemHolder.getInstance().updateTeam(teamItem);
 		tbRsp.setRstType(TBResultType.SUCCESS);
+		//通知日常任务系统
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.TEAM_BATTLE, 1);
 		UserFeatruesMgr.getInstance().doFinishOfHardId(player, UserFeaturesEnum.teamBattle,Integer.parseInt(teamItem.getHardID()));
 	}
 
@@ -746,5 +810,180 @@ public class TeamBattleBM {
 		teamHardInfo.setBuyTimes(teamHardInfo.getBuyTimes() + 1);
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+
+	/**
+	 * 获取一定数量的可加入队伍(指定难度)
+	 * @param player
+	 * @param tbRsp
+	 * @param hardID
+	 */
+	public void getCanJionTeams(Player player, Builder tbRsp, String hardID) {
+		if(StringUtils.isBlank(hardID)){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不存在该难度的副本");
+			return;
+		}
+		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardID);
+		if(teamCfg == null){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("不存在该难度的副本");
+			return;
+		}
+		if(player.getLevel() < teamCfg.getLevel()){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("该难度的副本" + teamCfg.getLevel() + "级开放");
+			return;
+		}
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if (null == utbData) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("数据异常");
+			return;
+		}
+		if (StringUtils.isNotBlank(utbData.getTeamID())) {
+			TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+			if (teamItem != null) {
+				TeamMember member = teamItem.findMember(player.getUserId());
+				if (member != null && member.getState().equals(TBMemberState.HalfFinish) && StringUtils.equals(hardID, teamItem.getHardID())) {
+					tbRsp.setRstType(TBResultType.DATA_ERROR);
+					tbRsp.setTipMsg("请您先完成当前的副本");
+					return;
+				}
+			}
+		}
+		getCanJionTeamsForClient(player, tbRsp, hardID, GET_TEAM_COUNT_ONCE);
+		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+	
+	/**
+	 * 获取一定数量的可加入队伍(全部难度)
+	 * @param player
+	 * @param tbRsp
+	 */
+	public void getCanJionTeams(Player player, Builder tbRsp) {
+		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
+		if(null == teamCfgs || teamCfgs.isEmpty()){
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("数据错误");
+			return;
+		}
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if (null == utbData) {
+			tbRsp.setRstType(TBResultType.DATA_ERROR);
+			tbRsp.setTipMsg("数据异常");
+			return;
+		}
+		for(TeamCfg cfg : teamCfgs){
+			if(player.getLevel() < cfg.getLevel()){
+				continue;
+			}
+			getCanJionTeamsForClient(player, tbRsp, cfg.getId(), GET_TOTAL_COUNT_ONCE - HPCUtil.getRandom().nextInt(2));
+		}
+		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+	
+	/**
+	 * 查找前端可加入的队伍（在某个难度，一定的数量）
+	 * @param player
+	 * @param tbRsp
+	 * @param hardID 难度
+	 * @param getCount 获取的数量
+	 */
+	private void getCanJionTeamsForClient(Player player, Builder tbRsp, String hardID, int getCount){
+		List<String> canJionIds = TBTeamItemMgr.getInstance().getCanJionTeams(player, hardID, getCount);
+		for(String teamId : canJionIds){
+			TBTeamItem suitItem = TBTeamItemHolder.getInstance().getItem(hardID, teamId);
+			if(null == suitItem) continue;
+			if(null != suitItem.findMember(player.getUserId())) continue;
+			TeamItem clientTeam = toClientTeamItem(suitItem);
+			if(null != clientTeam){
+				tbRsp.addCanJoinTeams(clientTeam);
+			}
+		}
+		tbRsp.setRefreshJoinAble(true);
+	}
+	
+	/**
+	 * 简化版本的组队信息
+	 * @param teamItem
+	 * @return
+	 */
+	private TeamItem toClientTeamItem(TBTeamItem teamItem){
+		TeamItem.Builder teamBuilder = TeamItem.newBuilder();
+		teamBuilder.setTeamID(teamItem.getTeamID());
+		teamBuilder.setHardID(teamItem.getHardID());
+		synchronized (teamItem) {
+			List<StaticMemberTeamInfo> members = teamItem.getTeamMembers();
+			if(members.isEmpty()){
+				TBTeamItemMgr.getInstance().setTeamMemberTeams(teamItem);
+				members = teamItem.getTeamMembers();
+			}
+			for(StaticMemberTeamInfo member : members){
+				TeamMember memSimple = teamItem.findMember(member.getUserID());
+				if(null == memSimple) {
+					return null;
+				}
+				TBMember.Builder memBuilder = TBMember.newBuilder();
+				memBuilder.setUserID(member.getUserID());
+				memBuilder.setUserName(memSimple.getUserName());
+				memBuilder.setIsRobot(memSimple.isRobot());
+				memBuilder.setState(memSimple.getState().getValue());
+				memBuilder.setPlayerHeadImage(member.getUserStaticTeam().getPlayerHeadImage());
+				ArmyHeroSimple mainHero = member.getUserStaticTeam().getPlayer();
+				memBuilder.addHeros(toClientHero(mainHero));
+				List<ArmyHeroSimple> heroList = member.getUserStaticTeam().getHeroList();
+				if(null != heroList){
+					for(ArmyHeroSimple hero : heroList){
+						memBuilder.addHeros(toClientHero(hero));
+					}
+				}
+				teamBuilder.addMembers(memBuilder.build());
+			}
+			return teamBuilder.build();
+		}
+	}
+	
+	private HeroSimple toClientHero(ArmyHeroSimple hero){
+		HeroSimple.Builder heroBuilder = HeroSimple.newBuilder();
+		heroBuilder.setModeId(hero.getModeId());
+		heroBuilder.setLevel(hero.getLevel());
+		heroBuilder.setStarLevel(hero.getStarLevel());
+		heroBuilder.setQualityId(hero.getQualityId());
+		return heroBuilder.build();
+	}
+	
+	/**
+	 * 获取一个可以快速加入的难度
+	 * @param player
+	 * @return
+	 */
+	private String getJionAbleHard(Player player){
+		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
+		if(null == teamCfgs || teamCfgs.isEmpty()){
+			return null;
+		}
+		Collections.sort(teamCfgs, new Comparator<TeamCfg>() {
+			@Override
+			public int compare(TeamCfg o1, TeamCfg o2) {
+				if(Integer.parseInt(o1.getId()) > Integer.parseInt(o2.getId())) return 1;
+				if(Integer.parseInt(o1.getId()) < Integer.parseInt(o2.getId())) return -1;
+				return 0;
+			}
+		});
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		for(TeamCfg cfg : teamCfgs){
+			if(player.getLevel() > cfg.getLevel()){
+				//等级达到
+				if (UserTeamBattleDataMgr.getInstance().haveFightTimes(player, cfg.getId())) {
+					//还有次数
+					if(StringUtils.isBlank(utbData.getTeamID())){
+						//没有队伍
+						return cfg.getId();
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

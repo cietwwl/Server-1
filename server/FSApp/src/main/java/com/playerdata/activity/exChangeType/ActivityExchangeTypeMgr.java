@@ -27,7 +27,7 @@ import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.mapitem.MapItemValidateParam;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -90,7 +90,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	 */
 	public List<ActivityExchangeTypeItem> createItems(String userId, boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityExchangeTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_EXCHANGE, ActivityExchangeTypeItem.class);
-		PlayerExtPropertyStore<ActivityExchangeTypeItem> store = null;
+		RoleExtPropertyStore<ActivityExchangeTypeItem> store = null;
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityExchangeTypeItem> addItemList = null;
 		ActivityExchangeTypeSubCfgDAO dao = ActivityExchangeTypeSubCfgDAO.getInstance();

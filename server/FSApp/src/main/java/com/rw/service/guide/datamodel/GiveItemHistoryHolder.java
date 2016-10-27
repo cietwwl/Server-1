@@ -5,7 +5,7 @@ import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.INotifyChange;
@@ -27,7 +27,7 @@ public class GiveItemHistoryHolder {
 			GameLog.info("引导", "", "无效参数", null);
 			return false;//illegal argument
 		}
-		PlayerExtPropertyStore<GiveItemHistory> cache = getCache(item.getUserId());
+		RoleExtPropertyStore<GiveItemHistory> cache = getCache(item.getUserId());
 		if (cache.get(item.getId()) != null){
 			GameLog.info("引导", item.getUserId(), "已经存在无法添加", null);
 			return false;//item exits
@@ -47,7 +47,7 @@ public class GiveItemHistoryHolder {
 			GameLog.info("引导", "", "无效参数", null);
 			return false;//illegal argument
 		}
-		PlayerExtPropertyStore<GiveItemHistory> cache = getCache(item.getUserId());
+		RoleExtPropertyStore<GiveItemHistory> cache = getCache(item.getUserId());
 		if (cache.get(item.getId()) == null){
 			GameLog.info("引导", item.getUserId(), "找不到记录:"+item.getId(), null);
 			return false;//item exits
@@ -62,9 +62,9 @@ public class GiveItemHistoryHolder {
 		return true;
 	}
 	
-	private PlayerExtPropertyStore<GiveItemHistory> getCache(String userId){
+	private RoleExtPropertyStore<GiveItemHistory> getCache(String userId){
 		RoleExtPropertyStoreCache<GiveItemHistory> heroExtCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.GIVEITEM_HISTORY, GiveItemHistory.class);
-		PlayerExtPropertyStore<GiveItemHistory> store = null;
+		RoleExtPropertyStore<GiveItemHistory> store = null;
 		try {
 			
 			store = heroExtCache.getStore(userId);
@@ -75,7 +75,7 @@ public class GiveItemHistoryHolder {
 	}
 
 	public GiveItemHistory getHistory(String userId, int actId) {
-		PlayerExtPropertyStore<GiveItemHistory> cache = getCache(userId);
+		RoleExtPropertyStore<GiveItemHistory> cache = getCache(userId);
 		GiveItemHistory history = cache.get(actId);
 		return history;
 	}
