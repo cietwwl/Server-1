@@ -72,6 +72,7 @@ public class GiftCodeHandler {
 		}
 
 		final String userId = player.getUserId();
+		final String account = player.getUserDataMgr().getAccount();
 		User user = UserDataDao.getInstance().getByUserId(userId);
 		if (user == null) {
 			rsp.setResultType(ResultType.FAIL);
@@ -177,7 +178,7 @@ public class GiftCodeHandler {
 			}
 		}
 
-		GiftCodeItem codeItem = new GiftCodeItem(code, userId, channelId, callBack);
+		GiftCodeItem codeItem = new GiftCodeItem(code, userId, account, channelId, callBack);
 		GiftCodeSenderBm.getInstance().add(codeItem);
 
 		if (!rsp.hasResultType()) {

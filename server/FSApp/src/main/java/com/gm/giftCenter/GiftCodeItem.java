@@ -10,6 +10,8 @@ public class GiftCodeItem {
 	private final String activateCode;
 
 	private final String userId;
+	
+	private final String account;
 
 	private String id;
 
@@ -19,9 +21,10 @@ public class GiftCodeItem {
 
 	private GmCallBack<GiftCodeResponse> gmCallBack;
 
-	public GiftCodeItem(String code, String userId, int channelId, GmCallBack<GiftCodeResponse> gmCallBack) {
+	public GiftCodeItem(String code, String userId, String account, int channelId, GmCallBack<GiftCodeResponse> gmCallBack) {
 		this.activateCode = code;
 		this.userId = userId;
+		this.account = account;
 		this.gmCallBack = gmCallBack;
 		this.channelId = channelId;
 		this.id = this.userId + "_" + this.activateCode;
@@ -35,12 +38,17 @@ public class GiftCodeItem {
 		return userId;
 	}
 
+	public String getAccount() {
+		return account;
+	}
+
 	public Map<String, Object> toGmSendItemData() {
 		Map<String, Object> args = new HashMap<String, Object>();
 		args.put("opType", 20039);
 		args.put("activateCode", this.activateCode);
 		args.put("iSequenceNum", this.iSequenceNum);
 		args.put("roleId", this.userId);
+		args.put("account", this.account);
 		args.put("channel", this.channelId);
 
 		return args;

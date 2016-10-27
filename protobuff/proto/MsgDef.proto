@@ -134,6 +134,7 @@ enum Command {
 	MSG_GROUP_COMPETITION_EVENTS_FINISHED = 228; // 帮派争霸：赛事结束，发送GroupCompetition.proto里的EventsResult
 	
 	MSG_PRAISE = 229;//点赞的消息
+	MSG_BUY_GROWTH_FUND = 230; // 购买成长基金礼包
 	
 	
 	
