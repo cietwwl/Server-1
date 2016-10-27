@@ -476,16 +476,16 @@ public class ChargeMgr {
 			} catch (Exception e) {
 				GameLog.info("特权", friendPlayer.getUserId(), "无法获取充值类型:" + orderStr, e);
 			}
-			int addGold = target.getVipExp();
-			int money = target.getMoneyCount();
-			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(selfPlayer.getUserId());
-			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
-			ChargeInfoHolder.getInstance().update(selfPlayer);
-			// 升级vip，如果达到条件
-			upgradeVip(selfPlayer, chargeInfo);
-			// 设置界面更新vip
-			selfPlayer.getSettingMgr().checkOpen();
 		}
+		int addGold = target.getVipExp();
+		int money = target.getMoneyCount();
+		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(selfPlayer.getUserId());
+		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+		ChargeInfoHolder.getInstance().update(selfPlayer);
+		// 升级vip，如果达到条件
+		upgradeVip(selfPlayer, chargeInfo);
+		// 设置界面更新vip
+		selfPlayer.getSettingMgr().checkOpen();
 		return result;
 	}
 	
@@ -541,27 +541,12 @@ public class ChargeMgr {
 	 */
 	public void sendMonthCardSuccessHandler(Player player, String friendId, String timeCardSubCfgId){
 		EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(SEND_MONTH_CARD_SUCCESS_EMAIL_ID);
-		String sendTime = DateUtils.getDateTimeFormatString("yyyy年MM月dd日 hh:mm:ss");
+		String sendTime = DateUtils.getDateTimeFormatString("yyyy年MM月dd日 HH:mm:ss");
 		
 		ActivityTimeCardTypeSubCfg cardCfg = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId);
 		ChargeTypeEnum cardEnum = cardCfg.getChargeType();
 		
-		String content = String.format(emailCfg.getContent(), player.getUserName(), sendTime, cardEnum.getName(), cardCfg.getDayAwardCount());
+		String content = String.format(emailCfg.getContent(), player.getUserName(), sendTime, cardEnum.getName(), cardCfg.getGold());
 		EmailUtils.sendEmail(friendId, SEND_MONTH_CARD_SUCCESS_EMAIL_ID, "", content);
 	}
-	
-//	public boolean isPlayerHaveVipMonthCard(String userId) {
-//		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-//		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(userId);
-//		List<ActivityTimeCardTypeSubItem> subItemList = dataItem.getSubItemList();
-//		ActivityTimeCardTypeSubItem subItem;
-//		for (int i = 0, size = subItemList.size(); i < size; i++) {
-//			subItem = subItemList.get(i);
-//			ChargeTypeEnum type = ChargeTypeEnum.getById(String.valueOf(subItem.getTimeCardType()));
-//			if(type == ChargeTypeEnum.VipMonthCard) {
-//				return subItem.getDayLeft() > 0;
-//			}
-//		}
-//		return false;
-//	}
 }
