@@ -32,14 +32,18 @@ import com.playerdata.charge.data.ChargeParam;
 import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ChargeServiceProto;
@@ -47,6 +51,9 @@ import com.rwproto.MsgDef;
 
 public class ChargeMgr {
 
+	public static final String SEND_MONTH_CARD_SUCCESS_EMAIL_ID = "17001";
+	public static final String SEND_MONTH_CARD_FAIL_EMAIL_ID = "17002";
+	
 	private static ChargeMgr instance = new ChargeMgr();
 	
 	public static ChargeMgr getInstance(){
@@ -463,6 +470,7 @@ public class ChargeMgr {
 					if (0 <= order && order < values.length) {
 						ChargeTypeEnum type = values[order];
 						MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(friendPlayer, type, true);
+						sendMonthCardSuccessHandler(selfPlayer, friendPlayer.getUserId(), timeCardSubCfgId);
 					}
 				}
 			} catch (Exception e) {
@@ -524,7 +532,22 @@ public class ChargeMgr {
 	 * @param player
 	 */
 	public void sendMonthCardFailHandler(Player player){
+		EmailUtils.sendEmail(player.getUserId(), SEND_MONTH_CARD_FAIL_EMAIL_ID);
+	}
+	
+	/**
+	 * 赠送月卡成功
+	 * @param player
+	 */
+	public void sendMonthCardSuccessHandler(Player player, String friendId, String timeCardSubCfgId){
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(SEND_MONTH_CARD_SUCCESS_EMAIL_ID);
+		String sendTime = DateUtils.getDateTimeFormatString("yyyy年MM月dd日 hh:mm:ss");
 		
+		ActivityTimeCardTypeSubCfg cardCfg = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId);
+		ChargeTypeEnum cardEnum = cardCfg.getChargeType();
+		
+		String content = String.format(emailCfg.getContent(), player.getUserName(), sendTime, cardEnum.getName(), cardCfg.getDayAwardCount());
+		EmailUtils.sendEmail(friendId, SEND_MONTH_CARD_SUCCESS_EMAIL_ID, "", content);
 	}
 	
 //	public boolean isPlayerHaveVipMonthCard(String userId) {

@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 public enum ChargeTypeEnum {
 	None("0"),
 	Normal("1"),//普通充值
@@ -35,5 +37,13 @@ public enum ChargeTypeEnum {
 		return _mapByCfgId.get(cfgId);
 	}
 	
+	public String getName(){
+		if(StringUtils.equals(cfgId, "2")){
+			return "月卡";
+		}else if(StringUtils.equals(cfgId, "3")){
+			return "至尊月卡";
+		}
+		return "";
+	}
 }
 
