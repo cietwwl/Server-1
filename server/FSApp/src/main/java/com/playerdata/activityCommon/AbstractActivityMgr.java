@@ -1,6 +1,7 @@
 package com.playerdata.activityCommon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.log.GameLog;
@@ -14,7 +15,7 @@ import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 
 
-@SuppressWarnings({ "rawtypes" })
+@SuppressWarnings({ "rawtypes", "unchecked"})
 public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implements ActivityRedPointUpdate {
 
 	public void synData(Player player) {
@@ -71,7 +72,6 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * 
 	 * @param player
 	 */
-	@SuppressWarnings("unchecked")
 	protected void dailyRefreshNewDaySubActivity(Player player) {
 		List<T> items = getHolder().getItemList(player.getUserId());
 		if (null == items || items.isEmpty()) {
@@ -83,18 +83,66 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 			ActivityCfgIF cfg = actDao.getCfgById(item.getCfgId());
 			if(cfg.isDailyRefresh()){
 				expireActivityHandler(player, item);
-				List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-				List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
-				for (String subId : todaySubs) {
-					ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
-					subItem.setCfgId(subId);
-					subItemList.add(subItem);
-				}
-				item.setSubItemList(subItemList);
-				getHolder().updateItem(player, item);
+				dailyRefresh(player, item);
+			}else{
+				dailyCheck(player, item);
 			}
 		}
 		getHolder().synAllData(player);
+	}
+	
+	/**
+	 * 需要每日刷新的活动
+	 * @param player
+	 * @param item
+	 */
+	private void dailyRefresh(Player player, T item){
+		List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
+		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
+		ActivityType activityType = getHolder().getActivityType();
+		for (String subId : todaySubs) {
+			ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
+			subItem.setCfgId(subId);
+			subItemList.add(subItem);
+		}
+		item.setSubItemList(subItemList);
+		getHolder().updateItem(player, item);
+	}
+	
+	/**
+	 * 不需要每日刷新的活动
+	 * 每天要检查有更改的子项
+	 * @param player
+	 * @param item
+	 */
+	private void dailyCheck(Player player, T item){
+		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
+		List<ActivityTypeSubItemIF> subItemList = item.getSubItemList();
+		Iterator<ActivityTypeSubItemIF> subItor = subItemList.iterator();
+		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
+		ActivityType activityType = getHolder().getActivityType();
+		boolean changed = false;
+		while(subItor.hasNext()){
+			//移除旧的
+			ActivityTypeSubItemIF subItem = subItor.next();
+			if(!todaySubs.contains(subItem.getCfgId())){
+				subItor.remove();
+				changed = true;
+			}
+		}
+		for (String subId : todaySubs) {
+			//添加新的
+			if(!subItemList.contains(subId)){
+				ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
+				subItem.setCfgId(subId);
+				subItemList.add(subItem);
+				changed = true;
+			}
+		}
+		if(changed){
+			item.setSubItemList(subItemList);
+			getHolder().updateItem(player, item);
+		}
 	}
 	
 	protected boolean isLevelEnough(Player player, ActivityCfgIF cfg) {
