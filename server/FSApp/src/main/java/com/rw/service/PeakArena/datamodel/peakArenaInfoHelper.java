@@ -9,25 +9,25 @@ import com.rwbase.common.config.CfgCsvHelper;
 
 //	<bean class="com.rw.service.PeakArena.datamodel.peakArenaInfoHelper"  init-method="init" />
 
-public class peakArenaInfoHelper extends CfgCsvDao<peakArenaInfo> {
+public class peakArenaInfoHelper extends CfgCsvDao<PeakArenaInfo> {
 	public static peakArenaInfoHelper getInstance() {
 		return SpringContextUtil.getBean(peakArenaInfoHelper.class);
 	}
 
 	@Override
-	public Map<String, peakArenaInfo> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("PeakArena/peakArenaInfo.csv",peakArenaInfo.class);
-		Collection<peakArenaInfo> vals = cfgCacheMap.values();
-		for (peakArenaInfo cfg : vals) {
+	public Map<String, PeakArenaInfo> initJsonCfg() {
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("PeakArena/peakArenaInfo.csv",PeakArenaInfo.class);
+		Collection<PeakArenaInfo> vals = cfgCacheMap.values();
+		for (PeakArenaInfo cfg : vals) {
 			cfg.ExtraInitAfterLoad();
 			unique = cfg;
 		}
 		if (cfgCacheMap.size() != 1) throw new RuntimeException("巅峰竞技场的基本配置应该只有一行");
 		return cfgCacheMap;
 	}
-	private peakArenaInfo unique = null;
+	private PeakArenaInfo unique = null;
 
-	public peakArenaInfo getUniqueCfg() {
+	public PeakArenaInfo getUniqueCfg() {
 		return unique;
 	}
 }

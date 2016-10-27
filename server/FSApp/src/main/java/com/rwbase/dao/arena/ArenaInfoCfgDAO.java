@@ -10,7 +10,7 @@ import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.copypve.CopyType;
 
 public class ArenaInfoCfgDAO extends CfgCsvDao<ArenaInfoCfg> {
-
+	
 	private ArenaInfoCfgDAO() {
 	}
 
