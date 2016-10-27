@@ -1,6 +1,7 @@
 package com.playerdata.activityCommon;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -118,6 +119,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	private void dailyCheck(Player player, T item){
 		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
 		List<ActivityTypeSubItemIF> subItemList = item.getSubItemList();
+		HashSet<String> subIDList = new HashSet<String>();
 		Iterator<ActivityTypeSubItemIF> subItor = subItemList.iterator();
 		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
 		ActivityType activityType = getHolder().getActivityType();
@@ -128,11 +130,13 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 			if(!todaySubs.contains(subItem.getCfgId())){
 				subItor.remove();
 				changed = true;
+			}else{
+				subIDList.add(subItem.getCfgId());
 			}
 		}
 		for (String subId : todaySubs) {
 			//添加新的
-			if(!subItemList.contains(subId)){
+			if(!subIDList.contains(subId)){
 				ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
 				subItem.setCfgId(subId);
 				subItemList.add(subItem);
