@@ -95,6 +95,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public List<FriendInfo> getFriendList() {
 		return friendItemToInfoList(getTableFriend().getFriendList());
 	}
+	
+	public int getFriendCount(){
+		return getTableFriend().getFriendList().size();
+	}
 
 	/** 获取请求列表 */
 	public List<FriendInfo> getRequestList() {
@@ -221,7 +225,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方已经是你的好友";
-		} else if(PlayerMgr.getInstance().find(otherUserId).isRobot()){
+		} else if(otherUserId.length() > 20){
 			resultVo=requestAddOneRobotToFriend(otherUserId,userId);		
 		}else {
 			resultVo = requestToAddFriend(otherUserId,userId,tableFriend);			
@@ -323,7 +327,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
-			}else if(other != null && other.isRobot()){
+			}else if(other != null && otherUserId.length() > 20){
 				requestAddOneRobotToFriend(otherUserId,userId);
 			}else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);

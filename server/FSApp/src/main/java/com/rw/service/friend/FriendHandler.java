@@ -313,7 +313,8 @@ public class FriendHandler {
 		ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(1);
 		List<FriendInfo> resultListTmp = erecommandFriends(player,tableFriend,rankType,isLimitRobot);
 		for(FriendInfo info : resultListTmp){
-			if(PlayerMgr.getInstance().find(info.getUserId()).isRobot()){				
+			boolean isrobot = info.getUserId().length() >20?true:false;
+			if(isrobot){				
 				resultList.add(info);
 				break;
 			}

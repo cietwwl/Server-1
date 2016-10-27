@@ -78,6 +78,9 @@ public class ActivityDailyTypeItemHolder {
 
 	public void synAllData(Player player) {
 		List<ActivityDailyTypeItem> itemList = getItemList(player.getUserId());
+		if(itemList == null|| itemList.isEmpty()){
+			return;//一般不会如此，但如果玩家创建时没开启活动；但服务器直接改表当天触发，而有没有经过12点、5点、整点的checkopen生成数据就会为空
+		}
 		ActivityDailyTypeItem item = itemList.get(0);
 		List<ActivityDailyTypeSubItem> subList = item.getSubItemList();
 		for(ActivityDailyTypeSubItem sub : subList){

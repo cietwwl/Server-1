@@ -119,6 +119,54 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     FIGHT_CONTINUE(13, 14),
+    /**
+     * <code>GET_SCORE_REWARD_VIEW = 15;</code>
+     *
+     * <pre>
+     * 积分奖励界面
+     * </pre>
+     */
+    GET_SCORE_REWARD_VIEW(14, 15),
+    /**
+     * <code>GET_SCORE_REWARD = 16;</code>
+     *
+     * <pre>
+     * 领取积分奖励
+     * </pre>
+     */
+    GET_SCORE_REWARD(15, 16),
+    /**
+     * <code>GET_ALL_SCORE_REWARD = 17;</code>
+     *
+     * <pre>
+     * 领取所有的积分奖励
+     * </pre>
+     */
+    GET_ALL_SCORE_REWARD(16, 17),
+    /**
+     * <code>GET_RECORD = 18;</code>
+     *
+     * <pre>
+     * 获取战报
+     * </pre>
+     */
+    GET_RECORD(17, 18),
+    /**
+     * <code>GET_RECORD_DETAIL = 19;</code>
+     *
+     * <pre>
+     * 获取战报详情
+     * </pre>
+     */
+    GET_RECORD_DETAIL(18, 19),
+    /**
+     * <code>GET_HURT_DETAIL = 20;</code>
+     *
+     * <pre>
+     * 查看伤害的详细信息
+     * </pre>
+     */
+    GET_HURT_DETAIL(19, 20),
     ;
 
     /**
@@ -227,6 +275,54 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     public static final int FIGHT_CONTINUE_VALUE = 14;
+    /**
+     * <code>GET_SCORE_REWARD_VIEW = 15;</code>
+     *
+     * <pre>
+     * 积分奖励界面
+     * </pre>
+     */
+    public static final int GET_SCORE_REWARD_VIEW_VALUE = 15;
+    /**
+     * <code>GET_SCORE_REWARD = 16;</code>
+     *
+     * <pre>
+     * 领取积分奖励
+     * </pre>
+     */
+    public static final int GET_SCORE_REWARD_VALUE = 16;
+    /**
+     * <code>GET_ALL_SCORE_REWARD = 17;</code>
+     *
+     * <pre>
+     * 领取所有的积分奖励
+     * </pre>
+     */
+    public static final int GET_ALL_SCORE_REWARD_VALUE = 17;
+    /**
+     * <code>GET_RECORD = 18;</code>
+     *
+     * <pre>
+     * 获取战报
+     * </pre>
+     */
+    public static final int GET_RECORD_VALUE = 18;
+    /**
+     * <code>GET_RECORD_DETAIL = 19;</code>
+     *
+     * <pre>
+     * 获取战报详情
+     * </pre>
+     */
+    public static final int GET_RECORD_DETAIL_VALUE = 19;
+    /**
+     * <code>GET_HURT_DETAIL = 20;</code>
+     *
+     * <pre>
+     * 查看伤害的详细信息
+     * </pre>
+     */
+    public static final int GET_HURT_DETAIL_VALUE = 20;
 
 
     public final int getNumber() { return value; }
@@ -247,6 +343,12 @@ public final class PeakArenaServiceProtos {
         case 12: return SWITCH_OVER;
         case 13: return BUY_CHALLENGE_COUNT;
         case 14: return FIGHT_CONTINUE;
+        case 15: return GET_SCORE_REWARD_VIEW;
+        case 16: return GET_SCORE_REWARD;
+        case 17: return GET_ALL_SCORE_REWARD;
+        case 18: return GET_RECORD;
+        case 19: return GET_RECORD_DETAIL;
+        case 20: return GET_HURT_DETAIL;
         default: return null;
       }
     }
@@ -9826,14 +9928,26 @@ public final class PeakArenaServiceProtos {
     // required string userId = 1;
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     boolean hasUserId();
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     java.lang.String getUserId();
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     com.google.protobuf.ByteString
         getUserIdBytes();
@@ -9841,34 +9955,62 @@ public final class PeakArenaServiceProtos {
     // optional bool win = 2;
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     boolean hasWin();
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     boolean getWin();
 
     // optional int32 placeUp = 3;
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     boolean hasPlaceUp();
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     int getPlaceUp();
 
     // optional string name = 4;
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     boolean hasName();
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     java.lang.String getName();
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     com.google.protobuf.ByteString
         getNameBytes();
@@ -9876,14 +10018,26 @@ public final class PeakArenaServiceProtos {
     // optional string headImage = 5;
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     boolean hasHeadImage();
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     java.lang.String getHeadImage();
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     com.google.protobuf.ByteString
         getHeadImageBytes();
@@ -9891,32 +10045,128 @@ public final class PeakArenaServiceProtos {
     // optional int32 level = 6;
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     boolean hasLevel();
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     int getLevel();
 
     // optional int64 time = 7;
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     boolean hasTime();
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     long getTime();
 
     // optional int32 challenge = 8;
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     boolean hasChallenge();
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     int getChallenge();
+
+    // required fixed32 recordId = 9;
+    /**
+     * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
+     */
+    boolean hasRecordId();
+    /**
+     * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
+     */
+    int getRecordId();
+
+    // optional fixed32 suitId = 10;
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    boolean hasSuitId();
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    int getSuitId();
+
+    // optional fixed32 gender = 11;
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    boolean hasGender();
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    int getGender();
+
+    // optional fixed32 vipLv = 12;
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    boolean hasVipLv();
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    int getVipLv();
   }
   /**
    * Protobuf type {@code ArenaRecord}
@@ -10009,6 +10259,26 @@ public final class PeakArenaServiceProtos {
               challenge_ = input.readInt32();
               break;
             }
+            case 77: {
+              bitField0_ |= 0x00000100;
+              recordId_ = input.readFixed32();
+              break;
+            }
+            case 85: {
+              bitField0_ |= 0x00000200;
+              suitId_ = input.readFixed32();
+              break;
+            }
+            case 93: {
+              bitField0_ |= 0x00000400;
+              gender_ = input.readFixed32();
+              break;
+            }
+            case 101: {
+              bitField0_ |= 0x00000800;
+              vipLv_ = input.readFixed32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -10054,12 +10324,20 @@ public final class PeakArenaServiceProtos {
     private java.lang.Object userId_;
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     public boolean hasUserId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     public java.lang.String getUserId() {
       java.lang.Object ref = userId_;
@@ -10077,6 +10355,10 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>required string userId = 1;</code>
+     *
+     * <pre>
+     * 对手的userId
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getUserIdBytes() {
@@ -10097,12 +10379,20 @@ public final class PeakArenaServiceProtos {
     private boolean win_;
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     public boolean hasWin() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
      * <code>optional bool win = 2;</code>
+     *
+     * <pre>
+     * 是否胜利
+     * </pre>
      */
     public boolean getWin() {
       return win_;
@@ -10113,12 +10403,20 @@ public final class PeakArenaServiceProtos {
     private int placeUp_;
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     public boolean hasPlaceUp() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
      * <code>optional int32 placeUp = 3;</code>
+     *
+     * <pre>
+     * 排名升降
+     * </pre>
      */
     public int getPlaceUp() {
       return placeUp_;
@@ -10129,12 +10427,20 @@ public final class PeakArenaServiceProtos {
     private java.lang.Object name_;
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     public boolean hasName() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -10152,6 +10458,10 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>optional string name = 4;</code>
+     *
+     * <pre>
+     * 对手的名字
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -10172,12 +10482,20 @@ public final class PeakArenaServiceProtos {
     private java.lang.Object headImage_;
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     public boolean hasHeadImage() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     public java.lang.String getHeadImage() {
       java.lang.Object ref = headImage_;
@@ -10195,6 +10513,10 @@ public final class PeakArenaServiceProtos {
     }
     /**
      * <code>optional string headImage = 5;</code>
+     *
+     * <pre>
+     * 头像资源
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getHeadImageBytes() {
@@ -10215,12 +10537,20 @@ public final class PeakArenaServiceProtos {
     private int level_;
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     public boolean hasLevel() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional int32 level = 6;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
      */
     public int getLevel() {
       return level_;
@@ -10231,12 +10561,20 @@ public final class PeakArenaServiceProtos {
     private long time_;
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     public boolean hasTime() {
       return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int64 time = 7;</code>
+     *
+     * <pre>
+     * 记录产生的时间
+     * </pre>
      */
     public long getTime() {
       return time_;
@@ -10247,15 +10585,119 @@ public final class PeakArenaServiceProtos {
     private int challenge_;
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     public boolean hasChallenge() {
       return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional int32 challenge = 8;</code>
+     *
+     * <pre>
+     * 0=防守，1=挑战
+     * </pre>
      */
     public int getChallenge() {
       return challenge_;
+    }
+
+    // required fixed32 recordId = 9;
+    public static final int RECORDID_FIELD_NUMBER = 9;
+    private int recordId_;
+    /**
+     * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
+     */
+    public boolean hasRecordId() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>required fixed32 recordId = 9;</code>
+     *
+     * <pre>
+     * 记录的id
+     * </pre>
+     */
+    public int getRecordId() {
+      return recordId_;
+    }
+
+    // optional fixed32 suitId = 10;
+    public static final int SUITID_FIELD_NUMBER = 10;
+    private int suitId_;
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    public boolean hasSuitId() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional fixed32 suitId = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    public int getSuitId() {
+      return suitId_;
+    }
+
+    // optional fixed32 gender = 11;
+    public static final int GENDER_FIELD_NUMBER = 11;
+    private int gender_;
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    public boolean hasGender() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional fixed32 gender = 11;</code>
+     *
+     * <pre>
+     * 性别
+     * </pre>
+     */
+    public int getGender() {
+      return gender_;
+    }
+
+    // optional fixed32 vipLv = 12;
+    public static final int VIPLV_FIELD_NUMBER = 12;
+    private int vipLv_;
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    public boolean hasVipLv() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional fixed32 vipLv = 12;</code>
+     *
+     * <pre>
+     * VIP等级
+     * </pre>
+     */
+    public int getVipLv() {
+      return vipLv_;
     }
 
     private void initFields() {
@@ -10267,6 +10709,10 @@ public final class PeakArenaServiceProtos {
       level_ = 0;
       time_ = 0L;
       challenge_ = 0;
+      recordId_ = 0;
+      suitId_ = 0;
+      gender_ = 0;
+      vipLv_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10274,6 +10720,10 @@ public final class PeakArenaServiceProtos {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRecordId()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -10307,6 +10757,18 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(8, challenge_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeFixed32(9, recordId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeFixed32(10, suitId_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeFixed32(11, gender_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeFixed32(12, vipLv_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10348,6 +10810,22 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(8, challenge_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(9, recordId_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(10, suitId_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(11, gender_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(12, vipLv_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10481,6 +10959,14 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000040);
         challenge_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        recordId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        suitId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        gender_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        vipLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -10541,6 +11027,22 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000080;
         }
         result.challenge_ = challenge_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.recordId_ = recordId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.suitId_ = suitId_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.gender_ = gender_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.vipLv_ = vipLv_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -10587,12 +11089,28 @@ public final class PeakArenaServiceProtos {
         if (other.hasChallenge()) {
           setChallenge(other.getChallenge());
         }
+        if (other.hasRecordId()) {
+          setRecordId(other.getRecordId());
+        }
+        if (other.hasSuitId()) {
+          setSuitId(other.getSuitId());
+        }
+        if (other.hasGender()) {
+          setGender(other.getGender());
+        }
+        if (other.hasVipLv()) {
+          setVipLv(other.getVipLv());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasUserId()) {
+          
+          return false;
+        }
+        if (!hasRecordId()) {
           
           return false;
         }
@@ -10622,12 +11140,20 @@ public final class PeakArenaServiceProtos {
       private java.lang.Object userId_ = "";
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public boolean hasUserId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public java.lang.String getUserId() {
         java.lang.Object ref = userId_;
@@ -10642,6 +11168,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getUserIdBytes() {
@@ -10658,6 +11188,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public Builder setUserId(
           java.lang.String value) {
@@ -10671,6 +11205,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public Builder clearUserId() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -10680,6 +11218,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>required string userId = 1;</code>
+       *
+       * <pre>
+       * 对手的userId
+       * </pre>
        */
       public Builder setUserIdBytes(
           com.google.protobuf.ByteString value) {
@@ -10696,18 +11238,30 @@ public final class PeakArenaServiceProtos {
       private boolean win_ ;
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public boolean hasWin() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public boolean getWin() {
         return win_;
       }
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public Builder setWin(boolean value) {
         bitField0_ |= 0x00000002;
@@ -10717,6 +11271,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional bool win = 2;</code>
+       *
+       * <pre>
+       * 是否胜利
+       * </pre>
        */
       public Builder clearWin() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -10729,18 +11287,30 @@ public final class PeakArenaServiceProtos {
       private int placeUp_ ;
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public boolean hasPlaceUp() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public int getPlaceUp() {
         return placeUp_;
       }
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public Builder setPlaceUp(int value) {
         bitField0_ |= 0x00000004;
@@ -10750,6 +11320,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 placeUp = 3;</code>
+       *
+       * <pre>
+       * 排名升降
+       * </pre>
        */
       public Builder clearPlaceUp() {
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -10762,12 +11336,20 @@ public final class PeakArenaServiceProtos {
       private java.lang.Object name_ = "";
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -10782,6 +11364,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -10798,6 +11384,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public Builder setName(
           java.lang.String value) {
@@ -10811,6 +11401,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -10820,6 +11414,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string name = 4;</code>
+       *
+       * <pre>
+       * 对手的名字
+       * </pre>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -10836,12 +11434,20 @@ public final class PeakArenaServiceProtos {
       private java.lang.Object headImage_ = "";
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public boolean hasHeadImage() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public java.lang.String getHeadImage() {
         java.lang.Object ref = headImage_;
@@ -10856,6 +11462,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getHeadImageBytes() {
@@ -10872,6 +11482,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public Builder setHeadImage(
           java.lang.String value) {
@@ -10885,6 +11499,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public Builder clearHeadImage() {
         bitField0_ = (bitField0_ & ~0x00000010);
@@ -10894,6 +11512,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional string headImage = 5;</code>
+       *
+       * <pre>
+       * 头像资源
+       * </pre>
        */
       public Builder setHeadImageBytes(
           com.google.protobuf.ByteString value) {
@@ -10910,18 +11532,30 @@ public final class PeakArenaServiceProtos {
       private int level_ ;
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public boolean hasLevel() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public int getLevel() {
         return level_;
       }
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public Builder setLevel(int value) {
         bitField0_ |= 0x00000020;
@@ -10931,6 +11565,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 level = 6;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
        */
       public Builder clearLevel() {
         bitField0_ = (bitField0_ & ~0x00000020);
@@ -10943,18 +11581,30 @@ public final class PeakArenaServiceProtos {
       private long time_ ;
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public boolean hasTime() {
         return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public long getTime() {
         return time_;
       }
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public Builder setTime(long value) {
         bitField0_ |= 0x00000040;
@@ -10964,6 +11614,10 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int64 time = 7;</code>
+       *
+       * <pre>
+       * 记录产生的时间
+       * </pre>
        */
       public Builder clearTime() {
         bitField0_ = (bitField0_ & ~0x00000040);
@@ -10976,18 +11630,30 @@ public final class PeakArenaServiceProtos {
       private int challenge_ ;
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public boolean hasChallenge() {
         return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public int getChallenge() {
         return challenge_;
       }
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public Builder setChallenge(int value) {
         bitField0_ |= 0x00000080;
@@ -10997,10 +11663,210 @@ public final class PeakArenaServiceProtos {
       }
       /**
        * <code>optional int32 challenge = 8;</code>
+       *
+       * <pre>
+       * 0=防守，1=挑战
+       * </pre>
        */
       public Builder clearChallenge() {
         bitField0_ = (bitField0_ & ~0x00000080);
         challenge_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 recordId = 9;
+      private int recordId_ ;
+      /**
+       * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
+       */
+      public boolean hasRecordId() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
+       */
+      public int getRecordId() {
+        return recordId_;
+      }
+      /**
+       * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
+       */
+      public Builder setRecordId(int value) {
+        bitField0_ |= 0x00000100;
+        recordId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 recordId = 9;</code>
+       *
+       * <pre>
+       * 记录的id
+       * </pre>
+       */
+      public Builder clearRecordId() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        recordId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 suitId = 10;
+      private int suitId_ ;
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public boolean hasSuitId() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public int getSuitId() {
+        return suitId_;
+      }
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public Builder setSuitId(int value) {
+        bitField0_ |= 0x00000200;
+        suitId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 suitId = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public Builder clearSuitId() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        suitId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 gender = 11;
+      private int gender_ ;
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public boolean hasGender() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public int getGender() {
+        return gender_;
+      }
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public Builder setGender(int value) {
+        bitField0_ |= 0x00000400;
+        gender_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 gender = 11;</code>
+       *
+       * <pre>
+       * 性别
+       * </pre>
+       */
+      public Builder clearGender() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        gender_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 vipLv = 12;
+      private int vipLv_ ;
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public boolean hasVipLv() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public int getVipLv() {
+        return vipLv_;
+      }
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public Builder setVipLv(int value) {
+        bitField0_ |= 0x00000800;
+        vipLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 vipLv = 12;</code>
+       *
+       * <pre>
+       * VIP等级
+       * </pre>
+       */
+      public Builder clearVipLv() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        vipLv_ = 0;
         onChanged();
         return this;
       }
@@ -11014,6 +11880,3921 @@ public final class PeakArenaServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:ArenaRecord)
+  }
+
+  public interface PeakArenaHeroDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string heroId = 1;
+    /**
+     * <code>required string heroId = 1;</code>
+     */
+    boolean hasHeroId();
+    /**
+     * <code>required string heroId = 1;</code>
+     */
+    java.lang.String getHeroId();
+    /**
+     * <code>required string heroId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeroIdBytes();
+
+    // required string headImage = 2;
+    /**
+     * <code>required string headImage = 2;</code>
+     *
+     * <pre>
+     * 头像资源id
+     * </pre>
+     */
+    boolean hasHeadImage();
+    /**
+     * <code>required string headImage = 2;</code>
+     *
+     * <pre>
+     * 头像资源id
+     * </pre>
+     */
+    java.lang.String getHeadImage();
+    /**
+     * <code>required string headImage = 2;</code>
+     *
+     * <pre>
+     * 头像资源id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadImageBytes();
+
+    // required fixed32 level = 3;
+    /**
+     * <code>required fixed32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required fixed32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    int getLevel();
+
+    // required fixed32 starLv = 4;
+    /**
+     * <code>required fixed32 starLv = 4;</code>
+     *
+     * <pre>
+     * 星级
+     * </pre>
+     */
+    boolean hasStarLv();
+    /**
+     * <code>required fixed32 starLv = 4;</code>
+     *
+     * <pre>
+     * 星级
+     * </pre>
+     */
+    int getStarLv();
+
+    // required string qualityId = 5;
+    /**
+     * <code>required string qualityId = 5;</code>
+     *
+     * <pre>
+     * 品质id
+     * </pre>
+     */
+    boolean hasQualityId();
+    /**
+     * <code>required string qualityId = 5;</code>
+     *
+     * <pre>
+     * 品质id
+     * </pre>
+     */
+    java.lang.String getQualityId();
+    /**
+     * <code>required string qualityId = 5;</code>
+     *
+     * <pre>
+     * 品质id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getQualityIdBytes();
+
+    // optional fixed32 modelId = 6;
+    /**
+     * <code>optional fixed32 modelId = 6;</code>
+     *
+     * <pre>
+     * 英雄的modelId，主角不用发
+     * </pre>
+     */
+    boolean hasModelId();
+    /**
+     * <code>optional fixed32 modelId = 6;</code>
+     *
+     * <pre>
+     * 英雄的modelId，主角不用发
+     * </pre>
+     */
+    int getModelId();
+  }
+  /**
+   * Protobuf type {@code PeakArenaHeroData}
+   */
+  public static final class PeakArenaHeroData extends
+      com.google.protobuf.GeneratedMessage
+      implements PeakArenaHeroDataOrBuilder {
+    // Use PeakArenaHeroData.newBuilder() to construct.
+    private PeakArenaHeroData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PeakArenaHeroData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PeakArenaHeroData defaultInstance;
+    public static PeakArenaHeroData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PeakArenaHeroData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PeakArenaHeroData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              heroId_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              headImage_ = input.readBytes();
+              break;
+            }
+            case 29: {
+              bitField0_ |= 0x00000004;
+              level_ = input.readFixed32();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              starLv_ = input.readFixed32();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              qualityId_ = input.readBytes();
+              break;
+            }
+            case 53: {
+              bitField0_ |= 0x00000020;
+              modelId_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaHeroData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaHeroData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.class, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PeakArenaHeroData> PARSER =
+        new com.google.protobuf.AbstractParser<PeakArenaHeroData>() {
+      public PeakArenaHeroData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PeakArenaHeroData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PeakArenaHeroData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string heroId = 1;
+    public static final int HEROID_FIELD_NUMBER = 1;
+    private java.lang.Object heroId_;
+    /**
+     * <code>required string heroId = 1;</code>
+     */
+    public boolean hasHeroId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string heroId = 1;</code>
+     */
+    public java.lang.String getHeroId() {
+      java.lang.Object ref = heroId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          heroId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string heroId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeroIdBytes() {
+      java.lang.Object ref = heroId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        heroId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string headImage = 2;
+    public static final int HEADIMAGE_FIELD_NUMBER = 2;
+    private java.lang.Object headImage_;
+    /**
+     * <code>required string headImage = 2;</code>
+     *
+     * <pre>
+     * 头像资源id
+     * </pre>
+     */
+    public boolean hasHeadImage() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string headImage = 2;</code>
+     *
+     * <pre>
+     * 头像资源id
+     * </pre>
+     */
+    public java.lang.String getHeadImage() {
+      java.lang.Object ref = headImage_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headImage_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string headImage = 2;</code>
+     *
+     * <pre>
+     * 头像资源id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadImageBytes() {
+      java.lang.Object ref = headImage_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headImage_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required fixed32 level = 3;
+    public static final int LEVEL_FIELD_NUMBER = 3;
+    private int level_;
+    /**
+     * <code>required fixed32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required fixed32 level = 3;</code>
+     *
+     * <pre>
+     * 等级
+     * </pre>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    // required fixed32 starLv = 4;
+    public static final int STARLV_FIELD_NUMBER = 4;
+    private int starLv_;
+    /**
+     * <code>required fixed32 starLv = 4;</code>
+     *
+     * <pre>
+     * 星级
+     * </pre>
+     */
+    public boolean hasStarLv() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required fixed32 starLv = 4;</code>
+     *
+     * <pre>
+     * 星级
+     * </pre>
+     */
+    public int getStarLv() {
+      return starLv_;
+    }
+
+    // required string qualityId = 5;
+    public static final int QUALITYID_FIELD_NUMBER = 5;
+    private java.lang.Object qualityId_;
+    /**
+     * <code>required string qualityId = 5;</code>
+     *
+     * <pre>
+     * 品质id
+     * </pre>
+     */
+    public boolean hasQualityId() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required string qualityId = 5;</code>
+     *
+     * <pre>
+     * 品质id
+     * </pre>
+     */
+    public java.lang.String getQualityId() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          qualityId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string qualityId = 5;</code>
+     *
+     * <pre>
+     * 品质id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getQualityIdBytes() {
+      java.lang.Object ref = qualityId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        qualityId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional fixed32 modelId = 6;
+    public static final int MODELID_FIELD_NUMBER = 6;
+    private int modelId_;
+    /**
+     * <code>optional fixed32 modelId = 6;</code>
+     *
+     * <pre>
+     * 英雄的modelId，主角不用发
+     * </pre>
+     */
+    public boolean hasModelId() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional fixed32 modelId = 6;</code>
+     *
+     * <pre>
+     * 英雄的modelId，主角不用发
+     * </pre>
+     */
+    public int getModelId() {
+      return modelId_;
+    }
+
+    private void initFields() {
+      heroId_ = "";
+      headImage_ = "";
+      level_ = 0;
+      starLv_ = 0;
+      qualityId_ = "";
+      modelId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasHeroId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHeadImage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStarLv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasQualityId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getHeroIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getHeadImageBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeFixed32(3, level_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFixed32(4, starLv_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getQualityIdBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeFixed32(6, modelId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getHeroIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getHeadImageBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(3, level_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(4, starLv_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getQualityIdBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(6, modelId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PeakArenaHeroData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaHeroData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaHeroData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.class, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder.class);
+      }
+
+      // Construct using com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        heroId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        headImage_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        starLv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        qualityId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        modelId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaHeroData_descriptor;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData getDefaultInstanceForType() {
+        return com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.getDefaultInstance();
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData build() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData buildPartial() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData result = new com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.heroId_ = heroId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.headImage_ = headImage_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.level_ = level_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.starLv_ = starLv_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.qualityId_ = qualityId_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.modelId_ = modelId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData) {
+          return mergeFrom((com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData other) {
+        if (other == com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.getDefaultInstance()) return this;
+        if (other.hasHeroId()) {
+          bitField0_ |= 0x00000001;
+          heroId_ = other.heroId_;
+          onChanged();
+        }
+        if (other.hasHeadImage()) {
+          bitField0_ |= 0x00000002;
+          headImage_ = other.headImage_;
+          onChanged();
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        if (other.hasStarLv()) {
+          setStarLv(other.getStarLv());
+        }
+        if (other.hasQualityId()) {
+          bitField0_ |= 0x00000010;
+          qualityId_ = other.qualityId_;
+          onChanged();
+        }
+        if (other.hasModelId()) {
+          setModelId(other.getModelId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasHeroId()) {
+          
+          return false;
+        }
+        if (!hasHeadImage()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        if (!hasStarLv()) {
+          
+          return false;
+        }
+        if (!hasQualityId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string heroId = 1;
+      private java.lang.Object heroId_ = "";
+      /**
+       * <code>required string heroId = 1;</code>
+       */
+      public boolean hasHeroId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       */
+      public java.lang.String getHeroId() {
+        java.lang.Object ref = heroId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          heroId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHeroIdBytes() {
+        java.lang.Object ref = heroId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          heroId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       */
+      public Builder setHeroId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        heroId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       */
+      public Builder clearHeroId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        heroId_ = getDefaultInstance().getHeroId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       */
+      public Builder setHeroIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        heroId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string headImage = 2;
+      private java.lang.Object headImage_ = "";
+      /**
+       * <code>required string headImage = 2;</code>
+       *
+       * <pre>
+       * 头像资源id
+       * </pre>
+       */
+      public boolean hasHeadImage() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string headImage = 2;</code>
+       *
+       * <pre>
+       * 头像资源id
+       * </pre>
+       */
+      public java.lang.String getHeadImage() {
+        java.lang.Object ref = headImage_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headImage_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string headImage = 2;</code>
+       *
+       * <pre>
+       * 头像资源id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadImageBytes() {
+        java.lang.Object ref = headImage_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headImage_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string headImage = 2;</code>
+       *
+       * <pre>
+       * 头像资源id
+       * </pre>
+       */
+      public Builder setHeadImage(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        headImage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headImage = 2;</code>
+       *
+       * <pre>
+       * 头像资源id
+       * </pre>
+       */
+      public Builder clearHeadImage() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        headImage_ = getDefaultInstance().getHeadImage();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headImage = 2;</code>
+       *
+       * <pre>
+       * 头像资源id
+       * </pre>
+       */
+      public Builder setHeadImageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        headImage_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 level = 3;
+      private int level_ ;
+      /**
+       * <code>required fixed32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required fixed32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required fixed32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000004;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 level = 3;</code>
+       *
+       * <pre>
+       * 等级
+       * </pre>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 starLv = 4;
+      private int starLv_ ;
+      /**
+       * <code>required fixed32 starLv = 4;</code>
+       *
+       * <pre>
+       * 星级
+       * </pre>
+       */
+      public boolean hasStarLv() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required fixed32 starLv = 4;</code>
+       *
+       * <pre>
+       * 星级
+       * </pre>
+       */
+      public int getStarLv() {
+        return starLv_;
+      }
+      /**
+       * <code>required fixed32 starLv = 4;</code>
+       *
+       * <pre>
+       * 星级
+       * </pre>
+       */
+      public Builder setStarLv(int value) {
+        bitField0_ |= 0x00000008;
+        starLv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 starLv = 4;</code>
+       *
+       * <pre>
+       * 星级
+       * </pre>
+       */
+      public Builder clearStarLv() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        starLv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string qualityId = 5;
+      private java.lang.Object qualityId_ = "";
+      /**
+       * <code>required string qualityId = 5;</code>
+       *
+       * <pre>
+       * 品质id
+       * </pre>
+       */
+      public boolean hasQualityId() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required string qualityId = 5;</code>
+       *
+       * <pre>
+       * 品质id
+       * </pre>
+       */
+      public java.lang.String getQualityId() {
+        java.lang.Object ref = qualityId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          qualityId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string qualityId = 5;</code>
+       *
+       * <pre>
+       * 品质id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getQualityIdBytes() {
+        java.lang.Object ref = qualityId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          qualityId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string qualityId = 5;</code>
+       *
+       * <pre>
+       * 品质id
+       * </pre>
+       */
+      public Builder setQualityId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string qualityId = 5;</code>
+       *
+       * <pre>
+       * 品质id
+       * </pre>
+       */
+      public Builder clearQualityId() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        qualityId_ = getDefaultInstance().getQualityId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string qualityId = 5;</code>
+       *
+       * <pre>
+       * 品质id
+       * </pre>
+       */
+      public Builder setQualityIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        qualityId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 modelId = 6;
+      private int modelId_ ;
+      /**
+       * <code>optional fixed32 modelId = 6;</code>
+       *
+       * <pre>
+       * 英雄的modelId，主角不用发
+       * </pre>
+       */
+      public boolean hasModelId() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional fixed32 modelId = 6;</code>
+       *
+       * <pre>
+       * 英雄的modelId，主角不用发
+       * </pre>
+       */
+      public int getModelId() {
+        return modelId_;
+      }
+      /**
+       * <code>optional fixed32 modelId = 6;</code>
+       *
+       * <pre>
+       * 英雄的modelId，主角不用发
+       * </pre>
+       */
+      public Builder setModelId(int value) {
+        bitField0_ |= 0x00000020;
+        modelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 modelId = 6;</code>
+       *
+       * <pre>
+       * 英雄的modelId，主角不用发
+       * </pre>
+       */
+      public Builder clearModelId() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        modelId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PeakArenaHeroData)
+    }
+
+    static {
+      defaultInstance = new PeakArenaHeroData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PeakArenaHeroData)
+  }
+
+  public interface PeakArenaMagicDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required fixed32 modelId = 1;
+    /**
+     * <code>required fixed32 modelId = 1;</code>
+     *
+     * <pre>
+     * 法宝的modelId
+     * </pre>
+     */
+    boolean hasModelId();
+    /**
+     * <code>required fixed32 modelId = 1;</code>
+     *
+     * <pre>
+     * 法宝的modelId
+     * </pre>
+     */
+    int getModelId();
+
+    // required fixed32 level = 2;
+    /**
+     * <code>required fixed32 level = 2;</code>
+     */
+    boolean hasLevel();
+    /**
+     * <code>required fixed32 level = 2;</code>
+     */
+    int getLevel();
+  }
+  /**
+   * Protobuf type {@code PeakArenaMagicData}
+   */
+  public static final class PeakArenaMagicData extends
+      com.google.protobuf.GeneratedMessage
+      implements PeakArenaMagicDataOrBuilder {
+    // Use PeakArenaMagicData.newBuilder() to construct.
+    private PeakArenaMagicData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PeakArenaMagicData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PeakArenaMagicData defaultInstance;
+    public static PeakArenaMagicData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PeakArenaMagicData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PeakArenaMagicData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 13: {
+              bitField0_ |= 0x00000001;
+              modelId_ = input.readFixed32();
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000002;
+              level_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaMagicData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaMagicData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.class, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PeakArenaMagicData> PARSER =
+        new com.google.protobuf.AbstractParser<PeakArenaMagicData>() {
+      public PeakArenaMagicData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PeakArenaMagicData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PeakArenaMagicData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required fixed32 modelId = 1;
+    public static final int MODELID_FIELD_NUMBER = 1;
+    private int modelId_;
+    /**
+     * <code>required fixed32 modelId = 1;</code>
+     *
+     * <pre>
+     * 法宝的modelId
+     * </pre>
+     */
+    public boolean hasModelId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required fixed32 modelId = 1;</code>
+     *
+     * <pre>
+     * 法宝的modelId
+     * </pre>
+     */
+    public int getModelId() {
+      return modelId_;
+    }
+
+    // required fixed32 level = 2;
+    public static final int LEVEL_FIELD_NUMBER = 2;
+    private int level_;
+    /**
+     * <code>required fixed32 level = 2;</code>
+     */
+    public boolean hasLevel() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required fixed32 level = 2;</code>
+     */
+    public int getLevel() {
+      return level_;
+    }
+
+    private void initFields() {
+      modelId_ = 0;
+      level_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasModelId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLevel()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFixed32(1, modelId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFixed32(2, level_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(1, modelId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(2, level_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PeakArenaMagicData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaMagicData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaMagicData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.class, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder.class);
+      }
+
+      // Construct using com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        modelId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        level_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaMagicData_descriptor;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData getDefaultInstanceForType() {
+        return com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance();
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData build() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData buildPartial() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData result = new com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.modelId_ = modelId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.level_ = level_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData) {
+          return mergeFrom((com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData other) {
+        if (other == com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance()) return this;
+        if (other.hasModelId()) {
+          setModelId(other.getModelId());
+        }
+        if (other.hasLevel()) {
+          setLevel(other.getLevel());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasModelId()) {
+          
+          return false;
+        }
+        if (!hasLevel()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required fixed32 modelId = 1;
+      private int modelId_ ;
+      /**
+       * <code>required fixed32 modelId = 1;</code>
+       *
+       * <pre>
+       * 法宝的modelId
+       * </pre>
+       */
+      public boolean hasModelId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required fixed32 modelId = 1;</code>
+       *
+       * <pre>
+       * 法宝的modelId
+       * </pre>
+       */
+      public int getModelId() {
+        return modelId_;
+      }
+      /**
+       * <code>required fixed32 modelId = 1;</code>
+       *
+       * <pre>
+       * 法宝的modelId
+       * </pre>
+       */
+      public Builder setModelId(int value) {
+        bitField0_ |= 0x00000001;
+        modelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 modelId = 1;</code>
+       *
+       * <pre>
+       * 法宝的modelId
+       * </pre>
+       */
+      public Builder clearModelId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        modelId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required fixed32 level = 2;
+      private int level_ ;
+      /**
+       * <code>required fixed32 level = 2;</code>
+       */
+      public boolean hasLevel() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required fixed32 level = 2;</code>
+       */
+      public int getLevel() {
+        return level_;
+      }
+      /**
+       * <code>required fixed32 level = 2;</code>
+       */
+      public Builder setLevel(int value) {
+        bitField0_ |= 0x00000002;
+        level_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 level = 2;</code>
+       */
+      public Builder clearLevel() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        level_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PeakArenaMagicData)
+    }
+
+    static {
+      defaultInstance = new PeakArenaMagicData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PeakArenaMagicData)
+  }
+
+  public interface PeakArenaUserDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string name = 1;
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    // repeated .PeakArenaHeroData heroData = 2;
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData> 
+        getHeroDataList();
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData getHeroData(int index);
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    int getHeroDataCount();
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder> 
+        getHeroDataOrBuilderList();
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder getHeroDataOrBuilder(
+        int index);
+
+    // required .PeakArenaMagicData magicData = 3;
+    /**
+     * <code>required .PeakArenaMagicData magicData = 3;</code>
+     *
+     * <pre>
+     * 法宝数据
+     * </pre>
+     */
+    boolean hasMagicData();
+    /**
+     * <code>required .PeakArenaMagicData magicData = 3;</code>
+     *
+     * <pre>
+     * 法宝数据
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData getMagicData();
+    /**
+     * <code>required .PeakArenaMagicData magicData = 3;</code>
+     *
+     * <pre>
+     * 法宝数据
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder getMagicDataOrBuilder();
+  }
+  /**
+   * Protobuf type {@code PeakArenaUserData}
+   */
+  public static final class PeakArenaUserData extends
+      com.google.protobuf.GeneratedMessage
+      implements PeakArenaUserDataOrBuilder {
+    // Use PeakArenaUserData.newBuilder() to construct.
+    private PeakArenaUserData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PeakArenaUserData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PeakArenaUserData defaultInstance;
+    public static PeakArenaUserData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PeakArenaUserData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PeakArenaUserData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              name_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                heroData_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              heroData_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = magicData_.toBuilder();
+              }
+              magicData_ = input.readMessage(com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(magicData_);
+                magicData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          heroData_ = java.util.Collections.unmodifiableList(heroData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaUserData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaUserData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.class, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PeakArenaUserData> PARSER =
+        new com.google.protobuf.AbstractParser<PeakArenaUserData>() {
+      public PeakArenaUserData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PeakArenaUserData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PeakArenaUserData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string name = 1;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 1;</code>
+     *
+     * <pre>
+     * 名字
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .PeakArenaHeroData heroData = 2;
+    public static final int HERODATA_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData> heroData_;
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData> getHeroDataList() {
+      return heroData_;
+    }
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder> 
+        getHeroDataOrBuilderList() {
+      return heroData_;
+    }
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    public int getHeroDataCount() {
+      return heroData_.size();
+    }
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData getHeroData(int index) {
+      return heroData_.get(index);
+    }
+    /**
+     * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+     *
+     * <pre>
+     * 英雄数据，包括主角
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder getHeroDataOrBuilder(
+        int index) {
+      return heroData_.get(index);
+    }
+
+    // required .PeakArenaMagicData magicData = 3;
+    public static final int MAGICDATA_FIELD_NUMBER = 3;
+    private com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData magicData_;
+    /**
+     * <code>required .PeakArenaMagicData magicData = 3;</code>
+     *
+     * <pre>
+     * 法宝数据
+     * </pre>
+     */
+    public boolean hasMagicData() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .PeakArenaMagicData magicData = 3;</code>
+     *
+     * <pre>
+     * 法宝数据
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData getMagicData() {
+      return magicData_;
+    }
+    /**
+     * <code>required .PeakArenaMagicData magicData = 3;</code>
+     *
+     * <pre>
+     * 法宝数据
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder getMagicDataOrBuilder() {
+      return magicData_;
+    }
+
+    private void initFields() {
+      name_ = "";
+      heroData_ = java.util.Collections.emptyList();
+      magicData_ = com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMagicData()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getHeroDataCount(); i++) {
+        if (!getHeroData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (!getMagicData().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getNameBytes());
+      }
+      for (int i = 0; i < heroData_.size(); i++) {
+        output.writeMessage(2, heroData_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(3, magicData_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getNameBytes());
+      }
+      for (int i = 0; i < heroData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, heroData_.get(i));
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, magicData_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PeakArenaUserData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaUserData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaUserData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.class, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder.class);
+      }
+
+      // Construct using com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getHeroDataFieldBuilder();
+          getMagicDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (heroDataBuilder_ == null) {
+          heroData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          heroDataBuilder_.clear();
+        }
+        if (magicDataBuilder_ == null) {
+          magicData_ = com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance();
+        } else {
+          magicDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaUserData_descriptor;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getDefaultInstanceForType() {
+        return com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData build() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaUserData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData buildPartial() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaUserData result = new com.rwproto.PeakArenaServiceProtos.PeakArenaUserData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.name_ = name_;
+        if (heroDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            heroData_ = java.util.Collections.unmodifiableList(heroData_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.heroData_ = heroData_;
+        } else {
+          result.heroData_ = heroDataBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (magicDataBuilder_ == null) {
+          result.magicData_ = magicData_;
+        } else {
+          result.magicData_ = magicDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PeakArenaServiceProtos.PeakArenaUserData) {
+          return mergeFrom((com.rwproto.PeakArenaServiceProtos.PeakArenaUserData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData other) {
+        if (other == com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance()) return this;
+        if (other.hasName()) {
+          bitField0_ |= 0x00000001;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (heroDataBuilder_ == null) {
+          if (!other.heroData_.isEmpty()) {
+            if (heroData_.isEmpty()) {
+              heroData_ = other.heroData_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureHeroDataIsMutable();
+              heroData_.addAll(other.heroData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.heroData_.isEmpty()) {
+            if (heroDataBuilder_.isEmpty()) {
+              heroDataBuilder_.dispose();
+              heroDataBuilder_ = null;
+              heroData_ = other.heroData_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              heroDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHeroDataFieldBuilder() : null;
+            } else {
+              heroDataBuilder_.addAllMessages(other.heroData_);
+            }
+          }
+        }
+        if (other.hasMagicData()) {
+          mergeMagicData(other.getMagicData());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasMagicData()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getHeroDataCount(); i++) {
+          if (!getHeroData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (!getMagicData().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaUserData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PeakArenaServiceProtos.PeakArenaUserData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string name = 1;
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       *
+       * <pre>
+       * 名字
+       * </pre>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .PeakArenaHeroData heroData = 2;
+      private java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData> heroData_ =
+        java.util.Collections.emptyList();
+      private void ensureHeroDataIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroData_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData>(heroData_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder> heroDataBuilder_;
+
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData> getHeroDataList() {
+        if (heroDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(heroData_);
+        } else {
+          return heroDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public int getHeroDataCount() {
+        if (heroDataBuilder_ == null) {
+          return heroData_.size();
+        } else {
+          return heroDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData getHeroData(int index) {
+        if (heroDataBuilder_ == null) {
+          return heroData_.get(index);
+        } else {
+          return heroDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder setHeroData(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData value) {
+        if (heroDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroDataIsMutable();
+          heroData_.set(index, value);
+          onChanged();
+        } else {
+          heroDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder setHeroData(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder builderForValue) {
+        if (heroDataBuilder_ == null) {
+          ensureHeroDataIsMutable();
+          heroData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder addHeroData(com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData value) {
+        if (heroDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroDataIsMutable();
+          heroData_.add(value);
+          onChanged();
+        } else {
+          heroDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder addHeroData(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData value) {
+        if (heroDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHeroDataIsMutable();
+          heroData_.add(index, value);
+          onChanged();
+        } else {
+          heroDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder addHeroData(
+          com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder builderForValue) {
+        if (heroDataBuilder_ == null) {
+          ensureHeroDataIsMutable();
+          heroData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          heroDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder addHeroData(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder builderForValue) {
+        if (heroDataBuilder_ == null) {
+          ensureHeroDataIsMutable();
+          heroData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          heroDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder addAllHeroData(
+          java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData> values) {
+        if (heroDataBuilder_ == null) {
+          ensureHeroDataIsMutable();
+          super.addAll(values, heroData_);
+          onChanged();
+        } else {
+          heroDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder clearHeroData() {
+        if (heroDataBuilder_ == null) {
+          heroData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          heroDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public Builder removeHeroData(int index) {
+        if (heroDataBuilder_ == null) {
+          ensureHeroDataIsMutable();
+          heroData_.remove(index);
+          onChanged();
+        } else {
+          heroDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder getHeroDataBuilder(
+          int index) {
+        return getHeroDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder getHeroDataOrBuilder(
+          int index) {
+        if (heroDataBuilder_ == null) {
+          return heroData_.get(index);  } else {
+          return heroDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder> 
+           getHeroDataOrBuilderList() {
+        if (heroDataBuilder_ != null) {
+          return heroDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(heroData_);
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder addHeroDataBuilder() {
+        return getHeroDataFieldBuilder().addBuilder(
+            com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder addHeroDataBuilder(
+          int index) {
+        return getHeroDataFieldBuilder().addBuilder(
+            index, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PeakArenaHeroData heroData = 2;</code>
+       *
+       * <pre>
+       * 英雄数据，包括主角
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder> 
+           getHeroDataBuilderList() {
+        return getHeroDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder> 
+          getHeroDataFieldBuilder() {
+        if (heroDataBuilder_ == null) {
+          heroDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaHeroDataOrBuilder>(
+                  heroData_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          heroData_ = null;
+        }
+        return heroDataBuilder_;
+      }
+
+      // required .PeakArenaMagicData magicData = 3;
+      private com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData magicData_ = com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder> magicDataBuilder_;
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public boolean hasMagicData() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData getMagicData() {
+        if (magicDataBuilder_ == null) {
+          return magicData_;
+        } else {
+          return magicDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public Builder setMagicData(com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData value) {
+        if (magicDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          magicData_ = value;
+          onChanged();
+        } else {
+          magicDataBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public Builder setMagicData(
+          com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder builderForValue) {
+        if (magicDataBuilder_ == null) {
+          magicData_ = builderForValue.build();
+          onChanged();
+        } else {
+          magicDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public Builder mergeMagicData(com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData value) {
+        if (magicDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              magicData_ != com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance()) {
+            magicData_ =
+              com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.newBuilder(magicData_).mergeFrom(value).buildPartial();
+          } else {
+            magicData_ = value;
+          }
+          onChanged();
+        } else {
+          magicDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public Builder clearMagicData() {
+        if (magicDataBuilder_ == null) {
+          magicData_ = com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.getDefaultInstance();
+          onChanged();
+        } else {
+          magicDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder getMagicDataBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getMagicDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder getMagicDataOrBuilder() {
+        if (magicDataBuilder_ != null) {
+          return magicDataBuilder_.getMessageOrBuilder();
+        } else {
+          return magicData_;
+        }
+      }
+      /**
+       * <code>required .PeakArenaMagicData magicData = 3;</code>
+       *
+       * <pre>
+       * 法宝数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder> 
+          getMagicDataFieldBuilder() {
+        if (magicDataBuilder_ == null) {
+          magicDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaMagicDataOrBuilder>(
+                  magicData_,
+                  getParentForChildren(),
+                  isClean());
+          magicData_ = null;
+        }
+        return magicDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PeakArenaUserData)
+    }
+
+    static {
+      defaultInstance = new PeakArenaUserData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PeakArenaUserData)
+  }
+
+  public interface PeakArenaDetailRecordOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .PeakArenaUserData challenger = 1;
+    /**
+     * <code>required .PeakArenaUserData challenger = 1;</code>
+     *
+     * <pre>
+     * 挑战者
+     * </pre>
+     */
+    boolean hasChallenger();
+    /**
+     * <code>required .PeakArenaUserData challenger = 1;</code>
+     *
+     * <pre>
+     * 挑战者
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getChallenger();
+    /**
+     * <code>required .PeakArenaUserData challenger = 1;</code>
+     *
+     * <pre>
+     * 挑战者
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder getChallengerOrBuilder();
+
+    // required .PeakArenaUserData defender = 2;
+    /**
+     * <code>required .PeakArenaUserData defender = 2;</code>
+     *
+     * <pre>
+     * 防守者
+     * </pre>
+     */
+    boolean hasDefender();
+    /**
+     * <code>required .PeakArenaUserData defender = 2;</code>
+     *
+     * <pre>
+     * 防守者
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getDefender();
+    /**
+     * <code>required .PeakArenaUserData defender = 2;</code>
+     *
+     * <pre>
+     * 防守者
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder getDefenderOrBuilder();
+  }
+  /**
+   * Protobuf type {@code PeakArenaDetailRecord}
+   */
+  public static final class PeakArenaDetailRecord extends
+      com.google.protobuf.GeneratedMessage
+      implements PeakArenaDetailRecordOrBuilder {
+    // Use PeakArenaDetailRecord.newBuilder() to construct.
+    private PeakArenaDetailRecord(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PeakArenaDetailRecord(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PeakArenaDetailRecord defaultInstance;
+    public static PeakArenaDetailRecord getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PeakArenaDetailRecord getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PeakArenaDetailRecord(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = challenger_.toBuilder();
+              }
+              challenger_ = input.readMessage(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(challenger_);
+                challenger_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 18: {
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = defender_.toBuilder();
+              }
+              defender_ = input.readMessage(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(defender_);
+                defender_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000002;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaDetailRecord_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaDetailRecord_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.class, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PeakArenaDetailRecord> PARSER =
+        new com.google.protobuf.AbstractParser<PeakArenaDetailRecord>() {
+      public PeakArenaDetailRecord parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PeakArenaDetailRecord(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PeakArenaDetailRecord> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .PeakArenaUserData challenger = 1;
+    public static final int CHALLENGER_FIELD_NUMBER = 1;
+    private com.rwproto.PeakArenaServiceProtos.PeakArenaUserData challenger_;
+    /**
+     * <code>required .PeakArenaUserData challenger = 1;</code>
+     *
+     * <pre>
+     * 挑战者
+     * </pre>
+     */
+    public boolean hasChallenger() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .PeakArenaUserData challenger = 1;</code>
+     *
+     * <pre>
+     * 挑战者
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getChallenger() {
+      return challenger_;
+    }
+    /**
+     * <code>required .PeakArenaUserData challenger = 1;</code>
+     *
+     * <pre>
+     * 挑战者
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder getChallengerOrBuilder() {
+      return challenger_;
+    }
+
+    // required .PeakArenaUserData defender = 2;
+    public static final int DEFENDER_FIELD_NUMBER = 2;
+    private com.rwproto.PeakArenaServiceProtos.PeakArenaUserData defender_;
+    /**
+     * <code>required .PeakArenaUserData defender = 2;</code>
+     *
+     * <pre>
+     * 防守者
+     * </pre>
+     */
+    public boolean hasDefender() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required .PeakArenaUserData defender = 2;</code>
+     *
+     * <pre>
+     * 防守者
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getDefender() {
+      return defender_;
+    }
+    /**
+     * <code>required .PeakArenaUserData defender = 2;</code>
+     *
+     * <pre>
+     * 防守者
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder getDefenderOrBuilder() {
+      return defender_;
+    }
+
+    private void initFields() {
+      challenger_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+      defender_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasChallenger()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDefender()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getChallenger().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getDefender().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, challenger_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, defender_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, challenger_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, defender_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code PeakArenaDetailRecord}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaDetailRecord_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaDetailRecord_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.class, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder.class);
+      }
+
+      // Construct using com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getChallengerFieldBuilder();
+          getDefenderFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (challengerBuilder_ == null) {
+          challenger_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+        } else {
+          challengerBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (defenderBuilder_ == null) {
+          defender_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+        } else {
+          defenderBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_PeakArenaDetailRecord_descriptor;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord getDefaultInstanceForType() {
+        return com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.getDefaultInstance();
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord build() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord buildPartial() {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord result = new com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (challengerBuilder_ == null) {
+          result.challenger_ = challenger_;
+        } else {
+          result.challenger_ = challengerBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (defenderBuilder_ == null) {
+          result.defender_ = defender_;
+        } else {
+          result.defender_ = defenderBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord) {
+          return mergeFrom((com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord other) {
+        if (other == com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.getDefaultInstance()) return this;
+        if (other.hasChallenger()) {
+          mergeChallenger(other.getChallenger());
+        }
+        if (other.hasDefender()) {
+          mergeDefender(other.getDefender());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasChallenger()) {
+          
+          return false;
+        }
+        if (!hasDefender()) {
+          
+          return false;
+        }
+        if (!getChallenger().isInitialized()) {
+          
+          return false;
+        }
+        if (!getDefender().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .PeakArenaUserData challenger = 1;
+      private com.rwproto.PeakArenaServiceProtos.PeakArenaUserData challenger_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaUserData, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder> challengerBuilder_;
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public boolean hasChallenger() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getChallenger() {
+        if (challengerBuilder_ == null) {
+          return challenger_;
+        } else {
+          return challengerBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public Builder setChallenger(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData value) {
+        if (challengerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          challenger_ = value;
+          onChanged();
+        } else {
+          challengerBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public Builder setChallenger(
+          com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder builderForValue) {
+        if (challengerBuilder_ == null) {
+          challenger_ = builderForValue.build();
+          onChanged();
+        } else {
+          challengerBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public Builder mergeChallenger(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData value) {
+        if (challengerBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              challenger_ != com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance()) {
+            challenger_ =
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.newBuilder(challenger_).mergeFrom(value).buildPartial();
+          } else {
+            challenger_ = value;
+          }
+          onChanged();
+        } else {
+          challengerBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public Builder clearChallenger() {
+        if (challengerBuilder_ == null) {
+          challenger_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+          onChanged();
+        } else {
+          challengerBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder getChallengerBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getChallengerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder getChallengerOrBuilder() {
+        if (challengerBuilder_ != null) {
+          return challengerBuilder_.getMessageOrBuilder();
+        } else {
+          return challenger_;
+        }
+      }
+      /**
+       * <code>required .PeakArenaUserData challenger = 1;</code>
+       *
+       * <pre>
+       * 挑战者
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaUserData, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder> 
+          getChallengerFieldBuilder() {
+        if (challengerBuilder_ == null) {
+          challengerBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder>(
+                  challenger_,
+                  getParentForChildren(),
+                  isClean());
+          challenger_ = null;
+        }
+        return challengerBuilder_;
+      }
+
+      // required .PeakArenaUserData defender = 2;
+      private com.rwproto.PeakArenaServiceProtos.PeakArenaUserData defender_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaUserData, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder> defenderBuilder_;
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public boolean hasDefender() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData getDefender() {
+        if (defenderBuilder_ == null) {
+          return defender_;
+        } else {
+          return defenderBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public Builder setDefender(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData value) {
+        if (defenderBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          defender_ = value;
+          onChanged();
+        } else {
+          defenderBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public Builder setDefender(
+          com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder builderForValue) {
+        if (defenderBuilder_ == null) {
+          defender_ = builderForValue.build();
+          onChanged();
+        } else {
+          defenderBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public Builder mergeDefender(com.rwproto.PeakArenaServiceProtos.PeakArenaUserData value) {
+        if (defenderBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              defender_ != com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance()) {
+            defender_ =
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.newBuilder(defender_).mergeFrom(value).buildPartial();
+          } else {
+            defender_ = value;
+          }
+          onChanged();
+        } else {
+          defenderBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public Builder clearDefender() {
+        if (defenderBuilder_ == null) {
+          defender_ = com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.getDefaultInstance();
+          onChanged();
+        } else {
+          defenderBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder getDefenderBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getDefenderFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder getDefenderOrBuilder() {
+        if (defenderBuilder_ != null) {
+          return defenderBuilder_.getMessageOrBuilder();
+        } else {
+          return defender_;
+        }
+      }
+      /**
+       * <code>required .PeakArenaUserData defender = 2;</code>
+       *
+       * <pre>
+       * 防守者
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaUserData, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder> 
+          getDefenderFieldBuilder() {
+        if (defenderBuilder_ == null) {
+          defenderBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.PeakArenaUserData, com.rwproto.PeakArenaServiceProtos.PeakArenaUserData.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaUserDataOrBuilder>(
+                  defender_,
+                  getParentForChildren(),
+                  isClean());
+          defender_ = null;
+        }
+        return defenderBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:PeakArenaDetailRecord)
+    }
+
+    static {
+      defaultInstance = new PeakArenaDetailRecord(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:PeakArenaDetailRecord)
   }
 
   public interface MsgArenaRequestOrBuilder
@@ -11118,6 +15899,105 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getReorder(int index);
+
+    // repeated .HurtRecord hurtRecord = 7;
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    java.util.List<com.rwproto.PeakArenaServiceProtos.HurtRecord> 
+        getHurtRecordList();
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtRecord getHurtRecord(int index);
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    int getHurtRecordCount();
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> 
+        getHurtRecordOrBuilderList();
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtRecordOrBuilder(
+        int index);
+
+    // optional fixed32 recordId = 8;
+    /**
+     * <code>optional fixed32 recordId = 8;</code>
+     *
+     * <pre>
+     * 查看战报详情时的战报id
+     * </pre>
+     */
+    boolean hasRecordId();
+    /**
+     * <code>optional fixed32 recordId = 8;</code>
+     *
+     * <pre>
+     * 查看战报详情时的战报id
+     * </pre>
+     */
+    int getRecordId();
+
+    // optional fixed32 hurtIndex = 9;
+    /**
+     * <code>optional fixed32 hurtIndex = 9;</code>
+     *
+     * <pre>
+     * 查看伤害详情的时候发送的索引（0、1、2）
+     * </pre>
+     */
+    boolean hasHurtIndex();
+    /**
+     * <code>optional fixed32 hurtIndex = 9;</code>
+     *
+     * <pre>
+     * 查看伤害详情的时候发送的索引（0、1、2）
+     * </pre>
+     */
+    int getHurtIndex();
+
+    // optional fixed32 scoreRewardId = 10;
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    boolean hasScoreRewardId();
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    int getScoreRewardId();
   }
   /**
    * Protobuf type {@code MsgArenaRequest}
@@ -11233,6 +16113,29 @@ public final class PeakArenaServiceProtos {
               input.popLimit(limit);
               break;
             }
+            case 58: {
+              if (!((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+                hurtRecord_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.HurtRecord>();
+                mutable_bitField0_ |= 0x00000040;
+              }
+              hurtRecord_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.HurtRecord.PARSER, extensionRegistry));
+              break;
+            }
+            case 69: {
+              bitField0_ |= 0x00000010;
+              recordId_ = input.readFixed32();
+              break;
+            }
+            case 77: {
+              bitField0_ |= 0x00000020;
+              hurtIndex_ = input.readFixed32();
+              break;
+            }
+            case 85: {
+              bitField0_ |= 0x00000040;
+              scoreRewardId_ = input.readFixed32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11246,6 +16149,9 @@ public final class PeakArenaServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000020) == 0x00000020)) {
           reorder_ = java.util.Collections.unmodifiableList(reorder_);
+        }
+        if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
+          hurtRecord_ = java.util.Collections.unmodifiableList(hurtRecord_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -11447,6 +16353,134 @@ public final class PeakArenaServiceProtos {
       return reorder_.get(index);
     }
 
+    // repeated .HurtRecord hurtRecord = 7;
+    public static final int HURTRECORD_FIELD_NUMBER = 7;
+    private java.util.List<com.rwproto.PeakArenaServiceProtos.HurtRecord> hurtRecord_;
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtRecord> getHurtRecordList() {
+      return hurtRecord_;
+    }
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> 
+        getHurtRecordOrBuilderList() {
+      return hurtRecord_;
+    }
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    public int getHurtRecordCount() {
+      return hurtRecord_.size();
+    }
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtRecord getHurtRecord(int index) {
+      return hurtRecord_.get(index);
+    }
+    /**
+     * <code>repeated .HurtRecord hurtRecord = 7;</code>
+     *
+     * <pre>
+     * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtRecordOrBuilder(
+        int index) {
+      return hurtRecord_.get(index);
+    }
+
+    // optional fixed32 recordId = 8;
+    public static final int RECORDID_FIELD_NUMBER = 8;
+    private int recordId_;
+    /**
+     * <code>optional fixed32 recordId = 8;</code>
+     *
+     * <pre>
+     * 查看战报详情时的战报id
+     * </pre>
+     */
+    public boolean hasRecordId() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional fixed32 recordId = 8;</code>
+     *
+     * <pre>
+     * 查看战报详情时的战报id
+     * </pre>
+     */
+    public int getRecordId() {
+      return recordId_;
+    }
+
+    // optional fixed32 hurtIndex = 9;
+    public static final int HURTINDEX_FIELD_NUMBER = 9;
+    private int hurtIndex_;
+    /**
+     * <code>optional fixed32 hurtIndex = 9;</code>
+     *
+     * <pre>
+     * 查看伤害详情的时候发送的索引（0、1、2）
+     * </pre>
+     */
+    public boolean hasHurtIndex() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional fixed32 hurtIndex = 9;</code>
+     *
+     * <pre>
+     * 查看伤害详情的时候发送的索引（0、1、2）
+     * </pre>
+     */
+    public int getHurtIndex() {
+      return hurtIndex_;
+    }
+
+    // optional fixed32 scoreRewardId = 10;
+    public static final int SCOREREWARDID_FIELD_NUMBER = 10;
+    private int scoreRewardId_;
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    public boolean hasScoreRewardId() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional fixed32 scoreRewardId = 10;</code>
+     *
+     * <pre>
+     * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+     * </pre>
+     */
+    public int getScoreRewardId() {
+      return scoreRewardId_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       userId_ = "";
@@ -11454,6 +16488,10 @@ public final class PeakArenaServiceProtos {
       enemy_ = com.rwproto.PeakArenaServiceProtos.ArenaInfo.getDefaultInstance();
       win_ = false;
       reorder_ = java.util.Collections.emptyList();
+      hurtRecord_ = java.util.Collections.emptyList();
+      recordId_ = 0;
+      hurtIndex_ = 0;
+      scoreRewardId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -11472,6 +16510,12 @@ public final class PeakArenaServiceProtos {
       }
       if (hasEnemy()) {
         if (!getEnemy().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getHurtRecordCount(); i++) {
+        if (!getHurtRecord(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -11500,6 +16544,18 @@ public final class PeakArenaServiceProtos {
       }
       for (int i = 0; i < reorder_.size(); i++) {
         output.writeInt32(6, reorder_.get(i));
+      }
+      for (int i = 0; i < hurtRecord_.size(); i++) {
+        output.writeMessage(7, hurtRecord_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFixed32(8, recordId_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeFixed32(9, hurtIndex_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeFixed32(10, scoreRewardId_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -11538,6 +16594,22 @@ public final class PeakArenaServiceProtos {
         }
         size += dataSize;
         size += 1 * getReorderList().size();
+      }
+      for (int i = 0; i < hurtRecord_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, hurtRecord_.get(i));
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(8, recordId_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(9, hurtIndex_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(10, scoreRewardId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11649,6 +16721,7 @@ public final class PeakArenaServiceProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getTeamsFieldBuilder();
           getEnemyFieldBuilder();
+          getHurtRecordFieldBuilder();
         }
       }
       private static Builder create() {
@@ -11677,6 +16750,18 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000010);
         reorder_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000020);
+        if (hurtRecordBuilder_ == null) {
+          hurtRecord_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+        } else {
+          hurtRecordBuilder_.clear();
+        }
+        recordId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
+        hurtIndex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        scoreRewardId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -11739,6 +16824,27 @@ public final class PeakArenaServiceProtos {
           bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.reorder_ = reorder_;
+        if (hurtRecordBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040)) {
+            hurtRecord_ = java.util.Collections.unmodifiableList(hurtRecord_);
+            bitField0_ = (bitField0_ & ~0x00000040);
+          }
+          result.hurtRecord_ = hurtRecord_;
+        } else {
+          result.hurtRecord_ = hurtRecordBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.recordId_ = recordId_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.hurtIndex_ = hurtIndex_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.scoreRewardId_ = scoreRewardId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11805,6 +16911,41 @@ public final class PeakArenaServiceProtos {
           }
           onChanged();
         }
+        if (hurtRecordBuilder_ == null) {
+          if (!other.hurtRecord_.isEmpty()) {
+            if (hurtRecord_.isEmpty()) {
+              hurtRecord_ = other.hurtRecord_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+            } else {
+              ensureHurtRecordIsMutable();
+              hurtRecord_.addAll(other.hurtRecord_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.hurtRecord_.isEmpty()) {
+            if (hurtRecordBuilder_.isEmpty()) {
+              hurtRecordBuilder_.dispose();
+              hurtRecordBuilder_ = null;
+              hurtRecord_ = other.hurtRecord_;
+              bitField0_ = (bitField0_ & ~0x00000040);
+              hurtRecordBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getHurtRecordFieldBuilder() : null;
+            } else {
+              hurtRecordBuilder_.addAllMessages(other.hurtRecord_);
+            }
+          }
+        }
+        if (other.hasRecordId()) {
+          setRecordId(other.getRecordId());
+        }
+        if (other.hasHurtIndex()) {
+          setHurtIndex(other.getHurtIndex());
+        }
+        if (other.hasScoreRewardId()) {
+          setScoreRewardId(other.getScoreRewardId());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -11822,6 +16963,12 @@ public final class PeakArenaServiceProtos {
         }
         if (hasEnemy()) {
           if (!getEnemy().isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getHurtRecordCount(); i++) {
+          if (!getHurtRecord(i).isInitialized()) {
             
             return false;
           }
@@ -12442,6 +17589,465 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // repeated .HurtRecord hurtRecord = 7;
+      private java.util.List<com.rwproto.PeakArenaServiceProtos.HurtRecord> hurtRecord_ =
+        java.util.Collections.emptyList();
+      private void ensureHurtRecordIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          hurtRecord_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.HurtRecord>(hurtRecord_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtRecord, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder, com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> hurtRecordBuilder_;
+
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtRecord> getHurtRecordList() {
+        if (hurtRecordBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(hurtRecord_);
+        } else {
+          return hurtRecordBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public int getHurtRecordCount() {
+        if (hurtRecordBuilder_ == null) {
+          return hurtRecord_.size();
+        } else {
+          return hurtRecordBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord getHurtRecord(int index) {
+        if (hurtRecordBuilder_ == null) {
+          return hurtRecord_.get(index);
+        } else {
+          return hurtRecordBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder setHurtRecord(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtRecord value) {
+        if (hurtRecordBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHurtRecordIsMutable();
+          hurtRecord_.set(index, value);
+          onChanged();
+        } else {
+          hurtRecordBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder setHurtRecord(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder builderForValue) {
+        if (hurtRecordBuilder_ == null) {
+          ensureHurtRecordIsMutable();
+          hurtRecord_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          hurtRecordBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder addHurtRecord(com.rwproto.PeakArenaServiceProtos.HurtRecord value) {
+        if (hurtRecordBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHurtRecordIsMutable();
+          hurtRecord_.add(value);
+          onChanged();
+        } else {
+          hurtRecordBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder addHurtRecord(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtRecord value) {
+        if (hurtRecordBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureHurtRecordIsMutable();
+          hurtRecord_.add(index, value);
+          onChanged();
+        } else {
+          hurtRecordBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder addHurtRecord(
+          com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder builderForValue) {
+        if (hurtRecordBuilder_ == null) {
+          ensureHurtRecordIsMutable();
+          hurtRecord_.add(builderForValue.build());
+          onChanged();
+        } else {
+          hurtRecordBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder addHurtRecord(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder builderForValue) {
+        if (hurtRecordBuilder_ == null) {
+          ensureHurtRecordIsMutable();
+          hurtRecord_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          hurtRecordBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder addAllHurtRecord(
+          java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.HurtRecord> values) {
+        if (hurtRecordBuilder_ == null) {
+          ensureHurtRecordIsMutable();
+          super.addAll(values, hurtRecord_);
+          onChanged();
+        } else {
+          hurtRecordBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder clearHurtRecord() {
+        if (hurtRecordBuilder_ == null) {
+          hurtRecord_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000040);
+          onChanged();
+        } else {
+          hurtRecordBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public Builder removeHurtRecord(int index) {
+        if (hurtRecordBuilder_ == null) {
+          ensureHurtRecordIsMutable();
+          hurtRecord_.remove(index);
+          onChanged();
+        } else {
+          hurtRecordBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder getHurtRecordBuilder(
+          int index) {
+        return getHurtRecordFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtRecordOrBuilder(
+          int index) {
+        if (hurtRecordBuilder_ == null) {
+          return hurtRecord_.get(index);  } else {
+          return hurtRecordBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> 
+           getHurtRecordOrBuilderList() {
+        if (hurtRecordBuilder_ != null) {
+          return hurtRecordBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(hurtRecord_);
+        }
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder addHurtRecordBuilder() {
+        return getHurtRecordFieldBuilder().addBuilder(
+            com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder addHurtRecordBuilder(
+          int index) {
+        return getHurtRecordFieldBuilder().addBuilder(
+            index, com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HurtRecord hurtRecord = 7;</code>
+       *
+       * <pre>
+       * 玩家队伍的伤害记录，arenaType=ARENA_FIGHT_FINISH的时候需要发送
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder> 
+           getHurtRecordBuilderList() {
+        return getHurtRecordFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtRecord, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder, com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> 
+          getHurtRecordFieldBuilder() {
+        if (hurtRecordBuilder_ == null) {
+          hurtRecordBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.HurtRecord, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder, com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder>(
+                  hurtRecord_,
+                  ((bitField0_ & 0x00000040) == 0x00000040),
+                  getParentForChildren(),
+                  isClean());
+          hurtRecord_ = null;
+        }
+        return hurtRecordBuilder_;
+      }
+
+      // optional fixed32 recordId = 8;
+      private int recordId_ ;
+      /**
+       * <code>optional fixed32 recordId = 8;</code>
+       *
+       * <pre>
+       * 查看战报详情时的战报id
+       * </pre>
+       */
+      public boolean hasRecordId() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional fixed32 recordId = 8;</code>
+       *
+       * <pre>
+       * 查看战报详情时的战报id
+       * </pre>
+       */
+      public int getRecordId() {
+        return recordId_;
+      }
+      /**
+       * <code>optional fixed32 recordId = 8;</code>
+       *
+       * <pre>
+       * 查看战报详情时的战报id
+       * </pre>
+       */
+      public Builder setRecordId(int value) {
+        bitField0_ |= 0x00000080;
+        recordId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 recordId = 8;</code>
+       *
+       * <pre>
+       * 查看战报详情时的战报id
+       * </pre>
+       */
+      public Builder clearRecordId() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        recordId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 hurtIndex = 9;
+      private int hurtIndex_ ;
+      /**
+       * <code>optional fixed32 hurtIndex = 9;</code>
+       *
+       * <pre>
+       * 查看伤害详情的时候发送的索引（0、1、2）
+       * </pre>
+       */
+      public boolean hasHurtIndex() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional fixed32 hurtIndex = 9;</code>
+       *
+       * <pre>
+       * 查看伤害详情的时候发送的索引（0、1、2）
+       * </pre>
+       */
+      public int getHurtIndex() {
+        return hurtIndex_;
+      }
+      /**
+       * <code>optional fixed32 hurtIndex = 9;</code>
+       *
+       * <pre>
+       * 查看伤害详情的时候发送的索引（0、1、2）
+       * </pre>
+       */
+      public Builder setHurtIndex(int value) {
+        bitField0_ |= 0x00000100;
+        hurtIndex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 hurtIndex = 9;</code>
+       *
+       * <pre>
+       * 查看伤害详情的时候发送的索引（0、1、2）
+       * </pre>
+       */
+      public Builder clearHurtIndex() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        hurtIndex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 scoreRewardId = 10;
+      private int scoreRewardId_ ;
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public boolean hasScoreRewardId() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public int getScoreRewardId() {
+        return scoreRewardId_;
+      }
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public Builder setScoreRewardId(int value) {
+        bitField0_ |= 0x00000200;
+        scoreRewardId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 scoreRewardId = 10;</code>
+       *
+       * <pre>
+       * 请求的奖励id(arenaType = GET_SCORE_REWARD是发送)
+       * </pre>
+       */
+      public Builder clearScoreRewardId() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        scoreRewardId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaRequest)
     }
 
@@ -12740,6 +18346,121 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getPlaceUp();
+
+    // repeated .PeakArenaDetailRecord challengeRecords = 16;
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord> 
+        getChallengeRecordsList();
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord getChallengeRecords(int index);
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    int getChallengeRecordsCount();
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder> 
+        getChallengeRecordsOrBuilderList();
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder getChallengeRecordsOrBuilder(
+        int index);
+
+    // optional .HurtRecord hurtDetail = 17;
+    /**
+     * <code>optional .HurtRecord hurtDetail = 17;</code>
+     *
+     * <pre>
+     * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+     * </pre>
+     */
+    boolean hasHurtDetail();
+    /**
+     * <code>optional .HurtRecord hurtDetail = 17;</code>
+     *
+     * <pre>
+     * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtRecord getHurtDetail();
+    /**
+     * <code>optional .HurtRecord hurtDetail = 17;</code>
+     *
+     * <pre>
+     * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtDetailOrBuilder();
+
+    // repeated fixed32 alreadyGetRewardId = 18;
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getAlreadyGetRewardIdList();
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    int getAlreadyGetRewardIdCount();
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    int getAlreadyGetRewardId(int index);
+
+    // optional fixed32 currentScore = 19;
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    boolean hasCurrentScore();
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    int getCurrentScore();
   }
   /**
    * Protobuf type {@code MsgArenaResponse}
@@ -12893,6 +18614,53 @@ public final class PeakArenaServiceProtos {
               placeUp_ = input.readInt32();
               break;
             }
+            case 130: {
+              if (!((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
+                challengeRecords_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord>();
+                mutable_bitField0_ |= 0x00008000;
+              }
+              challengeRecords_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.PARSER, extensionRegistry));
+              break;
+            }
+            case 138: {
+              com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder subBuilder = null;
+              if (((bitField0_ & 0x00002000) == 0x00002000)) {
+                subBuilder = hurtDetail_.toBuilder();
+              }
+              hurtDetail_ = input.readMessage(com.rwproto.PeakArenaServiceProtos.HurtRecord.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(hurtDetail_);
+                hurtDetail_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00002000;
+              break;
+            }
+            case 149: {
+              if (!((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
+                alreadyGetRewardId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00020000;
+              }
+              alreadyGetRewardId_.add(input.readFixed32());
+              break;
+            }
+            case 146: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00020000) == 0x00020000) && input.getBytesUntilLimit() > 0) {
+                alreadyGetRewardId_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00020000;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                alreadyGetRewardId_.add(input.readFixed32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 157: {
+              bitField0_ |= 0x00004000;
+              currentScore_ = input.readFixed32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -12906,6 +18674,12 @@ public final class PeakArenaServiceProtos {
         }
         if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
           listRecord_ = java.util.Collections.unmodifiableList(listRecord_);
+        }
+        if (((mutable_bitField0_ & 0x00008000) == 0x00008000)) {
+          challengeRecords_ = java.util.Collections.unmodifiableList(challengeRecords_);
+        }
+        if (((mutable_bitField0_ & 0x00020000) == 0x00020000)) {
+          alreadyGetRewardId_ = java.util.Collections.unmodifiableList(alreadyGetRewardId_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -13348,6 +19122,155 @@ public final class PeakArenaServiceProtos {
       return placeUp_;
     }
 
+    // repeated .PeakArenaDetailRecord challengeRecords = 16;
+    public static final int CHALLENGERECORDS_FIELD_NUMBER = 16;
+    private java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord> challengeRecords_;
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord> getChallengeRecordsList() {
+      return challengeRecords_;
+    }
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder> 
+        getChallengeRecordsOrBuilderList() {
+      return challengeRecords_;
+    }
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    public int getChallengeRecordsCount() {
+      return challengeRecords_.size();
+    }
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord getChallengeRecords(int index) {
+      return challengeRecords_.get(index);
+    }
+    /**
+     * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+     *
+     * <pre>
+     * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder getChallengeRecordsOrBuilder(
+        int index) {
+      return challengeRecords_.get(index);
+    }
+
+    // optional .HurtRecord hurtDetail = 17;
+    public static final int HURTDETAIL_FIELD_NUMBER = 17;
+    private com.rwproto.PeakArenaServiceProtos.HurtRecord hurtDetail_;
+    /**
+     * <code>optional .HurtRecord hurtDetail = 17;</code>
+     *
+     * <pre>
+     * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+     * </pre>
+     */
+    public boolean hasHurtDetail() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional .HurtRecord hurtDetail = 17;</code>
+     *
+     * <pre>
+     * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtRecord getHurtDetail() {
+      return hurtDetail_;
+    }
+    /**
+     * <code>optional .HurtRecord hurtDetail = 17;</code>
+     *
+     * <pre>
+     * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtDetailOrBuilder() {
+      return hurtDetail_;
+    }
+
+    // repeated fixed32 alreadyGetRewardId = 18;
+    public static final int ALREADYGETREWARDID_FIELD_NUMBER = 18;
+    private java.util.List<java.lang.Integer> alreadyGetRewardId_;
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getAlreadyGetRewardIdList() {
+      return alreadyGetRewardId_;
+    }
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    public int getAlreadyGetRewardIdCount() {
+      return alreadyGetRewardId_.size();
+    }
+    /**
+     * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+     *
+     * <pre>
+     * 已经领取的积分奖励id
+     * </pre>
+     */
+    public int getAlreadyGetRewardId(int index) {
+      return alreadyGetRewardId_.get(index);
+    }
+
+    // optional fixed32 currentScore = 19;
+    public static final int CURRENTSCORE_FIELD_NUMBER = 19;
+    private int currentScore_;
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    public boolean hasCurrentScore() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional fixed32 currentScore = 19;</code>
+     *
+     * <pre>
+     * 当前的积分
+     * </pre>
+     */
+    public int getCurrentScore() {
+      return currentScore_;
+    }
+
     private void initFields() {
       arenaType_ = com.rwproto.PeakArenaServiceProtos.eArenaType.GET_DATA;
       arenaResultType_ = com.rwproto.PeakArenaServiceProtos.eArenaResultType.ARENA_SUCCESS;
@@ -13364,6 +19287,10 @@ public final class PeakArenaServiceProtos {
       gainCurrencyPerHour_ = 0;
       resetCost_ = 0;
       placeUp_ = 0;
+      challengeRecords_ = java.util.Collections.emptyList();
+      hurtDetail_ = com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance();
+      alreadyGetRewardId_ = java.util.Collections.emptyList();
+      currentScore_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -13388,6 +19315,18 @@ public final class PeakArenaServiceProtos {
       }
       for (int i = 0; i < getListRecordCount(); i++) {
         if (!getListRecord(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getChallengeRecordsCount(); i++) {
+        if (!getChallengeRecords(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasHurtDetail()) {
+        if (!getHurtDetail().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -13443,6 +19382,18 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeInt32(15, placeUp_);
+      }
+      for (int i = 0; i < challengeRecords_.size(); i++) {
+        output.writeMessage(16, challengeRecords_.get(i));
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeMessage(17, hurtDetail_);
+      }
+      for (int i = 0; i < alreadyGetRewardId_.size(); i++) {
+        output.writeFixed32(18, alreadyGetRewardId_.get(i));
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeFixed32(19, currentScore_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -13512,6 +19463,24 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, placeUp_);
+      }
+      for (int i = 0; i < challengeRecords_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(16, challengeRecords_.get(i));
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(17, hurtDetail_);
+      }
+      {
+        int dataSize = 0;
+        dataSize = 4 * getAlreadyGetRewardIdList().size();
+        size += dataSize;
+        size += 2 * getAlreadyGetRewardIdList().size();
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(19, currentScore_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -13624,6 +19593,8 @@ public final class PeakArenaServiceProtos {
           getArenaDataFieldBuilder();
           getListInfoFieldBuilder();
           getListRecordFieldBuilder();
+          getChallengeRecordsFieldBuilder();
+          getHurtDetailFieldBuilder();
         }
       }
       private static Builder create() {
@@ -13674,6 +19645,22 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00002000);
         placeUp_ = 0;
         bitField0_ = (bitField0_ & ~0x00004000);
+        if (challengeRecordsBuilder_ == null) {
+          challengeRecords_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00008000);
+        } else {
+          challengeRecordsBuilder_.clear();
+        }
+        if (hurtDetailBuilder_ == null) {
+          hurtDetail_ = com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance();
+        } else {
+          hurtDetailBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00010000);
+        alreadyGetRewardId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00020000);
+        currentScore_ = 0;
+        bitField0_ = (bitField0_ & ~0x00040000);
         return this;
       }
 
@@ -13776,6 +19763,32 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00001000;
         }
         result.placeUp_ = placeUp_;
+        if (challengeRecordsBuilder_ == null) {
+          if (((bitField0_ & 0x00008000) == 0x00008000)) {
+            challengeRecords_ = java.util.Collections.unmodifiableList(challengeRecords_);
+            bitField0_ = (bitField0_ & ~0x00008000);
+          }
+          result.challengeRecords_ = challengeRecords_;
+        } else {
+          result.challengeRecords_ = challengeRecordsBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        if (hurtDetailBuilder_ == null) {
+          result.hurtDetail_ = hurtDetail_;
+        } else {
+          result.hurtDetail_ = hurtDetailBuilder_.build();
+        }
+        if (((bitField0_ & 0x00020000) == 0x00020000)) {
+          alreadyGetRewardId_ = java.util.Collections.unmodifiableList(alreadyGetRewardId_);
+          bitField0_ = (bitField0_ & ~0x00020000);
+        }
+        result.alreadyGetRewardId_ = alreadyGetRewardId_;
+        if (((from_bitField0_ & 0x00040000) == 0x00040000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.currentScore_ = currentScore_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -13885,6 +19898,48 @@ public final class PeakArenaServiceProtos {
         if (other.hasPlaceUp()) {
           setPlaceUp(other.getPlaceUp());
         }
+        if (challengeRecordsBuilder_ == null) {
+          if (!other.challengeRecords_.isEmpty()) {
+            if (challengeRecords_.isEmpty()) {
+              challengeRecords_ = other.challengeRecords_;
+              bitField0_ = (bitField0_ & ~0x00008000);
+            } else {
+              ensureChallengeRecordsIsMutable();
+              challengeRecords_.addAll(other.challengeRecords_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.challengeRecords_.isEmpty()) {
+            if (challengeRecordsBuilder_.isEmpty()) {
+              challengeRecordsBuilder_.dispose();
+              challengeRecordsBuilder_ = null;
+              challengeRecords_ = other.challengeRecords_;
+              bitField0_ = (bitField0_ & ~0x00008000);
+              challengeRecordsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getChallengeRecordsFieldBuilder() : null;
+            } else {
+              challengeRecordsBuilder_.addAllMessages(other.challengeRecords_);
+            }
+          }
+        }
+        if (other.hasHurtDetail()) {
+          mergeHurtDetail(other.getHurtDetail());
+        }
+        if (!other.alreadyGetRewardId_.isEmpty()) {
+          if (alreadyGetRewardId_.isEmpty()) {
+            alreadyGetRewardId_ = other.alreadyGetRewardId_;
+            bitField0_ = (bitField0_ & ~0x00020000);
+          } else {
+            ensureAlreadyGetRewardIdIsMutable();
+            alreadyGetRewardId_.addAll(other.alreadyGetRewardId_);
+          }
+          onChanged();
+        }
+        if (other.hasCurrentScore()) {
+          setCurrentScore(other.getCurrentScore());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -13908,6 +19963,18 @@ public final class PeakArenaServiceProtos {
         }
         for (int i = 0; i < getListRecordCount(); i++) {
           if (!getListRecord(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getChallengeRecordsCount(); i++) {
+          if (!getChallengeRecords(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasHurtDetail()) {
+          if (!getHurtDetail().isInitialized()) {
             
             return false;
           }
@@ -15198,6 +21265,614 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
+      // repeated .PeakArenaDetailRecord challengeRecords = 16;
+      private java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord> challengeRecords_ =
+        java.util.Collections.emptyList();
+      private void ensureChallengeRecordsIsMutable() {
+        if (!((bitField0_ & 0x00008000) == 0x00008000)) {
+          challengeRecords_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord>(challengeRecords_);
+          bitField0_ |= 0x00008000;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder> challengeRecordsBuilder_;
+
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord> getChallengeRecordsList() {
+        if (challengeRecordsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(challengeRecords_);
+        } else {
+          return challengeRecordsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public int getChallengeRecordsCount() {
+        if (challengeRecordsBuilder_ == null) {
+          return challengeRecords_.size();
+        } else {
+          return challengeRecordsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord getChallengeRecords(int index) {
+        if (challengeRecordsBuilder_ == null) {
+          return challengeRecords_.get(index);
+        } else {
+          return challengeRecordsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder setChallengeRecords(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord value) {
+        if (challengeRecordsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.set(index, value);
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder setChallengeRecords(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder builderForValue) {
+        if (challengeRecordsBuilder_ == null) {
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder addChallengeRecords(com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord value) {
+        if (challengeRecordsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.add(value);
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder addChallengeRecords(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord value) {
+        if (challengeRecordsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.add(index, value);
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder addChallengeRecords(
+          com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder builderForValue) {
+        if (challengeRecordsBuilder_ == null) {
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.add(builderForValue.build());
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder addChallengeRecords(
+          int index, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder builderForValue) {
+        if (challengeRecordsBuilder_ == null) {
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder addAllChallengeRecords(
+          java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord> values) {
+        if (challengeRecordsBuilder_ == null) {
+          ensureChallengeRecordsIsMutable();
+          super.addAll(values, challengeRecords_);
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder clearChallengeRecords() {
+        if (challengeRecordsBuilder_ == null) {
+          challengeRecords_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00008000);
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public Builder removeChallengeRecords(int index) {
+        if (challengeRecordsBuilder_ == null) {
+          ensureChallengeRecordsIsMutable();
+          challengeRecords_.remove(index);
+          onChanged();
+        } else {
+          challengeRecordsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder getChallengeRecordsBuilder(
+          int index) {
+        return getChallengeRecordsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder getChallengeRecordsOrBuilder(
+          int index) {
+        if (challengeRecordsBuilder_ == null) {
+          return challengeRecords_.get(index);  } else {
+          return challengeRecordsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder> 
+           getChallengeRecordsOrBuilderList() {
+        if (challengeRecordsBuilder_ != null) {
+          return challengeRecordsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(challengeRecords_);
+        }
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder addChallengeRecordsBuilder() {
+        return getChallengeRecordsFieldBuilder().addBuilder(
+            com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder addChallengeRecordsBuilder(
+          int index) {
+        return getChallengeRecordsFieldBuilder().addBuilder(
+            index, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .PeakArenaDetailRecord challengeRecords = 16;</code>
+       *
+       * <pre>
+       * 战斗记录（arenaType=GET_RECORD_DETAIL时回复）
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder> 
+           getChallengeRecordsBuilderList() {
+        return getChallengeRecordsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder> 
+          getChallengeRecordsFieldBuilder() {
+        if (challengeRecordsBuilder_ == null) {
+          challengeRecordsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecord.Builder, com.rwproto.PeakArenaServiceProtos.PeakArenaDetailRecordOrBuilder>(
+                  challengeRecords_,
+                  ((bitField0_ & 0x00008000) == 0x00008000),
+                  getParentForChildren(),
+                  isClean());
+          challengeRecords_ = null;
+        }
+        return challengeRecordsBuilder_;
+      }
+
+      // optional .HurtRecord hurtDetail = 17;
+      private com.rwproto.PeakArenaServiceProtos.HurtRecord hurtDetail_ = com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtRecord, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder, com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> hurtDetailBuilder_;
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public boolean hasHurtDetail() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord getHurtDetail() {
+        if (hurtDetailBuilder_ == null) {
+          return hurtDetail_;
+        } else {
+          return hurtDetailBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public Builder setHurtDetail(com.rwproto.PeakArenaServiceProtos.HurtRecord value) {
+        if (hurtDetailBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          hurtDetail_ = value;
+          onChanged();
+        } else {
+          hurtDetailBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00010000;
+        return this;
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public Builder setHurtDetail(
+          com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder builderForValue) {
+        if (hurtDetailBuilder_ == null) {
+          hurtDetail_ = builderForValue.build();
+          onChanged();
+        } else {
+          hurtDetailBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00010000;
+        return this;
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public Builder mergeHurtDetail(com.rwproto.PeakArenaServiceProtos.HurtRecord value) {
+        if (hurtDetailBuilder_ == null) {
+          if (((bitField0_ & 0x00010000) == 0x00010000) &&
+              hurtDetail_ != com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance()) {
+            hurtDetail_ =
+              com.rwproto.PeakArenaServiceProtos.HurtRecord.newBuilder(hurtDetail_).mergeFrom(value).buildPartial();
+          } else {
+            hurtDetail_ = value;
+          }
+          onChanged();
+        } else {
+          hurtDetailBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00010000;
+        return this;
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public Builder clearHurtDetail() {
+        if (hurtDetailBuilder_ == null) {
+          hurtDetail_ = com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance();
+          onChanged();
+        } else {
+          hurtDetailBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00010000);
+        return this;
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder getHurtDetailBuilder() {
+        bitField0_ |= 0x00010000;
+        onChanged();
+        return getHurtDetailFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder getHurtDetailOrBuilder() {
+        if (hurtDetailBuilder_ != null) {
+          return hurtDetailBuilder_.getMessageOrBuilder();
+        } else {
+          return hurtDetail_;
+        }
+      }
+      /**
+       * <code>optional .HurtRecord hurtDetail = 17;</code>
+       *
+       * <pre>
+       * 伤害记录（arenaType=GET_HURT_DETAIL时回复）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtRecord, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder, com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder> 
+          getHurtDetailFieldBuilder() {
+        if (hurtDetailBuilder_ == null) {
+          hurtDetailBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.HurtRecord, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder, com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder>(
+                  hurtDetail_,
+                  getParentForChildren(),
+                  isClean());
+          hurtDetail_ = null;
+        }
+        return hurtDetailBuilder_;
+      }
+
+      // repeated fixed32 alreadyGetRewardId = 18;
+      private java.util.List<java.lang.Integer> alreadyGetRewardId_ = java.util.Collections.emptyList();
+      private void ensureAlreadyGetRewardIdIsMutable() {
+        if (!((bitField0_ & 0x00020000) == 0x00020000)) {
+          alreadyGetRewardId_ = new java.util.ArrayList<java.lang.Integer>(alreadyGetRewardId_);
+          bitField0_ |= 0x00020000;
+         }
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getAlreadyGetRewardIdList() {
+        return java.util.Collections.unmodifiableList(alreadyGetRewardId_);
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public int getAlreadyGetRewardIdCount() {
+        return alreadyGetRewardId_.size();
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public int getAlreadyGetRewardId(int index) {
+        return alreadyGetRewardId_.get(index);
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder setAlreadyGetRewardId(
+          int index, int value) {
+        ensureAlreadyGetRewardIdIsMutable();
+        alreadyGetRewardId_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder addAlreadyGetRewardId(int value) {
+        ensureAlreadyGetRewardIdIsMutable();
+        alreadyGetRewardId_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder addAllAlreadyGetRewardId(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureAlreadyGetRewardIdIsMutable();
+        super.addAll(values, alreadyGetRewardId_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 alreadyGetRewardId = 18;</code>
+       *
+       * <pre>
+       * 已经领取的积分奖励id
+       * </pre>
+       */
+      public Builder clearAlreadyGetRewardId() {
+        alreadyGetRewardId_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00020000);
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 currentScore = 19;
+      private int currentScore_ ;
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public boolean hasCurrentScore() {
+        return ((bitField0_ & 0x00040000) == 0x00040000);
+      }
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public int getCurrentScore() {
+        return currentScore_;
+      }
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public Builder setCurrentScore(int value) {
+        bitField0_ |= 0x00040000;
+        currentScore_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 currentScore = 19;</code>
+       *
+       * <pre>
+       * 当前的积分
+       * </pre>
+       */
+      public Builder clearCurrentScore() {
+        bitField0_ = (bitField0_ & ~0x00040000);
+        currentScore_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:MsgArenaResponse)
     }
 
@@ -15207,6 +21882,2062 @@ public final class PeakArenaServiceProtos {
     }
 
     // @@protoc_insertion_point(class_scope:MsgArenaResponse)
+  }
+
+  public interface HurtRecordOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required fixed32 teamId = 1;
+    /**
+     * <code>required fixed32 teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    boolean hasTeamId();
+    /**
+     * <code>required fixed32 teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    int getTeamId();
+
+    // repeated .HurtValue myHurtValue = 2;
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> 
+        getMyHurtValueList();
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtValue getMyHurtValue(int index);
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    int getMyHurtValueCount();
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+        getMyHurtValueOrBuilderList();
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder getMyHurtValueOrBuilder(
+        int index);
+
+    // repeated .HurtValue enemyHurtValue = 3;
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> 
+        getEnemyHurtValueList();
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtValue getEnemyHurtValue(int index);
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    int getEnemyHurtValueCount();
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+        getEnemyHurtValueOrBuilderList();
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder getEnemyHurtValueOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code HurtRecord}
+   */
+  public static final class HurtRecord extends
+      com.google.protobuf.GeneratedMessage
+      implements HurtRecordOrBuilder {
+    // Use HurtRecord.newBuilder() to construct.
+    private HurtRecord(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HurtRecord(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HurtRecord defaultInstance;
+    public static HurtRecord getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HurtRecord getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HurtRecord(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 13: {
+              bitField0_ |= 0x00000001;
+              teamId_ = input.readFixed32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                myHurtValue_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.HurtValue>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              myHurtValue_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.HurtValue.PARSER, extensionRegistry));
+              break;
+            }
+            case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                enemyHurtValue_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.HurtValue>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              enemyHurtValue_.add(input.readMessage(com.rwproto.PeakArenaServiceProtos.HurtValue.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          myHurtValue_ = java.util.Collections.unmodifiableList(myHurtValue_);
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          enemyHurtValue_ = java.util.Collections.unmodifiableList(enemyHurtValue_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_HurtRecord_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_HurtRecord_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PeakArenaServiceProtos.HurtRecord.class, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HurtRecord> PARSER =
+        new com.google.protobuf.AbstractParser<HurtRecord>() {
+      public HurtRecord parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HurtRecord(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HurtRecord> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required fixed32 teamId = 1;
+    public static final int TEAMID_FIELD_NUMBER = 1;
+    private int teamId_;
+    /**
+     * <code>required fixed32 teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public boolean hasTeamId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required fixed32 teamId = 1;</code>
+     *
+     * <pre>
+     * 队伍id
+     * </pre>
+     */
+    public int getTeamId() {
+      return teamId_;
+    }
+
+    // repeated .HurtValue myHurtValue = 2;
+    public static final int MYHURTVALUE_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> myHurtValue_;
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> getMyHurtValueList() {
+      return myHurtValue_;
+    }
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+        getMyHurtValueOrBuilderList() {
+      return myHurtValue_;
+    }
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    public int getMyHurtValueCount() {
+      return myHurtValue_.size();
+    }
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtValue getMyHurtValue(int index) {
+      return myHurtValue_.get(index);
+    }
+    /**
+     * <code>repeated .HurtValue myHurtValue = 2;</code>
+     *
+     * <pre>
+     * 自身的伤害信息
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder getMyHurtValueOrBuilder(
+        int index) {
+      return myHurtValue_.get(index);
+    }
+
+    // repeated .HurtValue enemyHurtValue = 3;
+    public static final int ENEMYHURTVALUE_FIELD_NUMBER = 3;
+    private java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> enemyHurtValue_;
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> getEnemyHurtValueList() {
+      return enemyHurtValue_;
+    }
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+        getEnemyHurtValueOrBuilderList() {
+      return enemyHurtValue_;
+    }
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    public int getEnemyHurtValueCount() {
+      return enemyHurtValue_.size();
+    }
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtValue getEnemyHurtValue(int index) {
+      return enemyHurtValue_.get(index);
+    }
+    /**
+     * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+     *
+     * <pre>
+     * 对手的伤害信息
+     * </pre>
+     */
+    public com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder getEnemyHurtValueOrBuilder(
+        int index) {
+      return enemyHurtValue_.get(index);
+    }
+
+    private void initFields() {
+      teamId_ = 0;
+      myHurtValue_ = java.util.Collections.emptyList();
+      enemyHurtValue_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasTeamId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getMyHurtValueCount(); i++) {
+        if (!getMyHurtValue(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getEnemyHurtValueCount(); i++) {
+        if (!getEnemyHurtValue(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFixed32(1, teamId_);
+      }
+      for (int i = 0; i < myHurtValue_.size(); i++) {
+        output.writeMessage(2, myHurtValue_.get(i));
+      }
+      for (int i = 0; i < enemyHurtValue_.size(); i++) {
+        output.writeMessage(3, enemyHurtValue_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(1, teamId_);
+      }
+      for (int i = 0; i < myHurtValue_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, myHurtValue_.get(i));
+      }
+      for (int i = 0; i < enemyHurtValue_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, enemyHurtValue_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtRecord parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PeakArenaServiceProtos.HurtRecord prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code HurtRecord}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PeakArenaServiceProtos.HurtRecordOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_HurtRecord_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_HurtRecord_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PeakArenaServiceProtos.HurtRecord.class, com.rwproto.PeakArenaServiceProtos.HurtRecord.Builder.class);
+      }
+
+      // Construct using com.rwproto.PeakArenaServiceProtos.HurtRecord.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getMyHurtValueFieldBuilder();
+          getEnemyHurtValueFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        teamId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (myHurtValueBuilder_ == null) {
+          myHurtValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          myHurtValueBuilder_.clear();
+        }
+        if (enemyHurtValueBuilder_ == null) {
+          enemyHurtValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          enemyHurtValueBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_HurtRecord_descriptor;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord getDefaultInstanceForType() {
+        return com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance();
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord build() {
+        com.rwproto.PeakArenaServiceProtos.HurtRecord result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.HurtRecord buildPartial() {
+        com.rwproto.PeakArenaServiceProtos.HurtRecord result = new com.rwproto.PeakArenaServiceProtos.HurtRecord(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.teamId_ = teamId_;
+        if (myHurtValueBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            myHurtValue_ = java.util.Collections.unmodifiableList(myHurtValue_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.myHurtValue_ = myHurtValue_;
+        } else {
+          result.myHurtValue_ = myHurtValueBuilder_.build();
+        }
+        if (enemyHurtValueBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            enemyHurtValue_ = java.util.Collections.unmodifiableList(enemyHurtValue_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.enemyHurtValue_ = enemyHurtValue_;
+        } else {
+          result.enemyHurtValue_ = enemyHurtValueBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PeakArenaServiceProtos.HurtRecord) {
+          return mergeFrom((com.rwproto.PeakArenaServiceProtos.HurtRecord)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PeakArenaServiceProtos.HurtRecord other) {
+        if (other == com.rwproto.PeakArenaServiceProtos.HurtRecord.getDefaultInstance()) return this;
+        if (other.hasTeamId()) {
+          setTeamId(other.getTeamId());
+        }
+        if (myHurtValueBuilder_ == null) {
+          if (!other.myHurtValue_.isEmpty()) {
+            if (myHurtValue_.isEmpty()) {
+              myHurtValue_ = other.myHurtValue_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureMyHurtValueIsMutable();
+              myHurtValue_.addAll(other.myHurtValue_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.myHurtValue_.isEmpty()) {
+            if (myHurtValueBuilder_.isEmpty()) {
+              myHurtValueBuilder_.dispose();
+              myHurtValueBuilder_ = null;
+              myHurtValue_ = other.myHurtValue_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              myHurtValueBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getMyHurtValueFieldBuilder() : null;
+            } else {
+              myHurtValueBuilder_.addAllMessages(other.myHurtValue_);
+            }
+          }
+        }
+        if (enemyHurtValueBuilder_ == null) {
+          if (!other.enemyHurtValue_.isEmpty()) {
+            if (enemyHurtValue_.isEmpty()) {
+              enemyHurtValue_ = other.enemyHurtValue_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureEnemyHurtValueIsMutable();
+              enemyHurtValue_.addAll(other.enemyHurtValue_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.enemyHurtValue_.isEmpty()) {
+            if (enemyHurtValueBuilder_.isEmpty()) {
+              enemyHurtValueBuilder_.dispose();
+              enemyHurtValueBuilder_ = null;
+              enemyHurtValue_ = other.enemyHurtValue_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              enemyHurtValueBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getEnemyHurtValueFieldBuilder() : null;
+            } else {
+              enemyHurtValueBuilder_.addAllMessages(other.enemyHurtValue_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasTeamId()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getMyHurtValueCount(); i++) {
+          if (!getMyHurtValue(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getEnemyHurtValueCount(); i++) {
+          if (!getEnemyHurtValue(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PeakArenaServiceProtos.HurtRecord parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PeakArenaServiceProtos.HurtRecord) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required fixed32 teamId = 1;
+      private int teamId_ ;
+      /**
+       * <code>required fixed32 teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public boolean hasTeamId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required fixed32 teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public int getTeamId() {
+        return teamId_;
+      }
+      /**
+       * <code>required fixed32 teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder setTeamId(int value) {
+        bitField0_ |= 0x00000001;
+        teamId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 teamId = 1;</code>
+       *
+       * <pre>
+       * 队伍id
+       * </pre>
+       */
+      public Builder clearTeamId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        teamId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .HurtValue myHurtValue = 2;
+      private java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> myHurtValue_ =
+        java.util.Collections.emptyList();
+      private void ensureMyHurtValueIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          myHurtValue_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.HurtValue>(myHurtValue_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtValue, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder, com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> myHurtValueBuilder_;
+
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> getMyHurtValueList() {
+        if (myHurtValueBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(myHurtValue_);
+        } else {
+          return myHurtValueBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public int getMyHurtValueCount() {
+        if (myHurtValueBuilder_ == null) {
+          return myHurtValue_.size();
+        } else {
+          return myHurtValueBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue getMyHurtValue(int index) {
+        if (myHurtValueBuilder_ == null) {
+          return myHurtValue_.get(index);
+        } else {
+          return myHurtValueBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder setMyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue value) {
+        if (myHurtValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.set(index, value);
+          onChanged();
+        } else {
+          myHurtValueBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder setMyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder builderForValue) {
+        if (myHurtValueBuilder_ == null) {
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          myHurtValueBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder addMyHurtValue(com.rwproto.PeakArenaServiceProtos.HurtValue value) {
+        if (myHurtValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.add(value);
+          onChanged();
+        } else {
+          myHurtValueBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder addMyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue value) {
+        if (myHurtValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.add(index, value);
+          onChanged();
+        } else {
+          myHurtValueBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder addMyHurtValue(
+          com.rwproto.PeakArenaServiceProtos.HurtValue.Builder builderForValue) {
+        if (myHurtValueBuilder_ == null) {
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.add(builderForValue.build());
+          onChanged();
+        } else {
+          myHurtValueBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder addMyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder builderForValue) {
+        if (myHurtValueBuilder_ == null) {
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          myHurtValueBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder addAllMyHurtValue(
+          java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.HurtValue> values) {
+        if (myHurtValueBuilder_ == null) {
+          ensureMyHurtValueIsMutable();
+          super.addAll(values, myHurtValue_);
+          onChanged();
+        } else {
+          myHurtValueBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder clearMyHurtValue() {
+        if (myHurtValueBuilder_ == null) {
+          myHurtValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          myHurtValueBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public Builder removeMyHurtValue(int index) {
+        if (myHurtValueBuilder_ == null) {
+          ensureMyHurtValueIsMutable();
+          myHurtValue_.remove(index);
+          onChanged();
+        } else {
+          myHurtValueBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue.Builder getMyHurtValueBuilder(
+          int index) {
+        return getMyHurtValueFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder getMyHurtValueOrBuilder(
+          int index) {
+        if (myHurtValueBuilder_ == null) {
+          return myHurtValue_.get(index);  } else {
+          return myHurtValueBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+           getMyHurtValueOrBuilderList() {
+        if (myHurtValueBuilder_ != null) {
+          return myHurtValueBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(myHurtValue_);
+        }
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue.Builder addMyHurtValueBuilder() {
+        return getMyHurtValueFieldBuilder().addBuilder(
+            com.rwproto.PeakArenaServiceProtos.HurtValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue.Builder addMyHurtValueBuilder(
+          int index) {
+        return getMyHurtValueFieldBuilder().addBuilder(
+            index, com.rwproto.PeakArenaServiceProtos.HurtValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HurtValue myHurtValue = 2;</code>
+       *
+       * <pre>
+       * 自身的伤害信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue.Builder> 
+           getMyHurtValueBuilderList() {
+        return getMyHurtValueFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtValue, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder, com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+          getMyHurtValueFieldBuilder() {
+        if (myHurtValueBuilder_ == null) {
+          myHurtValueBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.HurtValue, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder, com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder>(
+                  myHurtValue_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          myHurtValue_ = null;
+        }
+        return myHurtValueBuilder_;
+      }
+
+      // repeated .HurtValue enemyHurtValue = 3;
+      private java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> enemyHurtValue_ =
+        java.util.Collections.emptyList();
+      private void ensureEnemyHurtValueIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          enemyHurtValue_ = new java.util.ArrayList<com.rwproto.PeakArenaServiceProtos.HurtValue>(enemyHurtValue_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtValue, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder, com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> enemyHurtValueBuilder_;
+
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue> getEnemyHurtValueList() {
+        if (enemyHurtValueBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(enemyHurtValue_);
+        } else {
+          return enemyHurtValueBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public int getEnemyHurtValueCount() {
+        if (enemyHurtValueBuilder_ == null) {
+          return enemyHurtValue_.size();
+        } else {
+          return enemyHurtValueBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue getEnemyHurtValue(int index) {
+        if (enemyHurtValueBuilder_ == null) {
+          return enemyHurtValue_.get(index);
+        } else {
+          return enemyHurtValueBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder setEnemyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue value) {
+        if (enemyHurtValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.set(index, value);
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder setEnemyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder builderForValue) {
+        if (enemyHurtValueBuilder_ == null) {
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder addEnemyHurtValue(com.rwproto.PeakArenaServiceProtos.HurtValue value) {
+        if (enemyHurtValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.add(value);
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder addEnemyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue value) {
+        if (enemyHurtValueBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.add(index, value);
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder addEnemyHurtValue(
+          com.rwproto.PeakArenaServiceProtos.HurtValue.Builder builderForValue) {
+        if (enemyHurtValueBuilder_ == null) {
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.add(builderForValue.build());
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder addEnemyHurtValue(
+          int index, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder builderForValue) {
+        if (enemyHurtValueBuilder_ == null) {
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder addAllEnemyHurtValue(
+          java.lang.Iterable<? extends com.rwproto.PeakArenaServiceProtos.HurtValue> values) {
+        if (enemyHurtValueBuilder_ == null) {
+          ensureEnemyHurtValueIsMutable();
+          super.addAll(values, enemyHurtValue_);
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder clearEnemyHurtValue() {
+        if (enemyHurtValueBuilder_ == null) {
+          enemyHurtValue_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public Builder removeEnemyHurtValue(int index) {
+        if (enemyHurtValueBuilder_ == null) {
+          ensureEnemyHurtValueIsMutable();
+          enemyHurtValue_.remove(index);
+          onChanged();
+        } else {
+          enemyHurtValueBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue.Builder getEnemyHurtValueBuilder(
+          int index) {
+        return getEnemyHurtValueFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder getEnemyHurtValueOrBuilder(
+          int index) {
+        if (enemyHurtValueBuilder_ == null) {
+          return enemyHurtValue_.get(index);  } else {
+          return enemyHurtValueBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+           getEnemyHurtValueOrBuilderList() {
+        if (enemyHurtValueBuilder_ != null) {
+          return enemyHurtValueBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(enemyHurtValue_);
+        }
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue.Builder addEnemyHurtValueBuilder() {
+        return getEnemyHurtValueFieldBuilder().addBuilder(
+            com.rwproto.PeakArenaServiceProtos.HurtValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public com.rwproto.PeakArenaServiceProtos.HurtValue.Builder addEnemyHurtValueBuilder(
+          int index) {
+        return getEnemyHurtValueFieldBuilder().addBuilder(
+            index, com.rwproto.PeakArenaServiceProtos.HurtValue.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .HurtValue enemyHurtValue = 3;</code>
+       *
+       * <pre>
+       * 对手的伤害信息
+       * </pre>
+       */
+      public java.util.List<com.rwproto.PeakArenaServiceProtos.HurtValue.Builder> 
+           getEnemyHurtValueBuilderList() {
+        return getEnemyHurtValueFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PeakArenaServiceProtos.HurtValue, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder, com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder> 
+          getEnemyHurtValueFieldBuilder() {
+        if (enemyHurtValueBuilder_ == null) {
+          enemyHurtValueBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PeakArenaServiceProtos.HurtValue, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder, com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder>(
+                  enemyHurtValue_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          enemyHurtValue_ = null;
+        }
+        return enemyHurtValueBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:HurtRecord)
+    }
+
+    static {
+      defaultInstance = new HurtRecord(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:HurtRecord)
+  }
+
+  public interface HurtValueOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string heroId = 1;
+    /**
+     * <code>required string heroId = 1;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    boolean hasHeroId();
+    /**
+     * <code>required string heroId = 1;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    java.lang.String getHeroId();
+    /**
+     * <code>required string heroId = 1;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeroIdBytes();
+
+    // required fixed64 value = 2;
+    /**
+     * <code>required fixed64 value = 2;</code>
+     *
+     * <pre>
+     *伤害值
+     * </pre>
+     */
+    boolean hasValue();
+    /**
+     * <code>required fixed64 value = 2;</code>
+     *
+     * <pre>
+     *伤害值
+     * </pre>
+     */
+    long getValue();
+  }
+  /**
+   * Protobuf type {@code HurtValue}
+   */
+  public static final class HurtValue extends
+      com.google.protobuf.GeneratedMessage
+      implements HurtValueOrBuilder {
+    // Use HurtValue.newBuilder() to construct.
+    private HurtValue(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private HurtValue(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final HurtValue defaultInstance;
+    public static HurtValue getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public HurtValue getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private HurtValue(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              heroId_ = input.readBytes();
+              break;
+            }
+            case 17: {
+              bitField0_ |= 0x00000002;
+              value_ = input.readFixed64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_HurtValue_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PeakArenaServiceProtos.internal_static_HurtValue_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PeakArenaServiceProtos.HurtValue.class, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<HurtValue> PARSER =
+        new com.google.protobuf.AbstractParser<HurtValue>() {
+      public HurtValue parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new HurtValue(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<HurtValue> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string heroId = 1;
+    public static final int HEROID_FIELD_NUMBER = 1;
+    private java.lang.Object heroId_;
+    /**
+     * <code>required string heroId = 1;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public boolean hasHeroId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string heroId = 1;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public java.lang.String getHeroId() {
+      java.lang.Object ref = heroId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          heroId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string heroId = 1;</code>
+     *
+     * <pre>
+     * 英雄id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeroIdBytes() {
+      java.lang.Object ref = heroId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        heroId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required fixed64 value = 2;
+    public static final int VALUE_FIELD_NUMBER = 2;
+    private long value_;
+    /**
+     * <code>required fixed64 value = 2;</code>
+     *
+     * <pre>
+     *伤害值
+     * </pre>
+     */
+    public boolean hasValue() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required fixed64 value = 2;</code>
+     *
+     * <pre>
+     *伤害值
+     * </pre>
+     */
+    public long getValue() {
+      return value_;
+    }
+
+    private void initFields() {
+      heroId_ = "";
+      value_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasHeroId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasValue()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getHeroIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeFixed64(2, value_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getHeroIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed64Size(2, value_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PeakArenaServiceProtos.HurtValue parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PeakArenaServiceProtos.HurtValue prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code HurtValue}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PeakArenaServiceProtos.HurtValueOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_HurtValue_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_HurtValue_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PeakArenaServiceProtos.HurtValue.class, com.rwproto.PeakArenaServiceProtos.HurtValue.Builder.class);
+      }
+
+      // Construct using com.rwproto.PeakArenaServiceProtos.HurtValue.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        heroId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        value_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PeakArenaServiceProtos.internal_static_HurtValue_descriptor;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.HurtValue getDefaultInstanceForType() {
+        return com.rwproto.PeakArenaServiceProtos.HurtValue.getDefaultInstance();
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.HurtValue build() {
+        com.rwproto.PeakArenaServiceProtos.HurtValue result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PeakArenaServiceProtos.HurtValue buildPartial() {
+        com.rwproto.PeakArenaServiceProtos.HurtValue result = new com.rwproto.PeakArenaServiceProtos.HurtValue(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.heroId_ = heroId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.value_ = value_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PeakArenaServiceProtos.HurtValue) {
+          return mergeFrom((com.rwproto.PeakArenaServiceProtos.HurtValue)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PeakArenaServiceProtos.HurtValue other) {
+        if (other == com.rwproto.PeakArenaServiceProtos.HurtValue.getDefaultInstance()) return this;
+        if (other.hasHeroId()) {
+          bitField0_ |= 0x00000001;
+          heroId_ = other.heroId_;
+          onChanged();
+        }
+        if (other.hasValue()) {
+          setValue(other.getValue());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasHeroId()) {
+          
+          return false;
+        }
+        if (!hasValue()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PeakArenaServiceProtos.HurtValue parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PeakArenaServiceProtos.HurtValue) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string heroId = 1;
+      private java.lang.Object heroId_ = "";
+      /**
+       * <code>required string heroId = 1;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public boolean hasHeroId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public java.lang.String getHeroId() {
+        java.lang.Object ref = heroId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          heroId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeroIdBytes() {
+        java.lang.Object ref = heroId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          heroId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder setHeroId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        heroId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder clearHeroId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        heroId_ = getDefaultInstance().getHeroId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string heroId = 1;</code>
+       *
+       * <pre>
+       * 英雄id
+       * </pre>
+       */
+      public Builder setHeroIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        heroId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required fixed64 value = 2;
+      private long value_ ;
+      /**
+       * <code>required fixed64 value = 2;</code>
+       *
+       * <pre>
+       *伤害值
+       * </pre>
+       */
+      public boolean hasValue() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required fixed64 value = 2;</code>
+       *
+       * <pre>
+       *伤害值
+       * </pre>
+       */
+      public long getValue() {
+        return value_;
+      }
+      /**
+       * <code>required fixed64 value = 2;</code>
+       *
+       * <pre>
+       *伤害值
+       * </pre>
+       */
+      public Builder setValue(long value) {
+        bitField0_ |= 0x00000002;
+        value_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed64 value = 2;</code>
+       *
+       * <pre>
+       *伤害值
+       * </pre>
+       */
+      public Builder clearValue() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        value_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:HurtValue)
+    }
+
+    static {
+      defaultInstance = new HurtValue(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:HurtValue)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -15235,6 +23966,26 @@ public final class PeakArenaServiceProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ArenaRecord_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_PeakArenaHeroData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PeakArenaHeroData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_PeakArenaMagicData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PeakArenaMagicData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_PeakArenaUserData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PeakArenaUserData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_PeakArenaDetailRecord_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_PeakArenaDetailRecord_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgArenaRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -15244,6 +23995,16 @@ public final class PeakArenaServiceProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_MsgArenaResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_HurtRecord_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_HurtRecord_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_HurtValue_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_HurtValue_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -15280,34 +24041,58 @@ public final class PeakArenaServiceProtos {
       "\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\t" +
       "qualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadF" +
       "rame\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.Fashi" +
-      "onService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\214\001\n\013A" +
+      "onService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\315\001\n\013A" +
       "renaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022" +
       "\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadIm",
       "age\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021" +
-      "\n\tchallenge\030\010 \001(\005\"\224\001\n\017MsgArenaRequest\022\036\n" +
-      "\tarenaType\030\001 \002(\0162\013.eArenaType\022\016\n\006userId\030" +
-      "\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy" +
-      "\030\004 \001(\0132\n.ArenaInfo\022\013\n\003win\030\005 \001(\010\022\017\n\007reord" +
-      "er\030\006 \003(\005\"\215\003\n\020MsgArenaResponse\022\036\n\tarenaTy" +
-      "pe\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultType" +
-      "\030\002 \001(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003" +
-      " \001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.Are" +
-      "naInfo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord",
-      "\022\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021ma" +
-      "xChallengeCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022" +
-      "\026\n\016currentBuyCost\030\n \001(\005\022\026\n\016challengeCoun" +
-      "t\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyP" +
-      "erHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007place" +
-      "Up\030\017 \001(\005*\225\002\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n" +
-      "\014CHANGE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014AREN" +
-      "A_RECORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME" +
-      "\020\005\022\027\n\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIG" +
-      "HT_START\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SY",
-      "NC_RECORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVE" +
-      "R\020\014\022\027\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CO" +
-      "NTINUE\020\016*5\n\020eArenaResultType\022\021\n\rARENA_SU" +
-      "CCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwprotoB\026" +
-      "PeakArenaServiceProtos"
+      "\n\tchallenge\030\010 \001(\005\022\020\n\010recordId\030\t \002(\007\022\016\n\006s" +
+      "uitId\030\n \001(\007\022\016\n\006gender\030\013 \001(\007\022\r\n\005vipLv\030\014 \001" +
+      "(\007\"y\n\021PeakArenaHeroData\022\016\n\006heroId\030\001 \002(\t\022" +
+      "\021\n\theadImage\030\002 \002(\t\022\r\n\005level\030\003 \002(\007\022\016\n\006sta" +
+      "rLv\030\004 \002(\007\022\021\n\tqualityId\030\005 \002(\t\022\017\n\007modelId\030" +
+      "\006 \001(\007\"4\n\022PeakArenaMagicData\022\017\n\007modelId\030\001" +
+      " \002(\007\022\r\n\005level\030\002 \002(\007\"o\n\021PeakArenaUserData" +
+      "\022\014\n\004name\030\001 \002(\t\022$\n\010heroData\030\002 \003(\0132\022.PeakA" +
+      "renaHeroData\022&\n\tmagicData\030\003 \002(\0132\023.PeakAr",
+      "enaMagicData\"e\n\025PeakArenaDetailRecord\022&\n" +
+      "\nchallenger\030\001 \002(\0132\022.PeakArenaUserData\022$\n" +
+      "\010defender\030\002 \002(\0132\022.PeakArenaUserData\"\361\001\n\017" +
+      "MsgArenaRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eAr" +
+      "enaType\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t" +
+      ".TeamInfo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003" +
+      "win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\022\037\n\nhurtRecord" +
+      "\030\007 \003(\0132\013.HurtRecord\022\020\n\010recordId\030\010 \001(\007\022\021\n" +
+      "\thurtIndex\030\t \001(\007\022\025\n\rscoreRewardId\030\n \001(\007\"" +
+      "\222\004\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162",
+      "\013.eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021." +
+      "eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.Ar" +
+      "enaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n" +
+      "\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place" +
+      "\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChalleng" +
+      "eCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016curren" +
+      "tBuyCost\030\n \001(\005\022\026\n\016challengeCount\030\013 \001(\005\022\016" +
+      "\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyPerHour\030\r " +
+      "\001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007placeUp\030\017 \001(\005\022" +
+      "0\n\020challengeRecords\030\020 \003(\0132\026.PeakArenaDet",
+      "ailRecord\022\037\n\nhurtDetail\030\021 \001(\0132\013.HurtReco" +
+      "rd\022\032\n\022alreadyGetRewardId\030\022 \003(\007\022\024\n\014curren" +
+      "tScore\030\023 \001(\007\"a\n\nHurtRecord\022\016\n\006teamId\030\001 \002" +
+      "(\007\022\037\n\013myHurtValue\030\002 \003(\0132\n.HurtValue\022\"\n\016e" +
+      "nemyHurtValue\030\003 \003(\0132\n.HurtValue\"*\n\tHurtV" +
+      "alue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\006*\234\003\n\n" +
+      "eArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY" +
+      "\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n" +
+      "\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_F" +
+      "IGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n",
+      "\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r" +
+      "\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CH" +
+      "ALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016\022\031\n\025G" +
+      "ET_SCORE_REWARD_VIEW\020\017\022\024\n\020GET_SCORE_REWA" +
+      "RD\020\020\022\030\n\024GET_ALL_SCORE_REWARD\020\021\022\016\n\nGET_RE" +
+      "CORD\020\022\022\025\n\021GET_RECORD_DETAIL\020\023\022\023\n\017GET_HUR" +
+      "T_DETAIL\020\024*5\n\020eArenaResultType\022\021\n\rARENA_" +
+      "SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwproto" +
+      "B\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -15343,19 +24128,55 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaRecord_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaRecord_descriptor,
-              new java.lang.String[] { "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", });
-          internal_static_MsgArenaRequest_descriptor =
+              new java.lang.String[] { "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", "RecordId", "SuitId", "Gender", "VipLv", });
+          internal_static_PeakArenaHeroData_descriptor =
             getDescriptor().getMessageTypes().get(5);
+          internal_static_PeakArenaHeroData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_PeakArenaHeroData_descriptor,
+              new java.lang.String[] { "HeroId", "HeadImage", "Level", "StarLv", "QualityId", "ModelId", });
+          internal_static_PeakArenaMagicData_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_PeakArenaMagicData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_PeakArenaMagicData_descriptor,
+              new java.lang.String[] { "ModelId", "Level", });
+          internal_static_PeakArenaUserData_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_PeakArenaUserData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_PeakArenaUserData_descriptor,
+              new java.lang.String[] { "Name", "HeroData", "MagicData", });
+          internal_static_PeakArenaDetailRecord_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_PeakArenaDetailRecord_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_PeakArenaDetailRecord_descriptor,
+              new java.lang.String[] { "Challenger", "Defender", });
+          internal_static_MsgArenaRequest_descriptor =
+            getDescriptor().getMessageTypes().get(9);
           internal_static_MsgArenaRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaRequest_descriptor,
-              new java.lang.String[] { "ArenaType", "UserId", "Teams", "Enemy", "Win", "Reorder", });
+              new java.lang.String[] { "ArenaType", "UserId", "Teams", "Enemy", "Win", "Reorder", "HurtRecord", "RecordId", "HurtIndex", "ScoreRewardId", });
           internal_static_MsgArenaResponse_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_MsgArenaResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MsgArenaResponse_descriptor,
-              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", "ChallengeCount", "CdTime", "GainCurrencyPerHour", "ResetCost", "PlaceUp", });
+              new java.lang.String[] { "ArenaType", "ArenaResultType", "ArenaData", "ListInfo", "ListRecord", "Place", "ResultTip", "MaxChallengeCount", "BuyCount", "CurrentBuyCost", "ChallengeCount", "CdTime", "GainCurrencyPerHour", "ResetCost", "PlaceUp", "ChallengeRecords", "HurtDetail", "AlreadyGetRewardId", "CurrentScore", });
+          internal_static_HurtRecord_descriptor =
+            getDescriptor().getMessageTypes().get(11);
+          internal_static_HurtRecord_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_HurtRecord_descriptor,
+              new java.lang.String[] { "TeamId", "MyHurtValue", "EnemyHurtValue", });
+          internal_static_HurtValue_descriptor =
+            getDescriptor().getMessageTypes().get(12);
+          internal_static_HurtValue_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_HurtValue_descriptor,
+              new java.lang.String[] { "HeroId", "Value", });
           return null;
         }
       };
