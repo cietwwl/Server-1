@@ -24,26 +24,37 @@ public class GmCheckBag implements IGmTask {
 
 	private final static Map<Integer, List<EItemTypeDef>> ConditionMap = new HashMap<Integer, List<EItemTypeDef>>();
 	
+	private final static int TYPE_ALL = 0;
+	private final static int TYEP_EQUIP = 1;
+	private final static int TYPE_PIECE = 2;
+	private final static int TYPE_GEM = 3;
+	private final static int TYPE_CONSUME = 4;
+	
+	
 	static{
 		EItemTypeDef[] values = EItemTypeDef.values();
 		List<EItemTypeDef> ALL = Arrays.asList(values);
-		ConditionMap.put(0, ALL);
+		ConditionMap.put(TYPE_ALL, ALL);
 		List<EItemTypeDef> Equips = new ArrayList<EItemTypeDef>();
 		Equips.add(EItemTypeDef.HeroEquip);
 		Equips.add(EItemTypeDef.RoleEquip);
-		ConditionMap.put(1, Equips);
-		List<EItemTypeDef> Items = new ArrayList<EItemTypeDef>();
-		Items.add(EItemTypeDef.Fashion);
-		Items.add(EItemTypeDef.Piece);
-		Items.add(EItemTypeDef.Magic);
-		Items.add(EItemTypeDef.Magic_Piece);
-		Items.add(EItemTypeDef.Gem);
-		Items.add(EItemTypeDef.Consume);
-		Items.add(EItemTypeDef.SoulStone);
-		Items.add(EItemTypeDef.HeroItem);
-		Items.add(EItemTypeDef.SpecialItem);
-		ConditionMap.put(2, Items);
+		ConditionMap.put(TYEP_EQUIP, Equips);
 		
+		List<EItemTypeDef> pieces = new ArrayList<EItemTypeDef>();
+		pieces.add(EItemTypeDef.Piece);
+		ConditionMap.put(TYPE_PIECE, pieces);
+		List<EItemTypeDef> gems = new ArrayList<EItemTypeDef>();
+		gems.add(EItemTypeDef.Gem);
+		ConditionMap.put(TYPE_GEM, gems);
+		
+		List<EItemTypeDef> consumes = new ArrayList<EItemTypeDef>();
+		consumes.add(EItemTypeDef.Consume);
+		consumes.add(EItemTypeDef.Fashion);
+		consumes.add(EItemTypeDef.Magic);
+		consumes.add(EItemTypeDef.SoulStone);
+		consumes.add(EItemTypeDef.HeroItem);
+		consumes.add(EItemTypeDef.SpecialItem);
+		ConditionMap.put(TYPE_CONSUME, consumes);
 	}
 	
 	@Override

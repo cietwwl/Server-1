@@ -78,8 +78,9 @@ public class GmFindHeroSkillList implements IGmTask{
 				continue;
 			}
 			for(int i = 0;i<skillList.size();i++){
-				String skillId = skillList.get(i).getSkillId();
-				String level = skillId.split("_")[1];
+				SkillItem skillItem = skillList.get(i);
+				String skillId = skillItem.getSkillId();
+				int level = skillItem.getLevel();
 				SkillCfg skillCfg = SkillCfgDAO.getInstance().getCfgById(skillId);
 				names[i] = skillCfg.getName()+"+"+level;				
 			}
