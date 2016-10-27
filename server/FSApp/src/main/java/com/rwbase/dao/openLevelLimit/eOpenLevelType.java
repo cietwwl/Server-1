@@ -65,10 +65,7 @@ public enum eOpenLevelType {
 	Maigc_Upgrade(68,false),  //法宝进化
 	Magic_Smelt(69,false), 	//法宝熔炼
 	MainMsg(70,false),		//跑马灯
-	Maigc_Upgrade(68),  //法宝进化
-	Magic_Smelt(69), 	//法宝熔炼
-	MainMsg(70),		//跑马灯
-	Sprite_Attach(71),  //附灵
+	Sprite_Attach(71, false),  //附灵
 	;
 
 	private int order;

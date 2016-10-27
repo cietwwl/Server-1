@@ -14,7 +14,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -28,7 +28,7 @@ public class SpriteAttachHolder {
 
 	final private eSynType synType = eSynType.SPRITE_ATTACH_SYN;
 
-	private PlayerExtPropertyStore<SpriteAttachSyn> getItemStore(String ownerId) {
+	private RoleExtPropertyStore<SpriteAttachSyn> getItemStore(String ownerId) {
 		RoleExtPropertyStoreCache<SpriteAttachSyn> cache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SPRITE_ATTACH_ITEM, SpriteAttachSyn.class);
 		try {
 			return cache.getStore(ownerId);
@@ -43,7 +43,7 @@ public class SpriteAttachHolder {
 	private List<SpriteAttachSyn> getItemList(String heroId) {
 
 		List<SpriteAttachSyn> itemList = new ArrayList<SpriteAttachSyn>();
-		PlayerExtPropertyStore<SpriteAttachSyn> itemStore = getItemStore(heroId);
+		RoleExtPropertyStore<SpriteAttachSyn> itemStore = getItemStore(heroId);
 		if(itemStore == null){
 			return itemList;
 		}

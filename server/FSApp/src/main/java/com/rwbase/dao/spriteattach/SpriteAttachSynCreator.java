@@ -5,7 +5,7 @@ import java.util.List;
 import com.playerdata.SpriteAttachMgr;
 import com.rw.dataaccess.hero.HeroCreateParam;
 import com.rw.dataaccess.hero.HeroExtPropertyCreator;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class SpriteAttachSynCreator implements HeroExtPropertyCreator<SpriteAttachSyn>{
@@ -34,9 +34,8 @@ public class SpriteAttachSynCreator implements HeroExtPropertyCreator<SpriteAtta
 		return SpriteAttachMgr.getInstance().checkRoleCreate(userId, heroId, heroLevel, heroModelId, qualityId);
 	}
 
-
 	@Override
-	public List<SpriteAttachSyn> checkAndCreate(PlayerExtPropertyStore<SpriteAttachSyn> store, HeroCreateParam params) {
+	public List<SpriteAttachSyn> checkAndCreate(RoleExtPropertyStore<SpriteAttachSyn> store, HeroCreateParam params) {
 		// TODO Auto-generated method stub
 		return null;
 	}
