@@ -1,2 +1,2 @@
-key,remarks,vipLv,price
-140001,,2,200
+key,remarks,vipLv,price,levelLimit
+140001,,2,200,1
