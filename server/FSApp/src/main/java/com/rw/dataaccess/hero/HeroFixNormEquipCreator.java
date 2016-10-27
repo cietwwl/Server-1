@@ -9,7 +9,7 @@ import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfg;
 import com.playerdata.fixEquip.cfg.RoleFixEquipCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEquipDataItem> {
@@ -64,7 +64,7 @@ public class HeroFixNormEquipCreator implements HeroExtPropertyCreator<FixNormEq
 	}
 
 	@Override
-	public List<FixNormEquipDataItem> checkAndCreate(PlayerExtPropertyStore<FixNormEquipDataItem> store, HeroCreateParam params) {
+	public List<FixNormEquipDataItem> checkAndCreate(RoleExtPropertyStore<FixNormEquipDataItem> store, HeroCreateParam params) {
 		// do nothing
 		return null;
 	}

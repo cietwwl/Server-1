@@ -154,4 +154,25 @@ public class UserTeamBattleDataMgr {
 		}
 		return staticMemberTeamInfo;
 	}
+	
+	public int getTeamBattleCoin(Player player){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null){
+			return 0;
+		}
+		return utbData.getScore();
+	}
+	
+	public boolean addTeamBattleCoin(Player player, int count){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(utbData == null){
+			return false;
+		}
+		if(count + utbData.getScore() < 0){
+			return false;
+		}
+		utbData.setScore(utbData.getScore() + count);
+		UserTeamBattleDataHolder.getInstance().update(player, utbData);
+		return true;
+	}
 }

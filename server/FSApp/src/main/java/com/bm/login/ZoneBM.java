@@ -1,12 +1,13 @@
 package com.bm.login;
 
+import io.netty.util.collection.IntObjectHashMap;
+
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.util.CollectionUtils;
-
 import com.rw.fsutil.common.SimpleThreadFactory;
+import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.dao.zone.TableZoneInfoDAO;
 
@@ -14,22 +15,27 @@ public class ZoneBM {
 
 	private static ZoneBM instance = new ZoneBM();
 	private ScheduledThreadPoolExecutor checkExecutor;
-	private volatile List<TableZoneInfo> list;
+	private volatile IntObjectHashMap<TableZoneInfo> zoneInfoMap;
+	private int runCount;
 
 	public ZoneBM() {
+		zoneInfoMap = createZoneInfoMap();
 		checkExecutor = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("check_zone"));
 		checkExecutor.scheduleWithFixedDelay(new Runnable() {
 
 			@Override
 			public void run() {
 				try {
-					List<TableZoneInfo> currentList = TableZoneInfoDAO.getInstance().getAll();
-					if (currentList == null || currentList.isEmpty()) {
-						return;
+					IntObjectHashMap<TableZoneInfo> zoneInfoMap = createZoneInfoMap();
+					if (zoneInfoMap != null) {
+						ZoneBM.this.zoneInfoMap = zoneInfoMap;
 					}
-					list = currentList;
 				} catch (Throwable t) {
 					t.printStackTrace();
+				}
+				if (++runCount >= 10) {
+					runCount = 0;
+					UserChannelMgr.purgeMsgRecord();
 				}
 			}
 		}, 3, 30, TimeUnit.SECONDS);
@@ -39,42 +45,24 @@ public class ZoneBM {
 		return instance;
 	}
 
-	public List<TableZoneInfo> getAllZoneCfg() {
+	private IntObjectHashMap<TableZoneInfo> createZoneInfoMap() {
+		List<TableZoneInfo> list = TableZoneInfoDAO.getInstance().getAll();
 		if (list == null) {
-			return TableZoneInfoDAO.getInstance().getAll();
-		} else {
-			return list;
+			return null;
 		}
-	}
-
-	public TableZoneInfo getLastZoneCfg() {
-		List<TableZoneInfo> list = getAllZoneCfg();
-		if (!CollectionUtils.isEmpty(list) && list.size() > 0) {
-			return list.get(list.size() - 1);
+		int size = list.size();
+		if (size == 0) {
+			return null;
 		}
-		return null;
+		IntObjectHashMap<TableZoneInfo> zoneInfoMap = new IntObjectHashMap<TableZoneInfo>(size << 1);
+		for (TableZoneInfo t : list) {
+			zoneInfoMap.put(t.getZoneId(), t);
+		}
+		return zoneInfoMap;
 	}
 
 	public TableZoneInfo getTableZoneInfo(int zoneId) {
-		List<TableZoneInfo> list = getAllZoneCfg();
-		for (TableZoneInfo zoneCfg : list) {
-			if (zoneCfg.getZoneId() == zoneId) {
-				return zoneCfg;
-			}
-		}
-		return null;
-	}
-
-	public boolean isListContains(List<String> list, String target) {
-		if (list == null || list.size() <= 0 || target == null) {
-			return false;
-		}
-		for (String str : list) {
-			if (str.equals(target)) {
-				return true;
-			}
-		}
-		return false;
+		return zoneInfoMap.get(zoneId);
 	}
 
 }

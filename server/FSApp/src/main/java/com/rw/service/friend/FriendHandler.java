@@ -289,7 +289,7 @@ public class FriendHandler {
 			int randomRecommand,boolean isLimitRobot) {
 		if(!isLimitRobot){//用添加玩家好友的配置文件来添加机器人好友，不要加等级的限制
 			start = 1;
-			end = 50;
+			end = 60;
 		}
 		SegmentList<? extends MomentRankingEntry<LevelComparable, RankingLevelData>> segmentList = ranking.getSegmentList(new LevelComparable(start, 0), new LevelComparable(end, Integer.MAX_VALUE));
 		int size = segmentList.getRefSize();

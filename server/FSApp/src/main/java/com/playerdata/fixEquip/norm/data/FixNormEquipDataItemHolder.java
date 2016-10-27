@@ -12,7 +12,7 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -50,7 +50,7 @@ public class FixNormEquipDataItemHolder{
 	public void updateItemList(Player player, List<FixNormEquipDataItem> itemList){
 		if (itemList.size() > 0) {
 			String heroId = itemList.get(0).getOwnerId();
-			PlayerExtPropertyStore<FixNormEquipDataItem> itemStore = getItemStore(heroId);
+			RoleExtPropertyStore<FixNormEquipDataItem> itemStore = getItemStore(heroId);
 			for (FixNormEquipDataItem item : itemList) {
 				itemStore.update(item.getId());
 			}
@@ -99,9 +99,9 @@ public class FixNormEquipDataItemHolder{
 	}
 
 	
-	private PlayerExtPropertyStore<FixNormEquipDataItem> getItemStore(String heroId) {
+	private RoleExtPropertyStore<FixNormEquipDataItem> getItemStore(String heroId) {
 		RoleExtPropertyStoreCache<FixNormEquipDataItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.FIX_NORM_EQUIP, FixNormEquipDataItem.class);
-		PlayerExtPropertyStore<FixNormEquipDataItem> store = null;
+		RoleExtPropertyStore<FixNormEquipDataItem> store = null;
 		try {
 			store = heroExtCache.getStore(heroId);
 		} catch (Throwable e) {

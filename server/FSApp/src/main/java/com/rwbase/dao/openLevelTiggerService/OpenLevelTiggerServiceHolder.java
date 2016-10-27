@@ -9,7 +9,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
 
@@ -39,7 +39,7 @@ public class OpenLevelTiggerServiceHolder {
 	
 	
 	
-	public PlayerExtPropertyStore<OpenLevelTiggerServiceItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<OpenLevelTiggerServiceItem> getItemStore(String userId) {
 //		RoleExtPropertyStoreCache<OpenLevelTiggerServiceItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.OPENLEVEL_TIGGERSERVICE, OpenLevelTiggerServiceItem.class);
 //		try {
 //			return storeCache.getStore(userId);

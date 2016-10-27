@@ -6,7 +6,7 @@ import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class ActivityVitalityCreator implements PlayerExtPropertyCreator<ActivityVitalityTypeItem>{
@@ -28,7 +28,7 @@ public class ActivityVitalityCreator implements PlayerExtPropertyCreator<Activit
 
 	@Override
 	public List<ActivityVitalityTypeItem> checkAndCreate(
-			PlayerExtPropertyStore<ActivityVitalityTypeItem> store,
+			RoleExtPropertyStore<ActivityVitalityTypeItem> store,
 			PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
 		return null;

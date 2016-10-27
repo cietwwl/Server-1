@@ -12,7 +12,7 @@ import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
-import com.rw.fsutil.cacheDao.attachment.PlayerExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
@@ -75,9 +75,9 @@ public class ActivityTimeCardTypeItemHolder{
 	}
 
 	
-	public PlayerExtPropertyStore<ActivityTimeCardTypeItem> getItemStore(String userId) {
+	public RoleExtPropertyStore<ActivityTimeCardTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityTimeCardTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECARD, ActivityTimeCardTypeItem.class);
-		PlayerExtPropertyStore<ActivityTimeCardTypeItem> store = null;
+		RoleExtPropertyStore<ActivityTimeCardTypeItem> store = null;
 		try {
 			store = cach.getStore(userId);
 			
