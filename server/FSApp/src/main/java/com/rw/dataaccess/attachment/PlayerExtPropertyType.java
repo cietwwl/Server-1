@@ -7,6 +7,7 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
@@ -20,6 +21,7 @@ import com.rw.dataaccess.attachment.creator.ActivityDailyRechargeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityExchangeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityFortuneCatCreator;
+import com.rw.dataaccess.attachment.creator.ActivityGrowthFundCreator;
 import com.rw.dataaccess.attachment.creator.ActivityLimitHeroCreator;
 import com.rw.dataaccess.attachment.creator.ActivityRankTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityRateCreator;
@@ -82,6 +84,8 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	/**巅峰竞技场战报*/
 	PEAK_ARENA_RECORD(18, PeakRecordInfo.class, PeakRecordCreator.class),
 //	OPENLEVEL_TIGGERSERVICE(19,OpenLevelTiggerServiceItem.class,OpenLevelTiggerServiceCreator.class),//暂时将等级开放推送的辅助数据存在各功能模块
+	/**通用活动，成长基金；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
+	ACTIVITY_GROWTHFUND(19, ActivityGrowthFundItem.class, ActivityGrowthFundCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;

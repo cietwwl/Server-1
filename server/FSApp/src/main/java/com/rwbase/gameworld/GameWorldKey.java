@@ -77,6 +77,10 @@ public enum GameWorldKey {
 	 * 帮派争霸：积分排名
 	 */
 	GROUP_COMPETITION_SCORE_RANKING("GROUP_COMPETITION_SCORE_RANKING"),
+	/**
+	 * 成长基金数据
+	 */
+	GROWTH_FUND("GROWTH_FUND"),
 	;
 	
 	

@@ -128,10 +128,13 @@
      			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
      			
      			<entry key="MSG_GROUP_COMPETITION_BATTLE" value-ref="groupCompetitionBattleService" />
+     			
+     			<entry key="MSG_BUY_GROWTH_FUND" value-ref="growthFundService" />
 
      			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
      			
      			<entry key="MSG_PRAISE" value-ref="praiseService" />
+     			<entry key="MSG_SPRITE_ATTACH_UPGRADE" value-ref="spriteAttachService" />
 			</map>
 		</property>
 	</bean>
@@ -233,7 +236,10 @@
 	
 	<bean id="groupCompetitionBattleService" class="com.playerdata.groupcompetition.service.GroupCompetitionBattleService" />
 	
+	<bean id="growthFundService" class="com.playerdata.activity.growthFund.service.GrowthFundService" />
+	
 	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
 	
 	<bean id="praiseService" class="com.rw.service.praise.PraiseService" />
+	<bean id="spriteAttachService" class="com.rw.service.spriteAttach.SpriteAttachService" />
 </beans>  

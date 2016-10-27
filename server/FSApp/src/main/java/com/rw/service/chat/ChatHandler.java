@@ -18,6 +18,7 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -391,8 +392,8 @@ public class ChatHandler {
 		ByteString result = msgChatResponseBuilder.build().toByteString();
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
-			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
-			
+//			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
+			UserChannelMgr.sendAyncResponse(toPlayer.getUserId(), Command.MSG_CHAT, result);
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getUserId());
 //			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
@@ -555,7 +556,8 @@ public class ChatHandler {
 
 				msgChatResponse.addListMessage(msgData);
 				ByteString result = msgChatResponse.build().toByteString();
-				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
+//				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
+				UserChannelMgr.sendAyncResponse(p.getUserId(), Command.MSG_CHAT, result);
 			}
 
 			updatePlayerChatMsg(playerId, msgData, eChatType.CHAT_TREASURE);

@@ -13,6 +13,7 @@ import com.playerdata.fightinggrowth.fightingfunc.FSGetGroupSkillFightingOfSingl
 import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillCurrentFightingOfSingleFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetSpriteAttachCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistCurrentFightingOfSingleFunc;
 import com.rwbase.common.IFunction;
 
@@ -28,6 +29,7 @@ public enum FightingCalculateComponentType {
 	SKILL("技能战力", FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	TAOIST("道术系统", FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	FASHION("时装系统", EmptyHeroComponent.singleton, FSGetFashionCurrentFightingFunc.getInstance()),
+	SPRITE_ATTACH("附灵系统", FSGetSpriteAttachCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	;
 	private final IFunction<Hero, Integer> _componentFunc;
 	private final IFunction<Player, Integer> _playerOnlyComponentFunc; // 只针对主角的

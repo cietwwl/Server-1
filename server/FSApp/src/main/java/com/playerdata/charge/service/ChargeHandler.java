@@ -2,6 +2,7 @@ package com.playerdata.charge.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.timeCardType.data.FriendMonthCardInfoHolder;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.ChargeResult;
@@ -22,7 +23,7 @@ public class ChargeHandler {
 		response.setReqType(request.getReqType());
 		
 		String chargeItemId = request.getChargeItemId();
-		
+		ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, 60);
 		ChargeResult chargeResult = ChargeMgr.getInstance().charge(player, chargeItemId);
 		response.setIsSuccess(chargeResult.isSuccess());
 		response.setTipMsg(chargeResult.getTips());		

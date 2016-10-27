@@ -187,7 +187,7 @@ public class ChargeMgr {
 		if(target!=null){
 			if(ServerSwitch.isTestCharge()){
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+			}else if(chargeContentPojo.getMoney() != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
@@ -221,7 +221,7 @@ public class ChargeMgr {
 			//这里检查一下精准营销有没有此角色的充值请求
 			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
 			if(success){
-				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
+				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney()/100);
 				
 				registerBehavior(player);
 		        BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
@@ -433,7 +433,8 @@ public class ChargeMgr {
 			}
 			dataHolder.updateItem(targetPlayer, dataItem);
 			result.setSuccess(true);
-
+			
+			GameLog.info("月卡", targetPlayer.getUserId(), "日常任务刷新", null);
 			DailyActivityHandler.getInstance().sendTaskList(targetPlayer);
 
 			if (tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()) {

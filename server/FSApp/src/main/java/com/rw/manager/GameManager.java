@@ -191,6 +191,7 @@ public class GameManager {
 		TBTeamItemMgr.getInstance().initNotFullTeam();
 		WorshipMgr.getInstance().getByWorshipedList();
 		com.playerdata.groupcompetition.GroupCompetitionMgr.getInstance().serverStartComplete();
+		com.playerdata.activity.growthFund.ActivityGrowthFundMgr.getInstance().serverStartComplete();
 
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");

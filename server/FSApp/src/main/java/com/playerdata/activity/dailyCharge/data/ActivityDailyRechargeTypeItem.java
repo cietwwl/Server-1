@@ -4,20 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_daily_charge_item")
-public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
+public class ActivityDailyRechargeTypeItem implements ActivityTypeItemIF<ActivityDailyRechargeTypeSubItem> {
 
 	@Id
 	private Integer id;		//cfgId_userId
@@ -28,7 +25,7 @@ public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 	private String cfgId;	//活动的id
 	
 	@CombineSave
-	private int version;
+	private int version;	//cfg的版本号
 	
 	@CombineSave
 	private boolean closed = false;
@@ -44,14 +41,12 @@ public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 	
 	@CombineSave
 	private boolean hasViewed;	//是否已经查看过该活动
-
 	
-
 	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -82,9 +77,9 @@ public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 	public List<ActivityDailyRechargeTypeSubItem> getSubItemList() {
 		return subItemList;
 	}
-
+	
 	public void setSubItemList(List<ActivityDailyRechargeTypeSubItem> subItemList) {
-		this.subItemList = subItemList;
+		this.subItemList = (List<ActivityDailyRechargeTypeSubItem>) subItemList;
 	}
 
 	public long getLasttime() {
@@ -103,11 +98,11 @@ public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 		this.version = version;
 	}
 
-	public int getFinishCount() {
+	public synchronized int getFinishCount() {
 		return finishCount;
 	}
 
-	public void setFinishCount(int finishCount) {
+	public synchronized void setFinishCount(int finishCount) {
 		this.finishCount = finishCount;
 	}
 
@@ -117,5 +112,9 @@ public class ActivityDailyRechargeTypeItem implements  RoleExtProperty {
 
 	public void setHasViewed(boolean hasViewed) {
 		this.hasViewed = hasViewed;
+	}
+	
+	public synchronized void reset(){
+		finishCount = 0;
 	}
 }

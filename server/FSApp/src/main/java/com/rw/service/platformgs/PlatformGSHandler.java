@@ -5,11 +5,8 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.hero.core.FSHero;
 import com.playerdata.hero.core.FSHeroMgr;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.netty.UserChannelMgr;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwproto.PlatformGSMsg.UserInfoRequest;
@@ -51,7 +48,7 @@ public class PlatformGSHandler {
 
 	public ByteString processKickPlayerOnline(UserInfoRequest userInfoRequest) {
 		String userId = userInfoRequest.getUserId();
-		if (UserChannelMgr.get(userId) != null) {
+		if (UserChannelMgr.isConnecting(userId)) {
 			Player player = PlayerMgr.getInstance().find(userId);
 			GameLog.debug("Kick Player...,userId:" + userId);
 			player.KickOff("你的账号在另一处登录，请重新登录");

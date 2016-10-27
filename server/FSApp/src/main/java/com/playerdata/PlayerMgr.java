@@ -364,32 +364,7 @@ public class PlayerMgr {
 		}
 		return targetList;
 	}
-
-	public void SendToPlayer(MsgDef.Command cmd, ByteString pBuffer, PlayerIF p) {
-		try {
-			List<Player> players = getOnlinePlayers();
-			for (Player player : players) {
-				if (player != null && player.getUserId().equals(p.getTableUser().getUserId())) {
-					player.SendMsgByOther(cmd, pBuffer);
-				}
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	/** 推送给所有在线玩家 */
-	public void sendPlayerAll(Command commandId, ByteString byteString) {
-		for (Iterator<Entry<String, Player>> it = PlayerMgr.getInstance().getAllPlayer().entrySet().iterator(); it.hasNext();) {
-			Entry<String, Player> entry = it.next();
-			Player player = ((Player) entry.getValue());
-			if (player.getTableUser() != null) {
-				player.SendMsg(commandId, byteString);
-			}
-		}
-	}
-
+	
 	/**
 	 * 是否在线
 	 * 
@@ -397,7 +372,7 @@ public class PlayerMgr {
 	 * @return
 	 */
 	public boolean isOnline(String userId) {
-		return UserChannelMgr.get(userId) != null;
+		return UserChannelMgr.isConnecting(userId);
 	}
 
 	private static PlayerCallBackTask timeSecondTask = new PlayerCallBackTask() {
