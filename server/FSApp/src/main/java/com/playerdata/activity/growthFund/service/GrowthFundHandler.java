@@ -60,8 +60,9 @@ public class GrowthFundHandler {
 			return setFail(respBuilder, GrowthFundTips.getTipsDiamondNotEnough());
 		}
 		if (player.getUserGameDataMgr().deductCurrency(eSpecialItemId.Gold, cfg.getPrice())) {
-			respBuilder.setResultType(EGrowthFundResultType.SUCCESS);
 			ActivityGrowthFundMgr.getInstance().onPlayerBuyGrowthFundGift(player);
+			respBuilder.setResultType(EGrowthFundResultType.SUCCESS);
+			respBuilder.setBoughtCount(ActivityGrowthFundMgr.getInstance().getBoughtCount());
 		} else {
 			return setFail(respBuilder, GrowthFundTips.getTipsDiamondNotEnough());
 		}
@@ -72,7 +73,7 @@ public class GrowthFundHandler {
 		GrowthFundResponse.Builder respBuilder = GrowthFundResponse.newBuilder();
 		respBuilder.setReqType(request.getReqType());
 		ActivityGrowthFundItem growthFundItem = ActivityGrowthFundMgr.getInstance().getByType(player.getUserId(), type);
-		if (!growthFundItem.isBought()) {
+		if (type == GrowthFundType.GIFT && !growthFundItem.isBought()) {
 			return setFail(respBuilder, GrowthFundTips.getTipsYouHaveNotBought());
 		}
 		String cfgId = String.valueOf(request.getRequestId());

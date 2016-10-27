@@ -1,9 +1,13 @@
 package com.playerdata.activity.growthFund.data;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.playerdata.Player;
 import com.playerdata.activity.growthFund.GrowthFundGlobalData;
+import com.playerdata.activity.growthFund.GrowthFundSubItemComparator;
+import com.playerdata.activity.growthFund.cfg.GrowthFundRewardAbsCfg;
+import com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO;
 import com.playerdata.activityCommon.UserActivityChecker;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
@@ -22,6 +26,7 @@ import com.rwproto.DataSynProtos.eSynType;
 public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGrowthFundItem>{
 	
 	private static ActivityGrowthFundItemHolder instance = new ActivityGrowthFundItemHolder();
+	private static GrowthFundSubItemComparator _comparator = new GrowthFundSubItemComparator();
 	
 	public static ActivityGrowthFundItemHolder getInstance(){
 		return instance;
@@ -31,6 +36,23 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 	
 	private GrowthFundGlobalData _globalData;
 	
+	private void checkGrowthFundItemData(List<ActivityGrowthFundItem> itemList) {
+		int alreadyBoughtCount = _globalData.getAlreadyBoughtCount();
+		GrowthFundSubCfgDAO cfgDAO = GrowthFundSubCfgDAO.getInstance();
+		for (ActivityGrowthFundItem item : itemList) {
+			item.setBoughtCount(alreadyBoughtCount);
+			if (!item.isSorted()) {
+				List<ActivityGrowthFundSubItem> subItemList = item.getSubItemList();
+				for (ActivityGrowthFundSubItem subItem : subItemList) {
+					GrowthFundRewardAbsCfg cfgIF = (GrowthFundRewardAbsCfg) cfgDAO.getCfgById(subItem.getCfgId());
+					subItem.setRequiredCondition(cfgIF.getRequiredCondition());
+				}
+				Collections.sort(subItemList, _comparator);
+				item.setSorted(true);
+			}
+		}
+	}
+	
 	public void updateItem(Player player, ActivityGrowthFundItem item){
 		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
@@ -38,11 +60,8 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 
 	public void synAllData(Player player) {
 		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
-		int alreadyBoughtCount = _globalData.getAlreadyBoughtCount();
 		if (null != itemList && !itemList.isEmpty()) {
-			for (ActivityGrowthFundItem item : itemList) {
-				item.setBoughtCount(alreadyBoughtCount);
-			}
+			checkGrowthFundItemData(itemList);
 			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 		}
 	}

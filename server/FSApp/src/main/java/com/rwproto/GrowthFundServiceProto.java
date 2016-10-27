@@ -41,6 +41,14 @@ public final class GrowthFundServiceProto {
      * </pre>
      */
     GET_GROWTH_FUND_REWARD(2, 3),
+    /**
+     * <code>NOTIFY_BOUGHT_COUNT_CHANGE = 4;</code>
+     *
+     * <pre>
+     * 通知购买人数变化
+     * </pre>
+     */
+    NOTIFY_BOUGHT_COUNT_CHANGE(3, 4),
     ;
 
     /**
@@ -67,6 +75,14 @@ public final class GrowthFundServiceProto {
      * </pre>
      */
     public static final int GET_GROWTH_FUND_REWARD_VALUE = 3;
+    /**
+     * <code>NOTIFY_BOUGHT_COUNT_CHANGE = 4;</code>
+     *
+     * <pre>
+     * 通知购买人数变化
+     * </pre>
+     */
+    public static final int NOTIFY_BOUGHT_COUNT_CHANGE_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -76,6 +92,7 @@ public final class GrowthFundServiceProto {
         case 1: return BUY_GROWTH_FUND;
         case 2: return GET_GROWTH_FUND_GIFT;
         case 3: return GET_GROWTH_FUND_REWARD;
+        case 4: return NOTIFY_BOUGHT_COUNT_CHANGE;
         default: return null;
       }
     }
@@ -255,7 +272,7 @@ public final class GrowthFundServiceProto {
      * <code>optional fixed32 requestId = 2;</code>
      *
      * <pre>
-     * 请求领取的选项id
+     * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
      * </pre>
      */
     boolean hasRequestId();
@@ -263,7 +280,7 @@ public final class GrowthFundServiceProto {
      * <code>optional fixed32 requestId = 2;</code>
      *
      * <pre>
-     * 请求领取的选项id
+     * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
      * </pre>
      */
     int getRequestId();
@@ -410,7 +427,7 @@ public final class GrowthFundServiceProto {
      * <code>optional fixed32 requestId = 2;</code>
      *
      * <pre>
-     * 请求领取的选项id
+     * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
      * </pre>
      */
     public boolean hasRequestId() {
@@ -420,7 +437,7 @@ public final class GrowthFundServiceProto {
      * <code>optional fixed32 requestId = 2;</code>
      *
      * <pre>
-     * 请求领取的选项id
+     * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
      * </pre>
      */
     public int getRequestId() {
@@ -741,7 +758,7 @@ public final class GrowthFundServiceProto {
        * <code>optional fixed32 requestId = 2;</code>
        *
        * <pre>
-       * 请求领取的选项id
+       * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
        * </pre>
        */
       public boolean hasRequestId() {
@@ -751,7 +768,7 @@ public final class GrowthFundServiceProto {
        * <code>optional fixed32 requestId = 2;</code>
        *
        * <pre>
-       * 请求领取的选项id
+       * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
        * </pre>
        */
       public int getRequestId() {
@@ -761,7 +778,7 @@ public final class GrowthFundServiceProto {
        * <code>optional fixed32 requestId = 2;</code>
        *
        * <pre>
-       * 请求领取的选项id
+       * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
        * </pre>
        */
       public Builder setRequestId(int value) {
@@ -774,7 +791,7 @@ public final class GrowthFundServiceProto {
        * <code>optional fixed32 requestId = 2;</code>
        *
        * <pre>
-       * 请求领取的选项id
+       * 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
        * </pre>
        */
       public Builder clearRequestId() {
@@ -860,6 +877,24 @@ public final class GrowthFundServiceProto {
      */
     com.google.protobuf.ByteString
         getTipsBytes();
+
+    // optional fixed32 boughtCount = 4;
+    /**
+     * <code>optional fixed32 boughtCount = 4;</code>
+     *
+     * <pre>
+     * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+     * </pre>
+     */
+    boolean hasBoughtCount();
+    /**
+     * <code>optional fixed32 boughtCount = 4;</code>
+     *
+     * <pre>
+     * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+     * </pre>
+     */
+    int getBoughtCount();
   }
   /**
    * Protobuf type {@code growthFund.GrowthFundResponse}
@@ -941,6 +976,11 @@ public final class GrowthFundServiceProto {
             case 26: {
               bitField0_ |= 0x00000004;
               tips_ = input.readBytes();
+              break;
+            }
+            case 37: {
+              bitField0_ |= 0x00000008;
+              boughtCount_ = input.readFixed32();
               break;
             }
           }
@@ -1086,10 +1126,35 @@ public final class GrowthFundServiceProto {
       }
     }
 
+    // optional fixed32 boughtCount = 4;
+    public static final int BOUGHTCOUNT_FIELD_NUMBER = 4;
+    private int boughtCount_;
+    /**
+     * <code>optional fixed32 boughtCount = 4;</code>
+     *
+     * <pre>
+     * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+     * </pre>
+     */
+    public boolean hasBoughtCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional fixed32 boughtCount = 4;</code>
+     *
+     * <pre>
+     * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+     * </pre>
+     */
+    public int getBoughtCount() {
+      return boughtCount_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.BUY_GROWTH_FUND;
       resultType_ = com.rwproto.GrowthFundServiceProto.EGrowthFundResultType.SUCCESS;
       tips_ = "";
+      boughtCount_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1120,6 +1185,9 @@ public final class GrowthFundServiceProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getTipsBytes());
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeFixed32(4, boughtCount_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1140,6 +1208,10 @@ public final class GrowthFundServiceProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getTipsBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(4, boughtCount_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1267,6 +1339,8 @@ public final class GrowthFundServiceProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         tips_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        boughtCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1307,6 +1381,10 @@ public final class GrowthFundServiceProto {
           to_bitField0_ |= 0x00000004;
         }
         result.tips_ = tips_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.boughtCount_ = boughtCount_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1333,6 +1411,9 @@ public final class GrowthFundServiceProto {
           bitField0_ |= 0x00000004;
           tips_ = other.tips_;
           onChanged();
+        }
+        if (other.hasBoughtCount()) {
+          setBoughtCount(other.getBoughtCount());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1571,6 +1652,55 @@ public final class GrowthFundServiceProto {
         return this;
       }
 
+      // optional fixed32 boughtCount = 4;
+      private int boughtCount_ ;
+      /**
+       * <code>optional fixed32 boughtCount = 4;</code>
+       *
+       * <pre>
+       * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+       * </pre>
+       */
+      public boolean hasBoughtCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional fixed32 boughtCount = 4;</code>
+       *
+       * <pre>
+       * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+       * </pre>
+       */
+      public int getBoughtCount() {
+        return boughtCount_;
+      }
+      /**
+       * <code>optional fixed32 boughtCount = 4;</code>
+       *
+       * <pre>
+       * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+       * </pre>
+       */
+      public Builder setBoughtCount(int value) {
+        bitField0_ |= 0x00000008;
+        boughtCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 boughtCount = 4;</code>
+       *
+       * <pre>
+       * 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+       * </pre>
+       */
+      public Builder clearBoughtCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        boughtCount_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:growthFund.GrowthFundResponse)
     }
 
@@ -1604,15 +1734,16 @@ public final class GrowthFundServiceProto {
       "\n\027GrowthFundService.proto\022\ngrowthFund\"[\n" +
       "\021GrowthFundRequest\0223\n\007reqType\030\001 \002(\0162\".gr" +
       "owthFund.EGrowthFundRequestType\022\021\n\treque" +
-      "stId\030\002 \001(\007\"\216\001\n\022GrowthFundResponse\0223\n\007req" +
+      "stId\030\002 \001(\007\"\243\001\n\022GrowthFundResponse\0223\n\007req" +
       "Type\030\001 \002(\0162\".growthFund.EGrowthFundReque" +
       "stType\0225\n\nresultType\030\002 \002(\0162!.growthFund." +
-      "EGrowthFundResultType\022\014\n\004tips\030\003 \001(\t*c\n\026E" +
-      "GrowthFundRequestType\022\023\n\017BUY_GROWTH_FUND" +
-      "\020\001\022\030\n\024GET_GROWTH_FUND_GIFT\020\002\022\032\n\026GET_GROW" +
-      "TH_FUND_REWARD\020\003*.\n\025EGrowthFundResultTyp",
-      "e\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B%\n\013com.rwprotoB" +
-      "\026GrowthFundServiceProto"
+      "EGrowthFundResultType\022\014\n\004tips\030\003 \001(\t\022\023\n\013b" +
+      "oughtCount\030\004 \001(\007*\203\001\n\026EGrowthFundRequestT" +
+      "ype\022\023\n\017BUY_GROWTH_FUND\020\001\022\030\n\024GET_GROWTH_F" +
+      "UND_GIFT\020\002\022\032\n\026GET_GROWTH_FUND_REWARD\020\003\022\036",
+      "\n\032NOTIFY_BOUGHT_COUNT_CHANGE\020\004*.\n\025EGrowt" +
+      "hFundResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B%" +
+      "\n\013com.rwprotoB\026GrowthFundServiceProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1630,7 +1761,7 @@ public final class GrowthFundServiceProto {
           internal_static_growthFund_GrowthFundResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_growthFund_GrowthFundResponse_descriptor,
-              new java.lang.String[] { "ReqType", "ResultType", "Tips", });
+              new java.lang.String[] { "ReqType", "ResultType", "Tips", "BoughtCount", });
           return null;
         }
       };
