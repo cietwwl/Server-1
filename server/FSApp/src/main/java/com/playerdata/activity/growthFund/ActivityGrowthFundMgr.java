@@ -36,7 +36,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	}
 	
 	public void serverStartComplete() {
-		ActivityGrowthFundItemHolder.getInstance().loadGlobalData();
+		_dataHolder.loadGlobalData();
 		ShutdownService.registerShutdownService(new GrowthFundShutdownHandler());
 	}
 	
@@ -123,5 +123,9 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	public void onPlayerGetReward(Player player, ActivityGrowthFundItem item, ActivityGrowthFundSubItem subItem) {
 		subItem.setGet(true);
 		_dataHolder.updateItem(player, item);
+	}
+	
+	public int getBoughtCount() {
+		return _dataHolder.getGlobalData().getAlreadyBoughtCount();
 	}
 }

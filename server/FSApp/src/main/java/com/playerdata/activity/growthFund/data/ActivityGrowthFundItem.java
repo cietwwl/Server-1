@@ -41,6 +41,9 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 	
 	private int boughtCount; // 已经购买的人数
 	
+	@JsonIgnore
+	private boolean sorted; // 是否已经排过序
+	
 	@IgnoreSynField
 	private GrowthFundType _growthFundType;
 
@@ -81,7 +84,7 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 	}
 
 	public void setSubItemList(List<ActivityGrowthFundSubItem> subItemList) {
-		this.subItemList = (List<ActivityGrowthFundSubItem>) subItemList;
+		this.subItemList = subItemList;
 	}
 
 	public boolean isHasViewed() {
@@ -128,5 +131,15 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 	@JsonIgnore
 	public void setBoughtCount(int boughtCount) {
 		this.boughtCount = boughtCount;
+	}
+
+	@JsonIgnore
+	public boolean isSorted() {
+		return sorted;
+	}
+
+	@JsonIgnore
+	public void setSorted(boolean sorted) {
+		this.sorted = sorted;
 	}
 }

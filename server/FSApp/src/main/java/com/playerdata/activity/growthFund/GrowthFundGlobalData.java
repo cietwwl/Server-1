@@ -16,6 +16,7 @@ public class GrowthFundGlobalData {
 	@JsonProperty("1")
 	private AtomicInteger _alreadyBoughtCount; // 已经购买的人数
 	private final AtomicBoolean _dirty = new AtomicBoolean(); // 数据是否已经发生过改变
+	private final AtomicBoolean _needToSyn = new AtomicBoolean(false); // 是否需要把人数同步到客户端
 	
 	public GrowthFundGlobalData() {}
 	
@@ -27,6 +28,10 @@ public class GrowthFundGlobalData {
 	
 	AtomicBoolean isDirty() {
 		return _dirty;
+	}
+	
+	AtomicBoolean isNeedToSyn() {
+		return _needToSyn;
 	}
 	
 	/**
@@ -45,6 +50,7 @@ public class GrowthFundGlobalData {
 	public void increaseAlreadyBoughtCount() {
 		_alreadyBoughtCount.incrementAndGet();
 		_dirty.compareAndSet(false, true);
+		_needToSyn.compareAndSet(false, true);
 	}
 	
 	@JsonIgnore
@@ -52,6 +58,7 @@ public class GrowthFundGlobalData {
 		if (count > 0) {
 			_alreadyBoughtCount.getAndSet(count);
 			_dirty.compareAndSet(false, true);
+			_needToSyn.compareAndSet(false, true);
 		}
 	}
 }
