@@ -36,11 +36,18 @@ public class WBUserData {
 		return data;
 	}
 	
-	public WBUserData nextInstance(int bossVersion){
-		WBUserData data = new WBUserData();
-		data.userId = this.userId;		
-		data.bossVersion = bossVersion;
-		return data;
+	public WBUserData nextInstance(int bossVersion){	
+			
+		this.bossVersion = bossVersion;		
+		this.lastFightTime = 0;
+		this.fightCdTime = 0;
+		this.lastHurt = 0;
+		this.lastAwardCoin = 0; //
+		this.totalHurt = 0;		
+		this.buffCfgIdList =new ArrayList<String>();
+		this.cdBuyCount = 0;
+		
+		return this;
 	}
 	
 	public String getUserId() {
