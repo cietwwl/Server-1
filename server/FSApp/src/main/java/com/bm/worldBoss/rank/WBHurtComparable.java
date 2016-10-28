@@ -7,7 +7,7 @@ public class WBHurtComparable implements Comparable<WBHurtComparable> {
 	private long lastHurtTime;	//上次造成伤害的时间
 	
 	public WBHurtComparable(){
-		
+		System.out.println();
 	}
 	
 	public WBHurtComparable(long totalHurt, long lastHurtTime){
@@ -18,6 +18,18 @@ public class WBHurtComparable implements Comparable<WBHurtComparable> {
 	
 	public long getTotalHurt(){
 		return this.totalHurt;
+	}
+
+	public long getLastHurtTime() {
+		return lastHurtTime;
+	}
+
+	public void setLastHurtTime(long lastHurtTime) {
+		this.lastHurtTime = lastHurtTime;
+	}
+
+	public void setTotalHurt(long totalHurt) {
+		this.totalHurt = totalHurt;
 	}
 
 	@Override

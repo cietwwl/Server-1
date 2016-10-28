@@ -93,7 +93,7 @@ public class WBMgr {
 		ArmyInfo armyInfo = null;
 		
 		armyInfo = ArmyInfoHelper.buildMonsterArmy(wbData.getMonsterCfgId());
-		ArmyHero armyHero = armyInfo.getHeroList().get(0);
+		ArmyHero armyHero = armyInfo.getPlayer();
 		CurAttrData curAttrData = new CurAttrData();
 		
 		readLock.lock();

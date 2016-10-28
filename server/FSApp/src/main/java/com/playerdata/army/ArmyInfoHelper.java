@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
@@ -127,6 +129,10 @@ public class ArmyInfoHelper {
 			if(heroTmp == null){
 				continue;
 			}
+			//这里要去掉主角
+			if(StringUtils.equals(heroTmp.getId(), player.getUserId())){
+				continue;
+			}
 			ArmyHero armyHero = getArmyHero(heroTmp);
 			heroList.add(armyHero);
 		}
@@ -162,7 +168,8 @@ public class ArmyInfoHelper {
 		ArmyInfo army = new ArmyInfo ();	
 
 		ArmyHero armyHero = MonsterArmyHelper.buildMonster(monsterId);
-		army.addHero(armyHero);
+		army.setPlayer(armyHero);
+		
 
 		return army;
 	}
