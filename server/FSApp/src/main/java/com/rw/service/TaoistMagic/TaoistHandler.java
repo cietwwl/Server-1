@@ -36,12 +36,12 @@ public class TaoistHandler {
 		TaoistMagicCfgHelper helper = TaoistMagicCfgHelper.getInstance();
 		TaoistMagicCfg cfg = helper.getCfgById(String.valueOf(tid));
 		if (cfg == null) {
-			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
+			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req, true);
 		}
 
 		int plvl = player.getLevel();
 		if (plvl < cfg.getOpenLevel()) {
-			return ErrorResponse(String.format("主角%s级开启", cfg.getOpenLevel()), ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
+			return ErrorResponse(String.format("主角%s级开启", cfg.getOpenLevel()), ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req, false);
 		}
 
 		int upgradeCount = req.getUpgradeCount();
@@ -72,14 +72,8 @@ public class TaoistHandler {
 		RefInt total = new RefInt();
 		int[] planNums = helper.generateCriticalPlan(taoistMgr.getRandomSeed(), taoistMgr.getSeedRange(), tid, currentLvl, upgradeCount, maxUpgradeCount, total);
 		if (planNums == null) {
-			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req);
+			return ErrorResponse("无效道术技能ID", ":" + tid, ErrorCode_Taoist.IllegalArguments, response, player, req, true);
 		}
-
-		// System.out.print("道术暴击序列:");
-		// for(int i = 0; i<planNums.length;i++){
-		// System.out.print(planNums[i]+",");
-		// }
-		// System.out.println();
 
 		int criticalCount = 0;
 		if (total.value > upgradeCount) {
@@ -91,16 +85,16 @@ public class TaoistHandler {
 		// 计算消耗货币值，需要跳过暴击
 		int coinCount = consumeHelper.getConsumeCoin(consumeId, currentLvl, planNums);
 		if (coinCount == -1) {
-			return ErrorResponse("升级次数无效", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player, req);
+			return ErrorResponse("升级次数无效", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player, req, true);
 		}
 
 		// 扣钱
 		if (!userGameDataMgr.deductCurrency(cfg.getCoinType(), coinCount)) {
-			return ErrorResponse("不够钱升级", ",新等级为:" + newLevel, ErrorCode_Taoist.NotEnoughMoney, response, player, req);
+			return ErrorResponse("不够钱升级", ",新等级为:" + newLevel, ErrorCode_Taoist.NotEnoughMoney, response, player, req, true);
 		}
 
 		if (!taoistMgr.setLevel(tid, newLevel)) {
-			return ErrorResponse("升级失败，次数", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player, req);
+			return ErrorResponse("升级失败，次数", ":" + upgradeCount, ErrorCode_Taoist.IllegalArguments, response, player, req, true);
 		}
 
 		// 发送更新
@@ -139,11 +133,15 @@ public class TaoistHandler {
 		return response.build().toByteString();
 	}
 
-	private ByteString ErrorResponse(String userTip, String errLog, ErrorCode_Taoist errCode, Builder response, Player player, TaoistRequest req) {
+	private ByteString ErrorResponse(String userTip, String errLog, ErrorCode_Taoist errCode, Builder response, Player player, TaoistRequest req, boolean needLog) {
 		if (StringUtils.isNotBlank(userTip)) {
 			response.setResultTip(userTip);
 		}
-		GameLog.error("道术", player.getUserId(), userTip + errLog);
+
+		if (needLog) {
+			GameLog.error("道术", player.getUserId(), userTip + errLog);
+		}
+
 		response.setErrorCode(errCode);
 		ITaoistMgr taoistMgr = player.getTaoistMgr();
 		taoistMgr.RefreshSeed();
