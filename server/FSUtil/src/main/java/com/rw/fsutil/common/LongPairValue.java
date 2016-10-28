@@ -15,5 +15,9 @@ public class LongPairValue<T> {
 		this.value = value;
 		this.t = t;
 	}
-	
+
+	public T getT() {
+		return t;
+	}
+
 }

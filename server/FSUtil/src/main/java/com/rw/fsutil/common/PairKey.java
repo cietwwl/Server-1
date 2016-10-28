@@ -48,4 +48,9 @@ public class PairKey<K1, K2> {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "[" + firstKey + '-' + secondKey + ']';
+	}
+
 }

@@ -275,7 +275,7 @@ public class ClientDataSynMgr {
 		SynDataInReqMgr synDataInReqMgr = UserChannelMgr.getSynDataInReqMgr(player.getUserId());
 		if(synDataInReqMgr!=null && !synDataInReqMgr.addSynData(serverData, synType, msgDataSyn)){
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
-			player.SendMsg(Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
+			player.SendMsg(Command.MSG_DATA_SYN, synType, msgDataSynList.build().toByteString());
 		}
 		
 	}
@@ -315,7 +315,7 @@ public class ClientDataSynMgr {
 			if(null == player) continue;
 			msgDataSyn.setVersion(player.getDataSynVersionHolder().getVersion(synType));
 			Builder msgDataSynList = MsgDataSynList.newBuilder().addMsgDataSyn(msgDataSyn);
-			UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_DATA_SYN, msgDataSynList.build().toByteString());
+			UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_DATA_SYN, synType, msgDataSynList.build().toByteString());
 		}
 	}
 	

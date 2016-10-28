@@ -393,7 +393,7 @@ public class ChatHandler {
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
 //			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
-			UserChannelMgr.sendAyncResponse(toPlayer.getUserId(), Command.MSG_CHAT, result);
+			UserChannelMgr.sendAyncResponse(toPlayer.getUserId(), Command.MSG_CHAT, "chatPerson", result);
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getUserId());
 //			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
@@ -557,7 +557,7 @@ public class ChatHandler {
 				msgChatResponse.addListMessage(msgData);
 				ByteString result = msgChatResponse.build().toByteString();
 //				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
-				UserChannelMgr.sendAyncResponse(p.getUserId(), Command.MSG_CHAT, result);
+				UserChannelMgr.sendAyncResponse(p.getUserId(), Command.MSG_CHAT,"chatTreasure", result);
 			}
 
 			updatePlayerChatMsg(playerId, msgData, eChatType.CHAT_TREASURE);
