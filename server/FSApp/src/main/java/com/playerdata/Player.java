@@ -188,8 +188,7 @@ public class Player implements PlayerIF {
 	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();// 用户临时数据的同步
 
 	// /** 羁绊的缓存数据<英雄的ModelId,List<羁绊的推送数据>> */
-	// private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>();
-	// private int logoutTimer = 0;
+	// private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>(); private int logoutTimer = 0;
 
 	// 同步数据的版本记录
 	private DataSynVersionHolder dataSynVersionHolder = new DataSynVersionHolder();
@@ -253,18 +252,21 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public Player(final String userId, boolean initMgr, RoleCfg roleCfg) {
+	public Player(final String userId, boolean loadFromDB, RoleCfg roleCfg, PlayerCreateParam createParam) {
 		// long start = System.currentTimeMillis();
 		this.userId = userId;
 		this.userDataMgr = new UserDataMgr(this, userId);
-		if (!initMgr) {
+		if (!loadFromDB) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
+		}
+		if (createParam != null) {
+			this.level = createParam.getLevel();
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
-		if (!initMgr) {
+		if (!loadFromDB) {
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			RoleExtPropertyFactory.firstCreatePlayerExtProperty(userId, userDataMgr.getCreateTime(), getLevel());
 			notifyCreated();
@@ -278,7 +280,7 @@ public class Player implements PlayerIF {
 
 		playerQuestionMgr.init(this);
 
-		if (initMgr) {
+		if (loadFromDB) {
 			initMgr();
 		}
 
@@ -288,11 +290,11 @@ public class Player implements PlayerIF {
 
 		// // TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
 		// checkAllHeroFetters();
-		// System.out.println("init player：" + (System.currentTimeMillis() - start));
+		// System.out.println("init player：" + (System.currentTimeMillis() -start));
 	}
 
 	public Player(String userId, boolean initMgr) {
-		this(userId, initMgr, null);
+		this(userId, initMgr, null, null);
 	}
 
 	public void initMgr() {
@@ -741,8 +743,7 @@ public class Player implements PlayerIF {
 		return openLevelTiggerServiceRegeditInfo;
 	}
 
-	public void setOpenLevelTiggerServiceRegeditInfo(
-			OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo) {
+	public void setOpenLevelTiggerServiceRegeditInfo(OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo) {
 		this.openLevelTiggerServiceRegeditInfo = openLevelTiggerServiceRegeditInfo;
 	}
 
@@ -877,6 +878,9 @@ public class Player implements PlayerIF {
 			getSettingMgr().setCareerHeadImage();
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
+			
+			SpriteAttachMgr.getInstance().onCarrerChange(this);
+			
 			// 改技能Id
 			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
@@ -887,6 +891,8 @@ public class Player implements PlayerIF {
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
 			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
 
+			
+			
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);
@@ -1451,7 +1457,8 @@ public class Player implements PlayerIF {
 	// * 检查所有英雄的羁绊
 	// */
 	// private void checkAllHeroFetters() {
-	// Enumeration<? extends Hero> herosEnumeration = getHeroMgr().getHerosEnumeration(this);
+	// Enumeration<? extends Hero> herosEnumeration =
+	// getHeroMgr().getHerosEnumeration(this);
 	// while (herosEnumeration.hasMoreElements()) {
 	// Hero hero = herosEnumeration.nextElement();
 	// if (hero == null) {

@@ -171,8 +171,7 @@ public class PlayerLoginTask implements PlayerTask {
 		player.setZoneLoginInfo(zoneLoginInfo);
 		ServerStatusMgr.processGmMailWhenCreateRole(player);
 
-		// 判断需要用到最后次登陆 时间。保存在活动内而不是player
-		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
+		
 
 		// 补充进入主城需要同步的数据
 		LoginSynDataHelper.setData(player, response);
@@ -180,11 +179,14 @@ public class PlayerLoginTask implements PlayerTask {
 		// clear操作有风险
 		UserChannelMgr.clearMsgCache(userId);
 		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
+
 		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, response.build().toByteString(), sessionId, loginSynData);
 		if (future == null) {
 			return;
 		}
-		// 触发红点
+		// 判断需要用到最后次登陆 时间。保存在活动内而不是player;和future依赖关系
+		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
+		//触发红点
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);

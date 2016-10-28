@@ -9,6 +9,7 @@ import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
 import com.playerdata.Player;
 import com.playerdata.SkillMgr;
+import com.playerdata.SpriteAttachMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.fixEquip.exp.FixExpEquipMgr;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
@@ -59,6 +60,7 @@ public class FSHeroThirdPartyDataMgr {
 	private final InlayMgr _inlayMgr = InlayMgr.getInstance();
 	private final FixNormEquipMgr _fixNromEquipMgr = FixNormEquipMgr.getInstance();
 	private final FixExpEquipMgr _fixExpEquipMgr = FixExpEquipMgr.getInstance();
+	private final SpriteAttachMgr _spriteAttachMgr = SpriteAttachMgr.getInstance();
 
 	protected FSHeroThirdPartyDataMgr() {
 		_skillMgr.regDataChangeCallback(ATTR_CHANGE_ACTION);
@@ -66,6 +68,7 @@ public class FSHeroThirdPartyDataMgr {
 		_inlayMgr.regDataChangeCallback(ATTR_CHANGE_ACTION);
 		_fixNromEquipMgr.regDataChangeCallback(ATTR_CHANGE_ACTION);
 		_fixExpEquipMgr.regDataChangeCallback(ATTR_CHANGE_ACTION);
+		_spriteAttachMgr.regDataChangeCallback(ATTR_CHANGE_ACTION);
 	}
 
 	public static FSHeroThirdPartyDataMgr getInstance() {
@@ -192,11 +195,16 @@ public class FSHeroThirdPartyDataMgr {
 		return _fixExpEquipMgr;
 	}
 
+	public SpriteAttachMgr getSpriteAttachMgr() {
+		return _spriteAttachMgr;
+	}
+
 	public void notifySync(Player player, Hero hero, int version) {
 		_skillMgr.syncAllSkill(player, hero.getId(), version);
 		_inlayMgr.syncAllInlay(player, hero.getId(), version);
 		_equipMgr.syncAllEquip(player, hero.getId(), version);
 		_fixNromEquipMgr.synAllData(player, hero);
 		_fixExpEquipMgr.synAllData(player, hero);
+		_spriteAttachMgr.synAllData(player, hero);
 	}
 }

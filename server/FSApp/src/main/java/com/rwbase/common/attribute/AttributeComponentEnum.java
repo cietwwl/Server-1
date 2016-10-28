@@ -34,5 +34,7 @@ public enum AttributeComponentEnum {
 	Hero_Fight_Growth_Title,
 
 	/** 额外属性 */
-	Hero_Extra;
+	Hero_Extra,
+	/** 附灵属性 */
+	Hero_SpriteAttach;
 }
