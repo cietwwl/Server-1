@@ -1,5 +1,7 @@
 package com.bm.worldBoss;
 
+import com.bm.worldBoss.cfg.WBAwardCfg;
+import com.bm.worldBoss.cfg.WBAwardCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBData;
@@ -7,6 +9,7 @@ import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBUserData;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
+import com.bm.worldBoss.service.WBHelper;
 import com.playerdata.Player;
 import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 
@@ -39,22 +42,59 @@ public class WBUserMgr {
 		
 	}
 	
-	public void fightEndUpdate(Player player, long hurt, int awardCoin){	
+	public void fightBeginUpdate(Player player){
 		
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
 		
 		WBSettingCfg settingCfg = WBSettingCfgDAO.getInstance().getCfg();
-		
-		wbUserData.setLastHurt(hurt);
-		wbUserData.addTotalHurt(hurt);
 		long curTime = System.currentTimeMillis();
 		wbUserData.setLastFightTime(curTime);
-		wbUserData.setLastAwardCoin(awardCoin);
 		wbUserData.setFightCdTime(curTime + settingCfg.getCDInMilli());
+		wbUserData.cleanAccHurt();
+		
+		WBUserDataHolder.getInstance().update(player);
+	}
+	
+	public void fightUpdate(Player player, long hurt){	
+		
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
+		
+		wbUserData.addAccHurt(hurt);
 		
 		WBUserDataHolder.getInstance().update(player);
 		
 		WBHurtRankMgr.addOrUpdate(player);
+	}
+	
+	public void fightEndUpdate(Player player, long hurt){	
+		
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());	
+		
+		wbUserData.addAccHurt(hurt);
+		
+		long lastHurt = wbUserData.getAccHurt();
+		wbUserData.setLastHurt(lastHurt);
+		wbUserData.addTotalHurt(lastHurt);
+		int awardCoin = countAwardCoin(player, lastHurt);
+		wbUserData.setLastAwardCoin(awardCoin);
+		
+
+		
+		WBHurtRankMgr.addOrUpdate(player);
+	}
+	
+	private int countAwardCoin(Player player, long totalHurt) {
+		int level = player.getLevel();
+		WBAwardCfg awardCfg = WBAwardCfgDAO.getInstance().getCfgById(String.valueOf(level));
+		int awardCoin = 0;
+		if(awardCfg!=null){
+			float factor = awardCfg.getFactor();
+			awardCoin = (int)(factor*totalHurt);
+		}
+
+		boolean success = WBHelper.addCoin(player, awardCoin);
+		
+		return success?awardCoin:0;
 	}
 	
 	public boolean isInCD(Player player) {

@@ -61,6 +61,14 @@ public final class WorldBossProtos {
      * </pre>
      */
     BuyCD(5, 6),
+    /**
+     * <code>FightUpdate = 7;</code>
+     *
+     * <pre>
+     *战斗过程同步血量等
+     * </pre>
+     */
+    FightUpdate(6, 7),
     ;
 
     /**
@@ -111,6 +119,14 @@ public final class WorldBossProtos {
      * </pre>
      */
     public static final int BuyCD_VALUE = 6;
+    /**
+     * <code>FightUpdate = 7;</code>
+     *
+     * <pre>
+     *战斗过程同步血量等
+     * </pre>
+     */
+    public static final int FightUpdate_VALUE = 7;
 
 
     public final int getNumber() { return value; }
@@ -123,6 +139,7 @@ public final class WorldBossProtos {
         case 4: return BuyBuff;
         case 5: return SynData;
         case 6: return BuyCD;
+        case 7: return FightUpdate;
         default: return null;
       }
     }
@@ -651,6 +668,614 @@ public final class WorldBossProtos {
     }
 
     // @@protoc_insertion_point(class_scope:WorldBoss.BuyBuffParam)
+  }
+
+  public interface FightUpdateParamOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int64 hurt = 1;
+    /**
+     * <code>required int64 hurt = 1;</code>
+     */
+    boolean hasHurt();
+    /**
+     * <code>required int64 hurt = 1;</code>
+     */
+    long getHurt();
+
+    // optional string vCode = 2;
+    /**
+     * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
+     */
+    boolean hasVCode();
+    /**
+     * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
+     */
+    java.lang.String getVCode();
+    /**
+     * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getVCodeBytes();
+  }
+  /**
+   * Protobuf type {@code WorldBoss.FightUpdateParam}
+   */
+  public static final class FightUpdateParam extends
+      com.google.protobuf.GeneratedMessage
+      implements FightUpdateParamOrBuilder {
+    // Use FightUpdateParam.newBuilder() to construct.
+    private FightUpdateParam(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private FightUpdateParam(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final FightUpdateParam defaultInstance;
+    public static FightUpdateParam getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public FightUpdateParam getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private FightUpdateParam(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              hurt_ = input.readInt64();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              vCode_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightUpdateParam_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightUpdateParam_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.WorldBossProtos.FightUpdateParam.class, com.rwproto.WorldBossProtos.FightUpdateParam.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<FightUpdateParam> PARSER =
+        new com.google.protobuf.AbstractParser<FightUpdateParam>() {
+      public FightUpdateParam parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new FightUpdateParam(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<FightUpdateParam> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int64 hurt = 1;
+    public static final int HURT_FIELD_NUMBER = 1;
+    private long hurt_;
+    /**
+     * <code>required int64 hurt = 1;</code>
+     */
+    public boolean hasHurt() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int64 hurt = 1;</code>
+     */
+    public long getHurt() {
+      return hurt_;
+    }
+
+    // optional string vCode = 2;
+    public static final int VCODE_FIELD_NUMBER = 2;
+    private java.lang.Object vCode_;
+    /**
+     * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
+     */
+    public boolean hasVCode() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
+     */
+    public java.lang.String getVCode() {
+      java.lang.Object ref = vCode_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          vCode_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string vCode = 2;</code>
+     *
+     * <pre>
+     * 战斗验证码
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getVCodeBytes() {
+      java.lang.Object ref = vCode_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        vCode_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      hurt_ = 0L;
+      vCode_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasHurt()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt64(1, hurt_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getVCodeBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(1, hurt_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getVCodeBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.WorldBossProtos.FightUpdateParam parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.WorldBossProtos.FightUpdateParam prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code WorldBoss.FightUpdateParam}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightUpdateParam_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightUpdateParam_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.WorldBossProtos.FightUpdateParam.class, com.rwproto.WorldBossProtos.FightUpdateParam.Builder.class);
+      }
+
+      // Construct using com.rwproto.WorldBossProtos.FightUpdateParam.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        hurt_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        vCode_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.WorldBossProtos.internal_static_WorldBoss_FightUpdateParam_descriptor;
+      }
+
+      public com.rwproto.WorldBossProtos.FightUpdateParam getDefaultInstanceForType() {
+        return com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance();
+      }
+
+      public com.rwproto.WorldBossProtos.FightUpdateParam build() {
+        com.rwproto.WorldBossProtos.FightUpdateParam result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.WorldBossProtos.FightUpdateParam buildPartial() {
+        com.rwproto.WorldBossProtos.FightUpdateParam result = new com.rwproto.WorldBossProtos.FightUpdateParam(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.hurt_ = hurt_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.vCode_ = vCode_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.WorldBossProtos.FightUpdateParam) {
+          return mergeFrom((com.rwproto.WorldBossProtos.FightUpdateParam)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.WorldBossProtos.FightUpdateParam other) {
+        if (other == com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance()) return this;
+        if (other.hasHurt()) {
+          setHurt(other.getHurt());
+        }
+        if (other.hasVCode()) {
+          bitField0_ |= 0x00000002;
+          vCode_ = other.vCode_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasHurt()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.WorldBossProtos.FightUpdateParam parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.WorldBossProtos.FightUpdateParam) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int64 hurt = 1;
+      private long hurt_ ;
+      /**
+       * <code>required int64 hurt = 1;</code>
+       */
+      public boolean hasHurt() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int64 hurt = 1;</code>
+       */
+      public long getHurt() {
+        return hurt_;
+      }
+      /**
+       * <code>required int64 hurt = 1;</code>
+       */
+      public Builder setHurt(long value) {
+        bitField0_ |= 0x00000001;
+        hurt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 hurt = 1;</code>
+       */
+      public Builder clearHurt() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        hurt_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // optional string vCode = 2;
+      private java.lang.Object vCode_ = "";
+      /**
+       * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
+       */
+      public boolean hasVCode() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
+       */
+      public java.lang.String getVCode() {
+        java.lang.Object ref = vCode_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          vCode_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getVCodeBytes() {
+        java.lang.Object ref = vCode_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          vCode_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
+       */
+      public Builder setVCode(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        vCode_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
+       */
+      public Builder clearVCode() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        vCode_ = getDefaultInstance().getVCode();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string vCode = 2;</code>
+       *
+       * <pre>
+       * 战斗验证码
+       * </pre>
+       */
+      public Builder setVCodeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        vCode_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:WorldBoss.FightUpdateParam)
+    }
+
+    static {
+      defaultInstance = new FightUpdateParam(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:WorldBoss.FightUpdateParam)
   }
 
   public interface FightEndParamOrBuilder
@@ -2655,6 +3280,20 @@ public final class WorldBossProtos {
      * <code>optional .WorldBoss.FightEndParam fightEndParam = 6;</code>
      */
     com.rwproto.WorldBossProtos.FightEndParamOrBuilder getFightEndParamOrBuilder();
+
+    // optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;
+    /**
+     * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+     */
+    boolean hasFightUpdateParam();
+    /**
+     * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+     */
+    com.rwproto.WorldBossProtos.FightUpdateParam getFightUpdateParam();
+    /**
+     * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+     */
+    com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder getFightUpdateParamOrBuilder();
   }
   /**
    * Protobuf type {@code WorldBoss.CommonReqMsg}
@@ -2765,6 +3404,19 @@ public final class WorldBossProtos {
                 fightEndParam_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000020;
+              break;
+            }
+            case 58: {
+              com.rwproto.WorldBossProtos.FightUpdateParam.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = fightUpdateParam_.toBuilder();
+              }
+              fightUpdateParam_ = input.readMessage(com.rwproto.WorldBossProtos.FightUpdateParam.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fightUpdateParam_);
+                fightUpdateParam_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000040;
               break;
             }
           }
@@ -2937,6 +3589,28 @@ public final class WorldBossProtos {
       return fightEndParam_;
     }
 
+    // optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;
+    public static final int FIGHTUPDATEPARAM_FIELD_NUMBER = 7;
+    private com.rwproto.WorldBossProtos.FightUpdateParam fightUpdateParam_;
+    /**
+     * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+     */
+    public boolean hasFightUpdateParam() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+     */
+    public com.rwproto.WorldBossProtos.FightUpdateParam getFightUpdateParam() {
+      return fightUpdateParam_;
+    }
+    /**
+     * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+     */
+    public com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder getFightUpdateParamOrBuilder() {
+      return fightUpdateParam_;
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.WorldBossProtos.RequestType.Enter;
       wbDataVersion_ = 0;
@@ -2944,6 +3618,7 @@ public final class WorldBossProtos {
       buyBuffParam_ = com.rwproto.WorldBossProtos.BuyBuffParam.getDefaultInstance();
       fightBeginParam_ = com.rwproto.WorldBossProtos.FightBeginParam.getDefaultInstance();
       fightEndParam_ = com.rwproto.WorldBossProtos.FightEndParam.getDefaultInstance();
+      fightUpdateParam_ = com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2962,6 +3637,12 @@ public final class WorldBossProtos {
       }
       if (hasFightEndParam()) {
         if (!getFightEndParam().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasFightUpdateParam()) {
+        if (!getFightUpdateParam().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2990,6 +3671,9 @@ public final class WorldBossProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeMessage(6, fightEndParam_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(7, fightUpdateParam_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3023,6 +3707,10 @@ public final class WorldBossProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(6, fightEndParam_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(7, fightUpdateParam_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3135,6 +3823,7 @@ public final class WorldBossProtos {
           getBuyBuffParamFieldBuilder();
           getFightBeginParamFieldBuilder();
           getFightEndParamFieldBuilder();
+          getFightUpdateParamFieldBuilder();
         }
       }
       private static Builder create() {
@@ -3167,6 +3856,12 @@ public final class WorldBossProtos {
           fightEndParamBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
+        if (fightUpdateParamBuilder_ == null) {
+          fightUpdateParam_ = com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance();
+        } else {
+          fightUpdateParamBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -3231,6 +3926,14 @@ public final class WorldBossProtos {
         } else {
           result.fightEndParam_ = fightEndParamBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        if (fightUpdateParamBuilder_ == null) {
+          result.fightUpdateParam_ = fightUpdateParam_;
+        } else {
+          result.fightUpdateParam_ = fightUpdateParamBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3265,6 +3968,9 @@ public final class WorldBossProtos {
         if (other.hasFightEndParam()) {
           mergeFightEndParam(other.getFightEndParam());
         }
+        if (other.hasFightUpdateParam()) {
+          mergeFightUpdateParam(other.getFightUpdateParam());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -3282,6 +3988,12 @@ public final class WorldBossProtos {
         }
         if (hasFightEndParam()) {
           if (!getFightEndParam().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasFightUpdateParam()) {
+          if (!getFightUpdateParam().isInitialized()) {
             
             return false;
           }
@@ -3791,6 +4503,123 @@ public final class WorldBossProtos {
           fightEndParam_ = null;
         }
         return fightEndParamBuilder_;
+      }
+
+      // optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;
+      private com.rwproto.WorldBossProtos.FightUpdateParam fightUpdateParam_ = com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.WorldBossProtos.FightUpdateParam, com.rwproto.WorldBossProtos.FightUpdateParam.Builder, com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder> fightUpdateParamBuilder_;
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public boolean hasFightUpdateParam() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public com.rwproto.WorldBossProtos.FightUpdateParam getFightUpdateParam() {
+        if (fightUpdateParamBuilder_ == null) {
+          return fightUpdateParam_;
+        } else {
+          return fightUpdateParamBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public Builder setFightUpdateParam(com.rwproto.WorldBossProtos.FightUpdateParam value) {
+        if (fightUpdateParamBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fightUpdateParam_ = value;
+          onChanged();
+        } else {
+          fightUpdateParamBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public Builder setFightUpdateParam(
+          com.rwproto.WorldBossProtos.FightUpdateParam.Builder builderForValue) {
+        if (fightUpdateParamBuilder_ == null) {
+          fightUpdateParam_ = builderForValue.build();
+          onChanged();
+        } else {
+          fightUpdateParamBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public Builder mergeFightUpdateParam(com.rwproto.WorldBossProtos.FightUpdateParam value) {
+        if (fightUpdateParamBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+              fightUpdateParam_ != com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance()) {
+            fightUpdateParam_ =
+              com.rwproto.WorldBossProtos.FightUpdateParam.newBuilder(fightUpdateParam_).mergeFrom(value).buildPartial();
+          } else {
+            fightUpdateParam_ = value;
+          }
+          onChanged();
+        } else {
+          fightUpdateParamBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public Builder clearFightUpdateParam() {
+        if (fightUpdateParamBuilder_ == null) {
+          fightUpdateParam_ = com.rwproto.WorldBossProtos.FightUpdateParam.getDefaultInstance();
+          onChanged();
+        } else {
+          fightUpdateParamBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public com.rwproto.WorldBossProtos.FightUpdateParam.Builder getFightUpdateParamBuilder() {
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return getFightUpdateParamFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      public com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder getFightUpdateParamOrBuilder() {
+        if (fightUpdateParamBuilder_ != null) {
+          return fightUpdateParamBuilder_.getMessageOrBuilder();
+        } else {
+          return fightUpdateParam_;
+        }
+      }
+      /**
+       * <code>optional .WorldBoss.FightUpdateParam fightUpdateParam = 7;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.WorldBossProtos.FightUpdateParam, com.rwproto.WorldBossProtos.FightUpdateParam.Builder, com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder> 
+          getFightUpdateParamFieldBuilder() {
+        if (fightUpdateParamBuilder_ == null) {
+          fightUpdateParamBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.WorldBossProtos.FightUpdateParam, com.rwproto.WorldBossProtos.FightUpdateParam.Builder, com.rwproto.WorldBossProtos.FightUpdateParamOrBuilder>(
+                  fightUpdateParam_,
+                  getParentForChildren(),
+                  isClean());
+          fightUpdateParam_ = null;
+        }
+        return fightUpdateParamBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:WorldBoss.CommonReqMsg)
@@ -6151,6 +6980,11 @@ public final class WorldBossProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_WorldBoss_BuyBuffParam_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_WorldBoss_FightUpdateParam_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_WorldBoss_FightUpdateParam_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_WorldBoss_FightEndParam_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -6190,27 +7024,30 @@ public final class WorldBossProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\017WorldBoss.proto\022\tWorldBoss\032\020RandomBoss" +
-      ".proto\"\035\n\014BuyBuffParam\022\r\n\005cfgId\030\001 \002(\t\"1\n" +
-      "\rFightEndParam\022\021\n\ttotalHurt\030\001 \002(\003\022\r\n\005vCo" +
-      "de\030\002 \001(\t\"\"\n\017FightBeginParam\022\017\n\007heroIds\030\001" +
-      " \003(\t\"3\n\rFightBeginRep\022\020\n\010bossArmy\030\001 \002(\t\022" +
-      "\020\n\010selfArmy\030\002 \002(\t\"\376\001\n\014CommonReqMsg\022\'\n\007re" +
-      "qType\030\001 \002(\0162\026.WorldBoss.RequestType\022\025\n\rw" +
-      "bDataVersion\030\002 \001(\005\022\031\n\021wbUserDataVersion\030" +
-      "\003 \001(\005\022-\n\014buyBuffParam\030\004 \001(\0132\027.WorldBoss." +
-      "BuyBuffParam\0223\n\017fightBeginParam\030\005 \001(\0132\032.",
-      "WorldBoss.FightBeginParam\022/\n\rfightEndPar" +
-      "am\030\006 \001(\0132\030.WorldBoss.FightEndParam\"\266\001\n\014C" +
-      "ommonRspMsg\022\'\n\007reqType\030\001 \002(\0162\026.WorldBoss" +
-      ".RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMs" +
-      "g\030\003 \001(\t\022/\n\rfightBeginRep\030\004 \001(\0132\030.WorldBo" +
-      "ss.FightBeginRep\022)\n\006reward\030\005 \001(\0132\031.World" +
-      "Boss.FightEndReward\"\\\n\016FightEndReward\022\021\n" +
-      "\ttotalHarm\030\001 \002(\003\022\017\n\007curHarm\030\002 \002(\003\022&\n\010ite" +
-      "mList\030\003 \003(\0132\024.RandomBoss.ItemInfo*[\n\013Req" +
-      "uestType\022\t\n\005Enter\020\001\022\016\n\nFightBegin\020\002\022\014\n\010F",
-      "ightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynData\020\005\022\t\n\005B" +
-      "uyCD\020\006B\036\n\013com.rwprotoB\017WorldBossProtos"
+      ".proto\"\035\n\014BuyBuffParam\022\r\n\005cfgId\030\001 \002(\t\"/\n" +
+      "\020FightUpdateParam\022\014\n\004hurt\030\001 \002(\003\022\r\n\005vCode" +
+      "\030\002 \001(\t\"1\n\rFightEndParam\022\021\n\ttotalHurt\030\001 \002" +
+      "(\003\022\r\n\005vCode\030\002 \001(\t\"\"\n\017FightBeginParam\022\017\n\007" +
+      "heroIds\030\001 \003(\t\"3\n\rFightBeginRep\022\020\n\010bossAr" +
+      "my\030\001 \002(\t\022\020\n\010selfArmy\030\002 \002(\t\"\265\002\n\014CommonReq" +
+      "Msg\022\'\n\007reqType\030\001 \002(\0162\026.WorldBoss.Request" +
+      "Type\022\025\n\rwbDataVersion\030\002 \001(\005\022\031\n\021wbUserDat" +
+      "aVersion\030\003 \001(\005\022-\n\014buyBuffParam\030\004 \001(\0132\027.W",
+      "orldBoss.BuyBuffParam\0223\n\017fightBeginParam" +
+      "\030\005 \001(\0132\032.WorldBoss.FightBeginParam\022/\n\rfi" +
+      "ghtEndParam\030\006 \001(\0132\030.WorldBoss.FightEndPa" +
+      "ram\0225\n\020fightUpdateParam\030\007 \001(\0132\033.WorldBos" +
+      "s.FightUpdateParam\"\266\001\n\014CommonRspMsg\022\'\n\007r" +
+      "eqType\030\001 \002(\0162\026.WorldBoss.RequestType\022\021\n\t" +
+      "isSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022/\n\rfight" +
+      "BeginRep\030\004 \001(\0132\030.WorldBoss.FightBeginRep" +
+      "\022)\n\006reward\030\005 \001(\0132\031.WorldBoss.FightEndRew" +
+      "ard\"\\\n\016FightEndReward\022\021\n\ttotalHarm\030\001 \002(\003",
+      "\022\017\n\007curHarm\030\002 \002(\003\022&\n\010itemList\030\003 \003(\0132\024.Ra" +
+      "ndomBoss.ItemInfo*l\n\013RequestType\022\t\n\005Ente" +
+      "r\020\001\022\016\n\nFightBegin\020\002\022\014\n\010FightEnd\020\003\022\013\n\007Buy" +
+      "Buff\020\004\022\013\n\007SynData\020\005\022\t\n\005BuyCD\020\006\022\017\n\013FightU" +
+      "pdate\020\007B\036\n\013com.rwprotoB\017WorldBossProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6223,38 +7060,44 @@ public final class WorldBossProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_BuyBuffParam_descriptor,
               new java.lang.String[] { "CfgId", });
-          internal_static_WorldBoss_FightEndParam_descriptor =
+          internal_static_WorldBoss_FightUpdateParam_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_WorldBoss_FightUpdateParam_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_WorldBoss_FightUpdateParam_descriptor,
+              new java.lang.String[] { "Hurt", "VCode", });
+          internal_static_WorldBoss_FightEndParam_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_WorldBoss_FightEndParam_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_FightEndParam_descriptor,
               new java.lang.String[] { "TotalHurt", "VCode", });
           internal_static_WorldBoss_FightBeginParam_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_WorldBoss_FightBeginParam_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_FightBeginParam_descriptor,
               new java.lang.String[] { "HeroIds", });
           internal_static_WorldBoss_FightBeginRep_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_WorldBoss_FightBeginRep_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_FightBeginRep_descriptor,
               new java.lang.String[] { "BossArmy", "SelfArmy", });
           internal_static_WorldBoss_CommonReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_WorldBoss_CommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_CommonReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "WbDataVersion", "WbUserDataVersion", "BuyBuffParam", "FightBeginParam", "FightEndParam", });
+              new java.lang.String[] { "ReqType", "WbDataVersion", "WbUserDataVersion", "BuyBuffParam", "FightBeginParam", "FightEndParam", "FightUpdateParam", });
           internal_static_WorldBoss_CommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_WorldBoss_CommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_CommonRspMsg_descriptor,
               new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "FightBeginRep", "Reward", });
           internal_static_WorldBoss_FightEndReward_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_WorldBoss_FightEndReward_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_FightEndReward_descriptor,

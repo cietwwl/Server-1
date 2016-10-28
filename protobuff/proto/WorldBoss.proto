@@ -13,12 +13,18 @@ enum RequestType{
 	BuyBuff = 4; //购买鼓舞
 	SynData = 5;  //请求同步数据
 	BuyCD = 6;   //购买复活	
+	FightUpdate = 7; //战斗过程同步血量等
 
 }
 
 
 message BuyBuffParam{
 	required string cfgId = 1;
+}
+
+message FightUpdateParam{
+	required int64 hurt = 1;
+	optional string vCode = 2; // 战斗验证码
 }
 
 message FightEndParam{
@@ -43,6 +49,7 @@ message CommonReqMsg{
 	optional BuyBuffParam buyBuffParam = 4;
 	optional FightBeginParam fightBeginParam = 5;
 	optional FightEndParam fightEndParam = 6;
+	optional FightUpdateParam fightUpdateParam = 7;
 
 }
 
