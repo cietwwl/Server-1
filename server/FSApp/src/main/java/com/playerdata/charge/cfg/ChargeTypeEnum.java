@@ -10,7 +10,7 @@ public enum ChargeTypeEnum {
 	None("0"),
 	Normal("1"),//普通充值
 	MonthCard("2"),//月卡
-	VipMonthCard("3");//至尊月卡
+	VipMonthCard("3");//至尊终身卡
 	
 	private String cfgId;
 	
@@ -41,7 +41,7 @@ public enum ChargeTypeEnum {
 		if(StringUtils.equals(cfgId, "2")){
 			return "月卡";
 		}else if(StringUtils.equals(cfgId, "3")){
-			return "至尊月卡";
+			return "至尊终身卡";
 		}
 		return "";
 	}
