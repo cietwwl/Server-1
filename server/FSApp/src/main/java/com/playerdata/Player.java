@@ -46,6 +46,7 @@ import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -660,44 +661,10 @@ public class Player implements PlayerIF {
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
 
-	/**
-	 * 非当前玩家发送消息给该玩家，但也有可能是自己发送消息给自己 added by kevin
-	 * 
-	 * @param Cmd
-	 * @param pBuffer
-	 */
-	public void SendMsgByOther(MsgDef.Command Cmd, ByteString pBuffer) {
-		if (StringUtils.isNotBlank(getUserId())) {
-			SendMsg(Cmd, pBuffer);
-		} else {
-			System.out.println("获取玩家userid出现异常！");
-		}
-
-	}
-
 	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
-		String userId = getUserId();
 		try {
-			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-			if (ctx == null) {
-				return;
-			}
-			Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
-			if (pBuffer != null) {
-				builder.setSerializedContent(pBuffer);
-			}
-
-			ResponseProtos.Response.Builder response = ResponseProtos.Response.newBuilder();
-			ResponseHeader.Builder header = ResponseHeader.newBuilder();
-			header.mergeFrom(builder.getHeader());
-			header.setStatusCode(200);
-			response.setHeader(header.build());
-			response.setSerializedContent(builder.getSerializedContent());
-			if (!GameUtil.checkMsgSize(response, userId)) {
-				return;
-			}
-			ctx.channel().writeAndFlush(response.build());
-
+			String userId = getUserId();
+			UserChannelMgr.sendAyncResponse(userId, Cmd, pBuffer);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

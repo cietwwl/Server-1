@@ -51,9 +51,12 @@ public class DailyActivityHandler {
 		response.setResponseType(EDailyActivityRequestType.Task_List);
 		response.setResultType(eDailyActivityResultType.SUCCESS);
 		List<DailyActivityData> taskList = player.getDailyActivityMgr().getAllTask();
+		StringBuilder tmp = new StringBuilder();
 		for (DailyActivityData td : taskList) {
+			tmp.append("    id =").append(td.getTaskId());
 			response.addTaskList(toTaskInfo(td));
 		}
+		GameLog.info("任务触发", player.getUserId(), tmp.toString(), null);
 		player.SendMsg(Command.MSG_DAILY_ACTIVITY, response.build().toByteString());
 	}
 

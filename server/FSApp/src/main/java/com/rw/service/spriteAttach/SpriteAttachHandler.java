@@ -213,7 +213,7 @@ public class SpriteAttachHandler {
 			if (materialsExp > uExp) {
 
 				materialsExp -= uExp;
-				totalCost += (exp - upgradeExp.value) * levelCostCfg.getCostCount();
+				totalCost += Math.round((exp - upgradeExp.value) * levelCostCfg.getCostCount());
 				upgradeLevel.value++;
 				upgradeExp.value = 0;
 				levelCostCfg = SpriteAttachLevelCostCfgDAO.getInstance().getSpriteAttachLevelCost(upgradeLevel.value, levelCostPlanId);

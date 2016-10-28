@@ -28,11 +28,7 @@ public class GameLog {
 
 			@Override
 			public void run() {				
-				StringBuilder logContent = new StringBuilder();
-				logContent.append(getStackTrace())
-				.append(module.getName()).append("|")
-				.append(id).append("|")
-				.append(errorReason).append("|");
+				StringBuilder logContent = createBuilder(module.getName(), id, errorReason);
 				
 				cfgCheckLog.error(logContent);
 			}
@@ -51,11 +47,7 @@ public class GameLog {
 			
 			@Override
 			public void run() {
-				StringBuilder logContent = new StringBuilder();
-				logContent.append(getStackTrace())
-							.append(module).append("|")
-							.append(id).append("|")
-							.append(message).append("|");
+				StringBuilder logContent = createBuilder(module, id, message);
 				if(throwableP != null){
 					debugLog.info(logContent, throwableP);
 				}else{
@@ -63,6 +55,16 @@ public class GameLog {
 				}
 			}
 		});
+	}
+	
+	private static StringBuilder createBuilder(final String module, final String id, final String message){
+		StringBuilder logContent = new StringBuilder();
+		//这个获取堆栈没有意义
+		logContent/*.append(getStackTrace())*/
+					.append(module).append('|')
+					.append(id).append('|')
+					.append(message).append('|');
+		return logContent;
 	}
 	
 	/***
@@ -77,11 +79,7 @@ public class GameLog {
 			
 			@Override
 			public void run() {
-				StringBuilder logContent = new StringBuilder();
-				logContent.append(getStackTrace())
-							.append(module).append("|")
-							.append(id).append("|")
-							.append(message).append("|");
+				StringBuilder logContent = createBuilder(module, id, message);
 				if(throwableP != null){
 					debugLog.warn(logContent, throwableP);
 				}else{
@@ -134,13 +132,7 @@ public class GameLog {
 
 			@Override
 			public void run() {
-				
-				StringBuilder logContent = new StringBuilder();
-				logContent.append(getStackTrace())
-				.append(module).append("|")
-				.append(id).append("|")
-				.append(errorReason).append("|");
-				
+				StringBuilder logContent = createBuilder(module, id, errorReason);
 				errorLog.error(logContent, throwableP);
 			}
 			
@@ -156,17 +148,6 @@ public class GameLog {
 	public static void error(String module,String id, String errorReason){
 		error(module, id, errorReason, null);
 	}
-	
-	private static String getStackTrace(){
-		Throwable cause = new Throwable();
-		StringBuilder detail = new StringBuilder("");
-		StackTraceElement[] stackTrace = cause.getStackTrace();
-		
-		Object callMethod = stackTrace[stackTrace.length-2];
-		detail.append(callMethod.toString());	
-		return detail.toString();
-	}
-	
 
 	/***** 错误日志****/
 	@Deprecated

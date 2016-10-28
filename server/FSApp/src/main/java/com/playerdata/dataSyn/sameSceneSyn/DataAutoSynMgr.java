@@ -1,7 +1,5 @@
 package com.playerdata.dataSyn.sameSceneSyn;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -119,8 +117,7 @@ public class DataAutoSynMgr {
 		long synTime = System.currentTimeMillis();
 		while(entryIterator.hasNext()){
 			Entry<String, T> entry = entryIterator.next();
-			ChannelHandlerContext ctx = UserChannelMgr.get(entry.getKey());
-			if (ctx == null) {
+			if (!UserChannelMgr.isConnecting(entry.getKey())) {
 				if(entry.getValue().isDisConn(synTime)){
 					//把玩家标记为离开
 					entry.getValue().setRemoved(true);
