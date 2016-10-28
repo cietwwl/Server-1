@@ -3,6 +3,7 @@ package com.bm.worldBoss.service;
 import java.util.List;
 
 import com.bm.worldBoss.WBMgr;
+import com.bm.worldBoss.WBOnFightMgr;
 import com.bm.worldBoss.WBUserMgr;
 import com.bm.worldBoss.cfg.WBBuyBuffCfg;
 import com.bm.worldBoss.cfg.WBBuyBuffCfgDAO;
@@ -62,6 +63,7 @@ public class WBHandler {
 			
 			FightBeginRep beginRep = FightBeginRep.newBuilder().setBossArmy(bossJson).setSelfArmy(armyJson).build();	
 			response.setFightBeginRep(beginRep);
+			WBOnFightMgr.getInstance().enter(player.getUserId());
 			
 		}
 		response.setIsSuccess(result.isSuccess());
@@ -100,6 +102,7 @@ public class WBHandler {
 			boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
 			if(success){				
 				WBUserMgr.getInstance().fightUpdate(player, updateHurt);
+				WBOnFightMgr.getInstance().enter(player.getUserId());
 			}else{
 				result.setSuccess(false);
 				result.setReason("世界boss已被击杀。");
@@ -132,6 +135,9 @@ public class WBHandler {
 			}
 			
 		}
+		
+		WBOnFightMgr.getInstance().leave(player.getUserId());
+		
 		response.setIsSuccess(result.isSuccess());
 		if(result.getReason() != null)
 		response.setTipMsg(result.getReason());	
