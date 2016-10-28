@@ -73,7 +73,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 		List<String> redPointList = new ArrayList<String>();
 		switch (item.getGrowthFundType()) {
 		case GIFT:
-			if (!item.isBought()) {
+			if (!item.isBought() && item.isHasViewed()) {
 				// 如果没有买成长基金礼包的话
 				return redPointList;
 			}
@@ -112,12 +112,14 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	
 	public void onPlayerBuyGrowthFundGift(Player player) {
 		List<ActivityGrowthFundItem> list = _dataHolder.getItemList(player.getUserId());
+		_dataHolder.getGlobalData().increaseAlreadyBoughtCount();
+		int boughtCount = _dataHolder.getGlobalData().getAlreadyBoughtCount();
 		for (ActivityGrowthFundItem temp : list) {
 			checkIfFundTypeNull(temp);
 			temp.setBought(true);
+			temp.setBoughtCount(boughtCount);
 			_dataHolder.updateItem(player, temp);
 		}
-		_dataHolder.getGlobalData().increaseAlreadyBoughtCount();
 	}
 	
 	public void onPlayerGetReward(Player player, ActivityGrowthFundItem item, ActivityGrowthFundSubItem subItem) {
