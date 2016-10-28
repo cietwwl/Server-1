@@ -367,6 +367,13 @@
 	<!-- 成长基金 -->
 	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO"  init-method="init" />
+
+	<!-- 附灵 -->
+	<bean class="com.rwbase.dao.fighting.SpriteAttachFightingCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachAttrCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO" init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

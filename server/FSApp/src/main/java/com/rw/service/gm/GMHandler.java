@@ -263,6 +263,8 @@ public class GMHandler {
 		// * callrb 1 生成随机boss,如果角色已经达到生成boss上限，这个指令会无效
 		funcCallBackMap.put("callrb", "callRb");
 		funcCallBackMap.put("testcharge", "testCharge");
+		
+		funcCallBackMap.put("addsaexp", "addSaExp");
 	}
 
 	public boolean isActive() {

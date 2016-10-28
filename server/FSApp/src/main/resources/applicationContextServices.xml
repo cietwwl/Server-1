@@ -134,6 +134,7 @@
      			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
      			
      			<entry key="MSG_PRAISE" value-ref="praiseService" />
+     			<entry key="MSG_SPRITE_ATTACH_UPGRADE" value-ref="spriteAttachService" />
 			</map>
 		</property>
 	</bean>
@@ -240,4 +241,5 @@
 	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
 	
 	<bean id="praiseService" class="com.rw.service.praise.PraiseService" />
+	<bean id="spriteAttachService" class="com.rw.service.spriteAttach.SpriteAttachService" />
 </beans>  

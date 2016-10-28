@@ -83,7 +83,7 @@ public class HeroHandler {
 
 		// TODO @modify 2015-08-10 HC
 		player.getItemBagMgr().useItemByCfgId(pHeroCfg.getSoulStoneId(), summonNumber);// 减少神魂石
-//		player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
+		// player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
 		player.getHeroMgr().addHero(player, pHeroCfg.getRoleId());// 增加佣兵
 		msgHeroResponse.setModerId(modelId);
 		msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
@@ -98,7 +98,7 @@ public class HeroHandler {
 
 		MsgHeroResponse.Builder rsp = MsgHeroResponse.newBuilder();
 		rsp.setEventType(eHeroType.EVOLUTION_HERO);
-//		Hero role = player.getHeroMgr().getHeroById(roleId);
+		// Hero role = player.getHeroMgr().getHeroById(roleId);
 		Hero role = player.getHeroMgr().getHeroById(player, roleId);
 		if (role == null) {
 			rsp.setEHeroResultType(eHeroResultType.HERO_NOT_EXIST);
@@ -108,15 +108,15 @@ public class HeroHandler {
 		int canUpgrade = FSHeroMgr.getInstance().canUpgradeStar(role);
 		switch (canUpgrade) {
 		case 0:
-//			RoleCfg heroCfg = role.getHeroCfg();
+			// RoleCfg heroCfg = role.getHeroCfg();
 			RoleCfg heroCfg = FSHeroMgr.getInstance().getHeroCfg(role);
 			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -heroCfg.getUpNeedCoin());// 扣除金币
 			player.getItemBagMgr().useItemByCfgId(heroCfg.getSoulStoneId(), heroCfg.getRisingNumber());// 扣除魂石
 			RoleCfg nextHeroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(heroCfg.getNextRoleId());
 			// 佣兵升星
-//			role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
+			// role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
 			FSHeroBaseInfoMgr.getInstance().setTemplateId(role, nextHeroCfg.getRoleId());
-//			role.setStarLevel(nextHeroCfg.getStarLevel());
+			// role.setStarLevel(nextHeroCfg.getStarLevel());
 			FSHeroBaseInfoMgr.getInstance().setStarLevel(role, nextHeroCfg.getStarLevel());
 			player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Hero_Star);
 			UserEventMgr.getInstance().UpGradeStarDaily(player, 1);
@@ -157,7 +157,7 @@ public class HeroHandler {
 		}
 
 		String heroUUID = msgHeroRequest.getHeroId();
-//		Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
+		// Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
 		Hero pHero = player.getHeroMgr().getHeroById(player, heroUUID);
 		if (pHero == null) {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]的佣兵不存在", heroUUID), null);
@@ -165,10 +165,10 @@ public class HeroHandler {
 			return msgHeroResponse.build().toByteString();
 		}
 
-//		RoleCfg heroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
+		// RoleCfg heroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
 		RoleCfg heroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(pHero.getTemplateId());
 		if (heroCfg == null) {
-//			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
+			// GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getTemplateId()), null);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);
 			return msgHeroResponse.build().toByteString();
@@ -208,14 +208,14 @@ public class HeroHandler {
 		int perExpItemAdd = consumeCfg.getValue();// 单个物品增加的经验
 
 		// 当前的角色经验值
-//		RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
-//		if (baseInfo == null) {
-//			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
-//			msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
-//			return msgHeroResponse.build().toByteString();
-//		}
+		// RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
+		// if (baseInfo == null) {
+		// GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
+		// msgHeroResponse.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
+		// return msgHeroResponse.build().toByteString();
+		// }
 
-//		long curExp = baseInfo.getExp();// 当前经验
+		// long curExp = baseInfo.getExp();// 当前经验
 		long curExp = pHero.getExp();// 当前经验
 		LevelCfgDAO levelCfgDao = LevelCfgDAO.getInstance();
 		LevelCfg levelCfg = levelCfgDao.getByLevel(curLevel);
@@ -292,13 +292,14 @@ public class HeroHandler {
 		}
 
 		if (player.getItemBagMgr().useItemByCfgId(itemId, useCount)) {// 消耗卡
-//			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
+			// pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
 			FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
 
 			GameLog.info("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s],吞卡后浪费经验值[%s],等级[%s],当前经验[%s]\n吞卡数量[%s][%s]", heroUUID, addExp, curLevel, curExp, itemId, useCount), null);
 			msgHeroResponse.setModerId(heroUUID);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS);
-			if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
+			if (beforeAddLevel < curLevel)
+				heroLevelUpEnent(player);
 			return msgHeroResponse.build().toByteString();
 		} else {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("\n佣兵Id[%s]需要吞卡的Id是[%s],数量为[%s]失败了", heroUUID, itemId, useCount), null);
@@ -308,17 +309,14 @@ public class HeroHandler {
 	}
 
 	/*
-	 * public ByteString buyHeroSkill(Player player, MsgHeroRequest msgHeroRequest) { MsgHeroResponse.Builder msgHeroResponse =
-	 * MsgHeroResponse.newBuilder().setMsgHeroRequest(msgHeroRequest); PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip());
-	 * // 未开放购买 if (privilege.getBuySkillPointOpen() == 0) {// 未开放购买getBuySkillPointOpen msgHeroResponse.setEHeroResultType(eHeroResultType.LOW_VIP);
-	 * return msgHeroResponse.build().toByteString(); }
+	 * public ByteString buyHeroSkill(Player player, MsgHeroRequest msgHeroRequest) { MsgHeroResponse.Builder msgHeroResponse = MsgHeroResponse.newBuilder().setMsgHeroRequest(msgHeroRequest);
+	 * PrivilegeCfg privilege = PrivilegeCfgDAO.getInstance().getCfg(player.getVip()); // 未开放购买 if (privilege.getBuySkillPointOpen() == 0) {// 未开放购买getBuySkillPointOpen
+	 * msgHeroResponse.setEHeroResultType(eHeroResultType.LOW_VIP); return msgHeroResponse.build().toByteString(); }
 	 * 
-	 * // 金币不足 int currTimes = player.getHeroBuySkillTimes(); CfgBuySkill cfgBuySkill = CfgBuySkillDAO.getInstance().getCfgBuySkill(currTimes + 1);//
-	 * 购买增加技能配置 int leftGoldNum = player.getGold() - cfgBuySkill.getNeedPurse(); if (leftGoldNum < 0) {
-	 * msgHeroResponse.setEHeroResultType(eHeroResultType.NOT_ENOUGH_GOLD); return msgHeroResponse.build().toByteString(); }
+	 * // 金币不足 int currTimes = player.getHeroBuySkillTimes(); CfgBuySkill cfgBuySkill = CfgBuySkillDAO.getInstance().getCfgBuySkill(currTimes + 1);// 购买增加技能配置 int leftGoldNum = player.getGold() -
+	 * cfgBuySkill.getNeedPurse(); if (leftGoldNum < 0) { msgHeroResponse.setEHeroResultType(eHeroResultType.NOT_ENOUGH_GOLD); return msgHeroResponse.build().toByteString(); }
 	 * 
-	 * // 技能点上限 player.getSkillMgr().buyHeroSkill(player); msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS); return
-	 * msgHeroResponse.build().toByteString(); }
+	 * // 技能点上限 player.getSkillMgr().buyHeroSkill(player); msgHeroResponse.setEHeroResultType(eHeroResultType.SUCCESS); return msgHeroResponse.build().toByteString(); }
 	 */
 
 	/**
@@ -339,7 +337,7 @@ public class HeroHandler {
 			return msgRsp.build().toByteString();
 		}
 		String heroUUID = msgHeroRequest.getHeroId();
-//		Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
+		// Hero pHero = player.getHeroMgr().getHeroById(heroUUID);
 		Hero pHero = player.getHeroMgr().getHeroById(player, heroUUID);
 		if (pHero == null) {
 			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]的佣兵不存在", heroUUID), null);
@@ -347,10 +345,10 @@ public class HeroHandler {
 			return msgRsp.build().toByteString();
 		}
 
-//		RoleCfg heroCfg = RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
+		// RoleCfg heroCfg = RoleCfgDAO.getInstance().getCfgById(pHero.getHeroData().getTemplateId());
 		RoleCfg heroCfg = RoleCfgDAO.getInstance().getCfgById(pHero.getTemplateId());
 		if (heroCfg == null) {
-//			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
+			// GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getHeroData().getTemplateId()), null);
 			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("ID为[%s]模版为[%S]的佣兵模版不存在", heroUUID, pHero.getTemplateId()), null);
 			msgRsp.setEHeroResultType(eHeroResultType.DATA_ERROR);
 			return msgRsp.build().toByteString();
@@ -373,13 +371,13 @@ public class HeroHandler {
 		}
 
 		// 佣兵当前经验
-//		RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
-//		if (baseInfo == null) {
-//			GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
-//			msgRsp.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
-//			return msgRsp.build().toByteString();
-//		}
-//		long curExp = baseInfo.getExp();
+		// RoleBaseInfo baseInfo = pHero.getRoleBaseInfoMgr().getBaseInfo();
+		// if (baseInfo == null) {
+		// GameLog.error("佣兵吃经验丹", player.getUserId(), String.format("佣兵的Id是[%s]不能获取到RoleBaseInfo数据", heroUUID), null);
+		// msgRsp.setEHeroResultType(eHeroResultType.DATA_ERROR);// 获取到的物品数据不正确
+		// return msgRsp.build().toByteString();
+		// }
+		// long curExp = baseInfo.getExp();
 		long curExp = pHero.getExp();
 
 		LevelCfgDAO levelCfgDao = LevelCfgDAO.getInstance();
@@ -475,13 +473,12 @@ public class HeroHandler {
 			}
 
 		}
-		
-		if(curExp > levelExp){
-			curExp = levelExp;
-		}
+		// if(curExp > levelExp){
+		// curExp = levelExp;
+		// }
 
-		//按策划要求  去掉溢出的经验
-		if(curExp > levelExp){
+		// 按策划要求 去掉溢出的经验
+		if (curExp > levelExp) {
 			curExp = levelExp;
 		}
 		MaxUseExpRes.Builder muer = MaxUseExpRes.newBuilder();
@@ -491,12 +488,16 @@ public class HeroHandler {
 
 		msgRsp.setMaxUseExp(muer);
 		// System.out.println("------curlevel:" + curLevel + ", curExp:" + curExp + ",levelExp" + levelExp);
+
+		// 有要扣的物品
 		if (!usedMap.isEmpty()) {
 			player.getItemBagMgr().useLikeBoxItem(getUseItem(usedMap), null);
-//			pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
-			FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
 		}
-		if(beforeAddLevel < curLevel) heroLevelUpEnent(player);
+
+		FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
+
+		if (beforeAddLevel < curLevel)
+			heroLevelUpEnent(player);
 		return msgRsp.build().toByteString();
 	}
 
@@ -528,12 +529,13 @@ public class HeroHandler {
 		Collections.sort(retList, UseItemDataComparator.getInstance());
 		return retList;
 	}
-	
+
 	/**
 	 * 英雄升级事件
+	 * 
 	 * @param player
 	 */
-	private void heroLevelUpEnent(Player player){
+	private void heroLevelUpEnent(Player player) {
 		GFOnlineListenerPlayerChange.defenderChangeHandler(player);
 		TBListenerPlayerChange.heroChangeHandler(player);
 	}
