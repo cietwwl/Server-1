@@ -107,7 +107,11 @@ public class GCompUtil {
 		}
 		instance.set(Calendar.SECOND, 0);
 		if (instance.getTimeInMillis() < System.currentTimeMillis()) {
-			instance.add(Calendar.WEEK_OF_YEAR, 1);
+			if (type == GCompStartType.SERVER_TIME_OFFSET) {
+				instance.setTimeInMillis(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(1)); // 如果是服务器开服时间偏移，则直接偏移一分钟
+			} else {
+				instance.add(Calendar.WEEK_OF_YEAR, 1);
+			}
 		}
 		return instance.getTimeInMillis();
 	}

@@ -111,12 +111,11 @@ public class UserGameDataMgr {
 					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
 					int tempPower = curPower + addValue;// 临时增加到多少体力
-					int tmp = tempPower - maxPower;// 流失量
-					if (tmp > 0) {// 有流失就直接更新活动子项数据
-						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power, tmp);
-					} else {// 没流失就刷新活动主数据，让活动自己的逻辑去判断是否属于达顶值后的流失
-						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);
-					}
+					if(tempPower > maxPower){//不满的时候下线，登陆是发现补满还有溢出
+						int tmp = tempPower - maxPower;// 流失量
+						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power, tmp);// 有流失就直接更新活动子项数据
+					
+					}					
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
@@ -128,6 +127,7 @@ public class UserGameDataMgr {
 						userGameDataHolder.flush();
 						// TODO 这里调用处需要做支持，检测是否存在这里的属性域，否则是不安全和没有可维护性
 						userGameDataHolder.update(player, "power");
+						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);//体力有变化时，刷新下体力的增加时间
 						// TODO HC 把改变数据推送到前台
 						PowerInfoDataHolder.synPowerInfo(player);
 					}

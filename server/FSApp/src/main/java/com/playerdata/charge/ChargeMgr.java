@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.targetSell.TargetSellManager;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -411,7 +412,7 @@ public class ChargeMgr {
 			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
 			dataHolder.updateItem(player, dataItem);
 			result.setSuccess(true);
-			
+			GameLog.info("月卡", player.getUserId(), "日常任务刷新", null);
 			DailyActivityHandler.getInstance().sendTaskList(player);
 			
 			
