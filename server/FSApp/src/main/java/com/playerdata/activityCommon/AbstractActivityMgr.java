@@ -61,7 +61,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 		if (null == items || items.isEmpty())
 			return redPointList;
 		for (T item : items) {
-			redPointList.addAll(checkRedPoint(item));
+			redPointList.addAll(checkRedPoint(player, item));
 		}
 		return redPointList;
 	}
@@ -108,7 +108,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param item
 	 * @return
 	 */
-	protected List<String> checkRedPoint(T item){
+	protected List<String> checkRedPoint(Player player, T item){
 		return new ArrayList<String>();
 	}
 	

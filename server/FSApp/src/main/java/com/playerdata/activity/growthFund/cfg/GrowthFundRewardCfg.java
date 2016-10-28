@@ -1,38 +1,10 @@
 package com.playerdata.activity.growthFund.cfg;
-import com.common.BaseConfig;
-import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
-public class GrowthFundRewardCfg extends BaseConfig implements ActivitySubCfgIF{
+public class GrowthFundRewardCfg extends GrowthFundRewardAbsCfg{
 	
-	private int key; //关键字
 	private int requiredCount; //需求人数
-	private String rewardContents; //奖励内容
-	private int type;	//父类型
-
-	public int getKey() {
-		return key;
-	}
 	
-	public int getRequiredCount() {
+	public int getRequiredCondition() {
 		return requiredCount;
-	}
-	
-	public String getRewardContents() {
-		return rewardContents;
-	}
-	
-	@Override
-	public int getId() {
-		return key;
-	}
-	
-	@Override
-	public String getDay() {
-		return "1";
-	}
-	
-	@Override
-	public int getType() {
-		return type;
 	}
 }

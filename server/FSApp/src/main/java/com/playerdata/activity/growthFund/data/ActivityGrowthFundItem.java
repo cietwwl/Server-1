@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Id;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activity.growthFund.GrowthFundType;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
@@ -35,6 +38,11 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 
 	@CombineSave
 	private boolean bought; // 是否已经购买了成长基金的礼包
+	
+	private int boughtCount; // 已经购买的人数
+	
+	@IgnoreSynField
+	private GrowthFundType _growthFundType;
 
 	public Integer getId() {
 		return id;
@@ -100,5 +108,25 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 
 	public void setBought(boolean pBoughtValue) {
 		this.bought = pBoughtValue;
+	}
+
+	@JsonIgnore
+	public GrowthFundType getGrowthFundType() {
+		return _growthFundType;
+	}
+
+	@JsonIgnore
+	public void setGrowthFundType(GrowthFundType pGrowthFundType) {
+		this._growthFundType = pGrowthFundType;
+	}
+
+	@JsonIgnore
+	public int getBoughtCount() {
+		return boughtCount;
+	}
+
+	@JsonIgnore
+	public void setBoughtCount(int boughtCount) {
+		this.boughtCount = boughtCount;
 	}
 }

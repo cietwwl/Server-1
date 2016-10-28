@@ -138,7 +138,7 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 	}
 
 	@Override
-	protected List<String> checkRedPoint(ActivityDailyRechargeTypeItem item) {
+	protected List<String> checkRedPoint(Player player, ActivityDailyRechargeTypeItem item) {
 		List<String> redPointList = new ArrayList<String>();
 		ActivityDailyChargeSubCfgDAO subCfgDao = ActivityDailyChargeSubCfgDAO.getInstance();
 		List<ActivityDailyRechargeTypeSubItem> subItems = (List<ActivityDailyRechargeTypeSubItem>) item.getSubItemList();

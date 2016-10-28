@@ -3,6 +3,7 @@ package com.playerdata.activity.growthFund.data;
 import java.util.List;
 
 import com.playerdata.Player;
+import com.playerdata.activity.growthFund.GrowthFundGlobalData;
 import com.playerdata.activityCommon.UserActivityChecker;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
@@ -11,6 +12,9 @@ import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
+import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.GameWorldKey;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -25,14 +29,20 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 
 	final private eSynType synType = eSynType.ActivityGrowthFund;
 	
+	private GrowthFundGlobalData _globalData;
+	
 	public void updateItem(Player player, ActivityGrowthFundItem item){
 		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 
-	public void synAllData(Player player){
+	public void synAllData(Player player) {
 		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
-		if(null != itemList && !itemList.isEmpty()){
+		int alreadyBoughtCount = _globalData.getAlreadyBoughtCount();
+		if (null != itemList && !itemList.isEmpty()) {
+			for (ActivityGrowthFundItem item : itemList) {
+				item.setBoughtCount(alreadyBoughtCount);
+			}
 			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 		}
 	}
@@ -53,5 +63,18 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 	@SuppressWarnings("rawtypes")
 	public ActivityType getActivityType() {
 		return ActivityTypeFactory.GrowthFund;
+	}
+	
+	public void loadGlobalData() {
+		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROWTH_FUND);
+		if (attribute != null && (attribute = attribute.trim()).length() > 0) {
+			_globalData = JsonUtil.readValue(attribute, GrowthFundGlobalData.class);
+		} else {
+			_globalData = GrowthFundGlobalData.newInstance();
+		}
+	}
+
+	public GrowthFundGlobalData getGlobalData() {
+		return _globalData;
 	}
 }
