@@ -8,6 +8,8 @@ import com.rw.fsutil.dao.cache.CacheKey;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.skill.pojo.SkillItem;
+import com.rwbase.dao.spriteattach.SpriteAttachSyn;
+import com.rwbase.dao.spriteattach.SpriteAttachSynCreator;
 
 public enum HeroExtPropertyType implements RoleExtPropertyType{
 
@@ -16,7 +18,7 @@ public enum HeroExtPropertyType implements RoleExtPropertyType{
 	SKILL_ITEM(3, SkillItem.class, HeroSkillItemCreator.class),
 	EQUIP_ITEM(4, EquipItem.class, HeroEquipItemCreator.class),
 	INLAY_ITEM(5, InlayItem.class, HeroInlayItemCreator.class),
-	
+	SPRITE_ATTACH_ITEM(6, SpriteAttachSyn.class, SpriteAttachSynCreator.class),
 	;
 	
 	

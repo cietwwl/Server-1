@@ -8,4 +8,12 @@ package com.common;
  */
 public class RefLong {
 	public long value;
+	
+	public RefLong(){
+		this.value = 0;
+	}
+	
+	public RefLong(long value) {
+		this.value = value;
+	}
 }
