@@ -133,17 +133,30 @@ public class WBMgr {
 	}
 	
 	private void broatCastBossDie() {
-		List<String> allOnFightUserIds = WBOnFightMgr.getInstance().getAllOnFightUserIds();
 		
 		WBBroatCastData broatCastData = new WBBroatCastData();
 		broatCastData.setBossDie(true);
+		
+		broatCast(broatCastData);
+		
+	}
+	public void broatCastBossLeave() {
+		
+		WBBroatCastData broatCastData = new WBBroatCastData();
+		broatCastData.setBossLeave(true);
+		
+		broatCast(broatCastData);
+		
+	}
+
+	private void broatCast(WBBroatCastData broatCastData) {
+		List<String> allOnFightUserIds = WBOnFightMgr.getInstance().getAllOnFightUserIds();
 		for (String userIdTmp: allOnFightUserIds) {
 			Player online = PlayerMgr.getInstance().findPlayerFromMemory(userIdTmp);
 			if(online!=null){				
 				WBBroatCastDataHolder.getInstance().syn(online, broatCastData);
 			}
 		}
-		
 	}
 
 	public boolean adjustBossLevel(){	
