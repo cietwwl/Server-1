@@ -64,6 +64,7 @@ public class GambleHotHeroPlan {
 
 	/**
 	 * 生成热点外其他三个
+	 * 
 	 * @param r
 	 * @param hotPlanId
 	 * @param hotCount
@@ -79,17 +80,17 @@ public class GambleHotHeroPlan {
 			slots[i] = 1;
 		}
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
-		int hotGroupSize= gambleDropConfig.getDropGroupSize(hotPlanId);
+		int hotGroupSize = gambleDropConfig.getDropGroupSize(hotPlanId);
 		boolean checkDuplicated = hotGroupSize > hotCount;
-		if (checkDuplicated){
+		if (checkDuplicated) {
 			String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 			// 生成热点不重复
-			list = gambleDropConfig.getHotRandomDrop(r, hotPlanId, hotCount,guanrateeHero);
-		}else{
+			list = gambleDropConfig.getHotRandomDrop(r, hotPlanId, hotCount, guanrateeHero);
+		} else {
 			RefInt weight = new RefInt();
 			RefInt slotCount = new RefInt();
 			list = new ArrayList<Pair<String, Integer>>(hotCount);
-			
+
 			for (int i = 0; i < hotCount; i++) {
 				String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
 				if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
@@ -112,6 +113,7 @@ public class GambleHotHeroPlan {
 
 	/**
 	 * 需要保证额外的容错配置(errDefaultModelId)是有效的！
+	 * 
 	 * @param r
 	 * @param planId
 	 * @param hotCount
@@ -124,8 +126,8 @@ public class GambleHotHeroPlan {
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
 		if (result == null || result.dateAsId == null) {
-			GameLog.info("钓鱼台", "","每日热点未初始化");
-			//TODO 改为用一个静态的GambleHotHeroPlan做容错，避免并发修改每日热点数据
+			GameLog.info("钓鱼台", "", "每日热点未初始化");
+			// TODO 改为用一个静态的GambleHotHeroPlan做容错，避免并发修改每日热点数据
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
 			result.Init(r, planId, hotCount, errDefaultModelId);
@@ -141,11 +143,11 @@ public class GambleHotHeroPlan {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
-		if (result != null && result.getDateAsId() != null){
-			//System.out.println("gamble hot hero list already set for today:"+date);
+		if (result != null && result.getDateAsId() != null) {
+			// System.out.println("gamble hot hero list already set for today:"+date);
 			return;
 		}
-		
+
 		if (result == null || result.getDateAsId() == null) {
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;

@@ -87,6 +87,7 @@ public class ActivityTimeCardTypeMgr {
 			for (ActivityTimeCardTypeSubCfg subCfg : subItemCfgList) {
 				ActivityTimeCardTypeSubItem subItem = new ActivityTimeCardTypeSubItem();
 				subItem.setId(subCfg.getId());
+				GameLog.error(LogModule.ComActivityTimeCard, userId, "月卡数据的sub.id = "+subCfg.getId(), null);
 				subItem.setDayLeft(0);
 				subItem.setTimeCardType(subCfg.getTimeCardType());
 				subItem.setChargetype(subCfg.getChargeType().getCfgId());

@@ -126,7 +126,7 @@ public class HPCUtil {
 	 * @return
 	 */
 	public static Object[] toMappedArray(Object[] orignalArray, String intField) {
-		if(orignalArray == null || orignalArray.length == 0){
+		if (orignalArray == null || orignalArray.length == 0) {
 			return new Object[0];
 		}
 		Object[] array = null;
@@ -294,6 +294,14 @@ public class HPCUtil {
 	 */
 	public static boolean isResetTime(long lastTime) {
 		return DateUtils.isResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND, lastTime);
+	}
+
+	/**
+	 * 获取当天重置时间
+	 * @return
+	 */
+	public static long getRestTime() {
+		return DateUtils.getResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND);
 	}
 
 	/**
