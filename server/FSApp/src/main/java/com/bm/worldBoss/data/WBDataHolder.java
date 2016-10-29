@@ -24,7 +24,7 @@ public class WBDataHolder {
 	private static WBDataHolder instance = new WBDataHolder();
 	
 	private static eSynType synType = eSynType.WB_DATA;
-	private AtomicInteger version = new AtomicInteger(-1);
+	private AtomicInteger version = new AtomicInteger(0);
 
 	
 	public static WBDataHolder getInstance(){
