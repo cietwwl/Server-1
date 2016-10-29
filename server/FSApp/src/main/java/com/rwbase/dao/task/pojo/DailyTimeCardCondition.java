@@ -1,5 +1,6 @@
 package com.rwbase.dao.task.pojo;
 
+import com.log.GameLog;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.rwbase.dao.task.DailyStartCondition;
 
@@ -21,8 +22,10 @@ public class DailyTimeCardCondition implements DailyStartCondition {
 
 	@Override
 	public boolean isMatchCondition(String userId, int playerLevel, int playerVip) {
-		
-		return istTmeCardOnGoging(userId, playerLevel, playerVip);
+		boolean isMatchcondition = false;
+		isMatchcondition = istTmeCardOnGoging(userId, playerLevel, playerVip);
+		GameLog.info("月卡判断", userId, "是否成功 = " + isMatchcondition, null);
+		return isMatchcondition;
 	}
 
 	private boolean istTmeCardOnGoging(String userId, int playerLevel, int playerVip) {

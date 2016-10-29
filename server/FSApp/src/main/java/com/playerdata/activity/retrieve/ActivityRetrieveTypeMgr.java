@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -21,8 +20,6 @@ import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.dao.publicdata.PublicData;
-import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 
 public class ActivityRetrieveTypeMgr {
 
