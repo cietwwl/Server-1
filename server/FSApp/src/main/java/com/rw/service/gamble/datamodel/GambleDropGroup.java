@@ -20,9 +20,9 @@ import com.rw.service.gamble.GambleHandler;
 import com.rw.service.gamble.GambleTest;
 
 public class GambleDropGroup extends RandomStringGroups {
-	private int[] slotCountArr;
+	private int[] slotCountArr;// 掉落的物品数量
 
-	//set 方法是Json库专用，其他类不要调用！
+	// set 方法是Json库专用，其他类不要调用！
 	public int[] getSlotCountArr() {
 		return slotCountArr;
 	}
@@ -54,56 +54,59 @@ public class GambleDropGroup extends RandomStringGroups {
 	public void setAccumulation(int accumulation) {
 		this.accumulation = accumulation;
 	}
-	
-	protected GambleDropGroup(){super();}
-	
+
+	protected GambleDropGroup() {
+		super();
+	}
+
 	@JsonIgnore
-	public GambleDropGroup(List<Pair<String, Integer>> pairList,int[] slotCountArr) {
+	public GambleDropGroup(List<Pair<String, Integer>> pairList, int[] slotCountArr) {
 		super(pairList);
-		if (pairList.size() != slotCountArr.length) throw new RuntimeIoException("无效参数，两个数组长度不一致");
-		this.slotCountArr=slotCountArr;
+		if (pairList.size() != slotCountArr.length)
+			throw new RuntimeIoException("无效参数，两个数组长度不一致");
+		this.slotCountArr = slotCountArr;
 	}
 
 	@JsonIgnore
 	public String getRandomGroup(Random r, RefInt slotCount) {
-		return getRandomGroup(r,slotCount,null);
+		return getRandomGroup(r, slotCount, null);
 	}
-	
+
 	/**
 	 * 随机英雄身上缺少一个装备位置
 	 */
 	@JsonIgnore
-	public String getRandomGroup(Random r, RefInt slotCount,RefInt weight) {
+	public String getRandomGroup(Random r, RefInt slotCount, RefInt weight) {
 		RefInt planIndex = new RefInt();
-		String result = super.getRandomGroup(r, planIndex,weight);//use slotCount to get plan index
-		slotCount.value = slotCountArr[planIndex.value];
-		//handle DropMissing Special Item here!
-		if (!GambleTest.isGambleTesting() && StringUtils.isNotBlank(result)){
-			DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(result);
-			if (cfg != null){
+		String result = super.getRandomGroup(r, planIndex, weight);// use slotCount to get plan index
+		slotCount.value = slotCountArr[planIndex.value];// 获取到数量
+		// handle DropMissing Special Item here!
+		if (!GambleTest.isGambleTesting() && StringUtils.isNotBlank(result)) {
+			DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(result);// 如果读取到的是DropMissing这类型的掉落
+			if (cfg != null) {// 去检查人身上的装备，进行精准掉落
 				// search player for missing items, if not found, regenerate randomGroup again!
 				Player player = GambleHandler.getInstance().getContext();
-				if (player == null){
-					//BUG use default error item
+				if (player == null) {
+					// BUG use default error item
 					GameLog.error("钓鱼台", "", "上下文存取有bug，跳过并使用容错方案");
 					ArrayList<String> tmp = new ArrayList<String>(1);
 					tmp.add(result);
 					GambleDropGroup again = this.removeHistory(tmp);
-					if (again == null || again.size() <= 0){
+					if (again == null || again.size() <= 0) {
 						return null;
 					}
-					return again.getRandomGroup(r, slotCount,weight);
+					return again.getRandomGroup(r, slotCount, weight);
 				}
 				result = DropMissingLogic.getInstance().searchMissingItem(player, cfg);
 				// regenerate again!
-				if (result == null){
+				if (result == null) {
 					ArrayList<String> tmp = new ArrayList<String>(1);
 					tmp.add(cfg.getKey());
 					GambleDropGroup again = this.removeHistory(tmp);
-					if (again == null || again.size() <= 0){
+					if (again == null || again.size() <= 0) {
 						return null;
 					}
-					return again.getRandomGroup(r, slotCount,weight);
+					return again.getRandomGroup(r, slotCount, weight);
 				}
 			}
 		}
@@ -133,12 +136,12 @@ public class GambleDropGroup extends RandomStringGroups {
 			pairList.add(element);
 			slotCountArr[i] = cfg.getSlotCount();
 		}
-		GambleDropGroup result = new GambleDropGroup(pairList,slotCountArr);
+		GambleDropGroup result = new GambleDropGroup(pairList, slotCountArr);
 		return result;
 	}
-	
-	public static GambleDropGroup Create(List<Pair<String, Integer>> pairList,int[] slotCountArr){
-		return new GambleDropGroup(pairList,slotCountArr);
+
+	public static GambleDropGroup Create(List<Pair<String, Integer>> pairList, int[] slotCountArr) {
+		return new GambleDropGroup(pairList, slotCountArr);
 	}
 
 	@JsonIgnore
@@ -152,8 +155,8 @@ public class GambleDropGroup extends RandomStringGroups {
 
 	@JsonIgnore
 	public Collection<String> getHeroIdListWith(String guanrateeHero) {
-		ArrayList<String> result = new ArrayList<String>(plans.length+1);
-		//客户端假设了保底英雄作为本周热点放在最顶！
+		ArrayList<String> result = new ArrayList<String>(plans.length + 1);
+		// 客户端假设了保底英雄作为本周热点放在最顶！
 		result.add(guanrateeHero);
 		for (int i = 0; i < plans.length; i++) {
 			result.add(plans[i]);
@@ -166,79 +169,80 @@ public class GambleDropGroup extends RandomStringGroups {
 		HashSet<String> tmp = new HashSet<String>(historyRecord);
 		return removeHistory(tmp);
 	}
-	
+
 	@JsonIgnore
-	private GambleDropGroup removeHistory(Collection<String> tmp){
-		List<Pair<String,Integer>> pair = new ArrayList<Pair<String,Integer>>();
+	private GambleDropGroup removeHistory(Collection<String> tmp) {
+		List<Pair<String, Integer>> pair = new ArrayList<Pair<String, Integer>>();
 		List<Integer> tmpCount = new ArrayList<Integer>();
-		
+
 		boolean decreased = false;
-		int count =distributions.length;
+		int count = distributions.length;
 		for (int i = 0; i < count; i++) {
-			int delta;
+			int delta;// 单个物品的概率
 			if (i > 0) {
 				delta = distributions[i] - distributions[i - 1];
 			} else {
 				delta = distributions[i];
 			}
 			boolean isDuplicate = tmp.contains(plans[i]);
-			if (!isDuplicate){
-				pair.add(Pair.Create(plans[i], delta));
-				tmpCount.add(this.slotCountArr[i]);
-			}else{
+			if (!isDuplicate) {// 没有重复
+				pair.add(Pair.Create(plans[i], delta));// 单个物品对应的概率
+				tmpCount.add(this.slotCountArr[i]);// 对应的物品数量
+			} else {
 				decreased = true;
 			}
 		}
-		
-		if (!decreased){
+
+		if (!decreased) {
 			return this;
 		}
-		
-		if (tmpCount.size() <= 0){
+
+		if (tmpCount.isEmpty()) {// 没有任何数量
 			return null;
 		}
-		
+
 		int[] array = new int[tmpCount.size()];
 		for (int i = 0; i < array.length; i++) {
 			array[i] = tmpCount.get(i);
 		}
-		
+
 		return new GambleDropGroup(pair, array);
 	}
 
 	/**
-	 * 连续生成N个热点
-	 * 避免重复，如果热点组人数不够才允许重复
+	 * 连续生成N个热点 避免重复，如果热点组人数不够才允许重复
+	 * 
 	 * @param r
 	 * @param hotCount
 	 * @param guanrateeHero
 	 * @return
 	 */
 	@JsonIgnore
-	public List<Pair<String, Integer>> getHotRandomGroup(Random r, int hotCount,String guanrateeHero) {
-		List<String> historyRecord=new ArrayList<String>(1);
+	public List<Pair<String, Integer>> getHotRandomGroup(Random r, int hotCount, String guanrateeHero) {
+		List<String> historyRecord = new ArrayList<String>(1);
 		List<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>(hotCount);
-		RefInt slotCount=new RefInt();
-		RefInt weight=new RefInt();
+		RefInt slotCount = new RefInt();
+		RefInt weight = new RefInt();
 		GambleDropGroup tmpGroup = this;
 		String heroId = guanrateeHero;
-		
-		while (result.size() < hotCount){
-			if (historyRecord.size() <= 0){
+
+		while (result.size() < hotCount) {
+			if (historyRecord.size() <= 0) {
 				historyRecord.add(heroId);
-			}else{
+			} else {
 				historyRecord.set(0, heroId);
 			}
 			tmpGroup = tmpGroup.removeHistory(historyRecord);
-			if (tmpGroup != null && tmpGroup.size() > 0){
+			if (tmpGroup != null && tmpGroup.size() > 0) {
 				heroId = tmpGroup.getRandomGroup(r, slotCount, weight);
-			}else{
+			} else {
 				heroId = guanrateeHero;
 			}
-			if (heroId == null) heroId = guanrateeHero;
+			if (heroId == null)
+				heroId = guanrateeHero;
 			result.add(Pair.Create(heroId, weight.value));
 		}
-		
+
 		return result;
 	}
 }
