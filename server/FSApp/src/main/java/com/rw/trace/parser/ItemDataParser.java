@@ -85,7 +85,7 @@ public class ItemDataParser implements DataValueParser<ItemData> {
 
     @Override
     public JSONObject toJson(ItemData entity) {
-        JSONObject json = new JSONObject(5);
+        JSONObject json = new JSONObject(7);
         json.put("id", entity.getId());
         json.put("modelId", entity.getModelId());
         json.put("count", entity.getCount());

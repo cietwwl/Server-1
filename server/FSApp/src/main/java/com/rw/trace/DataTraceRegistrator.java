@@ -15,6 +15,7 @@ import com.rwbase.dao.inlay.InlayItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 import com.rwbase.dao.skill.pojo.SkillItem;
+import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserGameData;
 
@@ -41,7 +42,9 @@ public enum DataTraceRegistrator {
 	USER(User.class),
 	CHARGE_DATA(ChargeInfo.class),
 	MAGIC_EQUIP_FETTER(MagicEquipFetterRecord.class),
-	EMAIL(TableEmail.class);
+	EMAIL(TableEmail.class),
+	TASK(TaskItem.class),
+	;
 
 	DataTraceRegistrator(Class<?> dataTraceClass) {
 		this.dataCacheKey = new CacheKey(dataTraceClass);

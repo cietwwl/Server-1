@@ -68,7 +68,7 @@ public class InlayItemParser implements DataValueParser<InlayItem> {
 
     @Override
     public JSONObject toJson(InlayItem entity) {
-        JSONObject json = new JSONObject(4);
+        JSONObject json = new JSONObject(6);
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());
         json.put("slotId", entity.getSlotId());
