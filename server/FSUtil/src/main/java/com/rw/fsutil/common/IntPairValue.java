@@ -6,13 +6,14 @@ package com.rw.fsutil.common;
  *
  * @param <T>
  */
-public class IntPair<T> {
+public class IntPairValue<T> {
 
 	public final int value;
 	public final T t;
 
-	public IntPair(T t, int value) {
+	public IntPairValue(T t, int value) {
 		this.value = value;
 		this.t = t;
 	}
+	
 }
