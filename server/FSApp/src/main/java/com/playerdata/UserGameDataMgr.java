@@ -8,9 +8,6 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
-import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
-import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -90,8 +87,6 @@ public class UserGameDataMgr {
 					userGameData.setLastAddPowerTime(0);
 					userGameDataHolder.flush();
 				}
-				ActivityRetrieveTypeMgr.getInstance().addPowerTime(player);// 刷新下找回功能的体力流失时间
-				return;
 			} else {
 				if (lastTime <= 0) {
 					lastTime = now;
@@ -106,17 +101,9 @@ public class UserGameDataMgr {
 					PowerInfoDataHolder.synPowerInfo(player);
 				} else {
 					long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
-					// if (player.getUserName().equals("HC")) {
-					// System.err.println(hasSeconds);
-					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
+			
 					int tempPower = curPower + addValue;// 临时增加到多少体力
-					int tmp = tempPower - maxPower;// 流失量
-					if (tmp > 0) {// 有流失就直接更新活动子项数据
-						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power, tmp);
-					} else {// 没流失就刷新活动主数据，让活动自己的逻辑去判断是否属于达顶值后的流失
-						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);
-					}
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
@@ -466,7 +453,7 @@ public class UserGameDataMgr {
 			return 0;
 		return -1;
 	}
-	
+
 	public int getTeamBattleCoin() {
 		return UserTeamBattleDataMgr.getInstance().getTeamBattleCoin(player);
 	}
