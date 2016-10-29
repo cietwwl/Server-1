@@ -30,4 +30,15 @@ public class peakArenaInfoHelper extends CfgCsvDao<PeakArenaInfo> {
 	public PeakArenaInfo getUniqueCfg() {
 		return unique;
 	}
+	
+	@Override
+	public void CheckConfig() {
+		if(unique == null) {
+			throw new IllegalArgumentException("巅峰竞技场基础配置不存在！");
+		}
+		if(unique.getWinScore() == 0) {
+			throw new IllegalArgumentException("巅峰竞技场胜利积分为0！");
+		}
+	}
+	
 }
