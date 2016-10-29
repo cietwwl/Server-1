@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
-import com.rw.fsutil.common.FastPair;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.util.DateUtils;
 import com.rwproto.MsgDef.Command;
 
@@ -31,9 +31,9 @@ public class PlayerMsgCache {
 	private final IntObjectHashMap<ByteString> responseMap;
 	private final int maxCapacity;
 	private final ReentrantLock lock;
-	private final ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
+	private final ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat;
 
-	public PlayerMsgCache(int maxCapacity, ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat) {
+	public PlayerMsgCache(int maxCapacity, ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat) {
 		this.maxCapacity = maxCapacity;
 		this.seqIdList = new LinkedList<PlayerMsgTimeRecord>();
 		this.responseMap = new IntObjectHashMap<ByteString>(maxCapacity << 1);
@@ -79,10 +79,10 @@ public class PlayerMsgCache {
 						continue;
 					}
 					Command command = msgRecord.getCommand();
-					FastPair<Command, AtomicLong> count = purgeStat.get(command);
+					PairValue<Command, AtomicLong> count = purgeStat.get(command);
 					if (count == null) {
-						count = new FastPair<Command, AtomicLong>(command, new AtomicLong());
-						FastPair<Command, AtomicLong> old = purgeStat.putIfAbsent(command, count);
+						count = new PairValue<Command, AtomicLong>(command, new AtomicLong());
+						PairValue<Command, AtomicLong> old = purgeStat.putIfAbsent(command, count);
 						if (old != null) {
 							count = old;
 						}

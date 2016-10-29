@@ -33,7 +33,7 @@ public class GrowthFundBoughtCountSynTask implements IGameTimerTask {
 //			for (int i = 0, size = allPlayers.size(); i < size; i++) {
 //				allPlayers.get(i).SendMsg(Command.MSG_BUY_GROWTH_FUND, response.toByteString());
 //			}
-			UserChannelMgr.broadcastMsg(Command.MSG_BUY_GROWTH_FUND, response.toByteString());
+			UserChannelMgr.broadcastMsg(Command.MSG_BUY_GROWTH_FUND, null, response.toByteString());
 		}
 		return "SUCCESS";
 	}
