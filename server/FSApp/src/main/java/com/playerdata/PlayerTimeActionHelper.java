@@ -3,17 +3,9 @@ package com.playerdata;
 import com.bm.arena.ArenaBM;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
-import com.common.serverdata.ServerCommonData;
-import com.common.serverdata.ServerCommonDataHolder;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.activity.rateType.ActivityRateTypeMgr;
-import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
+import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
@@ -256,7 +248,8 @@ public class PlayerTimeActionHelper {
 
 			@Override
 			public void doTask() {
-				ActivityDailyRechargeTypeMgr.getInstance().dailyRefreshNewDaySubActivity(player);
+				//ActivityDailyRechargeTypeMgr.getInstance().dailyRefreshNewDaySubActivity(player);
+				ActivityMgrHelper.getInstance().dailyRefreshNewDaySubActivity(player);
 			}
 		});
 		

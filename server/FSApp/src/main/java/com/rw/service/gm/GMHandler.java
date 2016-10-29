@@ -97,6 +97,9 @@ import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MainMsgProtos.EMsgType;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.RequestProtos.Request;
+import com.rwproto.RequestProtos.RequestBody;
+import com.rwproto.RequestProtos.RequestHeader;
 
 public class GMHandler {
 	private HashMap<String, String> funcCallBackMap = new HashMap<String, String>();
@@ -255,6 +258,8 @@ public class GMHandler {
 		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
 		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
 		funcCallBackMap.put("upgrademagic", "upgradeMagic");
+		funcCallBackMap.put("growthFund".toLowerCase(), "growthFund");
+		funcCallBackMap.put("growthFundBoughtCount".toLowerCase(), "setGrowthFundBoughtCount");
 
 		// * callrb 1 生成随机boss,如果角色已经达到生成boss上限，这个指令会无效
 		funcCallBackMap.put("callrb", "callRb");
@@ -1988,6 +1993,38 @@ public class GMHandler {
 			itemInfos.add(new ItemInfo(pieceId, 999));
 		}
 		player.getItemBagMgr().addItem(itemInfos);
+		return true;
+	}
+	
+	public boolean growthFund(String[] arrCommandContents, Player player) {
+		int iReqType = Integer.parseInt(arrCommandContents[0]);
+		com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType reqType;
+		com.rwproto.GrowthFundServiceProto.GrowthFundRequest.Builder reqBuilder = com.rwproto.GrowthFundServiceProto.GrowthFundRequest.newBuilder();
+		switch (iReqType) {
+		default:
+		case com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.BUY_GROWTH_FUND_VALUE:
+			reqType = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.BUY_GROWTH_FUND;
+			break;
+		case com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_GIFT_VALUE:
+			reqType = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_GIFT;
+			reqBuilder.setRequestId(Integer.parseInt(arrCommandContents[1]));
+			break;
+		case com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_REWARD_VALUE:
+			reqType = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_REWARD;
+			reqBuilder.setRequestId(Integer.parseInt(arrCommandContents[1]));
+			break;
+		}
+		reqBuilder.setReqType(reqType);
+		RequestHeader.Builder headerBuilder = RequestHeader.newBuilder().setCommand(Command.MSG_BUY_GROWTH_FUND);
+		RequestBody.Builder bodyBuilder = RequestBody.newBuilder().setSerializedContent(reqBuilder.build().toByteString());
+		Request request = Request.newBuilder().setHeader(headerBuilder).setBody(bodyBuilder).build();
+		this.assumeSendRequest(player, request);
+		return true;
+	}
+	
+	public boolean setGrowthFundBoughtCount(String[] arrCommandContents, Player player) {
+		com.playerdata.activity.growthFund.GrowthFundGlobalData data = com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder.getInstance().getGlobalData();
+		data.setAlreadyBoughtCount(Integer.parseInt(arrCommandContents[0]));
 		return true;
 	}
 }

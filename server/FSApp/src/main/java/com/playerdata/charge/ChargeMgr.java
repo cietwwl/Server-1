@@ -7,11 +7,11 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.targetSell.TargetSellManager;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
@@ -198,7 +198,7 @@ public class ChargeMgr {
 			//这里检查一下精准营销有没有此角色的充值请求
 			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
 			if(success){
-				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
+				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney()/100);
 				
 				registerBehavior(player);
 		        BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
@@ -411,7 +411,7 @@ public class ChargeMgr {
 			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
 			dataHolder.updateItem(player, dataItem);
 			result.setSuccess(true);
-			
+			GameLog.info("月卡", player.getUserId(), "日常任务刷新", null);
 			DailyActivityHandler.getInstance().sendTaskList(player);
 			
 			

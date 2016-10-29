@@ -15,7 +15,6 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
@@ -44,6 +43,7 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
+import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
@@ -222,8 +222,10 @@ public class ActivityCollector implements RedPointCollector {
 		List<String> redEnvelopeList = ActivityRedEnvelopeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(redEnvelopeList);
 
-		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
-		activityList.addAll(dailyChargeList);
+//		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
+//		activityList.addAll(dailyChargeList);
+		List<String> subList = ActivityMgrHelper.getInstance().haveRedPoint(player);
+		activityList.addAll(subList);
 
 		// if (!activityList.isEmpty()) {
 		map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);

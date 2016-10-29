@@ -126,7 +126,7 @@ public class GCompEvents {
 		// GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
-		GroupCompetitionBroadcastCenter.getInstance().onEventsStart();
+		GroupCompetitionBroadcastCenter.getInstance().onEventsStart(eventsData.getRelativeGroupIds());
 		GCompDetailInfoMgr.getInstance().onEventsStart(eventsData.getAgainsts());
 	}
 

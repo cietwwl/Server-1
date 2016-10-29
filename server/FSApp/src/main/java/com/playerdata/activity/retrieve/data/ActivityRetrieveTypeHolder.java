@@ -63,6 +63,10 @@ public class ActivityRetrieveTypeHolder{
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 	
+	public void updateItemsingel(Player player, RewardBackItem item){
+		getItemStore(player.getUserId()).update(item.getId());
+	}
+	
 	public void synData(Player player, RewardBackItem item){
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}

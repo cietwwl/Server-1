@@ -98,6 +98,7 @@ enum eSynType	//数据同步类型
 	ActivityLimitHeroType = 75;//活动，限时神将
 	ActivityDailyRechargeType = 76; //每日充值活动
 	ActivityRetrieveType = 77;//每日找回活动
+	ActivityGrowthFund = 78; // 成长基金
 
 	QuestionList = 80; //反馈问题列表	
 	GFBiddingData = 81;	//在线帮战个人压标数据

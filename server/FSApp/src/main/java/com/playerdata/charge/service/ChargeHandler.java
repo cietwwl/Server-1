@@ -2,13 +2,9 @@ package com.playerdata.charge.service;
 
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
-import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
+import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.ChargeResult;
-import com.playerdata.charge.cfg.ChargeCfgDao;
-import com.playerdata.charge.cfg.VipGiftCfg;
-import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonReqMsg;
 import com.rwproto.ChargeServiceProto.ChargeServiceCommonRspMsg;
 
@@ -26,7 +22,7 @@ public class ChargeHandler {
 		response.setReqType(request.getReqType());
 		
 		String chargeItemId = request.getChargeItemId();
-		
+		ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, 60);
 		ChargeResult chargeResult = ChargeMgr.getInstance().charge(player, chargeItemId);
 		response.setIsSuccess(chargeResult.isSuccess());
 		response.setTipMsg(chargeResult.getTips());		

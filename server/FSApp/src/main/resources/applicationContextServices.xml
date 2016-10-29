@@ -128,6 +128,8 @@
      			<entry key="MSG_RANDOM_BOSS" value-ref="randomBossService" />
      			
      			<entry key="MSG_GROUP_COMPETITION_BATTLE" value-ref="groupCompetitionBattleService" />
+     			
+     			<entry key="MSG_BUY_GROWTH_FUND" value-ref="growthFundService" />
 
      			<entry key="MSG_BENEFIT_ITEM" value-ref="targetSellService" />
      			
@@ -233,6 +235,8 @@
 	<bean id="randomBossService" class="com.rw.service.ranodmBoss.RandomBossService" />
 	
 	<bean id="groupCompetitionBattleService" class="com.playerdata.groupcompetition.service.GroupCompetitionBattleService" />
+	
+	<bean id="growthFundService" class="com.playerdata.activity.growthFund.service.GrowthFundService" />
 	
 	<bean id="targetSellService" class="com.rw.service.targetSell.TargetSellService" />
 	

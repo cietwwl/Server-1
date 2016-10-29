@@ -5,7 +5,7 @@ public class SpriteAttachLevelCostCfg {
 	private int planId;
 	private int level;
 	private int costType;
-	private int costCount;
+	private float costCount;
 	private long exp; //等级对应的总经验
 	
 	public int getId() {
@@ -20,7 +20,7 @@ public class SpriteAttachLevelCostCfg {
 	public int getCostType() {
 		return costType;
 	}
-	public int getCostCount() {
+	public float getCostCount() {
 		return costCount;
 	}
 	public long getExp() {

@@ -2,15 +2,16 @@ package com.playerdata.activity.dailyCharge.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityDailyRechargeTypeSubItem {
+public class ActivityDailyRechargeTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
-	private boolean isGet;
+	private boolean isGet = false;
 	
 	public String getCfgId() {
 		return cfgId;
