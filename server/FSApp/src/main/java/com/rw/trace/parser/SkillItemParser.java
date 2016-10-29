@@ -78,7 +78,7 @@ public class SkillItemParser implements DataValueParser<SkillItem> {
 
     @Override
     public JSONObject toJson(SkillItem entity) {
-        JSONObject json = new JSONObject(5);
+        JSONObject json = new JSONObject(7);
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());
         json.put("skillId", entity.getSkillId());

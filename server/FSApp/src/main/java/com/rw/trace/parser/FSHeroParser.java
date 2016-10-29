@@ -88,7 +88,7 @@ public class FSHeroParser implements DataValueParser<FSHero> {
 
     @Override
     public JSONObject toJson(FSHero entity) {
-        JSONObject json = new JSONObject(6);
+        JSONObject json = new JSONObject(9);
         json.put("templateId", entity.getTemplateId());
         json.put("exp", entity.getExp());
         json.put("level", entity.getLevel());

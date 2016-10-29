@@ -181,7 +181,7 @@ public class UserParser implements DataValueParser<User> {
 
     @Override
     public JSONObject toJson(User entity) {
-        JSONObject json = new JSONObject(14);
+        JSONObject json = new JSONObject(19);
         json.put("userId", entity.getUserId());
         json.put("zoneId", entity.getZoneId());
         json.put("vip", entity.getVip());

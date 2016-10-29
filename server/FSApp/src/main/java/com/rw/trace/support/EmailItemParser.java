@@ -198,7 +198,7 @@ public class EmailItemParser implements DataValueParser<EmailItem> {
 
     @Override
     public JSONObject toJson(EmailItem entity) {
-        JSONObject json = new JSONObject(17);
+        JSONObject json = new JSONObject(23);
         json.put("emailId", entity.getEmailId());
         json.put("checked", entity.isChecked());
         json.put("receive", entity.isReceive());
