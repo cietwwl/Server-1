@@ -1,10 +1,9 @@
 package com.bm.worldBoss.state;
 
+import com.bm.worldBoss.WBMgr;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
-import com.log.GameLog;
-import com.log.LogModule;
 
 class WBFightEndState implements  IwbState{
 
@@ -28,10 +27,10 @@ class WBFightEndState implements  IwbState{
 		
 		WBData wbData = WBDataHolder.getInstance().get();
 		wbData.setState(state);
-		WBDataHolder.getInstance().update();		
-		
+		WBDataHolder.getInstance().update();	
+		if(wbData.getCurLife() > 0 ){
+			WBMgr.getInstance().broatCastBossLeave();
+		}
 	}
-	
-	
 
 }

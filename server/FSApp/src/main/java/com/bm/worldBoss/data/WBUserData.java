@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -29,6 +30,9 @@ public class WBUserData {
 	private List<String> buffCfgIdList =new ArrayList<String>();
 	private int cdBuyCount = 0;
 	
+	//user在一次战斗中对boss造成的累积伤害
+	@IgnoreSynField
+	private long accHurtInBattle;
 	
 	public static WBUserData newInstance(String userIdP) {
 		WBUserData data = new WBUserData();
@@ -36,11 +40,18 @@ public class WBUserData {
 		return data;
 	}
 	
-	public WBUserData nextInstance(int bossVersion){
-		WBUserData data = new WBUserData();
-		data.userId = this.userId;		
-		data.bossVersion = bossVersion;
-		return data;
+	public WBUserData nextInstance(int bossVersion){	
+			
+		this.bossVersion = bossVersion;		
+		this.lastFightTime = 0;
+		this.fightCdTime = 0;
+		this.lastHurt = 0;
+		this.lastAwardCoin = 0; //
+		this.totalHurt = 0;		
+		this.buffCfgIdList =new ArrayList<String>();
+		this.cdBuyCount = 0;
+		
+		return this;
 	}
 	
 	public String getUserId() {
@@ -119,8 +130,14 @@ public class WBUserData {
 		this.cdBuyCount++;
 	}
 
-	
-
-	
+	public void addAccHurt(long hurt){
+		this.accHurtInBattle = this.accHurtInBattle + hurt;
+	}
+	public void cleanAccHurt(){
+		this.accHurtInBattle = 0L;
+	}
+	public long getAccHurt(){
+		return this.accHurtInBattle;
+	}
 	
 }

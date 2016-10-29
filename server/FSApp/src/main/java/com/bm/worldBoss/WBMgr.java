@@ -1,5 +1,6 @@
 package com.bm.worldBoss;
 
+import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
@@ -9,6 +10,8 @@ import com.bm.worldBoss.cfg.WBHPCfg;
 import com.bm.worldBoss.cfg.WBHPCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
+import com.bm.worldBoss.data.WBBroatCastData;
+import com.bm.worldBoss.data.WBBroatCastDataHolder;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
@@ -16,11 +19,11 @@ import com.bm.worldBoss.state.WBStateFSM;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
-import com.sun.xml.internal.ws.api.streaming.XMLStreamReaderFactory.Woodstox;
 
 
 public class WBMgr {
@@ -116,6 +119,9 @@ public class WBMgr {
 			WBData wbData = WBDataHolder.getInstance().get();
 			if(wbData.getCurLife()>0){				
 				WBDataHolder.getInstance().decrHp(player, hurt);
+				if(isBossDie()){
+					broatCastBossDie();
+				}
 				success = true;			
 			}
 			
@@ -126,6 +132,33 @@ public class WBMgr {
 		return success;		
 	}
 	
+	private void broatCastBossDie() {
+		
+		WBBroatCastData broatCastData = new WBBroatCastData();
+		broatCastData.setBossDie(true);
+		
+		broatCast(broatCastData);
+		
+	}
+	public void broatCastBossLeave() {
+		
+		WBBroatCastData broatCastData = new WBBroatCastData();
+		broatCastData.setBossLeave(true);
+		
+		broatCast(broatCastData);
+		
+	}
+
+	private void broatCast(WBBroatCastData broatCastData) {
+		List<String> allOnFightUserIds = WBOnFightMgr.getInstance().getAllOnFightUserIds();
+		for (String userIdTmp: allOnFightUserIds) {
+			Player online = PlayerMgr.getInstance().findPlayerFromMemory(userIdTmp);
+			if(online!=null){				
+				WBBroatCastDataHolder.getInstance().syn(online, broatCastData);
+			}
+		}
+	}
+
 	public boolean adjustBossLevel(){	
 		boolean success = false;
 		writeLock.lock();		

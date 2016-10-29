@@ -3,9 +3,8 @@ package com.bm.worldBoss.service;
 import java.util.List;
 
 import com.bm.worldBoss.WBMgr;
+import com.bm.worldBoss.WBOnFightMgr;
 import com.bm.worldBoss.WBUserMgr;
-import com.bm.worldBoss.cfg.WBAwardCfg;
-import com.bm.worldBoss.cfg.WBAwardCfgDAO;
 import com.bm.worldBoss.cfg.WBBuyBuffCfg;
 import com.bm.worldBoss.cfg.WBBuyBuffCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfg;
@@ -24,8 +23,7 @@ import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.CommonRspMsg;
 import com.rwproto.WorldBossProtos.FightBeginParam;
 import com.rwproto.WorldBossProtos.FightBeginRep;
-import com.rwproto.WorldBossProtos.FightEndParam;
-import com.rwproto.WorldBossProtos.FightEndReward;
+import com.rwproto.WorldBossProtos.FightUpdateParam;
 
 public class WBHandler {
 	
@@ -56,6 +54,8 @@ public class WBHandler {
 
 		WBResult result = checkFightBegin(player, fightBeginParam);
 		if(result.isSuccess()){
+			//更新用户cd
+			WBUserMgr.getInstance().fightBeginUpdate(player);
 			
 			ArmyInfo bossArmy = WBMgr.getInstance().getBossArmy();	
 			
@@ -66,6 +66,7 @@ public class WBHandler {
 			
 			FightBeginRep beginRep = FightBeginRep.newBuilder().setBossArmy(bossJson).setSelfArmy(armyJson).build();	
 			response.setFightBeginRep(beginRep);
+			WBOnFightMgr.getInstance().enter(player.getUserId());
 			
 		}
 		response.setIsSuccess(result.isSuccess());
@@ -90,29 +91,56 @@ public class WBHandler {
 		return result;
 	}
 
+	public ByteString doFightUpdate(Player player, CommonReqMsg commonReq) {
+		WBUserMgr.getInstance().resetUserDataIfNeed(player);
+		
+		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(commonReq.getReqType());
+		
+		FightUpdateParam fightParam = commonReq.getFightUpdateParam();	
+		
+		WBResult result = checkFightEnd(player);
+		if(result.isSuccess()){
+			long updateHurt = fightParam.getHurt();
+			boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
+			if(success){				
+				WBUserMgr.getInstance().fightUpdate(player, updateHurt);
+				WBOnFightMgr.getInstance().enter(player.getUserId());
+			}else{
+				result.setSuccess(false);
+				result.setReason("世界boss已被击杀。");
+			}
+			
+		}
+		response.setIsSuccess(result.isSuccess());
+		if(result.getReason() != null)
+			response.setTipMsg(result.getReason());	
+		
+		return response.build().toByteString();
+	}
 	public ByteString doFightEnd(Player player, CommonReqMsg commonReq) {
 		WBUserMgr.getInstance().resetUserDataIfNeed(player);
 		
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		FightEndParam fightEndParam = commonReq.getFightEndParam();	
+		FightUpdateParam fightParam = commonReq.getFightUpdateParam();;	
 
-		WBResult result = checkFightEnd(player, fightEndParam);
+		WBResult result = checkFightEnd(player);
 		if(result.isSuccess()){
-			long totalHurt = fightEndParam.getTotalHurt();
-			int awardCoin = addAwardCoin(player, totalHurt);
-			boolean success = WBMgr.getInstance().decrHp(player,totalHurt);
-			if(success){
-				
-				WBUserMgr.getInstance().fightEndUpdate(player, totalHurt, awardCoin);
+			long updateHurt = fightParam.getHurt();
+			boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
+			if(success){				
+				WBUserMgr.getInstance().fightEndUpdate(player, updateHurt);
 			}else{
 				result.setSuccess(false);
 				result.setReason("世界boss已被击杀。");
 			}
 			
-			
 		}
+		
+		WBOnFightMgr.getInstance().leave(player.getUserId());
+		
 		response.setIsSuccess(result.isSuccess());
 		if(result.getReason() != null)
 		response.setTipMsg(result.getReason());	
@@ -121,22 +149,10 @@ public class WBHandler {
 	}
 
 
-	private int addAwardCoin(Player player, long totalHurt) {
-		int level = player.getLevel();
-		WBAwardCfg awardCfg = WBAwardCfgDAO.getInstance().getCfgById(String.valueOf(level));
-		int awardCoin = 0;
-		if(awardCfg!=null){
-			float factor = awardCfg.getFactor();
-			awardCoin = (int)(factor*totalHurt);
-		}
-
-		boolean success = WBHelper.addCoin(player, awardCoin);
-		
-		return success?awardCoin:0;
-	}
 
 
-	private WBResult checkFightEnd(Player player, FightEndParam fightEndParam){
+
+	private WBResult checkFightEnd(Player player){
 		WBResult result = checkBoss();
 		
 		return result;

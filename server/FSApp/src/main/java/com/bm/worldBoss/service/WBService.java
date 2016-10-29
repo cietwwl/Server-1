@@ -7,7 +7,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.RandomBossProto.ItemInfo;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.RequestType;
@@ -45,6 +44,9 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 				case FightBegin:
 					byteString = WBHandler.getInstance().doFightBegin(player, request);
 				break;
+				case FightUpdate:
+					byteString = WBHandler.getInstance().doFightUpdate(player, request);
+					break;
 				
 				case FightEnd:
 					byteString = WBHandler.getInstance().doFightEnd(player, request);
