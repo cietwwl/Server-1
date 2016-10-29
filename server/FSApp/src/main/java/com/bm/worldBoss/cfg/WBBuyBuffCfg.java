@@ -11,9 +11,13 @@ public class WBBuyBuffCfg {
 	
 	private int costCount;		//消耗数量
 
-	private String attrData;	//buff属性
+	private int buffValue;	//攻击力增加万分比
 	
-	private String precentAttrData;//buff属性
+
+
+	public int getBuffValue() {
+		return buffValue;
+	}
 
 	public String getId() {
 		return id;
@@ -27,13 +31,7 @@ public class WBBuyBuffCfg {
 		return costCount;
 	}
 
-	public String getAttrData() {
-		return attrData;
-	}
-
-	public String getPrecentAttrData() {
-		return precentAttrData;
-	}
+	
 
 	
 	

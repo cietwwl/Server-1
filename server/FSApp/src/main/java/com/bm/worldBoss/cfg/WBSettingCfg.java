@@ -17,6 +17,7 @@ public class WBSettingCfg {
 	
 	private int cdCost = 30;		//复活cd 花费
 
+	private int buyBuffLimit;//boss鼓舞上限
 
 	public String getId() {
 		return id;
@@ -51,6 +52,10 @@ public class WBSettingCfg {
 
 	public int getCdCost() {
 		return cdCost;
+	}
+
+	public int getBuyBuffLimit() {
+		return buyBuffLimit;
 	}
 	
 	

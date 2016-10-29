@@ -1,2 +1,2 @@
-id,remarks,bossInitLevel,quickKillTime,quickKillMax,survialMax
-1,,30,15,3,3
+id,remarks,bossInitLevel,quickKillTime,quickKillMax,survialMax,cdInSecond,cdCost,inspireLimit
+1,,30,15,3,3,30,50,5

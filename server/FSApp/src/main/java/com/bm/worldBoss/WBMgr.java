@@ -98,8 +98,8 @@ public class WBMgr {
 		
 		readLock.lock();
 		try {			
-			curAttrData.setCurLife(wbData.getCurLife());
-			curAttrData.setMaxLife(wbData.getMaxLife());
+			curAttrData.setCurLife(wbData.getCurLife()*1000);
+			curAttrData.setMaxLife(wbData.getMaxLife()*1000);
 		} finally {
 			readLock.unlock();
 		}

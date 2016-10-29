@@ -78,7 +78,7 @@ public class WBDataHolder {
 			data.setMonsterCfgId(monsterCfg.getId());
 			WBHPCfg wbHpCfg = WBHPCfgDAO.getInstance().getCfgById(String.valueOf(data.getBossLevel()));
 			float lifeFactor = wbHpCfg.getFactor();
-			long maxLife = (long)(monsterCfg.getLife()*lifeFactor);			
+			long maxLife = (long)(monsterCfg.getLife()*lifeFactor) * 1000;//方便测试暂时调高血量			
 			
 			data.setMaxLife(maxLife);
 			data.setCurLife(maxLife);	

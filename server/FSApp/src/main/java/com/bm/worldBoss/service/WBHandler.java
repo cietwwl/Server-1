@@ -8,8 +8,11 @@ import com.bm.worldBoss.cfg.WBAwardCfg;
 import com.bm.worldBoss.cfg.WBAwardCfgDAO;
 import com.bm.worldBoss.cfg.WBBuyBuffCfg;
 import com.bm.worldBoss.cfg.WBBuyBuffCfgDAO;
+import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBState;
+import com.bm.worldBoss.data.WBUserData;
+import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
@@ -181,18 +184,20 @@ public class WBHandler {
 		
 		WBResult result = checkBoss();
 		if(result.isSuccess()){
-			
-			WBBuyBuffCfg buyBuffCfg = WBBuyBuffCfgDAO.getInstance().getCfgById(bufBuffCfgId);
-			if(buyBuffCfg == null){
-				result.setReason("配置不存在。");
-			}else{
-				eSpecialItemId costType = buyBuffCfg.getCostType();
-				int costCount = buyBuffCfg.getCostCount();			
-				result = WBHelper.takeCost(player, costType, costCount);
-				if(result.isSuccess()){
-					WBUserMgr.getInstance().addBuff(player, buyBuffCfg.getId());
+			result = checkBuyBuff(player);
+			if(result.isSuccess()){
+				WBBuyBuffCfg buyBuffCfg = WBBuyBuffCfgDAO.getInstance().getCfgById(bufBuffCfgId);
+				if(buyBuffCfg == null){
+					result.setReason("配置不存在。");
+				}else{
+					eSpecialItemId costType = buyBuffCfg.getCostType();
+					int costCount = buyBuffCfg.getCostCount();			
+					result = WBHelper.takeCost(player, costType, costCount);
+					if(result.isSuccess()){
+						WBUserMgr.getInstance().addBuff(player, buyBuffCfg.getId());
+					}
+					
 				}
-				
 			}
 		}
 
@@ -201,6 +206,20 @@ public class WBHandler {
 				
 		return response.build().toByteString();
 	}
+
+	private WBResult checkBuyBuff(Player player) {
+		WBResult r = new WBResult();
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
+		WBSettingCfg setting = WBSettingCfgDAO.getInstance().getCfg();
+		if(wbUserData.getBuffCfgIdList().size() >= setting.getBuyBuffLimit()){
+			r.setSuccess(false);
+			r.setReason("已经达到可鼓舞次数上限!");
+		}else{
+			r.setSuccess(true);
+		}
+		return r;
+	}
+
 
 	public ByteString doBuyCD(Player player, CommonReqMsg commonReq) {
 		WBUserMgr.getInstance().resetUserDataIfNeed(player);
