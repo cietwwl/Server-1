@@ -43,6 +43,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
+import com.rw.trace.stat.MsgStatFactory;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
@@ -378,7 +379,7 @@ public class UserChannelMgr {
 		loginResponse.setResultType(eLoginResultType.SUCCESS);
 		loginResponse.setError("你的账号在另一处登录，请重新登录");
 
-		ChannelFuture future = sendAyncResponse(userId, oldSessionId, Command.MSG_PLAYER_OFF_LINE, loginResponse.build().toByteString());
+		ChannelFuture future = sendAyncResponse(userId, oldSessionId, Command.MSG_PLAYER_OFF_LINE, null, loginResponse.build().toByteString());
 		if (future == null) {
 			return;
 		}
@@ -413,6 +414,19 @@ public class UserChannelMgr {
 	 * @param byteString	
 	 */
 	public static void broadcastMsg(Command command, Object subCommand, ByteString byteString) {
+		for (Entry<String, Long> entry : userChannelsMap.entrySet()) {
+			Long sessionId = entry.getValue();
+			sendAyncResponse(null, sessionId, command, subCommand, byteString);
+		}
+	}
+
+	/**
+	 * 对在线玩家广播消息
+	 * @param command		
+	 * @param subCommand	
+	 * @param byteString	
+	 */
+	public static void broadcastMsgForMainMsg(Command command, Object subCommand, ByteString byteString) {
 		CfgOpenLevelLimitDAO limitDAO = CfgOpenLevelLimitDAO.getInstance();
 		for (Entry<String, Long> entry : userChannelsMap.entrySet()) {
 			Long sessionId = entry.getValue();
@@ -428,7 +442,7 @@ public class UserChannelMgr {
 					continue;
 				}
 			}
-			sendAyncResponse(null, sessionId, command, byteString);
+			sendAyncResponse(null, sessionId, command, subCommand, byteString);
 		}
 	}
 
@@ -461,7 +475,7 @@ public class UserChannelMgr {
 	 * @param Cmd
 	 * @param pBuffer
 	 */
-	public static ChannelFuture sendAyncResponse(String userId, Long sessionId, Command Cmd, ByteString pBuffer) {
+	public static ChannelFuture sendAyncResponse(String userId, Long sessionId, Command Cmd, Object subCommand, ByteString pBuffer) {
 		if (sessionId == null) {
 			return null;
 		}
@@ -479,7 +493,9 @@ public class UserChannelMgr {
 			return null;
 		}
 		Response response = builder.build();
-		return ctx.channel().writeAndFlush(response);
+		ChannelFuture future = ctx.channel().writeAndFlush(response);
+		MsgStatFactory.getCollector().recordSendMsg(Cmd, subCommand);
+		return future;
 	}
 
 	/**
@@ -494,9 +510,9 @@ public class UserChannelMgr {
 	 * @param pBuffer
 	 * @return
 	 */
-	public static ChannelFuture sendAyncResponse(String userId, Command Cmd, ByteString pBuffer) {
+	public static ChannelFuture sendAyncResponse(String userId, Command Cmd, Object subCmd, ByteString pBuffer) {
 		Long sessionId = userChannelsMap.get(userId);
-		return sendAyncResponse(userId, sessionId, Cmd, pBuffer);
+		return sendAyncResponse(userId, sessionId, Cmd, subCmd, pBuffer);
 	}
 
 	public static ChannelFuture sendSyncResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, Long sessionId, ByteString synData) {

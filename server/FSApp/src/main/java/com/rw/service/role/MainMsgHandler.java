@@ -73,7 +73,7 @@ public class MainMsgHandler {
 	}
 
 	private void sendPmdAll(EMsgType msgType, ByteString pBuffer) {
-		UserChannelMgr.broadcastMsg(Command.MSG_MainMsg, msgType, pBuffer);
+		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_MainMsg, msgType, pBuffer);
 	}
 
 	/*** 发送自定义码灯信 *****/
