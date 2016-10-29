@@ -592,7 +592,7 @@ public class FriendHandler {
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
 //		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, response.build().toByteString());
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "RequestAdd", response.build().toByteString());
 	}
 
 	/** 推送同意添加的好友 */
@@ -606,7 +606,7 @@ public class FriendHandler {
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
 //		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, response.build().toByteString());
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "ConsentAdd", response.build().toByteString());
 	}
 
 	/** 推送移除好友 */
@@ -620,7 +620,7 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(otherUserId);
 //		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, response.build().toByteString());
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "Remove", response.build().toByteString());
 	}
 
 	/** 推送好友列表 */

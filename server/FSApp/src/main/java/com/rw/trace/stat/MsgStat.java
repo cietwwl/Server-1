@@ -1,10 +1,10 @@
 package com.rw.trace.stat;
 
-import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.PairKey;
 
 public class MsgStat {
 
-	private final Pair<Object, Object> key;
+	private final PairKey<Object, Object> key;
 	private final String name;
 	private int total;
 	private int times;
@@ -15,7 +15,7 @@ public class MsgStat {
 	private int index;
 	private int max;
 
-	public MsgStat(String name, Pair<Object, Object> key, int recentlyMax) {
+	public MsgStat(String name, PairKey<Object, Object> key, int recentlyMax) {
 		this.key = key;
 		this.name = name;
 		this.recentlyMax = recentlyMax;
@@ -64,9 +64,9 @@ public class MsgStat {
 
 	@Override
 	public String toString() {
-		Object key2 = key.getT2();
+		Object key2 = key.secondKey;
 		StringBuilder sb = new StringBuilder();
-		sb.append('[').append(key.getT1());
+		sb.append('[').append(key.firstKey);
 		if (key2 != null) {
 			sb.append(',').append(key2);
 		}
@@ -75,7 +75,7 @@ public class MsgStat {
 		return sb.toString();
 	}
 
-	public Pair<Object, Object> getKey() {
+	public PairKey<Object, Object> getKey() {
 		return key;
 	}
 }
