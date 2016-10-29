@@ -56,7 +56,7 @@ public class TableEmailParser implements DataValueParser<TableEmail> {
 
     @Override
     public JSONObject toJson(TableEmail entity) {
-        JSONObject json = new JSONObject(2);
+        JSONObject json = new JSONObject(3);
         json.put("userId", entity.getUserId());
         Object emailListJson = writer.toJSON(entity.getEmailList());
         if (emailListJson != null) {

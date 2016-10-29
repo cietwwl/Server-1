@@ -99,7 +99,7 @@ public class EquipItemParser implements DataValueParser<EquipItem> {
 
     @Override
     public JSONObject toJson(EquipItem entity) {
-        JSONObject json = new JSONObject(7);
+        JSONObject json = new JSONObject(10);
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());
         json.put("equipIndex", entity.getEquipIndex());

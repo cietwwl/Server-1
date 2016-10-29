@@ -98,7 +98,7 @@ public class FixNormEquipDataItemParser implements DataValueParser<FixNormEquipD
 
     @Override
     public JSONObject toJson(FixNormEquipDataItem entity) {
-        JSONObject json = new JSONObject(7);
+        JSONObject json = new JSONObject(10);
         json.put("id", entity.getId());
         json.put("ownerId", entity.getOwnerId());
         json.put("cfgId", entity.getCfgId());

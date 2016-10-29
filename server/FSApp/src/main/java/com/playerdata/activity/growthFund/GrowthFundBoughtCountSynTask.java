@@ -3,8 +3,7 @@ package com.playerdata.activity.growthFund;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
-import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
+import com.rw.netty.UserChannelMgr;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
@@ -30,10 +29,11 @@ public class GrowthFundBoughtCountSynTask implements IGameTimerTask {
 			builder.setReqType(EGrowthFundRequestType.NOTIFY_BOUGHT_COUNT_CHANGE);
 			builder.setResultType(EGrowthFundResultType.SUCCESS);
 			GrowthFundResponse response = builder.build();
-			List<Player> allPlayers = PlayerMgr.getInstance().getOnlinePlayers();
-			for (int i = 0, size = allPlayers.size(); i < size; i++) {
-				allPlayers.get(i).SendMsg(Command.MSG_BUY_GROWTH_FUND, response.toByteString());
-			}
+//			List<Player> allPlayers = PlayerMgr.getInstance().getOnlinePlayers();
+//			for (int i = 0, size = allPlayers.size(); i < size; i++) {
+//				allPlayers.get(i).SendMsg(Command.MSG_BUY_GROWTH_FUND, response.toByteString());
+//			}
+			UserChannelMgr.broadcastMsg(Command.MSG_BUY_GROWTH_FUND, response.toByteString());
 		}
 		return "SUCCESS";
 	}

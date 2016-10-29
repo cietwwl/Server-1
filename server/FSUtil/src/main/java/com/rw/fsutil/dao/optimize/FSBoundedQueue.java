@@ -18,6 +18,9 @@ public class FSBoundedQueue<E> {
 	private final String name;
 
 	public FSBoundedQueue(String name, int maxCapacity) {
+		if(maxCapacity <= 0){
+			maxCapacity = 1;
+		}
 		this.name = name;
 		this.elements = (E[]) new Object[maxCapacity];
 		this.maxIndex = maxCapacity - 1;
