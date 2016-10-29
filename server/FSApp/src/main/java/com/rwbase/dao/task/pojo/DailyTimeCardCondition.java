@@ -24,7 +24,7 @@ public class DailyTimeCardCondition implements DailyStartCondition {
 	public boolean isMatchCondition(String userId, int playerLevel, int playerVip) {
 		boolean isMatchcondition = false;
 		isMatchcondition = istTmeCardOnGoging(userId, playerLevel, playerVip);
-		GameLog.info("月卡判断", userId, "是否成功 = " + isMatchcondition, null);
+//		GameLog.info("月卡判断", userId, "是否成功 = " + isMatchcondition, null);
 		return isMatchcondition;
 	}
 
