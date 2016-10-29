@@ -16,6 +16,7 @@ import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.SpriteAttachMgr;
 import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
+import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -144,7 +145,7 @@ public class SpriteAttachHandler {
 		SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, synItem);
 		res.setRequestType(requestType);
 		res.setReslutType(eSpriteAttachResultType.Success);
-
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Hero_Strength, 1);
 		return res.build().toByteString();
 	}
 
