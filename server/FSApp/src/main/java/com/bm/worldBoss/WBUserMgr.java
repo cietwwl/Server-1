@@ -100,7 +100,7 @@ public class WBUserMgr {
 	public boolean isInCD(Player player) {
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());		
 		long fightCdTime = wbUserData.getFightCdTime();
-		return fightCdTime!=0 && fightCdTime < System.currentTimeMillis();
+		return fightCdTime!=0 && fightCdTime > System.currentTimeMillis();
 	}
 	
 
