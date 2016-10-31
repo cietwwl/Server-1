@@ -1,6 +1,9 @@
 package com.rw.controler;
 
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.Map;
 
@@ -85,8 +88,20 @@ public class FsNettyControler {
 		header.mergeFrom(result.getHeader());
 		response.setHeader(header.build());
 		response.setSerializedContent(result.getSerializedContent());
+//		ChannelWriteMgr.write(ctx.channel(), response.build());
+		ChannelFuture future = ctx.channel().writeAndFlush(response.build());
 		
-		ChannelWriteMgr.write(ctx.channel(), response.build());
+		final Command cmd = result.getHeader().getCommand();
+		final int size = result.getSerializedContent().size();
+		final int seqId = result.getHeader().getSeqID();
+		future.addListener(new GenericFutureListener<Future<Void>>() {
+
+			@Override
+			public void operationComplete(Future<Void> future) throws Exception {
+				PlatformLog.debug("#发送消息:" + cmd + ",size=" + size + ",seqId=" + seqId + "," + future.isSuccess());
+			}
+		});
+		
 	}
 	
 	public ResponseHeader getResponseHeader(Request req, Command command) {
