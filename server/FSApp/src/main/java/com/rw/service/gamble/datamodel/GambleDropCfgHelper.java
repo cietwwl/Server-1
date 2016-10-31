@@ -6,12 +6,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Random;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.RefInt;
+import com.playerdata.Player;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -67,17 +67,18 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 		}
 	}
 
-	public String getRandomDrop(Random r, int groupKey, RefInt slotCount) {
+	public String getRandomDrop(Player player, int groupKey, RefInt slotCount) {
 		RefInt weight = null;
-		return getRandomDrop(r, groupKey, slotCount, weight);
+		return getRandomDrop(player, groupKey, slotCount, weight);
 	}
 
-	public String getRandomDrop(Random r, int groupKey, RefInt slotCount, RefInt weight) {
+	public String getRandomDrop(Player player, int groupKey, RefInt slotCount, RefInt weight) {
 		GambleDropGroup group = dropGroupMappings.get(groupKey);
 		if (group == null) {
 			return null;
 		}
-		return group.getRandomGroup(r, slotCount, weight);
+
+		return GambleLogicHelper.getRandomGroup(player, group, slotCount, weight);
 	}
 
 	public GambleDropGroup getGroup(int groupKey) {
@@ -103,12 +104,13 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 	 * @param guanrateeHero
 	 * @return
 	 */
-	public List<Pair<String, Integer>> getHotRandomDrop(Random r, int hotPlanId, int hotCount, String guanrateeHero) {
+	public List<Pair<String, Integer>> getHotRandomDrop(Player player, int hotPlanId, int hotCount, String guanrateeHero) {
 		GambleDropGroup group = dropGroupMappings.get(hotPlanId);
 		if (group == null) {
 			return null;
 		}
-		return group.getHotRandomGroup(r, hotCount, guanrateeHero);
+
+		return GambleLogicHelper.getHotRandomGroup(player, group, hotCount, guanrateeHero);
 	}
 
 	public int getDropGroupSize(int groupKey) {
