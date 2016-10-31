@@ -1924,6 +1924,32 @@ public final class WorldBossProtos {
      */
     com.google.protobuf.ByteString
         getHeroIdsBytes(int index);
+
+    // repeated int32 heroPositions = 2;
+    /**
+     * <code>repeated int32 heroPositions = 2;</code>
+     *
+     * <pre>
+     *选中出战的英雄站位信息
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getHeroPositionsList();
+    /**
+     * <code>repeated int32 heroPositions = 2;</code>
+     *
+     * <pre>
+     *选中出战的英雄站位信息
+     * </pre>
+     */
+    int getHeroPositionsCount();
+    /**
+     * <code>repeated int32 heroPositions = 2;</code>
+     *
+     * <pre>
+     *选中出战的英雄站位信息
+     * </pre>
+     */
+    int getHeroPositions(int index);
   }
   /**
    * Protobuf type {@code WorldBoss.FightBeginParam}
@@ -1984,6 +2010,27 @@ public final class WorldBossProtos {
               heroIds_.add(input.readBytes());
               break;
             }
+            case 16: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                heroPositions_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              heroPositions_.add(input.readInt32());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                heroPositions_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                heroPositions_.add(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -1994,6 +2041,9 @@ public final class WorldBossProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           heroIds_ = new com.google.protobuf.UnmodifiableLazyStringList(heroIds_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          heroPositions_ = java.util.Collections.unmodifiableList(heroPositions_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2072,8 +2122,44 @@ public final class WorldBossProtos {
       return heroIds_.getByteString(index);
     }
 
+    // repeated int32 heroPositions = 2;
+    public static final int HEROPOSITIONS_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> heroPositions_;
+    /**
+     * <code>repeated int32 heroPositions = 2;</code>
+     *
+     * <pre>
+     *选中出战的英雄站位信息
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getHeroPositionsList() {
+      return heroPositions_;
+    }
+    /**
+     * <code>repeated int32 heroPositions = 2;</code>
+     *
+     * <pre>
+     *选中出战的英雄站位信息
+     * </pre>
+     */
+    public int getHeroPositionsCount() {
+      return heroPositions_.size();
+    }
+    /**
+     * <code>repeated int32 heroPositions = 2;</code>
+     *
+     * <pre>
+     *选中出战的英雄站位信息
+     * </pre>
+     */
+    public int getHeroPositions(int index) {
+      return heroPositions_.get(index);
+    }
+
     private void initFields() {
       heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      heroPositions_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2089,6 +2175,9 @@ public final class WorldBossProtos {
       getSerializedSize();
       for (int i = 0; i < heroIds_.size(); i++) {
         output.writeBytes(1, heroIds_.getByteString(i));
+      }
+      for (int i = 0; i < heroPositions_.size(); i++) {
+        output.writeInt32(2, heroPositions_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2107,6 +2196,15 @@ public final class WorldBossProtos {
         }
         size += dataSize;
         size += 1 * getHeroIdsList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < heroPositions_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(heroPositions_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getHeroPositionsList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2226,6 +2324,8 @@ public final class WorldBossProtos {
         super.clear();
         heroIds_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
+        heroPositions_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2259,6 +2359,11 @@ public final class WorldBossProtos {
           bitField0_ = (bitField0_ & ~0x00000001);
         }
         result.heroIds_ = heroIds_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroPositions_ = java.util.Collections.unmodifiableList(heroPositions_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.heroPositions_ = heroPositions_;
         onBuilt();
         return result;
       }
@@ -2281,6 +2386,16 @@ public final class WorldBossProtos {
           } else {
             ensureHeroIdsIsMutable();
             heroIds_.addAll(other.heroIds_);
+          }
+          onChanged();
+        }
+        if (!other.heroPositions_.isEmpty()) {
+          if (heroPositions_.isEmpty()) {
+            heroPositions_ = other.heroPositions_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureHeroPositionsIsMutable();
+            heroPositions_.addAll(other.heroPositions_);
           }
           onChanged();
         }
@@ -2436,6 +2551,100 @@ public final class WorldBossProtos {
   }
   ensureHeroIdsIsMutable();
         heroIds_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // repeated int32 heroPositions = 2;
+      private java.util.List<java.lang.Integer> heroPositions_ = java.util.Collections.emptyList();
+      private void ensureHeroPositionsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          heroPositions_ = new java.util.ArrayList<java.lang.Integer>(heroPositions_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getHeroPositionsList() {
+        return java.util.Collections.unmodifiableList(heroPositions_);
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public int getHeroPositionsCount() {
+        return heroPositions_.size();
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public int getHeroPositions(int index) {
+        return heroPositions_.get(index);
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public Builder setHeroPositions(
+          int index, int value) {
+        ensureHeroPositionsIsMutable();
+        heroPositions_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public Builder addHeroPositions(int value) {
+        ensureHeroPositionsIsMutable();
+        heroPositions_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public Builder addAllHeroPositions(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureHeroPositionsIsMutable();
+        super.addAll(values, heroPositions_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 heroPositions = 2;</code>
+       *
+       * <pre>
+       *选中出战的英雄站位信息
+       * </pre>
+       */
+      public Builder clearHeroPositions() {
+        heroPositions_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -7027,27 +7236,28 @@ public final class WorldBossProtos {
       ".proto\"\035\n\014BuyBuffParam\022\r\n\005cfgId\030\001 \002(\t\"/\n" +
       "\020FightUpdateParam\022\014\n\004hurt\030\001 \002(\003\022\r\n\005vCode" +
       "\030\002 \001(\t\"1\n\rFightEndParam\022\021\n\ttotalHurt\030\001 \002" +
-      "(\003\022\r\n\005vCode\030\002 \001(\t\"\"\n\017FightBeginParam\022\017\n\007" +
-      "heroIds\030\001 \003(\t\"3\n\rFightBeginRep\022\020\n\010bossAr" +
-      "my\030\001 \002(\t\022\020\n\010selfArmy\030\002 \002(\t\"\265\002\n\014CommonReq" +
-      "Msg\022\'\n\007reqType\030\001 \002(\0162\026.WorldBoss.Request" +
-      "Type\022\025\n\rwbDataVersion\030\002 \001(\005\022\031\n\021wbUserDat" +
-      "aVersion\030\003 \001(\005\022-\n\014buyBuffParam\030\004 \001(\0132\027.W",
-      "orldBoss.BuyBuffParam\0223\n\017fightBeginParam" +
-      "\030\005 \001(\0132\032.WorldBoss.FightBeginParam\022/\n\rfi" +
-      "ghtEndParam\030\006 \001(\0132\030.WorldBoss.FightEndPa" +
-      "ram\0225\n\020fightUpdateParam\030\007 \001(\0132\033.WorldBos" +
-      "s.FightUpdateParam\"\266\001\n\014CommonRspMsg\022\'\n\007r" +
-      "eqType\030\001 \002(\0162\026.WorldBoss.RequestType\022\021\n\t" +
-      "isSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022/\n\rfight" +
-      "BeginRep\030\004 \001(\0132\030.WorldBoss.FightBeginRep" +
-      "\022)\n\006reward\030\005 \001(\0132\031.WorldBoss.FightEndRew" +
-      "ard\"\\\n\016FightEndReward\022\021\n\ttotalHarm\030\001 \002(\003",
-      "\022\017\n\007curHarm\030\002 \002(\003\022&\n\010itemList\030\003 \003(\0132\024.Ra" +
-      "ndomBoss.ItemInfo*l\n\013RequestType\022\t\n\005Ente" +
-      "r\020\001\022\016\n\nFightBegin\020\002\022\014\n\010FightEnd\020\003\022\013\n\007Buy" +
-      "Buff\020\004\022\013\n\007SynData\020\005\022\t\n\005BuyCD\020\006\022\017\n\013FightU" +
-      "pdate\020\007B\036\n\013com.rwprotoB\017WorldBossProtos"
+      "(\003\022\r\n\005vCode\030\002 \001(\t\"9\n\017FightBeginParam\022\017\n\007" +
+      "heroIds\030\001 \003(\t\022\025\n\rheroPositions\030\002 \003(\005\"3\n\r" +
+      "FightBeginRep\022\020\n\010bossArmy\030\001 \002(\t\022\020\n\010selfA" +
+      "rmy\030\002 \002(\t\"\265\002\n\014CommonReqMsg\022\'\n\007reqType\030\001 " +
+      "\002(\0162\026.WorldBoss.RequestType\022\025\n\rwbDataVer" +
+      "sion\030\002 \001(\005\022\031\n\021wbUserDataVersion\030\003 \001(\005\022-\n",
+      "\014buyBuffParam\030\004 \001(\0132\027.WorldBoss.BuyBuffP" +
+      "aram\0223\n\017fightBeginParam\030\005 \001(\0132\032.WorldBos" +
+      "s.FightBeginParam\022/\n\rfightEndParam\030\006 \001(\013" +
+      "2\030.WorldBoss.FightEndParam\0225\n\020fightUpdat" +
+      "eParam\030\007 \001(\0132\033.WorldBoss.FightUpdatePara" +
+      "m\"\266\001\n\014CommonRspMsg\022\'\n\007reqType\030\001 \002(\0162\026.Wo" +
+      "rldBoss.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016" +
+      "\n\006tipMsg\030\003 \001(\t\022/\n\rfightBeginRep\030\004 \001(\0132\030." +
+      "WorldBoss.FightBeginRep\022)\n\006reward\030\005 \001(\0132" +
+      "\031.WorldBoss.FightEndReward\"\\\n\016FightEndRe",
+      "ward\022\021\n\ttotalHarm\030\001 \002(\003\022\017\n\007curHarm\030\002 \002(\003" +
+      "\022&\n\010itemList\030\003 \003(\0132\024.RandomBoss.ItemInfo" +
+      "*l\n\013RequestType\022\t\n\005Enter\020\001\022\016\n\nFightBegin" +
+      "\020\002\022\014\n\010FightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynData" +
+      "\020\005\022\t\n\005BuyCD\020\006\022\017\n\013FightUpdate\020\007B\036\n\013com.rw" +
+      "protoB\017WorldBossProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7077,7 +7287,7 @@ public final class WorldBossProtos {
           internal_static_WorldBoss_FightBeginParam_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorldBoss_FightBeginParam_descriptor,
-              new java.lang.String[] { "HeroIds", });
+              new java.lang.String[] { "HeroIds", "HeroPositions", });
           internal_static_WorldBoss_FightBeginRep_descriptor =
             getDescriptor().getMessageTypes().get(4);
           internal_static_WorldBoss_FightBeginRep_fieldAccessorTable = new

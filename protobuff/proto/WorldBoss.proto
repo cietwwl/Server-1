@@ -34,6 +34,7 @@ message FightEndParam{
 
 message FightBeginParam{
 	repeated string heroIds = 1; //选中出战的英雄Id列表
+	repeated int32 heroPositions = 2; //选中出战的英雄站位信息
 }
 
 message FightBeginRep{

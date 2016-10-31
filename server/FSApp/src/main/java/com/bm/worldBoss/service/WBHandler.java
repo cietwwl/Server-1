@@ -1,6 +1,8 @@
 package com.bm.worldBoss.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.bm.worldBoss.WBMgr;
 import com.bm.worldBoss.WBOnFightMgr;
@@ -51,6 +53,7 @@ public class WBHandler {
 		
 		FightBeginParam fightBeginParam = commonReq.getFightBeginParam();
 		List<String> heroIdsList = fightBeginParam.getHeroIdsList();	
+		List<Integer> heroPositionList = fightBeginParam.getHeroPositionsList();
 
 		WBResult result = checkFightBegin(player, fightBeginParam);
 		if(result.isSuccess()){
@@ -59,7 +62,9 @@ public class WBHandler {
 			
 			ArmyInfo bossArmy = WBMgr.getInstance().getBossArmy();	
 			
-			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroIdsList);		
+			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroIdsList);
+			Map<String, Integer> posMap = getPosMap(heroIdsList,heroPositionList);
+			armyInfo.setPos(posMap);
 			
 			String bossJson = bossArmy.toJson();
 			String armyJson = armyInfo.toJson();
@@ -74,6 +79,16 @@ public class WBHandler {
 		response.setTipMsg(result.getReason());	
 				
 		return response.build().toByteString();
+	}
+	
+	private Map<String,Integer> getPosMap(List<String> heroIdList, List<Integer> posList){
+		Map<String,Integer> posMap = new HashMap<String, Integer>();
+		
+		for (int i = 0; i < heroIdList.size(); i++) {
+			posMap.put(heroIdList.get(i), posList.get(i));
+		}
+		return posMap;
+		
 	}
 	
 	private WBResult checkFightBegin(Player player, FightBeginParam fightBeginParam){
