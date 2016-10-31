@@ -124,7 +124,7 @@ public class ChatBM {
 				}
 
 				msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-				player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+				player.SendMsg(MsgDef.Command.MSG_CHAT, "World", msgChatResponse.build().toByteString());
 				player.setLastWorldChatId(messageId.get());// 缓存版本号
 			}
 		}
@@ -148,7 +148,7 @@ public class ChatBM {
 				if (!FriendUtils.isBlack(player, senderUserId)) {
 					// 不在黑名單
 					if (PlayerMgr.getInstance().isOnline(player.getUserId())) {
-						player.SendMsg(MsgDef.Command.MSG_CHAT, msg.toByteString());
+						player.SendMsg(MsgDef.Command.MSG_CHAT, "Interactive", msg.toByteString());
 					}
 					ChatBM.this.addInteractiveChat(player.getUserId(), chat.getType(), msg.getListMessage(0));
 				}
@@ -207,7 +207,7 @@ public class ChatBM {
 					}
 
 					msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-					player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
+					player.SendMsg(MsgDef.Command.MSG_CHAT, "Team", msgChatResponse.build().toByteString());
 				}
 			}
 		}
@@ -984,7 +984,7 @@ public class ChatBM {
 			interactiveMessageList.add(new ChatInteractiveSendData(interactiveType, resp, targetUserIds, sendToWorld));
 		}
 
-		sender.SendMsg(Command.MSG_CHAT, resp.toByteString());
+		sender.SendMsg(Command.MSG_CHAT, interactiveType.chatType, resp.toByteString());
 	}
 
 	public String filterDirtyWord(String content) {

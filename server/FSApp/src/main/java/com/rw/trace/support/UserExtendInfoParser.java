@@ -78,7 +78,7 @@ public class UserExtendInfoParser implements DataValueParser<UserExtendInfo> {
 
     @Override
     public JSONObject toJson(UserExtendInfo entity) {
-        JSONObject json = new JSONObject(5);
+        JSONObject json = new JSONObject(7);
         json.put("blockReason", entity.getBlockReason());
         json.put("blockCoolTime", entity.getBlockCoolTime());
         json.put("chatBanReason", entity.getChatBanReason());

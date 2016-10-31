@@ -31,98 +31,96 @@ import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
-public class ActivityRetrieveTypeHolder{
-	
+public class ActivityRetrieveTypeHolder {
+
 	private static ActivityRetrieveTypeHolder instance = new ActivityRetrieveTypeHolder();
-	
-	public static ActivityRetrieveTypeHolder getInstance(){
+
+	public static ActivityRetrieveTypeHolder getInstance() {
 		return instance;
 	}
 
 	final private eSynType synType = eSynType.ActivityRetrieveType;
-	
-	
+
 	/*
 	 * 获取用户已经拥有的时装
 	 */
-	public List<RewardBackItem> getItemList(String userId)	
-	{
-		
+	public List<RewardBackItem> getItemList(String userId) {
+
 		List<RewardBackItem> itemList = new ArrayList<RewardBackItem>();
 		Enumeration<RewardBackItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
-			RewardBackItem item = (RewardBackItem) mapEnum.nextElement();			
+			RewardBackItem item = (RewardBackItem) mapEnum.nextElement();
 			itemList.add(item);
 		}
-		
+
 		return itemList;
 	}
-	
-	public void updateItem(Player player, RewardBackItem item){
+
+	public void updateItem(Player player, RewardBackItem item) {
 		getItemStore(player.getUserId()).update(item.getId());
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
-	
-	public void updateItemsingel(Player player, RewardBackItem item){
+
+	public void updateItemsingel(Player player, RewardBackItem item) {
 		getItemStore(player.getUserId()).update(item.getId());
 	}
-	
-	public void synData(Player player, RewardBackItem item){
+
+	public void synData(Player player, RewardBackItem item) {
 		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
-	
-	
-	public RewardBackItem getItem(String userId){	
+
+	public RewardBackItem getItem(String userId) {
 		String itemId = ActivityRetrieveTypeHelper.getItemId(userId, ActivityRetrieveTypeEnum.retrieve);
-		
+
 		return getItemStore(userId).get(ActivityRetrieveTypeEnum.retrieve.getId());
 	}
-	
-//	public boolean removeItem(Player player, ActivityCountTypeItem item){
-//		
-//		boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
-//		if(success){
-//			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
-//		}
-//		return success;
-//	}
-	
-	public boolean addItem(Player player, RewardBackItem item){
-	
+
+	// public boolean removeItem(Player player, ActivityCountTypeItem item){
+	//
+	// boolean success = getItemStore(player.getUserId()).removeItem(item.getId());
+	// if(success){
+	// ClientDataSynMgr.updateData(player, item, synType, eSynOpType.REMOVE_SINGLE);
+	// }
+	// return success;
+	// }
+
+	public boolean addItem(Player player, RewardBackItem item) {
+
 		boolean addSuccess = getItemStore(player.getUserId()).addItem(item);
-		if(addSuccess){
+		if (addSuccess) {
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
 	}
-	
-	public boolean addItemList(Player player, List<RewardBackItem> itemList){
+
+	public boolean addItemList(Player player, List<RewardBackItem> itemList) {
 		try {
-//			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
+			// boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
 			RoleExtPropertyStore<RewardBackItem> itemstore = getItemStore(player.getUserId());
 			boolean addSuccess = itemstore.addItem(itemList);
-			
-			if(addSuccess){
+
+			if (addSuccess) {
 				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
 			}
 			return addSuccess;
-		} catch (DuplicatedKeyException e) { 
-			//handle..
+		} catch (DuplicatedKeyException e) {
+			// handle..
 			e.printStackTrace();
 			return false;
 		}
 	}
-	
-	public void synAllData(Player player){
+
+	public void synAllData(Player player) {
 		List<RewardBackItem> itemList = getItemList(player.getUserId());
-		RewardBackItem item = new RewardBackItem();
-		if(!itemList.isEmpty()){
+		RewardBackItem item;
+		if (!itemList.isEmpty()) {
 			item = itemList.get(0);
+		} else {
+			item = new RewardBackItem();
 		}
 		ClientDataSynMgr.synData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 
-	
 	public RoleExtPropertyStore<RewardBackItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<RewardBackItem> storeCache = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RETRIEVE, RewardBackItem.class);
 		try {
@@ -135,8 +133,7 @@ public class ActivityRetrieveTypeHolder{
 			e.printStackTrace();
 		}
 		return null;
-		
-		
+
 	}
-	
+
 }

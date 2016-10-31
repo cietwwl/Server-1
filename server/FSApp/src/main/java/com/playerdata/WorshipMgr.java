@@ -72,7 +72,7 @@ public class WorshipMgr {
 		tableWorship.clear();
 		worshipDao.update(tableWorship);
 //		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
-		UserChannelMgr.broadcastMsg(Command.MSG_Worship, getByWorshipedInfo());
+		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship,"TopChanged", getByWorshipedInfo());
 	}
 	
 	/**重排排行榜时发送膜拜奖励*/

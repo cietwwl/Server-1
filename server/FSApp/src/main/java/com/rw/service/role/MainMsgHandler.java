@@ -25,7 +25,7 @@ public class MainMsgHandler {
 	public static MainMsgHandler getInstance() {
 		return instance;
 	}
-	
+
 	public void sendMainCityMsg(int id, EMsgType msgType, List<String> arr) {
 		MainMsgResponse.Builder res = MainMsgResponse.newBuilder();
 		res.setId(id);
@@ -46,7 +46,7 @@ public class MainMsgHandler {
 			}
 		}
 
-		sendPmdAll(res.build().toByteString());
+		sendPmdAll(msgType, res.build().toByteString());
 	}
 
 	public void sendPmdGm(Player player, String[] arrCommandContents) {
@@ -72,8 +72,8 @@ public class MainMsgHandler {
 		this.sendMainCityMsg(id, EMsgType.PmdMsg, arr);
 	}
 
-	private void sendPmdAll(ByteString pBuffer) {
-		UserChannelMgr.broadcastMsg(Command.MSG_MainMsg, pBuffer);
+	private void sendPmdAll(EMsgType msgType, ByteString pBuffer) {
+		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_MainMsg, msgType, pBuffer);
 	}
 
 	/*** 发送自定义码灯信 *****/
@@ -295,8 +295,8 @@ public class MainMsgHandler {
 		arr.add(colors + fbName + "[-]");
 		sendPmd(13, arr);
 	}
-	
-	public void sendWorldBossPmb(Player player, int id, List<String> arr){
+
+	public void sendWorldBossPmb(Player player, int id, List<String> arr) {
 		sendPmd(id, arr);
 	}
 }

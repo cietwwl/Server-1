@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.controler.PlayerMsgCache;
-import com.rw.fsutil.common.FastPair;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.dao.cache.SimpleCache;
 import com.rw.fsutil.util.DateUtils;
 import com.rwproto.MsgDef.Command;
@@ -36,7 +36,7 @@ public class UserChannelMgr {
 
 	// 容量需要做成配置
 	private static SimpleCache<String, PlayerMsgCache> msgCache;
-	private static ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
+	private static ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat;
 
 	static {
 		USER_ID = AttributeKey.valueOf("userId");
@@ -45,7 +45,7 @@ public class UserChannelMgr {
 		seesionIdGenerator = new AtomicLong();
 		msgHoldMillis = TimeUnit.MINUTES.toMillis(10);
 		msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
-		purgeStat = new ConcurrentHashMap<Command, FastPair<Command, AtomicLong>>();
+		purgeStat = new ConcurrentHashMap<Command, PairValue<Command, AtomicLong>>();
 		CLOSE_SESSION = new UserSession("close", 0);
 	}
 

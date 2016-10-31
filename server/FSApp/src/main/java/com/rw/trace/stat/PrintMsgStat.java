@@ -10,11 +10,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.rw.fsutil.common.FastPair;
-import com.rw.fsutil.common.LongPair;
+import com.rw.fsutil.common.LongPairValue;
+import com.rw.fsutil.common.PairKey;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.dao.cache.CacheLogger;
 import com.rw.netty.UserChannelMgr;
 import com.rwproto.MsgDef.Command;
@@ -23,12 +25,15 @@ public class PrintMsgStat implements Callable<Void> {
 
 	@Override
 	public Void call() throws Exception {
+		MsgStatCollector collector = MsgStatFactory.getCollector();
 		StringBuilder sb = new StringBuilder();
+		sb.append("===============================================").append(CacheLogger.lineSeparator);
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
 		sb.append(format.format(new Date())).append(CacheLogger.lineSeparator);
-		print(sb, MsgStatFactory.getCollector().getSubmitCostContainter());
-		print(sb, MsgStatFactory.getCollector().getSendCostContainter());
-		print(sb, MsgStatFactory.getCollector().getRunCostContainter());
+		print(sb, collector.getSendMsgTimesStat());
+		print(sb, collector.getSubmitCostContainter());
+		print(sb, collector.getSendCostContainter());
+		print(sb, collector.getRunCostContainter());
 		print_(sb, UserChannelMgr.getPurgeCount());
 		sb.append("===============================================").append(CacheLogger.lineSeparator);
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stat.log", true))), true);
@@ -41,10 +46,10 @@ public class PrintMsgStat implements Callable<Void> {
 		return null;
 	}
 
-	private Comparator<LongPair<MsgStat>> comparator = new Comparator<LongPair<MsgStat>>() {
+	private Comparator<LongPairValue<MsgStat>> comparator = new Comparator<LongPairValue<MsgStat>>() {
 
 		@Override
-		public int compare(LongPair<MsgStat> o1, LongPair<MsgStat> o2) {
+		public int compare(LongPairValue<MsgStat> o1, LongPairValue<MsgStat> o2) {
 			long distance = o1.value - o2.value;
 			if (distance < 0) {
 				return -1;
@@ -56,11 +61,34 @@ public class PrintMsgStat implements Callable<Void> {
 		}
 	};
 
+	private Comparator<LongPairValue<PairKey<Command, Object>>> timesComparator = new Comparator<LongPairValue<PairKey<Command, Object>>>() {
+
+		@Override
+		public int compare(LongPairValue<PairKey<Command, Object>> o1, LongPairValue<PairKey<Command, Object>> o2) {
+			if (o1.value < o2.value) {
+				return -1;
+			} else if (o1.value > o2.value) {
+				return 1;
+			} else {
+				return 0;
+			}
+		}
+
+	};
+
+	private void print(StringBuilder sb, List<LongPairValue<PairKey<Command, Object>>> list) {
+		Collections.sort(list, timesComparator);
+		for (int i = 0, size = list.size(); i < size; i++) {
+			LongPairValue<PairKey<Command, Object>> msgStat = list.get(i);
+			sb.append(msgStat.t).append(msgStat.value).append(CacheLogger.lineSeparator);
+		}
+	}
+
 	private void print(StringBuilder sb, Enumeration<MsgStat> stat) {
-		ArrayList<LongPair<MsgStat>> list = new ArrayList<LongPair<MsgStat>>();
+		ArrayList<LongPairValue<MsgStat>> list = new ArrayList<LongPairValue<MsgStat>>();
 		for (; stat.hasMoreElements();) {
 			MsgStat msgStat = stat.nextElement();
-			list.add(new LongPair<MsgStat>(msgStat, msgStat.getTotal() / msgStat.getTimes()));
+			list.add(new LongPairValue<MsgStat>(msgStat, msgStat.getTotal() / msgStat.getTimes()));
 		}
 		Collections.sort(list, comparator);
 		for (int i = 0, size = list.size(); i < size; i++) {
@@ -69,11 +97,10 @@ public class PrintMsgStat implements Callable<Void> {
 		}
 	}
 
-	private void print_(StringBuilder sb, Enumeration<FastPair<Command, AtomicLong>> er) {
+	private void print_(StringBuilder sb, Enumeration<PairValue<Command, AtomicLong>> er) {
 		for (; er.hasMoreElements();) {
-			FastPair<Command, AtomicLong> pair = er.nextElement();
+			PairValue<Command, AtomicLong> pair = er.nextElement();
 			sb.append(pair.firstValue).append(pair.secondValue).append(CacheLogger.lineSeparator);
 		}
 	}
-
 }

@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.log.PlatformLog;
-import com.rw.fsutil.common.FastPair;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.util.DateUtils;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
@@ -31,9 +31,9 @@ public class PlayerMsgCache {
 	private final HashMap<Integer, Response> responseMap;
 	private final int maxCapacity;
 	private final ReentrantLock lock;
-	private final ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
+	private final ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat;
 
-	public PlayerMsgCache(int maxCapacity, ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat) {
+	public PlayerMsgCache(int maxCapacity, ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat) {
 		this.maxCapacity = maxCapacity;
 		this.seqIdList = new LinkedList<PlayerMsgTimeRecord>();
 		this.responseMap = new HashMap<Integer, Response>();
@@ -80,10 +80,10 @@ public class PlayerMsgCache {
 						continue;
 					}
 					Command command = response.getHeader().getCommand();
-					FastPair<Command, AtomicLong> count = purgeStat.get(command);
+					PairValue<Command, AtomicLong> count = purgeStat.get(command);
 					if (count == null) {
-						count = new FastPair<Command, AtomicLong>(command, new AtomicLong());
-						FastPair<Command, AtomicLong> old = purgeStat.putIfAbsent(command, count);
+						count = new PairValue<Command, AtomicLong>(command, new AtomicLong());
+						PairValue<Command, AtomicLong> old = purgeStat.putIfAbsent(command, count);
 						if (old != null) {
 							count = old;
 						}
@@ -117,7 +117,7 @@ public class PlayerMsgCache {
 		}
 	}
 
-	public Enumeration<FastPair<Command, AtomicLong>> getPurgeCount() {
+	public Enumeration<PairValue<Command, AtomicLong>> getPurgeCount() {
 		return purgeStat.elements();
 	}
 }

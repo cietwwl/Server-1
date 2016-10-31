@@ -10,7 +10,7 @@ import java.util.TreeMap;
 import com.bm.arena.ArenaScore;
 import com.bm.arena.ArenaScoreTemplate;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.common.IntPair;
+import com.rw.fsutil.common.IntPairValue;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
@@ -30,7 +30,7 @@ public class PeakArenaScoreRewardCfgDAO extends CfgCsvDao<ArenaScore> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("PeakArena/peakArenaScoreReward.csv", ArenaScore.class);
 		TreeMap<Integer, Map<Integer, ArenaScoreTemplate>> allTemplatesByMinLv = new TreeMap<Integer, Map<Integer, ArenaScoreTemplate>>();
 		TreeMap<Integer, TreeMap<Integer, ArenaScoreTemplate>> scoreMap = new TreeMap<Integer, TreeMap<Integer, ArenaScoreTemplate>>();
-		List<IntPair<Integer>> levelList = new ArrayList<IntPair<Integer>>();
+		List<IntPairValue<Integer>> levelList = new ArrayList<IntPairValue<Integer>>();
 		for (Iterator<String> keyItr = cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
 			String key = keyItr.next();
 			ArenaScore arenaScore = cfgCacheMap.get(key);
@@ -45,7 +45,7 @@ public class PeakArenaScoreRewardCfgDAO extends CfgCsvDao<ArenaScore> {
 			if (tempScoreMap == null) {
 				tempScoreMap = new TreeMap<Integer, ArenaScoreTemplate>();
 				scoreMap.put(template.getMinLevel(), tempScoreMap);
-				levelList.add(new IntPair<Integer>(template.getMinLevel(), template.getMaxLevel()));
+				levelList.add(new IntPairValue<Integer>(template.getMinLevel(), template.getMaxLevel()));
 			}
 			if (tempScoreMap.put(template.getScore(), template) != null) {
 				throw new ExceptionInInitializerError("ArenaScore重复积分定义：" + template.getScore());

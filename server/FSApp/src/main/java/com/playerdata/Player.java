@@ -1,7 +1,5 @@
 package com.playerdata;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Enumeration;
@@ -17,7 +15,6 @@ import com.bm.player.ObserverFactory.ObserverType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Action;
-import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -46,7 +43,6 @@ import com.rw.fsutil.common.stream.IStream;
 import com.rw.fsutil.common.stream.IStreamListner;
 import com.rw.fsutil.common.stream.StreamImpl;
 import com.rw.fsutil.util.DateUtils;
-import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -103,9 +99,6 @@ import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ReConnectionProtos.SyncVersion;
-import com.rwproto.ResponseProtos;
-import com.rwproto.ResponseProtos.Response;
-import com.rwproto.ResponseProtos.ResponseHeader;
 
 /**
  * 玩家类
@@ -662,9 +655,13 @@ public class Player implements PlayerIF {
 	}
 
 	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
+		SendMsg(Cmd, null, pBuffer);
+	}
+
+	public void SendMsg(MsgDef.Command Cmd, Object subCmd, ByteString pBuffer) {
 		try {
 			String userId = getUserId();
-			UserChannelMgr.sendAyncResponse(userId, Cmd, pBuffer);
+			UserChannelMgr.sendAyncResponse(userId, Cmd, subCmd, pBuffer);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -878,9 +875,9 @@ public class Player implements PlayerIF {
 			getSettingMgr().setCareerHeadImage();
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
-			
+
 			SpriteAttachMgr.getInstance().onCarrerChange(this);
-			
+
 			// 改技能Id
 			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
@@ -891,8 +888,6 @@ public class Player implements PlayerIF {
 			getMainRoleHero().getFixNormEquipMgr().onCarrerChange(this);
 			getMainRoleHero().getFixExpEquipMgr().onCarrerChange(this);
 
-			
-			
 			// 任务
 			if (cfg.getStarLevel() > getStarLevel()) {
 				getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Quality);

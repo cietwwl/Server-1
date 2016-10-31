@@ -2879,6 +2879,24 @@ public final class RankServiceProtos {
      * </pre>
      */
     int getSex();
+
+    // optional int32 popularity = 14;
+    /**
+     * <code>optional int32 popularity = 14;</code>
+     *
+     * <pre>
+     *人气值
+     * </pre>
+     */
+    boolean hasPopularity();
+    /**
+     * <code>optional int32 popularity = 14;</code>
+     *
+     * <pre>
+     *人气值
+     * </pre>
+     */
+    int getPopularity();
   }
   /**
    * Protobuf type {@code RankInfo}
@@ -3002,6 +3020,11 @@ public final class RankServiceProtos {
             case 104: {
               bitField0_ |= 0x00001000;
               sex_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00002000;
+              popularity_ = input.readInt32();
               break;
             }
           }
@@ -3490,6 +3513,30 @@ public final class RankServiceProtos {
       return sex_;
     }
 
+    // optional int32 popularity = 14;
+    public static final int POPULARITY_FIELD_NUMBER = 14;
+    private int popularity_;
+    /**
+     * <code>optional int32 popularity = 14;</code>
+     *
+     * <pre>
+     *人气值
+     * </pre>
+     */
+    public boolean hasPopularity() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional int32 popularity = 14;</code>
+     *
+     * <pre>
+     *人气值
+     * </pre>
+     */
+    public int getPopularity() {
+      return popularity_;
+    }
+
     private void initFields() {
       heroUUID_ = "";
       rankingLevel_ = 0;
@@ -3504,6 +3551,7 @@ public final class RankServiceProtos {
       headbox_ = "";
       fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       sex_ = 0;
+      popularity_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3555,6 +3603,9 @@ public final class RankServiceProtos {
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeInt32(13, sex_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(14, popularity_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3616,6 +3667,10 @@ public final class RankServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(13, sex_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, popularity_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3764,6 +3819,8 @@ public final class RankServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000800);
         sex_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
+        popularity_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
@@ -3848,6 +3905,10 @@ public final class RankServiceProtos {
           to_bitField0_ |= 0x00001000;
         }
         result.sex_ = sex_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.popularity_ = popularity_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3910,6 +3971,9 @@ public final class RankServiceProtos {
         }
         if (other.hasSex()) {
           setSex(other.getSex());
+        }
+        if (other.hasPopularity()) {
+          setPopularity(other.getPopularity());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4871,6 +4935,55 @@ public final class RankServiceProtos {
       public Builder clearSex() {
         bitField0_ = (bitField0_ & ~0x00001000);
         sex_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 popularity = 14;
+      private int popularity_ ;
+      /**
+       * <code>optional int32 popularity = 14;</code>
+       *
+       * <pre>
+       *人气值
+       * </pre>
+       */
+      public boolean hasPopularity() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 popularity = 14;</code>
+       *
+       * <pre>
+       *人气值
+       * </pre>
+       */
+      public int getPopularity() {
+        return popularity_;
+      }
+      /**
+       * <code>optional int32 popularity = 14;</code>
+       *
+       * <pre>
+       *人气值
+       * </pre>
+       */
+      public Builder setPopularity(int value) {
+        bitField0_ |= 0x00002000;
+        popularity_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 popularity = 14;</code>
+       *
+       * <pre>
+       *人气值
+       * </pre>
+       */
+      public Builder clearPopularity() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        popularity_ = 0;
         onChanged();
         return this;
       }
@@ -10703,35 +10816,36 @@ public final class RankServiceProtos {
       "kType\030\002 \001(\005\022$\n\nresultType\030\003 \001(\0162\020.ERankR" +
       "esultType\022\035\n\nmyRankInfo\030\004 \001(\0132\t.RankInfo" +
       "\022\033\n\010RankList\030\005 \003(\0132\t.RankInfo\022#\n\014baseRan" +
-      "kInfo\030\006 \001(\0132\r.BaseRankInfo\"\221\002\n\010RankInfo\022" +
+      "kInfo\030\006 \001(\0132\r.BaseRankInfo\"\245\002\n\010RankInfo\022" +
       "\020\n\010heroUUID\030\001 \001(\t\022\024\n\014rankingLevel\030\002 \001(\005\022",
       "\r\n\005level\030\003 \001(\005\022\020\n\010heroName\030\004 \001(\t\022\017\n\007imag" +
       "eId\030\005 \001(\t\022\013\n\003job\030\006 \001(\005\022\017\n\007modelId\030\007 \001(\005\022" +
       "\023\n\013fightingAll\030\010 \001(\005\022\024\n\014fightingTeam\030\t \001" +
       "(\005\022\021\n\trankCount\030\n \001(\005\022\017\n\007headbox\030\013 \001(\t\0221" +
       "\n\014fashionUsage\030\014 \001(\0132\033.FashionService.Fa" +
-      "shionUsed\022\013\n\003sex\030\r \001(\005\"\340\002\n\014BaseRankInfo\022" +
-      "\023\n\013fightingAll\030\001 \001(\005\022\020\n\010levelAll\030\002 \001(\005\022\016" +
-      "\n\006jobDay\030\003 \001(\005\022\022\n\njobCurrent\030\004 \001(\005\022\024\n\014at" +
-      "hleticsDay\030\005 \001(\005\022\030\n\020athleticsCurrent\030\006 \001" +
-      "(\005\022\014\n\004team\030\007 \001(\005\022\017\n\007endless\030\010 \001(\005\022\r\n\005glo",
-      "ry\030\t \001(\005\022\031\n\021athleticsFighting\030\n \001(\005\022\"\n\010t" +
-      "eamData\030\013 \003(\0132\020.RankingTeamData\022\025\n\rarena" +
-      "WinCount\030\014 \001(\005\022\021\n\tgroupName\030\r \001(\t\0221\n\014fas" +
-      "hionUsage\030\016 \001(\0132\033.FashionService.Fashion" +
-      "Used\022\013\n\003sex\030\017 \001(\005\"[\n\017RankingTeamData\022$\n\t" +
-      "magicData\030\001 \002(\0132\021.RankingMagicData\022\"\n\010he" +
-      "roList\030\002 \003(\0132\020.RankingHeroData\"f\n\017Rankin" +
-      "gHeroData\022\016\n\006heroId\030\001 \002(\t\022\r\n\005level\030\002 \002(\005" +
-      "\022\021\n\tstarLevel\030\003 \002(\005\022\017\n\007quality\030\004 \002(\t\022\020\n\010" +
-      "heroHead\030\005 \002(\t\"i\n\020RankingMagicData\022\022\n\nma",
-      "gicImage\030\001 \002(\t\022\024\n\014magicQuality\030\002 \002(\005\022\027\n\017" +
-      "magicAttackType\030\003 \002(\005\022\022\n\nmagicLevel\030\004 \002(" +
-      "\005*q\n\020ERankRequestType\022\r\n\tRANK_LIST\020\001\022\022\n\016" +
-      "RANK_HERO_INFO\020\002\022\023\n\017RANK_LIST_PART1\020\003\022\023\n" +
-      "\017RANK_LIST_PART2\020\004\022\020\n\014RANK_MY_INFO\020\005*-\n\017" +
-      "ERankResultType\022\013\n\007SUCCESS\020\000\022\r\n\tNOT_LEVE" +
-      "L\020\001B \n\013com.rwprotoB\021RankServiceProtos"
+      "shionUsed\022\013\n\003sex\030\r \001(\005\022\022\n\npopularity\030\016 \001" +
+      "(\005\"\340\002\n\014BaseRankInfo\022\023\n\013fightingAll\030\001 \001(\005" +
+      "\022\020\n\010levelAll\030\002 \001(\005\022\016\n\006jobDay\030\003 \001(\005\022\022\n\njo" +
+      "bCurrent\030\004 \001(\005\022\024\n\014athleticsDay\030\005 \001(\005\022\030\n\020" +
+      "athleticsCurrent\030\006 \001(\005\022\014\n\004team\030\007 \001(\005\022\017\n\007",
+      "endless\030\010 \001(\005\022\r\n\005glory\030\t \001(\005\022\031\n\021athletic" +
+      "sFighting\030\n \001(\005\022\"\n\010teamData\030\013 \003(\0132\020.Rank" +
+      "ingTeamData\022\025\n\rarenaWinCount\030\014 \001(\005\022\021\n\tgr" +
+      "oupName\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.Fa" +
+      "shionService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"[\n" +
+      "\017RankingTeamData\022$\n\tmagicData\030\001 \002(\0132\021.Ra" +
+      "nkingMagicData\022\"\n\010heroList\030\002 \003(\0132\020.Ranki" +
+      "ngHeroData\"f\n\017RankingHeroData\022\016\n\006heroId\030" +
+      "\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\021\n\tstarLevel\030\003 \002(\005\022" +
+      "\017\n\007quality\030\004 \002(\t\022\020\n\010heroHead\030\005 \002(\t\"i\n\020Ra",
+      "nkingMagicData\022\022\n\nmagicImage\030\001 \002(\t\022\024\n\014ma" +
+      "gicQuality\030\002 \002(\005\022\027\n\017magicAttackType\030\003 \002(" +
+      "\005\022\022\n\nmagicLevel\030\004 \002(\005*q\n\020ERankRequestTyp" +
+      "e\022\r\n\tRANK_LIST\020\001\022\022\n\016RANK_HERO_INFO\020\002\022\023\n\017" +
+      "RANK_LIST_PART1\020\003\022\023\n\017RANK_LIST_PART2\020\004\022\020" +
+      "\n\014RANK_MY_INFO\020\005*-\n\017ERankResultType\022\013\n\007S" +
+      "UCCESS\020\000\022\r\n\tNOT_LEVEL\020\001B \n\013com.rwprotoB\021" +
+      "RankServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10755,7 +10869,7 @@ public final class RankServiceProtos {
           internal_static_RankInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_RankInfo_descriptor,
-              new java.lang.String[] { "HeroUUID", "RankingLevel", "Level", "HeroName", "ImageId", "Job", "ModelId", "FightingAll", "FightingTeam", "RankCount", "Headbox", "FashionUsage", "Sex", });
+              new java.lang.String[] { "HeroUUID", "RankingLevel", "Level", "HeroName", "ImageId", "Job", "ModelId", "FightingAll", "FightingTeam", "RankCount", "Headbox", "FashionUsage", "Sex", "Popularity", });
           internal_static_BaseRankInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_BaseRankInfo_fieldAccessorTable = new

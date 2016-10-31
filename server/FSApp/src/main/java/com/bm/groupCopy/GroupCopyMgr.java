@@ -430,7 +430,7 @@ public class GroupCopyMgr {
 				break;
 			case GroupCopyLevelBL.STATE_COPY_FIGHT:
 				//检查有没有超时
-				leftTime = (int) ((lvData.getLastBeginFightTime() + GroupCopyLevelBL.MAX_WAIT_SPAN - curTime)/1000);
+				leftTime = (int) ((lvData.getLastBeginFightTime() + GroupCopyLevelBL.MAX_FIGHT_SPAN - curTime)/1000);
 				if(leftTime <= 0){
 					//已经超时，重置
 					enter = updateCopyState(player, lvData, GroupCopyLevelBL.STATE_COPY_WAIT);
@@ -481,7 +481,7 @@ public class GroupCopyMgr {
 	 * 更新关卡状态
 	 * @param player
 	 * @param lvData
-	 * @param state TODO
+	 * @param state TODO targetState
 	 * @return
 	 */
 	private boolean updateCopyState(Player player, GroupCopyLevelRecord lvData, int state) {

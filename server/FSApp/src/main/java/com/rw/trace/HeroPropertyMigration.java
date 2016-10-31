@@ -23,7 +23,7 @@ import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.common.FastPair;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.annotation.FieldEntry;
 import com.rw.fsutil.dao.attachment.InsertRoleExtPropertyData;
@@ -135,7 +135,7 @@ public class HeroPropertyMigration {
 		for (int i = 0; i < list.size(); i++) {
 			Map<String, Object> map = list.get(i);
 
-			FastPair<String, Integer> pair = explainData.explain(map);
+			PairValue<String, Integer> pair = explainData.explain(map);
 			String owner_id = pair.firstValue;
 			int sub_type = pair.secondValue;
 			String sql = heroManager.getInsertSql(owner_id);
@@ -197,9 +197,9 @@ public class HeroPropertyMigration {
 			return heroExtClass;
 		}
 
-		public FastPair<String, Integer> explain(Map<String, Object> map) {
+		public PairValue<String, Integer> explain(Map<String, Object> map) {
 			String[] idArray = HPCUtil.parseStringArray((String) map.get("id"), "_");
-			return new FastPair<String, Integer>(idArray[0], Integer.parseInt(idArray[1]));
+			return new PairValue<String, Integer>(idArray[0], Integer.parseInt(idArray[1]));
 		}
 	}
 
