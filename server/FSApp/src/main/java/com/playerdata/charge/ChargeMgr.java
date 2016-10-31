@@ -11,7 +11,6 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
@@ -28,7 +27,8 @@ import com.playerdata.charge.cfg.VipGiftCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
-import com.playerdata.charge.dao.ChargeOrder;
+import com.playerdata.charge.dao.ChargeRecord;
+import com.playerdata.charge.dao.ChargeRecordDAO;
 import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
@@ -49,6 +49,11 @@ public class ChargeMgr {
 	
 	public static ChargeMgr getInstance(){
 		return instance;
+	}
+	
+	private IChargeCallbackChecker<ChargeContentPojo> _checker;
+	protected ChargeMgr() {
+		_checker = new YinHanChargeCallbackChecker();
 	}
 	
 	public boolean isValid(Player player,ChargeTypeEnum monthCardType){
@@ -132,19 +137,33 @@ public class ChargeMgr {
 		boolean success=false;
 		// 充值，保存订单，返回结果
 		Player player = get(chargeContentPojo);
-		if(player!=null){
-			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
-				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
-				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
-			}else{
-				GameLog.error("chargemgr", "sdk-充值", "充值失败,订单号异常！面额" + chargeContentPojo.getMoney() + "元"+ " ； uid ="  + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+//		if(player!=null){
+//			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+//			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
+//				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
+//				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
+//			}else{
+//				GameLog.error("chargemgr", "sdk-充值", "充值失败,订单号异常！面额" + chargeContentPojo.getMoney() + "元"+ " ； uid ="  + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+//			}
+//		}
+//		if(success){
+//			success = chargeType(player,chargeContentPojo);			
+//		}
+		if (player != null) {
+			if (!_checker.checkChargeCallback(chargeContentPojo)) {
+				return false;
+			}
+			if (!ChargeRecordDAO.getInstance().isRecordExists(chargeContentPojo.getCpTradeNo())) {
+				ChargeRecord chargeRecord = _checker.generateChargeRecord(chargeContentPojo);
+				if (ChargeRecordDAO.getInstance().addChargeRecord(chargeRecord)) {
+					chargeType(player, chargeContentPojo);
+				} else {
+					GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+				}
+			} else {
+				GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
 			}
 		}
-		if(success){
-			success = chargeType(player,chargeContentPojo);			
-		}
-		
 		return success;
 	}
 	
