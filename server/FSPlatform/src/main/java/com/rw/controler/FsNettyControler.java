@@ -84,16 +84,15 @@ public class FsNettyControler {
 
 		ResponseProtos.Response.Builder response = ResponseProtos.Response.newBuilder();
 		ResponseHeader.Builder header = ResponseHeader.newBuilder();
-		header.setSeqID(seqID);
 		header.mergeFrom(result.getHeader());
+		header.setSeqID(seqID);
 		response.setHeader(header.build());
 		response.setSerializedContent(result.getSerializedContent());
-//		ChannelWriteMgr.write(ctx.channel(), response.build());
 		ChannelFuture future = ctx.channel().writeAndFlush(response.build());
 		
 		final Command cmd = result.getHeader().getCommand();
 		final int size = result.getSerializedContent().size();
-		final int seqId = result.getHeader().getSeqID();
+		final int seqId = response.getHeader().getSeqID();
 		future.addListener(new GenericFutureListener<Future<Void>>() {
 
 			@Override
