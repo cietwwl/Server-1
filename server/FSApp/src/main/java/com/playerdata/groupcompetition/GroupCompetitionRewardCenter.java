@@ -13,13 +13,13 @@ import java.util.Map;
 import com.bm.group.GroupBM;
 import com.bm.rank.groupCompetition.killRank.GCompKillItem;
 import com.bm.rank.groupCompetition.killRank.GCompKillRankMgr;
+import com.bm.rank.groupCompetition.scoreRank.GCompScoreItem;
+import com.bm.rank.groupCompetition.scoreRank.GCompScoreRankMgr;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinItem;
 import com.bm.rank.groupCompetition.winRank.GCompContinueWinRankMgr;
 import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.data.IGCGroup;
 import com.playerdata.groupcompetition.holder.GCompEventsDataMgr;
-import com.playerdata.groupcompetition.holder.GCompMemberMgr;
-import com.playerdata.groupcompetition.holder.data.GCompMember;
 import com.playerdata.groupcompetition.stageimpl.GCompAgainst;
 import com.playerdata.groupcompetition.stageimpl.GCompEventsData;
 import com.playerdata.groupcompetition.util.GCEventsType;
@@ -69,21 +69,21 @@ public class GroupCompetitionRewardCenter {
 		sendMailToMembers(allMembers, cfg.getEmailCfgId(), cfg.getRewardMap(), mailArgs);
 	}
 	
-	// 发送帮派积分排名奖励
-	private void sendGroupScoreRankingReward(List<IGCGroup> groups, GCEventsType eventsType) {		
-		int rank = 1;
-		GCompScoreRewardCfgDAO scoreRewardCfgDAO = GCompScoreRewardCfgDAO.getInstance();
-		for (IGCGroup group : groups) {
-			List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
-			GCompCommonRankRewardCfg cfg = scoreRewardCfgDAO.getByMatchTypeAndRank(eventsType, rank);
-			if (cfg == null) {
-				GCompUtil.log("处理帮派奖励，没有找到合适的奖励，排名：{}，赛事类型是：{}", rank, eventsType);
-				continue;
-			}
-			sendRewardToAll(group.getGroupId(), cfg, args);
-			rank++;
-		}
-	}
+//	// 发送帮派积分排名奖励
+//	private void sendGroupScoreRankingReward(List<IGCGroup> groups, GCEventsType eventsType) {		
+//		int rank = 1;
+//		GCompScoreRewardCfgDAO scoreRewardCfgDAO = GCompScoreRewardCfgDAO.getInstance();
+//		for (IGCGroup group : groups) {
+//			List<String> args = Arrays.asList(eventsType.chineseName, String.valueOf(rank));
+//			GCompCommonRankRewardCfg cfg = scoreRewardCfgDAO.getByMatchTypeAndRank(eventsType, rank);
+//			if (cfg == null) {
+//				GCompUtil.log("处理帮派奖励，没有找到合适的奖励，排名：{}，赛事类型是：{}", rank, eventsType);
+//				continue;
+//			}
+//			sendRewardToAll(group.getGroupId(), cfg, args);
+//			rank++;
+//		}
+//	}
 	
 	// 处理个人奖励
 	private void processPersonalReward(List<String> allMembers, GCEventsType eventsType, GCompCommonRankRewardCfgBaseDAO dao) {
@@ -129,23 +129,24 @@ public class GroupCompetitionRewardCenter {
 		}
 	}
 	
-//	// 处理个人连胜排名奖励
-//	private void processPersonalScore(List<GCompMember> allMembers, GCEventsType eventsType) {
-//		List<GCompScoreItem> scoreRankList = GCompScoreRankMgr.getScoreRankList();
-//		if (scoreRankList.size() > 0) {
-//			List<String> allUserIds = new ArrayList<String>(scoreRankList.size());
-//			for (int i = 0, size = scoreRankList.size(); i < size; i++) {
-//				allUserIds.add(scoreRankList.get(i).getUserId());
-//			}
-//			GCompPersonalContinueWinRankRewardDAO dao = GCompPersonalContinueWinRankRewardDAO.getInstance();
-//			this.processPersonalReward(allUserIds, new GCompMemberContinueWinTimesComparator(), eventsType, dao);
-//		}
-//	}
+	// 处理个人积分排名奖励
+	private void processPersonalScore(GCEventsType eventsType) {
+		List<GCompScoreItem> scoreRankList = GCompScoreRankMgr.getScoreRankList();
+		if (scoreRankList.size() > 0) {
+			List<String> allUserIds = new ArrayList<String>(scoreRankList.size());
+			for (int i = 0, size = scoreRankList.size(); i < size; i++) {
+				allUserIds.add(scoreRankList.get(i).getUserId());
+			}
+			GCompScoreRewardCfgDAO dao = GCompScoreRewardCfgDAO.getInstance();
+			this.processPersonalReward(allUserIds, eventsType, dao);
+		}
+	}
 	
 	// 发放个人奖励
 	private void sendPersonalReward(List<IGCGroup> groups, GCEventsType eventsType) {
 		processPersonalWinTimesReward(eventsType); // 击杀奖励
 		processPersonalContinueWinTimesReward(eventsType); // 连胜奖励
+		processPersonalScore(eventsType);
 	}
 	
 	private void addFinalGroups(Deque<IGCGroup> queue, IGCAgainst against) {
@@ -223,8 +224,8 @@ public class GroupCompetitionRewardCenter {
 	 */
 	public void notifyEventsFinished(GCEventsType eventsType, List<GCompAgainst> againstsList) {
 		List<IGCGroup> allGroups = GCompUtil.getAllGroups(againstsList, new GCompScoreComparator());
-		sendGroupScoreRankingReward(allGroups, eventsType);
-		sendPersonalReward(allGroups, eventsType);
+//		sendGroupScoreRankingReward(allGroups, eventsType);
+		sendPersonalReward(allGroups, eventsType); // 决赛之前只发送个人奖励
 		if (eventsType == GCEventsType.FINAL) {
 			this.processFinalRewards();
 		}
@@ -248,25 +249,25 @@ public class GroupCompetitionRewardCenter {
 
 	}
 	
-	private static class GCompMemberWinTimesComparator implements Comparator<GCompMember> {
-
-		@Override
-		public int compare(GCompMember o1, GCompMember o2) {
-			int o1TotalWinTimes = o1.getTotalWinTimes();
-			int o2TotalWinTimes = o2.getTotalWinTimes();
-			return o1TotalWinTimes > o2TotalWinTimes ? -1 : (o1TotalWinTimes == o2TotalWinTimes ? 0 : 1);
-		}
-
-	}
-	
-	private static class GCompMemberContinueWinTimesComparator implements Comparator<GCompMember> {
-
-		@Override
-		public int compare(GCompMember o1, GCompMember o2) {
-			int o1MaxContinueWins = o1.getMaxContinueWins();
-			int o2MaxContinueWins = o2.getMaxContinueWins();
-			return o1MaxContinueWins > o2MaxContinueWins ? -1 : (o1MaxContinueWins == o2MaxContinueWins ? 0 : 1);
-		}
-
-	}
+//	private static class GCompMemberWinTimesComparator implements Comparator<GCompMember> {
+//
+//		@Override
+//		public int compare(GCompMember o1, GCompMember o2) {
+//			int o1TotalWinTimes = o1.getTotalWinTimes();
+//			int o2TotalWinTimes = o2.getTotalWinTimes();
+//			return o1TotalWinTimes > o2TotalWinTimes ? -1 : (o1TotalWinTimes == o2TotalWinTimes ? 0 : 1);
+//		}
+//
+//	}
+//	
+//	private static class GCompMemberContinueWinTimesComparator implements Comparator<GCompMember> {
+//
+//		@Override
+//		public int compare(GCompMember o1, GCompMember o2) {
+//			int o1MaxContinueWins = o1.getMaxContinueWins();
+//			int o2MaxContinueWins = o2.getMaxContinueWins();
+//			return o1MaxContinueWins > o2MaxContinueWins ? -1 : (o1MaxContinueWins == o2MaxContinueWins ? 0 : 1);
+//		}
+//
+//	}
 }
