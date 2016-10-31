@@ -13,35 +13,37 @@ import com.rw.service.redpoint.RedPointType;
 import com.rw.service.redpoint.impl.RedPointCollector;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
+public class GambleNewMgr implements RedPointCollector, PlayerEventListener {
 	private Player m_pPlayer;
+
 	public boolean getHasFree() {
 		return GambleHandler.canGambleFreely(m_pPlayer);
 	}
-	
+
 	/**
 	 * 每天五点重置玩家的钓鱼台数据
-	 * @param player 
+	 * 
+	 * @param player
 	 */
-	public void resetForNewDay(){
+	public void resetForNewDay() {
 		GambleRecordDAO.getInstance().reset(m_pPlayer.getUserId());
 		GameLog.info("钓鱼台", m_pPlayer.getUserId(), "每天五点重置玩家数据", null);
 	}
 
-	//用于GM命令！
-	public void resetHotHeroList(){
-		GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
+	// 用于GM命令！
+	public void resetHotHeroList() {
+		GambleHotHeroPlan.resetHotHeroList();
 	}
-	
-	public boolean isPrimaryOneFree(){
-		return GambleHandler.isFree(m_pPlayer,GambleLogicHelper.Primary_One);
+
+	public boolean isPrimaryOneFree() {
+		return GambleHandler.isFree(m_pPlayer, GambleLogicHelper.Primary_One);
 	}
-	
-	public boolean isMiddleOneFree(){
-		return GambleHandler.isFree(m_pPlayer,GambleLogicHelper.Middle_One);
+
+	public boolean isMiddleOneFree() {
+		return GambleHandler.isFree(m_pPlayer, GambleLogicHelper.Middle_One);
 	}
-	
-	public void syncMainCityGambleHotPoint(){
+
+	public void syncMainCityGambleHotPoint() {
 	}
 
 	@Override
@@ -59,8 +61,8 @@ public class GambleNewMgr implements RedPointCollector, PlayerEventListener{
 		GambleRecordDAO gambleRecords = GambleRecordDAO.getInstance();
 		String userId = player.getUserId();
 		gambleRecords.getOrCreate(userId);
-		//GambleRecord record = gambleRecords.getOrCreate(userId);
-		//gambleRecords.update(record);
+		// GambleRecord record = gambleRecords.getOrCreate(userId);
+		// gambleRecords.update(record);
 	}
 
 	@Override
