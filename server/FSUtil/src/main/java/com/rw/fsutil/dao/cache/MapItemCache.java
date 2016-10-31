@@ -13,8 +13,7 @@ import com.rw.fsutil.dao.optimize.TableUpdateCollector;
 
 public class MapItemCache<K, V> extends DataCache<K, V> {
 
-	public MapItemCache(CacheKey key, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler,
-			CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
+	public MapItemCache(CacheKey key, int maxCapacity, int updatePeriod, PersistentGenericHandler<K, V, ? extends Object> loader, DataNotExistHandler<K, V> dataNotExistHandler, CacheJsonConverter<K, V, ?, ? extends DataChangedEvent<?>> jsonConverter, List<DataChangedVisitor<DataChangedEvent<?>>> dataChangedListeners) {
 		super(key, maxCapacity, updatePeriod, loader, dataNotExistHandler, jsonConverter, dataChangedListeners);
 	}
 
@@ -24,8 +23,9 @@ public class MapItemCache<K, V> extends DataCache<K, V> {
 			TableUpdateCollector collector = DataAccessFactory.getTableUpdateCollector();
 			String tableName = entity.getTableName();
 			for (int i = keyList.size(); --i >= 0;) {
-				DoubleKey<K, Object> dbKey = new DoubleKey<K, Object>(key, keyList.get(i));
-				collector.add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key));
+				Object secondKey = keyList.get(i);
+				DoubleKey<K, Object> dbKey = new DoubleKey<K, Object>(key, secondKey);
+				collector.add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key, secondKey));
 			}
 			record(key, entity.getValue(), entity, new CacheStackTrace());
 		} else {
@@ -38,7 +38,7 @@ public class MapItemCache<K, V> extends DataCache<K, V> {
 		if (entity != null) {
 			String tableName = entity.getTableName();
 			DoubleKey<K, Object> dbKey = new DoubleKey<K, Object>(key, key2);
-			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key));
+			DataAccessFactory.getTableUpdateCollector().add(tableName, updatePeriodMillis, dbKey, new CompositeParamsExtractor(key, key2));
 			record(key, entity.getValue(), entity, new CacheStackTrace());
 		} else {
 			FSUtilLogger.error(name + ",submit update fail:" + key + "," + getThreadAndTime());
@@ -53,9 +53,11 @@ public class MapItemCache<K, V> extends DataCache<K, V> {
 	class CompositeParamsExtractor implements PersistentParamsExtractor<Object> {
 
 		private final K key;
+		private final Object secondKey;
 
-		public CompositeParamsExtractor(K key) {
+		public CompositeParamsExtractor(K key, Object secondKey) {
 			this.key = key;
+			this.secondKey = secondKey;
 		}
 
 		@Override
@@ -69,7 +71,7 @@ public class MapItemCache<K, V> extends DataCache<K, V> {
 		}
 
 		public String toString() {
-			return name;
+			return '['+name + '-' + key + '-' + secondKey+']';
 		}
 	}
 

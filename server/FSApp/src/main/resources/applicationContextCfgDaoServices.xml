@@ -81,6 +81,7 @@
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaPrizeHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.peakArenaMatchRuleHelper"  init-method="init" />
 	<bean class="com.rw.service.PeakArena.datamodel.PeakArenaCloseCfgHelper"  init-method="init" />
+	<bean class="com.rwbase.dao.peakarena.PeakArenaScoreRewardCfgDAO" init-method="init" />
 	
 	<bean class="com.rwbase.dao.power.RoleUpgradeCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.publicdata.PublicDataCfgDAO"  init-method="init" />
@@ -362,6 +363,17 @@
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltMaterialCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCfgDAO" init-method="init" />
+	
+	<!-- 成长基金 -->
+	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO"  init-method="init" />
+
+	<!-- 附灵 -->
+	<bean class="com.rwbase.dao.fighting.SpriteAttachFightingCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachAttrCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO" init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

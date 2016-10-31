@@ -1,0 +1,33 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "GrowthFundServiceProto";
+package growthFund;
+
+// 请求的类型
+enum EGrowthFundRequestType {
+	BUY_GROWTH_FUND = 1; // 购买成长基金
+	GET_GROWTH_FUND_GIFT = 2; // 领取成长基金礼包
+	GET_GROWTH_FUND_REWARD = 3; // 领取成长基金人数礼包
+	NOTIFY_BOUGHT_COUNT_CHANGE = 4; // 通知购买人数变化
+}
+
+// 请求的结果
+enum EGrowthFundResultType {
+	SUCCESS = 1; // 成功
+	FAIL = 2; // 失败
+}
+
+// 成长基金请求
+message GrowthFundRequest {
+	required EGrowthFundRequestType reqType = 1; // 请求的类型
+	optional fixed32 requestId = 2; // 请求领取的选项id（当reqType=GET_GROWTH_FUND_GIFT或者GET_GROWTH_FUND_REWARD时需要带这个字段）
+}
+
+// 成长基金反馈
+message GrowthFundResponse {
+	required EGrowthFundRequestType reqType = 1; // 请求的类型
+	required EGrowthFundResultType resultType = 2; // 请求的结果
+	optional string tips = 3; // 如果请求失败，会带有这个提示信息，客户端需要显示一下
+	optional fixed32 boughtCount = 4; // 当前的购买人数（服务器主动发送，当reqType=NOTIFY_BOUGHT_COUNT_CHANGE会发送次字段；或者客户端请求为BUY_GROWTH_FUND时也会同步这个字段）
+}
+

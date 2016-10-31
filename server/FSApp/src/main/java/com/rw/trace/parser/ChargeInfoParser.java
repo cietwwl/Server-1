@@ -122,7 +122,7 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
 
     @Override
     public JSONObject toJson(ChargeInfo entity) {
-        JSONObject json = new JSONObject(8);
+        JSONObject json = new JSONObject(11);
         json.put("userId", entity.getUserId());
         Object payTimesListJson = writer.toJSON(entity.getPayTimesList());
         if (payTimesListJson != null) {

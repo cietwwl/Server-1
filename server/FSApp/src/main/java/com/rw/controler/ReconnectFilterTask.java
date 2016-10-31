@@ -1,12 +1,11 @@
 package com.rw.controler;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
@@ -21,13 +20,13 @@ public class ReconnectFilterTask implements Runnable {
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private Request request;
 	private ReConnectRequest reconnectRequest;
-	private ChannelHandlerContext ctx;
+	private Long sessionId;
 
-	public ReconnectFilterTask(Request request, ReConnectRequest reconnectRequest, ChannelHandlerContext ctx) {
+	public ReconnectFilterTask(Request request, ReConnectRequest reconnectRequest, Long sessionId) {
 		super();
 		this.request = request;
 		this.reconnectRequest = reconnectRequest;
-		this.ctx = ctx;
+		this.sessionId = sessionId;
 	}
 
 	@Override
@@ -71,8 +70,8 @@ public class ReconnectFilterTask implements Runnable {
 			return;
 		}
 		// 真正处理逻辑
-		FSTraceLogger.logger("reconnect("+request.getHeader().getSeqID()+")" + UserChannelMgr.getCtxInfo(ctx, false));
-		GameWorldFactory.getGameWorld().asyncExecute(userId, new ReconnectSecondaryTreatment(request, ctx, reconnectRequest, userId));
+		FSTraceLogger.logger("reconnect(" + request.getHeader().getSeqID() + ")" + ServerHandler.getCtxInfo(sessionId, false));
+		GameWorldFactory.getGameWorld().asyncExecute(userId, new ReconnectSecondaryTreatment(request, sessionId, reconnectRequest, userId));
 	}
 
 	private void reLoginGame(ReConnectResponse.Builder builder) {
@@ -81,6 +80,6 @@ public class ReconnectFilterTask implements Runnable {
 
 	private void returnReconnectRequest(ReConnectResponse.Builder b, Request request, ReConnectResultType resultType) {
 		b.setResultType(resultType);
-		UserChannelMgr.sendResponse(null, request.getHeader(), b.build().toByteString(), ctx);
+		UserChannelMgr.sendSyncResponse(null, request.getHeader(), b.build().toByteString(), sessionId, null);
 	}
 }

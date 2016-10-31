@@ -11,6 +11,7 @@ import java.util.concurrent.CountDownLatch;
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.worship.WorshipHandler;
@@ -70,7 +71,8 @@ public class WorshipMgr {
 		sendWorshipReward(career);
 		tableWorship.clear();
 		worshipDao.update(tableWorship);
-		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
+//		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
+		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship,"TopChanged", getByWorshipedInfo());
 	}
 	
 	/**重排排行榜时发送膜拜奖励*/

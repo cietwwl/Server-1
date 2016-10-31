@@ -14,6 +14,7 @@ import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
 import com.playerdata.Player;
 import com.playerdata.SkillMgr;
+import com.playerdata.SpriteAttachMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;

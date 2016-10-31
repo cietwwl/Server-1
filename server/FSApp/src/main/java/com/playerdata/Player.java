@@ -1,7 +1,5 @@
 package com.playerdata;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Enumeration;
@@ -17,7 +15,6 @@ import com.bm.player.ObserverFactory.ObserverType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.common.Action;
-import com.common.GameUtil;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -76,7 +73,6 @@ import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretBaseInfoSynDataHolder;
 import com.rwbase.dao.groupsecret.pojo.GroupSecretTeamInfoSynDataHolder;
 import com.rwbase.dao.item.pojo.ItemData;
-import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceMgr;
 import com.rwbase.dao.openLevelTiggerService.OpenLevelTiggerServiceRegeditInfo;
 import com.rwbase.dao.power.PowerInfoDataHolder;
 import com.rwbase.dao.power.RoleUpgradeCfgDAO;
@@ -103,9 +99,6 @@ import com.rwproto.GameLoginProtos.eLoginResultType;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ReConnectionProtos.SyncVersion;
-import com.rwproto.ResponseProtos;
-import com.rwproto.ResponseProtos.Response;
-import com.rwproto.ResponseProtos.ResponseHeader;
 
 /**
  * 玩家类
@@ -163,14 +156,13 @@ public class Player implements PlayerIF {
 
 	private TaoistMgr taoistMgr = new TaoistMgr();
 
-	
 	private UpgradeMgr upgradeMgr = new UpgradeMgr();
 
 	// 客户端管理工具
 	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
 
 	private ZoneLoginInfo zoneLoginInfo;
-	
+
 	private OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -189,8 +181,7 @@ public class Player implements PlayerIF {
 	private UserTmpGameDataFlag userTmpGameDataFlag = new UserTmpGameDataFlag();// 用户临时数据的同步
 
 	// /** 羁绊的缓存数据<英雄的ModelId,List<羁绊的推送数据>> */
-	// private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>();
-	// private int logoutTimer = 0;
+	// private ConcurrentHashMap<Integer, SynFettersData> fettersMap = new ConcurrentHashMap<Integer, SynFettersData>(); private int logoutTimer = 0;
 
 	// 同步数据的版本记录
 	private DataSynVersionHolder dataSynVersionHolder = new DataSynVersionHolder();
@@ -254,18 +245,21 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public Player(final String userId, boolean initMgr, RoleCfg roleCfg) {
+	public Player(final String userId, boolean loadFromDB, RoleCfg roleCfg, PlayerCreateParam createParam) {
 		// long start = System.currentTimeMillis();
 		this.userId = userId;
 		this.userDataMgr = new UserDataMgr(this, userId);
-		if (!initMgr) {
+		if (!loadFromDB) {
 			MapItemStoreFactory.notifyPlayerCreated(userId);
+		}
+		if (createParam != null) {
+			this.level = createParam.getLevel();
 		}
 		this.tempAttribute = new PlayerTempAttribute();
 		userGameDataMgr = new UserGameDataMgr(this, userId);// 帮派的数据
 		userGroupAttributeDataMgr = new UserGroupAttributeDataMgr(getUserId());
 		userGroupCopyRecordMgr = new UserGroupCopyMapRecordMgr(getUserId());
-		if (!initMgr) {
+		if (!loadFromDB) {
 			PlayerFreshHelper.initFreshPlayer(this, roleCfg);
 			RoleExtPropertyFactory.firstCreatePlayerExtProperty(userId, userDataMgr.getCreateTime(), getLevel());
 			notifyCreated();
@@ -279,7 +273,7 @@ public class Player implements PlayerIF {
 
 		playerQuestionMgr.init(this);
 
-		if (initMgr) {
+		if (loadFromDB) {
 			initMgr();
 		}
 
@@ -289,11 +283,11 @@ public class Player implements PlayerIF {
 
 		// // TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
 		// checkAllHeroFetters();
-		// System.out.println("init player：" + (System.currentTimeMillis() - start));
+		// System.out.println("init player：" + (System.currentTimeMillis() -start));
 	}
 
 	public Player(String userId, boolean initMgr) {
-		this(userId, initMgr, null);
+		this(userId, initMgr, null, null);
 	}
 
 	public void initMgr() {
@@ -410,10 +404,10 @@ public class Player implements PlayerIF {
 					PowerInfoDataHolder.synPowerInfo(player);
 					// 登录推送所有的羁绊属性
 					HeroFettersDataHolder.synAll(player);
-					//登陆检查通用活动的所有相关，包括根据新配置表创建新纪录；用新版本表刷新老纪录；给老纪录未领奖用户补发奖励以及关闭红点
+					// 登陆检查通用活动的所有相关，包括根据新配置表创建新纪录；用新版本表刷新老纪录；给老纪录未领奖用户补发奖励以及关闭红点
 					ActivityCountTypeMgr.getInstance().checkActivity(player);
-//					OpenLevelTiggerServiceMgr.getInstance().regeditByLogin(player);//数据不分开处理前，初始化会在好友处处理；策划给出大量相似引导需求后需剥离开后并在此注册
-					
+					// OpenLevelTiggerServiceMgr.getInstance().regeditByLogin(player);//数据不分开处理前，初始化会在好友处处理；策划给出大量相似引导需求后需剥离开后并在此注册
+
 					m_AssistantMgr.synData();
 
 					// 推送帮派秘境基础数据
@@ -660,44 +654,14 @@ public class Player implements PlayerIF {
 		SendMsg(Command.MSG_COMMON_MESSAGE, response.build().toByteString());
 	}
 
-	/**
-	 * 非当前玩家发送消息给该玩家，但也有可能是自己发送消息给自己 added by kevin
-	 * 
-	 * @param Cmd
-	 * @param pBuffer
-	 */
-	public void SendMsgByOther(MsgDef.Command Cmd, ByteString pBuffer) {
-		if (StringUtils.isNotBlank(getUserId())) {
-			SendMsg(Cmd, pBuffer);
-		} else {
-			System.out.println("获取玩家userid出现异常！");
-		}
-
+	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
+		SendMsg(Cmd, null, pBuffer);
 	}
 
-	public void SendMsg(MsgDef.Command Cmd, ByteString pBuffer) {
-		String userId = getUserId();
+	public void SendMsg(MsgDef.Command Cmd, Object subCmd, ByteString pBuffer) {
 		try {
-			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-			if (ctx == null) {
-				return;
-			}
-			Response.Builder builder = Response.newBuilder().setHeader(ResponseHeader.newBuilder().setCommand(Cmd).setToken("").setStatusCode(200));
-			if (pBuffer != null) {
-				builder.setSerializedContent(pBuffer);
-			}
-
-			ResponseProtos.Response.Builder response = ResponseProtos.Response.newBuilder();
-			ResponseHeader.Builder header = ResponseHeader.newBuilder();
-			header.mergeFrom(builder.getHeader());
-			header.setStatusCode(200);
-			response.setHeader(header.build());
-			response.setSerializedContent(builder.getSerializedContent());
-			if (!GameUtil.checkMsgSize(response, userId)) {
-				return;
-			}
-			ctx.channel().writeAndFlush(response.build());
-
+			String userId = getUserId();
+			UserChannelMgr.sendAyncResponse(userId, Cmd, subCmd, pBuffer);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -772,14 +736,11 @@ public class Player implements PlayerIF {
 		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
-	
-	
 	public OpenLevelTiggerServiceRegeditInfo getOpenLevelTiggerServiceRegeditInfo() {
 		return openLevelTiggerServiceRegeditInfo;
 	}
 
-	public void setOpenLevelTiggerServiceRegeditInfo(
-			OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo) {
+	public void setOpenLevelTiggerServiceRegeditInfo(OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo) {
 		this.openLevelTiggerServiceRegeditInfo = openLevelTiggerServiceRegeditInfo;
 	}
 
@@ -831,10 +792,10 @@ public class Player implements PlayerIF {
 			MagicChapterInfoHolder.getInstance().synAllData(this);
 			getTaskMgr().checkAndAddList();
 			getTaskMgr().AddTaskTimes(eTaskFinishDef.Player_Level);
-			
-			//升级添加日常任务通知,刷新一下任务红点----by Alex
+
+			// 升级添加日常任务通知,刷新一下任务红点----by Alex
 			m_DailyActivityMgr.resRed();
-			
+
 			int quality = RoleQualityCfgDAO.getInstance().getQuality(getMainRoleHero().getQualityId());
 			getMainRoleHero().getSkillMgr().activeSkill(this, getMainRoleHero().getUUId(), newLevel, quality);
 			if (mainRoleHero.getTemplateId() != null && currentLevel > 0) {
@@ -852,7 +813,6 @@ public class Player implements PlayerIF {
 				m_FresherActivityMgr.doCheck(eActivityType.A_PlayerLv);
 			}
 
-			
 			mainRoleHero.save();
 			// this.m_EquipMgr.CheckHot();
 			getStoreMgr().AddStore();
@@ -915,6 +875,9 @@ public class Player implements PlayerIF {
 			getSettingMgr().setCareerHeadImage();
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
+
+			SpriteAttachMgr.getInstance().onCarrerChange(this);
+
 			// 改技能Id
 			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
@@ -1489,7 +1452,8 @@ public class Player implements PlayerIF {
 	// * 检查所有英雄的羁绊
 	// */
 	// private void checkAllHeroFetters() {
-	// Enumeration<? extends Hero> herosEnumeration = getHeroMgr().getHerosEnumeration(this);
+	// Enumeration<? extends Hero> herosEnumeration =
+	// getHeroMgr().getHerosEnumeration(this);
 	// while (herosEnumeration.hasMoreElements()) {
 	// Hero hero = herosEnumeration.nextElement();
 	// if (hero == null) {

@@ -83,7 +83,7 @@ public class DropResultParser implements DataValueParser<DropResult> {
 
     @Override
     public JSONObject toJson(DropResult entity) {
-        JSONObject json = new JSONObject(4);
+        JSONObject json = new JSONObject(6);
         Object itemInfosJson = writer.toJSON(entity.getItemInfos());
         if (itemInfosJson != null) {
             json.put("itemInfos", itemInfosJson);

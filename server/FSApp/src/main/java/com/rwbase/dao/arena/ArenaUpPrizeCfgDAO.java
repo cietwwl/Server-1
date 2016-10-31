@@ -1,8 +1,9 @@
 package com.rwbase.dao.arena;
 
+import io.netty.util.collection.IntObjectHashMap;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,12 +20,12 @@ public class ArenaUpPrizeCfgDAO extends CfgCsvDao<ArenaUpPrizeCfg> {
 		return SpringContextUtil.getBean(ArenaUpPrizeCfgDAO.class);
 	}
 
-	private HashMap<Integer, List<PrizeInfo>> prizeMap;
+	private IntObjectHashMap<List<PrizeInfo>> prizeMap;
 
 	@Override
 	public Map<String, ArenaUpPrizeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("arena/arenaUpPrize.csv", ArenaUpPrizeCfg.class);
-		HashMap<Integer, List<PrizeInfo>> prizeMap_ = new HashMap<Integer, List<PrizeInfo>>();
+		IntObjectHashMap<List<PrizeInfo>> prizeMap_ = new IntObjectHashMap<List<PrizeInfo>>();
 		for (Object value : cfgCacheMap.values()) {
 			ArenaUpPrizeCfg cfg = (ArenaUpPrizeCfg) value;
 			int start = cfg.getStartRanking();

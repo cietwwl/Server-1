@@ -1,7 +1,6 @@
 package com.playerdata.charge.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;
@@ -10,8 +9,6 @@ import com.rwproto.ChargeServiceProto.RequestType;
 import com.rwproto.RequestProtos.Request;
 
 public class ChargeService  implements FsService<ChargeServiceCommonReqMsg, RequestType>{
-
-	
 
 	@Override
 	public ByteString doTask(ChargeServiceCommonReqMsg request, Player player) {
@@ -31,6 +28,12 @@ public class ChargeService  implements FsService<ChargeServiceCommonReqMsg, Requ
 					break;
 				case TimeCard:
 					result = ChargeHandler.getInstance().buyMonthCard(player, request);
+					break;
+				case GetFriendMonthCardInfo:
+					result = ChargeHandler.getInstance().getFriendMonthCardInfo(player, request);
+					break;
+				case SendFriendMonthCard:
+					result = ChargeHandler.getInstance().sendFriendMonthCard(player, request);
 					break;
 				default:
 				break;
@@ -53,6 +56,4 @@ public class ChargeService  implements FsService<ChargeServiceCommonReqMsg, Requ
 		// TODO Auto-generated method stub
 		return request.getReqType();
 	}
-
-	
 }

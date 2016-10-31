@@ -312,7 +312,7 @@ public class FashionMgr implements FashionMgrIF, PlayerEventListener {
 		common.setUsedFashion(fashion);
 		fashionResponse.setFashionCommon(common);
 		fashionResponse.setError(ErrorType.SUCCESS);
-		UserChannelMgr.sendAyncResponse(userId, MsgDef.Command.MSG_FASHION, fashionResponse.build().toByteString());
+		UserChannelMgr.sendAyncResponse(userId, MsgDef.Command.MSG_FASHION,"syncAll", fashionResponse.build().toByteString());
 	}
 
 	/**

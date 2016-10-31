@@ -5,12 +5,12 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.targetSell.TargetSellManager;
+import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfgDAO;
@@ -28,19 +28,33 @@ import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeOrder;
+import com.playerdata.charge.data.ChargeParam;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.util.DateUtils;
+import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
+import com.rw.service.log.BILogMgr;
+import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
+import com.rwproto.ChargeServiceProto;
+import com.rwproto.MsgDef;
 
 public class ChargeMgr {
 
-	private static ChargeMgr instance = new ChargeMgr();
+	public static final String SEND_MONTH_CARD_SUCCESS_EMAIL_ID = "17001";
+	public static final String SEND_MONTH_CARD_FAIL_EMAIL_ID = "17002";
 	
+	private static ChargeMgr instance = new ChargeMgr();
 	
 	public static ChargeMgr getInstance(){
 		return instance;
@@ -155,18 +169,24 @@ public class ChargeMgr {
 	}
 
 	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
+		int vipBefore = player.getVip();
 		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
 		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
-		if(target == null){//ios
-			itemId= chargeContentPojo.getPrivateField();
-			target = ChargeCfgDao.getInstance().getConfig(itemId);
-		}
 		
-		
+		String privateField = chargeContentPojo.getPrivateField();
+		ChargeParam chargeParam = JsonUtil.readValue(privateField, ChargeParam.class);
+	    String entranceId = chargeParam.getChargeEntrance();
+	    String friendId = chargeParam.getFriendId();
+	    
+	    if (target == null){
+	    	itemId = chargeParam.getProductId();
+	    	target = ChargeCfgDao.getInstance().getConfig(itemId);
+	    }
+
 		if(target!=null){
 			if(ServerSwitch.isTestCharge()){
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			}else if(chargeContentPojo.getMoney()/100 != target.getMoneyCount()){
+			}else if(chargeContentPojo.getMoney() != target.getMoneyCount()){
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 				return false;
 			}
@@ -179,7 +199,19 @@ public class ChargeMgr {
 				List<ActivityTimeCardTypeSubCfg>  timeCardList = ActivityTimeCardTypeSubCfgDAO.getInstance().getAllCfg();
 				for(ActivityTimeCardTypeSubCfg timecardcfg : timeCardList){
 					if(timecardcfg.getChargeType() == target.getChargeType()){
-						success = buyMonthCard(player, timecardcfg.getId(),target).isSuccess();
+						Player friendPlayer = null;
+						if(StringUtils.isNotBlank(friendId)){
+							friendPlayer = PlayerMgr.getInstance().find(friendId);
+							//找不到要赠送的好友
+							if(null == friendPlayer){
+								sendMonthCardFailHandler(player);
+							}
+						}
+						if(null != friendPlayer){
+							success = sendMonthCard(friendPlayer, player, timecardcfg.getId(), target).isSuccess();
+						}else{
+							success = buyMonthCard(player, timecardcfg.getId(),target).isSuccess();
+						}
 						break;
 					}
 				}
@@ -188,7 +220,10 @@ public class ChargeMgr {
 			//这里检查一下精准营销有没有此角色的充值请求
 			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
 			if(success){
-				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney());
+				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney()/100);
+				
+				registerBehavior(player);
+		        BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			}else{
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
@@ -199,12 +234,15 @@ public class ChargeMgr {
 		return true;
 	}
 
+	private void registerBehavior(Player player){
+	    MsgDef.Command command = MsgDef.Command.MSG_CHARGE;
+	    ChargeServiceProto.ChargeServiceCommonReqMsg.Builder req = ChargeServiceProto.ChargeServiceCommonReqMsg.newBuilder();
+	    req.setReqType(ChargeServiceProto.RequestType.Charge);
+	    ProtocolMessageEnum type = req.getReqType();
+	    String value = String.valueOf(type.getNumber());
+	    GameBehaviorMgr.getInstance().registerBehavior(player, command, type, value, 0);
+	}
 	
-	
-	
-
-
-
 	public ChargeResult charge(Player player, String itemId){
 		
 		ChargeResult result = ChargeResult.newResult(false);
@@ -328,7 +366,6 @@ public class ChargeMgr {
 		return result;
 	}
 	
-	
 	public ChargeResult buyMonthCardByGm(Player player, String chargeItemId) {
 		ChargeResult result = ChargeResult.newResult(false);
 		result.setTips("配置表异常");
@@ -352,86 +389,165 @@ public class ChargeMgr {
 		return result;
 	}
 
-	
-	
-	
-	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId,ChargeCfg target) {
-		UserEventMgr.getInstance().charge(player, 30);//模拟充值的充值活动传入，测试用，正式服需注释
+	// 发送月卡给指定的玩家
+	private IReadOnlyPair<ChargeResult, ActivityTimeCardTypeSubItem> sendMonthCardToTarget(Player targetPlayer, String timeCardSubCfgId) {
 		ChargeResult result = ChargeResult.newResult(false);
 		ActivityTimeCardTypeItemHolder dataHolder = ActivityTimeCardTypeItemHolder.getInstance();
-		
-		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(player.getUserId());
-		if(dataItem == null){//首次读取创建记录
-			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(player);
-			if(dataItem != null){
-				dataHolder.addItem(player, dataItem);
-				}
+		ActivityTimeCardTypeItem dataItem = dataHolder.getItem(targetPlayer.getUserId());
+		if (dataItem == null) {// 首次读取创建记录
+			dataItem = ActivityTimeCardTypeCfgDAO.getInstance().newItem(targetPlayer);
+			if (dataItem != null) {
+				dataHolder.addItem(targetPlayer, dataItem);
+			}
 		}
-		
-		List<ActivityTimeCardTypeSubItem>  monthCardList = dataItem.getSubItemList();
+
+		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem.getSubItemList();
 		ActivityTimeCardTypeSubItem targetItem = null;
 		ChargeTypeEnum cardtypenume = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getChargeType();
-		
-		
-		
-		String cardtype= cardtypenume.getCfgId();
+
+		String cardtype = cardtypenume.getCfgId();
 		for (ActivityTimeCardTypeSubItem itemTmp : monthCardList) {
-			if(StringUtils.equals(itemTmp.getChargetype(), cardtype)){
+			if (StringUtils.equals(itemTmp.getChargetype(), cardtype)) {
 				targetItem = itemTmp;
 				break;
 			}
 		}
-		
-		if(targetItem == null){//newitem已添加list，不会null
-			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！"+player);
+
+		if (targetItem == null) {// newitem已添加list，不会null
+			GameLog.error("chargemgr", "买月卡", "chargeMgr.list里没有该项月卡类型！！" + targetPlayer);
 			result.setTips("购买月卡异常");
-		}else{
+		} else {
 			int tempdayleft = targetItem.getDayLeft();
-			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
-			dataHolder.updateItem(player, dataItem);
+//			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
+			if (cardtypenume == ChargeTypeEnum.VipMonthCard) {
+				if(targetItem.getDayLeft() > 0){
+					result.setSuccess(false);
+					result.setTips("已经拥有至尊月卡，不能再购买");
+					return Pair.Create(result, null);
+				}else{
+					targetItem.setDayLeft(Short.MAX_VALUE * 2); // 至尊月卡，现在是终身的，所以这里设置一个很长的剩余天数
+				}
+			} else {
+				targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
+			}
+			dataHolder.updateItem(targetPlayer, dataItem);
 			result.setSuccess(true);
 			
-			DailyActivityHandler.getInstance().sendTaskList(player);
-			
-			
-			
-			if(tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()){				
-				result.setTips("购买月卡成功");				
-			}else{				
+			GameLog.info("月卡", targetPlayer.getUserId(), "日常任务刷新", null);
+			DailyActivityHandler.getInstance().sendTaskList(targetPlayer);
+
+			if (tempdayleft < ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId).getDaysLimit()) {
+				result.setTips("购买月卡成功");
+			} else {
 				result.setTips("剩余日期超过5天但依然冲了钱。。。");
-				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 ="+player.getUserName()+" 月卡cfgid =" + timeCardSubCfgId);
+				GameLog.error("chargemgr", "买月卡", "没到期也能付费,玩家名 =" + targetPlayer.getUserName() + " 月卡cfgid =" + timeCardSubCfgId);
 			}
 		}
-		if (result.isSuccess()){
-			String orderStr = targetItem.getChargetype();
+		return Pair.Create(result, targetItem);
+	}
+	
+	/**
+	 * 充值完成，更新vip信息
+	 * @param player
+	 * @param target
+	 */
+	private void addVipExp(Player player, ChargeCfg target){
+		int addGold = target.getVipExp();
+		int money = target.getMoneyCount();
+		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+		ChargeInfoHolder.getInstance().update(player);
+		// 升级vip，如果达到条件
+		upgradeVip(player, chargeInfo);
+		// 设置界面更新vip
+		player.getSettingMgr().checkOpen();
+	}
+	
+	/**
+	 * 赠送月卡
+	 * @param friendPlayer
+	 * @param selfPlayer
+	 * @param timeCardSubCfgId
+	 * @param target
+	 * @return
+	 */
+	public ChargeResult sendMonthCard(Player friendPlayer, Player selfPlayer, String timeCardSubCfgId, ChargeCfg target) {
+		IReadOnlyPair<ChargeResult, ActivityTimeCardTypeSubItem> pairResult = this.sendMonthCardToTarget(friendPlayer, timeCardSubCfgId);
+		if(!pairResult.getT1().isSuccess()){
+			//至尊月卡赠送失败的处理逻辑
+			sendMonthCardFailHandler(selfPlayer);
+		}
+		ChargeResult result = pairResult.getT1();
+		if (result.isSuccess()) {
+			String orderStr = pairResult.getT2().getChargetype();
 			try {
-				if (StringUtils.isNotBlank(orderStr)){
+				if (StringUtils.isNotBlank(orderStr)) {
 					int order = Integer.parseInt(orderStr);
 					ChargeTypeEnum[] values = ChargeTypeEnum.values();
-					if (0 <= order && order < values.length){
+					if (0 <= order && order < values.length) {
+						ChargeTypeEnum type = values[order];
+						MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(friendPlayer, type, true);
+						sendMonthCardSuccessHandler(selfPlayer, friendPlayer.getUserId(), timeCardSubCfgId);
+					}
+				}
+			} catch (Exception e) {
+				GameLog.info("特权", friendPlayer.getUserId(), "无法获取充值类型:" + orderStr, e);
+			}
+		}
+		addVipExp(selfPlayer, target);
+		return result;
+	}
+	
+	/**
+	 * 购买月卡
+	 * @param player
+	 * @param timeCardSubCfgId
+	 * @param target
+	 * @return
+	 */
+	public ChargeResult buyMonthCard(Player player, String timeCardSubCfgId, ChargeCfg target) {
+//		UserEventMgr.getInstance().charge(player, 30);// 模拟充值的充值活动传入，测试用，正式服需注释
+		IReadOnlyPair<ChargeResult, ActivityTimeCardTypeSubItem> pairResult = this.sendMonthCardToTarget(player, timeCardSubCfgId);
+		ChargeResult result = pairResult.getT1();
+		if (result.isSuccess()) {
+			String orderStr = pairResult.getT2().getChargetype();
+			try {
+				if (StringUtils.isNotBlank(orderStr)) {
+					int order = Integer.parseInt(orderStr);
+					ChargeTypeEnum[] values = ChargeTypeEnum.values();
+					if (0 <= order && order < values.length) {
 						ChargeTypeEnum type = values[order];
 						MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(player, type, true);
 					}
 				}
 			} catch (Exception e) {
-				GameLog.info("特权", player.getUserId(), "无法获取充值类型:"+orderStr, e);
+				GameLog.info("特权", player.getUserId(), "无法获取充值类型:" + orderStr, e);
 			}
-			int addGold = target.getVipExp();
-			int money = target.getMoneyCount();			
-			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
-			ChargeInfoHolder.getInstance().update(player);	
-			//升级vip，如果达到条件
-			upgradeVip(player, chargeInfo);
-			// 设置界面更新vip
-			player.getSettingMgr().checkOpen();
+			addVipExp(player, target);
 		}
 		return result;
 	}
-
-
 	
+	/**
+	 * 赠送月卡失败的处理
+	 * @param player
+	 */
+	public void sendMonthCardFailHandler(Player player){
+		EmailUtils.sendEmail(player.getUserId(), SEND_MONTH_CARD_FAIL_EMAIL_ID);
+	}
 	
-	
-	
+	/**
+	 * 赠送月卡成功
+	 * @param player
+	 */
+	public void sendMonthCardSuccessHandler(Player player, String friendId, String timeCardSubCfgId){
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(SEND_MONTH_CARD_SUCCESS_EMAIL_ID);
+		String sendTime = DateUtils.getDateTimeFormatString("yyyy年MM月dd日 HH:mm:ss");
+		
+		ActivityTimeCardTypeSubCfg cardCfg = ActivityTimeCardTypeSubCfgDAO.getInstance().getById(timeCardSubCfgId);
+		ChargeTypeEnum cardEnum = cardCfg.getChargeType();
+		
+		String content = String.format(emailCfg.getContent(), player.getUserName(), sendTime, cardEnum.getName(), cardCfg.getGold());
+		EmailUtils.sendEmail(friendId, SEND_MONTH_CARD_SUCCESS_EMAIL_ID, "", content);
+	}
 }

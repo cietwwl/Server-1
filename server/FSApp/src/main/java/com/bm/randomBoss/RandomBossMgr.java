@@ -261,7 +261,12 @@ public class RandomBossMgr{
 			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossInBattleTips(), "魔神正在被讨伐中，请稍后"));
 			return;
 		}
-		
+		//检查是否已经离开
+		if(record.getExcapeTime() <= System.currentTimeMillis()){
+			response.setIsSuccess(false);
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossExcapeTips(), "boss已经离开！"));
+			return;
+		}
 		
 		//可以进入战斗  构建armyInfo
 		MonsterCfg monster = MonsterCfgDao.getInstance().getConfig(record.getBossTemplateId());
@@ -392,12 +397,12 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-		if(hasRate){
-			int r = RandomUtil.getRandonIndexWithoutProb(10000);
-			if(r > rbServerCfg.getBossBornRate()){
-				return;
-			}
-		}
+//		if(hasRate){
+//			int r = RandomUtil.getRandonIndexWithoutProb(10000);
+//			if(r > rbServerCfg.getBossBornRate()){
+//				return;
+//			}
+//		}
 		
 		//这里要根据权重进行随机
 		

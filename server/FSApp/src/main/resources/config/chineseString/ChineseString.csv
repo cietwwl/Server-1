@@ -336,3 +336,33 @@ FightingNeedMaterial,,,所需晋级材料{0}个
 RB_BOSS_NOT_FOUND,,RB_BOSS_NOT_FOUND,还没发现魔神，可通过好友邀请或打战役发现魔神
 FightingNeedMaterialLess,,FightingNeedMaterialLess,晋级材料不足
 FightingNeedFightLess,,FightingNeedFightLess,战力未达到晋级要求
+WorldBossKilledTisp,,WorldBossKilledTisp,世界boss出现{0}后被击败，由{1}进行了最后一击
+WBossRuleKey,,WBossRuleKey,"
+[ff7200]魔神讨伐规则[-]
+
+[2f2f2f]1.通关与扫荡各关卡，既有几率触发魔神讨伐事件。[-]
+
+[2f2f2f]2.讨伐魔神，可以获得丰厚奖励。[-]
+
+[2f2f2f]3.魔神讨伐可以邀请好友与帮派成员前来帮忙，同时也可以受邀讨伐其他人的魔神。[-]
+
+[2f2f2f]4.因为精力有限，每天的奖励次数也有限制，要记得查看界面上的剩余次数。[-]
+
+[2f2f2f]5.若在规定时间内没有成功讨伐，魔神会逃走。[-]
+
+[ff7200]魔神讨伐奖励[-]
+
+[2f2f2f]1.只要参与讨伐战斗，即可获得奖励！[-]
+
+[2f2f2f]2.魔神的发现者与魔神的最后击杀者会获得额外的奖励！[-]
+"
+AttachChooseMaterial,,AttachChooseMaterial,请选择附灵材料
+AttachReachMaxLv,,AttachReachMaxLv,附灵已到达最高等级
+AttachHeroLvLimit,,AttachHeroLvLimit,附灵等级不能超过英雄等级
+AttachNotOpen,,AttachNotOpen,该灵蕴点未解锁
+AttachNotStone,,AttachNotStone,灵石不足，可通过[ff0000]巅峰竞技场[-]获得
+AttachUnlock1,,AttachUnlock1,{0}解锁条件{1}: 英雄等级{2}级[-]
+AttachUnlock2,,AttachUnlock2,{0}解锁条件{1}: 英雄进阶至{2}[-]
+AttachUnlock3,,AttachUnlock3,{0}解锁条件{1}: {2}达到{3}级[-]
+AttachSecondSure,,AttachSecondSure,确定要进行附灵吗？
+AttachAllStone,,AttachAllStone,已添加所有灵石

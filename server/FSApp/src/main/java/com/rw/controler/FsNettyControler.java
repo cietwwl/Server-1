@@ -11,8 +11,8 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
-import com.rw.netty.UserSession;
 import com.rw.service.FsService;
 import com.rw.service.login.game.GameLoginHandler;
 import com.rw.service.platformgs.PlatformGSService;
@@ -34,9 +34,9 @@ public class FsNettyControler {
 		RequestHeader header = exRequest.getHeader();
 		final Command command = header.getCommand();
 		// 更新消息接收时间
-		UserChannelMgr.updateSessionInfo(ctx, current, command);
+		ServerHandler.updateSessionInfo(ctx, current, command);
 		// GameLog.debug("msg:" + command);
-		FSTraceLogger.logger("submit(" + command + "," + header.getSeqID() + ")" + UserChannelMgr.getCtxInfo(ctx, false));
+		FSTraceLogger.logger("submit(" + command + "," + header.getSeqID() + ")" + ServerHandler.getCtxInfo(ctx, false));
 		if (command == Command.MSG_LOGIN_GAME) {
 			doGameLogin(exRequest, ctx);
 		} else if (command == Command.MSG_RECONNECT) {
@@ -44,15 +44,20 @@ public class FsNettyControler {
 		} else if (command == Command.MSG_PLATFORMGS) {
 			doPlatformGSMsg(exRequest, ctx);
 		} else {
-			UserSession session = UserChannelMgr.getUserSession(ctx);
-			if (session == null) {
+			Long sessionId = ServerHandler.getSessionId(ctx);
+			if (sessionId == null) {
+				return;
+			}
+			// 还木有登录不处理逻辑与心跳
+			String userId = UserChannelMgr.getBoundUserId(ctx);
+			if (userId == null) {
 				return;
 			}
 			// HeartBeat可以归到service做
 			if (command == Command.MSG_HeartBeat) {
-				GameWorldFactory.getGameWorld().asyncExecute(session.getUserId(), new HeartBeatTask(session, exRequest));
+				GameWorldFactory.getGameWorld().asyncExecute(userId, new HeartBeatTask(sessionId, exRequest));
 			} else {
-				GameWorldFactory.getGameWorld().asyncExecute(session.getUserId(), new GameLogicTask(session, exRequest));
+				GameWorldFactory.getGameWorld().asyncExecute(userId, new GameLogicTask(sessionId, exRequest));
 			}
 		}
 	}
@@ -64,11 +69,16 @@ public class FsNettyControler {
 			int zoneId = reconnectRequest.getZoneId();
 			TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 			if (userAccount == null) {
-				GameLog.error("FsNettyControler", "#ReConnect()", "find account fail on reconnecting:" + accountId + "," + zoneId);
+				GameLog.error("FsNettyControler", "#ReConnect", "find account fail on reconnecting:" + accountId + "," + zoneId);
 				ReconnectCommon.getInstance().reLoginGame(this, ctx, request);
 				return;
 			}
-			GameWorldFactory.getGameWorld().executeAccountTask(accountId, new ReconnectFilterTask(request, reconnectRequest, ctx));
+			Long sessionId = ServerHandler.getSessionId(ctx);
+			if (sessionId == null) {
+				GameLog.error("FsNettyControler", "", "reconnet fail by disconnet:" + ctx.channel());
+				return;
+			}
+			GameWorldFactory.getGameWorld().executeAccountTask(accountId, new ReconnectFilterTask(request, reconnectRequest, sessionId));
 		} catch (Exception ex) {
 			GameLog.error("PlayerReconnectTask", "#run()", "parse reconnect protocol exception:", ex);
 			ReconnectCommon.getInstance().reLoginGame(this, ctx, request);
@@ -96,7 +106,7 @@ public class FsNettyControler {
 
 	private void doPlatformGSMsg(Request exRequest, ChannelHandlerContext ctx) {
 		ByteString resultContent = PlatformGSService.doTask(exRequest);
-		UserChannelMgr.sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx);
+		UserChannelMgr.sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx, null);
 	}
 
 	public FsService<GeneratedMessage, ProtocolMessageEnum> getSerivice(Command command) {

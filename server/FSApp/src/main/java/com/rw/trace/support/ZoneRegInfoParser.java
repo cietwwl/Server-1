@@ -108,7 +108,7 @@ public class ZoneRegInfoParser implements DataValueParser<ZoneRegInfo> {
 
     @Override
     public JSONObject toJson(ZoneRegInfo entity) {
-        JSONObject json = new JSONObject(8);
+        JSONObject json = new JSONObject(11);
         json.put("zoneCreatedTime", entity.getZoneCreatedTime());
         json.put("regZoneId", entity.getRegZoneId());
         json.put("regZoneTime", entity.getRegZoneTime());

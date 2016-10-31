@@ -717,6 +717,7 @@ public class BattleTowerHandler {
 		// 发送协议
 		BattleTowerConfig.Builder config = BattleTowerConfig.newBuilder();
 		config.setEveryFloorSweepTime(theSweepTime4PerFloor);
+		rsp.setTotalNeedSeconds(theSweepTime4PerFloor * (highestFloor - curFloor + 1)); // 告诉客户端需要的时间
 		commonRsp.setConfig(config);
 		commonRsp.setRspBody(rsp.build().toByteString());
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);

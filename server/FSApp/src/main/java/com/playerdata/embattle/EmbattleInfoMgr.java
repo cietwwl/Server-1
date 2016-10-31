@@ -58,9 +58,9 @@ public class EmbattleInfoMgr {
 	 * @param heroPos
 	 */
 	public synchronized boolean updateOrAddEmbattleInfo(Player player, int type, String recordKey, List<EmbattleHeroPosition> heroPos) {
-		if(heroPos.isEmpty()) {
-			return false;
-		}
+//		if(heroPos.isEmpty()) {
+//			return false;
+//		}
 		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
 
 		String userId = player.getUserId();

@@ -2,7 +2,6 @@ package com.rwbase.gameworld;
 
 import java.util.ArrayList;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -144,6 +143,17 @@ public class GameWorldExecutor implements GameWorld {
 	 */
 	public void asyncExecute(String userId, PlayerPredecessor predecessor, PlayerTask task) {
 		queuedTaskExecutor.asyncExecute(userId, predecessor, task, null);
+	}
+
+	/**
+	 * <pre>
+	 * 异步执行玩家前置任务，可用于执行一个不需要不需要{@link Player}对象的任务
+	 * </pre>
+	 * @param userId
+	 * @param predecessor
+	 */
+	public void asyncExecute(String userId, PlayerPredecessor predecessor) {
+		queuedTaskExecutor.asyncExecute(userId, predecessor, null, null);
 	}
 
 	/**

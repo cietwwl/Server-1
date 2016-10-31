@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.playerdata.common.PlayerEventListener;
-import com.rw.service.gamble.GambleHandler;
 import com.rw.service.gamble.GambleNewMgr;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.redpoint.RedPointType;
@@ -59,7 +58,7 @@ public class GambleMgr implements RedPointCollector, PlayerEventListener {
 	}
 
 	public static void resetWhenStart() {
-		GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
+		GambleHotHeroPlan.resetHotHeroList();
 	}
 
 	@Override

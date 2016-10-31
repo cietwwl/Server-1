@@ -37,6 +37,7 @@ import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.manager.ServerSwitch;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.peakArenaBuyCostHelper;
@@ -96,6 +97,9 @@ import com.rwproto.GuidanceProgressProtos.GuidanceConfigs;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MainMsgProtos.EMsgType;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.RequestProtos.Request;
+import com.rwproto.RequestProtos.RequestBody;
+import com.rwproto.RequestProtos.RequestHeader;
 
 public class GMHandler {
 	private HashMap<String, String> funcCallBackMap = new HashMap<String, String>();
@@ -254,10 +258,14 @@ public class GMHandler {
 		funcCallBackMap.put("fixequiplevelup", "fixEquipLevelUp");
 		funcCallBackMap.put("fixequipstarup", "fixEquipStarUp");
 		funcCallBackMap.put("upgrademagic", "upgradeMagic");
+		funcCallBackMap.put("growthFund".toLowerCase(), "growthFund");
+		funcCallBackMap.put("growthFundBoughtCount".toLowerCase(), "setGrowthFundBoughtCount");
 
 		// * callrb 1 生成随机boss,如果角色已经达到生成boss上限，这个指令会无效
 		funcCallBackMap.put("callrb", "callRb");
 		funcCallBackMap.put("testcharge", "testCharge");
+		
+		funcCallBackMap.put("addsaexp", "addSaExp");
 	}
 
 	public boolean isActive() {
@@ -281,14 +289,11 @@ public class GMHandler {
 
 	private boolean assumeSendRequest(Player player, com.rwproto.RequestProtos.Request request) {
 		try {
-			java.lang.reflect.Field fUserChannelMap = com.rw.netty.UserChannelMgr.class.getDeclaredField("userChannelMap");
-			fUserChannelMap.setAccessible(true);
-			@SuppressWarnings("unchecked")
-			java.util.Map<String, io.netty.channel.ChannelHandlerContext> map = (java.util.Map<String, io.netty.channel.ChannelHandlerContext>) fUserChannelMap.get(null);
-			fUserChannelMap.setAccessible(false);
-			io.netty.channel.ChannelHandlerContext ctx = map.get(player.getUserId());
-			com.rw.netty.UserSession sessionInfo = com.rw.netty.UserChannelMgr.getUserSession(ctx);
-			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionInfo, request));
+			Long sessionId = UserChannelMgr.getSessionId(player.getUserId());
+			if (sessionId == null) {
+				return false;
+			}
+			com.rwbase.gameworld.GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new com.rw.controler.GameLogicTask(sessionId, request));
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1873,13 +1878,13 @@ public class GMHandler {
 
 	public boolean sendGroupPmd(String[] arrCommandContents, Player player) {
 		String index = arrCommandContents[0];
-		if(index.equals("1")){
+		if (index.equals("1")) {
 			MainMsgHandler.getInstance().sendMainCityMsg(16, EMsgType.GroupCompetitionMsg, Arrays.asList("歐盟", "荷蘭", "100"));
 		}
-		if(index.equals("2")){
+		if (index.equals("2")) {
 			MainMsgHandler.getInstance().sendMainCityMsg(24, EMsgType.PmdMsg, Arrays.asList("Fisher", "3", "随机boss"));
 		}
-		if(index.equals("3")){
+		if (index.equals("3")) {
 			MainMsgHandler.getInstance().sendMainCityMsg(2, EMsgType.PmdMsg, Arrays.asList("Fisher", "203007_5"));
 		}
 		return true;
@@ -1909,7 +1914,7 @@ public class GMHandler {
 		GameWorldFactory.getGameWorld().asynExecute(r);
 		return true;
 	}
-	
+
 	public boolean gCompGroupAction(String[] arrCommandContents, Player player) {
 		UserGroupAttributeData userGroupData = UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(player.getUserId());
 		if (userGroupData.getGroupId() != null && userGroupData.getGroupId().length() > 0) {
@@ -1923,15 +1928,15 @@ public class GMHandler {
 			return GCGMHandler.getHandler().createGroup(arrCommandContents, player);
 		}
 	}
-	
+
 	public boolean gCompCheckIfLeader(String[] arrCommandContents, Player player) {
 		return GCGMHandler.getHandler().checkIfLeader(arrCommandContents, player);
 	}
-	
+
 	public boolean gCompCheckTimes(String[] arrCommandContents, Player player) {
 		return GCGMHandler.getHandler().isCheckTimesMatch(arrCommandContents, player);
 	}
-	
+
 	public boolean testCharge(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length != 1) {
 			return false;
@@ -1940,7 +1945,7 @@ public class GMHandler {
 		ServerSwitch.setTestCharge(status == 1);
 		return true;
 	}
-	
+
 	public boolean emptyAccount(String[] arrCommandContents, Player player) {
 		long coin = player.getUserGameDataMgr().getCoin();
 		int max = Integer.MAX_VALUE;
@@ -1965,10 +1970,10 @@ public class GMHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean addAllMagicPieces(String[] arrCommandContents, Player player) {
-//		List<Integer> allPieceIds = Arrays.asList(604901, 604902, 604903, 604904, 604905, 604906, 604907, 604908, 604909, 604910, 604911, 604912, 604913, 604914, 604915, 604916, 604917, 604918,
-//				604919, 604920, 604921, 604922, 604923, 604924, 604925, 604926, 604927);
+		// List<Integer> allPieceIds = Arrays.asList(604901, 604902, 604903, 604904, 604905, 604906, 604907, 604908, 604909, 604910, 604911, 604912, 604913, 604914, 604915, 604916, 604917, 604918,
+		// 604919, 604920, 604921, 604922, 604923, 604924, 604925, 604926, 604927);
 		List<MagicCfg> magicCfgList = MagicCfgDAO.getInstance().getAllCfg();
 		List<Integer> newMagicCfgIds = new ArrayList<Integer>();
 		for (MagicCfg cfg : magicCfgList) { // 这里包含了新旧法宝
@@ -1988,6 +1993,38 @@ public class GMHandler {
 			itemInfos.add(new ItemInfo(pieceId, 999));
 		}
 		player.getItemBagMgr().addItem(itemInfos);
+		return true;
+	}
+	
+	public boolean growthFund(String[] arrCommandContents, Player player) {
+		int iReqType = Integer.parseInt(arrCommandContents[0]);
+		com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType reqType;
+		com.rwproto.GrowthFundServiceProto.GrowthFundRequest.Builder reqBuilder = com.rwproto.GrowthFundServiceProto.GrowthFundRequest.newBuilder();
+		switch (iReqType) {
+		default:
+		case com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.BUY_GROWTH_FUND_VALUE:
+			reqType = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.BUY_GROWTH_FUND;
+			break;
+		case com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_GIFT_VALUE:
+			reqType = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_GIFT;
+			reqBuilder.setRequestId(Integer.parseInt(arrCommandContents[1]));
+			break;
+		case com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_REWARD_VALUE:
+			reqType = com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType.GET_GROWTH_FUND_REWARD;
+			reqBuilder.setRequestId(Integer.parseInt(arrCommandContents[1]));
+			break;
+		}
+		reqBuilder.setReqType(reqType);
+		RequestHeader.Builder headerBuilder = RequestHeader.newBuilder().setCommand(Command.MSG_BUY_GROWTH_FUND);
+		RequestBody.Builder bodyBuilder = RequestBody.newBuilder().setSerializedContent(reqBuilder.build().toByteString());
+		Request request = Request.newBuilder().setHeader(headerBuilder).setBody(bodyBuilder).build();
+		this.assumeSendRequest(player, request);
+		return true;
+	}
+	
+	public boolean setGrowthFundBoughtCount(String[] arrCommandContents, Player player) {
+		com.playerdata.activity.growthFund.GrowthFundGlobalData data = com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder.getInstance().getGlobalData();
+		data.setAlreadyBoughtCount(Integer.parseInt(arrCommandContents[0]));
 		return true;
 	}
 }

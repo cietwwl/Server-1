@@ -1,7 +1,5 @@
 package com.gm.task;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,14 +13,13 @@ import com.gm.util.SocketHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
-import com.playerdata.UserGameDataMgr;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 
-public class GmUserInfo implements IGmTask{
+public class GmUserInfo implements IGmTask {
 
 	@Override
 	public GmResponse doTask(GmRequest request) {
@@ -51,7 +48,7 @@ public class GmUserInfo implements IGmTask{
 		}
 		return response;
 	}
-	
+
 	private Player getPlayer(String roleId, String roleName, String account) {
 		Player player = null;
 		if (StringUtils.isNotBlank(roleId)) {
@@ -73,36 +70,35 @@ public class GmUserInfo implements IGmTask{
 		return player;
 	}
 
-	private void setInfo(Player player, Map<String, Object> resultMap){
+	private void setInfo(Player player, Map<String, Object> resultMap) {
 		UserDataMgr userDataMgr = player.getUserDataMgr();
 		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
-		
-		resultMap.put("account", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount()); 
+
+		resultMap.put("account", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
 		resultMap.put("roleId", player.getUserId());
 		resultMap.put("roleName", player.getUserName());
 		resultMap.put("level", userDataMgr.getUser().getLevel());
 		resultMap.put("exp", player.getExp());
 		resultMap.put("money", player.getUserGameDataMgr().getCoin());
 		resultMap.put("coin", player.getUserGameDataMgr().getGold());
-		
-		if(zoneRegInfo!=null){
+
+		if (zoneRegInfo != null) {
 			resultMap.put("channel", zoneRegInfo.getRegChannelId());
 		}
 		boolean blocked = userDataMgr.isBlocked();
-		String blockStatus = blocked?"1":"0";
+		String blockStatus = blocked ? "1" : "0";
 		resultMap.put("blockStatus", blockStatus);
-		if(blocked){
+		if (blocked) {
 			resultMap.put("blockTime", userDataMgr.getUnblockTime());
 		}
-		
+
 		int chatBanStatus = userDataMgr.isChatBan() ? 1 : 0;
 		resultMap.put("talkStatus", chatBanStatus);
 		if (userDataMgr.isChatBan()) {
 			resultMap.put("banTime", userDataMgr.getUnbanTime());
 		}
-		 ChannelHandlerContext channelHandlerContext = UserChannelMgr.get(player.getUserId());
-		 int onlineStatus = channelHandlerContext == null ? 0 : 1;
-		 resultMap.put("onlineStatus", onlineStatus);
+		int onlineStatus = UserChannelMgr.isConnecting(player.getUserId()) ? 1 : 0;
+		resultMap.put("onlineStatus", onlineStatus);
 	}
 
 }

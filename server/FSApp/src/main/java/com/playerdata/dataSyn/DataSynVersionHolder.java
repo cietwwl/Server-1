@@ -11,7 +11,6 @@ import com.bm.targetSell.TargetSellManager;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
@@ -22,6 +21,7 @@ import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
+import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
@@ -298,7 +298,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityDailyRechargeType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				ActivityDailyRechargeTypeMgr.getInstance().synData(player);
+				ActivityMgrHelper.getInstance().synActivityData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyRechargeType);

@@ -37,8 +37,9 @@ public class SaveTeaminfoToServerHandler {
 
 		List<EmbattleHeroPosition> parseList = EmbattlePositonHelper.parseMsgHeroPos2Memery(positionList);
 		
-		if(parseList.isEmpty()) {
+		if (parseList.isEmpty() && type == eBattlePositionType.Normal) {
 			// 2016-10-18 by Perry：empty肯定是一个错误的数据，为了保持这个数据的正确性，只能把主角放进去
+			// 2016-10-24 by Perry：改为只判断normal，有些阵容反而是不保存主角的
 			EmbattleHeroPosition pos = new EmbattleHeroPosition();
 			pos.setId(player.getUserId());
 			pos.setPos(0);
