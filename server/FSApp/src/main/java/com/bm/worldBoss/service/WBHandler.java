@@ -31,7 +31,6 @@ import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.WorldBossProtos.BuyBuffParam;
 import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.CommonRspMsg;
-import com.rwproto.WorldBossProtos.FightBeginParam;
 import com.rwproto.WorldBossProtos.FightBeginRep;
 import com.rwproto.WorldBossProtos.FightUpdateParam;
 
@@ -59,13 +58,13 @@ public class WBHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		FightBeginParam fightBeginParam = commonReq.getFightBeginParam();
+//		FightBeginParam fightBeginParam = commonReq.getFightBeginParam();
 		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.WorldBoss_VALUE, EmBattlePositionKey.posWorldBoss.getKey());
 		
 		Map<String, Integer> posMap = new HashMap<String, Integer>();
 		List<String> heroIdsList = getHeroIdList(player, embattleInfo,posMap);	
 
-		WBResult result = checkFightBegin(player, fightBeginParam);
+		WBResult result = checkFightBegin(player);
 		if(result.isSuccess()){
 			//更新用户cd
 			WBUserMgr.getInstance().fightBeginUpdate(player);
@@ -104,17 +103,10 @@ public class WBHandler {
 	}
 
 	
-	private WBResult checkFightBegin(Player player, FightBeginParam fightBeginParam){
+	private WBResult checkFightBegin(Player player ){
 		WBResult result = checkBoss();
 		if(result.isSuccess()){
 			result = checkCD(player);
-		}
-		if(result.isSuccess()){			
-			List<String> heroIdsList = fightBeginParam.getHeroIdsList();	
-			if(heroIdsList.size() > 4){
-				result.setSuccess(false);
-				result.setReason("上阵人数不能大于5.");
-			}
 		}
 		return result;
 	}
