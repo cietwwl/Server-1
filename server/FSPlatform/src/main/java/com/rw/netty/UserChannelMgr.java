@@ -5,6 +5,8 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -259,9 +261,16 @@ public class UserChannelMgr {
 		}
 		if (sendMsg) {
 			ChannelFuture future = ctx.channel().writeAndFlush(result);
-			PlatformLog.debug("#发送消息" + "  "
-					+ result.getHeader().getCommand().toString() + "  size:"
-					+ result.getSerializedContent().size());
+			final Command cmd = result.getHeader().getCommand();
+			final int size = result.getSerializedContent().size();
+			final int seqId = result.getHeader().getSeqID();
+			future.addListener(new GenericFutureListener<Future<Void>>() {
+
+				@Override
+				public void operationComplete(Future<Void> future) throws Exception {
+					PlatformLog.debug("#发送消息:" + cmd + ",size=" + size + ",seqId=" + seqId + "," + future.isSuccess());
+				}
+			});
 			return future;
 		} else {
 			return null;
@@ -351,7 +360,7 @@ public class UserChannelMgr {
 			return "[exception]";
 		}
 	}
-	
+
 	public static void purgeMsgRecord() {
 		long purgeTime = DateUtils.getSecondLevelMillis() - msgHoldMillis;
 		List<PlayerMsgCache> msgCaches = msgCache.values();

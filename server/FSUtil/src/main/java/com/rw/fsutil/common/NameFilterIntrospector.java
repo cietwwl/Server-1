@@ -9,14 +9,19 @@ import org.codehaus.jackson.map.introspect.JacksonAnnotationIntrospector;
 public class NameFilterIntrospector extends JacksonAnnotationIntrospector {
 
 	private String[] ignorePropertyArray;
+	private Class<?> filterClass;
 
-	public NameFilterIntrospector(String... ignoreProperties) {
+	public NameFilterIntrospector(Class<?> filterClass, String... ignoreProperties) {
+		this.filterClass = filterClass;
 		this.ignorePropertyArray = Arrays.copyOf(ignoreProperties, ignoreProperties.length);
 	}
 
 	@Override
 	public String[] findPropertiesToIgnore(AnnotatedClass ac) {
 		JsonIgnoreProperties ignore = ac.getAnnotation(JsonIgnoreProperties.class);
+		if (ac.getAnnotated() != filterClass) {
+			 return (ignore == null) ? null : ignore.value();
+		}
 		if (ignore != null) {
 			String[] array = ignore.value();
 			if (array.length > 0) {

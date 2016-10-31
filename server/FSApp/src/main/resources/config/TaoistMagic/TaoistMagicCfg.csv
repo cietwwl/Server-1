@@ -1,10 +1,10 @@
 key,remarks,skillName,tagNum,openLevel,order,skillIcon,attribute,formulaParam,formulaPrecentParam,attrValueType,consumeId,coinType
-110001,,大武,1,37,1,Skill/daoshu_1001,physiqueAttack,物理攻击_15|15|0|0,,Value,101,Coin
-110002,,大道,1,37,2,Skill/daoshu_1002,spiritAttack,法术攻击_15|15|0|0,,Value,101,Coin
-110003,,抱元,1,37,3,Skill/daoshu_1003,life,生命_80|80|0|0,,Value,101,Coin
-110004,,不动,1,37,4,Skill/daoshu_1004,physiqueDef,物理防御_5|5|0|0,,Value,101,Coin
-110005,,无欲,1,37,5,Skill/daoshu_1005,spiritDef,法术防御_5|5|0|0,,Value,101,Coin
-110006,,化生,1,37,6,Skill/daoshu_1006,lifeReceive,生命回复_75|75|0|0,,Value,101,Coin
+110001,,大武,1,28,1,Skill/daoshu_1001,physiqueAttack,物理攻击_15|15|0|0,,Value,101,Coin
+110002,,大道,1,28,2,Skill/daoshu_1002,spiritAttack,法术攻击_15|15|0|0,,Value,101,Coin
+110003,,抱元,1,28,3,Skill/daoshu_1003,life,生命_80|80|0|0,,Value,101,Coin
+110004,,不动,1,28,4,Skill/daoshu_1004,physiqueDef,物理防御_5|5|0|0,,Value,101,Coin
+110005,,无欲,1,28,5,Skill/daoshu_1005,spiritDef,法术防御_5|5|0|0,,Value,101,Coin
+110006,,化生,1,28,6,Skill/daoshu_1006,lifeReceive,生命回复_75|75|0|0,,Value,101,Coin
 130001,,神武,2,40,1,Skill/daoshu_2001,physiqueAttack,物理攻击_30|30|0|0,,Value,102,Coin
 130002,,神道,2,40,2,Skill/daoshu_2002,spiritAttack,法术攻击_30|30|0|0,,Value,102,Coin
 130003,,守元,2,40,3,Skill/daoshu_2003,life,生命_160|160|0|0,,Value,102,Coin
