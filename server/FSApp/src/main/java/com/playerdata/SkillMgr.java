@@ -48,7 +48,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	}
 
 	// private SkillItemHolder skillItemHolder;
-//	private final SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
+	// private final SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
 
 	public void init(Hero pRole) {
 		// initPlayer(pRole);
@@ -56,11 +56,10 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		// skillItemHolder = new SkillItemHolder(ownerId);
 	}
 
-	public SkillItemHolder getSkillItemHoder(){
+	public SkillItemHolder getSkillItemHoder() {
 		return SkillItemHolder.getSkillItemHolder();
 	}
-	
-	
+
 	public void regDataChangeCallback(IHeroAction callback) {
 		getSkillItemHoder().regDataChangeCallback(callback);
 	}
@@ -69,7 +68,6 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	public boolean load(String heroId) {
 		return false;
 	}
-
 
 	public List<SkillItem> getSkillList(String heroId) {
 		return getSkillItemHoder().getItemList(heroId);
@@ -137,20 +135,16 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		return true;
 	}
 
-	public boolean updateSkill(Player player, String heroId, String skillId, int addLevel) {
-		SkillItem skill = null;
-		List<SkillItem> skillList = getSkillItemHoder().getItemList(heroId);
-		for (SkillItem current : skillList) {
-			if (current.getSkillId().equals(skillId)) {
-				skill = current;
-				break;
-			}
-		}
+	public boolean updateSkill(Player player, String heroId, SkillItem skill, int addLevel) {
+		return updateSkill(player, heroId, skill, addLevel, true);
+	}
+
+	public boolean updateSkill(Player player, String heroId, SkillItem skill, int addLevel, boolean update) {
 		if (skill == null) {
 			return false;
 		}
 		int level = skill.getLevel() + addLevel;
-		StringTokenizer token = new StringTokenizer(skillId, "_");
+		StringTokenizer token = new StringTokenizer(skill.getSkillId(), "_");
 		String newSkillId = token.nextToken() + "_" + level;
 		// SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
 		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(newSkillId); // PERRY 2016-08-19，上面的本意应该是要获取下个技能
@@ -160,7 +154,9 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		skill.setLevel(level);
 		skill.setSkillId(newSkillId);
 		updateMoreInfo(player, heroId, skill);
-		getSkillItemHoder().updateItem(player, heroId, skill);
+		if (update) {
+			getSkillItemHoder().updateItem(player, heroId, skill);
+		}
 		return true;
 	}
 
@@ -270,50 +266,6 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 //		List<SkillItem> battleSkillList = SkillHelper.initSkill(rolecfg, m_pOwner.getQualityId(), m_pOwner.getLevel());
 //		getSkillItemHoder().addItem(player, m_pOwner.getId(), battleSkillList);
 	}
-
-	// /**
-	// * 更新技能其它信息
-	// *
-	// * @param pSkill
-	// */
-	// private void updateMoreInfo(Skill pSkill, List<Skill> skillList) {
-	// if (pSkill != null) {
-	// if (pSkill.getLevel() <= 0) {
-	// return;
-	// }
-	//
-	// String skillId = pSkill.getSkillId();
-	// SkillCfg pSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skillId);
-	// if (pSkillCfg == null) {
-	// if (pSkill.getLevel() != DIE_SKILL_LEVEL) {
-	// if (m_pPlayer != null) {
-	// m_pPlayer.NotifyCommonMsg("配置表错误：没有skillID为" + skillId + "的技能");
-	// }
-	// }
-	// return;
-	// }
-	// }
-	//
-	// List<Skill> itemList = getSkillItemHoder().getItemList();
-	//
-	// SkillHelper.checkAllSkill(itemList);// 检查所有的技能
-	//
-	// // StringBuilder sb = new StringBuilder();
-	// for (int i = 0, size = itemList.size(); i < size; i++) {
-	// Skill skill = itemList.get(i);
-	// if (skill == null) {
-	// continue;
-	// }
-	//
-	// getSkillItemHoder().updateItem(m_pPlayer, skill);
-	//
-	// // sb.append(String.format("技能Order[%s],技能Id[%s],等级[%s],伤害[%s],额外[%s],系数[%s],buff{%s},selfBuff{%s}\n", skill.getOrder(),
-	// // skill.getSkillId(), skill.getLevel(), skill.getSkillDamage(),
-	// // skill.getExtraDamage(), skill.getSkillRate(), skill.getBuffId().toString(), skill.getSelfBuffId().toString()));
-	// }
-	//
-	// // GameLog.info("升级技能模块", "升级后所有效果", sb.toString());
-	// }
 
 	/**
 	 * 更新技能其它信息
@@ -563,7 +515,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 
 	@Override
 	public boolean save(String key) {
-		//do nothing 
+		// do nothing
 		return false;
 	}
 }

@@ -25,6 +25,8 @@ public class UserParser implements DataValueParser<User> {
         userCopy.setCreateTime(entity.getCreateTime());
         userCopy.setLastLoginTime(entity.getLastLoginTime());
         userCopy.setKickOffCoolTime(entity.getKickOffCoolTime());
+        userCopy.setZoneRegInfo(writer.copyObject(entity.getZoneRegInfo()));
+        userCopy.setExtendInfo(writer.copyObject(entity.getExtendInfo()));
         userCopy.setExp(entity.getExp());
         userCopy.setLevel(entity.getLevel());
         return userCopy;
@@ -190,6 +192,14 @@ public class UserParser implements DataValueParser<User> {
         json.put("createTime", entity.getCreateTime());
         json.put("lastLoginTime", entity.getLastLoginTime());
         json.put("kickOffCoolTime", entity.getKickOffCoolTime());
+        Object zoneRegInfoJson = writer.toJSON(entity.getZoneRegInfo());
+        if (zoneRegInfoJson != null) {
+            json.put("zoneRegInfo", zoneRegInfoJson);
+        }
+        Object extendInfoJson = writer.toJSON(entity.getExtendInfo());
+        if (extendInfoJson != null) {
+            json.put("extendInfo", extendInfoJson);
+        }
         json.put("exp", entity.getExp());
         json.put("level", entity.getLevel());
         return json;
