@@ -54,20 +54,6 @@ public class GambleHandler {
 		return instance;
 	}
 
-	private ThreadLocal<Player> context = new ThreadLocal<Player>();
-
-	private void setContext(Player p) {
-		context.set(p);
-	}
-
-	public Player getContext() {
-		return context.get();
-	}
-
-	protected void clearContext() {
-		context.remove();
-	}
-
 	public ByteString gamble(GambleRequest request, Player player) {
 		GambleResponse.Builder response = GambleResponse.newBuilder();
 		response.setRequest(request);
@@ -114,14 +100,10 @@ public class GambleHandler {
 		Random ranGen = getRandom();
 		String defaultItem = String.valueOf(planCfg.getGoods());
 
-		setContext(player);
 		RefBool hasFirst = new RefBool();
 		StringBuilder trace = gamblePlanId == 5 ? new StringBuilder() : null;
 
-		// start core logic
-		dropPlan = coreLogic(gamblePlanId, planIdStr, planCfg, dropList, userId, historyRecord, historyByGroup, dropPlan, isFree, ranGen, defaultItem, trace, hasFirst);
-
-		clearContext();
+		dropPlan = coreLogic(player, gamblePlanId, planIdStr, planCfg, dropList, historyRecord, historyByGroup, dropPlan, isFree, ranGen, defaultItem, trace, hasFirst);
 
 		// 扣钱
 		if (!isFree) {// 使用收费方案
@@ -171,7 +153,7 @@ public class GambleHandler {
 		}
 		response.addAllItemList(tmpDropList);
 
-		GambleLogicHelper.pushGambleItem(player, ranGen, defaultItem);
+		GambleLogicHelper.pushGambleItem(player, defaultItem);
 
 		response.setResultType(EGambleResultType.SUCCESS);
 		// 魂匣抽不算入通用活动
@@ -202,8 +184,10 @@ public class GambleHandler {
 	 * @param trace
 	 * @return
 	 */
-	public IDropGambleItemPlan coreLogic(int gamblePlanId, String planIdStr, GamblePlanCfg planCfg, ArrayList<GambleAdwardItem> dropList, String userId, GambleDropHistory historyRecord, GambleHistoryRecord historyByGroup, IDropGambleItemPlan dropPlan, boolean isFree, Random ranGen,
+	public IDropGambleItemPlan coreLogic(Player player, int gamblePlanId, String planIdStr, GamblePlanCfg planCfg, ArrayList<GambleAdwardItem> dropList, GambleDropHistory historyRecord, GambleHistoryRecord historyByGroup, IDropGambleItemPlan dropPlan, boolean isFree, Random ranGen,
 			String defaultItem, StringBuilder trace, RefBool hasFirst) {
+		String userId = player.getUserId();
+
 		// 保证热点随机种子初始化
 		if (planCfg.getHotCount() > 0 && historyRecord.getHotCheckThreshold() <= 0) {
 			historyRecord.GenerateHotCheckCount(getRandom(), planCfg.getHotCheckMin(), planCfg.getHotCheckMax());
@@ -220,7 +204,7 @@ public class GambleHandler {
 
 		if (isFirstTime && firstDropItemId > 0) {// firstDropItemId配置为0表示不想搞首抽必掉
 			// 计算首次必掉
-			String itemModel = gambleDropConfig.getRandomDrop(ranGen, firstDropItemId, slotCount);
+			String itemModel = gambleDropConfig.getRandomDrop(player, firstDropItemId, slotCount);
 			if (StringUtils.isBlank(itemModel) || slotCount.value <= 0) {
 				// 首抽配置错误，在日志纪录并跳过首抽
 				// return SetError(response,player,String.format("首抽配置无效，配置:%s", planIdStr),"首抽未配置");
@@ -243,10 +227,11 @@ public class GambleHandler {
 			if (historyRecord.getHotHistoryCount() < historyRecord.getHotCheckThreshold() - 1) {
 				// 用热点组生成N个英雄
 				int hotPlanId = hotGambleConfig.getTodayHotPlanId();
-				GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId, HotHeroPoolSize, errDefaultModelId);
+				GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(hotPlanId, HotHeroPoolSize, errDefaultModelId);
 				int hotCount = 0;
 				while (hotCount < planCfg.getHotCount()) {
-					String itemModel = hotPlan.getRandomDrop(ranGen, slotCount);
+					// String itemModel = hotPlan.getRandomDrop(player, slotCount);
+					String itemModel = GambleLogicHelper.getRandomGroup(player, hotPlan.getHotPlan(), slotCount);
 					if (!GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, errDefaultModelId)) {
 						GameLog.error("钓鱼台", userId, "热点英雄配置有问题");
 					}
@@ -286,7 +271,7 @@ public class GambleHandler {
 					dropGroupId = dropPlan.getOrdinaryGroup(ranGen, selectedDropGroupIndex);
 					GambleLogicHelper.logTrace(trace, "checkGuarantee:false,dropGroupId=" + dropGroupId);
 				}
-				String itemModel = gambleDropConfig.getRandomDrop(ranGen, dropGroupId, slotCount);
+				String itemModel = gambleDropConfig.getRandomDrop(player, dropGroupId, slotCount);
 				GambleLogicHelper.logTrace(trace, "random generate itemModel=" + itemModel + ",slotCount=" + slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem)) {
 					historyRecord.add(isFree, itemModel, slotCount.value, historyByGroup);
@@ -320,7 +305,7 @@ public class GambleHandler {
 				}
 
 				RefInt tmpWeight = null;
-				String itemModel = tmpGroup.getRandomGroup(ranGen, slotCount, tmpWeight);
+				String itemModel = GambleLogicHelper.getRandomGroup(player, tmpGroup, slotCount, tmpWeight);
 				GambleLogicHelper.logTrace(trace, "random generate itemModel=" + itemModel + ",slotCount=" + slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem)) {
 					historyRecord.add(isFree, itemModel, slotCount.value, historyByGroup);
@@ -345,11 +330,10 @@ public class GambleHandler {
 	}
 
 	public ByteString gambleData(GambleRequest request, Player player) {
-		Random ranGen = getRandom();
 		// 热点保底默认值 燃灯道人(魂石)
 		String defaultItem = "704012";
 
-		GambleResponse.Builder response = GambleLogicHelper.prepareGambleData(request, ranGen, defaultItem, player);
+		GambleResponse.Builder response = GambleLogicHelper.prepareGambleData(request, defaultItem, player);
 		return response.build().toByteString();
 	}
 

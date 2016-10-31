@@ -5,12 +5,18 @@ import java.util.List;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
+import com.common.HPCUtil;
 import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
+import com.rw.fsutil.common.Pair;
+import com.rw.service.gamble.datamodel.DropMissingCfg;
+import com.rw.service.gamble.datamodel.DropMissingCfgHelper;
+import com.rw.service.gamble.datamodel.DropMissingLogic;
 import com.rw.service.gamble.datamodel.GambleAdwardItem;
 import com.rw.service.gamble.datamodel.GambleDropGroup;
 import com.rw.service.gamble.datamodel.GambleDropHistory;
@@ -44,8 +50,8 @@ import com.rwproto.MsgDef.Command;
 
 public class GambleLogicHelper {
 	/** 准备推送的垂钓数据 */
-	public static GambleResponse.Builder prepareGambleData(GambleRequest request, Random ranGen, String defaultItem, Player player) {
-		GambleHotHeroPlan.InitTodayHotHeroList(ranGen, defaultItem);
+	public static GambleResponse.Builder prepareGambleData(GambleRequest request, String defaultItem, Player player) {
+		GambleHotHeroPlan.InitTodayHotHeroList(defaultItem);
 		GambleResponse.Builder response = GambleResponse.newBuilder();
 		response.setRequest(request);
 		response.addAllHeroList(GambleHotHeroPlan.getTodayHotList());
@@ -108,7 +114,7 @@ public class GambleLogicHelper {
 
 						String errDefaultModelId = GambleLogicHelper.isValidHeroOrItemId(heroId) ? heroId : defaultItem;
 						int hotPlanId = hotGambleConfig.getTodayHotPlanId();
-						GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
+						GambleHotHeroPlan hotPlan = GambleHotHeroPlan.getTodayHotHeroPlan(hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
 						GambleDropGroup hot = hotPlan.getHotPlan();
 						String[] hotHeroList = hot.getPlans();
 						for (String hotItemId : hotHeroList) {
@@ -208,10 +214,10 @@ public class GambleLogicHelper {
 		return result;
 	}
 
-	public static void pushGambleItem(Player player, Random ranGen, String defaultItem) {
+	public static void pushGambleItem(Player player, String defaultItem) {
 		GambleRequest.Builder request = GambleRequest.newBuilder();
 		request.setRequestType(EGambleRequestType.GAMBLE_DATA);
-		GambleResponse.Builder response = prepareGambleData(request.build(), ranGen, defaultItem, player);
+		GambleResponse.Builder response = prepareGambleData(request.build(), defaultItem, player);
 		player.SendMsg(Command.MSG_GAMBLE, response.build().toByteString());
 	}
 
@@ -486,5 +492,105 @@ public class GambleLogicHelper {
 		if (trace != null) {
 			trace.append("historyRecord:").append(historyRecord.toDebugString(groupRec));
 		}
+	}
+
+	/**
+	 * 获取掉落的物品
+	 * 
+	 * @param player
+	 * @param drop
+	 * @param slotCount
+	 * @param weight
+	 * @return
+	 */
+	public static String getRandomGroup(Player player, GambleDropGroup drop, RefInt slotCount) {
+		return getRandomGroup(player, drop, slotCount, null);
+	}
+
+	/**
+	 * 获取掉落的物品
+	 * 
+	 * @param player
+	 * @param drop
+	 * @param slotCount
+	 * @param weight
+	 * @return
+	 */
+	public static String getRandomGroup(Player player, GambleDropGroup drop, RefInt slotCount, RefInt weight) {
+		RefInt planIndex = new RefInt();
+		Random r = HPCUtil.getRandom();
+		String result = drop.getRandomGroup(r, planIndex, weight);// 先获取索引
+
+		slotCount.value = drop.getSlotCountArr()[planIndex.value];// 获取到数量
+
+		// 这个是根据人身上装备的数据来获取掉落
+		if (StringUtils.isNotBlank(result)) {
+			DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(result);// 如果读取到的是DropMissing这类型的掉落
+			if (cfg == null) {// 去检查人身上的装备，进行精准掉落
+				return result;
+			}
+
+			if (player == null) {
+				ArrayList<String> tmp = new ArrayList<String>(1);
+				tmp.add(result);
+				GambleDropGroup again = drop.removeHistory(tmp);
+				if (again == null || again.size() <= 0) {
+					return null;
+				}
+				return getRandomGroup(player, again, slotCount, weight);
+			}
+
+			result = DropMissingLogic.getInstance().searchMissingItem(player, cfg);
+
+			if (result == null) {
+				ArrayList<String> tmp = new ArrayList<String>(1);
+				tmp.add(cfg.getKey());
+
+				GambleDropGroup again = drop.removeHistory(tmp);
+				if (again == null || again.size() <= 0) {
+					return null;
+				}
+				return getRandomGroup(player, again, slotCount, weight);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * 连续生成N个热点 避免重复，如果热点组人数不够才允许重复
+	 * 
+	 * @param r
+	 * @param hotCount
+	 * @param guanrateeHero
+	 * @return
+	 */
+	@JsonIgnore
+	public static List<Pair<String, Integer>> getHotRandomGroup(Player player, GambleDropGroup drop, int hotCount, String guanrateeHero) {
+		List<String> historyRecord = new ArrayList<String>(1);
+		List<Pair<String, Integer>> result = new ArrayList<Pair<String, Integer>>(hotCount);
+		RefInt slotCount = new RefInt();
+		RefInt weight = new RefInt();
+		GambleDropGroup tmpGroup = drop;
+		String heroId = guanrateeHero;
+
+		while (result.size() < hotCount) {
+			if (historyRecord.size() <= 0) {
+				historyRecord.add(heroId);
+			} else {
+				historyRecord.set(0, heroId);
+			}
+			tmpGroup = tmpGroup.removeHistory(historyRecord);
+			if (tmpGroup != null && tmpGroup.size() > 0) {
+				heroId = getRandomGroup(player, drop, slotCount, weight);
+			} else {
+				heroId = guanrateeHero;
+			}
+			if (heroId == null)
+				heroId = guanrateeHero;
+			result.add(Pair.Create(heroId, weight.value));
+		}
+
+		return result;
 	}
 }

@@ -47,7 +47,7 @@ public class RandomStringGroups {
 
 	/**
 	 * 获取随机到的道具所属的索引，以及权重
-	 * 
+	 *
 	 * @param r
 	 * @param planIndex
 	 * @param weight

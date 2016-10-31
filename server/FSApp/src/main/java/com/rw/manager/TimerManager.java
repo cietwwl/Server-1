@@ -19,7 +19,6 @@ import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
-import com.rw.service.gamble.GambleHandler;
 import com.rw.service.gamble.datamodel.GambleHotHeroPlan;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.BIStatLogMgr;
@@ -41,7 +40,7 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
 	private static TimeSpanOpHelper time10SecondOp;// 10秒时效
-	private static TimeSpanOpHelper time10MicroSecondOp; //10毫秒时效
+	private static TimeSpanOpHelper time10MicroSecondOp; // 10毫秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("timer"));
 	private static ScheduledExecutorService biTimeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("biTimer"));
@@ -52,20 +51,20 @@ public class TimerManager {
 		final long MINUTE = 60 * SECOND;
 		final long MINUTE_10 = 10 * MINUTE;
 		final long HOUR = 60 * MINUTE;
-		final long MICROSECOND = 30;	//30毫秒
+		final long MICROSECOND = 30; // 30毫秒
 
 		time10MicroSecondOp = new TimeSpanOpHelper(new ITimeOp() {
 
 			@Override
 			public void doTask() {
-				try{
+				try {
 					DataAutoSynMgr.getInstance().synDataAuto();
-				}catch(Exception ex){
-					
+				} catch (Exception ex) {
+
 				}
 			}
 		}, MICROSECOND);
-		
+
 		timeSecondOp = new TimeSpanOpHelper(new ITimeOp() {
 
 			@Override
@@ -123,7 +122,7 @@ public class TimerManager {
 				heavyWeightsExecturos.execute(new Runnable() {
 					@Override
 					public void run() {
-						GambleHotHeroPlan.resetHotHeroList(GambleHandler.getInstance().getRandom());
+						GambleHotHeroPlan.resetHotHeroList();
 					}
 				});
 
@@ -178,7 +177,7 @@ public class TimerManager {
 				}
 			}
 		}, 0, 10, TimeUnit.MICROSECONDS);
-		
+
 		timeService.scheduleAtFixedRate(new Runnable() {
 
 			@Override

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -71,7 +70,7 @@ public class GambleHotHeroPlan {
 	 * @param errDefaultModelId
 	 */
 	@JsonIgnore
-	private void Init(Random r, int hotPlanId, int hotCount, String errDefaultModelId) {
+	private void Init(int hotPlanId, int hotCount, String errDefaultModelId) {
 		this.errDefaultModelId = errDefaultModelId;
 
 		List<Pair<String, Integer>> list = null;
@@ -85,14 +84,14 @@ public class GambleHotHeroPlan {
 		if (checkDuplicated) {
 			String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 			// 生成热点不重复
-			list = gambleDropConfig.getHotRandomDrop(r, hotPlanId, hotCount, guanrateeHero);
+			list = gambleDropConfig.getHotRandomDrop(null, hotPlanId, hotCount, guanrateeHero);
 		} else {
 			RefInt weight = new RefInt();
 			RefInt slotCount = new RefInt();
 			list = new ArrayList<Pair<String, Integer>>(hotCount);
 
 			for (int i = 0; i < hotCount; i++) {
-				String itemModel = gambleDropConfig.getRandomDrop(r, hotPlanId, slotCount, weight);
+				String itemModel = gambleDropConfig.getRandomDrop(null, hotPlanId, slotCount, weight);
 				if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
 					list.add(Pair.Create(itemModel, weight.value));
 					// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个
@@ -106,10 +105,10 @@ public class GambleHotHeroPlan {
 		hotPlan = GambleDropGroup.Create(list, slots);
 	}
 
-	@JsonIgnore
-	public String getRandomDrop(Random r, RefInt slotCount) {
-		return hotPlan.getRandomGroup(r, slotCount);
-	}
+	// @JsonIgnore
+	// public String getRandomDrop(Random r, RefInt slotCount) {
+	// return hotPlan.getRandomGroup(r, slotCount);
+	// }
 
 	/**
 	 * 需要保证额外的容错配置(errDefaultModelId)是有效的！
@@ -121,7 +120,7 @@ public class GambleHotHeroPlan {
 	 * @return
 	 */
 	@JsonIgnore
-	public static GambleHotHeroPlan getTodayHotHeroPlan(Random r, int planId, int hotCount, String errDefaultModelId) {
+	public static GambleHotHeroPlan getTodayHotHeroPlan(int planId, int hotCount, String errDefaultModelId) {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
@@ -130,7 +129,7 @@ public class GambleHotHeroPlan {
 			// TODO 改为用一个静态的GambleHotHeroPlan做容错，避免并发修改每日热点数据
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
-			result.Init(r, planId, hotCount, errDefaultModelId);
+			result.Init(planId, hotCount, errDefaultModelId);
 			if (!DAO.commit(result)) {
 				GameLog.error("钓鱼台", "数据库操作,gamble_hotHeroPlan", "更新失败");
 			}
@@ -139,7 +138,7 @@ public class GambleHotHeroPlan {
 	}
 
 	@JsonIgnore
-	public static void resetHotHeroList(Random r) {
+	public static void resetHotHeroList() {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
@@ -158,7 +157,7 @@ public class GambleHotHeroPlan {
 		if (!GambleLogicHelper.isValidHeroOrItemId(defaultHero) && StringUtils.isNotBlank(result.errDefaultModelId)) {
 			defaultHero = result.errDefaultModelId;
 		}
-		result.Init(r, helper.getTodayHotPlanId(), GambleHandler.HotHeroPoolSize, defaultHero);
+		result.Init(helper.getTodayHotPlanId(), GambleHandler.HotHeroPoolSize, defaultHero);
 		if (!DAO.commit(result)) {
 			GameLog.error("钓鱼台", "数据库操作,gamble_hotHeroPlan", "更新失败");
 		}
@@ -175,7 +174,7 @@ public class GambleHotHeroPlan {
 	public static Iterable<String> getTodayHotList() {
 		String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 
-		GambleHotHeroPlan.InitTodayHotHeroList(GambleHandler.getInstance().getRandom(), guanrateeHero);
+		GambleHotHeroPlan.InitTodayHotHeroList(guanrateeHero);
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		String date = getDateStr();
 		GambleHotHeroPlan generatedPlan = DAO.get(date);
@@ -197,7 +196,7 @@ public class GambleHotHeroPlan {
 	}
 
 	@JsonIgnore
-	public static void InitTodayHotHeroList(Random ranGen, String defaultItem) {
+	public static void InitTodayHotHeroList(String defaultItem) {
 		if (GambleHotHeroPlan.isTodayInited())
 			return;
 		HotGambleCfgHelper hotGambleConfig = HotGambleCfgHelper.getInstance();
@@ -208,7 +207,6 @@ public class GambleHotHeroPlan {
 
 		// 用热点组生成N个英雄
 		int hotPlanId = hotGambleConfig.getTodayHotPlanId();
-		GambleHotHeroPlan.getTodayHotHeroPlan(ranGen, hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
+		GambleHotHeroPlan.getTodayHotHeroPlan(hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
 	}
-
 }
