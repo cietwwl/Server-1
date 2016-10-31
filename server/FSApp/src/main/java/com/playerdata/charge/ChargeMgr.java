@@ -178,10 +178,9 @@ public class ChargeMgr {
 	    String entranceId = chargeParam.getChargeEntrance();
 	    String friendId = chargeParam.getFriendId();
 	    
-	    if (target == null)
-	    {
-	      itemId = chargeParam.getProductId();
-	      target = ChargeCfgDao.getInstance().getConfig(itemId);
+	    if (target == null){
+	    	itemId = chargeParam.getProductId();
+	    	target = ChargeCfgDao.getInstance().getConfig(itemId);
 	    }
 
 		if(target!=null){
@@ -212,7 +211,7 @@ public class ChargeMgr {
 							success = sendMonthCard(friendPlayer, player, timecardcfg.getId(), target).isSuccess();
 						}else{
 							success = buyMonthCard(player, timecardcfg.getId(),target).isSuccess();
-						}						
+						}
 						break;
 					}
 				}
@@ -448,6 +447,23 @@ public class ChargeMgr {
 	}
 	
 	/**
+	 * 充值完成，更新vip信息
+	 * @param player
+	 * @param target
+	 */
+	private void addVipExp(Player player, ChargeCfg target){
+		int addGold = target.getVipExp();
+		int money = target.getMoneyCount();
+		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
+		ChargeInfoHolder.getInstance().update(player);
+		// 升级vip，如果达到条件
+		upgradeVip(player, chargeInfo);
+		// 设置界面更新vip
+		player.getSettingMgr().checkOpen();
+	}
+	
+	/**
 	 * 赠送月卡
 	 * @param friendPlayer
 	 * @param selfPlayer
@@ -478,15 +494,7 @@ public class ChargeMgr {
 				GameLog.info("特权", friendPlayer.getUserId(), "无法获取充值类型:" + orderStr, e);
 			}
 		}
-		int addGold = target.getVipExp();
-		int money = target.getMoneyCount();
-		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(selfPlayer.getUserId());
-		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
-		ChargeInfoHolder.getInstance().update(selfPlayer);
-		// 升级vip，如果达到条件
-		upgradeVip(selfPlayer, chargeInfo);
-		// 设置界面更新vip
-		selfPlayer.getSettingMgr().checkOpen();
+		addVipExp(selfPlayer, target);
 		return result;
 	}
 	
@@ -515,15 +523,7 @@ public class ChargeMgr {
 			} catch (Exception e) {
 				GameLog.info("特权", player.getUserId(), "无法获取充值类型:" + orderStr, e);
 			}
-			int addGold = target.getVipExp();
-			int money = target.getMoneyCount();
-			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-			chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
-			ChargeInfoHolder.getInstance().update(player);
-			// 升级vip，如果达到条件
-			upgradeVip(player, chargeInfo);
-			// 设置界面更新vip
-			player.getSettingMgr().checkOpen();
+			addVipExp(player, target);
 		}
 		return result;
 	}
