@@ -1,8 +1,11 @@
 package com.bm.worldBoss.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.bm.worldBoss.WBMgr;
 import com.bm.worldBoss.WBOnFightMgr;
@@ -19,7 +22,12 @@ import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
+import com.playerdata.embattle.EmBattlePositionKey;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
 import com.rwbase.common.enu.eSpecialItemId;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.WorldBossProtos.BuyBuffParam;
 import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.CommonRspMsg;
@@ -52,8 +60,10 @@ public class WBHandler {
 		response.setReqType(commonReq.getReqType());
 		
 		FightBeginParam fightBeginParam = commonReq.getFightBeginParam();
-		List<String> heroIdsList = fightBeginParam.getHeroIdsList();	
-		List<Integer> heroPositionList = fightBeginParam.getHeroPositionsList();
+		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.WorldBoss_VALUE, EmBattlePositionKey.posWorldBoss.getKey());
+		
+		Map<String, Integer> posMap = new HashMap<String, Integer>();
+		List<String> heroIdsList = getHeroIdList(player, embattleInfo,posMap);	
 
 		WBResult result = checkFightBegin(player, fightBeginParam);
 		if(result.isSuccess()){
@@ -63,7 +73,6 @@ public class WBHandler {
 			ArmyInfo bossArmy = WBMgr.getInstance().getBossArmy();	
 			
 			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroIdsList);
-			Map<String, Integer> posMap = getPosMap(heroIdsList,heroPositionList);
 			armyInfo.setPos(posMap);
 			
 			String bossJson = bossArmy.toJson();
@@ -81,15 +90,19 @@ public class WBHandler {
 		return response.build().toByteString();
 	}
 	
-	private Map<String,Integer> getPosMap(List<String> heroIdList, List<Integer> posList){
-		Map<String,Integer> posMap = new HashMap<String, Integer>();
-		
-		for (int i = 0; i < heroIdList.size(); i++) {
-			posMap.put(heroIdList.get(i), posList.get(i));
+	private List<String> getHeroIdList(Player player, EmbattlePositionInfo embattleInfo, Map<String,Integer> posMap){
+		List<String> heroIdList = new ArrayList<String>();
+		List<EmbattleHeroPosition> pos = embattleInfo.getPos();
+		for (EmbattleHeroPosition heroPosition : pos) {
+			String heroId = heroPosition.getId();
+			if(!StringUtils.equals(player.getUserId(), heroId)){
+				heroIdList.add(heroId);
+			}
+			posMap.put(heroId, heroPosition.getPos());
 		}
-		return posMap;
-		
+		return heroIdList;
 	}
+
 	
 	private WBResult checkFightBegin(Player player, FightBeginParam fightBeginParam){
 		WBResult result = checkBoss();
@@ -163,8 +176,9 @@ public class WBHandler {
 		WBOnFightMgr.getInstance().leave(player.getUserId());
 		
 		response.setIsSuccess(result.isSuccess());
-		if(result.getReason() != null)
-		response.setTipMsg(result.getReason());	
+		if(result.getReason() != null){
+			response.setTipMsg(result.getReason());	
+		}
 				
 		return response.build().toByteString();
 	}
