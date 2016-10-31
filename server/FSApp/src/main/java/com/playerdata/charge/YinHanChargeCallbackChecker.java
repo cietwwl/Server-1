@@ -1,8 +1,14 @@
 package com.playerdata.charge;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 import com.log.GameLog;
 import com.playerdata.charge.dao.ChargeRecord;
 import com.rw.chargeServer.ChargeContentPojo;
+import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<ChargeContentPojo> {
 
@@ -43,7 +49,8 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		if (content.getSign().equals(sign)) {
 			return true;
 		} else {
-			GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
+//			GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
+			System.err.println("签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
 			return false;
 		}
 	}
@@ -68,5 +75,17 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		}
 		record.setChargeTime(System.currentTimeMillis());
 		return record;
+	}
+	
+	public static void main(String[] args) throws IOException {
+		YinHanChargeCallbackChecker checker = new YinHanChargeCallbackChecker();
+		BufferedReader br = new BufferedReader(new FileReader(new File("D:\\work\\chargeOrder.txt")));
+		String line;
+		while ((line = br.readLine()) != null) {
+			ChargeContentPojo pojo = JsonUtil.readValue(line, ChargeContentPojo.class);
+			boolean value = checker.checkChargeCallback(pojo);
+			System.out.println(pojo.getCpTradeNo() + ":" + value);
+		}
+		br.close();
 	}
 }
