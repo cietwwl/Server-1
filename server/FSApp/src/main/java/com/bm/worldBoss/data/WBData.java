@@ -4,6 +4,8 @@ import javax.persistence.Id;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.army.ArmyVector3;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -35,6 +37,8 @@ public class WBData {
 	//最后一击信息
 	private LastFightInfo lastFightInfo;
 	private long rankBossHP;//上一个boss总hp
+	@IgnoreSynField
+	private ArmyVector3 position;
 	
 	public static WBData newInstance(){
 		WBData data = new WBData();
@@ -199,8 +203,13 @@ public class WBData {
 		this.rankBossHP = rankBossHP;
 	}
 
+	public ArmyVector3 getPosition() {
+		return position;
+	}
 
+	public void setPosition(ArmyVector3 position) {
+		this.position = position;
+	}
 
-	
 	
 }

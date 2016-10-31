@@ -93,6 +93,7 @@ public class WBMgr {
 	public ArmyInfo getBossArmy(){
 		
 		WBData wbData = WBDataHolder.getInstance().get();
+		
 		ArmyInfo armyInfo = null;
 		
 		armyInfo = ArmyInfoHelper.buildMonsterArmy(wbData.getMonsterCfgId());
@@ -108,6 +109,7 @@ public class WBMgr {
 		}
 		
 		armyHero.setCurAttrData(curAttrData);
+		armyHero.setPositionOffset(wbData.getPosition());
 	
 		return armyInfo;		
 	}

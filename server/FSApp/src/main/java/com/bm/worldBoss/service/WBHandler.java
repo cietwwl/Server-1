@@ -102,13 +102,19 @@ public class WBHandler {
 		WBResult result = checkFightEnd(player);
 		if(result.isSuccess()){
 			long updateHurt = fightParam.getHurt();
-			boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
-			if(success){				
-				WBUserMgr.getInstance().fightUpdate(player, updateHurt);
-				WBOnFightMgr.getInstance().enter(player.getUserId());
+			if(updateHurt <= 0){
+				//不扣血，只做同步
+				result.setSuccess(true);
 			}else{
-				result.setSuccess(false);
-				result.setReason("世界boss已被击杀。");
+				
+				boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
+				if(success){				
+					WBUserMgr.getInstance().fightUpdate(player, updateHurt);
+					WBOnFightMgr.getInstance().enter(player.getUserId());
+				}else{
+					result.setSuccess(false);
+					result.setReason("世界boss已被击杀。");
+				}
 			}
 			
 		}

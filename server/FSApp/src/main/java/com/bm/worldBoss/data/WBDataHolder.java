@@ -12,6 +12,7 @@ import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
+import com.playerdata.army.ArmyVector3;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -72,14 +73,18 @@ public class WBDataHolder {
 	
 	private boolean init(WBData data, WBCfg wbCfg){
 		
-		
-		MonsterCfg monsterCfg = getMonsterCfg(wbCfg);
+		CopyMonsterInfoCfg copyCfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
+		MonsterCfg monsterCfg = getMonsterCfg(copyCfg);
 		if(monsterCfg!=null){
-			data.setMonsterCfgId(monsterCfg.getId());
+			String monsterId = monsterCfg.getId();
+			data.setMonsterCfgId(monsterId);
 			WBHPCfg wbHpCfg = WBHPCfgDAO.getInstance().getCfgById(String.valueOf(data.getBossLevel()));
 			float lifeFactor = wbHpCfg.getFactor();
 			long maxLife = (long)(monsterCfg.getLife()*lifeFactor) * 1000;//方便测试暂时调高血量			
 			
+			ArmyVector3 position = copyCfg.getPosition(monsterId);
+			
+			data.setPosition(position);
 			data.setMaxLife(maxLife);
 			data.setCurLife(maxLife);	
 			data.setPreStartTime(wbCfg.getPreStartTime());
@@ -100,8 +105,8 @@ public class WBDataHolder {
 
 
 
-	private MonsterCfg getMonsterCfg(WBCfg wbCfg) {
-		CopyMonsterInfoCfg cfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
+	private MonsterCfg getMonsterCfg(CopyMonsterInfoCfg cfg) {
+		
 		String monsterCfgId=null;
 		if(cfg.getEnemyList().size() > 0 ){
 			List<String> enemyList = cfg.getEnemyList();
@@ -118,7 +123,8 @@ public class WBDataHolder {
 	}
 	
 	public void reCfg(WBData data, WBCfg wbCfg){
-		MonsterCfg monsterCfg = getMonsterCfg(wbCfg);
+		CopyMonsterInfoCfg copyCfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(wbCfg.getCopyId());
+		MonsterCfg monsterCfg = getMonsterCfg(copyCfg);
 		if(monsterCfg!=null){
 			
 			data.setPreStartTime(wbCfg.getPreStartTime());
