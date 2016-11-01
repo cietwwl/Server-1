@@ -142,11 +142,11 @@ public class PlayerCreateTask implements Runnable {
 		used.setUserId(userId);
 		FashionBeingUsedHolder.getInstance().saveOrUpdate(used);
 
-		// 提前创建ChargeInfo need trx
-		ChargeInfo chargeInfo = new ChargeInfo();
-		chargeInfo.setUserId(userId);
-		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
-		ChargeInfoDao.getInstance().update(chargeInfo);
+//		// 提前创建ChargeInfo need trx // chargeInfo改为KVData了，会自动创建
+//		ChargeInfo chargeInfo = new ChargeInfo();
+//		chargeInfo.setUserId(userId);
+//		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
+//		ChargeInfoDao.getInstance().update(chargeInfo);
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);

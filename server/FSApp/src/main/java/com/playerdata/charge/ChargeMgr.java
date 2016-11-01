@@ -1,5 +1,8 @@
 package com.playerdata.charge;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -12,6 +15,7 @@ import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.VipMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeSubCfg;
@@ -45,12 +49,17 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
+import com.rwbase.dao.gift.ComGiftCfg;
+import com.rwbase.dao.gift.ComGiftCfgDAO;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ChargeServiceProto;
 import com.rwproto.MsgDef;
+import com.rwproto.MsgDef.Command;
+import com.rwproto.VipProtos.VIPGiftNotify;
 
 public class ChargeMgr {
 
@@ -207,67 +216,75 @@ public class ChargeMgr {
 
 	private boolean chargeType(Player player, ChargeContentPojo chargeContentPojo) {
 		int vipBefore = player.getVip();
-		String itemId = chargeContentPojo.getItemId();//ios包没有 itemId字段
-		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
+		String itemId = chargeContentPojo.getItemId().trim(); // ios包没有 itemId字段
 		
 		String privateField = chargeContentPojo.getPrivateField();
 		ChargeParam chargeParam = JsonUtil.readValue(privateField, ChargeParam.class);
-	    String entranceId = chargeParam.getChargeEntrance();
-	    String friendId = chargeParam.getFriendId();
+		String entranceId = chargeParam.getChargeEntrance();
+		String friendId = chargeParam.getFriendId();
 	    
-	    if (target == null){
-	    	itemId = chargeParam.getProductId();
-	    	target = ChargeCfgDao.getInstance().getConfig(itemId);
-	    }
+		if (StringUtils.isEmpty(itemId)) {
+			itemId = chargeParam.getProductId();
+		}
+		ChargeCfg target = ChargeCfgDao.getInstance().getConfig(itemId);
 
-		if(target!=null){
-			if(ServerSwitch.isTestCharge()){
-				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			}else if(chargeContentPojo.getMoney() != target.getMoneyCount()){
-				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney()+" 商品id="+ chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+		if (target != null) {
+			if (ServerSwitch.isTestCharge()) {
+				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号="
+						+ chargeContentPojo.getCpTradeNo());
+			} else if (chargeContentPojo.getMoney() != target.getMoneyCount()) {
+				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号="
+						+ chargeContentPojo.getCpTradeNo());
 				return false;
 			}
-			
+
 			boolean success = false;
-			if(target.getChargeType() == ChargeTypeEnum.Normal){
+			if (target.getChargeType() == ChargeTypeEnum.Normal) {
 				success = doCharge(player, target);
-			}
-			if(target.getChargeType() == ChargeTypeEnum.MonthCard || target.getChargeType() == ChargeTypeEnum.VipMonthCard){
-				List<ActivityTimeCardTypeSubCfg>  timeCardList = ActivityTimeCardTypeSubCfgDAO.getInstance().getAllCfg();
-				for(ActivityTimeCardTypeSubCfg timecardcfg : timeCardList){
-					if(timecardcfg.getChargeType() == target.getChargeType()){
+			} else if (target.getChargeType() == ChargeTypeEnum.MonthCard || target.getChargeType() == ChargeTypeEnum.VipMonthCard) {
+				List<ActivityTimeCardTypeSubCfg> timeCardList = ActivityTimeCardTypeSubCfgDAO.getInstance().getAllCfg();
+				for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
+					if (timecardcfg.getChargeType() == target.getChargeType()) {
 						Player friendPlayer = null;
-						if(StringUtils.isNotBlank(friendId)){
+						if (StringUtils.isNotBlank(friendId)) {
 							friendPlayer = PlayerMgr.getInstance().find(friendId);
-							//找不到要赠送的好友
-							if(null == friendPlayer){
+							// 找不到要赠送的好友
+							if (null == friendPlayer) {
 								sendMonthCardFailHandler(player);
 							}
 						}
-						if(null != friendPlayer){
+						if (null != friendPlayer) {
 							success = sendMonthCard(friendPlayer, player, timecardcfg.getId(), target).isSuccess();
-						}else{
-							success = buyMonthCard(player, timecardcfg.getId(),target).isSuccess();
+						} else {
+							success = buyMonthCard(player, timecardcfg.getId(), target).isSuccess();
 						}
 						break;
 					}
 				}
 			}
-			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney()/100);
-			//这里检查一下精准营销有没有此角色的充值请求
+			UserEventMgr.getInstance().charge(player, chargeContentPojo.getMoney() / 100);
+			// 这里检查一下精准营销有没有此角色的充值请求
 			TargetSellManager.getInstance().playerCharge(player, ServerSwitch.isTestCharge() ? target.getMoneyCount() : chargeContentPojo.getFee());
-			if(success){
-				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney()/100);
-				
+			if (success) {
+				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney() / 100);
+
 				registerBehavior(player);
-		        BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
-				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分"+ ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
-			}else{
-				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元"+ ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
+				BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
+
+				ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+				if (!chargeInfo.isContainsId(target.getId())) {
+					chargeInfo.addChargeCfgId(target.getId());
+					ChargeInfoHolder.getInstance().update(player);
+				}
+
+				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分" + ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
+			} else {
+				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元" + ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId() + " 订单号 ="
+						+ chargeContentPojo.getCpTradeNo());
 			}
-		}else{
-			GameLog.error("chargemgr", "sdk-充值", "充值失败,未找到商品  ； 商品id =" + chargeContentPojo.getItemId()+ " 订单号 =" + chargeContentPojo.getCpTradeNo());
-		}		
+		} else {
+			GameLog.error("chargemgr", "sdk-充值", "充值失败,未找到商品  ； 商品id =" + chargeContentPojo.getItemId() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
+		}
 		return true;
 	}
 
@@ -358,14 +375,77 @@ public class ChargeMgr {
 
 	private void upgradeVip(Player player, ChargeInfo chargeInfo) {
 		int totalChargeGold = chargeInfo.getTotalChargeGold();
-		PrivilegeCfg cfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip() + 1);
-		if(cfg == null){
+		PrivilegeCfgDAO privilegeCfgDAO = PrivilegeCfgDAO.getInstance();
+		PrivilegeCfg cfg = privilegeCfgDAO.getCfg(player.getVip() + 1);
+		if (cfg == null) {
 			return;
 		}
+		int preVip = player.getVip();
 		while (cfg.getRechargeCount() <= totalChargeGold) {
 			player.AddVip(1);
-//			totalChargeGold -= cfg.getRechargeCount();
-			cfg = PrivilegeCfgDAO.getInstance().getCfg(player.getVip() + 1);
+			cfg = privilegeCfgDAO.getCfg(player.getVip() + 1); // 获取下一级的cfg
+		}
+		if (preVip != player.getVip()) {
+			// 新添加的直接发送VIP等级礼包
+			presentVipGift(player, preVip);
+		}
+	}
+	
+	private Map<String, Integer> getVipGiftContent(int begin, int end) {
+		if (begin + 1 == end) {
+			ComGiftCfg comGiftCfg = ComGiftCfgDAO.getInstance().getCfgById(VipGiftCfgDao.getInstance().getByVip(begin).getGift());
+			return new HashMap<String, Integer>(comGiftCfg.getGiftMap());
+		} else {
+			VipGiftCfgDao vipGiftCfgDAO = VipGiftCfgDao.getInstance();
+			ComGiftCfgDAO comGiftCfgDAO = ComGiftCfgDAO.getInstance();
+			VipGiftCfg giftCfg;
+			ComGiftCfg comGiftCfg;
+			Map<String, Integer> map = new HashMap<String, Integer>();
+			Map<String, Integer> giftMap;
+			for (int now = begin; now < end; now++) {
+				giftCfg = vipGiftCfgDAO.getByVip(now);
+				comGiftCfg = comGiftCfgDAO.getCfgById(giftCfg.getGift());
+				giftMap = comGiftCfg.getGiftMap();
+				for (Iterator<String> keyItr = giftMap.keySet().iterator(); keyItr.hasNext();) {
+					String key = keyItr.next();
+					Integer nowValue = map.get(key);
+					Integer giftValue = giftMap.get(key);
+					if (nowValue == null) {
+						nowValue = giftValue;
+					} else {
+						nowValue += giftValue;
+					}
+					map.put(key, nowValue);
+				}
+			}
+			return map;
+		}
+	}
+	
+	// 赠送VIP礼包
+	private void presentVipGift(Player player, int preVip) {
+		int nowVip = player.getVip();
+		int end = nowVip + 1;
+		int begin = preVip + 1;
+		Map<String, Integer> map = this.getVipGiftContent(begin, end);
+		List<ItemInfo> itemList = new ArrayList<ItemInfo>(map.size());
+		String strItemId;
+		for (Iterator<String> keyItr = map.keySet().iterator(); keyItr.hasNext();) {
+			strItemId = keyItr.next();
+			itemList.add(new ItemInfo(Integer.parseInt(strItemId), map.get(strItemId).intValue()));
+		}
+		if (player.getItemBagMgr().addItem(itemList)) {
+			VipMgr vipMgr = player.getVipMgr();
+			List<Integer> list = new ArrayList<Integer>(end - begin);
+			for (int i = begin; i < end; i++) {
+				vipMgr.setVipGiftTaken(i);
+				list.add(i);
+			}
+			if (PlayerMgr.getInstance().isOnline(player.getUserId())) {
+				VIPGiftNotify.Builder builder = VIPGiftNotify.newBuilder();
+				builder.addAllVipLv(list);
+				player.SendMsg(Command.MSG_VIP_GIFT_NOTIFY, builder.build().toByteString());
+			}
 		}
 	}
 
