@@ -225,6 +225,10 @@ public class WBMgr {
 		}
 		return wbData.getVersion() == bossVersion;
 	}
+
+	public void onPlayerLogin(Player player) {
+		synWBData(player, -10);//登录通知的版本不作维护
+	}
 	
 	
 	

@@ -4,6 +4,7 @@ import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
+import com.rw.fsutil.util.DateUtils;
 
 class WBPreStartState implements  IwbState{
 
@@ -14,6 +15,7 @@ class WBPreStartState implements  IwbState{
 		WBData wbData = WBDataHolder.getInstance().get();
 		
 		long curTime = System.currentTimeMillis();//1477364091320
+//		System.out.println("start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm"));
 		if(wbData.getStartTime() <= curTime){     //1477367100000
 			return new WBFightStartState();
 		}

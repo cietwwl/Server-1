@@ -438,7 +438,7 @@ public class UserChannelMgr {
 			CfgOpenLevelLimit cfg = limitDAO.getCfgById(eOpenLevelType.MainMsg.getOrderString());
 			if (cfg != null) {
 				int level = hero.getLevel();
-				if (level >= cfg.getMinLevel() && level <= cfg.getMaxLevel()) {
+				if (level < cfg.getMinLevel() || level > cfg.getMaxLevel()) {
 					continue;
 				}
 			}

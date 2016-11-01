@@ -7,6 +7,7 @@ import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.rw.fsutil.util.DateUtils;
 
 public class WBStateFSM {
 	
@@ -22,7 +23,7 @@ public class WBStateFSM {
 		
 		WBData wbData = WBDataHolder.getInstance().get();
 		
-		if(wbData == null){
+		if(wbData == null || DateUtils.dayChanged(wbData.getStartTime())){
 			curState =  new WBFinishState();
 		}else{
 			curState = initFromWbData(wbData);
