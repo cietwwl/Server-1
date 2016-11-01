@@ -206,7 +206,7 @@ public class ActivityRetrieveTypeMgr {
 		ActivityRetrieveTypeHolder dataHolder = ActivityRetrieveTypeHolder.getInstance();
 		RewardBackItem item = dataHolder.getItem(player.getUserId());
 		item.setLastAddPowerTime(System.currentTimeMillis());
-		dataHolder.updateItem(player, item);		
+		dataHolder.updateItemsingel(player, item);		
 	}
 		
 	public void addPowerTime(Player player){
