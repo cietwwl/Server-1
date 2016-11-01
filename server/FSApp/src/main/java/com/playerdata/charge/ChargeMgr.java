@@ -412,7 +412,7 @@ public class ChargeMgr {
 			targetItem.setDayLeft(targetItem.getDayLeft() + ActivityTimeCardTypeSubCfgDAO.getInstance().getBynume(cardtypenume).getDays());
 			dataHolder.updateItem(player, dataItem);
 			result.setSuccess(true);
-//			GameLog.info("月卡", player.getUserId(), "日常任务刷新", null);
+			GameLog.info("月卡", player.getUserId(), "日常任务刷新", null);
 			DailyActivityHandler.getInstance().sendTaskList(player);
 			
 			
