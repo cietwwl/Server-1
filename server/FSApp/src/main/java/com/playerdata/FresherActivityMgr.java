@@ -108,7 +108,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 				finalActItem = item;
 			}
 
-			if (item.isFinish()) {
+			if (item.isFinish() && item.getStartTime() >= now) {
 				finishCount++;
 			}
 
