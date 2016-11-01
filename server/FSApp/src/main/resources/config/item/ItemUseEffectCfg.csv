@@ -39,4 +39,3 @@ Key,Remarks,modelId,combineUse,useEffectClass,directResult,dropResult
 806355,,806355,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35080;35081
 806356,,806356,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35082;35083
 806357,,806357,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35084;35085
-"",,,,,,35086
