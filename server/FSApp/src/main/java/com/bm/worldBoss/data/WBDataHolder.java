@@ -87,6 +87,7 @@ public class WBDataHolder {
 			data.setPosition(position);
 			data.setMaxLife(maxLife);
 			data.setCurLife(maxLife);	
+			data.setRankBossHP(maxLife);
 			data.setPreStartTime(wbCfg.getPreStartTime());
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
