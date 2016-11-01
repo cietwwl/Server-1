@@ -26,8 +26,8 @@ public class WBUserMgr {
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
 		int bossVersion = wbUserData.getBossVersion();
 		if(!WBMgr.getInstance().isSameBoss(bossVersion)){
-			WBUserData newData = WBUserData.newInstance(wbUserData.getUserId());
-			WBUserDataHolder.getInstance().update(player, newData);
+			wbUserData.clean(bossVersion);
+			WBUserDataHolder.getInstance().update(player);
 		}else{
 			WBUserDataHolder.getInstance().syn(player, wbUserDataVersion);		
 		}
@@ -78,7 +78,7 @@ public class WBUserMgr {
 		int awardCoin = countAwardCoin(player, lastHurt);
 		wbUserData.setLastAwardCoin(awardCoin);
 		
-
+		WBUserDataHolder.getInstance().update(player);
 		
 		WBHurtRankMgr.addOrUpdate(player);
 	}
@@ -100,7 +100,7 @@ public class WBUserMgr {
 	public boolean isInCD(Player player) {
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());		
 		long fightCdTime = wbUserData.getFightCdTime();
-		return fightCdTime!=0 && fightCdTime > System.currentTimeMillis();
+		return fightCdTime!=0 && fightCdTime < System.currentTimeMillis();
 	}
 	
 

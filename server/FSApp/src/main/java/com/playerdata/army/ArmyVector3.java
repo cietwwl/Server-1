@@ -17,6 +17,7 @@ public class ArmyVector3 {
 	float y;
 	float z;
 	
+	public ArmyVector3(){}
 	
 	public ArmyVector3(float x, float y, float z) {
 		super();

@@ -619,6 +619,6 @@ public class UserChannelMgr {
 	}
 	
 	public static boolean isLogout(String userId){
-		return !userChannelMap.containsKey(userId)&&!disconnectMap.containsKey(userId);
+		return !userChannelsMap.containsKey(userId)&&!disconnectMap.containsKey(userId);
 	}
 }

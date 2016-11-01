@@ -105,7 +105,7 @@ public class DataAutoSynMgr {
 	 * @return
 	 */
 	private <T extends SameSceneDataBaseIF> int synData(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneSynMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
 			return 0;
 		}
@@ -168,7 +168,7 @@ public class DataAutoSynMgr {
 	 * @return
 	 */
 	private <T extends SameSceneDataBaseIF> int synRemoveScene(long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneSynMembers(sceneId);
 		if(null == synData || synData.isEmpty() || sceneId <= 0){
 			return 0;
 		}
@@ -201,7 +201,7 @@ public class DataAutoSynMgr {
 	 * @param synObject
 	 */
 	public <T extends SameSceneDataBaseIF> void synDataToOnePlayer(Player player, long sceneId, eSynType synType, SameSceneSynDataIF synObject){
-		Map<String, T> synData = SameSceneContainer.getInstance().getSceneMembers(sceneId);
+		Map<String, T> synData = SameSceneContainer.getInstance().getSceneSynMembers(sceneId);
 		if(null == player || null == synData || synData.isEmpty() || sceneId <= 0){
 			return;
 		}

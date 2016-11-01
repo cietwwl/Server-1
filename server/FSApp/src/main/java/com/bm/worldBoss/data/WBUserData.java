@@ -34,10 +34,26 @@ public class WBUserData {
 	@IgnoreSynField
 	private long accHurtInBattle;
 	
-	public static WBUserData newInstance(String userIdP) {
-		WBUserData data = new WBUserData();
-		data.userId = userIdP;		
+	public static WBUserData newInstance(String userId){
+		WBUserData data =  new WBUserData();
+		data.userId = userId;
 		return data;
+	}
+	
+	public void clean(int bossVersion) {
+		this.bossVersion = bossVersion;//校验boss
+		
+		this.lastFightTime = 0;
+		this.fightCdTime = 0;
+		this.lastHurt = 0;
+		this.lastAwardCoin = 0; //
+
+		this.totalHurt = 0;
+		
+		this.buffCfgIdList = new ArrayList<String>();
+		this.cdBuyCount = 0;
+		
+		this.accHurtInBattle = 0;		
 	}
 	
 	public WBUserData nextInstance(int bossVersion){	

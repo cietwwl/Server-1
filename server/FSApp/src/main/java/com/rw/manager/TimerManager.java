@@ -59,12 +59,8 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-<<<<<<< HEAD
 				try{
 					SaloonBmFactory.getInstance().update();
-=======
-				try {
->>>>>>> develop
 					DataAutoSynMgr.getInstance().synDataAuto();
 				} catch (Exception ex) {
 
