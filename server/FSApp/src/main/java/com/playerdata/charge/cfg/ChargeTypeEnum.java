@@ -1,16 +1,28 @@
 package com.playerdata.charge.cfg;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
+import org.apache.commons.lang3.StringUtils;
 
 public enum ChargeTypeEnum {
 	None("0"),
 	Normal("1"),//普通充值
 	MonthCard("2"),//月卡
-	VipMonthCard("3");//至尊月卡
+	VipMonthCard("3");//至尊终身卡
 	
 	private String cfgId;
+	
+	private static final Map<String, ChargeTypeEnum> _mapByCfgId ;
+	static {
+		ChargeTypeEnum[] allValues = values();
+		Map<String, ChargeTypeEnum> map = new HashMap<String, ChargeTypeEnum>(allValues.length, 1.5f);
+		for (ChargeTypeEnum e : allValues) {
+			map.put(e.getCfgId(), e);
+		}
+		_mapByCfgId = Collections.unmodifiableMap(map);
+	}
 
 	
 	public String getCfgId(){
@@ -20,18 +32,18 @@ public enum ChargeTypeEnum {
 	private ChargeTypeEnum (String cfgId){
 		this.cfgId = cfgId;
 	} 
-	
-	public static ChargeTypeEnum getById(String cfgId){
-		ChargeTypeEnum target = null;
-		for (ChargeTypeEnum enumTmp : values()) {
-			if(StringUtils.equals(cfgId, enumTmp.getCfgId())){
-				target = enumTmp;
-				break;
-			}
-		}	
-		
-		return target;
+
+	public static ChargeTypeEnum getById(String cfgId) {
+		return _mapByCfgId.get(cfgId);
 	}
 	
+	public String getName(){
+		if(StringUtils.equals(cfgId, "2")){
+			return "月卡";
+		}else if(StringUtils.equals(cfgId, "3")){
+			return "至尊终身卡";
+		}
+		return "";
+	}
 }
 

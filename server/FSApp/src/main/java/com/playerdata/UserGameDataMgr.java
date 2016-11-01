@@ -8,9 +8,6 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
-import com.playerdata.activity.retrieve.ActivityRetrieveTypeMgr;
-import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
-import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -90,8 +87,6 @@ public class UserGameDataMgr {
 					userGameData.setLastAddPowerTime(0);
 					userGameDataHolder.flush();
 				}
-				ActivityRetrieveTypeMgr.getInstance().addPowerTime(player);// 刷新下找回功能的体力流失时间
-				return;
 			} else {
 				if (lastTime <= 0) {
 					lastTime = now;
@@ -106,16 +101,9 @@ public class UserGameDataMgr {
 					PowerInfoDataHolder.synPowerInfo(player);
 				} else {
 					long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
-					// if (player.getUserName().equals("HC")) {
-					// System.err.println(hasSeconds);
-					// }
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
+			
 					int tempPower = curPower + addValue;// 临时增加到多少体力
-					if(tempPower > maxPower){//不满的时候下线，登陆是发现补满还有溢出
-						int tmp = tempPower - maxPower;// 流失量
-						UserFeatruesMgr.getInstance().doFinishOfCount(player, UserFeaturesEnum.power, tmp);// 有流失就直接更新活动子项数据
-					
-					}					
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
 						userGameData.setPower(tempPower);
@@ -127,7 +115,6 @@ public class UserGameDataMgr {
 						userGameDataHolder.flush();
 						// TODO 这里调用处需要做支持，检测是否存在这里的属性域，否则是不安全和没有可维护性
 						userGameDataHolder.update(player, "power");
-						ActivityRetrieveTypeMgr.getInstance().freshPowerTime(player);//体力有变化时，刷新下体力的增加时间
 						// TODO HC 把改变数据推送到前台
 						PowerInfoDataHolder.synPowerInfo(player);
 					}
@@ -466,7 +453,7 @@ public class UserGameDataMgr {
 			return 0;
 		return -1;
 	}
-	
+
 	public int getTeamBattleCoin() {
 		return UserTeamBattleDataMgr.getInstance().getTeamBattleCoin(player);
 	}

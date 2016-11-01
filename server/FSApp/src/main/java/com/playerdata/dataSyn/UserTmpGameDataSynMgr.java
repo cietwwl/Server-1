@@ -20,7 +20,10 @@ public class UserTmpGameDataSynMgr {
 		boolean doSyn = false;
 		if (synAll || userTmpGameDataFlag.isSynFightingAll()) {
 			// int fightingAll = player.getHeroMgr().getFightingAll();
-			int fightingAll = player.getHeroMgr().getFightingAll(player);
+//			int fightingAll = player.getHeroMgr().getFightingAll(player);
+			
+			//要求改回五人小组的战力
+			int fightingAll = player.getHeroMgr().getFightingTeam(player);
 
 			userTmpGameData.setFightingAll(fightingAll);
 			doSyn = true;

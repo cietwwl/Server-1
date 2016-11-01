@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.MapAnimationState;
@@ -62,13 +61,10 @@ public class UserGameData implements TableUserOtherIF {
 //	private int starAll; // 英雄的总星星数量
 
 	private UserGameExtendInfo extendInfo;
-	@JsonIgnore
 	private MapAnimationState mapAnimationState;
-	
 	
 	@IgnoreSynField
 	private List<String> randomBossIds = new ArrayList<String>();//角色发现在的随机boss列表，不同步到前端
-	
 	
 	@IgnoreSynField
 	private int randomBossFightCount;//当天随机boss总的战斗次数

@@ -1,6 +1,8 @@
 package com.rw.dataaccess;
 
 import com.common.HPCUtil;
+import com.playerdata.charge.dao.ChargeInfoCreator;
+import com.playerdata.charge.dao.ChargeInfoDao;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.playerdata.teambattle.data.UserTeamBattleDAO;
@@ -108,7 +110,9 @@ public enum DataKVType {
 	// 英雄模块的全局数据
 	USER_HERO_GLOBAL_DATA(33, FSUserHeroGlobalDataDAO.class, FSUserHeroGlobalDataCreator.class),
 	// 点赞的个人数据
-	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class);
+	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class),
+	// 个人充值数据
+	CHARGE_INFO(35, ChargeInfoDao.class, ChargeInfoCreator.class);
 
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;

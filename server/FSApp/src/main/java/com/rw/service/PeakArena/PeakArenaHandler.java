@@ -1185,19 +1185,22 @@ public class PeakArenaHandler {
 			response.setResultTip("数据错误！");
 			return response.build().toByteString();
 		}
-		List<Integer> scoreRewardKeys = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewardTypes(player.getLevel());
-		if (null == scoreRewardKeys || scoreRewardKeys.isEmpty()) {
+//		List<Integer> scoreRewardKeys = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewardTypes(player.getLevel());
+		Map<Integer, ArenaScoreTemplate> rewardTemplateMap = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewards(player.getLevel());
+		if (null == rewardTemplateMap || rewardTemplateMap.isEmpty()) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			response.setResultTip("没有可领取的奖励");
 			return response.build().toByteString();
 		}
 		List<Integer> rewardList = arenaData.getRewardList();
-		for (Integer id : scoreRewardKeys) {
+		for (Iterator<Integer> rewardKeyItr = rewardTemplateMap.keySet().iterator(); rewardKeyItr.hasNext();) {
+			Integer idKey = rewardKeyItr.next();
+			int id = idKey.intValue();
 			if (rewardList.contains(id)) {
 				// 已经领取过
 				continue;
 			}
-			ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
+			ArenaScoreTemplate template = rewardTemplateMap.get(idKey);
 			int score = arenaData.getScore();
 			if (template.getScore() > score) {
 				// 积分不够

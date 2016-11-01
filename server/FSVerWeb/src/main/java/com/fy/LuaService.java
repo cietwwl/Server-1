@@ -9,6 +9,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
@@ -48,12 +49,22 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 			LuaValidateRequest luaValidateRequest = JSONUtil.readValue(jsonString, LuaValidateRequest.class);
 			
 			String channel = luaValidateRequest.getChannel();
+			int type = luaValidateRequest.getType();
+			String cpuType = luaValidateRequest.getCpuType();
+			String deviceModel = luaValidateRequest.getDeviceModel();
+			
+			if (!StringUtils.isBlank(cpuType) && !StringUtils.isBlank(deviceModel)) {
+				boolean bln64 = checkIos32Or64(deviceModel, cpuType);
+				if (!bln64) {
+					channel += "32";
+				}
+			}
 			
 			LuaInfo channelLuaInfo = luaMgr.getChannelLuaInfo(channel);
 			System.out.println("request lua service");
 			LuaValidateResponse luaValidateResponse = new LuaValidateResponse();
 			if(channelLuaInfo != null){
-				int type = luaValidateRequest.getType();
+				
 				System.out.println("request lua service:type:" + type);
 				
 				luaValidateResponse.setResult(true);
@@ -100,5 +111,33 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 
 	public void setLuaMgr(LuaMgr luaMgr) {
 		this.luaMgr = luaMgr;
+	}
+	
+    private final static String PhoneSign = "iPhone";
+    private final static String PadSign = "iPad";
+	
+	private boolean checkIos32Or64(String deviceModel, String cpuType) {
+		if (cpuType.equals("arm64")) {
+			String[] value = deviceModel.split(",");
+			if (value.length != 2) {
+				return false;
+			}
+			String model = value[0];
+			// iPhone
+			if (deviceModel.indexOf(PhoneSign) != -1) {
+				int versionNo = Integer.parseInt(model.replace(PhoneSign, ""));
+				if (versionNo >= 6) {
+					return true;
+				}
+			}
+			// iPad
+			if (deviceModel.indexOf(PadSign) != -1) {
+				int versionNo = Integer.parseInt(model.replace(PadSign, ""));
+				if (versionNo >= 4) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

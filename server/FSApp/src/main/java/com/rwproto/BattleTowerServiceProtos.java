@@ -11081,6 +11081,24 @@ public final class BattleTowerServiceProtos {
      */
     com.rwproto.BattleTowerServiceProtos.BossInfoMsgOrBuilder getBossInfoMsgOrBuilder(
         int index);
+
+    // required fixed32 totalNeedSeconds = 2;
+    /**
+     * <code>required fixed32 totalNeedSeconds = 2;</code>
+     *
+     * <pre>
+     * 扫荡需要的总秒数
+     * </pre>
+     */
+    boolean hasTotalNeedSeconds();
+    /**
+     * <code>required fixed32 totalNeedSeconds = 2;</code>
+     *
+     * <pre>
+     * 扫荡需要的总秒数
+     * </pre>
+     */
+    int getTotalNeedSeconds();
   }
   /**
    * Protobuf type {@code SweepStartRspMsg}
@@ -11145,6 +11163,11 @@ public final class BattleTowerServiceProtos {
               bossInfoMsg_.add(input.readMessage(com.rwproto.BattleTowerServiceProtos.BossInfoMsg.PARSER, extensionRegistry));
               break;
             }
+            case 21: {
+              bitField0_ |= 0x00000001;
+              totalNeedSeconds_ = input.readFixed32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -11187,6 +11210,7 @@ public final class BattleTowerServiceProtos {
       return PARSER;
     }
 
+    private int bitField0_;
     // repeated .BossInfoMsg bossInfoMsg = 1;
     public static final int BOSSINFOMSG_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.BattleTowerServiceProtos.BossInfoMsg> bossInfoMsg_;
@@ -11243,14 +11267,43 @@ public final class BattleTowerServiceProtos {
       return bossInfoMsg_.get(index);
     }
 
+    // required fixed32 totalNeedSeconds = 2;
+    public static final int TOTALNEEDSECONDS_FIELD_NUMBER = 2;
+    private int totalNeedSeconds_;
+    /**
+     * <code>required fixed32 totalNeedSeconds = 2;</code>
+     *
+     * <pre>
+     * 扫荡需要的总秒数
+     * </pre>
+     */
+    public boolean hasTotalNeedSeconds() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required fixed32 totalNeedSeconds = 2;</code>
+     *
+     * <pre>
+     * 扫荡需要的总秒数
+     * </pre>
+     */
+    public int getTotalNeedSeconds() {
+      return totalNeedSeconds_;
+    }
+
     private void initFields() {
       bossInfoMsg_ = java.util.Collections.emptyList();
+      totalNeedSeconds_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
+      if (!hasTotalNeedSeconds()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getBossInfoMsgCount(); i++) {
         if (!getBossInfoMsg(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -11267,6 +11320,9 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < bossInfoMsg_.size(); i++) {
         output.writeMessage(1, bossInfoMsg_.get(i));
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFixed32(2, totalNeedSeconds_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -11279,6 +11335,10 @@ public final class BattleTowerServiceProtos {
       for (int i = 0; i < bossInfoMsg_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, bossInfoMsg_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(2, totalNeedSeconds_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -11407,6 +11467,8 @@ public final class BattleTowerServiceProtos {
         } else {
           bossInfoMsgBuilder_.clear();
         }
+        totalNeedSeconds_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -11434,6 +11496,7 @@ public final class BattleTowerServiceProtos {
       public com.rwproto.BattleTowerServiceProtos.SweepStartRspMsg buildPartial() {
         com.rwproto.BattleTowerServiceProtos.SweepStartRspMsg result = new com.rwproto.BattleTowerServiceProtos.SweepStartRspMsg(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (bossInfoMsgBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
             bossInfoMsg_ = java.util.Collections.unmodifiableList(bossInfoMsg_);
@@ -11443,6 +11506,11 @@ public final class BattleTowerServiceProtos {
         } else {
           result.bossInfoMsg_ = bossInfoMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.totalNeedSeconds_ = totalNeedSeconds_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -11484,11 +11552,18 @@ public final class BattleTowerServiceProtos {
             }
           }
         }
+        if (other.hasTotalNeedSeconds()) {
+          setTotalNeedSeconds(other.getTotalNeedSeconds());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
+        if (!hasTotalNeedSeconds()) {
+          
+          return false;
+        }
         for (int i = 0; i < getBossInfoMsgCount(); i++) {
           if (!getBossInfoMsg(i).isInitialized()) {
             
@@ -11827,6 +11902,55 @@ public final class BattleTowerServiceProtos {
           bossInfoMsg_ = null;
         }
         return bossInfoMsgBuilder_;
+      }
+
+      // required fixed32 totalNeedSeconds = 2;
+      private int totalNeedSeconds_ ;
+      /**
+       * <code>required fixed32 totalNeedSeconds = 2;</code>
+       *
+       * <pre>
+       * 扫荡需要的总秒数
+       * </pre>
+       */
+      public boolean hasTotalNeedSeconds() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required fixed32 totalNeedSeconds = 2;</code>
+       *
+       * <pre>
+       * 扫荡需要的总秒数
+       * </pre>
+       */
+      public int getTotalNeedSeconds() {
+        return totalNeedSeconds_;
+      }
+      /**
+       * <code>required fixed32 totalNeedSeconds = 2;</code>
+       *
+       * <pre>
+       * 扫荡需要的总秒数
+       * </pre>
+       */
+      public Builder setTotalNeedSeconds(int value) {
+        bitField0_ |= 0x00000002;
+        totalNeedSeconds_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required fixed32 totalNeedSeconds = 2;</code>
+       *
+       * <pre>
+       * 扫荡需要的总秒数
+       * </pre>
+       */
+      public Builder clearTotalNeedSeconds() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        totalNeedSeconds_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:SweepStartRspMsg)
@@ -25764,52 +25888,53 @@ public final class BattleTowerServiceProtos {
       "\003(\0132\023.RankingRoleInfoMsg\"W\n\025OpenTryLuckV" +
       "iewRspMsg\022\024\n\014copperKeyNum\030\001 \002(\005\022\024\n\014silve",
       "rKeyNum\030\002 \002(\005\022\022\n\ngoldKeyNum\030\003 \002(\005\"!\n\020Swe" +
-      "epStartReqMsg\022\r\n\005floor\030\001 \002(\005\"5\n\020SweepSta" +
+      "epStartReqMsg\022\r\n\005floor\030\001 \002(\005\"O\n\020SweepSta" +
       "rtRspMsg\022!\n\013bossInfoMsg\030\001 \003(\0132\014.BossInfo" +
-      "Msg\"7\n\016SweepEndRspMsg\022%\n\rrewardInfoMsg\030\001" +
-      " \003(\0132\016.RewardInfoMsg\"?\n\021UseLuckyKeyReqMs" +
-      "g\022\032\n\007keyType\030\001 \002(\0162\t.EKeyType\022\016\n\006useNum\030" +
-      "\002 \002(\005\":\n\021UseLuckyKeyRspMsg\022%\n\rrewardInfo" +
-      "Msg\030\001 \003(\0132\016.RewardInfoMsg\"5\n\024ChallengeSt" +
-      "artReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n\006copyId\030\002 \001(\005" +
-      "\"&\n\024ChallengeStartRspMsg\022\016\n\006copyId\030\001 \001(\005",
-      "\"d\n\022ChallengeEndReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n" +
-      "\006result\030\002 \002(\010\022/\n\022rankingHeroInfoMsg\030\003 \003(" +
-      "\0132\023.RankingHeroInfoMsg\"n\n\022ChallengeEndRs" +
-      "pMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardInfo" +
-      "Msg\022!\n\013bossInfoMsg\030\002 \003(\0132\014.BossInfoMsg\022\016" +
-      "\n\006copyId\030\003 \001(\005\"*\n\030ChallengeBossStartReqM" +
-      "sg\022\016\n\006bossId\030\001 \002(\005\"8\n\026ChallengeBossEndRe" +
-      "qMsg\022\016\n\006bossId\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\"?\n\026" +
-      "ChallengeBossEndRspMsg\022%\n\rrewardInfoMsg\030" +
-      "\001 \003(\0132\016.RewardInfoMsg\"T\n\021OverFriendInfoM",
-      "sg\022\020\n\010headIcon\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\014\n\004n" +
-      "ame\030\003 \002(\t\022\020\n\010floorGap\030\004 \002(\005\"]\n\013BossInfoM" +
-      "sg\022\016\n\006bossId\030\001 \002(\005\022\021\n\tbossCfgId\030\002 \002(\005\022\026\n" +
-      "\016bossRemainTime\030\003 \002(\003\022\023\n\013bossInFloor\030\004 \001" +
-      "(\005\",\n\rRewardInfoMsg\022\014\n\004type\030\001 \002(\005\022\r\n\005cou" +
-      "nt\030\002 \002(\005\"\215\002\n\022RankingRoleInfoMsg\022\021\n\trankI" +
-      "ndex\030\001 \001(\005\022\014\n\004name\030\002 \002(\t\022\020\n\010headIcon\030\003 \002" +
-      "(\t\022\024\n\014highestFloor\030\004 \001(\005\022\r\n\005level\030\005 \002(\005\022" +
-      "\021\n\tmagicIcon\030\006 \002(\t\022/\n\022rankingHeroInfoMsg" +
-      "\030\007 \003(\0132\023.RankingHeroInfoMsg\022\020\n\010isMyself\030",
-      "\010 \001(\010\022\021\n\theadFrame\030\t \001(\t\022\017\n\007starNum\030\n \001(" +
-      "\005\022\022\n\nmagicLevel\030\013 \001(\005\022\021\n\tqualityId\030\014 \001(\t" +
-      "\"\216\001\n\022RankingHeroInfoMsg\022\016\n\006heroId\030\001 \002(\t\022" +
-      "\017\n\007starNum\030\002 \001(\005\022\017\n\007quality\030\003 \001(\005\022\r\n\005lev" +
-      "el\030\004 \001(\005\022\022\n\nisMainRole\030\005 \001(\010\022\020\n\010heroUUID" +
-      "\030\006 \001(\t\022\021\n\tqualityId\030\014 \001(\t*\256\002\n\014ERequestTy" +
-      "pe\022\022\n\016OPEN_MAIN_VIEW\020\001\022\027\n\023OPEN_CHALLENGE" +
-      "_VIEW\020\002\022\030\n\024GET_FRIEND_RANK_LIST\020\003\022\025\n\021GET" +
-      "_STRATEGY_LIST\020\004\022\026\n\022OPEN_TRY_LUCK_VIEW\020\005" +
-      "\022\017\n\013SWEEP_START\020\006\022\r\n\tSWEEP_END\020\007\022\021\n\rUSE_",
-      "LUCKY_KEY\020\010\022\033\n\027RESET_BATTLE_TOWER_DATA\020\t" +
-      "\022\023\n\017CHALLENGE_START\020\n\022\021\n\rCHALLENGE_END\020\013" +
-      "\022\030\n\024CHALLENGE_BOSS_START\020\014\022\026\n\022CHALLENGE_" +
-      "BOSS_END\020\r*.\n\016EResponseState\022\016\n\nRSP_SUCE" +
-      "SS\020\001\022\014\n\010RSP_FAIL\020\002*8\n\010EKeyType\022\016\n\nKEY_CO" +
-      "PPER\020\001\022\016\n\nKEY_SILVER\020\002\022\014\n\010KEY_GOLD\020\003B\'\n\013" +
-      "com.rwprotoB\030BattleTowerServiceProtos"
+      "Msg\022\030\n\020totalNeedSeconds\030\002 \002(\007\"7\n\016SweepEn" +
+      "dRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.RewardI" +
+      "nfoMsg\"?\n\021UseLuckyKeyReqMsg\022\032\n\007keyType\030\001" +
+      " \002(\0162\t.EKeyType\022\016\n\006useNum\030\002 \002(\005\":\n\021UseLu" +
+      "ckyKeyRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.Re" +
+      "wardInfoMsg\"5\n\024ChallengeStartReqMsg\022\r\n\005f" +
+      "loor\030\001 \002(\005\022\016\n\006copyId\030\002 \001(\005\"&\n\024ChallengeS",
+      "tartRspMsg\022\016\n\006copyId\030\001 \001(\005\"d\n\022ChallengeE" +
+      "ndReqMsg\022\r\n\005floor\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\022" +
+      "/\n\022rankingHeroInfoMsg\030\003 \003(\0132\023.RankingHer" +
+      "oInfoMsg\"n\n\022ChallengeEndRspMsg\022%\n\rreward" +
+      "InfoMsg\030\001 \003(\0132\016.RewardInfoMsg\022!\n\013bossInf" +
+      "oMsg\030\002 \003(\0132\014.BossInfoMsg\022\016\n\006copyId\030\003 \001(\005" +
+      "\"*\n\030ChallengeBossStartReqMsg\022\016\n\006bossId\030\001" +
+      " \002(\005\"8\n\026ChallengeBossEndReqMsg\022\016\n\006bossId" +
+      "\030\001 \002(\005\022\016\n\006result\030\002 \002(\010\"?\n\026ChallengeBossE" +
+      "ndRspMsg\022%\n\rrewardInfoMsg\030\001 \003(\0132\016.Reward",
+      "InfoMsg\"T\n\021OverFriendInfoMsg\022\020\n\010headIcon" +
+      "\030\001 \002(\t\022\r\n\005level\030\002 \002(\005\022\014\n\004name\030\003 \002(\t\022\020\n\010f" +
+      "loorGap\030\004 \002(\005\"]\n\013BossInfoMsg\022\016\n\006bossId\030\001" +
+      " \002(\005\022\021\n\tbossCfgId\030\002 \002(\005\022\026\n\016bossRemainTim" +
+      "e\030\003 \002(\003\022\023\n\013bossInFloor\030\004 \001(\005\",\n\rRewardIn" +
+      "foMsg\022\014\n\004type\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"\215\002\n\022R" +
+      "ankingRoleInfoMsg\022\021\n\trankIndex\030\001 \001(\005\022\014\n\004" +
+      "name\030\002 \002(\t\022\020\n\010headIcon\030\003 \002(\t\022\024\n\014highestF" +
+      "loor\030\004 \001(\005\022\r\n\005level\030\005 \002(\005\022\021\n\tmagicIcon\030\006" +
+      " \002(\t\022/\n\022rankingHeroInfoMsg\030\007 \003(\0132\023.Ranki",
+      "ngHeroInfoMsg\022\020\n\010isMyself\030\010 \001(\010\022\021\n\theadF" +
+      "rame\030\t \001(\t\022\017\n\007starNum\030\n \001(\005\022\022\n\nmagicLeve" +
+      "l\030\013 \001(\005\022\021\n\tqualityId\030\014 \001(\t\"\216\001\n\022RankingHe" +
+      "roInfoMsg\022\016\n\006heroId\030\001 \002(\t\022\017\n\007starNum\030\002 \001" +
+      "(\005\022\017\n\007quality\030\003 \001(\005\022\r\n\005level\030\004 \001(\005\022\022\n\nis" +
+      "MainRole\030\005 \001(\010\022\020\n\010heroUUID\030\006 \001(\t\022\021\n\tqual" +
+      "ityId\030\014 \001(\t*\256\002\n\014ERequestType\022\022\n\016OPEN_MAI" +
+      "N_VIEW\020\001\022\027\n\023OPEN_CHALLENGE_VIEW\020\002\022\030\n\024GET" +
+      "_FRIEND_RANK_LIST\020\003\022\025\n\021GET_STRATEGY_LIST" +
+      "\020\004\022\026\n\022OPEN_TRY_LUCK_VIEW\020\005\022\017\n\013SWEEP_STAR",
+      "T\020\006\022\r\n\tSWEEP_END\020\007\022\021\n\rUSE_LUCKY_KEY\020\010\022\033\n" +
+      "\027RESET_BATTLE_TOWER_DATA\020\t\022\023\n\017CHALLENGE_" +
+      "START\020\n\022\021\n\rCHALLENGE_END\020\013\022\030\n\024CHALLENGE_" +
+      "BOSS_START\020\014\022\026\n\022CHALLENGE_BOSS_END\020\r*.\n\016" +
+      "EResponseState\022\016\n\nRSP_SUCESS\020\001\022\014\n\010RSP_FA" +
+      "IL\020\002*8\n\010EKeyType\022\016\n\nKEY_COPPER\020\001\022\016\n\nKEY_" +
+      "SILVER\020\002\022\014\n\010KEY_GOLD\020\003B\'\n\013com.rwprotoB\030B" +
+      "attleTowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -25893,7 +26018,7 @@ public final class BattleTowerServiceProtos {
           internal_static_SweepStartRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_SweepStartRspMsg_descriptor,
-              new java.lang.String[] { "BossInfoMsg", });
+              new java.lang.String[] { "BossInfoMsg", "TotalNeedSeconds", });
           internal_static_SweepEndRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(13);
           internal_static_SweepEndRspMsg_fieldAccessorTable = new

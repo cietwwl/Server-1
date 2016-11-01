@@ -127,6 +127,8 @@ public class GmUtils {
 						if (def == eSpecialItemId.eSpecial_End) {
 							return false;
 						}
+					}else if(ItemCfgHelper.isFashionSpecialItem(itemCode)){
+						return true;
 					} else {
 						ItemBaseCfg itemBaseCfg = ItemCfgHelper
 								.GetConfig(itemCode);

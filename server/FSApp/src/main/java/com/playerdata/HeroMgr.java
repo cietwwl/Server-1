@@ -732,5 +732,5 @@ public interface HeroMgr {
 	 * 
 	 * @param userId
 	 */
-	public void updateFightingTeamWhenEmBattleChange(String userId);
+	public void updateFightingTeamWhenEmBattleChange(Player player);
 }
