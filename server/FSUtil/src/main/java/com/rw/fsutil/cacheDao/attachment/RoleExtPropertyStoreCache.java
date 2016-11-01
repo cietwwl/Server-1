@@ -45,11 +45,11 @@ public class RoleExtPropertyStoreCache<T extends RoleExtProperty> implements Map
 		this.type = type;
 		this.entityClass = entityClass;
 		this.clasInfo = new ClassInfo(entityClass, ClassHelper.getFirstAnnotateFieldName(entityClass, OwnerId.class));
-		NameFilterIntrospector nameFilter = new NameFilterIntrospector(clasInfo.getPrimaryKey(),clasInfo.getOwnerFieldName());
-		this.mapper.setAnnotationIntrospector(nameFilter); 
+		NameFilterIntrospector nameFilter = new NameFilterIntrospector(entityClass,clasInfo.getPrimaryKey(), clasInfo.getOwnerFieldName());
+		this.mapper.setAnnotationIntrospector(nameFilter);
 		this.dataAccessManager = extPropertyManager;
 		DataValueParser<T> parser = DataCacheFactory.getParser(entityClass);
-//		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
+		// this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, null, null);
 		this.cache = DataCacheFactory.createMapItemDache(entityClass, cacheName, capacity, 60, loader, null, parser != null ? new RoleExtConvertor<T>(parser) : null, RoleExtChangedListener.class);
 
 	}

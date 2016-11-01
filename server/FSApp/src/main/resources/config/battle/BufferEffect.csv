@@ -104,7 +104,6 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 200002032,,200002032,,,,,,,,,
 203003011,,203003011,,,,,500001_loop,bind_hp,,,
 500003031,,500003031,,,,,,,,,
-500003091,,500003091,,,,,,,fx_202002_skill02_hit,hit,0.8
 203011011,,203011011,,,,,fx_203011_skill01_buff,bind_root,,,1
 203011012,,203011012,生命,,,,,,,,
 203011013,,203011013,,,,,,,,,
@@ -126,6 +125,7 @@ key,Remarks,Id,Name,PreEffectId,PreBindPoint,PreDuration,LoopEffectId,LoopBindPo
 200012011,,200012011,,,,1.1,,,,,
 200012021,,200012021,,,,,fx_200012_skill02_hit_end,bind_root,,,
 200012022,,200012022,,,,,,,,,
+200012031,,200012031,,,,,,,fx_202002_skill02_hit,hit,0.8
 202002021,,202002021,灼烧,,,,500004_loop,hit,,,
 202002022,,202002022,,,,,,,,,
 202002031,,202002031,,,,,,,fx_202002_skill02_hit,hit,0.8

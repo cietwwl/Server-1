@@ -23,11 +23,13 @@ public abstract class QueuedTaskExecutor<K, E> {
 	private final EngineLogger logger;
 	private final ConcurrentHashMap<K, TaskQueue> map;
 	private final Executor executor;
+	private final int paramReuseTimes;	//参数重用次数，避免每次都去动态获取
 
 	public QueuedTaskExecutor(int threadSize, EngineLogger logger, Executor executor) {
 		this.logger = logger;
 		this.map = new ConcurrentHashMap<K, TaskQueue>(threadSize, 0.5f, threadSize);
 		this.executor = executor;
+		this.paramReuseTimes = 16;
 	}
 
 	/**
@@ -120,7 +122,7 @@ public abstract class QueuedTaskExecutor<K, E> {
 					}
 				}
 			} catch (Throwable t) {
-				logger.error("raised an exception cause by fetch task again,size=" + size, t);
+				logger.error("raised an exception caused by fetch task again,size=" + size, t);
 			}
 			return null;
 		}
@@ -129,12 +131,13 @@ public abstract class QueuedTaskExecutor<K, E> {
 		public void run() {
 			TaskDecoration taskDecoratioin;
 			E param = null;
+			int loopTimes = 0;
 			for (;;) {
 				synchronized (this) {
 					try {
 						taskDecoratioin = taskQueue.poll();
 					} catch (Throwable t) {
-						logger.error("raised an exception cause by fetch task", t);
+						logger.error("raised an exception caused by fetch task", t);
 						taskDecoratioin = safeExtractTask();
 					}
 					if (taskDecoratioin == null) {
@@ -148,13 +151,23 @@ public abstract class QueuedTaskExecutor<K, E> {
 					if (preTask != null) {
 						preTask.run(key);
 					}
+					ParametricTask<E> task = taskDecoratioin.getTask();
+					if (task == null) {
+						// 只执行前置任务的情况，不会执行通知
+						continue;
+					}
 					// 若为null，每次都会去尝试获取一次
 					if (param == null) {
 						param = tryFetchParam(key);
 					}
-					taskDecoratioin.getTask().run(param);
+					task.run(param);
 					// 通知监听玩家任务
 					afterExecute(key, param);
+					// 一定次数重置参数
+					if (param != null && ++loopTimes >= paramReuseTimes) {
+						loopTimes = 0;
+						param = null;
+					}
 				} catch (Throwable t) {
 					t.printStackTrace();
 					logger.error("A task raised an exception", t);

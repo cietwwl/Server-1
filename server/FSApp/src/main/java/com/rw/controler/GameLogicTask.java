@@ -1,7 +1,6 @@
 package com.rw.controler;
 
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
@@ -16,9 +15,10 @@ import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
+import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
-import com.rw.netty.UserSession;
 import com.rw.service.FsService;
 import com.rw.service.common.FunctionOpenLogic;
 import com.rw.service.log.behavior.GameBehaviorMgr;
@@ -35,18 +35,17 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.PlotViewProtos.PlotProgress;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.RequestProtos.RequestHeader;
-import com.rwproto.ResponseProtos.Response;
 
 public class GameLogicTask implements PlayerTask {
 
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private final Request request;
-	private final UserSession session;
+	private final Long sessionId;
 	private final long submitTime;
 
-	public GameLogicTask(UserSession session, Request request) {
+	public GameLogicTask(Long sessionId, Request request) {
 		this.request = request;
-		this.session = session;
+		this.sessionId = sessionId;
 		this.submitTime = System.currentTimeMillis();
 	}
 
@@ -56,35 +55,31 @@ public class GameLogicTask implements PlayerTask {
 		String userId = null;
 		RequestHeader header = request.getHeader();
 		final int seqID = header.getSeqID();
-		long sessionId = session.getSessionId();
 		final Command command = header.getCommand();
 		final long executeTime = System.currentTimeMillis();
 		ProtocolMessageEnum msgType = null;
 		ByteString synData = null;// 同步数据
 		try {
-//			FSTraceLogger.logger("run", executeTime - submitTime, command, seqID, player != null ? player.getUserId() : null);
+			if (!ServerHandler.isConnecting(sessionId)) {
+				FSTraceLogger.logger("disconnect_", executeTime - submitTime, command, null, seqID, player != null ? player.getUserId() : null);
+				return;
+			}
 			FSTraceLogger.logger("run", executeTime - submitTime, command, null, seqID, player != null ? player.getUserId() : null);
 			// plyaer为null不敢做过滤
 			if (player != null) {
 				UserDataMgr userDataMgr = player.getUserDataMgr();
 				userDataMgr.setEntranceId(request.getHeader().getEntranceId());
 				userId = player.getUserId();
-				ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-				if (ctx == null) {
-					return;
-				}
-				if (sessionId != UserChannelMgr.getUserSessionId(ctx)) {
-					return;
-				}
+
 				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(player.getUserDataMgr().getZoneId());
 				if (zone == null || (zone.getEnabled() != 1)) {
-					UserChannelMgr.sendResponse(userId, request.getHeader(), null, 600, ctx);
+					UserChannelMgr.sendSyncResponse(userId, request.getHeader(), null, 600, sessionId, null);
 					return;
 				}
-				Response response = UserChannelMgr.getResponse(userId, seqID);
+				ByteString response = UserChannelMgr.getResponse(userId, seqID);
 				if (response != null) {
-					System.err.println("send reconnect:" + UserChannelMgr.getCtxInfo(ctx));
-					UserChannelMgr.sendResponse(request.getHeader(), response.getSerializedContent(), UserChannelMgr.get(userId));
+					System.err.println("send reconnect:" + ServerHandler.getCtxInfo(sessionId));
+					UserChannelMgr.sendSyncResponse(request.getHeader(), response, sessionId);
 					return;
 				}
 				handleGuildance(header, userId);
@@ -97,7 +92,7 @@ public class GameLogicTask implements PlayerTask {
 					proceeMsgRequestException(player, userId, "command获取不到对应的service. command:" + command, command, executeTime, seqID);
 					return;
 				}
-				
+
 				GeneratedMessage msg = serivice.parseMsg(request);
 				if (msg == null) {
 					proceeMsgRequestException(player, userId, "command对应的request解析消息出错。 command:" + command, command,
@@ -121,6 +116,7 @@ public class GameLogicTask implements PlayerTask {
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				synData = UserChannelMgr.getDataOnBSEnd(userId);
+				DataEventRecorder.endAndPollCollections();
 				// UserChannelMgr.synDataOnBSEnd(userId);
 			}
 		} catch (Throwable t) {
@@ -129,7 +125,7 @@ public class GameLogicTask implements PlayerTask {
 			FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 			return;
 		}
-		ChannelFuture future = UserChannelMgr.sendResponse(userId, header, resultContent, sessionId, synData);
+		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, resultContent, sessionId, synData);
 		if (future == null) {
 			FSTraceLogger.logger("send fail", 0, command, null, seqID, player != null ? player.getUserId() : null);
 		} else {
@@ -162,7 +158,7 @@ public class GameLogicTask implements PlayerTask {
 		if (msgType != null) {
 			String value = String.valueOf(msgType.getNumber());
 			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
-		}else{
+		} else {
 			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
 		}
 	}

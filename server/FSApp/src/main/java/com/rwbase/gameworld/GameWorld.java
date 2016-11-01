@@ -1,5 +1,6 @@
 package com.rwbase.gameworld;
 
+import com.playerdata.Player;
 import com.rw.fsutil.common.TaskExceptionHandler;
 import com.rwbase.common.PlayerTaskListener;
 
@@ -29,6 +30,15 @@ public interface GameWorld {
 	 */
 	public void asyncExecute(String userId, PlayerPredecessor predecessor, PlayerTask task);
 
+	/**
+	 * <pre>
+	 * 异步执行玩家前置任务，可用于执行一个不需要不需要{@link Player}对象的任务
+	 * </pre>
+	 * @param userId
+	 * @param predecessor
+	 */
+	public void asyncExecute(String userId, PlayerPredecessor predecessor);
+	
 	/**
 	 * <pre>
 	 * 异步执行指定主键的任务

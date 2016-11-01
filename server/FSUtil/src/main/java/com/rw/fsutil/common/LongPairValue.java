@@ -6,14 +6,18 @@ package com.rw.fsutil.common;
  *
  * @param <T>
  */
-public class LongPair<T> {
+public class LongPairValue<T> {
 
 	public final long value;
 	public final T t;
 
-	public LongPair(T t, long value) {
+	public LongPairValue(T t, long value) {
 		this.value = value;
 		this.t = t;
 	}
-	
+
+	public T getT() {
+		return t;
+	}
+
 }

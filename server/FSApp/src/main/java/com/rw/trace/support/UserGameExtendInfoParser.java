@@ -48,7 +48,7 @@ public class UserGameExtendInfoParser implements DataValueParser<UserGameExtendI
 
     @Override
     public JSONObject toJson(UserGameExtendInfo entity) {
-        JSONObject json = new JSONObject(2);
+        JSONObject json = new JSONObject(3);
         json.put("sendGold", entity.getSendGold());
         json.put("chargedGold", entity.getChargedGold());
         return json;

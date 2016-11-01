@@ -5,6 +5,8 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.controler.PlayerMsgCache;
-import com.rw.fsutil.common.FastPair;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.dao.cache.SimpleCache;
 import com.rw.fsutil.util.DateUtils;
 import com.rwproto.MsgDef.Command;
@@ -36,7 +38,7 @@ public class UserChannelMgr {
 
 	// 容量需要做成配置
 	private static SimpleCache<String, PlayerMsgCache> msgCache;
-	private static ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
+	private static ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat;
 
 	static {
 		USER_ID = AttributeKey.valueOf("userId");
@@ -45,7 +47,7 @@ public class UserChannelMgr {
 		seesionIdGenerator = new AtomicLong();
 		msgHoldMillis = TimeUnit.MINUTES.toMillis(10);
 		msgCache = new SimpleCache<String, PlayerMsgCache>(2000);
-		purgeStat = new ConcurrentHashMap<Command, FastPair<Command, AtomicLong>>();
+		purgeStat = new ConcurrentHashMap<Command, PairValue<Command, AtomicLong>>();
 		CLOSE_SESSION = new UserSession("close", 0);
 	}
 
@@ -259,9 +261,16 @@ public class UserChannelMgr {
 		}
 		if (sendMsg) {
 			ChannelFuture future = ctx.channel().writeAndFlush(result);
-			PlatformLog.debug("#发送消息" + "  "
-					+ result.getHeader().getCommand().toString() + "  size:"
-					+ result.getSerializedContent().size());
+			final Command cmd = result.getHeader().getCommand();
+			final int size = result.getSerializedContent().size();
+			final int seqId = result.getHeader().getSeqID();
+			future.addListener(new GenericFutureListener<Future<Void>>() {
+
+				@Override
+				public void operationComplete(Future<Void> future) throws Exception {
+					PlatformLog.debug("#发送消息:" + cmd + ",size=" + size + ",seqId=" + seqId + "," + future.isSuccess());
+				}
+			});
 			return future;
 		} else {
 			return null;
@@ -351,7 +360,7 @@ public class UserChannelMgr {
 			return "[exception]";
 		}
 	}
-	
+
 	public static void purgeMsgRecord() {
 		long purgeTime = DateUtils.getSecondLevelMillis() - msgHoldMillis;
 		List<PlayerMsgCache> msgCaches = msgCache.values();

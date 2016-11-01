@@ -27,6 +27,7 @@ import com.rwbase.common.attribute.calc.HeroGemAttrCalc;
 import com.rwbase.common.attribute.calc.HeroGroupSkillAttrCalc;
 import com.rwbase.common.attribute.calc.HeroMagicAttrCalc;
 import com.rwbase.common.attribute.calc.HeroSkillAttrCalc;
+import com.rwbase.common.attribute.calc.HeroSpriteAttachAttrCalc;
 import com.rwbase.common.attribute.calc.HeroTaoistAttrCalc;
 import com.rwbase.common.attribute.component.HeroBaseAttributeComponent;
 import com.rwbase.common.attribute.component.HeroEquipAttributeComponent;
@@ -38,6 +39,7 @@ import com.rwbase.common.attribute.component.HeroGroupSkillAttributeComponent;
 import com.rwbase.common.attribute.component.HeroMagicAttributeComponent;
 import com.rwbase.common.attribute.component.HeroMagicEquipFetterAttriComponent;
 import com.rwbase.common.attribute.component.HeroSkillAttributeComponent;
+import com.rwbase.common.attribute.component.HeroSpriteAttachAttributeComponent;
 import com.rwbase.common.attribute.component.HeroTaoistAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotBaseAttributeComponent;
 import com.rwbase.common.attribute.component.robot.RobotEquipAttributeComponent;
@@ -88,6 +90,7 @@ public class AttributeBM {
 		componentList.add(new HeroExtraAttributeComponent());
 		componentList.add(new HeroMagicEquipFetterAttriComponent());
 		componentList.add(new FSUserFightingGrowthTitleAttributeComponent()); // 战力成长称号属性计算
+		componentList.add(new HeroSpriteAttachAttributeComponent());
 
 		// 属性计算类初始化
 		IComponentCalc heroBaseAttrCalc = new HeroBaseAttrCalc();
@@ -103,6 +106,7 @@ public class AttributeBM {
 		IComponentCalc heroGroupSkillAttrCalc = new HeroGroupSkillAttrCalc();
 		IComponentCalc heroTaoistAttrCalc = new HeroTaoistAttrCalc();
 		IComponentCalc MagicEquipAttrCac = new MagicEquipFetterAttrCal();
+		IComponentCalc heroSpriteAttachAttrCalc = new HeroSpriteAttachAttrCalc();
 
 		calcMap.put(heroBaseAttrCalc.getComponentTypeEnum(), heroBaseAttrCalc);
 		calcMap.put(heroEquipAttrCalc.getComponentTypeEnum(), heroEquipAttrCalc);
@@ -117,6 +121,7 @@ public class AttributeBM {
 		calcMap.put(heroGroupSkillAttrCalc.getComponentTypeEnum(), heroGroupSkillAttrCalc);
 		calcMap.put(heroTaoistAttrCalc.getComponentTypeEnum(), heroTaoistAttrCalc);
 		calcMap.put(MagicEquipAttrCac.getComponentTypeEnum(), MagicEquipAttrCac);
+		calcMap.put(heroSpriteAttachAttrCalc.getComponentTypeEnum(), heroSpriteAttachAttrCalc);
 	}
 
 	/**
@@ -246,5 +251,22 @@ public class AttributeBM {
 		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);
 		attributeCalculator.updateAttribute();
 		return attributeCalculator.getResult();
+	}
+
+	/**
+	 * 获取机器人的基础属性
+	 * 
+	 * @param userId
+	 * @param heroInfo
+	 * @param teamInfo
+	 * @return
+	 */
+	public static AttrData getRobotBaseAttrData(String userId, HeroInfo heroInfo, TeamInfo teamInfo) {
+		List<IAttributeComponent> componentList = new ArrayList<IAttributeComponent>();
+		componentList.add(new RobotBaseAttributeComponent(heroInfo));
+
+		AttributeCalculator<AttrData> attributeCalculator = new AttributeCalculator<AttrData>(userId, heroInfo.getBaseInfo().getTmpId(), componentList, attributeFormula);
+		attributeCalculator.updateAttribute();
+		return attributeCalculator.getBaseResult();
 	}
 }

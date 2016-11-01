@@ -1,7 +1,5 @@
 package com.playerdata.groupcompetition.prepare;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -294,8 +292,7 @@ public class PrepareAreaMgr {
 		long sceneId = groupScene.get(groupId);
 		List<String> usersInScene = SameSceneContainer.getInstance().getAllSceneUser(sceneId);
 		for(String userId : usersInScene){
-			ChannelHandlerContext ctx = UserChannelMgr.get(userId);
-			if (ctx != null) {
+			if (UserChannelMgr.isConnecting(userId)) {
 				onlineUsers.add(userId);
 			}
 		}

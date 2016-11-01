@@ -20,6 +20,7 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.friend.datamodel.RecommandCfgDAO;
 import com.rw.service.friend.datamodel.RecommandConditionCfg;
@@ -37,7 +38,6 @@ import com.rwproto.FriendServiceProtos.EFriendResultType;
 import com.rwproto.FriendServiceProtos.FriendInfo;
 import com.rwproto.FriendServiceProtos.FriendRequest;
 import com.rwproto.FriendServiceProtos.FriendResponse;
-import com.rwproto.GiftCodeProto.ResultType;
 import com.rwproto.MsgDef.Command;
 
 /** 好友通迅类 */
@@ -147,49 +147,51 @@ public class FriendHandler {
 			return dis < 0 ? -1 : 1;
 		}
 	};
-	
-	/**开启模块第一次进入推荐界面时，推荐一个机器人给用户；并且会在推荐表里存入记录；
-	 * 再次进入界面时如果表有记录，则不再触发；按原来逻辑走排行榜取用户推荐
+
+	/**
+	 * 开启模块第一次进入推荐界面时，推荐一个机器人给用户；并且会在推荐表里存入记录； 再次进入界面时如果表有记录，则不再触发；按原来逻辑走排行榜取用户推荐
+	 * 
 	 * @param player
 	 * @return
 	 */
 	private List<FriendInfo> recommandFriends(Player player) {
 		TableFriend tableFriend = player.getFriendMgr().getTableFriend();
-		if(tableFriend.getReCommandfriendList().isEmpty()){//新手引导部分;取机器人	
+		if (tableFriend.getReCommandfriendList().isEmpty()) {// 新手引导部分;取机器人
 			List<FriendInfo> friendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();
-			friendInfoList =  reCommandRobot(player,tableFriend,RankType.LEVEL_ROBOT,false);//一个机器人，强制点
+			friendInfoList = reCommandRobot(player, tableFriend, RankType.LEVEL_ROBOT, false);// 一个机器人，强制点
 			updataRobotLoginTime(friendInfoList);
-			List<FriendInfo> realFriendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();	
-			realFriendInfoList = erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//一群真实用户
+			List<FriendInfo> realFriendInfoList = new ArrayList<FriendServiceProtos.FriendInfo>();
+			realFriendInfoList = erecommandFriends(player, tableFriend, RankType.LEVEL_PLAYER, true);// 一群真实用户
 			int size = realFriendInfoList.size();
 			int i = 0;
-			for(FriendInfo info : realFriendInfoList){
+			for (FriendInfo info : realFriendInfoList) {
 				friendInfoList.add(info);
 				i++;
-				if(i == size - 1){
+				if (i == size - 1) {
 					break;
 				}
 			}
-			 return friendInfoList;
-		}else{			
-			return erecommandFriends(player,tableFriend,RankType.LEVEL_PLAYER,true);//正常好友逻辑；取玩家
+			return friendInfoList;
+		} else {
+			return erecommandFriends(player, tableFriend, RankType.LEVEL_PLAYER, true);// 正常好友逻辑；取玩家
 		}
 	}
 
-	/**机器人都是没登陆的；每个机器人送完体力都会更新登陆时间*/
+	/** 机器人都是没登陆的；每个机器人送完体力都会更新登陆时间 */
 	public void updataRobotLoginTime(List<FriendInfo> friendInfoList) {
-		if(friendInfoList == null ||friendInfoList.isEmpty()){
+		if (friendInfoList == null || friendInfoList.isEmpty()) {
 			return;
 		}
-		FriendInfo info = friendInfoList.get(0);		
-		FriendInfo infonew = setLastLoginTip(info);		
+		FriendInfo info = friendInfoList.get(0);
+		FriendInfo infonew = setLastLoginTip(info);
 		friendInfoList.removeAll(friendInfoList);
 		friendInfoList.add(infonew);
 		Player player = PlayerMgr.getInstance().find(info.getUserId());
 		player.getUserDataMgr().setLastLoginTime(DateUtils.getSecondLevelMillis());
 	}
-	private FriendInfo setLastLoginTip(FriendInfo info){
-		
+
+	private FriendInfo setLastLoginTip(FriendInfo info) {
+
 		FriendInfo.Builder tmp = FriendInfo.newBuilder();
 		tmp.setLastLoginTip("一分钟前.");
 		tmp.setUserId(info.getUserId());
@@ -205,7 +207,7 @@ public class FriendHandler {
 		tmp.setGroupId(info.getGroupId());
 		tmp.setGroupName(info.getGroupName());
 		tmp.setFighting(info.getFighting());
-		FriendInfo newinfo = tmp.build();		
+		FriendInfo newinfo = tmp.build();
 		return newinfo;
 	}
 
@@ -217,8 +219,7 @@ public class FriendHandler {
 	 * @param isLimitRobot 新增参数，用于新手引导时推荐机器人，在筛选时不用day来限制掉过旧玩家（主要就是机器人
 	 * @return
 	 */
-	private List<FriendInfo> erecommandFriends(Player player,
-			TableFriend tableFriend,RankType rankType,boolean isLimitRobot) {
+	private List<FriendInfo> erecommandFriends(Player player, TableFriend tableFriend, RankType rankType, boolean isLimitRobot) {
 		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(rankType);
 		int level = player.getLevel();
 		int start = 0;
@@ -237,7 +238,7 @@ public class FriendHandler {
 			if (i == 0) {
 				start = Math.max(1, level + cfg.getDesLevel());
 				end = level + cfg.getIncLevel();
-				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand,isLimitRobot);
+				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand, isLimitRobot);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -246,14 +247,14 @@ public class FriendHandler {
 				if (start > 1) {
 					end = start - 1;
 					start = start + cfg.getDesLevel();
-					fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand,isLimitRobot);
+					fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand, isLimitRobot);
 					if (playersMap.size() >= randomRecommand) {
 						break;
 					}
 				}
 				start = tempEnd + 1;
 				end = tempEnd + cfg.getIncLevel();
-				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand,isLimitRobot);
+				fillSegmentPlayers(userId, tableFriend, playersMap, ranking, start, end, days, randomRecommand, isLimitRobot);
 				if (playersMap.size() >= randomRecommand) {
 					break;
 				}
@@ -308,11 +309,12 @@ public class FriendHandler {
 		return resultList;
 	}
 
-	public List<FriendInfo> reCommandRobot(Player player,TableFriend tableFriend,RankType rankType,boolean isLimitRobot) {
+	public List<FriendInfo> reCommandRobot(Player player, TableFriend tableFriend, RankType rankType, boolean isLimitRobot) {
 		ArrayList<FriendInfo> resultList = new ArrayList<FriendServiceProtos.FriendInfo>(1);
-		List<FriendInfo> resultListTmp = erecommandFriends(player,tableFriend,rankType,isLimitRobot);
-		for(FriendInfo info : resultListTmp){
-			if(PlayerMgr.getInstance().find(info.getUserId()).isRobot()){				
+		List<FriendInfo> resultListTmp = erecommandFriends(player, tableFriend, rankType, isLimitRobot);
+		for (FriendInfo info : resultListTmp) {
+			boolean isrobot = info.getUserId().length() > 20 ? true : false;
+			if (isrobot) {
 				resultList.add(info);
 				break;
 			}
@@ -320,9 +322,8 @@ public class FriendHandler {
 		return resultList;
 	}
 
-	private void fillSegmentPlayers(String hostUserId, TableFriend tableFriend, HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days,
-			int randomRecommand,boolean isLimitRobot) {
-		if(!isLimitRobot){//用添加玩家好友的配置文件来添加机器人好友，不要加等级的限制
+	private void fillSegmentPlayers(String hostUserId, TableFriend tableFriend, HashMap<String, Player> playersMap, Ranking<LevelComparable, RankingLevelData> ranking, int start, int end, int days, int randomRecommand, boolean isLimitRobot) {
+		if (!isLimitRobot) {// 用添加玩家好友的配置文件来添加机器人好友，不要加等级的限制
 			start = 1;
 			end = 60;
 		}
@@ -359,15 +360,15 @@ public class FriendHandler {
 			Player player = it.next();
 			User user = player.getUserDataMgr().getUser();
 			if (user == null || System.currentTimeMillis() - user.getLastLoginTime() > MAX_OFF_LINE_TIME) {
-				if(isLimitRobot){
+				if (isLimitRobot) {
 					it.remove();
 				}
-//				continue;
+				// continue;
 			}
-//			TableFriend otherTableFriend = player.getFriendMgr().getTableFriend();
-//			if (otherTableFriend.getRequestItem(hostUserId) != null) {
-//				it.remove();
-//			}
+			// TableFriend otherTableFriend = player.getFriendMgr().getTableFriend();
+			// if (otherTableFriend.getRequestItem(hostUserId) != null) {
+			// it.remove();
+			// }
 		}
 	}
 
@@ -406,11 +407,11 @@ public class FriendHandler {
 		response.setResultType(resultVo.resultType);
 		response.setResultMsg(resultVo.resultMsg);
 		response.addAllUpdateList(resultVo.updateList);
-		if(resultVo.resultType == EFriendResultType.SUCCESS){
-			//通知角色日常任务 by Alex
+		if (resultVo.resultType == EFriendResultType.SUCCESS) {
+			// 通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.DONATE_FRIEND_POWER, 1);
 		}
-		
+
 		return response.build().toByteString();
 	}
 
@@ -440,8 +441,8 @@ public class FriendHandler {
 		response.setResultType(resultVo.resultType);
 		response.setResultMsg(resultVo.resultMsg);
 		response.addAllUpdateList(resultVo.updateList);
-		if(resultVo.resultType == EFriendResultType.SUCCESS){
-			//通知角色日常任务 by Alex
+		if (resultVo.resultType == EFriendResultType.SUCCESS) {
+			// 通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.DONATE_FRIEND_POWER, resultVo.updateList.size());
 		}
 		return response.build().toByteString();
@@ -475,14 +476,14 @@ public class FriendHandler {
 		response.addAllUpdateList(resultVo.updateList);
 		return response.build().toByteString();
 	}
-	
+
 	/** 请求添加好友 */
 	public ByteString requestAddFriendList(FriendRequest request, Player player) {
 		FriendResponse.Builder response = FriendResponse.newBuilder();
 		response.setRequestType(request.getRequestType());
-//		String tmpList = request.getUserIdListList();
+		// String tmpList = request.getUserIdListList();
 		List<String> userIdList = request.getUserIdListList();
-//		response.setOtherUserId(request.getOtherUserId());
+		// response.setOtherUserId(request.getOtherUserId());
 
 		FriendResultVo resultVo = player.getFriendMgr().requestAddFriendList(userIdList);
 		response.setResultType(resultVo.resultType);
@@ -490,9 +491,6 @@ public class FriendHandler {
 		response.addAllUpdateList(resultVo.updateList);
 		return response.build().toByteString();
 	}
-	
-	
-	
 
 	/** 删除好友 */
 	public ByteString removeFriend(FriendRequest request, Player player) {
@@ -593,7 +591,8 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "RequestAdd", response.build().toByteString());
 	}
 
 	/** 推送同意添加的好友 */
@@ -606,7 +605,8 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "ConsentAdd", response.build().toByteString());
 	}
 
 	/** 推送移除好友 */
@@ -619,7 +619,8 @@ public class FriendHandler {
 		response.setRequestType(EFriendRequestType.REMOVE_FRIEND);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(otherUserId);
-		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "Remove", response.build().toByteString());
 	}
 
 	/** 推送好友列表 */

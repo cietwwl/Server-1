@@ -1,13 +1,13 @@
 package com.rw.trace.parser;
 
-import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import java.util.List;
-import com.playerdata.charge.dao.ChargeInfoSubRecording;
-import com.rw.fsutil.dao.cache.trace.DataValueParser;
-import com.playerdata.charge.dao.ChargeOrder;
-import com.playerdata.charge.dao.ChargeInfo;
-import com.rw.fsutil.common.Pair;
+
 import com.alibaba.fastjson.JSONObject;
+import com.playerdata.charge.dao.ChargeInfo;
+import com.playerdata.charge.dao.ChargeInfoSubRecording;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.dao.cache.record.JsonValueWriter;
+import com.rw.fsutil.dao.cache.trace.DataValueParser;
 
 public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
 
@@ -23,7 +23,6 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
         chargeInfoCopy.setLastChargeTime(entity.getLastChargeTime());
         chargeInfoCopy.setTotalChargeMoney(entity.getTotalChargeMoney());
         chargeInfoCopy.setTotalChargeGold(entity.getTotalChargeGold());
-        chargeInfoCopy.setChargeOrderList(writer.copyObject(entity.getChargeOrderList()));
         return chargeInfoCopy;
     }
 
@@ -77,16 +76,6 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
             entity1.setTotalChargeGold(totalChargeGold2);
             jsonMap = writer.write(jsonMap, "totalChargeGold", totalChargeGold2);
         }
-        List<ChargeOrder> chargeOrderList1 = entity1.getChargeOrderList();
-        List<ChargeOrder> chargeOrderList2 = entity2.getChargeOrderList();
-        Pair<List<ChargeOrder>, JSONObject> chargeOrderListPair = writer.checkObject(jsonMap, "chargeOrderList", chargeOrderList1, chargeOrderList2);
-        if (chargeOrderListPair != null) {
-            chargeOrderList1 = chargeOrderListPair.getT1();
-            entity1.setChargeOrderList(chargeOrderList1);
-            jsonMap = chargeOrderListPair.getT2();
-        } else {
-            jsonMap = writer.compareSetDiff(jsonMap, "chargeOrderList", chargeOrderList1, chargeOrderList2);
-        }
 
         return jsonMap;
     }
@@ -114,15 +103,12 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
         if (entity1.getTotalChargeGold() != entity2.getTotalChargeGold()) {
             return true;
         }
-        if (writer.hasChanged(entity1.getChargeOrderList(), entity2.getChargeOrderList())) {
-            return true;
-        }
         return false;
     }
 
     @Override
     public JSONObject toJson(ChargeInfo entity) {
-        JSONObject json = new JSONObject(8);
+        JSONObject json = new JSONObject(11);
         json.put("userId", entity.getUserId());
         Object payTimesListJson = writer.toJSON(entity.getPayTimesList());
         if (payTimesListJson != null) {
@@ -133,10 +119,6 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
         json.put("lastChargeTime", entity.getLastChargeTime());
         json.put("totalChargeMoney", entity.getTotalChargeMoney());
         json.put("totalChargeGold", entity.getTotalChargeGold());
-        Object chargeOrderListJson = writer.toJSON(entity.getChargeOrderList());
-        if (chargeOrderListJson != null) {
-            json.put("chargeOrderList", chargeOrderListJson);
-        }
         return json;
     }
 

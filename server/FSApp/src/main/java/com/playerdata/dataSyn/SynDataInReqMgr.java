@@ -23,7 +23,6 @@ import com.rwproto.MsgDef.Command;
 
 public class SynDataInReqMgr {
 
-	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private Map<Object, SynDataInfo> synDataMap = new ConcurrentHashMap<Object, SynDataInfo>();
 	private List<Object> orderList = new ArrayList<Object>();
 	private AtomicLong threadId = new AtomicLong();

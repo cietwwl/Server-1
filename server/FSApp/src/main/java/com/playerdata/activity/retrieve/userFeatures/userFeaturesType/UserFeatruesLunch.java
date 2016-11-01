@@ -19,9 +19,7 @@ public class UserFeatruesLunch implements IUserFeatruesHandler{
 
 	@Override
 	public RewardBackTodaySubItem doEvent() {
-		RewardBackTodaySubItem subItem = new RewardBackTodaySubItem();
-		subItem = ActivityRetrieveTypeHelper.getInstance().doEatEvent(UserFeaturesEnum.lunch);
-		return subItem;
+		return ActivityRetrieveTypeHelper.getInstance().doEatEvent(UserFeaturesEnum.lunch);
 	}
 
 	@Override

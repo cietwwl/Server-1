@@ -80,7 +80,7 @@ public class MagicEquipFetterRecordParser implements DataValueParser<MagicEquipF
 
     @Override
     public JSONObject toJson(MagicEquipFetterRecord entity) {
-        JSONObject json = new JSONObject(4);
+        JSONObject json = new JSONObject(6);
         json.put("id", entity.getId());
         json.put("userId", entity.getUserId());
         Object fixEquipFettersJson = writer.toJSON(entity.getFixEquipFetters());

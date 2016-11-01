@@ -9,6 +9,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.fetters.pojo.SynConditionData;
+import com.rwbase.dao.spriteattach.SpriteAttachItem;
 
 /*
  * @author HC
@@ -25,6 +26,7 @@ public class HeroInfo {
 	private Map<Integer, SynConditionData> fetters;// 英雄羁绊
 	// 神器
 	private List<HeroFixEquipInfo> fixEquip;// 神器
+	private List<SpriteAttachItem> spriteAttach;//附灵
 
 	public HeroInfo() {
 		baseInfo = new HeroBaseInfo();
@@ -33,6 +35,7 @@ public class HeroInfo {
 		gem = new ArrayList<String>();
 		fetters = new HashMap<Integer, SynConditionData>();// 英雄羁绊
 		fixEquip = new ArrayList<HeroFixEquipInfo>();// 神器
+		spriteAttach = new ArrayList<SpriteAttachItem>();//附灵
 	}
 
 	public List<EquipInfo> getEquip() {
@@ -81,5 +84,13 @@ public class HeroInfo {
 
 	public void setFixEquip(List<HeroFixEquipInfo> fixEquip) {
 		this.fixEquip = fixEquip;
+	}
+
+	public List<SpriteAttachItem> getSpriteAttach() {
+		return spriteAttach;
+	}
+
+	public void setSpriteAttach(List<SpriteAttachItem> spriteAttach) {
+		this.spriteAttach = spriteAttach;
 	}
 }

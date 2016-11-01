@@ -10,21 +10,6 @@ import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
 
 public class FriendUtils {
-	/**
-	 * 查找用户有没有在黑名单中
-	 * 
-	 * @param playerId
-	 * @param checkPlayerId
-	 * @return
-	 */
-	public static boolean isBlack(String playerId, String checkPlayerId) {
-		PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(playerId);
-		if (isBlack(player, checkPlayerId)) {
-			return true;
-		}
-
-		return false;
-	}
 
 	/**
 	 * 查找用户有没有在黑名单中
@@ -37,7 +22,24 @@ public class FriendUtils {
 		if (player != null && (player.getFriendMgr().getTableFriend().getBlackItem(checkPlayerId) != null)) {
 			return true;
 		}
+		return false;
+	}
 
+	/**
+	 * 查找用户有没有在黑名单中
+	 * 
+	 * @param player
+	 * @param checkPlayerId
+	 * @return
+	 */
+	public static boolean isBlack(String userId, String checkPlayerId) {
+		TableFriend tableFriend = TableFriendDAO.getInstance().get(userId);
+		if (tableFriend == null) {
+			return false;
+		}
+		if (tableFriend.getBlackItem(checkPlayerId) != null) {
+			return true;
+		}
 		return false;
 	}
 

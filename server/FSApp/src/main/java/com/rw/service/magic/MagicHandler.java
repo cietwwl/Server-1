@@ -372,35 +372,14 @@ public class MagicHandler {
 			Entry<Integer, Integer> entry = iterator.next();
 			int modelId = entry.getKey();
 			int count = entry.getValue();
-			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(modelId);
-			int stackNum = itemBaseCfg.getStackNum();
-			if (stackNum > 1) {
-				if (!itemBagMgr.checkEnoughItem(modelId, count)) {
-					return "法宝进化材料不足！";
-				}
-				ItemData itemData = modelFirstItemDataMap.get(modelId);
-				useItemList.add(new UseItem(itemData.getId(), count));
+
+			List<IUseItem> items = itemBagMgr.checkEnoughItem(modelId, count, currentMagic);
+
+			if (items == null) {
+				return "法宝进化材料不足！";
 			} else {
-				List<ItemData> itemDatas = itemBagMgr.getItemListByCfgId(modelId);
-				if (itemDatas.size() < (modelId == currentMagic.getModelId() ? count + 1 : count)) {
-					return "法宝进化材料不足！";
-				}
-				int index = 0;
-				for (int i = 0; i < count; i++) {
-					ItemData itemData = itemDatas.get(index);
-					while (itemData.getId().equals(currentMagic.getId())) {
-						index++;
-						if (index >= itemDatas.size()) {
-							break;
-						}
-						itemData = itemDatas.get(index);
-
-					}
-					useItemList.add(new UseItem(itemData.getId(), 1));
-					index++;
-				}
+				useItemList.addAll(items);
 			}
-
 		}
 		return null;
 	}

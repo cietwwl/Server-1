@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.bm.login.ZoneBM;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
@@ -73,7 +74,10 @@ public class GroupCompetitionMgr {
 //		instance.add(Calendar.WEEK_OF_YEAR, -3);
 //		instance.set(Calendar.HOUR_OF_DAY, 11);
 //		instance.set(Calendar.MINUTE, 0);
-		TableZoneInfo zoneInfo = TableZoneInfoDAO.getInstance().getObject(GameManager.getZoneId());
+		TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(GameManager.getZoneId());
+		if(zoneInfo == null){
+			System.out.println("---------------zoneInfo is null. zoneId:" + GameManager.getZoneId());
+		}
 		try {
 			Date date = _FORMATTER.parse(zoneInfo.getOpenTime());
 			instance.setTime(date);

@@ -5,7 +5,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rwbase.dao.serverData.ServerData;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -35,37 +34,37 @@ public class ChargeInfoHolder {
 		}
 	}
 
-	private ChargeInfo newChargeInfo(String userId){
-		ChargeInfo chargeInfo = new ChargeInfo();
-		chargeInfo.setUserId(userId);
-		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
-		if(ChargeInfoDao.getInstance().update(chargeInfo)){
-			GameLog.info(LogModule.Charge.getName(), "ChargeInfoHolder[newChargeInfo]", "success userId:" + userId,null);
-			return chargeInfo;
-		}else{
-			GameLog.error(LogModule.Charge, "ChargeInfoHolder[newChargeInfo]", "db save fail. userId:" + userId,null);
-		}
-		return null;
-	}
+//	private ChargeInfo newChargeInfo(String userId){
+//		ChargeInfo chargeInfo = new ChargeInfo();
+//		chargeInfo.setUserId(userId);
+//		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
+//		if(ChargeInfoDao.getInstance().update(chargeInfo)){
+//			GameLog.info(LogModule.Charge.getName(), "ChargeInfoHolder[newChargeInfo]", "success userId:" + userId,null);
+//			return chargeInfo;
+//		}else{
+//			GameLog.error(LogModule.Charge, "ChargeInfoHolder[newChargeInfo]", "db save fail. userId:" + userId,null);
+//		}
+//		return null;
+//	}
 
 	public ChargeInfo get(String userId) {		
 		ChargeInfo chargeInfo = ChargeInfoDao.getInstance().get(userId);
-		if(chargeInfo == null){
-			chargeInfo = newChargeInfo(userId);
-		}
+//		if(chargeInfo == null){
+//			chargeInfo = newChargeInfo(userId);
+//		}
 		return chargeInfo;
 	}
 	
-	public boolean addChargeOrder(Player player, ChargeOrder chargeOrder){
-		String userId = player.getUserId();
-		ChargeInfo chargeInfo = get(userId);
-		if(chargeInfo!=null){			
-			chargeInfo.addOrder(chargeOrder);
-			update(player);
-			return true;
-		}
-		return false;
-	}
+//	public boolean addChargeOrder(Player player, ChargeOrder chargeOrder){
+//		String userId = player.getUserId();
+//		ChargeInfo chargeInfo = get(userId);
+//		if(chargeInfo!=null){			
+//			chargeInfo.addOrder(chargeOrder);
+//			update(player);
+//			return true;
+//		}
+//		return false;
+//	}
 
 	public void update(Player player) {
 		

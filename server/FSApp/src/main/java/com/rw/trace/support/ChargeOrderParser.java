@@ -48,7 +48,7 @@ public class ChargeOrderParser implements DataValueParser<ChargeOrder> {
 
     @Override
     public JSONObject toJson(ChargeOrder entity) {
-        JSONObject json = new JSONObject(2);
+        JSONObject json = new JSONObject(3);
         json.put("cpTradeNo", entity.getCpTradeNo());
         json.put("receiveTime", entity.getReceiveTime());
         return json;

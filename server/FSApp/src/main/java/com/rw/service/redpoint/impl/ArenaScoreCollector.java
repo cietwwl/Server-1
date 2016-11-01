@@ -39,7 +39,8 @@ public class ArenaScoreCollector implements RedPointCollector {
 			return;
 		}
 		if (count > arenaData.getRewardList().size()) {
-			map.put(RedPointType.ARENA_WINDOW_SUM_POINT, Collections.EMPTY_LIST);
+			List<String> list = Collections.emptyList();
+			map.put(RedPointType.ARENA_WINDOW_SUM_POINT, list);
 		}
 	}
 
@@ -54,7 +55,8 @@ public class ArenaScoreCollector implements RedPointCollector {
 			return;
 		}
 		if (count > arenaData.getHistoryRewards().size()) {
-			map.put(RedPointType.ARENA_WINDOW_RANK_REWARD_POINT, Collections.EMPTY_LIST);
+			List<String> list = Collections.emptyList();
+			map.put(RedPointType.ARENA_WINDOW_RANK_REWARD_POINT, list);
 		}
 	}
 

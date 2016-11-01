@@ -153,7 +153,7 @@ public class CreateTrace {
 		String simple = clazz.getSimpleName();
 		writeMethodHead(sb, JSON, "toJson", 1, simple);
 		int size = fieldList.size();
-		indent2(sb).append(JSON).append(SP).append("json = new JSONObject(").append(size).append(");").append(ENTER);
+		indent2(sb).append(JSON).append(SP).append("json = new JSONObject(").append((int)(size / 0.75 + 1)).append(");").append(ENTER);
 		for (FieldInfo field : fieldList) {
 			Field f = field.field;
 			Class<?> fc = f.getType();
@@ -177,7 +177,7 @@ public class CreateTrace {
 		String simple = clazz.getSimpleName();
 		writeMethodHead(sb, simple, "copy", 1, simple);
 		// line 3
-		String copyName = simple.substring(0, 1).toLowerCase() + simple.substring(1, simple.length())+"Copy";
+		String copyName = simple.substring(0, 1).toLowerCase() + simple.substring(1, simple.length()) + "Copy";
 		indent2(sb).append(simple).append(SP).append(copyName).append(" = new ").append(simple).append("();").append(ENTER);
 		for (FieldInfo fieldInfo : fieldList) {
 			String setMethodName = fieldInfo.setMethodName;
@@ -456,7 +456,6 @@ public class CreateTrace {
 		}
 		return false;
 	}
-	
 
 	private static boolean isCloneable(Class<?> clazz) {
 		if (Map.class.isAssignableFrom(clazz)) {
@@ -465,10 +464,10 @@ public class CreateTrace {
 		if (List.class.isAssignableFrom(clazz)) {
 			return true;
 		}
-		if(clazz.isEnum()){
+		if (clazz.isEnum()) {
 			return true;
 		}
-		if(!parserSet.contains(clazz.getName())){
+		if (!parserSet.contains(clazz.getName())) {
 			System.out.println();
 		}
 		return parserSet.contains(clazz.getName());

@@ -27,7 +27,7 @@ import com.rw.fsutil.util.SpringContextUtil;
  * @author Jamaz
  *
  */
-public class IdentityIdGenerator {
+public class IdentityIdGenerator implements SequenceGenerator{
 
 	private final JdbcTemplate template;
 

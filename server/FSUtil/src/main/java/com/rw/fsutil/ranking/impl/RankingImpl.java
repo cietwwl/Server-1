@@ -385,7 +385,6 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 		if (entry == null) {
 			throw new IllegalArgumentException("entry is null");
 		}
-		System.err.println("#updateRankingEntry() " + entry.getKey());
 		if (newComparable == null) {
 			throw new IllegalArgumentException("comparable is null");
 		}

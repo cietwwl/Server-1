@@ -125,6 +125,7 @@ message SweepStartReqMsg{
 //[SWEEP_START]扫荡开始的响应消息
 message SweepStartRspMsg{
 	repeated BossInfoMsg bossInfoMsg = 1;//要产生Boss的信息
+	required fixed32 totalNeedSeconds = 2; // 扫荡需要的总秒数
 }
 
 //[SWEEP_END]不需要请求消息，扫荡结束的响应消息

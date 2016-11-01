@@ -25,7 +25,7 @@ public class ServerInitialLoading {
 		int highLevelCount = config.getHighLevelCount();
 		JdbcTemplate template = DataAccessFactory.getSimpleSupport().getMainTemplate();
 		List<Map<String, Object>> lastLoginPlayers = template.queryForList("select userId from user ORDER BY lastLoginTime DESC limit " + latestLoginCount);
-		List<Map<String, Object>> highLevelPlayers = template.queryForList("SELECT id from hero where hero_type = 1 ORDER BY level DESC limit " + highLevelCount);
+		List<Map<String, Object>> highLevelPlayers = template.queryForList("SELECT id from hero INNER JOIN user on hero.id = user.userId  where hero.hero_type = 1 ORDER BY hero.level DESC limit " + highLevelCount);
 		HashSet<String> set = new HashSet<String>();
 		fill(set, lastLoginPlayers, "userId");
 		fill(set, highLevelPlayers, "id");

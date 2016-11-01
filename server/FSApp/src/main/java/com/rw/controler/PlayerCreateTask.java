@@ -1,7 +1,5 @@
 package com.rw.controler;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.serverStatus.ServerStatusMgr;
@@ -19,6 +17,7 @@ import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
@@ -49,23 +48,23 @@ public class PlayerCreateTask implements Runnable {
 
 	private final GameLoginRequest request;
 	private final RequestHeader header;
-	private final ChannelHandlerContext ctx;
+	private final Long sessionId;
 	private final IdentityIdGenerator generator;
 	private final long submitTime;
 
-	public PlayerCreateTask(GameLoginRequest request, RequestHeader header, ChannelHandlerContext ctx, IdentityIdGenerator generator) {
+	public PlayerCreateTask(GameLoginRequest request, RequestHeader header, Long sessionId, IdentityIdGenerator generator) {
 		super();
 		this.request = request;
 		this.header = header;
-		this.ctx = ctx;
+		this.sessionId = sessionId;
 		this.generator = generator;
 		this.submitTime = System.currentTimeMillis();
 	}
 
 	@Override
 	public void run() {
-		if (!this.ctx.channel().isActive()) {
-			GameLog.error("PlayerCreateTask", request.getAccountId(), "create player fail by disconnect:" + UserChannelMgr.getCtxInfo(ctx));
+		if (!ServerHandler.isConnecting(sessionId)) {
+			GameLog.error("PlayerCreateTask", request.getAccountId(), "create player fail by disconnect:" + sessionId);
 			return;
 		}
 		long executeTime = System.currentTimeMillis();
@@ -79,7 +78,7 @@ public class PlayerCreateTask implements Runnable {
 		GameWorld world = GameWorldFactory.getGameWorld();
 		if (userId != null) {
 			// author: lida 增加容错 如果已经创建角色则进入主城
-			world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request, false));
+			world.asyncExecute(userId, new PlayerLoginTask(sessionId, header, request, false));
 			return;
 		}
 
@@ -89,14 +88,14 @@ public class PlayerCreateTask implements Runnable {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能包含屏蔽字或非法字符";
 			response.setError(reason);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
 			return;
 		}
 		if (StringUtils.isBlank(nick)) {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能为空";
 			response.setError(reason);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
 			return;
 		}
 		// 注册昵称这里没有做多线程安全，会导致后续创建角色失败
@@ -104,7 +103,7 @@ public class PlayerCreateTask implements Runnable {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称已经被注册!";
 			response.setError(reason);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
 			return;
 		}
 
@@ -132,39 +131,39 @@ public class PlayerCreateTask implements Runnable {
 		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
 		PlayerParam param = new PlayerParam(accountId, userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 		GameOperationFactory.getCreatedOperation().execute(param);
-		
-		//提前创建Major need trx
+
+		// 提前创建Major need trx
 		MajorData majorData = new MajorData();
 		majorData.setId(userId);
 		MajorDataCacheFactory.getCache().update(majorData);
-		
-		//提前创建时装   need trx
+
+		// 提前创建时装 need trx
 		FashionBeingUsed used = new FashionBeingUsed();
 		used.setUserId(userId);
 		FashionBeingUsedHolder.getInstance().saveOrUpdate(used);
-		
-		//提前创建ChargeInfo need trx
-		ChargeInfo chargeInfo = new ChargeInfo();
-		chargeInfo.setUserId(userId);
-		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
-		ChargeInfoDao.getInstance().update(chargeInfo);
-		
+
+//		// 提前创建ChargeInfo need trx // chargeInfo改为KVData了，会自动创建
+//		ChargeInfo chargeInfo = new ChargeInfo();
+//		chargeInfo.setUserId(userId);
+//		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
+//		ChargeInfoDao.getInstance().update(chargeInfo);
+
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
 
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);
-		
-		//记录任务日志
+
+		// 记录任务日志
 		TaskItemMgr taskMgr = player.getTaskMgr();
 		if (taskMgr != null) {
 			BILogMgr.getInstance().logTaskBegin(player, player.getTaskMgr().getTaskEnumeration(), BITaskType.Main);
 		}
 		BILogMgr.getInstance().logZoneReg(player);
-		//临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE,0,0);
+		// 临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, 0);
 		long current = System.currentTimeMillis();
-		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request, false, current));
+		world.asyncExecute(userId, new PlayerLoginTask(sessionId, header, request, false, current));
 		// eGameLoginType
 		FSTraceLogger.logger("run", current - executeTime, "CREATE", seqID, userId, accountId, true);
 

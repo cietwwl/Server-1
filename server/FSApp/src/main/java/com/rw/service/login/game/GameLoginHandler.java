@@ -14,6 +14,7 @@ import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.user.UserIdCache;
 import com.rwbase.dao.user.accountInfo.TableAccount;
@@ -52,13 +53,13 @@ public class GameLoginHandler {
 		if (GameManager.isShutdownHook) {
 			response.setError("停服维护中");
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 		if (GameManager.isOnlineLimit()) {
 			response.setError("该区人气火爆，请稍后尝试，或者选择推荐新区。");
 			response.setResultType(eLoginResultType.ServerMainTain);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 
@@ -70,14 +71,14 @@ public class GameLoginHandler {
 		if (userAccount == null) {
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("账号不存在");
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 		// 检测白名单 by lida
 		if (GameManager.isWhiteListLimit(userAccount.getOpenAccount())) {
 			response.setError("该区维护中，请稍后尝试，");
 			response.setResultType(eLoginResultType.ServerMainTain);
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 		String userId = userIdCache.getUserId(accountId, zoneId);
@@ -85,10 +86,15 @@ public class GameLoginHandler {
 			response.setResultType(eLoginResultType.NO_ROLE);
 			GameLog.debug("Create Role ...,accountId:" + accountId + " zoneId:" + zoneId);
 			response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
-			UserChannelMgr.sendResponse(header, response.build().toByteString(), ctx);
+			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
 		} else {
-			// 线程安全地执行角色登录操作
-			GameWorldFactory.getGameWorld().asyncExecute(userId, loginProdecessor, new PlayerLoginTask(ctx, header, request, true));
+			Long sessionId = ServerHandler.getSessionId(ctx);
+			if (sessionId == null) {
+				GameLog.error("GameLoginServer", "", "login fail by not exist session id:" + ctx);
+			} else {
+				// 线程安全地执行角色登录操作
+				GameWorldFactory.getGameWorld().asyncExecute(userId, loginProdecessor, new PlayerLoginTask(sessionId, header, request, true));
+			}
 		}
 	}
 
@@ -101,19 +107,18 @@ public class GameLoginHandler {
 
 	public void createRoleAndLogin(GameLoginRequest request, ChannelHandlerContext ctx, RequestHeader header) {
 		if (GameManager.isShutdownHook) {
-			UserChannelMgr.sendResponse(header, createLoginResponse("停服维护中", eLoginResultType.FAIL), ctx);
+			UserChannelMgr.sendResponse(null, header, createLoginResponse("停服维护中", eLoginResultType.FAIL), 200, ctx, null);
 			return;
 		}
-
+		Long sessionId = ServerHandler.getSessionId(ctx);
+		if (sessionId == null) {
+			GameLog.error("GameLoginServer", "", "create fail by not exist session id:" + ctx);
+			return;
+		}
 		final String accountId = request.getAccountId();
 		final int zoneId = request.getZoneId();
-		// if (GameManager.isWhiteListLimit(accountId)) {
-		// sendResponse(header, createLoginResponse("该区维护中，请稍后尝试，",
-		// eLoginResultType.ServerMainTain), ctx);
-		// return;
-		// }
 		GameLog.debug("Game Create Role Start --> accountId:" + accountId + " , zoneId:" + zoneId);
-		GameWorldFactory.getGameWorld().executeAccountTask(accountId, new PlayerCreateTask(request, header, ctx, generator));
+		GameWorldFactory.getGameWorld().executeAccountTask(accountId, new PlayerCreateTask(request, header, sessionId, generator));
 	}
 
 	public void addUserZoneInfo(int zoneId, UserZoneInfo ZoneInfo, Player player) {

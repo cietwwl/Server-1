@@ -1,17 +1,17 @@
 package com.rw.controler;
 
-import java.util.Enumeration;
-import java.util.HashMap;
+import io.netty.util.collection.IntObjectHashMap;
+
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
+import com.google.protobuf.ByteString;
 import com.log.GameLog;
-import com.rw.fsutil.common.FastPair;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.util.DateUtils;
 import com.rwproto.MsgDef.Command;
-import com.rwproto.ResponseProtos.Response;
 
 /**
  * <pre>
@@ -19,7 +19,7 @@ import com.rwproto.ResponseProtos.Response;
  * for Player reconnect operation
  * key = Message SeqId
  * value = Message
- * over twenty minute message would be purge
+ * over ten minute message would be purge
  * </pre>
  * 
  * @author Jamaz
@@ -28,32 +28,31 @@ import com.rwproto.ResponseProtos.Response;
 public class PlayerMsgCache {
 
 	private final LinkedList<PlayerMsgTimeRecord> seqIdList;
-	private final HashMap<Integer, Response> responseMap;
+	private final IntObjectHashMap<ByteString> responseMap;
 	private final int maxCapacity;
 	private final ReentrantLock lock;
-	private final ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat;
+	private final ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat;
 
-	public PlayerMsgCache(int maxCapacity, ConcurrentHashMap<Command, FastPair<Command, AtomicLong>> purgeStat) {
+	public PlayerMsgCache(int maxCapacity, ConcurrentHashMap<Command, PairValue<Command, AtomicLong>> purgeStat) {
 		this.maxCapacity = maxCapacity;
 		this.seqIdList = new LinkedList<PlayerMsgTimeRecord>();
-		this.responseMap = new HashMap<Integer, Response>();
+		this.responseMap = new IntObjectHashMap<ByteString>(maxCapacity << 1);
 		this.lock = new ReentrantLock();
 		this.purgeStat = purgeStat;
 	}
 
-	public boolean add(int seqId, Response response) {
-		Integer seqIdValue = seqId;
-		PlayerMsgTimeRecord msgRecord = new PlayerMsgTimeRecord(seqIdValue, DateUtils.getSecondLevelMillis());
+	public boolean add(Command command, int seqId, ByteString responseContent) {
+		PlayerMsgTimeRecord msgRecord = new PlayerMsgTimeRecord(command, seqId, DateUtils.getSecondLevelMillis());
 		lock.lock();
 		try {
-			if (responseMap.containsKey(seqIdValue)) {
+			if (this.responseMap.containsKey(seqId)) {
 				return false;
 			}
-			responseMap.put(seqIdValue, response);
+			this.responseMap.put(seqId, responseContent);
 			this.seqIdList.add(msgRecord);
 			if (this.seqIdList.size() > maxCapacity) {
 				PlayerMsgTimeRecord oldSeqId = this.seqIdList.poll();
-				responseMap.remove(oldSeqId.getSeqId());
+				this.responseMap.remove(oldSeqId.getSeqId());
 			}
 			return false;
 		} finally {
@@ -74,16 +73,16 @@ public class PlayerMsgCache {
 				}
 				msgRecord = this.seqIdList.poll();
 				if (msgRecord != null) {
-					Response response = responseMap.remove(msgRecord.getSeqId());
+					ByteString response = responseMap.remove(msgRecord.getSeqId());
 					if (response == null) {
 						GameLog.error("PlayerMsgCache", String.valueOf(msgRecord.getSeqId()), "remove msg fail by purge");
 						continue;
 					}
-					Command command = response.getHeader().getCommand();
-					FastPair<Command, AtomicLong> count = purgeStat.get(command);
+					Command command = msgRecord.getCommand();
+					PairValue<Command, AtomicLong> count = purgeStat.get(command);
 					if (count == null) {
-						count = new FastPair<Command, AtomicLong>(command, new AtomicLong());
-						FastPair<Command, AtomicLong> old = purgeStat.putIfAbsent(command, count);
+						count = new PairValue<Command, AtomicLong>(command, new AtomicLong());
+						PairValue<Command, AtomicLong> old = purgeStat.putIfAbsent(command, count);
 						if (old != null) {
 							count = old;
 						}
@@ -98,7 +97,7 @@ public class PlayerMsgCache {
 		}
 	}
 
-	public Response getResponse(int seqId) {
+	public ByteString getResponse(int seqId) {
 		lock.lock();
 		try {
 			return responseMap.get(seqId);
@@ -117,7 +116,4 @@ public class PlayerMsgCache {
 		}
 	}
 
-	public Enumeration<FastPair<Command, AtomicLong>> getPurgeCount() {
-		return purgeStat.elements();
-	}
 }

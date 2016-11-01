@@ -1,8 +1,9 @@
 package com.playerdata.activity.dailyCharge.cfg;
 import com.common.BaseConfig;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.util.DateUtils;
 
-public class ActivityDailyChargeCfg extends BaseConfig {
+public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private int id; //活动id
 	private String title; //标题
 	private String titleBG; //右上角说明文字
@@ -12,6 +13,7 @@ public class ActivityDailyChargeCfg extends BaseConfig {
 	private String endTimeStr; //结束时间
 	private long endTime;
 	private int version; //活动版本
+	private int isDailyRefresh;
 
 	public int getId() {
 		return id;
@@ -54,4 +56,9 @@ public class ActivityDailyChargeCfg extends BaseConfig {
  		startTime = DateUtils.YyyymmddhhmmToMillionseconds(startTimeStr);
 		endTime = DateUtils.YyyymmddhhmmToMillionseconds(endTimeStr);	
  	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return isDailyRefresh == 1;
+	}
 }

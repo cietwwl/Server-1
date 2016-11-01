@@ -88,7 +88,7 @@ public class CopyDataParser implements DataValueParser<CopyData> {
 
     @Override
     public JSONObject toJson(CopyData entity) {
-        JSONObject json = new JSONObject(6);
+        JSONObject json = new JSONObject(9);
         json.put("infoId", entity.getInfoId());
         json.put("copyType", entity.getCopyType());
         json.put("copyCount", entity.getCopyCount());

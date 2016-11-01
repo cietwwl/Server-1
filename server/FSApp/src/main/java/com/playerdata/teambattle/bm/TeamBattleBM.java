@@ -20,6 +20,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.army.ArmyInfo;
@@ -493,38 +494,79 @@ public class TeamBattleBM {
 		}
 		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName()) + "\n" + inviteContent;
 		String extraInfo = player.getUserName() + "_" + cfg.getName() + "_" + inviteType;
-		switch (inviteType) {
-		case 1:
-			//世界邀请
-			ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo);
-			break;
-		case 2:
-			//公会邀请
-			String groupId = GroupHelper.getUserGroupId(player.getUserId());
-			if(!StringUtils.isBlank(groupId)){
-				Group gp = GroupBM.get(groupId);
-				if(null != gp){
-					List<? extends GroupMemberDataIF> members = gp.getGroupMemberMgr().getMemberSortList(null);
-					List<String> memIDs = new ArrayList<String>();
-					for(GroupMemberDataIF mem : members){
-						if(!StringUtils.equals(mem.getUserId(), player.getUserId())) memIDs.add(mem.getUserId());
-					}
-					if(!memIDs.isEmpty()){
-						ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, memIDs);
-					}
+		
+		if(null != inviteUsers && !inviteUsers.isEmpty()){
+			List<String> canBeInviteList = new ArrayList<String>();
+			for(String inviteId : inviteUsers){
+				if(isInviteAble(inviteId, teamItem.getTeamID(), teamItem.getHardID())){
+					canBeInviteList.add(inviteId);
 				}
 			}
-			break;
-		case 3:
-			//好友邀请
-			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, inviteUsers);
-			break;
-		default:
-			tbRsp.setRstType(TBResultType.DATA_ERROR);
-			tbRsp.setTipMsg("邀请的类型有误");
-			return;
+			//邀请指定人员
+			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, canBeInviteList);
+		}else{
+			switch (inviteType) {
+			case 1:
+				//世界邀请
+				ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo);
+				break;
+			case 2:
+				//公会邀请
+				String groupId = GroupHelper.getUserGroupId(player.getUserId());
+				if(!StringUtils.isBlank(groupId)){
+					Group gp = GroupBM.get(groupId);
+					if(null != gp){
+						List<? extends GroupMemberDataIF> members = gp.getGroupMemberMgr().getMemberSortList(null);
+						List<String> memIDs = new ArrayList<String>();
+						for(GroupMemberDataIF mem : members){
+							if(!StringUtils.equals(mem.getUserId(), player.getUserId())){
+								if(isInviteAble(mem.getUserId(), teamItem.getTeamID(), teamItem.getHardID())){
+									memIDs.add(mem.getUserId());
+								}
+							}
+						}
+						if(!memIDs.isEmpty()){
+							ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, memIDs);
+						}
+					}
+				}
+				break;
+			case 3:
+				//好友邀请
+				ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), extraInfo, inviteUsers);
+				break;
+			default:
+				tbRsp.setRstType(TBResultType.DATA_ERROR);
+				tbRsp.setTipMsg("邀请的类型有误");
+				return;
+			}
 		}
 		tbRsp.setRstType(TBResultType.SUCCESS);
+	}
+	
+	/**
+	 * 判断玩家是否可被邀请
+	 * @param userId
+	 * @param teamId
+	 * @return
+	 */
+	private boolean isInviteAble(String userId, String teamId, String hardId){
+		Player invitePlayer = PlayerMgr.getInstance().findPlayerFromMemory(userId);
+		if(null == invitePlayer){
+			return false;
+		}
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userId);
+		if(null == utbData || StringUtils.isNotBlank(utbData.getTeamID())){
+			return false;
+		}
+		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardId);
+		if(teamCfg == null){
+			return false;
+		}
+		if(invitePlayer.getLevel() < teamCfg.getLevel()){
+			return false;
+		}
+		return UserTeamBattleDataMgr.getInstance().haveFightTimes(invitePlayer, hardId);
 	}
 
 	/**

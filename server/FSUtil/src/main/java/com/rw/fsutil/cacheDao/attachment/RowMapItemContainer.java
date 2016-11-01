@@ -169,8 +169,7 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 	 * 添加一组数据
 	 * </pre>
 	 * 
-	 * @param itemList
-	 *            添加列表
+	 * @param itemList 添加列表
 	 * @return
 	 * @throws DuplicatedKeyException
 	 */
@@ -183,20 +182,17 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 	 * 添加一组数据并更新一组数据，若添加操作失败，则不执行更新操作
 	 * </pre>
 	 * 
-	 * @param addList
-	 *            添加列表
-	 * @param updateList
-	 *            更新列表
+	 * @param addList 添加列表
+	 * @param updateList 更新列表
 	 * @return
-	 * @throws DuplicatedKeyException
-	 *             重复主键抛出此异常
+	 * @throws DuplicatedKeyException 重复主键抛出此异常
 	 */
 	public synchronized boolean updateItems(List<E> addList, List<K> updateList) throws DuplicatedKeyException {
 		if (addList == null || addList.isEmpty()) {
 			updateItems(updateList);
 			return true;
 		}
-		if (addItem(addList, false)) {
+		if (!addItem(addList, false)) {
 			return false;
 		}
 		updateItems(updateList, false);
@@ -209,17 +205,12 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 	 * 批量执行添加、删除、更新操作，其中添加和删除操作保证原子性，若失败则不会执行更新操作
 	 * </pre>
 	 * 
-	 * @param addList
-	 *            添加列表
-	 * @param delList
-	 *            删除列表
-	 * @param updateList
-	 *            更新列表
+	 * @param addList 添加列表
+	 * @param delList 删除列表
+	 * @param updateList 更新列表
 	 * @return
-	 * @throws ItemNotExistException
-	 *             删除记录不存在抛出此异常
-	 * @throws DuplicatedKeyException
-	 *             重复主键抛出此异常
+	 * @throws ItemNotExistException 删除记录不存在抛出此异常
+	 * @throws DuplicatedKeyException 重复主键抛出此异常
 	 */
 	public synchronized boolean updateItems(List<E> addList, List<K> delList, List<K> updateList) throws DuplicatedKeyException, DataNotExistException, Exception {
 		if (delList == null || delList.isEmpty()) {
@@ -350,8 +341,8 @@ public abstract class RowMapItemContainer<K, T extends RowMapItem<K>, E extends 
 		}
 		return true;
 	}
-	
-	public Map<K, T> getItemMap(){
+
+	public Map<K, T> getItemMap() {
 		return this.itemMap;
 	}
 

@@ -27,11 +27,14 @@ import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerCreateParam;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.hero.core.FSHero;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
+import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.service.PeakArena.PeakArenaBM;
@@ -578,7 +581,7 @@ public class RobotManager {
 			// 初始化主角
 			// 初始主角英雄
 
-			Player player = new Player(userId, false, playerCfg);
+			Player player = new Player(userId, false, playerCfg, new PlayerCreateParam(level));
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 
 			
@@ -602,6 +605,8 @@ public class RobotManager {
 			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
 			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
+			
+			MapItemStoreFactory.getMainHeroDataCache().getMapItemStore(userId, FSHero.class).update(userId);
 			// String fashonId = getRandom(cfg.getFashions());
 			// if (!fashonId.equals("0")) {
 			// int fashionID = Integer.parseInt(fashonId);
@@ -616,7 +621,7 @@ public class RobotManager {
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
 			HeroMgr heroMgr = player.getHeroMgr();
-
+			
 			String heroGroupId = getRandom(cfg.getHeroGroupId());
 			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
 			if (heroCfgList == null) {
@@ -644,14 +649,14 @@ public class RobotManager {
 			int[] heroSkill3 = cfg.getHeroThirdSkillLevel();
 			int[] heroSkill4 = cfg.getHeroFourthSkillLevel();
 			int[] heroSkill5 = cfg.getHeroFifthSkillLevel();
-
 			ArrayList<String> arenaList = new ArrayList<String>();
 			for (Hero hero : heroList) {
 				changeHero(hero, cfg);
 				changeEquips(userId, hero, equipments, heroQuality, heroEnchant);
 				changeGem(player, hero, heroGemType, heroGemCount, heroGemLevel);
 				changeSkill(player, hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
-				arenaList.add(hero.getUUId());
+				String id = hero.getUUId();
+				arenaList.add(id);
 			}
 
 			// 增加其他的扩展内容
@@ -686,7 +691,7 @@ public class RobotManager {
 			heroModelList.add(mainRoleModelId);
 
 			int fighting = mainRoleHero.getFighting();
-
+			MapItemStore<FSHero> store = MapItemStoreFactory.getHeroDataCache().getMapItemStore(userId, FSHero.class);
 			for (Hero hero : heroList) {
 				if (hero == null) {
 					continue;
@@ -699,10 +704,11 @@ public class RobotManager {
 
 				heroModelList.add(modelId);
 				fighting += hero.getFighting();
+				store.update(hero.getId());
 			}
 
 			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
-			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + level + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
+			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + player.getLevel() + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
 			return new RankingPlayer(player, arenaList, expectRanking);
 		}
 	}

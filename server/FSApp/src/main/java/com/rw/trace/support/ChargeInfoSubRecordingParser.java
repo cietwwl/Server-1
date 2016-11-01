@@ -48,7 +48,7 @@ public class ChargeInfoSubRecordingParser implements DataValueParser<ChargeInfoS
 
     @Override
     public JSONObject toJson(ChargeInfoSubRecording entity) {
-        JSONObject json = new JSONObject(2);
+        JSONObject json = new JSONObject(3);
         json.put("id", entity.getId());
         json.put("count", entity.getCount());
         return json;

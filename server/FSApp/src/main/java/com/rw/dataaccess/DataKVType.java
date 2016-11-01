@@ -3,6 +3,8 @@ package com.rw.dataaccess;
 import com.bm.worldBoss.data.WBUserDataCreator;
 import com.bm.worldBoss.data.WBUserDataDao;
 import com.common.HPCUtil;
+import com.playerdata.charge.dao.ChargeInfoCreator;
+import com.playerdata.charge.dao.ChargeInfoDao;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineDAO;
 import com.playerdata.mgcsecret.data.UserMagicSecretDao;
 import com.playerdata.teambattle.data.UserTeamBattleDAO;
@@ -112,8 +114,10 @@ public enum DataKVType {
 	USER_HERO_GLOBAL_DATA(33, FSUserHeroGlobalDataDAO.class, FSUserHeroGlobalDataCreator.class),
 	// 点赞的个人数据
 	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class),
+	// 个人充值数据
+	CHARGE_INFO(35, ChargeInfoDao.class, ChargeInfoCreator.class),
 
-	WB_USER_DATA(35, WBUserDataDao.class, WBUserDataCreator.class);
+	WB_USER_DATA(36, WBUserDataDao.class, WBUserDataCreator.class);
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
 		this.typeValue = type;
