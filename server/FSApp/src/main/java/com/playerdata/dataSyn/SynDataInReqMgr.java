@@ -98,7 +98,6 @@ public class SynDataInReqMgr {
 					MsgDataSyn dataSyn = synList.getMsgDataSyn(i);
 					eSynType type = dataSyn.getSynType();
 					statCollector.recordDataSynSize(type, dataSyn.getSerializedSize(), recordKey);
-					System.out.println(type + "," + recordKey + "," + dataSyn.getSerializedSize());
 				}
 			}
 		} catch (Exception e) {
