@@ -967,6 +967,9 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				} else {
 					currencyMap.put(itemID, itemNum + hasValue);
 				}
+			} else if (ItemCfgHelper.isFashionSpecialItem(itemID)) {
+				// 2016-11-01 添加对时装的判断
+				addFashion(itemID);
 			} else {
 				newItemList.add(new NewItem(itemID, itemNum, null));
 			}
