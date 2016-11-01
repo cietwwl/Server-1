@@ -70,7 +70,10 @@ public class MsgStat {
 		if (key2 != null) {
 			sb.append(',').append(key2);
 		}
-		sb.append(',').append(name).append(']');
+		if (name != null) {
+			sb.append(',').append(name);
+		}
+		sb.append(']');
 		sb.append(getMsgInfo());
 		return sb.toString();
 	}

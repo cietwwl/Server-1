@@ -43,7 +43,6 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
-import com.rw.trace.stat.MsgStatFactory;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
@@ -239,7 +238,7 @@ public class UserChannelMgr {
 		return userChannelsMap.containsKey(userId);
 	}
 
-	public static ByteString getDataOnBSEnd(String userId) {
+	public static ByteString getDataOnBSEnd(String userId, Object recordKey) {
 		ChannelHandlerContext ctx = getChannelHandlerContext(userId);
 		if (ctx == null) {
 			return null;
@@ -249,7 +248,7 @@ public class UserChannelMgr {
 		if (synData == null) {
 			return null;
 		}
-		return synData.getSynData(ctx, userId);
+		return synData.getSynData(ctx, userId, recordKey);
 	}
 
 	/**
@@ -446,13 +445,13 @@ public class UserChannelMgr {
 		}
 	}
 
-	public static void sendErrorResponse(String userId, RequestHeader header, int exceptionCode) {
+	public static void sendErrorResponse(String userId, RequestHeader header, Object subCmd, int exceptionCode) {
 		Long sessionId = userChannelsMap.get(userId);
-		sendSyncResponse(userId, header, null, exceptionCode, sessionId, null);
+		sendSyncResponse(userId, header, subCmd, null, exceptionCode, sessionId, null);
 	}
 
-	public static ChannelFuture sendSyncResponse(String userId, RequestHeader header, ByteString resultContent, Long sessionId, ByteString synData) {
-		return sendSyncResponse(userId, header, resultContent, 200, sessionId, synData);
+	public static ChannelFuture sendSyncResponse(String userId, RequestHeader header, Object subCmd, ByteString resultContent, Long sessionId, ByteString synData) {
+		return sendSyncResponse(userId, header, subCmd, resultContent, 200, sessionId, synData);
 	}
 
 	/**
@@ -461,8 +460,8 @@ public class UserChannelMgr {
 	 * @param resultContent
 	 * @param sessionId
 	 */
-	public static void sendSyncResponse(RequestHeader header, ByteString resultContent, Long sessionId) {
-		sendSyncResponse(null, header, resultContent, 200, sessionId, null);
+	public static void sendSyncResponse(RequestHeader header, Object subCmd, ByteString resultContent, Long sessionId) {
+		sendSyncResponse(null, header, subCmd, resultContent, 200, sessionId, null);
 	}
 
 	/**
@@ -494,7 +493,7 @@ public class UserChannelMgr {
 		}
 		Response response = builder.build();
 		ChannelFuture future = ctx.channel().writeAndFlush(response);
-		MsgStatFactory.getCollector().recordSendMsg(Cmd, subCommand);
+		future.addListener(new MsgSendTimesListener(Cmd, subCommand, response));
 		return future;
 	}
 
@@ -515,14 +514,14 @@ public class UserChannelMgr {
 		return sendAyncResponse(userId, sessionId, Cmd, subCmd, pBuffer);
 	}
 
-	public static ChannelFuture sendSyncResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, Long sessionId, ByteString synData) {
+	public static ChannelFuture sendSyncResponse(String userId, RequestHeader header, Object subCmd, ByteString resultContent, int statusCode, Long sessionId, ByteString synData) {
 		ChannelHandlerContext ctx;
 		if (sessionId == null) {
 			ctx = null;
 		} else {
 			ctx = ServerHandler.getChannelHandlerContext(sessionId);
 		}
-		return sendResponse(userId, header, resultContent, statusCode, ctx, synData);
+		return sendResponse(userId, header, subCmd, resultContent, statusCode, ctx, synData);
 	}
 
 	/**
@@ -536,7 +535,7 @@ public class UserChannelMgr {
 	 * @param synData
 	 * @return
 	 */
-	public static ChannelFuture sendResponse(String userId, RequestHeader header, ByteString resultContent, int statusCode, ChannelHandlerContext ctx, ByteString synData) {
+	public static ChannelFuture sendResponse(String userId, RequestHeader header, Object subCmd, ByteString resultContent, int statusCode, ChannelHandlerContext ctx, ByteString synData) {
 		boolean sendMsg = ctx != null;
 		boolean saveMsg = userId != null;
 		if (!sendMsg && !saveMsg) {
@@ -567,7 +566,8 @@ public class UserChannelMgr {
 		}
 		if (sendMsg) {
 			ChannelFuture future = ctx.channel().writeAndFlush(result);
-			GameLog.debug("#发送消息" + "  " + result.getHeader().getCommand().toString() + "  size:" + result.getSerializedContent().size());
+			future.addListener(new MsgSendTimesListener(command, subCmd, result));
+			GameLog.debug("#发送消息" + "  " + command + "  size:" + result.getSerializedContent().size());
 			return future;
 		} else {
 			return null;

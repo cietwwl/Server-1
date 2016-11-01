@@ -26,7 +26,7 @@ public class HeartBeatTask implements PlayerTask {
 			return;
 		}
 		player.heartBeatCheck();
-		UserChannelMgr.sendSyncResponse(request.getHeader(), null, sessionId);
+		UserChannelMgr.sendSyncResponse(request.getHeader(), null, null, sessionId);
 	}
 
 }
