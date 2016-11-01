@@ -139,6 +139,8 @@ enum Command {
 	
 	MSG_GROUP_COMPETITION_EVENTS_START = 232; // 帮派争霸：赛事开始，如果收到消息，需要弹框。
 	
+	MSG_VIP_GIFT_NOTIFY = 233; // 通知客户端发送了VIP专享礼包，发送Vip.proto里面的VIPGiftNotify
+	
 	
 	
 	
