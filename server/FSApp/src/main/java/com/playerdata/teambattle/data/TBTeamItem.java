@@ -156,6 +156,7 @@ public class TBTeamItem implements IMapItem{
 	
 	public boolean removeAble(){
 		if(members.size() == 0) return true;
+		if(members.size() < TeamBattleConst.TEAM_MAX_MEMBER) return false;
 		for(TeamMember member : members){
 			if(member.getState().equals(TBMemberState.Fight)) return false;
 			if(member.getState().equals(TBMemberState.HalfFinish)) return false;

@@ -15,14 +15,10 @@ import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
-import com.playerdata.teambattle.bm.TeamBattleConst;
-import com.playerdata.teambattle.cfg.TeamCfg;
-import com.playerdata.teambattle.cfg.TeamCfgDAO;
-import com.playerdata.teambattle.data.TBTeamItemHolder;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailCfgDAO;
-import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 public class GFightOnlineResourceMgr {
 	
