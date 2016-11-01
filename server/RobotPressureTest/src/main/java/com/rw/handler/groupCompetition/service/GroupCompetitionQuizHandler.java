@@ -7,6 +7,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.groupCompetition.data.guess.GCQuizEventItem;
 import com.rwproto.GroupCompetitionProto.GCRequestType;
 import com.rwproto.GroupCompetitionProto.GCResultType;
@@ -17,7 +18,7 @@ import com.rwproto.GroupCompetitionProto.RsqNewGuess;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GroupCompetitionQuizHandler {
+public class GroupCompetitionQuizHandler implements RandomMethodIF{
 
 	public static final int[] quizCountArr = {100000, 200000, 500000};
 	
@@ -117,5 +118,10 @@ public class GroupCompetitionQuizHandler {
 			}
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return quizForCompetion(client);
 	}
 }

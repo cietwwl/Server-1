@@ -6,6 +6,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.WorshipServiceProtos.EWorshipRequestType;
@@ -14,15 +15,12 @@ import com.rwproto.WorshipServiceProtos.WorshipRequest;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
 
-public class worShipHandler {
-	private static worShipHandler handler = new worShipHandler();
+public class WorShipHandler implements RandomMethodIF{
+	private static WorShipHandler handler = new WorShipHandler();
 
-	public static worShipHandler getHandler() {
+	public static WorShipHandler getHandler() {
 		return handler;
 	}
-	
-
-
 	
 	/**
 	 * 膜拜
@@ -34,7 +32,6 @@ public class worShipHandler {
 		WorshipRequest.Builder req = WorshipRequest.newBuilder();
 		req.setRequestType(EWorshipRequestType.WORSHIP);
 		req.setWorshipCareer(num);//永远的行者者者者者者者者者者者者者者者者者
-		
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_Worship, req.build().toByteString(), new MsgReciver() {
 
@@ -87,8 +84,11 @@ public class worShipHandler {
 		public int getValue(){
 			return this.type;
 		}
-		
-		
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return ArenaWorship(client, 1);
 	}
 }
 

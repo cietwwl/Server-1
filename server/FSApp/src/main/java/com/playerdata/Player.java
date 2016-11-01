@@ -427,7 +427,7 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public ByteString onLogin() {
+	public ByteString onLogin(Object recordKey) {
 		String userId = getUserId();
 		ByteString synData = null;
 		UserChannelMgr.onBSBegin(userId);
@@ -450,7 +450,7 @@ public class Player implements PlayerIF {
 			// 帮派争霸角色登录通知
 			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 		} finally {
-			synData = UserChannelMgr.getDataOnBSEnd(userId);
+			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}
 
 		return synData;

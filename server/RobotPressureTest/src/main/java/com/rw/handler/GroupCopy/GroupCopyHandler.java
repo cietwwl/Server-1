@@ -8,6 +8,7 @@ import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.dataSyn.DataSynHelper;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.GroupCopy.data.GroupCopyDataVersion;
 import com.rw.handler.GroupCopy.data.GroupCopyMonsterSynStruct;
 import com.rw.handler.hero.TableUserHero;
@@ -27,7 +28,7 @@ import com.rwproto.GroupCopyCmdProto.GroupCopyReqType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GroupCopyHandler {
+public class GroupCopyHandler implements RandomMethodIF{
 
 	private static GroupCopyHandler handler = new GroupCopyHandler();
 	private final static String functionName = "帮派副本";
@@ -540,7 +541,10 @@ public class GroupCopyHandler {
 			}
 		});
 	}
-	
-	
-	
+
+	@Override
+	public boolean executeMethod(Client client) {
+		// TODO Auto-generated method stub
+		return getAllRewardApplyInfo(client);
+	}
 }

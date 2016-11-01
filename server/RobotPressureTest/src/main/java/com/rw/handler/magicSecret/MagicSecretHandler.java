@@ -14,6 +14,7 @@ import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RefBoolean;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MagicSecretProto.MSItemInfo;
 import com.rwproto.MagicSecretProto.MagicSecretReqMsg;
 import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
@@ -22,7 +23,7 @@ import com.rwproto.MagicSecretProto.msResultType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class MagicSecretHandler {
+public class MagicSecretHandler implements RandomMethodIF{
 	private static final int GET_SELF_MS_RANK = 9;
 	private static final int GET_MS_RANK = 1;// 查看
 	private static final int GET_MS_SWEEP_REWARD = 4;// 扫荡
@@ -631,6 +632,11 @@ public class MagicSecretHandler {
 			}
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return checkMagicSecretStatus(client);
 	}
 
 }

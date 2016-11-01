@@ -5,12 +5,12 @@ import io.netty.channel.ChannelHandlerContext;
 import java.util.Map;
 
 import com.bm.login.AccoutBM;
-import com.google.protobuf.ByteString;
 import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
+import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FsService;
@@ -105,8 +105,7 @@ public class FsNettyControler {
 	}
 
 	private void doPlatformGSMsg(Request exRequest, ChannelHandlerContext ctx) {
-		ByteString resultContent = PlatformGSService.doTask(exRequest);
-		UserChannelMgr.sendResponse(null, exRequest.getHeader(), resultContent, 200, ctx, null);
+		PlatformGSService.doTask(exRequest, ctx);
 	}
 
 	public FsService<GeneratedMessage, ProtocolMessageEnum> getSerivice(Command command) {
@@ -122,6 +121,6 @@ public class FsNettyControler {
 	}
 
 	public void functionNotOpen(String userId, RequestHeader header) {
-		UserChannelMgr.sendErrorResponse(userId, header, 403);
+		UserChannelMgr.sendErrorResponse(userId, header, MsgResultType.FUNCTION_NOT_OPEN, 403);
 	}
 }

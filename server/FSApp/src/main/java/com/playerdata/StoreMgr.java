@@ -120,8 +120,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 						pStoreData.setExistType(eStoreExistType.Always);
 					}
 					storeDataHolder.add(m_pPlayer, type);
-					continue;
 				}
+				continue;
 			}
 			
 			eOpenLevelType openLevelType = storeType.getType();

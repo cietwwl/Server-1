@@ -8,14 +8,17 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.account.ServerInfo;
+import com.rw.actionHelper.ActionEnum;
+import com.rw.actionHelper.ActionRateHelper;
 import com.rw.dataSyn.JsonUtil;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.GroupCopy.data.GroupCopyDataHolder;
 import com.rw.handler.GroupCopy.data.GroupCopyUserDataHolder;
 import com.rw.handler.activity.ActivityCountHolder;
 import com.rw.handler.activity.daily.ActivityDailyCountHolder;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rw.handler.chat.data.ChatData;
-import com.rw.handler.copy.CopyHolder;
+import com.rw.handler.copy.data.CopyHolder;
 import com.rw.handler.daily.DailyActivityDataHolder;
 import com.rw.handler.equip.HeroEquipHolder;
 import com.rw.handler.fixEquip.FixNormEquipDataItemHolder;
@@ -56,7 +59,6 @@ import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
 import com.rw.handler.teamBattle.data.TBTeamItemHolder;
 import com.rw.handler.teamBattle.data.UserTeamBattleDataHolder;
-import com.rwproto.ResponseProtos.Response;
 
 /*
  * 角色信息
@@ -65,7 +67,8 @@ import com.rwproto.ResponseProtos.Response;
  * @Description 
  */
 public class Client {
-
+	
+	private ActionRateHelper rateHelper = new ActionRateHelper();
 	// private static Random r = new Random();// 随机性别
 	private String accountId;// 帐号Id
 	private String password = "123456";// 帐号密码
@@ -133,7 +136,7 @@ public class Client {
 	private GFightOnlineGroupHolder gfGroupHolder = new GFightOnlineGroupHolder();
 
 	// 组队战
-	private TBTeamItemHolder tbTeamItemHolder = new TBTeamItemHolder();
+	private TBTeamItemHolder tbTeamItemHolder = new TBTeamItemHolder(rateHelper);
 	private UserTeamBattleDataHolder utbDataHolder = new UserTeamBattleDataHolder();
 
 	// 争霸赛
@@ -156,7 +159,9 @@ public class Client {
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
 
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
-
+	
+	
+	
 	// last seqId
 	// private volatile int lastSeqId;
 	private volatile CommandInfo commandInfo = new CommandInfo(null, 0);
@@ -550,5 +555,19 @@ public class Client {
 
 	public GCompMatchBattleSynDataHolder getgCompMatchBattleSynDataHolder() {
 		return gCompMatchBattleSynDataHolder;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ActionRateHelper getRateHelper(){
+		return rateHelper;
+	}
+	
+	public RandomMethodIF getNextModuleHandler(){
+		ActionEnum act = rateHelper.getRandomAction();
+		if(null == act) return null;
+		return rateHelper.getRandomAction().getExeHandler();
 	}
 }

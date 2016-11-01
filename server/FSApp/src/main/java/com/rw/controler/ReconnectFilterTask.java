@@ -80,6 +80,6 @@ public class ReconnectFilterTask implements Runnable {
 
 	private void returnReconnectRequest(ReConnectResponse.Builder b, Request request, ReConnectResultType resultType) {
 		b.setResultType(resultType);
-		UserChannelMgr.sendSyncResponse(null, request.getHeader(), b.build().toByteString(), sessionId, null);
+		UserChannelMgr.sendSyncResponse(null, request.getHeader(), resultType, b.build().toByteString(), sessionId, null);
 	}
 }

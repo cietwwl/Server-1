@@ -587,12 +587,13 @@ public class FriendHandler {
 			return;
 		}
 		FriendResponse.Builder response = FriendResponse.newBuilder();
-		response.setRequestType(EFriendRequestType.REQUEST_ADD_FRIEND);
+		EFriendRequestType requestType = EFriendRequestType.REQUEST_ADD_FRIEND;
+		response.setRequestType(requestType);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
 //		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "RequestAdd", response.build().toByteString());
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType , response.build().toByteString());
 	}
 
 	/** 推送同意添加的好友 */
@@ -601,12 +602,13 @@ public class FriendHandler {
 			return;
 		}
 		FriendResponse.Builder response = FriendResponse.newBuilder();
-		response.setRequestType(EFriendRequestType.CONSENT_ADD_FRIEND);
+		EFriendRequestType requestType = EFriendRequestType.CONSENT_ADD_FRIEND;
+		response.setRequestType(requestType);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
 //		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "ConsentAdd", response.build().toByteString());
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 
 	/** 推送移除好友 */
@@ -616,11 +618,12 @@ public class FriendHandler {
 		}
 		FriendUtils.checkHasNotReceive(player, player.getFriendMgr().getTableFriend());
 		FriendResponse.Builder response = FriendResponse.newBuilder();
-		response.setRequestType(EFriendRequestType.REMOVE_FRIEND);
+		EFriendRequestType requestType = EFriendRequestType.REMOVE_FRIEND;
+		response.setRequestType(requestType);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(otherUserId);
 //		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, "Remove", response.build().toByteString());
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 
 	/** 推送好友列表 */

@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.chat.attach.AttachItemFactory;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
@@ -27,7 +28,7 @@ import com.rwproto.GroupSecretProto.RequestType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GroupSecretHandler {
+public class GroupSecretHandler implements RandomMethodIF{
 	private static GroupSecretHandler handler = new GroupSecretHandler();
 	private static final Command command = Command.MSG_GROUP_SECRET;
 	private static final String functionName = "帮派秘境";
@@ -226,5 +227,10 @@ public class GroupSecretHandler {
 		req.setReqType(RequestType.OPEN_MAIN_VIEW);
 		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "打开界面"));
 
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return createGroupSecret(client);
 	}
 }

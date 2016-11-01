@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.HeroServiceProtos.MsgHeroRequest;
 import com.rwproto.HeroServiceProtos.MsgHeroResponse;
 import com.rwproto.HeroServiceProtos.eHeroResultType;
@@ -17,7 +18,7 @@ import com.rwproto.ResponseProtos.Response;
  * @date 2016年3月16日 上午10:09:47
  * @Description 佣兵消息处理
  */
-public class HeroHandler {
+public class HeroHandler implements RandomMethodIF{
 
 	private static HeroHandler handler = new HeroHandler();
 	private static final Command command = Command.MSG_Hero;
@@ -96,5 +97,10 @@ public class HeroHandler {
 
 		boolean success = client.getMsgHandler().sendMsg(command, req.build().toByteString(), new HeroMsgReceiver(command, functionName, "英雄升星"));
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return heroUpgrade(client);
 	}
 }

@@ -23,10 +23,6 @@ public class ActivityTimeCardTypeSubItem {
 	//月卡商品类型
 	private String chargetype;
 
-
-
-	
-
 	public String getChargetype() {
 		return chargetype;
 	}
@@ -66,8 +62,7 @@ public class ActivityTimeCardTypeSubItem {
 	public void setLastTakeAwardTime(long lastTakeAwardTime) {
 		this.lastTakeAwardTime = lastTakeAwardTime;
 	}
-
-
+	
 	public static ActivityTimeCardTypeSubItem newItem(ActivityTimeCardTypeSubCfg subItemCfg){
 		ActivityTimeCardTypeSubItem subItem = new ActivityTimeCardTypeSubItem();
 		subItem.setId(subItemCfg.getId());
@@ -77,6 +72,4 @@ public class ActivityTimeCardTypeSubItem {
 		return subItem;
 		
 	}
-	
-
 }

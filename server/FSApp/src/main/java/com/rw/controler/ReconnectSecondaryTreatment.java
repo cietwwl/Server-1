@@ -86,7 +86,7 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 				player.synByVersion(Collections.EMPTY_LIST);
 			}
 		} finally {
-			synData = UserChannelMgr.getDataOnBSEnd(userId);
+			synData = UserChannelMgr.getDataOnBSEnd(userId, request.getHeader().getCommand());
 		}
 		ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request, synData);
 	}

@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
@@ -15,8 +16,7 @@ import com.rwproto.CopyServiceProtos.TagBattleData.Builder;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class PVEHandler {
-
+public class PVEHandler implements RandomMethodIF{
 	
 	private static PVEHandler instance = new PVEHandler();
 	public static PVEHandler instance(){
@@ -128,7 +128,9 @@ public class PVEHandler {
 		});
 		return success;
 	}
-	
-	
 
+	@Override
+	public boolean executeMethod(Client client) {
+		return before(client);
+	}
 }

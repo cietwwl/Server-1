@@ -5,16 +5,15 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
-import com.rwproto.StoreProtos.StoreResponse;
-import com.rwproto.StoreProtos.eStoreResultType;
 import com.rwproto.TaskProtos.TaskRequest;
 import com.rwproto.TaskProtos.TaskResponse;
 import com.rwproto.TaskProtos.eTaskRequestType;
 import com.rwproto.TaskProtos.eTaskResultType;
 
-public class TaskHandler {
+public class TaskHandler implements RandomMethodIF{
 
 	
 	private static TaskHandler instance = new TaskHandler();
@@ -76,6 +75,11 @@ public class TaskHandler {
 
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return getReward(client);
 	}
 
 }

@@ -1,17 +1,13 @@
 package com.rw.handler.taoist;
 
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import javax.swing.DebugGraphics;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.TaoistMagicProtos.ErrorCode_Taoist;
@@ -20,10 +16,7 @@ import com.rwproto.TaoistMagicProtos.TaoistRequest;
 import com.rwproto.TaoistMagicProtos.TaoistRequestType;
 import com.rwproto.TaoistMagicProtos.TaoistResponse;
 
-
-
-
-public class TaoistHandler {
+public class TaoistHandler implements RandomMethodIF{
 	private static  TaoistHandler handler = new TaoistHandler();
 
 	public static  TaoistHandler getHandler() {
@@ -152,30 +145,7 @@ public class TaoistHandler {
 		return success;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public void getTaoistData(Client client){
 		TaoistRequest.Builder req = TaoistRequest.newBuilder();		
 		req.setReqType(TaoistRequestType.getTaoistData);
@@ -213,5 +183,10 @@ public class TaoistHandler {
 				return true;
 			}			
 		});
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return updateTaoist(client);
 	}	
 }

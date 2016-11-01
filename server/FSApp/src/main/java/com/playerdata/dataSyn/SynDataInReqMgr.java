@@ -14,12 +14,12 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.rw.controler.FsNettyControler;
-import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.trace.stat.MsgStatCollector;
+import com.rw.trace.stat.MsgStatFactory;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
+import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
-import com.rwproto.MsgDef.Command;
 
 public class SynDataInReqMgr {
 
@@ -34,7 +34,7 @@ public class SynDataInReqMgr {
 		}
 		return threadId.compareAndSet(0, Thread.currentThread().getId());
 	}
-	
+
 	public boolean addSynData(Object serverData, eSynType synType, MsgDataSyn.Builder msgDataSyn) {
 		if (!checkInSynThread(synType)) {
 			return false;
@@ -58,16 +58,17 @@ public class SynDataInReqMgr {
 		}
 		return true;
 	}
-//
-//	public boolean doSyn(ChannelHandlerContext ctx, String userId) {
-//		ByteString synData = getSynData(ctx, userId);
-//		if(synData!=null){
-//			nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, synData);
-//		}
-//		return true;
-//	}
-	
-	public ByteString getSynData(ChannelHandlerContext ctx, String userId) {
+
+	//
+	// public boolean doSyn(ChannelHandlerContext ctx, String userId) {
+	// ByteString synData = getSynData(ctx, userId);
+	// if(synData!=null){
+	// nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, synData);
+	// }
+	// return true;
+	// }
+
+	public ByteString getSynData(ChannelHandlerContext ctx, String userId, Object recordKey) {
 		ByteString syndata = null;
 		if (ctx == null) {
 			return syndata;
@@ -90,8 +91,14 @@ public class SynDataInReqMgr {
 						msgDataSynList.addMsgDataSyn(synData.getContent());
 					}
 				}
-				syndata = msgDataSynList.build().toByteString();
-				
+				MsgDataSynList synList = msgDataSynList.build();
+				syndata = synList.toByteString();
+				MsgStatCollector statCollector = MsgStatFactory.getCollector();
+				for (int i = synList.getMsgDataSynCount(); --i >= 0;) {
+					MsgDataSyn dataSyn = synList.getMsgDataSyn(i);
+					eSynType type = dataSyn.getSynType();
+					statCollector.recordDataSynSize(type, dataSyn.getSerializedSize(), recordKey);
+				}
 			}
 		} catch (Exception e) {
 			GameLog.error(LogModule.COMMON.getName(), userId, "SynDataInReqMgr[doSyn] error synType:", e);

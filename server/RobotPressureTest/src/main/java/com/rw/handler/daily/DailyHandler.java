@@ -6,6 +6,7 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.DailyActivityProtos.DailyActivityInfo;
 import com.rwproto.DailyActivityProtos.EDailyActivityRequestType;
 import com.rwproto.DailyActivityProtos.MsgDailyActivityRequest;
@@ -14,7 +15,7 @@ import com.rwproto.DailyActivityProtos.eDailyActivityResultType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class DailyHandler {
+public class DailyHandler implements RandomMethodIF{
 	private static DailyHandler handler = new DailyHandler();
 	private static final Command command = Command.MSG_DAILY_ACTIVITY;
 	private static final String functionName = "日常模块";
@@ -121,6 +122,9 @@ public class DailyHandler {
 			return functionName + "[" + protoType + "] ";
 		}
 	}
-	
-	
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return processDaily(client);
+	}
 }
