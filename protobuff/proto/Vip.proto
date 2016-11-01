@@ -10,3 +10,8 @@ message tagPrivilege{
 	optional int32 key = 1;
 	optional int32 value =2 ;
 }
+
+// VIP等级专享礼包发送通知
+message VIPGiftNotify {
+	repeated fixed32 vipLv = 1; // 已发送的VIP等级专享礼包
+}
