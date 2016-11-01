@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.battle.army.ArmyHero;
 import com.rw.handler.battle.army.ArmyInfo;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rwproto.BattleCommon.BattleHeroPosition;
@@ -137,9 +138,13 @@ public class GroupSecretMatchHandler {
 				.getGroupSecretBaseInfoSynDataHolder();
 		ArmyInfo armyInfo = groupSecretBaseInfoSynDataHolder.getArmyInfo();
 		if (armyInfo != null) {
-			int length = armyInfo.getHeroList().size();
+			List<ArmyHero> heroList = armyInfo.getHeroList();
+			if(heroList == null || heroList.size() == 0){
+				return true;
+			}
+			int length = heroList.size();
 			for (int i = 0; i < length; i++) {
-				String heroId = (String) armyInfo.getHeroList().get(i)
+				String heroId = (String) heroList.get(i)
 						.getRoleBaseInfo().getId();
 				HeroLeftInfo.Builder info = HeroLeftInfo.newBuilder();
 				info.setId(heroId);
