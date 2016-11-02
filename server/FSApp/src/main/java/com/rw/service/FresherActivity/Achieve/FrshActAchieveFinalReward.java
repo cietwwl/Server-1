@@ -38,7 +38,7 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 		int totalCount = 0;
 		long current = System.currentTimeMillis();
 		for (FresherActivityItem data : fresherActivityItemList) {
-			if (data.isFinish() && current <= data.getStartTime()) {
+			if (data.isFinish() && current >= data.getStartTime()) {
 				finishCount++;
 			}
 			
