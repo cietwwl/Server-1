@@ -23,6 +23,7 @@ import com.playerdata.groupFightOnline.manager.GFDefendArmyMgr;
 import com.playerdata.groupFightOnline.manager.GFFinalRewardMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
 import com.playerdata.groupFightOnline.manager.GFightOnlineResourceMgr;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
 import com.rwproto.GrouFightOnlineProto.GroupFightOnlineRspMsg;
@@ -159,9 +160,12 @@ public class GFightFinalBM {
 			//清除帮战的帮派信息
 			GFightOnlineGroupMgr.getInstance().clearCurrentLoopData(item.getGroupID());
 			//清除所有参与帮战的成员的个人信息
-			List<? extends GroupMemberDataIF> groupMembers = GroupBM.get(item.getGroupID()).getGroupMemberMgr().getMemberSortList(null);
-			for(GroupMemberDataIF member : groupMembers)
-				UserGFightOnlineHolder.getInstance().resetData(member.getUserId());
+			Group group = GroupBM.get(item.getGroupID());
+			if(null != group) {
+				List<? extends GroupMemberDataIF> groupMembers = group.getGroupMemberMgr().getMemberSortList(null);
+				for(GroupMemberDataIF member : groupMembers)
+					UserGFightOnlineHolder.getInstance().resetData(member.getUserId());
+			}
 		}
 		//清除几个排行榜
 		GFGroupBiddingRankMgr.clearRank(resourceID);
