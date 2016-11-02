@@ -271,6 +271,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 */
 	private List<CommodityData> RandomList(int index) {
 		List<CommodityData> list = new ArrayList<CommodityData>();
+		List<Integer> modelIDList = new ArrayList<Integer>();
 		StoreCfg cfg = StoreCfgDAO.getInstance().getStoreCfg(index);
 		if (cfg == null) {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：store表没有类型为" + index + "的数据", null);
@@ -297,12 +298,16 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			m_nRandom = 0;
 			CommodityCfg commcfg = getRandomCommondity(commcfgs);
 			if (commcfg != null) {
+				if(modelIDList.contains(commcfg.getGoodsId())){
+					continue;
+				}
 				CommodityData pCommodityCell = new CommodityData();
 				pCommodityCell.setId(commcfg.getId());
 				pCommodityCell.setCount(1);
 				pCommodityCell.setExchangeCount(0);
 				pCommodityCell.setSolt(i);
 				list.add(pCommodityCell);
+				modelIDList.add(commcfg.getGoodsId());
 				commcfgs.remove(commcfg);
 			}
 		}
