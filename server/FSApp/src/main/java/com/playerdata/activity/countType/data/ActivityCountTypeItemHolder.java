@@ -10,6 +10,7 @@ import com.playerdata.activity.countType.ActivityCountTypeHelper;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
+import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -67,6 +68,20 @@ public class ActivityCountTypeItemHolder{
 			ClientDataSynMgr.updateData(player, item, synType, eSynOpType.ADD_SINGLE);
 		}
 		return addSuccess;
+	}
+	
+	public boolean addItemList(Player player, List<ActivityCountTypeItem> itemList){
+		try {
+			boolean addSuccess = getItemStore(player.getUserId()).addItem(itemList);
+			if(addSuccess){
+				ClientDataSynMgr.updateDataList(player, getItemList(player.getUserId()), synType, eSynOpType.UPDATE_LIST);
+			}
+			return addSuccess;
+		} catch (DuplicatedKeyException e) {
+			//handle..
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 //	public boolean removeitem(Player player,ActivityCountTypeEnum type){
