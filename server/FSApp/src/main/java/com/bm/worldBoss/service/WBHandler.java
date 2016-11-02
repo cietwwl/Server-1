@@ -276,7 +276,7 @@ public class WBHandler {
 			result = checkUser(player);
 		}
 		if(result.isSuccess()){			
-			result = WBHelper.takeCost(player, eSpecialItemId.Gold, getBuyCDCost());
+			result = WBHelper.takeCost(player, eSpecialItemId.Gold, getBuyCDCost(player));
 			if(result.isSuccess()){
 				WBUserMgr.getInstance().cleanCD(player);
 			}
@@ -297,9 +297,17 @@ public class WBHandler {
 		return result;
 	}
 	
-	private int getBuyCDCost(){
-		int cdCost = WBSettingCfgDAO.getInstance().getCfg().getCdCost();		
-		return cdCost;
+	private int getBuyCDCost(Player player){
+		WBUserData userData = WBUserDataHolder.getInstance().get(player.getUserId());
+		int buyCount = userData == null ? 0 : userData.getCdBuyCount();
+		String[] cdCost = WBSettingCfgDAO.getInstance().getCfg().getCdCost().split(";");
+		int cost = 0;
+		if(buyCount >= cdCost.length){
+			cost = Integer.parseInt(cdCost[cdCost.length - 1]);
+		}else{
+			cost = Integer.parseInt(cdCost[buyCount]);
+		}
+		return cost;
 	}
 
 
