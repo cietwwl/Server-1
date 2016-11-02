@@ -36,15 +36,16 @@ public class ActivityCountTypeMgr {
 		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityCountTypeCfg activityCountTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
-			if(countTypeEnum != null && activityCountTypeCfg.getIsAutoRefresh() == 1){
-				ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
-				if(targetItem != null){
-					targetItem.reset();
-					dataHolder.updateItem(player, targetItem);
-				}				
+			if(isOpen(activityCountTypeCfg)){
+				ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(activityCountTypeCfg.getId());
+				if(countTypeEnum != null && activityCountTypeCfg.getIsAutoRefresh() == 1){
+					ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);//已在之前生成数据的活动
+					if(targetItem != null){
+						targetItem.reset(activityCountTypeCfg,ActivityCountTypeCfgDAO.getInstance().newItemList(player, activityCountTypeCfg));
+						dataHolder.updateItem(player, targetItem);
+					}				
+				}
 			}
-			
 		}
 	}
 	
