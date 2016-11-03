@@ -16,6 +16,7 @@ import com.rw.service.guide.datamodel.GiveItemCfg;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.guide.datamodel.GiveItemHistory;
 import com.rw.service.guide.datamodel.GiveItemHistoryHolder;
+import com.rwbase.dao.fashion.FashionItem;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.pojo.UserGuideProgress;
 import com.rwproto.GuidanceProgressProtos.GuidanceProgress;
@@ -63,15 +64,28 @@ public class NewGuideService implements FsService<GuidanceRequest, GuidanceReque
 		arg[1] = String.valueOf(cfg.getCount());
 		
 		//首先判断是否为时装
-		boolean isFashionId = false;
+		boolean isFashionId = true;
 		try {
 			int fashionModelId = Integer.parseInt(cfg.getModleId());
 			FashionMgr fashionMgr = player.getFashionMgr();
-			if (fashionMgr.GMSetFashion(fashionModelId)){
-				if (fashionMgr.GMSetExpiredTime(fashionModelId, TimeUnit.DAYS.toMinutes(cfg.getCount()))){
-					isFashionId = true;
-				}
+			// 检查之前是否已经有时装，因为有可能升到VIP之后就会有时装，所以这里要避免覆盖了之前的时装时间 by PERRY @ 2016-11-03 >>>>>>>>>>
+			FashionItem fashionItem = fashionMgr.getItem(fashionModelId);
+			long expireMinutes;
+			if (fashionItem == null) {
+				isFashionId = fashionMgr.GMSetFashion(fashionModelId);
+				expireMinutes = TimeUnit.DAYS.toMinutes(cfg.getCount());
+			} else {
+				expireMinutes = TimeUnit.DAYS.toMinutes(cfg.getCount()) + TimeUnit.MILLISECONDS.toMinutes(fashionItem.getExpiredTime() - System.currentTimeMillis());
 			}
+			if (isFashionId) {
+				fashionMgr.GMSetExpiredTime(fashionModelId, expireMinutes);
+			}
+			// END <<<<<<<<<<
+//			if (fashionMgr.GMSetFashion(fashionModelId)){
+//				if (fashionMgr.GMSetExpiredTime(fashionModelId, TimeUnit.DAYS.toMinutes(cfg.getCount()))){
+//					isFashionId = true;
+//				}
+//			}
 		} catch (Exception e) {
 			GameLog.info("引导", player.getUserId(), "不是赠送时装",null);
 		}
