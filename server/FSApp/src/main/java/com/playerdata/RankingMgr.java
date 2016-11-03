@@ -8,6 +8,7 @@ import java.util.Set;
 
 
 
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
@@ -21,6 +22,8 @@ import com.bm.rank.arena.ArenaSettlement;
 import com.bm.rank.fightingAll.FightingComparable;
 import com.bm.rank.level.LevelComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
+import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.common.Pair;
@@ -628,6 +631,18 @@ public class RankingMgr {
 			updateEntryFighting(RankType.PEAK_ARENA_FIGHTING, fighting, teamFighting, userId);
 			// 通知竞技场更新
 			ArenaBM.getInstance().onPlayerChanged(player);
+			
+			//精准营销的战力改变的通知
+			if(teamFightingChanged){
+				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+				roleAttrsList.add(ERoleAttrs.r_TeamPower);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			}
+			if(allFightingChanged){
+				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+				roleAttrsList.add(ERoleAttrs.r_AllPower);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			}
 		}
 	}
 

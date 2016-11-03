@@ -1,6 +1,10 @@
 package com.bm.targetSell.listener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
@@ -20,21 +24,42 @@ public class UserDataListener implements SingleChangedListener<User>{
 		User oldRecord = event.getOldRecord();
 		User currentRecord = event.getCurrentRecord();
 		Player player = PlayerMgr.getInstance().find(currentRecord.getUserId());
+		List<ERoleAttrs> list;
+		
 		if(oldRecord.getLevel() != currentRecord.getLevel()){
 //			System.err.println("role level change$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  old level:" + oldRecord.getLevel() 
 //					+", new level:" + currentRecord.getLevel());
-			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
+//			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
+			list = new ArrayList<ERoleAttrs>();
+			list.add(ERoleAttrs.r_Level);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
 			OpenLevelTiggerServiceMgr.getInstance().tiggerServiceByLevel(player,oldRecord,currentRecord);
 		}
-		if(oldRecord.getExp() != currentRecord.getExp()){
-//			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()
-//					+ ",new exp"+ currentRecord.getExp());
-			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
-		}
+//		if(oldRecord.getExp() != currentRecord.getExp()){
+////			System.err.println("role exp change###################################### old exp:" + oldRecord.getExp()
+////					+ ",new exp"+ currentRecord.getExp());
+////			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
+//			list = new ArrayList<ERoleAttrs>();
+//			list.add(ERoleAttrs.r_Level);
+//			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
+//		}
 		if(oldRecord.getVip() != currentRecord.getVip()){
 //			System.err.println("role vip change @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ old vip:" + oldRecord.getVip() 
 //					+ ",new vip:" + currentRecord.getVip());
-			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
+//			TargetSellManager.getInstance().pushRoleAllAttrsData(player, null);
+			list = new ArrayList<ERoleAttrs>();
+			list.add(ERoleAttrs.r_VipLevel);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
+		}
+		if(oldRecord.getLastLoginTime() != currentRecord.getLastLoginTime()){
+			list = new ArrayList<ERoleAttrs>();
+			list.add(ERoleAttrs.r_LastLoginTime);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
+		}
+		if(oldRecord.getCreateTime() != currentRecord.getCreateTime()){
+			list = new ArrayList<ERoleAttrs>();
+			list.add(ERoleAttrs.r_CreateTime);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
 		}
 	}
 

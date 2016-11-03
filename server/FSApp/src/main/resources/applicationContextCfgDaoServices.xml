@@ -375,6 +375,9 @@
 	<bean class="com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO" init-method="init" />
 	
+	<!-- 精准营销 -->
+	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />
