@@ -38,6 +38,9 @@ message TeamBattleReqMsg{
 	optional string loopID = 9;		//战斗的循环id
 	optional int32 battleTime = 10;	//战斗的场次
 	optional string memPos = 11;	//成员上阵顺序
+	optional int32 inviteType = 12;	//邀请的类型：1，世界；2，公会；3，好友
+	repeated string inviteUsers = 13;	//邀请的好友id列表
+	optional string inviteContent = 14;	//邀请的内容
 }
 
 message TeamBattleRspMsg{
