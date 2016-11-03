@@ -397,12 +397,12 @@ public class RandomBossMgr{
 		}
 		
 		//随机机率
-//		if(hasRate){
-//			int r = RandomUtil.getRandonIndexWithoutProb(10000);
-//			if(r > rbServerCfg.getBossBornRate()){
-//				return;
-//			}
-//		}
+		if(hasRate){
+			int r = RandomUtil.getRandonIndexWithoutProb(10000);
+			if(r > rbServerCfg.getBossBornRate()){
+				return;
+			}
+		}
 		
 		//这里要根据权重进行随机
 		
