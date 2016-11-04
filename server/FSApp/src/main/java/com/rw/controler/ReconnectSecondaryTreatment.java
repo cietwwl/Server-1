@@ -40,7 +40,7 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			return;
 		}
 		if (player == null) {
-			GameLog.error("ReconnectSecondaryTreatment", "#run()", "find player fail on reconneting:" + userId);
+			GameLog.error("ReconnectSecondaryTreatment", userId, "find player fail on reconneting");
 			ReconnectCommon.getInstance().reLoginGame(nettyControler, ctx, request);
 			return;
 		}
@@ -53,7 +53,7 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			if (oldSessionId != null) {
 				// 在线情况不处理
 				if (oldSessionId.longValue() == sessionId.longValue()) {
-					GameLog.error("reconnect", userId, "repeat reconnect:" + userId);
+					GameLog.error("reconnect", userId, "repeat reconnect");
 					ReconnectCommon.getInstance().reconnectSuccess(nettyControler, ctx, request, null);
 					return;
 				}
@@ -68,11 +68,12 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			return;
 		}
 		if (!UserChannelMgr.bindUserId(userId, sessionId, false)) {
+			//TODO 状态错误时，需要考虑是否发送重连成功到客户端
+			GameLog.error("reconnect", userId, "bind user fail:" + ServerHandler.getCtxInfo(sessionId));
 			return;
 		}
 		if (oldSessionId != null) {
-			// oldCtx.close();
-			UserChannelMgr.KickOffPlayer(sessionId, nettyControler, userId);
+			UserChannelMgr.KickOffPlayer(oldSessionId, nettyControler, userId);
 			GameLog.error("reconnect", userId, "remove old session:" + ServerHandler.getCtxInfo(oldSessionId));
 		}
 		UserChannelMgr.onBSBegin(userId);
@@ -82,7 +83,7 @@ public class ReconnectSecondaryTreatment implements PlayerTask {
 			if (versionList != null) {
 				player.synByVersion(versionList);
 			} else {
-				GameLog.error("ReconnectSecondaryTreatment", "#run()", "version list is null:" + userId);
+				GameLog.error("ReconnectSecondaryTreatment", userId, "version list is null");
 				player.synByVersion(Collections.EMPTY_LIST);
 			}
 		} finally {

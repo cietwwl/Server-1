@@ -22,7 +22,7 @@ import com.rwbase.dao.task.pojo.DailyActivityTaskItem;
 /**
  * 任务的数据管理类。
  * */
-public class DailyActivityMgr implements PlayerEventListener {
+public class DailyActivityMgr {
 
 	private Player player = null;
 
@@ -34,13 +34,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 		holder = new DailyActivityHolder(playerP);
 	}
 
-	@Override
-	public void notifyPlayerCreated(Player player) {
-	}
 
-	@Override
-	public void notifyPlayerLogin(Player player) {
-	}
 
 	public void onLogin() {
 		DailyActivityHandler.getInstance().sendTaskList(player);
@@ -79,6 +73,11 @@ public class DailyActivityMgr implements PlayerEventListener {
 		for (DailyActivityData data : scanList) {
 			//检查一下是否已经完成
 			DailyActivityCfgEntity entity = cfgDAO.getCfgEntity(data.getTaskId());
+			if(entity == null){
+				//找不到配置,策划可能改表了，不同步这个任务，注意这里不可以做删除记录操作，避免策划填错表后，角色登录后目标任务数据被删除
+				currentList.remove(data);
+				continue;
+			}
 			boolean matchCondition = entity.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, data);
 			if (data.getCanGetReward() == 0) {
 				if(matchCondition){
