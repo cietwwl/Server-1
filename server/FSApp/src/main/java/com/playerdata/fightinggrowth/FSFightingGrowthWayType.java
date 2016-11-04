@@ -23,6 +23,8 @@ import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipCurrentFightingF
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillMaxFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetSpriteAttachCurrentFighting;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetSpriteAttachCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistMaxFightingFunc;
 import com.rw.service.group.helper.GroupHelper;
@@ -52,6 +54,7 @@ public enum FSFightingGrowthWayType {
 	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistMaxFightingFunc.getInstance()), // 道术战斗力获取
 	GEM(8, FSGetGemCurrentFightingFunc.getInstance(), FSGetGemMaxFightingFunc.getInstance()), // 宝石属性的战斗力获取
 	FASHION(9, FSGetFashionCurrentFightingFunc.getInstance(), FSGetFashionMaxFightingFunc.getInstance()), // 时装战斗力获取
+	SPRITE_ATTACH(10, FSGetSpriteAttachCurrentFighting.getInstance(), null),
 	NORMAL_SKILL(10, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 普通装备战力获取
 	;
 	private final int _sign;
