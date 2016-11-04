@@ -1,6 +1,8 @@
 package com.rw.handler.groupFight.armySimple;
 
+import com.playerdata.dataSyn.annotation.SynClass;
 
+@SynClass
 public class ArmyMagic {
 
 	private int modelId;

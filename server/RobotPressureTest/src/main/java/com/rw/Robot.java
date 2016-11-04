@@ -1030,8 +1030,7 @@ public class Robot {
 	}
 	
 	public boolean playerGroupFight(){
-		//return GroupFightHandler.getHandler().playGroupFightBid(client);
-		return GroupFightHandler.getHandler().playGroupFightPrepare(client);
+		return GroupFightHandler.getHandler().playGroupFight(client);
 	}
 
 	public boolean sendGmCommand(String value) {
