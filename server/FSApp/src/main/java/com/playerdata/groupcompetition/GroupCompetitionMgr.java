@@ -274,6 +274,9 @@ public class GroupCompetitionMgr {
 		}
 		saveData.setCurrentStageEndTime(currentStage.getStageEndTime());
 		saveData.setCurrentStageType(currentStage.getStageType());
+		if (currentStage.getStageType() == GCompStageType.EVENTS) {
+			saveData.setEndTimeOfEventsStage(currentStage.getStageEndTime());
+		}
 		_dataHolder.update();
 		GCompBaseInfoMgr.getInstance().sendBaseInfoToAll();
 	}
@@ -496,7 +499,7 @@ public class GroupCompetitionMgr {
 	 */
 	public IReadOnlyPair<Long, Long> getCurrentSessionTimeInfo() {
 		GroupCompetitionGlobalData globalData = this._dataHolder.get();
-		return Pair.Create(globalData.getLastHeldTimeMillis(), globalData.getEndTimeOfCurrentSession());
+		return Pair.Create(globalData.getLastHeldTimeMillis(), globalData.getEndTimeOfEventsStage());
 	}
 	
 	/**
