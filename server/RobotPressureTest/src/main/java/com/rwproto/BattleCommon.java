@@ -77,6 +77,14 @@ public final class BattleCommon {
      * </pre>
      */
     SUMMON_ANIMAL(7, 7),
+    /**
+     * <code>HIRE_ASSIST = 8;</code>
+     *
+     * <pre>
+     *助战英雄
+     * </pre>
+     */
+    HIRE_ASSIST(8, 8),
     ;
 
     /**
@@ -143,6 +151,14 @@ public final class BattleCommon {
      * </pre>
      */
     public static final int SUMMON_ANIMAL_VALUE = 7;
+    /**
+     * <code>HIRE_ASSIST = 8;</code>
+     *
+     * <pre>
+     *助战英雄
+     * </pre>
+     */
+    public static final int HIRE_ASSIST_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -157,6 +173,7 @@ public final class BattleCommon {
         case 5: return INVISIBLE_NPC;
         case 6: return SUMMON_NORMAL;
         case 7: return SUMMON_ANIMAL;
+        case 8: return HIRE_ASSIST;
         default: return null;
       }
     }
@@ -1131,15 +1148,15 @@ public final class BattleCommon {
     java.lang.String[] descriptorData = {
       "\n\022BattleCommon.proto\022\014BattleCommon\"1\n\022Ba" +
       "ttleHeroPosition\022\016\n\006heroId\030\001 \002(\t\022\013\n\003pos\030" +
-      "\002 \002(\005*\234\001\n\013ePlayerType\022\016\n\nMAINPLAYER\020\000\022\010\n" +
+      "\002 \002(\005*\255\001\n\013ePlayerType\022\016\n\nMAINPLAYER\020\000\022\010\n" +
       "\004HIRE\020\001\022\013\n\007MONSTER\020\002\022\025\n\021MONSTER_TINY_BOS" +
       "S\020\003\022\026\n\022MONSTER_LARGE_BOSS\020\004\022\021\n\rINVISIBLE" +
       "_NPC\020\005\022\021\n\rSUMMON_NORMAL\020\006\022\021\n\rSUMMON_ANIM" +
-      "AL\020\007*+\n\013ePlayerCamp\022\006\n\002Me\020\000\022\t\n\005Enemy\020\001\022\t" +
-      "\n\005Other\020\002*\\\n\023eBattlePositionType\022\022\n\016Grou" +
-      "pSecretPos\020\001\022\020\n\014PeakArenaPos\020\002\022\014\n\010ArenaP" +
-      "os\020\003\022\021\n\rGroupFightPos\020\004B\033\n\013com.rwprotoB\014",
-      "BattleCommon"
+      "AL\020\007\022\017\n\013HIRE_ASSIST\020\010*+\n\013ePlayerCamp\022\006\n\002" +
+      "Me\020\000\022\t\n\005Enemy\020\001\022\t\n\005Other\020\002*\\\n\023eBattlePos" +
+      "itionType\022\022\n\016GroupSecretPos\020\001\022\020\n\014PeakAre" +
+      "naPos\020\002\022\014\n\010ArenaPos\020\003\022\021\n\rGroupFightPos\020\004",
+      "B\033\n\013com.rwprotoB\014BattleCommon"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

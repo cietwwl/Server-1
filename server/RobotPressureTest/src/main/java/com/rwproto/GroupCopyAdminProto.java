@@ -14,64 +14,98 @@ public final class GroupCopyAdminProto {
   public enum RequestType
       implements com.google.protobuf.ProtocolMessageEnum {
     /**
-     * <code>GET_COPY_INFO = 1;</code>
-     *
-     * <pre>
-     *副本打开的时候获取副本信息
-     * </pre>
-     */
-    GET_COPY_INFO(0, 1),
-    /**
-     * <code>OPEN_COPY = 2;</code>
+     * <code>OPEN_COPY = 1;</code>
      *
      * <pre>
      *开启副本
      * </pre>
      */
-    OPEN_COPY(1, 2),
+    OPEN_COPY(0, 1),
     /**
-     * <code>RESET_COPY = 3;</code>
+     * <code>RESET_COPY = 2;</code>
      *
      * <pre>
      *重启副本
      * </pre>
      */
-    RESET_COPY(2, 3),
+    RESET_COPY(1, 2),
+    /**
+     * <code>GET_APPLY_REWARD_INFO = 3;</code>
+     *
+     * <pre>
+     *查看可分配奖励情况,返回ApplyRewardInfo
+     * </pre>
+     */
+    GET_APPLY_REWARD_INFO(2, 3),
+    /**
+     * <code>GET_CHATER_DAMAGE = 4;</code>
+     *
+     * <pre>
+     *查看成员章节伤害,发送ChaterDamageReqMsg，
+     * </pre>
+     */
+    GET_CHATER_DAMAGE(3, 4),
+    /**
+     * <code>CHOSE_DIST_ROLE = 5;</code>
+     *
+     * <pre>
+     *选择分配奖励角色，手动分配[发送ChoseDistRewardData]
+     * </pre>
+     */
+    CHOSE_DIST_ROLE(4, 5),
     ;
 
     /**
-     * <code>GET_COPY_INFO = 1;</code>
-     *
-     * <pre>
-     *副本打开的时候获取副本信息
-     * </pre>
-     */
-    public static final int GET_COPY_INFO_VALUE = 1;
-    /**
-     * <code>OPEN_COPY = 2;</code>
+     * <code>OPEN_COPY = 1;</code>
      *
      * <pre>
      *开启副本
      * </pre>
      */
-    public static final int OPEN_COPY_VALUE = 2;
+    public static final int OPEN_COPY_VALUE = 1;
     /**
-     * <code>RESET_COPY = 3;</code>
+     * <code>RESET_COPY = 2;</code>
      *
      * <pre>
      *重启副本
      * </pre>
      */
-    public static final int RESET_COPY_VALUE = 3;
+    public static final int RESET_COPY_VALUE = 2;
+    /**
+     * <code>GET_APPLY_REWARD_INFO = 3;</code>
+     *
+     * <pre>
+     *查看可分配奖励情况,返回ApplyRewardInfo
+     * </pre>
+     */
+    public static final int GET_APPLY_REWARD_INFO_VALUE = 3;
+    /**
+     * <code>GET_CHATER_DAMAGE = 4;</code>
+     *
+     * <pre>
+     *查看成员章节伤害,发送ChaterDamageReqMsg，
+     * </pre>
+     */
+    public static final int GET_CHATER_DAMAGE_VALUE = 4;
+    /**
+     * <code>CHOSE_DIST_ROLE = 5;</code>
+     *
+     * <pre>
+     *选择分配奖励角色，手动分配[发送ChoseDistRewardData]
+     * </pre>
+     */
+    public static final int CHOSE_DIST_ROLE_VALUE = 5;
 
 
     public final int getNumber() { return value; }
 
     public static RequestType valueOf(int value) {
       switch (value) {
-        case 1: return GET_COPY_INFO;
-        case 2: return OPEN_COPY;
-        case 3: return RESET_COPY;
+        case 1: return OPEN_COPY;
+        case 2: return RESET_COPY;
+        case 3: return GET_APPLY_REWARD_INFO;
+        case 4: return GET_CHATER_DAMAGE;
+        case 5: return CHOSE_DIST_ROLE;
         default: return null;
       }
     }
@@ -1177,6 +1211,1397 @@ public final class GroupCopyAdminProto {
     // @@protoc_insertion_point(class_scope:GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg)
   }
 
+  public interface ChaterDamageReqMsgOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string mapId = 1;
+    /**
+     * <code>required string mapId = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    boolean hasMapId();
+    /**
+     * <code>required string mapId = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    java.lang.String getMapId();
+    /**
+     * <code>required string mapId = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getMapIdBytes();
+
+    // required int32 itemID = 2;
+    /**
+     * <code>required int32 itemID = 2;</code>
+     *
+     * <pre>
+     *申请的道具id
+     * </pre>
+     */
+    boolean hasItemID();
+    /**
+     * <code>required int32 itemID = 2;</code>
+     *
+     * <pre>
+     *申请的道具id
+     * </pre>
+     */
+    int getItemID();
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.ChaterDamageReqMsg}
+   */
+  public static final class ChaterDamageReqMsg extends
+      com.google.protobuf.GeneratedMessage
+      implements ChaterDamageReqMsgOrBuilder {
+    // Use ChaterDamageReqMsg.newBuilder() to construct.
+    private ChaterDamageReqMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChaterDamageReqMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChaterDamageReqMsg defaultInstance;
+    public static ChaterDamageReqMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChaterDamageReqMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChaterDamageReqMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              mapId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              itemID_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterDamageReqMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterDamageReqMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.class, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChaterDamageReqMsg> PARSER =
+        new com.google.protobuf.AbstractParser<ChaterDamageReqMsg>() {
+      public ChaterDamageReqMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChaterDamageReqMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChaterDamageReqMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string mapId = 1;
+    public static final int MAPID_FIELD_NUMBER = 1;
+    private java.lang.Object mapId_;
+    /**
+     * <code>required string mapId = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    public boolean hasMapId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string mapId = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    public java.lang.String getMapId() {
+      java.lang.Object ref = mapId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          mapId_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string mapId = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getMapIdBytes() {
+      java.lang.Object ref = mapId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        mapId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 itemID = 2;
+    public static final int ITEMID_FIELD_NUMBER = 2;
+    private int itemID_;
+    /**
+     * <code>required int32 itemID = 2;</code>
+     *
+     * <pre>
+     *申请的道具id
+     * </pre>
+     */
+    public boolean hasItemID() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 itemID = 2;</code>
+     *
+     * <pre>
+     *申请的道具id
+     * </pre>
+     */
+    public int getItemID() {
+      return itemID_;
+    }
+
+    private void initFields() {
+      mapId_ = "";
+      itemID_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasMapId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasItemID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getMapIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, itemID_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getMapIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, itemID_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.ChaterDamageReqMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterDamageReqMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterDamageReqMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.class, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        mapId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemID_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterDamageReqMsg_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg build() {
+        com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg buildPartial() {
+        com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg result = new com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.mapId_ = mapId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.itemID_ = itemID_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg other) {
+        if (other == com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance()) return this;
+        if (other.hasMapId()) {
+          bitField0_ |= 0x00000001;
+          mapId_ = other.mapId_;
+          onChanged();
+        }
+        if (other.hasItemID()) {
+          setItemID(other.getItemID());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasMapId()) {
+          
+          return false;
+        }
+        if (!hasItemID()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string mapId = 1;
+      private java.lang.Object mapId_ = "";
+      /**
+       * <code>required string mapId = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public boolean hasMapId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string mapId = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public java.lang.String getMapId() {
+        java.lang.Object ref = mapId_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          mapId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string mapId = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getMapIdBytes() {
+        java.lang.Object ref = mapId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          mapId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string mapId = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public Builder setMapId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        mapId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string mapId = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public Builder clearMapId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        mapId_ = getDefaultInstance().getMapId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string mapId = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public Builder setMapIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        mapId_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 itemID = 2;
+      private int itemID_ ;
+      /**
+       * <code>required int32 itemID = 2;</code>
+       *
+       * <pre>
+       *申请的道具id
+       * </pre>
+       */
+      public boolean hasItemID() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 itemID = 2;</code>
+       *
+       * <pre>
+       *申请的道具id
+       * </pre>
+       */
+      public int getItemID() {
+        return itemID_;
+      }
+      /**
+       * <code>required int32 itemID = 2;</code>
+       *
+       * <pre>
+       *申请的道具id
+       * </pre>
+       */
+      public Builder setItemID(int value) {
+        bitField0_ |= 0x00000002;
+        itemID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemID = 2;</code>
+       *
+       * <pre>
+       *申请的道具id
+       * </pre>
+       */
+      public Builder clearItemID() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        itemID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.ChaterDamageReqMsg)
+    }
+
+    static {
+      defaultInstance = new ChaterDamageReqMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.ChaterDamageReqMsg)
+  }
+
+  public interface ChoseDistRewardDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;
+    /**
+     * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+     */
+    boolean hasItemData();
+    /**
+     * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getItemData();
+    /**
+     * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder getItemDataOrBuilder();
+
+    // required string roleID = 2;
+    /**
+     * <code>required string roleID = 2;</code>
+     *
+     * <pre>
+     *分给目标角色id
+     * </pre>
+     */
+    boolean hasRoleID();
+    /**
+     * <code>required string roleID = 2;</code>
+     *
+     * <pre>
+     *分给目标角色id
+     * </pre>
+     */
+    java.lang.String getRoleID();
+    /**
+     * <code>required string roleID = 2;</code>
+     *
+     * <pre>
+     *分给目标角色id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getRoleIDBytes();
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.ChoseDistRewardData}
+   *
+   * <pre>
+   *选择分配奖励
+   * </pre>
+   */
+  public static final class ChoseDistRewardData extends
+      com.google.protobuf.GeneratedMessage
+      implements ChoseDistRewardDataOrBuilder {
+    // Use ChoseDistRewardData.newBuilder() to construct.
+    private ChoseDistRewardData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChoseDistRewardData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChoseDistRewardData defaultInstance;
+    public static ChoseDistRewardData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChoseDistRewardData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChoseDistRewardData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000001) == 0x00000001)) {
+                subBuilder = itemData_.toBuilder();
+              }
+              itemData_ = input.readMessage(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(itemData_);
+                itemData_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000001;
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              roleID_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChoseDistRewardData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChoseDistRewardData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.class, com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChoseDistRewardData> PARSER =
+        new com.google.protobuf.AbstractParser<ChoseDistRewardData>() {
+      public ChoseDistRewardData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChoseDistRewardData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChoseDistRewardData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;
+    public static final int ITEMDATA_FIELD_NUMBER = 1;
+    private com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg itemData_;
+    /**
+     * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+     */
+    public boolean hasItemData() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getItemData() {
+      return itemData_;
+    }
+    /**
+     * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder getItemDataOrBuilder() {
+      return itemData_;
+    }
+
+    // required string roleID = 2;
+    public static final int ROLEID_FIELD_NUMBER = 2;
+    private java.lang.Object roleID_;
+    /**
+     * <code>required string roleID = 2;</code>
+     *
+     * <pre>
+     *分给目标角色id
+     * </pre>
+     */
+    public boolean hasRoleID() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string roleID = 2;</code>
+     *
+     * <pre>
+     *分给目标角色id
+     * </pre>
+     */
+    public java.lang.String getRoleID() {
+      java.lang.Object ref = roleID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          roleID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string roleID = 2;</code>
+     *
+     * <pre>
+     *分给目标角色id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getRoleIDBytes() {
+      java.lang.Object ref = roleID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        roleID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      itemData_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+      roleID_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemData()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRoleID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!getItemData().isInitialized()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(1, itemData_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getRoleIDBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, itemData_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getRoleIDBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.ChoseDistRewardData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.ChoseDistRewardData}
+     *
+     * <pre>
+     *选择分配奖励
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChoseDistRewardData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChoseDistRewardData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.class, com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getItemDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (itemDataBuilder_ == null) {
+          itemData_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+        } else {
+          itemDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        roleID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChoseDistRewardData_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChoseDistRewardData getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChoseDistRewardData build() {
+        com.rwproto.GroupCopyAdminProto.ChoseDistRewardData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChoseDistRewardData buildPartial() {
+        com.rwproto.GroupCopyAdminProto.ChoseDistRewardData result = new com.rwproto.GroupCopyAdminProto.ChoseDistRewardData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (itemDataBuilder_ == null) {
+          result.itemData_ = itemData_;
+        } else {
+          result.itemData_ = itemDataBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.roleID_ = roleID_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.ChoseDistRewardData) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.ChoseDistRewardData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.ChoseDistRewardData other) {
+        if (other == com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance()) return this;
+        if (other.hasItemData()) {
+          mergeItemData(other.getItemData());
+        }
+        if (other.hasRoleID()) {
+          bitField0_ |= 0x00000002;
+          roleID_ = other.roleID_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemData()) {
+          
+          return false;
+        }
+        if (!hasRoleID()) {
+          
+          return false;
+        }
+        if (!getItemData().isInitialized()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.ChoseDistRewardData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.ChoseDistRewardData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;
+      private com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg itemData_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder> itemDataBuilder_;
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public boolean hasItemData() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getItemData() {
+        if (itemDataBuilder_ == null) {
+          return itemData_;
+        } else {
+          return itemDataBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public Builder setItemData(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg value) {
+        if (itemDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          itemData_ = value;
+          onChanged();
+        } else {
+          itemDataBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public Builder setItemData(
+          com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder builderForValue) {
+        if (itemDataBuilder_ == null) {
+          itemData_ = builderForValue.build();
+          onChanged();
+        } else {
+          itemDataBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public Builder mergeItemData(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg value) {
+        if (itemDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              itemData_ != com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance()) {
+            itemData_ =
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.newBuilder(itemData_).mergeFrom(value).buildPartial();
+          } else {
+            itemData_ = value;
+          }
+          onChanged();
+        } else {
+          itemDataBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public Builder clearItemData() {
+        if (itemDataBuilder_ == null) {
+          itemData_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          itemDataBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder getItemDataBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getItemDataFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder getItemDataOrBuilder() {
+        if (itemDataBuilder_ != null) {
+          return itemDataBuilder_.getMessageOrBuilder();
+        } else {
+          return itemData_;
+        }
+      }
+      /**
+       * <code>required .GroupCopyAdmin.ChaterDamageReqMsg itemData = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder> 
+          getItemDataFieldBuilder() {
+        if (itemDataBuilder_ == null) {
+          itemDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder>(
+                  itemData_,
+                  getParentForChildren(),
+                  isClean());
+          itemData_ = null;
+        }
+        return itemDataBuilder_;
+      }
+
+      // required string roleID = 2;
+      private java.lang.Object roleID_ = "";
+      /**
+       * <code>required string roleID = 2;</code>
+       *
+       * <pre>
+       *分给目标角色id
+       * </pre>
+       */
+      public boolean hasRoleID() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string roleID = 2;</code>
+       *
+       * <pre>
+       *分给目标角色id
+       * </pre>
+       */
+      public java.lang.String getRoleID() {
+        java.lang.Object ref = roleID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          roleID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string roleID = 2;</code>
+       *
+       * <pre>
+       *分给目标角色id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getRoleIDBytes() {
+        java.lang.Object ref = roleID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          roleID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string roleID = 2;</code>
+       *
+       * <pre>
+       *分给目标角色id
+       * </pre>
+       */
+      public Builder setRoleID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        roleID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleID = 2;</code>
+       *
+       * <pre>
+       *分给目标角色id
+       * </pre>
+       */
+      public Builder clearRoleID() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        roleID_ = getDefaultInstance().getRoleID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleID = 2;</code>
+       *
+       * <pre>
+       *分给目标角色id
+       * </pre>
+       */
+      public Builder setRoleIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        roleID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.ChoseDistRewardData)
+    }
+
+    static {
+      defaultInstance = new ChoseDistRewardData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.ChoseDistRewardData)
+  }
+
   public interface GroupCopyAdminComReqMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -1252,6 +2677,34 @@ public final class GroupCopyAdminProto {
      * <code>optional .GroupCopyAdmin.GroupCopyAdminResetCopyReqMsg resetReqMsg = 4;</code>
      */
     com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsgOrBuilder getResetReqMsgOrBuilder();
+
+    // optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;
+    /**
+     * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+     */
+    boolean hasDamageReqMsg();
+    /**
+     * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getDamageReqMsg();
+    /**
+     * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder getDamageReqMsgOrBuilder();
+
+    // optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;
+    /**
+     * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+     */
+    boolean hasChoseDistReward();
+    /**
+     * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.ChoseDistRewardData getChoseDistReward();
+    /**
+     * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+     */
+    com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder getChoseDistRewardOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyAdmin.GroupCopyAdminComReqMsg}
@@ -1344,6 +2797,32 @@ public final class GroupCopyAdminProto {
                 resetReqMsg_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = damageReqMsg_.toBuilder();
+              }
+              damageReqMsg_ = input.readMessage(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(damageReqMsg_);
+                damageReqMsg_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
+              break;
+            }
+            case 50: {
+              com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = choseDistReward_.toBuilder();
+              }
+              choseDistReward_ = input.readMessage(com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(choseDistReward_);
+                choseDistReward_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
               break;
             }
           }
@@ -1509,11 +2988,57 @@ public final class GroupCopyAdminProto {
       return resetReqMsg_;
     }
 
+    // optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;
+    public static final int DAMAGEREQMSG_FIELD_NUMBER = 5;
+    private com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg damageReqMsg_;
+    /**
+     * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+     */
+    public boolean hasDamageReqMsg() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getDamageReqMsg() {
+      return damageReqMsg_;
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder getDamageReqMsgOrBuilder() {
+      return damageReqMsg_;
+    }
+
+    // optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;
+    public static final int CHOSEDISTREWARD_FIELD_NUMBER = 6;
+    private com.rwproto.GroupCopyAdminProto.ChoseDistRewardData choseDistReward_;
+    /**
+     * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+     */
+    public boolean hasChoseDistReward() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChoseDistRewardData getChoseDistReward() {
+      return choseDistReward_;
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder getChoseDistRewardOrBuilder() {
+      return choseDistReward_;
+    }
+
     private void initFields() {
-      reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       version_ = "";
       openReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg.getDefaultInstance();
       resetReqMsg_ = com.rwproto.GroupCopyAdminProto.GroupCopyAdminResetCopyReqMsg.getDefaultInstance();
+      damageReqMsg_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+      choseDistReward_ = com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1536,6 +3061,18 @@ public final class GroupCopyAdminProto {
           return false;
         }
       }
+      if (hasDamageReqMsg()) {
+        if (!getDamageReqMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasChoseDistReward()) {
+        if (!getChoseDistReward().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1554,6 +3091,12 @@ public final class GroupCopyAdminProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeMessage(4, resetReqMsg_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, damageReqMsg_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeMessage(6, choseDistReward_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1579,6 +3122,14 @@ public final class GroupCopyAdminProto {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, resetReqMsg_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, damageReqMsg_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(6, choseDistReward_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1690,6 +3241,8 @@ public final class GroupCopyAdminProto {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getOpenReqMsgFieldBuilder();
           getResetReqMsgFieldBuilder();
+          getDamageReqMsgFieldBuilder();
+          getChoseDistRewardFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1698,7 +3251,7 @@ public final class GroupCopyAdminProto {
 
       public Builder clear() {
         super.clear();
-        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         bitField0_ = (bitField0_ & ~0x00000001);
         version_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1714,6 +3267,18 @@ public final class GroupCopyAdminProto {
           resetReqMsgBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
+        if (damageReqMsgBuilder_ == null) {
+          damageReqMsg_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+        } else {
+          damageReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        if (choseDistRewardBuilder_ == null) {
+          choseDistReward_ = com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance();
+        } else {
+          choseDistRewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -1766,6 +3331,22 @@ public final class GroupCopyAdminProto {
         } else {
           result.resetReqMsg_ = resetReqMsgBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (damageReqMsgBuilder_ == null) {
+          result.damageReqMsg_ = damageReqMsg_;
+        } else {
+          result.damageReqMsg_ = damageReqMsgBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        if (choseDistRewardBuilder_ == null) {
+          result.choseDistReward_ = choseDistReward_;
+        } else {
+          result.choseDistReward_ = choseDistRewardBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1796,6 +3377,12 @@ public final class GroupCopyAdminProto {
         if (other.hasResetReqMsg()) {
           mergeResetReqMsg(other.getResetReqMsg());
         }
+        if (other.hasDamageReqMsg()) {
+          mergeDamageReqMsg(other.getDamageReqMsg());
+        }
+        if (other.hasChoseDistReward()) {
+          mergeChoseDistReward(other.getChoseDistReward());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1813,6 +3400,18 @@ public final class GroupCopyAdminProto {
         }
         if (hasResetReqMsg()) {
           if (!getResetReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasDamageReqMsg()) {
+          if (!getDamageReqMsg().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasChoseDistReward()) {
+          if (!getChoseDistReward().isInitialized()) {
             
             return false;
           }
@@ -1840,7 +3439,7 @@ public final class GroupCopyAdminProto {
       private int bitField0_;
 
       // required .GroupCopyAdmin.RequestType reqType = 1;
-      private com.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      private com.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       /**
        * <code>required .GroupCopyAdmin.RequestType reqType = 1;</code>
        *
@@ -1886,7 +3485,7 @@ public final class GroupCopyAdminProto {
        */
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         onChanged();
         return this;
       }
@@ -2223,6 +3822,240 @@ public final class GroupCopyAdminProto {
         return resetReqMsgBuilder_;
       }
 
+      // optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;
+      private com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg damageReqMsg_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder> damageReqMsgBuilder_;
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public boolean hasDamageReqMsg() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg getDamageReqMsg() {
+        if (damageReqMsgBuilder_ == null) {
+          return damageReqMsg_;
+        } else {
+          return damageReqMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public Builder setDamageReqMsg(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg value) {
+        if (damageReqMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          damageReqMsg_ = value;
+          onChanged();
+        } else {
+          damageReqMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public Builder setDamageReqMsg(
+          com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder builderForValue) {
+        if (damageReqMsgBuilder_ == null) {
+          damageReqMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          damageReqMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public Builder mergeDamageReqMsg(com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg value) {
+        if (damageReqMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              damageReqMsg_ != com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance()) {
+            damageReqMsg_ =
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.newBuilder(damageReqMsg_).mergeFrom(value).buildPartial();
+          } else {
+            damageReqMsg_ = value;
+          }
+          onChanged();
+        } else {
+          damageReqMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public Builder clearDamageReqMsg() {
+        if (damageReqMsgBuilder_ == null) {
+          damageReqMsg_ = com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          damageReqMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder getDamageReqMsgBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getDamageReqMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder getDamageReqMsgOrBuilder() {
+        if (damageReqMsgBuilder_ != null) {
+          return damageReqMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return damageReqMsg_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChaterDamageReqMsg damageReqMsg = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder> 
+          getDamageReqMsgFieldBuilder() {
+        if (damageReqMsgBuilder_ == null) {
+          damageReqMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsg.Builder, com.rwproto.GroupCopyAdminProto.ChaterDamageReqMsgOrBuilder>(
+                  damageReqMsg_,
+                  getParentForChildren(),
+                  isClean());
+          damageReqMsg_ = null;
+        }
+        return damageReqMsgBuilder_;
+      }
+
+      // optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;
+      private com.rwproto.GroupCopyAdminProto.ChoseDistRewardData choseDistReward_ = com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChoseDistRewardData, com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder, com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder> choseDistRewardBuilder_;
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public boolean hasChoseDistReward() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChoseDistRewardData getChoseDistReward() {
+        if (choseDistRewardBuilder_ == null) {
+          return choseDistReward_;
+        } else {
+          return choseDistRewardBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public Builder setChoseDistReward(com.rwproto.GroupCopyAdminProto.ChoseDistRewardData value) {
+        if (choseDistRewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          choseDistReward_ = value;
+          onChanged();
+        } else {
+          choseDistRewardBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public Builder setChoseDistReward(
+          com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder builderForValue) {
+        if (choseDistRewardBuilder_ == null) {
+          choseDistReward_ = builderForValue.build();
+          onChanged();
+        } else {
+          choseDistRewardBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public Builder mergeChoseDistReward(com.rwproto.GroupCopyAdminProto.ChoseDistRewardData value) {
+        if (choseDistRewardBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              choseDistReward_ != com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance()) {
+            choseDistReward_ =
+              com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.newBuilder(choseDistReward_).mergeFrom(value).buildPartial();
+          } else {
+            choseDistReward_ = value;
+          }
+          onChanged();
+        } else {
+          choseDistRewardBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public Builder clearChoseDistReward() {
+        if (choseDistRewardBuilder_ == null) {
+          choseDistReward_ = com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.getDefaultInstance();
+          onChanged();
+        } else {
+          choseDistRewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder getChoseDistRewardBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getChoseDistRewardFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder getChoseDistRewardOrBuilder() {
+        if (choseDistRewardBuilder_ != null) {
+          return choseDistRewardBuilder_.getMessageOrBuilder();
+        } else {
+          return choseDistReward_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ChoseDistRewardData choseDistReward = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChoseDistRewardData, com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder, com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder> 
+          getChoseDistRewardFieldBuilder() {
+        if (choseDistRewardBuilder_ == null) {
+          choseDistRewardBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.ChoseDistRewardData, com.rwproto.GroupCopyAdminProto.ChoseDistRewardData.Builder, com.rwproto.GroupCopyAdminProto.ChoseDistRewardDataOrBuilder>(
+                  choseDistReward_,
+                  getParentForChildren(),
+                  isClean());
+          choseDistReward_ = null;
+        }
+        return choseDistRewardBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.GroupCopyAdminComReqMsg)
     }
 
@@ -2299,6 +4132,58 @@ public final class GroupCopyAdminProto {
      */
     com.google.protobuf.ByteString
         getTipMsgBytes();
+
+    // optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;
+    /**
+     * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+     *
+     * <pre>
+     *当前可分配奖励数据
+     * </pre>
+     */
+    boolean hasApplyInfo();
+    /**
+     * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+     *
+     * <pre>
+     *当前可分配奖励数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.ApplyRewardInfo getApplyInfo();
+    /**
+     * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+     *
+     * <pre>
+     *当前可分配奖励数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder getApplyInfoOrBuilder();
+
+    // optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;
+    /**
+     * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+     *
+     * <pre>
+     *所有成员在当前章节伤害数据
+     * </pre>
+     */
+    boolean hasDamageInfo();
+    /**
+     * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+     *
+     * <pre>
+     *所有成员在当前章节伤害数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.MemberDamageInfo getDamageInfo();
+    /**
+     * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+     *
+     * <pre>
+     *所有成员在当前章节伤害数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder getDamageInfoOrBuilder();
   }
   /**
    * Protobuf type {@code GroupCopyAdmin.GroupCopyAdminComRspMsg}
@@ -2370,6 +4255,32 @@ public final class GroupCopyAdminProto {
             case 26: {
               bitField0_ |= 0x00000004;
               tipMsg_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = applyInfo_.toBuilder();
+              }
+              applyInfo_ = input.readMessage(com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(applyInfo_);
+                applyInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
+              break;
+            }
+            case 42: {
+              com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = damageInfo_.toBuilder();
+              }
+              damageInfo_ = input.readMessage(com.rwproto.GroupCopyAdminProto.MemberDamageInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(damageInfo_);
+                damageInfo_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000010;
               break;
             }
           }
@@ -2515,10 +4426,80 @@ public final class GroupCopyAdminProto {
       }
     }
 
+    // optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;
+    public static final int APPLYINFO_FIELD_NUMBER = 4;
+    private com.rwproto.GroupCopyAdminProto.ApplyRewardInfo applyInfo_;
+    /**
+     * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+     *
+     * <pre>
+     *当前可分配奖励数据
+     * </pre>
+     */
+    public boolean hasApplyInfo() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+     *
+     * <pre>
+     *当前可分配奖励数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.ApplyRewardInfo getApplyInfo() {
+      return applyInfo_;
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+     *
+     * <pre>
+     *当前可分配奖励数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder getApplyInfoOrBuilder() {
+      return applyInfo_;
+    }
+
+    // optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;
+    public static final int DAMAGEINFO_FIELD_NUMBER = 5;
+    private com.rwproto.GroupCopyAdminProto.MemberDamageInfo damageInfo_;
+    /**
+     * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+     *
+     * <pre>
+     *所有成员在当前章节伤害数据
+     * </pre>
+     */
+    public boolean hasDamageInfo() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+     *
+     * <pre>
+     *所有成员在当前章节伤害数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.MemberDamageInfo getDamageInfo() {
+      return damageInfo_;
+    }
+    /**
+     * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+     *
+     * <pre>
+     *所有成员在当前章节伤害数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder getDamageInfoOrBuilder() {
+      return damageInfo_;
+    }
+
     private void initFields() {
-      reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       isSuccess_ = false;
       tipMsg_ = "";
+      applyInfo_ = com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance();
+      damageInfo_ = com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2532,6 +4513,18 @@ public final class GroupCopyAdminProto {
       if (!hasIsSuccess()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      if (hasApplyInfo()) {
+        if (!getApplyInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasDamageInfo()) {
+        if (!getDamageInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -2548,6 +4541,12 @@ public final class GroupCopyAdminProto {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(4, applyInfo_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeMessage(5, damageInfo_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -2569,6 +4568,14 @@ public final class GroupCopyAdminProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getTipMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, applyInfo_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, damageInfo_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2678,6 +4685,8 @@ public final class GroupCopyAdminProto {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getApplyInfoFieldBuilder();
+          getDamageInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2686,12 +4695,24 @@ public final class GroupCopyAdminProto {
 
       public Builder clear() {
         super.clear();
-        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         bitField0_ = (bitField0_ & ~0x00000001);
         isSuccess_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
         tipMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        if (applyInfoBuilder_ == null) {
+          applyInfo_ = com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance();
+        } else {
+          applyInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        if (damageInfoBuilder_ == null) {
+          damageInfo_ = com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance();
+        } else {
+          damageInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2732,6 +4753,22 @@ public final class GroupCopyAdminProto {
           to_bitField0_ |= 0x00000004;
         }
         result.tipMsg_ = tipMsg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (applyInfoBuilder_ == null) {
+          result.applyInfo_ = applyInfo_;
+        } else {
+          result.applyInfo_ = applyInfoBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        if (damageInfoBuilder_ == null) {
+          result.damageInfo_ = damageInfo_;
+        } else {
+          result.damageInfo_ = damageInfoBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2759,6 +4796,12 @@ public final class GroupCopyAdminProto {
           tipMsg_ = other.tipMsg_;
           onChanged();
         }
+        if (other.hasApplyInfo()) {
+          mergeApplyInfo(other.getApplyInfo());
+        }
+        if (other.hasDamageInfo()) {
+          mergeDamageInfo(other.getDamageInfo());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -2771,6 +4814,18 @@ public final class GroupCopyAdminProto {
         if (!hasIsSuccess()) {
           
           return false;
+        }
+        if (hasApplyInfo()) {
+          if (!getApplyInfo().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasDamageInfo()) {
+          if (!getDamageInfo().isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -2795,7 +4850,7 @@ public final class GroupCopyAdminProto {
       private int bitField0_;
 
       // required .GroupCopyAdmin.RequestType reqType = 1;
-      private com.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+      private com.rwproto.GroupCopyAdminProto.RequestType reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
       /**
        * <code>required .GroupCopyAdmin.RequestType reqType = 1;</code>
        *
@@ -2841,7 +4896,7 @@ public final class GroupCopyAdminProto {
        */
       public Builder clearReqType() {
         bitField0_ = (bitField0_ & ~0x00000001);
-        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.GET_COPY_INFO;
+        reqType_ = com.rwproto.GroupCopyAdminProto.RequestType.OPEN_COPY;
         onChanged();
         return this;
       }
@@ -2993,6 +5048,312 @@ public final class GroupCopyAdminProto {
         return this;
       }
 
+      // optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;
+      private com.rwproto.GroupCopyAdminProto.ApplyRewardInfo applyInfo_ = com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ApplyRewardInfo, com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder, com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder> applyInfoBuilder_;
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public boolean hasApplyInfo() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyRewardInfo getApplyInfo() {
+        if (applyInfoBuilder_ == null) {
+          return applyInfo_;
+        } else {
+          return applyInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public Builder setApplyInfo(com.rwproto.GroupCopyAdminProto.ApplyRewardInfo value) {
+        if (applyInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          applyInfo_ = value;
+          onChanged();
+        } else {
+          applyInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public Builder setApplyInfo(
+          com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder builderForValue) {
+        if (applyInfoBuilder_ == null) {
+          applyInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          applyInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public Builder mergeApplyInfo(com.rwproto.GroupCopyAdminProto.ApplyRewardInfo value) {
+        if (applyInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008) &&
+              applyInfo_ != com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance()) {
+            applyInfo_ =
+              com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.newBuilder(applyInfo_).mergeFrom(value).buildPartial();
+          } else {
+            applyInfo_ = value;
+          }
+          onChanged();
+        } else {
+          applyInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000008;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public Builder clearApplyInfo() {
+        if (applyInfoBuilder_ == null) {
+          applyInfo_ = com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          applyInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder getApplyInfoBuilder() {
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return getApplyInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder getApplyInfoOrBuilder() {
+        if (applyInfoBuilder_ != null) {
+          return applyInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return applyInfo_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.ApplyRewardInfo applyInfo = 4;</code>
+       *
+       * <pre>
+       *当前可分配奖励数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ApplyRewardInfo, com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder, com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder> 
+          getApplyInfoFieldBuilder() {
+        if (applyInfoBuilder_ == null) {
+          applyInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.ApplyRewardInfo, com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder, com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder>(
+                  applyInfo_,
+                  getParentForChildren(),
+                  isClean());
+          applyInfo_ = null;
+        }
+        return applyInfoBuilder_;
+      }
+
+      // optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;
+      private com.rwproto.GroupCopyAdminProto.MemberDamageInfo damageInfo_ = com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.MemberDamageInfo, com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder> damageInfoBuilder_;
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public boolean hasDamageInfo() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberDamageInfo getDamageInfo() {
+        if (damageInfoBuilder_ == null) {
+          return damageInfo_;
+        } else {
+          return damageInfoBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public Builder setDamageInfo(com.rwproto.GroupCopyAdminProto.MemberDamageInfo value) {
+        if (damageInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          damageInfo_ = value;
+          onChanged();
+        } else {
+          damageInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public Builder setDamageInfo(
+          com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder builderForValue) {
+        if (damageInfoBuilder_ == null) {
+          damageInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          damageInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public Builder mergeDamageInfo(com.rwproto.GroupCopyAdminProto.MemberDamageInfo value) {
+        if (damageInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              damageInfo_ != com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance()) {
+            damageInfo_ =
+              com.rwproto.GroupCopyAdminProto.MemberDamageInfo.newBuilder(damageInfo_).mergeFrom(value).buildPartial();
+          } else {
+            damageInfo_ = value;
+          }
+          onChanged();
+        } else {
+          damageInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public Builder clearDamageInfo() {
+        if (damageInfoBuilder_ == null) {
+          damageInfo_ = com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          damageInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder getDamageInfoBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getDamageInfoFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder getDamageInfoOrBuilder() {
+        if (damageInfoBuilder_ != null) {
+          return damageInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return damageInfo_;
+        }
+      }
+      /**
+       * <code>optional .GroupCopyAdmin.MemberDamageInfo damageInfo = 5;</code>
+       *
+       * <pre>
+       *所有成员在当前章节伤害数据
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.MemberDamageInfo, com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder> 
+          getDamageInfoFieldBuilder() {
+        if (damageInfoBuilder_ == null) {
+          damageInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.MemberDamageInfo, com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder>(
+                  damageInfo_,
+                  getParentForChildren(),
+                  isClean());
+          damageInfo_ = null;
+        }
+        return damageInfoBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.GroupCopyAdminComRspMsg)
     }
 
@@ -3002,6 +5363,5068 @@ public final class GroupCopyAdminProto {
     }
 
     // @@protoc_insertion_point(class_scope:GroupCopyAdmin.GroupCopyAdminComRspMsg)
+  }
+
+  public interface ApplyRewardInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 nextTime = 1;
+    /**
+     * <code>required int32 nextTime = 1;</code>
+     *
+     * <pre>
+     *距离下次分配时间
+     * </pre>
+     */
+    boolean hasNextTime();
+    /**
+     * <code>required int32 nextTime = 1;</code>
+     *
+     * <pre>
+     *距离下次分配时间
+     * </pre>
+     */
+    int getNextTime();
+
+    // repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCopyAdminProto.ChaterItemData> 
+        getChaterDataList();
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.ChaterItemData getChaterData(int index);
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    int getChaterDataCount();
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder> 
+        getChaterDataOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder getChaterDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.ApplyRewardInfo}
+   */
+  public static final class ApplyRewardInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ApplyRewardInfoOrBuilder {
+    // Use ApplyRewardInfo.newBuilder() to construct.
+    private ApplyRewardInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ApplyRewardInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ApplyRewardInfo defaultInstance;
+    public static ApplyRewardInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ApplyRewardInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ApplyRewardInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              nextTime_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                chaterData_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.ChaterItemData>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              chaterData_.add(input.readMessage(com.rwproto.GroupCopyAdminProto.ChaterItemData.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          chaterData_ = java.util.Collections.unmodifiableList(chaterData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyRewardInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyRewardInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.class, com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ApplyRewardInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ApplyRewardInfo>() {
+      public ApplyRewardInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ApplyRewardInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ApplyRewardInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 nextTime = 1;
+    public static final int NEXTTIME_FIELD_NUMBER = 1;
+    private int nextTime_;
+    /**
+     * <code>required int32 nextTime = 1;</code>
+     *
+     * <pre>
+     *距离下次分配时间
+     * </pre>
+     */
+    public boolean hasNextTime() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 nextTime = 1;</code>
+     *
+     * <pre>
+     *距离下次分配时间
+     * </pre>
+     */
+    public int getNextTime() {
+      return nextTime_;
+    }
+
+    // repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;
+    public static final int CHATERDATA_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.GroupCopyAdminProto.ChaterItemData> chaterData_;
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCopyAdminProto.ChaterItemData> getChaterDataList() {
+      return chaterData_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder> 
+        getChaterDataOrBuilderList() {
+      return chaterData_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    public int getChaterDataCount() {
+      return chaterData_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChaterItemData getChaterData(int index) {
+      return chaterData_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+     *
+     * <pre>
+     *每个章节数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder getChaterDataOrBuilder(
+        int index) {
+      return chaterData_.get(index);
+    }
+
+    private void initFields() {
+      nextTime_ = 0;
+      chaterData_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasNextTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getChaterDataCount(); i++) {
+        if (!getChaterData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, nextTime_);
+      }
+      for (int i = 0; i < chaterData_.size(); i++) {
+        output.writeMessage(2, chaterData_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, nextTime_);
+      }
+      for (int i = 0; i < chaterData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, chaterData_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.ApplyRewardInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.ApplyRewardInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.ApplyRewardInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyRewardInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyRewardInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.class, com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getChaterDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        nextTime_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (chaterDataBuilder_ == null) {
+          chaterData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          chaterDataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyRewardInfo_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ApplyRewardInfo getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ApplyRewardInfo build() {
+        com.rwproto.GroupCopyAdminProto.ApplyRewardInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ApplyRewardInfo buildPartial() {
+        com.rwproto.GroupCopyAdminProto.ApplyRewardInfo result = new com.rwproto.GroupCopyAdminProto.ApplyRewardInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.nextTime_ = nextTime_;
+        if (chaterDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            chaterData_ = java.util.Collections.unmodifiableList(chaterData_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.chaterData_ = chaterData_;
+        } else {
+          result.chaterData_ = chaterDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.ApplyRewardInfo) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.ApplyRewardInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.ApplyRewardInfo other) {
+        if (other == com.rwproto.GroupCopyAdminProto.ApplyRewardInfo.getDefaultInstance()) return this;
+        if (other.hasNextTime()) {
+          setNextTime(other.getNextTime());
+        }
+        if (chaterDataBuilder_ == null) {
+          if (!other.chaterData_.isEmpty()) {
+            if (chaterData_.isEmpty()) {
+              chaterData_ = other.chaterData_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureChaterDataIsMutable();
+              chaterData_.addAll(other.chaterData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.chaterData_.isEmpty()) {
+            if (chaterDataBuilder_.isEmpty()) {
+              chaterDataBuilder_.dispose();
+              chaterDataBuilder_ = null;
+              chaterData_ = other.chaterData_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              chaterDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getChaterDataFieldBuilder() : null;
+            } else {
+              chaterDataBuilder_.addAllMessages(other.chaterData_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNextTime()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getChaterDataCount(); i++) {
+          if (!getChaterData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.ApplyRewardInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.ApplyRewardInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 nextTime = 1;
+      private int nextTime_ ;
+      /**
+       * <code>required int32 nextTime = 1;</code>
+       *
+       * <pre>
+       *距离下次分配时间
+       * </pre>
+       */
+      public boolean hasNextTime() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 nextTime = 1;</code>
+       *
+       * <pre>
+       *距离下次分配时间
+       * </pre>
+       */
+      public int getNextTime() {
+        return nextTime_;
+      }
+      /**
+       * <code>required int32 nextTime = 1;</code>
+       *
+       * <pre>
+       *距离下次分配时间
+       * </pre>
+       */
+      public Builder setNextTime(int value) {
+        bitField0_ |= 0x00000001;
+        nextTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nextTime = 1;</code>
+       *
+       * <pre>
+       *距离下次分配时间
+       * </pre>
+       */
+      public Builder clearNextTime() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        nextTime_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;
+      private java.util.List<com.rwproto.GroupCopyAdminProto.ChaterItemData> chaterData_ =
+        java.util.Collections.emptyList();
+      private void ensureChaterDataIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          chaterData_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.ChaterItemData>(chaterData_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChaterItemData, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder, com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder> chaterDataBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.ChaterItemData> getChaterDataList() {
+        if (chaterDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(chaterData_);
+        } else {
+          return chaterDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public int getChaterDataCount() {
+        if (chaterDataBuilder_ == null) {
+          return chaterData_.size();
+        } else {
+          return chaterDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData getChaterData(int index) {
+        if (chaterDataBuilder_ == null) {
+          return chaterData_.get(index);
+        } else {
+          return chaterDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder setChaterData(
+          int index, com.rwproto.GroupCopyAdminProto.ChaterItemData value) {
+        if (chaterDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChaterDataIsMutable();
+          chaterData_.set(index, value);
+          onChanged();
+        } else {
+          chaterDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder setChaterData(
+          int index, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder builderForValue) {
+        if (chaterDataBuilder_ == null) {
+          ensureChaterDataIsMutable();
+          chaterData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          chaterDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder addChaterData(com.rwproto.GroupCopyAdminProto.ChaterItemData value) {
+        if (chaterDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChaterDataIsMutable();
+          chaterData_.add(value);
+          onChanged();
+        } else {
+          chaterDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder addChaterData(
+          int index, com.rwproto.GroupCopyAdminProto.ChaterItemData value) {
+        if (chaterDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureChaterDataIsMutable();
+          chaterData_.add(index, value);
+          onChanged();
+        } else {
+          chaterDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder addChaterData(
+          com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder builderForValue) {
+        if (chaterDataBuilder_ == null) {
+          ensureChaterDataIsMutable();
+          chaterData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          chaterDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder addChaterData(
+          int index, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder builderForValue) {
+        if (chaterDataBuilder_ == null) {
+          ensureChaterDataIsMutable();
+          chaterData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          chaterDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder addAllChaterData(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyAdminProto.ChaterItemData> values) {
+        if (chaterDataBuilder_ == null) {
+          ensureChaterDataIsMutable();
+          super.addAll(values, chaterData_);
+          onChanged();
+        } else {
+          chaterDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder clearChaterData() {
+        if (chaterDataBuilder_ == null) {
+          chaterData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          chaterDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public Builder removeChaterData(int index) {
+        if (chaterDataBuilder_ == null) {
+          ensureChaterDataIsMutable();
+          chaterData_.remove(index);
+          onChanged();
+        } else {
+          chaterDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder getChaterDataBuilder(
+          int index) {
+        return getChaterDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder getChaterDataOrBuilder(
+          int index) {
+        if (chaterDataBuilder_ == null) {
+          return chaterData_.get(index);  } else {
+          return chaterDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder> 
+           getChaterDataOrBuilderList() {
+        if (chaterDataBuilder_ != null) {
+          return chaterDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(chaterData_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder addChaterDataBuilder() {
+        return getChaterDataFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyAdminProto.ChaterItemData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder addChaterDataBuilder(
+          int index) {
+        return getChaterDataFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyAdminProto.ChaterItemData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ChaterItemData chaterData = 2;</code>
+       *
+       * <pre>
+       *每个章节数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder> 
+           getChaterDataBuilderList() {
+        return getChaterDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ChaterItemData, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder, com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder> 
+          getChaterDataFieldBuilder() {
+        if (chaterDataBuilder_ == null) {
+          chaterDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.ChaterItemData, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder, com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder>(
+                  chaterData_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          chaterData_ = null;
+        }
+        return chaterDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.ApplyRewardInfo)
+    }
+
+    static {
+      defaultInstance = new ApplyRewardInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.ApplyRewardInfo)
+  }
+
+  public interface ChaterItemDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string chaterID = 1;
+    /**
+     * <code>required string chaterID = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    boolean hasChaterID();
+    /**
+     * <code>required string chaterID = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    java.lang.String getChaterID();
+    /**
+     * <code>required string chaterID = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getChaterIDBytes();
+
+    // repeated .GroupCopyAdmin.ApplyItemData itemData = 2;
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCopyAdminProto.ApplyItemData> 
+        getItemDataList();
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.ApplyItemData getItemData(int index);
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    int getItemDataCount();
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder> 
+        getItemDataOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder getItemDataOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.ChaterItemData}
+   */
+  public static final class ChaterItemData extends
+      com.google.protobuf.GeneratedMessage
+      implements ChaterItemDataOrBuilder {
+    // Use ChaterItemData.newBuilder() to construct.
+    private ChaterItemData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ChaterItemData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ChaterItemData defaultInstance;
+    public static ChaterItemData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ChaterItemData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ChaterItemData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              chaterID_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                itemData_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.ApplyItemData>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              itemData_.add(input.readMessage(com.rwproto.GroupCopyAdminProto.ApplyItemData.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          itemData_ = java.util.Collections.unmodifiableList(itemData_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterItemData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterItemData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.ChaterItemData.class, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ChaterItemData> PARSER =
+        new com.google.protobuf.AbstractParser<ChaterItemData>() {
+      public ChaterItemData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ChaterItemData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ChaterItemData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string chaterID = 1;
+    public static final int CHATERID_FIELD_NUMBER = 1;
+    private java.lang.Object chaterID_;
+    /**
+     * <code>required string chaterID = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    public boolean hasChaterID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string chaterID = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    public java.lang.String getChaterID() {
+      java.lang.Object ref = chaterID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          chaterID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string chaterID = 1;</code>
+     *
+     * <pre>
+     *章节id
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getChaterIDBytes() {
+      java.lang.Object ref = chaterID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        chaterID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // repeated .GroupCopyAdmin.ApplyItemData itemData = 2;
+    public static final int ITEMDATA_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.GroupCopyAdminProto.ApplyItemData> itemData_;
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCopyAdminProto.ApplyItemData> getItemDataList() {
+      return itemData_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder> 
+        getItemDataOrBuilderList() {
+      return itemData_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    public int getItemDataCount() {
+      return itemData_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.ApplyItemData getItemData(int index) {
+      return itemData_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+     *
+     * <pre>
+     *每个道具数据
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder getItemDataOrBuilder(
+        int index) {
+      return itemData_.get(index);
+    }
+
+    private void initFields() {
+      chaterID_ = "";
+      itemData_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasChaterID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getItemDataCount(); i++) {
+        if (!getItemData(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getChaterIDBytes());
+      }
+      for (int i = 0; i < itemData_.size(); i++) {
+        output.writeMessage(2, itemData_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getChaterIDBytes());
+      }
+      for (int i = 0; i < itemData_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, itemData_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ChaterItemData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.ChaterItemData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.ChaterItemData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.ChaterItemDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterItemData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterItemData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.ChaterItemData.class, com.rwproto.GroupCopyAdminProto.ChaterItemData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.ChaterItemData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getItemDataFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        chaterID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (itemDataBuilder_ == null) {
+          itemData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          itemDataBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ChaterItemData_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.ChaterItemData.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData build() {
+        com.rwproto.GroupCopyAdminProto.ChaterItemData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ChaterItemData buildPartial() {
+        com.rwproto.GroupCopyAdminProto.ChaterItemData result = new com.rwproto.GroupCopyAdminProto.ChaterItemData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.chaterID_ = chaterID_;
+        if (itemDataBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            itemData_ = java.util.Collections.unmodifiableList(itemData_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.itemData_ = itemData_;
+        } else {
+          result.itemData_ = itemDataBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.ChaterItemData) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.ChaterItemData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.ChaterItemData other) {
+        if (other == com.rwproto.GroupCopyAdminProto.ChaterItemData.getDefaultInstance()) return this;
+        if (other.hasChaterID()) {
+          bitField0_ |= 0x00000001;
+          chaterID_ = other.chaterID_;
+          onChanged();
+        }
+        if (itemDataBuilder_ == null) {
+          if (!other.itemData_.isEmpty()) {
+            if (itemData_.isEmpty()) {
+              itemData_ = other.itemData_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureItemDataIsMutable();
+              itemData_.addAll(other.itemData_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.itemData_.isEmpty()) {
+            if (itemDataBuilder_.isEmpty()) {
+              itemDataBuilder_.dispose();
+              itemDataBuilder_ = null;
+              itemData_ = other.itemData_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              itemDataBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getItemDataFieldBuilder() : null;
+            } else {
+              itemDataBuilder_.addAllMessages(other.itemData_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasChaterID()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getItemDataCount(); i++) {
+          if (!getItemData(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.ChaterItemData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.ChaterItemData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string chaterID = 1;
+      private java.lang.Object chaterID_ = "";
+      /**
+       * <code>required string chaterID = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public boolean hasChaterID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string chaterID = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public java.lang.String getChaterID() {
+        java.lang.Object ref = chaterID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          chaterID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string chaterID = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getChaterIDBytes() {
+        java.lang.Object ref = chaterID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          chaterID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string chaterID = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public Builder setChaterID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        chaterID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string chaterID = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public Builder clearChaterID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        chaterID_ = getDefaultInstance().getChaterID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string chaterID = 1;</code>
+       *
+       * <pre>
+       *章节id
+       * </pre>
+       */
+      public Builder setChaterIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        chaterID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // repeated .GroupCopyAdmin.ApplyItemData itemData = 2;
+      private java.util.List<com.rwproto.GroupCopyAdminProto.ApplyItemData> itemData_ =
+        java.util.Collections.emptyList();
+      private void ensureItemDataIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          itemData_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.ApplyItemData>(itemData_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ApplyItemData, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder, com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder> itemDataBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.ApplyItemData> getItemDataList() {
+        if (itemDataBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(itemData_);
+        } else {
+          return itemDataBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public int getItemDataCount() {
+        if (itemDataBuilder_ == null) {
+          return itemData_.size();
+        } else {
+          return itemDataBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData getItemData(int index) {
+        if (itemDataBuilder_ == null) {
+          return itemData_.get(index);
+        } else {
+          return itemDataBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder setItemData(
+          int index, com.rwproto.GroupCopyAdminProto.ApplyItemData value) {
+        if (itemDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemDataIsMutable();
+          itemData_.set(index, value);
+          onChanged();
+        } else {
+          itemDataBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder setItemData(
+          int index, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder builderForValue) {
+        if (itemDataBuilder_ == null) {
+          ensureItemDataIsMutable();
+          itemData_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemDataBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder addItemData(com.rwproto.GroupCopyAdminProto.ApplyItemData value) {
+        if (itemDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemDataIsMutable();
+          itemData_.add(value);
+          onChanged();
+        } else {
+          itemDataBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder addItemData(
+          int index, com.rwproto.GroupCopyAdminProto.ApplyItemData value) {
+        if (itemDataBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemDataIsMutable();
+          itemData_.add(index, value);
+          onChanged();
+        } else {
+          itemDataBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder addItemData(
+          com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder builderForValue) {
+        if (itemDataBuilder_ == null) {
+          ensureItemDataIsMutable();
+          itemData_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemDataBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder addItemData(
+          int index, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder builderForValue) {
+        if (itemDataBuilder_ == null) {
+          ensureItemDataIsMutable();
+          itemData_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemDataBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder addAllItemData(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyAdminProto.ApplyItemData> values) {
+        if (itemDataBuilder_ == null) {
+          ensureItemDataIsMutable();
+          super.addAll(values, itemData_);
+          onChanged();
+        } else {
+          itemDataBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder clearItemData() {
+        if (itemDataBuilder_ == null) {
+          itemData_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          itemDataBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public Builder removeItemData(int index) {
+        if (itemDataBuilder_ == null) {
+          ensureItemDataIsMutable();
+          itemData_.remove(index);
+          onChanged();
+        } else {
+          itemDataBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder getItemDataBuilder(
+          int index) {
+        return getItemDataFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder getItemDataOrBuilder(
+          int index) {
+        if (itemDataBuilder_ == null) {
+          return itemData_.get(index);  } else {
+          return itemDataBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder> 
+           getItemDataOrBuilderList() {
+        if (itemDataBuilder_ != null) {
+          return itemDataBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(itemData_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder addItemDataBuilder() {
+        return getItemDataFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyAdminProto.ApplyItemData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder addItemDataBuilder(
+          int index) {
+        return getItemDataFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyAdminProto.ApplyItemData.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.ApplyItemData itemData = 2;</code>
+       *
+       * <pre>
+       *每个道具数据
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder> 
+           getItemDataBuilderList() {
+        return getItemDataFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.ApplyItemData, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder, com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder> 
+          getItemDataFieldBuilder() {
+        if (itemDataBuilder_ == null) {
+          itemDataBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.ApplyItemData, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder, com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder>(
+                  itemData_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          itemData_ = null;
+        }
+        return itemDataBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.ChaterItemData)
+    }
+
+    static {
+      defaultInstance = new ChaterItemData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.ChaterItemData)
+  }
+
+  public interface ApplyItemDataOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 itemID = 1;
+    /**
+     * <code>required int32 itemID = 1;</code>
+     */
+    boolean hasItemID();
+    /**
+     * <code>required int32 itemID = 1;</code>
+     */
+    int getItemID();
+
+    // required int32 applyCount = 2;
+    /**
+     * <code>required int32 applyCount = 2;</code>
+     *
+     * <pre>
+     *申请人数
+     * </pre>
+     */
+    boolean hasApplyCount();
+    /**
+     * <code>required int32 applyCount = 2;</code>
+     *
+     * <pre>
+     *申请人数
+     * </pre>
+     */
+    int getApplyCount();
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.ApplyItemData}
+   */
+  public static final class ApplyItemData extends
+      com.google.protobuf.GeneratedMessage
+      implements ApplyItemDataOrBuilder {
+    // Use ApplyItemData.newBuilder() to construct.
+    private ApplyItemData(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ApplyItemData(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ApplyItemData defaultInstance;
+    public static ApplyItemData getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ApplyItemData getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ApplyItemData(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              itemID_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              applyCount_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyItemData_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyItemData_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.ApplyItemData.class, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ApplyItemData> PARSER =
+        new com.google.protobuf.AbstractParser<ApplyItemData>() {
+      public ApplyItemData parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ApplyItemData(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ApplyItemData> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 itemID = 1;
+    public static final int ITEMID_FIELD_NUMBER = 1;
+    private int itemID_;
+    /**
+     * <code>required int32 itemID = 1;</code>
+     */
+    public boolean hasItemID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 itemID = 1;</code>
+     */
+    public int getItemID() {
+      return itemID_;
+    }
+
+    // required int32 applyCount = 2;
+    public static final int APPLYCOUNT_FIELD_NUMBER = 2;
+    private int applyCount_;
+    /**
+     * <code>required int32 applyCount = 2;</code>
+     *
+     * <pre>
+     *申请人数
+     * </pre>
+     */
+    public boolean hasApplyCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 applyCount = 2;</code>
+     *
+     * <pre>
+     *申请人数
+     * </pre>
+     */
+    public int getApplyCount() {
+      return applyCount_;
+    }
+
+    private void initFields() {
+      itemID_ = 0;
+      applyCount_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasItemID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasApplyCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, itemID_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, applyCount_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, itemID_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, applyCount_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.ApplyItemData parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.ApplyItemData prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.ApplyItemData}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.ApplyItemDataOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyItemData_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyItemData_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.ApplyItemData.class, com.rwproto.GroupCopyAdminProto.ApplyItemData.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.ApplyItemData.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        itemID_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        applyCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_ApplyItemData_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.ApplyItemData.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData build() {
+        com.rwproto.GroupCopyAdminProto.ApplyItemData result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.ApplyItemData buildPartial() {
+        com.rwproto.GroupCopyAdminProto.ApplyItemData result = new com.rwproto.GroupCopyAdminProto.ApplyItemData(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.itemID_ = itemID_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.applyCount_ = applyCount_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.ApplyItemData) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.ApplyItemData)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.ApplyItemData other) {
+        if (other == com.rwproto.GroupCopyAdminProto.ApplyItemData.getDefaultInstance()) return this;
+        if (other.hasItemID()) {
+          setItemID(other.getItemID());
+        }
+        if (other.hasApplyCount()) {
+          setApplyCount(other.getApplyCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasItemID()) {
+          
+          return false;
+        }
+        if (!hasApplyCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.ApplyItemData parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.ApplyItemData) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 itemID = 1;
+      private int itemID_ ;
+      /**
+       * <code>required int32 itemID = 1;</code>
+       */
+      public boolean hasItemID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 itemID = 1;</code>
+       */
+      public int getItemID() {
+        return itemID_;
+      }
+      /**
+       * <code>required int32 itemID = 1;</code>
+       */
+      public Builder setItemID(int value) {
+        bitField0_ |= 0x00000001;
+        itemID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 itemID = 1;</code>
+       */
+      public Builder clearItemID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        itemID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 applyCount = 2;
+      private int applyCount_ ;
+      /**
+       * <code>required int32 applyCount = 2;</code>
+       *
+       * <pre>
+       *申请人数
+       * </pre>
+       */
+      public boolean hasApplyCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 applyCount = 2;</code>
+       *
+       * <pre>
+       *申请人数
+       * </pre>
+       */
+      public int getApplyCount() {
+        return applyCount_;
+      }
+      /**
+       * <code>required int32 applyCount = 2;</code>
+       *
+       * <pre>
+       *申请人数
+       * </pre>
+       */
+      public Builder setApplyCount(int value) {
+        bitField0_ |= 0x00000002;
+        applyCount_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 applyCount = 2;</code>
+       *
+       * <pre>
+       *申请人数
+       * </pre>
+       */
+      public Builder clearApplyCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        applyCount_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.ApplyItemData)
+    }
+
+    static {
+      defaultInstance = new ApplyItemData(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.ApplyItemData)
+  }
+
+  public interface MemberDamageInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> 
+        getApplyRoleListList();
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.MemberInfo getApplyRoleList(int index);
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    int getApplyRoleListCount();
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+        getApplyRoleListOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder getApplyRoleListOrBuilder(
+        int index);
+
+    // repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> 
+        getUnApplyRoleListList();
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.MemberInfo getUnApplyRoleList(int index);
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    int getUnApplyRoleListCount();
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+        getUnApplyRoleListOrBuilderList();
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder getUnApplyRoleListOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.MemberDamageInfo}
+   */
+  public static final class MemberDamageInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements MemberDamageInfoOrBuilder {
+    // Use MemberDamageInfo.newBuilder() to construct.
+    private MemberDamageInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MemberDamageInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MemberDamageInfo defaultInstance;
+    public static MemberDamageInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MemberDamageInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MemberDamageInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                applyRoleList_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.MemberInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              applyRoleList_.add(input.readMessage(com.rwproto.GroupCopyAdminProto.MemberInfo.PARSER, extensionRegistry));
+              break;
+            }
+            case 18: {
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                unApplyRoleList_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.MemberInfo>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              unApplyRoleList_.add(input.readMessage(com.rwproto.GroupCopyAdminProto.MemberInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          applyRoleList_ = java.util.Collections.unmodifiableList(applyRoleList_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          unApplyRoleList_ = java.util.Collections.unmodifiableList(unApplyRoleList_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberDamageInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberDamageInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.MemberDamageInfo.class, com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MemberDamageInfo> PARSER =
+        new com.google.protobuf.AbstractParser<MemberDamageInfo>() {
+      public MemberDamageInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MemberDamageInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MemberDamageInfo> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;
+    public static final int APPLYROLELIST_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> applyRoleList_;
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> getApplyRoleListList() {
+      return applyRoleList_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+        getApplyRoleListOrBuilderList() {
+      return applyRoleList_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    public int getApplyRoleListCount() {
+      return applyRoleList_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.MemberInfo getApplyRoleList(int index) {
+      return applyRoleList_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+     *
+     * <pre>
+     *已经申请人列表
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder getApplyRoleListOrBuilder(
+        int index) {
+      return applyRoleList_.get(index);
+    }
+
+    // repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;
+    public static final int UNAPPLYROLELIST_FIELD_NUMBER = 2;
+    private java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> unApplyRoleList_;
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    public java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> getUnApplyRoleListList() {
+      return unApplyRoleList_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    public java.util.List<? extends com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+        getUnApplyRoleListOrBuilderList() {
+      return unApplyRoleList_;
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    public int getUnApplyRoleListCount() {
+      return unApplyRoleList_.size();
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.MemberInfo getUnApplyRoleList(int index) {
+      return unApplyRoleList_.get(index);
+    }
+    /**
+     * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+     *
+     * <pre>
+     *未申请人列表
+     * </pre>
+     */
+    public com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder getUnApplyRoleListOrBuilder(
+        int index) {
+      return unApplyRoleList_.get(index);
+    }
+
+    private void initFields() {
+      applyRoleList_ = java.util.Collections.emptyList();
+      unApplyRoleList_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getApplyRoleListCount(); i++) {
+        if (!getApplyRoleList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getUnApplyRoleListCount(); i++) {
+        if (!getUnApplyRoleList(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < applyRoleList_.size(); i++) {
+        output.writeMessage(1, applyRoleList_.get(i));
+      }
+      for (int i = 0; i < unApplyRoleList_.size(); i++) {
+        output.writeMessage(2, unApplyRoleList_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < applyRoleList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, applyRoleList_.get(i));
+      }
+      for (int i = 0; i < unApplyRoleList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, unApplyRoleList_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberDamageInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.MemberDamageInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.MemberDamageInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.MemberDamageInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberDamageInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberDamageInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.MemberDamageInfo.class, com.rwproto.GroupCopyAdminProto.MemberDamageInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.MemberDamageInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getApplyRoleListFieldBuilder();
+          getUnApplyRoleListFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (applyRoleListBuilder_ == null) {
+          applyRoleList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          applyRoleListBuilder_.clear();
+        }
+        if (unApplyRoleListBuilder_ == null) {
+          unApplyRoleList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          unApplyRoleListBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberDamageInfo_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.MemberDamageInfo getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.MemberDamageInfo build() {
+        com.rwproto.GroupCopyAdminProto.MemberDamageInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.MemberDamageInfo buildPartial() {
+        com.rwproto.GroupCopyAdminProto.MemberDamageInfo result = new com.rwproto.GroupCopyAdminProto.MemberDamageInfo(this);
+        int from_bitField0_ = bitField0_;
+        if (applyRoleListBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            applyRoleList_ = java.util.Collections.unmodifiableList(applyRoleList_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.applyRoleList_ = applyRoleList_;
+        } else {
+          result.applyRoleList_ = applyRoleListBuilder_.build();
+        }
+        if (unApplyRoleListBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            unApplyRoleList_ = java.util.Collections.unmodifiableList(unApplyRoleList_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
+          result.unApplyRoleList_ = unApplyRoleList_;
+        } else {
+          result.unApplyRoleList_ = unApplyRoleListBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.MemberDamageInfo) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.MemberDamageInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.MemberDamageInfo other) {
+        if (other == com.rwproto.GroupCopyAdminProto.MemberDamageInfo.getDefaultInstance()) return this;
+        if (applyRoleListBuilder_ == null) {
+          if (!other.applyRoleList_.isEmpty()) {
+            if (applyRoleList_.isEmpty()) {
+              applyRoleList_ = other.applyRoleList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureApplyRoleListIsMutable();
+              applyRoleList_.addAll(other.applyRoleList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.applyRoleList_.isEmpty()) {
+            if (applyRoleListBuilder_.isEmpty()) {
+              applyRoleListBuilder_.dispose();
+              applyRoleListBuilder_ = null;
+              applyRoleList_ = other.applyRoleList_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              applyRoleListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getApplyRoleListFieldBuilder() : null;
+            } else {
+              applyRoleListBuilder_.addAllMessages(other.applyRoleList_);
+            }
+          }
+        }
+        if (unApplyRoleListBuilder_ == null) {
+          if (!other.unApplyRoleList_.isEmpty()) {
+            if (unApplyRoleList_.isEmpty()) {
+              unApplyRoleList_ = other.unApplyRoleList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureUnApplyRoleListIsMutable();
+              unApplyRoleList_.addAll(other.unApplyRoleList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.unApplyRoleList_.isEmpty()) {
+            if (unApplyRoleListBuilder_.isEmpty()) {
+              unApplyRoleListBuilder_.dispose();
+              unApplyRoleListBuilder_ = null;
+              unApplyRoleList_ = other.unApplyRoleList_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              unApplyRoleListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getUnApplyRoleListFieldBuilder() : null;
+            } else {
+              unApplyRoleListBuilder_.addAllMessages(other.unApplyRoleList_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getApplyRoleListCount(); i++) {
+          if (!getApplyRoleList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getUnApplyRoleListCount(); i++) {
+          if (!getUnApplyRoleList(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.MemberDamageInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.MemberDamageInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;
+      private java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> applyRoleList_ =
+        java.util.Collections.emptyList();
+      private void ensureApplyRoleListIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          applyRoleList_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.MemberInfo>(applyRoleList_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.MemberInfo, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> applyRoleListBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> getApplyRoleListList() {
+        if (applyRoleListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(applyRoleList_);
+        } else {
+          return applyRoleListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public int getApplyRoleListCount() {
+        if (applyRoleListBuilder_ == null) {
+          return applyRoleList_.size();
+        } else {
+          return applyRoleListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo getApplyRoleList(int index) {
+        if (applyRoleListBuilder_ == null) {
+          return applyRoleList_.get(index);
+        } else {
+          return applyRoleListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder setApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo value) {
+        if (applyRoleListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.set(index, value);
+          onChanged();
+        } else {
+          applyRoleListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder setApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder builderForValue) {
+        if (applyRoleListBuilder_ == null) {
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          applyRoleListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder addApplyRoleList(com.rwproto.GroupCopyAdminProto.MemberInfo value) {
+        if (applyRoleListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.add(value);
+          onChanged();
+        } else {
+          applyRoleListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder addApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo value) {
+        if (applyRoleListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.add(index, value);
+          onChanged();
+        } else {
+          applyRoleListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder addApplyRoleList(
+          com.rwproto.GroupCopyAdminProto.MemberInfo.Builder builderForValue) {
+        if (applyRoleListBuilder_ == null) {
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          applyRoleListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder addApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder builderForValue) {
+        if (applyRoleListBuilder_ == null) {
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          applyRoleListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder addAllApplyRoleList(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyAdminProto.MemberInfo> values) {
+        if (applyRoleListBuilder_ == null) {
+          ensureApplyRoleListIsMutable();
+          super.addAll(values, applyRoleList_);
+          onChanged();
+        } else {
+          applyRoleListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder clearApplyRoleList() {
+        if (applyRoleListBuilder_ == null) {
+          applyRoleList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          applyRoleListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public Builder removeApplyRoleList(int index) {
+        if (applyRoleListBuilder_ == null) {
+          ensureApplyRoleListIsMutable();
+          applyRoleList_.remove(index);
+          onChanged();
+        } else {
+          applyRoleListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo.Builder getApplyRoleListBuilder(
+          int index) {
+        return getApplyRoleListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder getApplyRoleListOrBuilder(
+          int index) {
+        if (applyRoleListBuilder_ == null) {
+          return applyRoleList_.get(index);  } else {
+          return applyRoleListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+           getApplyRoleListOrBuilderList() {
+        if (applyRoleListBuilder_ != null) {
+          return applyRoleListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(applyRoleList_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo.Builder addApplyRoleListBuilder() {
+        return getApplyRoleListFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyAdminProto.MemberInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo.Builder addApplyRoleListBuilder(
+          int index) {
+        return getApplyRoleListFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyAdminProto.MemberInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo applyRoleList = 1;</code>
+       *
+       * <pre>
+       *已经申请人列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo.Builder> 
+           getApplyRoleListBuilderList() {
+        return getApplyRoleListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.MemberInfo, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+          getApplyRoleListFieldBuilder() {
+        if (applyRoleListBuilder_ == null) {
+          applyRoleListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.MemberInfo, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder>(
+                  applyRoleList_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          applyRoleList_ = null;
+        }
+        return applyRoleListBuilder_;
+      }
+
+      // repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;
+      private java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> unApplyRoleList_ =
+        java.util.Collections.emptyList();
+      private void ensureUnApplyRoleListIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          unApplyRoleList_ = new java.util.ArrayList<com.rwproto.GroupCopyAdminProto.MemberInfo>(unApplyRoleList_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.MemberInfo, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> unApplyRoleListBuilder_;
+
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo> getUnApplyRoleListList() {
+        if (unApplyRoleListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(unApplyRoleList_);
+        } else {
+          return unApplyRoleListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public int getUnApplyRoleListCount() {
+        if (unApplyRoleListBuilder_ == null) {
+          return unApplyRoleList_.size();
+        } else {
+          return unApplyRoleListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo getUnApplyRoleList(int index) {
+        if (unApplyRoleListBuilder_ == null) {
+          return unApplyRoleList_.get(index);
+        } else {
+          return unApplyRoleListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder setUnApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo value) {
+        if (unApplyRoleListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.set(index, value);
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder setUnApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder builderForValue) {
+        if (unApplyRoleListBuilder_ == null) {
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder addUnApplyRoleList(com.rwproto.GroupCopyAdminProto.MemberInfo value) {
+        if (unApplyRoleListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.add(value);
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder addUnApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo value) {
+        if (unApplyRoleListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.add(index, value);
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder addUnApplyRoleList(
+          com.rwproto.GroupCopyAdminProto.MemberInfo.Builder builderForValue) {
+        if (unApplyRoleListBuilder_ == null) {
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder addUnApplyRoleList(
+          int index, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder builderForValue) {
+        if (unApplyRoleListBuilder_ == null) {
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder addAllUnApplyRoleList(
+          java.lang.Iterable<? extends com.rwproto.GroupCopyAdminProto.MemberInfo> values) {
+        if (unApplyRoleListBuilder_ == null) {
+          ensureUnApplyRoleListIsMutable();
+          super.addAll(values, unApplyRoleList_);
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder clearUnApplyRoleList() {
+        if (unApplyRoleListBuilder_ == null) {
+          unApplyRoleList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public Builder removeUnApplyRoleList(int index) {
+        if (unApplyRoleListBuilder_ == null) {
+          ensureUnApplyRoleListIsMutable();
+          unApplyRoleList_.remove(index);
+          onChanged();
+        } else {
+          unApplyRoleListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo.Builder getUnApplyRoleListBuilder(
+          int index) {
+        return getUnApplyRoleListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder getUnApplyRoleListOrBuilder(
+          int index) {
+        if (unApplyRoleListBuilder_ == null) {
+          return unApplyRoleList_.get(index);  } else {
+          return unApplyRoleListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public java.util.List<? extends com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+           getUnApplyRoleListOrBuilderList() {
+        if (unApplyRoleListBuilder_ != null) {
+          return unApplyRoleListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(unApplyRoleList_);
+        }
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo.Builder addUnApplyRoleListBuilder() {
+        return getUnApplyRoleListFieldBuilder().addBuilder(
+            com.rwproto.GroupCopyAdminProto.MemberInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public com.rwproto.GroupCopyAdminProto.MemberInfo.Builder addUnApplyRoleListBuilder(
+          int index) {
+        return getUnApplyRoleListFieldBuilder().addBuilder(
+            index, com.rwproto.GroupCopyAdminProto.MemberInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .GroupCopyAdmin.MemberInfo unApplyRoleList = 2;</code>
+       *
+       * <pre>
+       *未申请人列表
+       * </pre>
+       */
+      public java.util.List<com.rwproto.GroupCopyAdminProto.MemberInfo.Builder> 
+           getUnApplyRoleListBuilderList() {
+        return getUnApplyRoleListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.GroupCopyAdminProto.MemberInfo, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder> 
+          getUnApplyRoleListFieldBuilder() {
+        if (unApplyRoleListBuilder_ == null) {
+          unApplyRoleListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.GroupCopyAdminProto.MemberInfo, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder, com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder>(
+                  unApplyRoleList_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  getParentForChildren(),
+                  isClean());
+          unApplyRoleList_ = null;
+        }
+        return unApplyRoleListBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.MemberDamageInfo)
+    }
+
+    static {
+      defaultInstance = new MemberDamageInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.MemberDamageInfo)
+  }
+
+  public interface MemberInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required string useID = 1;
+    /**
+     * <code>required string useID = 1;</code>
+     */
+    boolean hasUseID();
+    /**
+     * <code>required string useID = 1;</code>
+     */
+    java.lang.String getUseID();
+    /**
+     * <code>required string useID = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getUseIDBytes();
+
+    // required string headIcon = 2;
+    /**
+     * <code>required string headIcon = 2;</code>
+     */
+    boolean hasHeadIcon();
+    /**
+     * <code>required string headIcon = 2;</code>
+     */
+    java.lang.String getHeadIcon();
+    /**
+     * <code>required string headIcon = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getHeadIconBytes();
+
+    // required int32 lv = 3;
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    boolean hasLv();
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    int getLv();
+
+    // required string roleName = 4;
+    /**
+     * <code>required string roleName = 4;</code>
+     */
+    boolean hasRoleName();
+    /**
+     * <code>required string roleName = 4;</code>
+     */
+    java.lang.String getRoleName();
+    /**
+     * <code>required string roleName = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getRoleNameBytes();
+
+    // required int32 damage = 5;
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    boolean hasDamage();
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    int getDamage();
+
+    // required bool canDist = 6;
+    /**
+     * <code>required bool canDist = 6;</code>
+     *
+     * <pre>
+     *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+     * </pre>
+     */
+    boolean hasCanDist();
+    /**
+     * <code>required bool canDist = 6;</code>
+     *
+     * <pre>
+     *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+     * </pre>
+     */
+    boolean getCanDist();
+
+    // required string headbox = 7;
+    /**
+     * <code>required string headbox = 7;</code>
+     *
+     * <pre>
+     *用户头像框
+     * </pre>
+     */
+    boolean hasHeadbox();
+    /**
+     * <code>required string headbox = 7;</code>
+     *
+     * <pre>
+     *用户头像框
+     * </pre>
+     */
+    java.lang.String getHeadbox();
+    /**
+     * <code>required string headbox = 7;</code>
+     *
+     * <pre>
+     *用户头像框
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadboxBytes();
+  }
+  /**
+   * Protobuf type {@code GroupCopyAdmin.MemberInfo}
+   */
+  public static final class MemberInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements MemberInfoOrBuilder {
+    // Use MemberInfo.newBuilder() to construct.
+    private MemberInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MemberInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MemberInfo defaultInstance;
+    public static MemberInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MemberInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MemberInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              useID_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              headIcon_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              lv_ = input.readInt32();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              roleName_ = input.readBytes();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              damage_ = input.readInt32();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000020;
+              canDist_ = input.readBool();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              headbox_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupCopyAdminProto.MemberInfo.class, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MemberInfo> PARSER =
+        new com.google.protobuf.AbstractParser<MemberInfo>() {
+      public MemberInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MemberInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MemberInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required string useID = 1;
+    public static final int USEID_FIELD_NUMBER = 1;
+    private java.lang.Object useID_;
+    /**
+     * <code>required string useID = 1;</code>
+     */
+    public boolean hasUseID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string useID = 1;</code>
+     */
+    public java.lang.String getUseID() {
+      java.lang.Object ref = useID_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          useID_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string useID = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getUseIDBytes() {
+      java.lang.Object ref = useID_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        useID_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string headIcon = 2;
+    public static final int HEADICON_FIELD_NUMBER = 2;
+    private java.lang.Object headIcon_;
+    /**
+     * <code>required string headIcon = 2;</code>
+     */
+    public boolean hasHeadIcon() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string headIcon = 2;</code>
+     */
+    public java.lang.String getHeadIcon() {
+      java.lang.Object ref = headIcon_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headIcon_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string headIcon = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getHeadIconBytes() {
+      java.lang.Object ref = headIcon_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headIcon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 lv = 3;
+    public static final int LV_FIELD_NUMBER = 3;
+    private int lv_;
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    public boolean hasLv() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int32 lv = 3;</code>
+     */
+    public int getLv() {
+      return lv_;
+    }
+
+    // required string roleName = 4;
+    public static final int ROLENAME_FIELD_NUMBER = 4;
+    private java.lang.Object roleName_;
+    /**
+     * <code>required string roleName = 4;</code>
+     */
+    public boolean hasRoleName() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>required string roleName = 4;</code>
+     */
+    public java.lang.String getRoleName() {
+      java.lang.Object ref = roleName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          roleName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string roleName = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRoleNameBytes() {
+      java.lang.Object ref = roleName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        roleName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required int32 damage = 5;
+    public static final int DAMAGE_FIELD_NUMBER = 5;
+    private int damage_;
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    public boolean hasDamage() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>required int32 damage = 5;</code>
+     */
+    public int getDamage() {
+      return damage_;
+    }
+
+    // required bool canDist = 6;
+    public static final int CANDIST_FIELD_NUMBER = 6;
+    private boolean canDist_;
+    /**
+     * <code>required bool canDist = 6;</code>
+     *
+     * <pre>
+     *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+     * </pre>
+     */
+    public boolean hasCanDist() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required bool canDist = 6;</code>
+     *
+     * <pre>
+     *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+     * </pre>
+     */
+    public boolean getCanDist() {
+      return canDist_;
+    }
+
+    // required string headbox = 7;
+    public static final int HEADBOX_FIELD_NUMBER = 7;
+    private java.lang.Object headbox_;
+    /**
+     * <code>required string headbox = 7;</code>
+     *
+     * <pre>
+     *用户头像框
+     * </pre>
+     */
+    public boolean hasHeadbox() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>required string headbox = 7;</code>
+     *
+     * <pre>
+     *用户头像框
+     * </pre>
+     */
+    public java.lang.String getHeadbox() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headbox_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string headbox = 7;</code>
+     *
+     * <pre>
+     *用户头像框
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadboxBytes() {
+      java.lang.Object ref = headbox_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headbox_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      useID_ = "";
+      headIcon_ = "";
+      lv_ = 0;
+      roleName_ = "";
+      damage_ = 0;
+      canDist_ = false;
+      headbox_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasUseID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHeadIcon()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLv()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRoleName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDamage()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCanDist()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHeadbox()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUseIDBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getHeadIconBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt32(3, lv_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getRoleNameBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, damage_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBool(6, canDist_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getHeadboxBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUseIDBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getHeadIconBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, lv_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getRoleNameBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, damage_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, canDist_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getHeadboxBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupCopyAdminProto.MemberInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupCopyAdminProto.MemberInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GroupCopyAdmin.MemberInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupCopyAdminProto.MemberInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupCopyAdminProto.MemberInfo.class, com.rwproto.GroupCopyAdminProto.MemberInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupCopyAdminProto.MemberInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        useID_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        headIcon_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        lv_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        roleName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        damage_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        canDist_ = false;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        headbox_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupCopyAdminProto.internal_static_GroupCopyAdmin_MemberInfo_descriptor;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.MemberInfo getDefaultInstanceForType() {
+        return com.rwproto.GroupCopyAdminProto.MemberInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupCopyAdminProto.MemberInfo build() {
+        com.rwproto.GroupCopyAdminProto.MemberInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupCopyAdminProto.MemberInfo buildPartial() {
+        com.rwproto.GroupCopyAdminProto.MemberInfo result = new com.rwproto.GroupCopyAdminProto.MemberInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.useID_ = useID_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.headIcon_ = headIcon_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.lv_ = lv_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.roleName_ = roleName_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.damage_ = damage_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.canDist_ = canDist_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.headbox_ = headbox_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupCopyAdminProto.MemberInfo) {
+          return mergeFrom((com.rwproto.GroupCopyAdminProto.MemberInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupCopyAdminProto.MemberInfo other) {
+        if (other == com.rwproto.GroupCopyAdminProto.MemberInfo.getDefaultInstance()) return this;
+        if (other.hasUseID()) {
+          bitField0_ |= 0x00000001;
+          useID_ = other.useID_;
+          onChanged();
+        }
+        if (other.hasHeadIcon()) {
+          bitField0_ |= 0x00000002;
+          headIcon_ = other.headIcon_;
+          onChanged();
+        }
+        if (other.hasLv()) {
+          setLv(other.getLv());
+        }
+        if (other.hasRoleName()) {
+          bitField0_ |= 0x00000008;
+          roleName_ = other.roleName_;
+          onChanged();
+        }
+        if (other.hasDamage()) {
+          setDamage(other.getDamage());
+        }
+        if (other.hasCanDist()) {
+          setCanDist(other.getCanDist());
+        }
+        if (other.hasHeadbox()) {
+          bitField0_ |= 0x00000040;
+          headbox_ = other.headbox_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasUseID()) {
+          
+          return false;
+        }
+        if (!hasHeadIcon()) {
+          
+          return false;
+        }
+        if (!hasLv()) {
+          
+          return false;
+        }
+        if (!hasRoleName()) {
+          
+          return false;
+        }
+        if (!hasDamage()) {
+          
+          return false;
+        }
+        if (!hasCanDist()) {
+          
+          return false;
+        }
+        if (!hasHeadbox()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupCopyAdminProto.MemberInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupCopyAdminProto.MemberInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required string useID = 1;
+      private java.lang.Object useID_ = "";
+      /**
+       * <code>required string useID = 1;</code>
+       */
+      public boolean hasUseID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string useID = 1;</code>
+       */
+      public java.lang.String getUseID() {
+        java.lang.Object ref = useID_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          useID_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string useID = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getUseIDBytes() {
+        java.lang.Object ref = useID_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          useID_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string useID = 1;</code>
+       */
+      public Builder setUseID(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        useID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string useID = 1;</code>
+       */
+      public Builder clearUseID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        useID_ = getDefaultInstance().getUseID();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string useID = 1;</code>
+       */
+      public Builder setUseIDBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        useID_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string headIcon = 2;
+      private java.lang.Object headIcon_ = "";
+      /**
+       * <code>required string headIcon = 2;</code>
+       */
+      public boolean hasHeadIcon() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string headIcon = 2;</code>
+       */
+      public java.lang.String getHeadIcon() {
+        java.lang.Object ref = headIcon_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headIcon_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string headIcon = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getHeadIconBytes() {
+        java.lang.Object ref = headIcon_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headIcon_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string headIcon = 2;</code>
+       */
+      public Builder setHeadIcon(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        headIcon_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headIcon = 2;</code>
+       */
+      public Builder clearHeadIcon() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        headIcon_ = getDefaultInstance().getHeadIcon();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headIcon = 2;</code>
+       */
+      public Builder setHeadIconBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        headIcon_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 lv = 3;
+      private int lv_ ;
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public boolean hasLv() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public int getLv() {
+        return lv_;
+      }
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public Builder setLv(int value) {
+        bitField0_ |= 0x00000004;
+        lv_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 lv = 3;</code>
+       */
+      public Builder clearLv() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        lv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string roleName = 4;
+      private java.lang.Object roleName_ = "";
+      /**
+       * <code>required string roleName = 4;</code>
+       */
+      public boolean hasRoleName() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required string roleName = 4;</code>
+       */
+      public java.lang.String getRoleName() {
+        java.lang.Object ref = roleName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          roleName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string roleName = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRoleNameBytes() {
+        java.lang.Object ref = roleName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          roleName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string roleName = 4;</code>
+       */
+      public Builder setRoleName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleName = 4;</code>
+       */
+      public Builder clearRoleName() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        roleName_ = getDefaultInstance().getRoleName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string roleName = 4;</code>
+       */
+      public Builder setRoleNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        roleName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required int32 damage = 5;
+      private int damage_ ;
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public boolean hasDamage() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public int getDamage() {
+        return damage_;
+      }
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public Builder setDamage(int value) {
+        bitField0_ |= 0x00000010;
+        damage_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 damage = 5;</code>
+       */
+      public Builder clearDamage() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        damage_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required bool canDist = 6;
+      private boolean canDist_ ;
+      /**
+       * <code>required bool canDist = 6;</code>
+       *
+       * <pre>
+       *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+       * </pre>
+       */
+      public boolean hasCanDist() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required bool canDist = 6;</code>
+       *
+       * <pre>
+       *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+       * </pre>
+       */
+      public boolean getCanDist() {
+        return canDist_;
+      }
+      /**
+       * <code>required bool canDist = 6;</code>
+       *
+       * <pre>
+       *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+       * </pre>
+       */
+      public Builder setCanDist(boolean value) {
+        bitField0_ |= 0x00000020;
+        canDist_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool canDist = 6;</code>
+       *
+       * <pre>
+       *是否可以分配。如果角色进入帮派时间比道具掉落时间迟，则不可以分配
+       * </pre>
+       */
+      public Builder clearCanDist() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        canDist_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required string headbox = 7;
+      private java.lang.Object headbox_ = "";
+      /**
+       * <code>required string headbox = 7;</code>
+       *
+       * <pre>
+       *用户头像框
+       * </pre>
+       */
+      public boolean hasHeadbox() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>required string headbox = 7;</code>
+       *
+       * <pre>
+       *用户头像框
+       * </pre>
+       */
+      public java.lang.String getHeadbox() {
+        java.lang.Object ref = headbox_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headbox_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string headbox = 7;</code>
+       *
+       * <pre>
+       *用户头像框
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadboxBytes() {
+        java.lang.Object ref = headbox_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headbox_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string headbox = 7;</code>
+       *
+       * <pre>
+       *用户头像框
+       * </pre>
+       */
+      public Builder setHeadbox(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headbox = 7;</code>
+       *
+       * <pre>
+       *用户头像框
+       * </pre>
+       */
+      public Builder clearHeadbox() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        headbox_ = getDefaultInstance().getHeadbox();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headbox = 7;</code>
+       *
+       * <pre>
+       *用户头像框
+       * </pre>
+       */
+      public Builder setHeadboxBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        headbox_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GroupCopyAdmin.MemberInfo)
+    }
+
+    static {
+      defaultInstance = new MemberInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GroupCopyAdmin.MemberInfo)
   }
 
   private static com.google.protobuf.Descriptors.Descriptor
@@ -3015,6 +10438,16 @@ public final class GroupCopyAdminProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GroupCopyAdmin_GroupCopyAdminResetCopyReqMsg_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_ChaterDamageReqMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_ChaterDamageReqMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_ChoseDistRewardData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_ChoseDistRewardData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -3024,6 +10457,31 @@ public final class GroupCopyAdminProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GroupCopyAdmin_GroupCopyAdminComRspMsg_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_ApplyRewardInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_ApplyRewardInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_ChaterItemData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_ChaterItemData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_ApplyItemData_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_ApplyItemData_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_MemberDamageInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_MemberDamageInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_GroupCopyAdmin_MemberInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GroupCopyAdmin_MemberInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3036,18 +10494,40 @@ public final class GroupCopyAdminProto {
       "\n\024GroupCopyAdmin.proto\022\016GroupCopyAdmin\"-" +
       "\n\034GroupCopyAdminOpenCopyReqMsg\022\r\n\005mapId\030" +
       "\001 \002(\t\".\n\035GroupCopyAdminResetCopyReqMsg\022\r" +
-      "\n\005mapId\030\001 \002(\t\"\336\001\n\027GroupCopyAdminComReqMs" +
-      "g\022,\n\007reqType\030\001 \002(\0162\033.GroupCopyAdmin.Requ" +
-      "estType\022\017\n\007version\030\002 \001(\t\022@\n\nopenReqMsg\030\003" +
-      " \001(\0132,.GroupCopyAdmin.GroupCopyAdminOpen" +
-      "CopyReqMsg\022B\n\013resetReqMsg\030\004 \001(\0132-.GroupC" +
-      "opyAdmin.GroupCopyAdminResetCopyReqMsg\"j" +
-      "\n\027GroupCopyAdminComRspMsg\022,\n\007reqType\030\001 \002",
-      "(\0162\033.GroupCopyAdmin.RequestType\022\021\n\tisSuc" +
-      "cess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*?\n\013RequestTyp" +
-      "e\022\021\n\rGET_COPY_INFO\020\001\022\r\n\tOPEN_COPY\020\002\022\016\n\nR" +
-      "ESET_COPY\020\003B\"\n\013com.rwprotoB\023GroupCopyAdm" +
-      "inProto"
+      "\n\005mapId\030\001 \002(\t\"3\n\022ChaterDamageReqMsg\022\r\n\005m" +
+      "apId\030\001 \002(\t\022\016\n\006itemID\030\002 \002(\005\"[\n\023ChoseDistR" +
+      "ewardData\0224\n\010itemData\030\001 \002(\0132\".GroupCopyA" +
+      "dmin.ChaterDamageReqMsg\022\016\n\006roleID\030\002 \002(\t\"" +
+      "\326\002\n\027GroupCopyAdminComReqMsg\022,\n\007reqType\030\001" +
+      " \002(\0162\033.GroupCopyAdmin.RequestType\022\017\n\007ver" +
+      "sion\030\002 \001(\t\022@\n\nopenReqMsg\030\003 \001(\0132,.GroupCo",
+      "pyAdmin.GroupCopyAdminOpenCopyReqMsg\022B\n\013" +
+      "resetReqMsg\030\004 \001(\0132-.GroupCopyAdmin.Group" +
+      "CopyAdminResetCopyReqMsg\0228\n\014damageReqMsg" +
+      "\030\005 \001(\0132\".GroupCopyAdmin.ChaterDamageReqM" +
+      "sg\022<\n\017choseDistReward\030\006 \001(\0132#.GroupCopyA" +
+      "dmin.ChoseDistRewardData\"\324\001\n\027GroupCopyAd" +
+      "minComRspMsg\022,\n\007reqType\030\001 \002(\0162\033.GroupCop" +
+      "yAdmin.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n" +
+      "\006tipMsg\030\003 \001(\t\0222\n\tapplyInfo\030\004 \001(\0132\037.Group" +
+      "CopyAdmin.ApplyRewardInfo\0224\n\ndamageInfo\030",
+      "\005 \001(\0132 .GroupCopyAdmin.MemberDamageInfo\"" +
+      "W\n\017ApplyRewardInfo\022\020\n\010nextTime\030\001 \002(\005\0222\n\n" +
+      "chaterData\030\002 \003(\0132\036.GroupCopyAdmin.Chater" +
+      "ItemData\"S\n\016ChaterItemData\022\020\n\010chaterID\030\001" +
+      " \002(\t\022/\n\010itemData\030\002 \003(\0132\035.GroupCopyAdmin." +
+      "ApplyItemData\"3\n\rApplyItemData\022\016\n\006itemID" +
+      "\030\001 \002(\005\022\022\n\napplyCount\030\002 \002(\005\"z\n\020MemberDama" +
+      "geInfo\0221\n\rapplyRoleList\030\001 \003(\0132\032.GroupCop" +
+      "yAdmin.MemberInfo\0223\n\017unApplyRoleList\030\002 \003" +
+      "(\0132\032.GroupCopyAdmin.MemberInfo\"}\n\nMember",
+      "Info\022\r\n\005useID\030\001 \002(\t\022\020\n\010headIcon\030\002 \002(\t\022\n\n" +
+      "\002lv\030\003 \002(\005\022\020\n\010roleName\030\004 \002(\t\022\016\n\006damage\030\005 " +
+      "\002(\005\022\017\n\007canDist\030\006 \002(\010\022\017\n\007headbox\030\007 \002(\t*s\n" +
+      "\013RequestType\022\r\n\tOPEN_COPY\020\001\022\016\n\nRESET_COP" +
+      "Y\020\002\022\031\n\025GET_APPLY_REWARD_INFO\020\003\022\025\n\021GET_CH" +
+      "ATER_DAMAGE\020\004\022\023\n\017CHOSE_DIST_ROLE\020\005B\"\n\013co" +
+      "m.rwprotoB\023GroupCopyAdminProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3066,18 +10546,60 @@ public final class GroupCopyAdminProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyAdmin_GroupCopyAdminResetCopyReqMsg_descriptor,
               new java.lang.String[] { "MapId", });
-          internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_descriptor =
+          internal_static_GroupCopyAdmin_ChaterDamageReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(2);
+          internal_static_GroupCopyAdmin_ChaterDamageReqMsg_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_ChaterDamageReqMsg_descriptor,
+              new java.lang.String[] { "MapId", "ItemID", });
+          internal_static_GroupCopyAdmin_ChoseDistRewardData_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_GroupCopyAdmin_ChoseDistRewardData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_ChoseDistRewardData_descriptor,
+              new java.lang.String[] { "ItemData", "RoleID", });
+          internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyAdmin_GroupCopyAdminComReqMsg_descriptor,
-              new java.lang.String[] { "ReqType", "Version", "OpenReqMsg", "ResetReqMsg", });
+              new java.lang.String[] { "ReqType", "Version", "OpenReqMsg", "ResetReqMsg", "DamageReqMsg", "ChoseDistReward", });
           internal_static_GroupCopyAdmin_GroupCopyAdminComRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_GroupCopyAdmin_GroupCopyAdminComRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyAdmin_GroupCopyAdminComRspMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipMsg", "ApplyInfo", "DamageInfo", });
+          internal_static_GroupCopyAdmin_ApplyRewardInfo_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_GroupCopyAdmin_ApplyRewardInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_ApplyRewardInfo_descriptor,
+              new java.lang.String[] { "NextTime", "ChaterData", });
+          internal_static_GroupCopyAdmin_ChaterItemData_descriptor =
+            getDescriptor().getMessageTypes().get(7);
+          internal_static_GroupCopyAdmin_ChaterItemData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_ChaterItemData_descriptor,
+              new java.lang.String[] { "ChaterID", "ItemData", });
+          internal_static_GroupCopyAdmin_ApplyItemData_descriptor =
+            getDescriptor().getMessageTypes().get(8);
+          internal_static_GroupCopyAdmin_ApplyItemData_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_ApplyItemData_descriptor,
+              new java.lang.String[] { "ItemID", "ApplyCount", });
+          internal_static_GroupCopyAdmin_MemberDamageInfo_descriptor =
+            getDescriptor().getMessageTypes().get(9);
+          internal_static_GroupCopyAdmin_MemberDamageInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_MemberDamageInfo_descriptor,
+              new java.lang.String[] { "ApplyRoleList", "UnApplyRoleList", });
+          internal_static_GroupCopyAdmin_MemberInfo_descriptor =
+            getDescriptor().getMessageTypes().get(10);
+          internal_static_GroupCopyAdmin_MemberInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_GroupCopyAdmin_MemberInfo_descriptor,
+              new java.lang.String[] { "UseID", "HeadIcon", "Lv", "RoleName", "Damage", "CanDist", "Headbox", });
           return null;
         }
       };
