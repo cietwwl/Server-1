@@ -10,7 +10,7 @@ import com.playerdata.fightinggrowth.fightingfunc.FSGetFetterCurrentFightingOfSi
 import com.playerdata.fightinggrowth.fightingfunc.FSGetFixEquipCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetGemCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetGroupSkillFightingOfSingleFunc;
-import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicCurrentFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSpriteAttachCurrentFightingOfSingleFunc;
@@ -24,7 +24,7 @@ public enum FightingCalculateComponentType {
 	FIX_EQUIP("神器系统", FSGetFixEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	GEM("宝石系统", FSGetGemCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	GROUP_SKILL("帮派技能", FSGetGroupSkillFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	MAGIC("法宝系统", EmptyHeroComponent.singleton, FSGetMagicCurrentFightingFunc.getInstance()),
+	MAGIC("法宝系统", FSGetMagicFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	NORM_EQUIP("装备系统", FSGetNormEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	SKILL("技能战力", FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	TAOIST("道术系统", FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
