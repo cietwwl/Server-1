@@ -378,7 +378,7 @@ public class TeamBattleBM {
 			return;
 		}
 		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
-		if(null == teamItem || StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
+		if(null == teamItem || !StringUtils.equals(teamItem.getLeaderID(), player.getUserId())){
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("权限不足，队长才能邀请");
 			return;
@@ -401,11 +401,11 @@ public class TeamBattleBM {
 			tbRsp.setTipMsg("组队怪物信息有误");
 			return;
 		}
-		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName());
+		String displayMsg = String.format("快来加入挑战%s的队伍，一起来打败他们吧！", cfg.getName()) + "\n" + inviteContent;
 		switch (inviteType) {
 		case 1:
 			//世界邀请
-			ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), inviteContent);
+			ChatBM.getInstance().sendInteractiveMsgToWorld(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "");
 			break;
 		case 2:
 			//公会邀请
@@ -419,14 +419,14 @@ public class TeamBattleBM {
 						if(!StringUtils.equals(mem.getUserId(), player.getUserId())) memIDs.add(mem.getUserId());
 					}
 					if(!memIDs.isEmpty()){
-						ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), inviteContent, memIDs);
+						ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "", memIDs);
 					}
 				}
 			}
 			break;
 		case 3:
 			//好友邀请
-			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), inviteContent, inviteUsers);
+			ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TEAM, displayMsg, teamItem.getTeamID(), "", inviteUsers);
 			break;
 		default:
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
