@@ -997,8 +997,12 @@ public class GroupSecretHandler {
 		// 秘境要传递到聊天部分的信息
 		String format = "邀请防守：[%s](人数：%s/%s)\n%s\n";
 		message = String.format(format, cfg.getName(), inviteList.size(), memberMgr.getGroupMemberSize(), message);
-		
-		ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, message, reqId, null, inviteList);
+
+		// 设置邀请时间
+		StringBuilder sb = new StringBuilder();
+		sb.append("1").append(":").append(groupSecretData.getCreateTime());
+
+		ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.TREASURE, message, reqId, sb.toString(), inviteList);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
@@ -1335,6 +1339,16 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
+		long createTime = groupSecretData.getCreateTime();
+
+		if (req.hasTime()) {
+			long reqTime = req.getTime();
+			if (reqTime > 0 && reqTime != createTime) {
+				GroupSecretHelper.fillRspInfo(rsp, false, "秘境已消失");
+				return rsp.build().toByteString();
+			}
+		}
+
 		// 获取是否邀请了这个人，并且这个人是不是该帮派成员
 		if (!groupSecretData.getInviteList().contains(userId)) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "此秘境并未邀请您来驻守");
@@ -1354,7 +1368,6 @@ public class GroupSecretHandler {
 		}
 
 		long now = System.currentTimeMillis();
-		long createTime = groupSecretData.getCreateTime();
 		long needTimeMillis = TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 		long passTimeMillis = now - createTime;
 		if (passTimeMillis > needTimeMillis) {
