@@ -73,6 +73,7 @@ public enum ERoleAttrs {
 		ERoleAttrs[] temp = ERoleAttrs.values();
 		Object[] copy = HPCUtil.toMappedArray(temp, "id");
 		array = new ERoleAttrs[copy.length];
+		HPCUtil.copy(copy, array);
 	}
 
 	public static ERoleAttrs getRoleAttrs(int type) {
