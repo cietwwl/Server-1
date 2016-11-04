@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.log.GameLog;
+import com.playerdata.fightinggrowth.FSFightingGrowthWayType;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -44,6 +46,22 @@ public class FSUserFightingGrowthWayInfoCfgDAO extends CfgCsvDao<FSUserFightingG
 		}
 		this._displaySeq = Collections.unmodifiableList(this._displaySeq);
 		return cfgCacheMap;
+	}
+	
+	@Override
+	public void CheckConfig() {
+		int exCount = 0;
+		for (Iterator<String> itr = cfgCacheMap.keySet().iterator(); itr.hasNext();) {
+			FSUserFightingGrowthWayInfoCfg cfg = cfgCacheMap.get(itr.next());
+			if (FSFightingGrowthWayType.getBySign(cfg.getTypeForServer()) == null) {
+				GameLog.error("FSUserFightingGrowthWayInfoCfgDAO", "CheckConfig",
+						"FSFightingGrowthWayType.getBySign(cfg.getTypeForServer()) == null，cfg.getTypeForServer() = " + cfg.getTypeForServer());
+				exCount++;
+			}
+		}
+		if(exCount > 0) {
+			throw new ExceptionInInitializerError("战力提升系统数据验证不通过！");
+		}
 	}
 
 }

@@ -31,6 +31,7 @@ import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.embattle.EmbattlePositonHelper;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -799,6 +800,12 @@ public class ArenaHandler {
 		FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(key);
 		if (fashionUsing != null) {
 			result.setFashionUsage(fashionUsing);
+		}
+		ItemDataIF magic = player.getMagic();
+		if (magic != null) {
+			result.setMagicModelId(magic.getModelId());
+		} else {
+			result.setMagicModelId(0);
 		}
 		return result.build();
 	}
