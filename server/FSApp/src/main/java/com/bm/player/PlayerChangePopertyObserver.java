@@ -6,6 +6,7 @@ import java.util.List;
 import com.bm.rank.groupCompetition.GCompListenerPlayerChange;
 import com.bm.rank.teaminfo.TeamInfoListenerPlayerChange;
 import com.playerdata.Player;
+import com.playerdata.activityCommon.ActivityListenerPlayerChange;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.store.StoreListenerPlayerChange;
@@ -32,6 +33,7 @@ public class PlayerChangePopertyObserver implements Observer {
 		new GFOnlineListenerPlayerChange(this);
 		new TBListenerPlayerChange(this);
 		new GCompListenerPlayerChange(this);
+		new ActivityListenerPlayerChange(this);
 	}
 
 	public void addSubscribe(PlayerChangePopertySubscribe subscribe) {

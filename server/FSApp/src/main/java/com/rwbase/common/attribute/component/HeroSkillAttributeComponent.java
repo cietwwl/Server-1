@@ -52,8 +52,8 @@ public class HeroSkillAttributeComponent extends AbstractAttributeCalc {
 
 		SkillParam.SkillBuilder builder = new SkillBuilder();
 		builder.setUserId(player.getUserId());
-		builder.setHeroId(hero.getUUId());
 		builder.setSkillList(skillInfoList);
+		builder.setHeroTemplateId(hero.getTemplateId());
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {

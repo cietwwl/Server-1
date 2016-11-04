@@ -21,6 +21,8 @@ import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetMagicMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipMaxFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillCurrentFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistMaxFightingFunc;
 import com.rw.service.group.helper.GroupHelper;
@@ -37,7 +39,7 @@ import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthWayInfoCfg;
 public enum FSFightingGrowthWayType {
 
 	BASIC(1, FSGetBasicCurrentFightingFunc.getInstance(), FSGetBasicMaxFightingFunc.getInstance()), // 英雄自身属性的战斗力获取
-	NORM_EQUIP(2, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 装备属性的战斗力获取
+	HERO_SKILL(2, FSGetSkillCurrentFightingFunc.getInstance(), FSGetSkillMaxFightingFunc.getInstance()), // 装备属性的战斗力获取
 	FETTERS(3, FSGetFetterCurrentFightingFunc.getInstance(), FSGetFetterMaxFightingFunc.getInstance()), // 仙缘战斗力获取
 	MAGIC(4, FSGetMagicCurrentFightingFunc.getInstance(), FSGetMagicMaxFightingFunc.getInstance()), // 法宝属性的战斗力获取
 	FIX_EQUIP(5, FSGetFixEquipCurrentFightingFunc.getInstance(), FSGetFixEquipMaxFightingFunc.getInstance()), // 神器属性的战斗力获取
@@ -50,6 +52,7 @@ public enum FSFightingGrowthWayType {
 	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistMaxFightingFunc.getInstance()), // 道术战斗力获取
 	GEM(8, FSGetGemCurrentFightingFunc.getInstance(), FSGetGemMaxFightingFunc.getInstance()), // 宝石属性的战斗力获取
 	FASHION(9, FSGetFashionCurrentFightingFunc.getInstance(), FSGetFashionMaxFightingFunc.getInstance()), // 时装战斗力获取
+	NORMAL_SKILL(10, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 普通装备战力获取
 	;
 	private final int _sign;
 	private final IFunction<Player, Integer> _getCurrentFightingFunc;
