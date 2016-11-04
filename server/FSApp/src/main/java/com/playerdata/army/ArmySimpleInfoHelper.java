@@ -27,7 +27,8 @@ class ArmySimpleInfoHelper {
 	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
-		ItemData magic = player.getItemBagMgr().findBySlotId(magicID);
+		ItemData magic = null;
+		if(StringUtils.isNotBlank(magicID)) magic = player.getItemBagMgr().findBySlotId(magicID);
 		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
 		return armyInfoSimple;
 	}
