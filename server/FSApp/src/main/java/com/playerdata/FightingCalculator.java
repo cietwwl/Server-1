@@ -30,9 +30,6 @@ public class FightingCalculator {
 			currentFunc = funcList.get(i);
 			currentFighting = currentFunc.apply(target);
 			fighting += currentFighting;
-			if (currentFunc.getClass().getName().contains("FSGetMagicFightingOfSingleFunc")) {
-				System.out.println("法宝战力:" + currentFighting + ",target:" + target);
-			}
 		}
 		return fighting;
 	}
