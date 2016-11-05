@@ -15,7 +15,9 @@ public class WBSettingCfg {
 	
 	private int cdInSecond = 30;	//复活cd 默认30秒
 	
-	private int cdCost = 30;		//复活cd 花费
+	private int battleTime;//最长战斗时间毫秒
+	
+	private String cdCost;		//复活cd 花费
 
 	private int buyBuffLimit;//boss鼓舞上限
 
@@ -50,12 +52,16 @@ public class WBSettingCfg {
 		return cdInSecond*1000;
 	}
 
-	public int getCdCost() {
+	public String getCdCost() {
 		return cdCost;
 	}
 
 	public int getBuyBuffLimit() {
 		return buyBuffLimit;
+	}
+
+	public int getBattleTime() {
+		return battleTime;
 	}
 	
 	

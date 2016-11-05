@@ -1,5 +1,6 @@
 package com.bm.worldBoss.cfg;
 
+import com.rw.manager.GameManager;
 import com.rwbase.common.enu.eSpecialItemId;
 
 
@@ -7,7 +8,7 @@ public class WBBuyBuffCfg {
 
 	private String id;
 	
-	private eSpecialItemId costType;
+	private int costType;
 	
 	private int costCount;		//消耗数量
 
@@ -23,8 +24,8 @@ public class WBBuyBuffCfg {
 		return id;
 	}
 
-	public eSpecialItemId getCostType() {
-		return costType;
+	public eSpecialItemId getCostTypeEnum() {
+		return eSpecialItemId.getDef(costType);
 	}
 
 	public int getCostCount() {

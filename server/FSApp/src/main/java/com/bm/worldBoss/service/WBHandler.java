@@ -233,7 +233,8 @@ public class WBHandler {
 				if(buyBuffCfg == null){
 					result.setReason("配置不存在。");
 				}else{
-					eSpecialItemId costType = buyBuffCfg.getCostType();
+					eSpecialItemId costType = buyBuffCfg.getCostTypeEnum();
+					
 					int costCount = buyBuffCfg.getCostCount();			
 					result = WBHelper.takeCost(player, costType, costCount);
 					if(result.isSuccess()){
@@ -245,7 +246,9 @@ public class WBHandler {
 		}
 
 		response.setIsSuccess(result.isSuccess());
-		response.setTipMsg(result.getReason());	
+		if(result.getReason() != null){
+			response.setTipMsg(result.getReason());	
+		}
 				
 		return response.build().toByteString();
 	}
@@ -264,6 +267,11 @@ public class WBHandler {
 	}
 
 
+	/**
+	 * @param player
+	 * @param commonReq
+	 * @return
+	 */
 	public ByteString doBuyCD(Player player, CommonReqMsg commonReq) {
 		WBUserMgr.getInstance().resetUserDataIfNeed(player);
 		
@@ -283,6 +291,7 @@ public class WBHandler {
 		}
 
 		response.setIsSuccess(result.isSuccess());
+		if(result.getReason() != null)
 		response.setTipMsg(result.getReason());	
 				
 		return response.build().toByteString();
