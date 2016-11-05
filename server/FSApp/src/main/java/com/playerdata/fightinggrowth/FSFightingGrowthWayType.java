@@ -54,8 +54,8 @@ public enum FSFightingGrowthWayType {
 	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistMaxFightingFunc.getInstance()), // 道术战斗力获取
 	GEM(8, FSGetGemCurrentFightingFunc.getInstance(), FSGetGemMaxFightingFunc.getInstance()), // 宝石属性的战斗力获取
 	FASHION(9, FSGetFashionCurrentFightingFunc.getInstance(), FSGetFashionMaxFightingFunc.getInstance()), // 时装战斗力获取
-	SPRITE_ATTACH(10, FSGetSpriteAttachCurrentFighting.getInstance(), null),
-	NORMAL_SKILL(10, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 普通装备战力获取
+	SPRITE_ATTACH(10, FSGetSpriteAttachCurrentFighting.getInstance(), null), // 附灵战力获取
+	NORMAL_EQUIPMENT(11, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 普通装备战力获取
 	;
 	private final int _sign;
 	private final IFunction<Player, Integer> _getCurrentFightingFunc;
