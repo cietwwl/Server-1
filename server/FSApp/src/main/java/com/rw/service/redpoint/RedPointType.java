@@ -63,6 +63,10 @@ public enum RedPointType {
     HOME_WINDOW_PEAK_ARENA, // 巅峰竞技场入口
     PEAK_ARENA_SCORE_REWARD, // 巅峰竞技场红点
     HOME_TOP_FIGHTING_GROWTH, // 主界面战力提升系统入口
+    //===========================背包中宝箱的红点
+    HOME_WINDOW_ITEM_BAG,
+    ITEM_BAG_ALL_BTN,
+    ITEM_BAG_CONSUME_BTN,
     ;
 	
     private RedPointType(){
