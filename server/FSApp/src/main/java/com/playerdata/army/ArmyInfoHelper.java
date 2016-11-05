@@ -13,10 +13,12 @@ import com.playerdata.SkillMgr;
 import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
 import com.rwbase.dao.hero.pojo.RoleBaseInfo;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.skill.pojo.Skill;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 
 public class ArmyInfoHelper {
 
@@ -80,6 +82,16 @@ public class ArmyInfoHelper {
 			armyInfo.setArmyMagic(new ArmyMagic(magic));
 		}else{
 			armyInfo.setArmyMagic(new ArmyMagic(player.getMagic()));
+		}
+		FashionUsed.Builder fashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		if(fashion != null) {
+			ArmyFashion armyFs = new ArmyFashion();
+			armyFs.setPetId(fashion.getPetId());
+			armyFs.setSuitId(fashion.getSuitId());
+			armyFs.setWingId(fashion.getWingId());
+			armyFs.setCareer(player.getCareer());
+			armyFs.setGender(player.getSex());
+			armyInfo.setArmyFashion(armyFs);
 		}
 		List<ArmyHero> heroList = getArmyHeros(player, heroIdList);
 		armyInfo.setHeroList(heroList);
