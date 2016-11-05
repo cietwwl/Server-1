@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -11,7 +12,6 @@ import com.playerdata.RedPointMgr;
 import com.rw.service.redpoint.impl.RedPointCollector;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
-import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 import com.rwproto.MsgDef;
 import com.rwproto.RedPointProtos.DisplayRedPoint;
 import com.rwproto.RedPointProtos.RedPoint;
