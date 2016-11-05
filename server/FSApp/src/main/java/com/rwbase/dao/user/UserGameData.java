@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -50,30 +51,30 @@ public class UserGameData implements TableUserOtherIF {
 	private int strenCoin;// 秘境强化石;
 	private int peakArenaCoin;// 巅峰竞技场货币
 	private int arenaCoin; // 职业竞技场货币
-	private int wakenPiece;//觉醒碎片
-	private int wakenKey;//觉醒钥匙
+	private int wakenPiece;// 觉醒碎片
+	private int wakenKey;// 觉醒钥匙
 
 	private long carrerChangeTime;// 角色变换的时间
 	private volatile long lastWorshipTime;
-//	@IgnoreSynField
-//	private int fightingAll; // 总战斗力
-//	@IgnoreSynField
-//	private int starAll; // 英雄的总星星数量
+	// @IgnoreSynField
+	// private int fightingAll; // 总战斗力
+	// @IgnoreSynField
+	// private int starAll; // 英雄的总星星数量
 
 	private UserGameExtendInfo extendInfo;
 	private MapAnimationState mapAnimationState;
-	
+
 	@IgnoreSynField
-	private List<String> randomBossIds = new ArrayList<String>();//角色发现在的随机boss列表，不同步到前端
-	
+	private List<String> randomBossIds = new ArrayList<String>();// 角色发现在的随机boss列表，不同步到前端
 	@IgnoreSynField
-	private int randomBossFightCount;//当天随机boss总的战斗次数
-	
+	private int randomBossFightCount;// 当天随机boss总的战斗次数
 	@IgnoreSynField
-	private int killBossRewardCount;//当天击杀boss领奖次数
+	private int killBossRewardCount;// 当天击杀boss领奖次数
 	@IgnoreSynField
-	private int createBossCount;//当天发现boss次数
-	
+	private int createBossCount;// 当天发现boss次数
+	@Transient
+	private int peakArenaScore;// 巅峰竞技场积分
+
 	public int getExpCoin() {
 		return expCoin;
 	}
@@ -202,7 +203,6 @@ public class UserGameData implements TableUserOtherIF {
 		this.lastChangeInfoTime = lastChangeInfoTime;
 	}
 
-
 	public int getSkillPointCount() {
 		return skillPointCount;
 	}
@@ -310,39 +310,39 @@ public class UserGameData implements TableUserOtherIF {
 		this.wakenKey = wakenKey;
 	}
 
-//	public int getFightingAll() {
-//		return fightingAll;
-//	}
-//	
-//	public void notifySingleFightingChange(int newValue, int preValue) {
-//		this.fightingAll -= preValue;
-//		this.fightingAll += newValue;
-//	}
-//	
-//	public void setFightingAll(int pFightingAll) {
-//		this.fightingAll = pFightingAll;
-//	}
-//	
-//	public void increaseFightingAll(int value) {
-//		this.fightingAll += value;
-//	}
-//	
-//	public int getStarAll() {
-//		return starAll;
-//	}
-//	
-//	public void notifySingleStarChange(int nowStar, int preStar) {
-//		this.starAll -= preStar;
-//		this.starAll += nowStar;
-//	}
-//	
-//	public void setStarAll(int pStarAll) {
-//		this.starAll = pStarAll;
-//	}
-//	
-//	public void increaseStarAll(int value) {
-//		this.starAll += value;
-//	}
+	// public int getFightingAll() {
+	// return fightingAll;
+	// }
+	//
+	// public void notifySingleFightingChange(int newValue, int preValue) {
+	// this.fightingAll -= preValue;
+	// this.fightingAll += newValue;
+	// }
+	//
+	// public void setFightingAll(int pFightingAll) {
+	// this.fightingAll = pFightingAll;
+	// }
+	//
+	// public void increaseFightingAll(int value) {
+	// this.fightingAll += value;
+	// }
+	//
+	// public int getStarAll() {
+	// return starAll;
+	// }
+	//
+	// public void notifySingleStarChange(int nowStar, int preStar) {
+	// this.starAll -= preStar;
+	// this.starAll += nowStar;
+	// }
+	//
+	// public void setStarAll(int pStarAll) {
+	// this.starAll = pStarAll;
+	// }
+	//
+	// public void increaseStarAll(int value) {
+	// this.starAll += value;
+	// }
 
 	public MapAnimationState getMapAnimationState() {
 		return mapAnimationState;
@@ -382,5 +382,13 @@ public class UserGameData implements TableUserOtherIF {
 
 	public void setCreateBossCount(int createBossCount) {
 		this.createBossCount = createBossCount;
+	}
+
+	public int getPeakArenaScore() {
+		return peakArenaScore;
+	}
+
+	public void setPeakArenaScore(int peakArenaScore) {
+		this.peakArenaScore = peakArenaScore;
 	}
 }
