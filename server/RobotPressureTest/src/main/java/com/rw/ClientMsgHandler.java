@@ -10,7 +10,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.rw.common.MsgLog;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -168,6 +167,12 @@ public abstract class ClientMsgHandler {
 						break;
 					case GFightOnlineGroupData:
 						getClient().getGFightOnlineGroupHolder().syn(msgDataSyn);
+						break;
+					case TEAM_BATTLE_TEAM:
+						getClient().getTBTeamItemHolder().syn(msgDataSyn);
+						break;
+					case USER_TEAM_BATTLE:
+						getClient().getUserTeamBattleDataHolder().syn(msgDataSyn);
 						break;
 					default:
 					}

@@ -39,6 +39,8 @@ import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
 import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
+import com.rw.handler.teamBattle.data.TBTeamItemHolder;
+import com.rw.handler.teamBattle.data.UserTeamBattleDataHolder;
 
 /*
  * 角色信息
@@ -106,6 +108,10 @@ public class Client {
 	private UserGFightOnlineHolder ugfHolder = UserGFightOnlineHolder.getInstance();
 	private GFightOnlineResourceHolder gfResHolder = GFightOnlineResourceHolder.getInstance();
 	private GFightOnlineGroupHolder gfGroupHolder = GFightOnlineGroupHolder.getInstance();
+	
+	//组队战
+	private TBTeamItemHolder tbTeamItemHolder = TBTeamItemHolder.getInstance();
+	private UserTeamBattleDataHolder utbDataHolder = UserTeamBattleDataHolder.getInstance();
 
 	// 主要数据
 	private MajorDataholder majorDataholder = new MajorDataholder();
@@ -426,5 +432,13 @@ public class Client {
 	
 	public GFightOnlineGroupHolder getGFightOnlineGroupHolder(){
 		return gfGroupHolder;
+	}
+	
+	public TBTeamItemHolder getTBTeamItemHolder(){
+		return tbTeamItemHolder;
+	}
+	
+	public UserTeamBattleDataHolder getUserTeamBattleDataHolder(){
+		return utbDataHolder;
 	}
 }

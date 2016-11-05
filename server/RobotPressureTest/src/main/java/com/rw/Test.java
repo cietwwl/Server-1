@@ -17,7 +17,8 @@ public class Test {
 //		 Robot robot = createRobot("tmpallen"+ 338);
 		 if(robot == null){
 		 }else{
-			 boolean issucc = robot.playerGroupFight();
+			 //boolean issucc = robot.startTBCreateTeam();
+			 boolean issucc = robot.startTBFight();
 			 //robot.addHero(5);
 //			 robot.createGroup("xiaofei338");
 			 System.out.println("@@@@@@@@@@@test：" + issucc);

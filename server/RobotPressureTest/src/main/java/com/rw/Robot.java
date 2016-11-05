@@ -49,6 +49,7 @@ import com.rw.handler.sign.SignHandler;
 import com.rw.handler.store.StoreHandler;
 import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
+import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 
@@ -1030,8 +1031,28 @@ public class Robot {
 		return MagicSecretHandler.getHandler().getMagicSecretRank(client);
 	}
 	
+	/**
+	 * 帮派战
+	 * @return
+	 */
 	public boolean playerGroupFight(){
 		return GroupFightHandler.getHandler().playGroupFight(client);
+	}
+	
+	/**
+	 * 组队战创建或者加入队伍
+	 * @return
+	 */
+	public boolean startTBCreateTeam(){
+		return TeamBattleHandler.getInstance().startTBCreateTeam(client);
+	}
+	
+	/**
+	 * 组队战开始战斗
+	 * @return
+	 */
+	public boolean startTBFight(){
+		return TeamBattleHandler.getInstance().startTBFight(client);
 	}
 
 	public boolean sendGmCommand(String value) {
