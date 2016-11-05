@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ActionRateHelper{
 	
 	private ConcurrentLinkedQueue<ActionEnum> waitingQueue = new ConcurrentLinkedQueue<ActionEnum>();
+	private ThreadLocal<Random> localRandom = new ThreadLocal<Random>();
 	
 	private ConcurrentHashMap<ActionEnum, Integer> map;
 	{
@@ -43,7 +44,6 @@ public class ActionRateHelper{
 		if(null != waitAct){
 			return waitAct;
 		}
-		
 		int totalRate = 0;
 		for(Entry<ActionEnum, Integer> entry : map.entrySet()){
 			if(entry.getValue() >= 100){
@@ -51,7 +51,13 @@ public class ActionRateHelper{
 			}
 			totalRate += entry.getValue();
 		}
-		int rd = new Random().nextInt(totalRate);
+		Random rdm = localRandom.get();
+		if(rdm == null){
+			rdm = new Random();
+			localRandom.set(rdm);
+		}
+		int rd = rdm.nextInt(totalRate);
+		System.out.println("------------------------>>" + rd);
 		for(Entry<ActionEnum, Integer> entry : map.entrySet()){
 			rd -= entry.getValue();
 			if(rd <= 0){

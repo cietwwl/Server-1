@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.arena.ArenaConstant;
-import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.common.RefBool;
 import com.common.RefParam;
@@ -238,23 +237,23 @@ public class PeakArenaHandler {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
 			return response.build().toByteString();
 		}
-        
-        PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
-        if (closeCfg.isCloseTime()){
-            return sendFailResponPopTip(player, response, closeCfg.getCloseTimeTip());
-        }
+
+		PeakArenaCloseCfgHelper closeCfg = PeakArenaCloseCfgHelper.getInstance();
+		if (closeCfg.isCloseTime()) {
+			return sendFailResponPopTip(player, response, closeCfg.getCloseTimeTip());
+		}
 
 		List<ListRankingEntry<String, PeakArenaExtAttribute>> listInfo = PeakArenaBM.getInstance().SelectPeakArenaInfos(m_MyArenaData, player);
 		for (ListRankingEntry<String, PeakArenaExtAttribute> entry : listInfo) {
 			ArenaInfo.Builder info = ArenaInfo.newBuilder();
 			String key = entry.getKey();
 			Player enemy = PlayerMgr.getInstance().find(key);
-//			TablePeakArenaData otherArenaData = PeakArenaBM.getInstance().getPeakArenaData(key);
+			// TablePeakArenaData otherArenaData = PeakArenaBM.getInstance().getPeakArenaData(key);
 			TablePeakArenaData otherArenaData = null;
-			if(enemy.isRobot()) {
+			if (enemy.isRobot()) {
 				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaDataForRobot(enemy);
 			} else {
-//				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(enemy);
+				// otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(enemy);
 				// 2016-10-24 上面那个方法会检查openLevel，但是这里能获取到的数据，不应该再得到一个null，所以先暂时这样处理
 				otherArenaData = PeakArenaBM.getInstance().getOrAddPeakArenaData(player, null);
 			}
@@ -350,7 +349,7 @@ public class PeakArenaHandler {
 			peakBM.getHeroInfoList(player, heroIdsList, heroMgr, playerId, checkedHeroIDList);
 			team.setMagicId(teamInfo.getMagicId());
 			team.setHeros(checkedHeroIDList.value);
-//			team.setHeroSkills(heroSkillList);
+			// team.setHeroSkills(heroSkillList);
 			String teamKey = "" + teamInfo.getTeamId();
 			List<BattleHeroPosition> heroPosList = teamInfo.getHeroPositionsList();
 			List<EmbattleHeroPosition> embattleHeroPosList = EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList);
@@ -526,7 +525,12 @@ public class PeakArenaHandler {
 				enemyArenaData.setWinCount(enemyArenaData.getWinCount() + 1);
 				score = peakArenaInfo.getFailScore();
 			}
-			playerArenaData.setScore(playerArenaData.getScore() + score);
+			int peakScore = playerArenaData.getScore() + score;
+			playerArenaData.setScore(peakScore);
+
+			// 通知更新UserGameData
+			player.getUserGameDataMgr().updatePeakArenaScore(peakScore);
+
 			RefBool hasSwap = new RefBool();
 			RefParam<String> errorTip = new RefParam<String>();
 			final int enemyPlace = enemyEntry.getRanking();
@@ -558,7 +562,7 @@ public class PeakArenaHandler {
 					});
 				}
 			}
-			
+
 			int placeUp = playerPlace - enemyPlace;
 
 			// 排名上升
@@ -571,7 +575,7 @@ public class PeakArenaHandler {
 				peakBM.addOthersRecord(enemyUserId, recordForEnemy); // 对手的record
 			}
 
-//			playerArenaData.setFightStartTime(currentTimeMillis);
+			// playerArenaData.setFightStartTime(currentTimeMillis);
 
 			if (win && placeUp > 0) {
 				response.setPlaceUp(placeUp);
@@ -616,7 +620,7 @@ public class PeakArenaHandler {
 			}
 		}
 	}
-	
+
 	private List<PeakRecordHeroInfo> createPeakHeroInfo(Player player, List<HurtValue> hurtValues) {
 		List<PeakRecordHeroInfo> list = new ArrayList<PeakRecordHeroInfo>(hurtValues.size());
 		for (HurtValue hv : hurtValues) {
@@ -640,7 +644,7 @@ public class PeakArenaHandler {
 		}
 		return list;
 	}
-	
+
 	private List<PeakRecordHeroInfo> createPeakHeroInfo(Player player, List<HurtValue> hurtValues, List<String> allHeroIds) {
 		if (allHeroIds.size() > hurtValues.size()) {
 			for (String heroId : allHeroIds) {
@@ -658,7 +662,7 @@ public class PeakArenaHandler {
 		}
 		return this.createPeakHeroInfo(player, hurtValues);
 	}
-	
+
 	private PeakRecordMagicInfo createPeakMagicInfo(Player player, String magicId) {
 		ItemData magic = player.getItemBagMgr().findBySlotId(magicId);
 		PeakRecordMagicInfo magicInfo = new PeakRecordMagicInfo();
@@ -666,9 +670,8 @@ public class PeakArenaHandler {
 		magicInfo.setLevel(magic.getMagicLevel());
 		return magicInfo;
 	}
-	
-	private List<PeakRecordDetail> createHurtRecords(List<HurtRecord> hurtRecords, Player me, TablePeakArenaData arenaDataMe, Player theOther, TablePeakArenaData arenaDataTheOther,
-			boolean isChallenge) {
+
+	private List<PeakRecordDetail> createHurtRecords(List<HurtRecord> hurtRecords, Player me, TablePeakArenaData arenaDataMe, Player theOther, TablePeakArenaData arenaDataTheOther, boolean isChallenge) {
 		List<PeakRecordDetail> peakRecordDetailList = new ArrayList<PeakRecordDetail>(hurtRecords.size());
 		for (int i = 0, size = hurtRecords.size(); i < size; i++) {
 			PeakRecordDetail peakRecordDetail = new PeakRecordDetail();
@@ -698,7 +701,7 @@ public class PeakArenaHandler {
 		}
 		return peakRecordDetailList;
 	}
-	
+
 	private PeakRecordInfo createPeakRecord(Player player, Player enemy, boolean isWin, boolean isChallenge, int placeUp, int id) {
 		PeakRecordInfo record = new PeakRecordInfo();
 		record.setEnemyUserId(enemy.getUserId());
@@ -739,8 +742,7 @@ public class PeakArenaHandler {
 	 * @param hasSwap
 	 * @return
 	 */
-	private boolean swapPlace(Player player, ListRankingEntry<String, PeakArenaExtAttribute> playerEntry, String playerId, ListRankingEntry<String, PeakArenaExtAttribute> enemyEntry, String enemyId,
-			RefBool hasSwap, RefParam<String> errorTip) {
+	private boolean swapPlace(Player player, ListRankingEntry<String, PeakArenaExtAttribute> playerEntry, String playerId, ListRankingEntry<String, PeakArenaExtAttribute> enemyEntry, String enemyId, RefBool hasSwap, RefParam<String> errorTip) {
 		PeakArenaBM peakBM = PeakArenaBM.getInstance();
 		ListRanking<String, PeakArenaExtAttribute> ranking = peakBM.getRanks();
 		if (playerEntry == null) {
@@ -1015,7 +1017,7 @@ public class PeakArenaHandler {
 		setSuccess(response, arenaData);
 		return response.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 获取所有的战报
@@ -1044,7 +1046,7 @@ public class PeakArenaHandler {
 		response.addAllListRecord(protoList);
 		return response.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 获取某条战报的详细信息
@@ -1066,7 +1068,7 @@ public class PeakArenaHandler {
 		response.addAllChallengeRecords(detailList);
 		return response.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 获取某一个战报的某一场战斗的伤害记录
@@ -1098,7 +1100,7 @@ public class PeakArenaHandler {
 		}
 		return response.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 打开积分奖励界面
@@ -1118,7 +1120,7 @@ public class PeakArenaHandler {
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return fillArenaScore(arenaData, response);
 	}
-	
+
 	/**
 	 * 获取积分奖励
 	 * 
@@ -1162,12 +1164,12 @@ public class PeakArenaHandler {
 		rewardList.add(typeId);
 		Map<Integer, Integer> rewards = template.getRewards();
 		addItem(rewards, player);
-		
+
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		PeakArenaBM.getInstance().update(arenaData);
 		return fillArenaScore(arenaData, response);
 	}
-	
+
 	/**
 	 * 
 	 * 获取所有可领取的积分奖励
@@ -1185,7 +1187,7 @@ public class PeakArenaHandler {
 			response.setResultTip("数据错误！");
 			return response.build().toByteString();
 		}
-//		List<Integer> scoreRewardKeys = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewardTypes(player.getLevel());
+		// List<Integer> scoreRewardKeys = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewardTypes(player.getLevel());
 		Map<Integer, ArenaScoreTemplate> rewardTemplateMap = PeakArenaScoreRewardCfgDAO.getInstance().getAllRewards(player.getLevel());
 		if (null == rewardTemplateMap || rewardTemplateMap.isEmpty()) {
 			response.setArenaResultType(eArenaResultType.ARENA_FAIL);
@@ -1232,7 +1234,7 @@ public class PeakArenaHandler {
 		}
 		return response.build().toByteString();
 	}
-	
+
 	private ArenaRecord createPeakArenaRecordProto(PeakRecordInfo record) {
 		ArenaRecord.Builder result = ArenaRecord.newBuilder();
 		result.setUserId(record.getEnemyUserId()); // 对手的userId
@@ -1242,14 +1244,14 @@ public class PeakArenaHandler {
 		result.setHeadImage(record.getHeadImage()); // 头像资源
 		result.setLevel(record.getLevel()); // 等级
 		result.setTime(record.getTime()); // 记录产生的时间
-		result.setChallenge(record.getActionType().sign);  // 0=防守，1=挑战
+		result.setChallenge(record.getActionType().sign); // 0=防守，1=挑战
 		result.setRecordId(record.getId()); // 记录的id
 		result.setSuitId(record.getFashionSuitId()); // 时装的套装id
 		result.setGender(record.getGender()); // 性别
 		result.setVipLv(record.getVipLv());
 		return result.build();
 	}
-	
+
 	private PeakArenaUserData createArenaUserRecordData(String userName, List<PeakRecordHeroInfo> heroInfos, PeakRecordMagicInfo magicInfo) {
 		PeakArenaUserData.Builder arenaUserBuilder = PeakArenaUserData.newBuilder();
 		arenaUserBuilder.setName(userName);
@@ -1268,7 +1270,7 @@ public class PeakArenaHandler {
 		arenaUserBuilder.setMagicData(PeakArenaMagicData.newBuilder().setModelId(magicInfo.getCfgId()).setLevel(magicInfo.getLevel()));
 		return arenaUserBuilder.build();
 	}
-	
+
 	private List<PeakArenaDetailRecord> createDetailRecordList(PeakRecordInfo targetRecord, String userName) {
 		List<PeakRecordDetail> detailList = targetRecord.getDetails();
 		List<PeakArenaDetailRecord> detailRecordList = new ArrayList<PeakArenaDetailRecord>(detailList.size());
@@ -1277,7 +1279,7 @@ public class PeakArenaHandler {
 		for (PeakRecordDetail detail : detailList) {
 			PeakArenaUserData first = this.createArenaUserRecordData(userName, detail.getMyCamp(), detail.getMyMagic());
 			PeakArenaUserData second = this.createArenaUserRecordData(enemyName, detail.getEnemyCamp(), detail.getEnemyMagic());
-			if(targetRecord.getActionType() == PeakArenaActionType.CHALLENGE) {
+			if (targetRecord.getActionType() == PeakArenaActionType.CHALLENGE) {
 				// 我是挑战者
 				detailRecordBuilder.setChallenger(first);
 				detailRecordBuilder.setDefender(second);
@@ -1291,7 +1293,7 @@ public class PeakArenaHandler {
 		}
 		return detailRecordList;
 	}
-	
+
 	private PeakRecordInfo getPeakRecord(Player player, int recordId) {
 		List<PeakRecordInfo> recordList = PeakArenaBM.getInstance().getArenaRecordList(player.getUserId());
 		if (recordList.isEmpty()) {
@@ -1307,11 +1309,11 @@ public class PeakArenaHandler {
 		}
 		return targetRecord;
 	}
-	
+
 	private List<HurtValue> createHurtValues(List<PeakRecordHeroInfo> datas) {
 		List<HurtValue> list = new ArrayList<HurtValue>(datas.size());
 		HurtValue.Builder builder = HurtValue.newBuilder();
-		for(PeakRecordHeroInfo heroInfo : datas) {
+		for (PeakRecordHeroInfo heroInfo : datas) {
 			builder.setHeroId(heroInfo.getHeroId());
 			builder.setValue(heroInfo.getHpDamage());
 			list.add(builder.build());
@@ -1319,7 +1321,7 @@ public class PeakArenaHandler {
 		}
 		return list;
 	}
-	
+
 	private void addItem(Map<Integer, Integer> rewards, Player player) {
 		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(rewards.size());
 		for (Iterator<Integer> keyItr = rewards.keySet().iterator(); keyItr.hasNext();) {
@@ -1335,13 +1337,13 @@ public class PeakArenaHandler {
 		return response.build().toByteString();
 	}
 
-    private ByteString sendFailResponPopTip(Player player, MsgArenaResponse.Builder response, String tips) {
-        player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, tips);
-        response.setArenaResultType(eArenaResultType.ARENA_FAIL);
-        return response.build().toByteString();
-    }
-    
-    private ByteString fillArenaScore(TablePeakArenaData arenaData, MsgArenaResponse.Builder response) {
+	private ByteString sendFailResponPopTip(Player player, MsgArenaResponse.Builder response, String tips) {
+		player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, tips);
+		response.setArenaResultType(eArenaResultType.ARENA_FAIL);
+		return response.build().toByteString();
+	}
+
+	private ByteString fillArenaScore(TablePeakArenaData arenaData, MsgArenaResponse.Builder response) {
 		response.setCurrentScore(arenaData.getScore());
 		response.addAllAlreadyGetRewardId(arenaData.getRewardList());
 		return response.build().toByteString();

@@ -2,7 +2,7 @@ package com.rwbase.dao.fighting;
 
 import com.rw.fsutil.util.SpringContextUtil;
 
-public class MagicQualityFightingCfgDAO extends FightingCfgCsvDAOOneToOneBase {
+public class MagicQualityFightingCfgDAO extends AbsMagicSkillFightingCfgDAO {
 
 	public static MagicQualityFightingCfgDAO getInstance() {
 		return SpringContextUtil.getBean(MagicQualityFightingCfgDAO.class);
