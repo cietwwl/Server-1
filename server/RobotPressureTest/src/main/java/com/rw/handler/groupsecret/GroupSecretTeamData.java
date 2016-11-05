@@ -1,5 +1,6 @@
 package com.rw.handler.groupsecret;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class GroupSecretTeamData implements SynItem {
 
 	public List<String> getDefendHeroList() {
 		if (defendHeroList == null) {
-			return Collections.emptyList();
+			return new ArrayList<String>();
 		}
 
 		return defendHeroList;
