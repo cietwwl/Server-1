@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
@@ -43,6 +44,7 @@ public class FSUserFightingGrowthHolder {
 	}
 	
 	private List<UserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player, Map<FSFightingGrowthWayType, Integer> maxFightingMap) {
+		List<Hero> teamHeros = player.getHeroMgr().getMainCityTeamHeros(player.getUserId());
 		List<String> wayKeys = _userFightingGrowthWayInfoCfgDAO.getDisplaySeqRO();
 		List<UserFightingGrowthWaySynData> list = new ArrayList<UserFightingGrowthWaySynData>(wayKeys.size());
 		FSUserFightingGrowthWayInfoCfg cfg;
@@ -69,7 +71,7 @@ public class FSUserFightingGrowthHolder {
 				builder.setName(cfg.getFightingOrigin()); // 名字
 				builder.setGotoType(cfg.getGotoType()); // 打开界面
 				builder.addAllGainWay(cfg.getGrowthWayList()); // 获取途径
-				builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player)); // 当前的战斗力
+				builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player, teamHeros)); // 当前的战斗力
 				builder.setMaxFighting(maxFighting.intValue());
 //				builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
 //				System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
