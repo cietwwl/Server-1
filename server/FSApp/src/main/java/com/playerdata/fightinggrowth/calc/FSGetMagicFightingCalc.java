@@ -48,7 +48,7 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 		if (magicParam.isMainRole()) {
 			// （强化主技能战力+强化被动技能战力）*法宝成长系数+（品阶主技能战力+品阶被动技能战力）
 			return Math.round((levelSkillFightingCfg.getActiveSkillFighting() + levelSkillFightingCfg.getPassiveSkillFighting()) * aptitudeCoefficientCfg.getCoefficient())
-					+ (qualitySkillFightingCfg.getPassiveSkillFighting() + qualitySkillFightingCfg.getPassiveSkillFighting());
+					+ (qualitySkillFightingCfg.getActiveSkillFighting() + qualitySkillFightingCfg.getPassiveSkillFighting());
 		} else {
 			// 强化被动技能战力*法宝成长系数+品阶被动技能战力
 			return Math.round(levelSkillFightingCfg.getPassiveSkillFighting() * aptitudeCoefficientCfg.getCoefficient()) + qualitySkillFightingCfg.getPassiveSkillFighting();
