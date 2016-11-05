@@ -2,6 +2,8 @@ package com.rw.fsutil.dao.cache;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,6 +27,7 @@ import com.rw.fsutil.dao.cache.trace.DataChangedEvent;
 import com.rw.fsutil.dao.cache.trace.DataChangedVisitor;
 import com.rw.fsutil.dao.optimize.ComputeFunction;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.dao.optimize.DataValueAction;
 import com.rw.fsutil.dao.optimize.EvictedElementTaker;
 import com.rw.fsutil.dao.optimize.FSBoundedQueue;
 import com.rw.fsutil.dao.optimize.FSLRUCache;
@@ -265,11 +268,12 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 
 		private volatile CacheValueEntity<V> value;
 		private final EvictedUpdateTask<Object> updateTask;
-//		private final String threadName;
+
+		// private final String threadName;
 
 		public EvictedTask(K key, CacheValueEntity<V> value, EvictedUpdateTask<Object> updateTask) {
 			super(key);
-//			this.threadName = Thread.currentThread().getName();
+			// this.threadName = Thread.currentThread().getName();
 			this.value = value;
 			this.updateTask = updateTask;
 		}
@@ -455,6 +459,28 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 	 */
 	public V getFromMemory(K key) {
 		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		return entity == null ? null : entity.getValue();
+	}
+
+	/**
+	 * 从缓存中获取指定数据用于读行为
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public V getFromMemoryForRead(K key) {
+		CacheValueEntity<V> entity = this.cache.getWithOutMove(key);
+		return entity == null ? null : entity.getValue();
+	}
+
+	/**
+	 * 从缓存中获取指定数据用于写行为
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public V getFromMemoryForWrite(K key) {
+		CacheValueEntity<V> entity = this.cache.get(key);
 		return entity == null ? null : entity.getValue();
 	}
 
@@ -735,12 +761,12 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 			if (old != null) {
 				return old;
 			}
-//			long start = System.currentTimeMillis();
+			// long start = System.currentTimeMillis();
 			boolean ok = this.evictedQueue.waitForNotFull(TimeUnit.MILLISECONDS, remainMillis);
 			if (!ok) {
 				throw new TimeoutException();
 			}
-//			remainMillis -= (System.currentTimeMillis() - start);
+			// remainMillis -= (System.currentTimeMillis() - start);
 		}
 	}
 
@@ -908,6 +934,81 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		return cache.entries(computeFunction);
 	}
 
+	/**
+	 * <pre>
+	 * 对缓存数据进行批量读操作，数据不在内存会从数据库记载
+	 * </pre>
+	 * @param keys
+	 * @param readerAction
+	 */
+	public void rangeRead(Iterable<K> keys, DataValueAction<V> readerAction) {
+		HashSet<K> absentKeys = null;
+		for (Iterator<K> it = keys.iterator(); it.hasNext();) {
+			K key = it.next();
+			V value = getFromMemoryForRead(key);
+			if (value == null) {
+				if (absentKeys == null) {
+					absentKeys = new HashSet<K>();
+				}
+				absentKeys.add(key);
+				continue;
+			}
+			try {
+				readerAction.execute(value);
+			} catch (Throwable t) {
+				FSUtilLogger.error("raised an exception on rangeRead:" + key + "," + name, t);
+			}
+		}
+		if (absentKeys != null) {
+			doAction(absentKeys, readerAction);
+		}
+	}
+
+	/**
+	 * <pre>
+	 * 对缓存数据进行批量写操作，数据不在内存会从数据库记载
+	 * </pre>
+	 * @param keys
+	 * @param writeAction
+	 */
+	public void rangeWrite(Iterable<K> keys, DataValueAction<V> writeAction) {
+		HashSet<K> absentKeys = null;
+		for (Iterator<K> it = keys.iterator(); it.hasNext();) {
+			K key = it.next();
+			V value = getFromMemoryForWrite(key);
+			if (value == null) {
+				if (absentKeys == null) {
+					absentKeys = new HashSet<K>();
+				}
+				absentKeys.add(key);
+				continue;
+			}
+			try {
+				writeAction.execute(value);
+			} catch (Throwable t) {
+				FSUtilLogger.error("raised an exception on rangeWrite:" + key + "," + name, t);
+			}
+		}
+		if (absentKeys != null) {
+			doAction(absentKeys, writeAction);
+		}
+	}
+
+	private void doAction(HashSet<K> absentKeys, DataValueAction<V> writeAction) {
+		for (K key : absentKeys) {
+			try {
+				V value = this.getOrLoadFromDB(key);
+				if (value != null) {
+					writeAction.execute(value);
+				} else {
+					FSUtilLogger.error("can not find value:" + key + "," + name);
+				}
+			} catch (Throwable t) {
+				FSUtilLogger.error("raised an exception on get or execution:" + key + "," + name, t);
+			}
+		}
+	}
+
 	public PersistentGenericHandler<K, V, ? extends Object> getLoader() {
 		return loader;
 	}
@@ -1046,8 +1147,6 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 			record(key, entity.getValue(), entity, new CacheStackTrace());
 		}
 	}
-
-	
 
 	static enum OperationType {
 		INSERT {

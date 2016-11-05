@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.GroupMemberJoinCallback;
@@ -330,10 +331,14 @@ public class GroupMemberMgr {
 	 * 
 	 * @param kickUserId
 	 */
-	public synchronized void kickMember(String kickUserId) {
-		String groupID = GroupHelper.getUserGroupId(kickUserId);
-		holder.removeMemberData(kickUserId, false);
-		GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
+	public void kickMember(String kickUserId) {
+		String groupID;
+		synchronized (this) {
+			groupID = GroupHelper.getUserGroupId(kickUserId);
+			holder.removeMemberData(kickUserId, false);
+			GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
+		}
+		GameWorldFactory.getGameWorld().executeAccountTask(groupID, new GroupFightingRefreshTask(groupID));
 	}
 
 	/**
@@ -405,14 +410,18 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param fight
 	 */
-	public void updateMemberFight(String userId, int fight) {
+	public int updateMemberFight(String userId, int fight) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
-			return;
+			return fight;
 		}
-
+		int oldFighting = item.getFighting();
+		if (oldFighting == fight) {
+			return fight;
+		}
 		item.setFighting(fight);
 		holder.updateMemberData(item.getId());
+		return oldFighting;
 	}
 
 	/**

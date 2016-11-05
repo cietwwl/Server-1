@@ -14,6 +14,7 @@ import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataKVCache;
 import com.rw.fsutil.dao.cache.DataNotExistException;
+import com.rw.fsutil.dao.optimize.DataValueAction;
 import com.rw.fsutil.dao.optimize.SimpleLoader;
 import com.rw.manager.GameManager;
 import com.rw.manager.GamePlayerOpHelper;
@@ -306,10 +307,10 @@ public class PlayerMgr {
 	}
 
 	public void callbackEmailToList(List<Player> playerList, final EmailData emailData) {
-		
+
 		for (Player player : playerList) {
 			GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
-				
+
 				@Override
 				public void run(Player e) {
 					long taskId = emailData.getTaskId();
@@ -324,7 +325,7 @@ public class PlayerMgr {
 		List<Player> onlinePlayers = PlayerMgr.getInstance().getOnlinePlayers();
 		for (Player player : onlinePlayers) {
 			GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
-				
+
 				@Override
 				public void run(Player e) {
 					// TODO Auto-generated method stub
@@ -364,7 +365,7 @@ public class PlayerMgr {
 		}
 		return targetList;
 	}
-	
+
 	/**
 	 * 是否在线
 	 * 
@@ -409,9 +410,19 @@ public class PlayerMgr {
 		return list;
 	}
 
+	/**
+	 * <pre>
+	 * 执行在线玩家读相关操作
+	 * 用于代替{@link #getOnlinePlayers()}
+	 * 优化对{@link Player}对象的内存管理
+	 * </pre>
+	 * @param action
+	 */
+	public void execteOnlineOperation(DataValueAction<Player> action) {
+		cache.rangeRead(UserChannelMgr.getOnlinePlayerIdSet(), action);
+	}
+
 	public void setRedPointForHeartBeat(String userId) {
-		// add by Jamaz
-		// no io operation
 		if (isOnline(userId)) {
 			Player otherPlayer = findPlayerFromMemory(userId);
 			if (otherPlayer != null) {

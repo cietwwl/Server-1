@@ -506,6 +506,7 @@ public class FSHeroMgr implements HeroMgr {
 	@Override
 	public void updateFightingTeamWhenEmBattleChange(Player player) {
 		FSUserHeroGlobalDataMgr.getInstance().getFightingTeam(player.getUserId());
+		player.getTempAttribute().setHeroFightingChanged();
 		player.getUserTmpGameDataFlag().setSynFightingAll(true);
 	}
 }
