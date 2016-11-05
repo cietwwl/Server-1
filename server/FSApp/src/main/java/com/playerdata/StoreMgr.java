@@ -202,18 +202,20 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param type
 	 */
 	public void ProbStore(eStoreConditionType type) {
+		AddStore();
 		switch (type) {
 		case WarCopy:
 			List<Integer> storeTypes = new ArrayList<Integer>();
-			// 暂时不刷新黑市商人和神秘商人
 			CfgOpenLevelLimitDAO helper = CfgOpenLevelLimitDAO.getInstance();
-			if (helper.isOpen(eOpenLevelType.SECRET_SHOP, m_pPlayer)){
+			// 暂时不刷新黑市商人和神秘商人
+			if (helper.isOpen(eOpenLevelType.SECRET_SHOP, m_pPlayer)) {
 				storeTypes.add(eStoreType.Secret.getOrder());// 概率
 			}
-			if (helper.isOpen(eOpenLevelType.Blackmark_SHOP, m_pPlayer)){
+			if (helper.isOpen(eOpenLevelType.Blackmark_SHOP, m_pPlayer)) {
 				storeTypes.add(eStoreType.Blackmark.getOrder());
 			}
-			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
+			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder
+					.get().getStoreDataMap();
 			for (Integer storetype : storeTypes) {
 				if (m_StoreData.containsKey(storetype)) {
 					continue;
