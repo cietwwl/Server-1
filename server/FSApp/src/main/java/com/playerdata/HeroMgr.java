@@ -601,6 +601,15 @@ public interface HeroMgr {
 	 * @return
 	 */
 	public List<Hero> getHeros(String userId, List<String> heroIds);
+	
+	/**
+	 * 
+	 * 获取首页五人的英雄数据
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<Hero> getMainCityTeamHeros(String userId);
 
 	/**
 	 * 

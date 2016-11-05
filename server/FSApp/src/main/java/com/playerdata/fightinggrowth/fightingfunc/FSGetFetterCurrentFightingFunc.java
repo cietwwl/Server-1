@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.rwbase.common.IBIFunction;
 import com.rwbase.common.IFunction;
 
-public class FSGetFetterCurrentFightingFunc implements IFunction<Player, Integer> {
+public class FSGetFetterCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
 	private static final FSGetFetterCurrentFightingFunc _instance = new FSGetFetterCurrentFightingFunc();
 	
@@ -21,11 +22,10 @@ public class FSGetFetterCurrentFightingFunc implements IFunction<Player, Integer
 	}
 
 	@Override
-	public Integer apply(Player player) {
+	public Integer apply(Player player, List<Hero> teamHeros) {
 		int fighting = 0;
-		List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, null);
-		for (int i = 0; i < allHeros.size(); i++) {
-			fighting += _single.apply(allHeros.get(i));
+		for (int i = 0; i < teamHeros.size(); i++) {
+			fighting += _single.apply(teamHeros.get(i));
 		}
 		return fighting;
 	}

@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
-import com.rwbase.common.IFunction;
+import com.rwbase.common.IBIFunction;
 
-public class FSGetSpriteAttachCurrentFighting implements IFunction<Player, Integer> {
+public class FSGetSpriteAttachCurrentFighting implements IBIFunction<Player, List<Hero>, Integer> {
 
 	private static final FSGetSpriteAttachCurrentFighting _instance = new FSGetSpriteAttachCurrentFighting();
 	
@@ -20,10 +20,9 @@ public class FSGetSpriteAttachCurrentFighting implements IFunction<Player, Integ
 	}
 	
 	@Override
-	public Integer apply(Player player) {
-		List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, null);
+	public Integer apply(Player player, List<Hero> teamHeros) {
 		int fighting = 0;
-		for (Hero h : allHeros) {
+		for (Hero h : teamHeros) {
 			fighting += _single.apply(h);
 		}
 		return fighting;

@@ -1,12 +1,15 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
+import java.util.List;
+
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.rwbase.common.IBIFunction;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
-public class FSGetTaoistCurrentFightingFunc implements IFunction<Player, Integer>{
+public class FSGetTaoistCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
 	private static final FSGetTaoistCurrentFightingFunc _instance = new FSGetTaoistCurrentFightingFunc();
 
@@ -24,9 +27,9 @@ public class FSGetTaoistCurrentFightingFunc implements IFunction<Player, Integer
 	}
 
 	@Override
-	public Integer apply(Player player) {
+	public Integer apply(Player player, List<Hero> teamHeros) {
 		if (this._cfgOpenLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, player)) {
-			int fighting = _single.apply(player.getMainRoleHero()) * player.getHeroMgr().getHerosSize(player);
+			int fighting = _single.apply(player.getMainRoleHero()) * teamHeros.size();
 			return fighting;
 		} else {
 			return 0;
