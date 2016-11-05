@@ -6,7 +6,8 @@ package com.rw.service.redpoint;
  *
  */
 public enum RedPointType {
-	HOME_TOP_WINDOW_MAINCITY,
+    //红点类型
+    HOME_TOP_WINDOW_MAINCITY,
     HOME_TOP_WINDOW_GROUP,
     HOME_TOP_WINDOW_AREA,
     HOME_WINDOW_HERO,
@@ -60,10 +61,10 @@ public enum RedPointType {
     FORTUNE_CAT,
     LIMIT_HERO,
     LIMIT_HERO_Buy_One,
-    HOME_WINDOW_PEAK_ARENA, // 巅峰竞技场入口
-    PEAK_ARENA_SCORE_REWARD, // 巅峰竞技场红点
+    HOME_WINDOW_PEAK_ARENA,
+    PEAK_ARENA_SCORE_REWARD,
     HOME_TOP_FIGHTING_GROWTH, // 主界面战力提升系统入口
-    //===========================背包中宝箱的红点
+    //===========================背包
     HOME_WINDOW_ITEM_BAG,
     ITEM_BAG_ALL_BTN,
     ITEM_BAG_CONSUME_BTN,
