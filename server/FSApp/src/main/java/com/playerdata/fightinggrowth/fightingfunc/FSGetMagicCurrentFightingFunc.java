@@ -52,15 +52,14 @@ public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer>
 		mb.setIsMainRole(true);
 
 		int fighting = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
-
-		mb.setIsMainRole(false);
-
-		int heroFighting = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
-
 		EmbattlePositionInfo positionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
-		int size = positionInfo.getPos().size() - 1;
-		if (size > 0) {
-			fighting += heroFighting * size;
+		if (positionInfo != null) {
+			mb.setIsMainRole(false);
+			int heroFighting = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+			int size = positionInfo.getPos().size() - 1;
+			if (size > 0) {
+				fighting += heroFighting * size;
+			}
 		}
 		return fighting;
 

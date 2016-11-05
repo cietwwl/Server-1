@@ -106,7 +106,13 @@ public class FSUserFightingGrowthHolder {
 			currentTitle = currentTitleCfg.getFightingTitle();
 			titleIcon = currentTitleCfg.getFightingIcon();
 		}
-		List<UserFightingGrowthWaySynData> wayInfoList = this.getFightingGrowthWaySynData(player, maxFightingMap); // 战斗力提升途径
+		
+		List<UserFightingGrowthWaySynData> wayInfoList;
+		if (maxFightingMap.size() > 0) {
+			wayInfoList = this.getFightingGrowthWaySynData(player, maxFightingMap); // 战斗力提升途径
+		} else {
+			wayInfoList = Collections.emptyList();
+		}
 		UserFightingGrowthSynData.Builder dataBuilder = UserFightingGrowthSynData.newBuilder();
 		dataBuilder.setUserId(userFightingGrowthData.getUserId());
 		dataBuilder.setCurrentTitle(currentTitle);
