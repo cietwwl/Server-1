@@ -17,6 +17,18 @@ public class GCompContinueWinComparable implements Comparable<GCompContinueWinCo
 	public int getContinueWin(){
 		return this.continueWin;
 	}
+	
+	public long getLastRecordTime() {
+		return lastRecordTime;
+	}
+
+	public void setLastRecordTime(long lastRecordTime) {
+		this.lastRecordTime = lastRecordTime;
+	}
+
+	public void setContinueWin(int continueWin) {
+		this.continueWin = continueWin;
+	}
 
 	@Override
 	public int compareTo(GCompContinueWinComparable o) {

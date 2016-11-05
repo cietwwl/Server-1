@@ -256,7 +256,8 @@ public class EquipHandler implements RandomMethodIF{
 		case 0:
 			return wearEquip(client);
 		case 1:
-			return equipAttach(client);
+			return true;
+			//return equipAttach(client);
 		case 2:
 			return heroAdvance(client);
 		default:

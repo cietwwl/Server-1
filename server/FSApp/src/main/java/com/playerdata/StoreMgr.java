@@ -296,11 +296,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				continue;
 			}
 			m_nRandom = 0;
-			CommodityCfg commcfg = getRandomCommondity(commcfgs);
+			CommodityCfg commcfg = getRandomCommondity(commcfgs, modelIDList);
 			if (commcfg != null) {
-				if(modelIDList.contains(commcfg.getGoodsId())){
-					continue;
-				}
+//				if(modelIDList.contains(commcfg.getGoodsId())){
+//					continue;
+//				}
 				CommodityData pCommodityCell = new CommodityData();
 				pCommodityCell.setId(commcfg.getId());
 				pCommodityCell.setCount(1);
@@ -312,6 +312,14 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 		return list;
+	}
+	
+	public CommodityCfg getRandomCommondity(List<CommodityCfg> Commodity, List<Integer> modelIDList){
+		CommodityCfg cfg = getRandomCommondity(Commodity);
+		while (modelIDList.contains(cfg.getGoodsId()) && Commodity.size() > 0) {
+			cfg = getRandomCommondity(Commodity);
+		}
+		return cfg;
 	}
 	
 	private int getStoreCommodityListLength(int index){

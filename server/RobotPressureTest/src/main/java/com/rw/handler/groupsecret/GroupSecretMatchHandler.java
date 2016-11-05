@@ -4,9 +4,13 @@ package com.rw.handler.groupsecret;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -26,6 +30,9 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 public class GroupSecretMatchHandler implements RandomMethodIF{
+	
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
+	
 	private static GroupSecretMatchHandler handler = new GroupSecretMatchHandler();
 	private static final Command command = Command.MSG_GROUP_SECRET_MATCH;
 	private static final String functionName = "帮派秘境匹配";
@@ -313,7 +320,34 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return searchGroupSecret(client);
+		if(StringUtils.isBlank(client.getGroupBaseDataHolder().getGroupId())){
+			RobotLog.fail(functionName + "--玩家[" + client.getAccountId() + "]没有帮派...");
+			return true;
+		}
+		Integer stage = funcStageMap.get(client.getAccountId());
+		if(null == stage){
+			stage = new Integer(0);
+			funcStageMap.put(client.getAccountId(), stage);
+		}
+		client.getGroupBaseDataHolder().getGroupId();
+		switch (stage) {
+		case 0:
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.GroupSecretMatch);
+			return searchGroupSecret(client);
+		case 1:
+			funcStageMap.put(client.getAccountId(), 2);
+			client.getRateHelper().addActionToQueue(ActionEnum.GroupSecretMatch);
+			return attackEnemyGroupSecret(client);
+		case 2:
+			funcStageMap.put(client.getAccountId(), 3);
+			client.getRateHelper().addActionToQueue(ActionEnum.GroupSecretMatch);
+			return attackEndEnemyGroupSecret(client);
+		case 3:
+			funcStageMap.put(client.getAccountId(), 0);
+			return getGroupSecretReward(client);
+		default:
+			return true;
+		}
 	}
-
 }
