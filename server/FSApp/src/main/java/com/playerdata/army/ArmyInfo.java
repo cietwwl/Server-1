@@ -70,6 +70,11 @@ public class ArmyInfo {
 		return this.guildName;
 	}
 	
+	public void addHero(ArmyHero armyHero) {
+		this.heroList.add(armyHero);
+		
+	}
+	
 	public ArmyFashion getArmyFashion() {
 		return armyFashion;
 	}
