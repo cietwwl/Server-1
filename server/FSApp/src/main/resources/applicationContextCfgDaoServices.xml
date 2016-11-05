@@ -363,6 +363,7 @@
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltMaterialCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCoefficientCfgDAO" init-method="init" />
 	
 	<!-- 成长基金 -->
 	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO"  init-method="init" />
