@@ -34,8 +34,8 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 34,,34,1,100,,,,,
 35,,35,25,100,,,,MSG_GROUP_SECRET,
 36,,36,12,100,,,,MSG_STORE,
-37,,37,12,100,,9,,,
-38,,38,12,100,,11,,,
+37,,37,12,100,,,,,
+38,,38,12,100,,,,,
 39,,38,5,100,,,,,
 40,,40,26,100,,,110512,MSG_TRIAL,TRAIL_VALLEY
 41,,41,21,100,,,,MSG_FASHION,
