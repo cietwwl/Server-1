@@ -65,7 +65,7 @@ public enum ActionEnum {
 	ActivityCount(22, ActivityCountHandler.getHandler()),
 	DailyGift(23, DailyGiftHandler.getHandler()),
 	FresherActivity(24, FresherActivityHandler.getInstance()),
-	Sign(25, SignHandler.getInstance()),
+	Sign(25, SignHandler.getInstance(), 3),
 	Daily(26, DailyHandler.getInstance()),
 	Fashion(27, FashionHandler.getInstance()),
 	PeakArena(28, PeakArenaHandler.getHandler()),

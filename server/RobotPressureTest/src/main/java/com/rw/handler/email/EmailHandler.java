@@ -26,7 +26,7 @@ public class EmailHandler implements RandomMethodIF{
 	}
 
 	/**
-	 * 创建角色
+	 * 打开邮件列表
 	 * 
 	 * @param serverId
 	 * @param accountId

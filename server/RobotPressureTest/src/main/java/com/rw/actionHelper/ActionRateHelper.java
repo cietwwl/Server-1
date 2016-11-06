@@ -16,6 +16,9 @@ public class ActionRateHelper{
 		for(ActionEnum act : actions){
 			map.put(act, act.getInitRate());
 		}
+		waitingQueue.add(ActionEnum.Sign);
+		waitingQueue.add(ActionEnum.Task);
+		waitingQueue.add(ActionEnum.Daily);
 	}
 	
 	public void updateRate(ActionEnum act, int rate){

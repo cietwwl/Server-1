@@ -251,6 +251,16 @@ public class EquipHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return wearEquip(client);
+		int rd = new Random().nextInt(3);
+		switch (rd) {
+		case 0:
+			return wearEquip(client);
+		case 1:
+			return equipAttach(client);
+		case 2:
+			return heroAdvance(client);
+		default:
+			return true;
+		}
 	}
 }

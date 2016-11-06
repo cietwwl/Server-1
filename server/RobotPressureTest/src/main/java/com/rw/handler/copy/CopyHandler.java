@@ -363,6 +363,7 @@ public class CopyHandler implements RandomMethodIF{
 			return pveInfo(client);
 		case 1:
 			funcStageMap.put(client.getAccountId(), 0);
+			client.getRateHelper().addActionToQueue(ActionEnum.Daily);
 			return exeRandomCopy(client);
 		default:
 			return true;

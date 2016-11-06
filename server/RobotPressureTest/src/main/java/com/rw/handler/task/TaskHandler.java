@@ -14,7 +14,6 @@ import com.rwproto.TaskProtos.eTaskRequestType;
 import com.rwproto.TaskProtos.eTaskResultType;
 
 public class TaskHandler implements RandomMethodIF{
-
 	
 	private static TaskHandler instance = new TaskHandler();
 	public static TaskHandler instance(){
@@ -28,8 +27,6 @@ public class TaskHandler implements RandomMethodIF{
 	 * @param accountId
 	 */
 	public boolean getReward(Client client) {
-		
-
 		TaskItem finishItem = client.getTaskItemHolder().getFinishItem();
 		if(finishItem == null){
 			return false;
@@ -37,8 +34,7 @@ public class TaskHandler implements RandomMethodIF{
 		TaskRequest.Builder req = TaskRequest.newBuilder()
 										.setRequestType( eTaskRequestType.GetReward )
 										.setId(finishItem.getTaskId());
-		
-		
+			
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_TASK, req.build().toByteString(), new MsgReciver() {
 			
 			@Override
@@ -81,5 +77,4 @@ public class TaskHandler implements RandomMethodIF{
 	public boolean executeMethod(Client client) {
 		return getReward(client);
 	}
-
 }

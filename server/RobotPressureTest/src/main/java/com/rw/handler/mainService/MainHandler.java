@@ -7,6 +7,7 @@ import com.rw.common.MsgReciver;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
+import com.rw.handler.player.UserGameData;
 import com.rwproto.MainServiceProtos.EMainResultType;
 import com.rwproto.MainServiceProtos.EMainServiceType;
 import com.rwproto.MainServiceProtos.MsgMainRequest;
@@ -29,6 +30,7 @@ public class MainHandler implements RandomMethodIF{
 		req.setRequestType(EMainServiceType.BUY_COIN);
 		return client.getMsgHandler().sendMsg(Command.MSG_MainService, req.build().toByteString(), new MainMsgReceiver(command, functionName, "购买金币"));
 	}
+	
 	/**
 	 * 买体
 	 * 
@@ -118,6 +120,10 @@ public class MainHandler implements RandomMethodIF{
 	
 	@Override
 	public boolean executeMethod(Client client) {
-		return buyTower(client);
+		UserGameData gameData = client.getUserGameDataHolder().getUserGameData();
+		if(gameData.getPower() <= 10){
+			return buyTower(client);
+		}	
+		return buyCoin(client);
 	}
 }

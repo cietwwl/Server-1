@@ -1,8 +1,11 @@
 package com.rw.handler.battle;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -17,6 +20,8 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 public class PVEHandler implements RandomMethodIF{
+	
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
 	
 	private static PVEHandler instance = new PVEHandler();
 	public static PVEHandler instance(){
@@ -131,6 +136,22 @@ public class PVEHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return before(client);
+		Integer stage = funcStageMap.get(client.getAccountId());
+		if(null == stage){
+			stage = new Integer(0);
+			funcStageMap.put(client.getAccountId(), stage);
+		}
+		switch (stage) {
+		case 0:
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.PVE);
+			return before(client);
+		case 1:
+			funcStageMap.put(client.getAccountId(), 0);
+			client.getRateHelper().addActionToQueue(ActionEnum.Daily);
+			return after(client);
+		default:
+			return true;
+		}
 	}
 }
