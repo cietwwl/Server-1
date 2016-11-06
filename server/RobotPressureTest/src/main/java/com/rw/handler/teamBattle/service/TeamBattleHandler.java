@@ -39,8 +39,11 @@ public class TeamBattleHandler {
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().getUserTBData();
 		if(null != utbData.getTeamID() && !utbData.getTeamID().isEmpty()) {
-			RobotLog.info("startTBCreateTeam[send]玩家已经有队伍，不能再创建或加入队伍");
-			return true;
+			if(null != UserTeamBattleDataHolder.getInstance().getCurrentHardID() &&
+					utbData.getTeamID().split("_")[0].equals(UserTeamBattleDataHolder.getInstance().getCurrentHardID())){
+				RobotLog.info("startTBCreateTeam[send]玩家已经有队伍，不能再创建或加入队伍");
+				return true;
+			}
 		}
 		int rankKey = (int)(Math.random() * 3);
 		if(0 == rankKey){
