@@ -172,7 +172,7 @@ public class SaloonCom {
 		}
 		SaloonPosition saloonPosition = postionMap.get(userId);
 		saloonPosition.setPx(px);
-		saloonPosition.setPy(py);
+		saloonPosition.setPz(py);
 		updateQueue.add(userId);
 		return SaloonResult.newInstance(true);
 	}

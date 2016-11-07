@@ -13,7 +13,7 @@ public class SaloonPosition {
 	
 	private float px;
 	
-	private float py;
+	private float pz;
 	
 	public static SaloonPosition newInstance(String idP){
 		SaloonPosition position = new SaloonPosition();
@@ -24,7 +24,7 @@ public class SaloonPosition {
 		SaloonPosition position = new SaloonPosition();
 		position.id=idP;
 		position.px=pxP;
-		position.py=pyP;
+		position.pz=pyP;
 		return position;
 	}
 
@@ -44,12 +44,12 @@ public class SaloonPosition {
 		this.px = px;
 	}
 
-	public float getPy() {
-		return py;
+	public float getPz() {
+		return pz;
 	}
 
-	public void setPy(float py) {
-		this.py = py;
+	public void setPz(float py) {
+		this.pz = py;
 	}
 	
 	
