@@ -441,7 +441,11 @@ public class UserGameDataMgr {
 	}
 
 	public long getCoin() {
-		return majorDataHolder.getMarjorData().getCoin();
+		if (majorDataHolder.getMarjorData() == null) {
+			return 0;
+		} else {
+			return majorDataHolder.getMarjorData().getCoin();
+		}
 	}
 
 	public int getMagicSecretCoin() {

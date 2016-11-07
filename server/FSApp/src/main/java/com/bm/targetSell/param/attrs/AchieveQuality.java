@@ -31,7 +31,9 @@ public class AchieveQuality extends AbsAchieveAttrValue{
 
 		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
 		
-		
+		if(embattleInfo == null){
+			return;
+		}
 		LinkedList<String> list =new LinkedList<String>();
 		List<EmbattleHeroPosition> pos = embattleInfo.getPos();
 		for (EmbattleHeroPosition embattleHeroPosition : pos) {

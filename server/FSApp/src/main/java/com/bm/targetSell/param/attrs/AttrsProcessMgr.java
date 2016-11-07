@@ -35,6 +35,9 @@ public class AttrsProcessMgr {
 		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
 		Map<String, Object> result = new HashMap<String, Object>();
 		for (ERoleAttrs eRoleAttrs : all) {
+			if(eRoleAttrs == null){
+				continue;
+			}
 			String idStr = eRoleAttrs.getIdStr();
 			BenefitAttrCfg cfg = cfgDAO.getCfgById(idStr);
 			int processType = cfg.getProcessType();
