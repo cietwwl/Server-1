@@ -272,6 +272,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		}
 		if (friendTable.getReCommandfriendList().isEmpty()) {// 加的是第一个机器人，机器人会立刻赠送体力
 			otherPlayer.getFriendMgr().givePower(userId);
+			resultVo.updateList.add(friendItemToInfo(robotFriendItem));
 		}
 		if (!friendTable.getReCommandfriendList().containsKey(otherUserId)) {
 			friendTable.getReCommandfriendList().put(otherUserId, robotFriendItem);
@@ -324,7 +325,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
 			} else if (other != null && otherUserId.length() > 20) {
-				requestAddOneRobotToFriend(otherUserId, userId);
+				FriendResultVo vo = requestAddOneRobotToFriend(otherUserId, userId);
+				if (vo.resultType == EFriendResultType.SUCCESS) {
+					resultVo.updateList.addAll(vo.updateList);
+				}
 			} else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
 				if (otherTable.getBlackList().containsKey(userId)) {
