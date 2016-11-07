@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.MapAnimationState;
@@ -72,7 +72,7 @@ public class UserGameData implements TableUserOtherIF {
 	private int killBossRewardCount;// 当天击杀boss领奖次数
 	@IgnoreSynField
 	private int createBossCount;// 当天发现boss次数
-	@Transient
+	@JsonIgnore
 	private int peakArenaScore;// 巅峰竞技场积分
 
 	public int getExpCoin() {

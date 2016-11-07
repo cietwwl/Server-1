@@ -110,6 +110,8 @@ public class GMHeroBase {
 		if (star > maxStar) {
 			star = maxStar;
 		}
+		RoleCfg config = RoleCfgDAO.getInstance().getConfig(hero.getModeId(), star);
+		FSHeroBaseInfoMgr.getInstance().setTemplateId(hero, config.getRoleId());
 //		hero.setStarLevel(star);
 		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, star);
 		return star;
