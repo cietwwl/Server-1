@@ -7,7 +7,6 @@ public class CheckCommonItemWare implements ICheckItemWare{
 
 	@Override
 	public boolean checkWare(ItemData item) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
