@@ -990,7 +990,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param selfModelId
 	 * @return
 	 */
-	public List<IUseItem> checkEnoughItem(int itemModelId, int count, ItemData selfItem){
+	public List<IUseItem> checkEnoughItem(int itemModelId, int count, ItemData selfItem, ICheckItemWare checker){
 		List<IUseItem> useItemList = new ArrayList<IUseItem>(); 
 		ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 		int stackNum = itemBaseCfg.getStackNum();
@@ -1011,11 +1011,13 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			}else{
 				enough = itemDatas.size() > (selfItem.getModelId() == itemModelId ? count +1 : count);
 			}
-			if(enough){
+			if (enough) {
 				int index = 0;
 				for (int i = 0; i < count; i++) {
 					ItemData itemData = itemDatas.get(index);
-					while (itemData.getId().equals(selfItem.getId())) {
+					while ((selfItem != null && itemData.getId().equals(
+							selfItem.getId()))
+							|| checker.checkWare(itemData)) {
 						index++;
 						if (index >= itemDatas.size()) {
 							break;
@@ -1027,7 +1029,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 					index++;
 				}
 				return useItemList;
-			}else{
+			} else {
 				return null;
 			}
 		}

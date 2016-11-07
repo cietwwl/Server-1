@@ -17,6 +17,7 @@ import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.item.checkWare.CheckMagicWare;
 import com.rwbase.common.enu.eActivityType;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
@@ -373,7 +374,7 @@ public class MagicHandler {
 			int modelId = entry.getKey();
 			int count = entry.getValue();
 
-			List<IUseItem> items = itemBagMgr.checkEnoughItem(modelId, count, currentMagic);
+			List<IUseItem> items = itemBagMgr.checkEnoughItem(modelId, count, currentMagic, new CheckMagicWare());
 
 			if (items == null) {
 				return "法宝进化材料不足！";
