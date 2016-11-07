@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.playerdata.fightinggrowth.fightingfunc.FSGetBasicCurrentFightingOfSingleFunc;
-import com.playerdata.fightinggrowth.fightingfunc.FSGetFashionCurrentFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetFashionCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetFetterCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetFixEquipCurrentFightingOfSingleFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetGemCurrentFightingOfSingleFunc;
@@ -28,7 +28,7 @@ public enum FightingCalculateComponentType {
 	NORM_EQUIP("装备系统", FSGetNormEquipCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	SKILL("技能战力", FSGetSkillCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	TAOIST("道术系统", FSGetTaoistCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
-	FASHION("时装系统", EmptyHeroComponent.singleton, FSGetFashionCurrentFightingFunc.getInstance()),
+	FASHION("时装系统", EmptyHeroComponent.singleton, FSGetFashionCurrentFightingOfSingleFunc.getInstance()),
 	SPRITE_ATTACH("附灵系统", FSGetSpriteAttachCurrentFightingOfSingleFunc.getInstance(), EmptyPlayerComponent.singleton),
 	;
 	private final IFunction<Hero, Integer> _componentFunc;

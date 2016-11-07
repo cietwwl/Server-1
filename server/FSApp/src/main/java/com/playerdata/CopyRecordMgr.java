@@ -14,6 +14,7 @@ import com.playerdata.readonly.CopyLevelRecordIF;
 import com.playerdata.readonly.CopyRecordMgrIF;
 import com.rw.service.copy.CommonTip;
 import com.rw.service.copy.PvECommonHelper;
+import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.cfg.GiftCfg;
@@ -159,7 +160,7 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 				}
 			}
 		}
-
+		this.m_pPlayer.getStoreMgr().ProbStore(eStoreConditionType.WarCopy);
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		copyResponse.setEResultType(EResultType.GM_SETSUCCESS);
 		// copyResponse.addAllTagCopyLevelRecord(listResult);
