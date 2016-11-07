@@ -848,7 +848,6 @@ public class Player implements PlayerIF {
 
 	private void onLevelChangeByGm(int currentLevel, int newLevel) {
 		// 有升级
-
 		if (currentLevel < newLevel) {
 			onLevelChange(currentLevel, newLevel);
 		} else {
@@ -857,6 +856,7 @@ public class Player implements PlayerIF {
 			// mainRoleHero.SetHeroLevel(newLevel);
 			FSHeroBaseInfoMgr.getInstance().setLevel(mainRoleHero, newLevel);
 			userDataMgr.setLevel(newLevel);
+			level = newLevel;// GM指令之后把缓存的等级修改成新等级
 			mainRoleHero.save();
 			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
 			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);

@@ -56,8 +56,7 @@ public class ItemBagHandler {
 	// player.onLogin();
 	// }
 
-	public ByteString sellItemItemData(Player player,
-			List<TagItemData> sellItemList) {
+	public ByteString sellItemItemData(Player player, List<TagItemData> sellItemList) {
 		MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		response.setEventType(EItemBagEventType.ItemBag_Sell);
 
@@ -109,8 +108,7 @@ public class ItemBagHandler {
 		if (success) {
 			player.getUserGameDataMgr().addCoin(totalSellCoin);
 		} else {
-			GameLog.error("背包模块", player.getUserId(), "出售的过程当中出现了错误，导致出售失败",
-					null);
+			GameLog.error("背包模块", player.getUserId(), "出售的过程当中出现了错误，导致出售失败", null);
 			response.setRspInfo(fillResponseInfo(false, "道具出售失败"));
 		}
 		return response.build().toByteString();
@@ -151,8 +149,7 @@ public class ItemBagHandler {
 				return response.build().toByteString();
 			}
 
-			ComposeCfg cfg = ComposeCfgDAO.getInstance().GetItemComposeCfg(
-					mateId);
+			ComposeCfg cfg = ComposeCfgDAO.getInstance().GetItemComposeCfg(mateId);
 			if (cfg == null) {
 				return response.build().toByteString();
 			}
@@ -182,14 +179,12 @@ public class ItemBagHandler {
 			if (hasValue == null) {
 				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost());
 			} else {
-				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost()
-						+ hasValue);
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost() + hasValue);
 			}
 
 			// 检查一下是不是宝石
 			if (ItemCfgHelper.getItemType(mateId) == EItemTypeDef.Gem) {
-				player.getDailyActivityMgr().AddTaskTimesByType(
-						DailyActivityType.JEWEREY_COMPOSE, 1);
+				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
 			}
 		}
 
@@ -210,8 +205,7 @@ public class ItemBagHandler {
 		rsp.setEventType(EItemBagEventType.UseItem);
 
 		if (useItemInfo == null) {
-			GameLog.error("背包道具使用", player.getUserId(),
-					String.format("客户端传递到服务器端的UseItemInfo是Null"));
+			GameLog.error("背包道具使用", player.getUserId(), String.format("客户端传递到服务器端的UseItemInfo是Null"));
 			rsp.setRspInfo(fillResponseInfo(false, "使用失败"));
 			return rsp.build().toByteString();
 		}
@@ -240,27 +234,28 @@ public class ItemBagHandler {
 		int itemTemplateId = itemData.getModelId();
 		ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemTemplateId);
 		if (itemBaseCfg == null) {
-			GameLog.error("背包道具使用", player.getUserId(),
-					String.format("模版Id为[%s]的道具的模版查找不到", itemTemplateId));
+			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具的模版查找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
 			return rsp.build().toByteString();
 		}
 
 		ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(itemTemplateId);
 		if (consumeCfg == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format(
-					"模版Id为[%s]的道具ConsumeCfg模版查找不到", itemTemplateId));
+			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具ConsumeCfg模版查找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
 			return rsp.build().toByteString();
 		}
 
+		int level = player.getLevel();
+		if (level < consumeCfg.getUseLevel()) {
+			rsp.setRspInfo(fillResponseInfo(false, String.format("主角%s级才能使用", consumeCfg.getUseLevel())));
+			return rsp.build().toByteString();
+		}
+
 		ItemUseEffectCfgDAO cfgDAO = ItemUseEffectCfgDAO.getCfgDAO();
-		ItemUseEffectTemplate tmp = cfgDAO
-				.getUseEffectTemplateByModelId(itemTemplateId);
+		ItemUseEffectTemplate tmp = cfgDAO.getUseEffectTemplateByModelId(itemTemplateId);
 		if (tmp == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String
-					.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到",
-							itemTemplateId));
+			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 			return rsp.build().toByteString();
 		}
@@ -279,45 +274,36 @@ public class ItemBagHandler {
 				long value = 0;
 				if (key <= eSpecialItemId.eSpecial_End.getValue()) {
 					value = player.getReward(eSpecialItemId.getDef(key));
-					SpecialItemCfg cfg = specialCfgDAO.getCfgById(String
-							.valueOf(key));
+					SpecialItemCfg cfg = specialCfgDAO.getCfgById(String.valueOf(key));
 					if (cfg != null) {
 						resourceName = cfg.getName();
 					}
 				} else {
 					RefInt refInt = modelCountMap.get(key);
 					value = refInt == null ? 0 : refInt.value;
-					ItemBaseCfg needItemCfg = ItemCfgHelper
-							.GetConfig(itemTemplateId);
+					ItemBaseCfg needItemCfg = ItemCfgHelper.GetConfig(itemTemplateId);
 					if (needItemCfg != null) {
 						resourceName = needItemCfg.getName();
 					}
 				}
 
 				if (StringUtils.isEmpty(resourceName)) {
-					GameLog.error("背包道具使用", player.getUserId(), String.format(
-							"模版Id为[%s]的道具结合使用的资源[%s]不能找到配置表", itemTemplateId,
-							key));
+					GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具结合使用的资源[%s]不能找到配置表", itemTemplateId, key));
 					rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 					return rsp.build().toByteString();
 				}
 
 				if (needCount > value) {
-					GameLog.error("背包道具使用", player.getUserId(), String.format(
-							"模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到",
-							itemTemplateId));
-					rsp.setRspInfo(fillResponseInfo(false, resourceName
-							+ "数量不足"));
+					GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
+					rsp.setRspInfo(fillResponseInfo(false, resourceName + "数量不足"));
 					return rsp.build().toByteString();
 				}
 			}
 		}
 
-		IItemUseEffect useEffectClass = cfgDAO
-				.getItemUseEffectByModelId(itemTemplateId);
+		IItemUseEffect useEffectClass = cfgDAO.getItemUseEffectByModelId(itemTemplateId);
 		if (useEffectClass == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format(
-					"模版Id为[%s]的道具对应的使用处理类IItemUseEffect找不到", itemTemplateId));
+			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的使用处理类IItemUseEffect找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 			return rsp.build().toByteString();
 		}
@@ -332,8 +318,7 @@ public class ItemBagHandler {
 	 * @param tipMsg
 	 * @return
 	 */
-	public static ResponseInfo.Builder fillResponseInfo(boolean success,
-			String tipMsg) {
+	public static ResponseInfo.Builder fillResponseInfo(boolean success, String tipMsg) {
 		ResponseInfo.Builder rspInfo = ResponseInfo.newBuilder();
 		rspInfo.setSuccess(success);
 		rspInfo.setTipMsg(tipMsg);
@@ -351,8 +336,7 @@ public class ItemBagHandler {
 			int cost = itemBaseCfg.getCost() * tag.getComposeCount();
 			if (cost <= player.getReward(eSpecialItemId.Gold)) {
 				player.getUserGameDataMgr().addGold(-cost);
-				player.getItemBagMgr().addItem(tag.getMateId(),
-						tag.getComposeCount());
+				player.getItemBagMgr().addItem(tag.getMateId(), tag.getComposeCount());
 				response.setRspInfo(fillResponseInfo(true, "购买成功"));
 			} else {
 				response.setRspInfo(fillResponseInfo(false, "钻石不足"));
@@ -372,8 +356,7 @@ public class ItemBagHandler {
 	 * @param buyItemInfo
 	 * @return
 	 */
-	public ByteString buyMagicForgeMaterial(Player player,
-			BuyItemInfo buyItemInfo) {
+	public ByteString buyMagicForgeMaterial(Player player, BuyItemInfo buyItemInfo) {
 		MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		response.setEventType(EItemBagEventType.ItemBag_Buy);
 
@@ -397,8 +380,7 @@ public class ItemBagHandler {
 				break;
 			}
 
-			final ConsumeCfg cfg = ItemCfgHelper
-					.getConsumeCfg(consumeMatModelId);
+			final ConsumeCfg cfg = ItemCfgHelper.getConsumeCfg(consumeMatModelId);
 			if (cfg == null) {
 				response.setRspInfo(fillResponseInfo(false, "找不到材料配置！"));
 				break;
@@ -416,15 +398,13 @@ public class ItemBagHandler {
 			}
 
 			final int totalCost = unitCost * buyCount;
-			final eSpecialItemId currencyType = eSpecialItemId.getDef(cfg
-					.getMoneyType());
+			final eSpecialItemId currencyType = eSpecialItemId.getDef(cfg.getMoneyType());
 			if (currencyType == null) {
 				response.setRspInfo(fillResponseInfo(false, "货币类型配置无效！"));
 				break;
 			}
 
-			if (!player.getUserGameDataMgr().deductCurrency(currencyType,
-					totalCost)) {
+			if (!player.getUserGameDataMgr().deductCurrency(currencyType, totalCost)) {
 				response.setRspInfo(fillResponseInfo(false, "货币不足！"));
 				break;
 			}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -11,7 +12,7 @@ import com.playerdata.RedPointMgr;
 import com.rw.service.redpoint.impl.RedPointCollector;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
-import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
+import com.rwbase.dao.redpoint.RedPointMapCfgDAO;
 import com.rwproto.MsgDef;
 import com.rwproto.RedPointProtos.DisplayRedPoint;
 import com.rwproto.RedPointProtos.RedPoint;
@@ -77,10 +78,12 @@ public class RedPointManager {
 		}
 		int curVersion = mgr.getVersion();
 		if (version != curVersion) {
+			RedPointMapCfgDAO cfgDAO = RedPointMapCfgDAO.getCfgDAO();
 			ArrayList<RedPoint> redPointList = new ArrayList<RedPoint>();
 			for (Map.Entry<RedPointType, List<String>> entry : currentMap.entrySet()) {
 				RedPoint.Builder builder = RedPoint.newBuilder();
-				builder.setType(entry.getKey().ordinal());
+				// builder.setType(entry.getKey().ordinal());
+				builder.setType(cfgDAO.getRedPointType(entry.getKey()));
 				builder.addAllFunctionIdList(entry.getValue());
 				redPointList.add(builder.build());
 			}
