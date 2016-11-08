@@ -32,7 +32,7 @@ public class TaoistHandler implements RandomMethodIF{
 			return true;
 		}
 		if(result){
-			RobotLog.fail("升级道术成功");
+			RobotLog.info("升级道术成功");
 		}else{
 			RobotLog.fail("升级道术失败----------------------");
 		}

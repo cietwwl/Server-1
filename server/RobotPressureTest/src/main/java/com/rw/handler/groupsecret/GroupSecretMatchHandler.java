@@ -1,6 +1,5 @@
 package com.rw.handler.groupsecret;
 
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,6 +15,7 @@ import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
 import com.rw.handler.battle.army.ArmyHero;
 import com.rw.handler.battle.army.ArmyInfo;
+import com.rw.handler.group.holder.GroupBaseDataHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.GroupSecretMatchProto.AttackEnemyEndReqMsg;
@@ -47,12 +47,16 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 	 * @param client
 	 */
 	public boolean searchGroupSecret(Client client) {
-		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg
-				.newBuilder();
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
+		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 		req.setReqType(MatchRequestType.SEARCHING_ENEMY);
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
-				req.build().toByteString(),
-				new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "匹配秘境"));
 
 	}
 
@@ -62,52 +66,52 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 	 * @param client
 	 */
 	public boolean attackEnemyGroupSecret(Client client) {
-		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg
-				.newBuilder();
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
+		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 		req.setReqType(MatchRequestType.ATTACK_ENEMY_START);
-		AttackEnemyStartReqMsg.Builder msg = AttackEnemyStartReqMsg
-				.newBuilder();
+		AttackEnemyStartReqMsg.Builder msg = AttackEnemyStartReqMsg.newBuilder();
 		msg.setIndex(GroupSecretIndex.MAIN);
-		UserHerosDataHolder userHerosDataHolder = client
-				.getUserHerosDataHolder();
+		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 		if (userHerosDataHolder.getTableUserHero() == null) {
 			RobotLog.fail("groupattack.start.获取的自己英雄数据失败");
 			return false;
 		}
-		List<String> heroIds = new ArrayList<String>(userHerosDataHolder
-				.getTableUserHero().getHeroIds());
+		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 
 		int mainRoleIndex = 0;
 		int fightHeroNum = 1;// 雇佣兵数量
 		boolean isOk = false;
-		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
+		for (Iterator<String> iterator = heroIds.iterator(); iterator.hasNext();) {
 			String heroId = (String) iterator.next();
 			if (heroId.equals(client.getUserId())) {
 				continue;
 			}
+
 			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 			pos.setHeroId(heroId);
-			pos.setPos(mainRoleIndex);
+			pos.setPos(++mainRoleIndex);
 			msg.addHeroList(pos);
-			mainRoleIndex++;
 			isOk = true;
 			if (mainRoleIndex >= fightHeroNum) {
 				break;
 			}
 		}
+
 		BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
 		pos.setHeroId(client.getUserId());
-		pos.setPos(fightHeroNum);
+		pos.setPos(0);
 		msg.addHeroList(pos);
 		if (!isOk) {
-			RobotLog.fail("进攻秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 ="
-					+ heroIds.size());
-			// return true;
+			RobotLog.fail("进攻秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + heroIds.size());
 		}
 		req.setAttackStartReq(msg);
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
-				req.build().toByteString(),
-				new GroupSecretMatchReceierTmp(command, functionName, "发起进攻"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceierTmp(command, functionName, "发起进攻"));
 	}
 
 	/**
@@ -116,44 +120,47 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 	 * @param client
 	 */
 	public boolean attackEndEnemyGroupSecret(Client client) {
-		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg
-				.newBuilder();
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
+		GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 		req.setReqType(MatchRequestType.ATTACK_ENEMY_END);
 		AttackEnemyEndReqMsg.Builder msg = AttackEnemyEndReqMsg.newBuilder();
 		msg.setIndex(GroupSecretIndex.MAIN);
-		UserHerosDataHolder userHerosDataHolder = client
-				.getUserHerosDataHolder();
+		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 		if (userHerosDataHolder.getTableUserHero() == null) {
 			RobotLog.fail("groupattack.end.获取的自己英雄数据失败");
 			return false;
 		}
-		List<String> heroIds = new ArrayList<String>(userHerosDataHolder
-				.getTableUserHero().getHeroIds());
+
+		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		int mainRoleIndex = 0;
-		for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
+		for (Iterator<String> iterator = heroIds.iterator(); iterator.hasNext();) {
 			String heroId = (String) iterator.next();
 			HeroLeftInfo.Builder info = HeroLeftInfo.newBuilder();
 			info.setId(heroId);
 			info.setLeftLife(100);
 			info.setLeftEnergy(100);
 			msg.addMyLeft(info);
-			mainRoleIndex++;
-			if (mainRoleIndex > 1) {
+			if (++mainRoleIndex > 1) {
 				break;
 			}
 		}
-		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
-				.getGroupSecretBaseInfoSynDataHolder();
+
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 		ArmyInfo armyInfo = groupSecretBaseInfoSynDataHolder.getArmyInfo();
 		if (armyInfo != null) {
 			List<ArmyHero> heroList = armyInfo.getHeroList();
-			if(heroList == null || heroList.size() == 0){
+			if (heroList == null || heroList.size() == 0) {
 				return true;
 			}
 			int length = heroList.size();
 			for (int i = 0; i < length; i++) {
-				String heroId = (String) heroList.get(i)
-						.getRoleBaseInfo().getId();
+				String heroId = (String) heroList.get(i).getRoleBaseInfo().getId();
 				HeroLeftInfo.Builder info = HeroLeftInfo.newBuilder();
 				info.setId(heroId);
 				info.setLeftLife(0);
@@ -163,9 +170,7 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 		}
 
 		req.setAttackEndReq(msg);
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
-				req.build().toByteString(),
-				new GroupSecretMatchReceier(command, functionName, "完成进攻"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "完成进攻"));
 	}
 
 	/**
@@ -174,10 +179,15 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 	 * @param client
 	 */
 	public boolean getGroupSecretReward(Client client) {
-		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
-				.getGroupSecretBaseInfoSynDataHolder();
-		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder
-				.getDefanceList();
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
+		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
+		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
 		if (defendSecretIdList == null) {
 			return true;
 		}
@@ -189,13 +199,10 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 			if (!defendSecretIdList.get(i).isFinish()) {
 				continue;
 			}
-			GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg
-					.newBuilder();
+			GroupSecretMatchCommonReqMsg.Builder req = GroupSecretMatchCommonReqMsg.newBuilder();
 			req.setReqType(MatchRequestType.GET_REWARD);
-			result = client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH,
-					req.build().toByteString(),
-					new GroupSecretMatchReceier(command, functionName, "进攻奖励"));
-			if(!result){
+			result = client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "进攻奖励"));
+			if (!result) {
 				break;
 			}
 		}
@@ -204,8 +211,7 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 
 	private class GroupSecretMatchReceier extends PrintMsgReciver {
 
-		public GroupSecretMatchReceier(Command command, String functionName,
-				String protoType) {
+		public GroupSecretMatchReceier(Command command, String functionName, String protoType) {
 			super(command, functionName, protoType);
 			// TODO Auto-generated constructor stub
 		}
@@ -215,16 +221,13 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 			// TODO Auto-generated method stub
 			ByteString bs = response.getSerializedContent();
 			try {
-				GroupSecretMatchCommonRspMsg resp = GroupSecretMatchCommonRspMsg
-						.parseFrom(bs);
+				GroupSecretMatchCommonRspMsg resp = GroupSecretMatchCommonRspMsg.parseFrom(bs);
 				if (resp.getIsSuccess()) {
 					RobotLog.info(parseFunctionDesc() + "成功");
 					if (resp.getTipMsg().indexOf("战前数据发送完毕") != -1) {
-						AttackEnemyStartRspMsg startInfo = resp
-								.getAttackStartRsp();
+						AttackEnemyStartRspMsg startInfo = resp.getAttackStartRsp();
 						String armyInfoStr = startInfo.getArmyInfo();
-						GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
-								.getGroupSecretBaseInfoSynDataHolder();
+						GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 						ArmyInfo armyInfo = new ArmyInfo();
 						armyInfo = ArmyInfo.fromJson(armyInfoStr);
 						groupSecretBaseInfoSynDataHolder.setArmyInfo(armyInfo);
@@ -267,8 +270,7 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 
 	/** 进攻秘境需要用反馈的rsp.string来初始化数据，但原有方法是多个功能的综合，不能保证其他功能不发进攻秘境一样的空的string回来 */
 	private class GroupSecretMatchReceierTmp extends PrintMsgReciver {
-		public GroupSecretMatchReceierTmp(Command command, String functionName,
-				String protoType) {
+		public GroupSecretMatchReceierTmp(Command command, String functionName, String protoType) {
 			super(command, functionName, protoType);
 			// TODO Auto-generated constructor stub
 		}
@@ -278,14 +280,12 @@ public class GroupSecretMatchHandler implements RandomMethodIF{
 			// TODO Auto-generated method stub
 			ByteString bs = response.getSerializedContent();
 			try {
-				GroupSecretMatchCommonRspMsg resp = GroupSecretMatchCommonRspMsg
-						.parseFrom(bs);
+				GroupSecretMatchCommonRspMsg resp = GroupSecretMatchCommonRspMsg.parseFrom(bs);
 				if (resp.getIsSuccess()) {
 					RobotLog.info(parseFunctionDesc() + "成功");
 					AttackEnemyStartRspMsg startInfo = resp.getAttackStartRsp();
 					String armyInfoStr = startInfo.getArmyInfo();
-					GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client
-							.getGroupSecretBaseInfoSynDataHolder();
+					GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 					ArmyInfo armyInfo = new ArmyInfo();
 					armyInfo = ArmyInfo.fromJson(armyInfoStr);
 					groupSecretBaseInfoSynDataHolder.setArmyInfo(armyInfo);
