@@ -195,9 +195,7 @@ public class GroupCopyMgr {
 				if(groupID.equals("")){
 					return result;
 				}
-				//发放帮派经验
-				Group group = GroupBM.get(groupID);
-				group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, levelCfg.getGroupExp(), 0, true);
+				
 				GroupCopyDistIDManager.getInstance().addGroupID(groupID);
 				final String roleName = player.getUserName();
 				final boolean inExtralTime = mapRecord.getRewardTime() >= System.currentTimeMillis();
@@ -261,19 +259,19 @@ public class GroupCopyMgr {
 			String levelId, Builder item) {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
-		
+		//发放帮派经验
+		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
 		
 		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
 		CopyItemDropAndApplyRecord dropAndApplyRecord = dropHolder.getItemByID(cfg.getChaterID());
-		ItemDropAndApplyTemplate dropApplyRecord = null;
 		List<CopyRewardStruct> list = item.getDropList();
 		for (CopyRewardStruct d : list) {
-			dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
+			ItemDropAndApplyTemplate dropApplyRecord = dropAndApplyRecord.getDropApplyRecord(String.valueOf(d.getItemID()));
 			dropApplyRecord.addDropItem(d.getCount());
-			dropHolder.updateItem(player, dropAndApplyRecord);
-			dropApplyRecord = null;
 		}
+		dropHolder.updateItem(player, dropAndApplyRecord);
 		
 		mapRecordHolder.updateItem(player, mapRecord);
 	}
