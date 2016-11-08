@@ -369,13 +369,36 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 	 */
 	public V getOrLoadFromDB(K key) throws InterruptedException, Throwable {
 		// 先从缓存中获取，如果存在于缓存，直接返回
-		CacheValueEntity<V> cacheValue = getOrLoadCacheFromDB(key);
+		CacheValueEntity<V> cacheValue = getOrLoadCacheFromDB(key, false);
 		return cacheValue == null ? null : cacheValue.getValue();
 	}
 
-	public CacheValueEntity<V> getOrLoadCacheFromDB(K key) throws InterruptedException, Throwable {
+	/**
+	 * <pre>
+	 * 获取指数据，如果不存在，尝试从数据库中加载该主键对应的数据
+	 * 如果readOnly为true，不会影响对象本身的内存管理(不会重排序)，且获得更好的并发性
+	 * </pre>
+	 * @param key
+	 * @param readOnly
+	 * @return
+	 * @throws InterruptedException
+	 * @throws Throwable
+	 */
+	public V getOrLoadFromDB(K key, boolean readOnly) throws InterruptedException, Throwable {
 		// 先从缓存中获取，如果存在于缓存，直接返回
-		CacheValueEntity<V> value = this.cache.get(key);
+		CacheValueEntity<V> cacheValue = getOrLoadCacheFromDB(key, readOnly);
+		return cacheValue == null ? null : cacheValue.getValue();
+	}
+
+	public CacheValueEntity<V> getOrLoadCacheFromDB(K key, boolean readOnly) throws InterruptedException, Throwable {
+		// 先从缓存中获取，如果存在于缓存，直接返回
+		CacheValueEntity<V> value;
+		if (readOnly) {
+			value = this.cache.getWithOutMove(key);
+		} else {
+			value = this.cache.get(key);
+		}
+		this.cache.get(key);
 		if (value != null) {
 			return value;
 		}

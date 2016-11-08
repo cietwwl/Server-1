@@ -6,6 +6,7 @@ package com.rw.service.redpoint;
  *
  */
 public enum RedPointType {
+	
 	HOME_TOP_WINDOW_MAINCITY,
     HOME_TOP_WINDOW_GROUP,
     HOME_TOP_WINDOW_AREA,
@@ -60,24 +61,14 @@ public enum RedPointType {
     FORTUNE_CAT,
     LIMIT_HERO,
     LIMIT_HERO_Buy_One,
-    HOME_WINDOW_PEAK_ARENA, // 巅峰竞技场入口
-    PEAK_ARENA_SCORE_REWARD, // 巅峰竞技场红点
-    ;
-	
-    private RedPointType(){
-    	
-    }
-    
-    public RedPointType getEnumByInt(int id){
-    	RedPointType redPointType = null;
-    	for(RedPointType eNum : values()){    		
-    		if(eNum.ordinal() == id){
-    			redPointType = eNum;
-    			break;
-    		}
-    	}    	
-    	return redPointType;
-    }
-    
-    
+    HOME_WINDOW_PEAK_ARENA,
+    PEAK_ARENA_SCORE_REWARD,
+    HOME_TOP_FIGHTING_GROWTH,
+    HOME_WINDOW_ITEM_BAG,
+    ITEM_BAG_ALL_BTN,
+    ITEM_BAG_CONSUME_BTN,
+    HOME_WINDOW_RANKING,
+    RANKING_ARENA_LIST,
+    RANKING_ARENA_CHAMPION,
+   
 }

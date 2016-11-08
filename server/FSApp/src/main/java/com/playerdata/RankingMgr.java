@@ -91,6 +91,7 @@ public class RankingMgr {
 	private final EnumMap<ListRankingType, Pair<String, String>> emailMap;
 	private final EnumMap<RankType, RankType> dailyMapping;
 	private final EnumMap<RankType, Integer> cfgMapping;
+	private final List<String> worshipList;
 
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
@@ -138,7 +139,12 @@ public class RankingMgr {
 		this.cfgMapping.put(RankType.LEVEL_ALL_DAILY, 301);
 		this.cfgMapping.put(RankType.POPULARITY_RANK, 601);
 		this.cfgMapping.put(RankType.GROUP_FIGHTING_RANK, 405);
-		
+
+		this.worshipList = new ArrayList<String>();
+		worshipList.add(cfgMapping.get(RankType.WARRIOR_ARENA).toString());
+		worshipList.add(cfgMapping.get(RankType.SWORDMAN_ARENA).toString());
+		worshipList.add(cfgMapping.get(RankType.MAGICAN_ARENA).toString());
+		worshipList.add(cfgMapping.get(RankType.PRIEST_ARENA).toString());
 		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
 		biLogDbMgr = new BILogDbMgr(dataSource);
 	}
@@ -150,6 +156,10 @@ public class RankingMgr {
 		checkRobotLevel();// 此处机器人生成要比玩家生成优先；如果玩家榜没人说明是新区；可以用方法拷贝；如果玩家榜有人说明是老区；从数据库拷贝
 		checkPlayerLevel();
 
+	}
+
+	public List<String> getWorshipList() {
+		return worshipList;
 	}
 
 	public void checkPlayerLevel() {

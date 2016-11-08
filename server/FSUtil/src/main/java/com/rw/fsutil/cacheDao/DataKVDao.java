@@ -137,11 +137,24 @@ public class DataKVDao<T> {
 	}
 
 	public T get(String id) {
+		return get(id, false);
+	}
+
+	/**
+	 * <pre>
+	 * 获取指数据，如果不存在，尝试从数据库中加载该主键对应的数据
+	 * 如果readOnly为true，不会影响对象本身的内存管理(不会重排序)，且获得更好的并发性
+	 * </pre>
+	 * @param id
+	 * @param readOnly
+	 * @return
+	 */
+	public T get(String id, boolean readOnly) {
 		if (StringUtils.isBlank(id)) {
 			return null;
 		}
 		try {
-			CacheValueEntity<T> entity = this.cache.getOrLoadCacheFromDB(id);
+			CacheValueEntity<T> entity = this.cache.getOrLoadCacheFromDB(id, readOnly);
 			if (entity == null) {
 				return null;
 			}

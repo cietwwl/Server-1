@@ -2,19 +2,13 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
 
 import com.bm.rank.RankType;
 import com.google.protobuf.ByteString;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
-import com.rw.service.ranking.ERankingType;
-import com.rw.service.worship.WorshipHandler;
 import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
@@ -97,7 +91,12 @@ public class WorshipMgr {
 
 	/**是否可以膜拜*/
 	public boolean isWorship(Player player){
-		return DateUtils.isResetTime(5, 0, 0, player.getUserGameDataMgr().getLastWorshipTime());
+		return isWorship(player.getUserGameDataMgr().getLastWorshipTime());
+	}
+	
+	/**是否可以膜拜*/
+	public boolean isWorship(long lastWorshipTime){
+		return DateUtils.isResetTime(5, 0, 0, lastWorshipTime);
 	}
 	
 	/**添加膜拜者*/
