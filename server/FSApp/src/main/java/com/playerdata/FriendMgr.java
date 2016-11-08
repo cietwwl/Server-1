@@ -656,8 +656,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.resultMsg = "今日可领取体力已达上限";
 			resultVo.resultType = EFriendResultType.FAIL;
 		} else if (count == 0) {
-			resultVo.resultMsg = "没有可领取体力";
-			resultVo.resultType = EFriendResultType.FAIL;
+			if (resultVo.resultMsg != null) {
+				resultVo.resultMsg = "没有可领取体力";
+				resultVo.resultType = EFriendResultType.FAIL;
+			}
 		} else if (count > 0 && !tableFriend.getFriendVo().isCanReceive(m_pPlayer.getLevel())) {// 成功了一些，然后体力满了
 			resultVo.resultMsg = "成功领取 " + resultVo.powerCount + " 体力，今日可领取体力已达上限";
 			resultVo.resultType = EFriendResultType.SUCCESS_MSG;
@@ -777,7 +779,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setVip(item.getVip());
 		friendInfo.setSex(item.getSex());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
-		if(null != usingFashion){
+		if (null != usingFashion) {
 			friendInfo.setFashionUsed(usingFashion);
 		}
 
