@@ -539,6 +539,7 @@ public class RankingMgr {
 			toData.setSex(p.getSex());
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
+			toData.setVip(p.getVip());
 		}
 	}
 
@@ -598,6 +599,7 @@ public class RankingMgr {
 			toData.setSex(p.getSex());
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
+			toData.setVip(p.getVip());
 			return toData;
 		} catch (Exception e) {
 			return null;

@@ -100,6 +100,10 @@ message ArenaRecord{
 	optional int32 level = 7;
 	optional int64 time = 8;
 	optional int32 challenge = 9;
+	optional int32 vip = 10;
+	optional int32 sex = 11;
+	optional FashionService.FashionUsed fashionUsed = 12;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 fighting = 13;
 }
 
 message MsgArenaRequest{

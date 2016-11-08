@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,8 +12,6 @@ import com.playerdata.Player;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
-import com.rwbase.dao.worship.pojo.CfgWorshipRandomReward;
-import com.rwbase.dao.worship.pojo.CfgWorshipRankdomScheme;
 import com.rwbase.dao.worship.pojo.WorshipItem;
 import com.rwbase.dao.worship.pojo.WorshipItemData;
 import com.rwproto.FashionServiceProtos.FashionUsed;
@@ -61,7 +58,7 @@ public class WorshipUtils {
 		worshipInfo.setLevel(rankInfo.getLevel());
 		// worshipInfo.setModelId(rankInfo.getModelId());
 		worshipInfo.setModelId(RankingUtils.getModelId(rankInfo));
-		
+		worshipInfo.setVip(rankInfo.getVip());
 		//by Franky:
 		FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(rankInfo.getUserId());
 		if (fashionUsing != null){
@@ -88,6 +85,7 @@ public class WorshipUtils {
 		worshipItem.setItemData(itemData);
 		worshipItem.setWorshipTime(Calendar.getInstance().getTimeInMillis());
 		worshipItem.setModelId(player.getModelId());
+		worshipItem.setVip(player.getVip());
 		return worshipItem;
 	}
 
@@ -125,6 +123,7 @@ public class WorshipUtils {
 		worshipInfo.setLevel(worshipItem.getLevel());
 		worshipInfo.setCanReceive(worshipItem.isCanReceive());
 		worshipInfo.setModelId(worshipItem.getModelId());
+		worshipInfo.setVip(worshipItem.getVip());
 		
 		String headFrame = worshipItem.getHeadFrame();
 		if (StringUtils.isNotBlank(headFrame)) {//兼容旧数据

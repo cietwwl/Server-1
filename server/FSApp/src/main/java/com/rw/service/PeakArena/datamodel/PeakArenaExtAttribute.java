@@ -27,7 +27,7 @@ public class PeakArenaExtAttribute extends ArenaExtAttribute{
 	public PeakArenaExtAttribute() {
 	}
 
-	public PeakArenaExtAttribute(int career, int fighting, String name, String headImage, int level) {
-		super(career, fighting, name, headImage, level);
+	public PeakArenaExtAttribute(int career, int fighting, String name, String headImage, int level, int vip) {
+		super(career, fighting, name, headImage, level, vip);
 	}
 }

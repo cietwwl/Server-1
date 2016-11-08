@@ -9,4 +9,5 @@ public interface FriendItemIF {
 	public int getCareer();
 	public long getLastLoginTime();
 	public String getUnionName();
+	public int getVip();
 }

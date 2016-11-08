@@ -19,6 +19,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -39,6 +40,7 @@ import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.MsgPersonChatUserInfo;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 
@@ -80,6 +82,7 @@ public class ChatHandler {
 			messageUserInfoBuilder.setHeadbox(player.getHeadFrame());// 头像品质框
 			messageUserInfoBuilder.setCareerType(player.getCareer()); // 职业类型
 			messageUserInfoBuilder.setGender(player.getSex()); // 性别
+			messageUserInfoBuilder.setFighting(player.getHeroMgr().getFightingTeam(player));
 		}
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupName = userGroupAttributeData.getGroupName();
@@ -92,6 +95,10 @@ public class ChatHandler {
 		}
 		messageUserInfoBuilder.setVipLv(player.getVip());
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		if(null != usingFashion){
+			messageUserInfoBuilder.setFashionUsed(usingFashion);
+		}
 		return messageUserInfoBuilder;
 	}
 

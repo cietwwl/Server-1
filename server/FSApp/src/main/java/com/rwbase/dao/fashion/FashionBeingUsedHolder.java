@@ -5,6 +5,8 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.fsutil.cacheDao.DataRdbDao;
+import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.group.pojo.Group;
 
 /**
  * 缓存数据以用户ID作为索引
@@ -36,7 +38,14 @@ public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 			return false;
 		}
 		super.update(fashionUsed.getUserId());
-		TBListenerPlayerChange.playerChangeFashion(PlayerMgr.getInstance().findPlayerFromMemory(fashionUsed.getUserId()));
+		Player player = PlayerMgr.getInstance().findPlayerFromMemory(fashionUsed.getUserId());
+		if(null != player){
+			TBListenerPlayerChange.playerChangeFashion(player);
+			Group group = GroupHelper.getGroup(player);
+			if(null != group){
+				group.getGroupMemberMgr().updateMemberFashion(player);
+			}
+		}
 		return true;
 	}
 
