@@ -207,6 +207,9 @@ public class FriendHandler {
 		tmp.setGroupId(info.getGroupId());
 		tmp.setGroupName(info.getGroupName());
 		tmp.setFighting(info.getFighting());
+		tmp.setVip(info.getVip());
+		tmp.setFashionUsed(info.getFashionUsed());
+		tmp.setSex(info.getSex());
 		FriendInfo newinfo = tmp.build();
 		return newinfo;
 	}

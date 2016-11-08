@@ -56,6 +56,7 @@ import com.rw.service.PeakArena.datamodel.peakArenaResetCost;
 import com.rw.service.PeakArena.datamodel.peakArenaResetCostHelper;
 import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -68,6 +69,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.BattleCommon.BattleHeroPosition;
 import com.rwproto.BattleCommon.eBattlePositionType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
@@ -721,6 +723,7 @@ public class PeakArenaHandler {
 			record.setFashionSuitId(0);
 		}
 		record.setVipLv(enemy.getVip());
+		record.setFighting(enemy.getHeroMgr().getFightingTeam(enemy));
 		return record;
 	}
 
@@ -852,13 +855,19 @@ public class PeakArenaHandler {
 		data.setPlace(place);
 		data.setMaxPlace(arenaData.getMaxPlace());
 		data.setWinCount(arenaData.getWinCount());
-
+		data.setVip(player.getVip());
+		data.setSex(player.getSex());
 		data.setCareer(player.getCareer());
 		data.setHeadImage(player.getHeadImage());
 		data.setLevel(player.getLevel());
 		data.setFighting(player.getMainRoleHero().getFighting());
 		data.setName(player.getUserName());
 		data.setHeadFrame(player.getHeadFrame());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		if(null != usingFashion){
+			data.setFashionUsed(usingFashion);
+		}
+
 		String groupName = GroupHelper.getGroupName(userId);
 		if (StringUtils.isNotBlank(groupName))
 			data.setGroupName(groupName);
@@ -1246,9 +1255,13 @@ public class PeakArenaHandler {
 		result.setTime(record.getTime()); // 记录产生的时间
 		result.setChallenge(record.getActionType().sign); // 0=防守，1=挑战
 		result.setRecordId(record.getId()); // 记录的id
-		result.setSuitId(record.getFashionSuitId()); // 时装的套装id
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(record.getEnemyUserId());
+		if(null != usingFashion){
+			result.setFashionUsed(usingFashion);
+		}
 		result.setGender(record.getGender()); // 性别
 		result.setVipLv(record.getVipLv());
+		result.setFighting(record.getFighting());
 		return result.build();
 	}
 

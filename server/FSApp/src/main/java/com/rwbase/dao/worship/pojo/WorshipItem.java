@@ -15,6 +15,8 @@ public class WorshipItem {
 	private boolean canReceive;
 	private WorshipItemData itemData;
 	private int modelId;
+	private int vip;
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -92,5 +94,11 @@ public class WorshipItem {
 	}
 	public void setModelId(int modelId) {
 		this.modelId = modelId;
+	}
+	public int getVip() {
+		return vip;
+	}
+	public void setVip(int vip) {
+		this.vip = vip;
 	}
 }

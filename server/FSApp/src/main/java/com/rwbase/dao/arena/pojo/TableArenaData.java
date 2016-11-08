@@ -25,6 +25,8 @@ public class TableArenaData {
 	private String headImage;
 	private String headbox;
 	private int level;
+	private int sex;
+	private int vip;
 	private String name;
 	private int magicId;
 	private int magicLevel;
@@ -258,4 +260,19 @@ public class TableArenaData {
 		this.atkList = atkList;
 	}
 
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
+	}
 }
