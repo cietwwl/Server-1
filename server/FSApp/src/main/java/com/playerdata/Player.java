@@ -876,10 +876,12 @@ public class Player implements PlayerIF {
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
 
-			SpriteAttachMgr.getInstance().onCarrerChange(this);
-
-			// 改技能Id
+			// 改技能Id：需要先改变技能，后续的战斗力计算会获取最新的技能列表，并且会根据角色的templateId去获取普攻技能id
+			// 因为上面已经把角色的模板id修改了，而其他的通知有可能会通知重新计算战力，计算战力的时候会获取技能列表
+			// 如果这个时候技能列表还是旧的，就会筛选不出普攻，这样计算战力的地方会出现异常，暂时没有筛选普攻的更好方式，所以先保证技能转换放在第一位
 			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
+			// 附灵通知
+			SpriteAttachMgr.getInstance().onCarrerChange(this);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
 			String newQuality = cfg.getQualityId().split("_")[0] + "_" + getMainRoleHero().getQualityId().split("_")[1];
 			getMainRoleHero().getEquipMgr().EquipAdvance(this, this.getMainRoleHero().getUUId(), newQuality, false);
