@@ -396,8 +396,53 @@ public class Robot {
 		return sendSuccess;
 	}
 	
+	/**
+	 * 添加帮派令牌（帮战竞标）
+	 * @param token
+	 * @return
+	 */
 	public boolean addGroupToken(int token) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* group token " + token);
+		return sendSuccess;
+	}
+	
+	/**
+	 * 设置资源点2
+	 * 竞标状态
+	 * @return
+	 */
+	public boolean setGFResBid() {
+		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 2");
+		return sendSuccess;
+	}
+	
+	/**
+	 * 设置资源点2
+	 * 备战状态
+	 * @return
+	 */
+	public boolean setGFResPrepare() {
+		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 3");
+		return sendSuccess;
+	}
+	
+	/**
+	 * 设置资源点2
+	 * 开战状态
+	 * @return
+	 */
+	public boolean setGFResFight() {
+		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 4");
+		return sendSuccess;
+	}
+	
+	/**
+	 * 设置资源点2
+	 * 休战状态
+	 * @return
+	 */
+	public boolean setGFResRest() {
+		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 1");
 		return sendSuccess;
 	}
 
