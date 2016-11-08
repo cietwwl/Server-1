@@ -22,6 +22,17 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("worldBoss/WBCfg.csv", WBCfg.class);
 		return cfgCacheMap;
 	}
+	
+	@Override
+	public void CheckConfig() {
+		for (WBCfg cfg : cfgCacheMap.values()) {
+			cfg.fomatData();
+		}
+	}
+
+	
+	
+	
 
 	public WBCfg getNextCfg(){
 		Calendar currentDay = DateUtils.getCurrent();
@@ -63,7 +74,8 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 		return todayCfgs;	
 		
 	}
-	
+
+
 	
 	
 

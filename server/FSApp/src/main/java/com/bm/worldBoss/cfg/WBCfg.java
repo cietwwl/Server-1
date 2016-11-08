@@ -24,6 +24,11 @@ public class WBCfg {
 	
 	private String killAttackAwardId;//最后一击奖励
 	private String killAttackAward;//最后一击奖励
+	
+	private long preStartTime;
+	private long startTime;
+	private long endTime;
+	private long finishTime;
 
 	public String getId() {
 		return id;
@@ -47,19 +52,19 @@ public class WBCfg {
 	}
 	
 	public long getStartTime(){
-		return getTime(this.startTimeStr);
+		return startTime;
 	}
 
 	public long getEndTime(){
-		return getTime(this.endTimeStr);
+		return endTime;
 	}
 	
 	public long getPreStartTime(){
-		return getTime(this.preStartTimeStr);
+		return preStartTime;
 	}
 	
 	public long getFinishTime(){
-		return getTime(this.finishTimeStr);
+		return finishTime;
 	}
 		
 	
@@ -71,22 +76,7 @@ public class WBCfg {
 		return finishTimeStr;
 	}
 
-	private long getTime(String cfgTime) {
-		
-		String[] split = cfgTime.split(":");
-		int hour = Integer.parseInt(split[0]);
-		int minute = Integer.parseInt(split[1]);
-		
-		Calendar current = DateUtils.getCurrent();
-		current.set(Calendar.HOUR_OF_DAY, hour);
-		current.set(Calendar.MINUTE, minute);
-		current.set(Calendar.SECOND, 0);
-		current.set(Calendar.MILLISECOND, 0);
-		
-		long time = current.getTimeInMillis();
-		
-		return time;
-	}
+	
 
 	public String getKillAttackAwardId() {
 		return killAttackAwardId;
@@ -98,6 +88,30 @@ public class WBCfg {
 	
 	
 	
+	public void fomatData() {
+		this.preStartTime = getTime(preStartTimeStr);
+		this.startTime = getTime(startTimeStr);
+		this.endTime = getTime(endTimeStr);
+		this.finishTime = getTime(finishTimeStr);
+	}
+	
+	private long getTime(String cfgTime) {
+
+		String[] split = cfgTime.split(":");
+		int hour = Integer.parseInt(split[0]);
+		int minute = Integer.parseInt(split[1]);
+
+		Calendar current = DateUtils.getCurrent();
+		current.set(Calendar.HOUR_OF_DAY, hour);
+		current.set(Calendar.MINUTE, minute);
+		current.set(Calendar.SECOND, 0);
+		current.set(Calendar.MILLISECOND, 0);
+
+		long time = current.getTimeInMillis();
+
+		return time;
+	}
+	
 	public static void main(String[] args) {
 //		String tt = "20:30";
 //		WBCfg cfg = new WBCfg();
@@ -106,7 +120,6 @@ public class WBCfg {
 		System.out.println(timeStr);
 		
 	}
-	
-	
+
 	
 }

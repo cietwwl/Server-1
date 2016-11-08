@@ -38,7 +38,7 @@ public class WBAwardServer {
 	
 	public void doAwardTask(){
 		
-		if(!running.get()){
+		if(running.get()){
 			return;
 		}
 		
@@ -65,30 +65,55 @@ public class WBAwardServer {
 	
 	
 	private  void doWBSendAward(){
-		sendKillAttackAward();
+		sendFinalKillAttackAward();
 		sendRankAwards();
+		sendKillBossAward();
 	}
 
-	
+	//发送boss击杀奖励，如果没有击杀boss，则不发送
+	private void sendKillBossAward(){
+		WBData data = WBDataHolder.getInstance().get();
+		boolean killBoss = data.isKilled();
+		if(killBoss){
+			WBExAwardCfg cfg = WBExAwardCfgDAO.getInstance().getCfg(data.getSurvivalCount());
+			if(cfg == null){
+				GameLog.error(LogModule.WorldBoss.getName(), "WBAwardServer[sendKillBossAward]", "Can not find the WBExAwardCfg, the key is:" + data.getSurvivalCount(), null);
+				return;
+			}
+		
+			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList();
+			List<String> args = new ArrayList<String>();
+			int rankIndex = 1;
+			for (WBHurtItem wbHurtItem : rankList) {
+				args.add(String.valueOf(rankIndex) );
+				
+				EmailUtils.sendEmail(wbHurtItem.getUserId(),cfg.getAwardId(),cfg.getAward(),args);
+				rankIndex++;
+				
+				args.clear();
+			}	
+			
+		}
+	}
 	private void sendRankAwards(){
 		
-		WBData wbData = WBDataHolder.getInstance().get();
-		boolean isBossKilled = wbData.isKilled();
+//		WBData wbData = WBDataHolder.getInstance().get();
+//		boolean isBossKilled = wbData.isKilled();
 		List<WBRankAwardCfg> allCfg = WBRankAwardCfgDAO.getInstance().getAllCfg();
 		for (WBRankAwardCfg wbRankAwardCfg : allCfg) {
 			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, wbRankAwardCfgId: " + wbRankAwardCfg.getId());
 			
 			String awardId = wbRankAwardCfg.getAwardId();
 			String award = wbRankAwardCfg.getAward();
-			int survivalCount = wbData.getSurvivalCount();
-			if(isBossKilled && survivalCount > 0){
-				WBExAwardCfg exAwardCfg = WBExAwardCfgDAO.getInstance().getCfgById(String.valueOf(survivalCount));
-				if(exAwardCfg!=null){
-					String exAward = exAwardCfg.getAward();
-					awardId = exAwardCfg.getAwardId();
-					award = StringUtils.join(new String[]{award,exAward});
-				}
-			}		
+//			int survivalCount = wbData.getSurvivalCount();
+//			if(isBossKilled && survivalCount > 0){
+//				WBExAwardCfg exAwardCfg = WBExAwardCfgDAO.getInstance().getCfgById(String.valueOf(survivalCount));
+//				if(exAwardCfg!=null){
+//					String exAward = exAwardCfg.getAward();
+//					awardId = exAwardCfg.getAwardId();
+//					award = StringUtils.join(new String[]{award,exAward});
+//				}
+//			}		
 			
 			
 			int offset = wbRankAwardCfg.getOffset();
@@ -96,7 +121,7 @@ public class WBAwardServer {
 			
 			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, offset: " + offset+" size:"+size);
 			
-			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList(offset, size);
+			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList(offset, offset + size -1);
 			List<String> args = new ArrayList<String>();
 			int rankIndex = offset;
 			for (WBHurtItem wbHurtItem : rankList) {
@@ -113,18 +138,21 @@ public class WBAwardServer {
 		
 	}
 	
-	private void sendKillAttackAward(){
+	/**
+	 * 给最后一击的角色发奖励
+	 */
+	private void sendFinalKillAttackAward(){
 		
 		WBData wbData = WBDataHolder.getInstance().get();
 		LastFightInfo lastFightInfo = wbData.getLastFightInfo();
-		if(lastFightInfo!=null){
+		if (lastFightInfo != null) {
 			String wbcfgId = wbData.getWbcfgId();
 			WBCfg wbCfg = WBCfgDAO.getInstance().getCfgById(wbcfgId);
 			String killAttackAwardId = wbCfg.getKillAttackAwardId();
 			String awardContent = wbCfg.getKillAttackAward();
 			String userId = lastFightInfo.getUserId();
-			EmailUtils.sendEmail(userId, killAttackAwardId,awardContent);
-		}		
+			EmailUtils.sendEmail(userId, killAttackAwardId, awardContent);
+		}
 		
 	}
 
