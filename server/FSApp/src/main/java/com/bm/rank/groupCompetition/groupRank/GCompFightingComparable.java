@@ -1,5 +1,8 @@
 package com.bm.rank.groupCompetition.groupRank;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GCompFightingComparable implements Comparable<GCompFightingComparable> {
 	private long groupFight; // 帮派战力
 	private int groupLevel; // 帮派等级
@@ -45,5 +48,5 @@ public class GCompFightingComparable implements Comparable<GCompFightingComparab
 		}
 		return 0;
 	}
-	
+
 }
