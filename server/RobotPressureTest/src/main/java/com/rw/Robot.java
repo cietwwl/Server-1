@@ -395,6 +395,11 @@ public class Robot {
 		boolean sendSuccess = GmHandler.instance().send(client, "* additem " + id + " " + 999);
 		return sendSuccess;
 	}
+	
+	public boolean addGroupToken(int token) {
+		boolean sendSuccess = GmHandler.instance().send(client, "* group token " + token);
+		return sendSuccess;
+	}
 
 	public boolean getFinishTaskReward() {
 		return TaskHandler.instance().getReward(client);
