@@ -50,6 +50,6 @@ public class MonsterCombinationCfg extends BaseConfig {
  	
  	@Override
  	public void ExtraInitAfterLoad() {
- 		this.list_reward = GFightHelper.stringToItemList(reward, ";");
+ 		this.list_reward = GFightHelper.stringToItemList(reward, "_", ";");
  	}
 }
