@@ -16,6 +16,7 @@ import com.bm.group.GroupMemberMgr;
 import com.bm.rank.RankType;
 import com.bm.rank.group.GroupSimpleExtAttribute;
 import com.bm.rank.group.base.GroupBaseRankExtAttribute;
+import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -59,6 +60,7 @@ import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
+import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.GroupCommonProto;
 import com.rwproto.GroupCommonProto.GroupFunction;
 import com.rwproto.GroupCommonProto.GroupLogType;
@@ -455,6 +457,7 @@ public class GroupPersonalHandler {
 			GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
 			// 帮派争霸
 			GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
+			GameWorldFactory.getGameWorld().executeAccountTask(applyGroupId, new GroupFightingRefreshTask(applyGroupId));
 		}
 
 		commonRsp.setIsSuccess(true);
