@@ -20,15 +20,15 @@ import com.rwproto.ResponseProtos.Response;
 
 public class GroupCompetitionQuizHandler implements RandomMethodIF{
 
-	public static final int[] quizCountArr = {100000, 200000, 500000};
-	
+	public static final int[] quizCountArr = { 100000, 200000, 500000 };
+
 	private static GroupCompetitionQuizHandler handler = new GroupCompetitionQuizHandler();
 
 	public static GroupCompetitionQuizHandler getHandler() {
 		return handler;
 	}
-	
-	public boolean groupCompQuiz(Client client){
+
+	public boolean groupCompQuiz(Client client) {
 		boolean result = getCanQuizMatch(client);
 		if (!result) {
 			RobotLog.fail("groupCompQuiz[send]争霸赛获取可竞猜的项目失败=" + result);
@@ -36,9 +36,10 @@ public class GroupCompetitionQuizHandler implements RandomMethodIF{
 		}
 		return quizForCompetion(client);
 	}
-	
+
 	/**
 	 * 获取当前的可竞猜项目
+	 * 
 	 * @param player
 	 * @param gcRsp
 	 */
@@ -63,7 +64,7 @@ public class GroupCompetitionQuizHandler implements RandomMethodIF{
 					GCResultType result = rsp.getRstType();
 					if (!result.equals(GCResultType.SUCCESS)) {
 						RobotLog.info("GroupCompetitionHandler[send] getCanQuizMatch服务器返回不成功 ");
-						return false;
+						return true;
 					}
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("GroupCompetitionHandler[send] getCanQuizMatch失败", e);
@@ -74,15 +75,15 @@ public class GroupCompetitionQuizHandler implements RandomMethodIF{
 		});
 		return success;
 	}
-	
-	private boolean quizForCompetion(Client client){
+
+	private boolean quizForCompetion(Client client) {
 		GCQuizEventItem canQuizItem = client.getQuizEventItemHolder().getCanQuizItem();
-		if(null == canQuizItem){
+		if (null == canQuizItem) {
 			return true;
 		}
 		Random rd = new Random();
 		String quizGroupId = canQuizItem.getGroupA().getGroupId();
-		if(1 == rd.nextInt(2)){
+		if (1 == rd.nextInt(2)) {
 			quizGroupId = canQuizItem.getGroupB().getGroupId();
 		}
 		ReqNewGuess.Builder req = ReqNewGuess.newBuilder();

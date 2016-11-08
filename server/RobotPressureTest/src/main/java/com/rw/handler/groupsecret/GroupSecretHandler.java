@@ -13,6 +13,7 @@ import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
 import com.rw.handler.chat.attach.AttachItemFactory;
+import com.rw.handler.group.holder.GroupBaseDataHolder;
 import com.rw.handler.group.holder.GroupNormalMemberHolder;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rwproto.BattleCommon.BattleHeroPosition;
@@ -46,87 +47,107 @@ public class GroupSecretHandler implements RandomMethodIF{
 	 * @param client
 	 */
 	public boolean createGroupSecret(Client client) {
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.CREATE_GROUP_SECRET);
 		CreateGroupSecretReqMsg.Builder msg = CreateGroupSecretReqMsg.newBuilder();
 		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
 		msg.setSecretCfgId(3);
-		setMainPos(defendSecretIdList,msg);
+		setMainPos(defendSecretIdList, msg);
 		UserHerosDataHolder userHerosDataHolder = client.getUserHerosDataHolder();
 
 		List<String> heroIds = new ArrayList<String>(userHerosDataHolder.getTableUserHero().getHeroIds());
 		GroupSecretTeamDataHolder groupSecretTeamDataHolder = client.getGroupSecretTeamDataHolder();
 		GroupSecretTeamData data = groupSecretTeamDataHolder.getData();
-		List<String> defendHeroList = data.getDefendHeroList();
-		if (defendHeroList == null) {
-			defendHeroList = new ArrayList<String>();
-		}
+		List<String> defendHeroList = data != null ? data.getDefendHeroList() : new ArrayList<String>(0);
+
 		List<String> heroPosList = new ArrayList<String>();
-		int fightHeroNum = 1;//一个坑上雇佣兵数量
+		int fightHeroNum = 1;// 一个坑上雇佣兵数量
 		boolean isOk = false;
-		for (int i = 0; i < fightHeroNum; i++) {
-			for (Iterator iterator = heroIds.iterator(); iterator.hasNext();) {
-				String heroId = (String) iterator.next();
-				if (heroId.equals(client.getUserId())) {
-					continue;
-				}				
-				if (defendHeroList.contains(heroId)) {
-					continue;
-				}
-				BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
-				pos.setHeroId(heroId);
-				pos.setPos(i);
-				msg.addTeamHeroId(pos);
-				defendHeroList.add(heroId);
-				isOk = true;
+		// for (int i = 0; i < fightHeroNum; i++) {
+		int i = 0;
+		String userId = client.getUserId();
+		for (Iterator<String> iterator = heroIds.iterator(); iterator.hasNext();) {
+			String heroId = iterator.next();
+			if (heroId.equals(userId)) {
+				continue;
+			}
+
+			if (defendHeroList.contains(heroId)) {
+				continue;
+			}
+
+			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
+			pos.setHeroId(heroId);
+			pos.setPos(++i);
+			msg.addTeamHeroId(pos);
+			defendHeroList.add(heroId);
+			isOk = true;
+
+			// 人数已经足够了
+			if (i >= fightHeroNum) {
 				break;
-			}			
+			}
 		}
-		if(!isOk){
+		// }
+
+		if (!isOk) {
 			int sercetNum = 0;
-			if(defendSecretIdList != null){
+			if (defendSecretIdList != null) {
 				sercetNum = defendSecretIdList.size();
 			}
-			RobotLog.fail("创建秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + defendHeroList.size()  + "     当前秘境数 = " + sercetNum);
-//			return true;
+			RobotLog.fail("创建秘境只有一个英雄，没有多余的雇佣兵；当前所有英雄加雇佣兵个数是 =" + defendHeroList.size() + "     当前秘境数 = " + sercetNum);
 		}
-		if (!heroPosList.contains(client.getUserId())) {
+
+		if (!heroPosList.contains(userId)) {
 			BattleHeroPosition.Builder pos = BattleHeroPosition.newBuilder();
-			pos.setHeroId(client.getUserId());
-			pos.setPos(fightHeroNum);
+			pos.setHeroId(userId);
+			pos.setPos(0);
 			msg.addTeamHeroId(pos);
-			heroPosList.add(client.getUserId());
+			heroPosList.add(userId);
 		}
 		req.setCreateReqMsg(msg);
 		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "创建秘境"));
 	}
 
-	private void setMainPos(List<SecretBaseInfoSynData> defendSecretIdList,
-			Builder msg) {
-		if(defendSecretIdList == null){
+	private void setMainPos(List<SecretBaseInfoSynData> defendSecretIdList, Builder msg) {
+		if (defendSecretIdList == null) {
 			return;
 		}
-		if(defendSecretIdList.size() == 0){
+		if (defendSecretIdList.size() == 0) {
 			msg.setMainPos(0);
 			return;
 		}
-		for(int i = 0;i < 5;i++){
+		for (int i = 0; i < 5; i++) {
 			boolean isThis = true;
-			for(SecretBaseInfoSynData data: defendSecretIdList){
-				if(data.getMainPos() == i){
+			for (SecretBaseInfoSynData data : defendSecretIdList) {
+				if (data.getMainPos() == i) {
 					isThis = false;
 					continue;
 				}
 			}
-			if(isThis){
+			if (isThis) {
 				msg.setMainPos(i);
 				return;
 			}
-		}		
+		}
 	}
 
 	public boolean inviteMemberDefend(Client client) {
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.INVITE_MEMBER_DEFEND);
 		GroupNormalMemberHolder normalMemberHolder = client.getNormalMemberHolder();
@@ -149,6 +170,13 @@ public class GroupSecretHandler implements RandomMethodIF{
 	}
 
 	public boolean acceptMemberDefend(Client client) {
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return true;
+		}
+
 		List<ChatMessageData> list = client.getChatData().getMsgList(eChatType.CHAT_TREASURE);
 		if (list == null || list.isEmpty()) {
 			RobotLog.fail("当前没有秘境邀请，接受失败");
@@ -202,18 +230,25 @@ public class GroupSecretHandler implements RandomMethodIF{
 	}
 
 	public void getGroupSecretReward(Client client) {
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return;
+		}
 
 		GroupSecretBaseInfoSynDataHolder groupSecretBaseInfoSynDataHolder = client.getGroupSecretBaseInfoSynDataHolder();
 		List<SecretBaseInfoSynData> defendSecretIdList = groupSecretBaseInfoSynDataHolder.getDefanceList();
 		if (defendSecretIdList == null) {
 			return;
 		}
+
 		for (int i = 0; i < defendSecretIdList.size(); i++) {
 			if (!defendSecretIdList.get(i).isFinish()) {
 				continue;
 			}
-			if(defendSecretIdList.get(i).getMainPos() == 0){
-				continue;//掠夺的数据，不在此处发送
+			if (defendSecretIdList.get(i).getMainPos() == 0) {
+				continue;// 掠夺的数据，不在此处发送
 			}
 			GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 			req.setReqType(RequestType.GET_GROUP_SECRET_REWARD);
@@ -221,15 +256,20 @@ public class GroupSecretHandler implements RandomMethodIF{
 			msg.setId(defendSecretIdList.get(i).getId());
 			req.setGetRewardReqMsg(msg);
 			client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "普通奖励"));
-
 		}
 	}
 
 	public void openMainView(Client client) {
+		GroupBaseDataHolder groupBaseDataHolder = client.getGroupBaseDataHolder();
+		String groupId = groupBaseDataHolder.getGroupId();
+		if (groupId == null || groupId.isEmpty()) {
+			RobotLog.fail("机器人没有对应的帮派信息");
+			return;
+		}
+
 		GroupSecretCommonReqMsg.Builder req = GroupSecretCommonReqMsg.newBuilder();
 		req.setReqType(RequestType.OPEN_MAIN_VIEW);
 		client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET, req.build().toByteString(), new GroupSecretReceier(command, functionName, "打开界面"));
-
 	}
 
 	@Override

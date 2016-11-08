@@ -27,6 +27,8 @@ public class PeakArenaHandler implements RandomMethodIF{
 	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
 	private static ConcurrentHashMap<String, String> enemyMap = new ConcurrentHashMap<String, String>();
 	
+	private static ConcurrentHashMap<String, String> enemyMap = new ConcurrentHashMap<String, String>();
+	
 	private static PeakArenaHandler handler = new PeakArenaHandler();
 	public static PeakArenaHandler getHandler() {
 		return handler;
