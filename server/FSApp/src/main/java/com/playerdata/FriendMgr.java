@@ -656,7 +656,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.resultMsg = "今日可领取体力已达上限";
 			resultVo.resultType = EFriendResultType.FAIL;
 		} else if (count == 0) {
-			if (resultVo.resultMsg != null) {
+			if (resultVo.resultMsg == null || resultVo.resultType == null) {
 				resultVo.resultMsg = "没有可领取体力";
 				resultVo.resultType = EFriendResultType.FAIL;
 			}
