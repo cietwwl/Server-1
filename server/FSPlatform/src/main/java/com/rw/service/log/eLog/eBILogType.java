@@ -42,4 +42,11 @@ public enum eBILogType {
 		}
 		return null;
 	}
+	
+	public static  eBILogType[] getAllValue(){
+		if(allValue == null){
+			allValue = eBILogType.values();
+		}
+		return allValue;
+	}
 }
