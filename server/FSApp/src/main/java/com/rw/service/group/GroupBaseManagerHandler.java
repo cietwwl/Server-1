@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
+import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
@@ -179,6 +180,7 @@ public class GroupBaseManagerHandler {
 
 		commonRsp.setIsSuccess(true);
 		commonRsp.setCreateGroupRsp(rsp);
+		GameWorldFactory.getGameWorld().executeAccountTask(newGroupId, new GroupFightingRefreshTask(newGroupId));
 		return commonRsp.build().toByteString();
 	}
 

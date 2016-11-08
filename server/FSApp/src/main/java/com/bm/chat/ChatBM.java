@@ -18,9 +18,11 @@ import org.springframework.util.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
+import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.pojo.ChatAttachmentSaveData;
@@ -34,6 +36,7 @@ import com.rwproto.ChatServiceProtos.MessageUserInfo;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 
@@ -686,6 +689,7 @@ public class ChatBM {
 			String userId = info.getUserId();
 			if (!StringUtils.isEmpty(userId)) {
 				userInfo.setUserId(userId);
+				userInfo.setFighting(info.getFighting());
 			}
 
 			String userName = info.getUserName();
@@ -710,9 +714,12 @@ public class ChatBM {
 			if (info.getFashionTemplateId() > 0) {
 				userInfo.setFashionTemplateId(info.getFashionTemplateId());
 			}
+			FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
+			if(null != usingFashion){
+				userInfo.setFashionUsed(usingFashion);
+			}
 			return userInfo.build();
 		}
-
 		return null;
 	}
 
@@ -841,6 +848,8 @@ public class ChatBM {
 			// 設置時裝模板id
 			userInfo.setFashionTemplateId(info.getFashionTemplateId());
 		}
+		
+		userInfo.setFighting(FSHeroMgr.getInstance().getFightingTeam(info.getUserId()));
 
 		return userInfo;
 	}

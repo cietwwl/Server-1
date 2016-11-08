@@ -5224,6 +5224,60 @@ public final class PeakArenaServiceProtos {
      */
     com.google.protobuf.ByteString
         getHeadFrameBytes();
+
+    // optional .FashionService.FashionUsed fashionUsed = 26;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    boolean hasFashionUsed();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder();
+
+    // optional int32 vip = 27;
+    /**
+     * <code>optional int32 vip = 27;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    boolean hasVip();
+    /**
+     * <code>optional int32 vip = 27;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    int getVip();
+
+    // optional int32 sex = 28;
+    /**
+     * <code>optional int32 sex = 28;</code>
+     */
+    boolean hasSex();
+    /**
+     * <code>optional int32 sex = 28;</code>
+     */
+    int getSex();
   }
   /**
    * Protobuf type {@code ArenaData}
@@ -5355,6 +5409,29 @@ public final class PeakArenaServiceProtos {
             case 202: {
               bitField0_ |= 0x00001000;
               headFrame_ = input.readBytes();
+              break;
+            }
+            case 210: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00002000) == 0x00002000)) {
+                subBuilder = fashionUsed_.toBuilder();
+              }
+              fashionUsed_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionUsed_);
+                fashionUsed_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00002000;
+              break;
+            }
+            case 216: {
+              bitField0_ |= 0x00004000;
+              vip_ = input.readInt32();
+              break;
+            }
+            case 224: {
+              bitField0_ |= 0x00008000;
+              sex_ = input.readInt32();
               break;
             }
           }
@@ -5940,6 +6017,80 @@ public final class PeakArenaServiceProtos {
       }
     }
 
+    // optional .FashionService.FashionUsed fashionUsed = 26;
+    public static final int FASHIONUSED_FIELD_NUMBER = 26;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public boolean hasFashionUsed() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+      return fashionUsed_;
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+      return fashionUsed_;
+    }
+
+    // optional int32 vip = 27;
+    public static final int VIP_FIELD_NUMBER = 27;
+    private int vip_;
+    /**
+     * <code>optional int32 vip = 27;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    public boolean hasVip() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional int32 vip = 27;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    public int getVip() {
+      return vip_;
+    }
+
+    // optional int32 sex = 28;
+    public static final int SEX_FIELD_NUMBER = 28;
+    private int sex_;
+    /**
+     * <code>optional int32 sex = 28;</code>
+     */
+    public boolean hasSex() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    /**
+     * <code>optional int32 sex = 28;</code>
+     */
+    public int getSex() {
+      return sex_;
+    }
+
     private void initFields() {
       userId_ = "";
       place_ = 0;
@@ -5956,6 +6107,9 @@ public final class PeakArenaServiceProtos {
       groupName_ = "";
       armyInfo_ = "";
       headFrame_ = "";
+      fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      vip_ = 0;
+      sex_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6023,6 +6177,15 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeBytes(25, getHeadFrameBytes());
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeMessage(26, fashionUsed_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(27, vip_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeInt32(28, sex_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -6092,6 +6255,18 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(25, getHeadFrameBytes());
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(26, fashionUsed_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(27, vip_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(28, sex_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6203,6 +6378,7 @@ public final class PeakArenaServiceProtos {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getRoleSkillFieldBuilder();
           getTeamsFieldBuilder();
+          getFashionUsedFieldBuilder();
         }
       }
       private static Builder create() {
@@ -6249,6 +6425,16 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00002000);
         headFrame_ = "";
         bitField0_ = (bitField0_ & ~0x00004000);
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          fashionUsedBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00008000);
+        vip_ = 0;
+        bitField0_ = (bitField0_ & ~0x00010000);
+        sex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00020000);
         return this;
       }
 
@@ -6347,6 +6533,22 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00001000;
         }
         result.headFrame_ = headFrame_;
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        if (fashionUsedBuilder_ == null) {
+          result.fashionUsed_ = fashionUsed_;
+        } else {
+          result.fashionUsed_ = fashionUsedBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.vip_ = vip_;
+        if (((from_bitField0_ & 0x00020000) == 0x00020000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        result.sex_ = sex_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6467,6 +6669,15 @@ public final class PeakArenaServiceProtos {
           bitField0_ |= 0x00004000;
           headFrame_ = other.headFrame_;
           onChanged();
+        }
+        if (other.hasFashionUsed()) {
+          mergeFashionUsed(other.getFashionUsed());
+        }
+        if (other.hasVip()) {
+          setVip(other.getVip());
+        }
+        if (other.hasSex()) {
+          setSex(other.getSex());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7833,6 +8044,241 @@ public final class PeakArenaServiceProtos {
   }
   bitField0_ |= 0x00004000;
         headFrame_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional .FashionService.FashionUsed fashionUsed = 26;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsedBuilder_;
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public boolean hasFashionUsed() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          return fashionUsed_;
+        } else {
+          return fashionUsedBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionUsed_ = value;
+          onChanged();
+        } else {
+          fashionUsedBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00008000;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsed(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionUsedBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00008000;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder mergeFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
+          if (((bitField0_ & 0x00008000) == 0x00008000) &&
+              fashionUsed_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsed_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsed_).mergeFrom(value).buildPartial();
+          } else {
+            fashionUsed_ = value;
+          }
+          onChanged();
+        } else {
+          fashionUsedBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00008000;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder clearFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionUsedBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00008000);
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsedBuilder() {
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return getFashionUsedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+        if (fashionUsedBuilder_ != null) {
+          return fashionUsedBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionUsed_;
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 26;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getFashionUsedFieldBuilder() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  fashionUsed_,
+                  getParentForChildren(),
+                  isClean());
+          fashionUsed_ = null;
+        }
+        return fashionUsedBuilder_;
+      }
+
+      // optional int32 vip = 27;
+      private int vip_ ;
+      /**
+       * <code>optional int32 vip = 27;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public boolean hasVip() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional int32 vip = 27;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public int getVip() {
+        return vip_;
+      }
+      /**
+       * <code>optional int32 vip = 27;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public Builder setVip(int value) {
+        bitField0_ |= 0x00010000;
+        vip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 vip = 27;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public Builder clearVip() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        vip_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 sex = 28;
+      private int sex_ ;
+      /**
+       * <code>optional int32 sex = 28;</code>
+       */
+      public boolean hasSex() {
+        return ((bitField0_ & 0x00020000) == 0x00020000);
+      }
+      /**
+       * <code>optional int32 sex = 28;</code>
+       */
+      public int getSex() {
+        return sex_;
+      }
+      /**
+       * <code>optional int32 sex = 28;</code>
+       */
+      public Builder setSex(int value) {
+        bitField0_ |= 0x00020000;
+        sex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 sex = 28;</code>
+       */
+      public Builder clearSex() {
+        bitField0_ = (bitField0_ & ~0x00020000);
+        sex_ = 0;
         onChanged();
         return this;
       }
@@ -10114,23 +10560,31 @@ public final class PeakArenaServiceProtos {
      */
     int getRecordId();
 
-    // optional fixed32 suitId = 10;
+    // optional .FashionService.FashionUsed fashionUsed = 10;
     /**
-     * <code>optional fixed32 suitId = 10;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
      *
      * <pre>
      * 时装的套装id
      * </pre>
      */
-    boolean hasSuitId();
+    boolean hasFashionUsed();
     /**
-     * <code>optional fixed32 suitId = 10;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
      *
      * <pre>
      * 时装的套装id
      * </pre>
      */
-    int getSuitId();
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder();
 
     // optional fixed32 gender = 11;
     /**
@@ -10167,6 +10621,16 @@ public final class PeakArenaServiceProtos {
      * </pre>
      */
     int getVipLv();
+
+    // optional int32 fighting = 13;
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    boolean hasFighting();
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    int getFighting();
   }
   /**
    * Protobuf type {@code ArenaRecord}
@@ -10264,9 +10728,17 @@ public final class PeakArenaServiceProtos {
               recordId_ = input.readFixed32();
               break;
             }
-            case 85: {
+            case 82: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000200) == 0x00000200)) {
+                subBuilder = fashionUsed_.toBuilder();
+              }
+              fashionUsed_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionUsed_);
+                fashionUsed_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000200;
-              suitId_ = input.readFixed32();
               break;
             }
             case 93: {
@@ -10277,6 +10749,11 @@ public final class PeakArenaServiceProtos {
             case 101: {
               bitField0_ |= 0x00000800;
               vipLv_ = input.readFixed32();
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00001000;
+              fighting_ = input.readInt32();
               break;
             }
           }
@@ -10628,28 +11105,38 @@ public final class PeakArenaServiceProtos {
       return recordId_;
     }
 
-    // optional fixed32 suitId = 10;
-    public static final int SUITID_FIELD_NUMBER = 10;
-    private int suitId_;
+    // optional .FashionService.FashionUsed fashionUsed = 10;
+    public static final int FASHIONUSED_FIELD_NUMBER = 10;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_;
     /**
-     * <code>optional fixed32 suitId = 10;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
      *
      * <pre>
      * 时装的套装id
      * </pre>
      */
-    public boolean hasSuitId() {
+    public boolean hasFashionUsed() {
       return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
-     * <code>optional fixed32 suitId = 10;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
      *
      * <pre>
      * 时装的套装id
      * </pre>
      */
-    public int getSuitId() {
-      return suitId_;
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+      return fashionUsed_;
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+     *
+     * <pre>
+     * 时装的套装id
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+      return fashionUsed_;
     }
 
     // optional fixed32 gender = 11;
@@ -10700,6 +11187,22 @@ public final class PeakArenaServiceProtos {
       return vipLv_;
     }
 
+    // optional int32 fighting = 13;
+    public static final int FIGHTING_FIELD_NUMBER = 13;
+    private int fighting_;
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    public boolean hasFighting() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    public int getFighting() {
+      return fighting_;
+    }
+
     private void initFields() {
       userId_ = "";
       win_ = false;
@@ -10710,9 +11213,10 @@ public final class PeakArenaServiceProtos {
       time_ = 0L;
       challenge_ = 0;
       recordId_ = 0;
-      suitId_ = 0;
+      fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       gender_ = 0;
       vipLv_ = 0;
+      fighting_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -10762,13 +11266,16 @@ public final class PeakArenaServiceProtos {
         output.writeFixed32(9, recordId_);
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
-        output.writeFixed32(10, suitId_);
+        output.writeMessage(10, fashionUsed_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeFixed32(11, gender_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeFixed32(12, vipLv_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(13, fighting_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -10817,7 +11324,7 @@ public final class PeakArenaServiceProtos {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeFixed32Size(10, suitId_);
+          .computeMessageSize(10, fashionUsed_);
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
@@ -10826,6 +11333,10 @@ public final class PeakArenaServiceProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeFixed32Size(12, vipLv_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, fighting_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -10935,6 +11446,7 @@ public final class PeakArenaServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFashionUsedFieldBuilder();
         }
       }
       private static Builder create() {
@@ -10961,12 +11473,18 @@ public final class PeakArenaServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000080);
         recordId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000100);
-        suitId_ = 0;
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          fashionUsedBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000200);
         gender_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
         vipLv_ = 0;
         bitField0_ = (bitField0_ & ~0x00000800);
+        fighting_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -11034,7 +11552,11 @@ public final class PeakArenaServiceProtos {
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000200;
         }
-        result.suitId_ = suitId_;
+        if (fashionUsedBuilder_ == null) {
+          result.fashionUsed_ = fashionUsed_;
+        } else {
+          result.fashionUsed_ = fashionUsedBuilder_.build();
+        }
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000400;
         }
@@ -11043,6 +11565,10 @@ public final class PeakArenaServiceProtos {
           to_bitField0_ |= 0x00000800;
         }
         result.vipLv_ = vipLv_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.fighting_ = fighting_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -11092,14 +11618,17 @@ public final class PeakArenaServiceProtos {
         if (other.hasRecordId()) {
           setRecordId(other.getRecordId());
         }
-        if (other.hasSuitId()) {
-          setSuitId(other.getSuitId());
+        if (other.hasFashionUsed()) {
+          mergeFashionUsed(other.getFashionUsed());
         }
         if (other.hasGender()) {
           setGender(other.getGender());
         }
         if (other.hasVipLv()) {
           setVipLv(other.getVipLv());
+        }
+        if (other.hasFighting()) {
+          setFighting(other.getFighting());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -11724,53 +12253,157 @@ public final class PeakArenaServiceProtos {
         return this;
       }
 
-      // optional fixed32 suitId = 10;
-      private int suitId_ ;
+      // optional .FashionService.FashionUsed fashionUsed = 10;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsedBuilder_;
       /**
-       * <code>optional fixed32 suitId = 10;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
        *
        * <pre>
        * 时装的套装id
        * </pre>
        */
-      public boolean hasSuitId() {
+      public boolean hasFashionUsed() {
         return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
-       * <code>optional fixed32 suitId = 10;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
        *
        * <pre>
        * 时装的套装id
        * </pre>
        */
-      public int getSuitId() {
-        return suitId_;
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          return fashionUsed_;
+        } else {
+          return fashionUsedBuilder_.getMessage();
+        }
       }
       /**
-       * <code>optional fixed32 suitId = 10;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
        *
        * <pre>
        * 时装的套装id
        * </pre>
        */
-      public Builder setSuitId(int value) {
+      public Builder setFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionUsed_ = value;
+          onChanged();
+        } else {
+          fashionUsedBuilder_.setMessage(value);
+        }
         bitField0_ |= 0x00000200;
-        suitId_ = value;
-        onChanged();
         return this;
       }
       /**
-       * <code>optional fixed32 suitId = 10;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
        *
        * <pre>
        * 时装的套装id
        * </pre>
        */
-      public Builder clearSuitId() {
-        bitField0_ = (bitField0_ & ~0x00000200);
-        suitId_ = 0;
-        onChanged();
+      public Builder setFashionUsed(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionUsedBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000200;
         return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public Builder mergeFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
+          if (((bitField0_ & 0x00000200) == 0x00000200) &&
+              fashionUsed_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsed_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsed_).mergeFrom(value).buildPartial();
+          } else {
+            fashionUsed_ = value;
+          }
+          onChanged();
+        } else {
+          fashionUsedBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000200;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public Builder clearFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionUsedBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000200);
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsedBuilder() {
+        bitField0_ |= 0x00000200;
+        onChanged();
+        return getFashionUsedFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+        if (fashionUsedBuilder_ != null) {
+          return fashionUsedBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionUsed_;
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsed = 10;</code>
+       *
+       * <pre>
+       * 时装的套装id
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getFashionUsedFieldBuilder() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  fashionUsed_,
+                  getParentForChildren(),
+                  isClean());
+          fashionUsed_ = null;
+        }
+        return fashionUsedBuilder_;
       }
 
       // optional fixed32 gender = 11;
@@ -11867,6 +12500,39 @@ public final class PeakArenaServiceProtos {
       public Builder clearVipLv() {
         bitField0_ = (bitField0_ & ~0x00000800);
         vipLv_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 fighting = 13;
+      private int fighting_ ;
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public boolean hasFighting() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public int getFighting() {
+        return fighting_;
+      }
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public Builder setFighting(int value) {
+        bitField0_ |= 0x00001000;
+        fighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public Builder clearFighting() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        fighting_ = 0;
         onChanged();
         return this;
       }
@@ -24027,7 +24693,7 @@ public final class PeakArenaServiceProtos {
       "l\030\005 \001(\005\022\031\n\006player\030\006 \001(\0132\t.HeroData\022\020\n\010ar" +
       "myInfo\030\007 \001(\t\022\031\n\021enemyMagicModelId\030\010 \001(\005\022" +
       "7\n\rheroPositions\030\t \003(\0132 .BattleCommon.Ba" +
-      "ttleHeroPosition\"\265\002\n\tArenaData\022\016\n\006userId" +
+      "ttleHeroPosition\"\201\003\n\tArenaData\022\016\n\006userId" +
       "\030\001 \002(\t\022\r\n\005place\030\005 \001(\005\022\020\n\010maxPlace\030\006 \001(\005\022" +
       "\020\n\010winCount\030\010 \001(\005\022\016\n\006career\030\013 \001(\005\022\014\n\004nam" +
       "e\030\014 \001(\t\022\r\n\005level\030\r \001(\005\022\021\n\theadImage\030\016 \001(" +
@@ -24035,64 +24701,67 @@ public final class PeakArenaServiceProtos {
       "-\n\troleSkill\030\021 \003(\0132\032.SkillService.TagSki" +
       "llData\022\030\n\005teams\030\023 \003(\0132\t.TeamInfo\022\021\n\tgrou",
       "pName\030\027 \001(\t\022\020\n\010armyInfo\030\030 \001(\t\022\021\n\theadFra" +
-      "me\030\031 \001(\t\"\207\002\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r" +
-      "\n\005place\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level" +
-      "\030\006 \001(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022" +
-      "\020\n\010fighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\t" +
-      "qualityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadF" +
-      "rame\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.Fashi" +
-      "onService.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\315\001\n\013A" +
-      "renaRecord\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022" +
-      "\017\n\007placeUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadIm",
-      "age\030\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021" +
-      "\n\tchallenge\030\010 \001(\005\022\020\n\010recordId\030\t \002(\007\022\016\n\006s" +
-      "uitId\030\n \001(\007\022\016\n\006gender\030\013 \001(\007\022\r\n\005vipLv\030\014 \001" +
-      "(\007\"y\n\021PeakArenaHeroData\022\016\n\006heroId\030\001 \002(\t\022" +
-      "\021\n\theadImage\030\002 \002(\t\022\r\n\005level\030\003 \002(\007\022\016\n\006sta" +
-      "rLv\030\004 \002(\007\022\021\n\tqualityId\030\005 \002(\t\022\017\n\007modelId\030" +
-      "\006 \001(\007\"4\n\022PeakArenaMagicData\022\017\n\007modelId\030\001" +
-      " \002(\007\022\r\n\005level\030\002 \002(\007\"o\n\021PeakArenaUserData" +
-      "\022\014\n\004name\030\001 \002(\t\022$\n\010heroData\030\002 \003(\0132\022.PeakA" +
-      "renaHeroData\022&\n\tmagicData\030\003 \002(\0132\023.PeakAr",
-      "enaMagicData\"e\n\025PeakArenaDetailRecord\022&\n" +
-      "\nchallenger\030\001 \002(\0132\022.PeakArenaUserData\022$\n" +
-      "\010defender\030\002 \002(\0132\022.PeakArenaUserData\"\361\001\n\017" +
-      "MsgArenaRequest\022\036\n\tarenaType\030\001 \002(\0162\013.eAr" +
-      "enaType\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams\030\003 \003(\0132\t" +
-      ".TeamInfo\022\031\n\005enemy\030\004 \001(\0132\n.ArenaInfo\022\013\n\003" +
-      "win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\022\037\n\nhurtRecord" +
-      "\030\007 \003(\0132\013.HurtRecord\022\020\n\010recordId\030\010 \001(\007\022\021\n" +
-      "\thurtIndex\030\t \001(\007\022\025\n\rscoreRewardId\030\n \001(\007\"" +
-      "\222\004\n\020MsgArenaResponse\022\036\n\tarenaType\030\001 \002(\0162",
-      "\013.eArenaType\022*\n\017arenaResultType\030\002 \001(\0162\021." +
-      "eArenaResultType\022\035\n\tarenaData\030\003 \001(\0132\n.Ar" +
-      "enaData\022\034\n\010listInfo\030\004 \003(\0132\n.ArenaInfo\022 \n" +
-      "\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022\r\n\005place" +
-      "\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021maxChalleng" +
-      "eCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026\n\016curren" +
-      "tBuyCost\030\n \001(\005\022\026\n\016challengeCount\030\013 \001(\005\022\016" +
-      "\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyPerHour\030\r " +
-      "\001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007placeUp\030\017 \001(\005\022" +
-      "0\n\020challengeRecords\030\020 \003(\0132\026.PeakArenaDet",
-      "ailRecord\022\037\n\nhurtDetail\030\021 \001(\0132\013.HurtReco" +
-      "rd\022\032\n\022alreadyGetRewardId\030\022 \003(\007\022\024\n\014curren" +
-      "tScore\030\023 \001(\007\"a\n\nHurtRecord\022\016\n\006teamId\030\001 \002" +
-      "(\007\022\037\n\013myHurtValue\030\002 \003(\0132\n.HurtValue\022\"\n\016e" +
-      "nemyHurtValue\030\003 \003(\0132\n.HurtValue\"*\n\tHurtV" +
-      "alue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 \002(\006*\234\003\n\n" +
-      "eArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHANGE_ENEMY" +
-      "\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_RECORD\020\003\022\016\n" +
-      "\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n\023ARENA_F" +
-      "IGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_START\020\007\022\026\n",
-      "\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RECORD\020\t\022\r" +
-      "\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027\n\023BUY_CH" +
-      "ALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINUE\020\016\022\031\n\025G" +
-      "ET_SCORE_REWARD_VIEW\020\017\022\024\n\020GET_SCORE_REWA" +
-      "RD\020\020\022\030\n\024GET_ALL_SCORE_REWARD\020\021\022\016\n\nGET_RE" +
-      "CORD\020\022\022\025\n\021GET_RECORD_DETAIL\020\023\022\023\n\017GET_HUR" +
-      "T_DETAIL\020\024*5\n\020eArenaResultType\022\021\n\rARENA_" +
-      "SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com.rwproto" +
-      "B\026PeakArenaServiceProtos"
+      "me\030\031 \001(\t\0220\n\013fashionUsed\030\032 \001(\0132\033.FashionS" +
+      "ervice.FashionUsed\022\013\n\003vip\030\033 \001(\005\022\013\n\003sex\030\034" +
+      " \001(\005\"\207\002\n\tArenaInfo\022\016\n\006userId\030\001 \002(\t\022\r\n\005pl" +
+      "ace\030\004 \001(\005\022\020\n\010winCount\030\005 \001(\005\022\r\n\005level\030\006 \001" +
+      "(\005\022\014\n\004name\030\007 \001(\t\022\021\n\theadImage\030\010 \001(\t\022\020\n\010f" +
+      "ighting\030\t \001(\005\022\021\n\tstarLevel\030\n \001(\005\022\021\n\tqual" +
+      "ityId\030\013 \001(\t\022\016\n\006career\030\014 \001(\005\022\021\n\theadFrame" +
+      "\030\r \001(\t\0221\n\014fashionUsage\030\016 \001(\0132\033.FashionSe" +
+      "rvice.FashionUsed\022\013\n\003sex\030\017 \001(\005\"\201\002\n\013Arena",
+      "Record\022\016\n\006userId\030\001 \002(\t\022\013\n\003win\030\002 \001(\010\022\017\n\007p" +
+      "laceUp\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\022\021\n\theadImage\030" +
+      "\005 \001(\t\022\r\n\005level\030\006 \001(\005\022\014\n\004time\030\007 \001(\003\022\021\n\tch" +
+      "allenge\030\010 \001(\005\022\020\n\010recordId\030\t \002(\007\0220\n\013fashi" +
+      "onUsed\030\n \001(\0132\033.FashionService.FashionUse" +
+      "d\022\016\n\006gender\030\013 \001(\007\022\r\n\005vipLv\030\014 \001(\007\022\020\n\010figh" +
+      "ting\030\r \001(\005\"y\n\021PeakArenaHeroData\022\016\n\006heroI" +
+      "d\030\001 \002(\t\022\021\n\theadImage\030\002 \002(\t\022\r\n\005level\030\003 \002(" +
+      "\007\022\016\n\006starLv\030\004 \002(\007\022\021\n\tqualityId\030\005 \002(\t\022\017\n\007" +
+      "modelId\030\006 \001(\007\"4\n\022PeakArenaMagicData\022\017\n\007m",
+      "odelId\030\001 \002(\007\022\r\n\005level\030\002 \002(\007\"o\n\021PeakArena" +
+      "UserData\022\014\n\004name\030\001 \002(\t\022$\n\010heroData\030\002 \003(\013" +
+      "2\022.PeakArenaHeroData\022&\n\tmagicData\030\003 \002(\0132" +
+      "\023.PeakArenaMagicData\"e\n\025PeakArenaDetailR" +
+      "ecord\022&\n\nchallenger\030\001 \002(\0132\022.PeakArenaUse" +
+      "rData\022$\n\010defender\030\002 \002(\0132\022.PeakArenaUserD" +
+      "ata\"\361\001\n\017MsgArenaRequest\022\036\n\tarenaType\030\001 \002" +
+      "(\0162\013.eArenaType\022\016\n\006userId\030\002 \001(\t\022\030\n\005teams" +
+      "\030\003 \003(\0132\t.TeamInfo\022\031\n\005enemy\030\004 \001(\0132\n.Arena" +
+      "Info\022\013\n\003win\030\005 \001(\010\022\017\n\007reorder\030\006 \003(\005\022\037\n\nhu",
+      "rtRecord\030\007 \003(\0132\013.HurtRecord\022\020\n\010recordId\030" +
+      "\010 \001(\007\022\021\n\thurtIndex\030\t \001(\007\022\025\n\rscoreRewardI" +
+      "d\030\n \001(\007\"\222\004\n\020MsgArenaResponse\022\036\n\tarenaTyp" +
+      "e\030\001 \002(\0162\013.eArenaType\022*\n\017arenaResultType\030" +
+      "\002 \001(\0162\021.eArenaResultType\022\035\n\tarenaData\030\003 " +
+      "\001(\0132\n.ArenaData\022\034\n\010listInfo\030\004 \003(\0132\n.Aren" +
+      "aInfo\022 \n\nlistRecord\030\005 \003(\0132\014.ArenaRecord\022" +
+      "\r\n\005place\030\006 \001(\005\022\021\n\tresultTip\030\007 \001(\t\022\031\n\021max" +
+      "ChallengeCount\030\010 \001(\005\022\020\n\010buyCount\030\t \001(\005\022\026" +
+      "\n\016currentBuyCost\030\n \001(\005\022\026\n\016challengeCount",
+      "\030\013 \001(\005\022\016\n\006cdTime\030\014 \001(\005\022\033\n\023gainCurrencyPe" +
+      "rHour\030\r \001(\005\022\021\n\tresetCost\030\016 \001(\005\022\017\n\007placeU" +
+      "p\030\017 \001(\005\0220\n\020challengeRecords\030\020 \003(\0132\026.Peak" +
+      "ArenaDetailRecord\022\037\n\nhurtDetail\030\021 \001(\0132\013." +
+      "HurtRecord\022\032\n\022alreadyGetRewardId\030\022 \003(\007\022\024" +
+      "\n\014currentScore\030\023 \001(\007\"a\n\nHurtRecord\022\016\n\006te" +
+      "amId\030\001 \002(\007\022\037\n\013myHurtValue\030\002 \003(\0132\n.HurtVa" +
+      "lue\022\"\n\016enemyHurtValue\030\003 \003(\0132\n.HurtValue\"" +
+      "*\n\tHurtValue\022\016\n\006heroId\030\001 \002(\t\022\r\n\005value\030\002 " +
+      "\002(\006*\234\003\n\neArenaType\022\014\n\010GET_DATA\020\000\022\020\n\014CHAN",
+      "GE_ENEMY\020\001\022\017\n\013CHANGE_HERO\020\002\022\020\n\014ARENA_REC" +
+      "ORD\020\003\022\016\n\nENEMY_INFO\020\004\022\016\n\nCLEAR_TIME\020\005\022\027\n" +
+      "\023ARENA_FIGHT_PREPARE\020\006\022\025\n\021ARENA_FIGHT_ST" +
+      "ART\020\007\022\026\n\022ARENA_FIGHT_FINISH\020\010\022\017\n\013SYNC_RE" +
+      "CORD\020\t\022\r\n\tGET_PLACE\020\n\022\017\n\013SWITCH_OVER\020\014\022\027" +
+      "\n\023BUY_CHALLENGE_COUNT\020\r\022\022\n\016FIGHT_CONTINU" +
+      "E\020\016\022\031\n\025GET_SCORE_REWARD_VIEW\020\017\022\024\n\020GET_SC" +
+      "ORE_REWARD\020\020\022\030\n\024GET_ALL_SCORE_REWARD\020\021\022\016" +
+      "\n\nGET_RECORD\020\022\022\025\n\021GET_RECORD_DETAIL\020\023\022\023\n" +
+      "\017GET_HURT_DETAIL\020\024*5\n\020eArenaResultType\022\021",
+      "\n\rARENA_SUCCESS\020\001\022\016\n\nARENA_FAIL\020\002B%\n\013com" +
+      ".rwprotoB\026PeakArenaServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -24116,7 +24785,7 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaData_descriptor,
-              new java.lang.String[] { "UserId", "Place", "MaxPlace", "WinCount", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "GroupName", "ArmyInfo", "HeadFrame", });
+              new java.lang.String[] { "UserId", "Place", "MaxPlace", "WinCount", "Career", "Name", "Level", "HeadImage", "TempleteId", "Fighting", "RoleSkill", "Teams", "GroupName", "ArmyInfo", "HeadFrame", "FashionUsed", "Vip", "Sex", });
           internal_static_ArenaInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_ArenaInfo_fieldAccessorTable = new
@@ -24128,7 +24797,7 @@ public final class PeakArenaServiceProtos {
           internal_static_ArenaRecord_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ArenaRecord_descriptor,
-              new java.lang.String[] { "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", "RecordId", "SuitId", "Gender", "VipLv", });
+              new java.lang.String[] { "UserId", "Win", "PlaceUp", "Name", "HeadImage", "Level", "Time", "Challenge", "RecordId", "FashionUsed", "Gender", "VipLv", "Fighting", });
           internal_static_PeakArenaHeroData_descriptor =
             getDescriptor().getMessageTypes().get(5);
           internal_static_PeakArenaHeroData_fieldAccessorTable = new
