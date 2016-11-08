@@ -1,6 +1,7 @@
 package com.playerdata.hero.core;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -16,6 +17,11 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
+import com.playerdata.embattle.EmBattlePositionKey;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfo;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.hero.IHeroConsumer;
 import com.playerdata.hero.core.consumer.FSAddExpToAllHeroConsumer;
 import com.playerdata.hero.core.consumer.FSCountMatchTargetStarConsumer;
@@ -35,6 +41,7 @@ import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
+import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.HeroServiceProtos.MsgHeroResponse;
 import com.rwproto.HeroServiceProtos.eHeroResultType;
 import com.rwproto.MsgDef.Command;
@@ -350,6 +357,21 @@ public class FSHeroMgr implements HeroMgr {
 		FSGetMultipleHerosConsumer consumer = new FSGetMultipleHerosConsumer(heroIds);
 		this.loopAll(userId, consumer);
 		return consumer.getResultHeros();
+	}
+	
+	@Override
+	public List<Hero> getMainCityTeamHeros(String userId) {
+		EmbattlePositionInfo positionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
+		if(positionInfo == null) {
+			return Collections.singletonList(this.getMainRoleHero(userId));
+		} else {
+			List<EmbattleHeroPosition> posList = positionInfo.getPos();
+			List<String> heroIds = new ArrayList<String>(positionInfo.getPos().size());
+			for (EmbattleHeroPosition emp : posList) {
+				heroIds.add(emp.getId());
+			}
+			return this.getHeros(userId, heroIds);
+		}
 	}
 
 	@Override

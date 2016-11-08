@@ -437,6 +437,6 @@ public class GroupCompetitionHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return getMatchData(client);
+		return testGroupCompetition(client);
 	}
 }
