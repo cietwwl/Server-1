@@ -149,6 +149,8 @@ enum eSynType	//数据同步类型
 	SaloonPosition = 119;//同屏人物位置数据
 	SPRITE_ATTACH_SYN = 120;//附灵同步
 	FriendMonthCardInfo = 121;	//好友月卡状况，用于赠送月卡的判断
+	
+	CommonSoulConfig = 122; // 万能魂石配置同步
 }
 
 message MsgDataSynList
