@@ -1,8 +1,13 @@
 package com.rw.controler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
 import com.common.HPCUtil;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
@@ -150,6 +155,11 @@ public class PlayerCreateTask implements Runnable {
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
+		
+		//通知精准营销
+		List<ERoleAttrs> list = new ArrayList<ERoleAttrs>();
+		list.add(ERoleAttrs.r_CreateTime);
+		TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
 
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);

@@ -56,11 +56,6 @@ public class UserDataListener implements SingleChangedListener<User>{
 			list.add(ERoleAttrs.r_LastLoginTime);
 			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
 		}
-		if(oldRecord.getCreateTime() != currentRecord.getCreateTime()){
-			list = new ArrayList<ERoleAttrs>();
-			list.add(ERoleAttrs.r_CreateTime);
-			TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
-		}
 	}
 
 
