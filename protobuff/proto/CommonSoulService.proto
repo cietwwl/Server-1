@@ -1,0 +1,29 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "CommonSoulServiceProto";
+
+// 请求类型
+enum RequestType {
+	exchange = 1; // 兑换英雄魂石
+}
+
+// 结果的类型枚举
+enum ResultType {
+	success = 1; // 成功
+	fail = 2; // 失败
+}
+
+// 万能魂石的请求
+message CommonSoulRequest {
+	required RequestType requestType = 1; // 请求的类型
+	optional fixed32 soulItemId = 2; // 目标魂石的道具id
+	optional fixed32 exchangeCount = 3; // 用于兑换的万能魂石数量
+}
+
+// 万能魂石的响应
+message CommonSoulResponse {
+	required RequestType requestType = 1; // 请求的类型
+	required ResultType resultType = 2; // 结果的类型
+	optional string tips = 3; // 提示信息，结果不是success的时候会发送给客户端
+	optional fixed32 resultCount = 4; // 最终兑换的数量
+}
