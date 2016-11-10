@@ -379,6 +379,9 @@
 	<!-- 红点 -->
 	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
 	
+	<!-- 万能魂石 -->
+	<bean class="com.rwbase.dao.commonsoul.CommonSoulConfigDAO" init-method="init" />
+	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

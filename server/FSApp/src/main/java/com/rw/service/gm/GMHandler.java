@@ -270,6 +270,7 @@ public class GMHandler {
 		funcCallBackMap.put("testcharge", "testCharge");
 		
 		funcCallBackMap.put("addsaexp", "addSaExp");
+		funcCallBackMap.put("exchangeSoul".toLowerCase(), "exchangeSoul");
 	}
 
 	public boolean isActive() {
@@ -2048,5 +2049,17 @@ public class GMHandler {
 		com.playerdata.activity.growthFund.GrowthFundGlobalData data = com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder.getInstance().getGlobalData();
 		data.setAlreadyBoughtCount(Integer.parseInt(arrCommandContents[0]));
 		return true;
+	}
+	
+	public boolean exchangeSoul(String[] arrCommandContents, Player player) {
+		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_COMMON_SOUL);
+		headerBuilder.setUserId(player.getUserId());
+		requestBuilder.setHeader(headerBuilder.build());
+		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+		bodyBuilder.setSerializedContent(com.rwproto.CommonSoulServiceProto.CommonSoulRequest.newBuilder().setRequestType(com.rwproto.CommonSoulServiceProto.RequestType.exchange).setSoulItemId(Integer.parseInt(arrCommandContents[0])).setExchangeCount(Integer.parseInt(arrCommandContents[1])).build().toByteString());
+		requestBuilder.setBody(bodyBuilder.build());
+		return this.assumeSendRequest(player, requestBuilder.build());
 	}
 }
