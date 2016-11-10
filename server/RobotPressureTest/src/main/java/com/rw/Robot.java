@@ -445,6 +445,15 @@ public class Robot {
 		boolean sendSuccess = GmHandler.instance().send(client, "* setgfstate 2 1");
 		return sendSuccess;
 	}
+	
+	/**
+	 * 增加帮派经验
+	 * @return
+	 */
+	public boolean addGroupExp() {
+		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 100000");
+		return sendSuccess;
+	}
 
 	public boolean getFinishTaskReward() {
 		return TaskHandler.instance().getReward(client);
