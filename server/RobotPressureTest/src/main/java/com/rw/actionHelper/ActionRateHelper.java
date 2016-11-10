@@ -57,7 +57,6 @@ public class ActionRateHelper{
 			localRandom.set(rdm);
 		}
 		int rd = rdm.nextInt(totalRate);
-		System.out.println("------------------------>>" + rd);
 		for(Entry<ActionEnum, Integer> entry : map.entrySet()){
 			rd -= entry.getValue();
 			if(rd <= 0){
