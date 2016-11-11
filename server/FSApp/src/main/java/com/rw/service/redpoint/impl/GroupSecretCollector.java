@@ -1,16 +1,21 @@
 package com.rw.service.redpoint.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.groupsecret.GroupSecretDefendRecordDataMgr;
+import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.redpoint.RedPointType;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
+import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.groupsecret.pojo.db.data.DefendRecord;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
@@ -53,13 +58,23 @@ public class GroupSecretCollector implements RedPointCollector {
 	}
 	
 	private void checkRewards(Player player, UserGroupSecretBaseData userGroupSecretBaseData, Map<RedPointType, List<String>> map) {
+		UserCreateGroupSecretDataMgr mgr = UserCreateGroupSecretDataMgr.getMgr();
+		UserCreateGroupSecretData userCreateGroupSecretData = mgr.get(player.getUserId());
 		Map<Integer, String> defendSecretIdMap = userGroupSecretBaseData.getDefendSecretIdMap();
 		List<String> list = null;
 		if (defendSecretIdMap.size() > 0) {
+			long currentTimeMillis = System.currentTimeMillis();
 			list = new ArrayList<String>(defendSecretIdMap.size());
+			GroupSecretData secretData;
+			String secretId;
+			GroupSecretResourceCfg groupSecretResTmp;
 			for (Iterator<Integer> keyItr = defendSecretIdMap.keySet().iterator(); keyItr.hasNext();) {
-				String secretId = defendSecretIdMap.get(keyItr.next());
-				if (userGroupSecretBaseData.hasDefendSecretId(secretId)) {
+				secretId = defendSecretIdMap.get(keyItr.next());
+				secretData = userCreateGroupSecretData.getGroupSecretData(Integer.parseInt(secretId.split("_")[1]));
+				groupSecretResTmp = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(secretData.getSecretId());
+				int needTime = groupSecretResTmp.getNeedTime();
+				long endTime = secretData.getCreateTime() + TimeUnit.MILLISECONDS.convert(needTime, TimeUnit.MINUTES);
+				if (endTime < currentTimeMillis) {
 					list.add(secretId);
 				}
 			}
