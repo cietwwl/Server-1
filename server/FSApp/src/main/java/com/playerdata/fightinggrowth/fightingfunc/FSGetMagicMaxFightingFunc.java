@@ -4,7 +4,7 @@ import com.playerdata.Player;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fighting.MagicLevelFightingCfgDAO;
 import com.rwbase.dao.fighting.MagicQualityFightingCfgDAO;
-import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
+import com.rwbase.dao.fighting.pojo.MagicSkillFightingCfg;
 
 /**
  * 
@@ -31,9 +31,9 @@ public class FSGetMagicMaxFightingFunc implements IFunction<Player, Integer>{
 
 	@Override
 	public Integer apply(Player player) {
-		OneToOneTypeFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getByRequiredLv(player.getLevel());
-		OneToOneTypeFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getByRequiredLv(player.getLevel());
-		return levelFightingCfg.getFighting() + qualityFightingCfg.getFighting();
+		MagicSkillFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getByRequiredLv(player.getLevel());
+		MagicSkillFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getByRequiredLv(player.getLevel());
+		return levelFightingCfg.getActiveSkillFighting() + levelFightingCfg.getPassiveSkillFighting() + qualityFightingCfg.getActiveSkillFighting() + qualityFightingCfg.getPassiveSkillFighting();
 	}
 
 }

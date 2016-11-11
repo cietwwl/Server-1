@@ -22,7 +22,7 @@ import com.rwbase.dao.task.pojo.DailyActivityTaskItem;
 /**
  * 任务的数据管理类。
  * */
-public class DailyActivityMgr implements PlayerEventListener {
+public class DailyActivityMgr {
 
 	private Player player = null;
 
@@ -34,13 +34,7 @@ public class DailyActivityMgr implements PlayerEventListener {
 		holder = new DailyActivityHolder(playerP);
 	}
 
-	@Override
-	public void notifyPlayerCreated(Player player) {
-	}
 
-	@Override
-	public void notifyPlayerLogin(Player player) {
-	}
 
 	public void onLogin() {
 		DailyActivityHandler.getInstance().sendTaskList(player);
@@ -79,26 +73,34 @@ public class DailyActivityMgr implements PlayerEventListener {
 		for (DailyActivityData data : scanList) {
 			//检查一下是否已经完成
 			DailyActivityCfgEntity entity = cfgDAO.getCfgEntity(data.getTaskId());
+			if(entity == null){
+				//找不到配置,策划可能改表了，不同步这个任务，注意这里不可以做删除记录操作，避免策划填错表后，角色登录后目标任务数据被删除
+				currentList.remove(data);
+				continue;
+			}
 			boolean matchCondition = entity.getFinishCondition().isMatchCondition(userId, playerLevel, playerVip, data);
 			if (data.getCanGetReward() == 0) {
-				if(matchCondition){
-					//这个任务之前没有完成，但满足完成条件，可以设置为完成
+				if (matchCondition) {
+					// 这个任务之前没有完成，但满足完成条件，可以设置为完成
 					data.setCanGetReward(1);
 					change = true;
+				} else if (entity.getCheckOutDateCondition().isOutDate()) {
+					// 修复BUG#4854 BY PERRY @ 2016-11-07
+					GameLog.info("DailyActivityMgr#getTaskList", userId, String.format("日常任务超时！任务id：%d", data.getTaskId()));
+					currentList.remove(data);
+					change = true;
 				}
-			}else if(!matchCondition){
-				//之前是可以领取，但检查的时候发现条件不满足，说明策划可能改了条件了，或者是时间类的任务已经超时，要把它移除
+			} else if (!matchCondition) {
+				// 之前是可以领取，但检查的时候发现条件不满足，说明策划可能改了条件了，或者是时间类的任务已经超时，要把它移除
 				currentList.remove(data);
 				change = true;
-				
-				//检查一下同类型的任务有没有合适开放的任务
+
+				// 检查一下同类型的任务有没有合适开放的任务
 				List<DailyActivityCfgEntity> subTypeList = cfgDAO.getCfgEntrisByType(entity.getCfg().getTaskType());
-				if(subTypeList != null){
+				if (subTypeList != null) {
 					checkAndAddNewMission(subTypeList, playerVip, playerLevel, userId, finishMap, firstInitTaskIds, currentList);
 				}
-				
-				
-				
+
 			}
 			//移除已经检查的任务类型
 			taskType.remove(entity.getCfg().getTaskType());

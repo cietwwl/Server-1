@@ -8,6 +8,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 import com.config.PlatformConfig;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.DailyActivity.DailyActivityHandler;
 import com.rw.handler.GroupCopy.GroupCopyHandler;
 import com.rw.handler.GroupCopy.GroupCopyMgr;
@@ -20,8 +21,8 @@ import com.rw.handler.battletower.BattleTowerHandler;
 import com.rw.handler.chat.ChatHandler;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.copy.CopyHandler;
-import com.rw.handler.copy.CopyHolder;
 import com.rw.handler.copy.CopyType;
+import com.rw.handler.copy.data.CopyHolder;
 import com.rw.handler.daily.DailyHandler;
 import com.rw.handler.email.EmailHandler;
 import com.rw.handler.equip.EquipHandler;
@@ -58,7 +59,7 @@ import com.rw.handler.store.StoreHandler;
 import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.teamBattle.service.TeamBattleHandler;
-import com.rw.handler.worShip.worShipHandler;
+import com.rw.handler.worShip.WorShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
@@ -70,7 +71,7 @@ import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
  * @Description 
  */
 public class Robot {
-
+	
 	private static boolean isInit = false;
 
 	private String accountId;
@@ -841,14 +842,14 @@ public class Robot {
 	 */
 	public boolean testWorShip(int num) {
 
-		return worShipHandler.getHandler().ArenaWorship(client, num);
+		return WorShipHandler.getHandler().ArenaWorship(client, num);
 	}
 
 	/**
 	 * 买体
 	 */
 	public boolean testMainService() {
-		return MainHandler.getHandler().buyTower(client);
+		return MainHandler.getHandler().buyPower(client);
 	}
 
 	public int getChatCount() {
@@ -861,7 +862,6 @@ public class Robot {
 
 	/** 消费300钻 */
 	public boolean testDailyActivity() {
-		// TODO Auto-generated method stub
 		return DailyActivityHandler.getHandler().Const(this);
 
 	}
@@ -982,7 +982,6 @@ public class Robot {
 	 * 通用活动一领奖all
 	 */
 	public boolean testActivityCountTakeGift() {
-
 		return ActivityCountHandler.getHandler().ActivityCountTakeGift(client);
 	}
 
@@ -1047,13 +1046,13 @@ public class Robot {
 	}
 
 	public boolean testPeakArena() {
-		PeakArenaHandler.getHandler().changeEnemy(client, "");
+		PeakArenaHandler.getHandler().changeEnemy(client);
 		List<ArenaInfo> listInfoList = client.getPeakArenaDataHolder().getListInfoList();
 		if (listInfoList == null || listInfoList.size() <= 0) {
 			return true;
 		}
-		PeakArenaHandler.getHandler().fightStart(client, "");
-		return PeakArenaHandler.getHandler().fightFinish(client, "");
+		PeakArenaHandler.getHandler().fightStart(client);
+		return PeakArenaHandler.getHandler().fightFinish(client);
 	}
 
 	public void openGroupSecretMainView() {
@@ -1276,5 +1275,16 @@ public class Robot {
 	public boolean testGroupCompetition() {
 		client.executeAsynResp();
 		return GroupCompetitionHandler.getHandler().testGroupCompetition(client);
+	}
+	
+	/*
+	 * 随机执行方法 
+	 */
+	public boolean executeRandomMethod() {
+		RandomMethodIF randomHandler = client.getNextModuleHandler();
+		if(null != randomHandler){
+			return randomHandler.executeMethod(client);
+		}
+		return true;
 	}
 }

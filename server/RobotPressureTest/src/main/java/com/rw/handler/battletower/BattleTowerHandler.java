@@ -8,6 +8,7 @@ import com.rw.Client;
 import com.rw.PrintMsg;
 import com.rw.common.MsgLog;
 import com.rw.common.MsgReciver;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.battletower.data.BattleTowerData;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonReqMsg;
 import com.rwproto.BattleTowerServiceProtos.BattleTowerCommonRspMsg;
@@ -41,7 +42,7 @@ import com.rwproto.ResponseProtos.Response;
  * @date 2016年2月2日 下午4:50:59
  * @Description 
  */
-public class BattleTowerHandler {
+public class BattleTowerHandler implements RandomMethodIF{
 
 	private static final Random r = new Random();
 	private static BattleTowerHandler handler = new BattleTowerHandler();
@@ -456,5 +457,10 @@ public class BattleTowerHandler {
 				return true;
 			}
 		}
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return openMainView(client);
 	}
 }

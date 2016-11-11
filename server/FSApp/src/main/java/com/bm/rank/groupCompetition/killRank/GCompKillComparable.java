@@ -16,6 +16,18 @@ public class GCompKillComparable implements Comparable<GCompKillComparable> {
 	public int getTotalKill(){
 		return this.totalKill;
 	}
+	
+	public long getLastRecordTime() {
+		return lastRecordTime;
+	}
+
+	public void setLastRecordTime(long lastRecordTime) {
+		this.lastRecordTime = lastRecordTime;
+	}
+
+	public void setTotalKill(int totalKill) {
+		this.totalKill = totalKill;
+	}
 
 	@Override
 	public int compareTo(GCompKillComparable o) {

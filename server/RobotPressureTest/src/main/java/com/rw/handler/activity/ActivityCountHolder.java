@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import com.rw.dataSyn.SynDataListHolder;
-import com.rw.handler.equip.EquipItem;
-import com.rw.handler.group.data.GroupBaseData;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
 public class ActivityCountHolder {
@@ -43,7 +41,4 @@ public class ActivityCountHolder {
 		}
 //		System.out.println("@@@@@@activitycount.giftlength =" + giftlist.size());
 	}
-	
-	
-	
 }

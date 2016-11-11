@@ -5,17 +5,15 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
-import com.rwproto.StoreProtos.StoreResponse;
-import com.rwproto.StoreProtos.eStoreResultType;
 import com.rwproto.TaskProtos.TaskRequest;
 import com.rwproto.TaskProtos.TaskResponse;
 import com.rwproto.TaskProtos.eTaskRequestType;
 import com.rwproto.TaskProtos.eTaskResultType;
 
-public class TaskHandler {
-
+public class TaskHandler implements RandomMethodIF{
 	
 	private static TaskHandler instance = new TaskHandler();
 	public static TaskHandler instance(){
@@ -29,8 +27,6 @@ public class TaskHandler {
 	 * @param accountId
 	 */
 	public boolean getReward(Client client) {
-		
-
 		TaskItem finishItem = client.getTaskItemHolder().getFinishItem();
 		if(finishItem == null){
 			return false;
@@ -38,8 +34,7 @@ public class TaskHandler {
 		TaskRequest.Builder req = TaskRequest.newBuilder()
 										.setRequestType( eTaskRequestType.GetReward )
 										.setId(finishItem.getTaskId());
-		
-		
+			
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_TASK, req.build().toByteString(), new MsgReciver() {
 			
 			@Override
@@ -78,4 +73,8 @@ public class TaskHandler {
 		return success;
 	}
 
+	@Override
+	public boolean executeMethod(Client client) {
+		return getReward(client);
+	}
 }

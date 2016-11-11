@@ -239,6 +239,7 @@ public class GCompMatchDataHolder {
 			// 战斗结果处理
 			teamBattleResultHandler(myTeam, getTeamBattleResult(myAddScore, enemyAddScore));
 			// 删除缓存的匹配数据
+			GCompUtil.log("allBattleFinish, matchId:{}", matchId);
 			removeMatchCache(matchId);
 		}
 	}
@@ -720,6 +721,7 @@ public class GCompMatchDataHolder {
 	 */
 	private void sendMsg(List<ByteString> rspList, List<String> playerIdList) {
 		// 要同步战斗结果
+//		GCompUtil.log("推送消息给客户端，列表：{}", playerIdList);
 		if (!rspList.isEmpty() && !playerIdList.isEmpty()) {
 			PlayerMgr playerMgr = PlayerMgr.getInstance();
 			for (int j = 0, pSize = playerIdList.size(); j < pSize; j++) {

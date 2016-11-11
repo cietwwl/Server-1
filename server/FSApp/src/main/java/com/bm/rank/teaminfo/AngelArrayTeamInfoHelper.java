@@ -960,7 +960,7 @@ public class AngelArrayTeamInfoHelper {
 
 		// 技能战力
 		SkillBuilder sb = new SkillBuilder();
-		sb.setHeroId(tmpId);
+		sb.setHeroTemplateId(tmpId);
 		sb.setSkillList(heroInfo.getSkill());
 		int skill = FightingCalcComponentType.SKILL.calc.calc(sb.build());
 		fighting += skill;
@@ -977,17 +977,6 @@ public class AngelArrayTeamInfoHelper {
 		int fashionF = 0;
 
 		if (isMainRole) {
-			// 法宝战力
-			ArmyMagic magic = teamInfo.getMagic();
-			if (magic != null) {
-				MagicBuilder mb = new MagicBuilder();
-				mb.setHeroId(tmpId);
-				mb.setMagicId(String.valueOf(magic.getModelId()));
-				mb.setMagicLevel(magic.getLevel());
-				mb.setMagicAptitude(magic.getAptitude());
-				mf = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
-				fighting += mf;
-			}
 
 			// 时装战力
 			FashionInfo fashion = teamInfo.getFashion();
@@ -1003,6 +992,19 @@ public class AngelArrayTeamInfoHelper {
 				fashionF = FightingCalcComponentType.FASHION.calc.calc(fashionB.build());
 				fighting += fashionF;
 			}
+		}
+
+		// 法宝战力
+		ArmyMagic magic = teamInfo.getMagic();
+		if (magic != null) {
+			MagicBuilder mb = new MagicBuilder();
+			mb.setHeroTemplateId(tmpId);
+			mb.setMagicId(String.valueOf(magic.getModelId()));
+			mb.setMagicLevel(magic.getLevel());
+			mb.setMagicAptitude(magic.getAptitude());
+			mb.setIsMainRole(isMainRole);
+			mf = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+			fighting += mf;
 		}
 
 		// TODO HC 等牙玺调试完成这些代码就全部去掉

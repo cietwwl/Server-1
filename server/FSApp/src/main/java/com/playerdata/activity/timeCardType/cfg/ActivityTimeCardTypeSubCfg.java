@@ -14,19 +14,12 @@ public class ActivityTimeCardTypeSubCfg {
 	private int days;
 	//所需费用
 	private int moneyCount;
-	//位置
-	private int slot;
 	//每日领取钻石
-	private int dayAwardCount;
+	private int gold;
 	private int daysLimit;//超过天数不可再续费
 	@EnumIndex
 	private ChargeTypeEnum chargeType;//类型
 	
-
-	
-	
-
-
 	public ChargeTypeEnum getChargeType() {
 		return chargeType;
 	}
@@ -70,28 +63,12 @@ public class ActivityTimeCardTypeSubCfg {
 		this.moneyCount = moneyCount;
 	}
 
-	public int getSlot() {
-		return slot;
-	}
-
-	public void setSlot(int slot) {
-		this.slot = slot;
-	}
-
 	public String getParentCfgId() {
 		return parentCfgId;
 	}
 
 	public void setParentCfgId(String parentCfgId) {
 		this.parentCfgId = parentCfgId;
-	}
-
-	public int getDayAwardCount() {
-		return dayAwardCount;
-	}
-
-	public void setDayAwardCount(int dayAwardCount) {
-		this.dayAwardCount = dayAwardCount;
 	}
 
 	public int getDays() {
@@ -102,13 +79,11 @@ public class ActivityTimeCardTypeSubCfg {
 		this.days = days;
 	}
 
+	public int getGold() {
+		return gold;
+	}
 
-	
-	
-
-
-	
-	
-	
-	
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
 }

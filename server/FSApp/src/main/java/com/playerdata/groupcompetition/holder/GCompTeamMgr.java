@@ -51,6 +51,7 @@ public class GCompTeamMgr {
 	private GCompTeamHolder _dataHolder = GCompTeamHolder.getInstance();
 	private boolean canPersonalMatching = false; // 是否可以个人匹配
 	private Map<String, Boolean> statusOfGroup = new HashMap<String, Boolean>();
+	private boolean isEventsProcessing = false;
 	
 	protected GCompTeamMgr() {
 		
@@ -261,6 +262,7 @@ public class GCompTeamMgr {
 		switch (currentStatus) {
 		case TEAM_EVENTS:
 			canPersonalMatching = false;
+			isEventsProcessing = true;
 			break;
 		case REST:
 			List<GCompTeam> teams = _dataHolder.clearAllTeam(); // 解散所有队伍
@@ -271,6 +273,7 @@ public class GCompTeamMgr {
 			break;
 		case FINISH:
 			canPersonalMatching = false;
+			isEventsProcessing = false;
 			break;
 		default:
 			break;
@@ -303,12 +306,19 @@ public class GCompTeamMgr {
 		}
 	}
 	
-	public void onPlayerEnterPrepareArea(int matchId, Player player) {
+	public void forcePlayerLeaveTeam(Player player) {
+		if (!isEventsProcessing) {
+			return;
+		}
 		String groupId = GroupHelper.getGroupId(player);
 		if (!StringUtils.isEmpty(groupId)) {
-			GCompTeam team = _dataHolder.getTeamOfUser(matchId, player.getUserId(), groupId);
-			if(team != null) {
-				this.leaveTeam(player);
+			int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), GroupCompetitionMgr.getInstance().getCurrentEventsType());
+			if (matchId > 0) {
+				GCompTeam team = _dataHolder.getTeamOfUser(matchId, player.getUserId(), groupId);
+				if (team != null) {
+					GCompUtil.log("强制玩家离开队伍，teamId：{}，玩家id：{}", team.getTeamId(), player.getUserId());
+					this.leaveTeam(player);
+				}
 			}
 		}
 	}

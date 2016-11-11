@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeHelper;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -30,20 +28,21 @@ public class ActivityTimeCardTypeItemHolder{
 
 	final private eSynType synType = eSynType.ActivityTimeCardType;
 	
-
-	public List<ActivityTimeCardTypeItem> getItemList(String userId)	
-	{
+	public List<ActivityTimeCardTypeItem> getItemList(String userId){
 		ActivityTimeCardTypeCfgDAO dao = ActivityTimeCardTypeCfgDAO.getInstance();
 		List<ActivityTimeCardTypeItem> itemList = new ArrayList<ActivityTimeCardTypeItem>();
 		Enumeration<ActivityTimeCardTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			ActivityTimeCardTypeItem item = (ActivityTimeCardTypeItem) mapEnum.nextElement();
+			if(StringUtils.equals(item.getCfgId(), "1")){
+				item.setCfgId("100001");
+				getItemStore(userId).update(item.getId());
+			}
 			if(dao.getCfgById(item.getCfgId()) == null){
 				continue;
 			}
 			itemList.add(item);
 		}
-		
 		return itemList;
 	}
 	
@@ -68,13 +67,11 @@ public class ActivityTimeCardTypeItemHolder{
 		return addSuccess;
 	}
 	
-	
 	public void synAllData(Player player){
 		List<ActivityTimeCardTypeItem> itemList = getItemList(player.getUserId());			
 		ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 	}
 
-	
 	public RoleExtPropertyStore<ActivityTimeCardTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityTimeCardTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_TIMECARD, ActivityTimeCardTypeItem.class);
 		RoleExtPropertyStore<ActivityTimeCardTypeItem> store = null;
@@ -106,7 +103,5 @@ public class ActivityTimeCardTypeItemHolder{
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
-	
 }

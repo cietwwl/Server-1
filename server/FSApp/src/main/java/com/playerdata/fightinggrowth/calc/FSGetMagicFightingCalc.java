@@ -2,12 +2,13 @@ package com.playerdata.fightinggrowth.calc;
 
 import com.log.GameLog;
 import com.rwbase.common.attribute.param.MagicParam;
-import com.rwbase.dao.fighting.MagicAptitudeFightingCfgDAO;
 import com.rwbase.dao.fighting.MagicLevelFightingCfgDAO;
 import com.rwbase.dao.fighting.MagicQualityFightingCfgDAO;
-import com.rwbase.dao.fighting.pojo.OneToOneTypeFightingCfg;
+import com.rwbase.dao.fighting.pojo.MagicSkillFightingCfg;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.MagicCfg;
+import com.rwbase.dao.magicweapon.MagicAptitudeCoefficientCfgDAO;
+import com.rwbase.dao.magicweapon.pojo.MagicAptitudeCoefficientCfg;
 
 /**
  * @Author HC
@@ -19,13 +20,15 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 	private MagicCfgDAO magicCfgDAO;
 	private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
 	private MagicQualityFightingCfgDAO magicQualityFightingCfgDAO;
-	private MagicAptitudeFightingCfgDAO magicAptitudeFightingCfgDAO;
+//	private MagicAptitudeFightingCfgDAO magicAptitudeFightingCfgDAO;
+	private MagicAptitudeCoefficientCfgDAO magicAptitudeCoefficientCfgDAO;
 
 	protected FSGetMagicFightingCalc() {
 		magicCfgDAO = MagicCfgDAO.getInstance();
 		magicLevelFightingCfgDAO = MagicLevelFightingCfgDAO.getInstance();
 		magicQualityFightingCfgDAO = MagicQualityFightingCfgDAO.getInstance();
-		magicAptitudeFightingCfgDAO = MagicAptitudeFightingCfgDAO.getInstance();
+//		magicAptitudeFightingCfgDAO = MagicAptitudeFightingCfgDAO.getInstance();
+		magicAptitudeCoefficientCfgDAO = MagicAptitudeCoefficientCfgDAO.getInstance();
 	}
 
 	@Override
@@ -38,16 +41,32 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 			GameLog.error("FSMagicFightingCalc", "计算法宝战力", "找不到对应的法宝配置，modelId：" + magicId);
 			return 0;
 		}
+		
+		MagicSkillFightingCfg levelSkillFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicLevel()));
+		MagicSkillFightingCfg qualitySkillFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
+		MagicAptitudeCoefficientCfg aptitudeCoefficientCfg = magicAptitudeCoefficientCfgDAO.getCfgById(String.valueOf(magicParam.getMagicAptitude()));
+		float aptitudeCoefficient = 1.0f;
+		if(aptitudeCoefficientCfg != null) {
+			aptitudeCoefficient = aptitudeCoefficientCfg.getCoefficient();
+		}
+		if (magicParam.isMainRole()) {
+			// （强化主技能战力+强化被动技能战力）*法宝成长系数+（品阶主技能战力+品阶被动技能战力）
+			return Math.round((levelSkillFightingCfg.getActiveSkillFighting() + levelSkillFightingCfg.getPassiveSkillFighting()) * aptitudeCoefficient)
+					+ (qualitySkillFightingCfg.getActiveSkillFighting() + qualitySkillFightingCfg.getPassiveSkillFighting());
+		} else {
+			// 强化被动技能战力*法宝成长系数+品阶被动技能战力
+			return Math.round(levelSkillFightingCfg.getPassiveSkillFighting() * aptitudeCoefficient) + qualitySkillFightingCfg.getPassiveSkillFighting();
+		}
 
-		int fighting = 0;
-		OneToOneTypeFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicLevel()));
-		fighting += levelFightingCfg == null ? 0 : levelFightingCfg.getFighting();
-
-		OneToOneTypeFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
-		fighting += qualityFightingCfg == null ? 0 : qualityFightingCfg.getFighting();
-
-		OneToOneTypeFightingCfg magicAptitudeCfg = magicAptitudeFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicAptitude()));
-		fighting += magicAptitudeCfg == null ? 0 : magicAptitudeCfg.getFighting();
-		return fighting;
+//		int fighting = 0;
+//		MagicSkillFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicLevel()));
+//		fighting += levelFightingCfg == null ? 0 : levelFightingCfg.getActiveSkillFighting();
+//
+//		MagicSkillFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
+//		fighting += qualityFightingCfg == null ? 0 : qualityFightingCfg.getActiveSkillFighting();
+//
+//		OneToOneTypeFightingCfg magicAptitudeCfg = magicAptitudeFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicAptitude()));
+//		fighting += magicAptitudeCfg == null ? 0 : magicAptitudeCfg.getFighting();
+//		return fighting;
 	}
 }

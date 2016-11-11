@@ -8,6 +8,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.battle.army.ArmyInfo;
 import com.rwproto.ArenaServiceProtos.ArenaInfo;
 import com.rwproto.ArenaServiceProtos.MsgArenaRequest;
@@ -17,7 +18,7 @@ import com.rwproto.ArenaServiceProtos.eArenaType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class PVPHandler {
+public class PVPHandler implements RandomMethodIF{
 
 	
 	private static PVPHandler instance = new PVPHandler();
@@ -32,19 +33,18 @@ public class PVPHandler {
 	 * @param accountId
 	 */
 	public boolean doPvP(Client client) {
-
-		
 		String enenmyUserId = obtainEnemyId(client);
 		
 		ArmyInfo armyInfo = null;
 		if(enenmyUserId!=null){
 			armyInfo = obtainEnemy(client, enenmyUserId);
+		}else{
+			return true;
 		}
 		boolean success = false;
 		if(armyInfo!=null){
 			success = sendResult(client, enenmyUserId);
 		}
-		
 		return success;
 	}
 
@@ -78,9 +78,6 @@ public class PVPHandler {
 					
 					RobotLog.fail("PVPHandler[before] 返回的竞技对手列表为空");
 					return false;
-					
-					
-					
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("PVPHandler[before] 失败", e);
 					return false;
@@ -185,6 +182,8 @@ public class PVPHandler {
 		return success;
 	}
 	
-	
-
+	@Override
+	public boolean executeMethod(Client client) {
+		return doPvP(client);
+	}
 }

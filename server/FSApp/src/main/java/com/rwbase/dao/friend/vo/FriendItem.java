@@ -18,6 +18,8 @@ public class FriendItem implements FriendItemIF {
 	private long lastLoginTime;
 	private String headFrame;
 	private int fighting;
+	private int vip;
+	private int sex;
 
 	public static FriendItem newInstance(String userId) {
 		Player player = PlayerMgr.getInstance().find(userId);
@@ -51,6 +53,8 @@ public class FriendItem implements FriendItemIF {
 		//TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		newItem.setFighting(player.getHeroMgr().getFightingAll(player));
+		newItem.setVip(player.getVip());
+		newItem.setSex(player.getSex());
 		return newItem;
 	}
 
@@ -126,4 +130,19 @@ public class FriendItem implements FriendItemIF {
 		this.fighting = fighting;
 	}
 
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
 }

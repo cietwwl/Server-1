@@ -7,9 +7,9 @@ import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class PeakArenaPlayerResetTask implements IPlayerOperable {
-	
+
 	private CfgOpenLevelLimitDAO _cfgOpenLevelLimitDAO;
-	
+
 	public PeakArenaPlayerResetTask() {
 		_cfgOpenLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 	}
@@ -25,6 +25,8 @@ public class PeakArenaPlayerResetTask implements IPlayerOperable {
 		if (data != null) {
 			data.setScore(0);
 			data.resetRewardList();
+			// 通知更新UserGameData
+			player.getUserGameDataMgr().updatePeakArenaScore(0);
 		}
 	}
 

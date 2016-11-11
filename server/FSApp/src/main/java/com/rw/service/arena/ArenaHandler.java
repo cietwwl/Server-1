@@ -20,7 +20,6 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
-import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -31,6 +30,7 @@ import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.embattle.EmbattlePositonHelper;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
@@ -258,6 +258,8 @@ public class ArenaHandler {
 
 		int fighting = player.getMainRoleHero().getFighting();
 		arenaData.setFighting(fighting);
+		arenaData.setVip(player.getVip());
+		arenaData.setSex(player.getSex());
 		TableArenaDataDAO.getInstance().update(arenaData);
 		ListRanking<String, ArenaExtAttribute> ranking = ArenaBM.getInstance().getRanking(player.getCareer());
 		if (ranking != null) {
@@ -562,6 +564,9 @@ public class ArenaHandler {
 			record.setLevel(enemyArenaData.getLevel());
 			record.setTime(currentTime);
 			record.setChallenge(1);
+			record.setVip(enemyArenaData.getVip());
+			record.setSex(enemyArenaData.getSex());
+			record.setFighting(enemyArenaData.getFighting());
 			if (newPlace < maxPlace) {
 				m_MyArenaData.setMaxPlace(newPlace);
 			}
@@ -585,6 +590,9 @@ public class ArenaHandler {
 			recordForEnemy.setLevel(m_MyArenaData.getLevel());
 			recordForEnemy.setTime(currentTime);
 			recordForEnemy.setChallenge(0);
+			recordForEnemy.setVip(m_MyArenaData.getVip());
+			recordForEnemy.setSex(m_MyArenaData.getSex());
+			recordForEnemy.setFighting(m_MyArenaData.getFighting());
 			ArenaBM.getInstance().addRecord(enemyUserId, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
@@ -800,6 +808,12 @@ public class ArenaHandler {
 		if (fashionUsing != null) {
 			result.setFashionUsage(fashionUsing);
 		}
+		ItemDataIF magic = player.getMagic();
+		if (magic != null) {
+			result.setMagicModelId(magic.getModelId());
+		} else {
+			result.setMagicModelId(0);
+		}
 		return result.build();
 	}
 
@@ -878,8 +892,6 @@ public class ArenaHandler {
 		ArmyMagic magic = armyInfo.getArmyMagic();
 		data.setMagicId(magic.getModelId());
 		data.setMagicLevel(magic.getLevel());
-
-		data.setFighting(fighting);
 		List<SkillItem> skills = armyInfo.getPlayer().getSkillList();
 		for (SkillItem skill : skills) {
 			data.addRoleSkill(transfrom(skill));
@@ -931,6 +943,13 @@ public class ArenaHandler {
 		result.setLevel(record.getLevel());
 		result.setTime(record.getTime());
 		result.setChallenge(record.getChallenge());
+		result.setFighting(record.getFighting());
+		result.setVip(record.getVip());
+		result.setSex(record.getSex());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(record.getUserId());
+		if(null != usingFashion){
+			result.setFashionUsed(usingFashion);
+		}
 		return result.build();
 	}
 

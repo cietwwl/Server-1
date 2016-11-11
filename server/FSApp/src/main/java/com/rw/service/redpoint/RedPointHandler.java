@@ -8,8 +8,8 @@ import com.rwproto.RedPointServiceProtos.RedPointServiceResponse;
 
 public class RedPointHandler {
 	private static RedPointHandler instance = new RedPointHandler();
-	
-	public static RedPointHandler getInstance(){
+
+	public static RedPointHandler getInstance() {
 		return instance;
 	}
 
@@ -18,11 +18,10 @@ public class RedPointHandler {
 		response.setRespType(commnreq.getReqType());
 		int id = commnreq.getId();
 		String extraInfo = commnreq.getExtraInfo();
-		boolean issucce = reFreshRedPoint(player,id,extraInfo);
+		boolean issucce = reFreshRedPoint(player, id, extraInfo);
 		response.setIsSuccess(issucce);
 		return response.build().toByteString();
-	} 
-	
+	}
 
 	public boolean reFreshRedPoint(Player player, int id, String extraInfo) {
 		boolean issucce = false;

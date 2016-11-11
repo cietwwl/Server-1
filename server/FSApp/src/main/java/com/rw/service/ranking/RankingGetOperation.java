@@ -17,7 +17,7 @@ public interface RankingGetOperation {
 
 	/**
 	 * 获取排行榜列表
-	 * 
+	 * TODO 这里不应该只返回RankingLevelData，因为不是所有排行榜都是这个类型
 	 * @param rankType
 	 * @return
 	 */
@@ -25,7 +25,7 @@ public interface RankingGetOperation {
 
 	/**
 	 * 获取指定玩家排名数据
-	 * 
+	 * TODO 这里不应该只返回RankingLevelData，因为不是所有排行榜都是这个类型
 	 * @param rankType
 	 * @param userId
 	 * @return
@@ -42,4 +42,8 @@ public interface RankingGetOperation {
 	 */
 	RankingLevelDataGetOp RANKING_GET_OPERATION = new RankingLevelDataGetOp();
 
+	/**
+	 * 帮派战力获取方式
+	 */
+	GroupFightingGetOperation GROUP_FIGHTING_GET_OPERATION = new GroupFightingGetOperation();
 }

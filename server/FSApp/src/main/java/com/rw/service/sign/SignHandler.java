@@ -3,6 +3,7 @@ package com.rw.service.sign;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.rwproto.SignServiceProtos.ERequestType;
 import com.rwproto.SignServiceProtos.EResultType;
@@ -95,6 +96,7 @@ public class SignHandler
 		}
 		else
 		{
+			GameLog.error("sign", player.getUserId(), "无效的签到:" + signId);
 			response.setResultMsg("非法请求");
 			response.setResultype(EResultType.FAIL);
 		}

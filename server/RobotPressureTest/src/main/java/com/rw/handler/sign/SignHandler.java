@@ -7,6 +7,7 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.SignServiceProtos.ERequestType;
@@ -14,7 +15,7 @@ import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignRequest;
 import com.rwproto.SignServiceProtos.MsgSignResponse;
 
-public class SignHandler {
+public class SignHandler implements RandomMethodIF{
 	private static SignHandler handler = new SignHandler();
 	private static final Command command = Command.MSG_SIGN;
 	private static final String functionName = "签到模块";
@@ -133,5 +134,10 @@ public class SignHandler {
 			return functionName + "[" + protoType + "] ";
 		}
 		
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return processsSign(client);
 	}
 }

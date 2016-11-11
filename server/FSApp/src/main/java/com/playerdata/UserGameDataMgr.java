@@ -102,7 +102,7 @@ public class UserGameDataMgr {
 				} else {
 					long hasSeconds = TimeUnit.MILLISECONDS.toSeconds(flowTime);// 过了多少秒
 					int addValue = (int) Math.ceil(hasSeconds / recoverTime);// 可以增加多少个
-			
+
 					int tempPower = curPower + addValue;// 临时增加到多少体力
 					tempPower = tempPower >= maxPower ? maxPower : tempPower;
 					if (tempPower != curPower) {
@@ -974,5 +974,11 @@ public class UserGameDataMgr {
 		int count = data.getKillBossRewardCount();
 		data.setKillBossRewardCount(count + 1);
 		userGameDataHolder.update(player);
+	}
+
+	public void updatePeakArenaScore(int score) {
+		UserGameData data = userGameDataHolder.get();
+		data.setPeakArenaScore(score);
+		userGameDataHolder.update(player, "peakArenaScore");
 	}
 }

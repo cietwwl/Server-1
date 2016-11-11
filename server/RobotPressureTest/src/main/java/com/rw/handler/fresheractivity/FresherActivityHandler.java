@@ -7,13 +7,13 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
-
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.FrshActProtos.FrshActRequest;
 import com.rwproto.FrshActProtos.FrshActResponse;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class FresherActivityHandler {
+public class FresherActivityHandler implements RandomMethodIF{
 	private static FresherActivityHandler handler = new FresherActivityHandler();
 	private static final Command command = Command.MSG_FRSH_ACT;
 	private static final String functionName = "封神之路";
@@ -65,6 +65,10 @@ public class FresherActivityHandler {
 		}		
 		return isTakenAllGift;
 	}
-	
-	
+
+	@Override
+	public boolean executeMethod(Client client) {
+		// TODO Auto-generated method stub
+		return testTakeFresherActivityRewards(client);
+	}
 }

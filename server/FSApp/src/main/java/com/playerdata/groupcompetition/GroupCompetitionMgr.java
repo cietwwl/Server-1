@@ -316,6 +316,8 @@ public class GroupCompetitionMgr {
 	public void onPlayerLogin(Player player) {
 		try {
 			GCompBaseInfoMgr.getInstance().sendBaseInfo(player); // 同步帮派争霸基础数据
+			// 帮战的离开队伍事件
+			GCompTeamMgr.getInstance().forcePlayerLeaveTeam(player);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -334,7 +336,6 @@ public class GroupCompetitionMgr {
 			try {
 				int matchId = GCompEventsDataMgr.getInstance().getMatchIdOfGroup(GroupHelper.getGroupId(player), globalData.getCurrentEventsRecord().getCurrentEventsType());
 				if (matchId > 0) {
-					GCompTeamMgr.getInstance().onPlayerEnterPrepareArea(matchId, player);
 					GCompOnlineMemberMgr.getInstance().addToOnlineMembers(player);
 					GCompOnlineMemberMgr.getInstance().sendOnlineMembers(player);
 					GCompDetailInfoMgr.getInstance().sendDetailInfo(matchId, player);

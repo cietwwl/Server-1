@@ -2,6 +2,8 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "ChatServiceProtos";
 
+import "FashionService.proto";
+
 enum eChatType {
 	CHANNEL_WORLD = 1;//世界频道
 	CHANNEL_GROUP = 2; // 公会频道
@@ -48,6 +50,8 @@ message MessageUserInfo{
 	optional int32 fashionTemplateId = 9; // 时装的模板id
 	optional int32 careerType = 10; // 职业类型
 	optional int32 gender = 11; // 性别
+	optional FashionService.FashionUsed fashionUsed = 12; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 fighting = 13;
 }
 
 message ChatMessageData{

@@ -8,6 +8,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.ActivityDailyTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityDailyTypeProto.ActivityCommonRspMsg;
 import com.rwproto.ActivityDailyTypeProto.RequestType;
@@ -16,7 +17,7 @@ import com.rwproto.ResponseProtos.Response;
 
 
 
-public class ActivityDailyCountHandler {
+public class ActivityDailyCountHandler implements RandomMethodIF{
 	private static ActivityDailyCountHandler handler = new ActivityDailyCountHandler();
 
 	public static ActivityDailyCountHandler getHandler() {
@@ -26,7 +27,6 @@ public class ActivityDailyCountHandler {
 	/**通用活动领取所有未领取奖励*/
 	public boolean ActivityDailyCountTakeGift(Client client) {
 		Map<String,String> giftList = client.getActivityDailyCountHolder().getGiftlist();
-		
 		
 		boolean istakeall = true;
 //		System.out.println("@@@@@@@@@@@ activitydaily,申请领取的size=" + giftList.size());
@@ -75,7 +75,9 @@ public class ActivityDailyCountHandler {
 		}		
 		return istakeall;
 	}
-	
-	
-	
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return ActivityDailyCountTakeGift(client);
+	}
 }

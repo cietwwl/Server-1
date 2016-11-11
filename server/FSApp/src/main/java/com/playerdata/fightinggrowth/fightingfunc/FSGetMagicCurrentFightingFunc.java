@@ -1,8 +1,11 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
+import java.util.List;
+
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fightinggrowth.calc.FightingCalcComponentType;
-import com.rwbase.common.IFunction;
+import com.rwbase.common.IBIFunction;
 import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.dao.item.pojo.ItemData;
 
@@ -13,7 +16,7 @@ import com.rwbase.dao.item.pojo.ItemData;
  * @author CHEN.P
  *
  */
-public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer> {
+public class FSGetMagicCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 
 	private static final FSGetMagicCurrentFightingFunc _instance = new FSGetMagicCurrentFightingFunc();
 
@@ -34,19 +37,29 @@ public class FSGetMagicCurrentFightingFunc implements IFunction<Player, Integer>
 	}
 
 	@Override
-	public Integer apply(Player player) {
+	public Integer apply(Player player, List<Hero> teamHeros) {
 		ItemData magic = player.getMagicMgr().getMagic();
 		if (magic == null) {
 			return 0;
 		}
 
 		MagicBuilder mb = new MagicBuilder();
-		mb.setHeroId(player.getMainRoleHero().getTemplateId());
+		mb.setHeroTemplateId(player.getMainRoleHero().getTemplateId());
 		mb.setMagicId(String.valueOf(magic.getModelId()));
 		mb.setMagicLevel(magic.getMagicLevel());
 		mb.setMagicAptitude(magic.getMagicAdvanceLevel());
+		mb.setIsMainRole(true);
 
-		return FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+		int fighting = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+
+		int size = teamHeros.size() - 1;
+		if (size > 0) {
+			mb.setIsMainRole(false);
+			int heroFighting = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
+			fighting += heroFighting * size;
+		}
+		
+		return fighting;
 
 		// MagicCfg cfg = magicCfgDAO.getCfgById(String.valueOf(magic.getModelId()));
 		// if (cfg == null) {

@@ -7,15 +7,15 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.ItemBagProtos.EItemBagEventType;
 import com.rwproto.ItemBagProtos.MsgItemBagRequest;
 import com.rwproto.ItemBagProtos.MsgItemBagResponse;
-import com.rwproto.ItemBagProtos.TagCompose;
 import com.rwproto.ItemBagProtos.TagItemData;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class ItemBagHandler {
+public class ItemBagHandler implements RandomMethodIF{
 
 	private static ItemBagHandler instance = new ItemBagHandler();
 
@@ -24,7 +24,7 @@ public class ItemBagHandler {
 	}
 
 	/**
-	 * 创建角色
+	 * 随机出售
 	 * 
 	 * @param serverId
 	 * @param accountId
@@ -38,7 +38,7 @@ public class ItemBagHandler {
 	}
 
 	/**
-	 * 创建角色
+	 * 出售指定物品
 	 * 
 	 * @param serverId
 	 * @param accountId
@@ -94,6 +94,8 @@ public class ItemBagHandler {
 		return success;
 	}
 
-	
-
+	@Override
+	public boolean executeMethod(Client client) {
+		return sellRandom(client);
+	}
 }

@@ -50,7 +50,7 @@ public class SaveTeaminfoToServerHandler {
 		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, type.getNumber(), str, parseList);
 
 		// 通知阵容发生了改变
-		FSHeroMgr.getInstance().updateFightingTeamWhenEmBattleChange(player.getUserId());
+		FSHeroMgr.getInstance().updateFightingTeamWhenEmBattleChange(player);
 
 		return msRsp.build().toByteString();
 	}

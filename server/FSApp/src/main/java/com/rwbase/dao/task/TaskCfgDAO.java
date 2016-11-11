@@ -3,6 +3,7 @@ package com.rwbase.dao.task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class TaskCfgDAO extends CfgCsvDao<TaskCfg> {
 	private List<TaskCfg> initTask;//初始任务列表
 	private HashMap<Integer, TaskCfg> map;
 	private HashMap<Integer, TaskCfg> preIdMap;//key=上一个任务id
-
+	
 	@Override
 	public Map<String, TaskCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("task/taskCfg.csv", TaskCfg.class);
@@ -27,14 +28,29 @@ public class TaskCfgDAO extends CfgCsvDao<TaskCfg> {
 		List<TaskCfg> list = new ArrayList<TaskCfg>();
 		HashMap<Integer, TaskCfg> map = new HashMap<Integer, TaskCfg>();
 		HashMap<Integer, TaskCfg> preIdMap = new HashMap<Integer, TaskCfg>();
-		for (Map.Entry<String, TaskCfg> entry : cfgCacheMap.entrySet()) {
-			TaskCfg cfg = entry.getValue();
+		for(Iterator<String> keyItr = cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
+			TaskCfg cfg = cfgCacheMap.get(keyItr.next());
 			//TODO 这里可能有未初始化的preId
 			map.put(cfg.getId(), cfg);
 			preIdMap.put(cfg.getPreTask(), cfg);
 			if (cfg.getPreTask() < 0) {
 				list.add(cfg);
 			}
+			String[] allRewards = cfg.getReward().split(",");
+			Map<Integer, Integer> rewardMap = new HashMap<Integer, Integer>(allRewards.length, 1.5f);
+			String[] singleReward;
+			for (String rewardStr : allRewards) {
+				singleReward = rewardStr.split("_");
+				rewardMap.put(Integer.parseInt(singleReward[0]), Integer.parseInt(singleReward[1]));
+			}
+			cfg.setRewardMap(rewardMap);
+			
+			String[] finishParams = cfg.getFinishParam().split("_");
+			List<String> finishParamList = new ArrayList<String>(finishParams.length);
+			for(String param : finishParams) {
+				finishParamList.add(param);
+			}
+			cfg.setFinishParamList(finishParamList);
 		}
 		this.map = map;
 		this.preIdMap = preIdMap;

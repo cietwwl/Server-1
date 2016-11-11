@@ -1159,6 +1159,648 @@ public final class VipProtos {
     // @@protoc_insertion_point(class_scope:tagPrivilege)
   }
 
+  public interface VIPGiftNotifyOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated fixed32 vipLv = 1;
+    /**
+     * <code>repeated fixed32 vipLv = 1;</code>
+     *
+     * <pre>
+     * 已发送的VIP等级专享礼包
+     * </pre>
+     */
+    java.util.List<java.lang.Integer> getVipLvList();
+    /**
+     * <code>repeated fixed32 vipLv = 1;</code>
+     *
+     * <pre>
+     * 已发送的VIP等级专享礼包
+     * </pre>
+     */
+    int getVipLvCount();
+    /**
+     * <code>repeated fixed32 vipLv = 1;</code>
+     *
+     * <pre>
+     * 已发送的VIP等级专享礼包
+     * </pre>
+     */
+    int getVipLv(int index);
+
+    // optional fixed32 firstChargeGiftId = 2;
+    /**
+     * <code>optional fixed32 firstChargeGiftId = 2;</code>
+     *
+     * <pre>
+     * 首充礼包的id
+     * </pre>
+     */
+    boolean hasFirstChargeGiftId();
+    /**
+     * <code>optional fixed32 firstChargeGiftId = 2;</code>
+     *
+     * <pre>
+     * 首充礼包的id
+     * </pre>
+     */
+    int getFirstChargeGiftId();
+  }
+  /**
+   * Protobuf type {@code VIPGiftNotify}
+   *
+   * <pre>
+   * VIP等级专享礼包发送通知
+   * </pre>
+   */
+  public static final class VIPGiftNotify extends
+      com.google.protobuf.GeneratedMessage
+      implements VIPGiftNotifyOrBuilder {
+    // Use VIPGiftNotify.newBuilder() to construct.
+    private VIPGiftNotify(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private VIPGiftNotify(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final VIPGiftNotify defaultInstance;
+    public static VIPGiftNotify getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public VIPGiftNotify getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private VIPGiftNotify(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 13: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                vipLv_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              vipLv_.add(input.readFixed32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001) && input.getBytesUntilLimit() > 0) {
+                vipLv_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                vipLv_.add(input.readFixed32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 21: {
+              bitField0_ |= 0x00000001;
+              firstChargeGiftId_ = input.readFixed32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          vipLv_ = java.util.Collections.unmodifiableList(vipLv_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.VipProtos.internal_static_VIPGiftNotify_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.VipProtos.internal_static_VIPGiftNotify_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.VipProtos.VIPGiftNotify.class, com.rwproto.VipProtos.VIPGiftNotify.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<VIPGiftNotify> PARSER =
+        new com.google.protobuf.AbstractParser<VIPGiftNotify>() {
+      public VIPGiftNotify parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new VIPGiftNotify(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<VIPGiftNotify> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // repeated fixed32 vipLv = 1;
+    public static final int VIPLV_FIELD_NUMBER = 1;
+    private java.util.List<java.lang.Integer> vipLv_;
+    /**
+     * <code>repeated fixed32 vipLv = 1;</code>
+     *
+     * <pre>
+     * 已发送的VIP等级专享礼包
+     * </pre>
+     */
+    public java.util.List<java.lang.Integer>
+        getVipLvList() {
+      return vipLv_;
+    }
+    /**
+     * <code>repeated fixed32 vipLv = 1;</code>
+     *
+     * <pre>
+     * 已发送的VIP等级专享礼包
+     * </pre>
+     */
+    public int getVipLvCount() {
+      return vipLv_.size();
+    }
+    /**
+     * <code>repeated fixed32 vipLv = 1;</code>
+     *
+     * <pre>
+     * 已发送的VIP等级专享礼包
+     * </pre>
+     */
+    public int getVipLv(int index) {
+      return vipLv_.get(index);
+    }
+
+    // optional fixed32 firstChargeGiftId = 2;
+    public static final int FIRSTCHARGEGIFTID_FIELD_NUMBER = 2;
+    private int firstChargeGiftId_;
+    /**
+     * <code>optional fixed32 firstChargeGiftId = 2;</code>
+     *
+     * <pre>
+     * 首充礼包的id
+     * </pre>
+     */
+    public boolean hasFirstChargeGiftId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional fixed32 firstChargeGiftId = 2;</code>
+     *
+     * <pre>
+     * 首充礼包的id
+     * </pre>
+     */
+    public int getFirstChargeGiftId() {
+      return firstChargeGiftId_;
+    }
+
+    private void initFields() {
+      vipLv_ = java.util.Collections.emptyList();
+      firstChargeGiftId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < vipLv_.size(); i++) {
+        output.writeFixed32(1, vipLv_.get(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeFixed32(2, firstChargeGiftId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        dataSize = 4 * getVipLvList().size();
+        size += dataSize;
+        size += 1 * getVipLvList().size();
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFixed32Size(2, firstChargeGiftId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.VipProtos.VIPGiftNotify parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.VipProtos.VIPGiftNotify prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code VIPGiftNotify}
+     *
+     * <pre>
+     * VIP等级专享礼包发送通知
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.VipProtos.VIPGiftNotifyOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.VipProtos.internal_static_VIPGiftNotify_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.VipProtos.internal_static_VIPGiftNotify_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.VipProtos.VIPGiftNotify.class, com.rwproto.VipProtos.VIPGiftNotify.Builder.class);
+      }
+
+      // Construct using com.rwproto.VipProtos.VIPGiftNotify.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        vipLv_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        firstChargeGiftId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.VipProtos.internal_static_VIPGiftNotify_descriptor;
+      }
+
+      public com.rwproto.VipProtos.VIPGiftNotify getDefaultInstanceForType() {
+        return com.rwproto.VipProtos.VIPGiftNotify.getDefaultInstance();
+      }
+
+      public com.rwproto.VipProtos.VIPGiftNotify build() {
+        com.rwproto.VipProtos.VIPGiftNotify result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.VipProtos.VIPGiftNotify buildPartial() {
+        com.rwproto.VipProtos.VIPGiftNotify result = new com.rwproto.VipProtos.VIPGiftNotify(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          vipLv_ = java.util.Collections.unmodifiableList(vipLv_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.vipLv_ = vipLv_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.firstChargeGiftId_ = firstChargeGiftId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.VipProtos.VIPGiftNotify) {
+          return mergeFrom((com.rwproto.VipProtos.VIPGiftNotify)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.VipProtos.VIPGiftNotify other) {
+        if (other == com.rwproto.VipProtos.VIPGiftNotify.getDefaultInstance()) return this;
+        if (!other.vipLv_.isEmpty()) {
+          if (vipLv_.isEmpty()) {
+            vipLv_ = other.vipLv_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureVipLvIsMutable();
+            vipLv_.addAll(other.vipLv_);
+          }
+          onChanged();
+        }
+        if (other.hasFirstChargeGiftId()) {
+          setFirstChargeGiftId(other.getFirstChargeGiftId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.VipProtos.VIPGiftNotify parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.VipProtos.VIPGiftNotify) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated fixed32 vipLv = 1;
+      private java.util.List<java.lang.Integer> vipLv_ = java.util.Collections.emptyList();
+      private void ensureVipLvIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          vipLv_ = new java.util.ArrayList<java.lang.Integer>(vipLv_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public java.util.List<java.lang.Integer>
+          getVipLvList() {
+        return java.util.Collections.unmodifiableList(vipLv_);
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public int getVipLvCount() {
+        return vipLv_.size();
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public int getVipLv(int index) {
+        return vipLv_.get(index);
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public Builder setVipLv(
+          int index, int value) {
+        ensureVipLvIsMutable();
+        vipLv_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public Builder addVipLv(int value) {
+        ensureVipLvIsMutable();
+        vipLv_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public Builder addAllVipLv(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureVipLvIsMutable();
+        super.addAll(values, vipLv_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated fixed32 vipLv = 1;</code>
+       *
+       * <pre>
+       * 已发送的VIP等级专享礼包
+       * </pre>
+       */
+      public Builder clearVipLv() {
+        vipLv_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      // optional fixed32 firstChargeGiftId = 2;
+      private int firstChargeGiftId_ ;
+      /**
+       * <code>optional fixed32 firstChargeGiftId = 2;</code>
+       *
+       * <pre>
+       * 首充礼包的id
+       * </pre>
+       */
+      public boolean hasFirstChargeGiftId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional fixed32 firstChargeGiftId = 2;</code>
+       *
+       * <pre>
+       * 首充礼包的id
+       * </pre>
+       */
+      public int getFirstChargeGiftId() {
+        return firstChargeGiftId_;
+      }
+      /**
+       * <code>optional fixed32 firstChargeGiftId = 2;</code>
+       *
+       * <pre>
+       * 首充礼包的id
+       * </pre>
+       */
+      public Builder setFirstChargeGiftId(int value) {
+        bitField0_ |= 0x00000002;
+        firstChargeGiftId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional fixed32 firstChargeGiftId = 2;</code>
+       *
+       * <pre>
+       * 首充礼包的id
+       * </pre>
+       */
+      public Builder clearFirstChargeGiftId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        firstChargeGiftId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:VIPGiftNotify)
+    }
+
+    static {
+      defaultInstance = new VIPGiftNotify(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:VIPGiftNotify)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_MsgVipResponse_descriptor;
   private static
@@ -1169,6 +1811,11 @@ public final class VipProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_tagPrivilege_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_VIPGiftNotify_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_VIPGiftNotify_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1180,8 +1827,9 @@ public final class VipProtos {
     java.lang.String[] descriptorData = {
       "\n\tVip.proto\"2\n\016MsgVipResponse\022 \n\tprivile" +
       "ge\030\001 \003(\0132\r.tagPrivilege\"*\n\014tagPrivilege\022" +
-      "\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005B\030\n\013com.rwpro" +
-      "toB\tVipProtos"
+      "\013\n\003key\030\001 \001(\005\022\r\n\005value\030\002 \001(\005\"9\n\rVIPGiftNo" +
+      "tify\022\r\n\005vipLv\030\001 \003(\007\022\031\n\021firstChargeGiftId" +
+      "\030\002 \001(\007B\030\n\013com.rwprotoB\tVipProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1200,6 +1848,12 @@ public final class VipProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_tagPrivilege_descriptor,
               new java.lang.String[] { "Key", "Value", });
+          internal_static_VIPGiftNotify_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_VIPGiftNotify_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_VIPGiftNotify_descriptor,
+              new java.lang.String[] { "VipLv", "FirstChargeGiftId", });
           return null;
         }
       };

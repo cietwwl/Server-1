@@ -501,6 +501,19 @@ public class DateUtils {
 		instance.setTimeInMillis(time);
 		return simpleDateFormat.format(instance.getTime());
 	}
+	
+	/***
+	 * 获取时间指定格式字符串
+	 * 
+	 * @param time
+	 * @param format
+	 * @return
+	 */
+	public static String getDateTimeFormatString(String format) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		Calendar instance = Calendar.getInstance();
+		return simpleDateFormat.format(instance.getTime());
+	}
 
 	public static String timeToCountDown(long time) {
 		int hour = (int) (time / (60 * 60 * 1000));

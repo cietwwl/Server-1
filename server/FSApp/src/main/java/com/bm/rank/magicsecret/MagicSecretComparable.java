@@ -23,6 +23,14 @@ public class MagicSecretComparable implements Comparable<MagicSecretComparable> 
 		return this.totalScore;
 	}
 
+	public void setRecentScoreTime(long recentScoreTime) {
+		this.recentScoreTime = recentScoreTime;
+	}
+
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
+	}
+
 	@Override
 	public int compareTo(MagicSecretComparable o) {
 		if(getTotalScore() < o.getTotalScore()){

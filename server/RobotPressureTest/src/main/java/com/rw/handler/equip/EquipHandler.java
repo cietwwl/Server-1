@@ -11,6 +11,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.itembag.ItemData;
 import com.rwproto.EquipProtos.EquipEventType;
@@ -21,7 +22,7 @@ import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class EquipHandler {
+public class EquipHandler implements RandomMethodIF{
 
 	private static final Random r = new Random();
 	private static EquipHandler instance = new EquipHandler();
@@ -246,5 +247,21 @@ public class EquipHandler {
 			}
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		int rd = new Random().nextInt(3);
+		switch (rd) {
+		case 0:
+			return wearEquip(client);
+		case 1:
+			return true;
+			//return equipAttach(client);
+		case 2:
+			return heroAdvance(client);
+		default:
+			return true;
+		}
 	}
 }

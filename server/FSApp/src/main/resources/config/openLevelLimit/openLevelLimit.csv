@@ -4,7 +4,7 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 3,,3,1,100,,,,MSG_Hero,
 4,,4,1,100,,,,MSG_CopyService,
 5,,5,13,100,,,,MSG_RANKING,
-6,,6,42,100,,,,,
+6,,6,42,100,,,110902,,
 7,,7,24,100,,,110510,MSG_TRIAL,TRIAL_TYPE_TRIAL
 8,,8,32,100,,,110612,MSG_TRIAL,TRIAL_TYPE_CELESTIAL
 9,,9,29,100,,,110606,MSG_TOWER,TOWER_PANEL_INFO
@@ -19,7 +19,7 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 19,,19,1,100,,,,,
 20,,20,15,100,,,,MSG_DAILY_ACTIVITY,
 21,,21,14,100,,,110404,MSG_ARENA,
-22,,22,1,100,,,,MSG_SIGN,
+22,,22,13,100,,,,MSG_SIGN,
 23,,23,18,100,,,110410,MSG_MAGIC_SECRET,Magic_Secret
 24,,24,14,100,,,,MSG_Worship,WORSHIP
 25,,25,42,100,,,110902,MSG_PEAK_ARENA,
@@ -34,8 +34,8 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 34,,34,1,100,,,,,
 35,,35,25,100,,,,MSG_GROUP_SECRET,
 36,,36,12,100,,,,MSG_STORE,
-37,,37,12,100,,9,,,
-38,,38,12,100,,11,,,
+37,,37,12,100,,,,,
+38,,38,12,100,,,,,
 39,,38,5,100,,,,,
 40,,40,26,100,,,110512,MSG_TRIAL,TRAIL_VALLEY
 41,,41,21,100,,,,MSG_FASHION,
@@ -69,3 +69,5 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 69,,69,34,100,,,,,
 70,,70,6,100,,,,,
 71,,71,45,100,,,,,
+72,,72,14,100,,,,,
+73,,73,18,100,,,110410,,

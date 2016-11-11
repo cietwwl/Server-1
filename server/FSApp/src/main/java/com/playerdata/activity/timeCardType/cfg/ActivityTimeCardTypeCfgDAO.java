@@ -6,7 +6,6 @@ import java.util.Map;
 
 import com.playerdata.Player;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeEnum;
-import com.playerdata.activity.timeCardType.ActivityTimeCardTypeHelper;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -16,7 +15,7 @@ import com.rwbase.common.config.CfgCsvHelper;
 /*
  * @author HC
  * @date 2016年1月16日 下午5:42:44
- * @Description 帮派的基础配置表Dao
+ * @Description 月卡
  */
 public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCardTypeCfg> {
 
@@ -39,20 +38,18 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 	
 	public ActivityTimeCardTypeItem newItem(Player player){
 		//在不改配置文件的情况下，只修改itemid方便插入数据库；
-		ActivityTimeCardTypeCfg cfgById = getCfgById("1");
+		ActivityTimeCardTypeCfg cfgById = getCfgById(ActivityTimeCardTypeEnum.Month.getCfgId());
 		if(cfgById!=null){			
 			ActivityTimeCardTypeItem item = new ActivityTimeCardTypeItem();
 			int id = Integer.parseInt(ActivityTimeCardTypeEnum.Month.getCfgId());
 			item.setId(id);
 			item.setUserId(player.getUserId());
 			item.setCfgId(cfgById.getId());
-			newAndAddSubItemList(item);
-			
+			newAndAddSubItemList(item);	
 			return item;
 		}else{
 			return null;
 		}
-		
 	}
 
 
@@ -67,6 +64,4 @@ public final class ActivityTimeCardTypeCfgDAO extends CfgCsvDao<ActivityTimeCard
 		}
 		item.setSubItemList(subItemList);
 	}
-
-
 }

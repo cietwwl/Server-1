@@ -22,6 +22,7 @@ import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupHelper;
@@ -40,6 +41,7 @@ import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.FriendServiceProtos.EFriendResultType;
 import com.rwproto.FriendServiceProtos.FriendInfo;
 
@@ -272,6 +274,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		}
 		if (friendTable.getReCommandfriendList().isEmpty()) {// 加的是第一个机器人，机器人会立刻赠送体力
 			otherPlayer.getFriendMgr().givePower(userId);
+			resultVo.updateList.add(friendItemToInfo(robotFriendItem));
 		}
 		if (!friendTable.getReCommandfriendList().containsKey(otherUserId)) {
 			friendTable.getReCommandfriendList().put(otherUserId, robotFriendItem);
@@ -324,7 +327,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				// resultVo.resultType = EFriendResultType.FAIL;
 				// resultVo.resultMsg = "对方已经是你的好友";
 			} else if (other != null && otherUserId.length() > 20) {
-				requestAddOneRobotToFriend(otherUserId, userId);
+				FriendResultVo vo = requestAddOneRobotToFriend(otherUserId, userId);
+				if (vo.resultType == EFriendResultType.SUCCESS) {
+					resultVo.updateList.addAll(vo.updateList);
+				}
 			} else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
 				if (otherTable.getBlackList().containsKey(userId)) {
@@ -650,8 +656,10 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			resultVo.resultMsg = "今日可领取体力已达上限";
 			resultVo.resultType = EFriendResultType.FAIL;
 		} else if (count == 0) {
-			resultVo.resultMsg = "没有可领取体力";
-			resultVo.resultType = EFriendResultType.FAIL;
+			if (resultVo.resultMsg == null || resultVo.resultType == null) {
+				resultVo.resultMsg = "没有可领取体力";
+				resultVo.resultType = EFriendResultType.FAIL;
+			}
 		} else if (count > 0 && !tableFriend.getFriendVo().isCanReceive(m_pPlayer.getLevel())) {// 成功了一些，然后体力满了
 			resultVo.resultMsg = "成功领取 " + resultVo.powerCount + " 体力，今日可领取体力已达上限";
 			resultVo.resultType = EFriendResultType.SUCCESS_MSG;
@@ -768,6 +776,12 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setLevel(item.getLevel());
 		friendInfo.setGroupId(GroupHelper.getUserGroupId(userId));
 		friendInfo.setGroupName(GroupHelper.getGroupName(userId));
+		friendInfo.setVip(item.getVip());
+		friendInfo.setSex(item.getSex());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
+		if (null != usingFashion) {
+			friendInfo.setFashionUsed(usingFashion);
+		}
 
 		if (item.getHeadFrame() == null) {
 			List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
@@ -849,6 +863,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		// TODO 帮派获取名字后再提供
 		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		friendItem.setFighting(player.getHeroMgr().getFightingAll(player));
+		friendItem.setVip(player.getVip());
+		friendItem.setSex(player.getSex());
 	}
 
 	private void notifyLoginTime(TableFriend hostTable, FriendGetOperation getOp, String userId, long currentTime) {
