@@ -17,6 +17,7 @@ import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.playerdata.groupFightOnline.manager.GFightOnlineGroupMgr;
+import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.cfg.GroupFunctionCfg;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwproto.GrouFightOnlineProto.GFResultType;
@@ -56,13 +57,15 @@ public class GFightGroupBidBM {
 	 * @param resourceID
 	 */
 	public void getGroupBidRank(Player player, GroupFightOnlineRspMsg.Builder gfRsp, int resourceID){
-		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
+		List<GFGroupBiddingItem> groupBidRank = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID, GFightConst.GROUP_BID_RANK_COUNT);
 		if(groupBidRank == null) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("取不到帮派竞标排行榜");
 		}
 		for(GFGroupBiddingItem item : groupBidRank) 
 			gfRsp.addRankData(ClientDataSynMgr.toClientData(item));
+		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		gfRsp.setSelfRank(GFGroupBiddingRankMgr.getRankIndex(resourceID, groupID));
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
 	
