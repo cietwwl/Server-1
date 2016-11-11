@@ -1,6 +1,5 @@
 package com.rw.mutiTest;
 
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,13 +8,12 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.apache.log4j.Logger;
 
 import com.rw.Robot;
-import com.rw.Test;
 
 public class MutiTestOnetimeCreate {
 
 	private static Logger tmpLog = Logger.getLogger("tmpLog");
 	/**线程和总数同步参数*/
-	private static int num = 1;
+	private static int num = 2;
 	
 	// 执行线程数，并发数
 	private static int threadCount = MutiTestAccount.threadCount/num;
@@ -52,14 +50,24 @@ public class MutiTestOnetimeCreate {
 				public void run() {
 					try {
 						
-//						long start = System.currentTimeMillis();
-//						String accountId = preName + index;
+						long start = System.currentTimeMillis();
+						String accountId = preName + index;
 //						System.out.println("!!!!!!!!!!!!!!!!!!!begin.name="+ accountId);
-//						Robot robot = createRobot(accountId);
-//						long now = System.currentTimeMillis();
-//						long spend = now - start;
-//						long all = spend;
-//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatrole="+ spend + "   all = " + all);
+						//Robot robot = createRobot(accountId);
+						Robot robot = loginRobot(accountId);
+						long now = System.currentTimeMillis();
+						long spend = now - start;
+						long all = spend;
+						System.out.println("~~~~~~~~~~~~~~~~~~~~loginRobot="+ accountId + "   all = " + all);
+//						robot.loginPlatform();
+//						robot.loginGame();
+//						robot.upgrade(50);
+//						robot.addGold(90000000);
+//						robot.addCoin(90000000);
+//						robot.createGroup("Group" + index);
+//						robot.addGroupExp();
+//						robot.addGroupToken(900000);
+						robot.playerGroupFight();
 //						Robot robot = Test.loginRobot(accountId);
 //						robot.checkEnoughMoney();						
 //						long tmp = now;
@@ -163,5 +171,12 @@ public class MutiTestOnetimeCreate {
 		}
 		return robot;
 	}
-
+	
+	// 登录
+	public static Robot loginRobot(String accountId) {
+		Robot robot = Robot.newInstance(accountId);
+		robot.loginPlatform();
+		robot.loginGame();
+		return robot;
+	}
 }
