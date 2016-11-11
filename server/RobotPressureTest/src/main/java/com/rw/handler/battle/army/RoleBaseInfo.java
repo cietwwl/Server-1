@@ -1,7 +1,9 @@
 package com.rw.handler.battle.army;
 
+import com.rw.dataSyn.SynItem;
 
-public class RoleBaseInfo {
+
+public class RoleBaseInfo implements SynItem{
 
 	private String id;    //英雄uuid
 	
@@ -16,12 +18,15 @@ public class RoleBaseInfo {
 	public String getId() {
 		return id;
 	}
+	
 	public void setId(String id) {
 		this.id = id;
 	}
+	
 	public String getTemplateId() {
 		return templateId;
 	}
+	
 	public void setTemplateId(String templateId) {
 		this.templateId = templateId;
 	}
@@ -29,42 +34,48 @@ public class RoleBaseInfo {
 	public int getModeId() {
 		return modeId;
 	}
+	
 	public void setModeId(int modeId) {
 		this.modeId = modeId;
 	}
+	
 	public int getLevel() {
 		return level;
 	}
+	
 	public void setLevel(int level) {
 		this.level = level;
 	}
+	
 	public int getStarLevel() {
 		return starLevel;
 	}
+	
 	public void setStarLevel(int starLevel) {
 		this.starLevel = starLevel;
 	}
+	
 	public String getQualityId() {
 		return qualityId;
 	}
+	
 	public void setQualityId(String qualityId) {
 		this.qualityId = qualityId;
 	}
+	
 	public long getExp() {
 		return exp;
 	}
+	
 	public void setExp(long exp) {
 		this.exp = exp;
 	}
+	
 	public int getCareerType() {
 		return careerType;
 	}
+	
 	public void setCareerType(int careerType) {
 		this.careerType = careerType;
 	}
-
-	
-
-	
-	
 }

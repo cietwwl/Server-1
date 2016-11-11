@@ -192,6 +192,9 @@ public abstract class ClientMsgHandler {
 					case USER_GAME_DATA:
 						getClient().getUserGameDataHolder().syn(msgDataSyn);
 						break;
+					case ROLE_BASE_ITEM:
+						getClient().getRoleBaseInfoHolder().syn(getClient(), msgDataSyn);
+						break;
 					case GFightOnlinePersonalData:
 						getClient().getUserGFightOnlineHolder().syn(msgDataSyn);
 						break;

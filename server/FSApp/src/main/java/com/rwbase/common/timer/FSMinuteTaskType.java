@@ -1,6 +1,7 @@
 package com.rwbase.common.timer;
 
 import com.bm.rank.groupCompetition.groupRank.GroupFightRankRefreshMgr;
+import com.bm.targetSell.param.TargetSellSendTask;
 import com.playerdata.activity.growthFund.GrowthFundBoughtCountSynTask;
 import com.playerdata.activity.growthFund.GrowthFundGlobalDataSaveTask;
 import com.rwbase.common.timer.core.FSGameTimerDataSaver;
@@ -11,6 +12,7 @@ public enum FSMinuteTaskType {
 	GROUP_FIGHT_RANK_REFRESH(GroupFightRankRefreshMgr.class, 15, false),
 	GROWTH_FUND_SAVE_TASK(GrowthFundGlobalDataSaveTask.class, 5, false),
 	GROWTH_FUND_SYN_TASK(GrowthFundBoughtCountSynTask.class, 1, false),
+	TARGET_SELL_SEND_TASK(TargetSellSendTask.class, 1, false),
 	//DEMO(com.rwbase.common.timer.test.FSGameMinuteTaskDemo.class, 1, false),
 	;
 	private Class<? extends IGameTimerTask> _classOfTask; // 實例化的class

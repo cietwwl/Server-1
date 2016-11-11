@@ -432,6 +432,10 @@ public class ChargeMgr {
 		while (cfg.getRechargeCount() <= totalChargeGold) {
 			player.AddVip(1);
 			cfg = privilegeCfgDAO.getCfg(player.getVip() + 1); // 获取下一级的cfg
+			if (cfg == null) {
+				// 没有下一级的cfg，已到达VIP上限
+				break;
+			}
 		}
 		if (preVip != player.getVip()) {
 			// 新添加的直接发送VIP等级礼包
