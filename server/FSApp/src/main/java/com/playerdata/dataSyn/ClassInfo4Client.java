@@ -117,15 +117,15 @@ public class ClassInfo4Client {
 		Object target = null;
 		try{
 			target = clazz.newInstance();
-			Map<String,String> tableData = JsonUtil.readToMap(json, String.class);	
+			Map<String,String> tableData = JsonUtil.readToMap(json, String.class);//map.value is an Object, not String type in fact	
 			
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
-				fieldJson = tableData.get(fieldName);
+				Object value = tableData.get(fieldName);
+				fieldJson = String.valueOf(value);
 				if(StringUtils.isNotBlank(fieldJson)){
 					fieldInfo.fromJson(target, fieldJson);
 				}
-				
 			}
 			
 		}catch(Exception e){
