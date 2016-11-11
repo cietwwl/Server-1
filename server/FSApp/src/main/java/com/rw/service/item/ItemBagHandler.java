@@ -133,6 +133,7 @@ public class ItemBagHandler {
 			return response.build().toByteString();
 		}
 
+		int level = player.getLevel();// 等级
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();// 要使用的道具列表
@@ -143,6 +144,9 @@ public class ItemBagHandler {
 			TagCompose compose = composeList.get(i);
 			int mateId = compose.getMateId();
 			int composeCount = compose.getComposeCount();
+			if (composeCount <= 0) {
+				return response.build().toByteString();
+			}
 
 			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(mateId);
 			if (itemList.isEmpty()) {
@@ -154,7 +158,13 @@ public class ItemBagHandler {
 				return response.build().toByteString();
 			}
 
-			if (player.getUserGameDataMgr().getCoin() < cfg.getCost()) {
+			// 等级不满足条件
+			if (cfg.getComposeLevel() > level) {
+				return response.build().toByteString();
+			}
+
+			int cost = cfg.getCost() * composeCount;
+			if (player.getUserGameDataMgr().getCoin() < cost) {
 				return response.build().toByteString();
 			}
 
@@ -177,9 +187,9 @@ public class ItemBagHandler {
 
 			Integer hasValue = currencyMap.get(eSpecialItemId.Coin.getValue());
 			if (hasValue == null) {
-				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost());
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cost);
 			} else {
-				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost() + hasValue);
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cost + hasValue);
 			}
 
 			// 检查一下是不是宝石
