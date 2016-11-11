@@ -1,5 +1,5 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-buyPowerCount,,999,今日购买体力次数已用完，提高VIP等级可以增加购买次数。,今日购买体力次数已用完，大神，您已经无法再增加购买次数。,
-useCoinTransCount,,999,今日使用点金手次数不足，提高VIP等级可以增加使用次数。,今日使用点金手次数不足，大神，您已经无法再增加使用次数。,
+buyPowerCount,,999,今日购买体力次数已用完，提高贵族等级可以增加购买次数。,今日购买体力次数已用完，大神，您已经无法再增加购买次数。,
+useCoinTransCount,,999,今日使用点金手次数不足，提高贵族等级可以增加使用次数。,今日使用点金手次数不足，大神，您已经无法再增加使用次数。,
 getSweepTicketNum,,999,,,
-isAllowReport,,,,,VIP2开启举报玩家功能，充值可提升VIP等级。
+isAllowReport,,,,,贵族2开启举报玩家功能，充值可提升贵族等级。
