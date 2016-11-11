@@ -26,6 +26,7 @@ import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
+import com.playerdata.CopyDataMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -35,7 +36,7 @@ import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.playerdata.readonly.CopyCfgIF;
+import com.playerdata.readonly.CopyInfoCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.UserChannelMgr;
@@ -67,11 +68,11 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
-import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.cfg.CopyCfgDAO;
-import com.rwbase.dao.copy.cfg.MapCfg;
-import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.copypve.TableCopyDataDAO;
+import com.rwbase.dao.copypve.pojo.CopyData;
+import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
@@ -92,7 +93,6 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
@@ -270,6 +270,11 @@ public class GMHandler {
 		funcCallBackMap.put("testcharge", "testCharge");
 		
 		funcCallBackMap.put("addsaexp", "addSaExp");
+		
+		funcCallBackMap.put("resetJBZD".toLowerCase(), "resetJBZD");
+		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
+		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
+		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
 	}
 
 	public boolean isActive() {
@@ -2048,5 +2053,50 @@ public class GMHandler {
 		com.playerdata.activity.growthFund.GrowthFundGlobalData data = com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder.getInstance().getGlobalData();
 		data.setAlreadyBoughtCount(Integer.parseInt(arrCommandContents[0]));
 		return true;
+	}
+	
+	private boolean resetCopy(Player player, int type) {
+		TableCopyData tableCopyData = TableCopyDataDAO.getInstance().get(player.getUserId());
+		List<CopyData> copyList = tableCopyData.getCopyList();
+		List<CopyInfoCfgIF> cfgList = CopyDataMgr.getSameDayInfoList();
+		for (CopyData cd : copyList) {
+			if (cd.getCopyType() == type) {
+				int copyType = cd.getCopyType();
+				for (CopyInfoCfgIF cfg : cfgList) {
+					if (copyType == cfg.getType()) {
+						cd.setCopyCount(cfg.getCount());
+						break;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean resetCopyCd(Player player, int type) {
+		TableCopyData tableCopyData = TableCopyDataDAO.getInstance().get(player.getUserId());
+		List<CopyData> copyList = tableCopyData.getCopyList();
+		for (CopyData cd : copyList) {
+			if (cd.getCopyType() == type) {
+				cd.setLastChallengeTime(0);
+			}
+		}
+		return true;
+	}
+	
+	public boolean resetJBZD(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_TRIAL_JBZD);
+	}
+	
+	public boolean resetJBZDCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_JBZD);
+	}
+
+	public boolean resetLQSG(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_TRIAL_LQSG);
+	}
+	
+	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
 }
