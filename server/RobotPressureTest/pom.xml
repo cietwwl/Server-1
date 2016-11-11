@@ -77,6 +77,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>csv</artifactId>
+			<version>1.2</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>json</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>fastjson-1.1.39</version>

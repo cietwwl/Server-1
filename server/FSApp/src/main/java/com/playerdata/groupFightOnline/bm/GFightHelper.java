@@ -42,4 +42,20 @@ public class GFightHelper {
 		}
 		return Collections.unmodifiableList(tmpList);
 	}
+	
+	public static List<ItemInfo> stringToItemList(String rewardStr, String secondSplit, String firstSplit){
+		if(StringUtils.isBlank(rewardStr)) return null;
+		List<ItemInfo> tmpList = new ArrayList<ItemInfo>();
+		String[] rewardItemStr = rewardStr.split(firstSplit);
+		for(String rewardItem : rewardItemStr){
+			String[] itemStrArr = rewardItem.split(secondSplit);
+			if(itemStrArr.length == 2){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(Integer.parseInt(itemStrArr[0]));
+				item.setItemNum(Integer.parseInt(itemStrArr[1]));
+				tmpList.add(item);
+			}
+		}
+		return Collections.unmodifiableList(tmpList);
+	}
 }

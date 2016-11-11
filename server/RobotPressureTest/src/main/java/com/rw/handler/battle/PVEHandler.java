@@ -1,7 +1,9 @@
 package com.rw.handler.battle;
 
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.config.copyCfg.CopyCfgDAO;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -38,11 +40,7 @@ public class PVEHandler implements RandomMethodIF{
 		
 		MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
 		req.setRequestType(ERequestType.BATTLE_ITEMS_BACK);
-//		
-//		Builder tagBattleData = TagBattleData.newBuilder().setBattleClearingTime(1);
-//		req.setTagBattleData(tagBattleData);
-		req.setLevelId(110101);
-		
+		req.setLevelId(getNextCopyId(client));
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_CopyService, req.build().toByteString(), new MsgReciver() {
 			
@@ -92,9 +90,8 @@ public class PVEHandler implements RandomMethodIF{
         MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
         req.setRequestType(ERequestType.BATTLE_CLEARING);
 
-        Builder tagBattleData = TagBattleData.newBuilder().setLevelId(110101).setStarLevel(2).setBattleStatus(EBattleStatus.WIN).setBattleClearingTime(1);
+        Builder tagBattleData = TagBattleData.newBuilder().setLevelId(client.getCopyHolder().getFightingCopyId()).setStarLevel(new Random().nextInt(3) + 1).setBattleStatus(EBattleStatus.WIN).setBattleClearingTime(1);
         req.setTagBattleData(tagBattleData);
-       
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_CopyService, req.build().toByteString(), new MsgReciver() {
 			
@@ -153,5 +150,17 @@ public class PVEHandler implements RandomMethodIF{
 		default:
 			return true;
 		}
+	}
+	
+	private int getNextCopyId(Client client){
+		int rd = new Random().nextInt(4);
+		int copyId = 0;
+		if(rd != 0){
+			copyId = CopyCfgDAO.getInstance().getNextNormalCopyId(client.getCopyHolder().getCurrentNormalCopyId());
+		}else {
+			copyId = CopyCfgDAO.getInstance().getNextEliteCopyId(client.getCopyHolder().getCurrentEliteCopyId());
+		}
+		client.getCopyHolder().setFightingCopyId(copyId);
+		return copyId;
 	}
 }

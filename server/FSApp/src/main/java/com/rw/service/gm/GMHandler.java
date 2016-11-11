@@ -35,6 +35,7 @@ import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.readonly.CopyCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.UserChannelMgr;
@@ -52,6 +53,7 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
+import com.rw.service.gm.copy.GMCopyProcesser;
 import com.rw.service.gm.fixequip.GMAddFixEquip;
 import com.rw.service.gm.groupcomp.GCGMHandler;
 import com.rw.service.gm.hero.GMHeroBase;
@@ -65,6 +67,8 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
+import com.rwbase.dao.copy.cfg.CopyCfg;
+import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.cfg.MapCfg;
 import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -545,24 +549,42 @@ public class GMHandler {
 	 * 设定副本地图的通关关卡
 	 */
 	public boolean setMap(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 1) {
-			player.NotifyCommonMsg("命令有误，请重新输入");
-			return false;
-		}
-		String id = arrCommandContents[0];
-		if (id == null) {
-			player.NotifyCommonMsg("mapid有错");
-			return false;
-		}
-		MapCfg map = (MapCfg) MapCfgDAO.getInstance().getCfgById(id);
-		if (map == null) {
-			player.NotifyCommonMsg("mapid有错");
-			return false;
-		}
-
-		MsgCopyResponse.Builder copyResponse = player.getCopyRecordMgr().setMapByGM(map);// 获取要新增的关卡...
-		player.SendMsg(Command.MSG_CopyService, copyResponse.build().toByteString());
-		return true;
+//		if (arrCommandContents == null || arrCommandContents.length < 1) {
+//			player.NotifyCommonMsg("命令有误，请重新输入");
+//			return false;
+//		}
+//		String id = arrCommandContents[0];
+//		if (id == null) {
+//			player.NotifyCommonMsg("mapid有错");
+//			return false;
+//		}
+//		MapCfg map = (MapCfg) MapCfgDAO.getInstance().getCfgById(id);
+//		if (map == null) {
+//			player.NotifyCommonMsg("mapid有错");
+//			return false;
+//		}
+//
+//		int nMapID = map.getId();
+//		MapCfgDAO mapCfgDAO = MapCfgDAO.getInstance();
+//		CopyCfgDAO cfgDAO = CopyCfgDAO.getInstance();
+//		List<CopyCfgIF> list = new ArrayList<CopyCfgIF>();
+//		for (int i = 1001; i <= nMapID; i++) {
+//			MapCfg mapCfg = mapCfgDAO.getCfg(i);
+//			if (map != null) {
+//				int start = mapCfg.getStartLevelId();
+//				int end = mapCfg.getEndLevelId();
+//				for (int levelId = start; levelId <= end; i++) {
+//					CopyCfg copyCfg = cfgDAO.getCfg(levelId);
+//					if (copyCfg != null) {
+//						list.add(copyCfg);
+//					}
+//				}
+//			}
+//		}
+//		MsgCopyResponse.Builder copyResponse = player.getCopyRecordMgr().setMapByGM(map);// 获取要新增的关卡...
+//		player.SendMsg(Command.MSG_CopyService, copyResponse.build().toByteString());
+//		return true;
+		return GMCopyProcesser.processSetMap(arrCommandContents, player);
 	}
 
 	public boolean addPower(String[] arrCommandContents, Player player) {
