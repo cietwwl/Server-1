@@ -51,6 +51,22 @@ public class FriendHandler {
 		return instance;
 	}
 
+	private FriendOnlineComparator onlineComparator = new FriendOnlineComparator();
+	private FriendOfflineComparator offlineComparator = new FriendOfflineComparator();
+	private CreateTimeComparator createComparator = new CreateTimeComparator();
+
+	public FriendOfflineComparator getOfflineComparator() {
+		return offlineComparator;
+	}
+
+	public FriendOnlineComparator getOnlineComparator() {
+		return onlineComparator;
+	}
+
+	public CreateTimeComparator getCreateComparator() {
+		return createComparator;
+	}
+
 	/** 所有列表 */
 	public ByteString allList(FriendRequest request, Player player) {
 		FriendResponse.Builder response = FriendResponse.newBuilder();
@@ -595,8 +611,8 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType , response.build().toByteString());
+		// PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 
 	/** 推送同意添加的好友 */
@@ -610,7 +626,7 @@ public class FriendHandler {
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
 		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		// PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
 		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 
@@ -625,7 +641,7 @@ public class FriendHandler {
 		response.setRequestType(requestType);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(otherUserId);
-//		PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
+		// PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
 		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 

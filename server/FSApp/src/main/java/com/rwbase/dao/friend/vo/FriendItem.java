@@ -1,13 +1,17 @@
 package com.rwbase.dao.friend.vo;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.FriendItemIF;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FriendItem implements FriendItemIF {
 	private String userId;
 	private String userName;
@@ -20,29 +24,30 @@ public class FriendItem implements FriendItemIF {
 	private int fighting;
 	private int vip;
 	private int sex;
+	private long createTime;
 
 	public static FriendItem newInstance(String userId) {
 		Player player = PlayerMgr.getInstance().find(userId);
-		FriendItem newItem = new FriendItem();
 		if (player == null) {
-			return newItem;
+			return null;
 		}
 
 		TableUserIF tableUser = player.getTableUser();
 		if (tableUser == null) {
-			return newItem;
+			return null;
 		}
 
 		Hero mainRoleHero = player.getMainRoleHero();
 		if (mainRoleHero == null) {
-			return newItem;
+			return null;
 		}
 
 		TableUserOtherIF tableUserOther = player.getTableUserOther();
 		if (tableUserOther == null) {
-			return newItem;
+			return null;
 		}
 
+		FriendItem newItem = new FriendItem();
 		newItem.setUserId(tableUser.getUserId());
 		newItem.setUserName(tableUser.getUserName());
 		newItem.setLevel(tableUser.getLevel());
@@ -50,11 +55,12 @@ public class FriendItem implements FriendItemIF {
 		newItem.setCareer(mainRoleHero.getCareerType());
 		newItem.setLastLoginTime(tableUser.getLastLoginTime());
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
-		//TODO 帮派获取名字后再提供
+		// TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		newItem.setFighting(player.getHeroMgr().getFightingAll(player));
 		newItem.setVip(player.getVip());
 		newItem.setSex(player.getSex());
+		newItem.createTime = DateUtils.getSecondLevelMillis();
 		return newItem;
 	}
 
@@ -144,5 +150,9 @@ public class FriendItem implements FriendItemIF {
 
 	public void setSex(int sex) {
 		this.sex = sex;
+	}
+
+	public long getCreateTime() {
+		return createTime;
 	}
 }
