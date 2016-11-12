@@ -248,7 +248,12 @@ public class CopyHandler {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		MapAnimationState state = copyRequest.getMapAnima();
 		if(null != state){
-			player.getUserGameDataMgr().setMapAnimationState(state);
+			com.playerdata.MapAnimationState aniState = new com.playerdata.MapAnimationState();
+			aniState.setEliteAnimState(state.getEliteAnimState());
+			aniState.setEliteMapId(state.getEliteMapId());
+			aniState.setNormalAnimState(state.getNormalAnimState());
+			aniState.setNormalMapId(state.getNormalMapId());
+			player.getUserGameDataMgr().setMapAnimationState(aniState);
 			copyResponse.setEResultType(EResultType.Success);
 		}else{
 			copyResponse.setEResultType(EResultType.NONE);

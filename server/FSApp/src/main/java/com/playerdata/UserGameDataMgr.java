@@ -24,7 +24,6 @@ import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserGameDataHolder;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
-import com.rwproto.CopyServiceProtos.MapAnimationState;
 
 public class UserGameDataMgr {
 
