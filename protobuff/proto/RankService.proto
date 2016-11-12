@@ -82,5 +82,6 @@ message RankingMagicData{
 	required string magicImage = 1;//法宝图像
 	required int32 magicQuality = 2;//法宝品质
 	required int32 magicAttackType = 3;//法宝攻击类型
+	required int32 magicLevel = 4; //法宝等级
 }
 

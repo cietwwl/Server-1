@@ -1,5 +1,7 @@
 package com.rw.handler.group.holder;
 
+import java.util.List;
+
 import com.rw.dataSyn.SynDataListHolder;
 import com.rw.handler.group.data.GroupBaseData;
 import com.rwproto.DataSynProtos.MsgDataSyn;
@@ -25,5 +27,15 @@ public class GroupBaseDataHolder {
 	 */
 	public int getVersion() {
 		return version;
+	}
+
+	/**
+	 * 获取帮派等级
+	 * @return
+	 */
+	public int getGroupLevel(){
+		List<GroupBaseData> list = listHolder.getItemList();
+		GroupBaseData data = list.get(0);
+		return data.getGroupLevel();
 	}
 }

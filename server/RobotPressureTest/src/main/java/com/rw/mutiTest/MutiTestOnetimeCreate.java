@@ -12,16 +12,18 @@ import com.rw.Robot;
 public class MutiTestOnetimeCreate {
 
 	private static Logger tmpLog = Logger.getLogger("tmpLog");
-
+	/**线程和总数同步参数*/
+	private static int num = 2;
+	
 	// 执行线程数，并发数
-	private static int threadCount = MutiTestAccount.threadCount;
-	
-	final private static int totalCount = MutiTestAccount.totalCount;
-	
+	private static int threadCount = MutiTestAccount.threadCount/num;
+
+	final private static int totalCount = MutiTestAccount.totalCount/num;
+
 	private static int start = MutiTestAccount.start;
-	
+
 	private static String preName = MutiTestAccount.preName;
-	
+
 	// 执行间隔 ms
 	private static long span = 1000L;
 
@@ -35,11 +37,10 @@ public class MutiTestOnetimeCreate {
 	private static AtomicInteger failCount = new AtomicInteger(0);
 
 	private static AtomicLong maxTimeCost = new AtomicLong();
-	
+
 	private static boolean withCarrer = false;
 
 	public static void main(String[] args) throws Exception {
-
 		for (int i = start; i < start + totalCount; i++) {
 
 			final int index = i;
@@ -48,11 +49,78 @@ public class MutiTestOnetimeCreate {
 				@Override
 				public void run() {
 					try {
+						
+						long start = System.currentTimeMillis();
 						String accountId = preName + index;
-						createRobot(accountId);
+//						System.out.println("!!!!!!!!!!!!!!!!!!!begin.name="+ accountId);
+						//Robot robot = createRobot(accountId);
+						Robot robot = loginRobot(accountId);
+						long now = System.currentTimeMillis();
+						long spend = now - start;
+						long all = spend;
+						System.out.println("~~~~~~~~~~~~~~~~~~~~loginRobot="+ accountId + "   all = " + all);
+//						robot.loginPlatform();
+//						robot.loginGame();
+//						robot.upgrade(50);
+//						robot.addGold(90000000);
+//						robot.addCoin(90000000);
+//						robot.createGroup("Group" + index);
+//						robot.addGroupExp();
+//						robot.addGroupToken(900000);
+						robot.playerGroupFight();
+//						Robot robot = Test.loginRobot(accountId);
+//						robot.checkEnoughMoney();						
+//						long tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~add="+ spend+ "   all = " + all);
+////						robot.upgrade(50);
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~upgrade="+ spend+ "   all = " + all);
+//						robot.addHero(5);
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~hero="+ spend+ "   all = " + all);
+//						robot.createGroup(accountId);
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroup="+ spend+ "   all = " + all);
+//						robot.createGroupSecret();
+//						tmp = now;
+//						now = System.currentTimeMillis();
+//						spend = now - tmp;
+//						all = spend + all;
+//						System.out.println("~~~~~~~~~~~~~~~~~~~~creatgroupsecret="+ spend+ "   all = " + all);
+//						for (int i = 0; i < 5; i++) {
+//							int normolEquipType = Test.random.nextInt(5);
+//							normolEquipType = normolEquipType == 0 ? 1
+//									: normolEquipType;
+//							boolean issucc = robot.testFixEquip(0, 0, 1,
+//									normolEquipType);
+//							System.out.println(i + "@@@@@@@" + issucc
+//									+ "         " + normolEquipType  + "    " +accountId);
+//						}
+//						for (int i = 0; i < 4; i++) {
+//							int expEquipType = Test.random.nextInt(9);
+//							if (expEquipType < 6) {
+//								expEquipType = 6 + expEquipType / 2;
+//							}
+//							boolean issucc = robot.testFixEquip(1, 0, 1,
+//									expEquipType);
+//							System.out.println(i + "~~~~~~~" + issucc
+//									+ "         " + expEquipType+ "    " +accountId);
+//						}
 					} catch (Throwable e) {
 						e.printStackTrace();
-					}finally{
+					} finally {
 						finishCount.incrementAndGet();
 					}
 				}
@@ -64,10 +132,11 @@ public class MutiTestOnetimeCreate {
 			Thread.sleep(span);
 		}
 		long avgTimeCost = timeCost.get() / finishCount.get();
-		
+
 		tmpLog.info("tasks all ongoing ; success:" + successCount.get()
 				+ " fail:" + failCount.get() + " finishCount:"
-				+ finishCount.get() + " avg in ms:" + avgTimeCost + " maxTimeCost:"+maxTimeCost.get());
+				+ finishCount.get() + " avg in ms:" + avgTimeCost
+				+ " maxTimeCost:" + maxTimeCost.get());
 	}
 
 	// 注册创建角色
@@ -77,14 +146,14 @@ public class MutiTestOnetimeCreate {
 			long startTime = System.currentTimeMillis();
 
 			if (robot.creatRole()) {
-				if(withCarrer){
-					if(robot.upgrade(60) && robot.selectCarrer()){
+				if (withCarrer) {
+					if (robot.upgrade(60) && robot.selectCarrer()) {
 						successCount.incrementAndGet();
-					}else{
+					} else {
 						failCount.incrementAndGet();
 					}
-					
-				}else{
+
+				} else {
 					successCount.incrementAndGet();
 				}
 			} else {
@@ -97,10 +166,17 @@ public class MutiTestOnetimeCreate {
 				maxTimeCost.set(cost);
 			}
 			return robot;
-		}else{
+		} else {
 			failCount.incrementAndGet();
 		}
 		return robot;
 	}
-
+	
+	// 登录
+	public static Robot loginRobot(String accountId) {
+		Robot robot = Robot.newInstance(accountId);
+		robot.loginPlatform();
+		robot.loginGame();
+		return robot;
+	}
 }

@@ -1,22 +1,19 @@
 package com.rw.dataSyn;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.rw.dataSyn.fieldFromJson.FieldClass;
-import com.rw.dataSyn.fieldFromJson.FieldEnum;
-import com.rw.dataSyn.fieldFromJson.FieldList;
-import com.rw.dataSyn.fieldFromJson.FieldMap;
-import com.rw.dataSyn.fieldFromJson.FieldPrimitive;
-import com.rw.dataSyn.fieldFromJson.FieldString;
-import com.rw.dataSyn.fieldFromJson.IFieldFromJson;
+import org.apache.commons.lang3.StringUtils;
+
+import com.rw.dataSyn.json.FieldInfo;
 
 public class ClassInfo {
 	
 	
-	private Map<String,IFieldFromJson> fieldInfoMap = new HashMap<String,IFieldFromJson>();
+	private List<FieldInfo>  clientFiledList = new ArrayList<FieldInfo>();
 
 	private Class<?> clazz;
 	
@@ -25,50 +22,55 @@ public class ClassInfo {
 		clazz = clazzP;
 		Field[] fields = clazzP.getDeclaredFields();
 		for (Field fieldTmp : fields) {
-			fieldTmp.setAccessible(true);
-			IFieldFromJson fieldFromJson = null;
-			Type fieldType = fieldTmp.getType();
-			if(FieldTypeHelper.isEnum(fieldType)){
-				fieldFromJson = new FieldEnum(fieldTmp);
-			}else if(FieldTypeHelper.isPrimitive(fieldType )){
-				fieldFromJson = new FieldPrimitive(fieldTmp);
-			}else if(FieldTypeHelper.isString(fieldType )){
-				fieldFromJson = new FieldString(fieldTmp);
-			}else if (FieldTypeHelper.isList(fieldType)){
-				fieldFromJson = new FieldList(fieldTmp);
-			}else if (FieldTypeHelper.isMap(fieldType)){
-				fieldFromJson = new FieldMap(fieldTmp);
-			}else{
-				fieldFromJson = new FieldClass(fieldTmp);
-			}
-			fieldInfoMap.put(fieldTmp.getName(), fieldFromJson);
+			clientFiledList.add(new FieldInfo(fieldTmp));
 		}
 		
 		
 	}
 
-	public Object FromJson(String json) {
-		Object newInstance  = null;
-		try {
-			newInstance = clazz.newInstance();
-			Map<String, String> dataMap = JsonUtil.readToMap(json);		
-			for (String filedName : dataMap.keySet()) {
-				String jsonTmp = dataMap.get(filedName);
-				
-				if(fieldInfoMap.containsKey(filedName)){
-					IFieldFromJson fieldFromJson = fieldInfoMap.get(filedName);
-					fieldFromJson.FromJson(newInstance,jsonTmp);
+	public Object fromJson(String json){	
+		String fieldName = null;
+		String fieldJson = null;
+		Object target = null;
+		try{
+			target = clazz.newInstance();
+			Map<String,String> tableData = JsonUtil.readToMap(json);//map.value is an Object, not String type in fact	
+			
+			for (FieldInfo fieldInfo : clientFiledList) {
+				fieldName = fieldInfo.getName();
+				Object value = tableData.get(fieldName);
+				fieldJson = String.valueOf(value);
+				if(StringUtils.isNotBlank(fieldJson)){
+					fieldInfo.fromJson(target, fieldJson);
 				}
 			}
 			
-		} catch (Exception e) {
-			throw(new RuntimeException("ClassInfo[FromJson] error json:"+json, e));
+		}catch(Exception e){
+			
+			System.out.println("ClassInfo4Client[FromJson] erro, fieldName:"+fieldName+" fieldJson:"+fieldJson);
+			e.printStackTrace();
+			
 		}
-		
-		
-		return newInstance;
+	
+		return target;
 	}
+	
+	public String toJson(Object target) throws Exception{
+		
+		Map<String, String> clientData = new HashMap<String, String>();
 
+		for (FieldInfo fieldTmp : clientFiledList) {
+			String jsonValue = fieldTmp.toJson(target);
+			if(StringUtils.isNotBlank(jsonValue)){
+				clientData.put(fieldTmp.getName(), jsonValue);
+			}
+		}
+		String jsonData =null;
+		if(clientData.size()>0){
+			jsonData = JsonUtil.writeValue(clientData);
+		}
+		return jsonData;
+	}
 
 
 }
