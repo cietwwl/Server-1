@@ -437,6 +437,14 @@ public final class CopyServiceProtos {
      * <code>GET_GIFT_SUCCESS = 14;</code>
      */
     GET_GIFT_SUCCESS(13, 14),
+    /**
+     * <code>Success = 15;</code>
+     *
+     * <pre>
+     *普通成功
+     * </pre>
+     */
+    Success(14, 15),
     ;
 
     /**
@@ -546,6 +554,14 @@ public final class CopyServiceProtos {
      * <code>GET_GIFT_SUCCESS = 14;</code>
      */
     public static final int GET_GIFT_SUCCESS_VALUE = 14;
+    /**
+     * <code>Success = 15;</code>
+     *
+     * <pre>
+     *普通成功
+     * </pre>
+     */
+    public static final int Success_VALUE = 15;
 
 
     public final int getNumber() { return value; }
@@ -566,6 +582,7 @@ public final class CopyServiceProtos {
         case 12: return GM_SETSUCCESS;
         case 13: return SWEEP_SUCCESS;
         case 14: return GET_GIFT_SUCCESS;
+        case 15: return Success;
         default: return null;
       }
     }
@@ -9866,14 +9883,15 @@ public final class CopyServiceProtos {
       "TTLE_ITEMS_BACK\020\006\022\017\n\013GM_SETLEVEL\020\007\022\014\n\010GE" +
       "T_GIFT\020\010\022\021\n\rMap_Animation\020\t*:\n\rEBattleSt" +
       "atus\022\007\n\003WIN\020\001\022\014\n\010TIMES_UP\020\002\022\010\n\004NULL\020\003\022\010\n" +
-      "\004FAIL\020\004*\213\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PUR" +
+      "\004FAIL\020\004*\230\002\n\013EResultType\022\010\n\004NONE\020\001\022\024\n\020PUR" +
       "CHASE_SUCCESS\020\002\022\013\n\007LOW_VIP\020\003\022\026\n\022NOT_ENOU" +
       "GH_DIAMOND\020\004\022\021\n\rNOT_ENOUGH_HP\020\005\022\014\n\010NOT_O",
       "PEN\020\006\022\025\n\021NOT_ENOUGH_TICKET\020\007\022\024\n\020NOT_ENOU" +
       "GH_TIMES\020\010\022\014\n\010INIT_MAP\020\t\022\r\n\tITEM_BACK\020\n\022" +
       "\020\n\014BATTLE_CLEAR\020\013\022\021\n\rGM_SETSUCCESS\020\014\022\021\n\r" +
-      "SWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016B \n" +
-      "\013com.rwprotoB\021CopyServiceProtos"
+      "SWEEP_SUCCESS\020\r\022\024\n\020GET_GIFT_SUCCESS\020\016\022\013\n" +
+      "\007Success\020\017B \n\013com.rwprotoB\021CopyServicePr" +
+      "otos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
