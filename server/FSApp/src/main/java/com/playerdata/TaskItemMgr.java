@@ -255,6 +255,50 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 		return 1;
 	}
+	
+	/**
+	 * 领取所有已经完成的任务
+	 * @return
+	 */
+	public int getAllReward() {
+		boolean hasNewLoop = false;
+		List<TaskItem> taskList = taskItemHolder.getItemList();
+		if (null == taskList || taskList.isEmpty()) {
+			GameLog.info("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
+			return -1;
+		}
+		for(TaskItem task : taskList){
+			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
+			if (cfg == null) {
+				GameLog.error("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
+				continue;
+			}
+			if (task.getDrawState() == 0 || task.getDrawState() == 2) {
+				//已领取或者未完成
+				continue;
+			}
+			String[] rewards = cfg.getReward().split(",");
+			for (String reward : rewards) {
+				int itemId = Integer.parseInt(reward.split("_")[0]);
+				int count = Integer.parseInt(reward.split("_")[1]);
+				m_pPlayer.getItemBagMgr().addItem(itemId, count);
+			}
+			task.setDrawState(2);
+			if (cfg.getPreTask() != -1) {
+				taskItemHolder.removeItem(m_pPlayer, task);
+			} else {
+				taskItemHolder.updateItem(m_pPlayer, task);
+			}
+			TaskCfg nextCfg = TaskCfgDAO.getInstance().getCfgByPreId(task.getTaskId());
+			if (nextCfg != null) {
+				final boolean doSyn = true;
+				addItemTask(nextCfg, doSyn);
+				hasNewLoop = true;
+			}
+		}
+		if(hasNewLoop) getAllReward();
+		return 1;
+	}
 
 	public boolean save() {
 		taskItemHolder.flush();
