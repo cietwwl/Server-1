@@ -782,6 +782,14 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		// 增加数据
 		for (Entry<Integer, Integer> e : addMap.entrySet()) {
 			int modelId = e.getKey();
+			if (ItemCfgHelper.isFashionSpecialItem(modelId)) {
+				// 2016-11-12 添加对时装的判断
+				addFashion(modelId);
+				continue;
+			} else if (modelId < eSpecialItemId.eSpecial_End.getValue()) {
+				modifyCurrency(modelId, e.getValue());
+				continue;
+			}
 			ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
 			if (cfg == null) {
 				GameLog.error("背包模块添加物品", "new", String.format("%s的modelId找不到对应的配置", modelId));
