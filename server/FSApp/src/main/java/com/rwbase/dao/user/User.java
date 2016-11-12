@@ -11,6 +11,7 @@ import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.user.readonly.TableUserIF;
+import com.rwproto.CopyServiceProtos.MapAnimationState;
 
 @JsonIgnoreProperties(ignoreUnknown = false)
 @Table(name = "user")
@@ -42,6 +43,8 @@ public class User implements TableUserIF {
 	// 用于后台数据查询
 	private int level;
 	private boolean isRobot;// 是否是机器人
+	
+	private MapAnimationState mapAnimationState;
 
 	@NonSave
 	private String channelId;// 渠道Id
@@ -253,5 +256,13 @@ public class User implements TableUserIF {
 
 	public void setRobot(boolean isRobot) {
 		this.isRobot = isRobot;
+	}
+
+	public MapAnimationState getMapAnimationState() {
+		return mapAnimationState;
+	}
+
+	public void setMapAnimationState(MapAnimationState mapAnimationState) {
+		this.mapAnimationState = mapAnimationState;
 	}
 }
