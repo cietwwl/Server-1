@@ -1,5 +1,6 @@
 package com.rwbase.dao.groupCopy.db;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -74,7 +75,8 @@ public class CopyItemDropAndApplyRecord implements IMapItem {
 	 * @return
 	 */
 	public Map<String, ItemDropAndApplyTemplate> getDaMap() {
-		return daMap;
+		return Collections.unmodifiableMap(daMap);
+//		return daMap;
 	}
 
 	
