@@ -8,6 +8,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.SkillMgr;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
+import com.rwproto.CopyServiceProtos.MapAnimationState;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "user_other")
@@ -53,6 +54,7 @@ public class UserGameData implements TableUserOtherIF {
 	private volatile long lastWorshipTime;
 
 	private UserGameExtendInfo extendInfo;
+	private MapAnimationState mapAnimationState;
 
 	public int getExpCoin() {
 		return expCoin;
@@ -298,4 +300,11 @@ public class UserGameData implements TableUserOtherIF {
 		this.wakenKey = wakenKey;
 	}
 
+	public MapAnimationState getMapAnimationState() {
+		return mapAnimationState;
+	}
+
+	public void setMapAnimationState(MapAnimationState mapAnimationState) {
+		this.mapAnimationState = mapAnimationState;
+	}
 }

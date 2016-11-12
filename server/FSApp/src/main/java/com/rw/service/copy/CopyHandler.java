@@ -248,8 +248,8 @@ public class CopyHandler {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
 		MapAnimationState state = copyRequest.getMapAnima();
 		if(null != state){
-			player.getUserDataMgr().setMapAnimationState(state);
-			copyResponse.setEResultType(EResultType.SWEEP_SUCCESS);
+			player.getUserGameDataMgr().setMapAnimationState(state);
+			copyResponse.setEResultType(EResultType.Success);
 		}else{
 			copyResponse.setEResultType(EResultType.NONE);
 		}
