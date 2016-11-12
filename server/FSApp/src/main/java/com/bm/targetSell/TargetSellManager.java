@@ -19,15 +19,18 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bm.targetSell.net.BenefitMsgController;
 import com.bm.targetSell.net.TargetSellOpType;
+import com.bm.targetSell.param.ERoleAttrs;
 import com.bm.targetSell.param.RoleAttrs;
 import com.bm.targetSell.param.TargetSellAbsArgs;
 import com.bm.targetSell.param.TargetSellApplyRoleItemParam;
 import com.bm.targetSell.param.TargetSellData;
 import com.bm.targetSell.param.TargetSellGetItemParam;
 import com.bm.targetSell.param.TargetSellHeartBeatParam;
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.bm.targetSell.param.TargetSellRoleDataParam;
 import com.bm.targetSell.param.TargetSellSendRoleItems;
 import com.bm.targetSell.param.TargetSellServerErrorParam;
+import com.bm.targetSell.param.attrs.AttrsProcessMgr;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -90,6 +93,7 @@ public class TargetSellManager {
 	
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
 	
+	public static final ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
 	
 	private TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
@@ -127,7 +131,7 @@ public class TargetSellManager {
 	}
 	
 	
-	public <T extends TargetSellAbsArgs> T iniCommonParam(T p, String channelID, String userID, String account){
+	public <T extends TargetSellAbsArgs> T initCommonParam(T p, String channelID, String userID, String account){
 		if(p == null){
 			return null;
 		}
@@ -220,30 +224,30 @@ public class TargetSellManager {
 	
 	
 	
-	/**
-	 * 玩家充值后总金额变化通知
-	 * @param userID 角色id
-	 * @param totalChargeMoney 充值后的总金额
-	 */
-	public void increaseChargeMoney(String userID, int totalChargeMoney) {
-		if(!ServerSwitch.isOpenTargetSell()){
-			return;
-		}
-		User user = UserDataDao.getInstance().getByUserId(userID);
-		if(user == null){
-			GameLog.error("TargetSell", "TargetSell[increaseChargeMoney]", "玩家充值后精准营销系统无法找到User数据", null);
-			return;
-		}
-		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
-		
-		TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
-		roleData = iniCommonParam(roleData, user.getChannelId(), userID, user.getAccount());
-		RoleAttrs attrs = new RoleAttrs();
-		attrs.setCharge(totalChargeMoney);
-		roleData.setAttrs(attrs);
-		data.setArgs(toJsonObj(roleData));
-		sendMsg(toJsonString(data));
-	}
+//	/**
+//	 * 玩家充值后总金额变化通知
+//	 * @param userID 角色id
+//	 * @param totalChargeMoney 充值后的总金额
+//	 */
+//	public void increaseChargeMoney(String userID, int totalChargeMoney) {
+//		if(!ServerSwitch.isOpenTargetSell()){
+//			return;
+//		}
+//		User user = UserDataDao.getInstance().getByUserId(userID);
+//		if(user == null){
+//			GameLog.error("TargetSell", "TargetSell[increaseChargeMoney]", "玩家充值后精准营销系统无法找到User数据", null);
+//			return;
+//		}
+//		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
+//		
+//		TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
+//		roleData = iniCommonParam(roleData, user.getChannelId(), userID, user.getAccount());
+//		RoleAttrs attrs = new RoleAttrs();
+//		attrs.setCharge(totalChargeMoney);
+//		roleData.setAttrs(attrs);
+//		data.setArgs(toJsonObj(roleData));
+//		sendMsg(toJsonString(data));
+//	}
 
 	/**
 	 * 检查角色特惠积分 一般在角色登录的时候进行此操作
@@ -254,7 +258,7 @@ public class TargetSellManager {
 			return;
 		}
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
-		pushRoleAllAttrsData(player, null);
+		pushRoleLoginData(player);
 		long nowTime = System.currentTimeMillis();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
@@ -354,7 +358,7 @@ public class TargetSellManager {
 			GameLog.error("TargetSell", "TargetSellManager[notifyBenefitServerRoleGetItem]", "角色领取优惠物品，通知精准服时无法找到user数据", null);
 			return;
 		}
-		itemP = iniCommonParam(itemP, user.getChannelId(), player.getUserId(), user.getAccount());
+		itemP = initCommonParam(itemP, user.getChannelId(), player.getUserId(), user.getAccount());
 		itemP.setItemGroupId(itemGroupID);
 		data.setArgs(toJsonObj(itemP));
 		sendMsg(toJsonString(data));
@@ -436,24 +440,74 @@ public class TargetSellManager {
 	}
 	
 	
+//	/**
+//	 * 推送角色属性到精准服
+//	 * @param player
+//	 * @param attrs   这个可以是全部属性或者是部分属性
+//	 */
+//	public void pushRoleAttrData(Player player, RoleAttrs attrs){
+//		try {
+//			
+//			TargetSellData msgData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
+//			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
+//
+//			roleData.setAttrs(attrs);
+//			msgData.setArgs(toJsonObj(roleData));
+//			sendMsg(toJsonString(msgData));
+//			
+//		} catch (Exception e) {
+//			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrData]", "发送角色属性到精准服时出现异常", e);
+//		}
+//	}
+	
 	/**
-	 * 推送角色属性到精准服
+	 * 通知属性改变
 	 * @param player
-	 * @param attrs   这个可以是全部属性或者是部分属性
+	 * @param list
 	 */
-	public void pushRoleAttrData(Player player, RoleAttrs attrs){
+	public void notifyRoleAttrsChange(Player player, List<ERoleAttrs> list){
+		String userId = player.getUserId();
+		if(RoleAttrChangeMap.containsKey(userId)){
+			TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
+			if(targetSellRoleChange != null){
+				targetSellRoleChange.addChange(list);
+			}
+		}else{
+			TargetSellRoleChange targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
+			targetSellRoleChange.addChange(list);
+			RoleAttrChangeMap.put(userId, targetSellRoleChange);
+		}
+	}
+	
+	public void packAndSendMsg(TargetSellRoleChange value){
+		
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
+		
+		String userId = value.getUserId();
+		List<ERoleAttrs> list = value.getChangeList();
+		Player player = PlayerMgr.getInstance().find(userId);
+		Map<String, Object> attrs = AttrsProcessMgr.getInstance().packChangeAttr(player, list);
+		
 		try {
-			
-			TargetSellData msgData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
+
+			TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
 			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
 
+			User user = UserDataDao.getInstance().getByUserId(player.getUserId());
+
+			roleData = initCommonParam(roleData, user.getChannelId(), player.getUserId(), user.getAccount());
+
+
 			roleData.setAttrs(attrs);
-			msgData.setArgs(toJsonObj(roleData));
-			sendMsg(toJsonString(msgData));
-			
+			sellData.setArgs(toJsonObj(roleData));
+			sendMsg(toJsonString(sellData));
+
 		} catch (Exception e) {
-			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrData]", "发送角色属性到精准服时出现异常", e);
+			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrsData]", "发送角色所有属性到精准服时出现异常", e);
 		}
+		
 	}
 	
 	/**
@@ -465,39 +519,36 @@ public class TargetSellManager {
 		if(!ServerSwitch.isOpenTargetSell()){
 			return;
 		}
+		Map<String, Object> attrs = AttrsProcessMgr.getInstance().packAllAttrs(player);
+		pushData(player, attrs);
+		
+	}
+	
+	public void pushRoleLoginData(Player player){
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
+		Map<String, Object> attrs = AttrsProcessMgr.getInstance().packLoginAttr(player);
+		pushData(player, attrs);
+		
+	}
+	
+	private void pushData(Player player, Map<String, Object> attrs) {
 		try {
-			
+
 			TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
 			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
-			
+
 			User user = UserDataDao.getInstance().getByUserId(player.getUserId());
-			ChargeInfo charge = ChargeInfoHolder.getInstance().get(player.getUserId());
-			
-			
-			roleData = iniCommonParam(roleData, user.getChannelId(), player.getUserId(), user.getAccount());
-			
-			//TODO 组装角色所有属性，这部分后面要抽取出来
-			RoleAttrs attrs = new RoleAttrs();
-			attrs.setCharge(charge.getTotalChargeMoney());
-			attrs.setLevel(player.getLevel());
-			attrs.setVipLevel(player.getVip());
-			attrs.setAllPower(player.getHeroMgr().getFightingAll(player));
-			attrs.setTeamPower(player.getHeroMgr().getFightingTeam(player));
-			attrs.setCreateTime(user.getCreateTime());
-			attrs.setLastLoginTime(user.getLastLoginTime());
-			
-			
+
+			roleData = initCommonParam(roleData, user.getChannelId(), player.getUserId(), user.getAccount());
+
 			roleData.setAttrs(attrs);
 			sellData.setArgs(toJsonObj(roleData));
 			sendMsg(toJsonString(sellData));
-			
-			
+
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrsData]", "发送角色所有属性到精准服时出现异常", e);
-			//TODO 发送参数错误信息反馈回精准服
-			if(data != null){
-				buildErrorMsg(TargetSellOpType.ERRORCODE_101, TargetSellOpType.OPTYPE_5003, data);
-			}
 		}
 	}
 	
@@ -566,7 +617,7 @@ public class TargetSellManager {
 		
 		TargetSellData sellData = TargetSellData.create(TargetSellOpType.OPTYPE_5006);
 		TargetSellApplyRoleItemParam roleItemP = new TargetSellApplyRoleItemParam();
-		roleItemP = iniCommonParam(roleItemP, user.getChannelId(), player.getUserId(), user.getAccount());
+		roleItemP = initCommonParam(roleItemP, user.getChannelId(), player.getUserId(), user.getAccount());
 		roleItemP.setActionName(ACTION_NAME);
 		sellData.setArgs(toJsonObj(roleItemP));
 		sendMsg(toJsonString(sellData));

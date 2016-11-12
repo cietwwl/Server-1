@@ -35,6 +35,7 @@ message OtherRoleAttr {
 	optional FashionService.FashionUsed fashionUsage = 13; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 	optional int32 job = 14;// 显示时装需要职业
 	optional int32 vip = 15;	//vip等级
+	optional int32 magicId = 16; //法宝id
 }
 
 message OtherHero {

@@ -41,6 +41,7 @@ public class PopularityRankExtension extends RankingJacksonExtension<PopularityR
 		toData.setSex(player.getSex());
 		toData.setCareerLevel(player.getStarLevel());
 		toData.setVip(player.getVip());
+		toData.setMagicCfgId(player.getMagic().getModelId());
 		return toData;
 	}
 }

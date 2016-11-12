@@ -20,12 +20,13 @@ public class ArenaExtAttribute extends FightingMember {
 	private int modelId;
 	private int rankLevel;
 	private int rankCount;
+	private int magicCfgId;
 
 	public ArenaExtAttribute() {
 		super(ArenaConstant.ARENA_FIGHTING_TIMEOUT);
 	}
 
-	public ArenaExtAttribute(int career, int fighting, String name, String headImage, int level, int vip) {
+	public ArenaExtAttribute(int career, int fighting, String name, String headImage, int level, int vip, int magicId) {
 		super(ArenaConstant.ARENA_FIGHTING_TIMEOUT);
 		this.career = career;
 		this.fighting = fighting;
@@ -33,6 +34,7 @@ public class ArenaExtAttribute extends FightingMember {
 		this.headImage = headImage;
 		this.level = level;
 		this.vip = vip;
+		this.magicCfgId = magicId;
 	}
 
 	public int getCareer() {
@@ -129,6 +131,14 @@ public class ArenaExtAttribute extends FightingMember {
 
 	public void setVip(int vip) {
 		this.vip = vip;
+	}
+
+	public int getMagicCfgId() {
+		return magicCfgId;
+	}
+
+	public void setMagicCfgId(int magicCfgId) {
+		this.magicCfgId = magicCfgId;
 	}
 
 }

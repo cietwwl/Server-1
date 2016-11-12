@@ -1,16 +1,13 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import com.log.GameLog;
-import com.playerdata.common.PlayerEventListener;
 import com.rw.service.dailyActivity.DailyActivityHandler;
-import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.task.DailyActivityCfgDAO;
 import com.rwbase.dao.task.DailyActivityHolder;
 import com.rwbase.dao.task.DailyFinishType;
@@ -84,9 +81,9 @@ public class DailyActivityMgr {
 					// 这个任务之前没有完成，但满足完成条件，可以设置为完成
 					data.setCanGetReward(1);
 					change = true;
-				} else if (entity.getCheckOutDateCondition().isOutDate()) {
-					// 修复BUG#4854 BY PERRY @ 2016-11-07
-					GameLog.info("DailyActivityMgr#getTaskList", userId, String.format("日常任务超时！任务id：%d", data.getTaskId()));
+				} else if (entity.getCheckOutDateCondition().isOutDate() || !entity.getStartCondition().isMatchCondition(userId, playerLevel, playerVip)) {
+					// 修复BUG#4854 BY PERRY @ 2016-11-07，超时或者时间未到，都不需要发到客户端，可能是上次没有完成的
+					GameLog.info("DailyActivityMgr#getTaskList", userId, String.format("日常任务已过时！任务id：%d", data.getTaskId()));
 					currentList.remove(data);
 					change = true;
 				}
