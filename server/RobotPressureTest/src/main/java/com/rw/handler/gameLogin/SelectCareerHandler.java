@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.player.UserGameData;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.RoleServiceProtos.RoleRequest;
@@ -27,6 +28,10 @@ public class SelectCareerHandler {
 	 * @param accountId
 	 */
 	public boolean select(Client client ) {
+		UserGameData userGameData = client.getUserGameDataHolder().getUserGameData();
+		if(userGameData.getCarrerChangeTime() > 0){
+			return true;
+		}
 		
 		RoleRequest.Builder req = RoleRequest.newBuilder();
 		req.setRequestType( RoleRequestType.SELECT_CAREER);
