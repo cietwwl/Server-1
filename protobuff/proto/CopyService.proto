@@ -12,6 +12,7 @@ enum ERequestType	//请求
 	BATTLE_ITEMS_BACK = 6; 			//战斗物品结算
 	GM_SETLEVEL = 7;				//GM设定关卡命令
 	GET_GIFT = 8;				//领取宝箱
+	Map_Animation = 9;		//副本动画
 }
 
 enum EBattleStatus	//战斗状态
@@ -38,7 +39,6 @@ enum EResultType	//结果
 	GM_SETSUCCESS = 12;		//GM命令成功
 	SWEEP_SUCCESS = 13;//
 	GET_GIFT_SUCCESS = 14;
-	Map_Animation = 15;		//副本动画
 }
 
 message MsgCopyRequest
