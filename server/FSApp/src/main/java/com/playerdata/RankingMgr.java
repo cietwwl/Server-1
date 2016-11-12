@@ -543,6 +543,7 @@ public class RankingMgr {
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
 			toData.setVip(p.getVip());
+			toData.setMagicCfgId(p.getMagic().getModelId());
 		}
 	}
 
@@ -603,6 +604,7 @@ public class RankingMgr {
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
 			toData.setVip(p.getVip());
+			toData.setMagicCfgId(p.getMagic().getModelId());
 			return toData;
 		} catch (Exception e) {
 			return null;

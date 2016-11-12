@@ -20,6 +20,7 @@ public class RankingLevelData {
 	private int rankLevel;
 	private int rankCount;
 	private int vip;
+	private int magicCfgId; // 法宝的配置id
 
 	public int getRankLevel() {
 		return rankLevel;
@@ -147,5 +148,13 @@ public class RankingLevelData {
 
 	public void setVip(int vip) {
 		this.vip = vip;
+	}
+
+	public int getMagicCfgId() {
+		return magicCfgId;
+	}
+
+	public void setMagicCfgId(int magicCfgId) {
+		this.magicCfgId = magicCfgId;
 	}
 }
