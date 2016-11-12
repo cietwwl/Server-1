@@ -7,6 +7,7 @@ import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataHolder;
 import com.rwbase.dao.user.readonly.TableUserIF;
+import com.rwproto.CopyServiceProtos.MapAnimationState;
 
 
 public class UserDataMgr implements PlayerEventListener{
@@ -51,6 +52,11 @@ public class UserDataMgr implements PlayerEventListener{
 			userDataHolder.get().setHeadImage(headImage);
 			userDataHolder.update(player);
 		}
+	}
+	
+	public void setMapAnimationState(MapAnimationState animationState){
+		userDataHolder.get().setMapAnimationState(animationState);
+		userDataHolder.update(player);
 	}
 	
 	public boolean setUserName(String nick) {
