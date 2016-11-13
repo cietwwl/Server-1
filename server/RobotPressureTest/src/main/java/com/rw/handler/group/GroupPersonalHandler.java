@@ -6,6 +6,7 @@ import java.util.Random;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.group.data.UserGroupData;
 import com.rw.handler.group.msg.GroupPersonalMsgReceiver;
 import com.rwproto.GroupCommonProto.GroupRecommentType;
@@ -24,7 +25,7 @@ import com.rwproto.MsgDef.Command;
  * @date 2016年3月15日 下午5:18:09
  * @Description 帮派个人处理类
  */
-public class GroupPersonalHandler {
+public class GroupPersonalHandler implements RandomMethodIF{
 	private static final Random r = new Random();
 	private static GroupPersonalHandler handler = new GroupPersonalHandler();
 
@@ -215,5 +216,10 @@ public class GroupPersonalHandler {
 	 */
 	private MsgReciver getMsgReciver(String protoType) {
 		return new GroupPersonalMsgReceiver(command, functionName, protoType);
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return getGroupInfo(client);
 	}
 }

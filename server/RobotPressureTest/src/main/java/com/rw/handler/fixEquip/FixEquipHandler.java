@@ -2,13 +2,13 @@ package com.rw.handler.fixEquip;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.FixEquipProto.CommonReqMsg;
 import com.rwproto.FixEquipProto.CommonRspMsg;
 import com.rwproto.FixEquipProto.RequestType;
@@ -17,7 +17,7 @@ import com.rwproto.ResponseProtos.Response;
 
 
 
-public class FixEquipHandler {
+public class FixEquipHandler implements RandomMethodIF{
 
 	private static FixEquipHandler instance = new FixEquipHandler();
 	
@@ -340,6 +340,11 @@ public class FixEquipHandler {
 		});
 		return success;		
 		
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return true;
 	}
 	
 }

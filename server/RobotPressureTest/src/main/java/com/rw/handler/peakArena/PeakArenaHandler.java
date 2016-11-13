@@ -3,13 +3,12 @@ package com.rw.handler.peakArena;
 
 import java.util.List;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
 import com.rwproto.PeakArenaServiceProtos.MsgArenaRequest;
@@ -19,14 +18,12 @@ import com.rwproto.PeakArenaServiceProtos.eArenaType;
 import com.rwproto.ResponseProtos.Response;
 
 
-
-public class PeakArenaHandler {
+public class PeakArenaHandler implements RandomMethodIF{
 	private static PeakArenaHandler handler = new PeakArenaHandler();
 	private  String enemyUserid ; 
 	public static PeakArenaHandler getHandler() {
 		return handler;
 	}
-	
 	
 	/**
 	 * 开始挑战界面,用于获得敌对对象列表
@@ -83,14 +80,6 @@ public class PeakArenaHandler {
 		return success;		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * 战斗开始,触发playerdata
 	 * 
@@ -138,8 +127,6 @@ public class PeakArenaHandler {
 		return success;		
 	}
 	
-	
-	
 	/**
 	 * 战斗胜利,获得boolean
 	 * 
@@ -186,6 +173,11 @@ public class PeakArenaHandler {
 
 		});
 		return success;		
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return changeEnemy(client, "");
 	}
 }
 

@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.MsgChatResponse;
@@ -13,7 +14,7 @@ import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class ChatHandler {
+public class ChatHandler implements RandomMethodIF{
 
 	private static ChatHandler instance = new ChatHandler();
 
@@ -110,4 +111,9 @@ public class ChatHandler {
 	// }
 	// });
 	// }
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return send(client, "这里是聊天的测试，hahaha~~~~~");
+	}
 }

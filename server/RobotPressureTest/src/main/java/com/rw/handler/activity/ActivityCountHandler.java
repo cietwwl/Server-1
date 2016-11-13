@@ -1,7 +1,5 @@
 package com.rw.handler.activity;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,19 +8,14 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.ActivityCountTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityCountTypeProto.ActivityCommonRspMsg;
 import com.rwproto.ActivityCountTypeProto.RequestType;
-import com.rwproto.MainServiceProtos.EMainResultType;
-import com.rwproto.MainServiceProtos.EMainServiceType;
-import com.rwproto.MainServiceProtos.MsgMainRequest;
-import com.rwproto.MainServiceProtos.MsgMainResponse;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-
-
-public class ActivityCountHandler {
+public class ActivityCountHandler implements RandomMethodIF{
 	private static ActivityCountHandler handler = new ActivityCountHandler();
 	
 	public static ActivityCountHandler getHandler() {
@@ -85,9 +78,11 @@ public class ActivityCountHandler {
 		}		
 		return istakeall;
 	}
-	
-	
-	
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return ActivityCountTakeGift(client);
+	}
 }
 
 

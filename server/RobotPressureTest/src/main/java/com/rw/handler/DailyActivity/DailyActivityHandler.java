@@ -1,14 +1,14 @@
 package com.rw.handler.DailyActivity;
 
 import com.rw.Robot;
-import com.rw.handler.mainService.MainHandler;
 
-public class DailyActivityHandler {
+public class DailyActivityHandler{
 	private static DailyActivityHandler handler = new DailyActivityHandler();
 
 	public static DailyActivityHandler getHandler() {
 		return handler;
 	}
+	
 	/**消费300钻*/
 	public boolean Const(Robot robot) {
 		// TODO Auto-generated method stub
@@ -21,18 +21,6 @@ public class DailyActivityHandler {
 				break;
 			}
 		}
-		
-		
-		
-		
-		
 		return isConstEnough;
 	}
-	
-	
-	
-	
-	
-	
-	
 }

@@ -4,6 +4,7 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.ErrorService.ErrorType;
 import com.rwproto.FashionServiceProtos.FashionEventType;
 import com.rwproto.FashionServiceProtos.FashionRequest;
@@ -11,7 +12,7 @@ import com.rwproto.FashionServiceProtos.FashionResponse;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class FashionHandler {
+public class FashionHandler implements RandomMethodIF{
 	private static FashionHandler handler = new FashionHandler();
 	private static final Command command = Command.MSG_FASHION;
 	private static final String functionName = "时装模块";
@@ -102,5 +103,10 @@ public class FashionHandler {
 			return functionName + "[" + protoType + "] ";
 		}
 		
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return processBuyFashion(client);
 	}
 }

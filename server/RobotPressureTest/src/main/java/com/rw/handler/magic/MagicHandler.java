@@ -8,6 +8,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.chat.GmHandler;
 import com.rw.handler.itembag.ItemData;
 import com.rwproto.MagicServiceProtos.MsgMagicRequest;
@@ -22,7 +23,7 @@ import com.rwproto.ResponseProtos.Response;
  * @date 2016年3月16日 上午11:13:19
  * @Description 法宝
  */
-public class MagicHandler {
+public class MagicHandler implements RandomMethodIF{
 	private static final Random r = new Random();
 	private static final Command command = Command.MSG_MAGIC;
 	private static final String functionName = "法宝模块";
@@ -114,5 +115,11 @@ public class MagicHandler {
 
 		client.getMsgHandler().sendMsg(Command.MSG_MAGIC, req.build().toByteString(), new MagicMsgReceiver(command, functionName, "法宝强化"));
 		return true;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		// TODO Auto-generated method stub
+		return magicForge(client);
 	}
 }

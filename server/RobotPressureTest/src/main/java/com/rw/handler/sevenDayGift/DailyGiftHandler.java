@@ -1,22 +1,18 @@
 package com.rw.handler.sevenDayGift;
 
-
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
-import com.rwproto.CopyServiceProtos.ERequestType;
-import com.rwproto.CopyServiceProtos.EResultType;
-import com.rwproto.CopyServiceProtos.MsgCopyRequest;
-import com.rwproto.CopyServiceProtos.MsgCopyResponse;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.DailyGifProtos.DailyGifRequest;
 import com.rwproto.DailyGifProtos.DailyGifResponse;
 import com.rwproto.DailyGifProtos.EType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class DailyGiftHandler {
+public class DailyGiftHandler implements RandomMethodIF{
 	private static  DailyGiftHandler handler = new DailyGiftHandler();
 	private  DailyGiftDao dao = new DailyGiftDao();
 	public static  DailyGiftHandler getHandler() {
@@ -119,7 +115,9 @@ public class DailyGiftHandler {
 		}
 		return istakeall;				
 	}
-	
-	
-	
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return getSevenDayGift(client);
+	}
 }

@@ -8,6 +8,8 @@ import java.util.Set;
 
 
 
+
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
 import com.bm.rank.ListRankingType;
@@ -45,6 +47,8 @@ import com.rw.service.log.db.BILogDbMgr;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
@@ -214,7 +218,8 @@ public class RankingMgr {
 
 	private List<User> getRobotFromUserTable() {
 		final List<User> userList = new ArrayList<User>();
-		final String sql = "SELECT userId,vip,level FROM user where userId not like '%"+String.valueOf(GameManager.getZoneId())+"%' limit 105" ;
+		int friendFuncOpenLevel = CfgOpenLevelLimitDAO.getInstance().getOpenLevel(eOpenLevelType.FRIEND);
+		final String sql = "SELECT userId,vip,level FROM user where level >= " + friendFuncOpenLevel + " and userId not like '%"+String.valueOf(GameManager.getZoneId())+"%' limit 105" ;
 		doReadRobotDb(sql,new RobotInteface() {
 			
 			@Override

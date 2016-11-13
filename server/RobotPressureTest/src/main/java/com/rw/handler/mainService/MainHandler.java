@@ -6,6 +6,7 @@ import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MainServiceProtos.EMainResultType;
 import com.rwproto.MainServiceProtos.EMainServiceType;
 import com.rwproto.MainServiceProtos.MsgMainRequest;
@@ -14,7 +15,7 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 
-public class MainHandler {
+public class MainHandler implements RandomMethodIF{
 	private static MainHandler handler = new MainHandler();
 	private static final Command command = Command.MSG_MainService;
 	private static final String functionName = "主城模块";
@@ -76,8 +77,7 @@ public class MainHandler {
 		
 		
 	}
-	
-	
+
 	private class MainMsgReceiver extends PrintMsgReciver{
 
 		public MainMsgReceiver(Command command, String functionName, String protoType) {
@@ -116,12 +116,8 @@ public class MainHandler {
 		
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	@Override
+	public boolean executeMethod(Client client) {
+		return buyTower(client);
+	}
 }

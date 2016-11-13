@@ -9,6 +9,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.groupCompetition.data.baseinfo.GCompBaseInfoHolder;
 import com.rw.handler.groupCompetition.data.battle.GCompMatchBattleSynDataHolder;
 import com.rw.handler.groupCompetition.data.events.GCompEventsDataHolder;
@@ -30,7 +31,7 @@ import com.rwproto.GroupCompetitionProto.TeamStatusRequest;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GroupCompetitionHandler {
+public class GroupCompetitionHandler implements RandomMethodIF{
 	
 	private static final long inviteTimeoutMillis = 10000;
 	
@@ -432,5 +433,10 @@ public class GroupCompetitionHandler {
 			RobotLog.info("GroupCompetitionHandler#requestInviteMember，没有在线成员！");
 		}
 		return true;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return getMatchData(client);
 	}
 }

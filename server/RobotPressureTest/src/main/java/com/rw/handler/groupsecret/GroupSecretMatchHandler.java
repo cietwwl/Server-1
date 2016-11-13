@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.battle.army.ArmyInfo;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rwproto.BattleCommon.BattleHeroPosition;
@@ -23,7 +24,7 @@ import com.rwproto.GroupSecretProto.GroupSecretIndex;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GroupSecretMatchHandler {
+public class GroupSecretMatchHandler implements RandomMethodIF{
 	private static GroupSecretMatchHandler handler = new GroupSecretMatchHandler();
 	private static final Command command = Command.MSG_GROUP_SECRET_MATCH;
 	private static final String functionName = "帮派秘境匹配";
@@ -303,6 +304,11 @@ public class GroupSecretMatchHandler {
 		private String parseFunctionDesc() {
 			return functionName + "[" + protoType + "] ";
 		}
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return searchGroupSecret(client);
 	}
 
 }

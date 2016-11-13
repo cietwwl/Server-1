@@ -135,8 +135,16 @@ public class CfgOpenLevelLimitDAO extends CfgCsvDao<CfgOpenLevelLimit> {
 
 		return result;
 	}
+	
+	public int getOpenLevel(eOpenLevelType type){
+		CfgOpenLevelLimit cfg = getCfgById(type.getOrderString());
+		if(null != cfg){
+			return cfg.getMinLevel();
+		}
+		return 1;
+	}
 
-	private 	void GetCopyChapterAndOrder(int copyId,RefInt chapterNum,RefInt orderInChapter){
+	private void GetCopyChapterAndOrder(int copyId,RefInt chapterNum,RefInt orderInChapter){
 		orderInChapter.value = copyId % 100;
 		chapterNum.value = (copyId / 100) % 100;
 	}

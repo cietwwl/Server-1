@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.GambleServiceProtos.EGambleRequestType;
 import com.rwproto.GambleServiceProtos.EGambleResultType;
 import com.rwproto.GambleServiceProtos.EGambleType;
@@ -14,7 +15,7 @@ import com.rwproto.GambleServiceProtos.GambleResponse;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GambleHandler {
+public class GambleHandler implements RandomMethodIF{
 
 	
 	private static GambleHandler instance = new GambleHandler();
@@ -127,7 +128,8 @@ public class GambleHandler {
 		return success;
 	}
 
-	
-	
-	
+	@Override
+	public boolean executeMethod(Client client) {
+		return buyByGold(client);
+	}
 }

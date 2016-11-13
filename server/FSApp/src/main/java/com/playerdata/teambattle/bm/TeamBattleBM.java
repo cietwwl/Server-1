@@ -556,7 +556,7 @@ public class TeamBattleBM {
 			return false;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(userId);
-		if(null == utbData || StringUtils.isNotBlank(utbData.getTeamID())){
+		if(null == utbData){	// || StringUtils.isNotBlank(utbData.getTeamID())){
 			return false;
 		}
 		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardId);
