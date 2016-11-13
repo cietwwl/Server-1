@@ -12,6 +12,7 @@ import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCEventsType;
+import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
@@ -72,6 +73,7 @@ public class GCompTeamHolder {
 	
 	void removeTeam(int matchId, String groupId, GCompTeam team) {
 		_dao.removeTeamData(matchId, groupId, team);
+		//GCompUtil.log("移除队伍：{}，matchId：{}，team：{}", team.getTeamId(), matchId, team);
 	}
 
 	void createTeamData(List<? extends IGCAgainst> againsts) {

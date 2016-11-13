@@ -14,6 +14,7 @@ import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.dao.optimize.DataAccessStaticSupport;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.user.UserIdCache;
@@ -53,13 +54,13 @@ public class GameLoginHandler {
 		if (GameManager.isShutdownHook) {
 			response.setError("停服维护中");
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
+			UserChannelMgr.sendResponse(null, header, MsgResultType.SHUTDOWN, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 		if (GameManager.isOnlineLimit()) {
 			response.setError("该区人气火爆，请稍后尝试，或者选择推荐新区。");
 			response.setResultType(eLoginResultType.ServerMainTain);
-			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
+			UserChannelMgr.sendResponse(null, header, MsgResultType.ONLINE_LIMIT, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 
@@ -71,14 +72,14 @@ public class GameLoginHandler {
 		if (userAccount == null) {
 			response.setResultType(eLoginResultType.FAIL);
 			response.setError("账号不存在");
-			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
+			UserChannelMgr.sendResponse(null, header, MsgResultType.ACCOUNT_NOT_EXIST, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 		// 检测白名单 by lida
 		if (GameManager.isWhiteListLimit(userAccount.getOpenAccount())) {
 			response.setError("该区维护中，请稍后尝试，");
 			response.setResultType(eLoginResultType.ServerMainTain);
-			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
+			UserChannelMgr.sendResponse(null, header, MsgResultType.SERVER_MAINTAIN, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
 		String userId = userIdCache.getUserId(accountId, zoneId);
@@ -86,7 +87,7 @@ public class GameLoginHandler {
 			response.setResultType(eLoginResultType.NO_ROLE);
 			GameLog.debug("Create Role ...,accountId:" + accountId + " zoneId:" + zoneId);
 			response.setVersion(((VersionConfig) VersionConfigDAO.getInstance().getCfgById("version")).getValue());
-			UserChannelMgr.sendResponse(null, header, response.build().toByteString(), 200, ctx, null);
+			UserChannelMgr.sendResponse(null, header, MsgResultType.ROLE_NOT_EXIST, response.build().toByteString(), 200, ctx, null);
 		} else {
 			Long sessionId = ServerHandler.getSessionId(ctx);
 			if (sessionId == null) {
@@ -107,7 +108,7 @@ public class GameLoginHandler {
 
 	public void createRoleAndLogin(GameLoginRequest request, ChannelHandlerContext ctx, RequestHeader header) {
 		if (GameManager.isShutdownHook) {
-			UserChannelMgr.sendResponse(null, header, createLoginResponse("停服维护中", eLoginResultType.FAIL), 200, ctx, null);
+			UserChannelMgr.sendResponse(null, header, MsgResultType.SHUTDOWN, createLoginResponse("停服维护中", eLoginResultType.FAIL), 200, ctx, null);
 			return;
 		}
 		Long sessionId = ServerHandler.getSessionId(ctx);

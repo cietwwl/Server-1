@@ -1,8 +1,13 @@
 package com.rw.controler;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
 import com.common.HPCUtil;
 import com.log.FSTraceLogger;
 import com.log.GameLog;
@@ -17,6 +22,7 @@ import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
@@ -74,7 +80,7 @@ public class PlayerCreateTask implements Runnable {
 		final int zoneId = request.getZoneId();
 		final String accountId = request.getAccountId();
 		String userId = nettyControler.getGameLoginHandler().getUserId(accountId, zoneId);
-		FSTraceLogger.logger("run", executeTime - submitTime, "CREATE", seqID, userId, accountId, false);
+		FSTraceLogger.logger("run", executeTime - submitTime, "CREATE_DELAY", seqID, userId, accountId, true);
 		GameWorld world = GameWorldFactory.getGameWorld();
 		if (userId != null) {
 			// author: lida 增加容错 如果已经创建角色则进入主城
@@ -88,14 +94,14 @@ public class PlayerCreateTask implements Runnable {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能包含屏蔽字或非法字符";
 			response.setError(reason);
-			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.DIRTY_WORD, response.build().toByteString(), sessionId);
 			return;
 		}
 		if (StringUtils.isBlank(nick)) {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称不能为空";
 			response.setError(reason);
-			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.EMPTY_NICK, response.build().toByteString(), sessionId);
 			return;
 		}
 		// 注册昵称这里没有做多线程安全，会导致后续创建角色失败
@@ -103,7 +109,7 @@ public class PlayerCreateTask implements Runnable {
 			response.setResultType(eLoginResultType.FAIL);
 			String reason = "昵称已经被注册!";
 			response.setError(reason);
-			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.DUPLICATED_NICK, response.build().toByteString(), sessionId);
 			return;
 		}
 
@@ -150,6 +156,11 @@ public class PlayerCreateTask implements Runnable {
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
+		
+		//通知精准营销
+		List<ERoleAttrs> list = new ArrayList<ERoleAttrs>();
+		list.add(ERoleAttrs.r_CreateTime);
+		TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
 
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);

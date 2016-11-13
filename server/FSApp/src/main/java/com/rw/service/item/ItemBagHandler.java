@@ -14,30 +14,24 @@ import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
-import com.rw.fsutil.common.Pair;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.useeffect.IItemUseEffect;
 import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.item.ComposeCfgDAO;
 import com.rwbase.dao.item.ItemUseEffectCfgDAO;
-import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.SpecialItemCfgDAO;
 import com.rwbase.dao.item.pojo.ComposeCfg;
 import com.rwbase.dao.item.pojo.ConsumeCfg;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.ItemUseEffectTemplate;
-import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.item.pojo.SpecialItemCfg;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
-import com.rwbase.dao.magicweapon.MagicExpCfgDAO;
 import com.rwproto.ItemBagProtos.BuyItemInfo;
 import com.rwproto.ItemBagProtos.ConsumeTypeDef;
-import com.rwproto.ItemBagProtos.EItemAttributeType;
 import com.rwproto.ItemBagProtos.EItemBagEventType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
 import com.rwproto.ItemBagProtos.MsgItemBagResponse;
@@ -74,6 +68,9 @@ public class ItemBagHandler {
 		List<IUseItem> useList = new ArrayList<IUseItem>();
 		List<String> idList = new ArrayList<String>();
 
+		ItemData magic = player.getMagic();
+		String magicId = magic.getId();
+
 		int totalSellCoin = 0;// 总共出售可以获得的价格
 		for (int i = 0, size = sellItemList.size(); i < size; i++) {
 			TagItemData data = sellItemList.get(i);
@@ -82,7 +79,10 @@ public class ItemBagHandler {
 				response.setRspInfo(fillResponseInfo(false, "同一物品不能多次出售"));
 				return response.build().toByteString();
 			}
-
+			if (dbId.equals(magicId)) {
+				response.setRspInfo(fillResponseInfo(false, "穿戴的法宝不能出售"));
+				return response.build().toByteString();
+			}
 			ItemData itemData = player.getItemBagMgr().findBySlotId(dbId);
 			if (itemData == null) {
 				response.setRspInfo(fillResponseInfo(false, "道具不存在"));
@@ -124,7 +124,8 @@ public class ItemBagHandler {
 	 * @param composeCount
 	 */
 	public ByteString composeItem(Player player, List<TagCompose> composeList) {
-		// TODO @modify 2015-08-25 HC 应答消息，必须要有一个响应消息，不能每个不符合的条件直接return，而没有任何响应消息，客户端会一直等待响应卡死
+		// TODO @modify 2015-08-25 HC
+		// 应答消息，必须要有一个响应消息，不能每个不符合的条件直接return，而没有任何响应消息，客户端会一直等待响应卡死
 		MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
 		response.setEventType(EItemBagEventType.ItemBag_Compose);
 
@@ -132,6 +133,7 @@ public class ItemBagHandler {
 			return response.build().toByteString();
 		}
 
+		int level = player.getLevel();// 等级
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();// 要使用的道具列表
@@ -142,6 +144,9 @@ public class ItemBagHandler {
 			TagCompose compose = composeList.get(i);
 			int mateId = compose.getMateId();
 			int composeCount = compose.getComposeCount();
+			if (composeCount <= 0) {
+				return response.build().toByteString();
+			}
 
 			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(mateId);
 			if (itemList.isEmpty()) {
@@ -153,7 +158,13 @@ public class ItemBagHandler {
 				return response.build().toByteString();
 			}
 
-			if (player.getUserGameDataMgr().getCoin() < cfg.getCost()) {
+			// 等级不满足条件
+			if (cfg.getComposeLevel() > level) {
+				return response.build().toByteString();
+			}
+
+			int cost = cfg.getCost() * composeCount;
+			if (player.getUserGameDataMgr().getCoin() < cost) {
 				return response.build().toByteString();
 			}
 
@@ -176,9 +187,9 @@ public class ItemBagHandler {
 
 			Integer hasValue = currencyMap.get(eSpecialItemId.Coin.getValue());
 			if (hasValue == null) {
-				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost());
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cost);
 			} else {
-				currencyMap.put(eSpecialItemId.Coin.getValue(), -cfg.getCost() + hasValue);
+				currencyMap.put(eSpecialItemId.Coin.getValue(), -cost + hasValue);
 			}
 
 			// 检查一下是不是宝石
@@ -242,6 +253,12 @@ public class ItemBagHandler {
 		if (consumeCfg == null) {
 			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具ConsumeCfg模版查找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
+			return rsp.build().toByteString();
+		}
+
+		int level = player.getLevel();
+		if (level < consumeCfg.getUseLevel()) {
+			rsp.setRspInfo(fillResponseInfo(false, String.format("主角%s级才能使用", consumeCfg.getUseLevel())));
 			return rsp.build().toByteString();
 		}
 
@@ -411,184 +428,196 @@ public class ItemBagHandler {
 		return response.build().toByteString();
 	}
 
-//	/**
-//	 * 分解法宝或法宝碎片
-//	 * 
-//	 * @param player
-//	 * @param useItemInfo
-//	 * @return
-//	 */
-//	public ByteString decomposeMagicItem(Player player, UseItemInfo useItemInfo) {
-//		MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
-//		response.setEventType(EItemBagEventType.ItemBag_MagicWeapon_Decompose);
-//
-//		do {// do-while-break 模拟goto
-//			final ItemBagMgr bagMgr = player.getItemBagMgr();
-//			String dbId = useItemInfo.getDbId();
-//			final ItemData item = bagMgr.findBySlotId(dbId);
-//			if (item == null) {
-//				response.setRspInfo(fillResponseInfo(false, "找不到物品！"));
-//				break;
-//			}
-//
-//			final EItemTypeDef itemType = item.getType();
-//			if (itemType != EItemTypeDef.Magic && itemType != EItemTypeDef.Magic_Piece) {
-//				response.setRspInfo(fillResponseInfo(false, "不是法宝或者法宝碎片！"));
-//				break;
-//			}
-//
-//			final int modelId = item.getModelId();
-//			final String modelIdStr = String.valueOf(modelId);
-//			if (itemType == EItemTypeDef.Magic_Piece) {
-//				final int useCount = useItemInfo.getCount();
-//				if (useCount > item.getCount()) {
-//					response.setRspInfo(fillResponseInfo(false, "分解数量太大！"));
-//					break;
-//				}
-//
-//				if (useCount < 1) {
-//					response.setRspInfo(fillResponseInfo(false, "请指定分解数量！"));
-//					break;
-//				}
-//
-//				final MagicCfg cfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelIdStr);
-//				if (cfg == null) {
-//					response.setRspInfo(fillResponseInfo(false, "找不到法宝碎片配置！"));
-//					break;
-//				}
-//
-//				// 移除物品
-//				if (!bagMgr.useItemByCfgId(modelId, useCount)) {
-//					response.setRspInfo(fillResponseInfo(false, "无法使用法宝碎片！"));
-//					GameLog.error("背包", "法宝", "使用法宝碎片失败！");
-//					break;
-//				}
-//
-//				final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
-//				List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
-//				for (Pair<Integer, Integer> pair : lst) {
-//					// final boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue() * useCount);
-//					// if (!addItemResult) {
-//					// GameLog.error("背包", "法宝", "添加背包物品失败！物品ID：" + pair.getT1());
-//					// }
-//					itemInfoList.add(new ItemInfo(pair.getT1().intValue(), pair.getT2().intValue() * useCount));
-//				}
-//				if (!bagMgr.addItem(itemInfoList)) {
-//					GameLog.error("背包", "法宝", "添加背包物品失败！物品列表：" + itemInfoList);
-//				}
-//
-//				response.setRspInfo(fillResponseInfo(true, "分解成功"));
-//				break;
-//			}
-//
-//			if (itemType == EItemTypeDef.Magic) {
-//				if ("1".equals(item.getExtendAttr(EItemAttributeType.Magic_State_VALUE))) {
-//					response.setRspInfo(fillResponseInfo(false, "装备身上的法宝不能分解！"));
-//					break;
-//				}
-//
-//				final MagicCfg cfg = (MagicCfg) MagicCfgDAO.getInstance().getCfgById(modelIdStr);
-//				if (cfg == null) {
-//					response.setRspInfo(fillResponseInfo(false, "找不到法宝配置！"));
-//					break;
-//				}
-//
-//				final String expStr = item.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE);
-//				int totalExp = -1;
-//				try {
-//					totalExp = Integer.parseInt(expStr);
-//					if (totalExp < 0) {
-//						response.setRspInfo(fillResponseInfo(false, "无法获取法宝经验值！"));
-//						break;
-//					}
-//				} catch (Exception ex) {
-//					response.setRspInfo(fillResponseInfo(false, "无法获取法宝经验值！"));
-//					break;
-//				}
-//
-//				String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
-//				int lvl = -1;
-//				try {
-//					lvl = Integer.parseInt(lvlStr);
-//					if (lvl < 0) {
-//						// 无法获取法宝等级！
-//						break;
-//					}
-//				} catch (Exception ex) {
-//					// 无法获取法宝等级！
-//					break;
-//				}
-//
-//				if (lvl > 1) {
-//					final Pair<Integer, Integer> lvlCurPair = MagicExpCfgDAO.getInstance().getExpLst(lvl - 1);
-//					if (lvlCurPair == null) {
-//						// 无法获取法宝等级对应的满经验值！
-//						break;
-//					}
-//					totalExp = totalExp + lvlCurPair.getT2();
-//				}
-//
-//				final float coeff = cfg.getCoefficient();
-//				if (coeff <= 0) {
-//					response.setRspInfo(fillResponseInfo(false, "配置系数有误！"));
-//					break;
-//				}
-//
-//				final int addgoodId = cfg.getConvertedGoodModelId();
-//				final ConsumeCfg addGoodCfg = ItemCfgHelper.getConsumeCfg(addgoodId);
-//				if (addGoodCfg == null) {
-//					response.setRspInfo(fillResponseInfo(false, "无法获取消耗品！"));
-//					break;
-//				}
-//
-//				final int unitExp = addGoodCfg.getValue();
-//				if (unitExp <= 0) {
-//					response.setRspInfo(fillResponseInfo(false, "无法获取消耗品经验值！"));
-//					break;
-//				}
-//
-//				final int addedCount = (int) (totalExp * coeff / (float) unitExp);
-//				final int useCount = 1;
-//
-//				// 移除物品
-//				if (!bagMgr.useItemBySlotId(dbId, useCount)) {
-//					response.setRspInfo(fillResponseInfo(false, "无法使用法宝！"));
-//					GameLog.error("背包", "法宝", "使用法宝失败！");
-//					break;
-//				}
-//
-//				final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
-//				List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
-//				for (Pair<Integer, Integer> pair : lst) {
-//					// boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(), pair.getT2().intValue());
-//					// if (!addItemResult) {
-//					// GameLog.error("背包", "法宝", "分解法宝时添加材料失败！材料ID:" + pair.getT1().intValue());
-//					// }
-//					itemInfoList.add(new ItemInfo(pair.getT1().intValue(), pair.getT2().intValue()));
-//				}
-//				if (!bagMgr.addItem(itemInfoList)) {
-//					GameLog.error("背包", "法宝", "分解法宝时添加材料失败！道具列表:" + itemInfoList);
-//				}
-//
-//				if (addedCount > 0) {
-//					boolean addItemResult = bagMgr.addItem(addgoodId, addedCount);
-//					if (!addItemResult) {
-//						GameLog.error("背包", "法宝", "分解法宝兑换经验时失败！无法添加物品ID：" + addgoodId);
-//					}
-//				}
-//
-//				response.setRspInfo(fillResponseInfo(true, "分解成功"));
-//
-//				// 法宝分解通知法宝神器羁绊模块
-//				player.getMe_FetterMgr().notifyMagicChange(player);
-//
-//				break;
-//			}
-//
-//			response.setRspInfo(fillResponseInfo(false, "分解失败，未知错误"));
-//			break;
-//		} while (true);
-//
-//		return response.build().toByteString();
-//	}
+	// /**
+	// * 分解法宝或法宝碎片
+	// *
+	// * @param player
+	// * @param useItemInfo
+	// * @return
+	// */
+	// public ByteString decomposeMagicItem(Player player, UseItemInfo
+	// useItemInfo) {
+	// MsgItemBagResponse.Builder response = MsgItemBagResponse.newBuilder();
+	// response.setEventType(EItemBagEventType.ItemBag_MagicWeapon_Decompose);
+	//
+	// do {// do-while-break 模拟goto
+	// final ItemBagMgr bagMgr = player.getItemBagMgr();
+	// String dbId = useItemInfo.getDbId();
+	// final ItemData item = bagMgr.findBySlotId(dbId);
+	// if (item == null) {
+	// response.setRspInfo(fillResponseInfo(false, "找不到物品！"));
+	// break;
+	// }
+	//
+	// final EItemTypeDef itemType = item.getType();
+	// if (itemType != EItemTypeDef.Magic && itemType !=
+	// EItemTypeDef.Magic_Piece) {
+	// response.setRspInfo(fillResponseInfo(false, "不是法宝或者法宝碎片！"));
+	// break;
+	// }
+	//
+	// final int modelId = item.getModelId();
+	// final String modelIdStr = String.valueOf(modelId);
+	// if (itemType == EItemTypeDef.Magic_Piece) {
+	// final int useCount = useItemInfo.getCount();
+	// if (useCount > item.getCount()) {
+	// response.setRspInfo(fillResponseInfo(false, "分解数量太大！"));
+	// break;
+	// }
+	//
+	// if (useCount < 1) {
+	// response.setRspInfo(fillResponseInfo(false, "请指定分解数量！"));
+	// break;
+	// }
+	//
+	// final MagicCfg cfg = (MagicCfg)
+	// MagicCfgDAO.getInstance().getCfgById(modelIdStr);
+	// if (cfg == null) {
+	// response.setRspInfo(fillResponseInfo(false, "找不到法宝碎片配置！"));
+	// break;
+	// }
+	//
+	// // 移除物品
+	// if (!bagMgr.useItemByCfgId(modelId, useCount)) {
+	// response.setRspInfo(fillResponseInfo(false, "无法使用法宝碎片！"));
+	// GameLog.error("背包", "法宝", "使用法宝碎片失败！");
+	// break;
+	// }
+	//
+	// final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
+	// List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
+	// for (Pair<Integer, Integer> pair : lst) {
+	// // final boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(),
+	// pair.getT2().intValue() * useCount);
+	// // if (!addItemResult) {
+	// // GameLog.error("背包", "法宝", "添加背包物品失败！物品ID：" + pair.getT1());
+	// // }
+	// itemInfoList.add(new ItemInfo(pair.getT1().intValue(),
+	// pair.getT2().intValue() * useCount));
+	// }
+	// if (!bagMgr.addItem(itemInfoList)) {
+	// GameLog.error("背包", "法宝", "添加背包物品失败！物品列表：" + itemInfoList);
+	// }
+	//
+	// response.setRspInfo(fillResponseInfo(true, "分解成功"));
+	// break;
+	// }
+	//
+	// if (itemType == EItemTypeDef.Magic) {
+	// if ("1".equals(item.getExtendAttr(EItemAttributeType.Magic_State_VALUE)))
+	// {
+	// response.setRspInfo(fillResponseInfo(false, "装备身上的法宝不能分解！"));
+	// break;
+	// }
+	//
+	// final MagicCfg cfg = (MagicCfg)
+	// MagicCfgDAO.getInstance().getCfgById(modelIdStr);
+	// if (cfg == null) {
+	// response.setRspInfo(fillResponseInfo(false, "找不到法宝配置！"));
+	// break;
+	// }
+	//
+	// final String expStr =
+	// item.getExtendAttr(EItemAttributeType.Magic_Exp_VALUE);
+	// int totalExp = -1;
+	// try {
+	// totalExp = Integer.parseInt(expStr);
+	// if (totalExp < 0) {
+	// response.setRspInfo(fillResponseInfo(false, "无法获取法宝经验值！"));
+	// break;
+	// }
+	// } catch (Exception ex) {
+	// response.setRspInfo(fillResponseInfo(false, "无法获取法宝经验值！"));
+	// break;
+	// }
+	//
+	// String lvlStr = item.getExtendAttr(EItemAttributeType.Magic_Level_VALUE);
+	// int lvl = -1;
+	// try {
+	// lvl = Integer.parseInt(lvlStr);
+	// if (lvl < 0) {
+	// // 无法获取法宝等级！
+	// break;
+	// }
+	// } catch (Exception ex) {
+	// // 无法获取法宝等级！
+	// break;
+	// }
+	//
+	// if (lvl > 1) {
+	// final Pair<Integer, Integer> lvlCurPair =
+	// MagicExpCfgDAO.getInstance().getExpLst(lvl - 1);
+	// if (lvlCurPair == null) {
+	// // 无法获取法宝等级对应的满经验值！
+	// break;
+	// }
+	// totalExp = totalExp + lvlCurPair.getT2();
+	// }
+	//
+	// final float coeff = cfg.getCoefficient();
+	// if (coeff <= 0) {
+	// response.setRspInfo(fillResponseInfo(false, "配置系数有误！"));
+	// break;
+	// }
+	//
+	// final int addgoodId = cfg.getConvertedGoodModelId();
+	// final ConsumeCfg addGoodCfg = ItemCfgHelper.getConsumeCfg(addgoodId);
+	// if (addGoodCfg == null) {
+	// response.setRspInfo(fillResponseInfo(false, "无法获取消耗品！"));
+	// break;
+	// }
+	//
+	// final int unitExp = addGoodCfg.getValue();
+	// if (unitExp <= 0) {
+	// response.setRspInfo(fillResponseInfo(false, "无法获取消耗品经验值！"));
+	// break;
+	// }
+	//
+	// final int addedCount = (int) (totalExp * coeff / (float) unitExp);
+	// final int useCount = 1;
+	//
+	// // 移除物品
+	// if (!bagMgr.useItemBySlotId(dbId, useCount)) {
+	// response.setRspInfo(fillResponseInfo(false, "无法使用法宝！"));
+	// GameLog.error("背包", "法宝", "使用法宝失败！");
+	// break;
+	// }
+	//
+	// final List<Pair<Integer, Integer>> lst = cfg.getDecomposeGoodList();
+	// List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(lst.size());
+	// for (Pair<Integer, Integer> pair : lst) {
+	// // boolean addItemResult = bagMgr.addItem(pair.getT1().intValue(),
+	// pair.getT2().intValue());
+	// // if (!addItemResult) {
+	// // GameLog.error("背包", "法宝", "分解法宝时添加材料失败！材料ID:" +
+	// pair.getT1().intValue());
+	// // }
+	// itemInfoList.add(new ItemInfo(pair.getT1().intValue(),
+	// pair.getT2().intValue()));
+	// }
+	// if (!bagMgr.addItem(itemInfoList)) {
+	// GameLog.error("背包", "法宝", "分解法宝时添加材料失败！道具列表:" + itemInfoList);
+	// }
+	//
+	// if (addedCount > 0) {
+	// boolean addItemResult = bagMgr.addItem(addgoodId, addedCount);
+	// if (!addItemResult) {
+	// GameLog.error("背包", "法宝", "分解法宝兑换经验时失败！无法添加物品ID：" + addgoodId);
+	// }
+	// }
+	//
+	// response.setRspInfo(fillResponseInfo(true, "分解成功"));
+	//
+	// // 法宝分解通知法宝神器羁绊模块
+	// player.getMe_FetterMgr().notifyMagicChange(player);
+	//
+	// break;
+	// }
+	//
+	// response.setRspInfo(fillResponseInfo(false, "分解失败，未知错误"));
+	// break;
+	// } while (true);
+	//
+	// return response.build().toByteString();
+	// }
 }

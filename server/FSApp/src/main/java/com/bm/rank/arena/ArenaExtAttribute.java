@@ -13,24 +13,28 @@ public class ArenaExtAttribute extends FightingMember {
 	private String headImage; // 头像
 	private String headbox; //头像框
 	private int level; // 等级
+	private int vip;
 
 	private int fightingTeam; //4个最高战力的佣兵的战力总和
 	private int sex;
 	private int modelId;
 	private int rankLevel;
 	private int rankCount;
+	private int magicCfgId;
 
 	public ArenaExtAttribute() {
 		super(ArenaConstant.ARENA_FIGHTING_TIMEOUT);
 	}
 
-	public ArenaExtAttribute(int career, int fighting, String name, String headImage, int level) {
+	public ArenaExtAttribute(int career, int fighting, String name, String headImage, int level, int vip, int magicId) {
 		super(ArenaConstant.ARENA_FIGHTING_TIMEOUT);
 		this.career = career;
 		this.fighting = fighting;
 		this.name = name;
 		this.headImage = headImage;
 		this.level = level;
+		this.vip = vip;
+		this.magicCfgId = magicId;
 	}
 
 	public int getCareer() {
@@ -119,6 +123,22 @@ public class ArenaExtAttribute extends FightingMember {
 
 	public void setHeadbox(String headbox) {
 		this.headbox = headbox;
+	}
+
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
+	}
+
+	public int getMagicCfgId() {
+		return magicCfgId;
+	}
+
+	public void setMagicCfgId(int magicCfgId) {
+		this.magicCfgId = magicCfgId;
 	}
 
 }

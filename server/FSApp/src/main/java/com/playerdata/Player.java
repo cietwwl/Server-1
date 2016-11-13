@@ -429,7 +429,7 @@ public class Player implements PlayerIF {
 		}
 	}
 
-	public ByteString onLogin() {
+	public ByteString onLogin(Object recordKey) {
 		String userId = getUserId();
 		ByteString synData = null;
 		UserChannelMgr.onBSBegin(userId);
@@ -454,7 +454,7 @@ public class Player implements PlayerIF {
 			
 			WBMgr.getInstance().onPlayerLogin(this);
 		} finally {
-			synData = UserChannelMgr.getDataOnBSEnd(userId);
+			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}
 
 		return synData;
@@ -852,7 +852,6 @@ public class Player implements PlayerIF {
 
 	private void onLevelChangeByGm(int currentLevel, int newLevel) {
 		// 有升级
-
 		if (currentLevel < newLevel) {
 			onLevelChange(currentLevel, newLevel);
 		} else {
@@ -861,6 +860,7 @@ public class Player implements PlayerIF {
 			// mainRoleHero.SetHeroLevel(newLevel);
 			FSHeroBaseInfoMgr.getInstance().setLevel(mainRoleHero, newLevel);
 			userDataMgr.setLevel(newLevel);
+			level = newLevel;// GM指令之后把缓存的等级修改成新等级
 			mainRoleHero.save();
 			ArenaBM.getInstance().notifyPlayerLevelUp(getUserId(), getCareer(), newLevel);
 			BILogMgr.getInstance().logRoleUpgrade(this, currentLevel, fightbeforelevelup);
@@ -880,10 +880,12 @@ public class Player implements PlayerIF {
 			setTemplateId(cfg.getRoleId());
 			SetModelId(cfg.getModelId());
 
-			SpriteAttachMgr.getInstance().onCarrerChange(this);
-
-			// 改技能Id
+			// 改技能Id：需要先改变技能，后续的战斗力计算会获取最新的技能列表，并且会根据角色的templateId去获取普攻技能id
+			// 因为上面已经把角色的模板id修改了，而其他的通知有可能会通知重新计算战力，计算战力的时候会获取技能列表
+			// 如果这个时候技能列表还是旧的，就会筛选不出普攻，这样计算战力的地方会出现异常，暂时没有筛选普攻的更好方式，所以先保证技能转换放在第一位
 			getMainRoleHero().getSkillMgr().changeSkill(this, this.getMainRoleHero().getUUId(), cfg);
+			// 附灵通知
+			SpriteAttachMgr.getInstance().onCarrerChange(this);
 			// 新品质 + 可能开放新技能，所以技能ID需要先改变
 			String newQuality = cfg.getQualityId().split("_")[0] + "_" + getMainRoleHero().getQualityId().split("_")[1];
 			getMainRoleHero().getEquipMgr().EquipAdvance(this, this.getMainRoleHero().getUUId(), newQuality, false);
@@ -996,6 +998,8 @@ public class Player implements PlayerIF {
 			if (observer != null) {
 				observer.playerChangeVipLevel(this);
 			}
+			RankingMgr.getInstance().onPlayerChange(this);
+			getFriendMgr().onPlayerChange(this);
 			return 0;
 		}
 		return -1;

@@ -26,7 +26,7 @@ public class UserGroupSecretBaseData {
 //	@IgnoreSynField
 //	private List<String> defendSecretIdList;// 驻守的秘境Id列表
 	@IgnoreSynField
-	private Map<Integer, String> defendSecretIdMap; // 驻守的秘境Id列表
+	private Map<Integer, String> defendSecretIdMap; // 驻守的秘境Id列表，key=位置（从1开始），value=秘境id
 	private String matchSecretId;// 探索到的秘境Id
 	// =============================每天5点就要重置的数据
 	private int receiveKeyCount;// 当天领取钥石的数量

@@ -1674,6 +1674,42 @@ public final class OtherRoleAttrProtos {
      * </pre>
      */
     int getJob();
+
+    // optional int32 vip = 15;
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    boolean hasVip();
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    int getVip();
+
+    // optional int32 magicId = 16;
+    /**
+     * <code>optional int32 magicId = 16;</code>
+     *
+     * <pre>
+     *法宝id
+     * </pre>
+     */
+    boolean hasMagicId();
+    /**
+     * <code>optional int32 magicId = 16;</code>
+     *
+     * <pre>
+     *法宝id
+     * </pre>
+     */
+    int getMagicId();
   }
   /**
    * Protobuf type {@code OtherRoleAttr}
@@ -1806,6 +1842,16 @@ public final class OtherRoleAttrProtos {
             case 112: {
               bitField0_ |= 0x00000200;
               job_ = input.readInt32();
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00000400;
+              vip_ = input.readInt32();
+              break;
+            }
+            case 128: {
+              bitField0_ |= 0x00000800;
+              magicId_ = input.readInt32();
               break;
             }
           }
@@ -2410,6 +2456,54 @@ public final class OtherRoleAttrProtos {
       return job_;
     }
 
+    // optional int32 vip = 15;
+    public static final int VIP_FIELD_NUMBER = 15;
+    private int vip_;
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    public boolean hasVip() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    public int getVip() {
+      return vip_;
+    }
+
+    // optional int32 magicId = 16;
+    public static final int MAGICID_FIELD_NUMBER = 16;
+    private int magicId_;
+    /**
+     * <code>optional int32 magicId = 16;</code>
+     *
+     * <pre>
+     *法宝id
+     * </pre>
+     */
+    public boolean hasMagicId() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional int32 magicId = 16;</code>
+     *
+     * <pre>
+     *法宝id
+     * </pre>
+     */
+    public int getMagicId() {
+      return magicId_;
+    }
+
     private void initFields() {
       heroList_ = java.util.Collections.emptyList();
       userId_ = "";
@@ -2424,6 +2518,8 @@ public final class OtherRoleAttrProtos {
       headbox_ = "";
       fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       job_ = 0;
+      vip_ = 0;
+      magicId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2488,6 +2584,12 @@ public final class OtherRoleAttrProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(14, job_);
       }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(15, vip_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(16, magicId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -2548,6 +2650,14 @@ public final class OtherRoleAttrProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(14, job_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, vip_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(16, magicId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2711,6 +2821,10 @@ public final class OtherRoleAttrProtos {
         bitField0_ = (bitField0_ & ~0x00000800);
         job_ = 0;
         bitField0_ = (bitField0_ & ~0x00001000);
+        vip_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
+        magicId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -2810,6 +2924,14 @@ public final class OtherRoleAttrProtos {
           to_bitField0_ |= 0x00000200;
         }
         result.job_ = job_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.vip_ = vip_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.magicId_ = magicId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2943,6 +3065,12 @@ public final class OtherRoleAttrProtos {
         }
         if (other.hasJob()) {
           setJob(other.getJob());
+        }
+        if (other.hasVip()) {
+          setVip(other.getVip());
+        }
+        if (other.hasMagicId()) {
+          setMagicId(other.getMagicId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -4682,6 +4810,104 @@ public final class OtherRoleAttrProtos {
       public Builder clearJob() {
         bitField0_ = (bitField0_ & ~0x00001000);
         job_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 vip = 15;
+      private int vip_ ;
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public boolean hasVip() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public int getVip() {
+        return vip_;
+      }
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public Builder setVip(int value) {
+        bitField0_ |= 0x00002000;
+        vip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public Builder clearVip() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        vip_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 magicId = 16;
+      private int magicId_ ;
+      /**
+       * <code>optional int32 magicId = 16;</code>
+       *
+       * <pre>
+       *法宝id
+       * </pre>
+       */
+      public boolean hasMagicId() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional int32 magicId = 16;</code>
+       *
+       * <pre>
+       *法宝id
+       * </pre>
+       */
+      public int getMagicId() {
+        return magicId_;
+      }
+      /**
+       * <code>optional int32 magicId = 16;</code>
+       *
+       * <pre>
+       *法宝id
+       * </pre>
+       */
+      public Builder setMagicId(int value) {
+        bitField0_ |= 0x00004000;
+        magicId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 magicId = 16;</code>
+       *
+       * <pre>
+       *法宝id
+       * </pre>
+       */
+      public Builder clearMagicId() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        magicId_ = 0;
         onChanged();
         return this;
       }
@@ -8420,7 +8646,7 @@ public final class OtherRoleAttrProtos {
       "Response\022\034\n\004info\030\001 \001(\0132\016.OtherRoleAttr\022\027" +
       "\n\004type\030\002 \001(\0162\t.EMsgType\"?\n\024OtherRoleAttr" +
       "Request\022\016\n\006userId\030\001 \001(\t\022\027\n\004type\030\002 \001(\0162\t." +
-      "EMsgType\"\300\002\n\rOtherRoleAttr\022\034\n\010heroList\030\001" +
+      "EMsgType\"\336\002\n\rOtherRoleAttr\022\034\n\010heroList\030\001" +
       " \003(\0132\n.OtherHero\022\016\n\006userId\030\002 \001(\t\022\020\n\010user" +
       "Name\030\003 \001(\t\022\013\n\003sex\030\004 \001(\005\022\r\n\005level\030\005 \001(\005\022\021" +
       "\n\theadImage\030\006 \001(\t\022\022\n\ntemplateId\030\007 \001(\t\022\035\n" +
@@ -8428,16 +8654,17 @@ public final class OtherRoleAttrProtos {
       "o\030\n \003(\0132\027.EquipService.EquipData\022\020\n\010figh" +
       "ting\030\013 \001(\005\022\017\n\007headbox\030\014 \001(\t\0221\n\014fashionUs" +
       "age\030\r \001(\0132\033.FashionService.FashionUsed\022\013" +
-      "\n\003job\030\016 \001(\005\"\365\001\n\tOtherHero\022\035\n\tskillInfo\030\001" +
-      " \003(\0132\n.SkillInfo\022\n\n\002id\030\002 \001(\t\022\014\n\004name\030\003 \001" +
-      "(\t\022\014\n\004icon\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\021\n\tstarL" +
-      "evel\030\006 \001(\005\022\021\n\tqualityId\030\007 \001(\t\022\020\n\010fightin" +
-      "g\030\010 \001(\005\022\016\n\006heroId\030\t \001(\t\022\016\n\006modeId\030\n \001(\t\022" +
-      "\016\n\006career\030\013 \001(\005\022*\n\tequipInfo\030\014 \003(\0132\027.Equ" +
-      "ipService.EquipData\"5\n\tSkillInfo\022\n\n\002id\030\001",
-      " \001(\t\022\r\n\005level\030\002 \001(\005\022\r\n\005order\030\003 \001(\005*%\n\010EM" +
-      "sgType\022\013\n\007BaseMsg\020\000\022\014\n\010OtherMsg\020\001B\"\n\013com" +
-      ".rwprotoB\023OtherRoleAttrProtos"
+      "\n\003job\030\016 \001(\005\022\013\n\003vip\030\017 \001(\005\022\017\n\007magicId\030\020 \001(" +
+      "\005\"\365\001\n\tOtherHero\022\035\n\tskillInfo\030\001 \003(\0132\n.Ski" +
+      "llInfo\022\n\n\002id\030\002 \001(\t\022\014\n\004name\030\003 \001(\t\022\014\n\004icon" +
+      "\030\004 \001(\t\022\r\n\005level\030\005 \001(\005\022\021\n\tstarLevel\030\006 \001(\005" +
+      "\022\021\n\tqualityId\030\007 \001(\t\022\020\n\010fighting\030\010 \001(\005\022\016\n" +
+      "\006heroId\030\t \001(\t\022\016\n\006modeId\030\n \001(\t\022\016\n\006career\030" +
+      "\013 \001(\005\022*\n\tequipInfo\030\014 \003(\0132\027.EquipService.",
+      "EquipData\"5\n\tSkillInfo\022\n\n\002id\030\001 \001(\t\022\r\n\005le" +
+      "vel\030\002 \001(\005\022\r\n\005order\030\003 \001(\005*%\n\010EMsgType\022\013\n\007" +
+      "BaseMsg\020\000\022\014\n\010OtherMsg\020\001B\"\n\013com.rwprotoB\023" +
+      "OtherRoleAttrProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -8461,7 +8688,7 @@ public final class OtherRoleAttrProtos {
           internal_static_OtherRoleAttr_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_OtherRoleAttr_descriptor,
-              new java.lang.String[] { "HeroList", "UserId", "UserName", "Sex", "Level", "HeadImage", "TemplateId", "SkillInfo", "EquipInfo", "Fighting", "Headbox", "FashionUsage", "Job", });
+              new java.lang.String[] { "HeroList", "UserId", "UserName", "Sex", "Level", "HeadImage", "TemplateId", "SkillInfo", "EquipInfo", "Fighting", "Headbox", "FashionUsage", "Job", "Vip", "MagicId", });
           internal_static_OtherHero_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_OtherHero_fieldAccessorTable = new

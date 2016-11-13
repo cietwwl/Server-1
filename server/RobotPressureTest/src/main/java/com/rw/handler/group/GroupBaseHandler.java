@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.rw.Client;
 import com.rw.common.MsgReciver;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.group.msg.GroupBaseMsgReceiver;
 import com.rwproto.GroupBaseMgrProto.CreateGroupReqMsg;
 import com.rwproto.GroupBaseMgrProto.GroupBaseMgrCommonReqMsg;
@@ -19,7 +20,7 @@ import com.rwproto.MsgDef.Command;
  * @date 2016年3月15日 下午5:17:42
  * @Description 帮派基础数据处理
  */
-public class GroupBaseHandler {
+public class GroupBaseHandler implements RandomMethodIF{
 	private static final Random r = new Random();
 	private static GroupBaseHandler handler = new GroupBaseHandler();
 
@@ -194,5 +195,10 @@ public class GroupBaseHandler {
 	 */
 	private MsgReciver getMsgReciver(String protoType) {
 		return new GroupBaseMsgReceiver(command, functionName, protoType);
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return groupSetting(client);
 	}
 }

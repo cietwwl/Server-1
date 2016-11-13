@@ -192,6 +192,9 @@ public abstract class ClientMsgHandler {
 					case USER_GAME_DATA:
 						getClient().getUserGameDataHolder().syn(msgDataSyn);
 						break;
+					case ROLE_BASE_ITEM:
+						getClient().getRoleBaseInfoHolder().syn(getClient(), msgDataSyn);
+						break;
 					case GFightOnlinePersonalData:
 						getClient().getUserGFightOnlineHolder().syn(msgDataSyn);
 						break;
@@ -376,18 +379,18 @@ public abstract class ClientMsgHandler {
 			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:" + msgReciverP.getCmd() + "account :" + client.getAccountId());
 			success = false;
 		} else {
-
 			ResponseHeader headerTmp = rsp.getHeader();
 			if (headerTmp == null) {
-				RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应没有头, account:" + client.getAccountId());
+				RobotLog.fail(String.format("ClientMsgHandler[%s]业务模块收到的响应没有头, account:%s", msgReciverP.getCmd(), client.getAccountId()));
 				success = false;
-			} else {
+			} else if(403 == headerTmp.getStatusCode()){
+				RobotLog.fail(String.format("ClientMsgHandler[%s]业务模块没有到达开放等级, account:%s", msgReciverP.getCmd(), client.getAccountId()));
+			} else{
 				Command commandTmp = headerTmp.getCommand();
 				if (msgReciverP != null && msgReciverP.getCmd() == commandTmp) {
 					success = msgReciverP.execute(client, rsp);
 				}
 			}
-
 		}
 		return success;
 	}

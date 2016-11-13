@@ -65,7 +65,7 @@ public class OtherRoleHandler {
 		otherRoleAttr.setUserId(userId);
 		otherRoleAttr.setLevel(player.getLevel());
 		otherRoleAttr.setUserName(tableUser.getUserName());
-
+		otherRoleAttr.setVip(player.getVip());
 		// by franky
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
 		if (usingFashion != null) {
@@ -251,6 +251,7 @@ public class OtherRoleHandler {
 
 			otherRoleAttr.addHeroList(otherHero);
 		}
+		otherRoleAttr.setMagicId(player.getMagic().getModelId());
 	}
 
 	// 服务器筛选最强佣兵优先级：筛选依次为：高到低品阶>高到低等级>高到低资质>高到低战力>低到高佣兵ID

@@ -1,9 +1,7 @@
 package com.rw.handler.fixExpEquip;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -18,7 +16,6 @@ import com.rwproto.FixEquipProto.SelectItem;
 import com.rwproto.FixEquipProto.SelectItem.Builder;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
-
 
 
 public class FixExpEquipHandler {

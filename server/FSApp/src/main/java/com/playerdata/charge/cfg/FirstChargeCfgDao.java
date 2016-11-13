@@ -1,6 +1,7 @@
 package com.playerdata.charge.cfg;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -20,6 +21,11 @@ public class FirstChargeCfgDao extends CfgCsvDao<FirstChargeCfg> {
 //		for (FirstChargeCfg cfgTmp : cfgCacheMap.values()) {
 //			parseFirstChargeList(cfgTmp);
 //		}
+		for(Iterator<String> keyItr = cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
+			String key = keyItr.next();
+			FirstChargeCfg cfg = cfgCacheMap.get(key);
+			cfg.setCfgId(Integer.parseInt(key));
+		}
 		return cfgCacheMap;
 	}
 	

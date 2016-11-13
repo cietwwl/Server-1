@@ -143,10 +143,15 @@ enum Command {
 	MSG_VIP_GIFT_NOTIFY = 233; // 通知客户端发送了VIP专享礼包，发送Vip.proto里面的VIPGiftNotify
 	
 	MSG_SALOON = 234;//同屏服务
+	MSG_COMMON_SOUL = 235; // 万能魂石协议
+	
+	MSG_CHARGE_NOTIFY = 236; // 充值通知
+	
 	
 	
 	
 	MSG_ACTIVITY_TIMECARD_TYPE = 600;//活动；月卡;不是活动的协议不要往下接啊；往上接
+	MSG_ACTIVITY_EVILBAO = 601; //申公豹驾到
 	
 
 	MSG_FEEDBACK = 995;//客服功能

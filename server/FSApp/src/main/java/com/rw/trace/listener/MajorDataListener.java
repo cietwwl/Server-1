@@ -1,7 +1,12 @@
 package com.rw.trace.listener;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
@@ -16,6 +21,8 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		MajorData oldRecord = event.getOldRecord();
 		MajorData newRecord = event.getCurrentRecord();
 		
+		Player player = PlayerMgr.getInstance().find(newRecord.getId());
+		
 		List<Object> list = (List<Object>)DataEventRecorder.getParam();
 		if(list == null){
 			return;
@@ -26,6 +33,10 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		long newCoin = newRecord.getCoin();
 		if(oldCoin != newCoin){
 			BILogMgr.getInstance().logCoinChanged(list, (int)(newCoin - oldCoin), newCoin);
+			
+			List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+			roleAttrsList.add(ERoleAttrs.r_Coin);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
 		}
 		
 		//记录赠送充值币的变动日志
@@ -41,6 +52,10 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		if(oldChargeGold != newChargeGold){
 			BILogMgr.getInstance().logGoldChanged(list, (int)(newChargeGold- oldChargeGold), newChargeGold);
 			BILogMgr.getInstance().logFinanceMainCoinConsume(list, (int)(newChargeGold- oldChargeGold), newChargeGold);
+			
+			List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+			roleAttrsList.add(ERoleAttrs.r_Charge);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
 		}
 	}
 

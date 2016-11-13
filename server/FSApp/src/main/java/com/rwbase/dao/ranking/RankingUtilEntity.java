@@ -9,6 +9,7 @@ import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefInt;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -55,6 +56,8 @@ public class RankingUtilEntity {
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());
 		toData.setCareerLevel(player.getStarLevel());
+		toData.setVip(player.getVip());
+		toData.setMagicCfgId(player.getMagic().getModelId());
 	}
 
 	public List<RankingLevelData> subListByLevelData(List<RankingLevelData> list, ERankingType rankType) {
@@ -95,6 +98,7 @@ public class RankingUtilEntity {
 			} else {
 				rankInfo.setRankingLevel(rankLevel > 0 ? rankLevel : ranking);
 			}
+			rankInfo.setVip(levelData.getVip());
 			rankInfo.setLevel(levelData.getLevel());
 			rankInfo.setHeroName(levelData.getUserName());
 			rankInfo.setImageId(levelData.getUserHead());
@@ -102,6 +106,11 @@ public class RankingUtilEntity {
 			rankInfo.setModelId(RankingUtils.getModelId(levelData));
 			rankInfo.setFightingAll(levelData.getFightingAll());
 			rankInfo.setFightingTeam(levelData.getFightingTeam());
+			if (levelData.getMagicCfgId() > 0) {
+				rankInfo.setMagicId(levelData.getMagicCfgId());
+			} else {
+				rankInfo.setMagicId(603601);
+			}
 			boolean setFromLastRank = false;
 			if (type != null) {
 				RankType dailyType = RankingMgr.getInstance().getDailyRankType(type);
@@ -213,12 +222,14 @@ public class RankingUtilEntity {
 		}
 		levelData.setModelId(modelId);
 		levelData.setSex(areanExt.getSex());
+		levelData.setVip(areanExt.getVip());
 		levelData.setUserHead(areanExt.getHeadImage());
 		levelData.setHeadbox(areanExt.getHeadbox());
 		levelData.setUserName(areanExt.getName());
 		levelData.setArenaPlace(entry.getRanking());
 		int last = areanExt.getRankLevel();
 		levelData.setRankLevel(last == 0 ? entry.getRanking() : last);
+		levelData.setMagicCfgId(areanExt.getMagicCfgId());
 		return levelData;
 	}
 	
@@ -231,8 +242,5 @@ public class RankingUtilEntity {
 		
 		return levelData;
 	}
-	
-	
-	
 
 }

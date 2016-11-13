@@ -44,7 +44,7 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 44,,44,9,100,,,,MSG_Hero,"USE_EXP,USE_EXP_MAX"
 45,,45,22,100,,,110508,,
 46,,46,15,100,,,,,
-47,,47,11,100,,,,,
+47,,47,7,100,,,,,
 48,,48,36,100,,,110712,MSG_BATTLE_TOWER,
 49,,49,,100,,,,,
 50,,50,8,100,,,,,
@@ -70,4 +70,4 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 70,,70,6,100,,,,,
 71,,71,45,100,,,,,
 72,,72,14,100,,,,,
-73,,73,8,100,,,,,
+73,,73,18,100,,,110410,,

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.util.StringUtils;
 
@@ -15,6 +16,7 @@ import com.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyItemComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyRoleComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.DamageComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.DropItemComparator;
+import com.common.Utils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -110,8 +112,86 @@ public class GroupCopyMgr {
 		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
 		rewardRecordHolder = new GroupCopyRewardDistRecordHolder(groupIdP);
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
+		checkAllChapterProgress();
 	}
 	
+	//检查所有副本地图进度，因为副本怪物策划可能会重新配置
+	private void checkAllChapterProgress(){
+		List<GroupCopyMapRecord> chapterList = mapRecordHolder.getItemList();
+		for (GroupCopyMapRecord mapRecord : chapterList) {
+			//检查这个章节的当前关卡
+			checkDataInternal(mapRecord);
+		}
+		
+		
+	}
+	
+	
+	private void checkDataInternal(GroupCopyMapRecord record) {
+		GroupCopyLevelRecord levelRecord;
+		GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(record.getChaterID());
+		Set<String> lvList = mapCfg.getLvList();
+		String id = mapCfg.getStartLvID();
+		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(id);
+		
+		//找到章节内第一个进度不为1的关卡id
+		levelRecord = lvRecordHolder.getByLevel(id);
+		while (levelRecord.getProgress().getProgress() == 1) {
+			if(lvList.contains(cfg.getNextLevelID())){
+				id = cfg.getNextLevelID();
+				cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(id);
+				levelRecord = lvRecordHolder.getByLevel(id);
+			}
+		}
+		
+		if(!record.getCurLevelID().equals(id)){
+			GameLog.error(LogModule.GroupCopy.name(), "GroupCopyMgr", "帮派副本发现章节[" + record.getId() +"]进度与实际关卡进度不匹配，副本当前章节"+ record.getCurLevelID()
+					+ ",实际章节：" + id
+					+ ",进行重新设置保存");
+			record.setCurLevelID(id);
+			mapRecordHolder.updateItem(null, record);
+		}
+	}
+
+	public static void calculateMapProgress(Player player,
+			GroupCopyLevelRecordHolder levelRecordHolder,
+			GroupCopyMapRecordHolder mapRecordHolder, String levelId) {
+		
+		int totalHp = 0;
+		int currentHp = 0;
+		GroupCopyLevelRecord lvRecord;
+		GroupCopyProgress progress;
+		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
+		GroupCopyMapCfg mapCfg = GroupCopyMapCfgDao.getInstance().getCfgById(cfg.getChaterID());
+		Set<String> lvList = mapCfg.getLvList();
+		for (String id : lvList) {
+			lvRecord = levelRecordHolder.getByLevel(id);
+			progress = lvRecord.getProgress();
+			totalHp += progress.getTotalHp();
+			currentHp += progress.getCurrentHp();
+		}
+		double p = Utils.div((totalHp - currentHp), totalHp, 5);
+		p = p > 1.0 ? 1 : p;
+		//检查一下当前章节副本关卡id
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(cfg.getChaterID());
+		lvRecord = levelRecordHolder.getByLevel(levelId);
+		if(lvRecord.getProgress().getProgress() == 1){
+			//已经通关，设置下一个关卡id
+			if(lvList.contains(cfg.getNextLevelID())){
+				mapRecord.setCurLevelID(cfg.getNextLevelID());
+			}
+			
+		}
+		
+		mapRecord.setProgress(p);
+		//如果全部通关
+		if(p == 1){
+			mapRecord.setStatus(GroupCopyMapStatus.FINISH);
+		}
+		
+		mapRecordHolder.updateItem(player, mapRecord);
+		
+	}
 	
 	/**
 	 * 开启副本地图
@@ -164,9 +244,19 @@ public class GroupCopyMgr {
 	 */
 	public  GroupCopyResult  endFight(Player player, String levelId, 
 			List<GroupCopyMonsterSynStruct> mData, List<String> heroList){
+		GroupCopyResult result = GroupCopyResult.newResult();
+		//检查一下副本当前关卡是否为目标关卡
+		GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
+		GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(levelCfg.getChaterID());
+		if(!levelId.equals(mapRecord.getCurLevelID())){
+			result.setSuccess(false);
+			result.setTipMsg("当前关卡已经通关");
+			return result;
+		}
+		
 		//获取伤害
 		long damage = getDamage(mData, levelId);
-		GroupCopyResult result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
+		result = GroupCopyLevelBL.endFight(player, lvRecordHolder, levelId, mData, damage);
 		if(result.isSuccess()){
 			//同步一下副本地图进度
 			GroupCopyMapBL.calculateMapProgress(player, lvRecordHolder, mapRecordHolder,levelId);
@@ -179,8 +269,6 @@ public class GroupCopyMgr {
 			}
 			
 			//检查一下章节进度，是否通关
-			GroupCopyLevelCfg levelCfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
-			GroupCopyMapRecord mapRecord = mapRecordHolder.getItemByID(levelCfg.getChaterID());
 			
 			if(mapRecord.getStatus() == GroupCopyMapStatus.FINISH){
 				

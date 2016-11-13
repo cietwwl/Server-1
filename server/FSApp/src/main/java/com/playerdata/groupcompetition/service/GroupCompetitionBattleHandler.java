@@ -262,7 +262,7 @@ public class GroupCompetitionBattleHandler {
 	 * @return
 	 */
 	public ByteString getMatchGroupScoreHandler(Player player) {
-		String userId = player.getUserId();
+//		String userId = player.getUserId();
 
 		GCBattleCommonRspMsg.Builder rsp = GCBattleCommonRspMsg.newBuilder();
 		rsp.setReqType(GCBattleReqType.MATCH_GROUP_SOCRE);
@@ -279,16 +279,16 @@ public class GroupCompetitionBattleHandler {
 			return rsp.setIsSuccess(true).build().toByteString();
 		}
 
-		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
-		GCompMatchData matchData = holder.getMatchData(userId);
-		if (matchData == null) {
-			return rsp.setIsSuccess(true).build().toByteString();
-		}
-
-		int matchState = matchData.getMatchState();
-		if (matchState != GCompMatchState.START_BATTLE.state) {
-			return rsp.setIsSuccess(true).build().toByteString();
-		}
+//		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
+//		GCompMatchData matchData = holder.getMatchData(userId);
+//		if (matchData == null) {
+//			return rsp.setIsSuccess(true).build().toByteString();
+//		}
+//
+//		int matchState = matchData.getMatchState();
+//		if (matchState != GCompMatchState.START_BATTLE.state) {
+//			return rsp.setIsSuccess(true).build().toByteString();
+//		}
 
 		IGCGroup groupA = gcAgainstOfGroup.getGroupA();
 		IGCGroup groupB = gcAgainstOfGroup.getGroupB();

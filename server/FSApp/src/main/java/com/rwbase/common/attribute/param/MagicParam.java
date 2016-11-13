@@ -7,25 +7,27 @@ package com.rwbase.common.attribute.param;
  */
 public class MagicParam {
 	private final String userId;
-	private final String heroId;
+	private final String heroTemplateId;
 	private final String magicId;
 	private final int magicLevel;
 	private final int magicAptitude;
+	private final boolean isMainRole;
 
-	private MagicParam(String userId, String heroId, String magicId, int magicLevel, int magicAptitude) {
+	private MagicParam(String userId, String heroTemplateId, String magicId, int magicLevel, int magicAptitude, boolean isMainRole) {
 		this.userId = userId;
-		this.heroId = heroId;
+		this.heroTemplateId = heroTemplateId;
 		this.magicId = magicId;
 		this.magicLevel = magicLevel;
 		this.magicAptitude = magicAptitude;
+		this.isMainRole = isMainRole;
 	}
 
 	public String getUserId() {
 		return userId;
 	}
 
-	public String getHeroId() {
-		return heroId;
+	public String getHeroTemplateId() {
+		return heroTemplateId;
 	}
 
 	public String getMagicId() {
@@ -39,20 +41,25 @@ public class MagicParam {
 	public int getMagicAptitude() {
 		return magicAptitude;
 	}
+	
+	public boolean isMainRole() {
+		return isMainRole;
+	}
 
 	public static class MagicBuilder {
 		private String userId;
-		private String heroId;
+		private String heroTemplateId;
 		private String magicId;
 		private int magicLevel;
 		private int magicAptitude;
+		private boolean isMainRole;
 
 		public void setUserId(String userId) {
 			this.userId = userId;
 		}
 
-		public void setHeroId(String heroId) {
-			this.heroId = heroId;
+		public void setHeroTemplateId(String heroTemplateId) {
+			this.heroTemplateId = heroTemplateId;
 		}
 
 		public void setMagicId(String magicId) {
@@ -66,9 +73,13 @@ public class MagicParam {
 		public void setMagicAptitude(int magicAptitude){
 			this.magicAptitude = magicAptitude;
 		}
+		
+		public void setIsMainRole(boolean value) {
+			this.isMainRole = value;
+		}
 
 		public MagicParam build() {
-			return new MagicParam(userId, heroId, magicId, magicLevel, magicAptitude);
+			return new MagicParam(userId, heroTemplateId, magicId, magicLevel, magicAptitude, isMainRole);
 		}
 	}
 }

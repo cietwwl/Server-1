@@ -7,6 +7,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.GroupCompetitionProto.AreaPosition;
 import com.rwproto.GroupCompetitionProto.CommonReqMsg;
 import com.rwproto.GroupCompetitionProto.CommonRspMsg;
@@ -15,7 +16,7 @@ import com.rwproto.GroupCompetitionProto.GCResultType;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
-public class GroupCompSameSceneHandler {
+public class GroupCompSameSceneHandler implements RandomMethodIF{
 
 	public static final float pxMin = -0.7f;
 	public static final float pxMax = 11.5f;
@@ -27,30 +28,30 @@ public class GroupCompSameSceneHandler {
 	public static GroupCompSameSceneHandler getHandler() {
 		return handler;
 	}
-	
+
 	private Random random = new Random();
-	
+
 	private AreaPosition getRandomPosition() {
 		AreaPosition.Builder areaBuilder = AreaPosition.newBuilder();
 		areaBuilder.setX((pxMax - pxMin) * random.nextFloat() + pxMin);
 		areaBuilder.setY((pyMax - pyMin) * random.nextFloat() + pyMin);
 		return areaBuilder.build();
 	}
-	
+
 	boolean leavePreareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.LeavePrepareArea);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION, req.build().toByteString(), null);
 		return success;
 	}
-	
+
 	boolean inPrepareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.InPrepareArea);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION, req.build().toByteString(), null);
 		return success;
 	}
-	
+
 	boolean enterPrepareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.EnterPrepareArea);
@@ -86,9 +87,10 @@ public class GroupCompSameSceneHandler {
 		});
 		return success;
 	}
-	
+
 	/**
 	 * 备战区内走动
+	 * 
 	 * @param player
 	 * @param gcRsp
 	 */
@@ -124,5 +126,10 @@ public class GroupCompSameSceneHandler {
 			}
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return informPreparePosition(client);
 	}
 }

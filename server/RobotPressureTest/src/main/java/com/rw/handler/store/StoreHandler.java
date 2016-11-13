@@ -5,6 +5,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 import com.rwproto.StoreProtos.StoreRequest;
@@ -13,7 +14,7 @@ import com.rwproto.StoreProtos.eStoreRequestType;
 import com.rwproto.StoreProtos.eStoreResultType;
 import com.rwproto.StoreProtos.tagCommodity;
 
-public class StoreHandler {
+public class StoreHandler implements RandomMethodIF{
 
 	private static StoreHandler instance = new StoreHandler();
 
@@ -74,5 +75,10 @@ public class StoreHandler {
 
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return buyRandom(client);
 	}
 }

@@ -20,6 +20,7 @@ public class MagicCfg extends ItemBaseCfg {
 	public static final int TYPE_MAGIC = 2;
 	
 	private int property; // 属性
+	private int modleId; // 模型id
 	private int smeltperc; // 熔炼生成概率
 	private String trainItemId; // 锻造材料ID
 	private int skillId; // 法宝技能ID
@@ -152,6 +153,14 @@ public class MagicCfg extends ItemBaseCfg {
 
 	public void setProperty(int property) {
 		this.property = property;
+	}
+	
+	public int getModelId() {
+		return modleId;
+	}
+	
+	public void setModelId(int pModelId) {
+		this.modleId = pModelId;
 	}
 
 	public int getSmeltperc() {

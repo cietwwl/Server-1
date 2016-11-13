@@ -125,7 +125,7 @@ public class ArenaBM {
 
 	public ArenaExtAttribute createArenaExt(Player player) {
 //		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
-		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel());
+		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel(), player.getVip(), (player.getMagic() != null ? player.getMagic().getModelId() : 0));
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
 //		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
@@ -176,7 +176,8 @@ public class ArenaBM {
 		data.setCareer(career);
 		data.setMaxPlace(place);
 		data.setFighting(fighting);
-
+		data.setVip(player.getVip());
+		data.setSex(player.getSex());
 		// data.setHeros(new ArrayList<TableHeroData>());
 		// data.setHeroAtrrs(new ArrayList<TableAttr>());
 		// data.setPlayerAttr(player.getAttrMgr().getTableAttr()); //
@@ -566,6 +567,8 @@ public class ArenaBM {
 			data.setFighting(fighting);
 			data.setHeadImage(headImage);
 			data.setHeadbox(headBox);
+			data.setVip(player.getVip());
+			data.setSex(player.getSex());
 			ItemData magic = player.getMagic();
 			if (magic != null) {
 				data.setMagicId(magic.getModelId());
@@ -589,8 +592,12 @@ public class ArenaBM {
 			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
+			arenaExt.setVip(player.getVip());
 //			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
+			if (player.getMagic() != null) {
+				arenaExt.setMagicCfgId(player.getMagic().getModelId());
+			}
 			// 不主动提交属性变化的更新了
 		}
 	}

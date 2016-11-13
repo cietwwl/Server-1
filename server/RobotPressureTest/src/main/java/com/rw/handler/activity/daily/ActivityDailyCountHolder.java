@@ -23,9 +23,6 @@ public class ActivityDailyCountHolder{
 		return giftlist;
 	}
 	
-
-
-
 	public void syn(MsgDataSyn msgDataSyn) {
 		listHolder.Syn(msgDataSyn);
 		// 更新数据

@@ -363,6 +363,7 @@
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltMaterialCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicSmeltRateCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCfgDAO" init-method="init" />
+	<bean class="com.rwbase.dao.magicweapon.MagicAptitudeCoefficientCfgDAO" init-method="init" />
 	
 	<!-- 成长基金 -->
 	<bean class="com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO"  init-method="init" />
@@ -385,6 +386,12 @@
 	<bean class="com.bm.worldBoss.cfg.WBExAwardCfgDAO" init-method="init" />
 	<bean class="com.bm.worldBoss.cfg.WBHPCfgDAO" init-method="init" />
 	
+	
+	<!-- 红点 -->
+	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
+	
+	<!-- 精准营销 -->
+	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

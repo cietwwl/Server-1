@@ -48,4 +48,8 @@ public class MSDungeonInfo {
 	public List<ItemInfo> getDropItem() {
 		return dropItem;
 	}
+	
+	public void setDropItem(List<? extends ItemInfo> dropItem){
+		this.dropItem = Collections.unmodifiableList(dropItem);
+	}
 }

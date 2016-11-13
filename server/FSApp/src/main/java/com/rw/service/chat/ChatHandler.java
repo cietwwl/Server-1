@@ -19,6 +19,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIChatType;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
@@ -39,6 +40,7 @@ import com.rwproto.ChatServiceProtos.MsgChatResponse;
 import com.rwproto.ChatServiceProtos.MsgPersonChatUserInfo;
 import com.rwproto.ChatServiceProtos.eChatResultType;
 import com.rwproto.ChatServiceProtos.eChatType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
 
@@ -80,6 +82,7 @@ public class ChatHandler {
 			messageUserInfoBuilder.setHeadbox(player.getHeadFrame());// 头像品质框
 			messageUserInfoBuilder.setCareerType(player.getCareer()); // 职业类型
 			messageUserInfoBuilder.setGender(player.getSex()); // 性别
+			messageUserInfoBuilder.setFighting(player.getHeroMgr().getFightingTeam(player));
 		}
 		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupName = userGroupAttributeData.getGroupName();
@@ -92,6 +95,10 @@ public class ChatHandler {
 		}
 		messageUserInfoBuilder.setVipLv(player.getVip());
 		messageUserInfoBuilder.setFashionTemplateId(player.getFashionMgr().getFashionUsed().getSuitId());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
+		if(null != usingFashion){
+			messageUserInfoBuilder.setFashionUsed(usingFashion);
+		}
 		return messageUserInfoBuilder;
 	}
 
@@ -313,7 +320,8 @@ public class ChatHandler {
 	 */
 	public ByteString chatPerson(Player player, MsgChatRequest msgChatRequest) {
 		MsgChatResponse.Builder msgChatResponseBuilder = MsgChatResponse.newBuilder();
-		msgChatResponseBuilder.setChatType(msgChatRequest.getChatType());
+		eChatType chatType = msgChatRequest.getChatType();
+		msgChatResponseBuilder.setChatType(chatType);
 
 		ChatMessageData message = msgChatRequest.getChatMessageData();
 
@@ -393,7 +401,7 @@ public class ChatHandler {
 		boolean isOnline = PlayerMgr.getInstance().isOnline(receiveUserId);
 		if (isOnline) {
 //			PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, toPlayer); // 发送给目标玩家
-			UserChannelMgr.sendAyncResponse(toPlayer.getUserId(), Command.MSG_CHAT, "chatPerson", result);
+			UserChannelMgr.sendAyncResponse(toPlayer.getUserId(), Command.MSG_CHAT, chatType, result);
 			String currentTargetUserId = ChatBM.getInstance().getCurrentTargetIdOfPirvateChat(toPlayer.getUserId());
 //			 System.out.println("toPlayerUserId:" + toPlayer.getTableUser().getUserId() + ", currentTargetUserId:" + currentTargetUserId);
 			if (player.getUserId().equals(currentTargetUserId)) {
@@ -551,13 +559,14 @@ public class ChatHandler {
 			Player p = PlayerMgr.getInstance().find(playerId);
 			if (p != null) {// 在线才有发送
 				MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-				msgChatResponse.setChatType(eChatType.CHAT_TREASURE);
+				eChatType chatType = eChatType.CHAT_TREASURE;
+				msgChatResponse.setChatType(chatType);
 				msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
 
 				msgChatResponse.addListMessage(msgData);
 				ByteString result = msgChatResponse.build().toByteString();
 //				PlayerMgr.getInstance().SendToPlayer(Command.MSG_CHAT, result, p);// 发送给玩家
-				UserChannelMgr.sendAyncResponse(p.getUserId(), Command.MSG_CHAT,"chatTreasure", result);
+				UserChannelMgr.sendAyncResponse(p.getUserId(), Command.MSG_CHAT, chatType, result);
 			}
 
 			updatePlayerChatMsg(playerId, msgData, eChatType.CHAT_TREASURE);

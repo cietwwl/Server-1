@@ -7,6 +7,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.handler.RandomMethodIF;
 import com.rw.handler.teamBattle.data.TBTeamItem;
 import com.rw.handler.teamBattle.data.UserTeamBattleData;
 import com.rwproto.MsgDef.Command;
@@ -16,7 +17,7 @@ import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.TeamBattleProto.TeamBattleReqMsg;
 import com.rwproto.TeamBattleProto.TeamBattleRspMsg;
 
-public class TeamBattleHandler {
+public class TeamBattleHandler implements RandomMethodIF{
 
 	private static TeamBattleHandler instance = new TeamBattleHandler();
 	
@@ -96,7 +97,7 @@ public class TeamBattleHandler {
 		return true;
 	}
 	
-	private boolean synTeamBattle(Client client){
+	public boolean synTeamBattle(Client client){
 		TeamBattleReqMsg.Builder req = TeamBattleReqMsg.newBuilder();
 		req.setReqType(TBRequestType.SYN_TEAM_BATTLE);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_TEAM_BATTLE, req.build().toByteString(), new MsgReciver() {
@@ -288,5 +289,10 @@ public class TeamBattleHandler {
 			}
 		});
 		return success;
+	}
+
+	@Override
+	public boolean executeMethod(Client client) {
+		return startTBFight(client);
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
+
 import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -11,7 +12,7 @@ import com.playerdata.RedPointMgr;
 import com.rw.service.redpoint.impl.RedPointCollector;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
-import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
+import com.rwbase.dao.redpoint.RedPointMapCfgDAO;
 import com.rwproto.MsgDef;
 import com.rwproto.RedPointProtos.DisplayRedPoint;
 import com.rwproto.RedPointProtos.RedPoint;
@@ -21,7 +22,8 @@ public class RedPointManager {
 
 	public static RedPointManager instance = new RedPointManager();
 	private ArrayList<RedPointCollector> list;
-	private final RedPointType[] redPointTypeArray;
+
+	// private final RedPointType[] redPointTypeArray;
 
 	public static RedPointManager getRedPointManager() {
 		return instance;
@@ -34,7 +36,7 @@ public class RedPointManager {
 			for (Class<? extends RedPointCollector> c : l) {
 				list.add(c.newInstance());
 			}
-			this.redPointTypeArray = RedPointType.values();
+			// this.redPointTypeArray = RedPointType.values();
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -77,10 +79,12 @@ public class RedPointManager {
 		}
 		int curVersion = mgr.getVersion();
 		if (version != curVersion) {
+			RedPointMapCfgDAO cfgDAO = RedPointMapCfgDAO.getCfgDAO();
 			ArrayList<RedPoint> redPointList = new ArrayList<RedPoint>();
 			for (Map.Entry<RedPointType, List<String>> entry : currentMap.entrySet()) {
 				RedPoint.Builder builder = RedPoint.newBuilder();
-				builder.setType(entry.getKey().ordinal());
+				// builder.setType(entry.getKey().ordinal());
+				builder.setType(cfgDAO.getRedPointType(entry.getKey()));
 				builder.addAllFunctionIdList(entry.getValue());
 				redPointList.add(builder.build());
 			}
@@ -114,8 +118,8 @@ public class RedPointManager {
 		return map;
 	}
 
-	public RedPointType getRedPointType(int order) {
-		return redPointTypeArray[order];
+	public RedPointType getRedPointType(int id) {
+		// return redPointTypeArray[order];
+		return RedPointMapCfgDAO.getCfgDAO().getRedPointTypeById(id);
 	}
-
 }

@@ -37,6 +37,8 @@ public class FightingExtension extends RankingJacksonExtension<FightingComparabl
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());
 		toData.setCareerLevel(player.getStarLevel());
+		toData.setVip(player.getVip());
+		toData.setMagicCfgId(player.getMagic().getModelId());
 		return toData;
 	}
 

@@ -25,6 +25,8 @@ public class RankingCopyerFactory {
 		toData.setRankLevel(data.getRankLevel());
 		toData.setRankCount(data.getRankCount());
 		toData.setHeadbox(data.getHeadbox());
+		toData.setVip(data.getVip());
+		toData.setMagicCfgId(data.getMagicCfgId());
 		return toData;
 	}
 

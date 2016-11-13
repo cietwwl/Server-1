@@ -36,6 +36,8 @@ public class LevelExtension extends RankingJacksonExtension<LevelComparable, Ran
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());
 		toData.setCareerLevel(player.getStarLevel());
+		toData.setVip(player.getVip());
+		toData.setMagicCfgId(player.getMagic().getModelId());
 		return toData;
 	}
 

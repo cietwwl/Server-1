@@ -193,6 +193,11 @@ public class GCompOnlineMemberMgr {
 					for (GCompOnlineMember member : removeMembers) {
 						GCompOnlineMemberMgr.this._dataHolder.synToAll(groupId, member, eSynOpType.REMOVE_SINGLE);
 						GCompUtil.log("---------- 自动移除不在线的成员{} ----------", member.getUserName());
+						try {
+							GCompTeamMgr.getInstance().forcePlayerLeaveTeam(PlayerMgr.getInstance().find(member.getUserId()));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
 					}
 				}
 			}

@@ -2,8 +2,11 @@ package com.playerdata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.readonly.TaskMgrIF;
@@ -11,6 +14,7 @@ import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BILogTemplateHelper;
 import com.rw.service.log.template.BITaskType;
 import com.rw.service.log.template.BilogItemInfo;
+import com.rwbase.common.enu.TaskState;
 import com.rwbase.common.enu.eTaskFinishDef;
 import com.rwbase.common.enu.eTaskSuperType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -25,6 +29,10 @@ public class TaskItemMgr implements TaskMgrIF {
 	private TaskItemHolder taskItemHolder;
 
 	private Player m_pPlayer = null;
+	
+	private static final int TASK_STATE_NOT_DONE = TaskState.NOT_DONE.sign; // 未完成
+	private static final int TASK_STATE_CAN_DRAW = TaskState.CAN_DRAW.sign; // 可领取奖励
+	private static final int TASK_STATE_REWARD_DRAWED = TaskState.DRAWED.sign; // 已领取奖励
 
 	// 初始化
 	public boolean init(Player pOwner) {
@@ -81,27 +89,26 @@ public class TaskItemMgr implements TaskMgrIF {
 		task.setTaskId(cfg.getId());
 		task.setFinishType(eTaskFinishDef.getDef(cfg.getFinishType()));
 		task.setSuperType(cfg.getSuperType());
-		setTaskInfo(task, cfg.getFinishParam());
+		setTaskInfo(task, cfg.getFinishParamList());
 		return task;
 	}
 
-	private void setTaskInfo(TaskItem task, String valueStr) {
+	private void setTaskInfo(TaskItem task, List<String> finishParamList) {
 		int curplan = 0;
-		int value = Integer.parseInt(valueStr.split("_")[0]);
+		int value = Integer.parseInt(finishParamList.get(0));
 		int total = value;
 		int value1 = 0;
 
 		switch (task.getFinishType()) {
 		case Section_Star:
-			String[] arr = valueStr.split("_");
-			if (arr.length > 1) {
-				total = Integer.parseInt(valueStr.split("_")[1]);
+			if (finishParamList.size() > 1) {
+				total = Integer.parseInt(finishParamList.get(1));
 			}
 			break;
 		case Hero_Quality:
 		case Hero_Star:
 			// value:佣兵个数 -- value1:佣兵品质/佣兵星数
-			value1 = Integer.parseInt(valueStr.split("_")[1]);
+			value1 = Integer.parseInt(finishParamList.get(1));
 			break;
 		case Change_Career:
 		case Finish_Copy_Normal:
@@ -117,7 +124,8 @@ public class TaskItemMgr implements TaskMgrIF {
 		curplan = getCurProgress(task.getFinishType(), value, value1);
 		task.setCurProgress(curplan);
 		task.setTotalProgress(total);
-		task.setDrawState(curplan >= total ? 1 : 0);
+//		task.setDrawState(curplan >= total ? 1 : 0);
+		task.setDrawState(curplan >= total ? TASK_STATE_CAN_DRAW : TASK_STATE_NOT_DONE);
 	}
 
 	private int getCurProgress(eTaskFinishDef taskType, int value, int value1) {
@@ -182,12 +190,12 @@ public class TaskItemMgr implements TaskMgrIF {
 				if (cfg == null) {// 避免找不到配置表，暂时把这个给跳过
 					continue;
 				}
-				int value = Integer.parseInt(cfg.getFinishParam().split("_")[0]);
+				int value = Integer.parseInt(cfg.getFinishParamList().get(0));
 				int value1 = 0;
 				int finishType = cfg.getFinishType();
 				if (finishType == eTaskFinishDef.Hero_Quality.getOrder() || finishType == eTaskFinishDef.Hero_Star.getOrder()) {
 					// value:佣兵个数 -- value1:佣兵品质/佣兵星数
-					value1 = Integer.parseInt(cfg.getFinishParam().split("_")[1]);
+					value1 = Integer.parseInt(cfg.getFinishParamList().get(1));
 				}
 				int curProgress = getCurProgress(task.getFinishType(), value, value1);
 				// fix bug#2000 任务模块，精英任务奖励逻辑有问题
@@ -197,12 +205,12 @@ public class TaskItemMgr implements TaskMgrIF {
 				if (curProgress != task.getCurProgress()) {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
-						task.setDrawState(1);
-
+//						task.setDrawState(1);
+						task.setDrawState(TASK_STATE_CAN_DRAW);
 						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					} else {
-						task.setDrawState(0);
-
+//						task.setDrawState(0);
+						task.setDrawState(TASK_STATE_NOT_DONE);
 						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					}
 				}
@@ -220,13 +228,15 @@ public class TaskItemMgr implements TaskMgrIF {
 				GameLog.info("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
 				continue;
 			}
-			if (task.getFinishType() == taskType && task.getDrawState() == 0 && task.getSuperType() == eTaskSuperType.More.ordinal()) {
+			if (task.getFinishType() == taskType && task.getDrawState() == TASK_STATE_NOT_DONE && task.getSuperType() == eTaskSuperType.More.ordinal()) {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
-					task.setDrawState(1);
+//					task.setDrawState(1);
+					task.setDrawState(TASK_STATE_CAN_DRAW);
 					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				} else {
-					task.setDrawState(0);
+//					task.setDrawState(0);
+					task.setDrawState(TASK_STATE_NOT_DONE);
 					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
@@ -247,24 +257,24 @@ public class TaskItemMgr implements TaskMgrIF {
 			return -2;
 		}
 
-		if (task.getDrawState() == 0 || task.getDrawState() == 2) {
+		if (task.getDrawState() == TASK_STATE_NOT_DONE || task.getDrawState() == TASK_STATE_REWARD_DRAWED) {
 			return -3;
 		}
 
-		String[] rewards = cfg.getReward().split(",");
-		List<ItemInfo> items = new ArrayList<ItemInfo>(rewards.length);
-		for (String reward : rewards) {
-			ItemInfo item = new ItemInfo();
-			item.setItemID(Integer.parseInt(reward.split("_")[0]));
-			item.setItemNum(Integer.parseInt(reward.split("_")[1]));
-			items.add(item);
+		Map<Integer, Integer> taskRewards = cfg.getRewardMap();
+		List<ItemInfo> items = new ArrayList<ItemInfo>(taskRewards.size());
+		for (Iterator<Integer> keyItr = taskRewards.keySet().iterator(); keyItr.hasNext();) {
+			Integer itemId = keyItr.next();
+			Integer count = taskRewards.get(itemId);
+			items.add(new ItemInfo(itemId.intValue(), count.intValue()));
 		}
 		m_pPlayer.getItemBagMgr().addItem(items);
-		task.setDrawState(2);
-		if (cfg.getPreTask() != -1) {
+		task.setDrawState(TASK_STATE_REWARD_DRAWED);
+		if (cfg.getPreTask() != -1) { // 这里为什么不删除？BY PERRY @ 2016-11-07
 			taskItemHolder.removeItem(m_pPlayer, task);
 		} else {
-			taskItemHolder.updateItem(m_pPlayer, task);
+			taskItemHolder.updateItem(m_pPlayer, task, false);
+			taskItemHolder.synRemove(m_pPlayer, task);
 		}
 		TaskCfg nextCfg = TaskCfgDAO.getInstance().getCfgByPreId(taskId);
 		if (nextCfg != null) {
@@ -294,7 +304,7 @@ public class TaskItemMgr implements TaskMgrIF {
 				GameLog.error("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
 				continue;
 			}
-			if (task.getDrawState() == 0 || task.getDrawState() == 2) {
+			if (task.getDrawState() == TASK_STATE_NOT_DONE || task.getDrawState() == TASK_STATE_REWARD_DRAWED) {
 				// 已领取或者未完成
 				continue;
 			}
@@ -327,22 +337,13 @@ public class TaskItemMgr implements TaskMgrIF {
 				GameLog.error("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
 				continue;
 			}
-			if (task.getDrawState() == 0 || task.getDrawState() == 2) {
+			if (task.getDrawState() == TASK_STATE_NOT_DONE || task.getDrawState() == TASK_STATE_REWARD_DRAWED) {
 				// 已领取或者未完成
 				continue;
 			}
-			String[] rewards = cfg.getReward().split(",");
-			for (String reward : rewards) {
-				int itemId = Integer.parseInt(reward.split("_")[0]);
-				int count = Integer.parseInt(reward.split("_")[1]);
-				Integer haveCount = rewardMap.get(itemId);
-				if (null == haveCount)
-					haveCount = count;
-				else
-					haveCount += count;
-				rewardMap.put(itemId, haveCount);
-			}
-			task.setDrawState(2);
+			Map<Integer, Integer> taskRewards = cfg.getRewardMap();
+			Utils.combineAttrMap(taskRewards, rewardMap);
+			task.setDrawState(TASK_STATE_REWARD_DRAWED);
 			if (cfg.getPreTask() != -1) {
 				removeList.add(task);
 			} else {
@@ -367,7 +368,7 @@ public class TaskItemMgr implements TaskMgrIF {
 	 */
 	private TaskItem addItemTaskNonSaveIfFinish(TaskCfg cfg) {
 		TaskItem task = createTaskItem(cfg);
-		if (task.getDrawState() == 0) {
+		if (task.getDrawState() == TASK_STATE_NOT_DONE) {
 			// 未完成
 			taskItemHolder.addItem(m_pPlayer, task, false);
 		}
