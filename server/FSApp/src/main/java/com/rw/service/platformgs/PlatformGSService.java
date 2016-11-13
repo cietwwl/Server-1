@@ -1,5 +1,7 @@
 package com.rw.service.platformgs;
 
+import io.netty.channel.ChannelHandlerContext;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -12,6 +14,7 @@ import com.playerdata.PlayerMgr;
 import com.rw.fsutil.shutdown.IShutdownHandler;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.manager.GameManager;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.http.GSRequestAction;
 import com.rw.service.http.platformResponse.ServerBaseDataResponse;
 import com.rw.service.platformService.PlatformService;
@@ -21,27 +24,27 @@ import com.rwproto.PlatformGSMsg.ePlatformGSMsgType;
 import com.rwproto.PlatformGSMsg.eServerStatusType;
 import com.rwproto.RequestProtos.Request;
 
-public class PlatformGSService implements IShutdownHandler{
+public class PlatformGSService implements IShutdownHandler {
 	private static PlatformGSHandler platformGSHandler = PlatformGSHandler
 			.getInstance();
-	
+
 	private static ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
-	public static void init(){
+	public static void init() {
 		executor.scheduleAtFixedRate(new TServerStatus(), 5, 5, TimeUnit.SECONDS);
 		ShutdownService.registerShutdownService(new PlatformGSService());
 	}
 
-	private static class TServerStatus implements Runnable{
+	private static class TServerStatus implements Runnable {
 
 		@Override
 		public void run() {
 			// TODO Auto-generated method stub
 			notifyServerStatusToPlatform(false);
 		}
-		
+
 	}
-	
+
 	public static void notifyServerStatusToPlatform(boolean blnShutdown) {
 		try {
 			int size = PlayerMgr.getInstance().getAllPlayer().size();
@@ -50,13 +53,13 @@ public class PlatformGSService implements IShutdownHandler{
 			serverBaseDataResponse.setOnlineNum(size);
 			serverBaseDataResponse.setStatus(blnShutdown ? EServerStatus.CLOSE.getStatusId() : getStatus());
 			PlatformService.SendResponse("com.rw.netty.http.requestHandler.ServerStatusHandler", "notifyServerData", serverBaseDataResponse, ServerBaseDataResponse.class);
-			
+
 		} catch (Exception ex) {
 
 		}
 	}
-	
-	public static int getStatus(){
+
+	public static int getStatus() {
 		ServerStatus status = ServerStatusMgr.getStatus();
 		return status.ordinal();
 	}
@@ -67,11 +70,12 @@ public class PlatformGSService implements IShutdownHandler{
 		PlatformGSService.notifyServerStatusToPlatform(true);
 	}
 
-	public static ByteString doTask(Request request) {
+	public static void doTask(Request request, ChannelHandlerContext ctx) {
 		ByteString result = null;
+		ePlatformGSMsgType type = null;
 		try {
 			UserInfoRequest userRequest = UserInfoRequest.parseFrom(request.getBody().getSerializedContent());
-			ePlatformGSMsgType type = userRequest.getPlatformGSMsgType();
+			type = userRequest.getPlatformGSMsgType();
 			switch (type) {
 			case USER_INFO:
 				result = platformGSHandler.getUserInfo(userRequest);
@@ -86,6 +90,6 @@ public class PlatformGSService implements IShutdownHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return result;
+		UserChannelMgr.sendResponse(null, request.getHeader(), type, result, 200, ctx, null);
 	}
 }
