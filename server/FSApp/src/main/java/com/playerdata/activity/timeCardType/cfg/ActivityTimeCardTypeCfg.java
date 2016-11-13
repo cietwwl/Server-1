@@ -5,68 +5,72 @@ public class ActivityTimeCardTypeCfg {
 
 	private String id;
 	
-	private String cion;
+//	private String cion;
+//	
+//	private String title;
+//	
+//	private String titleBG;
+//	
+//	private String desc;
+//	
+//	private String group;
 	
-	private String title;
+	private int levelLimit;
 	
-	private String titleBG;
-	
-	private String desc;
-	
-	private String group;
-	
-	public String getGroup() {
-		return group;
-	}
+//	public String getGroup() {
+//		return group;
+//	}
+//
+//	public void setGroup(String group) {
+//		this.group = group;
+//	}
 
-	public void setGroup(String group) {
-		this.group = group;
-	}
-
-	private int sortNum;
-	
-	private String countLimit;
-	
-	//id-count-giftId;
-	private String subItems;
+//	private int sortNum;
+//	
+//	private String countLimit;
+//	
+//	//id-count-giftId;
+//	private String subItems;
 	
 
 	public String getId() {
 		return id;
 	}
 
-	public String getCion() {
-		return cion;
-	}
+//	public String getCion() {
+//		return cion;
+//	}
+//
+//	public String getTitle() {
+//		return title;
+//	}
+//
+//	public String getTitleBG() {
+//		return titleBG;
+//	}
+//
+//	public String getDesc() {
+//		return desc;
+//	}
 
-	public String getTitle() {
-		return title;
-	}
+//	public int getSortNum() {
+//		return sortNum;
+//	}
+//
+//	public String getSubItems() {
+//		return subItems;
+//	}
+//
+//	
+//	public String getCountLimit() {
+//		return countLimit;
+//	}
+//
+//	public void setCountLimit(String countLimit) {
+//		this.countLimit = countLimit;
+//	}
 
-	public String getTitleBG() {
-		return titleBG;
+	public int getLevelLimit() {
+		return levelLimit;
 	}
-
-	public String getDesc() {
-		return desc;
-	}
-
-	public int getSortNum() {
-		return sortNum;
-	}
-
-	public String getSubItems() {
-		return subItems;
-	}
-
-	
-	public String getCountLimit() {
-		return countLimit;
-	}
-
-	public void setCountLimit(String countLimit) {
-		this.countLimit = countLimit;
-	}
-	
-	
 }

@@ -10,7 +10,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
@@ -24,9 +23,6 @@ public class ActivityTimeCardTypeItem implements  RoleExtProperty {
 	private Integer id;
 	@OwnerId
 	private String userId;// 对应的角色Id
-	
-	
-	
 
 	@CombineSave
 	private String cfgId;
@@ -37,13 +33,8 @@ public class ActivityTimeCardTypeItem implements  RoleExtProperty {
 	@CombineSave
 	private List<ActivityTimeCardTypeSubItem> subItemList = new ArrayList<ActivityTimeCardTypeSubItem>();
 	
-	
-	
 	@CombineSave
 	private long activityLoginTime;
-
-
-	
 
 	public long getActivityLoginTime() {
 		return activityLoginTime;
@@ -52,10 +43,6 @@ public class ActivityTimeCardTypeItem implements  RoleExtProperty {
 	public void setActivityLoginTime(long activityLoginTime) {
 		this.activityLoginTime = activityLoginTime;
 	}
-
-
-
-
 
 	public Integer getId() {
 		return id;
@@ -96,11 +83,4 @@ public class ActivityTimeCardTypeItem implements  RoleExtProperty {
 	public void setClosed(boolean closed) {
 		this.closed = closed;
 	}
-
-	
-	
-
-	
-	
-	
 }
