@@ -296,12 +296,12 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		if (canAddDefendList.size() < 2) {
-			GroupSecretHelper.fillRspInfo(rsp, false, "主角无法单独驻守秘境");
-			return rsp.build().toByteString();
-		}
+//		if (canAddDefendList.size() < 2) {
+//			GroupSecretHelper.fillRspInfo(rsp, false, "主角无法单独驻守秘境");
+//			return rsp.build().toByteString();
+//		}
 
-		if (canAddDefendList.size() < 2) {
+		if (canAddDefendList.size() > 5) {
 			GroupSecretHelper.fillRspInfo(rsp, false, "驻守阵容不能超过5个人");
 			return rsp.build().toByteString();
 		}
