@@ -1006,23 +1006,18 @@ public class ArenaHandler {
 		if (arenaData == null) {
 			return OneKeyResultType.DATA_ERROR;
 		}
-		List<ArenaScore> scoreRewardItems = ArenaScoreCfgDAO.getInstance().getAllCfg();
-		if(null == scoreRewardItems || scoreRewardItems.isEmpty()){
+		List<Integer> scoreRewardKeys = ArenaScoreCfgDAO.getInstance().getKeys();
+		if(null == scoreRewardKeys || scoreRewardKeys.isEmpty()){
 			return OneKeyResultType.NO_REWARD;
 		}
 		boolean isGet = false;
-		for(ArenaScore scoreItem : scoreRewardItems){
-			int id = scoreItem.getScore();
+		for(Integer id : scoreRewardKeys){
 			List<Integer> rewardList = arenaData.getRewardList();
 			if (rewardList.contains(id)) {
 				//已经领取过
 				continue;
 			}
 			ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
-			if (null == template) {
-				GameLog.error("ArenaHandler", "#getScoreReward()", "领取不存在的积分奖励：" + id);
-				continue;
-			}
 			int score = arenaData.getScore();
 			if (template.getSocre() > score) {
 				//积分不够

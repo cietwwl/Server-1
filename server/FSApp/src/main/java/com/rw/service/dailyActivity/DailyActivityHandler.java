@@ -117,16 +117,18 @@ public class DailyActivityHandler {
 		DailyActivityMgr activityMgr = player.getDailyActivityMgr();
 		List<DailyActivityData> dailyList = activityMgr.getAllTask();
 		if(null == dailyList || dailyList.isEmpty()) return OneKeyResultType.NO_REWARD;
+		boolean haveReward = false;
 		for (DailyActivityData data : dailyList) {
 			if (data.getCanGetReward() == 1) {
-				DailyActivityCfgEntity entity = DailyActivityCfgDAO.getInstance().getCfgEntity(data.getCanGetReward());
+				DailyActivityCfgEntity entity = DailyActivityCfgDAO.getInstance().getCfgEntity(data.getTaskId());
 				if (entity == null) {
-					GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + data.getCanGetReward(), null);
+					GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + data.getTaskId(), null);
 					continue;
 				}
 				// 从任务列表中删除该任务
 				if(activityMgr.RemoveTaskById(data.getTaskId()))
 				{
+					haveReward = true;
 					List<ItemInfo> rewardList = entity.getReward();
 					for(ItemInfo info: rewardList){
 						player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
@@ -144,6 +146,7 @@ public class DailyActivityHandler {
 				}
 			}
 		}
+		if(!haveReward) return OneKeyResultType.NO_REWARD;
 		activityMgr.resRed();
 		return OneKeyResultType.OneKey_SUCCESS;
 	}

@@ -58,10 +58,11 @@ public class TaskItemMgr implements TaskMgrIF {
 		}
 	}
 
-	private void addItemTask(TaskCfg cfg, boolean doSyn) {
+	private TaskItem addItemTask(TaskCfg cfg, boolean doSyn) {
 		TaskItem task = createTaskItem(cfg);
 		taskItemHolder.addItem(m_pPlayer, task, doSyn);
 		BILogMgr.getInstance().logTaskBegin(m_pPlayer, task.getTaskId(), BITaskType.Main);
+		return task;
 	}
 
 	/** 构造一个任务 **/
@@ -263,8 +264,44 @@ public class TaskItemMgr implements TaskMgrIF {
 	 * @return
 	 */
 	public OneKeyResultType getAllReward(HashMap<Integer, Integer> rewardMap) {
+		List<TaskItem> removeList = new ArrayList<TaskItem>();
+		
+		List<TaskItem> allTask = taskItemHolder.getItemList();
+		if (null == allTask || allTask.isEmpty()) {
+			GameLog.info("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
+			return OneKeyResultType.NO_REWARD;
+		}
+		
+		List<TaskItem> checkTasks = new ArrayList<TaskItem>();
+		for(TaskItem task : allTask){
+			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
+			if (cfg == null) {
+				GameLog.error("Task", String.valueOf(task.getTaskId()), "TaskCfg配置表错误：没有ID为" + task.getTaskId() + "的任务", null);
+				continue;
+			}
+			if (task.getDrawState() == 0 || task.getDrawState() == 2) {
+				//已领取或者未完成
+				continue;
+			}
+			checkTasks.add(task);
+		}
+		
+		OneKeyResultType result = getAllReward(rewardMap, removeList, checkTasks);
+		if(OneKeyResultType.NO_REWARD != result){
+			taskItemHolder.removeItem(m_pPlayer, removeList);
+			taskItemHolder.synAllData(m_pPlayer, 0);
+		}
+		return result;
+	}
+	
+	/**
+	 * 领取所有已经完成的任务
+	 * @return
+	 */
+	private OneKeyResultType getAllReward(HashMap<Integer, Integer> rewardMap, List<TaskItem> removeList, List<TaskItem> taskList) {
 		boolean hasNewLoop = false;
-		List<TaskItem> taskList = taskItemHolder.getItemList();
+		List<TaskItem> checkTasks = new ArrayList<TaskItem>();
+		
 		if (null == taskList || taskList.isEmpty()) {
 			GameLog.info("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
 			return OneKeyResultType.NO_REWARD;
@@ -291,18 +328,17 @@ public class TaskItemMgr implements TaskMgrIF {
 			}
 			task.setDrawState(2);
 			if (cfg.getPreTask() != -1) {
-				taskItemHolder.removeItem(m_pPlayer, task);
+				removeList.add(task);
 			} else {
-				taskItemHolder.updateItem(m_pPlayer, task);
+				taskItemHolder.updateItem(m_pPlayer, task, false);
 			}
 			TaskCfg nextCfg = TaskCfgDAO.getInstance().getCfgByPreId(task.getTaskId());
 			if (nextCfg != null) {
-				final boolean doSyn = true;
-				addItemTask(nextCfg, doSyn);
+				checkTasks.add(addItemTask(nextCfg, false));
 				hasNewLoop = true;
 			}
 		}
-		if(hasNewLoop) getAllReward(rewardMap);
+		if(hasNewLoop) getAllReward(rewardMap, removeList, checkTasks);
 		return OneKeyResultType.OneKey_SUCCESS;
 	}
 
@@ -314,5 +350,4 @@ public class TaskItemMgr implements TaskMgrIF {
 	public List<TaskItem> getTaskEnumeration() {
 		return taskItemHolder.getItemList();
 	}
-
 }

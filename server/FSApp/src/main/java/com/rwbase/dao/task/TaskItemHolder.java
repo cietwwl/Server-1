@@ -56,6 +56,11 @@ public class TaskItemHolder {
 		// taskIdMap.put(item.getTaskId(), item);
 		ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.UPDATE_SINGLE);
 	}
+	
+	public void updateItem(Player player, TaskItem item, boolean isSyn) {
+		getItemStore().updateItem(item);
+		if(isSyn) ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.UPDATE_SINGLE);
+	}
 
 	public TaskItem getItem(String itemId) {
 		return getItemStore().getItem(itemId);
@@ -74,11 +79,23 @@ public class TaskItemHolder {
 
 	public boolean removeItem(Player player, TaskItem item) {
 		boolean success = getItemStore().removeItem(item.getId());
+		
 		if (success) {
 			// taskIdMap.remove(item.getTaskId());
 			ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.REMOVE_SINGLE);
 		}
 		return success;
+	}
+	
+	public boolean removeItem(Player player, List<TaskItem> items) {
+		if(null == items || items.isEmpty()) return false;
+		List<String> ids = new ArrayList<String>();
+		for(TaskItem item : items){
+			ids.add(item.getId());
+		}
+		List<String> successIds = getItemStore().removeItem(ids);
+		if(null == successIds || successIds.isEmpty()) return false;
+		return true;
 	}
 
 	public boolean addItem(Player player, TaskItem item, boolean doSyn) {

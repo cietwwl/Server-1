@@ -1,8 +1,11 @@
 package com.bm.arena;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -50,6 +53,10 @@ public class ArenaScoreCfgDAO extends CfgCsvDao<ArenaScore> {
 	 */
 	public ArenaScoreTemplate getScoreTemplate(int key) {
 		return templateMap.get(key);
+	}
+	
+	public List<Integer> getKeys(){
+		return new ArrayList<Integer>(templateMap.keySet());
 	}
 
 	/**

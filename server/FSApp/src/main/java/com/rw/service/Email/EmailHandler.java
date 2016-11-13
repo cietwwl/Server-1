@@ -108,12 +108,12 @@ public class EmailHandler {
 		if(null == tableEmail){
 			return OneKeyResultType.DATA_ERROR;
 		}
-		Map<String, EmailItem> emailMap = tableEmail.getEmailList();
-		if(null == emailMap || emailMap.isEmpty()){
+		List<EmailItem> emailList = tableEmail.getEmailArrayList();
+		if(null == emailList || emailList.isEmpty()){
 			return OneKeyResultType.NO_REWARD;
 		}
 		boolean isPushEmail = false;
-		for(EmailItem item: emailMap.values()){
+		for(EmailItem item: emailList){
 			//判断是否可以领取
 			String result = isAttachmentCanTake(player, item);
 			if(result.equals("")){
@@ -144,6 +144,7 @@ public class EmailHandler {
 		}
 		if(isPushEmail) {
 			pushEmailList(player);
+			player.getEmailMgr().save();
 			return OneKeyResultType.OneKey_SUCCESS;
 		}else{
 			return OneKeyResultType.NO_REWARD;
