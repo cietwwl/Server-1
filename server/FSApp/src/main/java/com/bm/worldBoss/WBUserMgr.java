@@ -88,7 +88,7 @@ public class WBUserMgr {
 		WBAwardCfg awardCfg = WBAwardCfgDAO.getInstance().getCfgById(String.valueOf(level));
 		int awardCoin = 0;
 		if(awardCfg!=null){
-			float factor = awardCfg.getFactor();
+			double factor = awardCfg.getFactor();
 			awardCoin = (int)(factor*totalHurt);
 		}
 
@@ -117,17 +117,11 @@ public class WBUserMgr {
 		
 		WBData wbData = WBDataHolder.getInstance().get();
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
-		if(wbData!=null && wbUserData!=null && wbData.getVersion() != wbUserData.getBossVersion()){
+		if (wbData != null && wbUserData != null && wbData.getVersion() != wbUserData.getBossVersion()) {
 			wbUserData = wbUserData.nextInstance(wbData.getVersion());
 			WBUserDataHolder.getInstance().update(player, wbUserData);
 		}
 		
 	}
-	public boolean canBuyCd(Player player) {
 
-		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
-		int maxCdCanBuy = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.worldBossMaxBuyBuffCount);
-		
-		return wbUserData.getCdBuyCount() < maxCdCanBuy;
-	}
 }

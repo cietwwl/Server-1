@@ -18,6 +18,7 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attrdata.AttrData.Builder;
 import com.rwbase.dao.battle.pojo.BattleCfgDAO;
 import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -215,6 +216,28 @@ public class ArmyInfoHelper {
 		return army;
 	}
 	
+	/**
+	 * 增加army的攻击力
+	 * @param army
+	 * @param percent 增加万分比
+	 */
+	public static void IncreaseArmyAttrack(ArmyInfo army, int percent){
+		ArmyHero player = army.getPlayer();
+		if(player != null){
+			AttrData.Builder builder = new Builder();
+			builder.setPhysiqueAttack(percent);
+			player.getAttrData().addPercent(builder.build());
+		}
+		
+		for (ArmyHero hero : army.getHeroList()) {
+			if(hero == null){
+				continue;
+			}
+			AttrData.Builder builder = new Builder();
+			builder.setPhysiqueAttack(percent);
+			hero.getAttrData().addPercent(builder.build());
+		}
+	}
 	
 	
 	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList){

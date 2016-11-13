@@ -8,13 +8,13 @@ public class WBAwardCfg {
 	private String id;//id 就是level
 
 	
-	private float factor;
+	private double factor;//金币因子 亿分比
 
 	public String getId() {
 		return id;
 	}
 
-	public float getFactor() {
+	public double getFactor() {
 		return factor;
 	}
 	

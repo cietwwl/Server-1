@@ -1,5 +1,7 @@
 package com.bm.worldBoss.state;
 
+import javax.management.timer.Timer;
+
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
@@ -15,8 +17,8 @@ class WBPreStartState implements  IwbState{
 		WBData wbData = WBDataHolder.getInstance().get();
 		
 		long curTime = System.currentTimeMillis();//1477364091320
-		System.out.println("start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm"));
-		if(wbData.getStartTime() <= curTime){     //1477367100000
+		System.out.println("start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+		if((wbData.getStartTime() - 5 * Timer.ONE_SECOND) <= curTime){     //提前5s开启,前端会在开启前后10s内进行状态同步
 			return new WBFightStartState();
 		}
 		

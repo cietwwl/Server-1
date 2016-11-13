@@ -16,8 +16,10 @@ import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBState;
 import com.bm.worldBoss.data.WBUserData;
+import com.bm.worldBoss.data.WBUserDataDao;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.state.WBStateFSM;
+import com.common.Utils;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.army.ArmyInfo;
@@ -26,6 +28,7 @@ import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
+import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.WorldBossProtos.BuyBuffParam;
@@ -73,6 +76,14 @@ public class WBHandler {
 			
 			ArmyInfo armyInfo = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroIdsList);
 			armyInfo.setPos(posMap);
+
+//			System.out.println("--------------------------role original attack value:" + armyInfo.getPlayer().getAttrData().getPhysiqueAttack());
+			//这里还要加上角色的鼓舞buff
+			int buffValue = getBuffValue(player.getUserId());
+			if(buffValue != 0){
+				ArmyInfoHelper.IncreaseArmyAttrack(armyInfo, buffValue);
+			}
+//			System.out.println("========================role increase attack value:" + armyInfo.getPlayer().getAttrData().getPhysiqueAttack());
 			
 			String bossJson = bossArmy.toJson();
 			String armyJson = armyInfo.toJson();
@@ -87,6 +98,23 @@ public class WBHandler {
 		response.setTipMsg(result.getReason());	
 				
 		return response.build().toByteString();
+	}
+	
+	
+	private int getBuffValue(String userID){
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(userID);
+		List<String> list = wbUserData.getBuffCfgIdList();
+		WBBuyBuffCfg cfg;
+		int totalValue = 0;
+		for (String cfgID : list) {
+			cfg = WBBuyBuffCfgDAO.getInstance().getCfgById(cfgID);
+			if(cfg != null){
+				totalValue += cfg.getBuffValue();
+			}
+			
+		}
+		
+		return totalValue;
 	}
 	
 	private List<String> getHeroIdList(Player player, EmbattlePositionInfo embattleInfo, Map<String,Integer> posMap){
@@ -299,10 +327,11 @@ public class WBHandler {
 	
 	private WBResult checkUser(Player player){
 		WBResult result = WBResult.newInstance(true);
-		if(!WBUserMgr.getInstance().canBuyCd(player)){
-			result.setSuccess(false);
-			result.setReason("购买次数已满，升级vip可以获得更多购买次数。");
-		}
+		//策划要求去掉复活次数
+//		if(!WBUserMgr.getInstance().canBuyCd(player)){
+//			result.setSuccess(false);
+//			result.setReason("购买次数已满，升级vip可以获得更多购买次数。");
+//		}
 		return result;
 	}
 	
