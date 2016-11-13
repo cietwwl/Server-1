@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.log.GameLog;
@@ -16,6 +17,7 @@ import com.rwbase.dao.task.TaskCfgDAO;
 import com.rwbase.dao.task.TaskItemHolder;
 import com.rwbase.dao.task.pojo.TaskCfg;
 import com.rwbase.dao.task.pojo.TaskItem;
+import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class TaskItemMgr implements TaskMgrIF {
 
@@ -260,12 +262,12 @@ public class TaskItemMgr implements TaskMgrIF {
 	 * 领取所有已经完成的任务
 	 * @return
 	 */
-	public int getAllReward() {
+	public OneKeyResultType getAllReward(HashMap<Integer, Integer> rewardMap) {
 		boolean hasNewLoop = false;
 		List<TaskItem> taskList = taskItemHolder.getItemList();
 		if (null == taskList || taskList.isEmpty()) {
 			GameLog.info("Task", "获取所有任务奖励", "数据错误：没有可以领取的奖励", null);
-			return -1;
+			return OneKeyResultType.NO_REWARD;
 		}
 		for(TaskItem task : taskList){
 			TaskCfg cfg = TaskCfgDAO.getInstance().getCfg(task.getTaskId());
@@ -282,6 +284,10 @@ public class TaskItemMgr implements TaskMgrIF {
 				int itemId = Integer.parseInt(reward.split("_")[0]);
 				int count = Integer.parseInt(reward.split("_")[1]);
 				m_pPlayer.getItemBagMgr().addItem(itemId, count);
+				Integer haveCount = rewardMap.get(itemId);
+				if(null == haveCount) haveCount = count;
+				else haveCount += count;
+				rewardMap.put(itemId, haveCount);
 			}
 			task.setDrawState(2);
 			if (cfg.getPreTask() != -1) {
@@ -296,8 +302,8 @@ public class TaskItemMgr implements TaskMgrIF {
 				hasNewLoop = true;
 			}
 		}
-		if(hasNewLoop) getAllReward();
-		return 1;
+		if(hasNewLoop) getAllReward(rewardMap);
+		return OneKeyResultType.OneKey_SUCCESS;
 	}
 
 	public boolean save() {

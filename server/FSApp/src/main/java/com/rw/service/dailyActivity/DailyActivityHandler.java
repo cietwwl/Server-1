@@ -109,6 +109,57 @@ public class DailyActivityHandler {
 		}
 		return response.build().toByteString();
 	}
+	
+	// 领取所有已经完成的日常
+	public ByteString taskAllFinish(Player player) {
+		List<DailyActivityData> dailyList = player.getDailyActivityMgr().getAllTask();
+		for (DailyActivityData data : dailyList) {
+			if (data.getCanGetReward() == 1) {
+				dailyCompleted = true;
+			}
+		}
+		
+		
+		
+		DailyActivityCfgEntity entity = DailyActivityCfgDAO.getInstance().getCfgEntity(taskId);
+		if (entity == null) {
+			GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + taskId, null);
+			return returnFailResponse(response);
+		}
+		
+		
+//		BIActivityCode activitycode =  BILogTemplateHelper.getByDailyTaskId(taskId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK,0,entity.getCfg().getId());
+		
+		// 从任务列表中删除该任务
+		if(activityMgr.RemoveTaskById(taskId))
+		{
+			List<ItemInfo> rewardList = entity.getReward();
+			for(ItemInfo info:rewardList){
+				player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
+			}
+			response.setTaskId(request.getTaskId());
+			
+			
+			
+			List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
+			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
+			
+		}
+		else
+		{
+			GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + taskId, null);
+			response.setResultType(eDailyActivityResultType.FAIL);
+		}
+		
+		// 返回任务列表
+		List<DailyActivityData> taskList = activityMgr.getAllTask();
+		for (DailyActivityData td : taskList) {
+			response.addTaskList(toTaskInfo(td));
+		}
+		return response.build().toByteString();
+	}
 
 	private ByteString returnFailResponse(MsgDailyActivityResponse.Builder response) {
 		response.setResultType(eDailyActivityResultType.FAIL);

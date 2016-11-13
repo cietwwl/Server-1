@@ -20,8 +20,7 @@ public class TaskService implements FsService {
 			eTaskRequestType reqType = req.getRequestType();
 			switch (reqType) {
 			case GetReward:
-				if(req.getId() <= 0) result = getAllReward(player);
-				else result =getReward(req.getId(),player);
+				result =getReward(req.getId(),player);
 				break;
 			default:
 				break;
@@ -41,18 +40,6 @@ public class TaskService implements FsService {
 		}else if(result == 1){
 			resp.setReslutType(eTaskResultType.SUCCESS);
 			resp.setId(id);
-		}
-		return resp.build().toByteString();
-	}
-	
-	private ByteString getAllReward(Player player) {
-		TaskResponse.Builder resp = TaskResponse.newBuilder();
-		int result = player.getTaskMgr().getAllReward();
-		if(result != 1){
-			resp.setReslutType(eTaskResultType.FAIL);
-			resp.setReslutValue("数据错误！");
-		}else{
-			resp.setReslutType(eTaskResultType.SUCCESS);
 		}
 		return resp.build().toByteString();
 	}
