@@ -12,6 +12,7 @@ import com.bm.arena.ArenaBM;
 import com.bm.arena.ArenaConstant;
 import com.bm.arena.ArenaRankCfgDAO;
 import com.bm.arena.ArenaRankEntity;
+import com.bm.arena.ArenaScore;
 import com.bm.arena.ArenaScoreCfgDAO;
 import com.bm.arena.ArenaScoreTemplate;
 import com.bm.rank.arena.ArenaExtAttribute;
@@ -79,6 +80,7 @@ import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.PrivilegeProtos.ArenaPrivilegeNames;
 import com.rwproto.SkillServiceProtos.TagSkillData;
+import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class ArenaHandler {
 
@@ -990,6 +992,61 @@ public class ArenaHandler {
 		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 		return fillArenaScore(arenaData, response);
+	}
+	
+	/**
+	 * 获取积分奖励
+	 * 
+	 * @param request
+	 * @param player
+	 * @return
+	 */
+	public OneKeyResultType getAllScoreReward(Player player, HashMap<Integer, Integer> rewardMap) {
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(player.getUserId());
+		if (arenaData == null) {
+			return OneKeyResultType.DATA_ERROR;
+		}
+		List<ArenaScore> scoreRewardItems = ArenaScoreCfgDAO.getInstance().getAllCfg();
+		if(null == scoreRewardItems || scoreRewardItems.isEmpty()){
+			return OneKeyResultType.NO_REWARD;
+		}
+		boolean isGet = false;
+		for(ArenaScore scoreItem : scoreRewardItems){
+			int id = scoreItem.getScore();
+			List<Integer> rewardList = arenaData.getRewardList();
+			if (rewardList.contains(id)) {
+				//已经领取过
+				continue;
+			}
+			ArenaScoreTemplate template = ArenaScoreCfgDAO.getInstance().getScoreTemplate(id);
+			if (null == template) {
+				GameLog.error("ArenaHandler", "#getScoreReward()", "领取不存在的积分奖励：" + id);
+				continue;
+			}
+			int score = arenaData.getScore();
+			if (template.getSocre() > score) {
+				//积分不够
+				continue;
+			}
+			rewardList.add(id);
+			Map<Integer, Integer> rewards = template.getRewards();
+			ItemBagMgr itemBagMgr = player.getItemBagMgr();
+			for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
+				itemBagMgr.addItem(entry.getKey(), entry.getValue());
+				Integer haveCount = rewardMap.get(entry.getKey());
+				if(null == haveCount) haveCount = entry.getValue();
+				else haveCount += entry.getValue();
+				rewardMap.put(entry.getKey(), haveCount);
+			}
+			isGet = true;
+			//日志
+			List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
+			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+		}
+		if(isGet) return OneKeyResultType.OneKey_SUCCESS;
+		else return OneKeyResultType.NO_REWARD;
 	}
 
 	private ByteString fillArenaScore(TableArenaData arenaData, MsgArenaResponse.Builder response) {

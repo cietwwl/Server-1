@@ -7,10 +7,14 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.service.FsService;
+import com.rw.service.Email.EmailHandler;
+import com.rw.service.arena.ArenaHandler;
+import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.TaskProtos.OneKeyGetRewardRequest;
 import com.rwproto.TaskProtos.OneKeyGetRewardResponse;
+import com.rwproto.TaskProtos.OneKeyResultType;
 import com.rwproto.TaskProtos.OneKeyRewardType;
 
 public class OneKeyService implements FsService {
@@ -35,6 +39,8 @@ public class OneKeyService implements FsService {
 				result = getAllBattleScoreReward(player);
 				break;
 			default:
+				OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
+				resp.setResult(OneKeyResultType.TYPE_ERROR);
 				break;
 			}
 		}catch(InvalidProtocolBufferException e){
@@ -46,7 +52,7 @@ public class OneKeyService implements FsService {
 	private ByteString getAllDailyReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
 		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(player.getTaskMgr().getAllReward(rewardMap));
+		resp.setResult(DailyActivityHandler.getInstance().taskAllFinish(player, rewardMap));
 		for(Integer key : rewardMap.keySet()){
 			ItemInfo item = new ItemInfo();
 			item.setItemID(key);
@@ -72,7 +78,7 @@ public class OneKeyService implements FsService {
 	private ByteString getAllEmailReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
 		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(player.getTaskMgr().getAllReward(rewardMap));
+		resp.setResult(EmailHandler.getInstance().getAllAttachment(player, rewardMap));
 		for(Integer key : rewardMap.keySet()){
 			ItemInfo item = new ItemInfo();
 			item.setItemID(key);
@@ -85,7 +91,7 @@ public class OneKeyService implements FsService {
 	private ByteString getAllBattleScoreReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
 		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(player.getTaskMgr().getAllReward(rewardMap));
+		resp.setResult(ArenaHandler.getInstance().getAllScoreReward(player, rewardMap));
 		for(Integer key : rewardMap.keySet()){
 			ItemInfo item = new ItemInfo();
 			item.setItemID(key);
