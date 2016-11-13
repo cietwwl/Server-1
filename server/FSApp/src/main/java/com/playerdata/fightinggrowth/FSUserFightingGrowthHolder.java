@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.fightinggrowth.FSUserFightingGrowthDataDAO;
@@ -42,12 +43,14 @@ public class FSUserFightingGrowthHolder {
 		_userFightingGrowthTitleCfgDAO = FSUserFightingGrowthTitleCfgDAO.getInstance();
 	}
 	
-	private List<UserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player) {
+	private List<UserFightingGrowthWaySynData> getFightingGrowthWaySynData(Player player, Map<FSFightingGrowthWayType, Integer> maxFightingMap) {
+		List<Hero> teamHeros = player.getHeroMgr().getMainCityTeamHeros(player.getUserId());
 		List<String> wayKeys = _userFightingGrowthWayInfoCfgDAO.getDisplaySeqRO();
 		List<UserFightingGrowthWaySynData> list = new ArrayList<UserFightingGrowthWaySynData>(wayKeys.size());
 		FSUserFightingGrowthWayInfoCfg cfg;
 		FSFightingGrowthWayType type;
 		UserFightingGrowthWaySynData.Builder builder;
+		Integer maxFighting;
 		for(int i = 0; i < wayKeys.size(); i++) {
 			cfg = _userFightingGrowthWayInfoCfgDAO.getCfgById(wayKeys.get(i));
 			if (cfg.getFightingOriginFuncId() > 0) {
@@ -58,14 +61,19 @@ public class FSUserFightingGrowthHolder {
 				}
 			}
 			type = FSFightingGrowthWayType.getBySign(cfg.getTypeForServer());
+			maxFighting = maxFightingMap.get(type);
+			if (maxFighting == null || maxFighting.intValue() == 0) {
+				continue;
+			}
 			if (type.isPlayerCanUse(player)) {
 				builder = UserFightingGrowthWaySynData.newBuilder();
 				builder.setKey(cfg.getKey()); // key
 				builder.setName(cfg.getFightingOrigin()); // 名字
 				builder.setGotoType(cfg.getGotoType()); // 打开界面
 				builder.addAllGainWay(cfg.getGrowthWayList()); // 获取途径
-				builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player)); // 当前的战斗力
-				builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
+				builder.setCurrentFighting(type.getGetCurrentFightingFunc().apply(player, teamHeros)); // 当前的战斗力
+				builder.setMaxFighting(maxFighting.intValue());
+//				builder.setMaxFighting(type.getGetMaxFightingFunc().apply(player)); // 当前等级的最大值
 //				System.out.println("type=" + type + ", currentValue=" + builder.getCurrentFighting() + ", maxValue=" + builder.getMaxFighting());
 				list.add(builder.build());
 			}
@@ -79,15 +87,18 @@ public class FSUserFightingGrowthHolder {
 		boolean hasNextTitle = true;
 		String currentTitle;
 		String titleIcon;
+		Map<FSFightingGrowthWayType, Integer> maxFightingMap;
 		if (nextTitleCfg != null) {
 			// 有下一级的称号
 			fightingRequired = nextTitleCfg.getFightingRequired(); // 当前称号所需要达到的战斗力
 			itemsRequired = nextTitleCfg.getItemRequiredMap(); // 提升称号所需要的材料
+			maxFightingMap = nextTitleCfg.getExpectedFightingMap();
 		} else {
 			// 没有下一级的称号
 			hasNextTitle = false;
 			fightingRequired = 0;
 			itemsRequired = Collections.emptyMap();
+			maxFightingMap = currentTitleCfg.getExpectedFightingMap();
 		}
 		if (StringUtils.isEmpty(userFightingGrowthData.getCurrentTitleKey())) {
 			// 当前还没有达成任何的称号
@@ -97,7 +108,13 @@ public class FSUserFightingGrowthHolder {
 			currentTitle = currentTitleCfg.getFightingTitle();
 			titleIcon = currentTitleCfg.getFightingIcon();
 		}
-		List<UserFightingGrowthWaySynData> wayInfoList = this.getFightingGrowthWaySynData(player); // 战斗力提升途径
+		
+		List<UserFightingGrowthWaySynData> wayInfoList;
+		if (maxFightingMap.size() > 0) {
+			wayInfoList = this.getFightingGrowthWaySynData(player, maxFightingMap); // 战斗力提升途径
+		} else {
+			wayInfoList = Collections.emptyList();
+		}
 		UserFightingGrowthSynData.Builder dataBuilder = UserFightingGrowthSynData.newBuilder();
 		dataBuilder.setUserId(userFightingGrowthData.getUserId());
 		dataBuilder.setCurrentTitle(currentTitle);

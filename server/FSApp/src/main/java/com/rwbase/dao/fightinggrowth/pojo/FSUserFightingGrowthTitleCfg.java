@@ -4,8 +4,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.fightinggrowth.FSFightingGrowthWayType;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.fightinggrowth.FightingGrowthTypeTarget;
 
 public class FSUserFightingGrowthTitleCfg {
 
@@ -24,6 +26,38 @@ public class FSUserFightingGrowthTitleCfg {
 	private Map<Integer, Integer> _itemRewardMap; // 通过rewards解析过来的{key=道具的cfgId，value=需求的数量}
 	private List<ItemInfo> _itemRewardList; // 奖励道具的list
 	private List<PrivilegeDescItem> _privItems;	//掉落特权的描述类 
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.BASIC)
+	private int heroFighting;	// 英雄基础属性战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.HERO_SKILL)
+	private int skillFighting; // 英雄技能战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FIX_EQUIP)
+	private int fixEquipLevelFighting; // 英雄神器等级战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FIX_EQUIP)
+	private int fixEquipQualityFighting; // 英雄神器品质战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FIX_EQUIP)
+	private int fixEquipStarFighting; // 英雄神器星级战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.TAOIST)
+	private int taoistFighting; // 道术战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.MAGIC)
+	private int magicLevelFighting; // 法宝等级战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.MAGIC)
+	private int magicQualityFighting; // 法宝品质真理期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.GROUP_SKILL)
+	private int groupSkillFighting; // 帮派技能战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.GEM)
+	private int gemFighting; // 宝石战力期望值
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FETTERS)
+	private int heroFetterFighting; // 英雄羁绊期望战力
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FETTERS)
+	private int magicFetterFighting; // 法宝羁绊期望战力
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FETTERS)
+	private int fixEquipFetterFighting; // 神器羁绊期望战力
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.FASHION)
+	private int fashionFighting; // 时装期望战力
+	@FightingGrowthTypeTarget(wayType=FSFightingGrowthWayType.SPRITE_ATTACH)
+	private int spriteAttachFighting; // 附灵期望战力
+	private Map<FSFightingGrowthWayType, Integer> expectedFightingMap; // 期望战力
+	private Map<FSFightingGrowthWayType, Integer> expectedFightingMapRO; // 期望战力
 	
 	public void setItemRequiredMap(Map<Integer, Integer> map) {
 		this._itemRequiredMap = Collections.unmodifiableMap(map);
@@ -140,4 +174,81 @@ public class FSUserFightingGrowthTitleCfg {
 	public int getFrameIconId() {
 		return frameIconId;
 	}
+
+	public int getExpectedFightingMap(FSFightingGrowthWayType type) {
+		Integer value = expectedFightingMap.get(type);
+		if (value != null) {
+			return value.intValue();
+		}
+		return 0;
+	}
+
+	public void setExpectedFightingMap(Map<FSFightingGrowthWayType, Integer> expectedFightingMap) {
+		this.expectedFightingMap = expectedFightingMap;
+		this.expectedFightingMapRO = Collections.unmodifiableMap(expectedFightingMap);
+	}
+	
+	public Map<FSFightingGrowthWayType, Integer> getExpectedFightingMap() {
+		return expectedFightingMapRO;
+	}
+
+//	public int getHeroFighting() {
+//		return heroFighting;
+//	}
+//
+//	public int getSkillFighting() {
+//		return skillFighting;
+//	}
+//
+//	public int getFixEquipLevelFighting() {
+//		return fixEquipLevelFighting;
+//	}
+//
+//	public int getFixEquipQualityFighting() {
+//		return fixEquipQualityFighting;
+//	}
+//
+//	public int getFixEquipStarFighting() {
+//		return fixEquipStarFighting;
+//	}
+//
+//	public int getTaoistFighting() {
+//		return taoistFighting;
+//	}
+//
+//	public int getMagicLevelFighting() {
+//		return magicLevelFighting;
+//	}
+//
+//	public int getMagicQualityFighting() {
+//		return magicQualityFighting;
+//	}
+//
+//	public int getGroupSkillFighting() {
+//		return groupSkillFighting;
+//	}
+//
+//	public int getGemFighting() {
+//		return gemFighting;
+//	}
+//
+//	public int getHeroFetterFighting() {
+//		return heroFetterFighting;
+//	}
+//
+//	public int getMagicFetterFighting() {
+//		return magicFetterFighting;
+//	}
+//
+//	public int getFixEquipFetterFighting() {
+//		return fixEquipFetterFighting;
+//	}
+//
+//	public int getSpriteAttachFighting() {
+//		return spriteAttachFighting;
+//	}
+//
+//	public int getFashionFighting() {
+//		return fashionFighting;
+//	}
 }

@@ -3,6 +3,7 @@ package com.rw.handler.mainService;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
@@ -37,11 +38,9 @@ public class MainHandler implements RandomMethodIF{
 	 * @param client
 	 * @return
 	 */
-	public boolean buyTower(Client client) {
+	public boolean buyPower(Client client) {
 		MsgMainRequest.Builder req = MsgMainRequest.newBuilder();
 		req.setRequestType(EMainServiceType.BUY_POWER);
-//		req.setWorshipCareer
-		
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_MainService, req.build().toByteString(), new MsgReciver() {
 
@@ -80,6 +79,12 @@ public class MainHandler implements RandomMethodIF{
 		
 	}
 
+	private boolean buyCoin2(Client client){
+		MsgMainRequest.Builder req = MsgMainRequest.newBuilder();
+		req.setRequestType(EMainServiceType.BUY_COIN);
+		return client.getMsgHandler().sendMsg(Command.MSG_MainService, req.build().toByteString(), new MainMsgReceiver2(command, functionName, "购买金币"));
+	}
+	
 	private class MainMsgReceiver extends PrintMsgReciver{
 
 		public MainMsgReceiver(Command command, String functionName, String protoType) {
@@ -101,11 +106,10 @@ public class MainHandler implements RandomMethodIF{
 				case LOW_VIP:
 					throw new Exception("VIP 等级不足");
 				case NOT_ENOUGH_GOLD:
-					throw new Exception("砖石不足");
+					throw new Exception("钻石不足");
 				default:
 					throw new Exception("系统繁忙");
 				}
-				
 			}catch(Exception ex){
 				RobotLog.fail(parseFunctionDesc() + "失败", ex);
 			}
@@ -118,12 +122,52 @@ public class MainHandler implements RandomMethodIF{
 		
 	}
 	
+	private class MainMsgReceiver2 extends PrintMsgReciver{
+
+		public MainMsgReceiver2(Command command, String functionName, String protoType) {
+			super(command, functionName, protoType);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public boolean execute(Client client, Response response) {
+			// TODO Auto-generated method stub
+			ByteString bs = response.getSerializedContent();
+			try{
+				MsgMainResponse resp = MsgMainResponse.parseFrom(bs);
+				EMainResultType eMainResultType = resp.getEMainResultType();
+				switch (eMainResultType) {
+				case SUCCESS:
+					RobotLog.info(parseFunctionDesc() + "成功");
+					return true;
+				case LOW_VIP:
+					RobotLog.info(parseFunctionDesc() + "VIP等级不足");
+					return true;
+				case NOT_ENOUGH_GOLD:
+					RobotLog.info(parseFunctionDesc() + "钻石不足");
+					return true;
+				default:
+					RobotLog.fail(parseFunctionDesc() + "可能是次数不足");
+					return true;
+				}
+			}catch(Exception ex){
+				RobotLog.fail(parseFunctionDesc() + "失败", ex);
+			}
+			return false;
+		}
+		
+		private String parseFunctionDesc() {
+			return functionName + "[" + protoType + "] ";
+		}	
+	}
+	
 	@Override
 	public boolean executeMethod(Client client) {
 		UserGameData gameData = client.getUserGameDataHolder().getUserGameData();
 		if(gameData.getPower() <= 10){
-			return buyTower(client);
+			client.getRateHelper().addActionToQueue(ActionEnum.Copy);
+			return buyPower(client);
 		}	
-		return buyCoin(client);
+		return buyCoin2(client);
 	}
 }

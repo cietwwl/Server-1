@@ -17,6 +17,7 @@ import com.playerdata.Player;
 import com.playerdata.SpriteAttachMgr;
 import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.item.checkWare.CheckCommonItemWare;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -199,7 +200,7 @@ public class SpriteAttachHandler {
 			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 			materialsExp += itemBaseCfg.getEnchantExp() * count;
 
-			List<IUseItem> items = itemBagMgr.checkEnoughItem(itemModelId, count, null);
+			List<IUseItem> items = itemBagMgr.checkEnoughItem(itemModelId, count, null, new CheckCommonItemWare());
 			if (items == null) {
 				return false;
 			} else {

@@ -72,4 +72,11 @@ public enum eBILogType {
 		}
 		return RegLog;
 	}
+	
+	public static eBILogType[] getAllValue(){
+		if(allValue == null){
+			allValue = eBILogType.values();
+		}
+		return allValue;
+	}
 }

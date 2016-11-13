@@ -17,6 +17,18 @@ public class GCompScoreComparable implements Comparable<GCompScoreComparable> {
 	public int getTotalScore(){
 		return this.totalScore;
 	}
+	
+	public long getLastRecordTime() {
+		return lastRecordTime;
+	}
+
+	public void setLastRecordTime(long lastRecordTime) {
+		this.lastRecordTime = lastRecordTime;
+	}
+
+	public void setTotalScore(int totalScore) {
+		this.totalScore = totalScore;
+	}
 
 	@Override
 	public int compareTo(GCompScoreComparable o) {

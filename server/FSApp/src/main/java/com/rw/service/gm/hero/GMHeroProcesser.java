@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import com.common.Utils;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -399,6 +400,9 @@ public class GMHeroProcesser {
 							continue;
 						}
 					}
+					
+					
+					FSHeroThirdPartyDataMgr.ATTR_CHANGE_ACTION.doAction(player.getUserId(), hero.getId());
 				}
 			}
 		});

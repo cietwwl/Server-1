@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
+import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
@@ -20,7 +22,14 @@ public class UserGameDataHolder {
 
 	public void syn(Player player, int version) {
 		UserGameData userGameData = get();
+
 		if (userGameData != null) {
+			// 查找一下巅峰竞技积分
+			TablePeakArenaData arenaData = TablePeakArenaDataDAO.getInstance().get(userId);
+			if (arenaData != null) {
+				userGameData.setPeakArenaScore(arenaData.getScore());
+			}
+
 			ClientDataSynMgr.synData(player, userGameData, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
 			GameLog.error("UserGameDataHolder", "#syn()", "find UserGameData fail:" + userId);
@@ -40,8 +49,8 @@ public class UserGameDataHolder {
 			GameLog.error("UserGameDataHolder", "#update()", "find UserGameData fail:" + userId);
 		}
 	}
-	
-	public void update(Player player, String fieldName){
+
+	public void update(Player player, String fieldName) {
 		userGameDataDao.update(userId);
 		UserGameData userGameData = get();
 		if (userGameData != null) {
@@ -55,5 +64,4 @@ public class UserGameDataHolder {
 
 	public void flush() {
 	}
-
 }

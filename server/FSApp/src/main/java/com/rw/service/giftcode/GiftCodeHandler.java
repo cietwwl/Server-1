@@ -15,9 +15,11 @@ import com.gm.gmsender.GmCallBack;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
+import com.playerdata.UserDataMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.log.BILogMgr;
+import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.email.EEmailDeleteType;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.giftcode.GiftCodeData;
@@ -117,7 +119,7 @@ public class GiftCodeHandler {
 						StringBuilder sb = new StringBuilder();
 						for (int i = 0, size = itemData.size(); i < size; i++) {
 							GiftItem item = itemData.get(i);
-							sb.append(item.getType()).append("~").append(item.getCount());
+							sb.append(item.getItemCode()).append("~").append(item.getCount());
 							giftReward.append(item.getItemCode()).append("@").append(item.getCount());
 							if (i < size - 1) {
 								sb.append(",");
@@ -168,15 +170,11 @@ public class GiftCodeHandler {
 			}
 		};
 
-		String channelIdStr = user.getChannelId();
-		int channelId = 0;
-		if (!StringUtils.isEmpty(channelIdStr)) {
-			try {
-				channelId = Integer.parseInt(channelIdStr);
-			} catch (Exception e) {
-				GameLog.error("角色使用兑换码", userId, String.format("转换渠道Id的时候出现了异常信息,渠道Id信息为[%s]", channelIdStr), e);
-			}
-		}
+		
+		UserDataMgr userDataMgr = player.getUserDataMgr();
+		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		int channelId = Integer.parseInt(zoneRegInfo.getRegChannelId());
+		
 
 		GiftCodeItem codeItem = new GiftCodeItem(code, userId, account, channelId, callBack);
 		GiftCodeSenderBm.getInstance().add(codeItem);

@@ -48,7 +48,7 @@ public class FSGetSkillFightingCalc implements IFightingCalc {
 		Collections.sort(skillList, skillInfoComparator);
 
 		// 获取英雄的普攻技能Id
-		String attackId = roleCfgDAO.getAttackId(skillParam.getHeroId());
+		String attackId = roleCfgDAO.getAttackId(skillParam.getHeroTemplateId());
 
 		int fighting = 0;
 		for (int i = 0, j = 0, size = skillList.size(); i < size; i++) {

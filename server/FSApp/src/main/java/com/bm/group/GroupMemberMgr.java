@@ -8,11 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.army.ArmyFashion;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.fashion.FashionBeingUsed;
+import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -190,6 +194,17 @@ public class GroupMemberMgr {
 		memberData.setTemplateId(templateId);
 		memberData.setHeadbox(headbox);
 		memberData.setAllotRewardCount(alloctTime);
+		Player player = PlayerMgr.getInstance().findPlayerFromMemory(playerId);
+		FashionBeingUsed fashion = FashionBeingUsedHolder.getInstance().get(playerId);
+		if(null != fashion && null != player){
+			ArmyFashion armyFasion = new ArmyFashion();
+			armyFasion.setGender(player.getSex());
+			armyFasion.setCareer(player.getCareer());
+			armyFasion.setPetId(fashion.getPetId());
+			armyFasion.setSuitId(fashion.getSuitId());
+			armyFasion.setWingId(fashion.getWingId());
+			memberData.setArmyFashion(armyFasion);
+		}
 		return memberData;
 	}
 
@@ -330,10 +345,14 @@ public class GroupMemberMgr {
 	 * 
 	 * @param kickUserId
 	 */
-	public synchronized void kickMember(String kickUserId) {
-		String groupID = GroupHelper.getUserGroupId(kickUserId);
-		holder.removeMemberData(kickUserId, false);
-		GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
+	public void kickMember(String kickUserId) {
+		String groupID;
+		synchronized (this) {
+			groupID = GroupHelper.getUserGroupId(kickUserId);
+			holder.removeMemberData(kickUserId, false);
+			GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
+		}
+		GameWorldFactory.getGameWorld().executeAccountTask(groupID, new GroupFightingRefreshTask(groupID));
 	}
 
 	/**
@@ -405,14 +424,18 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param fight
 	 */
-	public void updateMemberFight(String userId, int fight) {
+	public int updateMemberFight(String userId, int fight) {
 		GroupMemberData item = holder.getMemberData(userId, false);
 		if (item == null) {
-			return;
+			return fight;
 		}
-
+		int oldFighting = item.getFighting();
+		if (oldFighting == fight) {
+			return fight;
+		}
 		item.setFighting(fight);
 		holder.updateMemberData(item.getId());
+		return oldFighting;
 	}
 
 	/**
@@ -461,6 +484,30 @@ public class GroupMemberMgr {
 
 		item.setVipLevel((byte) vipLevel);
 		holder.updateMemberData(item.getId());
+	}
+	
+	/**
+	 * 更新成员的时装
+	 * 
+	 * @param userId
+	 * @param vipLevel
+	 */
+	public void updateMemberFashion(Player player){
+		GroupMemberData item = holder.getMemberData(player.getUserId(), false);
+		if (item == null) {
+			return;
+		}
+		FashionBeingUsed fashion = FashionBeingUsedHolder.getInstance().get(player.getUserId());
+		if(null != fashion && null != player){
+			ArmyFashion armyFasion = new ArmyFashion();
+			armyFasion.setGender(player.getSex());
+			armyFasion.setCareer(player.getCareer());
+			armyFasion.setPetId(fashion.getPetId());
+			armyFasion.setSuitId(fashion.getSuitId());
+			armyFasion.setWingId(fashion.getWingId());
+			item.setArmyFashion(armyFasion);
+			holder.updateMemberData(item.getId());
+		}
 	}
 
 	/**

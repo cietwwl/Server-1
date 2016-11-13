@@ -19,6 +19,7 @@ public class RankingLevelData {
 	private int modelId;
 	private int rankLevel;
 	private int rankCount;
+	private int vip;
 
 	public int getRankLevel() {
 		return rankLevel;
@@ -138,5 +139,13 @@ public class RankingLevelData {
 
 	public void setCareerLevel(int careerLevel) {
 		this.careerLevel = careerLevel;
+	}
+
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
 	}
 }

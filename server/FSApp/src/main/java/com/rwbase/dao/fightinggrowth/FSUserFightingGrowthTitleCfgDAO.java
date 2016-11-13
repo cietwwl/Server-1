@@ -1,14 +1,19 @@
 package com.rwbase.dao.fightinggrowth;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.tools.ant.taskdefs.TempFile;
 
+import com.log.GameLog;
+import com.playerdata.fightinggrowth.FSFightingGrowthWayType;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -52,9 +57,44 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 		return titleCfg;
 	}
 	
+	private List<Field> getExpectedFightingFields() {
+		Field[] allFields = FSUserFightingGrowthTitleCfg.class.getDeclaredFields();
+		List<Field> list = new ArrayList<Field>();
+		for (int i = 0, size = allFields.length; i < size; i++) {
+			Field tempField = allFields[i];
+			if (tempField.isAnnotationPresent(FightingGrowthTypeTarget.class)) {
+				tempField.setAccessible(true);
+				list.add(tempField);
+			}
+		}
+		return list;
+	}
+	
+	private void generateExpectedFightingMap(FSUserFightingGrowthTitleCfg cfg, List<Field> targetFields) throws IllegalAccessException {
+		Map<FSFightingGrowthWayType, Integer> map = new HashMap<FSFightingGrowthWayType, Integer>(EnumSet.allOf(FSFightingGrowthWayType.class).size(), 1.2f);
+		FightingGrowthTypeTarget temp;
+		Field tempField;
+		FSFightingGrowthWayType tempType;
+		for (int i = 0, size = targetFields.size(); i < size; i++) {
+			tempField = targetFields.get(i);
+			temp = tempField.getAnnotation(FightingGrowthTypeTarget.class);
+			tempType = temp.wayType();
+			Integer now = map.get(tempType);
+			int value = tempField.getInt(cfg);
+			if (now == null) {
+				now = value;
+			} else {
+				now += value;
+			}
+			map.put(tempType, now);
+		}
+		cfg.setExpectedFightingMap(map);
+	}
+	
 	@Override
 	protected Map<String, FSUserFightingGrowthTitleCfg> initJsonCfg() {
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("fightingGrowth/FightingGrowthTitle.csv", FSUserFightingGrowthTitleCfg.class);
+		List<Field> expectedFightingFields = getExpectedFightingFields();
 		for (Iterator<String> itr = this.cfgCacheMap.keySet().iterator(); itr.hasNext();) {
 			FSUserFightingGrowthTitleCfg temp = cfgCacheMap.get(itr.next());
 			Map<Integer, Integer> itemRewardMap = this.parseItemString(temp.getRewards());
@@ -74,6 +114,11 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 				}
 			}
 			temp.setPrivilegeDescItem(parseStringToPrivilege(temp.getPrivilege()));
+			try {
+				generateExpectedFightingMap(temp, expectedFightingFields);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return this.cfgCacheMap;
 	}
@@ -114,5 +159,21 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 			itemList.add(item);
 		}
 		return itemList;
+	}
+	
+	@Override
+	public void CheckConfig() {
+		int exCount = 0;
+		FSUserFightingGrowthTitleCfg cfg;
+		for (Iterator<String> keyItr = cfgCacheMap.keySet().iterator(); keyItr.hasNext();) {
+			cfg = cfgCacheMap.get(keyItr.next());
+			if (cfg.getExpectedFightingMap() == null || cfg.getExpectedFightingMap().isEmpty()) {
+				exCount++;
+				GameLog.error("FSUserFightingGrowthTitleCfgDAO", "CheckConfig", "cfg：" + cfg.getKey() + "，不存在期望战力！");
+			}
+		}
+		if(exCount > 0) {
+			throw new IllegalStateException("战力成长系统，配置校验不通过！");
+		}
 	}
 }

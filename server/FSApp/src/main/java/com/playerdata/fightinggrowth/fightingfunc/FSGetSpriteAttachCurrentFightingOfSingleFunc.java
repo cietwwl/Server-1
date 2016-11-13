@@ -1,7 +1,9 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.SpriteAttachMgr;
 import com.rwbase.common.IFunction;
@@ -28,14 +30,20 @@ public class FSGetSpriteAttachCurrentFightingOfSingleFunc implements IFunction<H
 	public Integer apply(Hero hero) {
 		int fighting = 0;
 		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(hero.getModeId()));
+		HashMap<Integer, Integer> indexMap = spriteAttachRoleCfg.getIndexMap();
 		List<SpriteAttachItem> spriteAttachItemList = SpriteAttachMgr.getInstance().getSpriteAttachHolder().getSpriteAttachItemList(hero.getUUId());
 		for (SpriteAttachItem spriteAttachItem : spriteAttachItemList) {
 			int id = spriteAttachItem.getSpriteAttachId();
 			int level = spriteAttachItem.getLevel();
 			if (spriteAttachRoleCfg != null) {
-				int index = spriteAttachRoleCfg.getIndex(id);
-				SpriteAttachFightingCfg cfg = spriteAttachFightingCfgDAO.getByLevel(level);
-				fighting += cfg.getFightingOfIndex(index);
+				Integer iIndex = indexMap.get(id);
+				if (iIndex != null) {
+					int index = iIndex.intValue();
+					SpriteAttachFightingCfg cfg = spriteAttachFightingCfgDAO.getByLevel(level);
+					fighting += cfg.getFightingOfIndex(index);
+				} else {
+					GameLog.error("FSGetSpriteAttachCurrentFightingOfSingleFunc", hero.getId(), "找不到附灵id对应的索引，附灵id：" + id + "，map=" + indexMap);
+				}
 			}
 		}
 		return fighting;

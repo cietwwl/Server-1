@@ -3,11 +3,17 @@ package com.rwbase.dao.group.pojo.db;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
+import com.playerdata.army.ArmyFashion;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 /*
@@ -49,7 +55,9 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@IgnoreSynField
 	private int dayContribution;// 当天捐献的数量
 	private int allotRewardCount;//每天分配奖励次数  非管理员则为0
-
+	@SaveAsJson
+	private ArmyFashion armyFashion;	//时装
+	
 	// ////////////////////////////////////////////GET区域
 	/**
 	 * 获取成员的Id，实际上是角色的Id
@@ -403,5 +411,12 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	public void setAllotRewardCount(int allotRewardCount) {
 		this.allotRewardCount = allotRewardCount;
 	}
-	
+
+	public ArmyFashion getArmyFashion() {
+		return armyFashion;
+	}
+
+	public void setArmyFashion(ArmyFashion armyFashion) {
+		this.armyFashion = armyFashion;
+	}
 }

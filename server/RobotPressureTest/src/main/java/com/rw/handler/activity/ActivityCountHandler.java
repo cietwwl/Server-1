@@ -30,8 +30,6 @@ public class ActivityCountHandler implements RandomMethodIF{
 	 */
 	public boolean ActivityCountTakeGift(Client client) {
 		Map<String,String> giftList = client.getActivityCountHolder().getGiftlist();
-		
-		
 		boolean istakeall = true;
 //		System.out.println("@@@@@@@@@@@ activity,申请领取的size=" + giftList.size());
 		for(Entry<String, String> entry:giftList.entrySet()){
@@ -60,8 +58,8 @@ public class ActivityCountHandler implements RandomMethodIF{
 
 						boolean result = rsp.getIsSuccess();
 						if (result != true) {
-							RobotLog.fail("ActivityCountHandler[send] 服务器处理消息失败 " + result);
-							return false;
+							RobotLog.fail("ActivityCountHandler[send] 服务器处理消息失败 " + rsp.getTipMsg() + " 没有可领取的奖励");
+							return true;
 						}
 
 					} catch (InvalidProtocolBufferException e) {

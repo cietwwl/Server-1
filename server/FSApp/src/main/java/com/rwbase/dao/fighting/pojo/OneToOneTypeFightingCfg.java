@@ -1,6 +1,6 @@
 package com.rwbase.dao.fighting.pojo;
 
-public class OneToOneTypeFightingCfg {
+public class OneToOneTypeFightingCfg implements FightingByRequiredLv {
 
 	private String key;
 	private int requiredLv; // 需求等级
