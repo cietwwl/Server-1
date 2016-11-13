@@ -71,7 +71,7 @@ public class GroupSecretMatchHandler {
 			}				
 		}
 		req.setAttackStartReq(msg);
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceier(command, functionName, "发起进攻"));
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_SECRET_MATCH, req.build().toByteString(), new GroupSecretMatchReceierTmp(command, functionName, "发起进攻"));
 	}
 	
 	/**
@@ -154,11 +154,7 @@ public class GroupSecretMatchHandler {
 					if(resp.getTipMsg().indexOf("当前您没有可以领取" )!= -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
-					}
-					if(resp.getTipMsg().indexOf("找不到可掠夺")!= -1){
-						RobotLog.fail(resp.getTipMsg());
-						return true;
-					}			
+					}	
 					if(resp.getTipMsg().indexOf("没有可以挑战的秘境")!= -1){
 						RobotLog.fail(resp.getTipMsg());
 						return true;
@@ -184,4 +180,55 @@ public class GroupSecretMatchHandler {
 			return functionName + "[" + protoType + "] ";
 		}
 	}
+	
+	/**进攻秘境需要用反馈的rsp.string来初始化数据，但原有方法是多个功能的综合，不能保证其他功能不发进攻秘境一样的空的string回来*/
+	private class GroupSecretMatchReceierTmp extends PrintMsgReciver {
+		public GroupSecretMatchReceierTmp(Command command, String functionName, String protoType) {
+			super(command, functionName, protoType);
+			// TODO Auto-generated constructor stub
+		}
+		
+		
+
+		@Override
+		public boolean execute(Client client, Response response) {
+			// TODO Auto-generated method stub
+			ByteString bs = response.getSerializedContent();
+			try {
+				GroupSecretMatchCommonRspMsg resp = GroupSecretMatchCommonRspMsg.parseFrom(bs);
+				if (resp.getIsSuccess()) {
+					RobotLog.info(parseFunctionDesc() + "成功");
+					AttackEnemyStartRspMsg startInfo = resp.getAttackStartRsp();
+					String armyInfoStr = startInfo.getArmyInfo();
+					armyInfo = new ArmyInfo();
+					armyInfo =ArmyInfo.fromJson(armyInfoStr);
+					return true;
+				} else {
+							
+					if(resp.getTipMsg().indexOf("没有可以挑战的秘境")!= -1){
+						RobotLog.fail(resp.getTipMsg());
+						return true;
+					}
+					if(resp.getTipMsg().indexOf("对方已被其他玩家挑战，搜索秘境费用返回") != -1){
+						RobotLog.fail(resp.getTipMsg());
+						return true;
+					}
+					if(resp.getTipMsg().indexOf("当前您没有可以挑战的秘境") != -1){
+						RobotLog.fail("发起进攻收到了地方的数据信息，但结束进攻时对方已经被别人打了");
+						return true;
+					}					
+					RobotLog.fail(resp.getTipMsg());
+					throw new Exception(resp.getTipMsg());
+				}
+			} catch (Exception ex) {
+				RobotLog.fail(parseFunctionDesc() + "失败", ex);
+			}
+			return false;
+		}
+
+		private String parseFunctionDesc() {
+			return functionName + "[" + protoType + "] ";
+		}
+	}
+	
 }

@@ -157,8 +157,8 @@ public class GroupCopyHandler {
 					}else{
 						CopyBattleRoleStruct battleRole = resp.getBattleRole();
 						if(battleRole != null){
-							RobotLog.info("请求进入帮派副本关卡["+levelID+"]布阵，不可进入，关卡被占用,请求角色["+battleRole.getRoleName()+"],id["+battleRole.getRoleID()
-									+"],关卡内角色id["+client.getUserId()+"]");
+							RobotLog.info("请求进入帮派副本关卡["+levelID+"]布阵，不可进入，关卡被占用,请求角色id["+client.getUserId()
+									+"],关卡内角色id["+battleRole.getRoleID()+"]");
 							return true;
 						}
 						
@@ -276,7 +276,7 @@ public class GroupCopyHandler {
 			
 			GroupCopyMonsterData.Builder gmd = GroupCopyMonsterData.newBuilder();
 			for (GroupCopyMonsterSynStruct m : m_Data) {
-				String clientData = JsonUtil.writeValue(m);
+				String clientData = DataSynHelper.ToJson(m);
 				gmd.addMonsterData(clientData);
 			}
 			

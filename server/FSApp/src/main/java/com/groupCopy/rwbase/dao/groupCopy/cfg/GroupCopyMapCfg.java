@@ -1,7 +1,9 @@
 package com.groupCopy.rwbase.dao.groupCopy.cfg;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,6 +27,8 @@ public class GroupCopyMapCfg {
     private Set<String> lvList = new HashSet<String>();
     private int enterCount;//每天进入次数
     private String startLvID;//开始关卡
+    private String rewardItems;
+    private List<String> warPriceList;
     
     public void formatData(){
     	if(extRewMap == null){
@@ -43,7 +47,13 @@ public class GroupCopyMapCfg {
 				e.printStackTrace();
 			}
 		}
-    	
+    	rews = rewardItems.split(",");
+    	if(warPriceList == null){
+    		warPriceList = new ArrayList<String>();
+    	}
+    	for (String str : rews) {
+			warPriceList.add(str);
+		}
     }
 
     public void addLvID(String lvID){
@@ -113,6 +123,10 @@ public class GroupCopyMapCfg {
 		if(extRewMap.containsKey(key))
 			return extRewMap.get(key);
 		return 0;
+	}
+
+	public List<String> getWarPriceList() {
+		return warPriceList;
 	}
     
 }

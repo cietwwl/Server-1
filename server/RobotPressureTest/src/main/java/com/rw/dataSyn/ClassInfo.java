@@ -22,6 +22,7 @@ public class ClassInfo {
 		clazz = clazzP;
 		Field[] fields = clazzP.getDeclaredFields();
 		for (Field fieldTmp : fields) {
+			fieldTmp.setAccessible(true);
 			clientFiledList.add(new FieldInfo(fieldTmp));
 		}
 		
@@ -38,8 +39,7 @@ public class ClassInfo {
 			
 			for (FieldInfo fieldInfo : clientFiledList) {
 				fieldName = fieldInfo.getName();
-				Object value = tableData.get(fieldName);
-				fieldJson = String.valueOf(value);
+				fieldJson = tableData.get(fieldName);
 				if(StringUtils.isNotBlank(fieldJson)){
 					fieldInfo.fromJson(target, fieldJson);
 				}

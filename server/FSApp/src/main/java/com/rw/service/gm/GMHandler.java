@@ -193,6 +193,8 @@ public class GMHandler {
 		
 		funcCallBackMap.put("addserverstatustips", "addServerStatusTips");
 		funcCallBackMap.put("addsecretkeycount", "addSecretKeycount");
+		
+		funcCallBackMap.put("adddist", "addDistCount");
 	}
 
 	public boolean isActive() {
@@ -1326,6 +1328,19 @@ public class GMHandler {
 		}
 		
 		player.getUserGroupCopyRecordMgr().setRoleBattleTime(count, player);
+		return true;
+	}
+	
+	public boolean addDistCount(String[] str, Player player){
+		int count = Integer.parseInt(str[0]);
+		if(count <= 0){
+			return false;
+		}
+		
+		Group group = GroupHelper.getGroup(player);
+		if(group != null){
+			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
+		}
 		return true;
 	}
 	

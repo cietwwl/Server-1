@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
 import com.playerdata.Player;
+import com.playerdata.UserDataMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -26,14 +27,16 @@ import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogCopyEntrance;
 import com.rw.service.log.template.BIActivityCode;
-import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.user.User;
+import com.rwbase.dao.user.UserDataHolder;
 import com.rwproto.CopyServiceProtos.ERequestType;
 import com.rwproto.CopyServiceProtos.EResultType;
+import com.rwproto.CopyServiceProtos.MapAnimationState;
 import com.rwproto.CopyServiceProtos.MapGiftRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyRequest;
 import com.rwproto.CopyServiceProtos.MsgCopyResponse;
@@ -241,4 +244,20 @@ public class CopyHandler {
 		return copyResponse.build().toByteString();
 	}
 
+	public ByteString updateMapAnimation(Player player, MsgCopyRequest copyRequest) {
+		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();
+		MapAnimationState state = copyRequest.getMapAnima();
+		if(null != state){
+			com.playerdata.MapAnimationState aniState = new com.playerdata.MapAnimationState();
+			aniState.setEliteAnimState(state.getEliteAnimState());
+			aniState.setEliteMapId(state.getEliteMapId());
+			aniState.setNormalAnimState(state.getNormalAnimState());
+			aniState.setNormalMapId(state.getNormalMapId());
+			player.getUserGameDataMgr().setMapAnimationState(aniState);
+			copyResponse.setEResultType(EResultType.Success);
+		}else{
+			copyResponse.setEResultType(EResultType.NONE);
+		}
+		return copyResponse.build().toByteString();
+	}
 }
