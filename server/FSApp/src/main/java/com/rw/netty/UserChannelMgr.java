@@ -24,6 +24,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
 import com.playerdata.dataSyn.SynDataInReqMgr;
+import com.rw.service.log.BILogMgr;
 import com.rw.service.log.eLog.eBILogRegSubChannelToClientPlatForm;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
@@ -83,7 +84,9 @@ public class UserChannelMgr {
 			return false;
 		}
 		//这里缺少多线程保护，会导致已经断线的人时间被清空，后果是无法直接在游戏内重连
-		disconnectMap.remove(userId);
+		if (disconnectMap.remove(userId) == null) {
+			BILogMgr.getInstance().logZoneLogin(userId);
+		}
 		return true;
 	}
 
@@ -337,11 +340,14 @@ public class UserChannelMgr {
 			if (current - entry.getValue() < RECONNECT_TIME) {
 				continue;
 			}
-			it.remove();
+			String userId = entry.getKey();
+			if (disconnectMap.remove(userId) == null) {
+				continue;
+			}
 			if (disconnectUserIds == null) {
 				disconnectUserIds = new ArrayList<String>();
 			}
-			disconnectUserIds.add(entry.getKey());
+			disconnectUserIds.add(userId);
 		}
 		return disconnectUserIds;
 	}

@@ -1,6 +1,7 @@
 package com.rw;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -10,6 +11,7 @@ import com.rw.common.RobotLog;
 import com.rw.handler.DailyActivity.DailyActivityHandler;
 import com.rw.handler.GroupCopy.GroupCopyHandler;
 import com.rw.handler.GroupCopy.GroupCopyMgr;
+import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
 import com.rw.handler.activity.ActivityCountHandler;
 import com.rw.handler.activity.daily.ActivityDailyCountHandler;
 import com.rw.handler.battle.PVEHandler;
@@ -37,6 +39,7 @@ import com.rw.handler.group.GroupPersonalHandler;
 import com.rw.handler.groupFight.service.GroupFightHandler;
 import com.rw.handler.groupsecret.GroupSecretHandler;
 import com.rw.handler.groupsecret.GroupSecretMatchHandler;
+import com.rw.handler.groupsecret.SecretUserInfoSynData;
 import com.rw.handler.hero.HeroHandler;
 import com.rw.handler.itembag.ItemBagHandler;
 import com.rw.handler.itembag.ItemData;
@@ -54,6 +57,7 @@ import com.rw.handler.task.TaskHandler;
 import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.worShipHandler;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
+import com.rwproto.GroupCopyAdminProto.RequestType;
 
 /*
  * 机器人入口
@@ -377,6 +381,10 @@ public class Robot {
 		return sendSuccess;
 	}
 
+	public boolean addGroupCopyFight(int count){
+		return GmHandler.instance().send(client, "* setgbf "+ count);
+	}
+	
 	public boolean addPower(int power) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addPower " + power);
 		return sendSuccess;
@@ -458,10 +466,15 @@ public class Robot {
 	 * @return
 	 */
 	public boolean addGroupExp() {
-		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 100000");
+		boolean sendSuccess = GmHandler.instance().send(client, "* group exp 1000000");
 		return sendSuccess;
 	}
 
+	
+	public boolean addGroupSpplis(){
+		return GmHandler.instance().send(client, "* setgp 1000000");
+	}
+	
 	public boolean getFinishTaskReward() {
 		return TaskHandler.instance().getReward(client);
 	}
@@ -1117,6 +1130,16 @@ public class Robot {
 	 * @return
 	 */
 	public boolean playerGroupCopy(){
+		GroupCopyHandler.getInstance().applyCopyInfo(client);
+		List<GroupCopyMapRecord> list = GroupCopyMgr.getInstance().getAllOnGoingChaters(client);
+		if(list.isEmpty()){
+			//增加一下帮派经验
+			addGroupExp();
+			addGroupSpplis();
+			for (GroupCopyMapRecord record : list) {
+				GroupCopyHandler.getInstance().openLevel(client, record.getChaterID(), RequestType.OPEN_COPY);
+			}
+		}
 		return GroupCopyMgr.getInstance().playGroupCopy(client);
 	}
 	
@@ -1153,10 +1176,14 @@ public class Robot {
 	}
 	
 	private void checkEnoughSecretKeyCount() {
-		if(client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount() < 21){
-			addSecretKeycount();
+		SecretUserInfoSynData userInfoData = client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData();
+		if(userInfoData != null){
+			if(userInfoData.getKeyCount() < 21){
+				addSecretKeycount();
+			}
+			System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
 		}
-		System.out.println("~~~~~~~~~~~~~~~~~~~~~~"+client.getGroupSecretUserInfoSynDataHolder().getUserInfoSynData().getKeyCount());
+		
 		
 	}
 	
