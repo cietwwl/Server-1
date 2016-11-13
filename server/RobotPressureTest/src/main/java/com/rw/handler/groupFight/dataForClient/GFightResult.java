@@ -2,14 +2,12 @@ package com.rw.handler.groupFight.dataForClient;
 
 import java.util.List;
 
-import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.handler.battle.army.CurAttrData;
 
 /**
  * 客户端传给服务端的战斗结果（包括两个队伍的血量信息）
  * @author aken
  */
-@SynClass
 public class GFightResult {
 	private String groupID;
 	private String defendArmyID;
