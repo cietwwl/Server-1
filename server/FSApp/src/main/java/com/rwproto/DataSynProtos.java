@@ -771,7 +771,7 @@ public final class DataSynProtos {
      * <code>ActivityGrowthFund = 78;</code>
      *
      * <pre>
-     * 成长基金
+     *成长基金
      * </pre>
      */
     ActivityGrowthFund(73, 78),
@@ -1095,6 +1095,14 @@ public final class DataSynProtos {
      * </pre>
      */
     SPRITE_ATTACH_SYN(113, 120),
+    /**
+     * <code>FriendMonthCardInfo = 121;</code>
+     *
+     * <pre>
+     *好友月卡状况，用于赠送月卡的判断
+     * </pre>
+     */
+    FriendMonthCardInfo(114, 121),
     ;
 
     /**
@@ -1685,7 +1693,7 @@ public final class DataSynProtos {
      * <code>ActivityGrowthFund = 78;</code>
      *
      * <pre>
-     * 成长基金
+     *成长基金
      * </pre>
      */
     public static final int ActivityGrowthFund_VALUE = 78;
@@ -2009,6 +2017,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int SPRITE_ATTACH_SYN_VALUE = 120;
+    /**
+     * <code>FriendMonthCardInfo = 121;</code>
+     *
+     * <pre>
+     *好友月卡状况，用于赠送月卡的判断
+     * </pre>
+     */
+    public static final int FriendMonthCardInfo_VALUE = 121;
 
 
     public final int getNumber() { return value; }
@@ -2129,6 +2145,7 @@ public final class DataSynProtos {
         case 118: return SaloonPlayer;
         case 119: return SaloonPosition;
         case 120: return SPRITE_ATTACH_SYN;
+        case 121: return FriendMonthCardInfo;
         default: return null;
       }
     }
@@ -8217,7 +8234,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\266\023\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\317\023\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8279,9 +8296,10 @@ public final class DataSynProtos {
       "Member\020q\022\021\n\rDropSameScene\020r\022\031\n\025GCompFigh" +
       "tInfoInScene\020s\022\016\n\nPRAISE_SYN\020t\022\030\n\024USER_G" +
       "LOBAL_DATA_SYN\020u\022\020\n\014SaloonPlayer\020v\022\022\n\016Sa",
-      "loonPosition\020w\022\025\n\021SPRITE_ATTACH_SYN\020x*\034\n" +
-      "\013RequestType\022\r\n\tSynByType\020\001B\034\n\013com.rwpro" +
-      "toB\rDataSynProtos"
+      "loonPosition\020w\022\025\n\021SPRITE_ATTACH_SYN\020x\022\027\n" +
+      "\023FriendMonthCardInfo\020y*\034\n\013RequestType\022\r\n" +
+      "\tSynByType\020\001B\034\n\013com.rwprotoB\rDataSynProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

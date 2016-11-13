@@ -50,7 +50,11 @@ public class PairKey<K1, K2> {
 
 	@Override
 	public String toString() {
-		return "[" + firstKey + '-' + secondKey + ']';
+		if (secondKey == null) {
+			return "[" + firstKey + ']';
+		} else {
+			return "[" + firstKey + '-' + secondKey + ']';
+		}
 	}
 
 }

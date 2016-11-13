@@ -244,7 +244,8 @@ public class GambleDropHistory {
 
 		// 检查最后(checkNum - 1)个历史!
 		historySize = history.size();
-		for (int i = historySize - 1; i > historySize - checkNum; i--) {
+		int size = historySize - checkNum;
+		for (int i = historySize - 1; i >= 0 && i > size; i--) {
 			String itemModelId = history.get(i);
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;

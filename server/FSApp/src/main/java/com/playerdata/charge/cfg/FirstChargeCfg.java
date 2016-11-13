@@ -7,6 +7,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class FirstChargeCfg {
+	
+	private int cfgId;
 		
 	private int awardTimes;
 	
@@ -47,6 +49,14 @@ public class FirstChargeCfg {
 
 	public void setAwardMax(int awardMax) {
 		this.awardMax = awardMax;
+	}
+
+	public int getCfgId() {
+		return cfgId;
+	}
+
+	public void setCfgId(int cfgId) {
+		this.cfgId = cfgId;
 	}
 
 	

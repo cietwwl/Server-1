@@ -66,6 +66,7 @@ public enum eOpenLevelType {
 	Magic_Smelt(69,false), 	//法宝熔炼
 	MainMsg(70,false),		//跑马灯
 	Sprite_Attach(71, false),  //附灵
+	Game_Notice(72, false), //游戏文本公告
 	;
 
 	private int order;

@@ -87,6 +87,11 @@ public class PeakArenaScoreRewardCfgDAO extends CfgCsvDao<ArenaScore> {
 		Map.Entry<Integer, Map<Integer, ArenaScoreTemplate>> entry = templateMapByMinLv.floorEntry(lv);
 		return new ArrayList<Integer>(entry.getValue().keySet());
 	}
+	
+	public Map<Integer, ArenaScoreTemplate> getAllRewards(int lv) {
+		Map.Entry<Integer, Map<Integer, ArenaScoreTemplate>> entry = templateMapByMinLv.floorEntry(lv);
+		return new HashMap<Integer, ArenaScoreTemplate>(entry.getValue());
+	}
 
 	/**
 	 * 根据积分获取奖励数

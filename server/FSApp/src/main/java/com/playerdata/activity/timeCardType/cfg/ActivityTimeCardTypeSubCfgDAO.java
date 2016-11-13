@@ -1,6 +1,5 @@
 package com.playerdata.activity.timeCardType.cfg;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +42,8 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 
 	public List<ActivityTimeCardTypeSubCfg> getByParentCfgId(String parentCfgId){
 		return subCfgListMap.get(parentCfgId);
-		
-		
 	}
+	
 	public ActivityTimeCardTypeSubCfg getById(String subId){
 		ActivityTimeCardTypeSubCfg target = new ActivityTimeCardTypeSubCfg();
 		List<ActivityTimeCardTypeSubCfg> allCfg = getAllCfg();

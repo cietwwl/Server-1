@@ -13,6 +13,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
@@ -35,6 +36,7 @@ import com.rwproto.RequestProtos.RequestHeader;
 public class PlayerLoginTask implements PlayerTask {
 
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
+	private static String LOGIN = "LOGIN";
 	private final Long sessionId;
 	private final GameLoginRequest request;
 	private final RequestHeader header;
@@ -61,12 +63,12 @@ public class PlayerLoginTask implements PlayerTask {
 		}
 		final int seqID = header.getSeqID();
 		final long executeTime = System.currentTimeMillis();
-		FSTraceLogger.logger("run", executeTime - submitTime, "LOGIN", seqID, player != null ? player.getUserId() : null, null, false);
+		FSTraceLogger.logger("run", executeTime - submitTime, "LOGIN_DELAY", seqID, player != null ? player.getUserId() : null, null, true);
 		GameLoginResponse.Builder response = GameLoginResponse.newBuilder();
 		if (player == null) {
 			response.setError("服务器繁忙，请稍后再次尝试登录。");
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.NO_PLAYER, response.build().toByteString(), sessionId);
 			return;
 		}
 		final String userId = player.getUserId();
@@ -93,13 +95,13 @@ public class PlayerLoginTask implements PlayerTask {
 			}
 			response.setError(error + "\n" + releaseTime);
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.ACCOUNT_BLOCK, response.build().toByteString(), sessionId);
 			return;
 		}
 		if (user.isInKickOffCoolTime()) {
 			response.setError("亲爱的用户，抱歉你已被强制下线，请5分钟后再次尝试登录。");
 			response.setResultType(eLoginResultType.FAIL);
-			UserChannelMgr.sendSyncResponse(header, response.build().toByteString(), sessionId);
+			UserChannelMgr.sendSyncResponse(header, MsgResultType.KICK_OFF, response.build().toByteString(), sessionId);
 			return;
 		}
 		if (clientInfo != null) {
@@ -158,7 +160,7 @@ public class PlayerLoginTask implements PlayerTask {
 		long lastLoginTime = player.getLastLoginTime();
 		UserChannelMgr.bindUserId(userId, sessionId, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
-		ByteString loginSynData = player.onLogin();
+		ByteString loginSynData = player.onLogin(LOGIN);
 		if (StringUtils.isBlank(player.getUserName())) {
 			response.setResultType(eLoginResultType.NO_ROLE);
 			GameLog.debug("Create Role ...,userId:" + userId);
@@ -171,22 +173,20 @@ public class PlayerLoginTask implements PlayerTask {
 		player.setZoneLoginInfo(zoneLoginInfo);
 		ServerStatusMgr.processGmMailWhenCreateRole(player);
 
-		
-
 		// 补充进入主城需要同步的数据
 		LoginSynDataHelper.setData(player, response);
 
 		// clear操作有风险
 		UserChannelMgr.clearMsgCache(userId);
-		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, "LOGIN", seqID, userId, null, true);
+		FSTraceLogger.logger("run end", System.currentTimeMillis() - executeTime, LOGIN, seqID, userId, null, true);
 
-		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, response.build().toByteString(), sessionId, loginSynData);
+		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, null, response.build().toByteString(), sessionId, loginSynData);
 		if (future == null) {
 			return;
 		}
 		// 判断需要用到最后次登陆 时间。保存在活动内而不是player;和future依赖关系
 		UserEventMgr.getInstance().RoleLogin(player, lastLoginTime);
-		//触发红点
+		// 触发红点
 		int redPointVersion = header.getRedpointVersion();
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
@@ -197,7 +197,7 @@ public class PlayerLoginTask implements PlayerTask {
 			@Override
 			public void operationComplete(Future<? super Void> future) throws Exception {
 				long current = System.currentTimeMillis();
-				FSTraceLogger.loggerSendAndSubmit("send", current - submitTime, current - executeTime, "LOGIN", null, seqID, userId, null);
+				FSTraceLogger.loggerSendAndSubmit("send", current - submitTime, current - executeTime, LOGIN, null, seqID, userId, null);
 			}
 		});
 	}
