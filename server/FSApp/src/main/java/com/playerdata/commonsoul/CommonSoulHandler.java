@@ -8,6 +8,7 @@ import com.playerdata.Hero;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rwbase.dao.commonsoul.CommonSoulConfigDAO;
+import com.rwbase.dao.commonsoul.ExchangeRateCfgDAO;
 import com.rwbase.dao.commonsoul.pojo.CommonSoulConfig;
 import com.rwbase.dao.item.SoulStoneCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -67,16 +68,16 @@ public class CommonSoulHandler {
 		int targetSoulItemId = request.getSoulItemId();
 		int exchangeCount = request.getExchangeCount();
 		CommonSoulConfig config = _commonSoulConfigDAO.getConfig();
-		if (!checkExchangeEnable(player, targetSoulItemId, config)) {
+		int exchangeRate = ExchangeRateCfgDAO.getInstace().getExchangeRate(targetSoulItemId);
+		if (!checkExchangeEnable(player, targetSoulItemId, config) || exchangeRate <= 0) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsExchangeNotOpened());
 		}
-		int exchangeRate = config.getExchangeRate();
 		if (exchangeCount < exchangeRate) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsNotReachExchangeRate(exchangeRate));
 		}
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		ItemData itemData = itemBagMgr.getFirstItemByModelId(config.getCommonSoulStoneCfgId());
-		if (itemData.getCount() < exchangeCount) {
+		if (itemData == null || itemData.getCount() < exchangeCount) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsItemNotEnough(config.getCommonSoulStoneName(), exchangeCount));
 		}
 		int targetCount = 0;

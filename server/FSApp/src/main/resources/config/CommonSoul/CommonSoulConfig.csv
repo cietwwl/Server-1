@@ -1,2 +1,2 @@
-Key,Remarks,canExchangeMainRoleSoul,canExchangeownedHeroSoul,canExchangeNotOwnedHeroSoul,exchangeRate
-1,,false,true,false,1
+Key,Remarks,canExchangeMainRoleSoul,canExchangeOwnedHeroSoul,canExchangeNotOwnedHeroSoul
+1,,false,true,false

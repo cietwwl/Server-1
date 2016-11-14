@@ -8,7 +8,7 @@ public class CommonSoulConfig {
 	private boolean canExchangeMainRoleSoul; // 是否可兑换主角魂石
 	private boolean canExchangeOwnedHeroSoul; // 是否可兑换已拥有的英雄魂石
 	private boolean canExchangeNotOwnedHeroSoul; // 是否可兑换为拥有的英雄魂石
-	private int exchangeRate; // 多少个万能魂石兑换一个普通魂石
+//	private int exchangeRate; // 多少个万能魂石兑换一个普通魂石
 	private int commonSoulStoneCfgId; // 万能魂石的itemCfgId
 	private String commonSoulStoneName; // 万能魂石的名字
 	
@@ -24,9 +24,9 @@ public class CommonSoulConfig {
 		return canExchangeNotOwnedHeroSoul;
 	}
 	
-	public int getExchangeRate() {
-		return exchangeRate;
-	}
+//	public int getExchangeRate() {
+//		return exchangeRate;
+//	}
 
 	public int getCommonSoulStoneCfgId() {
 		return commonSoulStoneCfgId;

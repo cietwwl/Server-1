@@ -381,6 +381,7 @@
 	
 	<!-- 万能魂石 -->
 	<bean class="com.rwbase.dao.commonsoul.CommonSoulConfigDAO" init-method="init" />
+	<bean class="com.rwbase.dao.commonsoul.ExchangeRateCfgDAO" init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
