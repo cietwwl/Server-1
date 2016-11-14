@@ -162,8 +162,8 @@ public class GameManager {
 
 		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
 
-//		RobotManager.getInstance().createRobots();
-//		RobotManager.getInstance().createPeakArenaRobot();
+		RobotManager.getInstance().createRobots();
+		RobotManager.getInstance().createPeakArenaRobot();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();

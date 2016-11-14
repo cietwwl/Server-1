@@ -119,6 +119,9 @@ public class WBHandler {
 	
 	private List<String> getHeroIdList(Player player, EmbattlePositionInfo embattleInfo, Map<String,Integer> posMap){
 		List<String> heroIdList = new ArrayList<String>();
+		if(embattleInfo == null){
+			return heroIdList;
+		}
 		List<EmbattleHeroPosition> pos = embattleInfo.getPos();
 		for (EmbattleHeroPosition heroPosition : pos) {
 			String heroId = heroPosition.getId();
