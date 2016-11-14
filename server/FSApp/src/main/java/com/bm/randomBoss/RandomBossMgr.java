@@ -22,6 +22,7 @@ import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.role.MainMsgHandler;
 import com.rw.service.role.PmdMsgType;
@@ -306,7 +307,7 @@ public class RandomBossMgr{
 	 * @param curHp
 	 * @return
 	 */
-	public BattleRewardInfo.Builder endBattle(Player player, String bossID, long curHp) {
+	public synchronized BattleRewardInfo.Builder endBattle(Player player, String bossID, long curHp) {
 		RandomBossRecord record = rbDao.get(bossID);
 		
 		//检查战斗角色是否匹配
@@ -323,25 +324,35 @@ public class RandomBossMgr{
 			GameLog.error("RandomBoss", "RandomBossMgr[endBattle]", "随机boss战斗结束，发现伤害值不超过0，原来伤害:"+record.getLeftHp()+"，后来值:" + curHp, null);
 		}
 
-		if(curHp <= 0){
+		if(curHp <= 0 && record.getLeftHp() > 0){//如果原来已经被击杀，就不更新最后一击
 			record.setFinalHitRole(player.getUserId());
 		}
 		
 		Map<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 		RandomBossCfg bossCfg = RandomBossCfgDao.getInstance().getCfgById(record.getBossTemplateId());
 		rewardMap.putAll(bossCfg.getBattleRewardMap());
-		//如果是发现者，添加发现者奖励
-		if(StringUtils.equals(record.getOwnerID(), player.getUserId())){
-			Utils.combineAttrMap(bossCfg.getFindRewardMap(), rewardMap);
-			
-		}
+		//如果是发现者，添加发现者奖励  ---按策划要求，去掉这个奖励    by Alex  11.12.2016
+//		if(StringUtils.equals(record.getOwnerID(), player.getUserId())){
+//			Utils.combineAttrMap(bossCfg.getFindRewardMap(), rewardMap);
+//		}
 		//检查最后一击奖励
 		int killBossRewardCount = player.getUserGameDataMgr().getKillBossRewardCount();
-		if(curHp == 0 && killBossRewardCount < rbServerCfg.getKillBossRewardLimit()){
+		if(curHp == 0 && killBossRewardCount < rbServerCfg.getKillBossRewardLimit() && record.getLeftHp() > 0){
 			
 			Utils.combineAttrMap(bossCfg.getKillRewardMap(), rewardMap);
 			player.getUserGameDataMgr().increaseBossRewardCount();
 		}
+		if(curHp <= 0 && record.getLeftHp() > 0){//如果原来已经被击杀，就不发送击杀者奖励，避免发多次
+			//给发现者发奖励
+			List<String> args = new ArrayList<String>();
+			MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getCfgById(bossCfg.getId());
+			if(monsterCfg != null){
+				args.add(monsterCfg.getName());
+			}
+			args.add(player.getUserName());
+			EmailUtils.sendEmail(record.getOwnerID(), bossCfg.getAwardID(),bossCfg.getFindReward(), args);
+		}
+		
 		
 		BattleRewardInfo.Builder rewardInfo = BattleRewardInfo.newBuilder();
 		List<com.rwbase.dao.copy.pojo.ItemInfo> itemList = new ArrayList<com.rwbase.dao.copy.pojo.ItemInfo>();
