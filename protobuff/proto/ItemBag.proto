@@ -46,7 +46,6 @@ enum ConsumeTypeDef{
 	Consume_AttachSoul = 12;//附灵材料
 	Consume_PowerItem = 13;//体力道具
 	Consume_ScanTicket = 14;//扫荡券&门票
-	Consume_CommonSoul = 24;//万能魂石
 }
 
 //物品的属性
