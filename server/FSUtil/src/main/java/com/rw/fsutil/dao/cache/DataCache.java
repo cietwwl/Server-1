@@ -202,6 +202,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 				if (!taskMap.remove(eldestKey, evictedTask)) {
 					FSUtilLogger.info(name + " relive element：" + eldestKey);
 				}
+				evictedTask.cancel(false);
 				return new EldestEvictedResultImpl(tableName);
 			}
 		}
