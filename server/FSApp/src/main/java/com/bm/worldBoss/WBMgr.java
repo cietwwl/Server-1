@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.bm.worldBoss.cfg.WBCfg;
+import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.cfg.WBHPCfg;
 import com.bm.worldBoss.cfg.WBHPCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfg;
@@ -93,10 +94,10 @@ public class WBMgr {
 	public ArmyInfo getBossArmy(){
 		
 		WBData wbData = WBDataHolder.getInstance().get();
-		
+		WBCfg cfg = WBCfgDAO.getInstance().getCfgById(wbData.getWbcfgId());
 		ArmyInfo armyInfo = null;
 		
-		armyInfo = ArmyInfoHelper.buildMonsterArmy(wbData.getMonsterCfgId());
+		armyInfo = ArmyInfoHelper.buildMonsterArmy(wbData.getMonsterCfgId(), cfg.getCopyId());
 		ArmyHero armyHero = armyInfo.getPlayer();
 		CurAttrData curAttrData = new CurAttrData();
 		
@@ -109,7 +110,6 @@ public class WBMgr {
 		}
 		
 		armyHero.setCurAttrData(curAttrData);
-		armyHero.setPositionOffset(wbData.getPosition());
 	
 		return armyInfo;		
 	}

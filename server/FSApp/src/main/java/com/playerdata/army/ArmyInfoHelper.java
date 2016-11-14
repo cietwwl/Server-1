@@ -164,13 +164,13 @@ public class ArmyInfoHelper {
 	}
 
 	
-	public static ArmyInfo buildMonsterArmy (String monsterId)
+	public static ArmyInfo buildMonsterArmy (String monsterId, String copyID)
 	{
 		ArmyInfo army = new ArmyInfo ();	
 
 		ArmyHero armyHero = MonsterArmyHelper.buildMonster(monsterId);
 		army.setPlayer(armyHero);
-		
+		setPositionOffset(army, copyID);
 
 		return army;
 	}
