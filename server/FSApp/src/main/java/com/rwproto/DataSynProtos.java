@@ -1111,6 +1111,14 @@ public final class DataSynProtos {
      * </pre>
      */
     WB_Broatcast(115, 122),
+    /**
+     * <code>CommonSoulConfig = 123;</code>
+     *
+     * <pre>
+     * 万能魂石配置同步
+     * </pre>
+     */
+    CommonSoulConfig(116, 123),
     ;
 
     /**
@@ -2041,6 +2049,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int WB_Broatcast_VALUE = 122;
+    /**
+     * <code>CommonSoulConfig = 123;</code>
+     *
+     * <pre>
+     * 万能魂石配置同步
+     * </pre>
+     */
+    public static final int CommonSoulConfig_VALUE = 123;
 
 
     public final int getNumber() { return value; }
@@ -2163,6 +2179,7 @@ public final class DataSynProtos {
         case 120: return SPRITE_ATTACH_SYN;
         case 121: return FriendMonthCardInfo;
         case 122: return WB_Broatcast;
+        case 123: return CommonSoulConfig;
         default: return null;
       }
     }
@@ -8251,7 +8268,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\341\023\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\367\023\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8315,8 +8332,9 @@ public final class DataSynProtos {
       "LOBAL_DATA_SYN\020u\022\020\n\014SaloonPlayer\020v\022\022\n\016Sa",
       "loonPosition\020w\022\025\n\021SPRITE_ATTACH_SYN\020x\022\027\n" +
       "\023FriendMonthCardInfo\020y\022\020\n\014WB_Broatcast\020z" +
-      "*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n\013com.rw" +
-      "protoB\rDataSynProtos"
+      "\022\024\n\020CommonSoulConfig\020{*\034\n\013RequestType\022\r\n" +
+      "\tSynByType\020\001B\034\n\013com.rwprotoB\rDataSynProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
