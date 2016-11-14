@@ -26,13 +26,10 @@ public class ActivityVitalityItemHolder{
 
 	final private eSynType synType = eSynType.ActivityVitalityType;
 	
-	
 	/*
-	 * 获取用户已经拥有的时装
+	 * 活跃之王的活动项
 	 */
-	public List<ActivityVitalityTypeItem> getItemList(String userId)	
-	{
-		
+	public List<ActivityVitalityTypeItem> getItemList(String userId){	
 		List<ActivityVitalityTypeItem> itemList = new ArrayList<ActivityVitalityTypeItem>();
 		Enumeration<ActivityVitalityTypeItem> mapEnum = getItemStore(userId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
@@ -42,7 +39,6 @@ public class ActivityVitalityItemHolder{
 			}
 			itemList.add(item);
 		}
-		
 		return itemList;
 	}
 	

@@ -106,11 +106,6 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 		this.version = version;
 	}
 	
-	
-	
-
-
-
 	public boolean isCanGetReward() {
 		return isCanGetReward;
 	}
@@ -135,9 +130,6 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 		this.lastTime = lastTime;
 	}
 
-
-
-
 	public Integer getId() {
 		return id;
 	}
@@ -154,8 +146,6 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 		this.subItemList = subItemList;
 	}
 
-	
-	
 	public List<ActivityVitalityTypeSubBoxItem> getSubBoxItemList() {
 		return subBoxItemList;
 	}
@@ -172,7 +162,6 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-
 
 
 	public boolean isClosed() {
@@ -202,8 +191,4 @@ public class ActivityVitalityTypeItem implements  RoleExtProperty {
 		
 		return subitem;
 	}
-
-	
-	
-	
 }
