@@ -210,7 +210,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		}
 
 		list.add(friendItem);
-		resultVo.updateList = friendItemToInfoList(list, null);
 		resultVo.resultType = EFriendResultType.SUCCESS;
 		resultVo.resultMsg = "添加成功";
 
@@ -224,6 +223,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if (otherUser.isRobot()) {
 			doOpenLevelTiggerService(otherUser, otherUserId, tableFriend);
 		}
+
+		resultVo.updateList = friendItemToInfoList(list, null);
 		return resultVo;
 	}
 
