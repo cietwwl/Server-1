@@ -1,13 +1,12 @@
 package com.playerdata.activity.countType.cfg;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
 
-public class ActivityCountTypeCfg {
+public class ActivityCountTypeCfg implements ActivityCfgIF{
 
-	private String id;
+	private int id;
 	
 	private long startTime;
 	
@@ -32,17 +31,16 @@ public class ActivityCountTypeCfg {
 	//每天刷新
 	private int isAutoRefresh ;
 	
-	private String version;
+	private int version;
 
-	
 	private int levelLimit;
 	
 	private String enumId;
 	
+	private int sortNum;
 	
+	private String countLimit;
 	
-
-
 	public String getEnumId() {
 		return enumId;
 	}
@@ -59,11 +57,11 @@ public class ActivityCountTypeCfg {
 		this.levelLimit = levelLimit;
 	}
 
-	public String getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 
@@ -75,12 +73,11 @@ public class ActivityCountTypeCfg {
 		this.group = group;
 	}
 
-	private int sortNum;
+	public int getId() {
+		return Integer.valueOf(enumId);
+	}
 	
-	private String countLimit;
-
-
-	public String getId() {
+	public int getCfgId() {
 		return id;
 	}
 
@@ -103,7 +100,6 @@ public class ActivityCountTypeCfg {
 	public String getDesc() {
 		return desc;
 	}
-
 
 	public String getGoToType() {
 		return goToType;
@@ -133,8 +129,6 @@ public class ActivityCountTypeCfg {
 		return endTimeStr;
 	}
 
-
-
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
@@ -151,12 +145,13 @@ public class ActivityCountTypeCfg {
 		this.isAutoRefresh = isAutoRefresh;
 	}
 
-
-
-
-
-
-
+	@Override
+	public boolean isDailyRefresh() {
+		return 0 != isAutoRefresh;
+	}
 	
-	
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
 }

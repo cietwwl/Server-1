@@ -5,6 +5,7 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
+import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
@@ -30,6 +31,7 @@ import com.rw.dataaccess.attachment.creator.ActivityRetrieveCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
+import com.rw.dataaccess.attachment.creator.EvilBaoArriveCreator;
 import com.rw.dataaccess.hero.FashionCreator;
 import com.rw.dataaccess.hero.GiveItemHistoryCreator;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
@@ -86,6 +88,8 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 //	OPENLEVEL_TIGGERSERVICE(19,OpenLevelTiggerServiceItem.class,OpenLevelTiggerServiceCreator.class),//暂时将等级开放推送的辅助数据存在各功能模块
 	/**通用活动，成长基金；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
 	ACTIVITY_GROWTHFUND(19, ActivityGrowthFundItem.class, ActivityGrowthFundCreator.class),
+	/**通用活动，申公豹驾到；不一定触发，创建即生成空数据*/
+	ACTIVITY_EVILBAOARRIVE(20, EvilBaoArriveItem.class, EvilBaoArriveCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;

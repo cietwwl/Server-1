@@ -1,6 +1,5 @@
 package com.playerdata.activity.fortuneCatType;
 
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 
 public enum ActivityFortuneTypeEnum {
 	FortuneCat("90001");// 超值欢乐购

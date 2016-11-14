@@ -3,7 +3,14 @@ package com.playerdata.activity.countType;
 import java.util.HashMap;
 
 public enum ActivityCountTypeEnum { // implements TypeIdentification
-	Login("1"), GoldSpending("2"), CopyWin("3"), ElityCopyWin("4"), BattleTower("5"), GambleCoin("6"), Charge("7"), GambleGold("8");
+	Login("1"), 
+	GoldSpending("2"), 
+	CopyWin("3"), 
+	ElityCopyWin("4"), 
+	BattleTower("5"), 
+	GambleCoin("6"), 
+	Charge("7"), 
+	GambleGold("8");
 
 	private String cfgId;
 
@@ -29,5 +36,4 @@ public enum ActivityCountTypeEnum { // implements TypeIdentification
 	public static ActivityCountTypeEnum getById(String cfgId) {
 		return map.get(cfgId);
 	}
-
 }

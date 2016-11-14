@@ -490,12 +490,18 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 		return false;
 	}
 
+	/**
+	 * 有红点的配置id
+	 * @param player
+	 * @return
+	 */
 	public List<String> haveRedPoint(Player player) {
 		List<String> redPointList = new ArrayList<String>();
 		ActivityVitalityItemHolder vitalityDataHolder = ActivityVitalityItemHolder.getInstance();
-		List<ActivityVitalityTypeItem> vitalityItemList = null;//vitalityDataHolder.getItemList(player.getUserId());
+		List<ActivityVitalityTypeItem> vitalityItemList = null;
 		ActivityVitalitySubCfgDAO subCfgDAO = ActivityVitalitySubCfgDAO.getInstance();
 		ActivityVitalityCfgDAO vitalityCfgDAO = ActivityVitalityCfgDAO.getInstance();
+		ActivityVitalityRewardCfgDAO rewardCfgDAO = ActivityVitalityRewardCfgDAO.getInstance();
 		List<ActivityVitalityCfg> cfgList = vitalityCfgDAO.getAllCfg();
 		for(ActivityVitalityCfg cfg : cfgList){
 			if(!isOpen(cfg)){
@@ -504,49 +510,60 @@ public class ActivityVitalityTypeMgr implements ActivityRedPointUpdate {
 			if(vitalityItemList == null){
 				vitalityItemList = vitalityDataHolder.getItemList(player.getUserId());
 			}
-			ActivityVitalityTypeItem item = null;//vitalityItemList.get(Integer.parseInt(cfg.getEnumID()));
+			ActivityVitalityTypeItem item = null;
 			for(ActivityVitalityTypeItem temp : vitalityItemList){
 				if(StringUtils.equals(temp.getId()+"", cfg.getEnumID())){
 					item = temp ;
 					break;
 				}
 			}
-			
 			if(item == null){
 				continue;
 			}
-			if (!item.isTouchRedPoint()) {
+			if (!item.isTouchRedPoint() || isHaveSubItemReward(item, subCfgDAO) || isHaveBoxReward(item, rewardCfgDAO)) {
 				redPointList.add(item.getCfgId());
-				continue;
 			}
-			
-			List<ActivityVitalityTypeSubItem> vitalitySubItemList = item.getSubItemList();
-			for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
-				ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
-				if (subItemCfg == null) {
-					continue;
-				}
-				if (subItem.getCount() >= subItemCfg.getCount() && !subItem.isTaken()) {
-					redPointList.add(item.getCfgId());
-					break;
-				}
-			}
-			
-			List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = item.getSubBoxItemList();
-			for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
-				ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
-				if (cfg.isCanGetReward()) {
-					break;
-				}
-				if (subItemCfg == null) {
-					continue;
-				}
-				if (subItem.getCount() >= subItemCfg.getActiveCount() && !subItem.isTaken()) {
-					redPointList.add(item.getCfgId());
-					break;
-				}
-			}		
 		}
 		return redPointList;
+	}
+	
+	/**
+	 * 是否有活跃项
+	 * @param item
+	 * @param subCfgDAO
+	 * @return
+	 */
+	private boolean isHaveSubItemReward(ActivityVitalityTypeItem item, ActivityVitalitySubCfgDAO subCfgDAO){
+		List<ActivityVitalityTypeSubItem> vitalitySubItemList = item.getSubItemList();
+		for (ActivityVitalityTypeSubItem subItem : vitalitySubItemList) {// 配置表里的每种奖励
+			ActivityVitalitySubCfg subItemCfg = subCfgDAO.getCfgById(subItem.getCfgId());
+			if (subItemCfg == null) {
+				continue;
+			}
+			if (subItem.getCount() >= subItemCfg.getCount() && !subItem.isTaken()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * 是否有活跃宝箱
+	 * @param item
+	 * @param rewardCfgDAO
+	 * @return
+	 */
+	private boolean isHaveBoxReward(ActivityVitalityTypeItem item, ActivityVitalityRewardCfgDAO rewardCfgDAO){
+		List<ActivityVitalityTypeSubBoxItem> vitalitySubBoxItemList = item.getSubBoxItemList();
+		for (ActivityVitalityTypeSubBoxItem subItem : vitalitySubBoxItemList) {// 配置表里的每种奖励
+			ActivityVitalityRewardCfg subItemCfg = rewardCfgDAO.getCfgById(subItem.getCfgId());
+			if (subItemCfg == null) {
+				continue;
+			}
+			if (item.getActiveCount() >= subItemCfg.getActivecount() && !subItem.isTaken()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

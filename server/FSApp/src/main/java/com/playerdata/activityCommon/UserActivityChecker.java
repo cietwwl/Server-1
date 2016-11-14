@@ -34,8 +34,8 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		return refreshActivity(userId);
 	}
 	
-	public T getItem(String userId, String cfgId){		
-		int id = Integer.parseInt(cfgId);
+	public T getItem(String userId, String actId){		
+		int id = Integer.parseInt(actId);
 		return getItemStore(userId).get(id);
 	}
 	
@@ -63,20 +63,20 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
 		Player player = PlayerMgr.getInstance().find(userId);
 		for(ActivityCfgIF cfg : activeDailyList){
-			if(null != player && player.getLevel() < cfg.getLevelLimit()){
+			if(null != player && player.getLevel() < cfg.getLevelLimit() && player.getVip() < cfg.getVipLimit()){
 				continue;
 			}
 			T item = itemStore.get(cfg.getId());
-			if(null == item){
+			if(null == item || Integer.parseInt(item.getCfgId()) != cfg.getCfgId()){
 				// 有新增的活动
 				item = (T) getActivityType().getNewActivityTypeItem();
 				if(null != item){
 					item.setId(cfg.getId());
-					item.setCfgId(String.valueOf(cfg.getId()));
+					item.setCfgId(String.valueOf(cfg.getCfgId()));
 					item.setUserId(userId);
 					item.setVersion(cfg.getVersion());
 					List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-					List<String> todaySubs = getTodaySubActivity(String.valueOf(cfg.getId()));
+					List<String> todaySubs = getTodaySubActivity(String.valueOf(cfg.getCfgId()));
 					for(String subId : todaySubs){
 						ActivityTypeSubItemIF subItem = getActivityType().getNewActivityTypeSubItem();
 						if(null != subItem){
@@ -105,11 +105,11 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	private ArrayList<T> removeExpireActivity(String userId){
 		List<Integer> removeList = new ArrayList<Integer>();
 		Map<Integer, T> activeItemMap = new HashMap<Integer, T>();
-		RoleExtPropertyStore<T> rechargeStore = getItemStore(userId);
-		Enumeration<T> mapEnum = rechargeStore.getExtPropertyEnumeration();
+		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
+		Enumeration<T> mapEnum = itemStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			T item = mapEnum.nextElement();
-			boolean isActive = detector.containsActivity(getActivityType(), item.getCfgId());
+			boolean isActive = detector.containsActivityByCfgId(getActivityType(), item.getCfgId());
 			if(isActive){
 				activeItemMap.put(item.getId(), item);
 			}else{
@@ -118,7 +118,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 				removeList.add(item.getId());
 			}
 		}
-		if(!removeList.isEmpty()) rechargeStore.removeItem(removeList);
+		if(!removeList.isEmpty()) itemStore.removeItem(removeList);
 		return new ArrayList<T>(activeItemMap.values());
 	}
 	

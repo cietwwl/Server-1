@@ -1,9 +1,6 @@
 package com.playerdata.activity.dailyCountType;
 
 import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 

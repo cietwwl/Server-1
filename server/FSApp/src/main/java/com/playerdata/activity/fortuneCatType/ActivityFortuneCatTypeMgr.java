@@ -14,10 +14,6 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfg;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
 import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfg;
@@ -25,23 +21,14 @@ import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDA
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItemHolder;
 import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
-import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
-import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.enu.eSpecialItemId;
-import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg;
-import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg.Builder;
+import com.rwproto.ActivityFortuneCatTypeProto.getRecord;
 
 public class ActivityFortuneCatTypeMgr implements ActivityRedPointUpdate {
 	private final static int recordLength = 3;

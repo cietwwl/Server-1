@@ -29,6 +29,8 @@ public class RandomBossCfg {
 	
 	private String killReward;
 	
+	private String awardID;//发现者奖励邮件id
+	
 	//存在时间s
 	private int existTime;
 	
@@ -38,7 +40,6 @@ public class RandomBossCfg {
 	
 	private String levelID;
 	private Map<Integer,Integer> battleRewardMap = new HashMap<Integer, Integer>();
-	private Map<Integer,Integer> findRewardMap = new HashMap<Integer, Integer>();
 	private Map<Integer,Integer> KillRewardMap = new HashMap<Integer, Integer>();
 	
 	
@@ -62,11 +63,11 @@ public class RandomBossCfg {
 		
 		
 		
-		str = findReward.split(",");
-		for (int i = 0; i < str.length; i++) {
-			String[] subStr = str[i].split("_");
-			findRewardMap.put(Integer.parseInt(subStr[0].trim()), Integer.parseInt(subStr[1].trim()));
-		}
+//		str = findReward.split(",");
+//		for (int i = 0; i < str.length; i++) {
+//			String[] subStr = str[i].split("_");
+//			findRewardMap.put(Integer.parseInt(subStr[0].trim()), Integer.parseInt(subStr[1].trim()));
+//		}
 		
 		str = killReward.split(",");
 		for (int i = 0; i < str.length; i++) {
@@ -77,7 +78,6 @@ public class RandomBossCfg {
 		
 		Playerlevel = null;
 		battleReward = null;
-		findReward = null;
 		killReward = null;
 	}
 
@@ -119,11 +119,6 @@ public class RandomBossCfg {
 
 
 
-	public Map<Integer, Integer> getFindRewardMap() {
-		return findRewardMap;
-	}
-
-
 
 	public Map<Integer, Integer> getKillRewardMap() {
 		return KillRewardMap;
@@ -139,6 +134,18 @@ public class RandomBossCfg {
 
 	public String getLevelID() {
 		return levelID;
+	}
+
+
+
+	public String getFindReward() {
+		return findReward;
+	}
+
+
+
+	public String getAwardID() {
+		return awardID;
 	}
 
 

@@ -34,6 +34,7 @@ public enum LogModule {
 	
 	ComActivityLimitHero("通用活动_LimitHero"),
 	ComActivityRetrieve("通用活动_Retrieve_每日找回"),
+	ComActEvilBaoArrive("通用活动_申公豹驾到"),
 	
 	FixEquip("专属装备"),
 	GroupChamp("帮派竞技"),

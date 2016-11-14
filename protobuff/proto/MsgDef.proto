@@ -147,6 +147,8 @@ enum Command {
 	
 	MSG_CHARGE_NOTIFY = 236; // 充值通知
 	
+	Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 236; // 帮派争霸队伍功能优化消息协议
+	
 	
 	
 	
