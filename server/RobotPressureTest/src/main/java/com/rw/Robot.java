@@ -1280,7 +1280,7 @@ public class Robot {
 	/*
 	 * 随机执行方法 
 	 */
-	public boolean executeRankMethod() {
+	public boolean executeRandomMethod() {
 		RandomMethodIF randomHandler = client.getNextModuleHandler();
 		if(null != randomHandler){
 			return randomHandler.executeMethod(client);

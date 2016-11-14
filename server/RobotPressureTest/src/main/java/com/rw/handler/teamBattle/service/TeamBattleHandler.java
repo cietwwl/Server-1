@@ -97,7 +97,7 @@ public class TeamBattleHandler implements RandomMethodIF{
 		return true;
 	}
 	
-	private boolean synTeamBattle(Client client){
+	public boolean synTeamBattle(Client client){
 		TeamBattleReqMsg.Builder req = TeamBattleReqMsg.newBuilder();
 		req.setReqType(TBRequestType.SYN_TEAM_BATTLE);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_TEAM_BATTLE, req.build().toByteString(), new MsgReciver() {

@@ -11,6 +11,7 @@ public class ActionRateHelper{
 	
 	private ConcurrentHashMap<ActionEnum, Integer> map;
 	{
+		map = new ConcurrentHashMap<ActionEnum, Integer>();
 		ActionEnum[] actions =  ActionEnum.values();
 		for(ActionEnum act : actions){
 			map.put(act, act.getInitRate());
