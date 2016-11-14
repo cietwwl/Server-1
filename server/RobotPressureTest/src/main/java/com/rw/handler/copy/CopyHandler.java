@@ -9,6 +9,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.Test;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -331,17 +332,17 @@ public class CopyHandler implements RandomMethodIF{
 	/**
 	 * 随机执行一个副本
 	 */
-	private boolean exeRandomCopy(){
+	private boolean exeRandomCopy(Client client){
 		int rd = new Random().nextInt(4);
 		switch (rd) {
 		case 0:
-			break;
+			return testCopyJbzd(client);
 		case 1:
-			break;
+			return testCopyLxsg(client);
 		case 2:
-			break;
+			return testCopyschj(client);
 		case 3:
-			break;
+			return testCopyTower(client);
 		default:
 			return true;
 		}
@@ -356,16 +357,14 @@ public class CopyHandler implements RandomMethodIF{
 		}
 		switch (stage) {
 		case 0:
-			break;
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.Copy);
+			return pveInfo(client);
 		case 1:
-			break;
-		case 2:
-			break;
-		case 3:
-			break;
+			funcStageMap.put(client.getAccountId(), 0);
+			return exeRandomCopy(client);
 		default:
-			break;
+			return true;
 		}
-		return pveInfo(client);
 	}
 }

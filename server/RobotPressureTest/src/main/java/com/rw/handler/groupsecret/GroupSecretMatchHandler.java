@@ -10,6 +10,7 @@ import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
+import com.rw.handler.battle.army.ArmyHero;
 import com.rw.handler.battle.army.ArmyInfo;
 import com.rw.handler.hero.UserHerosDataHolder;
 import com.rwproto.BattleCommon.BattleHeroPosition;
