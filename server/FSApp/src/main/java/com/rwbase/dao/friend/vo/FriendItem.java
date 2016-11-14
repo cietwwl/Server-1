@@ -26,44 +26,6 @@ public class FriendItem implements FriendItemIF {
 	private int sex;
 	private long createTime;
 
-	public static FriendItem newInstance(String userId) {
-		Player player = PlayerMgr.getInstance().find(userId);
-		if (player == null) {
-			return null;
-		}
-
-		TableUserIF tableUser = player.getTableUser();
-		if (tableUser == null) {
-			return null;
-		}
-
-		Hero mainRoleHero = player.getMainRoleHero();
-		if (mainRoleHero == null) {
-			return null;
-		}
-
-		TableUserOtherIF tableUserOther = player.getTableUserOther();
-		if (tableUserOther == null) {
-			return null;
-		}
-
-		FriendItem newItem = new FriendItem();
-		newItem.setUserId(tableUser.getUserId());
-		newItem.setUserName(tableUser.getUserName());
-		newItem.setLevel(tableUser.getLevel());
-		newItem.setUserHead(tableUser.getHeadImageWithDefault());
-		newItem.setCareer(mainRoleHero.getCareerType());
-		newItem.setLastLoginTime(tableUser.getLastLoginTime());
-		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
-		// TODO 帮派获取名字后再提供
-		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
-		newItem.setFighting(player.getHeroMgr().getFightingAll(player));
-		newItem.setVip(player.getVip());
-		newItem.setSex(player.getSex());
-		newItem.createTime = DateUtils.getSecondLevelMillis();
-		return newItem;
-	}
-
 	public String getUserId() {
 		return userId;
 	}
@@ -155,4 +117,9 @@ public class FriendItem implements FriendItemIF {
 	public long getCreateTime() {
 		return createTime;
 	}
+
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
+	}
+	
 }
