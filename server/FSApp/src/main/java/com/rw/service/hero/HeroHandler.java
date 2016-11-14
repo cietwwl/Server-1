@@ -521,7 +521,7 @@ public class HeroHandler {
 		List<UseItemTempData> retList = new ArrayList<UseItemTempData>();
 		for (ItemData data : list) {
 			ConsumeCfg cfg = ItemCfgHelper.getConsumeCfg(data.getModelId());
-			if (cfg == null) {
+			if(cfg == null){
 				continue;
 			}
 			if (cfg.getConsumeType() == eConsumeTypeDef.ExpConsume.getOrder()) {
