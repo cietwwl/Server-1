@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -37,7 +38,7 @@ public class CopyHandler implements RandomMethodIF{
 	public static final int[] jbzdCopyId = {140001,140002,140003,140004,140005};
 	public static final int[] lxsgCopyId = {140011,140012,140013,140014,140015};
 	public static final int[] CelestialCopyId ={140021,140022,140023,140024,140025,140031,140032,140033,140034,140035};
-	private static HashMap<String, Integer> funcStageMap = new HashMap<String, Integer>();
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
 	
 	public static CopyHandler getHandler() {
 		return handler;

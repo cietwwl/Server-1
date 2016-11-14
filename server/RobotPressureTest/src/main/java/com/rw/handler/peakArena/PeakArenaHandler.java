@@ -2,10 +2,12 @@ package com.rw.handler.peakArena;
 
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -19,6 +21,9 @@ import com.rwproto.ResponseProtos.Response;
 
 
 public class PeakArenaHandler implements RandomMethodIF{
+	
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
+	
 	private static PeakArenaHandler handler = new PeakArenaHandler();
 	private  String enemyUserid ; 
 	public static PeakArenaHandler getHandler() {
@@ -34,8 +39,6 @@ public class PeakArenaHandler implements RandomMethodIF{
 	public boolean changeEnemy(Client client, String  enemyUserId) {
 		MsgArenaRequest.Builder req = MsgArenaRequest.newBuilder();
 		req.setArenaType(eArenaType.CHANGE_ENEMY);
-		
-		
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_PEAK_ARENA, req.build().toByteString(), new MsgReciver() {
 
@@ -177,7 +180,26 @@ public class PeakArenaHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return changeEnemy(client, "");
+		Integer stage = funcStageMap.get(client.getAccountId());
+		if(null == stage){
+			stage = new Integer(0);
+			funcStageMap.put(client.getAccountId(), stage);
+		}
+		switch (stage) {
+		case 0:
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.PeakArena);
+			return changeEnemy(client, "");
+		case 1:
+			funcStageMap.put(client.getAccountId(), 2);
+			client.getRateHelper().addActionToQueue(ActionEnum.PeakArena);
+			return fightStart(client, "");
+		case 2:
+			funcStageMap.put(client.getAccountId(), 0);
+			return fightFinish(client, "");
+		default:
+			return true;
+		}
 	}
 }
 
