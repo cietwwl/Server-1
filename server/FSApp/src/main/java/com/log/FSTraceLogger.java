@@ -24,20 +24,21 @@ public class FSTraceLogger {
 			MsgStatFactory.getCollector().addRunCost(command, null, cost);
 		}
 	}
-	
-	public static void recordRun(String command,long cost){
+
+	public static void recordRun(String command, long cost) {
 		MsgStatFactory.getCollector().addRunCost(command, null, cost);
 	}
 
 	public static void logger(String head, long cost, Command command, ProtocolMessageEnum type, long seqId, String userId) {
 		logger(head, cost, command, type, seqId, userId, null);
-		if (type != null) {
-			MsgStatFactory.getCollector().addRunCost(command, type, cost);
-		}
+		MsgStatFactory.getCollector().addRunCost(command, type, cost);
 	}
 
 	// 后面再整合
 	public static void loggerSendAndSubmit(String head, long submitCost, long sendCost, Object command, Object type, long seqId, String userId, String account) {
+		MsgStatCollector collector = MsgStatFactory.getCollector();
+		collector.addSendCost(command, type, sendCost);
+		collector.addSubmitCost(command, type, submitCost);
 		if (!ServerSwitch.isOpenTraceLogger()) {
 			return;
 		}
@@ -52,9 +53,6 @@ public class FSTraceLogger {
 		}
 		sb.append(userId).append(']');
 		logger(sb.toString());
-		MsgStatCollector collector = MsgStatFactory.getCollector();
-		collector.addSendCost(command, type, sendCost);
-		collector.addSubmitCost(command, type, submitCost);
 	}
 
 	public static void logger(String head, long cost, Object oneKey, Object secondekey, long seqId, String userId, String account) {

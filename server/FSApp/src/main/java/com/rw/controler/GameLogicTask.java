@@ -15,8 +15,10 @@ import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
+import com.rw.fsutil.common.PairKey;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.SpringContextUtil;
+import com.rw.netty.MsgResultType;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FsService;
@@ -70,16 +72,16 @@ public class GameLogicTask implements PlayerTask {
 				UserDataMgr userDataMgr = player.getUserDataMgr();
 				userDataMgr.setEntranceId(request.getHeader().getEntranceId());
 				userId = player.getUserId();
-
-				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(player.getUserDataMgr().getZoneId());
+				int zoneId = player.getUserDataMgr().getZoneId();
+				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(zoneId);
 				if (zone == null || (zone.getEnabled() != 1)) {
-					UserChannelMgr.sendSyncResponse(userId, request.getHeader(), null, 600, sessionId, null);
+					UserChannelMgr.sendSyncResponse(userId, request.getHeader(), MsgResultType.ZONE_NOT_OPEN.getPreDesc(zoneId), null, 600, sessionId, null);
 					return;
 				}
 				ByteString response = UserChannelMgr.getResponse(userId, seqID);
 				if (response != null) {
 					System.err.println("send reconnect:" + ServerHandler.getCtxInfo(sessionId));
-					UserChannelMgr.sendSyncResponse(request.getHeader(), response, sessionId);
+					UserChannelMgr.sendSyncResponse(request.getHeader(), MsgResultType.RECONNECT, response, sessionId);
 					return;
 				}
 				handleGuildance(header, userId);
@@ -89,14 +91,13 @@ public class GameLogicTask implements PlayerTask {
 				UserChannelMgr.onBSBegin(userId);
 				FsService<GeneratedMessage, ProtocolMessageEnum> serivice = nettyControler.getSerivice(command);
 				if (serivice == null) {
-					proceeMsgRequestException(player, userId, "command获取不到对应的service. command:" + command, command, executeTime, seqID);
+					proceeMsgRequestException(player, userId, "command获取不到对应的service,cmd=" + command, command, "no service", executeTime, seqID);
 					return;
 				}
 
 				GeneratedMessage msg = serivice.parseMsg(request);
 				if (msg == null) {
-					proceeMsgRequestException(player, userId, "command对应的request解析消息出错。 command:" + command, command,
-							executeTime, seqID);
+					proceeMsgRequestException(player, userId, "command对应的request解析消息出错,,cmd=" + command, command, "no type", executeTime, seqID);
 					return;
 				}
 
@@ -115,19 +116,25 @@ public class GameLogicTask implements PlayerTask {
 
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
-				synData = UserChannelMgr.getDataOnBSEnd(userId);
+				synData = UserChannelMgr.getDataOnBSEnd(userId, new PairKey<Command, ProtocolMessageEnum>(command, msgType));
 				DataEventRecorder.endAndPollCollections();
 				// UserChannelMgr.synDataOnBSEnd(userId);
 			}
 		} catch (Throwable t) {
 			GameLog.error("GameLogicTask", "#run()", "run business service exception:", t);
-			UserChannelMgr.sendErrorResponse(userId, request.getHeader(), 500);
+			UserChannelMgr.sendErrorResponse(userId, request.getHeader(), MsgResultType.EXCEPTION.getPreDesc(msgType), 500);
 			FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 			return;
 		}
-		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, resultContent, sessionId, synData);
+		Object subCmd;
+		if (msgType == null) {
+			subCmd = MsgResultType.NOT_PARSE;
+		} else {
+			subCmd = msgType;
+		}
+		ChannelFuture future = UserChannelMgr.sendSyncResponse(userId, header, subCmd, resultContent, sessionId, synData);
 		if (future == null) {
-			FSTraceLogger.logger("send fail", 0, command, null, seqID, player != null ? player.getUserId() : null);
+			FSTraceLogger.logger("send fail", 0, command, msgType, seqID, player != null ? player.getUserId() : null);
 		} else {
 
 			final String userId_ = userId;
@@ -147,9 +154,9 @@ public class GameLogicTask implements PlayerTask {
 		}
 	}
 
-	private void proceeMsgRequestException(Player player, String userId, String msg, Command command, long executeTime, int seqID) {
+	private void proceeMsgRequestException(Player player, String userId, String msg, Command command, Object reason, long executeTime, int seqID) {
 		GameLog.error("GameLogicTask", "run business service exception:", msg);
-		UserChannelMgr.sendErrorResponse(userId, request.getHeader(), 503);
+		UserChannelMgr.sendErrorResponse(userId, request.getHeader(), reason, 503);
 		FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 	}
 

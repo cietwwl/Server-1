@@ -27,15 +27,25 @@ public class PrintMsgStat implements Callable<Void> {
 	public Void call() throws Exception {
 		MsgStatCollector collector = MsgStatFactory.getCollector();
 		StringBuilder sb = new StringBuilder();
-		sb.append("===============================================").append(CacheLogger.lineSeparator);
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd HH:mm:ss");
-		sb.append(format.format(new Date())).append(CacheLogger.lineSeparator);
-		print(sb, collector.getSendMsgTimesStat());
+		sb.append("=======================").append(format.format(new Date())).append("=======================").append(CacheLogger.lineSeparator);
+		sb.append("---------------------send success times---------------------------").append(CacheLogger.lineSeparator);
+		print(sb, collector.getSendSuccessTimes());
+		sb.append("-----------------------send fail times-------------------------").append(CacheLogger.lineSeparator);
+		print(sb, collector.getSendFailTimes());
+		sb.append("-------------------------send cost-----------------------").append(CacheLogger.lineSeparator);
 		print(sb, collector.getSubmitCostContainter());
 		print(sb, collector.getSendCostContainter());
 		print(sb, collector.getRunCostContainter());
+		sb.append("-------------------------Mgs size-----------------------").append(CacheLogger.lineSeparator);
+		print(sb, collector.getMsgSizeContainter());
+		sb.append("-------------------------Mgs Body size-----------------------").append(CacheLogger.lineSeparator);
+		print(sb, collector.getMsgBodySizeContainter());
+		sb.append("-------------------------Data Sync size-----------------------").append(CacheLogger.lineSeparator);
+		print(sb, collector.getDataSyncSizeContainter());
+		sb.append("------------------------purge msg------------------------").append(CacheLogger.lineSeparator);
 		print_(sb, UserChannelMgr.getPurgeCount());
-		sb.append("===============================================").append(CacheLogger.lineSeparator);
+		sb.append("===============================================================").append(CacheLogger.lineSeparator).append(CacheLogger.lineSeparator);
 		PrintWriter writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream("stat.log", true))), true);
 		try {
 			writer.append(sb.toString());
@@ -52,9 +62,9 @@ public class PrintMsgStat implements Callable<Void> {
 		public int compare(LongPairValue<MsgStat> o1, LongPairValue<MsgStat> o2) {
 			long distance = o1.value - o2.value;
 			if (distance < 0) {
-				return -1;
-			} else if (distance > 0) {
 				return 1;
+			} else if (distance > 0) {
+				return -1;
 			} else {
 				return 0;
 			}
@@ -66,9 +76,9 @@ public class PrintMsgStat implements Callable<Void> {
 		@Override
 		public int compare(LongPairValue<PairKey<Command, Object>> o1, LongPairValue<PairKey<Command, Object>> o2) {
 			if (o1.value < o2.value) {
-				return -1;
-			} else if (o1.value > o2.value) {
 				return 1;
+			} else if (o1.value > o2.value) {
+				return -1;
 			} else {
 				return 0;
 			}
@@ -80,7 +90,7 @@ public class PrintMsgStat implements Callable<Void> {
 		Collections.sort(list, timesComparator);
 		for (int i = 0, size = list.size(); i < size; i++) {
 			LongPairValue<PairKey<Command, Object>> msgStat = list.get(i);
-			sb.append(msgStat.t).append(msgStat.value).append(CacheLogger.lineSeparator);
+			sb.append(msgStat.t).append(" = ").append(msgStat.value).append(CacheLogger.lineSeparator);
 		}
 	}
 
@@ -100,7 +110,7 @@ public class PrintMsgStat implements Callable<Void> {
 	private void print_(StringBuilder sb, Enumeration<PairValue<Command, AtomicLong>> er) {
 		for (; er.hasMoreElements();) {
 			PairValue<Command, AtomicLong> pair = er.nextElement();
-			sb.append(pair.firstValue).append(pair.secondValue).append(CacheLogger.lineSeparator);
+			sb.append(pair.firstValue).append(" = ").append(pair.secondValue).append(CacheLogger.lineSeparator);
 		}
 	}
 }
