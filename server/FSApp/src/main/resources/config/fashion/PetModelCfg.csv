@@ -1,4 +1,5 @@
-ModelID,Remarks,XOffset,ZOffset,mainSpeed,maxIdleTime,leftLook,rightLook,scale,hangX,hangY
-911002,,1,,6,3.9,-75,-30,1.7,0f,-1.7
-911001,,1,,6,6,-75,-30,1.9,0f,-2.4
-911003,,1,,6,6,-75,-30,1.7,0f,-1.7
+ModelID,Remarks,XOffset,ZOffset,mainSpeed,maxIdleTime,leftLook,rightLook,scale,hangX,hangY,hangZ
+"-1",,,,,,,,1,-1.09,0.79,6.51
+911002,,1,,6,3.9,-75,-30,1,-0.72,1.6,4
+911001,,1,,6,6,-75,-30,1,-0.62,1.74,3.36
+911003,,1,,6,6,-75,-30,1,-0.69,1.57,3.6

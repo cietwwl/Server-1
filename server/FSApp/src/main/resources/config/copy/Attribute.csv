@@ -1,5 +1,3 @@
-"关键字段",备注,关联副本battle id,影响对象类型,对象参数,当前生命,当前能量,生命,能量,攻击,体魄防御,精神防御,攻击速度,移动速度,每秒回复能量,生命百分比,能量百分比,攻击百分比,体魄防御百分比,精神防御百分比,攻击速度百分比,移动速度百分比
-string,string,string,int,string,int,int,int,int,int,int,int,float,float,int,int,int,int,int,int,int,int
 key,Remarks,id,type,range,curLife,curEnergy,life,energy,attack,physiqueDef,spiritDef,attackSpeed,moveSpeed,energyPerSecond,lifePercent,energyPercent,attackPercent,physiqueDefPercent,spiritDefPercent,attackSpeedPercent,moveSpeedPercent
 110102_1,,110102_1,2,0,,1000,,,,,,,,,,,,,,,
 110201_3,,110201_3,3,m_110201_3_1,,900,,,,,,,,,,,,,,,
