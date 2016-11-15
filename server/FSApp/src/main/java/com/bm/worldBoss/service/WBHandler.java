@@ -335,6 +335,14 @@ public class WBHandler {
 //			result.setSuccess(false);
 //			result.setReason("购买次数已满，升级vip可以获得更多购买次数。");
 //		}
+		
+		//检查角色是否在复活时间内
+		WBUserData userData = WBUserDataHolder.getInstance().get(player.getUserId());
+		if(System.currentTimeMillis() >= userData.getFightCdTime()){
+			//角色cd时间结束
+			result.setSuccess(false);
+			result.setReason("角色已经复活");
+		}
 		return result;
 	}
 	
