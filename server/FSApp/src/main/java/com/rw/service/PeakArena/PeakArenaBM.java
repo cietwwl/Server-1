@@ -1,6 +1,7 @@
 package com.rw.service.PeakArena;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -26,6 +27,7 @@ import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.ranking.exception.RankingCapacityNotEougthException;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.PeakArena.datamodel.PeakArenaExtAttribute;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -427,6 +429,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 		String userId = player.getUserId();
 		data.setUserId(userId);
 		data.setLastGainCurrencyTime(System.currentTimeMillis());
+		data.setLastResetDayOfYear(DateUtils.getCalendar().get(Calendar.DAY_OF_YEAR));
 		
 		initTeamInfo(data,player);
 		

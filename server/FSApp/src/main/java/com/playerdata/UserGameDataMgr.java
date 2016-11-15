@@ -975,6 +975,10 @@ public class UserGameDataMgr {
 	public void updatePeakArenaScore(int score) {
 		UserGameData data = userGameDataHolder.get();
 		data.setPeakArenaScore(score);
-		userGameDataHolder.update(player, "peakArenaScore");
+		if (score > 0) {
+			userGameDataHolder.update(player, "peakArenaScore");
+		} else {
+			userGameDataHolder.update(player);
+		}
 	}
 }
