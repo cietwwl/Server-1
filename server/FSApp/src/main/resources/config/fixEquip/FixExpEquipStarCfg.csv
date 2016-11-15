@@ -1,5 +1,3 @@
-key,备注,觉醒id,星级提升方案id,当前星级,消耗类型,消耗,升星消耗道具,降星消耗类型,降星消耗,增加固定属性增加百分比属性(万分比）,增加百分比属性(万分比）
-string,string,string,int,int,int,int,string,int,int,string,string
 key,remarks,id,planId,star,upCostType,upCount,itemsNeedStr,downCostType,downCount,attrData,precentAttrData
 10001_0,,10001_0,10001,,,,806553:1,1,30,,
 10001_1,,10001_1,10001,1,,,806553:3,1,60,物理攻击_225;法术攻击_180,
