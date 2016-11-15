@@ -1,3 +1,5 @@
+key,备注,进阶id,品质提升方案id,品质,等级需求,消耗类型,消耗,道具消耗,增加固定属性,增加百分比属性(万分比）,备注,属性1,值1,属性2,值2,百分比1,值1,百分比2,值2
+string,string,string,int,int,int,int,int,string,string,string,string,string,string,string,string,string,string,string,string
 key,remarks,id,planId,quality,levelNeed,costType,costCount,itemsNeedStr,attrData,precentAttrData,wf1,wf2,wf3,wf4,wf5,wf6,wf7,wf8,wf9
 10001_0,,10001_0,10001,,10,,1000,806511:1,,,,,,,,,,,
 10001_1,,10001_1,10001,1,20,,2000,806512:1,物理攻击_150;法术攻击_120,,10,物理攻击,150,法术攻击,120,,,,

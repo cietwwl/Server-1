@@ -1,3 +1,5 @@
+key,备注,强化id,强化方案id,等级,消耗类型,消耗
+string,string,string,int,int,int,int
 key,Remarks,id,planId,level,costType,costCount
 10001_1,,10001_1,10001,1,,80
 10001_2,,10001_2,10001,2,,240

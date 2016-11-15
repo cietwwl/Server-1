@@ -1,3 +1,5 @@
+key,备注,强化id,强化属性方案id,等级,增加固定属性,增加百分比属性(万分比）
+string,string,string,int,int,string,string
 key,Remarks,id,planId,level,attrData,precentAttrData
 10001_1,,10001_1,10001,1,物理攻击_15;法术攻击_12,
 10001_2,,10001_2,10001,2,物理攻击_30;法术攻击_24,
