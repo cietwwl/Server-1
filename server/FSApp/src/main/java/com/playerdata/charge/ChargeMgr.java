@@ -1,6 +1,7 @@
 package com.playerdata.charge;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -59,6 +60,7 @@ import com.rwbase.dao.vip.pojo.PrivilegeCfg;
 import com.rwproto.ChargeServiceProto;
 import com.rwproto.MsgDef;
 import com.rwproto.MsgDef.Command;
+import com.rwproto.VipProtos;
 import com.rwproto.VipProtos.VIPGiftNotify;
 
 public class ChargeMgr {
@@ -311,6 +313,28 @@ public class ChargeMgr {
 		}
 		return result;
 	}
+	
+	private int processFirstChargeReward(Player player, ChargeInfo chargeInfo, int addGold) {
+		if (!chargeInfo.isFirstAwardTaken() && chargeInfo.getCount() > 0) {
+			chargeInfo.setFirstAwardTaken(true);
+
+			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
+
+			// 首充的额外钻石奖励
+			int addgoldfirstcharge = addGold * cfg.getAwardTimes();
+			if (addgoldfirstcharge > cfg.getAwardMax()) {
+				addgoldfirstcharge = cfg.getAwardMax();
+			}
+			if (addgoldfirstcharge > 0) {
+				player.getUserGameDataMgr().addGold(addgoldfirstcharge);
+			}
+
+			// 首充礼包
+			ComGiftMgr.getInstance().addGiftById(player, FirstChargeCfgDao.getInstance().getAllCfg().get(0).getReward());
+			return cfg.getCfgId();
+		}
+		return 0;
+	}
 
 	private boolean doCharge(Player player, ChargeCfg target) {
 
@@ -325,60 +349,84 @@ public class ChargeMgr {
 		chargeInfo.setLastCharge(money);
 		
 		//派发限购的钻石奖励
-		ChargeInfoSubRecording sublist = null;
-		Boolean isextragive = false;
-		Boolean ishasrecording = false;
-		for(ChargeInfoSubRecording sub :chargeInfo.getPayTimesList()){
-			if(StringUtils.equals(target.getId(),sub.getId() )){//有该道具的购买记录
-				ishasrecording = true;
-				if(target.getGiveCount()>sub.getCount()){//还有多余的限购次数
-					isextragive = true;
-					sublist = sub;
+		if (target.getGiveCount() > 0) {
+//			ChargeInfoSubRecording sublist = null;
+			boolean isExtraGive = true;
+//			boolean isHasRecording = false;
+			for (ChargeInfoSubRecording sub : chargeInfo.getPayTimesList()) {
+				if (StringUtils.equals(target.getId(), sub.getId())) {// 有该道具的购买记录
+//					isHasRecording = true;
+					if (target.getGiveCount() <= sub.getCount()) {// 还有多余的限购次数
+//						isExtraGive = true;
+//						sublist = sub;
+						isExtraGive = false;
+						break;
+					}
 				}
 			}
-		}
-		if(!ishasrecording&&target.getGiveCount() > 0){//可限购且没记录
-			isextragive = true;
-		}
-		if(isextragive){
-			if(sublist != null){//只有限购次数大于1才会有数据而进入；；
-				
-			}else{
+//			if (!isHasRecording) {// 可限购且没记录
+//				isExtraGive = true;
+//			}
+			if (isExtraGive) {
+//				if (sublist != null) {// 只有限购次数大于1才会有数据而进入；；
+//
+//				} else {
+//					ChargeInfoSubRecording sub = ChargeCfgDao.getInstance().newSubItem(target.getId());
+//					sub.setCount(sub.getCount() + 1);
+//					chargeInfo.getPayTimesList().add(sub);
+//					player.getUserGameDataMgr().addGold(target.getExtraGive());// 派出额外的钻石
+//				}
 				ChargeInfoSubRecording sub = ChargeCfgDao.getInstance().newSubItem(target.getId());
 				sub.setCount(sub.getCount() + 1);
 				chargeInfo.getPayTimesList().add(sub);
-				player.getUserGameDataMgr().addGold(target.getExtraGive());//派出额外的钻石				
+				player.getUserGameDataMgr().addGold(target.getExtraGive());// 派出额外的钻石
 			}
 		}
 		
 		
 		
-		//派发首冲的额外奖励-------------------------------
-		if(chargeInfo.getCount()==1){
-			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
-			int addgoldfirstcharge =  addGold*cfg.getAwardTimes() < cfg.getAwardMax() ?  addGold*cfg.getAwardTimes() : cfg.getAwardMax();
-			player.getUserGameDataMgr().addGold(addgoldfirstcharge);			
-		}
-		
-		ChargeInfoHolder.getInstance().update(player);		
+//		//派发首冲的额外奖励-------------------------------
+//		if (chargeInfo.getCount() == 1) {
+//			FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
+//			int addgoldfirstcharge = addGold * cfg.getAwardTimes() < cfg.getAwardMax() ? addGold * cfg.getAwardTimes() : cfg.getAwardMax();
+//			player.getUserGameDataMgr().addGold(addgoldfirstcharge);
+//		}
 		
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Recharge);
 		
 		//升级vip，如果达到条件
-		upgradeVip(player, chargeInfo);
+		List<Integer> presentVipLvList = upgradeVip(player, chargeInfo, false);
 		// 设置界面更新vip
 		player.getSettingMgr().checkOpen();
+		
+		int presentFirstCfgId = 0;
+		if (chargeInfo.getCount() == 1) {
+			presentFirstCfgId = this.processFirstChargeReward(player, chargeInfo, addGold);
+		}
+		
+		if (presentVipLvList.size() > 0 || presentFirstCfgId > 0) {
+			VIPGiftNotify.Builder builder = VIPGiftNotify.newBuilder();
+			if (presentVipLvList.size() > 0) {
+				builder.addAllVipLv(presentVipLvList);
+			}
+			if (presentFirstCfgId > 0) {
+				builder.setFirstChargeGiftId(presentFirstCfgId);
+			}
+			player.SendMsg(Command.MSG_VIP_GIFT_NOTIFY, builder.build().toByteString());
+		}
+		
+		ChargeInfoHolder.getInstance().update(player);
 		
 		return true;
 		
 	}
 
-	private void upgradeVip(Player player, ChargeInfo chargeInfo) {
+	private List<Integer> upgradeVip(Player player, ChargeInfo chargeInfo, boolean sendMsg) {
 		int totalChargeGold = chargeInfo.getTotalChargeGold();
 		PrivilegeCfgDAO privilegeCfgDAO = PrivilegeCfgDAO.getInstance();
 		PrivilegeCfg cfg = privilegeCfgDAO.getCfg(player.getVip() + 1);
 		if (cfg == null) {
-			return;
+			return Collections.emptyList();
 		}
 		int preVip = player.getVip();
 		while (cfg.getRechargeCount() <= totalChargeGold) {
@@ -387,8 +435,13 @@ public class ChargeMgr {
 		}
 		if (preVip != player.getVip()) {
 			// 新添加的直接发送VIP等级礼包
-			presentVipGift(player, preVip);
+			List<Integer> list = presentVipGift(player, preVip);
+			if (sendMsg) {
+				player.SendMsg(Command.MSG_VIP_GIFT_NOTIFY, VipProtos.VIPGiftNotify.newBuilder().addAllVipLv(list).build().toByteString());
+			}
+			return list;
 		}
+		return Collections.emptyList();
 	}
 	
 	private Map<String, Integer> getVipGiftContent(int begin, int end) {
@@ -423,7 +476,7 @@ public class ChargeMgr {
 	}
 	
 	// 赠送VIP礼包
-	private void presentVipGift(Player player, int preVip) {
+	private List<Integer> presentVipGift(Player player, int preVip) {
 		int nowVip = player.getVip();
 		int end = nowVip + 1;
 		int begin = preVip + 1;
@@ -434,52 +487,31 @@ public class ChargeMgr {
 			strItemId = keyItr.next();
 			itemList.add(new ItemInfo(Integer.parseInt(strItemId), map.get(strItemId).intValue()));
 		}
+		List<Integer> list = new ArrayList<Integer>(end - begin);
 		if (player.getItemBagMgr().addItem(itemList)) {
 			VipMgr vipMgr = player.getVipMgr();
-			List<Integer> list = new ArrayList<Integer>(end - begin);
 			for (int i = begin; i < end; i++) {
 				vipMgr.setVipGiftTaken(i);
 				list.add(i);
 			}
-			if (PlayerMgr.getInstance().isOnline(player.getUserId())) {
-				VIPGiftNotify.Builder builder = VIPGiftNotify.newBuilder();
-				builder.addAllVipLv(list);
-				player.SendMsg(Command.MSG_VIP_GIFT_NOTIFY, builder.build().toByteString());
-			}
 		}
+		return list;
 	}
 
 	public ChargeResult gerRewardForFirstPay(Player player) {
 		ChargeResult result = ChargeResult.newResult(false);
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-		if(chargeInfo == null){
-			
-		}else{
-			if(!chargeInfo.isFirstAwardTaken()&&chargeInfo.getCount()>0){
+		if (chargeInfo != null) {
+			if (!chargeInfo.isFirstAwardTaken() && chargeInfo.getCount() > 0) {
 				chargeInfo.setFirstAwardTaken(true);
-				ComGiftMgr.getInstance().addGiftById(player,FirstChargeCfgDao.getInstance().getAllCfg().get(0).getReward());	
-				
-				
-				
-				
-				
-//				FirstChargeCfg cfg = FirstChargeCfgDao.getInstance().getAllCfg().get(0);
-//				Set<String> keySet = cfg.getGiftMap().keySet();
-//	
-//				Iterator<String> iterable = keySet.iterator();
-//				while(iterable.hasNext()){
-//					String giftid = iterable.next();
-//					int count = cfg.getGiftMap().get(giftid);
-//					player.getItemBagMgr().addItem(Integer.parseInt(giftid),count);
-//				}
-				
-				
+				ComGiftMgr.getInstance().addGiftById(player, FirstChargeCfgDao.getInstance().getAllCfg().get(0).getReward());
+
 				ChargeInfoHolder.getInstance().update(player);
 				result.setSuccess(true);
-			}else{
+			} else {
 				result.setTips("数据异常 没有首冲奖励");
-			}		
-		}		
+			}
+		}
 		return result;
 	}
 	
@@ -575,7 +607,7 @@ public class ChargeMgr {
 		chargeInfo.addTotalChargeGold(addGold).addTotalChargeMoney(money).addCount(1);
 		ChargeInfoHolder.getInstance().update(player);
 		// 升级vip，如果达到条件
-		upgradeVip(player, chargeInfo);
+		upgradeVip(player, chargeInfo, true);
 		// 设置界面更新vip
 		player.getSettingMgr().checkOpen();
 	}
