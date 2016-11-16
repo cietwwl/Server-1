@@ -3,11 +3,10 @@ package com.rwbase.dao.task.pojo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.log.GameLog;
-import com.log.LogModule;
 import com.rw.service.dailyActivity.Enum.DailyActivityClassifyType;
 import com.rw.service.dailyActivity.Enum.DailyActivityFinishType;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.task.DailyCheckOutDateCondition;
 import com.rwbase.dao.task.DailyStartCondition;
 
 /**
@@ -21,6 +20,7 @@ public class DailyActivityCfgEntity {
 	private final DailyActivityCfg cfg;
 	private final DailyStartCondition startCondition; // 任务开启条件
 	private final DailyFinishCondition finishCondition; // 任务完成条件
+	private final DailyCheckOutDateCondition checkOutDateCondition; // 检查是否已经过时的条件
 	private final List<ItemInfo> reward; // 任务奖励列表
 	private final int totalProgress;
 
@@ -57,12 +57,15 @@ public class DailyActivityCfgEntity {
 		if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Type) {
 			startCondition = new DailyTimeCondition(startConditionText);
 			finishCondition = new DailyTimeCondition(finishConditionText);
+			checkOutDateCondition = new DailyTimeCheckOutDateCondition(finishConditionText);
 		} else if (taskCfg.getTaskClassify() == DailyActivityClassifyType.Time_Card_Type) {
 			startCondition = new DailyTimeCardCondition(startConditionText);
 			finishCondition = new DailyTimeCardProgressCondition();
+			checkOutDateCondition = new DailyAlwaysNotOutDateCondition();
 		} else {
 			startCondition = new DailyLevelCondition(startConditionText);
 			finishCondition = new DailyProgressCondition(finishConditionText);
+			checkOutDateCondition = new DailyAlwaysNotOutDateCondition();
 		}
 		
 		String[] reward = taskCfg.getReward().split(";");
@@ -95,6 +98,10 @@ public class DailyActivityCfgEntity {
 
 	public DailyFinishCondition getFinishCondition() {
 		return finishCondition;
+	}
+	
+	public DailyCheckOutDateCondition getCheckOutDateCondition() {
+		return checkOutDateCondition;
 	}
 
 	public List<ItemInfo> getReward() {
