@@ -172,7 +172,6 @@ public class PlayerLoginTask implements PlayerTask {
 		response.setUserId(userId);
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
 		player.setZoneLoginInfo(zoneLoginInfo);
-		ServerStatusMgr.processGmMailWhenCreateRole(player);
 
 		// 补充进入主城需要同步的数据
 		LoginSynDataHelper.setData(player, response);

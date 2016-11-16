@@ -39,7 +39,7 @@ public class GmEmailAll implements IGmTask {
 			}
 			if (status == STATUS_CLOSE) {
 				gmMail.setStatus(STATUS_CLOSE);
-
+				blnUpdate = true;
 			}
 			if (status == STATUS_SEND) {
 				sendMail(gmMail);
