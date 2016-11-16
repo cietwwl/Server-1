@@ -139,10 +139,10 @@ MAGIC_MAX_ADANCED,,,跟随主角等级
 N0_GOODS_TIP,,,没有物品
 MAGIC_ADVANCE_TIP,,,强化满级可进阶
 MAGIC_STRENGTH_TIP,,,进阶后可继续强化
-MAGIC_QUALITY_A,,,仙器
-MAGIC_QUALITY_B,,,珍器
+MAGIC_QUALITY_S,,,仙器
+MAGIC_QUALITY_A,,,珍器
+MAGIC_QUALITY_B,,,名器
 MAGIC_QUALITY_C,,,凡器
-MAGIC_QUALITY_S,,,神器
 NewGuide_NonTargetTip,,,请按照指示操作
 ArenaScoreRule_Tip,,,胜利：积分+{0}  失败：积分+{1}
 ArenaScore_Tip,,,在竞技场与对手战斗皆可获得积分，每天5:00重置.
@@ -338,24 +338,25 @@ FightingNeedMaterialLess,,FightingNeedMaterialLess,晋级材料不足
 FightingNeedFightLess,,FightingNeedFightLess,战力未达到晋级要求
 WorldBossKilledTisp,,WorldBossKilledTisp,世界boss出现{0}后被击败，由{1}进行了最后一击
 WBossRuleKey,,WBossRuleKey,"
-[ff7200]魔神讨伐规则[-]
+[ff7200]除魔征战规则[-]
 
-[2f2f2f]1.通关与扫荡各关卡，既有几率触发魔神讨伐事件。[-]
+[2f2f2f]1.魔神会在每天12:00、19:00、20:00出现，越接近深夜，魔神的力量就越强[-]
 
-[2f2f2f]2.讨伐魔神，可以获得丰厚奖励。[-]
+[2f2f2f]2.与魔神进行战斗后，会根据造成的伤害量，换算成金币奖励！[-]
 
-[2f2f2f]3.魔神讨伐可以邀请好友与帮派成员前来帮忙，同时也可以受邀讨伐其他人的魔神。[-]
+[2f2f2f]3.魔神被击杀后，可以获得丰厚的奖励。[-]
 
-[2f2f2f]4.因为精力有限，每天的奖励次数也有限制，要记得查看界面上的剩余次数。[-]
+[2f2f2f]4.活动结束后，对所有参与过战斗的玩家，按照排行榜发放奖励。另外，对魔神进行最后一击的玩家有丰厚的额外奖励[-]
 
-[2f2f2f]5.若在规定时间内没有成功讨伐，魔神会逃走。[-]
+[2f2f2f]5.如果魔神连续数次被过快击杀，魔神就会变得更强[-]
 
-[ff7200]魔神讨伐奖励[-]
+[2f2f2f]6.如果魔神连续数次没有被击杀，魔神会因为轻敌而降低自身的战斗力[-]
 
-[2f2f2f]1.只要参与讨伐战斗，即可获得奖励！[-]
+[2f2f2f]7.每次挑战魔神都可以进行一定次数的鼓舞，鼓舞可增加攻击力，鼓舞的攻击力加成在下次魔神出现时清空[-]
 
-[2f2f2f]2.魔神的发现者与魔神的最后击杀者会获得额外的奖励！[-]
-"
+[2f2f2f]8.被魔神打败后，需要一定时间才能复活再挑战。花费钻石可以马上复活，复活的花费会随着次数叠加[-]
+
+[2f2f2f]9.贵族5以上的玩家可以使用自动参战，在线自动参与除魔征战[-]"
 AttachChooseMaterial,,AttachChooseMaterial,请选择附灵材料
 AttachReachMaxLv,,AttachReachMaxLv,附灵已到达最高等级
 AttachHeroLvLimit,,AttachHeroLvLimit,附灵等级不能超过英雄等级
@@ -366,3 +367,12 @@ AttachUnlock2,,AttachUnlock2,{0}解锁条件{1}: 英雄进阶至{2}[-]
 AttachUnlock3,,AttachUnlock3,{0}解锁条件{1}: {2}达到{3}级[-]
 AttachSecondSure,,AttachSecondSure,确定要进行附灵吗？
 AttachAllStone,,AttachAllStone,已添加所有灵石
+AttachNoMaterial,,AttachNoMaterial,当前没有附灵材料，可前往巅峰竞技场获得。
+WBConfirmReAlive,,WBConfirmReAlive,"重置关卡进入次数需要花费{0}钻石
+是否继续？(今日已购买{1}次)"
+RB_ParticipationAward,,RB_ParticipationAward,[FF7200]魔神掉落[-]
+RB_DiscoveryPackage,,RB_DiscoveryPackage,[FF7200]发现者礼包[-]
+RB_FianlBlow,,RB_FianlBlow,[2F2F2F]完成[-][FF7200]最后一击[-][2F2F2F]奖励[-]
+LevelNotEnoughUse,,LevelNotEnoughUse,您的等级还无法使用此道具哦
+WorldBossKilledTips,,WorldBossKilledTips,世界boss在{0}被击杀，[2F2F2F]{1}完成[-][FF7200]最后一击[-]
+CHARGE_CLOSE_TIPS,,CHARGE_CLOSE_TIPS,充值功能暂未开放哦
