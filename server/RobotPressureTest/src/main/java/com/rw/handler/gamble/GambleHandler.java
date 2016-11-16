@@ -1,8 +1,11 @@
 package com.rw.handler.gamble;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -17,6 +20,7 @@ import com.rwproto.ResponseProtos.Response;
 
 public class GambleHandler implements RandomMethodIF{
 
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
 	
 	private static GambleHandler instance = new GambleHandler();
 	public static GambleHandler instance(){
@@ -30,13 +34,10 @@ public class GambleHandler implements RandomMethodIF{
 	 * @param accountId
 	 */
 	public boolean buy(Client client) {
-		
-
 		GambleRequest.Builder req = GambleRequest.newBuilder()
 												.setRequestType(EGambleRequestType.GAMBLE)
 												.setGambleType(EGambleType.PRIMARY)
 												.setLotteryType(ELotteryType.ONE);
-		
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_GAMBLE, req.build().toByteString(), new MsgReciver() {
 			
@@ -89,8 +90,7 @@ public class GambleHandler implements RandomMethodIF{
 												.setRequestType(EGambleRequestType.GAMBLE)
 												.setGambleType(EGambleType.MIDDLE)
 												.setLotteryType(ELotteryType.ONE);
-		
-		
+	
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_GAMBLE, req.build().toByteString(), new MsgReciver() {
 			
 			@Override
@@ -130,6 +130,21 @@ public class GambleHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return buyByGold(client);
+		Integer stage = funcStageMap.get(client.getAccountId());
+		if(null == stage){
+			stage = new Integer(0);
+			funcStageMap.put(client.getAccountId(), stage);
+		}
+		switch (stage) {
+		case 0:
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.Gamble);
+			return buy(client);
+		case 1:
+			funcStageMap.put(client.getAccountId(), 0);
+			return buyByGold(client);
+		default:
+			return true;
+		}
 	}
 }

@@ -119,7 +119,6 @@ public class MagicHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		// TODO Auto-generated method stub
 		return magicForge(client);
 	}
 }

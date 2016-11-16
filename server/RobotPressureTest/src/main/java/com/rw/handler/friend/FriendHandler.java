@@ -362,6 +362,7 @@ public class FriendHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
+		//TODO 需要拟定顺序
 		return acceptAll(client);
 	}
 }

@@ -1,5 +1,7 @@
 package com.rw.handler.hero;
 
+import java.util.Random;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
@@ -101,6 +103,15 @@ public class HeroHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return heroUpgrade(client);
+		
+		int rd = new Random().nextInt(2);
+		switch (rd) {
+		case 0:
+			return summonHero(client);
+		case 1:
+			return heroUpgrade(client);
+		default:
+			return true;
+		}
 	}
 }

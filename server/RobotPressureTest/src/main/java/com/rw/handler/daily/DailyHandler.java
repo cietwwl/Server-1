@@ -1,9 +1,11 @@
 package com.rw.handler.daily;
 
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.protobuf.ByteString;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -19,6 +21,8 @@ public class DailyHandler implements RandomMethodIF{
 	private static DailyHandler handler = new DailyHandler();
 	private static final Command command = Command.MSG_DAILY_ACTIVITY;
 	private static final String functionName = "日常模块";
+	
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
 	
 	public static DailyHandler getInstance(){
 		return handler;
@@ -51,7 +55,7 @@ public class DailyHandler implements RandomMethodIF{
 		}
 	}
 	
-	public boolean responseAchieveDailyReward(Client client, MsgDailyActivityResponse response) throws Exception {
+	private boolean responseAchieveDailyReward(Client client, MsgDailyActivityResponse response) throws Exception {
 		eDailyActivityResultType resultType = response.getResultType();
 		switch (resultType) {
 		case SUCCESS:
@@ -125,6 +129,22 @@ public class DailyHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return processDaily(client);
+		Integer stage = funcStageMap.get(client.getAccountId());
+		if(null == stage){
+			stage = new Integer(0);
+			funcStageMap.put(client.getAccountId(), stage);
+		}
+		switch (stage) {
+		case 0:
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.Daily);
+			return processDaily(client);
+		case 1:
+			funcStageMap.put(client.getAccountId(), 0);
+			achieveDailyReward(client);
+			return true;
+		default:
+			return true;
+		}
 	}
 }

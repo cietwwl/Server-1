@@ -24,7 +24,7 @@ public class ItemBagHandler implements RandomMethodIF{
 	}
 
 	/**
-	 * 创建角色
+	 * 随机出售
 	 * 
 	 * @param serverId
 	 * @param accountId
@@ -38,7 +38,7 @@ public class ItemBagHandler implements RandomMethodIF{
 	}
 
 	/**
-	 * 创建角色
+	 * 出售指定物品
 	 * 
 	 * @param serverId
 	 * @param accountId
@@ -96,7 +96,6 @@ public class ItemBagHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		// TODO Auto-generated method stub
 		return sellRandom(client);
 	}
 }
