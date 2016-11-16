@@ -2,28 +2,28 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "CommonSoulServiceProto";
 
-// ÇëÇóÀàĞÍ
+// è¯·æ±‚ç±»å‹
 enum RequestType {
-	exchange = 1; // ¶Ò»»Ó¢ĞÛ»êÊ¯
+	exchange = 1; // å…‘æ¢è‹±é›„é­‚çŸ³
 }
 
-// ½á¹ûµÄÀàĞÍÃ¶¾Ù
+// ç»“æœçš„ç±»å‹æšä¸¾
 enum ResultType {
-	success = 1; // ³É¹¦
-	fail = 2; // Ê§°Ü
+	success = 1; // æˆåŠŸ
+	fail = 2; // å¤±è´¥
 }
 
-// ÍòÄÜ»êÊ¯µÄÇëÇó
+// ä¸‡èƒ½é­‚çŸ³çš„è¯·æ±‚
 message CommonSoulRequest {
-	required RequestType requestType = 1; // ÇëÇóµÄÀàĞÍ
-	optional fixed32 soulItemId = 2; // Ä¿±ê»êÊ¯µÄµÀ¾ßid
-	optional fixed32 exchangeCount = 3; // ÓÃÓÚ¶Ò»»µÄÍòÄÜ»êÊ¯ÊıÁ¿
+	required RequestType requestType = 1; // è¯·æ±‚çš„ç±»å‹
+	optional fixed32 soulItemId = 2; // ç›®æ ‡é­‚çŸ³çš„é“å…·id
+	optional fixed32 exchangeCount = 3; // ç”¨äºå…‘æ¢çš„ä¸‡èƒ½é­‚çŸ³æ•°é‡
 }
 
-// ÍòÄÜ»êÊ¯µÄÏìÓ¦
+// ä¸‡èƒ½é­‚çŸ³çš„å“åº”
 message CommonSoulResponse {
-	required RequestType requestType = 1; // ÇëÇóµÄÀàĞÍ
-	required ResultType resultType = 2; // ½á¹ûµÄÀàĞÍ
-	optional string tips = 3; // ÌáÊ¾ĞÅÏ¢£¬½á¹û²»ÊÇsuccessµÄÊ±ºò»á·¢ËÍ¸ø¿Í»§¶Ë
-	optional fixed32 resultCount = 4; // ×îÖÕ¶Ò»»µÄÊıÁ¿
+	required RequestType requestType = 1; // è¯·æ±‚çš„ç±»å‹
+	required ResultType resultType = 2; // ç»“æœçš„ç±»å‹
+	optional string tips = 3; // æç¤ºä¿¡æ¯ï¼Œç»“æœä¸æ˜¯successçš„æ—¶å€™ä¼šå‘é€ç»™å®¢æˆ·ç«¯
+	optional fixed32 resultCount = 4; // æœ€ç»ˆå…‘æ¢çš„æ•°é‡
 }

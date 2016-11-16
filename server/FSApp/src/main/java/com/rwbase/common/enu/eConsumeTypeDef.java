@@ -16,6 +16,7 @@ public enum eConsumeTypeDef {
 	FixEquipAdvance(21),// 神器觉醒材料
 	MemorizeCoin(22), // 纪念币
 	GroupFightTicket(23),// 帮派据点争夺战门票
+	CommonSoulStone(24), // 万能魂石
 	;
 
 	private int order;
