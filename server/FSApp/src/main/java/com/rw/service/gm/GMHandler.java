@@ -38,6 +38,7 @@ import com.playerdata.TowerMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
+import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
@@ -278,9 +279,9 @@ public class GMHandler {
 		// * callrb 1 生成随机boss,如果角色已经达到生成boss上限，这个指令会无效
 		funcCallBackMap.put("callrb", "callRb");
 		funcCallBackMap.put("testcharge", "testCharge");
-		
+
 		funcCallBackMap.put("addsaexp", "addSaExp");
-		
+
 		funcCallBackMap.put("resetJBZD".toLowerCase(), "resetJBZD");
 		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
@@ -564,41 +565,41 @@ public class GMHandler {
 	 * 设定副本地图的通关关卡
 	 */
 	public boolean setMap(String[] arrCommandContents, Player player) {
-//		if (arrCommandContents == null || arrCommandContents.length < 1) {
-//			player.NotifyCommonMsg("命令有误，请重新输入");
-//			return false;
-//		}
-//		String id = arrCommandContents[0];
-//		if (id == null) {
-//			player.NotifyCommonMsg("mapid有错");
-//			return false;
-//		}
-//		MapCfg map = (MapCfg) MapCfgDAO.getInstance().getCfgById(id);
-//		if (map == null) {
-//			player.NotifyCommonMsg("mapid有错");
-//			return false;
-//		}
-//
-//		int nMapID = map.getId();
-//		MapCfgDAO mapCfgDAO = MapCfgDAO.getInstance();
-//		CopyCfgDAO cfgDAO = CopyCfgDAO.getInstance();
-//		List<CopyCfgIF> list = new ArrayList<CopyCfgIF>();
-//		for (int i = 1001; i <= nMapID; i++) {
-//			MapCfg mapCfg = mapCfgDAO.getCfg(i);
-//			if (map != null) {
-//				int start = mapCfg.getStartLevelId();
-//				int end = mapCfg.getEndLevelId();
-//				for (int levelId = start; levelId <= end; i++) {
-//					CopyCfg copyCfg = cfgDAO.getCfg(levelId);
-//					if (copyCfg != null) {
-//						list.add(copyCfg);
-//					}
-//				}
-//			}
-//		}
-//		MsgCopyResponse.Builder copyResponse = player.getCopyRecordMgr().setMapByGM(map);// 获取要新增的关卡...
-//		player.SendMsg(Command.MSG_CopyService, copyResponse.build().toByteString());
-//		return true;
+		// if (arrCommandContents == null || arrCommandContents.length < 1) {
+		// player.NotifyCommonMsg("命令有误，请重新输入");
+		// return false;
+		// }
+		// String id = arrCommandContents[0];
+		// if (id == null) {
+		// player.NotifyCommonMsg("mapid有错");
+		// return false;
+		// }
+		// MapCfg map = (MapCfg) MapCfgDAO.getInstance().getCfgById(id);
+		// if (map == null) {
+		// player.NotifyCommonMsg("mapid有错");
+		// return false;
+		// }
+		//
+		// int nMapID = map.getId();
+		// MapCfgDAO mapCfgDAO = MapCfgDAO.getInstance();
+		// CopyCfgDAO cfgDAO = CopyCfgDAO.getInstance();
+		// List<CopyCfgIF> list = new ArrayList<CopyCfgIF>();
+		// for (int i = 1001; i <= nMapID; i++) {
+		// MapCfg mapCfg = mapCfgDAO.getCfg(i);
+		// if (map != null) {
+		// int start = mapCfg.getStartLevelId();
+		// int end = mapCfg.getEndLevelId();
+		// for (int levelId = start; levelId <= end; i++) {
+		// CopyCfg copyCfg = cfgDAO.getCfg(levelId);
+		// if (copyCfg != null) {
+		// list.add(copyCfg);
+		// }
+		// }
+		// }
+		// }
+		// MsgCopyResponse.Builder copyResponse = player.getCopyRecordMgr().setMapByGM(map);// 获取要新增的关卡...
+		// player.SendMsg(Command.MSG_CopyService, copyResponse.build().toByteString());
+		// return true;
 		return GMCopyProcesser.processSetMap(arrCommandContents, player);
 	}
 
@@ -1562,15 +1563,23 @@ public class GMHandler {
 			try {
 				Field fCreateTime = GroupSecretMatchRankAttribute.class.getDeclaredField("createTime");
 				fCreateTime.setAccessible(true);
-				UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(targetUserId);
+				UserCreateGroupSecretDataMgr mgr = UserCreateGroupSecretDataMgr.getMgr();
+				UserCreateGroupSecretData data = mgr.get(targetUserId);
+
 				List<GroupSecretData> list = data.getCreateList();
 				Ranking<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_SECRET_MATCH_RANK);
 				for (GroupSecretData tempData : list) {
 					long createTime = tempData.getCreateTime() - TimeUnit.SECONDS.toMillis(second);
 					tempData.setCreateTime(createTime);
+
 					RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> entry = ranking.getRankingEntry(player.getUserId() + "_" + tempData.getId());
 					fCreateTime.set(entry.getExtendedAttribute(), createTime);
+
+					// 更新排行信息
+					ranking.subimitUpdatedTask(entry);
 				}
+
+				mgr.updateData(targetUserId);
 				fCreateTime.setAccessible(false);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1584,20 +1593,27 @@ public class GMHandler {
 		try {
 			Field fCreateTime = GroupSecretMatchRankAttribute.class.getDeclaredField("createTime");
 			fCreateTime.setAccessible(true);
-			com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
-			List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
+			String userId = player.getUserId();
+			UserCreateGroupSecretDataMgr mgr = UserCreateGroupSecretDataMgr.getMgr();
+
+			UserCreateGroupSecretData data = mgr.get(userId);
+			List<GroupSecretData> list = data.getCreateList();
 			Ranking<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_SECRET_MATCH_RANK);
-			for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
+			for (GroupSecretData tempData : list) {
 				GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
 				long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
 				long suppose = tempData.getCreateTime() + millis;
 				if (suppose > System.currentTimeMillis()) {
 					long createTime = tempData.getCreateTime() - (suppose - System.currentTimeMillis());
 					tempData.setCreateTime(createTime);
-					RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> entry = ranking.getRankingEntry(player.getUserId() + "_" + tempData.getId());
+					RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> entry = ranking.getRankingEntry(userId + "_" + tempData.getId());
 					fCreateTime.set(entry.getExtendedAttribute(), createTime);
+
+					ranking.subimitUpdatedTask(entry);
 				}
 			}
+
+			mgr.updateData(userId);
 			fCreateTime.setAccessible(false);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1866,8 +1882,7 @@ public class GMHandler {
 					boolean isEvents = stageType == com.playerdata.groupcompetition.util.GCompStageType.EVENTS;
 					boolean isNoneStatus = (eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.NONE || eventStatus == com.playerdata.groupcompetition.util.GCompEventsStatus.FINISH);
 					@SuppressWarnings("unchecked")
-					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField.get(timerInstanceField
-							.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
+					Set<com.rwbase.common.timer.core.FSGameTimeSignal>[] wheel = (Set<com.rwbase.common.timer.core.FSGameTimeSignal>[]) wheelField.get(timerInstanceField.get(com.rwbase.common.timer.core.FSGameTimerMgr.getInstance()));
 					List<com.rwbase.common.timer.core.FSGameTimeSignal> list = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
 					Class<?> taskClazz = com.playerdata.groupcompetition.util.GCompCommonTask.class;
 					List<com.rwbase.common.timer.core.FSGameTimeSignal> stageList = new ArrayList<com.rwbase.common.timer.core.FSGameTimeSignal>();
@@ -2056,7 +2071,7 @@ public class GMHandler {
 		player.getItemBagMgr().addItem(itemInfos);
 		return true;
 	}
-	
+
 	public boolean growthFund(String[] arrCommandContents, Player player) {
 		int iReqType = Integer.parseInt(arrCommandContents[0]);
 		com.rwproto.GrowthFundServiceProto.EGrowthFundRequestType reqType;
@@ -2082,13 +2097,13 @@ public class GMHandler {
 		this.assumeSendRequest(player, request);
 		return true;
 	}
-	
+
 	public boolean setGrowthFundBoughtCount(String[] arrCommandContents, Player player) {
 		com.playerdata.activity.growthFund.GrowthFundGlobalData data = com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder.getInstance().getGlobalData();
 		data.setAlreadyBoughtCount(Integer.parseInt(arrCommandContents[0]));
 		return true;
 	}
-	
+
 	private boolean resetCopy(Player player, int type) {
 		TableCopyData tableCopyData = TableCopyDataDAO.getInstance().get(player.getUserId());
 		List<CopyData> copyList = tableCopyData.getCopyList();
@@ -2106,7 +2121,7 @@ public class GMHandler {
 		}
 		return true;
 	}
-	
+
 	private boolean resetCopyCd(Player player, int type) {
 		TableCopyData tableCopyData = TableCopyDataDAO.getInstance().get(player.getUserId());
 		List<CopyData> copyList = tableCopyData.getCopyList();
@@ -2117,11 +2132,11 @@ public class GMHandler {
 		}
 		return true;
 	}
-	
+
 	public boolean resetJBZD(String[] arrCommandContents, Player player) {
 		return this.resetCopy(player, CopyType.COPY_TYPE_TRIAL_JBZD);
 	}
-	
+
 	public boolean resetJBZDCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_JBZD);
 	}
@@ -2129,7 +2144,7 @@ public class GMHandler {
 	public boolean resetLQSG(String[] arrCommandContents, Player player) {
 		return this.resetCopy(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
-	
+
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
