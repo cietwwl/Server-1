@@ -668,6 +668,7 @@ public class GroupCopyMgr {
 			struct.setLv(item.getArmy().getPlayer().getLevel());
 			struct.setKillTime(item.getTime());
 			struct.setDamage(item.getDamage());
+			struct.setHeadFrame(role.getHeadFrame());
 			hr.addRankData(struct);
 		}
 		
