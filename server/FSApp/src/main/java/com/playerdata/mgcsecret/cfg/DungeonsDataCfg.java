@@ -16,6 +16,7 @@ public class DungeonsDataCfg {
 	private int starReward; //简单难度星星奖励
 	private int copyId; //关卡ID
 	private String drop; //掉落方案
+	private String firstDrop; //首掉方案
 
 	public String getKey() {
 		return key;
@@ -65,6 +66,10 @@ public class DungeonsDataCfg {
 		return drop;
 	}
   
+	public String getFirstDrop() {
+		return firstDrop;
+	}
+
 	public int getChapterID(){
 		return stageId/100;
 	}

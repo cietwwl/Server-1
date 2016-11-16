@@ -2,8 +2,6 @@ package com.playerdata.activity.fortuneCatType;
 
 import java.util.Random;
 
-import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
-
 public class ActivityFortuneCatHelper {
 	private static Random r = new Random();
 	/**

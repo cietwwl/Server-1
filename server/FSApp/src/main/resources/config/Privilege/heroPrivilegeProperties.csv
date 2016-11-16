@@ -1,5 +1,5 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
 skillThreshold,,130,,,
-isAllowBuySkillPoint,,,,,VIP1开启购买技能点功能，充值可提升VIP等级。
+isAllowBuySkillPoint,,,,,贵族1开启购买技能点功能，充值可提升贵族等级。
 skillTimeDec,,120,,,
-isAllowAttach,,,,,VIP7开启一键附灵功能，充值可提升VIP等级。
+isAllowAttach,,,,,贵族7开启一键附灵功能，充值可提升贵族等级。

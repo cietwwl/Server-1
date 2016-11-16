@@ -4,21 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
-
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_counttype_item")
-public class ActivityCountTypeItem implements  RoleExtProperty {
+public class ActivityCountTypeItem implements ActivityTypeItemIF<ActivityCountTypeSubItem> {
 
 	@Id
 	private Integer id;
@@ -35,13 +32,11 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 	@CombineSave
 	private boolean closed = false;
 
-	
 	@CombineSave
 	private List<ActivityCountTypeSubItem> subItemList = new ArrayList<ActivityCountTypeSubItem>();
 	
-	
 	@CombineSave
-	private String version ;
+	private int version;
 	
 	@CombineSave
 	private long redPointLastTime;
@@ -49,9 +44,8 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 	@CombineSave
 	private String enumId;
 	
-	
-	
-	
+	@CombineSave
+	private boolean isTouchRedPoint;	
 	
 	public String getEnumId() {
 		return enumId;
@@ -67,10 +61,7 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 
 	public void setRedPointLastTime(long redPointLastTime) {
 		this.redPointLastTime = redPointLastTime;
-	}
-	
-	@CombineSave
-	private boolean isTouchRedPoint;	
+	}	
 
 	public boolean isTouchRedPoint() {
 		return isTouchRedPoint;
@@ -81,7 +72,7 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 	}
 
 	public void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
-		cfgId = cfg.getId();
+		cfgId = String.valueOf(cfg.getId());
 		closed = false;
 		count=0;
 		version = cfg.getVersion();
@@ -89,14 +80,9 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 		isTouchRedPoint = false;
 	}
 
-	public String getVersion() {
+	public int getVersion() {
 		return version;
 	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
 
 	//重置活动
 	public void reset(){
@@ -108,7 +94,7 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -152,9 +138,18 @@ public class ActivityCountTypeItem implements  RoleExtProperty {
 		this.closed = closed;
 	}
 
-	
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-	
-	
-	
+	@Override
+	public boolean isHasViewed() {
+		return isTouchRedPoint;
+	}
+
+	@Override
+	public void setHasViewed(boolean hasViewed) {
+		this.isTouchRedPoint = hasViewed;
+	}
 }

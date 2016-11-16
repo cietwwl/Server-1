@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import com.rw.fsutil.cacheDao.DataRdbDao;
+import com.rw.fsutil.dao.common.JdbcTemplateFactory;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.manager.GameManager;
 
 
@@ -151,5 +155,11 @@ public class UserDataDao extends  DataRdbDao<User>{
 		String sql = "select * from `user` where userid like '"+GameManager.getServerId()+"%'";
 		result = findBySql(sql);
 		return result;
+	}
+	
+	public List<String> queryAllRobotId(){
+		String sql = "SELECT userId from user where isRobot = 1";
+		JdbcTemplate template = DataAccessFactory.getSimpleSupport().getMainTemplate();
+		return template.queryForList(sql, String.class);
 	}
 }

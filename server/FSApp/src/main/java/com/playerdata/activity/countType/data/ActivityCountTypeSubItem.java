@@ -2,11 +2,12 @@ package com.playerdata.activity.countType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityCountTypeSubItem {
+public class ActivityCountTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
@@ -40,8 +41,4 @@ public class ActivityCountTypeSubItem {
 	public void setTaken(boolean taken) {
 		this.taken = taken;
 	}
-
-	
-	
-
 }

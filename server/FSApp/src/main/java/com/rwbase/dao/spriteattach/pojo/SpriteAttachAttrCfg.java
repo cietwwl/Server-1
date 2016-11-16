@@ -8,18 +8,18 @@ import com.rwbase.common.attribute.AttributeType;
 import com.rwbase.common.attribute.AttributeUtils;
 
 public class SpriteAttachAttrCfg {
-	private int id;
+	private String id;
 	private int planId;
 	private int level;
 	private String attrData;
 	private String precentAttrData;
 	
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

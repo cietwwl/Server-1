@@ -1,14 +1,12 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
-import com.google.protobuf.ByteString;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
@@ -27,8 +25,6 @@ import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
-import com.rwproto.MsgDef;
-import com.rwproto.MsgDef.Command;
 
 /**
  * 玩家管理类
@@ -47,6 +43,8 @@ public class PlayerMgr {
 	private static GamePlayerOpHelper gamePlayerOpHelper = new GamePlayerOpHelper(20);
 
 	private static GamePlayerOpHelper gamePlayerEmailHelper = new GamePlayerOpHelper(20);
+
+	private HashMap<String, String> robotIdMap;
 
 	public static PlayerMgr getInstance() {
 		return instance;
@@ -77,17 +75,26 @@ public class PlayerMgr {
 		return cache.entries();
 	}
 
+	public synchronized void initRobotCache() {
+		if (this.robotIdMap != null) {
+			throw new ExceptionInInitializerError("duplicate init Player robot id cache");
+		}
+		List<String> list = UserDataDao.getInstance().queryAllRobotId();
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (String id : list) {
+			map.put(id, id);
+		}
+		this.robotIdMap = map;
+	}
+
 	public void putToMap(Player player) {
 		try {
 			cache.put(player.getUserId(), player);
 		} catch (DataDeletedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -429,5 +436,21 @@ public class PlayerMgr {
 				otherPlayer.getTempAttribute().setRedPointChanged();
 			}
 		}
+	}
+
+	/**
+	 * <pre>
+	 * 通过角色id判断是否机器人
+	 * 此方法只对生成在数据库的机器人有效
+	 * </pre>
+	 * @param userId
+	 * @return
+	 */
+	public boolean isPersistantRobot(String userId) {
+		return robotIdMap.containsKey(userId);
+	}
+
+	public String getPersistantRobotId(String userId) {
+		return this.robotIdMap.get(userId);
 	}
 }

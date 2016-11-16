@@ -17,8 +17,7 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @date 2016年1月16日 下午5:42:44
  * @Description 帮派的基础配置表Dao
  */
-public final class ActivityCountTypeSubCfgDAO extends
-		CfgCsvDao<ActivityCountTypeSubCfg> {
+public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTypeSubCfg> {
 
 	public static ActivityCountTypeSubCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityCountTypeSubCfgDAO.class);
@@ -28,9 +27,7 @@ public final class ActivityCountTypeSubCfgDAO extends
 
 	@Override
 	public Map<String, ActivityCountTypeSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map(
-				"Activity/ActivityCountTypeSubCfg.csv",
-				ActivityCountTypeSubCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityCountTypeSubCfg.csv", ActivityCountTypeSubCfg.class);
 		HashMap<String, List<ActivityCountTypeSubCfg>> parentCfgMappingTmp = new HashMap<String, List<ActivityCountTypeSubCfg>>();
 		for (ActivityCountTypeSubCfg subCfg : cfgCacheMap.values()) {
 			ActivityTypeHelper.add(subCfg,subCfg.getParentCfg(), parentCfgMappingTmp);
@@ -57,7 +54,6 @@ public final class ActivityCountTypeSubCfgDAO extends
 	public ActivityCountTypeSubCfg getById(String subId) {
 		ActivityCountTypeSubCfg target = cfgCacheMap.get(subId);
 		return target;
-
 	}
 
 }

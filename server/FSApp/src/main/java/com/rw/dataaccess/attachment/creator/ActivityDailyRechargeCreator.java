@@ -34,7 +34,6 @@ public class ActivityDailyRechargeCreator implements PlayerExtPropertyCreator<Ac
 	public List<ActivityDailyRechargeTypeItem> checkAndCreate(
 			RoleExtPropertyStore<ActivityDailyRechargeTypeItem> store,
 			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

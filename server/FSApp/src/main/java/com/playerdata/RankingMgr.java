@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.springframework.util.StringUtils;
 
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
 import com.bm.group.GroupBM;
@@ -26,6 +27,8 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
 import com.bm.rank.level.LevelComparable;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoAttribute;
+import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.common.EnumerateList;
@@ -540,6 +543,7 @@ public class RankingMgr {
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
 			toData.setVip(p.getVip());
+			toData.setMagicCfgId(p.getMagic().getModelId());
 		}
 	}
 
@@ -600,6 +604,7 @@ public class RankingMgr {
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
 			toData.setVip(p.getVip());
+			toData.setMagicCfgId(p.getMagic().getModelId());
 			return toData;
 		} catch (Exception e) {
 			return null;
@@ -669,6 +674,18 @@ public class RankingMgr {
 			updateEntryFighting(RankType.PEAK_ARENA_FIGHTING, fighting, teamFighting, userId);
 			// 通知竞技场更新
 			ArenaBM.getInstance().onPlayerChanged(player);
+			
+			//精准营销的战力改变的通知
+			if(teamFightingChanged){
+				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+				roleAttrsList.add(ERoleAttrs.r_TeamPower);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			}
+			if(allFightingChanged){
+				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+				roleAttrsList.add(ERoleAttrs.r_AllPower);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			}
 		}
 
 		updateUserGroupFight(player, teamFighting);

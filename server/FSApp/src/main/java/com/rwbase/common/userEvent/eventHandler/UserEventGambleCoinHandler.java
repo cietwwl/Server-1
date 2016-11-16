@@ -8,7 +8,8 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activityCommon.ActivityDetector;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
 public class UserEventGambleCoinHandler implements IUserEventHandler {
@@ -23,11 +24,9 @@ public class UserEventGambleCoinHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
-				if (ActivityCountTypeCfgDAO.getInstance().isOpenAndLevelEnough(
-						player.getLevel(), ActivityCountTypeEnum.GambleCoin)) {
-					ActivityCountTypeMgr.getInstance().addCount(player,
-							ActivityCountTypeEnum.GambleCoin,
-							Integer.parseInt(params.toString()));
+				/** 活动是否开启 */
+				if(ActivityDetector.getInstance().containsActivityByActId(ActivityTypeFactory.CountType, ActivityCountTypeEnum.GambleCoin.getCfgId())){
+					ActivityCountTypeMgr.getInstance().addCount(player, ActivityCountTypeEnum.GambleCoin, Integer.parseInt(params.toString()));
 				}
 			}
 

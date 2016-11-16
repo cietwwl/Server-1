@@ -143,11 +143,16 @@ enum Command {
 	
 	MSG_COMMON_SOUL = 234; // 万能魂石协议
 	
+	MSG_CHARGE_NOTIFY = 235; // 充值通知
+	
+	Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 236; // 帮派争霸队伍功能优化消息协议
+	
 	
 	
 	
 	
 	MSG_ACTIVITY_TIMECARD_TYPE = 600;//活动；月卡;不是活动的协议不要往下接啊；往上接
+	MSG_ACTIVITY_EVILBAO = 601; //申公豹驾到
 	
 
 	MSG_FEEDBACK = 995;//客服功能

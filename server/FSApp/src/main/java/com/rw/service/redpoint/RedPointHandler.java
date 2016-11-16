@@ -36,6 +36,9 @@ public class RedPointHandler {
 		case LIMIT_HERO:
 			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
 			break;
+		case EVIL_BAO_ARRIVE:
+			issucce = ActivityRedPointManager.getInstance().init(player, extraInfo);
+			break;
 		default:
 			break;
 		}

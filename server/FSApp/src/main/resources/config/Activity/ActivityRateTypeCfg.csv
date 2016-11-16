@@ -1,7 +1,7 @@
 Key,Remarks,id,enumId,bg,icon,icon2,sort,activityType,goToType,title,bgTitle,titleBG,iconZt,zt1,zt2,timeDesc,desc,copytypeAndespecialitemidEnum,adStartTimeStr,adEndTimeStr,startTimeStr,endTimeStr,timeStr,multiple,isAutoRefresh,autoRetime,vipLimit,levelLimit,version,openDesc,closeDesc
-20001,,20001,20001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,3,,2,关卡双倍,关卡双倍,11月19日5:00~11月21日5:00期间，30级以上的玩家挑战普通关卡掉落道具翻倍！,icon_X2,ZT_diaoluoX2,,"11月19日5:00
+20001,,20001,20001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,3,,2,关卡双倍,关卡双倍,12月03日5:00~12月05日5:00期间，30级以上的玩家挑战普通关卡掉落道具翻倍！,icon_X2,ZT_diaoluoX2,,"12月03日5:00
     至
-11月21日5:00",普通关卡道具双倍,0_99,201611160500,201611210500,201611190500,201611210500,0000:2359,2,,0,,30,13,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
+12月05日5:00",普通关卡道具双倍,0_99,201611300500,201612050500,201612030500,201612050500,0000:2359,2,,0,,30,14,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
 20002,,20002,20002,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,5,,7,疯狂聚宝,疯狂聚宝,8月08日至8月15日，每晚19:00至22：00，聚宝之地掉落道具翻倍！,icon_X2,ZT_diaoluoX2,,"8月08日至8月15日每日
 晚上19:00至22:00",聚宝之地道具双倍,3_99,201608080500,201608150500,201608080500,201608150500,1900:2200,2,,0,,30,8,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
 20003,,20003,20003,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,6,,8,炼气双倍,炼气双倍,8月08日至8月15日，每晚19:00至22：00，炼气山谷掉落道具翻倍！,icon_X2,ZT_diaoluoX2,,"8月08日至8月15日每日

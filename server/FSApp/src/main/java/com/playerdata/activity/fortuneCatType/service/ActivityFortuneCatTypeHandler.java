@@ -1,15 +1,9 @@
 package com.playerdata.activity.fortuneCatType.service;
 
-import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityFortuneCatTypeProto.ActivityCommonRspMsg;
 

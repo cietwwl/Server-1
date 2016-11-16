@@ -376,12 +376,19 @@
 	<bean class="com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO" init-method="init" />
 	
+	<!-- 申公豹驾到 -->
+	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO"  init-method="init" />
+	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO"  init-method="init" />
+	
 	<!-- 红点 -->
 	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
 	
 	<!-- 万能魂石 -->
 	<bean class="com.rwbase.dao.commonsoul.CommonSoulConfigDAO" init-method="init" />
 	<bean class="com.rwbase.dao.commonsoul.ExchangeRateCfgDAO" init-method="init" />
+
+	<!-- 精准营销 -->
+	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
 	
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />

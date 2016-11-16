@@ -55,7 +55,6 @@ public class ActivityVitalitySubCfg {
 		this.giftId = giftId;
 	}
 
-	
 	public String getVersion() {
 		return version;
 	}
@@ -98,11 +97,4 @@ public class ActivityVitalitySubCfg {
 	public void setActiveCount(int activeCount) {
 		this.activeCount = activeCount;
 	}
-
-
-
-	
-	
-	
-	
 }

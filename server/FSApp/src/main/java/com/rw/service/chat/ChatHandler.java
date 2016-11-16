@@ -327,11 +327,11 @@ public class ChatHandler {
 
 		String sendUserId = player.getUserId();
 		String receiveUserId = message.getReceiveMessageUserInfo().getUserId();
-		if (FriendUtils.isBlack(sendUserId, receiveUserId)) {// 已经把对方拉黑
+		if (FriendUtils.getInstance().isBlack(sendUserId, receiveUserId)) {// 已经把对方拉黑
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "您已把对方拉黑");
 			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
 			return msgChatResponseBuilder.build().toByteString();
-		} else if (FriendUtils.isBlack(receiveUserId, sendUserId)) {// 被对方拉黑
+		} else if (FriendUtils.getInstance().isBlack(receiveUserId, sendUserId)) {// 被对方拉黑
 			player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "您已被对方拉黑");
 			msgChatResponseBuilder.setChatResultType(eChatResultType.FAIL);
 			return msgChatResponseBuilder.build().toByteString();

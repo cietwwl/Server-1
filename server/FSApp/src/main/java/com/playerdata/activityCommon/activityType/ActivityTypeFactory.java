@@ -3,11 +3,21 @@ package com.playerdata.activityCommon.activityType;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.countType.ActivityCountTypeMgr;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
+import com.playerdata.activity.countType.data.ActivityCountTypeItem;
+import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
+import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
+import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO;
+import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO;
+import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
+import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveSubItem;
 import com.playerdata.activity.growthFund.ActivityGrowthFundMgr;
 import com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO;
 import com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO;
@@ -20,6 +30,8 @@ public class ActivityTypeFactory {
 	
 	public static final ActivityType DailyRecharge;
 	public static final ActivityType GrowthFund;
+	public static final ActivityType CountType;
+	public static final ActivityType EvilBaoArrive;
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -27,10 +39,16 @@ public class ActivityTypeFactory {
 				ActivityDailyChargeSubCfgDAO.class, ActivityDailyRechargeTypeSubItem.class, ActivityDailyRechargeTypeMgr.getInstance());
 		GrowthFund = new ActivityType(1002, GrowthFundBasicCfgDAO.class, ActivityGrowthFundItem.class,
 				GrowthFundSubCfgDAO.class, ActivityGrowthFundSubItem.class, ActivityGrowthFundMgr.getInstance());
+		CountType = new ActivityType(1003, ActivityCountTypeCfgDAO.class, ActivityCountTypeItem.class,
+				ActivityCountTypeSubCfgDAO.class, ActivityCountTypeSubItem.class, ActivityCountTypeMgr.getInstance());
+		EvilBaoArrive = new ActivityType(1004, EvilBaoArriveCfgDAO.class, EvilBaoArriveItem.class,
+				EvilBaoArriveSubCfgDAO.class, EvilBaoArriveSubItem.class, EvilBaoArriveMgr.getInstance());	
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
 		addType(GrowthFund);
+		addType(CountType);
+		addType(EvilBaoArrive);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

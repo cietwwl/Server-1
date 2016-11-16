@@ -20,12 +20,16 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.randomBoss.RandomBossMgr;
+import com.bm.rank.RankType;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
+import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
+import com.bm.rank.groupsecretmatch.GroupSecretMatchRankComparable;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
+import com.playerdata.CopyDataMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
@@ -35,8 +39,11 @@ import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
-import com.playerdata.readonly.CopyCfgIF;
+import com.playerdata.readonly.CopyInfoCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingEntry;
+import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
@@ -67,11 +74,11 @@ import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
-import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.cfg.CopyCfgDAO;
-import com.rwbase.dao.copy.cfg.MapCfg;
-import com.rwbase.dao.copy.cfg.MapCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.copypve.CopyType;
+import com.rwbase.dao.copypve.TableCopyDataDAO;
+import com.rwbase.dao.copypve.pojo.CopyData;
+import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
@@ -82,6 +89,10 @@ import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg;
+import com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO;
+import com.rwbase.dao.groupsecret.pojo.db.GroupSecretData;
+import com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
@@ -92,7 +103,6 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
-import com.rwproto.CopyServiceProtos.MsgCopyResponse;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
@@ -229,7 +239,7 @@ public class GMHandler {
 
 		funcCallBackMap.put("adddist", "addDistCount");
 
-		funcCallBackMap.put("speedupscecret", "speedUpSecret");
+		funcCallBackMap.put("speedUpSecret".toLowerCase(), "speedUpSecret");
 		funcCallBackMap.put("finishsecret", "finishSecret");
 
 		funcCallBackMap.put("requestfightinggrowthdata", "requestFightingGrowthData");
@@ -271,6 +281,11 @@ public class GMHandler {
 		
 		funcCallBackMap.put("addsaexp", "addSaExp");
 		funcCallBackMap.put("exchangeSoul".toLowerCase(), "exchangeSoul");
+		
+		funcCallBackMap.put("resetJBZD".toLowerCase(), "resetJBZD");
+		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
+		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
+		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
 	}
 
 	public boolean isActive() {
@@ -1534,36 +1549,60 @@ public class GMHandler {
 
 	public boolean speedUpSecret(String[] arrCommandContents, Player player) {
 		String targetUserId;
-		if (arrCommandContents != null && arrCommandContents.length > 0) {
-			targetUserId = arrCommandContents[0];
+		String arg = arrCommandContents[0];
+		if (!arg.equals("1")) {
+			targetUserId = arg;
 		} else {
 			targetUserId = player.getUserId();
 		}
-		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(targetUserId);
-		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
-		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
-			if (System.currentTimeMillis() - tempData.getCreateTime() > 1800000) {
-				tempData.setCreateTime(tempData.getCreateTime() - 1800000);
+		int second = 1800;
+		if (arrCommandContents.length > 1) {
+			second = Integer.parseInt(arrCommandContents[1]);
+		}
+		if (second > 0) {
+			try {
+				Field fCreateTime = GroupSecretMatchRankAttribute.class.getDeclaredField("createTime");
+				fCreateTime.setAccessible(true);
+				UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(targetUserId);
+				List<GroupSecretData> list = data.getCreateList();
+				Ranking<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_SECRET_MATCH_RANK);
+				for (GroupSecretData tempData : list) {
+					long createTime = tempData.getCreateTime() - TimeUnit.SECONDS.toMillis(second);
+					tempData.setCreateTime(createTime);
+					RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> entry = ranking.getRankingEntry(player.getUserId() + "_" + tempData.getId());
+					fCreateTime.set(entry.getExtendedAttribute(), createTime);
+				}
+				fCreateTime.setAccessible(false);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
 		}
 		return true;
 	}
 
 	public boolean finishSecret(String[] arrCommandContents, Player player) {
-		com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
-		List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
-		for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
-			// if (tempData.getCreateTime() - System.currentTimeMillis() >
-			// 1800000) {
-			// tempData.setCreateTime(tempData.getCreateTime() - 1800000);
-			// }
-			com.rwbase.dao.groupsecret.pojo.cfg.GroupSecretResourceCfg cfg = com.rwbase.dao.groupsecret.pojo.cfg.dao.GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(
-					tempData.getSecretId());
-			long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
-			long suppose = tempData.getCreateTime() + millis;
-			if (suppose > System.currentTimeMillis()) {
-				tempData.setCreateTime(tempData.getCreateTime() - (suppose - System.currentTimeMillis()));
+		try {
+			Field fCreateTime = GroupSecretMatchRankAttribute.class.getDeclaredField("createTime");
+			fCreateTime.setAccessible(true);
+			com.rwbase.dao.groupsecret.pojo.db.UserCreateGroupSecretData data = com.playerdata.groupsecret.UserCreateGroupSecretDataMgr.getMgr().get(player.getUserId());
+			List<com.rwbase.dao.groupsecret.pojo.db.GroupSecretData> list = data.getCreateList();
+			Ranking<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_SECRET_MATCH_RANK);
+			for (com.rwbase.dao.groupsecret.pojo.db.GroupSecretData tempData : list) {
+				GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(tempData.getSecretId());
+				long millis = java.util.concurrent.TimeUnit.MINUTES.toMillis(cfg.getNeedTime());
+				long suppose = tempData.getCreateTime() + millis;
+				if (suppose > System.currentTimeMillis()) {
+					long createTime = tempData.getCreateTime() - (suppose - System.currentTimeMillis());
+					tempData.setCreateTime(createTime);
+					RankingEntry<GroupSecretMatchRankComparable, GroupSecretMatchRankAttribute> entry = ranking.getRankingEntry(player.getUserId() + "_" + tempData.getId());
+					fCreateTime.set(entry.getExtendedAttribute(), createTime);
+				}
 			}
+			fCreateTime.setAccessible(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
 		return true;
 	}
@@ -2061,5 +2100,49 @@ public class GMHandler {
 		bodyBuilder.setSerializedContent(com.rwproto.CommonSoulServiceProto.CommonSoulRequest.newBuilder().setRequestType(com.rwproto.CommonSoulServiceProto.RequestType.exchange).setSoulItemId(Integer.parseInt(arrCommandContents[0])).setExchangeCount(Integer.parseInt(arrCommandContents[1])).build().toByteString());
 		requestBuilder.setBody(bodyBuilder.build());
 		return this.assumeSendRequest(player, requestBuilder.build());
+	}
+	private boolean resetCopy(Player player, int type) {
+		TableCopyData tableCopyData = TableCopyDataDAO.getInstance().get(player.getUserId());
+		List<CopyData> copyList = tableCopyData.getCopyList();
+		List<CopyInfoCfgIF> cfgList = CopyDataMgr.getSameDayInfoList();
+		for (CopyData cd : copyList) {
+			if (cd.getCopyType() == type) {
+				int copyType = cd.getCopyType();
+				for (CopyInfoCfgIF cfg : cfgList) {
+					if (copyType == cfg.getType()) {
+						cd.setCopyCount(cfg.getCount());
+						break;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	
+	private boolean resetCopyCd(Player player, int type) {
+		TableCopyData tableCopyData = TableCopyDataDAO.getInstance().get(player.getUserId());
+		List<CopyData> copyList = tableCopyData.getCopyList();
+		for (CopyData cd : copyList) {
+			if (cd.getCopyType() == type) {
+				cd.setLastChallengeTime(0);
+			}
+		}
+		return true;
+	}
+	
+	public boolean resetJBZD(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_TRIAL_JBZD);
+	}
+	
+	public boolean resetJBZDCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_JBZD);
+	}
+
+	public boolean resetLQSG(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_TRIAL_LQSG);
+	}
+	
+	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
 }

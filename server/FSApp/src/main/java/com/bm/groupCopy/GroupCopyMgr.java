@@ -775,7 +775,6 @@ public class GroupCopyMgr {
 				
 				
 				for (ItemDropAndApplyTemplate template : map) {
-//					System.err.println("发放道具：" + template.getItemID());
 					applyInfo.addAll(template.getApplyData());
 					if(applyInfo == null || applyInfo.isEmpty())
 						continue;
@@ -795,6 +794,9 @@ public class GroupCopyMgr {
 						Player applyRole = PlayerMgr.getInstance().find(apply.getRoleID());
 						UserGroupAttributeDataIF baseData = applyRole.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 						if(baseData == null || (drop.getTime() < baseData.getJoinTime())){
+//							System.out.println(String.format("item drop time [%s], role[%s] join group time [%s], he can't get item",
+//									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),applyRole.getUserName(),
+//									DateUtils.getDateTimeFormatString(baseData.getJoinTime(), "yyyy-MM-dd hh:m:ss")));
 							continue;
 						}
 						match = true;
@@ -808,7 +810,8 @@ public class GroupCopyMgr {
 					boolean sendMail = sendGroupPriceMailAndRecord(template.getItemID(), apply, groupName, time);
 					if(sendMail){
 						send = true;
-//						System.err.println("发放道具成功：" + template.getItemID());
+//						System.err.println(String.format("发放道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(),
+//								DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 						template.deleteApply(drop, apply);
 						
 					}
