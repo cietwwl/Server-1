@@ -35,6 +35,7 @@ public class TablePeakArenaData {
 	private int score; // 积分
 	private List<Integer> rewardList = new ArrayList<Integer>();
 	private AtomicInteger recordIdGenerator = new AtomicInteger();
+	private int lastResetDayOfYear;
 
 	public TablePeakArenaData() {
 //		this.recordList = new ArrayList<PeakRecordInfo>();
@@ -208,5 +209,13 @@ public class TablePeakArenaData {
 	public int getNextId() {
 		this.recordIdGenerator.compareAndSet(Short.MAX_VALUE, 0);
 		return this.recordIdGenerator.incrementAndGet();
+	}
+
+	public int getLastResetDayOfYear() {
+		return lastResetDayOfYear;
+	}
+
+	public void setLastResetDayOfYear(int lastResetDayOfYear) {
+		this.lastResetDayOfYear = lastResetDayOfYear;
 	}
 }
