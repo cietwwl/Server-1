@@ -8,6 +8,7 @@ import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.rw.fsutil.util.DateUtils;
 
 class WBFinishState implements  IwbState{
 
@@ -28,6 +29,8 @@ class WBFinishState implements  IwbState{
 		boolean success = false;
 		WBData wbData = WBDataHolder.getInstance().get();
 		long curTime = System.currentTimeMillis();
+		if(wbData != null)
+			System.out.println("end time : " + DateUtils.getDateTimeFormatString(wbData.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
 		if(wbData == null || wbData.getEndTime() < curTime){
 			WBCfg nextCfg = WBCfgDAO.getInstance().getNextCfg();
 			

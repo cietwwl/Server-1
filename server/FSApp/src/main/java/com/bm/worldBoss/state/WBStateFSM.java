@@ -22,11 +22,15 @@ public class WBStateFSM {
 	public void init(){		
 		
 		WBData wbData = WBDataHolder.getInstance().get();
-		
 		if(wbData == null || DateUtils.dayChanged(wbData.getStartTime())){
 			curState =  new WBFinishState();
 		}else{
-			curState = initFromWbData(wbData);
+			WBCfg cfg = WBCfgDAO.getInstance().getCfgById(wbData.getWbcfgId());//如果策划改表，重新初始化
+			if(cfg == null){
+				curState =  new WBFinishState();
+			}else{
+				curState = initFromWbData(wbData);
+			}
 		}
 		curState.doEnter();
 		GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[init]", "world boss init finish");
@@ -64,7 +68,7 @@ public class WBStateFSM {
 			break;
 		}
 		
-		//
+		//检查一下配置表
 		checkCfg();
 		
 		return curStateTmp;
