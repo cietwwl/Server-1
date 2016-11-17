@@ -1154,9 +1154,9 @@ public class Player implements PlayerIF {
 		return m_FashionMgr;
 	}
 
-	public ItemBagMgr getItemBagMgr() {
-		return itemBagMgr;
-	}
+	// public ItemBagMgr getItemBagMgr() {
+	// return itemBagMgr;
+	// }
 
 	public HeroMgr getHeroMgr() {
 		return m_HeroMgr;

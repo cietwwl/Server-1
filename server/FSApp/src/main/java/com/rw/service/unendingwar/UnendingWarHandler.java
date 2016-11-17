@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rw.service.dropitem.DropItemManager;
 import com.rw.service.role.MainMsgHandler;
@@ -130,7 +131,7 @@ public class UnendingWarHandler {
 			}
 			/*** 加奖励到背包 ****/
 			// TODO 不应该运行时分割字符串，应修改无尽战火配置表 modify@2015-12-18 by Jamaz //添加货币
-//			player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), cfgUnendingWar.uNum);
+			// player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), cfgUnendingWar.uNum);
 			magicSecretCoin += cfgUnendingWar.uNum;
 			unendingCoin.addAndGet(cfgUnendingWar.uNum);
 
@@ -149,12 +150,12 @@ public class UnendingWarHandler {
 		}
 		List<ItemInfo> addItems;
 		if (listItemBattle != null) {
-//			addJlItem(listItemBattle, player);
-//			return listItemBattle;
+			// addJlItem(listItemBattle, player);
+			// return listItemBattle;
 			addItems = new ArrayList<ItemInfo>(listItemBattle.size() + 1);
 			addItems.addAll(listItemBattle);
 		} else {
-//			return Collections.EMPTY_LIST;
+			// return Collections.EMPTY_LIST;
 			addItems = new ArrayList<ItemInfo>(1);
 			listItemBattle = Collections.emptyList();
 		}
@@ -168,11 +169,11 @@ public class UnendingWarHandler {
 	/*** 加奖励到背包 ****/
 	private void addJlItem(List<? extends ItemInfo> addList, Player player) {
 
-//		for (ItemInfo item : addList) {
-//			player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
-//		}
+		// for (ItemInfo item : addList) {
+		// player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
+		// }
 		List<ItemInfo> list = new ArrayList<ItemInfo>(addList);
-		player.getItemBagMgr().addItem(list);
+		ItemBagMgr.getInstance().addItem(player, list);
 
 	}
 
@@ -188,7 +189,7 @@ public class UnendingWarHandler {
 		uNum = cfgUnendingWar.uNum;
 
 		if (uNum > 0) {
-			player.getItemBagMgr().addItem(eSpecialItemId.MagicSecretCoin.getValue(), uNum);
+			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.MagicSecretCoin.getValue(), uNum);
 
 		}
 

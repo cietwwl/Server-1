@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -288,7 +287,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 			item.setItemNum(itemCount);
 			addList.add(item);
 		}
-		player.getItemBagMgr().addItem(addList);
+		ItemBagMgr.getInstance().addItem(player, addList);
 		return addList;
 	}
 

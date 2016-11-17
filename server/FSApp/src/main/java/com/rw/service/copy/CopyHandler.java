@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.CopyRecordMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.eSpecialItemIDUserInfo;
@@ -158,7 +159,7 @@ public class CopyHandler {
 			}
 		}
 
-		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
+		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Power.getValue(), -copyCfg.getFailSubPower());
 		//
 		copyResponse.addAllTagItemList(itemList);
 		copyResponse.setLevelId(copyCfg.getLevelID());

@@ -12,6 +12,7 @@ import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -79,7 +80,7 @@ public class GroupBaseManagerHandler {
 		String playerId = player.getUserId();// 角色的Id
 		RefParam<String> outTip = new RefParam<String>();
 		// 检查当前角色的等级有没有达到可以使用帮派功能
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -118,7 +119,7 @@ public class GroupBaseManagerHandler {
 		// 检查金钱足不足够
 		long count = player.getReward(eSpecialItemId.getDef(type));
 		if (createGroupPriceArr[1] > count) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format("%s不足,数量为"+count+" 需要 " + createGroupPriceArr[1], sicfg.getName()));
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, String.format("%s不足,数量为" + count + " 需要 " + createGroupPriceArr[1], sicfg.getName()));
 		}
 
 		// 检查传递过来的帮派名字
@@ -143,7 +144,7 @@ public class GroupBaseManagerHandler {
 
 		Group group = GroupBM.create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
 		if (group == null) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在，名字为=" +groupName);
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在，名字为=" + groupName);
 		}
 
 		GroupBaseDataMgr groupBaseDataMgr = group.getGroupBaseDataMgr();
@@ -153,7 +154,7 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 扣除金钱
-		if (!player.getItemBagMgr().addItem(type, -createGroupPriceArr[1])) {
+		if (!ItemBagMgr.getInstance().addItem(player, type, -createGroupPriceArr[1])) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "扣费失败");
 		}
 
@@ -380,7 +381,7 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 扣除金钱
-		if (!player.getItemBagMgr().addItem(type, -price[1])) {
+		if (!ItemBagMgr.getInstance().addItem(player, type, -price[1])) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "扣费失败");
 		}
 

@@ -1,13 +1,11 @@
 package com.rw.service.FresherActivity.Achieve;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
@@ -22,11 +20,7 @@ import com.rwbase.dao.fresherActivity.pojo.FresherActivityItemHolder;
 
 /**
  * 
- * @author lida
- * 开服活动最终奖励的领取规则
- * 每完成一个进度，则可以领取一个进度的奖励，在活动结束前完成的进度内的奖励都可以领取
- * 我7天的完成度是85%，那么活动结束后，我领完80%的奖励就不能再领取了。
- * 或者我完成度是85%，我已经领取了80%的奖励。那么活动结束的时候，也就直接关闭了
+ * @author lida 开服活动最终奖励的领取规则 每完成一个进度，则可以领取一个进度的奖励，在活动结束前完成的进度内的奖励都可以领取 我7天的完成度是85%，那么活动结束后，我领完80%的奖励就不能再领取了。 或者我完成度是85%，我已经领取了80%的奖励。那么活动结束的时候，也就直接关闭了
  */
 public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 
@@ -41,7 +35,7 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 			if (data.isFinish() && current >= data.getStartTime()) {
 				finishCount++;
 			}
-			
+
 			// 不能算最终奖励的个数
 			if (data.getType() != eActivityType.A_Final) {
 				totalCount++;
@@ -49,27 +43,26 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 		}
 		double result = (double) finishCount / totalCount * 100;
 		String reward = "";
-		
-		//处理领取最终奖励
+
+		// 处理领取最终奖励
 		FresherActivityItem fresherActivityItem = holder.getFresherActivityItemsById(cfgId);
 		String currentValue = fresherActivityItem.getCurrentValue();
 		int currentAcheiveFinalRewardId = StringUtils.isEmpty(currentValue) ? -1 : Integer.parseInt(currentValue);
-		
-		
+
 		List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getSortFinalRewardList();
-		
+
 		for (FresherActivityFinalRewardCfg fresherActivityFinalRewardCfg : allCfg) {
 
 			if (fresherActivityFinalRewardCfg.getProgress() <= result) {
-				
-				if(fresherActivityFinalRewardCfg.getId() > currentAcheiveFinalRewardId){
+
+				if (fresherActivityFinalRewardCfg.getId() > currentAcheiveFinalRewardId) {
 					currentAcheiveFinalRewardId = fresherActivityFinalRewardCfg.getId();
 					reward = fresherActivityFinalRewardCfg.getReward();
 					break;
 				}
 			}
 		}
-		if(StringUtils.isEmpty(reward)){
+		if (StringUtils.isEmpty(reward)) {
 			return "您的进度不足以领取奖励哦。";
 		}
 		fresherActivityItem.setCurrentValue(String.valueOf(currentAcheiveFinalRewardId));
@@ -88,13 +81,12 @@ public class FrshActAchieveFinalReward implements IFrshActAchieveRewardHandler {
 			info.setItemNum(Integer.parseInt(split2[1]));
 			itemInfoList.add(info);
 		}
-		player.getItemBagMgr().addItem(itemInfoList);
-		
-		String rewardInfoActivity="";
+		ItemBagMgr.getInstance().addItem(player, itemInfoList);
+
+		String rewardInfoActivity = "";
 		List<BilogItemInfo> rewardslist = BilogItemInfo.fromStrArr(split);
-		rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);		
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE, 0, true, 0, rewardInfoActivity,cfgId);
-		
+		rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE, 0, true, 0, rewardInfoActivity, cfgId);
 
 		return null;
 	}

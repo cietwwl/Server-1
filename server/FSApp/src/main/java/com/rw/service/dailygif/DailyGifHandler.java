@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
@@ -28,21 +29,20 @@ public class DailyGifHandler {
 	}
 
 	/*** 获取基本信息 ***/
-	public ByteString getInfo(Player player) 
-	{	
+	public ByteString getInfo(Player player) {
 		DailyGifResponse.Builder res = DailyGifResponse.newBuilder();
 		// res.setInfo(otherRoleAttr);
 		res.setType(EType.InfoMsg);
 		res.setCount(player.getDailyGifMgr().getTable().getCount());
 		List<Integer> temps = player.getDailyGifMgr().getTable().getCounts();
 		res.addAllGetCount(temps);
-//		res.setGetCount(player.getDailyGifMgr().getTable().getCounts());
+		// res.setGetCount(player.getDailyGifMgr().getTable().getCounts());
 		return res.build().toByteString();
 	}
 
 	/*** 领取礼包 **/
 	public ByteString getGif(Player player, int count) {
-		if(count <= 0 || count > 7){
+		if (count <= 0 || count > 7) {
 			return null;
 		}
 		DailyGifResponse.Builder res = DailyGifResponse.newBuilder();
@@ -74,9 +74,9 @@ public class DailyGifHandler {
 		if (dailyGif != null) {
 			// 给主角增加任务的奖励
 			String[] reward = dailyGif.goods.split("\\|");
-			
+
 			List<ItemInfo> list = new ArrayList<ItemInfo>();
-			
+
 			for (int i = 0; i < reward.length; i++) {
 				String[] rewardItem = reward[i].split("_");
 				if (rewardItem.length > 1) {
@@ -86,12 +86,12 @@ public class DailyGifHandler {
 					list.add(itemInfo);
 				}
 			}
-			player.getItemBagMgr().addItem(list);
-			
+			ItemBagMgr.getInstance().addItem(player, list);
+
 			List<BilogItemInfo> rewardslist = BilogItemInfo.fromStrArr(reward);
-			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);				
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVENDAYACTIVITY,0,0);
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SEVENDAYACTIVITY, 0, true, 0, rewardInfoActivity,0);
+			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVENDAYACTIVITY, 0, 0);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SEVENDAYACTIVITY, 0, true, 0, rewardInfoActivity, 0);
 		}
 	}
 }

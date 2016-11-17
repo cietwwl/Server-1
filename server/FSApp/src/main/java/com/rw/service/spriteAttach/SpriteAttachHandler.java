@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.druid.sql.ast.expr.SQLCaseExpr.Item;
 import com.common.RefInt;
 import com.common.RefLong;
 import com.google.protobuf.ByteString;
@@ -15,14 +14,11 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.SpriteAttachMgr;
-import com.playerdata.hero.core.FSHeroThirdPartyDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.item.checkWare.CheckCommonItemWare;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
-import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
-import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.spriteattach.SpriteAttachCfgDAO;
 import com.rwbase.dao.spriteattach.SpriteAttachHolder;
 import com.rwbase.dao.spriteattach.SpriteAttachItem;
@@ -108,7 +104,7 @@ public class SpriteAttachHandler {
 			return sendFailMsg("当前附灵已到最高等级!", res, requestType);
 		}
 
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 
 		int costType = spriteAttachLevelCost.getCostType();
 
@@ -121,7 +117,7 @@ public class SpriteAttachHandler {
 		RefInt upgradeLevel = new RefInt(spriteAttachLevel);
 		RefLong upgradeExp = new RefLong(currentExp);
 		List<IUseItem> useItemList = new ArrayList<IUseItem>(materialsList.size());
-		boolean calcResult = calcConsume(itemBagMgr, materialsList, upgradeLevel, upgradeExp, levelCostPlanId, spriteAttachLevelCost, cost, useItemList);
+		boolean calcResult = calcConsume(player, materialsList, upgradeLevel, upgradeExp, levelCostPlanId, spriteAttachLevelCost, cost, useItemList);
 		if (!calcResult) {
 			return sendFailMsg("附灵失败，消耗升级材料失败！", res, requestType);
 		}
@@ -136,7 +132,7 @@ public class SpriteAttachHandler {
 			return sendFailMsg("货币不足,附灵失败!", res, requestType);
 		}
 
-		if (!itemBagMgr.useLikeBoxItem(useItemList, null, modifyMoneyMap)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, null, modifyMoneyMap)) {
 			return sendFailMsg("附灵失败，消耗升级材料失败！", res, requestType);
 		}
 		if (upgradeLevel.value != spriteAttachLevel) {
@@ -173,12 +169,12 @@ public class SpriteAttachHandler {
 		}
 		SpriteAttachRoleCfg spriteAttachRoleCfg = SpriteAttachRoleCfgDAO.getInstance().getCfgById(String.valueOf(heroModelId));
 		int index = spriteAttachRoleCfg.getIndex(spriteAttachId);
-		
+
 		if (spriteAttachMgr.createSpriteAttachItem(spriteAttachSyn, index, spriteAttachCfg.getId())) {
 			SpriteAttachMgr.getInstance().getSpriteAttachHolder().updateItem(player, spriteAttachSyn);
 			res.setRequestType(requestType);
 			res.setReslutType(eSpriteAttachResultType.Success);
-		}else{
+		} else {
 			res.setRequestType(requestType);
 			res.setReslutType(eSpriteAttachResultType.UnlockRepeat);
 		}
@@ -186,10 +182,11 @@ public class SpriteAttachHandler {
 		return res.build().toByteString();
 	}
 
-	private boolean calcConsume(ItemBagMgr itemBagMgr, List<spriteAttachMaterial> materialsList, RefInt upgradeLevel, RefLong upgradeExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, RefLong Cost, List<IUseItem> useItemList) {
+	private boolean calcConsume(Player player, List<spriteAttachMaterial> materialsList, RefInt upgradeLevel, RefLong upgradeExp, int levelCostPlanId, SpriteAttachLevelCostCfg spriteAttachLevelCost, RefLong Cost, List<IUseItem> useItemList) {
 		int totalCost = 0;
 		int materialsExp = 0;
 
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		for (Iterator<spriteAttachMaterial> iterator = materialsList.iterator(); iterator.hasNext();) {
 			spriteAttachMaterial spriteAttachMaterial = (spriteAttachMaterial) iterator.next();
 			int itemModelId = spriteAttachMaterial.getItemModelId();
@@ -200,7 +197,7 @@ public class SpriteAttachHandler {
 			ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 			materialsExp += itemBaseCfg.getEnchantExp() * count;
 
-			List<IUseItem> items = itemBagMgr.checkEnoughItem(itemModelId, count, null, new CheckCommonItemWare());
+			List<IUseItem> items = itemBagMgr.checkEnoughItem(player, itemModelId, count, null, new CheckCommonItemWare());
 			if (items == null) {
 				return false;
 			} else {

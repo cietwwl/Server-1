@@ -13,6 +13,7 @@ import com.common.Action;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rwbase.dao.fetters.FettersBM;
@@ -29,7 +30,7 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * 
  * @author Alex
  *
- *         2016年7月18日 下午5:52:02
+ * 2016年7月18日 下午5:52:02
  */
 public class MagicEquipFetterMgr {
 
@@ -201,17 +202,15 @@ public class MagicEquipFetterMgr {
 	 * 检查角色法宝羁绊数据
 	 * 
 	 * @param player
-	 * @param cfgList
-	 *            检查的羁绊列表
-	 * @param syn
-	 *            是否需要同步到客户端
+	 * @param cfgList 检查的羁绊列表
+	 * @param syn 是否需要同步到客户端
 	 * 
 	 */
 	private boolean checkAndAddMagicFetter(Player player, boolean syn) {
 		int playerModelId = player.getModelId();
 		List<MagicEquipConditionCfg> cfgList = FetterMagicEquipCfgDao.getInstance().getCfgByType(FetterMagicEquipCfgDao.TYPE_MAGICWEAPON, playerModelId);
 		// 获取玩家所有的法宝
-		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
+		List<ItemData> list = ItemBagMgr.getInstance().getItemListByType(player.getUserId(), EItemTypeDef.Magic);
 		if (list.isEmpty() && !player.isRobot()) {
 			GameLog.error(LogModule.COMMON, "MagicEquipFetterMgr[checkAndAddMagicFetter]", String.format("检查角色[%s]法宝羁绊数据，发现角色没有法宝道具！", player.getUserName()), null);
 			return false;

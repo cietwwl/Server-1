@@ -72,6 +72,8 @@ public class ItemBagHandler {
 		String magicId = magic.getId();
 
 		int totalSellCoin = 0;// 总共出售可以获得的价格
+		String userId = player.getUserId();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		for (int i = 0, size = sellItemList.size(); i < size; i++) {
 			TagItemData data = sellItemList.get(i);
 			String dbId = data.getDbId();
@@ -83,7 +85,7 @@ public class ItemBagHandler {
 				response.setRspInfo(fillResponseInfo(false, "穿戴的法宝不能出售"));
 				return response.build().toByteString();
 			}
-			ItemData itemData = player.getItemBagMgr().findBySlotId(dbId);
+			ItemData itemData = itemBagMgr.findBySlotId(userId, dbId);
 			if (itemData == null) {
 				response.setRspInfo(fillResponseInfo(false, "道具不存在"));
 				return response.build().toByteString();
@@ -104,11 +106,11 @@ public class ItemBagHandler {
 			useList.add(use);
 		}
 
-		boolean success = player.getItemBagMgr().useLikeBoxItem(useList, null);
+		boolean success = ItemBagMgr.getInstance().useLikeBoxItem(player, useList, null);
 		if (success) {
 			player.getUserGameDataMgr().addCoin(totalSellCoin);
 		} else {
-			GameLog.error("背包模块", player.getUserId(), "出售的过程当中出现了错误，导致出售失败", null);
+			GameLog.error("背包模块", userId, "出售的过程当中出现了错误，导致出售失败", null);
 			response.setRspInfo(fillResponseInfo(false, "道具出售失败"));
 		}
 		return response.build().toByteString();
@@ -134,11 +136,13 @@ public class ItemBagHandler {
 		}
 
 		int level = player.getLevel();// 等级
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();// 要使用的道具列表
 		List<INewItem> newItemList = new ArrayList<INewItem>();// 要新创建的道具列表
 		Map<Integer, Integer> currencyMap = new HashMap<Integer, Integer>();// 消耗的货币列表
+
+		String userId = player.getUserId();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 
 		for (int i = 0, size = composeList.size(); i < size; i++) {
 			TagCompose compose = composeList.get(i);
@@ -148,7 +152,7 @@ public class ItemBagHandler {
 				return response.build().toByteString();
 			}
 
-			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(mateId);
+			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(userId, mateId);
 			if (itemList.isEmpty()) {
 				return response.build().toByteString();
 			}
@@ -198,7 +202,7 @@ public class ItemBagHandler {
 			}
 		}
 
-		itemBagMgr.useLikeBoxItem(useItemList, newItemList, currencyMap);
+		itemBagMgr.useLikeBoxItem(player, useItemList, newItemList, currencyMap);
 
 		return response.build().toByteString();
 	}
@@ -214,8 +218,9 @@ public class ItemBagHandler {
 		MsgItemBagResponse.Builder rsp = MsgItemBagResponse.newBuilder();
 		rsp.setEventType(EItemBagEventType.UseItem);
 
+		String userId = player.getUserId();
 		if (useItemInfo == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("客户端传递到服务器端的UseItemInfo是Null"));
+			GameLog.error("背包道具使用", userId, String.format("客户端传递到服务器端的UseItemInfo是Null"));
 			rsp.setRspInfo(fillResponseInfo(false, "使用失败"));
 			return rsp.build().toByteString();
 		}
@@ -223,8 +228,8 @@ public class ItemBagHandler {
 		String id = useItemInfo.getDbId();
 		int count = useItemInfo.getCount();
 
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		ItemData itemData = itemBagMgr.findBySlotId(id);
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		ItemData itemData = itemBagMgr.findBySlotId(userId, id);
 		if (itemData == null) {
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
 			return rsp.build().toByteString();
@@ -244,14 +249,14 @@ public class ItemBagHandler {
 		int itemTemplateId = itemData.getModelId();
 		ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemTemplateId);
 		if (itemBaseCfg == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具的模版查找不到", itemTemplateId));
+			GameLog.error("背包道具使用", userId, String.format("模版Id为[%s]的道具的模版查找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
 			return rsp.build().toByteString();
 		}
 
 		ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(itemTemplateId);
 		if (consumeCfg == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具ConsumeCfg模版查找不到", itemTemplateId));
+			GameLog.error("背包道具使用", userId, String.format("模版Id为[%s]的道具ConsumeCfg模版查找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "道具不存在"));
 			return rsp.build().toByteString();
 		}
@@ -265,7 +270,7 @@ public class ItemBagHandler {
 		ItemUseEffectCfgDAO cfgDAO = ItemUseEffectCfgDAO.getCfgDAO();
 		ItemUseEffectTemplate tmp = cfgDAO.getUseEffectTemplateByModelId(itemTemplateId);
 		if (tmp == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
+			GameLog.error("背包道具使用", userId, String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 			return rsp.build().toByteString();
 		}
@@ -273,7 +278,7 @@ public class ItemBagHandler {
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {// 有要结合的数据
 
-			Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+			Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap(userId);
 
 			SpecialItemCfgDAO specialCfgDAO = SpecialItemCfgDAO.getDAO();
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
@@ -298,13 +303,13 @@ public class ItemBagHandler {
 				}
 
 				if (StringUtils.isEmpty(resourceName)) {
-					GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具结合使用的资源[%s]不能找到配置表", itemTemplateId, key));
+					GameLog.error("背包道具使用", userId, String.format("模版Id为[%s]的道具结合使用的资源[%s]不能找到配置表", itemTemplateId, key));
 					rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 					return rsp.build().toByteString();
 				}
 
 				if (needCount > value) {
-					GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
+					GameLog.error("背包道具使用", userId, String.format("模版Id为[%s]的道具对应的ItemUseEffectTemplate模版找不到", itemTemplateId));
 					rsp.setRspInfo(fillResponseInfo(false, resourceName + "数量不足"));
 					return rsp.build().toByteString();
 				}
@@ -313,7 +318,7 @@ public class ItemBagHandler {
 
 		IItemUseEffect useEffectClass = cfgDAO.getItemUseEffectByModelId(itemTemplateId);
 		if (useEffectClass == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("模版Id为[%s]的道具对应的使用处理类IItemUseEffect找不到", itemTemplateId));
+			GameLog.error("背包道具使用", userId, String.format("模版Id为[%s]的道具对应的使用处理类IItemUseEffect找不到", itemTemplateId));
 			rsp.setRspInfo(fillResponseInfo(false, "该道具不能使用"));
 			return rsp.build().toByteString();
 		}
@@ -346,7 +351,7 @@ public class ItemBagHandler {
 			int cost = itemBaseCfg.getCost() * tag.getComposeCount();
 			if (cost <= player.getReward(eSpecialItemId.Gold)) {
 				player.getUserGameDataMgr().addGold(-cost);
-				player.getItemBagMgr().addItem(tag.getMateId(), tag.getComposeCount());
+				ItemBagMgr.getInstance().addItem(player, tag.getMateId(), tag.getComposeCount());
 				response.setRspInfo(fillResponseInfo(true, "购买成功"));
 			} else {
 				response.setRspInfo(fillResponseInfo(false, "钻石不足"));
@@ -419,7 +424,7 @@ public class ItemBagHandler {
 				break;
 			}
 
-			player.getItemBagMgr().addItem(consumeMatModelId, buyCount);
+			ItemBagMgr.getInstance().addItem(player, consumeMatModelId, buyCount);
 			response.setRspInfo(fillResponseInfo(true, "购买成功"));
 			break;
 

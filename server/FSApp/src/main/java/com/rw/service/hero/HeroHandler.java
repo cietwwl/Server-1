@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
@@ -62,6 +63,7 @@ public class HeroHandler {
 	 */
 	public ByteString summonHero(Player player, MsgHeroRequest msgHeroRequest) {
 		String userId = player.getUserId();
+		;
 		MsgHeroResponse.Builder msgHeroResponse = MsgHeroResponse.newBuilder();
 		msgHeroResponse.setEventType(eHeroType.SUMMON_HERO);
 
@@ -74,7 +76,7 @@ public class HeroHandler {
 		}
 
 		int summonNumber = pHeroCfg.getSummonNumber();
-		int itemCountByModelId = player.getItemBagMgr().getItemCountByModelId(pHeroCfg.getSoulStoneId());
+		int itemCountByModelId = ItemBagMgr.getInstance().getItemCountByModelId(userId, pHeroCfg.getSoulStoneId());
 		if (summonNumber > itemCountByModelId) {
 			msgHeroResponse.setEHeroResultType(eHeroResultType.NOT_ENOUGH_SOULSTONE);
 			GameLog.error("召唤佣兵", userId, String.format("客户端传递ModelId为[%s]的佣兵合成需要[%s],背包中只有[%s],数量不足", modelId, summonNumber, itemCountByModelId));
@@ -82,7 +84,7 @@ public class HeroHandler {
 		}
 
 		// TODO @modify 2015-08-10 HC
-		player.getItemBagMgr().useItemByCfgId(pHeroCfg.getSoulStoneId(), summonNumber);// 减少神魂石
+		ItemBagMgr.getInstance().useItemByCfgId(player, pHeroCfg.getSoulStoneId(), summonNumber);// 减少神魂石
 		// player.getHeroMgr().addHero(pHeroCfg.getRoleId());// 增加佣兵
 		player.getHeroMgr().addHero(player, pHeroCfg.getRoleId());// 增加佣兵
 		msgHeroResponse.setModerId(modelId);
@@ -106,12 +108,13 @@ public class HeroHandler {
 		}
 
 		int canUpgrade = FSHeroMgr.getInstance().canUpgradeStar(role);
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		switch (canUpgrade) {
 		case 0:
 			// RoleCfg heroCfg = role.getHeroCfg();
 			RoleCfg heroCfg = FSHeroMgr.getInstance().getHeroCfg(role);
-			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -heroCfg.getUpNeedCoin());// 扣除金币
-			player.getItemBagMgr().useItemByCfgId(heroCfg.getSoulStoneId(), heroCfg.getRisingNumber());// 扣除魂石
+			itemBagMgr.addItem(player, eSpecialItemId.Coin.getValue(), -heroCfg.getUpNeedCoin());// 扣除金币
+			itemBagMgr.useItemByCfgId(player, heroCfg.getSoulStoneId(), heroCfg.getRisingNumber());// 扣除魂石
 			RoleCfg nextHeroCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(heroCfg.getNextRoleId());
 			// 佣兵升星
 			// role.setTemplateId(nextHeroCfg.getRoleId());// 佣兵升星
@@ -191,7 +194,7 @@ public class HeroHandler {
 		int itemId = tagUseItem.getSoltId();
 		int itemNum = tagUseItem.getNumber();
 
-		int itemCount = player.getItemBagMgr().getItemCountByModelId(itemId);
+		int itemCount = ItemBagMgr.getInstance().getItemCountByModelId(player.getUserId(), itemId);
 		if (itemCount <= 0) {
 			GameLog.error("佣兵吃经验卡", player.getUserId(), String.format("使用经验卡的模版ID是[%s],背包中的数量是[%s]", itemId, itemCount), null);
 			msgHeroResponse.setEHeroResultType(eHeroResultType.EXP_ITEM_NOT_EXIST);// 没有对应的道具
@@ -291,7 +294,7 @@ public class HeroHandler {
 			addExp = 0;
 		}
 
-		if (player.getItemBagMgr().useItemByCfgId(itemId, useCount)) {// 消耗卡
+		if (ItemBagMgr.getInstance().useItemByCfgId(player, itemId, useCount)) {// 消耗卡
 			// pHero.getRoleBaseInfoMgr().setLevelAndExp(curLevel, (int) curExp);
 			FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
 
@@ -491,7 +494,7 @@ public class HeroHandler {
 
 		// 有要扣的物品
 		if (!usedMap.isEmpty()) {
-			player.getItemBagMgr().useLikeBoxItem(getUseItem(usedMap), null);
+			ItemBagMgr.getInstance().useLikeBoxItem(player, getUseItem(usedMap), null);
 		}
 
 		FSHeroBaseInfoMgr.getInstance().setLevelAndExp(pHero, curLevel, curExp);
@@ -517,11 +520,11 @@ public class HeroHandler {
 	 * @return key=itemData, value=value
 	 */
 	private List<UseItemTempData> getPlayerExpItem(Player player) {
-		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume);
+		List<ItemData> list = ItemBagMgr.getInstance().getItemListByType(player.getUserId(), EItemTypeDef.Consume);
 		List<UseItemTempData> retList = new ArrayList<UseItemTempData>();
 		for (ItemData data : list) {
 			ConsumeCfg cfg = ItemCfgHelper.getConsumeCfg(data.getModelId());
-			if(cfg == null){
+			if (cfg == null) {
 				continue;
 			}
 			if (cfg.getConsumeType() == eConsumeTypeDef.ExpConsume.getOrder()) {

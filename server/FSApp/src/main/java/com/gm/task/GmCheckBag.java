@@ -13,6 +13,7 @@ import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -23,15 +24,14 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
 public class GmCheckBag implements IGmTask {
 
 	private final static Map<Integer, List<EItemTypeDef>> ConditionMap = new HashMap<Integer, List<EItemTypeDef>>();
-	
+
 	private final static int TYPE_ALL = 0;
 	private final static int TYEP_EQUIP = 1;
 	private final static int TYPE_PIECE = 2;
 	private final static int TYPE_GEM = 3;
 	private final static int TYPE_CONSUME = 4;
-	
-	
-	static{
+
+	static {
 		EItemTypeDef[] values = EItemTypeDef.values();
 		List<EItemTypeDef> ALL = Arrays.asList(values);
 		ConditionMap.put(TYPE_ALL, ALL);
@@ -39,14 +39,14 @@ public class GmCheckBag implements IGmTask {
 		Equips.add(EItemTypeDef.HeroEquip);
 		Equips.add(EItemTypeDef.RoleEquip);
 		ConditionMap.put(TYEP_EQUIP, Equips);
-		
+
 		List<EItemTypeDef> pieces = new ArrayList<EItemTypeDef>();
 		pieces.add(EItemTypeDef.Piece);
 		ConditionMap.put(TYPE_PIECE, pieces);
 		List<EItemTypeDef> gems = new ArrayList<EItemTypeDef>();
 		gems.add(EItemTypeDef.Gem);
 		ConditionMap.put(TYPE_GEM, gems);
-		
+
 		List<EItemTypeDef> consumes = new ArrayList<EItemTypeDef>();
 		consumes.add(EItemTypeDef.Consume);
 		consumes.add(EItemTypeDef.Fashion);
@@ -56,7 +56,7 @@ public class GmCheckBag implements IGmTask {
 		consumes.add(EItemTypeDef.SpecialItem);
 		ConditionMap.put(TYPE_CONSUME, consumes);
 	}
-	
+
 	@Override
 	public GmResponse doTask(GmRequest request) {
 		// TODO Auto-generated method stub
@@ -79,8 +79,9 @@ public class GmCheckBag implements IGmTask {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_ARGUMENT_ERROR.getStatus()));
 			}
 			int count = 0;
+			ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 			for (EItemTypeDef eType : list) {
-				List<ItemData> items = player.getItemBagMgr().getItemListByType(eType);
+				List<ItemData> items = itemBagMgr.getItemListByType(player.getUserId(), eType);
 				for (ItemData itemData : items) {
 					int modelId = itemData.getModelId();
 					ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
@@ -91,7 +92,7 @@ public class GmCheckBag implements IGmTask {
 					map.put("uniCode", itemData.getId());
 					map.put("amount", itemData.getCount());
 					map.put("others", cfg.getDescription());
-					
+
 					response.addResult(map);
 					count++;
 				}

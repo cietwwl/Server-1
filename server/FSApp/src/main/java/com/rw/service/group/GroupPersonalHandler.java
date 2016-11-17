@@ -21,6 +21,7 @@ import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -197,7 +198,7 @@ public class GroupPersonalHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -258,7 +259,7 @@ public class GroupPersonalHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -322,7 +323,7 @@ public class GroupPersonalHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -419,7 +420,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 战力之和
-//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		// List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		int fighting = player.getMainRoleHero().getFighting();
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
@@ -429,14 +430,12 @@ public class GroupPersonalHandler {
 
 		// 要验证后才能加入
 		if (validateType == GroupValidateType.FIRST_VALIDATE_VALUE) {
-			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-				GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
+			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
 
 			// 帮派扩展属性增加一个申请的帮派Id
 			userGroupAttributeDataMgr.updateApplyGroupData(player, applyGroupId);
 		} else {
-			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-				GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
+			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
 
 			// 记录一个日志
 			GroupLog log = new GroupLog();
@@ -569,7 +568,8 @@ public class GroupPersonalHandler {
 	 * @return
 	 */
 	public ByteString groupDonateHandler(Player player, GroupDonateReqMsg req) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
+		String playerId = userId;
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.GROUP_DONATE_TYPE);
@@ -667,6 +667,7 @@ public class GroupPersonalHandler {
 		Map<Integer, Integer> useMoney = null;
 
 		int rewardToken = 0;
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		if (donateItemType < eSpecialItemId.eSpecial_End.getValue()) {
 			eSpecialItemId def = eSpecialItemId.getDef(donateItemType);
 			if (def == null) {
@@ -692,13 +693,13 @@ public class GroupPersonalHandler {
 				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
 			}
 
-			List<ItemData> itemList = player.getItemBagMgr().getItemListByCfgId(donateItemType);
+			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(userId, donateItemType);
 			if (itemList == null || itemList.isEmpty()) {
 				GameLog.error("帮派捐献", playerId, String.format("捐献Id[%s]使用的物品[%s]对应的在背包中的数据为空", donateId, donateItemType));
 				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, name + "不足");
 			}
 
-			hasCount = player.getItemBagMgr().getItemCountByModelId(donateItemType);
+			hasCount = itemBagMgr.getItemCountByModelId(userId, donateItemType);
 			name = cfg.getName();
 
 			useItemList = new ArrayList<IUseItem>(1);
@@ -711,7 +712,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, name + "不足");
 		}
 
-		if (!player.getItemBagMgr().useLikeBoxItem(useItemList, null, useMoney)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, null, useMoney)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "扣费失败");
 		}
 

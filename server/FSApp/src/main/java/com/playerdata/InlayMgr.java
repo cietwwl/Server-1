@@ -86,7 +86,7 @@ public class InlayMgr /* extends IDataMgr */{
 		}
 		InlayItem inlayItem = InlayItemHelper.toInlayItem(heroId, itemData, inlaySlot);
 
-		player.getItemBagMgr().useItemByCfgId(itemData.getModelId(), 1);
+		ItemBagMgr.getInstance().useItemByCfgId(player, itemData.getModelId(), 1);
 		boolean success = inlayItemHolder.addItem(player, heroId, inlayItem);
 
 		// setAllAttMgr();
@@ -126,7 +126,7 @@ public class InlayMgr /* extends IDataMgr */{
 		if (targetItem != null) {
 			stripSuccess = inlayItemHolder.removeItem(player, targetItem);
 			if (stripSuccess) {
-				player.getItemBagMgr().addItem(modelId, 1);
+				ItemBagMgr.getInstance().addItem(player, modelId, 1);
 			}
 		}
 		//
@@ -165,7 +165,7 @@ public class InlayMgr /* extends IDataMgr */{
 			}
 		}
 		if (list.size() > 0) {
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 		}
 		return success;
 	}
@@ -179,7 +179,7 @@ public class InlayMgr /* extends IDataMgr */{
 	 * @return
 	 */
 	public boolean InlayAll(Player player, String heroId) {
-		List<ItemData> allGemList = player.getItemBagMgr().getItemListByType(EItemTypeDef.Gem);
+		List<ItemData> allGemList = ItemBagMgr.getInstance().getItemListByType(player.getUserId(), EItemTypeDef.Gem);
 		if (allGemList.isEmpty()) {
 			player.NotifyCommonMsg("没有更多可佩戴的宝石");
 			return false;

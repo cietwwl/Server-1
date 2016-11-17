@@ -3,6 +3,7 @@ package com.playerdata.activity.growthFund.service;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.growthFund.ActivityGrowthFundMgr;
 import com.playerdata.activity.growthFund.GrowthFundTips;
@@ -23,10 +24,10 @@ import com.rwproto.GrowthFundServiceProto.GrowthFundResponse;
 public class GrowthFundHandler {
 
 	private static final GrowthFundHandler _instance = new GrowthFundHandler();
-	
+
 	private GrowthFundSubCfgDAO _growthFundSubCfgDAO;
 	private GrowthFundBasicCfgDAO _basicCfgDAO;
-	
+
 	protected GrowthFundHandler() {
 		_growthFundSubCfgDAO = GrowthFundSubCfgDAO.getInstance();
 		_basicCfgDAO = GrowthFundBasicCfgDAO.getInstance();
@@ -35,13 +36,13 @@ public class GrowthFundHandler {
 	public static GrowthFundHandler getInstance() {
 		return _instance;
 	}
-	
+
 	private ByteString setFail(GrowthFundResponse.Builder respBuilder, String tips) {
 		respBuilder.setResultType(EGrowthFundResultType.FAIL);
 		respBuilder.setTips(tips);
 		return respBuilder.build().toByteString();
 	}
-	
+
 	public ByteString requestBuyGrowthFundGift(Player player) {
 		GrowthFundResponse.Builder respBuilder = GrowthFundResponse.newBuilder();
 		respBuilder.setReqType(EGrowthFundRequestType.BUY_GROWTH_FUND);
@@ -68,7 +69,7 @@ public class GrowthFundHandler {
 		}
 		return respBuilder.build().toByteString();
 	}
-	
+
 	private ByteString processGet(Player player, GrowthFundRequest request, GrowthFundType type) {
 		GrowthFundResponse.Builder respBuilder = GrowthFundResponse.newBuilder();
 		respBuilder.setReqType(request.getReqType());
@@ -101,17 +102,17 @@ public class GrowthFundHandler {
 		if (checkResult.getT1().booleanValue()) {
 			respBuilder.setResultType(EGrowthFundResultType.SUCCESS);
 			ActivityGrowthFundMgr.getInstance().onPlayerGetReward(player, growthFundItem, subItem);
-			player.getItemBagMgr().addItem(giftCfg.getRewardItemInfos());
+			ItemBagMgr.getInstance().addItem(player, giftCfg.getRewardItemInfos());
 		} else {
 			return setFail(respBuilder, checkResult.getT2());
 		}
 		return respBuilder.build().toByteString();
 	}
-	
+
 	public ByteString requestGetGrowthFundGift(Player player, GrowthFundRequest request) {
 		return this.processGet(player, request, GrowthFundType.GIFT);
 	}
-	
+
 	public ByteString requestGetGrowthFundReward(Player player, GrowthFundRequest request) {
 		return this.processGet(player, request, GrowthFundType.REWARD);
 	}

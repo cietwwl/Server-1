@@ -40,7 +40,7 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 		ItemUseEffectTemplate tmp = ItemUseEffectCfgDAO.getCfgDAO().getUseEffectTemplateByModelId(modelId);
 
 		// 使用的道具
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 
 		HashMap<Integer, Integer> useMoneyMap = new HashMap<Integer, Integer>();
 		List<INewItem> newItemList = new ArrayList<INewItem>();
@@ -52,7 +52,7 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {
 
-			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap(player.getUserId());
 
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
 				int key = e.getKey();
@@ -132,7 +132,7 @@ public class UseTreasureBoxEffectImpl implements IItemUseEffect {
 		}
 
 		// 使用道具
-		if (!itemBagMgr.useLikeBoxItem(useItemList, newItemList, useMoneyMap)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, newItemList, useMoneyMap)) {
 			rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "使用失败"));
 			return rsp.build().toByteString();
 		}

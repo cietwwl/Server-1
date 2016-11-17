@@ -35,36 +35,45 @@ public class ItemBagHolder implements RecordSynchronization {
 	// private Map<String, ItemData> itemDataMap = new HashMap<String,
 	// ItemData>();
 
-	private final String userId;
+	private static ItemBagHolder holder = new ItemBagHolder();
+
+	public static ItemBagHolder getHolder() {
+		return holder;
+	}
+
+	// private String userId;
 	private AtomicLong generateId;// 生成Id
 
 	private static final eSynType type = eSynType.USER_ITEM_BAG;// 更新背包数据
 
-	public ItemBagHolder(String userId) {
-		this.userId = userId;
-		initMaxId();
+	protected ItemBagHolder() {
 	}
 
-	/**
-	 * 解析产生的Id
-	 */
-	private void initMaxId() {
-		MapItemStore<ItemData> itemStore = getItemStore();
-		Enumeration<ItemData> enumeration = itemStore.getEnum();
+	// public ItemBagHolder(String userId) {
+	// this.userId = userId;
+	// initMaxId();
+	// }
 
-		int maxId = 1;
-		while (enumeration.hasMoreElements()) {
-			ItemData itemData = enumeration.nextElement();
-			String id = itemData.getId();
-			String[] arr = id.split("_");
-			int idValue = Integer.parseInt(arr[1]);
-			if (idValue > maxId) {
-				maxId = idValue;
-			}
-		}
-
-		generateId = new AtomicLong(maxId);
-	}
+	// /**
+	// * 解析产生的Id
+	// */
+	// private void initMaxId() {
+	// MapItemStore<ItemData> itemStore = getItemStore();
+	// Enumeration<ItemData> enumeration = itemStore.getEnum();
+	//
+	// int maxId = 1;
+	// while (enumeration.hasMoreElements()) {
+	// ItemData itemData = enumeration.nextElement();
+	// String id = itemData.getId();
+	// String[] arr = id.split("_");
+	// int idValue = Integer.parseInt(arr[1]);
+	// if (idValue > maxId) {
+	// maxId = idValue;
+	// }
+	// }
+	//
+	// generateId = new AtomicLong(maxId);
+	// }
 
 	/**
 	 * 推送所有的物品信息
@@ -72,7 +81,7 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @param player
 	 */
 	public void syncAllData(Player player) {
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		Enumeration<ItemData> itemValues = getItemStore(player.getUserId()).getEnum();
 		List<ItemData> itemDataList = new ArrayList<ItemData>();
 		while (itemValues.hasMoreElements()) {
 			itemDataList.add(itemValues.nextElement());
@@ -83,30 +92,37 @@ public class ItemBagHolder implements RecordSynchronization {
 		}
 	}
 
-	private MapItemStore<ItemData> getItemStore() {
+	/**
+	 * 获取ItemStore
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	private MapItemStore<ItemData> getItemStore(String userId) {
 		MapItemStoreCache<ItemData> cache = MapItemStoreFactory.getItemCache();
 		return cache.getMapItemStore(userId, ItemData.class);
 	}
 
-	/**
-	 * 获取物品信息
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public ItemData getItemData(String id) {
-		return getItemStore().getItem(id);
-	}
+	// /**
+	// * 获取物品信息
+	// *
+	// * @param id
+	// * @return
+	// */
+	// public ItemData getItemData(String id) {
+	// return getItemStore().getItem(id);
+	// }
 
 	/**
 	 * 通过物品的模版Id获取道具列表
 	 * 
+	 * @param userId
 	 * @param modelId
 	 * @return 相同物品模版Id的物品列表
 	 */
-	public List<ItemData> getItemDataByCfgId(int modelId) {
+	public List<ItemData> getItemDataByCfgId(String userId, int modelId) {
 		List<ItemData> itemInfoList = new ArrayList<ItemData>();
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		Enumeration<ItemData> itemValues = getItemStore(userId).getEnum();
 		while (itemValues.hasMoreElements()) {
 			ItemData itemData = itemValues.nextElement();
 			if (itemData.getModelId() == modelId) {
@@ -119,11 +135,12 @@ public class ItemBagHolder implements RecordSynchronization {
 	/**
 	 * 返回是否包含某种模型ID的道具
 	 * 
+	 * @param userId
 	 * @param modelId
 	 * @return
 	 */
-	public ItemData getFirstItemByModelId(int modelId) {
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+	public ItemData getFirstItemByModelId(String userId, int modelId) {
+		Enumeration<ItemData> itemValues = getItemStore(userId).getEnum();
 		while (itemValues.hasMoreElements()) {
 			ItemData itemData = itemValues.nextElement();
 			if (itemData.getModelId() == modelId) {
@@ -134,33 +151,13 @@ public class ItemBagHolder implements RecordSynchronization {
 	}
 
 	/**
-	 * 通过模版Id获取道具在背包中的数量
-	 * 
-	 * @param modelId
-	 * @return
-	 */
-	public int getItemCountByModelId(int modelId) {
-		int count = 0;
-
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
-		while (itemValues.hasMoreElements()) {
-			ItemData itemData = itemValues.nextElement();
-			if (itemData.getModelId() == modelId) {
-				count += itemData.getCount();
-			}
-		}
-
-		return count;
-	}
-
-	/**
 	 * 获取道具modelId与数量的映射
 	 * 
 	 * @return {key=modelId,value=count}
 	 */
-	public Map<Integer, RefInt> getModelCountMap() {
+	public Map<Integer, RefInt> getModelCountMap(String userId) {
 		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		Enumeration<ItemData> itemValues = getItemStore(userId).getEnum();
 		while (itemValues.hasMoreElements()) {
 			ItemData itemData = itemValues.nextElement();
 			Integer modelId = itemData.getModelId();
@@ -178,11 +175,12 @@ public class ItemBagHolder implements RecordSynchronization {
 	/**
 	 * 获取背包中某模版ID对应的任意一个物品列表
 	 * 
+	 * @param userId
 	 * @return
 	 */
-	public Map<Integer, ItemData> getModelFirstItemDataMap() {
+	public Map<Integer, ItemData> getModelFirstItemDataMap(String userId) {
 		HashMap<Integer, ItemData> map = new HashMap<Integer, ItemData>();
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		Enumeration<ItemData> itemValues = getItemStore(userId).getEnum();
 		while (itemValues.hasMoreElements()) {
 			ItemData itemData = itemValues.nextElement();
 			Integer modelId = itemData.getModelId();
@@ -200,12 +198,13 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * 
 	 * </pre>
 	 * 
+	 * @param userId
 	 * @param itemsMap {key=modelId,value=count}
 	 * @return
 	 */
-	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
+	public boolean hasEnoughItems(String userId, Map<Integer, Integer> itemsMap) {
 		HashMap<Integer, RefInt> map = new HashMap<Integer, RefInt>();
-		Enumeration<ItemData> itemValues = getItemStore().getEnum();
+		Enumeration<ItemData> itemValues = getItemStore(userId).getEnum();
 		while (itemValues.hasMoreElements()) {
 			ItemData itemData = itemValues.nextElement();
 			Integer modelId = itemData.getModelId();
@@ -254,7 +253,7 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @param itemData
 	 */
 	public void updateItem(ItemData itemData) {
-		getItemStore().updateItem(itemData);
+		getItemStore(itemData.getUserId()).updateItem(itemData);
 	}
 
 	/**
@@ -268,8 +267,45 @@ public class ItemBagHolder implements RecordSynchronization {
 		return sb.append(userId).append("_").append(newId).toString();
 	}
 
-	public void flush() {
-		getItemStore().flush();
+	/**
+	 * 更新数据
+	 * 
+	 * @param userId
+	 */
+	public void flush(String userId) {
+		getItemStore(userId).flush();
+	}
+
+	/**
+	 * 获取物品数据
+	 * 
+	 * @param userId
+	 * @param id
+	 * @return
+	 */
+	public ItemData getItemData(String userId, String id) {
+		return getItemStore(userId).getItem(id);
+	}
+
+	/**
+	 * 通过模版Id获取道具在背包中的数量
+	 * 
+	 * @param userId
+	 * @param modelId
+	 * @return
+	 */
+	public int getItemCountByModelId(String userId, int modelId) {
+		int count = 0;
+
+		Enumeration<ItemData> itemValues = getItemStore(userId).getEnum();
+		while (itemValues.hasMoreElements()) {
+			ItemData itemData = itemValues.nextElement();
+			if (itemData.getModelId() == modelId) {
+				count += itemData.getCount();
+			}
+		}
+
+		return count;
 	}
 
 	/**
@@ -278,9 +314,9 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @param itemType
 	 * @return
 	 */
-	public List<ItemData> getItemListByType(EItemTypeDef itemType) {
+	public List<ItemData> getItemListByType(String userId, EItemTypeDef itemType) {
 		List<ItemData> itemList = new ArrayList<ItemData>();
-		Enumeration<ItemData> allItem = getItemStore().getEnum();
+		Enumeration<ItemData> allItem = getItemStore(userId).getEnum();
 		while (allItem.hasMoreElements()) {
 			ItemData item = allItem.nextElement();
 			if (item.getType() == itemType) {
@@ -297,7 +333,7 @@ public class ItemBagHolder implements RecordSynchronization {
 	 * @param count
 	 * @return
 	 */
-	public ItemData newItemData(int modelId, int count) {
+	public ItemData newItemData(String userId, int modelId, int count) {
 		ItemData itemData = new ItemData();
 		if (itemData.init(modelId, count)) {
 			String slotId = generateSlotId(userId);
@@ -322,8 +358,9 @@ public class ItemBagHolder implements RecordSynchronization {
 			return;
 		}
 
+		String userId = player.getUserId();
 		List<ItemData> synUpdateItemList = new ArrayList<ItemData>();
-		MapItemStore<ItemData> itemStore = getItemStore();
+		MapItemStore<ItemData> itemStore = getItemStore(userId);
 		if (addItemList != null && !addItemList.isEmpty()) {
 			// itemStore.addItem(addItemList);// 新增加
 

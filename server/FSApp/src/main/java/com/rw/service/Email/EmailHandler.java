@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFightHelper;
 import com.rw.dataaccess.processor.EmailCreator;
@@ -76,7 +77,7 @@ public class EmailHandler {
 		if (result.equals("")) {
 
 			response.setResultType(EmailResultType.SUCCESS);
-			player.getItemBagMgr().addItemByPrizeStr(item.getEmailAttachment());
+			ItemBagMgr.getInstance().addItemByPrizeStr(player, item.getEmailAttachment());
 			item.setReceive(true);
 			item.setChecked(true);
 			player.getEmailMgr().checkUnread();

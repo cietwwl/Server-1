@@ -9,6 +9,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
@@ -30,46 +31,48 @@ public class ArmyInfoHelper {
 		ItemData magic = player.getMagic();
 
 		ArmyInfo armyInfo = build(heroIdList, player, magic);
-		
+
 		return armyInfo;
 	}
-	
-	public static ArmyInfo getArmyInfo(ArmyInfoSimple armyInfoSimple,boolean setCurData) {
+
+	public static ArmyInfo getArmyInfo(ArmyInfoSimple armyInfoSimple, boolean setCurData) {
 		String playerId = armyInfoSimple.getPlayer().getId();
 		List<String> heroIdList = armyInfoSimple.getHeroIdList();
-		Player player = PlayerMgr.getInstance().find(playerId );
-		
-		ItemData magic = player.getItemBagMgr().getFirstItemByModelId(armyInfoSimple.getArmyMagic().getModelId());
-		if(magic == null) magic = player.getMagic();
-		
-		ArmyInfo armyInfo = build(heroIdList , player, magic);
-		
-		for(ArmyHero hero : armyInfo.getHeroList()){
+		Player player = PlayerMgr.getInstance().find(playerId);
+
+		ItemData magic = ItemBagMgr.getInstance().getFirstItemByModelId(playerId, armyInfoSimple.getArmyMagic().getModelId());
+		if (magic == null)
+			magic = player.getMagic();
+
+		ArmyInfo armyInfo = build(heroIdList, player, magic);
+
+		for (ArmyHero hero : armyInfo.getHeroList()) {
 			int index = heroIdList.indexOf(hero.getRoleBaseInfo().getId());
-			if(index < 0) continue;
+			if (index < 0)
+				continue;
 			hero.setPosition(index + 1);
 		}
-		
-		if(setCurData){
-			setCurData(armyInfo,armyInfoSimple);
+
+		if (setCurData) {
+			setCurData(armyInfo, armyInfoSimple);
 		}
-		
+
 		return armyInfo;
 	}
 
 	private static void setCurData(ArmyInfo armyInfo, ArmyInfoSimple armyInfoSimple) {
 		ArmyHero armyHero_ = armyInfo.getPlayer();
-		if(armyHero_!=null){
+		if (armyHero_ != null) {
 			armyHero_.setCurAttrData(armyInfoSimple.getPlayer().getCurAttrData());
 		}
-		
+
 		List<ArmyHero> heroList = armyInfo.getHeroList();
 		for (ArmyHero armyHero : heroList) {
 			String heroId = armyHero.getRoleBaseInfo().getId();
 			ArmyHeroSimple simpleHero = armyInfoSimple.getArmyHeroByID(heroId);
 			armyHero.setCurAttrData(simpleHero.getCurAttrData());
 		}
-		
+
 	}
 
 	private static ArmyInfo build(List<String> heroIdList, Player player, ItemData magic) {
@@ -80,15 +83,15 @@ public class ArmyInfoHelper {
 		armyInfo.setPlayer(armyPlayer);
 		armyInfo.setPlayerName(player.getUserName());
 		armyInfo.setPlayerHeadImage(player.getHeadImage());
-//		armyInfo.setGuildName(player.getGuildUserMgr().getGuildName());
-//		armyPlayer.setFighting(player.);
-		if(magic!=null){
+		// armyInfo.setGuildName(player.getGuildUserMgr().getGuildName());
+		// armyPlayer.setFighting(player.);
+		if (magic != null) {
 			armyInfo.setArmyMagic(new ArmyMagic(magic));
-		}else{
+		} else {
 			armyInfo.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
 		FashionUsed.Builder fashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
-		if(fashion != null) {
+		if (fashion != null) {
 			ArmyFashion armyFs = new ArmyFashion();
 			armyFs.setPetId(fashion.getPetId());
 			armyFs.setSuitId(fashion.getSuitId());
@@ -101,17 +104,19 @@ public class ArmyInfoHelper {
 		armyInfo.setHeroList(heroList);
 		return armyInfo;
 	}
-	
-	public static ArmyHero getArmyHero(String playerId, String heroId){
-		if (playerId == null || heroId == null) return null;
+
+	public static ArmyHero getArmyHero(String playerId, String heroId) {
+		if (playerId == null || heroId == null)
+			return null;
 		Player player = PlayerMgr.getInstance().find(playerId);
-		return getArmyHero(player,heroId);
+		return getArmyHero(player, heroId);
 	}
-	
-	public static ArmyHero getArmyHero(Player player, String heroId){
-		if (player == null || heroId == null) return null;
+
+	public static ArmyHero getArmyHero(Player player, String heroId) {
+		if (player == null || heroId == null)
+			return null;
 		HeroMgr heroMgr = player.getHeroMgr();
-//		Hero heroTmp = heroMgr.getHeroById(heroId);
+		// Hero heroTmp = heroMgr.getHeroById(heroId);
 		Hero heroTmp = heroMgr.getHeroById(player, heroId);
 		ArmyHero armyHero = getArmyHero(heroTmp);
 		return armyHero;
@@ -119,12 +124,13 @@ public class ArmyInfoHelper {
 
 	private static List<ArmyHero> getArmyHeros(Player player, List<String> heroIdList) {
 		List<ArmyHero> heroList = new ArrayList<ArmyHero>();
-		if (heroIdList == null) return heroList;
+		if (heroIdList == null)
+			return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-//			Hero heroTmp = heroMgr.getHeroById(heroId);
+			// Hero heroTmp = heroMgr.getHeroById(heroId);
 			Hero heroTmp = heroMgr.getHeroById(player, heroId);
-			if(heroTmp == null){
+			if (heroTmp == null) {
 				continue;
 			}
 			ArmyHero armyHero = getArmyHero(heroTmp);
@@ -134,11 +140,12 @@ public class ArmyInfoHelper {
 	}
 
 	private static ArmyHero getArmyHero(Hero role) {
-		if (role == null) return null;
+		if (role == null)
+			return null;
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<SkillItem> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
-//		RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
+		// RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
 		ArmyHero armyHero = new ArmyHero(role, totalAttrData, skillList);
 		armyHero.setFighting(role.getFighting());
 		return armyHero;
@@ -147,77 +154,75 @@ public class ArmyInfoHelper {
 	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 		return ArmySimpleInfoHelper.getSimpleInfo(playerId, magicID, heroIdList);
 	}
-	
-	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList, List<CurAttrData> attrDataList, String copyID)
-	{
+
+	public static ArmyInfo buildMonsterArmy(List<String> monsterIdList, List<CurAttrData> attrDataList, String copyID) {
 		ArmyInfo armyInfo = buildMonsterArmy(monsterIdList);
 		setCurAttrData(armyInfo, attrDataList);
 		setPositionOffset(armyInfo, copyID);
-		return armyInfo;		
+		return armyInfo;
 	}
-
 
 	/**
 	 * 设置位置信息
+	 * 
 	 * @param armyInfo
 	 * @param copyID
 	 */
 	private static void setPositionOffset(ArmyInfo armyInfo, String copyID) {
 		CopyMonsterInfoCfg cfg = BattleCfgDAO.getInstance().getCopyMonsterInfoByCopyID(copyID);
-		if(cfg == null){
-			GameLog.cfgError(LogModule.COMMON, "ArmyInfoHelper[setPositionOffset]", "读取armyInfo 位置信息时battle表无法找到copyID="+copyID+"的数据记录");
+		if (cfg == null) {
+			GameLog.cfgError(LogModule.COMMON, "ArmyInfoHelper[setPositionOffset]", "读取armyInfo 位置信息时battle表无法找到copyID=" + copyID + "的数据记录");
 			return;
 		}
-		
-		if(armyInfo.getPlayer() != null){
-			
+
+		if (armyInfo.getPlayer() != null) {
+
 			ArmyVector3 position = cfg.getPosition(armyInfo.getPlayer().getRoleBaseInfo().getId());
-			if(position != null){
+			if (position != null) {
 				armyInfo.getPlayer().setPositionOffset(position);
 			}
 		}
-		
+
 		for (ArmyHero h : armyInfo.getHeroList()) {
 			ArmyVector3 v = cfg.getPosition(h.getRoleBaseInfo().getId());
-			if(v != null){
+			if (v != null) {
 				h.setPositionOffset(v);
 			}
 		}
-		
+
 	}
 
-	public static ArmyInfo buildMonsterArmy (List<String> monsterIdList)
-	{
-		ArmyInfo army = new ArmyInfo ();	
+	public static ArmyInfo buildMonsterArmy(List<String> monsterIdList) {
+		ArmyInfo army = new ArmyInfo();
 
-		for(String monsterId : monsterIdList){
+		for (String monsterId : monsterIdList) {
 			ArmyHero armyHero = MonsterArmyHelper.buildMonster(monsterId);
 			army.addHero(armyHero);
-		}	
+		}
 
 		return army;
 	}
-	
-	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList){
-		
-		Map<String,ArmyHero> heroDic = new HashMap<String,ArmyHero>();
-	
+
+	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList) {
+
+		Map<String, ArmyHero> heroDic = new HashMap<String, ArmyHero>();
+
 		ArmyHero player = armyInfo.getPlayer();
-		if(player!=null){
-			heroDic.put(player.getRoleBaseInfo().getId(),player);
+		if (player != null) {
+			heroDic.put(player.getRoleBaseInfo().getId(), player);
 		}
-		
-		for(ArmyHero hero : armyInfo.getHeroList()){
-			heroDic.put(hero.getRoleBaseInfo().getId(),hero);
+
+		for (ArmyHero hero : armyInfo.getHeroList()) {
+			heroDic.put(hero.getRoleBaseInfo().getId(), hero);
 		}
-		
-		for(CurAttrData attrData : attrDataList){
+
+		for (CurAttrData attrData : attrDataList) {
 			String attrDataId = attrData.getId();
-			if(heroDic.containsKey(attrDataId)){
+			if (heroDic.containsKey(attrDataId)) {
 				heroDic.get(attrDataId).setCurAttrData(attrData);
 			}
 		}
-		
-	} 
+
+	}
 
 }

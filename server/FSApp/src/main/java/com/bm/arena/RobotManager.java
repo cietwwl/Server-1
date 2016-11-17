@@ -114,7 +114,7 @@ public class RobotManager {
 		int size = carerrList.size();
 		// 只用于存储。。哈哈
 		HashMap<Future<?>, ProductionCompletionTask> futures = new HashMap<Future<?>, ProductionCompletionTask>();
-		ExecutorService futureExecutor = Executors.newFixedThreadPool(size,new SimpleThreadFactory("robot"));
+		ExecutorService futureExecutor = Executors.newFixedThreadPool(size, new SimpleThreadFactory("robot"));
 		for (int career : carerrList) {
 			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(career);
 			if (listRanking == null) {
@@ -227,8 +227,8 @@ public class RobotManager {
 		if (lv > roleLevel) {
 			lv = roleLevel;
 		}
-//		hero.SetHeroLevel(lv);
-//		FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
+		// hero.SetHeroLevel(lv);
+		// FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
 		hero.setLevel(lv);
 		heroList.add(hero);
 	}
@@ -239,11 +239,11 @@ public class RobotManager {
 		if (startLevel == 0) {
 			System.out.println();
 		}
-//		hero.setStarLevel(startLevel);
-//		hero.setQualityId(getQualityId(hero, quality));
-//		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
+		// hero.setStarLevel(startLevel);
+		// hero.setQualityId(getQualityId(hero, quality));
+		// FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
 		hero.setStarLevel(startLevel);
-//		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
+		// FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
 		hero.setQualityId(getQualityId(hero, quality));
 	}
 
@@ -450,10 +450,8 @@ public class RobotManager {
 			for (RankingPlayer task : set) {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
-				handler.setArenaHero(player, arenaData,
-						EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
-				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
-						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
+				handler.setArenaHero(player, arenaData, EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
+				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = " + listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}
 	}
@@ -584,28 +582,27 @@ public class RobotManager {
 			Player player = new Player(userId, false, playerCfg, new PlayerCreateParam(level));
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 
-			
 			// 品质
 
-//			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
+			// mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
 			player.initMgr();
 			PlayerMgr.getInstance().putToMap(player);
 			player.getUserDataMgr().setHeadId(headImage);
-			
+
 			player.getUserDataMgr().setUserName(userName);
-//			player.SetLevel(level);
+			// player.SetLevel(level);
 
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
 			mainRoleHero.setLevel(level);
 			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
-//			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
+			// FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
 			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
 			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
-			
+
 			MapItemStoreFactory.getMainHeroDataCache().getMapItemStore(userId, FSHero.class).update(userId);
 			// String fashonId = getRandom(cfg.getFashions());
 			// if (!fashonId.equals("0")) {
@@ -615,13 +612,13 @@ public class RobotManager {
 			// }
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
-			ItemBagMgr itemBagMgr = player.getItemBagMgr();
-			itemBagMgr.addItem(maigcId, 1);
-			ItemData magic = itemBagMgr.getItemListByCfgId(maigcId).get(0);
+			ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+			itemBagMgr.addItem(player, maigcId, 1);
+			ItemData magic = itemBagMgr.getItemListByCfgId(userId, maigcId).get(0);
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
 			HeroMgr heroMgr = player.getHeroMgr();
-			
+
 			String heroGroupId = getRandom(cfg.getHeroGroupId());
 			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
 			if (heroCfgList == null) {

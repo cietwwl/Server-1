@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.common.RefInt;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rw.service.redpoint.RedPointType;
 import com.rwbase.common.enu.eConsumeTypeDef;
@@ -30,14 +31,16 @@ public class ItemBagCollector implements RedPointCollector {
 
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
-		List<ItemData> itemList = player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume);
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		String userId = player.getUserId();
+		List<ItemData> itemList = itemBagMgr.getItemListByType(userId, EItemTypeDef.Consume);
 		if (itemList.isEmpty()) {
 			return;
 		}
 
 		int playerLevel = player.getLevel();
 
-		Map<Integer, RefInt> modelCountMap = player.getItemBagMgr().getModelCountMap();
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap(userId);
 
 		List<String> boxIdList = new ArrayList<String>();
 

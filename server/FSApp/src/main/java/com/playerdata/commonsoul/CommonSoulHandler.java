@@ -30,11 +30,11 @@ public class CommonSoulHandler {
 	}
 
 	private CommonSoulConfigDAO _commonSoulConfigDAO;
-	
+
 	protected CommonSoulHandler() {
 		_commonSoulConfigDAO = CommonSoulConfigDAO.getInstance();
 	}
-	
+
 	private boolean checkExchangeEnable(Player player, int soulStoneId, CommonSoulConfig config) {
 		SoulStoneCfg soulStoneCfg = SoulStoneCfgDAO.getInstance().getCfgById(String.valueOf(soulStoneId));
 		if (soulStoneCfg == null) {
@@ -55,13 +55,13 @@ public class CommonSoulHandler {
 			}
 		}
 	}
-	
+
 	private ByteString fillFail(CommonSoulResponse.Builder builder, String msg) {
 		builder.setResultType(ResultType.fail);
 		builder.setTips(msg);
 		return builder.build().toByteString();
 	}
-	
+
 	public ByteString processExchange(Player player, CommonSoulRequest request) {
 		CommonSoulResponse.Builder responseBuilder = CommonSoulResponse.newBuilder();
 		responseBuilder.setRequestType(request.getRequestType());
@@ -75,14 +75,14 @@ public class CommonSoulHandler {
 		if (exchangeCount < exchangeRate) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsNotReachExchangeRate(exchangeRate));
 		}
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		ItemData itemData = itemBagMgr.getFirstItemByModelId(config.getCommonSoulStoneCfgId());
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		ItemData itemData = itemBagMgr.getFirstItemByModelId(player.getUserId(), config.getCommonSoulStoneCfgId());
 		if (itemData == null || itemData.getCount() < exchangeCount) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsItemNotEnough(config.getCommonSoulStoneName(), exchangeCount));
 		}
 		int targetCount = 0;
 		int removeCount = 0;
-		if(exchangeRate > 1) {
+		if (exchangeRate > 1) {
 			targetCount = exchangeCount / exchangeRate;
 			removeCount = targetCount * exchangeRate;
 		} else {
@@ -90,7 +90,7 @@ public class CommonSoulHandler {
 		}
 		List<IUseItem> useItemList = Arrays.asList((IUseItem) new UseItem(itemData.getId(), removeCount));
 		List<INewItem> newItemList = Arrays.asList((INewItem) new NewItem(targetSoulItemId, targetCount, null));
-		if (itemBagMgr.useLikeBoxItem(useItemList, newItemList)) {
+		if (itemBagMgr.useLikeBoxItem(player, useItemList, newItemList)) {
 			responseBuilder.setResultCount(targetCount);
 			responseBuilder.setResultType(ResultType.success);
 			return responseBuilder.build().toByteString();
