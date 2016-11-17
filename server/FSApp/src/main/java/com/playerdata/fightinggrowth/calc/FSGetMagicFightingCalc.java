@@ -20,14 +20,12 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 	private MagicCfgDAO magicCfgDAO;
 	private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
 	private MagicQualityFightingCfgDAO magicQualityFightingCfgDAO;
-//	private MagicAptitudeFightingCfgDAO magicAptitudeFightingCfgDAO;
 	private MagicAptitudeCoefficientCfgDAO magicAptitudeCoefficientCfgDAO;
 
 	protected FSGetMagicFightingCalc() {
 		magicCfgDAO = MagicCfgDAO.getInstance();
 		magicLevelFightingCfgDAO = MagicLevelFightingCfgDAO.getInstance();
 		magicQualityFightingCfgDAO = MagicQualityFightingCfgDAO.getInstance();
-//		magicAptitudeFightingCfgDAO = MagicAptitudeFightingCfgDAO.getInstance();
 		magicAptitudeCoefficientCfgDAO = MagicAptitudeCoefficientCfgDAO.getInstance();
 	}
 
@@ -51,22 +49,14 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 		}
 		if (magicParam.isMainRole()) {
 			// （强化主技能战力+强化被动技能战力）*法宝成长系数+（品阶主技能战力+品阶被动技能战力）
+//			System.out.println(String.format("强化主动技能战力：%s，强化被动技能战力：%s，品阶主动技能战力：%s，品阶被动技能战力：%s，成长系数：%s", levelSkillFightingCfg.getActiveSkillFighting(), levelSkillFightingCfg.getPassiveSkillFighting(),
+//					qualitySkillFightingCfg.getActiveSkillFighting(), qualitySkillFightingCfg.getPassiveSkillFighting(), levelSkillFightingCfg.getPassiveSkillFighting()));
 			return Math.round((levelSkillFightingCfg.getActiveSkillFighting() + levelSkillFightingCfg.getPassiveSkillFighting()) * aptitudeCoefficient)
 					+ (qualitySkillFightingCfg.getActiveSkillFighting() + qualitySkillFightingCfg.getPassiveSkillFighting());
 		} else {
 			// 强化被动技能战力*法宝成长系数+品阶被动技能战力
+//			System.out.println(String.format("强化被动技能战力：%s，品阶被动技能战力：%s，成长系数：%s",levelSkillFightingCfg.getPassiveSkillFighting(), qualitySkillFightingCfg.getPassiveSkillFighting(), levelSkillFightingCfg.getPassiveSkillFighting()));
 			return Math.round(levelSkillFightingCfg.getPassiveSkillFighting() * aptitudeCoefficient) + qualitySkillFightingCfg.getPassiveSkillFighting();
 		}
-
-//		int fighting = 0;
-//		MagicSkillFightingCfg levelFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicLevel()));
-//		fighting += levelFightingCfg == null ? 0 : levelFightingCfg.getActiveSkillFighting();
-//
-//		MagicSkillFightingCfg qualityFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
-//		fighting += qualityFightingCfg == null ? 0 : qualityFightingCfg.getActiveSkillFighting();
-//
-//		OneToOneTypeFightingCfg magicAptitudeCfg = magicAptitudeFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicAptitude()));
-//		fighting += magicAptitudeCfg == null ? 0 : magicAptitudeCfg.getFighting();
-//		return fighting;
 	}
 }
