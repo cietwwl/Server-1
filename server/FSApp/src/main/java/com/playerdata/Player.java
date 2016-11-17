@@ -116,7 +116,6 @@ public class Player implements PlayerIF {
 	private UserDataMgr userDataMgr;
 	private UserGameDataMgr userGameDataMgr;
 
-	private ItemBagMgr itemBagMgr = new ItemBagMgr();
 	private HeroMgr m_HeroMgr = FSHeroMgr.getInstance();
 	private CopyRecordMgr m_CopyRecordMgr = new CopyRecordMgr();
 	private MagicMgr magicMgr = new MagicMgr();
@@ -264,8 +263,6 @@ public class Player implements PlayerIF {
 			RoleExtPropertyFactory.firstCreatePlayerExtProperty(userId, userDataMgr.getCreateTime(), getLevel());
 			notifyCreated();
 		}
-		// 这两个mgr一定要初始化
-		itemBagMgr.init(this);
 		// 法宝数据
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数

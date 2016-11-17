@@ -61,17 +61,7 @@ public class ItemBagMgr {
 		return instance;
 	}
 
-	// private Player player;
-	// private ItemBagHolder holder = ItemBagHolder.getHolder();// 背包的数据层
-
 	protected ItemBagMgr() {
-	}
-
-	// 初始化
-	public boolean init(Player player) {
-		// this.player = player;
-		// holder = new ItemBagHolder(player.getUserId());
-		return true;
 	}
 
 	/**
