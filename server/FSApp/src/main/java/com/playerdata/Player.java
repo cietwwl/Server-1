@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -189,6 +190,8 @@ public class Player implements PlayerIF {
 	private GroupSecretBaseInfoSynDataHolder baseHolder = new GroupSecretBaseInfoSynDataHolder();
 	private GroupSecretTeamInfoSynDataHolder teamHolder = new GroupSecretTeamInfoSynDataHolder();
 
+	private AtomicInteger itemGenerateId;
+
 	public void synByVersion(List<SyncVersion> versionList) {
 		dataSynVersionHolder.synByVersion(this, versionList);
 	}
@@ -263,6 +266,7 @@ public class Player implements PlayerIF {
 			RoleExtPropertyFactory.firstCreatePlayerExtProperty(userId, userDataMgr.getCreateTime(), getLevel());
 			notifyCreated();
 		}
+
 		// 法宝数据
 		magicMgr.init(this);
 		// 新手礼包，要算英雄个数
@@ -278,9 +282,8 @@ public class Player implements PlayerIF {
 
 		powerInfo = new PowerInfo(PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.ID_POWER_RECOVER_TIME));
 
-		// // TODO HC 因为严重的顺序依赖，所以羁绊的检查只能做在这个地方
-		// checkAllHeroFetters();
-		// System.out.println("init player：" + (System.currentTimeMillis() -start));
+		// 初始化角色最大的道具Id
+		itemGenerateId = new AtomicInteger(ItemBagMgr.getInstance().initMaxId(userId));
 	}
 
 	public Player(String userId, boolean initMgr) {
@@ -1517,5 +1520,33 @@ public class Player implements PlayerIF {
 	@Override
 	public long getLastLoginTime() {
 		return UserDataDao.getInstance().getByUserId(userId).getLastLoginTime();
+	}
+
+	/**
+	 * 增加数据
+	 * 
+	 * @param modelId
+	 * @param count
+	 * @return
+	 */
+	public ItemData newItemData(int modelId, int count) {
+		ItemData itemData = new ItemData();
+		if (itemData.init(modelId, count)) {
+			String slotId = generateSlotId(userId);
+			itemData.setId(slotId);// 设置物品Id
+			itemData.setUserId(userId);// 设置角色Id
+		}
+		return itemData;
+	}
+
+	/**
+	 * 生成背包中物品的格子Id
+	 * 
+	 * @return
+	 */
+	private String generateSlotId(String userId) {
+		long newId = itemGenerateId.incrementAndGet();
+		StringBuilder sb = new StringBuilder();
+		return sb.append(userId).append("_").append(newId).toString();
 	}
 }

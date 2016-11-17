@@ -5,7 +5,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 import com.common.RefInt;
 import com.playerdata.ItemCfgHelper;
@@ -31,49 +30,37 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * @Description 
  */
 public class ItemBagHolder implements RecordSynchronization {
-	// private MapItemStore<ItemData> itemDataStore;// 背包中的数据
-	// private Map<String, ItemData> itemDataMap = new HashMap<String,
-	// ItemData>();
-
 	private static ItemBagHolder holder = new ItemBagHolder();
 
 	public static ItemBagHolder getHolder() {
 		return holder;
 	}
 
-	// private String userId;
-	private AtomicLong generateId;// 生成Id
-
 	private static final eSynType type = eSynType.USER_ITEM_BAG;// 更新背包数据
 
 	protected ItemBagHolder() {
 	}
 
-	// public ItemBagHolder(String userId) {
-	// this.userId = userId;
-	// initMaxId();
-	// }
+	/**
+	 * 解析产生的Id
+	 */
+	public int initMaxId(String userId) {
+		MapItemStore<ItemData> itemStore = getItemStore(userId);
+		Enumeration<ItemData> enumeration = itemStore.getEnum();
 
-	// /**
-	// * 解析产生的Id
-	// */
-	// private void initMaxId() {
-	// MapItemStore<ItemData> itemStore = getItemStore();
-	// Enumeration<ItemData> enumeration = itemStore.getEnum();
-	//
-	// int maxId = 1;
-	// while (enumeration.hasMoreElements()) {
-	// ItemData itemData = enumeration.nextElement();
-	// String id = itemData.getId();
-	// String[] arr = id.split("_");
-	// int idValue = Integer.parseInt(arr[1]);
-	// if (idValue > maxId) {
-	// maxId = idValue;
-	// }
-	// }
-	//
-	// generateId = new AtomicLong(maxId);
-	// }
+		int maxId = 1;
+		while (enumeration.hasMoreElements()) {
+			ItemData itemData = enumeration.nextElement();
+			String id = itemData.getId();
+			String[] arr = id.split("_");
+			int idValue = Integer.parseInt(arr[1]);
+			if (idValue > maxId) {
+				maxId = idValue;
+			}
+		}
+
+		return maxId;
+	}
 
 	/**
 	 * 推送所有的物品信息
@@ -257,17 +244,6 @@ public class ItemBagHolder implements RecordSynchronization {
 	}
 
 	/**
-	 * 生成背包中物品的格子Id
-	 * 
-	 * @return
-	 */
-	private String generateSlotId(String userId) {
-		long newId = generateId.incrementAndGet();
-		StringBuilder sb = new StringBuilder();
-		return sb.append(userId).append("_").append(newId).toString();
-	}
-
-	/**
 	 * 更新数据
 	 * 
 	 * @param userId
@@ -324,23 +300,6 @@ public class ItemBagHolder implements RecordSynchronization {
 			}
 		}
 		return itemList;
-	}
-
-	/**
-	 * 增加数据
-	 * 
-	 * @param modelId
-	 * @param count
-	 * @return
-	 */
-	public ItemData newItemData(String userId, int modelId, int count) {
-		ItemData itemData = new ItemData();
-		if (itemData.init(modelId, count)) {
-			String slotId = generateSlotId(userId);
-			itemData.setId(slotId);// 设置物品Id
-			itemData.setUserId(userId);// 设置角色Id
-		}
-		return itemData;
 	}
 
 	/**

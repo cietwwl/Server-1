@@ -830,11 +830,11 @@ public class ItemBagMgr {
 						modelIdList.add(modelId);// 把超出叠加上限的添加出来
 					}
 
-					addItem(userId, modelId, addCount, addItemList, offSizeMap, typeDefList);
+					addItem1(player, modelId, addCount, addItemList, offSizeMap, typeDefList);
 				}
 			} else {
 				for (int i = 0; i < addCount; i++) {
-					addItem(userId, modelId, 1, addItemList, offSizeMap, typeDefList);
+					addItem1(player, modelId, 1, addItemList, offSizeMap, typeDefList);
 				}
 			}
 		}
@@ -850,8 +850,8 @@ public class ItemBagMgr {
 	 * 
 	 * @return 是否打到了某类型物品的叠加上限
 	 */
-	private boolean addItem(String userId, int modelId, int count, List<ItemData> addItemList, EnumMap<EItemTypeDef, Integer> offSizeMap, List<EItemTypeDef> typeDefList) {
-		ItemData newItemData = ItemBagHolder.getHolder().newItemData(userId, modelId, count);
+	private boolean addItem1(Player player, int modelId, int count, List<ItemData> addItemList, EnumMap<EItemTypeDef, Integer> offSizeMap, List<EItemTypeDef> typeDefList) {
+		ItemData newItemData = player.newItemData(modelId, count);
 		EItemTypeDef type = newItemData.getType();
 		int capacity = getCapacityByType(type);
 		if (capacity <= 0) {
@@ -859,7 +859,7 @@ public class ItemBagMgr {
 		} else {
 			Integer hasValue = offSizeMap.get(type);
 			int offSize = hasValue == null ? 0 : hasValue;
-			int hasSize = getItemListByType(userId, type).size() + offSize;
+			int hasSize = getItemListByType(player.getUserId(), type).size() + offSize;
 			if (hasSize < capacity) {
 				addItemList.add(newItemData);
 				offSizeMap.put(type, ++offSize);
@@ -1033,5 +1033,12 @@ public class ItemBagMgr {
 				return null;
 			}
 		}
+	}
+
+	/**
+	 * 解析产生的Id
+	 */
+	public int initMaxId(String userId) {
+		return ItemBagHolder.getHolder().initMaxId(userId);
 	}
 }
