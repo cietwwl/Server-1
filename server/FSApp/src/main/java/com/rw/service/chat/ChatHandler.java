@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.util.StringUtils;
 
 import com.bm.chat.ChatBM;
+import com.bm.chat.ChatInfo;
 import com.bm.chat.ChatInteractiveType;
 //import com.bm.chat.ChatInfo;
 import com.bm.group.GroupBM;
@@ -662,20 +663,20 @@ public class ChatHandler {
 	}
 
 	private void sendWorldMsg(Player player) {
-		// 2016-07-19 修改：上线不用再推送世界聊天 >>>> BEGIN
-		// MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
-		// msgChatResponse.setOnLogin(true);
-		// msgChatResponse.setChatType(eChatType.CHAT_WORLD);
-		// List<ChatInfo> list = ChatBM.getInstance().getWorldList();
-		// for (int i = 0; i < list.size(); i++) {
-		// ChatMessageData chatMsg = list.get(i).getMessage().build();
-		// if (!FriendUtils.isBlack(player, chatMsg.getSendMessageUserInfo().getUserId())) {// 不在黑名单
-		// msgChatResponse.addListMessage(chatMsg);
-		// }
-		// }
-		// msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
-		// player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
-		// 2016-07-19 修改：上线不用再推送世界聊天 <<<< END
+		MsgChatResponse.Builder msgChatResponse = MsgChatResponse.newBuilder();
+		msgChatResponse.setOnLogin(true);
+		msgChatResponse.setChatType(eChatType.CHANNEL_WORLD);
+		List<ChatInfo> list = ChatBM.getInstance().getWorldList();
+		ChatInfo chatInfo;
+		for (int i = 0; i < list.size(); i++) {
+			chatInfo = list.get(i);
+			ChatMessageData chatMsg = chatInfo.getMessage();
+			if (!FriendUtils.isBlack(player, chatMsg.getSendMessageUserInfo().getUserId())) {// 不在黑名单
+				msgChatResponse.addListMessage(chatMsg);
+			}
+		}
+		msgChatResponse.setChatResultType(eChatResultType.SUCCESS);
+		player.SendMsg(MsgDef.Command.MSG_CHAT, msgChatResponse.build().toByteString());
 		player.setLastWorldChatId(ChatBM.getInstance().getChatVersion());// 缓存版本号
 	}
 

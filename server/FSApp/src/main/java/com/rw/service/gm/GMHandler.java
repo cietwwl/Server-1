@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
@@ -58,6 +59,7 @@ import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
+import com.rw.service.chat.ChatHandler;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
@@ -104,6 +106,9 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.ChatServiceProtos.ChatMessageData;
+import com.rwproto.ChatServiceProtos.MsgChatRequest;
+import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
@@ -286,6 +291,7 @@ public class GMHandler {
 		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
+		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
 	}
 
 	public boolean isActive() {
@@ -2160,5 +2166,24 @@ public class GMHandler {
 
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
+	}
+	
+	public boolean sendWorldChat(String[] arrCommandContents, Player player) {
+		String targetUserId = arrCommandContents[0];
+		Player target = PlayerMgr.getInstance().find(targetUserId);
+		ChatMessageData.Builder chatMsgBuilder = ChatMessageData.newBuilder();
+		String str = String.valueOf(System.currentTimeMillis());
+		chatMsgBuilder.setMessage(target.getUserName() + str.substring(str.length() - 6));
+		MsgChatRequest.Builder chatRequestBuilder = MsgChatRequest.newBuilder();
+		chatRequestBuilder.setChatMessageData(chatMsgBuilder.build());
+		chatRequestBuilder.setChatType(eChatType.CHANNEL_WORLD);
+//		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
+//		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT);
+//		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
+//		bodyBuilder.setSerializedContent(chatRequestBuilder.build().toByteString());
+//		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
+//		this.assumeSendRequest(target, requestBuilder.setHeader(headerBuilder.build()).setBody(bodyBuilder.build()).build());
+		ChatHandler.getInstance().chatWorld(target, chatRequestBuilder.build());
+		return true;
 	}
 }

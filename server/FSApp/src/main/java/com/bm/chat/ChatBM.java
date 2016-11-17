@@ -20,6 +20,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
+import com.rw.fsutil.dao.optimize.DataValueAction;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.fashion.FashionHandle;
@@ -52,6 +53,7 @@ public class ChatBM {
 	private static ConcurrentHashMap<String, List<ChatMessageData.Builder>> familyChatMap = new ConcurrentHashMap<String, List<ChatMessageData.Builder>>();
 
 	private static List<ChatInfo> worldMessageList = new ArrayList<ChatInfo>(ChatHandler.MAX_CACHE_MSG_SIZE);
+	private static List<ChatInfo> worldMessageListRO = Collections.unmodifiableList(worldMessageList);
 	private static Map<String, List<ChatMessageData.Builder>> teamMessageCacheMap = new HashMap<String, List<ChatMessageData.Builder>>();// 组队消息
 
 	private static List<ChatInteractiveSendData> interactiveMessageList = new ArrayList<ChatInteractiveSendData>();
@@ -83,7 +85,7 @@ public class ChatBM {
 			List<ChatInfo> list;
 			synchronized (worldMessageList) {
 				list = new ArrayList<ChatInfo>(worldMessageList);
-				worldMessageList.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
+//				worldMessageList.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
 			}
 			int size = list.size();
 
@@ -852,6 +854,10 @@ public class ChatBM {
 		userInfo.setFighting(FSHeroMgr.getInstance().getFightingTeam(info.getUserId()));
 
 		return userInfo;
+	}
+	
+	public List<ChatInfo> getWorldList() {
+		return worldMessageListRO;
 	}
 
 	/**
