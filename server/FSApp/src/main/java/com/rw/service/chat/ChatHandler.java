@@ -54,7 +54,7 @@ public class ChatHandler {
 	public static final int MAX_CACHE_MSG_SIZE_OF_PRIVATE_CHAT = 200; // 私聊频道最高的保存数量
 	public static final int MAX_CACHE_MSG_SIZE_PER_ONE = 10; // 私聊频道最每个人最高的保存数量
 	private static ChatHandler instance;
-	private int m_ChatCost = 0;
+//	private int m_ChatCost = 0;
 
 	private ChatHandler() {
 	};

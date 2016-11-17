@@ -15,7 +15,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
 
-import com.bm.chat.ChatBM;
 import com.bm.chat.ChatInteractiveType;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
