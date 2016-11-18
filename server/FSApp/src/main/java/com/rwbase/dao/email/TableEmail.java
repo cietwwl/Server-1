@@ -36,11 +36,11 @@ public class TableEmail {
 	}
 	
 	public synchronized void addEmail(EmailItem email){
-		this.emailList.put(email.getEmailId(), email);
 		if(EmailCleaner.getInstance().isOverLimit(emailList.size())){
 			EmailItem emailItem = EmailCleaner.getInstance().getCleanEmail(getEmailArrayList());
 			emailList.remove(emailItem.getEmailId());
 		}
+		this.emailList.put(email.getEmailId(), email);
 	}
 	
 	@JsonIgnore
