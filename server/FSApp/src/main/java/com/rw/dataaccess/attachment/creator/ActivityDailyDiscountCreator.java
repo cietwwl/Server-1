@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
-import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
@@ -17,8 +16,6 @@ public class ActivityDailyDiscountCreator implements PlayerExtPropertyCreator<Ac
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 	@Override
 	public List<ActivityDailyDiscountTypeItem> firstCreate(

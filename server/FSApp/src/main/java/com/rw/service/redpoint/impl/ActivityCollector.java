@@ -6,15 +6,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
@@ -52,45 +45,8 @@ public class ActivityCollector implements RedPointCollector {
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
 		ArrayList<String> activityList = new ArrayList<String>();
-
-		ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
-		ActivityCountTypeCfgDAO countTypeCfgDAO = ActivityCountTypeCfgDAO.getInstance();
-		List<ActivityCountTypeCfg> allCfgList = ActivityCountTypeCfgDAO.getInstance().getAllCfg();
-		long current = System.currentTimeMillis();
-		for (ActivityCountTypeCfg cfg : allCfgList) {
-			if (!countTypeCfgDAO.isOpen(cfg, current)) {
-				continue;
-			}
-			if (cfg.getLevelLimit() > level) {
-				continue;
-			}
-			ActivityCountTypeEnum countTypeEnum = ActivityCountTypeEnum.getById(cfg.getEnumId());
-			if (countTypeEnum == null) {
-				GameLog.error("ActivityCountTypeMgr", "#checkNewOpen()", "找不到活动类型枚举：" + cfg.getId());
-				continue;
-			}
-			ActivityCountTypeItem targetItem = dataHolder.getItem(player.getUserId(), countTypeEnum);
-			if (targetItem == null) {
-				continue;
-			}
-			if (!targetItem.isTouchRedPoint()) {
-				activityList.add(cfg.getId());
-				continue;
-			}
-			List<ActivityCountTypeSubItem> subitemlist = targetItem.getSubItemList();
-			for (ActivityCountTypeSubItem subitem : subitemlist) {
-				if (subitem.getCount() <= targetItem.getCount() && !subitem.isTaken()) {
-					activityList.add(cfg.getId());
-					break;
-				}
-			}
-		}
-
-		// ------------------------------
-
 		List<String> dailyCountList = ActivityDailyTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(dailyCountList);
-
 		// ------------------------------
 		ActivityRateTypeItemHolder datarateholder = new ActivityRateTypeItemHolder();
 		List<ActivityRateTypeCfg> rateAllCfgList = ActivityRateTypeCfgDAO.getInstance().getAllCfg();

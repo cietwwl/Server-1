@@ -16,6 +16,10 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 		return key;
 	}
 	
+	public int getCfgId() {
+		return key;
+	}
+	
 	public int getVipLv() {
 		return vipLv;
 	}
@@ -65,5 +69,10 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	@Override
 	public void ExtraInitAfterLoad() {
 		this._fundType = GrowthFundType.getBySign(type);
+	}
+
+	@Override
+	public int getVipLimit() {
+		return vipLv;
 	}
 }

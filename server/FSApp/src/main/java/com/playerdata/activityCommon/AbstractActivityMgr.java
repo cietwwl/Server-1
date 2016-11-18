@@ -40,7 +40,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 		if (cfg == null) {
 			return;
 		}
-		T dataItem = getHolder().getItem(player.getUserId(), eNum);
+		T dataItem = getHolder().getItem(player.getUserId(), String.valueOf(cfg.getId()));
 		if (dataItem == null) {
 			GameLog.error(LogModule.ComActivity, player.getUserId(), "心跳传入id[" + eNum + "]获得的页签枚举无法找到活动数据", null);
 			return;

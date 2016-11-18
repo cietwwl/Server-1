@@ -19,6 +19,10 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 		return id;
  	}
 	
+	public int getCfgId() {
+		return id;
+ 	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -60,5 +64,10 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	@Override
 	public boolean isDailyRefresh() {
 		return isDailyRefresh == 1;
+	}
+	
+	@Override
+	public int getVipLimit() {
+		return 0;
 	}
 }
