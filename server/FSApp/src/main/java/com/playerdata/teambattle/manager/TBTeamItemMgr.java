@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -130,7 +131,9 @@ public class TBTeamItemMgr{
 		cal.set(Calendar.HOUR, TeamBattleConst.DAILY_REFRESH_HOUR);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
-		
+		GameLog.error(cal.getTime().toGMTString());
+		GameLog.error("last:" + lastRefreshTime);
+		GameLog.error("now:" + cal.getTimeInMillis());
 		if(lastRefreshTime < cal.getTimeInMillis()){
 			for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
 				TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
