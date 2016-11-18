@@ -39,6 +39,7 @@ public class FSGetGroupSkillFightingCalc implements IFightingCalc {
 			}
 
 			OneToOneTypeFightingCfg cfg = groupSkillFightingCfgDAO.getCfgById(e.getKey().toString());
+//			System.out.println(String.format("帮派技能：%s，基础战力：%s，等级：%s，技能总战力：%s", cfg.getKey(), cfg.getFighting(), level, (cfg.getFighting() * level)));
 			fighting += cfg.getFighting() * level;
 		}
 

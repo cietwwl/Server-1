@@ -24,6 +24,7 @@ import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.commonsoul.CommonSoulConfigHolder;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
@@ -487,13 +488,12 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.FIGHTING_GROWTH_DATA);
 		
-		versionMap.put(eSynType.WB_USER_DATA, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {
-				WBUserMgr.getInstance().synWBUserData(player, -1);
-
-			}
-		}));
-		orderList.add(eSynType.WB_USER_DATA);
+//		versionMap.put(eSynType.CommonSoulConfig, new PlayerDataMgr(new RecordSynchronization() {
+//			@Override
+//			public void synAllData(Player player, int version) {
+//				CommonSoulConfigHolder.getInstance().synConfig(player);
+//			}
+//		}));
+//		orderList.add(eSynType.CommonSoulConfig);
 	}
 }

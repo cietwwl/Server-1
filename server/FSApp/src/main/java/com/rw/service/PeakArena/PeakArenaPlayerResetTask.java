@@ -1,6 +1,9 @@
 package com.rw.service.PeakArena;
 
+import java.util.Calendar;
+
 import com.playerdata.Player;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rwbase.common.timer.IPlayerOperable;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -22,9 +25,13 @@ public class PeakArenaPlayerResetTask implements IPlayerOperable {
 	@Override
 	public void operate(Player player) {
 		TablePeakArenaData data = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		if (data != null) {
+		int dayOfYear = DateUtils.getCalendar().get(Calendar.DAY_OF_YEAR);
+		if (data != null && data.getLastResetDayOfYear() < dayOfYear) {
 			data.setScore(0);
 			data.resetRewardList();
+			// 2016-11-15 BUG fixed，没有记录最后一次执行的时间
+			data.setLastResetDayOfYear(dayOfYear);
+			PeakArenaBM.getInstance().update(data);
 			// 通知更新UserGameData
 			player.getUserGameDataMgr().updatePeakArenaScore(0);
 		}

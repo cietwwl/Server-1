@@ -166,7 +166,7 @@
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.item.SpecialItemCfgDAO"  init-method="init" />
-	<bean class="com.gm.giftCenter.GiftCodeSenderBm"  init-method="init" />
+	<bean class="com.gm.giftCenter.GiftCodeSenderContext"  init-method="init" />
 	<bean class="com.rwbase.dao.gift.ComGiftCfgDAO"  init-method="init" />
 	
 	<bean class="com.rwbase.dao.skill.SkillEffectCfgDAO" init-method="init" />
@@ -394,6 +394,10 @@
 	<!-- 红点 -->
 	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
 	
+	<!-- 万能魂石 -->
+	<bean class="com.rwbase.dao.commonsoul.CommonSoulConfigDAO" init-method="init" />
+	<bean class="com.rwbase.dao.commonsoul.ExchangeRateCfgDAO" init-method="init" />
+
 	<!-- 精准营销 -->
 	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
 	

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tools.ant.taskdefs.TempFile;
 
 import com.log.GameLog;
 import com.playerdata.fightinggrowth.FSFightingGrowthWayType;
@@ -95,6 +94,7 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 	protected Map<String, FSUserFightingGrowthTitleCfg> initJsonCfg() {
 		this.cfgCacheMap = CfgCsvHelper.readCsv2Map("fightingGrowth/FightingGrowthTitle.csv", FSUserFightingGrowthTitleCfg.class);
 		List<Field> expectedFightingFields = getExpectedFightingFields();
+		String firstTitleKey = null;
 		for (Iterator<String> itr = this.cfgCacheMap.keySet().iterator(); itr.hasNext();) {
 			FSUserFightingGrowthTitleCfg temp = cfgCacheMap.get(itr.next());
 			Map<Integer, Integer> itemRewardMap = this.parseItemString(temp.getRewards());
@@ -107,8 +107,8 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 			}
 			temp.setItemRewardList(itemRewardList);
 			if (temp.isFirst()) {
-				if (this._firstTitleKey == null) {
-					this._firstTitleKey = temp.getKey();
+				if (firstTitleKey == null) {
+					firstTitleKey = temp.getKey();
 				} else {
 					throw new RuntimeException("fightingGrowth/FightingGrowthTitle.csv，多于一个isFirst为true！");
 				}
@@ -120,6 +120,10 @@ public class FSUserFightingGrowthTitleCfgDAO extends CfgCsvDao<FSUserFightingGro
 				e.printStackTrace();
 			}
 		}
+		if(firstTitleKey == null) {
+			throw new RuntimeException("fightingGrowth/FightingGrowthTitle.csv，没有第一个战力称号！");
+		}
+		this._firstTitleKey = firstTitleKey;
 		return this.cfgCacheMap;
 	}
 	

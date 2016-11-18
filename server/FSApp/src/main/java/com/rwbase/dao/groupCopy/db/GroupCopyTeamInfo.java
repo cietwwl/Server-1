@@ -16,6 +16,7 @@ public class GroupCopyTeamInfo {
 	private String playerName;
 	private String playerHeadImage;
 	private String guildName;
+	private String PlayerHeadFrame;
 	
 	public GroupCopyTeamInfo() {
 	}
@@ -69,4 +70,13 @@ public class GroupCopyTeamInfo {
 		return guildName;
 	}
 
+	public String getPlayerHeadFrame() {
+		return PlayerHeadFrame;
+	}
+
+	public void setPlayerHeadFrame(String playerHeadFrame) {
+		PlayerHeadFrame = playerHeadFrame;
+	}
+
+	
 }
