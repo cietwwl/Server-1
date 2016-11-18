@@ -11,7 +11,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "mt_user_hero")
 @SynClass
 public class TableUserHero implements TableUserHeroIF {
 	@Id

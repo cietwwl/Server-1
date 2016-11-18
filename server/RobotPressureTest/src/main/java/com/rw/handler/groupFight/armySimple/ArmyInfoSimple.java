@@ -4,10 +4,7 @@ import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.annotation.SynClass;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
-@SynClass
 public class ArmyInfoSimple {
 
 	//佣兵列表不包括主角

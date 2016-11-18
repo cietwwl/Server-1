@@ -1,8 +1,5 @@
 package com.rw.handler.battle.army;
 
-import com.playerdata.dataSyn.annotation.SynClass;
-
-@SynClass
 public class CurAttrData {
 
 	private String id;

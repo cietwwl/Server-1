@@ -16,7 +16,6 @@ public class EmailService implements FsService{
 		try{
 			EmailRequest emailRequest = EmailRequest.parseFrom(request.getBody().getSerializedContent());
 			EmailRequestType requestType = emailRequest.getRequestType();
-			System.out.println(" ##########email =" + requestType);
 			switch(requestType){
 				case Email_List:
 					return handler.getEmailList(player, emailRequest);

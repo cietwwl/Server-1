@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.Client;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.dataSyn.DataSynHelper;
 import com.rw.handler.battle.army.CurAttrData;
 import com.rw.handler.group.data.UserGroupData;
 import com.rw.handler.groupFight.data.GFDefendArmyItem;
@@ -351,7 +351,11 @@ public class GroupFightHandler {
 			defenderHeros.setDefendArmyID(client.getUserId() + "_" + i);
 			defenderHeros.setMagicID("");
 			defenderHeros.setHeroIDs(heroIDs);
-			req.addArmyHeros(ClientDataSynMgr.toClientData(defenderHeros));
+			try {
+				req.addArmyHeros(DataSynHelper.ToJson(defenderHeros));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_FIGHT_ONLINE, req.build().toByteString(), new MsgReciver() {
 			@Override
@@ -415,7 +419,7 @@ public class GroupFightHandler {
 						return true;
 					}
 					try {
-						GFDefendArmyItemHolder.getInstance().updateSelectedEnimy((GFDefendArmyItem)ClientDataSynMgr.fromClientJson2Data(GFDefendArmyItem.class, rsp.getEnimyDefenderDetails()));
+						GFDefendArmyItemHolder.getInstance().updateSelectedEnimy(DataSynHelper.ToObject(GFDefendArmyItem.class, rsp.getEnimyDefenderDetails()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -461,7 +465,7 @@ public class GroupFightHandler {
 						return true;
 					}
 					try {
-						GFDefendArmyItemHolder.getInstance().updateSelectedEnimy((GFDefendArmyItem)ClientDataSynMgr.fromClientJson2Data(GFDefendArmyItem.class, rsp.getEnimyDefenderDetails()));
+						GFDefendArmyItemHolder.getInstance().updateSelectedEnimy(DataSynHelper.ToObject(GFDefendArmyItem.class, rsp.getEnimyDefenderDetails()));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -539,7 +543,11 @@ public class GroupFightHandler {
 		gfResult.setGroupID(ugfData.getRandomDefender().getGroupID());
 		gfResult.setDefenderState(state);
 		gfResult.setSelfArmyState(state);
-		req.setFightResult(ClientDataSynMgr.toClientData(gfResult));
+		try {
+			req.setFightResult(DataSynHelper.ToJson(gfResult));
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_FIGHT_ONLINE, req.build().toByteString(), new MsgReciver() {
 			@Override
 			public Command getCmd() {

@@ -3,6 +3,7 @@ package com.rw.handler.hero;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rw.common.RobotLog;
 import com.rw.dataSyn.SynDataListHolder;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 
@@ -16,12 +17,13 @@ public class UserHerosDataHolder {
 		return instance;
 	}
 	
-	public void syn(MsgDataSyn msgDataSyn) {
+	public void syn(MsgDataSyn msgDataSyn) {		
 		listHolder.Syn(msgDataSyn);
-
+		
 		List<TableUserHero> itemList = listHolder.getItemList();
-
+		
 		this.tableUserHero = itemList.get(0);
+		RobotLog.fail("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~userherodataholder.size = " + this.tableUserHero.getHeroIds().size());
 	}
 	
 	public TableUserHero getTableUserHero(){

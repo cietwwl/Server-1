@@ -4,24 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
-import com.playerdata.Player;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.Client;
-import com.rw.Robot;
-import com.rw.common.MsgReciver;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
-import com.rw.controler.GameLogicTask;
 import com.rw.dataSyn.DataSynHelper;
-import com.rw.dataSyn.JsonUtil;
-import com.rw.handler.GroupCopy.data.GroupCopyDataHolder;
 import com.rw.handler.GroupCopy.data.GroupCopyDataVersion;
-import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
 import com.rw.handler.GroupCopy.data.GroupCopyMonsterSynStruct;
 import com.rw.handler.hero.TableUserHero;
-import com.rwbase.common.RandomUtil;
-import com.rwbase.gameworld.GameWorldFactory;
-import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComReqMsg;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminComRspMsg;
 import com.rwproto.GroupCopyAdminProto.GroupCopyAdminOpenCopyReqMsg;
@@ -31,7 +20,6 @@ import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
 import com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
 import com.rwproto.GroupCopyBattleProto.HeroList;
-import com.rwproto.GroupCopyBattleProto.HeroList.Builder;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyCmdRspMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
@@ -394,100 +382,122 @@ public class GroupCopyHandler {
 	 * 请求帮派前10排行榜
 	 * @param client
 	 */
-	public void clientApplyGroupDamageRank(Client client){
-		GroupCopyCmdReqMsg.Builder reqMsg = GroupCopyCmdReqMsg.newBuilder();
-		reqMsg.setReqType(GroupCopyReqType.GET_GROUP_HURT_RANK);
-		client.getMsgHandler().sendMsg(cmdCom, reqMsg.build().toByteString(), new PrintMsgReciver(cmdCom, functionName, "请求帮派前10排行榜") {
-			
-			@Override
-			public boolean execute(Client client, Response response) {
-				ByteString bs = response.getSerializedContent();
-				try {
-					GroupCopyCmdRspMsg rspMsg = GroupCopyCmdRspMsg.parseFrom(bs);
-					String tips = "";
-					if(rspMsg.getTipMsg() != null){
-						tips = rspMsg.getTipMsg();
+	public boolean clientApplyGroupDamageRank(Client client){
+		try {
+			GroupCopyCmdReqMsg.Builder reqMsg = GroupCopyCmdReqMsg.newBuilder();
+			reqMsg.setReqType(GroupCopyReqType.GET_GROUP_HURT_RANK);
+			client.getMsgHandler().sendMsg(cmdCom, reqMsg.build().toByteString(), new PrintMsgReciver(cmdCom, functionName, "请求帮派前10排行榜") {
+				
+				@Override
+				public boolean execute(Client client, Response response) {
+					ByteString bs = response.getSerializedContent();
+					try {
+						GroupCopyCmdRspMsg rspMsg = GroupCopyCmdRspMsg.parseFrom(bs);
+						String tips = "";
+						if(rspMsg.getTipMsg() != null){
+							tips = rspMsg.getTipMsg();
+						}
+						if(rspMsg.getIsSuccess()){
+							RobotLog.info("请求帮派前10排行榜成功" + tips);
+							return true;
+						}else{
+							RobotLog.info("请求帮派前10排行榜异常" + tips);
+							return false;
+						}
+					} catch (Exception e) {
+						RobotLog.info("请求帮派前10排行榜存在异常" + e);
 					}
-					if(rspMsg.getIsSuccess()){
-						RobotLog.info("请求帮派前10排行榜成功" + tips);
-						return true;
-					}else{
-						RobotLog.info("请求帮派前10排行榜异常" + tips);
-						return false;
-					}
-				} catch (Exception e) {
-					RobotLog.info("请求帮派前10排行榜存在异常" + e);
+					return false;
 				}
-				return false;
-			}
-		});
+			});
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	/**
 	 * 获取奖励分配记录
 	 * @param client
 	 */
-	public void clientApplyDistRewardLog(Client client){
-		GroupCopyCmdReqMsg.Builder reqMsg = GroupCopyCmdReqMsg.newBuilder();
-		reqMsg.setReqType(GroupCopyReqType.GET_DIST_REWARD_LOG);
-		client.getMsgHandler().sendMsg(cmdCom, reqMsg.build().toByteString(), new PrintMsgReciver(cmdCom, functionName, "获取奖励分配记录") {
+	public boolean clientApplyDistRewardLog(Client client){
+		try {
 			
-			@Override
-			public boolean execute(Client client, Response response) {
-				ByteString bs = response.getSerializedContent();
-				try {
-					GroupCopyCmdRspMsg rspMsg = GroupCopyCmdRspMsg.parseFrom(bs);
-					String tips = "";
-					if(rspMsg.getTipMsg() != null){
-						tips = rspMsg.getTipMsg();
+			GroupCopyCmdReqMsg.Builder reqMsg = GroupCopyCmdReqMsg.newBuilder();
+			reqMsg.setReqType(GroupCopyReqType.GET_DIST_REWARD_LOG);
+			client.getMsgHandler().sendMsg(cmdCom, reqMsg.build().toByteString(), new PrintMsgReciver(cmdCom, functionName, "获取奖励分配记录") {
+				
+				@Override
+				public boolean execute(Client client, Response response) {
+					ByteString bs = response.getSerializedContent();
+					try {
+						GroupCopyCmdRspMsg rspMsg = GroupCopyCmdRspMsg.parseFrom(bs);
+						String tips = "";
+						if(rspMsg.getTipMsg() != null){
+							tips = rspMsg.getTipMsg();
+						}
+						if(rspMsg.getIsSuccess()){
+							RobotLog.info("获取奖励分配记录成功" + tips);
+							return true;
+						}else{
+							RobotLog.info("获取奖励分配记录异常" + tips);
+							return false;
+						}
+					} catch (Exception e) {
+						RobotLog.info("获取奖励分配记录存在异常" + e);
 					}
-					if(rspMsg.getIsSuccess()){
-						RobotLog.info("获取奖励分配记录成功" + tips);
-						return true;
-					}else{
-						RobotLog.info("获取奖励分配记录异常" + tips);
-						return false;
-					}
-				} catch (Exception e) {
-					RobotLog.info("获取奖励分配记录存在异常" + e);
+					return false;
 				}
-				return false;
-			}
-		});
-		
+			});
+			
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	
 	/**
 	 * 获取所有章节的帮派副本奖励申请数据
 	 */
-	public void getAllRewardApplyInfo(Client client){
-		GroupCopyAdminComReqMsg.Builder reqMsg = GroupCopyAdminComReqMsg.newBuilder();
-		reqMsg.setReqType(RequestType.GET_APPLY_REWARD_INFO);
-		client.getMsgHandler().sendMsg(cmdAdm, reqMsg.build().toByteString(), new PrintMsgReciver(cmdAdm, functionName, "获取所有章节的帮派副本奖励申请数据") {
-			
-			@Override
-			public boolean execute(Client client, Response response) {
-				ByteString bs = response.getSerializedContent();
-				try {
-					GroupCopyAdminComRspMsg rspMsg = GroupCopyAdminComRspMsg.parseFrom(bs);
-					String tips = "";
-					if(rspMsg.getTipMsg() != null){
-						tips = rspMsg.getTipMsg();
+	public boolean getAllRewardApplyInfo(Client client){
+		try {
+			GroupCopyAdminComReqMsg.Builder reqMsg = GroupCopyAdminComReqMsg.newBuilder();
+			reqMsg.setReqType(RequestType.GET_APPLY_REWARD_INFO);
+			client.getMsgHandler().sendMsg(cmdAdm, reqMsg.build().toByteString(), new PrintMsgReciver(cmdAdm, functionName, "获取所有章节的帮派副本奖励申请数据") {
+				
+				@Override
+				public boolean execute(Client client, Response response) {
+					ByteString bs = response.getSerializedContent();
+					try {
+						GroupCopyAdminComRspMsg rspMsg = GroupCopyAdminComRspMsg.parseFrom(bs);
+						String tips = "";
+						if(rspMsg.getTipMsg() != null){
+							tips = rspMsg.getTipMsg();
+						}
+						if(rspMsg.getIsSuccess()){
+							RobotLog.info("获取所有章节的帮派副本奖励申请数据成功" + tips);
+							return true;
+						}else{
+							RobotLog.info("获取所有章节的帮派副本奖励申请数据异常" + tips);
+							return false;
+						}
+					} catch (Exception e) {
+						RobotLog.info("获取所有章节的帮派副本奖励申请数据存在异常" + e);
 					}
-					if(rspMsg.getIsSuccess()){
-						RobotLog.info("获取所有章节的帮派副本奖励申请数据成功" + tips);
-						return true;
-					}else{
-						RobotLog.info("获取所有章节的帮派副本奖励申请数据异常" + tips);
-						return false;
-					}
-				} catch (Exception e) {
-					RobotLog.info("获取所有章节的帮派副本奖励申请数据存在异常" + e);
+					return false;
 				}
-				return false;
-			}
-		});
+			});
+			
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	

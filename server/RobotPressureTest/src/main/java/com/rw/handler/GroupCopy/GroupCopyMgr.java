@@ -5,13 +5,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import com.common.Utils;
 import com.rw.Client;
 import com.rw.common.RobotLog;
 import com.rw.handler.GroupCopy.data.GroupCopyMapRecord;
 import com.rw.mutiTest.MutiTestAccount;
-import com.rwbase.common.RandomUtil;
-import com.rwproto.GroupCopyAdminProto.RequestType;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
 
 
@@ -71,7 +68,7 @@ public class GroupCopyMgr {
 			return null;
 		}
 		int size = list.size();
-		int index = RandomUtil.getRandonIndexWithoutProb(size);
+		int index = (int)(Math.random() * size);
 		return list.get(index);
 	}
 	

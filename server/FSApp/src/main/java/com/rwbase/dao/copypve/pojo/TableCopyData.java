@@ -10,7 +10,6 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "mt_copy_data")
 public class TableCopyData {
 	
 	@Id

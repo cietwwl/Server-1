@@ -8,7 +8,6 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "mt_sign_data")
 public class TableSignData 
 {
 	@Id

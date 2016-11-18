@@ -27,4 +27,11 @@ public class ClientHandler extends ChannelInboundHandlerAdapter{
 			ReferenceCountUtil.release(msg);
 		}
 	}
+	
+
+	@Override
+	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+		System.out.println("open connection:" + ctx);
+		super.channelRegistered(ctx);
+	}
 }

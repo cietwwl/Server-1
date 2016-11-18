@@ -6,6 +6,8 @@ server/FSPlatform/log/
 server/RobotPressureTest/log/
 server/FSPlatform/tmp/
 server/FSPlatform/.settings/
+server/FSApp/src/main/resources/config.properties
+server/FSApp/src/main/resources/server.properties
 
 
 *.class
@@ -70,5 +72,3 @@ Thumbs.db
 /server/FSApp/datalogs/methodtrace/*.log
 /server/RobotPressureTest/log/*.log
 datalogs
-/server/FSApp/src/main/resources/config.properties
-/server/FSApp/src/main/resources/server.properties

@@ -2,12 +2,10 @@ package com.rw.handler.groupFight.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.dataSyn.SynItem;
 import com.rw.handler.groupFight.armySimple.ArmyInfoSimple;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@SynClass
 public class GFDefendArmyItem implements SynItem{
 	private String armyID;  // armyID = userID_teamID
 	

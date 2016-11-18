@@ -2,18 +2,18 @@ package com.rw.controler;
 
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.bm.login.ZoneBM;
 import com.google.protobuf.ByteString;
+import com.log.FSTraceLogger;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.UserDataMgr;
 import com.rw.fsutil.util.SpringContextUtil;
-import com.rw.netty.SessionInfo;
 import com.rw.netty.UserChannelMgr;
+import com.rw.netty.UserSession;
 import com.rw.service.redpoint.RedPointManager;
 import com.rwbase.dao.guide.GuideProgressDAO;
 import com.rwbase.dao.guide.PlotProgressDAO;
@@ -33,11 +33,13 @@ public class GameLogicTask implements PlayerTask {
 
 	private static FsNettyControler nettyControler = SpringContextUtil.getBean("fsNettyControler");
 	private final Request request;
-	private final SessionInfo session;
+	private final UserSession session;
+	private final long submitTime;
 
-	public GameLogicTask(SessionInfo session, Request request) {
+	public GameLogicTask(UserSession session, Request request) {
 		this.request = request;
 		this.session = session;
+		this.submitTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -47,9 +49,10 @@ public class GameLogicTask implements PlayerTask {
 		RequestHeader header = request.getHeader();
 		int seqID = header.getSeqID();
 		long sessionId = session.getSessionId();
+		Command command = header.getCommand();
+		long executeTime = System.currentTimeMillis();
 		try {
-			Command command = header.getCommand();
-			System.err.println("开始处理：" + new Date() + "," + command + "," + seqID);
+			FSTraceLogger.logger("run(" + (executeTime - submitTime)+"," + command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
 			// plyaer为null不敢做过滤
 			if (player != null) {
 				UserDataMgr userDataMgr = player.getUserDataMgr();
@@ -59,7 +62,7 @@ public class GameLogicTask implements PlayerTask {
 				if (ctx == null) {
 					return;
 				}
-				if (sessionId != UserChannelMgr.getSessionId(ctx)) {
+				if (sessionId != UserChannelMgr.getUserSessionId(ctx)) {
 					return;
 				}
 				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(player.getUserDataMgr().getZoneId());
@@ -69,7 +72,7 @@ public class GameLogicTask implements PlayerTask {
 				}
 				Response response = nettyControler.getResponse(userId, seqID);
 				if (response != null) {
-					System.err.println("发送重连信息：" + header.getCommand() + ",seqId=" + seqID + sessionId + "," + UserChannelMgr.getCurrentSessionId(userId));
+					System.err.println("send reconnect:" + UserChannelMgr.getCtxInfo(ctx));
 					nettyControler.sendResponse(request.getHeader(), response.getSerializedContent(), UserChannelMgr.get(userId));
 					return;
 				}
@@ -80,7 +83,7 @@ public class GameLogicTask implements PlayerTask {
 				UserChannelMgr.onBSBegin(userId);
 				resultContent = nettyControler.getSerivice(command).doTask(request, player);
 				player.getAssistantMgr().doCheck();
-				System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++++++++" + command);
+				FSTraceLogger.logger("run end(" + (System.currentTimeMillis() - executeTime)+ ","  + command + "," + seqID + ")[" + player.getUserId()+"]");
 			} finally {
 				// 把逻辑产生的数据变化先同步到客户端
 				UserChannelMgr.onBSEnd(userId);
@@ -95,7 +98,7 @@ public class GameLogicTask implements PlayerTask {
 		if (redPointVersion >= 0) {
 			RedPointManager.getRedPointManager().checkRedPointVersion(player, redPointVersion);
 		}
-		System.err.println("结束处理：" + new Date());
+		FSTraceLogger.logger("send(" + (System.currentTimeMillis() - executeTime) + ","+ command + "," + seqID  + ")[" + (player != null ? player.getUserId() : null)+"]");
 	}
 
 	private void handleGuildance(RequestHeader header, String userId) {
