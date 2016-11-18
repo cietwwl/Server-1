@@ -675,7 +675,7 @@ public class GCompMatchDataHolder {
 
 						// 构造一个同步血量的消息
 
-						System.err.println(myHpPercent + "," + enemyHpPercent + ">>>" + myChangeRate + "," + enemyChangeRate);
+						// System.err.println(myHpPercent + "," + enemyHpPercent + ">>>" + myChangeRate + "," + enemyChangeRate);
 						hpRsp.add(GCompMatchBattleCmdHelper.buildPushHpInfoMsg(i, myHpPercent, enemyHpPercent));
 					}
 				}

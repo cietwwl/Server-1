@@ -1,6 +1,6 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-battleSpeed,,3,,,等级达到45级或者VIP4开启战斗加速功能，充值可提升VIP等级。
-isAllowBuyFashion,,,,,VIP3开启时装购买功能，充值可提升VIP等级。
-isAllowSoulBox,,,,,VIP9开启钓鱼台购买高级经验丹功能，充值可提升VIP等级。
-isAllowReplenish,,,,,VIP2开启补签功能，充值可提升VIP等级。
+battleSpeed,,3,,,等级达到45级或者贵族4开启战斗加速功能，充值可提升贵族等级。
+isAllowBuyFashion,,,,,贵族3开启时装购买功能，充值可提升贵族等级。
+isAllowSoulBox,,,,,贵族9开启钓鱼台购买高级经验丹功能，充值可提升贵族等级。
+isAllowReplenish,,,,,贵族2开启补签功能，充值可提升贵族等级。
 isAllowVipHeadIcon,,,,,

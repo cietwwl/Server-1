@@ -15,6 +15,7 @@ import com.gm.util.SocketHelper;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.UserDataMgr;
+import com.playerdata.UserGameDataMgr;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
@@ -63,8 +64,9 @@ public class GmUserInfo implements IGmTask{
 			return player;
 		}
 		if (StringUtils.isNotBlank(account)) {
-
-			User user = UserDataDao.getInstance().getByAccoutAndZoneId(account, GameManager.getZoneId());
+			String[] split = account.split("_");
+			String accountValue = split[1];
+			User user = UserDataDao.getInstance().getByAccoutAndZoneId(accountValue, GameManager.getZoneId());
 			player = PlayerMgr.getInstance().find(user.getUserId());
 			return player;
 		}
@@ -73,14 +75,16 @@ public class GmUserInfo implements IGmTask{
 
 	private void setInfo(Player player, Map<String, Object> resultMap){
 		UserDataMgr userDataMgr = player.getUserDataMgr();
-		resultMap.put("account", userDataMgr.getAccount()); 
+		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		
+		resultMap.put("account", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount()); 
 		resultMap.put("roleId", player.getUserId());
 		resultMap.put("roleName", player.getUserName());
 		resultMap.put("level", userDataMgr.getUser().getLevel());
 		resultMap.put("exp", player.getExp());
 		resultMap.put("money", player.getUserGameDataMgr().getCoin());
 		resultMap.put("coin", player.getUserGameDataMgr().getGold());
-		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		
 		if(zoneRegInfo!=null){
 			resultMap.put("channel", zoneRegInfo.getRegChannelId());
 		}

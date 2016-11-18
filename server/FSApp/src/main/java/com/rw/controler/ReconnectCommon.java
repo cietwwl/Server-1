@@ -19,10 +19,10 @@ public class ReconnectCommon {
 	private void returnReconnectRequest(FsNettyControler nettyControler, ChannelHandlerContext ctx, Request request, ReConnectResultType resultType, ByteString synData) {
 		ReConnectResponse.Builder reConnectRsp = ReConnectResponse.newBuilder();
 		reConnectRsp.setResultType(resultType);
-		UserChannelMgr.sendResponse(null, request.getHeader(), reConnectRsp.build().toByteString(), ctx);
+		UserChannelMgr.sendResponse(null, request.getHeader(), reConnectRsp.build().toByteString(), ctx, synData);
 	}
 
-	public void reconnectSuccess(FsNettyControler nettyControler, ChannelHandlerContext ctx, Request request,ByteString synData) {
+	public void reconnectSuccess(FsNettyControler nettyControler, ChannelHandlerContext ctx, Request request, ByteString synData) {
 		returnReconnectRequest(nettyControler, ctx, request, ReConnectResultType.RECONNECT_SUCCESS, synData);
 	}
 
