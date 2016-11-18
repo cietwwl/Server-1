@@ -9,7 +9,6 @@ import com.bm.rank.RankType;
 import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefInt;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
@@ -139,6 +138,65 @@ public class RankingUtilEntity {
 			// 设置时装数据
 			rankInfo.setSex(levelData.getSex());
 			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(levelData.getUserId());
+			if (fashionUsing != null) {
+				rankInfo.setFashionUsage(fashionUsing);
+			}
+		}
+		return rankInfo.build();
+	}
+	
+	/** 写入一条数据 */
+	public RankInfo createOneRankInfo(ListRankingEntry<String, ArenaExtAttribute> entry, int ranking, boolean realTime, RankType type) {
+		RankInfo.Builder rankInfo;
+		rankInfo = RankInfo.newBuilder();
+		if (entry != null) {
+			String userId = entry.getKey();
+			ArenaExtAttribute attr = entry.getExtension();
+			rankInfo.setHeroUUID(userId);
+			int rankLevel = attr.getRankLevel();
+			if (realTime) {
+				rankInfo.setRankingLevel(ranking);
+			} else {
+				rankInfo.setRankingLevel(rankLevel > 0 ? rankLevel : ranking);
+			}
+			rankInfo.setVip(attr.getVip());
+			rankInfo.setLevel(attr.getLevel());
+			rankInfo.setHeroName(attr.getName());
+			rankInfo.setImageId(attr.getHeadImage());
+			rankInfo.setJob(attr.getCareer());
+			rankInfo.setModelId(attr.getModelId());
+			rankInfo.setFightingAll(attr.getFighting());
+			rankInfo.setFightingTeam(attr.getFightingTeam());
+			if (attr.getMagicCfgId() > 0) {
+				rankInfo.setMagicId(attr.getMagicCfgId());
+			} else {
+				rankInfo.setMagicId(603601);
+			}
+			boolean setFromLastRank = false;
+			if (type != null) {
+				RankType dailyType = RankingMgr.getInstance().getDailyRankType(type);
+				if (dailyType != null) {
+					Ranking dailyRanking = RankingFactory.getRanking(dailyType);
+					int lastRank = dailyRanking.getRanking(userId);
+					if (lastRank > 0) {
+						rankInfo.setRankCount(lastRank - ranking);
+						setFromLastRank = true;
+					}
+				}
+				// 人气值
+				if (type == RankType.POPULARITY_RANK) {
+					rankInfo.setPopularity(PraiseHelper.getInstance().getPopularityByUserId(userId));
+				}
+			}
+			if (!setFromLastRank) {
+				rankInfo.setRankCount(attr.getRankCount());
+			}
+			if(null != attr.getHeadbox()){
+				rankInfo.setHeadbox(attr.getHeadbox());
+			}
+			// 设置时装数据
+			rankInfo.setSex(attr.getSex());
+			FashionUsed.Builder fashionUsing = FashionHandle.getInstance().getFashionUsedProto(userId);
 			if (fashionUsing != null) {
 				rankInfo.setFashionUsage(fashionUsing);
 			}
