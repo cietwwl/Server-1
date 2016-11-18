@@ -89,7 +89,7 @@ public class GCompStageController {
 			GroupCompetitionStageCfg stageCfg = GroupCompetitionStageCfgDAO.getInstance().getCfgById(temp.getStageCfgId());
 			long endTime;
 			if (stageCfg.isStartImmediately()) {
-				endTime = _currentStage.getStageEndTime() + 1000;
+				endTime = _currentStage.getStageEndTime() + 5000;
 			} else {
 				IReadOnlyPair<Integer, Integer> startTimeInfo = stageCfg.getStartTimeInfo();
 				endTime = GCompUtil.getNearTimeMillis(startTimeInfo.getT1().intValue(), startTimeInfo.getT2().intValue(), _currentStage.getStageEndTime());
