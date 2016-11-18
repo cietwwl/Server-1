@@ -72,26 +72,16 @@ public class CommonSoulHandler {
 		if (!checkExchangeEnable(player, targetSoulItemId, config) || exchangeRate <= 0) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsExchangeNotOpened());
 		}
-		if (exchangeCount < exchangeRate) {
-			return fillFail(responseBuilder, CommonSoulTips.getTipsNotReachExchangeRate(exchangeRate));
-		}
+		int requiredCount = exchangeCount * exchangeRate;
 		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		ItemData itemData = itemBagMgr.getFirstItemByModelId(config.getCommonSoulStoneCfgId());
-		if (itemData == null || itemData.getCount() < exchangeCount) {
+		if (itemData == null || itemData.getCount() < requiredCount) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsItemNotEnough(config.getCommonSoulStoneName(), exchangeCount));
 		}
-		int targetCount = 0;
-		int removeCount = 0;
-		if(exchangeRate > 1) {
-			targetCount = exchangeCount / exchangeRate;
-			removeCount = targetCount * exchangeRate;
-		} else {
-			targetCount = removeCount = exchangeCount;
-		}
-		List<IUseItem> useItemList = Arrays.asList((IUseItem) new UseItem(itemData.getId(), removeCount));
-		List<INewItem> newItemList = Arrays.asList((INewItem) new NewItem(targetSoulItemId, targetCount, null));
+		List<IUseItem> useItemList = Arrays.asList((IUseItem) new UseItem(itemData.getId(), requiredCount));
+		List<INewItem> newItemList = Arrays.asList((INewItem) new NewItem(targetSoulItemId, exchangeCount, null));
 		if (itemBagMgr.useLikeBoxItem(useItemList, newItemList)) {
-			responseBuilder.setResultCount(targetCount);
+			responseBuilder.setResultCount(exchangeCount);
 			responseBuilder.setResultType(ResultType.success);
 			return responseBuilder.build().toByteString();
 		} else {
