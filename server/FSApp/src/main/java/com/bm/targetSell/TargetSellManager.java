@@ -13,14 +13,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.management.timer.Timer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bm.targetSell.net.BenefitMsgController;
 import com.bm.targetSell.net.TargetSellOpType;
 import com.bm.targetSell.param.ERoleAttrs;
-import com.bm.targetSell.param.RoleAttrs;
 import com.bm.targetSell.param.TargetSellAbsArgs;
 import com.bm.targetSell.param.TargetSellApplyRoleItemParam;
 import com.bm.targetSell.param.TargetSellData;
@@ -35,8 +33,6 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.charge.dao.ChargeInfo;
-import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
@@ -45,8 +41,6 @@ import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
-import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.targetSell.BenefitDataDAO;
@@ -54,7 +48,6 @@ import com.rwbase.dao.targetSell.BenefitItems;
 import com.rwbase.dao.targetSell.TargetSellRecord;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
-import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.MsgDef.Command;
@@ -93,9 +86,9 @@ public class TargetSellManager {
 	
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
 	
-	public static final ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
+	public static ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
 	
-	private TargetSellManager() {
+	public TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
 	}
 	
@@ -471,17 +464,41 @@ public class TargetSellManager {
 	 * @param player
 	 * @param list
 	 */
-	public void notifyRoleAttrsChange(Player player, List<ERoleAttrs> list){
-		String userId = player.getUserId();
-		if(RoleAttrChangeMap.containsKey(userId)){
-			TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
-			if(targetSellRoleChange != null){
-				targetSellRoleChange.addChange(list);
+//	public void notifyRoleAttrsChange(Player player, List<ERoleAttrs> list){
+//		String userId = player.getUserId();
+//		if(RoleAttrChangeMap.containsKey(userId)){
+//			TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
+//			if(targetSellRoleChange != null){
+//				targetSellRoleChange.addChange(list);
+//			}
+//		}else{
+//			TargetSellRoleChange targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
+//			targetSellRoleChange.addChange(list);
+//			RoleAttrChangeMap.put(userId, targetSellRoleChange);
+//		}
+//	}
+	
+	/**
+	 * 通知属性改变
+	 * @param player
+	 * @param list
+	 */
+	public void notifyRoleAttrsChange(String userId, String eRoleAttrID){
+		TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
+		if(targetSellRoleChange == null){
+			targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
+			//这里做个判断，避免多线程问题
+			TargetSellRoleChange old = RoleAttrChangeMap.putIfAbsent(userId, targetSellRoleChange);
+			if(old != null){
+				targetSellRoleChange = old;
 			}
-		}else{
-			TargetSellRoleChange targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
-			targetSellRoleChange.addChange(list);
-			RoleAttrChangeMap.put(userId, targetSellRoleChange);
+		}
+		synchronized (targetSellRoleChange) {
+			if(RoleAttrChangeMap.containsKey(userId)){
+				targetSellRoleChange.addChange(eRoleAttrID);
+			}else{
+				notifyRoleAttrsChange(userId, eRoleAttrID);
+			}
 		}
 	}
 	
@@ -492,7 +509,7 @@ public class TargetSellManager {
 		}
 		
 		String userId = value.getUserId();
-		List<ERoleAttrs> list = value.getChangeList();
+		List<String> list = value.getChangeList();
 		Player player = PlayerMgr.getInstance().find(userId);
 		Map<String, Object> attrs = AttrsProcessMgr.getInstance().packChangeAttr(player, list);
 		
