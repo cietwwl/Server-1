@@ -135,6 +135,7 @@ public class TBTeamItemMgr{
 		GameLog.error("last:" + lastRefreshTime);
 		GameLog.error("now:" + cal.getTimeInMillis());
 		if(lastRefreshTime < cal.getTimeInMillis()){
+			GameLog.error("刷新了组队...@@@@@@@@@@@@");
 			for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
 				TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
 			}
