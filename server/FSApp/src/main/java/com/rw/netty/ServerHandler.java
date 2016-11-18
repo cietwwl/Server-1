@@ -7,6 +7,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -53,24 +54,28 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
-		String addressInfo = String.valueOf(ctx.channel().remoteAddress());
 		long id = seesionIdGenerator.incrementAndGet();
-		System.out.println("open connection=" + id + ":" + addressInfo);
-		super.channelRegistered(ctx);
-		Attribute<SessionInfo> attSession = ctx.channel().attr(SESSION_INFO);
-		SessionInfo sessionInfo = ctx.channel().attr(SESSION_INFO).get();
-		if (sessionInfo != null) {
-			System.out.println("session already create! " + addressInfo);
-		} else {
-			sessionInfo = new SessionInfo(id);
-			if (attSession.setIfAbsent(sessionInfo) != null) {
-				System.out.println("multi thread create session! " + addressInfo);
+		String addressInfo = null;
+		try {
+			addressInfo = String.valueOf(ctx.channel().remoteAddress());
+			System.out.println("open connection=" + id + ":" + addressInfo);
+			Attribute<SessionInfo> attSession = ctx.channel().attr(SESSION_INFO);
+			SessionInfo sessionInfo = ctx.channel().attr(SESSION_INFO).get();
+			if (sessionInfo != null) {
+				System.out.println("session already create! " + addressInfo);
 			} else {
-				ChannelHandlerContext old = channelMap.put(sessionInfo.getSessionId(), ctx);
-				if (old != null) {
-					GameLog.error("createSession", addressInfo, "duplidate session id channel:" + ctx + "," + old);
+				sessionInfo = new SessionInfo(id);
+				if (attSession.setIfAbsent(sessionInfo) != null) {
+					System.out.println("multi thread create session! " + addressInfo);
+				} else {
+					ChannelHandlerContext old = channelMap.put(sessionInfo.getSessionId(), ctx);
+					if (old != null) {
+						GameLog.error("createSession", addressInfo, "duplidate session id channel:" + ctx + "," + old);
+					}
 				}
 			}
+		} finally {
+			super.channelRegistered(ctx);
 		}
 	}
 
@@ -103,23 +108,11 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
-		System.out.println("close connection:" + getCtxInfo(ctx));
-		super.channelUnregistered(ctx);
-		Channel channel = ctx.channel();
-		Attribute<SessionInfo> session = channel.attr(SESSION_INFO);
-		SessionInfo sessionInfo = session.get();
-		if (sessionInfo == null) {
-			return;
-		}
-		Long sessionId = sessionInfo.getSessionId();
-		if (sessionId == null) {
-			System.out.println("remove session fail by session id is null:" + channel);
-			return;
-		}
-		if (channelMap.remove(sessionId) == null) {
-			System.out.println("remove channel fail:" + sessionId);
-		} else {
-			UserChannelMgr.unbindUserId(sessionId, ctx);
+		try {
+			System.out.println("close connection:" + getCtxInfo(ctx));
+			releaseChannelResource(ctx, true);
+		} finally {
+			super.channelUnregistered(ctx);
 		}
 	}
 
@@ -172,6 +165,48 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
 	public static String getCtxInfo(ChannelHandlerContext ctx) {
 		return getCtxInfo(ctx, true);
+	}
+
+	private static void releaseChannelResource(ChannelHandlerContext ctx, boolean removeFromChannelMap) {
+		Channel channel = ctx.channel();
+		Attribute<SessionInfo> session = channel.attr(SESSION_INFO);
+		SessionInfo sessionInfo = session.get();
+		if (sessionInfo == null) {
+			return;
+		}
+		Long sessionId = sessionInfo.getSessionId();
+		if (sessionId == null) {
+			System.out.println("remove session fail by session id is null:" + channel);
+			return;
+		}
+		if (removeFromChannelMap) {
+			if (channelMap.remove(sessionId) == null) {
+				System.out.println("remove channel fail:" + sessionId);
+			}
+		}
+		UserChannelMgr.unbindUserId(sessionId, ctx);
+	}
+
+	public static void checkChannels() {
+		for (Map.Entry<Long, ChannelHandlerContext> entry : channelMap.entrySet()) {
+			ChannelHandlerContext context = entry.getValue();
+			final Long sessionId = entry.getKey();
+			if (!context.channel().isRegistered()) {
+				System.out.println("close connection:" + sessionId);
+				context.channel().eventLoop().execute(new Runnable() {
+
+					@Override
+					public void run() {
+						ChannelHandlerContext context = channelMap.remove(sessionId);
+						if (context == null) {
+							return;
+						}
+						System.out.println("remove channel:" + sessionId);
+						releaseChannelResource(context, false);
+					}
+				});
+			}
+		}
 	}
 
 	public static String getCtxInfo(ChannelHandlerContext ctx, boolean addLastCommand) {
