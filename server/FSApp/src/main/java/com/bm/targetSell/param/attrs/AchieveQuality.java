@@ -4,11 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.bm.targetSell.param.ERoleAttrs;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
-import com.playerdata.eRoleType;
 import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
@@ -16,16 +14,14 @@ import com.playerdata.embattle.EmbattlePositionInfo;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
-import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
 import com.rwbase.dao.user.User;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
 public class AchieveQuality extends AbsAchieveAttrValue{
 
 	@Override
-	public void achieveAttrValue(Player player, User user, ERoleAttrs roleType, Object param, Map<String, Object> AttrMap, BenefitAttrCfgDAO benefitAttrCfgDAO) {
+	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg, Map<String, Object> AttrMap) {
 		HeroMgr heroMgr = player.getHeroMgr();
-		BenefitAttrCfg cfg = benefitAttrCfgDAO.getCfgById(roleType.getIdStr());
 		String[] attrNames = cfg.getAttrName().split(",");
 
 
