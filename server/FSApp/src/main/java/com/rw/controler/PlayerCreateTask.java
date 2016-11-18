@@ -160,8 +160,6 @@ public class PlayerCreateTask implements Runnable {
 			BILogMgr.getInstance().logTaskBegin(player, player.getTaskMgr().getTaskEnumeration(), BITaskType.Main);
 		}
 		
-		ServerStatusMgr.processGmMailWhenCreateRole(player);
-		
 		BILogMgr.getInstance().logZoneReg(player);
 		// 临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
 		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, 0);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.serverStatus.ServerStatusMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -44,6 +45,8 @@ public class UserEventLoginHandler implements IUserEventHandler {
 					ActivityCountTypeMgr.getInstance().addCount(player,
 							ActivityCountTypeEnum.Login, 1);
 				}
+				
+				ServerStatusMgr.processGmMailWhenLogin(player);
 			}
 
 			@Override
