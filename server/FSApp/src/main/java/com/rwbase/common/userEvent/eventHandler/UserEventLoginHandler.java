@@ -27,6 +27,9 @@ public class UserEventLoginHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
+				
+				ServerStatusMgr.processGmMailWhenLogin(player);
+				
 				/** 活动是否开启 */
 				if (!ActivityCountTypeCfgDAO.getInstance().isOpen(
 						ActivityCountTypeEnum.Login)) {
@@ -45,8 +48,6 @@ public class UserEventLoginHandler implements IUserEventHandler {
 					ActivityCountTypeMgr.getInstance().addCount(player,
 							ActivityCountTypeEnum.Login, 1);
 				}
-				
-				ServerStatusMgr.processGmMailWhenLogin(player);
 			}
 
 			@Override
