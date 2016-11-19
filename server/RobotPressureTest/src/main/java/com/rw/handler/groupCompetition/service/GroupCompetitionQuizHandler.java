@@ -122,6 +122,6 @@ public class GroupCompetitionQuizHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		return quizForCompetion(client);
+		return groupCompQuiz(client);
 	}
 }
