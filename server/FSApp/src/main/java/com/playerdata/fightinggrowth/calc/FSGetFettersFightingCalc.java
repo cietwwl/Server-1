@@ -92,7 +92,14 @@ public class FSGetFettersFightingCalc implements IFightingCalc {
 			temp = fettersMap.get(itr.next());
 			List<Integer> conditionList = temp.getConditionList(); // 列表保存的是所有已经完成的英雄羁绊条件
 			conditionCfg = fettersConditionCfgDao.getFettersConditionTemplateByUniqueId(conditionList.get(conditionList.size() - 1)); // 获取最后一个已经完成的条件
+			if (conditionCfg == null) {
+				continue;
+			}
+
 			fettersTemplate = fetterBaseCfgDao.getFettersBaseTemplateById(conditionCfg.getConditionId());
+			if (fettersTemplate == null) {
+				continue;
+			}
 			fighting += getFightingFunc.apply(conditionCfg.getConditionLevel(), fettersTemplate.getSeq());
 		}
 		return fighting;

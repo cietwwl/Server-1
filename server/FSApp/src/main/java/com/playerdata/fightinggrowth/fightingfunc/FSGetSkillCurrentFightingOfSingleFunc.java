@@ -43,7 +43,7 @@ public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, In
 		}
 
 		SkillBuilder sb = new SkillBuilder();
-		sb.setHeroId(hero.getTemplateId());
+		sb.setHeroTemplateId(hero.getTemplateId());
 		sb.setSkillList(skillInfoList);
 
 		return FightingCalcComponentType.SKILL.calc.calc(sb.build());

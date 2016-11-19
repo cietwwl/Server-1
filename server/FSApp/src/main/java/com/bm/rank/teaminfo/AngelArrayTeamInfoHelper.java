@@ -960,7 +960,7 @@ public class AngelArrayTeamInfoHelper {
 
 		// 技能战力
 		SkillBuilder sb = new SkillBuilder();
-		sb.setHeroId(tmpId);
+		sb.setHeroTemplateId(tmpId);
 		sb.setSkillList(heroInfo.getSkill());
 		int skill = FightingCalcComponentType.SKILL.calc.calc(sb.build());
 		fighting += skill;
