@@ -39,6 +39,14 @@ public class TargetSellRoleChange {
 		this.changeList = changeList;
 	}
 
+	
+	public void addChanges(List<String> values){
+		for (String v : values) {
+			if(!this.changeList.contains(v)){
+				this.changeList.add(v);
+			}
+		}
+	}
 
 	public void addChange(String value) {
 		if (!this.changeList.contains(value)) {

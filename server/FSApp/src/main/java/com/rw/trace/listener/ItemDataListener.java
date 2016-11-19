@@ -65,6 +65,7 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 						}
 					}
 				}
+				checkItemDataAndNotifyBenefit(newItem);
 			}
 		}
 		
@@ -85,7 +86,7 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 		}
 	}
 	
-	
+	//检查一下道具是否要通知精准营销系统
 	private void checkItemDataAndNotifyBenefit(ItemData data){
 		EItemTypeDef type = ItemCfgHelper.getItemType(data.getModelId());
 		if(type == EItemTypeDef.Magic){

@@ -29,6 +29,7 @@ public class TargetSellSendTask implements IGameTimerTask{
 				synchronized (value) {
 					iterator.remove();
 				}
+				TargetSellManager.getInstance().packHeroChangeAttr(entry.getKey(), value);
 				TargetSellManager.getInstance().packAndSendMsg(value);
 			}
 		}

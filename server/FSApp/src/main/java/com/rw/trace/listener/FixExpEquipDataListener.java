@@ -25,7 +25,7 @@ public class FixExpEquipDataListener implements SingleChangedListener<FixExpEqui
 		if(oldRecord.getStar() != currentRecord.getStar()){
 			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(oldRecord.getSlot(), EAchieveType.AchieveveHeroFixEquipUpgradStar.getId());
 			if (cfg != null) {
-				TargetSellManager.getInstance().notifyRoleAttrsChange(oldRecord.getOwnerId(), cfg.getId());
+				TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), cfg.getId());
 			}
 		}
 	}
