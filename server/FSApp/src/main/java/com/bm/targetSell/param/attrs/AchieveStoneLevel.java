@@ -51,7 +51,7 @@ public class AchieveStoneLevel extends AbsAchieveAttrValue{
 		
 		Hero hero = heroMgr.getHeroById(player, heroId);
 		if(hero != null){
-			List<InlayItem> list = InlayMgr.getInstance().getInlayGenList(cfg.getParam());
+			List<InlayItem> list = InlayMgr.getInstance().getInlayGenList(heroId);
 			for (int i = 0; i < list.size(); i++) {
 				InlayItem item = list.get(i);
 				if(item == null){

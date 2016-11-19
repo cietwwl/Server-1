@@ -18,7 +18,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bm.targetSell.net.BenefitMsgController;
 import com.bm.targetSell.net.TargetSellOpType;
-import com.bm.targetSell.param.ERoleAttrs;
 import com.bm.targetSell.param.TargetSellAbsArgs;
 import com.bm.targetSell.param.TargetSellApplyRoleItemParam;
 import com.bm.targetSell.param.TargetSellData;
@@ -34,6 +33,7 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.MD5;
@@ -87,6 +87,12 @@ public class TargetSellManager {
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
 	
 	public static ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
+	
+	/*
+	 * key=heroID, value=ChangeAttr  这个缓存是保存部分无法找到角色id的英雄改变属性，每次RoleAttrChangeMap发送的时候会进入此缓存检查是否存在自己的英雄属性
+	 * 角色下线也会做检索移除操作
+	 */
+	public static ConcurrentHashMap<String, List<String>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<String>>();
 	
 	public TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
@@ -478,6 +484,19 @@ public class TargetSellManager {
 //		}
 //	}
 	
+	
+	public void notifyHeroAttrsChange(String heroID, String eRoleAttrID){
+		List<String> change = HeroAttrChangeMap.get(heroID);
+		if(change == null){
+			change = new ArrayList<String>();
+			List<String> list = HeroAttrChangeMap.putIfAbsent(heroID, change);
+			if(list != null){
+				change = list;
+			}
+		}
+		change.add(eRoleAttrID);
+	}
+	
 	/**
 	 * 通知属性改变
 	 * @param player
@@ -498,6 +517,22 @@ public class TargetSellManager {
 				targetSellRoleChange.addChange(eRoleAttrID);
 			}else{
 				notifyRoleAttrsChange(userId, eRoleAttrID);
+			}
+		}
+	}
+	
+	/**
+	 * 检查打包英雄改变的属性
+	 * @param userID
+	 * @param value
+	 */
+	public void packHeroChangeAttr(String userID, TargetSellRoleChange value) {
+		Player player = PlayerMgr.getInstance().find(userID);
+		List<String> list = FSHeroMgr.getInstance().getHeroIdList(player);
+		for (String heroID : list) {
+			List<String> change = HeroAttrChangeMap.remove(heroID);
+			if(change != null && value != null){
+				value.addChanges(change);
 			}
 		}
 	}
@@ -753,6 +788,15 @@ public class TargetSellManager {
 	
 	
 	/**
+	 * 角色下线通知,清除一下英雄缓存
+	 * @param userID
+	 */
+	public void roleLogOutNotify(String userID){
+		packHeroChangeAttr(userID, null);
+	}
+	
+	
+	/**
 	 * 发送数据到精准服
 	 * @param content
 	 */
@@ -781,6 +825,10 @@ public class TargetSellManager {
 		}
 		
 	}
+
+
+
+	
 
 	
 	

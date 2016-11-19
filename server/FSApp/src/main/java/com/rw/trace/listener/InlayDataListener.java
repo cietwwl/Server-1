@@ -29,36 +29,18 @@ public class InlayDataListener implements SingleChangedListener<InlayItem>{
 		InlayItem oldRecord = event.getOldRecord();
 		InlayItem currentRecord = event.getCurrentRecord();
 		
-		//TODO 还要检查一下英雄是否上阵，如果上，要获取上阵位置
-		
-		
-		int pos = 0;
-		
-		 EmbattlePositionInfo positionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(currentRecord.getOwnerId(), eBattlePositionType.Normal_VALUE, null);
-		 if(positionInfo == null){
-				return;
-			}
-			String heroId = "";
-			List<EmbattleHeroPosition> p = positionInfo.getPos();
-			for (EmbattleHeroPosition embattleHeroPosition : p) {
-				if (embattleHeroPosition.getPos() == pos) {
-					heroId = embattleHeroPosition.getId();
-					break;
-				} 
-			}
-		
 		if(oldRecord.getModelId() != currentRecord.getModelId()){
-			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(pos, 
+			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(oldRecord.getSlotId(), 
 					EAchieveType.AchieveStoneLevel.getId());// 宝石等级
 			if(cfg != null){
-				TargetSellManager.getInstance().notifyRoleAttrsChange(oldRecord.getOwnerId(), cfg.getId());
+				TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), cfg.getId());
 			}
 			
-			cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(pos, 
+			cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(oldRecord.getSlotId(), 
 					EAchieveType.AchieveStoneType.getId());
-					if(cfg!= null){
-						TargetSellManager.getInstance().notifyRoleAttrsChange(oldRecord.getOwnerId(), cfg.getId());		
-					}
+			if (cfg != null) {
+				TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), cfg.getId());
+			}
 		}
 	}
 
