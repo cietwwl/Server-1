@@ -38,12 +38,13 @@ public class PVPHandler implements RandomMethodIF{
 		ArmyInfo armyInfo = null;
 		if(enenmyUserId!=null){
 			armyInfo = obtainEnemy(client, enenmyUserId);
+		}else{
+			return true;
 		}
 		boolean success = false;
 		if(armyInfo!=null){
 			success = sendResult(client, enenmyUserId);
 		}
-		
 		return success;
 	}
 
@@ -77,9 +78,6 @@ public class PVPHandler implements RandomMethodIF{
 					
 					RobotLog.fail("PVPHandler[before] 返回的竞技对手列表为空");
 					return false;
-					
-					
-					
 				} catch (InvalidProtocolBufferException e) {
 					RobotLog.fail("PVPHandler[before] 失败", e);
 					return false;

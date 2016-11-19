@@ -1046,13 +1046,13 @@ public class Robot {
 	}
 
 	public boolean testPeakArena() {
-		PeakArenaHandler.getHandler().changeEnemy(client, "");
+		PeakArenaHandler.getHandler().changeEnemy(client);
 		List<ArenaInfo> listInfoList = client.getPeakArenaDataHolder().getListInfoList();
 		if (listInfoList == null || listInfoList.size() <= 0) {
 			return true;
 		}
-		PeakArenaHandler.getHandler().fightStart(client, "");
-		return PeakArenaHandler.getHandler().fightFinish(client, "");
+		PeakArenaHandler.getHandler().fightStart(client);
+		return PeakArenaHandler.getHandler().fightFinish(client);
 	}
 
 	public void openGroupSecretMainView() {
