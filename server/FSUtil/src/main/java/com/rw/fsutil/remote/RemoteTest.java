@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 import com.rw.fsutil.remote.parse.FSIntMessagePrefix;
 import com.rw.fsutil.remote.parse.FSMessageDecoder;
 import com.rw.fsutil.remote.parse.FSMessageEncoder;
+import com.rw.fsutil.remote.parse.FSMessageExecutor;
 import com.rw.fsutil.remote.parse.FSMessagePrefix;
 
 public class RemoteTest {
@@ -48,7 +49,17 @@ public class RemoteTest {
 			}
 		};
 
-		final RemoteChannelServer<String, String> server = new RemoteChannelServer<String, String>("192.168.2.253", 7777, 4, 4, decoder, encoder);
+		FSMessageExecutor<String> executor = new FSMessageExecutor<String>() {
+
+			@Override
+			public void execute(String message) {
+				// TODO Auto-generated method stub
+
+			}
+		};
+
+		final RemoteChannelServer<String, String> server = new RemoteChannelServer<String, String>("192.168.2.253",
+				7777, 4, 4, decoder, encoder, executor);
 		Thread.sleep(1000);
 
 		for (int i = 0; i < 10; i++) {

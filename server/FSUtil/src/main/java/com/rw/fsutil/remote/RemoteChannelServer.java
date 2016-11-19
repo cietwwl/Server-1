@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.rw.fsutil.remote.parse.FSMessageDecoder;
 import com.rw.fsutil.remote.parse.FSMessageEncoder;
+import com.rw.fsutil.remote.parse.FSMessageExecutor;
 import com.rw.fsutil.util.RandomUtil;
 
 public class RemoteChannelServer<SendMessage, ReceiveMessage> {
@@ -34,8 +35,10 @@ public class RemoteChannelServer<SendMessage, ReceiveMessage> {
 	private final int maxConnection;
 	private final RemoteMessageDecoder<ReceiveMessage> decoder;
 	private final RemoteMessageEncoder<SendMessage> encoder;
+	private final FSMessageExecutor<ReceiveMessage> executor;
 
-	public RemoteChannelServer(String host, int port, int threadCount, int maxConnection, FSMessageDecoder<ReceiveMessage> decoder, FSMessageEncoder<SendMessage> encoder) {
+	public RemoteChannelServer(String host, int port, int threadCount, int maxConnection,
+			FSMessageDecoder<ReceiveMessage> decoder, FSMessageEncoder<SendMessage> encoder, FSMessageExecutor<ReceiveMessage> executor) {
 		this.host = host;
 		this.port = port;
 		this.portString = String.valueOf(port);
@@ -44,10 +47,9 @@ public class RemoteChannelServer<SendMessage, ReceiveMessage> {
 		this.bootstrap = new Bootstrap();
 		this.bootstrap.group(eventGroup).channel(NioSocketChannel.class).handler(new ChannelInit());
 		this.channels = new ArrayList<Channel>();
-		// StringDecoder
-		StringEncoder e = new StringEncoder();
 		this.decoder = new RemoteMessageDecoder<ReceiveMessage>(decoder);
 		this.encoder = new RemoteMessageEncoder<SendMessage>(encoder);
+		this.executor = executor;
 
 		eventGroup.scheduleAtFixedRate(new Runnable() {
 
@@ -103,15 +105,13 @@ public class RemoteChannelServer<SendMessage, ReceiveMessage> {
 
 		Channel channel = current.get(index);
 		if (channel.isActive()) {
-			channel.writeAndFlush(content).addListener(new GenericFutureListener<Future<Void>>() {
-
-				@Override
-				public void operationComplete(Future<Void> future) throws Exception {
-					System.out.println("发送结果：" + future);
-				}
-			});
+			channel.writeAndFlush(content);
 		}
 		return true;
+	}
+
+	public FSMessageExecutor<ReceiveMessage> getExecutor() {
+		return executor;
 	}
 
 }

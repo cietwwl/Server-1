@@ -1,21 +1,19 @@
 package com.rw.fsutil.remote;
 
-import java.util.Arrays;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-public class RemoteServerHandler extends ChannelInboundHandlerAdapter {
+public class RemoteServerHandler<SendMessage, ReceiveMessage> extends ChannelInboundHandlerAdapter {
 
-	private final RemoteChannelServer server;
+	private final RemoteChannelServer<SendMessage, ReceiveMessage> server;
 
-	public RemoteServerHandler(RemoteChannelServer server) {
+	public RemoteServerHandler(RemoteChannelServer<SendMessage, ReceiveMessage> server) {
 		this.server = server;
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		System.out.println("收到消息：" + msg + Arrays.toString(((String) msg).getBytes()));
+		this.server.getExecutor().execute((ReceiveMessage)msg);
 	}
 
 	@Override
