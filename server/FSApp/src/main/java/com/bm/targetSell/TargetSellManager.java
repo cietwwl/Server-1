@@ -34,12 +34,14 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.MD5;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
@@ -48,6 +50,8 @@ import com.rwbase.dao.targetSell.BenefitItems;
 import com.rwbase.dao.targetSell.TargetSellRecord;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerPredecessor;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.MsgDef.Command;
@@ -791,8 +795,22 @@ public class TargetSellManager {
 	 * 角色下线通知,清除一下英雄缓存
 	 * @param userID
 	 */
-	public void roleLogOutNotify(String userID){
-		packHeroChangeAttr(userID, null);
+	public void checkLogOutRoleList(){
+		List<String> offLineUserIds = UserChannelMgr.extractLogoutUserIdList();
+		if(offLineUserIds == null || offLineUserIds.isEmpty()){
+			return;
+		}
+		
+		for (final String userID : offLineUserIds) {
+			GameWorldFactory.getGameWorld().asyncExecute(userID, new PlayerPredecessor() {
+				
+				@Override
+				public void run(String e) {
+					packHeroChangeAttr(userID, null);
+					
+				}
+			});
+		}
 	}
 	
 	
