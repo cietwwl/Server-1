@@ -44,6 +44,7 @@ public class GroupBaseDataHolder {
 	 * @return
 	 */
 	public String getGroupId() {
+		if(groupBaseData == null) return null;
 		return groupBaseData.getId();
 	}
 }

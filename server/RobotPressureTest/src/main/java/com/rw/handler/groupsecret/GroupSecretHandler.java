@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.protobuf.ByteString;
 import com.rw.Client;
 import com.rw.common.PrintMsgReciver;
@@ -29,6 +31,7 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 public class GroupSecretHandler implements RandomMethodIF{
+	
 	private static GroupSecretHandler handler = new GroupSecretHandler();
 	private static final Command command = Command.MSG_GROUP_SECRET;
 	private static final String functionName = "帮派秘境";
@@ -231,6 +234,10 @@ public class GroupSecretHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
+		if(StringUtils.isBlank(client.getGroupBaseDataHolder().getGroupId())){
+			RobotLog.fail(functionName + "--玩家[" + client.getAccountId() + "]没有帮派...");
+			return true;
+		}
 		return createGroupSecret(client);
 	}
 }
