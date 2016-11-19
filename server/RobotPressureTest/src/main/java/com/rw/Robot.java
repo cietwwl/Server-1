@@ -34,6 +34,7 @@ import com.rw.handler.friend.FriendHandler;
 import com.rw.handler.gamble.GambleHandler;
 import com.rw.handler.gameLogin.GameLoginHandler;
 import com.rw.handler.gameLogin.SelectCareerHandler;
+import com.rw.handler.giftcode.GiftCodeHandler;
 import com.rw.handler.group.GroupBaseHandler;
 import com.rw.handler.group.GroupMemberHandler;
 import com.rw.handler.group.GroupPersonalHandler;
@@ -71,7 +72,7 @@ import com.rwproto.PeakArenaServiceProtos.ArenaInfo;
  * @Description 
  */
 public class Robot {
-	
+
 	private static boolean isInit = false;
 
 	private String accountId;
@@ -92,10 +93,10 @@ public class Robot {
 
 	public Robot(String accountIdP) {
 		this.accountId = accountIdP;
-//		Client clientTmp = ClientPool.getByAccountId(accountIdP);
-//		if (clientTmp != null) {
-//			client = clientTmp;
-//		}
+		// Client clientTmp = ClientPool.getByAccountId(accountIdP);
+		// if (clientTmp != null) {
+		// client = clientTmp;
+		// }
 	}
 
 	public synchronized static Robot newInstance(String accountIdP) {
@@ -664,7 +665,7 @@ public class Robot {
 
 	public void quitPlatForm() {
 		if (client != null) {
-//			ClientPool.remove(client.getAccountId());
+			// ClientPool.remove(client.getAccountId());
 			try {
 				client.closeConnect();
 			} catch (Exception e) {
@@ -1155,12 +1156,13 @@ public class Robot {
 
 	/**
 	 * 申请开启帮派副本
+	 * 
 	 * @return
 	 */
-	public boolean applyOpenGroupCopy(){
+	public boolean applyOpenGroupCopy() {
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 		List<GroupCopyMapRecord> list = GroupCopyMgr.getInstance().getAllOnGoingChaters(client);
-		if(list.isEmpty()){
+		if (list.isEmpty()) {
 			RobotLog.info("发现角色无已开启帮派副本，执行开启请求!");
 			// 增加一下帮派经验
 			addGroupExp();
@@ -1171,37 +1173,39 @@ public class Robot {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 请求同步帮派关卡数据
+	 * 
 	 * @return
 	 */
-	public boolean applySynGroupCopyData(){
-		//同步地图关卡数据
+	public boolean applySynGroupCopyData() {
+		// 同步地图关卡数据
 		GroupCopyHandler.getInstance().applyCopyInfo(client);
 		return true;
 	}
-	
+
 	/**
 	 * 获取随机一个帮派地图
+	 * 
 	 * @return
 	 */
-	public int getRandomGroupCopyID(){
+	public int getRandomGroupCopyID() {
 		GroupCopyMapRecord record = GroupCopyMgr.getInstance().getRandomOpenChater(client);
-		if(record == null){
+		if (record == null) {
 			RobotLog.info("当前机器人没有可进入的帮派副本");
 			return 0;
 		}
 		return Integer.parseInt(record.getCurLevelID());
 	}
-	
+
 	/**
-	 * 帮派副本战斗
-	 * 跑这个方法前，要依次调用 {@link Robot#applyOpenGroupCopy()},{@link Robot#getRandomGroupCopyID()},{@link Robot#applySynGroupCopyData()}
+	 * 帮派副本战斗 跑这个方法前，要依次调用 {@link Robot#applyOpenGroupCopy()},{@link Robot#getRandomGroupCopyID()},{@link Robot#applySynGroupCopyData()}
+	 * 
 	 * @return
 	 */
 	public boolean playerGroupCopy(int copyID) {
-		
+
 		return GroupCopyMgr.getInstance().playGroupCopy(client, String.valueOf(copyID));
 	}
 
@@ -1271,20 +1275,30 @@ public class Robot {
 	public boolean applyAllRewardApplyInfo() {
 		return GroupCopyHandler.getInstance().getAllRewardApplyInfo(client);
 	}
-	
+
 	public boolean testGroupCompetition() {
 		client.executeAsynResp();
 		return GroupCompetitionHandler.getHandler().testGroupCompetition(client);
 	}
-	
+
 	/*
-	 * 随机执行方法 
+	 * 随机执行方法
 	 */
 	public boolean executeRandomMethod() {
 		RandomMethodIF randomHandler = client.getNextModuleHandler();
-		if(null != randomHandler){
+		if (null != randomHandler) {
 			return randomHandler.executeMethod(client);
 		}
 		return true;
+	}
+
+	/**
+	 * 使用兑换码
+	 * 
+	 * @param code
+	 * @return
+	 */
+	public boolean useGiftCode(String code) {
+		return GiftCodeHandler.getHandler().useGiftCodeHandler(client, code);
 	}
 }

@@ -4071,6 +4071,33 @@ public final class GroupCopyCmdProto {
      * <code>required int64 damage = 5;</code>
      */
     long getDamage();
+
+    // required string headFrame = 6;
+    /**
+     * <code>required string headFrame = 6;</code>
+     *
+     * <pre>
+     *头像框	
+     * </pre>
+     */
+    boolean hasHeadFrame();
+    /**
+     * <code>required string headFrame = 6;</code>
+     *
+     * <pre>
+     *头像框	
+     * </pre>
+     */
+    java.lang.String getHeadFrame();
+    /**
+     * <code>required string headFrame = 6;</code>
+     *
+     * <pre>
+     *头像框	
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getHeadFrameBytes();
   }
   /**
    * Protobuf type {@code GroupCopyCmd.ArmyHurtStruct}
@@ -4150,6 +4177,11 @@ public final class GroupCopyCmdProto {
             case 40: {
               bitField0_ |= 0x00000010;
               damage_ = input.readInt64();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              headFrame_ = input.readBytes();
               break;
             }
           }
@@ -4334,12 +4366,68 @@ public final class GroupCopyCmdProto {
       return damage_;
     }
 
+    // required string headFrame = 6;
+    public static final int HEADFRAME_FIELD_NUMBER = 6;
+    private java.lang.Object headFrame_;
+    /**
+     * <code>required string headFrame = 6;</code>
+     *
+     * <pre>
+     *头像框	
+     * </pre>
+     */
+    public boolean hasHeadFrame() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>required string headFrame = 6;</code>
+     *
+     * <pre>
+     *头像框	
+     * </pre>
+     */
+    public java.lang.String getHeadFrame() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          headFrame_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string headFrame = 6;</code>
+     *
+     * <pre>
+     *头像框	
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getHeadFrameBytes() {
+      java.lang.Object ref = headFrame_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        headFrame_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       headIcon_ = "";
       roleName_ = "";
       lv_ = 0;
       killTime_ = 0L;
       damage_ = 0L;
+      headFrame_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4366,6 +4454,10 @@ public final class GroupCopyCmdProto {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasHeadFrame()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4387,6 +4479,9 @@ public final class GroupCopyCmdProto {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeInt64(5, damage_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getHeadFrameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -4416,6 +4511,10 @@ public final class GroupCopyCmdProto {
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(5, damage_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getHeadFrameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4547,6 +4646,8 @@ public final class GroupCopyCmdProto {
         bitField0_ = (bitField0_ & ~0x00000008);
         damage_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000010);
+        headFrame_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -4595,6 +4696,10 @@ public final class GroupCopyCmdProto {
           to_bitField0_ |= 0x00000010;
         }
         result.damage_ = damage_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.headFrame_ = headFrame_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4630,6 +4735,11 @@ public final class GroupCopyCmdProto {
         if (other.hasDamage()) {
           setDamage(other.getDamage());
         }
+        if (other.hasHeadFrame()) {
+          bitField0_ |= 0x00000020;
+          headFrame_ = other.headFrame_;
+          onChanged();
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -4652,6 +4762,10 @@ public final class GroupCopyCmdProto {
           return false;
         }
         if (!hasDamage()) {
+          
+          return false;
+        }
+        if (!hasHeadFrame()) {
           
           return false;
         }
@@ -4940,6 +5054,104 @@ public final class GroupCopyCmdProto {
         return this;
       }
 
+      // required string headFrame = 6;
+      private java.lang.Object headFrame_ = "";
+      /**
+       * <code>required string headFrame = 6;</code>
+       *
+       * <pre>
+       *头像框	
+       * </pre>
+       */
+      public boolean hasHeadFrame() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>required string headFrame = 6;</code>
+       *
+       * <pre>
+       *头像框	
+       * </pre>
+       */
+      public java.lang.String getHeadFrame() {
+        java.lang.Object ref = headFrame_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          headFrame_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string headFrame = 6;</code>
+       *
+       * <pre>
+       *头像框	
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getHeadFrameBytes() {
+        java.lang.Object ref = headFrame_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          headFrame_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string headFrame = 6;</code>
+       *
+       * <pre>
+       *头像框	
+       * </pre>
+       */
+      public Builder setHeadFrame(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headFrame = 6;</code>
+       *
+       * <pre>
+       *头像框	
+       * </pre>
+       */
+      public Builder clearHeadFrame() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        headFrame_ = getDefaultInstance().getHeadFrame();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string headFrame = 6;</code>
+       *
+       * <pre>
+       *头像框	
+       * </pre>
+       */
+      public Builder setHeadFrameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        headFrame_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:GroupCopyCmd.ArmyHurtStruct)
     }
 
@@ -4997,17 +5209,17 @@ public final class GroupCopyCmdProto {
       "Rank\"8\n\023GroupCopyDonateData\022\r\n\005level\030\001 \002",
       "(\t\022\022\n\ndonateTime\030\002 \002(\005\"C\n\021GroupCopyHurtR" +
       "ank\022.\n\010rankData\030\001 \003(\0132\034.GroupCopyCmd.Arm" +
-      "yHurtStruct\"b\n\016ArmyHurtStruct\022\020\n\010headIco" +
+      "yHurtStruct\"u\n\016ArmyHurtStruct\022\020\n\010headIco" +
       "n\030\001 \002(\t\022\020\n\010roleName\030\002 \002(\t\022\n\n\002lv\030\003 \002(\005\022\020\n" +
-      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\003*\277\001\n\020Grou" +
-      "pCopyReqType\022\014\n\010GET_INFO\020\001\022\027\n\023GET_DROP_A" +
-      "PPLY_INFO\020\002\022\017\n\013BUFF_DONATE\020\003\022\027\n\023GET_GROU" +
-      "P_HURT_RANK\020\004\022\025\n\021APPLY_SERVER_RANK\020\005\022\023\n\017" +
-      "APPLY_WAR_PRICE\020\006\022\025\n\021CANCEL_APPLY_ITEM\020\007" +
-      "\022\027\n\023GET_DIST_REWARD_LOG\020\010*H\n\022GroupCopyMa",
-      "pStatus\022\013\n\007LOCKING\020\000\022\014\n\010NOTSTART\020\001\022\013\n\007ON" +
-      "GOING\020\002\022\n\n\006FINISH\020\003B \n\013com.rwprotoB\021Grou" +
-      "pCopyCmdProto"
+      "\010killTime\030\004 \002(\003\022\016\n\006damage\030\005 \002(\003\022\021\n\theadF" +
+      "rame\030\006 \002(\t*\277\001\n\020GroupCopyReqType\022\014\n\010GET_I" +
+      "NFO\020\001\022\027\n\023GET_DROP_APPLY_INFO\020\002\022\017\n\013BUFF_D" +
+      "ONATE\020\003\022\027\n\023GET_GROUP_HURT_RANK\020\004\022\025\n\021APPL" +
+      "Y_SERVER_RANK\020\005\022\023\n\017APPLY_WAR_PRICE\020\006\022\025\n\021" +
+      "CANCEL_APPLY_ITEM\020\007\022\027\n\023GET_DIST_REWARD_L",
+      "OG\020\010*H\n\022GroupCopyMapStatus\022\013\n\007LOCKING\020\000\022" +
+      "\014\n\010NOTSTART\020\001\022\013\n\007ONGOING\020\002\022\n\n\006FINISH\020\003B " +
+      "\n\013com.rwprotoB\021GroupCopyCmdProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5043,7 +5255,7 @@ public final class GroupCopyCmdProto {
           internal_static_GroupCopyCmd_ArmyHurtStruct_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_GroupCopyCmd_ArmyHurtStruct_descriptor,
-              new java.lang.String[] { "HeadIcon", "RoleName", "Lv", "KillTime", "Damage", });
+              new java.lang.String[] { "HeadIcon", "RoleName", "Lv", "KillTime", "Damage", "HeadFrame", });
           return null;
         }
       };

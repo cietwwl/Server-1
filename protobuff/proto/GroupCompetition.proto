@@ -297,7 +297,7 @@ message GroupScoreData {
 }
 
 message GroupCompetitionTeamDataReq {
-	required GCRequestType requestType = 1; // 请求类型（）
+	required GCRequestType requestType = 1; // 请求类型（AllTeamData, RandomJoinTeam, JoinTeam, RefreshTeams）
 	optional string teamId = 2; // 队伍的id
 }
 

@@ -41,10 +41,4 @@ public class SendRewardRecord {
 	public void setLasttime(long lasttime) {
 		this.lasttime = lasttime;
 	}
-	
-	
-	
-	
-	
-	
 }

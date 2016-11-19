@@ -369,7 +369,7 @@ public class GroupCopyMgr {
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 			
 			ArmyInfo info = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroList);
-			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info, player.getUserId());
+			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info, player);
 			damageInfo.setDamage(damage);
 			mapRecordHolder.checkDamageRank(cfg.getChaterID(),damageInfo);
 			//关卡全服单次伤害排行
@@ -388,9 +388,9 @@ public class GroupCopyMgr {
 	}
 
 
-	public static GroupCopyArmyDamageInfo armyInfo2DamageInfo(ArmyInfo info, String playerID) {
+	public static GroupCopyArmyDamageInfo armyInfo2DamageInfo(ArmyInfo info, Player player) {
 		GroupCopyArmyDamageInfo damageInfo = new GroupCopyArmyDamageInfo();
-		damageInfo.setPlayerID(playerID);
+		damageInfo.setPlayerID(player.getUserId());
 		damageInfo.setTime(System.currentTimeMillis());
 		
 		GroupCopyTeamInfo teamInfo = new GroupCopyTeamInfo();
@@ -410,8 +410,9 @@ public class GroupCopyMgr {
 		teamInfo.setPlayer(initTeamHero(tHero, info.getPlayer()));
 		teamInfo.setPlayerHeadImage(info.getPlayerHeadImage());
 		teamInfo.setPlayerName(info.getPlayerName());
-		
+		teamInfo.setPlayerHeadFrame(player.getHeadFrame());
 		damageInfo.setArmy(teamInfo);
+		
 		return damageInfo;
 	}
 
@@ -668,6 +669,7 @@ public class GroupCopyMgr {
 			struct.setLv(item.getArmy().getPlayer().getLevel());
 			struct.setKillTime(item.getTime());
 			struct.setDamage(item.getDamage());
+			struct.setHeadFrame(role.getHeadFrame());
 			hr.addRankData(struct);
 		}
 		

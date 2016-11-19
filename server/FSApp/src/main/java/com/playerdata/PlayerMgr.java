@@ -287,29 +287,20 @@ public class PlayerMgr {
 	}
 
 	public int sendEmailToList(List<Player> playerList, final EmailData emailData, final List<PlayerFilterCondition> conditionList) {
-		PlayerCallBackTask playerTask = new PlayerCallBackTask() {
-			@Override
-			public void doCallBack(Player player) {
-				boolean filted = false;
-				for (PlayerFilterCondition conTmp : conditionList) {
-					if (!PlayerFilter.isInRange(player, conTmp)) {
-						filted = true;
-						break;
-					}
+		for (Player player : playerList) {
+			boolean filted = false;
+			for (PlayerFilterCondition conTmp : conditionList) {
+				if (!PlayerFilter.isInRange(player, conTmp)) {
+					filted = true;
+					break;
 				}
-				long taskId = emailData.getTaskId();
-				if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
-					EmailUtils.sendEmail(player.getUserId(), emailData);
-				}
-
 			}
-
-			@Override
-			public String getName() {
-				return "sendEmailToList";
+			long taskId = emailData.getTaskId();
+			if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+				EmailUtils.sendEmail(player.getUserId(), emailData);
 			}
-		};
-		return gamePlayerEmailHelper.addTask(playerList, playerTask);
+		}
+		return 1;
 
 	}
 
