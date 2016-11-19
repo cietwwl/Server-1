@@ -33,6 +33,9 @@ public class TargetSellSendTask implements IGameTimerTask{
 				TargetSellManager.getInstance().packAndSendMsg(value);
 			}
 		}
+		
+		//检查一下角色退出列表
+		TargetSellManager.getInstance().checkLogOutRoleList();
 		return "SUCCESS";
 	}
 
