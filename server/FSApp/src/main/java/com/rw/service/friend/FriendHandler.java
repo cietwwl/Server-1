@@ -295,7 +295,7 @@ public class FriendHandler {
 	public FriendInfo reCommandRobot(Player player, TableFriend tableFriend, RankType rankType) {
 		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(rankType);
 		int size = ranking.size();
-		int start = HPCUtil.getRandom().nextInt(size - 1) + 1;
+		int start = size == 1 ? 1 : HPCUtil.getRandom().nextInt(size - 1) + 1;
 		String robotUserId = null;
 		for (int i = 0; i < size; i++) {
 			if (++start > size) {
