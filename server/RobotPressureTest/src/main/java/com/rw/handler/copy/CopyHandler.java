@@ -33,8 +33,8 @@ import com.rwproto.ResponseProtos.Response;
 public class CopyHandler implements RandomMethodIF{
 	private static CopyHandler handler = new CopyHandler();
 	public static int levelId = 0;
-	public static final int[] warFareCopyId = {150041,150042,150043,150044,150045};
-	public static final int towCopyId = 190002;
+	public static final int[] warFareCopyId = {150041,150042,150043,150044,150045};//
+	public static final int towCopyId = 190002;	//封神台
 	public static final int[] jbzdCopyId = {140001,140002,140003,140004,140005};
 	public static final int[] lxsgCopyId = {140011,140012,140013,140014,140015};
 	public static final int[] CelestialCopyId ={140021,140022,140023,140024,140025,140031,140032,140033,140034,140035};
@@ -186,7 +186,6 @@ public class CopyHandler implements RandomMethodIF{
 		int levelId = 0;
 		if(copyType == CopyType.COPY_TYPE_WARFARE){
 			int randomNum = Test.random.nextInt(warFareCopyId.length);
-			
 			levelId = warFareCopyId[randomNum];
 			System.out.println("copyhandler,随机数 levelid =" + levelId + " num="+randomNum);
 		}else if(copyType ==CopyType.COPY_TYPE_TOWER){

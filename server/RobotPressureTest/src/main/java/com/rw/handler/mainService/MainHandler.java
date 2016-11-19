@@ -3,6 +3,7 @@ package com.rw.handler.mainService;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.PrintMsgReciver;
 import com.rw.common.RobotLog;
@@ -37,11 +38,9 @@ public class MainHandler implements RandomMethodIF{
 	 * @param client
 	 * @return
 	 */
-	public boolean buyTower(Client client) {
+	public boolean buyPower(Client client) {
 		MsgMainRequest.Builder req = MsgMainRequest.newBuilder();
 		req.setRequestType(EMainServiceType.BUY_POWER);
-//		req.setWorshipCareer
-		
 
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_MainService, req.build().toByteString(), new MsgReciver() {
 
@@ -166,7 +165,8 @@ public class MainHandler implements RandomMethodIF{
 	public boolean executeMethod(Client client) {
 		UserGameData gameData = client.getUserGameDataHolder().getUserGameData();
 		if(gameData.getPower() <= 10){
-			return buyTower(client);
+			client.getRateHelper().addActionToQueue(ActionEnum.Copy);
+			return buyPower(client);
 		}	
 		return buyCoin2(client);
 	}

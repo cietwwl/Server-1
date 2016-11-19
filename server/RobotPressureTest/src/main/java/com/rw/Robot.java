@@ -849,7 +849,7 @@ public class Robot {
 	 * 买体
 	 */
 	public boolean testMainService() {
-		return MainHandler.getHandler().buyTower(client);
+		return MainHandler.getHandler().buyPower(client);
 	}
 
 	public int getChatCount() {
