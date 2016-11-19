@@ -4,11 +4,8 @@ import com.google.protobuf.ByteString;
 import com.rw.config.RawConfigReader;
 
 public class DebugNewGuideData {
-	private static DebugNewGuideData instance;
+	private static DebugNewGuideData instance = new DebugNewGuideData();
 	public static DebugNewGuideData getInstance(){
-		if (instance == null){
-			instance = new DebugNewGuideData();
-		}
 		return instance;
 	}
 	public static void Clear(){

@@ -66,7 +66,7 @@ public class RandomBossMgr{
 	
 	private static RandomBossMgr instance = new RandomBossMgr();
 	
-	private RandomBossMgr(){
+	protected RandomBossMgr(){
 		rbDao = RandomBossRecordDAO.getInstance();
 		rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 	}

@@ -40,11 +40,11 @@ import com.rwproto.MsgDef.Command;
 
 public class GCompTeamMgr {
 
-	private static final GCompTeamMgr _instance = new GCompTeamMgr();
+	private static GCompTeamMgr _instance = new GCompTeamMgr();
 	
 	private static AtomicInteger _idGenerator = new AtomicInteger(10000000);
 	
-	public static final GCompTeamMgr getInstance() {
+	public static GCompTeamMgr getInstance() {
 		return _instance;
 	}
 	

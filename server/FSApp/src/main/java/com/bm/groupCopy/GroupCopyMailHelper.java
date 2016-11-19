@@ -1,9 +1,7 @@
 package com.bm.groupCopy;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 import com.bm.group.GroupBM;
 import com.rw.fsutil.util.DateUtils;
@@ -28,9 +26,9 @@ import com.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 public class GroupCopyMailHelper {
 	
 
-	private static final GroupCopyMailHelper instance = new GroupCopyMailHelper();
+	private static  GroupCopyMailHelper instance = new GroupCopyMailHelper();
 	
-	private GroupCopyMailHelper(){
+	protected GroupCopyMailHelper(){
 	}
 	
 	public static GroupCopyMailHelper getInstance(){

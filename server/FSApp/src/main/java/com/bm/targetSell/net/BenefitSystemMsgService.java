@@ -26,7 +26,7 @@ public class BenefitSystemMsgService {
 		return handler;
 	}
 	
-	private BenefitSystemMsgService() {
+	protected BenefitSystemMsgService() {
 	}
 	
 	public void doTask(String jsonStr){

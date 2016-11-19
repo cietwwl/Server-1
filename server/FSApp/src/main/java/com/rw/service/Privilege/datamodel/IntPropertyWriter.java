@@ -1,12 +1,9 @@
 package com.rw.service.Privilege.datamodel;
 
 public class IntPropertyWriter extends AbstractPropertyWriter<Integer> {
-	private static IntPropertyWriter instance;
+	private static IntPropertyWriter instance = new IntPropertyWriter();
 
 	public static IntPropertyWriter getShareInstance() {
-		if (instance == null) {
-			instance = new IntPropertyWriter();
-		}
 		return instance;
 	}
 

@@ -12,9 +12,9 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompDetailInfoHolder {
 
-	private static final GCompDetailInfoHolder _instance = new GCompDetailInfoHolder();
+	private static GCompDetailInfoHolder _instance = new GCompDetailInfoHolder();
 	
-	public static final GCompDetailInfoHolder getInstance() {
+	public static GCompDetailInfoHolder getInstance() {
 		return _instance;
 	}
 	

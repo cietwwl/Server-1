@@ -25,7 +25,7 @@ public class BenefitMsgController {
 
 	private AtomicBoolean shutDown = new AtomicBoolean(false);
 
-	private BenefitMsgController() {
+	protected BenefitMsgController() {
 	}
 
 	public static BenefitMsgController getInstance() {

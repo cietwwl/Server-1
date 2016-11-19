@@ -25,12 +25,9 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class DailyActivityHandler {
-	private static DailyActivityHandler m_instance = null;
+	private static DailyActivityHandler m_instance = new DailyActivityHandler();
 
 	public static DailyActivityHandler getInstance() {
-		if (m_instance == null) {
-			m_instance = new DailyActivityHandler();
-		}
 		return m_instance;
 	}
 

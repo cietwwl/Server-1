@@ -6,13 +6,13 @@ import com.rwbase.dao.hero.pojo.FSUserHeroGlobalData;
 
 public class FSUserHeroGlobalDataDAO extends DataKVDao<FSUserHeroGlobalData> {
 
-	private static final FSUserHeroGlobalDataDAO _INSTANCE = new FSUserHeroGlobalDataDAO();
+	private static FSUserHeroGlobalDataDAO _instance = new FSUserHeroGlobalDataDAO();
 
 	protected FSUserHeroGlobalDataDAO() {
 	}
 
 	public static FSUserHeroGlobalDataDAO getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	@Override

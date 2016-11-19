@@ -34,10 +34,10 @@ public class EquipItemHolder {
 	// // }
 	// }
 
-	private static final EquipItemHolder _INSTANCE = new EquipItemHolder();
+	private static EquipItemHolder _instance = new EquipItemHolder();
 
-	public static final EquipItemHolder getInstance() {
-		return _INSTANCE;
+	public static EquipItemHolder getInstance() {
+		return _instance;
 	}
 
 	final private eSynType equipSynType = eSynType.EQUIP_ITEM;

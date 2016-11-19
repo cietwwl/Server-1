@@ -8,7 +8,7 @@ public class ChargeInfoDao extends DataKVDao<ChargeInfo>{
 	
 	private static ChargeInfoDao instance  =  new ChargeInfoDao();
 	
-	private ChargeInfoDao(){super();};
+	protected ChargeInfoDao(){super();};
 	
 	public static ChargeInfoDao getInstance(){
 		return instance;

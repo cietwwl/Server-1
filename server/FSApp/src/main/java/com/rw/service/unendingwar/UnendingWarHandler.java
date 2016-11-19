@@ -21,7 +21,7 @@ import com.rwproto.UnendingWarProtos.UnendingWarResponse;
 public class UnendingWarHandler {
 	private static UnendingWarHandler instance = new UnendingWarHandler();
 
-	private UnendingWarHandler() {
+	protected UnendingWarHandler() {
 	}
 
 	public static UnendingWarHandler getInstance() {

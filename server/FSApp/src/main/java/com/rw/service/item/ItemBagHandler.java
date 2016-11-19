@@ -43,12 +43,9 @@ import com.rwproto.ItemBagProtos.UseItemInfo;
 public class ItemBagHandler {
 
 	private static final int MaxBuyCountLimit = 99;
-	private static ItemBagHandler m_instance = null;
+	private static ItemBagHandler m_instance = new ItemBagHandler();
 
 	public static ItemBagHandler getInstance() {
-		if (m_instance == null) {
-			m_instance = new ItemBagHandler();
-		}
 		return m_instance;
 	}
 

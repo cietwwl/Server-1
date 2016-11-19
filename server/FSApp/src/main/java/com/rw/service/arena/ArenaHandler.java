@@ -86,15 +86,12 @@ import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class ArenaHandler {
 
-	private static ArenaHandler instance;
+	private static ArenaHandler instance = new ArenaHandler();
 
-	private ArenaHandler() {
+	protected ArenaHandler() {
 	}
 
 	public static ArenaHandler getInstance() {
-		if (instance == null) {
-			instance = new ArenaHandler();
-		}
 		return instance;
 	}
 

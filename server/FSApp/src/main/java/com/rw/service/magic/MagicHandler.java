@@ -44,17 +44,14 @@ import com.rwproto.MagicServiceProtos.eMagicType;
 
 public class MagicHandler {
 
-	private static MagicHandler instance;
+	private static MagicHandler instance = new MagicHandler();
 
 	/** 法宝等级对应的经验 */
 
-	private MagicHandler() {
+	protected MagicHandler() {
 	}
 
 	public static MagicHandler getInstance() {
-		if (instance == null) {
-			instance = new MagicHandler();
-		}
 		return instance;
 	}
 

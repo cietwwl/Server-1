@@ -25,7 +25,7 @@ import com.rwproto.SkillServiceProtos.SkillResponse;
 
 public class SkillHandler {
 
-	private SkillHandler() {
+	protected SkillHandler() {
 	}
 
 	private static SkillHandler instance = new SkillHandler();

@@ -18,7 +18,7 @@ import com.rwbase.dao.setting.pojo.HeadBoxCfg;
 
 public class FSuserFightingGrowthMgr {
 
-	private static final FSuserFightingGrowthMgr _instance = new FSuserFightingGrowthMgr();
+	private static FSuserFightingGrowthMgr _instance = new FSuserFightingGrowthMgr();
 	
 	private FSUserFightingGrowthHolder _holder = FSUserFightingGrowthHolder.getInstance();
 	

@@ -1,7 +1,6 @@
 package com.playerdata.hero.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -19,7 +18,6 @@ import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
-import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.hero.IHeroConsumer;
@@ -48,10 +46,10 @@ import com.rwproto.MsgDef.Command;
 
 public class FSHeroMgr implements HeroMgr {
 
-	private static final FSHeroMgr _INSTANCE = new FSHeroMgr();
+	private static FSHeroMgr _instance = new FSHeroMgr();
 
-	public static final FSHeroMgr getInstance() {
-		return _INSTANCE;
+	public static FSHeroMgr getInstance() {
+		return _instance;
 	}
 
 	private List<Hero> getAllHeros(PlayerIF player, Comparator<Hero> comparator, boolean includeMain) {
@@ -329,7 +327,7 @@ public class FSHeroMgr implements HeroMgr {
 		ArrayList<Hero> result = new ArrayList<Hero>(size > 4 ? 5 : size + 1);
 		result.add(consumer.getMainHero());
 		if (size > 4) {
-			Collections.sort(targetList, FSHeroFightPowerComparator.INSTANCE);
+			Collections.sort(targetList, FSHeroFightPowerComparator._instance);
 			result.addAll(targetList.subList(0, 4));
 		} else {
 			result.addAll(targetList);

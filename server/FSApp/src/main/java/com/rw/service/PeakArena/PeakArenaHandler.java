@@ -94,15 +94,12 @@ import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class PeakArenaHandler {
 
-	private static PeakArenaHandler instance;
+	private static PeakArenaHandler instance = new PeakArenaHandler();
 
-	private PeakArenaHandler() {
+	protected PeakArenaHandler() {
 	}
 
 	public static PeakArenaHandler getInstance() {
-		if (instance == null) {
-			instance = new PeakArenaHandler();
-		}
 		return instance;
 	}
 

@@ -23,7 +23,7 @@ import com.rwproto.CommonSoulServiceProto.ResultType;
 
 public class CommonSoulHandler {
 
-	private static final CommonSoulHandler _instance = new CommonSoulHandler();
+	private static CommonSoulHandler _instance = new CommonSoulHandler();
 
 	public static final CommonSoulHandler getInstance() {
 		return _instance;

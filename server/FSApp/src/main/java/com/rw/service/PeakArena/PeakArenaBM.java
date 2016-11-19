@@ -45,7 +45,7 @@ import com.rwbase.dao.skill.pojo.TableSkill;
 
 public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 
-	private static PeakArenaBM instance;
+	private static PeakArenaBM instance = new PeakArenaBM();
 	private TablePeakArenaDataDAO tablePeakArenaDataDAO = TablePeakArenaDataDAO.getInstance();
 	private static final Comparator<PeakRecordInfo> recordComparator = new PeakRecordComparator();
 	private static int RESULT_COUNT = 3; // 随机后的结果人数
@@ -54,9 +54,6 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 	public static final int MAX_DISPLAY_COUNT = 20;
 
 	public static PeakArenaBM getInstance() {
-		if (instance == null) {
-			instance = new PeakArenaBM();
-		}
 		return instance;
 	}
 
@@ -69,7 +66,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 			return o1.getRanking() - o2.getRanking();
 		}
 	};
-	private PeakArenaBM() {
+	protected PeakArenaBM() {
 		RandomCombination[] singleDigitArray = new RandomCombination[10];
 		for (int i = 1; i <= 10; i++) {
 			singleDigitArray[i - 1] = new RandomCombination(i);

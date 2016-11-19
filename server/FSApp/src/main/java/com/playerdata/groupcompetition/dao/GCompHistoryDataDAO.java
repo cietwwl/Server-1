@@ -7,9 +7,9 @@ import com.rwbase.gameworld.GameWorldKey;
 
 public class GCompHistoryDataDAO {
 
-	private static final GCompHistoryDataDAO _instance = new GCompHistoryDataDAO();
+	private static GCompHistoryDataDAO _instance = new GCompHistoryDataDAO();
 	
-	public static final GCompHistoryDataDAO getInstance() {
+	public static GCompHistoryDataDAO getInstance() {
 		return _instance;
 	}
 	

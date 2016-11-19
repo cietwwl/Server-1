@@ -15,6 +15,6 @@ public class GroupSecretTeamDataDAO extends DataKVDao<GroupSecretTeamData> {
 		return dao;
 	}
 
-	private GroupSecretTeamDataDAO() {
+	protected GroupSecretTeamDataDAO() {
 	}
 }

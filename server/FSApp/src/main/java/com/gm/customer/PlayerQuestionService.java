@@ -2,14 +2,8 @@ package com.gm.customer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.Spring;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -24,14 +18,13 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.PlayerQuestionMgr;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
-import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.ServerConfig;
 
 public class PlayerQuestionService {
-	private static PlayerQuestionService instance = new PlayerQuestionService();
+//	private static PlayerQuestionService instance = new PlayerQuestionService();
 	private GmSenderConfig senderConfig; 
-	private BlockingQueue<QuestionObject> Queue = new LinkedBlockingQueue<PlayerQuestionService.QuestionObject>();
+//	private BlockingQueue<QuestionObject> Queue = new LinkedBlockingQueue<PlayerQuestionService.QuestionObject>();
 	
 	private ExecutorService sendService;
 

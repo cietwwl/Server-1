@@ -24,7 +24,7 @@ import com.sun.org.apache.regexp.internal.recompile;
 
 public class StoreHandler {
 	private static StoreHandler instance = new StoreHandler();	
-	private StoreHandler(){		
+	protected StoreHandler(){		
 	}
 	
 	public static StoreHandler getInstance(){

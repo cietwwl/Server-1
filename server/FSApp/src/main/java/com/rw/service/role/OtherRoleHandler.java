@@ -37,7 +37,7 @@ import com.rwproto.OtherRoleAttrProtos.SkillInfo;
 public class OtherRoleHandler {
 	private static OtherRoleHandler instance = new OtherRoleHandler();
 
-	private OtherRoleHandler() {
+	protected OtherRoleHandler() {
 	}
 
 	public static OtherRoleHandler getInstance() {

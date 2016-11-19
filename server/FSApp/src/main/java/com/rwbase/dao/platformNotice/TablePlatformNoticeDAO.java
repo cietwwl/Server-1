@@ -7,7 +7,7 @@ import com.rw.fsutil.cacheDao.PFDataRdbDao;
 public class TablePlatformNoticeDAO extends PFDataRdbDao<TablePlatformNotice>{
 	private static TablePlatformNoticeDAO instance = new TablePlatformNoticeDAO();
 	
-	private TablePlatformNoticeDAO(){};
+	protected TablePlatformNoticeDAO(){};
 	
 	public static TablePlatformNoticeDAO getInstance(){
 		return instance;

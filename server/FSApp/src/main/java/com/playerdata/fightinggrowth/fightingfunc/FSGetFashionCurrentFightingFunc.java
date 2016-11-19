@@ -8,7 +8,7 @@ import com.rwbase.common.IBIFunction;
 
 public class FSGetFashionCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 
-	private static final FSGetFashionCurrentFightingFunc _INSTANCE = new FSGetFashionCurrentFightingFunc();
+	private static FSGetFashionCurrentFightingFunc _instance = new FSGetFashionCurrentFightingFunc();
 
 
 	private FSGetFashionCurrentFightingOfSingleFunc _single;
@@ -17,8 +17,8 @@ public class FSGetFashionCurrentFightingFunc implements IBIFunction<Player, List
 		_single = FSGetFashionCurrentFightingOfSingleFunc.getInstance();
 	}
 
-	public static final FSGetFashionCurrentFightingFunc getInstance() {
-		return _INSTANCE;
+	public static FSGetFashionCurrentFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

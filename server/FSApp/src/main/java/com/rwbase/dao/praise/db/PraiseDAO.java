@@ -15,6 +15,6 @@ public class PraiseDAO extends DataKVDao<PraiseData> {
 		return dao;
 	}
 
-	private PraiseDAO() {
+	protected PraiseDAO() {
 	}
 }

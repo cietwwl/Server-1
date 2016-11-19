@@ -9,9 +9,9 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompBaseInfoHolder {
 	
-	private static final GCompBaseInfoHolder _instance = new GCompBaseInfoHolder();
+	private static GCompBaseInfoHolder _instance = new GCompBaseInfoHolder();
 	
-	public static final GCompBaseInfoHolder getInstance() {
+	public static GCompBaseInfoHolder getInstance() {
 		return _instance;
 	}
 	

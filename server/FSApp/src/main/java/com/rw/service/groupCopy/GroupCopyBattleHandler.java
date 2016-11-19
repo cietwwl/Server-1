@@ -27,16 +27,13 @@ import com.rwproto.GroupCopyBattleProto.RequestType;
  * @Description 帮派的基础处理
  */
 public class GroupCopyBattleHandler {
-	private static GroupCopyBattleHandler instance;
+	private static GroupCopyBattleHandler instance = new GroupCopyBattleHandler();
 
 	public static GroupCopyBattleHandler getInstance() {
-		if (instance == null) {
-			instance = new GroupCopyBattleHandler();
-		}
 		return instance;
 	}
 
-	private GroupCopyBattleHandler() {}
+	protected GroupCopyBattleHandler() {}
 
 	
 	/**

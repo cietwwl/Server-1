@@ -128,7 +128,7 @@ public class GMHandler {
 	// 是否激活gm指令
 	private boolean active = false;
 
-	private GMHandler() {
+	protected GMHandler() {
 		initMap();
 	};
 

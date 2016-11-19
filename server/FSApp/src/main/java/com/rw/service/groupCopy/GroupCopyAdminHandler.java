@@ -28,16 +28,13 @@ import com.rwproto.GroupCopyAdminProto.RequestType;
  * @Description 帮派的基础处理
  */
 public class GroupCopyAdminHandler {
-	private static GroupCopyAdminHandler instance;
+	private static GroupCopyAdminHandler instance = new GroupCopyAdminHandler();
 
 	public static GroupCopyAdminHandler getInstance() {
-		if (instance == null) {
-			instance = new GroupCopyAdminHandler();
-		}
 		return instance;
 	}
 
-	private GroupCopyAdminHandler() {
+	protected GroupCopyAdminHandler() {
 	}
 
 

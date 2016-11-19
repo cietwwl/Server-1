@@ -15,7 +15,7 @@ public final class UserGroupAttributeDataDAO extends DataRdbDao<UserGroupAttribu
 		return dao;
 	}
 
-	private UserGroupAttributeDataDAO() {
+	protected UserGroupAttributeDataDAO() {
 	}
 
 	/**

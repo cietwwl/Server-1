@@ -24,7 +24,7 @@ public class OpenLevelTiggerServiceMgr {
 
 	private final ServiceTiggerToFriend friendTigger;
 
-	private OpenLevelTiggerServiceMgr() {
+	protected OpenLevelTiggerServiceMgr() {
 		this.friendTigger = new ServiceTiggerToFriend();
 	}
 

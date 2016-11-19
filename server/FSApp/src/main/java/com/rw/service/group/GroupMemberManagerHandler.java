@@ -57,16 +57,13 @@ import com.rwproto.GroupMemberMgrProto.KickMemberReqMsg;
  * @Description 帮派成员管理的协议处理
  */
 public class GroupMemberManagerHandler {
-	private static GroupMemberManagerHandler handler;
+	private static GroupMemberManagerHandler handler = new GroupMemberManagerHandler();
 
 	public static GroupMemberManagerHandler getHandler() {
-		if (handler == null) {
-			handler = new GroupMemberManagerHandler();
-		}
 		return handler;
 	}
 
-	private GroupMemberManagerHandler() {
+	protected GroupMemberManagerHandler() {
 	}
 
 	/**

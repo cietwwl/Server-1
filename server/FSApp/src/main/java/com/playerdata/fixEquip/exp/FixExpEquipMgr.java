@@ -38,10 +38,10 @@ import com.rwproto.FixEquipProto.SelectItem;
 public class FixExpEquipMgr {
 
 
-	private static final FixExpEquipMgr _INSTANCE = new FixExpEquipMgr();
+	private static FixExpEquipMgr _instance = new FixExpEquipMgr();
 
 	public static FixExpEquipMgr getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	public FixExpEquipDataItemHolder getFixExpEquipDataItemHolder(){

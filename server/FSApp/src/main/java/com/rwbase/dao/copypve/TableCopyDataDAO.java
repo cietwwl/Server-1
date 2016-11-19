@@ -6,7 +6,7 @@ import com.rwbase.dao.copypve.pojo.TableCopyData;
 public class TableCopyDataDAO extends DataKVDao<TableCopyData> {
 
 	private static TableCopyDataDAO instance = new TableCopyDataDAO();
-	private TableCopyDataDAO(){}
+	protected TableCopyDataDAO(){}
 	
 	public static TableCopyDataDAO getInstance()
 	{

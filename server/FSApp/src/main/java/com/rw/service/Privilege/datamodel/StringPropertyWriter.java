@@ -2,12 +2,9 @@ package com.rw.service.Privilege.datamodel;
 
 public class StringPropertyWriter extends AbstractPropertyWriter<String> {
 
-	private static StringPropertyWriter instance;
+	private static StringPropertyWriter instance = new StringPropertyWriter();
 	
 	public static StringPropertyWriter getShareInstance() {
-		if (instance == null) {
-			instance = new StringPropertyWriter();
-		}
 		return instance;
 	}
 	

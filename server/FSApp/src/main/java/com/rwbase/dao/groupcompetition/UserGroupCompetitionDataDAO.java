@@ -5,9 +5,9 @@ import com.rwbase.dao.groupcompetition.pojo.UserGroupCompetitionData;
 
 public class UserGroupCompetitionDataDAO extends DataKVDao<UserGroupCompetitionData> {
 
-	private static final UserGroupCompetitionDataDAO _INSTANCE = new UserGroupCompetitionDataDAO();
+	private static UserGroupCompetitionDataDAO _instance = new UserGroupCompetitionDataDAO();
 	
 	public static UserGroupCompetitionDataDAO getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 }

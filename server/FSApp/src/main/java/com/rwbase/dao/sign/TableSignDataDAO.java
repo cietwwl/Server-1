@@ -6,7 +6,7 @@ import com.rwbase.dao.sign.pojo.TableSignData;
 public class TableSignDataDAO extends DataKVDao<TableSignData>
 {
 	private static TableSignDataDAO instance = new TableSignDataDAO();
-	private TableSignDataDAO(){}
+	protected TableSignDataDAO(){}
 	
 	public static TableSignDataDAO getInstance()
 	{

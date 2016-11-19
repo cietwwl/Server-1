@@ -13,7 +13,7 @@ import com.rwproto.SignServiceProtos.MsgSignResponse;
 public class SignHandler 
 {
 	private static SignHandler instance = new SignHandler();
-	private SignHandler() {}
+	protected SignHandler() {}
 	public static SignHandler getInstance() 
 	{
 		return instance;

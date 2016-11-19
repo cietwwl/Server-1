@@ -7,7 +7,7 @@ import com.rw.fsutil.cacheDao.DataRdbDao;
 public class TableGameNoticeDAO extends DataRdbDao<TableGameNotice>{
 	private static TableGameNoticeDAO instance  = new TableGameNoticeDAO();
 	
-	private TableGameNoticeDAO(){};
+	protected TableGameNoticeDAO(){};
 	
 	public static TableGameNoticeDAO getInstance(){
 		return instance;

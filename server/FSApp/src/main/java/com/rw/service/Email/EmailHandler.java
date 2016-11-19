@@ -30,15 +30,12 @@ import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class EmailHandler {
 
-	private static EmailHandler instance;
+	private static EmailHandler instance = new EmailHandler();
 
-	private EmailHandler() {
+	protected EmailHandler() {
 	}
 
 	public static EmailHandler getInstance() {
-		if (instance == null) {
-			instance = new EmailHandler();
-		}
 		return instance;
 	}
 

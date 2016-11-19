@@ -95,7 +95,7 @@ public class TargetSellManager {
 	
 	public static final ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
 	
-	private TargetSellManager() {
+	protected TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
 	}
 	

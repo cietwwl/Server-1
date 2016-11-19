@@ -15,14 +15,14 @@ import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfg;
 
 public class FSGetSpriteAttachCurrentFightingOfSingleFunc implements IFunction<Hero, Integer>{
 
-	private static final FSGetSpriteAttachCurrentFightingOfSingleFunc _instance = new FSGetSpriteAttachCurrentFightingOfSingleFunc();
+	private static FSGetSpriteAttachCurrentFightingOfSingleFunc _instance = new FSGetSpriteAttachCurrentFightingOfSingleFunc();
 	private SpriteAttachFightingCfgDAO spriteAttachFightingCfgDAO;
 	
 	protected FSGetSpriteAttachCurrentFightingOfSingleFunc(){
 		spriteAttachFightingCfgDAO = SpriteAttachFightingCfgDAO.getInstance();
 	}
 	
-	public static final FSGetSpriteAttachCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetSpriteAttachCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 	

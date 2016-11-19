@@ -10,7 +10,7 @@ import com.rwbase.common.attribute.param.GemParam.GemBuilder;
 
 public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetGemCurrentFightingOfSingleFunc _instance = new FSGetGemCurrentFightingOfSingleFunc();
+	private static FSGetGemCurrentFightingOfSingleFunc _instance = new FSGetGemCurrentFightingOfSingleFunc();
 
 	// private GemFightingCfgDAO gemFightingCfgDAO;
 
@@ -18,7 +18,7 @@ public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Inte
 		// gemFightingCfgDAO = GemFightingCfgDAO.getInstance();
 	}
 
-	public static final FSGetGemCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetGemCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 

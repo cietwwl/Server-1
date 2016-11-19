@@ -10,12 +10,9 @@ import com.rwproto.PrivilegeProtos.PrivilegeProperty;
 import com.rwproto.PrivilegeProtos.PrivilegeValue;
 
 public class PrivilegeConfigHelper {
-	private static PrivilegeConfigHelper instance;
+	private static PrivilegeConfigHelper instance = new PrivilegeConfigHelper();
 
 	public static PrivilegeConfigHelper getInstance() {
-		if (instance == null) {
-			instance = new PrivilegeConfigHelper();
-		}
 		return instance;
 	}
 

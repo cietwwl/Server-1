@@ -9,12 +9,9 @@ public class ChargeTypePriority implements Comparator<String> {
 	public static final String monthPrefix = "month";
 	public static final String vipPrefix = "vip";
 	
-	private static ChargeTypePriority instance;
+	private static ChargeTypePriority instance = new ChargeTypePriority();
 
 	public static ChargeTypePriority getShareInstance(){
-		if (instance == null){
-			instance = new ChargeTypePriority();
-		}
 		return instance;
 	}
 	

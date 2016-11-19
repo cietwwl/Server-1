@@ -6,7 +6,7 @@ import com.rwbase.gameworld.GameWorldKey;
 
 public class GroupCompetitionDataHolder {
 
-	private static final GroupCompetitionDataHolder _instance = new GroupCompetitionDataHolder();
+	private static GroupCompetitionDataHolder _instance = new GroupCompetitionDataHolder();
 	
 	private GroupCompetitionGlobalData _data;
 	

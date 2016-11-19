@@ -7,7 +7,7 @@ public class UserUniqueNameDAO extends DataKVDao<TableUniqueName>{
 	
 	private static UserUniqueNameDAO instance  =  new UserUniqueNameDAO();
 	
-	private UserUniqueNameDAO(){};
+	protected UserUniqueNameDAO(){};
 	
 	public static UserUniqueNameDAO getInstance(){
 		return instance;

@@ -20,11 +20,9 @@ import com.rwproto.PveServiceProtos.PveActivity;
 import com.rwproto.PveServiceProtos.PveServiceResponse;
 
 public class PveHandler {
-	private static PveHandler instance;
+	private static PveHandler instance = new PveHandler();
 
 	public static PveHandler getInstance() {
-		if (instance == null)
-			instance = new PveHandler();
 		return instance;
 	}
 

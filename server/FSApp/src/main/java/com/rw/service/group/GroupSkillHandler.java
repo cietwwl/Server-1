@@ -33,16 +33,13 @@ import com.rwproto.GroupSkillServiceProto.GroupSkillCommonRspMsg;
  * @Description 帮派的基础处理
  */
 public class GroupSkillHandler {
-	private static GroupSkillHandler handler;
+	private static GroupSkillHandler handler = new GroupSkillHandler();
 
 	public static GroupSkillHandler getInstance() {
-		if (handler == null) {
-			handler = new GroupSkillHandler();
-		}
 		return handler;
 	}
 
-	private GroupSkillHandler() {
+	protected GroupSkillHandler() {
 	}
 
 	/**

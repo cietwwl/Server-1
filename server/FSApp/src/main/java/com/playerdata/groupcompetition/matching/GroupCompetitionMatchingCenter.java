@@ -20,11 +20,11 @@ import com.playerdata.groupcompetition.util.GCompEventsStatus;
  */
 public class GroupCompetitionMatchingCenter {
 
-	private static final GroupCompetitionMatchingCenter _instance = new GroupCompetitionMatchingCenter();
+	private static GroupCompetitionMatchingCenter _instance = new GroupCompetitionMatchingCenter();
 	
 	private final Map<Integer, AgainstMatchingTask> _matchingDataMap = new ConcurrentHashMap<Integer, AgainstMatchingTask>();
 	
-	public static final GroupCompetitionMatchingCenter getInstance() {
+	public static GroupCompetitionMatchingCenter getInstance() {
 		return _instance;
 	}
 	

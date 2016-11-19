@@ -17,9 +17,6 @@ public class AttrsProcessMgr {
 	
 	
 	public static AttrsProcessMgr getInstance(){
-		if(instance == null){
-			instance = new AttrsProcessMgr();
-		}
 		return instance;
 	}
 	

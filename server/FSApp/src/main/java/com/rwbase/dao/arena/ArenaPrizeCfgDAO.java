@@ -11,8 +11,7 @@ import com.rwbase.dao.arena.pojo.ArenaPrizeCfg;
 
 public class ArenaPrizeCfgDAO extends CfgCsvDao<ArenaPrizeCfg> {
 
-	private static ArenaPrizeCfgDAO instance;
-	private ArenaPrizeCfgDAO(){}
+	protected ArenaPrizeCfgDAO(){}
 	
 	public static ArenaPrizeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ArenaPrizeCfgDAO.class);

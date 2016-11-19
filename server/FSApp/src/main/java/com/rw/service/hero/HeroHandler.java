@@ -46,7 +46,7 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
 public class HeroHandler {
 	private static HeroHandler instance = new HeroHandler();
 
-	private HeroHandler() {
+	protected HeroHandler() {
 	}
 
 	public static HeroHandler getInstance() {

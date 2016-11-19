@@ -3,22 +3,14 @@ package com.rw.service.guide.datamodel;
 import com.log.GameLog;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.dataaccess.hero.HeroExtPropertyType;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rwbase.common.INotifyChange;
-import com.rwbase.common.MapItemStoreFactory;
-import com.rwbase.dao.fashion.FashionItem;
 
 public class GiveItemHistoryHolder {
-	private static GiveItemHistoryHolder instance;
+	private static GiveItemHistoryHolder instance = new GiveItemHistoryHolder();
 	
 	public static GiveItemHistoryHolder getInstance(){
-		if (instance == null){
-			instance = new GiveItemHistoryHolder();
-		}
 		return instance;
 	}
 	

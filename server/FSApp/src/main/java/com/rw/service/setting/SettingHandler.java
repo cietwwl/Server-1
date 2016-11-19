@@ -19,7 +19,7 @@ import com.rwproto.PlayerSettingProtos.eSettingResultType;
 public class SettingHandler 
 {
 	private static SettingHandler instance = new SettingHandler();
-	private SettingHandler(){}
+	protected SettingHandler(){}
 	public static SettingHandler getInstance()
 	{
 		return instance;
