@@ -4,26 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeHelper;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
@@ -39,16 +25,11 @@ import com.rwbase.common.config.CfgCsvHelper;
  * @Description 帮派的基础配置表Dao
  */
 public final class ActivityRedEnvelopeTypeCfgDAO extends CfgCsvDao<ActivityRedEnvelopeTypeCfg> {
-
-
 	
 	public static ActivityRedEnvelopeTypeCfgDAO getInstance() {
 		return SpringContextUtil.getBean(ActivityRedEnvelopeTypeCfgDAO.class);
 	}
-	
-	
-	
-	
+		
 	@Override
 	public Map<String, ActivityRedEnvelopeTypeCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityRedEnvelopeTypeCfg.csv", ActivityRedEnvelopeTypeCfg.class);

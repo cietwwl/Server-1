@@ -59,7 +59,7 @@ public class GroupCollector implements RedPointCollector {
 
 		// 个人学习技能的列表
 		GroupSkillLevelCfgDAO dao = GroupSkillLevelCfgDAO.getDAO();
-		int contribution = memberData.getContribution();// 当前个人的贡献值
+		int contribution = userGroupAttributeData.getContribution();// 当前个人的贡献值
 		boolean canStudySkill = false;
 		Enumeration<GroupSkillItem> researchSkill = groupData.getResearchSkill();
 		while (researchSkill.hasMoreElements()) {

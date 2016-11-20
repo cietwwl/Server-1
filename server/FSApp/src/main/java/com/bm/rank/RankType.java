@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.bm.rank.arena.ArenaDailyExtension;
 import com.bm.rank.arena.ArenaSettleExtension;
+import com.bm.rank.consume.ConsumeRankExtension;
 import com.bm.rank.fightingAll.FightingExtension;
 import com.bm.rank.group.base.GroupBaseRankExtension;
 import com.bm.rank.group.createtime.GroupCreateTimeRankExtension;
@@ -19,6 +20,7 @@ import com.bm.rank.groupsecretmatch.GroupSecretMatchRankExtension;
 import com.bm.rank.level.LevelExtension;
 import com.bm.rank.magicsecret.MagicSecretExtension;
 import com.bm.rank.populatity.PopularityRankExtension;
+import com.bm.rank.recharge.ChargeRankExtension;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoExtension;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.ranking.RankingConfig;
@@ -68,7 +70,13 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// 个人人气榜
 	POPULARITY_RANK(34, 10000, "个人人气排行榜", 1, PopularityRankExtension.class),
 	// 机器人等级榜
-	LEVEL_ROBOT(36, 100, "机器人等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer());
+	LEVEL_ROBOT(36, 100, "机器人等级排行榜", 1, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
+
+	// 充值排行榜
+	ACTIVITY_CHARGE_RANK(37, 1000, "充值排行榜", 1, ChargeRankExtension.class),
+	// 消费排行榜
+	ACTIVITY_CONSUME_RANK(38, 1000, "消费排行榜", 1, ConsumeRankExtension.class),
+	;
 	
 	
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {

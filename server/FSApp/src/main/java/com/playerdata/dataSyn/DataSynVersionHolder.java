@@ -23,7 +23,6 @@ import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activity.timeCountType.ActivityTimeCountTypeMgr;
 import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.charge.ChargeMgr;
-import com.playerdata.commonsoul.CommonSoulConfigHolder;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
 import com.playerdata.groupFightOnline.data.UserGFightOnlineHolder;
