@@ -53,7 +53,7 @@ public class GroupCopyMailHelper {
 				continue;
 			}
 //			System.out.println("准备发放帮派副本奖励，帮派名：" + group.getGroupBaseDataMgr().getGroupData().getGroupName());
-			group.getGroupCopyMgr().checkAndSendGroupPriceMail(group.getGroupBaseDataMgr().getGroupData().getGroupName());
+			group.getGroupCopyMgr().checkAndSendGroupPriceMail(group);
 		}
 		
 	}
