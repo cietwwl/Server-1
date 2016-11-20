@@ -13,10 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.common.DetectionTool;
 import com.common.RefParam;
 import com.log.GameLog;
-import com.mysql.jdbc.TimeUtil;
 import com.playerdata.common.PlayerEventListener;
 import com.playerdata.readonly.StoreMgrIF;
 import com.rw.fsutil.util.DateUtils;
@@ -30,7 +28,6 @@ import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.store.CommodityCfgDAO;
 import com.rwbase.dao.store.StoreCfgDAO;
-import com.rwbase.dao.store.TableStoreDao;
 import com.rwbase.dao.store.WakenLotteryDrawCfgDAO;
 import com.rwbase.dao.store.pojo.CommodityCfg;
 import com.rwbase.dao.store.pojo.CommodityData;
@@ -83,7 +80,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 		for (StoreCfg cfg : allStore) {
 			type = cfg.getType();
-			//by franky 升级vip的时候会先更新特权，然后再调用AddStore!
+			// by franky 升级vip的时候会先更新特权，然后再调用AddStore!
 			StorePrivilegeNames pname = null;
 			eStoreType storeType = eStoreType.getDef(type);
 			switch (storeType) {
@@ -96,9 +93,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			default:
 				break;
 			}
-			if (pname != null){
+			if (pname != null) {
 				boolean isOpen = m_pPlayer.getPrivilegeMgr().getBoolPrivilege(pname);
-				if (isOpen){
+				if (isOpen) {
 					if (!m_StoreData.containsKey(type)) {
 						pStoreData = new StoreData();
 						pStoreData.setId(getStoreId(type, m_pPlayer));
@@ -110,7 +107,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 						pStoreData.setExistType(eStoreExistType.Always);
 						pStoreData.setType(storeType);
 						m_StoreData.put(type, pStoreData);
-					} else if (m_StoreData.containsKey(type)  && cfg.getVersion() != getStore(type).getVersion()) {
+					} else if (m_StoreData.containsKey(type) && cfg.getVersion() != getStore(type).getVersion()) {
 						pStoreData = getStore(type);
 						pStoreData.setVersion(cfg.getVersion());
 						pStoreData.setCommodity(RandomList(type));
@@ -123,18 +120,18 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 				}
 				continue;
 			}
-			
+
 			eOpenLevelType openLevelType = storeType.getType();
 			RefParam<String> outTip = new RefParam<String>();
-			if(CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, m_pPlayer, outTip)){
-//			if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
+			if (CfgOpenLevelLimitDAO.getInstance().isOpen(openLevelType, m_pPlayer, outTip)) {
+				// if (m_pPlayer.getLevel() >= cfg.getLevelLimit() && m_pPlayer.getVip() >= cfg.getVipLimit()) {
 				UserGroupAttributeDataIF groupData = m_pPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
 				boolean hasGroup = groupData == null ? false : StringUtils.isNotBlank(groupData.getGroupId());
 				if (type == eStoreType.Union.getOrder() && !hasGroup) {
 					continue;
 				}
-				
+
 				if (!m_StoreData.containsKey(type)) {
 					pStoreData = new StoreData();
 					pStoreData.setId(getStoreId(type, m_pPlayer));
@@ -153,7 +150,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					pStoreData.setRefreshNum(0);
 					pStoreData.setExistType(eStoreExistType.Always);
 				}
-				
+
 				storeDataHolder.add(m_pPlayer, type);
 			}
 		}
@@ -188,8 +185,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 	}
-	
-	public void removeStore(int type){
+
+	public void removeStore(int type) {
 		StoreData store = getStore(type);
 		ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 		m_StoreData.remove(store.getType().getOrder());
@@ -214,8 +211,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			if (helper.isOpen(eOpenLevelType.Blackmark_SHOP, m_pPlayer)) {
 				storeTypes.add(eStoreType.Blackmark.getOrder());
 			}
-			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder
-					.get().getStoreDataMap();
+			ConcurrentHashMap<Integer, StoreData> m_StoreData = storeDataHolder.get().getStoreDataMap();
 			for (Integer storetype : storeTypes) {
 				if (m_StoreData.containsKey(storetype)) {
 					continue;
@@ -293,16 +289,15 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			int type = Integer.parseInt(colList[i]);
 			List<CommodityCfg> commcfgs = commoMap.get(type);
 			if (commcfgs.size() <= 0) {
-				GameLog.info("store", m_pPlayer.getUserId(),
-						"配置表错误：" + cfg.getName() + "没有类型为" + type + "的商品", null);
+				GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：" + cfg.getName() + "没有类型为" + type + "的商品", null);
 				continue;
 			}
 			m_nRandom = 0;
 			CommodityCfg commcfg = getRandomCommondity(commcfgs, modelIDList);
 			if (commcfg != null) {
-//				if(modelIDList.contains(commcfg.getGoodsId())){
-//					continue;
-//				}
+				// if(modelIDList.contains(commcfg.getGoodsId())){
+				// continue;
+				// }
 				CommodityData pCommodityCell = new CommodityData();
 				pCommodityCell.setId(commcfg.getId());
 				pCommodityCell.setCount(1);
@@ -315,16 +310,16 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}
 		return list;
 	}
-	
-	public CommodityCfg getRandomCommondity(List<CommodityCfg> Commodity, List<Integer> modelIDList){
+
+	public CommodityCfg getRandomCommondity(List<CommodityCfg> Commodity, List<Integer> modelIDList) {
 		CommodityCfg cfg = getRandomCommondity(Commodity);
 		while (modelIDList.contains(cfg.getGoodsId()) && Commodity.size() > 0) {
 			cfg = getRandomCommondity(Commodity);
 		}
 		return cfg;
 	}
-	
-	private int getStoreCommodityListLength(int index){
+
+	private int getStoreCommodityListLength(int index) {
 		StoreCfg cfg = StoreCfgDAO.getInstance().getStoreCfg(index);
 		if (cfg == null) {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：store表没有类型为" + index + "的数据", null);
@@ -340,7 +335,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param Commodity
 	 */
 	private CommodityCfg getRandomCommondity(List<CommodityCfg> Commodity) {
-		if(Commodity == null || Commodity.isEmpty()){
+		if (Commodity == null || Commodity.isEmpty()) {
 			return null;
 		}
 		int size = Commodity.size();
@@ -393,7 +388,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			if (pStoreCell.getVersion() != cfg.getVersion() || checkCommodityDataExpire(commodity, cfg)) {
 				List<CommodityData> randomList = RandomList(type);
 				int rightSize = getStoreCommodityListLength(type);
-				if(randomList.size() != rightSize){
+				if (randomList.size() != rightSize) {
 					return null;
 				}
 				pStoreCell.setCommodity(randomList);
@@ -408,15 +403,15 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}
 		return pStoreCell;
 	}
-	
-	private boolean checkCommodityDataExpire(List<CommodityData> commodity, StoreCfg storeCfg){
-		
+
+	private boolean checkCommodityDataExpire(List<CommodityData> commodity, StoreCfg storeCfg) {
+
 		for (CommodityData commodityData : commodity) {
 			CommodityCfg cfgById = CommodityCfgDAO.getInstance().getCfgById(String.valueOf(commodityData.getId()));
-			if(cfgById == null){
+			if (cfgById == null) {
 				return true;
 			}
-			if(cfgById.getStoreId() != storeCfg.getId()){
+			if (cfgById.getStoreId() != storeCfg.getId()) {
 				return true;
 			}
 		}
@@ -436,34 +431,34 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			m_pPlayer.NotifyCommonMsg("StoreCfg表id为" + cfg.getId() + "的项AutoRetime配置错误 “00:00”");
 			return;
 		}
-		
+
 		List<Integer> refreshDayList = cfg.getRefreshDayList();
-		
-		if(refreshDayList.size() > 0){
+
+		if (refreshDayList.size() > 0) {
 			checkRefreshByWeekDay(vo, cfg, lastDayTime, todayTime);
-		}else{
+		} else {
 			checkRefreshByDay(vo, cfg, lastDayTime, todayTime);
 		}
-		
-		if(vo.getType() == eStoreType.Waken){
+
+		if (vo.getType() == eStoreType.Waken) {
 			WakenLotteryDrawCfg wakenLotteryDrawCfg = WakenLotteryDrawCfgDAO.getInstance().getCfgById("1");
 			WakenLotteryProcesser.getInstantce().checkDrawReset(m_pPlayer, storeDataHolder, vo, wakenLotteryDrawCfg);
 		}
 	}
-	
+
 	private void checkRefreshByWeekDay(StoreData vo, StoreCfg cfg, long lastDayTime, long todayTime) {
-		
+
 		Calendar ctoday = DateUtils.getDayZeroCalendar(todayTime);
 		Calendar clastDay = DateUtils.getDayZeroCalendar(lastDayTime);
-		
+
 		List<Integer> refreshDayList = cfg.getRefreshDayList();
 		for (Integer weekDay : refreshDayList) {
-			//特殊处理 java 星期天是1
+			// 特殊处理 java 星期天是1
 			weekDay++;
 			if (weekDay > 7) {
 				weekDay = 1;
 			}
-			
+
 			String[] timeArr = cfg.getAutoRetime().split("_");
 			for (String time : timeArr) {
 				int hour = Integer.parseInt(time.substring(0, 2));
@@ -475,13 +470,12 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					clastDay.set(Calendar.DAY_OF_WEEK, weekDay);
 					clastDay.set(Calendar.HOUR_OF_DAY, hour);
 					clastDay.set(Calendar.MINUTE, min);
-					
+
 					ctoday.set(Calendar.DAY_OF_WEEK, weekDay);
 					ctoday.set(Calendar.HOUR_OF_DAY, hour);
 					ctoday.set(Calendar.MINUTE, min);
-					
-					if ((lastDayTime < clastDay.getTimeInMillis() && todayTime >= clastDay.getTimeInMillis()) 
-							|| lastDayTime < ctoday.getTimeInMillis() && todayTime >= ctoday.getTimeInMillis()) {
+
+					if ((lastDayTime < clastDay.getTimeInMillis() && todayTime >= clastDay.getTimeInMillis()) || lastDayTime < ctoday.getTimeInMillis() && todayTime >= ctoday.getTimeInMillis()) {
 						refreshCommodity(vo);
 						return;
 					}
@@ -489,11 +483,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 	}
-	
-	public void checkRefreshByDay(StoreData vo, StoreCfg cfg, long lastDayTime, long todayTime){
+
+	public void checkRefreshByDay(StoreData vo, StoreCfg cfg, long lastDayTime, long todayTime) {
 		Calendar ctoday = DateUtils.getDayZeroCalendar(todayTime);
 		Calendar clastDay = DateUtils.getDayZeroCalendar(lastDayTime);
-		
+
 		String[] timeArr = cfg.getAutoRetime().split("_");
 		for (String time : timeArr) {
 			int hour = Integer.parseInt(time.substring(0, 2));
@@ -504,8 +498,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			clastDay.set(Calendar.HOUR_OF_DAY, hour);
 			clastDay.set(Calendar.MINUTE, min);
 			long lastUpdateTime = clastDay.getTimeInMillis();
-			
-			if((lastDayTime < lastUpdateTime && todayTime >= lastUpdateTime) || (lastDayTime < todayUpdateTime && todayTime >= todayUpdateTime)){
+
+			if ((lastDayTime < lastUpdateTime && todayTime >= lastUpdateTime) || (lastDayTime < todayUpdateTime && todayTime >= todayUpdateTime)) {
 				vo.setCommodity(RandomList(vo.getType().getOrder()));
 				vo.setLastRefreshTime(System.currentTimeMillis());
 				vo.setRefresh(true);
@@ -514,13 +508,13 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			}
 		}
 	}
-	
-	private void refreshCommodity(StoreData vo){
+
+	private void refreshCommodity(StoreData vo) {
 		vo.setCommodity(RandomList(vo.getType().getOrder()));
 		vo.setLastRefreshTime(System.currentTimeMillis());
 		vo.setRefresh(true);
 		storeDataHolder.add(this.m_pPlayer, vo.getType().getOrder());
-		
+
 	}
 
 	/**
@@ -554,7 +548,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : 0;
 
 		StoreData pStoreData = getStore(storeType);
-		if(pStoreData == null){
+		if (pStoreData == null) {
 			return -1;
 		}
 		boolean blnFree = false;
@@ -566,7 +560,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
 			refreshnum = pStoreData.getRefreshNum();
 			String[] split = cfg.getRefreshCost().split("_");
-			if(refreshnum >= split.length){
+			if (refreshnum >= split.length) {
 				return -3;
 			}
 			cost = Integer.parseInt(split[refreshnum]);
@@ -710,6 +704,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			storeData.setRefreshNum(0);
 			storeData.setFreeRefreshNum(0);
 		}
+
+		save();
 	}
 
 	public void notifyVipUpgrade() {
@@ -723,19 +719,21 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}
 		m_pPlayer.getSettingMgr().notifyVipUpgrade();
 	}
-	
+
 	/**
 	 * 觉醒抽箱
+	 * 
 	 * @param player
 	 * @param type
 	 * @param resp
 	 */
-	public void processWakenLottery(Player player, eWakenRewardDrawType type, StoreResponse.Builder resp, int consumeType){
+	public void processWakenLottery(Player player, eWakenRewardDrawType type, StoreResponse.Builder resp, int consumeType) {
 		WakenLotteryProcesser.getInstantce().processWakenLottery(player, storeDataHolder, type, resp, consumeType);
 	}
-	
+
 	/**
 	 * 兑换物品
+	 * 
 	 * @param commodityId
 	 * @param count
 	 * @return
@@ -772,31 +770,31 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isWakenStoreRedPoint(){
+	public boolean isWakenStoreRedPoint() {
 		StoreData store = getStore(eStoreType.Waken);
-		if(store != null && store.getDrawTime() <= 0){
+		if (store != null && store.getDrawTime() <= 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean isStoreRefresh(){
+
+	public boolean isStoreRefresh() {
 		Enumeration<StoreData> storeEnumeration = getStoreEnumeration();
 		while (storeEnumeration.hasMoreElements()) {
 			StoreData storeData = (StoreData) storeEnumeration.nextElement();
-			if(storeData.isRefresh()){
+			if (storeData.isRefresh()) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public void viewStore(int type){
+
+	public void viewStore(int type) {
 		eStoreType storeType = eStoreType.getDef(type);
 		StoreData store = getStore(storeType);
 		store.setRefresh(false);
