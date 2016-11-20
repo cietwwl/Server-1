@@ -2,21 +2,24 @@ package com.bm.targetSell.param.attrs;
 
 import java.util.Map;
 
-import com.bm.targetSell.param.ERoleAttrs;
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Player;
-import com.playerdata.eRoleType;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
-import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
 import com.rwbase.dao.user.User;
 
-public class AchieveAllPower extends AbsAchieveAttrValue{
+public class AchieveAllPower implements AbsAchieveAttrValue{
 
 	@Override
-	public void achieveAttrValue(Player player, User user, ERoleAttrs roleType, Object param, Map<String, Object> AttrMap, BenefitAttrCfgDAO benefitAttrCfgDAO) {
+	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg, Map<String, Object> AttrMap) {
 		int fightingAll = player.getHeroMgr().getFightingAll(player);
 		
-		BenefitAttrCfg cfg = benefitAttrCfgDAO.getCfgById(roleType.getIdStr());
 		AttrMap.put(cfg.getAttrName(), fightingAll);
+		
+	}
+
+	@Override
+	public void addHeroAttrs(String userID, String heroID,
+			EAchieveType change, TargetSellRoleChange value) {
 		
 	}
 

@@ -157,6 +157,11 @@
 		<artifactId>fastjson</artifactId>
 		<version>fastjson-1.1.39</version>
 	</dependency>
+	<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.0.23.Final</version>
+		</dependency>
   </dependencies>
   
 </project>

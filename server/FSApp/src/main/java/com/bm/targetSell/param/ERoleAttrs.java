@@ -1,7 +1,17 @@
 package com.bm.targetSell.param;
 
 import com.common.HPCUtil;
+import com.rwbase.dao.targetSell.BenefitAttrCfg;
 
+/**
+ * <pre>
+ * 角色通用属性
+ * 注意，枚举的常量id要跟{@link BenefitAttrCfg}里的id对应
+ * </pre>
+ * @author Alex
+ *
+ * 2016年11月17日 下午8:17:51
+ */
 public enum ERoleAttrs {
 	r_Level(1),                      	//等级
 	r_VipLevel(2),						//vip等级
@@ -16,42 +26,7 @@ public enum ERoleAttrs {
 	r_EmbattleCarrer(11), 				//上阵英雄的品阶
 	
 	
-	//英雄
-	r_jiangziyaStar(12),
-	r_nezha(13),
-	r_yangjian(14),
-	r_longjigongzhu(15),
-	r_moliqing(16),
-	r_muzha(17),
-	r_leizhenzi(18),
-	r_lijing(19),
-	r_randengdaoren(20),
-	r_wuji(21),
-	r_lixingba(22),
-	r_molishou(23),
-	r_yashen(24),
-	r_molihong(25),
-	r_jizha(26),
-	r_weihu(27),
-	r_yunzhongzi(28),
-	r_huanglongzhenren(29),
-	r_molihai(30),
-	r_daoxingtianzun(31),
-	r_gaoyouquan(32),
-	r_dongtianjun(33),
-	r_guangchengzi(34),
-	r_ximeier(35),
-	r_shengongbao(36),
-	r_daji(37),
-	r_wenzhong(38),
-	r_chenqi(39),
-	r_zhenglun(40),
-	r_zhangtianjun(41),
-	r_yuantianjun(42),
-	r_jinguangshengmu(43),
-	r_lingbaodafashi(44),
-	r_qiongxiao(45),
-	r_wangmo(46),
+	
 
 	;
 	private int id;
@@ -59,15 +34,13 @@ public enum ERoleAttrs {
 		this.id = id;
 	}
 
-	public int getId() {
-		return id;
-	}
-	
-	public String getIdStr(){
+	public String getId() {
 		return String.valueOf(id);
 	}
+	
 
-	private static ERoleAttrs[] array;
+
+	private static ERoleAttrs[] array = ERoleAttrs.values();
 
 	static {
 		ERoleAttrs[] temp = ERoleAttrs.values();

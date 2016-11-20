@@ -1,29 +1,36 @@
 package com.bm.targetSell.net;
 
 import java.util.List;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.bm.targetSell.TargetSellManager;
-import com.rw.fsutil.shutdown.IShutdownHandler;
-import com.rw.fsutil.shutdown.ShutdownService;
+import com.common.RemoteMessageEnum;
+import com.rw.fsutil.remote.RemoteMessageService;
+import com.rw.fsutil.remote.RemoteMessageServiceFactory;
+import com.rw.fsutil.remote.parse.FSMessageDecoder;
+import com.rw.fsutil.remote.parse.FSMessageEncoder;
+import com.rw.fsutil.remote.parse.FSMessageExecutor;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
 public class BenefitMsgController {
+	
+	//用于计算包头的key
+	public final static int MSG_KEY = 13542;
 
+	private RemoteMessageService<String, String> server;
+	
+	
+	FSMessageDecoder<String> decoder = new BenefitMsgDecoder();
+
+	FSMessageEncoder<String> encoder = new BenefitMsgEncoder();
+
+	FSMessageExecutor<String> executor = new BenefitMsgExcutor();
+	
 	private static BenefitMsgController controller = new BenefitMsgController();
 
-	private ThreadPoolExecutor excutor;
-
-	private BenefitSystemMsgAdapter msgAdapter;
-
-	private AtomicBoolean shutDown = new AtomicBoolean(false);
 
 	private BenefitMsgController() {
 	}
@@ -33,55 +40,17 @@ public class BenefitMsgController {
 	}
 
 	public void init(String removeIp, int port, int localPort, int timeoutMillis, int priod) {
-
-		excutor = new ThreadPoolExecutor(4, 4, 0, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>(300));
-		// 设置饱和策略,达到上限放弃最旧的
-		excutor.setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
-
-		msgAdapter = new BenefitSystemMsgAdapter(removeIp, port,localPort, timeoutMillis);
-
+		server = RemoteMessageServiceFactory.createService(RemoteMessageEnum.RMType_Benefit.getId(), removeIp,port, 2, 2, decoder, encoder, executor);
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
-
-		ShutdownService.registerShutdownService(new IShutdownHandler() {
-
-			@Override
-			public void notifyShutdown() {
-				shutDownNotify();
-			}
-		});
 	}
 
-	private void shutDownNotify() {
-		shutDown.compareAndSet(false, true);
-
-		if (excutor != null) {
-			excutor.shutdown();
-			try {
-				excutor.awaitTermination(30L, TimeUnit.SECONDS);
-			} catch (InterruptedException e) {
-
-			} finally {
-				// 无论最后出现什么异常还是要关闭socket
-				msgAdapter.shutdown();
-			}
-		}
-	}
-
-	public void addMsg(final String content) {
-
-		excutor.execute(new Runnable() {
-
-			@Override
-			public void run() {
-				if (msgAdapter.isAvaliable()) {
-					msgAdapter.sendMsg(content);
-				}
-
-			}
-		});
+	public void addMsg(String content) {
+		System.err.println("add msg:" + content);
+		server.sendMsg(content);
 
 	}
-
+	
+	
 	// 心跳任务
 	private class HeartBeatTask implements IGameTimerTask {
 
@@ -98,19 +67,11 @@ public class BenefitMsgController {
 
 		@Override
 		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-			if (shutDown.get()) {
-				return null;
-			}
 			FSGameTimerMgr.getInstance().submitSecondTask(this, interval);
-			if (!msgAdapter.isAvaliable()) {
-				// 还没有连接成功，这个时候进行重新连接
-				msgAdapter.connect();
-				return null;
-			}
 
 			String heartBeatData = TargetSellManager.getInstance().getHeartBeatMsgData();
 			// 发送心跳消息
-			msgAdapter.sendMsg(heartBeatData);
+			addMsg(heartBeatData);
 			return null;
 
 		}
@@ -135,6 +96,8 @@ public class BenefitMsgController {
 			return null;
 		}
 
+	
 	}
+
 
 }

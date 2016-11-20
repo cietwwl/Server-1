@@ -37,9 +37,7 @@ public class TargetSellHeartBeatParam implements ITargetSellMsgExcutor {
 
 
 	@Override
-	public void excuteMsg(int msgType) {
-		
-	}
+	public void excuteMsg(int msgType){};
 
 	public long getLinkId() {
 		return linkId;

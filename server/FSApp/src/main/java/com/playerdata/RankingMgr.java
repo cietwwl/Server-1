@@ -677,14 +677,10 @@ public class RankingMgr {
 			
 			//精准营销的战力改变的通知
 			if(teamFightingChanged){
-				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-				roleAttrsList.add(ERoleAttrs.r_TeamPower);
-				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_TeamPower.getId());
 			}
 			if(allFightingChanged){
-				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-				roleAttrsList.add(ERoleAttrs.r_AllPower);
-				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_AllPower.getId());
 			}
 		}
 
