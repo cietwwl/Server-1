@@ -58,7 +58,7 @@ public class RemoteTest {
 			}
 		};
 
-		final RemoteChannelServer<String, String> server = new RemoteChannelServer<String, String>("192.168.2.253",
+		final RemoteMessageService<String, String> server = new RemoteMessageService<String, String>(1, "192.168.2.253",
 				7777, 4, 4, decoder, encoder, executor);
 		Thread.sleep(1000);
 
@@ -79,4 +79,5 @@ public class RemoteTest {
 			}.start();
 		}
 	}
+	
 }
