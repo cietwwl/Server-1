@@ -56,8 +56,9 @@ public class GameNoticeDataHolder {
 	}
 	
 	public void removeGameNotice(int noticeId){
-		NoticeMap.remove(noticeId);
+		TableGameNotice tableGameNotice = NoticeMap.remove(noticeId);
 		TableGameNoticeDAO.getInstance().deleteByNoticeId(noticeId);
+		
 	}
 	
 	public HashMap<Integer, TableGameNotice> getGameNotices(){

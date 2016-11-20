@@ -86,13 +86,13 @@ public class NoticeMgr {
 		notice.SetNotice(tableGameNotice);
 	}
 	
-	public void RemoveNotice(TableGameNotice tableGameNotice){
-		for(int i = NoticeList.size(); --i>= 0;){
+	public void RemoveNotice(TableGameNotice tableGameNotice) {
+		for (int i = NoticeList.size(); --i >= 0;) {
 			Notice notice = NoticeList.get(i);
-			if(notice.isConfigNotice()){
+			if (notice.isConfigNotice()) {
 				continue;
 			}
-			if(notice.getId() == tableGameNotice.getNoticeId()){
+			if (notice.getId() == tableGameNotice.getNoticeId()) {
 				NoticeList.remove(i);
 				break;
 			}
