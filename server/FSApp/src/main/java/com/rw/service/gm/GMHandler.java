@@ -82,8 +82,6 @@ import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.email.EEmailDeleteType;
-import com.rwbase.dao.email.EmailCfg;
-import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
@@ -292,7 +290,7 @@ public class GMHandler {
 		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
-		
+
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
 	}
 
@@ -889,7 +887,7 @@ public class GMHandler {
 	}
 
 	public boolean sendEmail(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null /*|| arrCommandContents.length < 2*/) {
+		if (arrCommandContents == null /* || arrCommandContents.length < 2 */) {
 			System.out.println(" command param not right ...");
 			return false;
 		}
@@ -1325,19 +1323,22 @@ public class GMHandler {
 			tableBattleTower.setResetTimes(0);
 			TableBattleTowerDao.getDao().update(tableBattleTower);
 		} else if (functionName.equalsIgnoreCase("dt")) {
-			UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+			UserGroupAttributeData userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData();
 			String groupId = userGroupAttributeData.getGroupId();
 			if (StringUtils.isEmpty(groupId)) {
 				return false;
 			}
 
-			Group group = GroupBM.get(groupId);
-			if (group == null) {
-				return false;
-			}
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 
-			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+			// Group group = GroupBM.get(groupId);
+			// if (group == null) {
+			// return false;
+			// }
+			//
+			// GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
+			// groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 		}
 
 		return true;
@@ -1405,7 +1406,7 @@ public class GMHandler {
 				return false;
 			}
 
-			int su = memberData.getContribution() + value;
+			int su = baseGroupData.getContribution() + value;
 			if (su < 0) {
 				return false;
 			}
@@ -2169,7 +2170,7 @@ public class GMHandler {
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
-	
+
 	public boolean sendOneHundredEmails(String[] arrCommandContents, Player player) {
 		GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
 
