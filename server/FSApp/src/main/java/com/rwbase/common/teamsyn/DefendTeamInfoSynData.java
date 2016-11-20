@@ -22,9 +22,10 @@ public class DefendTeamInfoSynData {
 	private final int zoneId;// 区Id
 	private final String zoneName;// 区名字
 	private final String groupName;// 帮派名字
+	private final String headBox; // 头像框
 
 	public DefendTeamInfoSynData(String userId, String headImageId, String name, int level, int defendFighting, int magicId, int magicLevel, List<DefendHeroBaseInfoSynData> heroBaseInfo, int zoneId,
-			String zoneName, String groupName) {
+			String zoneName, String groupName, String headBox) {
 		this.userId = userId;
 		this.headImageId = headImageId;
 		this.name = name;
@@ -36,6 +37,7 @@ public class DefendTeamInfoSynData {
 		this.zoneId = zoneId;
 		this.zoneName = zoneName;
 		this.groupName = groupName;
+		this.headBox = headBox;
 	}
 
 	public String getUserId() {
@@ -80,5 +82,9 @@ public class DefendTeamInfoSynData {
 
 	public String getGroupName() {
 		return groupName;
+	}
+
+	public String getHeadBox() {
+		return headBox;
 	}
 }

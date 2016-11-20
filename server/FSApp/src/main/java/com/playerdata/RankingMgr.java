@@ -518,6 +518,7 @@ public class RankingMgr {
 		updateCurrentInfo(p, RankType.FIGHTING_ALL);
 		updateCurrentInfo(p, RankType.TEAM_FIGHTING);
 		updateCurrentInfo(p, RankType.LEVEL_ALL);
+		updateCurrentInfo(p, RankType.POPULARITY_RANK);
 		ArenaBM.getInstance().onPlayerChanged(p);
 	}
 

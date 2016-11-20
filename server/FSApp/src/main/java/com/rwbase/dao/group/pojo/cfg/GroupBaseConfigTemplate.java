@@ -5,8 +5,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.util.StringUtils;
+
+import com.rwbase.dao.group.GroupUtils;
 
 /*
  * @author HC
@@ -47,6 +50,10 @@ public class GroupBaseConfigTemplate {
 	private final int maxSupplyLimitPerDay;// 每天可以获得最大的物资数量...
 	private final int maxContributionLimitPerDay;// 每天可以捐献的最大数量...
 	private final int tokenId;// 令牌的Id
+	private final long kickMemberLimitTime;// 多久能踢出成员
+	private final long quitGroupLimitTime;// 退出帮派限制时间
+	private final String kickMemberLimitTimeTip;// 不到时间的提示
+	private final String quitGroupLimitTimeTip;// 不到时间的提示
 
 	public GroupBaseConfigTemplate(GroupConfigCfg baseCfg) {
 		this.cfgId = baseCfg.getCfgId();
@@ -77,6 +84,11 @@ public class GroupBaseConfigTemplate {
 		this.maxSupplyLimitPerDay = baseCfg.getMaxSupplyLimitPerDay();// 每天可以获得最大的物资数量...
 		this.maxContributionLimitPerDay = baseCfg.getMaxContributionLimitPerDay();// 每天可以捐献的最大数量...
 		this.tokenId = baseCfg.getTokenId();// 令牌的Id
+		this.kickMemberLimitTime = TimeUnit.SECONDS.toMillis(baseCfg.getKickMemberLimitTime());
+		this.quitGroupLimitTime = TimeUnit.SECONDS.toMillis(baseCfg.getQuitGroupLimitTime());
+
+		this.kickMemberLimitTimeTip = GroupUtils.millisTimeParse2Str(kickMemberLimitTime);
+		this.quitGroupLimitTimeTip = GroupUtils.millisTimeParse2Str(quitGroupLimitTime);
 
 		this.createGroupPriceArr = switchStr2CreateGroupPriceArr(baseCfg.getCreateGroupPrice());
 		this.renamePriceArr = switchStr2RenamePriceArr(baseCfg.getRenamePrice());
@@ -407,5 +419,41 @@ public class GroupBaseConfigTemplate {
 
 	public int getTokenId() {
 		return tokenId;
+	}
+
+	/**
+	 * 获取加入帮派后多久才可以被踢走
+	 * 
+	 * @return
+	 */
+	public long getKickMemberLimitTime() {
+		return kickMemberLimitTime;
+	}
+
+	/**
+	 * 获取加入帮派之后多久可以退出
+	 * 
+	 * @return
+	 */
+	public long getQuitGroupLimitTime() {
+		return quitGroupLimitTime;
+	}
+
+	/**
+	 * 获取踢出时间提示
+	 * 
+	 * @return
+	 */
+	public String getKickMemberLimitTimeTip() {
+		return kickMemberLimitTimeTip;
+	}
+
+	/**
+	 * 获取退出时间提示
+	 * 
+	 * @return
+	 */
+	public String getQuitGroupLimitTimeTip() {
+		return quitGroupLimitTimeTip;
 	}
 }
