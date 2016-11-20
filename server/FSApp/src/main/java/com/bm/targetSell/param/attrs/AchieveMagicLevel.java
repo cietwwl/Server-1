@@ -3,6 +3,8 @@ package com.bm.targetSell.param.attrs;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.targetSell.param.TargetSellRoleChange;
+import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -20,23 +22,29 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  *
  * 2016年11月17日 下午6:19:44
  */
-public class AchieveMagicLevel extends AbsAchieveAttrValue{
+public class AchieveMagicLevel implements AbsAchieveAttrValue{
 
 	@Override
-	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg,
-			Map<String, Object> AttrMap) {
+	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg, Map<String, Object> AttrMap) {
 
 		int magicType = Integer.parseInt(cfg.getParam());
 		int currLv = 0;
 		List<ItemData> list = player.getItemBagMgr().getItemListByType(EItemTypeDef.Magic);
 		for (ItemData data : list) {
-			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(data.getId());
+			MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(data.getModelId());
 			if(magicCfg.getMagicType() == magicType && data.getMagicLevel() > currLv){
 				currLv = data.getMagicLevel();
 			}
 		}
 		
 		AttrMap.put(cfg.getAttrName(), currLv);
+	}
+
+	@Override
+	public void addHeroAttrs(String userID, String heroID,
+			EAchieveType change, TargetSellRoleChange value) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

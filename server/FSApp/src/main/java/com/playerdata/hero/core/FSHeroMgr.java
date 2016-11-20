@@ -224,15 +224,6 @@ public class FSHeroMgr implements HeroMgr {
 		return mapItemStore.getItem(uuid);
 	}
 
-	public FSHero getHeroById(String heroUUID){
-		MapItemStore<FSHero> mapItemStore = null;
-		mapItemStore = FSHeroDAO.getInstance().getMainHeroMapItemStore(heroUUID);
-		if(mapItemStore == null){
-			//说明这个角色不是主角
-			mapItemStore = FSHeroDAO.getInstance().getOtherHeroMapItemStore(heroUUID);
-		}
-		return mapItemStore.getItem(heroUUID);
-	}
 	
 	public FSHero getHeroById(String userId, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;

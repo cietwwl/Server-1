@@ -16,8 +16,8 @@ public enum EAchieveType {
 	AcheiveCarrer(11, new AchieveCarrer()),
 	AcheiveStar(12, new AchieveStar()),
 	AchieveveHeroFixEquipUpgradStar(13, new AchieveveHeroFixEquipUpgradStar()),
-	AchieveStoneType(14, new AchieveStoneType()),
-	AchieveStoneLevel(15, new AchieveStoneLevel()),
+	AchieveStoneType(14, new AchieveStoneAttrValue()),
+	AchieveStoneLevel(15, new AchieveStoneAttrValue()),
 	AchieveMagicUpgradLv(16, new AchieveMagicUpgradLv()),//角色某一类法宝的最高进化等级
 	AchieveMagicLevel(17, new AchieveMagicLevel()),//角色某一类法宝的最高等级
 	;
