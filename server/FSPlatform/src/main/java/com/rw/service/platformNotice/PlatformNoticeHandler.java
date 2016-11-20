@@ -26,13 +26,12 @@ public class PlatformNoticeHandler {
 	
 	public ByteString requestNotice(NoticeRequest request, Account account){
 		NoticeResponse.Builder response = NoticeResponse.newBuilder();
-		TablePlatformNotice platformNotice = PlatformFactory.getPlatformService().getPlatformNotice();
 		List<Notice> noticeList = NoticeMgr.getInstance().getNoticeList();
 		if (noticeList.size() > 0) {
 			
 			long currentTimeMillis = System.currentTimeMillis();
 			for (Notice notice : noticeList) {
-				if (currentTimeMillis >= platformNotice.getStartTime() && currentTimeMillis <= platformNotice.getEndTime()) {
+				if (currentTimeMillis >= notice.getStartTime() && currentTimeMillis <= notice.getEndTime()) {
 					tagNoticeInfo.Builder noticeInfo = tagNoticeInfo.newBuilder();
 					noticeInfo.setNoticeId(notice.getId());
 					noticeInfo.setSort(notice.getSort());
