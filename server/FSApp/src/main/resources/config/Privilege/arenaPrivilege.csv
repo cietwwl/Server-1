@@ -1,7 +1,7 @@
 source,Remarks,arenaMaxCount,isAllowResetArena,arenaRewardAdd,arenaChallengeDec
-vip0,,,false,,
-vip1,,,false,,
-vip2,,,false,,
+vip0,,,true,,
+vip1,,,true,,
+vip2,,,true,,
 vip3,,5,true,,
 vip4,,10,true,,
 vip5,,15,true,,
