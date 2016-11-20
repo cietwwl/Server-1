@@ -459,6 +459,13 @@ public class FettersBM {
 		if (list == null || list.isEmpty()) {
 			return;
 		}
+		SynFettersData fettersData = player.getHeroFettersByModelId(changeHeroModelId);
+		List<Integer> preList;
+		if(fettersData != null) {
+			preList = new ArrayList<Integer>(fettersData.getOpenList().keySet());
+		} else {
+			preList = Collections.emptyList();
+		}
 		List<Integer> updateList = new ArrayList<Integer>();
 		for (int i = 0, size = list.size(); i < size; i++) {
 			List<Integer> tempList = checkOrUpdateHeroFetters(player, list.get(i), true);
@@ -468,10 +475,11 @@ public class FettersBM {
 		}
 		if (updateList.size() > 0) {
 			// 过滤一下不相关的
+			// 只发新增的
 			FettersBaseCfgDAO dao = FettersBaseCfgDAO.getCfgDAO();
 			for (Iterator<Integer> itr = updateList.iterator(); itr.hasNext();) {
 				FettersBaseCfg fettersBaseCfg = dao.getCfgById(String.valueOf(itr.next()));
-				if (!fettersBaseCfg.getFettersHeroIdList().contains(changeHeroModelId)) {
+				if (!fettersBaseCfg.getFettersHeroIdList().contains(changeHeroModelId) || preList.contains(fettersBaseCfg.getFettersId())) {
 					itr.remove();
 				}
 			}
