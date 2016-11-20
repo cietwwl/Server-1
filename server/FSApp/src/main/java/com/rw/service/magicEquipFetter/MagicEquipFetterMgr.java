@@ -1,9 +1,6 @@
 package com.rw.service.magicEquipFetter;
 
-import io.netty.util.collection.IntObjectHashMap;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -25,6 +22,8 @@ import com.rwbase.dao.fetters.pojo.cfg.dao.MagicEquipConditionKey;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwproto.HeroFetterProto.HeroFetterType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+
+import io.netty.util.collection.IntObjectHashMap;
 
 /**
  * 法宝神器羁绊管理类
@@ -128,14 +127,14 @@ public class MagicEquipFetterMgr {
 			}
 		}
 
-		boolean update = holder.checkFixEquipFetterRecord(tempCfg, hero.getModeId());
+		holder.checkFixEquipFetterRecord(tempCfg, hero.getModeId());
 
 		if (syn) {
 			holder.synAllData(player, 0);
 		}
-		if (update && tempCfg != null) {
-			FettersBM.sendFetterNotifyMsg(player, Arrays.asList(tempCfg.getUniqueId()), HeroFetterType.FixEquipFetter);
-		}
+//		if (update && tempCfg != null) {
+//			FettersBM.sendFetterNotifyMsg(player, Arrays.asList(tempCfg.getUniqueId()), HeroFetterType.FixEquipFetter);
+//		}
 	}
 
 	/**
