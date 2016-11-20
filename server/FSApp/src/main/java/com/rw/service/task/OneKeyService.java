@@ -11,6 +11,8 @@ import com.rw.service.Email.EmailHandler;
 import com.rw.service.arena.ArenaHandler;
 import com.rw.service.dailyActivity.DailyActivityHandler;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.publicdata.PublicData;
+import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwproto.RequestProtos.Request;
 import com.rwproto.TaskProtos.OneKeyGetRewardRequest;
 import com.rwproto.TaskProtos.OneKeyGetRewardResponse;
@@ -51,52 +53,72 @@ public class OneKeyService implements FsService {
 	
 	private ByteString getAllDailyReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(DailyActivityHandler.getInstance().taskAllFinish(player, rewardMap));
-		for(Integer key : rewardMap.keySet()){
-			ItemInfo item = new ItemInfo();
-			item.setItemID(key);
-			item.setItemNum(rewardMap.get(key));
-			resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+		int openLevel = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.DAILY_ONE_KEY_LEVEL);
+		if(player.getLevel() >= openLevel){
+			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
+			resp.setResult(DailyActivityHandler.getInstance().taskAllFinish(player, rewardMap));
+			for(Integer key : rewardMap.keySet()){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(key);
+				item.setItemNum(rewardMap.get(key));
+				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+			}
+		}else{
+			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
 		return resp.build().toByteString();
 	}
 	
 	private ByteString getAllTaskReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(player.getTaskMgr().getAllReward(rewardMap));
-		for(Integer key : rewardMap.keySet()){
-			ItemInfo item = new ItemInfo();
-			item.setItemID(key);
-			item.setItemNum(rewardMap.get(key));
-			resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+		int openLevel = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.TASK_ONE_KEY_LEVEL);
+		if(player.getLevel() >= openLevel){
+			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
+			resp.setResult(player.getTaskMgr().getAllReward(rewardMap));
+			for(Integer key : rewardMap.keySet()){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(key);
+				item.setItemNum(rewardMap.get(key));
+				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+			}
+		}else{
+			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
 		return resp.build().toByteString();
 	}
 	
 	private ByteString getAllEmailReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(EmailHandler.getInstance().getAllAttachment(player, rewardMap));
-		for(Integer key : rewardMap.keySet()){
-			ItemInfo item = new ItemInfo();
-			item.setItemID(key);
-			item.setItemNum(rewardMap.get(key));
-			resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+		int openLevel = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.EMAIL_ONE_KEY_LEVEL);
+		if(player.getLevel() >= openLevel){
+			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
+			resp.setResult(EmailHandler.getInstance().getAllAttachment(player, rewardMap));
+			for(Integer key : rewardMap.keySet()){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(key);
+				item.setItemNum(rewardMap.get(key));
+				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+			}
+		}else{
+			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
 		return resp.build().toByteString();
 	}
 	
 	private ByteString getAllBattleScoreReward(Player player) {
 		OneKeyGetRewardResponse.Builder resp = OneKeyGetRewardResponse.newBuilder();
-		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
-		resp.setResult(ArenaHandler.getInstance().getAllScoreReward(player, rewardMap));
-		for(Integer key : rewardMap.keySet()){
-			ItemInfo item = new ItemInfo();
-			item.setItemID(key);
-			item.setItemNum(rewardMap.get(key));
-			resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+		int openLevel = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.BATTLE_SCORE_ONE_KEY_LEVEL);
+		if(player.getLevel() >= openLevel){
+			HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
+			resp.setResult(ArenaHandler.getInstance().getAllScoreReward(player, rewardMap));
+			for(Integer key : rewardMap.keySet()){
+				ItemInfo item = new ItemInfo();
+				item.setItemID(key);
+				item.setItemNum(rewardMap.get(key));
+				resp.addRewardItems(ClientDataSynMgr.toClientData(item));
+			}
+		}else{
+			resp.setResult(OneKeyResultType.LEVEL_LIMIT);
 		}
 		return resp.build().toByteString();
 	}
