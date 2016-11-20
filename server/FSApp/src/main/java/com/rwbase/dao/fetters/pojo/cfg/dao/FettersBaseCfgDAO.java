@@ -57,6 +57,12 @@ public class FettersBaseCfgDAO extends CfgCsvDao<FettersBaseCfg> {
 				}
 
 				list.add(fettersId);
+				String[] heroIds = cfg.getFettersHeroId().split(",");
+				List<Integer> heroModelIds = new ArrayList<Integer>(heroIds.length);
+				for (int i = 0; i < heroIds.length; i++) {
+					heroModelIds.add(Integer.parseInt(heroIds[i]));
+				}
+				cfg.setFettersHeroIdList(heroModelIds);
 			}
 
 			this.fettersBaseTemplateMap = fettersBaseTemplateMap;

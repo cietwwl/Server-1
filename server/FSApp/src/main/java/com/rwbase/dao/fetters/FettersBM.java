@@ -3,6 +3,7 @@ package com.rwbase.dao.fetters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -13,6 +14,7 @@ import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
 import com.rwbase.dao.fetters.pojo.IFettersSubRestrictCondition;
 import com.rwbase.dao.fetters.pojo.SynConditionData;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
+import com.rwbase.dao.fetters.pojo.cfg.FettersBaseCfg;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersBaseTemplate;
@@ -26,6 +28,10 @@ import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroFightingCheckImpl;
 import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroLevelCheckImpl;
 import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroQualityCheckImpl;
 import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroStarCheckImpl;
+import com.rwproto.HeroFetterProto.HeroFetterInfo;
+import com.rwproto.HeroFetterProto.HeroFetterNotify;
+import com.rwproto.HeroFetterProto.HeroFetterType;
+import com.rwproto.MsgDef.Command;
 
 /*
  * @author HC
@@ -221,10 +227,10 @@ public class FettersBM {
 	 * @param player 角色
 	 * @param heroModelId 英雄ModelId
 	 */
-	public static void checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn) {
+	public static List<Integer> checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn) {
 		List<FettersBaseTemplate> fettersList = FettersBaseCfgDAO.getCfgDAO().getFettersBaseTemplateListByHeroModelId(heroModelId);
 		if (fettersList == null || fettersList.isEmpty()) {
-			return;
+			return Collections.emptyList();
 		}
 
 		// 完成的羁绊列表
@@ -247,7 +253,7 @@ public class FettersBM {
 
 		// 没有任何羁绊
 		if (matchFetters.isEmpty()) {
-			return;
+			return Collections.emptyList();
 		}
 
 		Map<Integer, SynConditionData> openFettersMap = new HashMap<Integer, SynConditionData>();// 已经开启的羁绊列表
@@ -293,7 +299,7 @@ public class FettersBM {
 		 * </pre>
 		 */
 		if (openFettersMap.isEmpty()) {
-			return;
+			return Collections.emptyList();
 		}
 
 		// 推送数据
@@ -304,6 +310,7 @@ public class FettersBM {
 		}
 		syn.setOpenList(openFettersMap);
 		player.addOrUpdateHeroFetters(heroModelId, syn, canSyn);
+		return new ArrayList<Integer>(openFettersMap.keySet());
 	}
 
 	/**
@@ -452,9 +459,39 @@ public class FettersBM {
 		if (list == null || list.isEmpty()) {
 			return;
 		}
-
+		List<Integer> updateList = new ArrayList<Integer>();
 		for (int i = 0, size = list.size(); i < size; i++) {
-			checkOrUpdateHeroFetters(player, list.get(i), true);
+			List<Integer> tempList = checkOrUpdateHeroFetters(player, list.get(i), true);
+			if(tempList != null && tempList.size() > 0) {
+				updateList.addAll(tempList);
+			}
+		}
+		if (updateList.size() > 0) {
+			// 过滤一下不相关的
+			FettersBaseCfgDAO dao = FettersBaseCfgDAO.getCfgDAO();
+			for (Iterator<Integer> itr = updateList.iterator(); itr.hasNext();) {
+				FettersBaseCfg fettersBaseCfg = dao.getCfgById(String.valueOf(itr.next()));
+				if (!fettersBaseCfg.getFettersHeroIdList().contains(changeHeroModelId)) {
+					itr.remove();
+				}
+			}
+		}
+		sendFetterNotifyMsg(player, updateList, HeroFetterType.HeroFetter);
+	}
+	
+	public static void sendFetterNotifyMsg(Player player, Iterable<Integer> fetterIds, HeroFetterType type) {
+		List<HeroFetterInfo> fetterInfoList = new ArrayList<HeroFetterInfo>();
+		HeroFetterInfo.Builder builder = HeroFetterInfo.newBuilder();
+		for (Integer fetterId : fetterIds) {
+			builder.setFetterId(fetterId);
+			builder.setType(type);
+			fetterInfoList.add(builder.build());
+		}
+		if (fetterInfoList.size() > 0) {
+			System.out.println("发送仙缘激活列表到客户端！" + fetterIds);
+			HeroFetterNotify.Builder notifyBuilder = HeroFetterNotify.newBuilder();
+			notifyBuilder.addAllFetterInfo(fetterInfoList);
+			player.SendMsg(Command.MSG_FETTER_ACTIVITY_NOTIFY, notifyBuilder.build().toByteString());
 		}
 	}
 }

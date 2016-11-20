@@ -93,7 +93,7 @@ public class MagicEquipFetterDataHolder {
 	 * @param fetter
 	 * @param modelId
 	 */
-	public void checkFixEquipFetterRecord(MagicEquipConditionCfg fetter, int modelId) {
+	public boolean checkFixEquipFetterRecord(MagicEquipConditionCfg fetter, int modelId) {
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		if (item == null) {
 			item = checkRecord();
@@ -119,7 +119,7 @@ public class MagicEquipFetterDataHolder {
 				dataVersion.incrementAndGet();
 
 			}
-			return;
+			return true;
 		}
 
 		List<Integer> clearOld = new ArrayList<Integer>();
@@ -129,7 +129,7 @@ public class MagicEquipFetterDataHolder {
 			MagicEquipConditionCfg cfg = FetterMagicEquipCfgDao.getInstance().getCfgById(String.valueOf(id));
 			if (id == fetter.getUniqueId()) {
 				// 数据库已经有记录，就不做更新了
-				return;
+				return false;
 			}
 			if (fetter.getUniqueId() != id && cfg.getType() == fetter.getType() && cfg.getSubType() == fetter.getSubType()) {
 				clearOld.add(id);
@@ -142,6 +142,7 @@ public class MagicEquipFetterDataHolder {
 		item.setFixEquipFetters(fetterIDs);
 		getItemStore().updateItem(item);
 		dataVersion.incrementAndGet();
+		return true;
 
 	}
 	
@@ -152,7 +153,7 @@ public class MagicEquipFetterDataHolder {
 	 * @param modelID
 	 *            TODO 英雄modelID
 	 */
-	public boolean compareMagicFetterRcord(Map<MagicEquipConditionKey, MagicEquipConditionCfg> curCfgs, int modelID) {
+	public boolean compareMagicFetterRcord(Map<MagicEquipConditionKey, MagicEquipConditionCfg> curCfgs, int modelID, List<Integer> updateList) {
 		MagicEquipFetterRecord item = getItemStore().getItem(userID);
 		if (item == null) {
 			item = checkRecord();
@@ -231,7 +232,11 @@ public class MagicEquipFetterDataHolder {
 		int newSize = keys.length;
 		ArrayList<Integer> newList = new ArrayList<Integer>(newSize);
 		for (int i = 0; i < newSize; i++) {
-			newList.add(keys[i]);
+			int id = keys[i];
+			newList.add(id);
+			if(!fetterIDs.contains(id)) {
+				updateList.add(id);
+			}
 		}
 
 		item.setMagicFetters(newList);
