@@ -1,5 +1,11 @@
 package com.rw.fsutil.remote.parse;
 
+/**
+ * 接收消息解码器
+ * @author Jamaz
+ *
+ * @param <ReceiveMessage>
+ */
 public interface FSMessageDecoder<ReceiveMessage> {
 
 	/**
