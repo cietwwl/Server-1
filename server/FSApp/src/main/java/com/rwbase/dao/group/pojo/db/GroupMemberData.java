@@ -3,11 +3,7 @@ package com.rwbase.dao.group.pojo.db;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import com.playerdata.army.ArmyFashion;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
