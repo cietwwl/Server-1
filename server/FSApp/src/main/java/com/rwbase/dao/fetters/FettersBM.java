@@ -3,10 +3,12 @@ package com.rwbase.dao.fetters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.playerdata.Player;
 import com.rwbase.dao.fetters.pojo.IFettersCheckForceUseHeroId;
@@ -226,11 +228,13 @@ public class FettersBM {
 	 * 
 	 * @param player 角色
 	 * @param heroModelId 英雄ModelId
+	 * @param canSyn
+	 * @param newIdList
 	 */
-	public static List<Integer> checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn) {
+	public static void checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn, List<Integer> newIdList) {
 		List<FettersBaseTemplate> fettersList = FettersBaseCfgDAO.getCfgDAO().getFettersBaseTemplateListByHeroModelId(heroModelId);
 		if (fettersList == null || fettersList.isEmpty()) {
-			return Collections.emptyList();
+			return;
 		}
 
 		// 完成的羁绊列表
@@ -253,7 +257,7 @@ public class FettersBM {
 
 		// 没有任何羁绊
 		if (matchFetters.isEmpty()) {
-			return Collections.emptyList();
+			return;
 		}
 
 		Map<Integer, SynConditionData> openFettersMap = new HashMap<Integer, SynConditionData>();// 已经开启的羁绊列表
@@ -299,18 +303,33 @@ public class FettersBM {
 		 * </pre>
 		 */
 		if (openFettersMap.isEmpty()) {
-			return Collections.emptyList();
+			return;
 		}
 
 		// 推送数据
 		SynFettersData syn = player.getHeroFettersByModelId(heroModelId);
+		Set<Integer> currentSet = null;
 		if (syn == null) {
 			syn = new SynFettersData();
 			syn.setHeroModelId(heroModelId);
+		} else {
+			currentSet = new HashSet<Integer>(syn.getOpenList().keySet());
 		}
 		syn.setOpenList(openFettersMap);
+		if (newIdList != null) {
+			if (currentSet != null) {
+				Integer newId;
+				for (Iterator<Integer> keyItr = openFettersMap.keySet().iterator(); keyItr.hasNext();) {
+					newId = keyItr.next();
+					if (!currentSet.contains(newId)) {
+						newIdList.add(newId);
+					}
+				}
+			} else {
+				newIdList.addAll(openFettersMap.keySet());
+			}
+		}
 		player.addOrUpdateHeroFetters(heroModelId, syn, canSyn);
-		return new ArrayList<Integer>(openFettersMap.keySet());
 	}
 
 	/**
@@ -459,32 +478,22 @@ public class FettersBM {
 		if (list == null || list.isEmpty()) {
 			return;
 		}
-		SynFettersData fettersData = player.getHeroFettersByModelId(changeHeroModelId);
-		List<Integer> preList;
-		if(fettersData != null) {
-			preList = new ArrayList<Integer>(fettersData.getOpenList().keySet());
-		} else {
-			preList = Collections.emptyList();
-		}
-		List<Integer> updateList = new ArrayList<Integer>();
+		List<Integer> newIdList = new ArrayList<Integer>();
 		for (int i = 0, size = list.size(); i < size; i++) {
-			List<Integer> tempList = checkOrUpdateHeroFetters(player, list.get(i), true);
-			if(tempList != null && tempList.size() > 0) {
-				updateList.addAll(tempList);
-			}
+			checkOrUpdateHeroFetters(player, list.get(i), true, newIdList);
 		}
-		if (updateList.size() > 0) {
+		if (newIdList.size() > 0) {
 			// 过滤一下不相关的
 			// 只发新增的
 			FettersBaseCfgDAO dao = FettersBaseCfgDAO.getCfgDAO();
-			for (Iterator<Integer> itr = updateList.iterator(); itr.hasNext();) {
+			for (Iterator<Integer> itr = newIdList.iterator(); itr.hasNext();) {
 				FettersBaseCfg fettersBaseCfg = dao.getCfgById(String.valueOf(itr.next()));
-				if (!fettersBaseCfg.getFettersHeroIdList().contains(changeHeroModelId) || preList.contains(fettersBaseCfg.getFettersId())) {
+				if (!fettersBaseCfg.getFettersHeroIdList().contains(changeHeroModelId)) {
 					itr.remove();
 				}
 			}
 		}
-		sendFetterNotifyMsg(player, updateList, HeroFetterType.HeroFetter);
+		sendFetterNotifyMsg(player, newIdList, HeroFetterType.HeroFetter);
 	}
 	
 	public static void sendFetterNotifyMsg(Player player, Iterable<Integer> fetterIds, HeroFetterType type) {
