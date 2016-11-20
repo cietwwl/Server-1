@@ -71,17 +71,17 @@ public interface GroupMemberDataIF {
 
 	/**
 	 * 获取个人的贡献
-	 * 
+	 *
 	 * @return
 	 */
 	public int getContribution();
 
-	/**
-	 * 获取贡献次数
-	 * 
-	 * @return
-	 */
-	public int getDonateTimes();
+	// /**
+	// * 获取贡献次数
+	// *
+	// * @return
+	// */
+	// public int getDonateTimes();
 
 	/**
 	 * 获取成员请求时的战斗力
@@ -111,12 +111,12 @@ public interface GroupMemberDataIF {
 	 */
 	public String getTemplateId();
 
-	/**
-	 * 获取上次捐献的时间
-	 * 
-	 * @return
-	 */
-	public long getLastDonateTime();
+	// /**
+	// * 获取上次捐献的时间
+	// *
+	// * @return
+	// */
+	// public long getLastDonateTime();
 
 	/**
 	 * 获取帮派总贡献
@@ -131,7 +131,7 @@ public interface GroupMemberDataIF {
 	 * @return
 	 */
 	public int getDayContribution();
-	
+
 	/**
 	 * 获取帮派管理员帮派副本的当前手动分配次数
 	 */

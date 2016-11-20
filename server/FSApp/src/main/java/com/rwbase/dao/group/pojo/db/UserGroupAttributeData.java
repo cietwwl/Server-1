@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -24,6 +25,7 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
  */
 @SynClass
 @Table(name = "user_group_attribute")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapItem {
 	@Id
 	private String userId;// 角色Id
@@ -38,10 +40,13 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private Map<Integer, GroupSkillItem> studySkill;// 已经学习了的帮派技能列表
 	@SaveAsJson
 	private List<String> applyGroupIdList;// 申请的列表
+	private int contribution;// 个人贡献
+	@IgnoreSynField
+	private int donateTimes;// 捐献的次数
+	@IgnoreSynField
+	private long lastDonateTime;// 捐献的时间
 	@NonSave
 	private String groupName;// 帮派名字
-	@NonSave
-	private int contribution;// 个人贡献
 	@NonSave
 	private long joinTime;// 加入帮派的时间
 	@NonSave
@@ -375,5 +380,21 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 
 	public void setDayContribution(int dayContribution) {
 		this.dayContribution = dayContribution;
+	}
+
+	public int getDonateTimes() {
+		return donateTimes;
+	}
+
+	public void setDonateTimes(int donateTimes) {
+		this.donateTimes = donateTimes;
+	}
+
+	public long getLastDonateTime() {
+		return lastDonateTime;
+	}
+
+	public void setLastDonateTime(long lastDonateTime) {
+		this.lastDonateTime = lastDonateTime;
 	}
 }

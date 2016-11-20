@@ -82,7 +82,7 @@ public class HeroFettersData {
 				continue;
 			}
 
-			FettersBM.checkOrUpdateHeroFetters(player, hero.getModeId(), false);
+			FettersBM.checkOrUpdateHeroFetters(player, hero.getModeId(), false, null);
 		}
 	}
 }
