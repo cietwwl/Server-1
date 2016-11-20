@@ -160,7 +160,7 @@ public class JsonValueWriter {
 				if (jsonValue == null) {
 					continue;
 				}
-				newList.add(newValue);
+				newList.add(element);
 			}
 			return (T) newList;
 		}
