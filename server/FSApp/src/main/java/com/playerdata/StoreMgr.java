@@ -704,6 +704,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			storeData.setRefreshNum(0);
 			storeData.setFreeRefreshNum(0);
 		}
+
+		save();
 	}
 
 	public void notifyVipUpgrade() {
