@@ -199,7 +199,7 @@ public class TargetSellManager {
 				boolean suc = player.getItemBagMgr().addItem(tranfer2ItemInfo(items));
 				if(suc){
 					score -= items.getRecharge();
-					//通知精准服
+					//通知精准服   
 					notifyBenefitServerRoleGetItem(player, preCharge.getT1());
 				}
 			}
