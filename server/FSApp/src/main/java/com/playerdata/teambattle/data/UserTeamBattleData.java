@@ -43,7 +43,7 @@ public class UserTeamBattleData {
 	@IgnoreSynField
 	private StaticMemberTeamInfo selfTeamInfo;	//个人队伍信息（其它人开战时，到这里取队友的静态队伍信息）
 	
-	@CombineSave
+	@NonSave
 	private HashMap<String, String> enimyMap = new HashMap<String, String>();	//每个难度里的，怪物组（每天不同的怪物组，前端用）
 	
 	@NonSave
