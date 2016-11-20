@@ -9,12 +9,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfg;
-import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
-import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfg;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeCfgDAO;
 import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfg;
@@ -22,11 +17,6 @@ import com.playerdata.activity.timeCountType.cfg.ActivityTimeCountTypeSubCfgDAO;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItemHolder;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeSubItem;
-import com.rw.dataaccess.attachment.PlayerExtPropertyType;
-import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
-import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.template.BIActivityCode;
@@ -121,13 +111,13 @@ public class ActivityTimeCountTypeMgr {
 		return addItemList;
 	}
 	
-	private void checkVersion(Player player) {
+/*	private void checkVersion(Player player) {
 //		if (!StringUtils.equals(targetItem.getVersion(), cfg.getVersion())) {//需求是一次性永久判断，一般不会更改版本号。
 //			targetItem.reset(cfg, cfgDao.newItemList(player, cfg));
 //			dataHolder.updateItem(player, targetItem);
 //		}
 		
-	}
+	}*/
 	
 	private void checkClose(Player player) {
 		ActivityTimeCountTypeItemHolder dataHolder = ActivityTimeCountTypeItemHolder.getInstance();

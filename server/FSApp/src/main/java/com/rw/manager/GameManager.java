@@ -37,6 +37,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
@@ -114,7 +115,7 @@ public class GameManager {
 		Map<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>> map = new HashMap<Integer, Pair<Class<? extends IMapItem>, Class<? extends MapItemCreator<? extends IMapItem>>>>();
 		MapItemStoreFactory.init();
 		GameOperationFactory.init(performanceConfig.getPlayerCapacity());
-		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(),performanceConfig.getHeroCapacity(), "dataSourceMT");
+		RoleExtPropertyFactory.init(performanceConfig.getPlayerCapacity(), performanceConfig.getHeroCapacity(), "dataSourceMT");
 
 		try {
 			HeroPropertyMigration.getInstance().execute();
@@ -144,10 +145,6 @@ public class GameManager {
 		// GuildGTSMgr.getInstance().init();
 		// // 试练塔攻略加载
 		// BattleTowerStrategyManager.init();
-		/******* 帮派解散时效数据初始化 *******/
-		GroupCheckDismissTask.initDismissGroupInfo();
-		/******* 游戏模块数据观察者数据初始化 *******/
-		ObserverFactory.getInstance().initFactory();
 
 		/**** 排行初始化 ******/
 		// ArenaBM.getInstance().InitData();
@@ -155,6 +152,11 @@ public class GameManager {
 		ScheduledThreadPoolExecutor rankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("ranking"));
 		ScheduledThreadPoolExecutor listRankingPool = new ScheduledThreadPoolExecutor(1, new SimpleThreadFactory("list_ranking"));
 		RankingFactory.init(Arrays.asList(RankType.values()), Arrays.asList(ListRankingType.values()), rankingPool, listRankingPool);
+
+		/******* 帮派解散时效数据初始化 *******/
+		GroupCheckDismissTask.initDismissGroupInfo();
+		/******* 游戏模块数据观察者数据初始化 *******/
+		ObserverFactory.getInstance().initFactory();
 
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
@@ -181,6 +183,9 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
+		
+		// 活动状态的初始化
+		ActivityDetector.getInstance();
 
 		// GM的初始化
 		GmCommandManager.loadCommandClass();

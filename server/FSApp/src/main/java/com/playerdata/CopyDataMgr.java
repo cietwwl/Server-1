@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -68,8 +67,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	 * 需要检查一下开启的时间是什么时候
 	 * 
 	 * @param copyType
-	 * @param hour
-	 *            开启的时间 一般都是5点
+	 * @param hour 开启的时间 一般都是5点
 	 * @return
 	 */
 	public List<CopyInfoCfgIF> getTodayInfoCfg(int copyType) {
@@ -125,10 +123,8 @@ public class CopyDataMgr implements CopyDataMgrIF {
 	}
 
 	/*
-	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList =
-	 * pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy :
-	 * copyList){ if(copy.getCopyType() == copyType){ data = copy; break; } }
-	 * return data; }
+	 * public CopyData getByTrialType(int copyType) { List<CopyData> copyList = pTableCopyData.getCopyList(); CopyData data = null; for(CopyData copy : copyList){ if(copy.getCopyType() == copyType){
+	 * data = copy; break; } } return data; }
 	 */
 
 	private CopyData getByInfoWithId(int infoId) {
@@ -215,6 +211,8 @@ public class CopyDataMgr implements CopyDataMgrIF {
 				}
 			}
 		}
+
+		save();
 	}
 
 	private ConcurrentHashMap<String, Integer> getCelestialDegreeMap() {
@@ -282,7 +280,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 			arrItem = arrPrizes[i].split("~");
 			itemId = Integer.valueOf(arrItem[0]);
 			itemCount = Integer.valueOf(arrItem[1]);
-//			player.getItemBagMgr().addItem(itemId, itemCount);
+			// player.getItemBagMgr().addItem(itemId, itemCount);
 			item = new ItemInfo();
 			item.setItemID(itemId);
 			item.setItemNum(itemCount);

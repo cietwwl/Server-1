@@ -716,6 +716,12 @@ public class GroupMemberManagerHandler {
 		GroupMemberMgrCommonRspMsg.Builder commonRsp = GroupMemberMgrCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.KICK_MEMBER_TYPE);
 
+		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
+		if (gbct == null) {
+			GameLog.error("踢出帮派", playerId, "没有找到帮派唯一基础的配置表");
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "数据异常");
+		}
+
 		// 判断帮派是否存在
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		String groupId = baseData.getGroupId();
@@ -777,6 +783,13 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "不能踢出自己");
 		}
 
+		// 检查踢出成员的时间
+		long now = System.currentTimeMillis();
+		long receiveTime = kickMemberData.getReceiveTime();
+		if (now - receiveTime < gbct.getKickMemberLimitTime()) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, String.format("该成员进入帮派时间少于%s，无法踢出", gbct.getKickMemberLimitTimeTip()));
+		}
+
 		// 权限也有了，就踢出成员
 		memberMgr.kickMember(kickMemberId);
 
@@ -788,7 +801,7 @@ public class GroupMemberManagerHandler {
 		// 记录一个帮派日志
 		GroupLog log = new GroupLog();
 		log.setLogType(GroupLogType.LOG_KICK_GROUP_VALUE);
-		log.setTime(System.currentTimeMillis());
+		log.setTime(now);
 		log.setOpName(memberData.getName());
 		log.setName(kickMemberData.getName());
 		group.getGroupLogMgr().addLog(player, log);
@@ -797,8 +810,8 @@ public class GroupMemberManagerHandler {
 		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
 		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
-		
-		//清理一下帮派成员申请奖励品的数据
+
+		// 清理一下帮派成员申请奖励品的数据
 		group.getGroupCopyMgr().nofityCreateRoleLeaveTask(kickMemberId);
 
 		commonRsp.setIsSuccess(true);

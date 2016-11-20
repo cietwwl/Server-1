@@ -6,23 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.playerdata.Player;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeHelper;
-import com.playerdata.activity.VitalityType.cfg.ActivityVitalityCfgDAO;
-import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
-import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
-import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeHelper;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeEnum;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwbase.common.MapItemStoreFactory;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 

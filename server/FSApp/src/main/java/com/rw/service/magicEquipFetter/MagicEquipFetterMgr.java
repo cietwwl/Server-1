@@ -1,7 +1,5 @@
 package com.rw.service.magicEquipFetter;
 
-import io.netty.util.collection.IntObjectHashMap;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,7 +20,10 @@ import com.rwbase.dao.fetters.pojo.cfg.MagicEquipConditionCfg;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FetterMagicEquipCfgDao;
 import com.rwbase.dao.fetters.pojo.cfg.dao.MagicEquipConditionKey;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwproto.HeroFetterProto.HeroFetterType;
 import com.rwproto.ItemBagProtos.EItemTypeDef;
+
+import io.netty.util.collection.IntObjectHashMap;
 
 /**
  * 法宝神器羁绊管理类
@@ -131,6 +132,9 @@ public class MagicEquipFetterMgr {
 		if (syn) {
 			holder.synAllData(player, 0);
 		}
+//		if (update && tempCfg != null) {
+//			FettersBM.sendFetterNotifyMsg(player, Arrays.asList(tempCfg.getUniqueId()), HeroFetterType.FixEquipFetter);
+//		}
 	}
 
 	/**
@@ -262,10 +266,14 @@ public class MagicEquipFetterMgr {
 			}
 		}
 
-		boolean changed = holder.compareMagicFetterRcord(temp, playerModelId);
+		List<Integer> updateList = new ArrayList<Integer>();
+		boolean changed = holder.compareMagicFetterRcord(temp, playerModelId, updateList);
 		if (syn) {
 			// TODO 这里为什么不用dataVersio而用0
 			holder.synAllData(player, 0);
+		}
+		if (changed && updateList.size() > 0) {
+			FettersBM.sendFetterNotifyMsg(player, updateList, HeroFetterType.MagicFetter);
 		}
 		return changed;
 	}
