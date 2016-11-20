@@ -18,8 +18,8 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
  * @Description 帮派成员信息
  */
 @SynClass
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "group_member")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@IgnoreSynField
 	@Id
@@ -38,10 +38,10 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@IgnoreSynField
 	private int job;// 成员的职业<byte>
 	private int contribution;// 个人的贡献
-	@IgnoreSynField
-	private int donateTimes;// 捐献的次数
-	@IgnoreSynField
-	private long lastDonateTime;// 捐献的时间
+	// @IgnoreSynField
+	// private int donateTimes;// 捐献的次数
+	// @IgnoreSynField
+	// private long lastDonateTime;// 捐献的时间
 	private String templateId = "";// 成员的模版Id
 	// //////////////////////////////////////申请帮派时的数据
 	private int fighting;// 战斗力
@@ -50,10 +50,10 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private int totalContribution;// 帮派个人总贡献
 	@IgnoreSynField
 	private int dayContribution;// 当天捐献的数量
-	private int allotRewardCount;//每天分配奖励次数  非管理员则为0
+	private int allotRewardCount;// 每天分配奖励次数 非管理员则为0
 	@SaveAsJson
-	private ArmyFashion armyFashion;	//时装
-	
+	private ArmyFashion armyFashion; // 时装
+
 	// ////////////////////////////////////////////GET区域
 	/**
 	 * 获取成员的Id，实际上是角色的Id
@@ -146,21 +146,21 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 
 	/**
 	 * 获取个人的贡献
-	 * 
+	 *
 	 * @return
 	 */
 	public int getContribution() {
 		return contribution;
 	}
 
-	/**
-	 * 获取贡献次数
-	 * 
-	 * @return
-	 */
-	public int getDonateTimes() {
-		return donateTimes;
-	}
+	// /**
+	// * 获取贡献次数
+	// *
+	// * @return
+	// */
+	// public int getDonateTimes() {
+	// return donateTimes;
+	// }
 
 	/**
 	 * 获取成员请求时的战斗力
@@ -198,14 +198,14 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		return templateId;
 	}
 
-	/**
-	 * 获取上次捐献的时间
-	 * 
-	 * @return
-	 */
-	public long getLastDonateTime() {
-		return lastDonateTime;
-	}
+	// /**
+	// * 获取上次捐献的时间
+	// *
+	// * @return
+	// */
+	// public long getLastDonateTime() {
+	// return lastDonateTime;
+	// }
 
 	/**
 	 * 获取帮派个人总贡献
@@ -313,21 +313,21 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 
 	/**
 	 * 设置个人贡献
-	 * 
+	 *
 	 * @param contribution
 	 */
 	public void setContribution(int contribution) {
 		this.contribution = contribution;
 	}
 
-	/**
-	 * 设置贡献次数
-	 * 
-	 * @param donateTimes
-	 */
-	public void setDonateTimes(int donateTimes) {
-		this.donateTimes = donateTimes;
-	}
+	// /**
+	// * 设置贡献次数
+	// *
+	// * @param donateTimes
+	// */
+	// public void setDonateTimes(int donateTimes) {
+	// this.donateTimes = donateTimes;
+	// }
 
 	/**
 	 * 设置成员的战斗力（申请时战斗里最高的4个佣兵和角色的战斗力之和）
@@ -370,14 +370,14 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		this.templateId = templateId;
 	}
 
-	/**
-	 * 获取上次捐献的时间
-	 * 
-	 * @param lastDonateTime
-	 */
-	public void setLastDonateTime(long lastDonateTime) {
-		this.lastDonateTime = lastDonateTime;
-	}
+	// /**
+	// * 获取上次捐献的时间
+	// *
+	// * @param lastDonateTime
+	// */
+	// public void setLastDonateTime(long lastDonateTime) {
+	// this.lastDonateTime = lastDonateTime;
+	// }
 
 	/**
 	 * 设置帮派个人总贡献
