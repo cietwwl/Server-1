@@ -191,7 +191,7 @@ public class GroupSecretHelper {
 				}
 
 				DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, false, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-					readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", groupName));
+						readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, 0, "", groupName, readOnlyPlayer.getHeadFrame()));
 				defendUserInfoMap.put(index, userInfo);
 			}
 		}
@@ -285,7 +285,7 @@ public class GroupSecretHelper {
 			String zoneName = enemyData.getZoneName();
 
 			DefendUserInfoSynData userInfo = new DefendUserInfoSynData(index, !isHasLife, new DefendTeamInfoSynData(defendUserId, readOnlyPlayer.getHeadImage(), readOnlyPlayer.getUserName(),
-				readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName));
+				readOnlyPlayer.getLevel(), fighting, magic.getModelId(), magic.getMagicLevel(), baseInfoList, zoneId, zoneName, groupName, readOnlyPlayer.getHeadFrame()));
 			defendUserInfoMap.put(index, userInfo);
 		}
 	}
