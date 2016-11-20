@@ -64,6 +64,7 @@ public class Server {
 
 			// 时效任务初始化
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
+			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);

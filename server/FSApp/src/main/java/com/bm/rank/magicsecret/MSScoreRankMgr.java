@@ -1,10 +1,11 @@
 package com.bm.rank.magicsecret;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.bm.rank.RankType;
+import com.common.serverdata.ServerCommonData;
+import com.common.serverdata.ServerCommonDataHolder;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -13,11 +14,13 @@ import com.playerdata.mgcsecret.cfg.MagicScoreRankCfgDAO;
 import com.playerdata.mgcsecret.data.MSScoreDataItem;
 import com.playerdata.mgcsecret.data.UserMagicSecretData;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
+import com.playerdata.teambattle.bm.TeamBattleConst;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 
 public class MSScoreRankMgr {
@@ -76,13 +79,10 @@ public class MSScoreRankMgr {
 	 * 发放法宝秘境每日排行奖励
 	 */
 	public static void dispatchMSDailyReward() {
-		Calendar cal = Calendar.getInstance();
-		long currentTime = cal.getTimeInMillis();
-		cal.set(Calendar.HOUR, 5);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		long todayFive = cal.getTimeInMillis();
-		if(currentTime - todayFive < 0 || currentTime - todayFive > 5 * 60 * 60) return;
+		long lastRefreshTime = 0;
+		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
+		if(null != scdData) lastRefreshTime = scdData.getMsLastRefreshTime();
+		if(!DateUtils.isResetTime(TeamBattleConst.DAILY_REFRESH_HOUR, 0, 0, lastRefreshTime)) return;
 		
 		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
 		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
@@ -104,6 +104,11 @@ public class MSScoreRankMgr {
 						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
 					}
 				}
+			}
+			
+			if(null != scdData) {
+				scdData.setMsLastRefreshTime(System.currentTimeMillis());
+				ServerCommonDataHolder.getInstance().update(scdData);
 			}
 		} catch (Exception ex) {
 			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 给角色[%s]发放每日法宝秘境排行榜奖励[%s]的时候出现异常", dispatchingUser, dispatchingRank), ex);

@@ -201,23 +201,29 @@ public class FixExpEquipMgr {
 		
 		List<FixExpEquipDataItem> itemList = fixExpEquipDataItemHolder.getItemList(ownerId);
 		for (FixExpEquipDataItem dataItem : itemList) {
-			eConsumeTypeDef consumeType = getConsumeType(dataItem);
-			
-			List<ItemData> itemlist = consumeItemMap.get(consumeType);
-			if (itemlist == null) continue;
-			int totalExp = 0;
-			for (ItemData itemData : itemlist) {
-				int modelId = itemData.getModelId();
-				int count = itemData.getCount();
-				ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(modelId);
-				if (consumeType.getOrder() == consumeCfg.getConsumeType()) {
-					totalExp = totalExp + consumeCfg.getValue() * count;
-				}
+			FixEquipResult result = null;
+			FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), dataItem.getQuality());
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(dataItem.getLevel() < nextQualityLevel){
 				
-			}			
-			
-			FixEquipResult result = checkLevelUpCost(player, dataItem, totalExp);
-			if(result.isSuccess()){
+				eConsumeTypeDef consumeType = getConsumeType(dataItem);
+				
+				List<ItemData> itemlist = consumeItemMap.get(consumeType);
+				if (itemlist == null) continue;
+				int totalExp = 0;
+				for (ItemData itemData : itemlist) {
+					int modelId = itemData.getModelId();
+					int count = itemData.getCount();
+					ConsumeCfg consumeCfg = ItemCfgHelper.getConsumeCfg(modelId);
+					if (consumeType.getOrder() == consumeCfg.getConsumeType()) {
+						totalExp = totalExp + consumeCfg.getValue() * count;
+					}
+					
+				}			
+				
+				result = checkLevelUpCost(player, dataItem, totalExp);
+			}
+			if(result!=null && result.isSuccess()){
 				canUpList.add(dataItem.getId());
 			}
 		}
@@ -226,15 +232,23 @@ public class FixExpEquipMgr {
 	
 	private FixEquipResult checkLevelUpCost(Player player, FixExpEquipDataItem dataItem, int totalExp) {		
 		
-		FixExpEquipLevelCostCfg curLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), dataItem.getLevel());
-		int expNeed = curLevelCfg.getExpNeed();
-		
 		FixEquipResult result = FixEquipResult.newInstance(false);
-		if(totalExp > expNeed){
-			FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
-			int needCost = expNeed * equipCfg.getCostPerExp();
-			result = FixEquipHelper.checkCost(player, equipCfg.getExpCostType(), needCost);			
+		
+		FixExpEquipLevelCostCfg curLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), dataItem.getLevel());
+		int nextLevel = dataItem.getLevel()+1;
+		FixExpEquipLevelCostCfg nextLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), nextLevel);
+		if(nextLevelCfg == null && dataItem.getExp() >= curLevelCfg.getExpNeed()){
+			result.setReason("装备已达最高等级");
+		}else{
+			int expNeed = curLevelCfg.getExpNeed();
+			
+			if(totalExp > expNeed){
+				FixEquipCfg equipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
+				int needCost = expNeed * equipCfg.getCostPerExp();
+				result = FixEquipHelper.checkCost(player, equipCfg.getExpCostType(), needCost);			
+			}
 		}
+		
 			
 		return result;
 	}
@@ -257,12 +271,18 @@ public class FixExpEquipMgr {
 		} else if (dataItem == null) {
 			result.setReason("装备不存在");
 		} else {
-			int nextLevel = dataItem.getLevel() + 1;
-
+			int curLevel = dataItem.getLevel();
+			int nextLevel = curLevel + 1;
 			if (player.getLevel() < nextLevel) {
 				result.setReason("装备等级不能超过英雄等级");
 			} else {
-				result.setSuccess(true);
+				FixExpEquipLevelCostCfg curLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), curLevel);
+				FixExpEquipLevelCostCfg nextLevelCfg = FixExpEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(dataItem.getLevelCostPlanId(), nextLevel);
+				if(nextLevelCfg == null && dataItem.getExp() >= curLevelCfg.getExpNeed()){
+					result.setReason("装备已达最高等级");
+				}else{
+					result.setSuccess(true);
+				}
 			}
 
 		}

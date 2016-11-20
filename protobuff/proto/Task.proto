@@ -45,6 +45,7 @@ enum OneKeyResultType{
 	DATA_ERROR = 2;	//数据异常
 	NO_REWARD = 3;	//没有可以领取的项
 	TYPE_ERROR = 4;	//类型错误
+	LEVEL_LIMIT = 5; //等级不够
 }
 
 message OneKeyGetRewardRequest{

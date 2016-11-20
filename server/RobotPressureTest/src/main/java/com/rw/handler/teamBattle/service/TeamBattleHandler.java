@@ -45,7 +45,7 @@ public class TeamBattleHandler {
 				return true;
 			}
 		}
-		int rankKey = (int)(Math.random() * 3);
+		int rankKey = 1;//(int)(Math.random() * 3);
 		if(0 == rankKey){
 			result = createTeam(client);
 			if (!result) {

@@ -77,13 +77,14 @@ public class DropAndApplyRecordHolder {
 		}
 	}
 	
+	
 	public CopyItemDropAndApplyRecord getItemByID(String chaterID){
 		return getItemStore().getItem(getRecordID(chaterID));
 	}
 	
 	public ItemDropAndApplyTemplate getItemApplyDataByID(String chaterID, int itemID){
 		CopyItemDropAndApplyRecord item = getItemStore().getItem((getRecordID(chaterID)));
-		return item.getDaMap().get(String.valueOf(itemID));
+		return item.get(String.valueOf(itemID));
 	}
 	
 	

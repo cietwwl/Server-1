@@ -163,16 +163,19 @@ public class FixNormEquipMgr {
 		for (FixNormEquipDataItem dataItem : itemList) {
 			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int curLevel = dataItem.getLevel();
-			int toLevel = getToLevel(player, dataItem);
-			if (curLevel == toLevel){
-				continue;
+			
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), curLevel);
+			int nextQualityLevel = curQualityCfg.getLevelNeed();
+			if(curLevel < nextQualityLevel){				
+				
+				FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
+				int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
+				FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
+				if(result.isSuccess()){
+					levelUpList.add(dataItem.getId());
+				}
 			}
-			FixNormEquipLevelCostCfg curLevelCostCfg = FixNormEquipLevelCostCfgDAO.getInstance().getByPlanIdAndLevel(fixEquipCfg.getLevelCostPlanId(), curLevel );
-			int costNeed = getLevelCostNeed(fixEquipCfg.getLevelCostPlanId(), curLevel, curLevel+1);
-			FixEquipResult result = FixEquipHelper.checkCost(player, curLevelCostCfg.getCostType(), costNeed);
-			if(result.isSuccess()){
-				levelUpList.add(dataItem.getId());
-			}
+			
 		}
 		
 		

@@ -22,4 +22,20 @@ public class PublicData {
 	 * 改名冷却时间
 	 */
 	public static final int CHAGNE_NAME_CDTIME = 20;
+	/**
+	 * 任务一键领取的开放等级
+	 */
+	public static final int TASK_ONE_KEY_LEVEL = 21;
+	/**
+	 * 日常一键领取的开放等级
+	 */
+	public static final int DAILY_ONE_KEY_LEVEL = 22;
+	/**
+	 * 竞技场积分一键领取的开放等级
+	 */
+	public static final int BATTLE_SCORE_ONE_KEY_LEVEL = 23;
+	/**
+	 * 邮件一键领取的开放等级
+	 */
+	public static final int EMAIL_ONE_KEY_LEVEL = 24;
 }

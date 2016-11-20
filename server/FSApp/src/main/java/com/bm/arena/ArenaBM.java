@@ -35,10 +35,12 @@ import com.rw.service.log.template.BilogItemInfo;
 import com.rwbase.dao.arena.ArenaInfoCfgDAO;
 import com.rwbase.dao.arena.ArenaPrizeCfgDAO;
 import com.rwbase.dao.arena.TableArenaDataDAO;
+import com.rwbase.dao.arena.TableArenaRecordDAO;
 import com.rwbase.dao.arena.pojo.ArenaInfoCfg;
 import com.rwbase.dao.arena.pojo.HurtValueRecord;
 import com.rwbase.dao.arena.pojo.RecordInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.arena.pojo.TableArenaRecord;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.user.readonly.TableUserIF;
 
@@ -100,7 +102,7 @@ public class ArenaBM {
 			return false;
 		}
 
-//		arenaData.setAtkHeroList(list);
+		// arenaData.setAtkHeroList(list);
 		arenaData.setAtkList(list);
 		tableArenaDataDAO.update(arenaData);
 
@@ -114,7 +116,7 @@ public class ArenaBM {
 		if (arenaData == null) {
 			return Collections.EMPTY_LIST;
 		}
-		//List<String> list = arenaData.getAtkHeroList();
+		// List<String> list = arenaData.getAtkHeroList();
 		List<String> list = arenaData.getAtkList();
 		return list == null ? Collections.EMPTY_LIST : list;
 	}
@@ -182,18 +184,18 @@ public class ArenaBM {
 
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		ArrayList<String> defaultHeros = new ArrayList<String>(4);
-//		ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
+		// ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
 		for (Hero hero : maxFightingHeros) {
 			String heroId = hero.getUUId();
 			if (!heroId.equals(userId)) {
 				defaultHeros.add(heroId);
-				//defaultAtkHeros.add(hero.getTemplateId());
+				// defaultAtkHeros.add(hero.getTemplateId());
 			}
 		}
 
 		data.setHeroIdList(defaultHeros);
 		data.setAtkList(new ArrayList<String>(defaultHeros));
-//		data.setAtkHeroList(defaultAtkHeros);
+		// data.setAtkHeroList(defaultAtkHeros);
 
 		ArenaInfoCfg infoCfg = ArenaInfoCfgDAO.getInstance().getArenaInfo();
 		data.setRemainCount(infoCfg.getCount());
@@ -516,12 +518,18 @@ public class ArenaBM {
 
 	public List<RecordInfo> getArenaRecordList(String userId) {
 		// TODO 需要判断非null
-		return tableArenaDataDAO.get(userId).getRecordList();
+		return TableArenaRecordDAO.getInstance().get(userId).getRecordList();
 	}
 
-	public void addRecord(TableArenaData table, RecordInfo record, boolean updateDB) {
+	public void addRecord(String userId, RecordInfo record, boolean updateDB) {
 		// 此方法不是线程安全
-		List<RecordInfo> list = table.getRecordList();
+		TableArenaRecordDAO recrodDAO = TableArenaRecordDAO.getInstance();
+		TableArenaRecord arenaRecord = recrodDAO.get(userId);
+		if (arenaRecord == null) {
+			GameLog.error("ArenaBM", userId, "save arena record fail");
+			return;
+		}
+		List<RecordInfo> list = arenaRecord.getRecordList();
 		int size = list.size();
 		if (size >= 15) {
 			list.remove(0);
@@ -535,7 +543,7 @@ public class ArenaBM {
 		}
 		list.add(record);
 		if (updateDB) {
-			tableArenaDataDAO.update(table);
+			recrodDAO.update(userId);
 		}
 	}
 

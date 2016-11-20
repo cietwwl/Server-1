@@ -31,7 +31,7 @@ public class TableArenaData {
 	private String templeteId;
 	private int winCount;
 	private long lastFightTime;
-	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
+//	private List<RecordInfo> recordList = new ArrayList<RecordInfo>();
 	// private List<String> atkHeroList = new ArrayList<String>(); //
 	// 进攻阵容的id列表(templateId)
 	private List<String> atkList = new ArrayList<String>(); // 进攻阵容的id列表(uuid)
@@ -168,15 +168,15 @@ public class TableArenaData {
 		this.lastFightTime = lastFightTime;
 	}
 
-	public List<RecordInfo> getRecordList() {
-		return recordList;
-	}
-
-	public void setRecordList(List<RecordInfo> recordList) {
-		if (recordList != null) {
-			this.recordList = recordList;
-		}
-	}
+//	public List<RecordInfo> getRecordList() {
+//		return recordList;
+//	}
+//
+//	public void setRecordList(List<RecordInfo> recordList) {
+//		if (recordList != null) {
+//			this.recordList = recordList;
+//		}
+//	}
 
 	// public List<String> getAtkHeroList() {
 	// return atkHeroList;

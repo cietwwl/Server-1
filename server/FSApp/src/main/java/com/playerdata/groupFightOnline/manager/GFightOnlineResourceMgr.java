@@ -1,6 +1,5 @@
 package com.playerdata.groupFightOnline.manager;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,12 +8,13 @@ import com.bm.group.GroupBM;
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
 import com.playerdata.Player;
-import com.playerdata.groupFightOnline.bm.GFightConst;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfg;
 import com.playerdata.groupFightOnline.cfg.GFightOnlineResourceCfgDAO;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceData;
 import com.playerdata.groupFightOnline.data.GFightOnlineResourceHolder;
 import com.playerdata.groupFightOnline.dataForClient.GFFightRecord;
+import com.playerdata.teambattle.bm.TeamBattleConst;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.group.pojo.Group;
@@ -89,14 +89,8 @@ public class GFightOnlineResourceMgr {
 	public void dispatchDailyReward(){
 		long lastRefreshTime = 0;
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
-		if(null != scdData) lastRefreshTime = scdData.getGfLastRefreshTime();
-		
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, GFightConst.DAILY_REFRESH_HOUR);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		
-		if(lastRefreshTime < cal.getTimeInMillis()){
+		if(null != scdData) lastRefreshTime = scdData.getTbLastRefreshTime();
+		if(DateUtils.isResetTime(TeamBattleConst.DAILY_REFRESH_HOUR, 0, 0, lastRefreshTime)){
 			List<GFightOnlineResourceCfg> resCfg = GFightOnlineResourceCfgDAO.getInstance().getAllCfg();
 			for(GFightOnlineResourceCfg cfg : resCfg){
 				dispatchOwnerReward(cfg.getResID());

@@ -11,6 +11,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.playerdata.Player;
+import com.rw.fsutil.shutdown.ShutdownService;
 import com.rwbase.common.timer.IGameTimerTask;
 
 /**
@@ -29,6 +30,10 @@ public class FSGameTimerMgr {
 	
 	public static FSGameTimerMgr getInstance() {
 		return _instance;
+	}
+	
+	static final FSGameTimer getTimerInstance() {
+		return _instance._timerInstance;
 	}
 	
 	public void init() throws Exception {
@@ -52,13 +57,14 @@ public class FSGameTimerMgr {
 			dailyTaskInfos = Collections.emptyList();
 		}
 		_commonTaskSupport.init(dailyTaskInfos); // 角色预设任务
+		ShutdownService.registerShutdownService(timer);
 //		_COMMON_TASK_SUPPORT.addOperatorToDailyTask(21, 0, com.rwbase.common.timer.test.new FSGamePlayerOperableDemo());
 //		_COMMON_TASK_SUPPORT.addOperatorToMinuteTask(new com.rwbase.common.timer.test.FSGamePlayerOperableMinuteDemo());
 //		_COMMON_TASK_SUPPORT.addOperatorToMinuteTask(new com.rwbase.common.timer.test.FSGamePlayerOperationHeavyWeightMinuteDemo());
 	}
 	
-	final FSGameTimer getTimer() {
-		return _timerInstance;
+	public void serverStartComplete() throws Exception {
+		this._commonTaskSupport.serverStartComplete();
 	}
 	
 	/**

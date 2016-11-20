@@ -794,6 +794,9 @@ public class GroupMemberManagerHandler {
 		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
 		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+		
+		//清理一下帮派成员申请奖励品的数据
+		group.getGroupCopyMgr().nofityCreateRoleLeaveTask(kickMemberId);
 
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();

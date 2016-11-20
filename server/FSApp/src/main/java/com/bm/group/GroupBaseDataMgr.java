@@ -278,7 +278,7 @@ public class GroupBaseDataMgr {
 		String userId = player.getUserId();
 		if (hasLevel < 0) {
 			GameLog.error("研发帮派技能", userId, String.format("技能Id[%s]，还没有被研发", skillId));
-			return "当前技能未被研发过";
+			return "需要前置技能满级后才能研发";
 		}
 
 		if (skillLevel - hasLevel != 1) {
@@ -299,7 +299,7 @@ public class GroupBaseDataMgr {
 				int needSkillLevel = entry.getValue().intValue();
 				if (!groupData.checkHasResearchedSkill(needSkillId, needSkillLevel)) {
 					GameLog.error("研发帮派技能", userId, String.format("需要技能Id是[%s],技能等级是[%s],条件未达成", needSkillId, needSkillLevel));
-					return "前置条件不足";
+					return "需要前置技能满级后才能研发";
 				}
 			}
 		}

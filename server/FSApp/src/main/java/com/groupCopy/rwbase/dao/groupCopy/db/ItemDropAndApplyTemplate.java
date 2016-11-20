@@ -2,10 +2,11 @@ package com.groupCopy.rwbase.dao.groupCopy.db;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.SynClass;
 
@@ -16,6 +17,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
  * 2016年6月12日 下午4:54:00
  */
 @SynClass
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ItemDropAndApplyTemplate {
 
 	int itemID;
@@ -46,7 +48,7 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public List<DropInfo> getDropInfoList() {
-		return Collections.unmodifiableList(dropInfoList);
+		return new ArrayList<DropInfo>(dropInfoList);
 	}
 
 	public void setDropInfoList(List<DropInfo> dropInfoList) {
@@ -54,7 +56,7 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public List<ApplyInfo> getApplyData() {
-		return Collections.unmodifiableList(applyData);
+		return new ArrayList<ApplyInfo>(applyData);
 	}
 
 	public void setApplyData(List<ApplyInfo> applyData) {
@@ -79,6 +81,22 @@ public class ItemDropAndApplyTemplate {
 		}else{
 			dropInfo.setCount(left);
 		}
+	}
+
+	public boolean noDropItem() {
+		return dropInfoList.isEmpty();
+	}
+
+	
+	/**
+	 * 获取最早一个物品的掉落时间
+	 * @return
+	 */
+	public long firstDropTime() {
+		if(dropInfoList.isEmpty()){
+			return 0;
+		}
+		return dropInfoList.get(0).getTime();
 	}
 
 
