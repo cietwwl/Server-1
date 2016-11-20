@@ -7,7 +7,7 @@ public class Notice {
 	private int id;                 	   	//公告id
 	private int sort = 0;						//公告排序id				
 	private int pushType;					//推送类型
-	private String tagTitle;				//页签标题
+	private String tagTitle = "公告";				//页签标题
 	private String tagIcon = "act_3";					//标签图片
 	private String title = "公告";					//页签标签
 	private int annoceType = 0;					//公告类型

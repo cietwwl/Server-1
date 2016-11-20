@@ -54,11 +54,7 @@ import com.sun.org.apache.bcel.internal.classfile.PMGClass;
  */
 public class RandomBossMgr{
 
-	//数据dao
-	private RandomBossRecordDAO rbDao;
-	
-	//配置
-	private RandomBossServerCfg rbServerCfg;
+
 	
 	private final int INVITED_TYPE_FRIEND = 1;
 	private final int INVITED_TYPE_GROUP = 2;
@@ -67,8 +63,6 @@ public class RandomBossMgr{
 	private static RandomBossMgr instance = new RandomBossMgr();
 	
 	private RandomBossMgr(){
-		rbDao = RandomBossRecordDAO.getInstance();
-		rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 	}
 
 	public synchronized static RandomBossMgr getInstance(){
@@ -85,6 +79,7 @@ public class RandomBossMgr{
 		if(player == null){
 			return false;
 		}
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 		//先同步一下次数
 		synBattleCount(player);
 		long nowTime = System.currentTimeMillis();
@@ -147,6 +142,8 @@ public class RandomBossMgr{
 	 * @param response
 	 */
 	public void acceptedInvited(Player player, String bossID, Builder response) {
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		//检查一下boss是否还在
 		RandomBossRecord record = rbDao.get(bossID);
 		if(record == null){
@@ -188,6 +185,7 @@ public class RandomBossMgr{
 	 * @return
 	 */
 	public List<BattleNewsData> getBattleInfo(Player player, String bossID) {
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 		RandomBossRecord record = rbDao.get(bossID);
 		if(record == null){
 			return null;
@@ -204,6 +202,7 @@ public class RandomBossMgr{
 			return;
 		}
 		int count = player.getUserGameDataMgr().getFightRandomBossCount();
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		int maxBattleCount = rbServerCfg.getMaxBattleCount();
 		RandomBossPushMsg.Builder msg = RandomBossPushMsg.newBuilder();
 		RandomBossSynBattleCount.Builder bc = RandomBossSynBattleCount.newBuilder();
@@ -221,7 +220,9 @@ public class RandomBossMgr{
 	 * @param response
 	 */
 	public void applyEnterBattle(Player player, String bossID, Builder response) {
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 		RandomBossRecord record = rbDao.get(bossID);
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		if(record == null){
 			response.setIsSuccess(false);
 			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossExcapeTips(), "boss已经离开！"));
@@ -308,8 +309,9 @@ public class RandomBossMgr{
 	 * @return
 	 */
 	public synchronized BattleRewardInfo.Builder endBattle(Player player, String bossID, long curHp) {
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 		RandomBossRecord record = rbDao.get(bossID);
-		
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		//检查战斗角色是否匹配
 		if(!StringUtils.equals(record.getBattleRoleID(), player.getUserId())){
 			GameLog.error("RandomBoss", "RandomBossMgr[endBattle]", "随机boss战斗结束，检查角色id不匹配", null);
@@ -397,6 +399,7 @@ public class RandomBossMgr{
 	 */
 	public void findBossBorn(Player player, boolean hasRate){
 		//检查角色等级
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		int level = player.getLevel();
 		if(level < rbServerCfg.getOpenLv()){
 			return;
@@ -427,7 +430,7 @@ public class RandomBossMgr{
 		int i = RandomUtil.getRandonIndexWithoutProb(pair.getT1());
 		try {
 			
-			
+			RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 			RandomBossCfg cfg = getTargetCfg(i, pair.getT2());
 			
 			MonsterCfg monsterCfg = MonsterCfgDao.getInstance().getConfig(cfg.getId());
@@ -476,10 +479,12 @@ public class RandomBossMgr{
 	}
 
 	public String getBossBornInvitedTips() {
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		return ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossBornTips(), "魔神已经出现");
 	}
 
 	public String getBossKilledKey() {
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		return ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getBossWasKilledTips(), "魔神已经出现");
 	}
 
@@ -489,6 +494,7 @@ public class RandomBossMgr{
 	 * @return
 	 */
 	public long getBattleTimeLimit() {
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
 		return rbServerCfg.getBattleTimeLimit()  * Timer.ONE_SECOND;
 	}
 
@@ -498,6 +504,7 @@ public class RandomBossMgr{
 	 * @param bossId TODO
 	 */
 	public boolean recordInvitedTime(int type, String bossId) {
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 		RandomBossRecord record = rbDao.get(bossId);
 		
 		if(record == null){
