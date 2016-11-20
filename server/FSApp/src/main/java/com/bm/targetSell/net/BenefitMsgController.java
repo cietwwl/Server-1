@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.bm.targetSell.TargetSellManager;
-import com.rw.fsutil.remote.RemoteChannelServer;
+import com.common.RemoteMessageEnum;
+import com.rw.fsutil.remote.RemoteMessageService;
+import com.rw.fsutil.remote.RemoteMessageServiceFactory;
 import com.rw.fsutil.remote.parse.FSMessageDecoder;
 import com.rw.fsutil.remote.parse.FSMessageEncoder;
 import com.rw.fsutil.remote.parse.FSMessageExecutor;
@@ -18,7 +20,7 @@ public class BenefitMsgController {
 	//用于计算包头的key
 	public final static int MSG_KEY = 13542;
 
-	private RemoteChannelServer<String, String> server;
+	private RemoteMessageService<String, String> server;
 	
 	
 	FSMessageDecoder<String> decoder = new BenefitMsgDecoder();
@@ -38,9 +40,8 @@ public class BenefitMsgController {
 	}
 
 	public void init(String removeIp, int port, int localPort, int timeoutMillis, int priod) {
-		server = new RemoteChannelServer<String, String>(removeIp,port, 4, 4, decoder, encoder, executor);
+		server = RemoteMessageServiceFactory.createService(RemoteMessageEnum.RMType_Benefit.getId(), removeIp,port, 4, 4, decoder, encoder, executor);
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
-		
 	}
 
 	public void addMsg(String content) {
