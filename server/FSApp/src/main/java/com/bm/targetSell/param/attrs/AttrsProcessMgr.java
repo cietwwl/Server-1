@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bm.targetSell.param.ERoleAttrs;
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Player;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
 import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
@@ -91,5 +92,21 @@ public class AttrsProcessMgr {
 			instance.achieveAttrValue(player, user, cfg, result);
 		}
 		return result;
+	}
+
+
+
+
+
+	public void addHeroChangeAttrs(String userID, String heroID, List<EAchieveType> change, TargetSellRoleChange value) {
+		for (EAchieveType eAchieveType : change) {
+			AbsAchieveAttrValue ins = eAchieveType.getInstance();
+			if(ins == null){
+				continue;
+			}
+			ins.addHeroAttrs(userID, heroID, eAchieveType, value);
+		}
+	
+		
 	}
 }

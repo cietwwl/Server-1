@@ -28,13 +28,13 @@ import com.bm.targetSell.param.TargetSellRoleDataParam;
 import com.bm.targetSell.param.TargetSellSendRoleItems;
 import com.bm.targetSell.param.TargetSellServerErrorParam;
 import com.bm.targetSell.param.attrs.AttrsProcessMgr;
+import com.bm.targetSell.param.attrs.EAchieveType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.playerdata.hero.core.FSHeroMgr;
-import com.rw.dataaccess.GameOperationFactory;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.MD5;
@@ -96,7 +96,7 @@ public class TargetSellManager {
 	 * key=heroID, value=ChangeAttr  这个缓存是保存部分无法找到角色id的英雄改变属性，每次RoleAttrChangeMap发送的时候会进入此缓存检查是否存在自己的英雄属性
 	 * 角色下线也会做检索移除操作
 	 */
-	public static ConcurrentHashMap<String, List<String>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<String>>();
+	public static ConcurrentHashMap<String, List<EAchieveType>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<EAchieveType>>();
 	
 	public TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
@@ -483,11 +483,11 @@ public class TargetSellManager {
 //	}
 	
 	
-	public void notifyHeroAttrsChange(String heroID, String eRoleAttrID){
-		List<String> change = HeroAttrChangeMap.get(heroID);
+	public void notifyHeroAttrsChange(String heroID, EAchieveType eRoleAttrID){
+		List<EAchieveType> change = HeroAttrChangeMap.get(heroID);
 		if(change == null){
-			change = new ArrayList<String>();
-			List<String> list = HeroAttrChangeMap.putIfAbsent(heroID, change);
+			change = new ArrayList<EAchieveType>();
+			List<EAchieveType> list = HeroAttrChangeMap.putIfAbsent(heroID, change);
 			if(list != null){
 				change = list;
 			}
@@ -528,9 +528,9 @@ public class TargetSellManager {
 		Player player = PlayerMgr.getInstance().find(userID);
 		List<String> list = FSHeroMgr.getInstance().getHeroIdList(player);
 		for (String heroID : list) {
-			List<String> change = HeroAttrChangeMap.remove(heroID);
+			List<EAchieveType> change = HeroAttrChangeMap.remove(heroID);
 			if(change != null && value != null){
-				value.addChanges(change);
+				AttrsProcessMgr.getInstance().addHeroChangeAttrs(userID, heroID, change, value);
 			}
 		}
 	}

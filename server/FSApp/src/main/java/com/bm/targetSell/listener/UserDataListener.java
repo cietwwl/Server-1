@@ -21,6 +21,7 @@ public class UserDataListener implements SingleChangedListener<User>{
 		String userId = currentRecord.getUserId();
 		
 		if(oldRecord.getLevel() != currentRecord.getLevel()){
+			System.out.println("benefit system record role level change ,new level:" + currentRecord.getLevel()+ ",old level:" + oldRecord.getLevel());
 			TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_Level.getId());
 			OpenLevelTiggerServiceMgr.getInstance().tiggerServiceByLevel(userId,oldRecord,currentRecord);
 		}

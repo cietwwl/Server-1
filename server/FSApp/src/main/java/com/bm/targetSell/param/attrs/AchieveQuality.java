@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
@@ -17,7 +18,7 @@ import com.rwbase.dao.targetSell.BenefitAttrCfg;
 import com.rwbase.dao.user.User;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
-public class AchieveQuality extends AbsAchieveAttrValue{
+public class AchieveQuality implements AbsAchieveAttrValue{
 
 	@Override
 	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg, Map<String, Object> AttrMap) {
@@ -49,6 +50,13 @@ public class AchieveQuality extends AbsAchieveAttrValue{
 			AttrMap.put(attrName, roleQualityCfg.getQuality());
 			index++;
 		}
+	}
+
+	@Override
+	public void addHeroAttrs(String userID, String heroID,
+			EAchieveType change, TargetSellRoleChange value) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

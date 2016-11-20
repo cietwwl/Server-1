@@ -3,6 +3,7 @@ package com.bm.targetSell.param.attrs;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
@@ -10,8 +11,11 @@ import com.playerdata.HeroMgr;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.exp.FixExpEquipMgr;
 import com.playerdata.fixEquip.norm.FixNormEquipMgr;
+import com.playerdata.hero.core.FSHero;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
+import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
 import com.rwbase.dao.user.User;
 
 
@@ -21,16 +25,21 @@ import com.rwbase.dao.user.User;
  *
  * 2016年11月17日 下午12:10:04
  */
-public class AchieveveHeroFixEquipUpgradStar extends AbsAchieveAttrValue{
+public class AchieveveHeroFixEquipUpgradStar implements AbsAchieveAttrValue{
 
 	@Override
 	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg,
 			Map<String, Object> AttrMap) {
 		
 		HeroMgr heroMgr = player.getHeroMgr();
-		String heroModelId = cfg.getParam();
+		int heroModelId = Integer.parseInt(cfg.getParam());
 		
-		Hero hero = heroMgr.getHeroByModerId(player, Integer.parseInt(heroModelId));
+		Hero hero = null;
+		if(heroModelId == MainRoleModelID){
+			hero = player.getMainRoleHero();
+		}else{
+			hero = heroMgr.getHeroByModerId(player, heroModelId);
+		}
 		if(hero != null){
 			List<HeroFixEquipInfo> dataInfo = FixNormEquipMgr.getInstance().getHeroFixSimpleInfo(hero.getId());//普通神器数据
 			String[] attrName = cfg.getAttrName().split(",");
@@ -60,6 +69,23 @@ public class AchieveveHeroFixEquipUpgradStar extends AbsAchieveAttrValue{
 		
 		
 		
+		
+	}
+
+	@Override
+	public void addHeroAttrs(String userID, String heroID, EAchieveType achieveType, TargetSellRoleChange value) {
+
+		//因为神器数据没有保存角色的数据，所以要在这里补加进去
+		FSHero hero = FSHeroMgr.getInstance().getHeroById(userID, heroID);
+		if(hero == null){
+			return;
+		}
+		int heroModelID = userID.equals(heroID) ? MainRoleModelID : hero.getModeId();
+		
+		BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(heroModelID, achieveType.getId());
+		if(cfg != null){
+			value.addChange(cfg.getId());
+		}
 		
 	}
 

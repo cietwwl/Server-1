@@ -22,10 +22,7 @@ public class FixNorEquipDataListener implements SingleChangedListener<FixNormEqu
 		FixNormEquipDataItem oldRecord = event.getOldRecord();
 		FixNormEquipDataItem currentRecord = event.getCurrentRecord();
 		if(oldRecord.getStar() != currentRecord.getStar()){
-			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(oldRecord.getSlot(), EAchieveType.AchieveveHeroFixEquipUpgradStar.getId());
-			if (cfg != null) {
-				TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), cfg.getId());
-			}
+			TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
 		}
 	}
 

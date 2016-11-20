@@ -2,8 +2,11 @@ package com.rw.trace.listener;
 
 import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.ERoleAttrs;
+import com.bm.targetSell.param.attrs.AbsAchieveAttrValue;
 import com.bm.targetSell.param.attrs.EAchieveType;
 import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
+import com.playerdata.hero.core.FSHero;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
@@ -22,11 +25,11 @@ public class FixExpEquipDataListener implements SingleChangedListener<FixExpEqui
 	public void notifyDataChanged(SignleChangedEvent<FixExpEquipDataItem> event) {
 		FixExpEquipDataItem oldRecord = event.getOldRecord();
 		FixExpEquipDataItem currentRecord = event.getCurrentRecord();
+		
+		
 		if(oldRecord.getStar() != currentRecord.getStar()){
-			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(oldRecord.getSlot(), EAchieveType.AchieveveHeroFixEquipUpgradStar.getId());
-			if (cfg != null) {
-				TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), cfg.getId());
-			}
+			//保存到缓存，具体逻辑在发送的时候再进行检查
+			TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
 		}
 	}
 

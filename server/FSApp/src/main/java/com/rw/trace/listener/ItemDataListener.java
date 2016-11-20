@@ -92,7 +92,7 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 		if(type == EItemTypeDef.Magic){
 			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(data.getId());
 			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getMagicType(), 
-					EAchieveType.AchieveStoneLevel.getId());// 法宝等级
+					EAchieveType.AchieveMagicLevel.getId());// 法宝等级
 			if(cfg != null){
 				TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());
 			}
