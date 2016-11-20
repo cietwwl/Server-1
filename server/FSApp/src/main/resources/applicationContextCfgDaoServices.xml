@@ -390,6 +390,8 @@
 	<!-- 精准营销 -->
 	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
 	
+	<!-- notice-->
+	<bean class="com.rwbase.dao.notice.AnnouncementCfgDAO"  init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

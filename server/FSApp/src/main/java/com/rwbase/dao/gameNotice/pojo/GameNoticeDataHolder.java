@@ -3,6 +3,7 @@ package com.rwbase.dao.gameNotice.pojo;
 import java.util.HashMap;
 import java.util.List;
 
+import com.bm.notice.NoticeMgr;
 import com.rw.service.gamenotice.GameNoticeService;
 import com.rwbase.dao.gameNotice.TableGameNotice;
 import com.rwbase.dao.gameNotice.TableGameNoticeDAO;
@@ -44,6 +45,7 @@ public class GameNoticeDataHolder {
 	
 	public void saveOrUpdate(TableGameNotice notice, boolean insert){
 		TableGameNoticeDAO.getInstance().save(notice, insert);
+		NoticeMgr.getInstance().AddNotice(notice);
 	}
 	
 	public void addGameNotice(TableGameNotice notice, boolean insert){

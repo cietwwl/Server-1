@@ -7,10 +7,12 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
+import com.bm.notice.NoticeMgr;
 import com.rw.fsutil.log.EngineLoggerFactory;
 import com.rw.netty.client.ClientManager;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
+import com.rwbase.common.config.CfgMgr;
 import com.rwbase.gameworld.GameWorldFactory;
 
 public class PlatformFactory {
@@ -54,6 +56,8 @@ public class PlatformFactory {
 		clientManager = new ClientManager();
 		BILogMgr.getInstance().initLogger();
 		LogService.getInstance().initLogService();
+		CfgMgr.getInstance().init();
+		NoticeMgr.getInstance().initNotice();
 	}
 	
 	public static PlatformService getPlatformService(){

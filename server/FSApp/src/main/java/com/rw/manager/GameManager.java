@@ -22,6 +22,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
+import com.bm.notice.NoticeMgr;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankDataMgr;
@@ -186,6 +187,8 @@ public class GameManager {
 
 		// ServerStatus的初始化
 		ServerStatusMgr.init();
+		
+		NoticeMgr.getInstance().initNotice();
 
 		// 帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
