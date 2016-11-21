@@ -5,12 +5,9 @@ import com.rwbase.dao.guide.pojo.UserGuideProgress;
 
 public class GuideProgressDAO extends DataKVDao<UserGuideProgress> {
 
-	private static GuideProgressDAO instance;
+	private static GuideProgressDAO instance = new GuideProgressDAO();
 
 	public static GuideProgressDAO getInstance() {
-		if (instance == null) {
-			instance = new GuideProgressDAO();
-		}
 		return instance;
 	}
 	

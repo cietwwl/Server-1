@@ -23,7 +23,7 @@ import com.rwproto.StoreProtos.tagCommodity;
 public class StoreHandler {
 	private static StoreHandler instance = new StoreHandler();
 
-	private StoreHandler() {
+	protected StoreHandler() {
 	}
 
 	public static StoreHandler getInstance() {

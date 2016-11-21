@@ -11,7 +11,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FSGetTaoistCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
-	private static final FSGetTaoistCurrentFightingFunc _instance = new FSGetTaoistCurrentFightingFunc();
+	private static FSGetTaoistCurrentFightingFunc _instance = new FSGetTaoistCurrentFightingFunc();
 
 	private IFunction<Hero, Integer> _single;
 	
@@ -22,7 +22,7 @@ public class FSGetTaoistCurrentFightingFunc implements IBIFunction<Player, List<
 		this._cfgOpenLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 	}
 	
-	public static final FSGetTaoistCurrentFightingFunc getInstance() {
+	public static FSGetTaoistCurrentFightingFunc getInstance() {
 		return _instance;
 	}
 

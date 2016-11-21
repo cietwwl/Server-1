@@ -54,16 +54,13 @@ import com.rwproto.GroupCommonProto.RequestType;
  */
 public class GroupBaseManagerHandler {
 	private static final String QUIT_GROUP_TIME_TIP_FOR_CREATE = "%s后才可创建帮派";
-	private static GroupBaseManagerHandler handler;
+	private static GroupBaseManagerHandler handler = new GroupBaseManagerHandler();
 
 	public static GroupBaseManagerHandler getHandler() {
-		if (handler == null) {
-			handler = new GroupBaseManagerHandler();
-		}
 		return handler;
 	}
 
-	private GroupBaseManagerHandler() {
+	protected GroupBaseManagerHandler() {
 	}
 
 	/**

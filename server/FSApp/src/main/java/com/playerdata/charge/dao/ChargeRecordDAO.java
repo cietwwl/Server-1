@@ -14,7 +14,7 @@ import com.rw.fsutil.dao.optimize.DataAccessFactory;
 
 public class ChargeRecordDAO {
 
-	private static final ChargeRecordDAO _instance = new ChargeRecordDAO(true);
+	private static ChargeRecordDAO _instance = new ChargeRecordDAO(true);
 	
 	public static ChargeRecordDAO getInstance() {
 		return _instance;

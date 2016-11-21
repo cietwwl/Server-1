@@ -38,10 +38,10 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
 //public class EquipMgr extends IDataMgr implements EquipMgrIF {
 public class EquipMgr implements EquipMgrIF, IDataMgrSingletone {
 
-	private static final EquipMgr _INSTANCE = new EquipMgr();
+	private static EquipMgr _instancce = new EquipMgr();
 
 	public static EquipMgr getInstance() {
-		return _INSTANCE;
+		return _instancce;
 	}
 
 	/**

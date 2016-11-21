@@ -24,7 +24,7 @@ public class RoleHandler {
 	private static boolean isAdvance;
 	private HashMap<Integer, Double> m_Attr;
 
-	private RoleHandler() {
+	protected RoleHandler() {
 	}
 
 	public static RoleHandler getInstance() {

@@ -88,14 +88,14 @@ public class TargetSellManager {
 
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
 
-	public static ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
-
 	/*
 	 * key=heroID, value=ChangeAttr 这个缓存是保存部分无法找到角色id的英雄改变属性，每次RoleAttrChangeMap发送的时候会进入此缓存检查是否存在自己的英雄属性 角色下线也会做检索移除操作
 	 */
 	public static ConcurrentHashMap<String, List<EAchieveType>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<EAchieveType>>();
 
-	public TargetSellManager() {
+	public static final ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
+
+	protected TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
 	}
 

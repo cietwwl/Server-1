@@ -9,5 +9,5 @@ public class UserGFightOnlineDAO extends DataKVDao<UserGFightOnlineData>{
 		return instance;
 	}
 
-	private UserGFightOnlineDAO() { }
+	protected UserGFightOnlineDAO() { }
 }

@@ -14,7 +14,7 @@ import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class FSGetSkillMaxFightingFunc implements IFunction<Player, Integer>{
 
-	private static final FSGetSkillMaxFightingFunc _instance = new FSGetSkillMaxFightingFunc();
+	private static FSGetSkillMaxFightingFunc _instance = new FSGetSkillMaxFightingFunc();
 	
 	
 	private ExpectedHeroStatusCfgDAO _expectedStatusCfgDAO;
@@ -22,7 +22,7 @@ public class FSGetSkillMaxFightingFunc implements IFunction<Player, Integer>{
 		_expectedStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
 	}
 	
-	public static final FSGetSkillMaxFightingFunc getInstance() {
+	public static FSGetSkillMaxFightingFunc getInstance() {
 		return _instance;
 	}
 	

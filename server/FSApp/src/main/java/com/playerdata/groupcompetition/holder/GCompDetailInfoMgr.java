@@ -16,7 +16,7 @@ import com.rw.fsutil.common.Pair;
 
 public class GCompDetailInfoMgr {
 
-	private static final GCompDetailInfoMgr _instance = new GCompDetailInfoMgr();
+	private static GCompDetailInfoMgr _instance = new GCompDetailInfoMgr();
 	
 	public static GCompDetailInfoMgr getInstance() {
 		return _instance;

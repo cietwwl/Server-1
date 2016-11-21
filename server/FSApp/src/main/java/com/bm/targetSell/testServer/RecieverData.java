@@ -24,7 +24,7 @@ public class RecieverData {
 	private static RecieverData instance = new RecieverData();
 	private ConcurrentHashMap<String, Integer> roleDataMap = new ConcurrentHashMap<String, Integer>();
 	
-	private RecieverData(){
+	protected RecieverData(){
 	}
 	
 	public static RecieverData getInstance(){

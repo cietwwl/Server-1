@@ -100,7 +100,7 @@ public class BILogMgr {
 		return instance;
 	}
 
-	private BILogMgr() {
+	protected BILogMgr() {
 
 		templateMap = new HashMap<eBILogType, BILogTemplate>();
 		templateMap.put(eBILogType.ZoneReg, new ZoneRegLogTemplate());

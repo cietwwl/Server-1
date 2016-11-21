@@ -20,10 +20,10 @@ import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class SpriteAttachHolder {
-	private static final SpriteAttachHolder _INSTANCE = new SpriteAttachHolder();
+	private static SpriteAttachHolder _instance = new SpriteAttachHolder();
 
 	public static final SpriteAttachHolder getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	final private eSynType synType = eSynType.SPRITE_ATTACH_SYN;

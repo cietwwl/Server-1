@@ -21,10 +21,10 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class SkillItemHolder {
 
-	private static final SkillItemHolder _INSTANCE = new SkillItemHolder();
+	private static SkillItemHolder _instance = new SkillItemHolder();
 	
-	public static final SkillItemHolder getSkillItemHolder() {
-		return _INSTANCE;
+	public static SkillItemHolder getSkillItemHolder() {
+		return _instance;
 	}
 	
 	final private eSynType skillSynType = eSynType.SKILL_ITEM;

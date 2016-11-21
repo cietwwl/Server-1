@@ -1,12 +1,9 @@
 package com.rw.service.Privilege.datamodel;
 
 public class FloatPropertyWriter extends AbstractPropertyWriter<Float> {
-	private static FloatPropertyWriter instance;
+	private static FloatPropertyWriter instance = new FloatPropertyWriter();
 
 	public static FloatPropertyWriter getShareInstance() {
-		if (instance == null) {
-			instance = new FloatPropertyWriter();
-		}
 		return instance;
 	}
 

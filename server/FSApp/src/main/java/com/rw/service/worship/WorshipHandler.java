@@ -26,8 +26,7 @@ public class WorshipHandler {
 	public static final String WORSHIPPERS_KEY = "worshippers";
 	public static final String BY_WORSHIPPERS_KEY = "byWorshippers";
 
-	private WorshipHandler() {
-
+	protected WorshipHandler() {
 	}
 
 	public static WorshipHandler getInstance() {

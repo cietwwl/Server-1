@@ -15,6 +15,6 @@ public class GroupSecretMatchEnemyDataDAO extends DataKVDao<GroupSecretMatchEnem
 		return dao;
 	}
 
-	private GroupSecretMatchEnemyDataDAO() {
+	protected GroupSecretMatchEnemyDataDAO() {
 	}
 }

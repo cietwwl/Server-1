@@ -16,7 +16,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetTaoistCurrentFightingOfSingleFunc _instance = new FSGetTaoistCurrentFightingOfSingleFunc();
+	private static FSGetTaoistCurrentFightingOfSingleFunc _instance = new FSGetTaoistCurrentFightingOfSingleFunc();
 
 	// private TaoistMagicCfgHelper taoistMagicCfgHelper;
 	// private TaoistFightingCfgDAO taoistFightingCfgDAO;
@@ -28,7 +28,7 @@ public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, I
 		_openLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 	}
 
-	public static final FSGetTaoistCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetTaoistCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 

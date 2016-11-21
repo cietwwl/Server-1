@@ -8,7 +8,7 @@ public class RandomBossRecordDAO extends DataKVDao<RandomBossRecord>{
 
 	private static RandomBossRecordDAO instance = new RandomBossRecordDAO();
 	
-	private RandomBossRecordDAO(){}
+	protected RandomBossRecordDAO(){}
 	
 	public static RandomBossRecordDAO getInstance(){
 		return instance;

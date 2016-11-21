@@ -3,10 +3,8 @@ package com.rwbase.dao.assistant.cfg;
 import com.rw.config.ConfigMap;
 
 public class AssistantCfgDao extends ConfigMap<AssistantCfg.AssistantEventID,AssistantCfg>{
-	private	static AssistantCfgDao instance;
+	private	static AssistantCfgDao instance = new AssistantCfgDao();
 	public static AssistantCfgDao getInstance() {
-		if (instance == null)
-			instance = new AssistantCfgDao();
 		return instance;
 	}
 	protected AssistantCfgDao() {

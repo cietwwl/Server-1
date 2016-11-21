@@ -23,8 +23,7 @@ import com.rwproto.GrowthFundServiceProto.GrowthFundResponse;
 
 public class GrowthFundHandler {
 
-	private static final GrowthFundHandler _instance = new GrowthFundHandler();
-
+	private static GrowthFundHandler _instance = new GrowthFundHandler();
 	private GrowthFundSubCfgDAO _growthFundSubCfgDAO;
 	private GrowthFundBasicCfgDAO _basicCfgDAO;
 

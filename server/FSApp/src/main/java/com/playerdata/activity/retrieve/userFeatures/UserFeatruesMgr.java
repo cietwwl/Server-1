@@ -70,7 +70,7 @@ public class UserFeatruesMgr {
 
 	private Map<UserFeaturesEnum, IUserFeatruesHandler> featruesHandlerMap = new HashMap<UserFeaturesEnum, IUserFeatruesHandler>();
 
-	private UserFeatruesMgr() {
+	protected UserFeatruesMgr() {
 		featruesHandlerMap.put(UserFeaturesEnum.breakfast, new UserFeatruesBreakfast());
 		featruesHandlerMap.put(UserFeaturesEnum.lunch, new UserFeatruesLunch());
 		featruesHandlerMap.put(UserFeaturesEnum.dinner, new UserFeatruesDinner());

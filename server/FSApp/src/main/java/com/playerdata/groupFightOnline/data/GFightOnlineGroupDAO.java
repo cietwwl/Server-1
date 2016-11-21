@@ -9,6 +9,6 @@ public class GFightOnlineGroupDAO extends DataKVDao<GFightOnlineGroupData>{
 		return instance;
 	}
 
-	private GFightOnlineGroupDAO() {
+	protected GFightOnlineGroupDAO() {
 	}
 }

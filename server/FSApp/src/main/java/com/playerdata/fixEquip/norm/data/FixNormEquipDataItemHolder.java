@@ -22,10 +22,10 @@ public class FixNormEquipDataItemHolder{
 	
 	final private eSynType synType = eSynType.FIX_NORM_EQUIP;
 	
-	private static final FixNormEquipDataItemHolder _INSTANCE = new FixNormEquipDataItemHolder();
+	private static FixNormEquipDataItemHolder _instance = new FixNormEquipDataItemHolder();
 	
 	public static FixNormEquipDataItemHolder getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 

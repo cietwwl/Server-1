@@ -58,7 +58,7 @@ public class RandomBossMgr {
 
 	private static RandomBossMgr instance = new RandomBossMgr();
 
-	private RandomBossMgr() {
+	protected RandomBossMgr() {
 	}
 
 	public synchronized static RandomBossMgr getInstance() {

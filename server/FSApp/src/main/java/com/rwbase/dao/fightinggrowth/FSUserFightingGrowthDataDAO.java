@@ -5,7 +5,7 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 
 public class FSUserFightingGrowthDataDAO extends DataKVDao<FSUserFightingGrowthData> {
 
-	private static final FSUserFightingGrowthDataDAO _instance = new FSUserFightingGrowthDataDAO();
+	private static FSUserFightingGrowthDataDAO _instance = new FSUserFightingGrowthDataDAO();
 	
 	protected FSUserFightingGrowthDataDAO() {
 	}

@@ -21,7 +21,7 @@ import com.rwproto.MsgDef;
 public class DailyGifHandler {
 	private static DailyGifHandler instance = new DailyGifHandler();
 
-	private DailyGifHandler() {
+	protected DailyGifHandler() {
 	}
 
 	public static DailyGifHandler getInstance() {

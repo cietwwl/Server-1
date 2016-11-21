@@ -22,10 +22,10 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 public class InlayMgr /* extends IDataMgr */{
 
-	private static final InlayMgr _INSTANCE = new InlayMgr();
+	private static InlayMgr _instance = new InlayMgr();
 
 	public static InlayMgr getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	protected InlayMgr() {

@@ -24,7 +24,7 @@ import com.rwproto.RandomBossProto.RandomMsgRequest;
 public class RandomBossMsgHandler {
 	
 	private static RandomBossMsgHandler handler = new RandomBossMsgHandler();
-	private RandomBossMsgHandler(){
+	protected RandomBossMsgHandler(){
 	}
 	
 	

@@ -42,15 +42,12 @@ public class GambleHandler {
 		return HPCUtil.getRandom();
 	}
 
-	private GambleHandler() {
+	protected GambleHandler() {
 	}
 
 	private static GambleHandler instance = new GambleHandler();
 
 	public static GambleHandler getInstance() {
-		if (instance == null) {
-			instance = new GambleHandler();
-		}
 		return instance;
 	}
 

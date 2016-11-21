@@ -13,19 +13,15 @@ public class ObserverFactory {
 		PLAYER_CHANER;// 角色改变
 	}
 
-	private static ObserverFactory instance;
+	private static ObserverFactory instance = new ObserverFactory();
 
 	public static ObserverFactory getInstance() {
-		if (instance == null) {
-			instance = new ObserverFactory();
-		}
-
 		return instance;
 	}
 
 	private Map<Integer, Observer> observerMap;// 观察者
 
-	private ObserverFactory() {
+	protected ObserverFactory() {
 		observerMap = new HashMap<Integer, Observer>();
 	}
 

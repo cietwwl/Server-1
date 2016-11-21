@@ -8,9 +8,9 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class CommonSoulConfigHolder {
 
-	private static final CommonSoulConfigHolder _instance = new CommonSoulConfigHolder();
+	private static CommonSoulConfigHolder _instance = new CommonSoulConfigHolder();
 	
-	public static final CommonSoulConfigHolder getInstance() {
+	public static CommonSoulConfigHolder getInstance() {
 		return _instance;
 	}
 	private CommonSoulConfigDAO _commonSoulConfigDAO;

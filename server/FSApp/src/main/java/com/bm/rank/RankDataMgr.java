@@ -23,7 +23,7 @@ public class RankDataMgr {
 		return instance;
 	}
 	
-	private RankDataMgr(){
+	protected RankDataMgr(){
 		
 		sqlQueue = new ConcurrentLinkedQueue<IRankDbTask>();
 		

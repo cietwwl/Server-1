@@ -21,7 +21,7 @@ public class AngelArrayDataDao extends DataRdbDao<TableAngelArrayData> {
 		return instance;
 	}
 
-	private AngelArrayDataDao() {
+	protected AngelArrayDataDao() {
 	}
 
 	/**

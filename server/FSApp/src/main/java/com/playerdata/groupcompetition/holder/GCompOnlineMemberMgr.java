@@ -28,9 +28,9 @@ import com.rwproto.MsgDef.Command;
 
 public class GCompOnlineMemberMgr {
 
-	private static final GCompOnlineMemberMgr _instance = new GCompOnlineMemberMgr();
+	private static GCompOnlineMemberMgr _instance = new GCompOnlineMemberMgr();
 	
-	public static final GCompOnlineMemberMgr getInstance() {
+	public static GCompOnlineMemberMgr getInstance() {
 		return _instance;
 	}
 	

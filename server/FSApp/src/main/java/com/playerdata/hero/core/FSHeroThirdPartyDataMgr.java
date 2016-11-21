@@ -50,7 +50,7 @@ public class FSHeroThirdPartyDataMgr {
 		}
 	};
 
-	private static final FSHeroThirdPartyDataMgr _instance = new FSHeroThirdPartyDataMgr();
+	private static FSHeroThirdPartyDataMgr _instance = new FSHeroThirdPartyDataMgr();
 
 	private static final int marqueeStar = 1;
 	private static final int marqueeQuality = 2;

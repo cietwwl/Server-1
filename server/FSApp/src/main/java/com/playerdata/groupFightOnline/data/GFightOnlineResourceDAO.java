@@ -9,7 +9,7 @@ public class GFightOnlineResourceDAO extends DataKVDao<GFightOnlineResourceData>
 		return instance;
 	}
 
-	private GFightOnlineResourceDAO() {
+	protected GFightOnlineResourceDAO() {
 	}
 	
 }

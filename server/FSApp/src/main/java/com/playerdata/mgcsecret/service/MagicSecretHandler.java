@@ -8,15 +8,12 @@ import com.rwproto.MagicSecretProto.MagicSecretRspMsg;
 
 public class MagicSecretHandler {
 
-	private static MagicSecretHandler instance;	
+	private static MagicSecretHandler instance = new MagicSecretHandler();
 
-	private MagicSecretHandler() {
+	protected MagicSecretHandler() {
 	}
 
 	public static MagicSecretHandler getInstance() {
-		if (instance == null) {
-			instance = new MagicSecretHandler();
-		}
 		return instance;
 	}
 

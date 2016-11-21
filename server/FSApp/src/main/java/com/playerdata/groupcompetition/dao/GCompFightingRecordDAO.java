@@ -8,10 +8,10 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 
 public class GCompFightingRecordDAO extends DataKVDao<GCompFightRecordData>{
 
-	private static final GCompFightingRecordDAO _instance = new GCompFightingRecordDAO();
+	private static GCompFightingRecordDAO _instance = new GCompFightingRecordDAO();
 	public static int MAX_RECORD_COUNT = 50;
 	
-	public static final GCompFightingRecordDAO getInstance() {
+	public static GCompFightingRecordDAO getInstance() {
 		return _instance;
 	}
 		

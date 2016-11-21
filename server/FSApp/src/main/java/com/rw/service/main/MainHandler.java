@@ -38,7 +38,7 @@ public class MainHandler {
 	private CfgBuyCoinDAO cfgBuyCoinDAO = CfgBuyCoinDAO.getInstance();
 	private CfgBuyPowerDAO cfgBuyPowerDAO = CfgBuyPowerDAO.getInstance();
 
-	private MainHandler() {
+	protected MainHandler() {
 	}
 
 	public static MainHandler getInstance() {

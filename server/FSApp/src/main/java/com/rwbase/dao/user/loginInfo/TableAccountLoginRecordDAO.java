@@ -5,7 +5,7 @@ import com.rw.fsutil.cacheDao.PFDataRdbDao;
 public class TableAccountLoginRecordDAO extends PFDataRdbDao<TableAccountLoginRecord>{
 	
 	private static TableAccountLoginRecordDAO instance = new TableAccountLoginRecordDAO();
-	private TableAccountLoginRecordDAO(){};
+	protected TableAccountLoginRecordDAO(){};
 	
 	public static TableAccountLoginRecordDAO getInstance(){
 		return instance;

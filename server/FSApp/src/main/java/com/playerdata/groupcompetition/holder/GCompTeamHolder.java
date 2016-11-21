@@ -12,16 +12,15 @@ import com.playerdata.groupcompetition.data.IGCAgainst;
 import com.playerdata.groupcompetition.holder.data.GCompTeam;
 import com.playerdata.groupcompetition.holder.data.GCompTeamMember;
 import com.playerdata.groupcompetition.util.GCEventsType;
-import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompTeamHolder {
 
-	private static final GCompTeamHolder _instance = new GCompTeamHolder();
+	private static GCompTeamHolder _instance = new GCompTeamHolder();
 	
-	public static final GCompTeamHolder getInstance() {
+	public static GCompTeamHolder getInstance() {
 		return _instance;
 	}
 	

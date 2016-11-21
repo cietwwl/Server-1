@@ -6,7 +6,7 @@ import com.playerdata.Hero;
 
 public class FSHeroFightPowerComparator implements Comparator<Hero>{
 
-	public static final FSHeroFightPowerComparator INSTANCE = new FSHeroFightPowerComparator();
+	public static FSHeroFightPowerComparator _instance = new FSHeroFightPowerComparator();
 	
 	protected FSHeroFightPowerComparator() {}
 	

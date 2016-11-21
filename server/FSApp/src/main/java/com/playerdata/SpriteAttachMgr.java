@@ -23,10 +23,10 @@ import com.rwbase.dao.spriteattach.pojo.SpriteAttachRoleCfg;
 public class SpriteAttachMgr implements IDataMgrSingletone{
 
 	
-	public static final SpriteAttachMgr _INSTANCE = new SpriteAttachMgr();
+	public static SpriteAttachMgr _instance = new SpriteAttachMgr();
 	
 	public static SpriteAttachMgr getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 	public SpriteAttachHolder getSpriteAttachHolder(){
@@ -34,12 +34,10 @@ public class SpriteAttachMgr implements IDataMgrSingletone{
 	}
 	
 	protected SpriteAttachMgr() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public boolean load(String key) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

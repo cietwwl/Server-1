@@ -35,7 +35,7 @@ import com.rwproto.SpriteAttachProtos.eSpriteAttachResultType;
 import com.rwproto.SpriteAttachProtos.spriteAttachMaterial;
 
 public class SpriteAttachHandler {
-	private SpriteAttachHandler() {
+	protected SpriteAttachHandler() {
 	}
 
 	private static SpriteAttachHandler instance = new SpriteAttachHandler();

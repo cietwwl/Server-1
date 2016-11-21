@@ -11,7 +11,7 @@ import com.rwproto.GroupCompetitionProto.GCResultType;
 
 public class GCompFightingRecordMgr {
 
-	private static final GCompFightingRecordMgr _instance = new GCompFightingRecordMgr();
+	private static GCompFightingRecordMgr _instance = new GCompFightingRecordMgr();
 	
 	public static GCompFightingRecordMgr getInstance() {
 		return _instance;
