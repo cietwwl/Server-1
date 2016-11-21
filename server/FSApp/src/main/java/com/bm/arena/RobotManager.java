@@ -616,7 +616,7 @@ public class RobotManager {
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
 			ItemBagMgr itemBagMgr = player.getItemBagMgr();
-			itemBagMgr.addItem(maigcId, 1);
+			itemBagMgr.addRobotItem(maigcId, 1);
 			ItemData magic = itemBagMgr.getItemListByCfgId(maigcId).get(0);
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
