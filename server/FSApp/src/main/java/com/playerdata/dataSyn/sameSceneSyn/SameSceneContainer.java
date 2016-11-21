@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -16,7 +17,7 @@ public class SameSceneContainer {
 	private HashMap<Long, ConcurrentHashMap<String, ? extends SameSceneDataBaseIF>> container;
 	private Lock readLock;
 	private Lock writeLock;
-	
+	private AtomicLong UUKEY = new AtomicLong();
 	
 	private SameSceneContainer() {
 		ReentrantReadWriteLock rwLock = new ReentrantReadWriteLock();
@@ -108,7 +109,7 @@ public class SameSceneContainer {
 	public long createNewScene(){
 		writeLock.lock();
 		try {
-			long newSceneId = System.nanoTime();
+			long newSceneId = System.nanoTime() + UUKEY.incrementAndGet();
 			ConcurrentHashMap<String, SameSceneDataBaseIF> scene = new ConcurrentHashMap<String, SameSceneDataBaseIF>();
 			container.put(newSceneId, scene);
 			return newSceneId;
