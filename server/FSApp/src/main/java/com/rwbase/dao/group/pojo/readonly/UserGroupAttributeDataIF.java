@@ -88,4 +88,25 @@ public interface UserGroupAttributeDataIF {
 	 * @return
 	 */
 	public int getStudySkillLevel(int skillId);
+
+	/**
+	 * 获取当前个人的贡献
+	 * 
+	 * @return
+	 */
+	public int getContribution();
+
+	/**
+	 * 获取捐献的次数
+	 * 
+	 * @return
+	 */
+	public int getDonateTimes();
+
+	/**
+	 * 获取上次捐献的次数
+	 * 
+	 * @return
+	 */
+	public long getLastDonateTime();
 }

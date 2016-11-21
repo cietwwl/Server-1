@@ -177,7 +177,8 @@ public class EvilBaoArriveMgr extends AbstractActivityMgr<EvilBaoArriveItem> {
 		return EvilBaoArriveItemHolder.getInstance();
 	}
 	
-	protected boolean isThisActivityIndex(int index){
+	@Override
+	public boolean isThisActivityIndex(int index){
 		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

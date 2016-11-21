@@ -247,6 +247,13 @@ public interface Ranking<C extends Comparable<C>, E> {
 	 * @return
 	 */
 	public boolean isFull();
+	
+	/**
+	 * 检测排行榜是否已满
+	 * 
+	 * @return
+	 */
+	public boolean isEmpty();
 
 	/**
 	 * 

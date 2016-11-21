@@ -8,136 +8,323 @@ public final class NoticeProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
-  /**
-   * Protobuf enum {@code ENoticeType}
-   */
-  public enum ENoticeType
-      implements com.google.protobuf.ProtocolMessageEnum {
-    /**
-     * <code>PlatformNotice = 0;</code>
-     *
-     * <pre>
-     *平台公告
-     * </pre>
-     */
-    PlatformNotice(0, 0),
-    /**
-     * <code>GameNotice = 1;</code>
-     *
-     * <pre>
-     *游戏公告
-     * </pre>
-     */
-    GameNotice(1, 1),
-    ;
-
-    /**
-     * <code>PlatformNotice = 0;</code>
-     *
-     * <pre>
-     *平台公告
-     * </pre>
-     */
-    public static final int PlatformNotice_VALUE = 0;
-    /**
-     * <code>GameNotice = 1;</code>
-     *
-     * <pre>
-     *游戏公告
-     * </pre>
-     */
-    public static final int GameNotice_VALUE = 1;
-
-
-    public final int getNumber() { return value; }
-
-    public static ENoticeType valueOf(int value) {
-      switch (value) {
-        case 0: return PlatformNotice;
-        case 1: return GameNotice;
-        default: return null;
-      }
-    }
-
-    public static com.google.protobuf.Internal.EnumLiteMap<ENoticeType>
-        internalGetValueMap() {
-      return internalValueMap;
-    }
-    private static com.google.protobuf.Internal.EnumLiteMap<ENoticeType>
-        internalValueMap =
-          new com.google.protobuf.Internal.EnumLiteMap<ENoticeType>() {
-            public ENoticeType findValueByNumber(int number) {
-              return ENoticeType.valueOf(number);
-            }
-          };
-
-    public final com.google.protobuf.Descriptors.EnumValueDescriptor
-        getValueDescriptor() {
-      return getDescriptor().getValues().get(index);
-    }
-    public final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptorForType() {
-      return getDescriptor();
-    }
-    public static final com.google.protobuf.Descriptors.EnumDescriptor
-        getDescriptor() {
-      return com.rwproto.NoticeProtos.getDescriptor().getEnumTypes().get(0);
-    }
-
-    private static final ENoticeType[] VALUES = values();
-
-    public static ENoticeType valueOf(
-        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
-      if (desc.getType() != getDescriptor()) {
-        throw new java.lang.IllegalArgumentException(
-          "EnumValueDescriptor is not for this type.");
-      }
-      return VALUES[desc.getIndex()];
-    }
-
-    private final int index;
-    private final int value;
-
-    private ENoticeType(int index, int value) {
-      this.index = index;
-      this.value = value;
-    }
-
-    // @@protoc_insertion_point(enum_scope:ENoticeType)
-  }
-
   public interface tagNoticeInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required string title = 1;
+    // required int32 noticeId = 1;
     /**
-     * <code>required string title = 1;</code>
+     * <code>required int32 noticeId = 1;</code>
+     *
+     * <pre>
+     *公告id
+     * </pre>
+     */
+    boolean hasNoticeId();
+    /**
+     * <code>required int32 noticeId = 1;</code>
+     *
+     * <pre>
+     *公告id
+     * </pre>
+     */
+    int getNoticeId();
+
+    // required int32 sort = 2;
+    /**
+     * <code>required int32 sort = 2;</code>
+     *
+     * <pre>
+     *排序id
+     * </pre>
+     */
+    boolean hasSort();
+    /**
+     * <code>required int32 sort = 2;</code>
+     *
+     * <pre>
+     *排序id
+     * </pre>
+     */
+    int getSort();
+
+    // optional string tagTitle = 3;
+    /**
+     * <code>optional string tagTitle = 3;</code>
+     *
+     * <pre>
+     *页签标题
+     * </pre>
+     */
+    boolean hasTagTitle();
+    /**
+     * <code>optional string tagTitle = 3;</code>
+     *
+     * <pre>
+     *页签标题
+     * </pre>
+     */
+    java.lang.String getTagTitle();
+    /**
+     * <code>optional string tagTitle = 3;</code>
+     *
+     * <pre>
+     *页签标题
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTagTitleBytes();
+
+    // optional string tagIcon = 4;
+    /**
+     * <code>optional string tagIcon = 4;</code>
+     *
+     * <pre>
+     *页签图标
+     * </pre>
+     */
+    boolean hasTagIcon();
+    /**
+     * <code>optional string tagIcon = 4;</code>
+     *
+     * <pre>
+     *页签图标
+     * </pre>
+     */
+    java.lang.String getTagIcon();
+    /**
+     * <code>optional string tagIcon = 4;</code>
+     *
+     * <pre>
+     *页签图标
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTagIconBytes();
+
+    // optional string title = 5;
+    /**
+     * <code>optional string title = 5;</code>
+     *
+     * <pre>
+     *页签标签
+     * </pre>
      */
     boolean hasTitle();
     /**
-     * <code>required string title = 1;</code>
+     * <code>optional string title = 5;</code>
+     *
+     * <pre>
+     *页签标签
+     * </pre>
      */
     java.lang.String getTitle();
     /**
-     * <code>required string title = 1;</code>
+     * <code>optional string title = 5;</code>
+     *
+     * <pre>
+     *页签标签
+     * </pre>
      */
     com.google.protobuf.ByteString
         getTitleBytes();
 
-    // required string content = 2;
+    // optional int32 annonceType = 6;
     /**
-     * <code>required string content = 2;</code>
+     * <code>optional int32 annonceType = 6;</code>
+     *
+     * <pre>
+     *公告类型
+     * </pre>
      */
-    boolean hasContent();
+    boolean hasAnnonceType();
     /**
-     * <code>required string content = 2;</code>
+     * <code>optional int32 annonceType = 6;</code>
+     *
+     * <pre>
+     *公告类型
+     * </pre>
      */
-    java.lang.String getContent();
+    int getAnnonceType();
+
+    // optional string bg = 7;
     /**
-     * <code>required string content = 2;</code>
+     * <code>optional string bg = 7;</code>
+     *
+     * <pre>
+     *图标公告
+     * </pre>
+     */
+    boolean hasBg();
+    /**
+     * <code>optional string bg = 7;</code>
+     *
+     * <pre>
+     *图标公告
+     * </pre>
+     */
+    java.lang.String getBg();
+    /**
+     * <code>optional string bg = 7;</code>
+     *
+     * <pre>
+     *图标公告
+     * </pre>
      */
     com.google.protobuf.ByteString
-        getContentBytes();
+        getBgBytes();
+
+    // optional string announceTitle = 8;
+    /**
+     * <code>optional string announceTitle = 8;</code>
+     *
+     * <pre>
+     *公告标题
+     * </pre>
+     */
+    boolean hasAnnounceTitle();
+    /**
+     * <code>optional string announceTitle = 8;</code>
+     *
+     * <pre>
+     *公告标题
+     * </pre>
+     */
+    java.lang.String getAnnounceTitle();
+    /**
+     * <code>optional string announceTitle = 8;</code>
+     *
+     * <pre>
+     *公告标题
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAnnounceTitleBytes();
+
+    // optional string announceContent = 9;
+    /**
+     * <code>optional string announceContent = 9;</code>
+     *
+     * <pre>
+     *公告内容
+     * </pre>
+     */
+    boolean hasAnnounceContent();
+    /**
+     * <code>optional string announceContent = 9;</code>
+     *
+     * <pre>
+     *公告内容
+     * </pre>
+     */
+    java.lang.String getAnnounceContent();
+    /**
+     * <code>optional string announceContent = 9;</code>
+     *
+     * <pre>
+     *公告内容
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getAnnounceContentBytes();
+
+    // optional int32 isShowButton = 10;
+    /**
+     * <code>optional int32 isShowButton = 10;</code>
+     *
+     * <pre>
+     *是否显示button
+     * </pre>
+     */
+    boolean hasIsShowButton();
+    /**
+     * <code>optional int32 isShowButton = 10;</code>
+     *
+     * <pre>
+     *是否显示button
+     * </pre>
+     */
+    int getIsShowButton();
+
+    // optional string buttonText = 11;
+    /**
+     * <code>optional string buttonText = 11;</code>
+     *
+     * <pre>
+     *按钮内容
+     * </pre>
+     */
+    boolean hasButtonText();
+    /**
+     * <code>optional string buttonText = 11;</code>
+     *
+     * <pre>
+     *按钮内容
+     * </pre>
+     */
+    java.lang.String getButtonText();
+    /**
+     * <code>optional string buttonText = 11;</code>
+     *
+     * <pre>
+     *按钮内容
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getButtonTextBytes();
+
+    // optional int32 gotoType = 12;
+    /**
+     * <code>optional int32 gotoType = 12;</code>
+     *
+     * <pre>
+     *跳转类型
+     * </pre>
+     */
+    boolean hasGotoType();
+    /**
+     * <code>optional int32 gotoType = 12;</code>
+     *
+     * <pre>
+     *跳转类型
+     * </pre>
+     */
+    int getGotoType();
+
+    // optional int32 gotoTypeId = 13;
+    /**
+     * <code>optional int32 gotoTypeId = 13;</code>
+     *
+     * <pre>
+     *跳转id
+     * </pre>
+     */
+    boolean hasGotoTypeId();
+    /**
+     * <code>optional int32 gotoTypeId = 13;</code>
+     *
+     * <pre>
+     *跳转id
+     * </pre>
+     */
+    int getGotoTypeId();
+
+    // optional int32 isConfig = 14;
+    /**
+     * <code>optional int32 isConfig = 14;</code>
+     *
+     * <pre>
+     *是否配置公告（是 读配置表的公告）
+     * </pre>
+     */
+    boolean hasIsConfig();
+    /**
+     * <code>optional int32 isConfig = 14;</code>
+     *
+     * <pre>
+     *是否配置公告（是 读配置表的公告）
+     * </pre>
+     */
+    int getIsConfig();
   }
   /**
    * Protobuf type {@code tagNoticeInfo}
@@ -190,14 +377,74 @@ public final class NoticeProtos {
               }
               break;
             }
-            case 10: {
+            case 8: {
               bitField0_ |= 0x00000001;
+              noticeId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              sort_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              tagTitle_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              tagIcon_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
               title_ = input.readBytes();
               break;
             }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              content_ = input.readBytes();
+            case 48: {
+              bitField0_ |= 0x00000020;
+              annonceType_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              bg_ = input.readBytes();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000080;
+              announceTitle_ = input.readBytes();
+              break;
+            }
+            case 74: {
+              bitField0_ |= 0x00000100;
+              announceContent_ = input.readBytes();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000200;
+              isShowButton_ = input.readInt32();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000400;
+              buttonText_ = input.readBytes();
+              break;
+            }
+            case 96: {
+              bitField0_ |= 0x00000800;
+              gotoType_ = input.readInt32();
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00001000;
+              gotoTypeId_ = input.readInt32();
+              break;
+            }
+            case 112: {
+              bitField0_ |= 0x00002000;
+              isConfig_ = input.readInt32();
               break;
             }
           }
@@ -240,17 +487,183 @@ public final class NoticeProtos {
     }
 
     private int bitField0_;
-    // required string title = 1;
-    public static final int TITLE_FIELD_NUMBER = 1;
-    private java.lang.Object title_;
+    // required int32 noticeId = 1;
+    public static final int NOTICEID_FIELD_NUMBER = 1;
+    private int noticeId_;
     /**
-     * <code>required string title = 1;</code>
+     * <code>required int32 noticeId = 1;</code>
+     *
+     * <pre>
+     *公告id
+     * </pre>
      */
-    public boolean hasTitle() {
+    public boolean hasNoticeId() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required string title = 1;</code>
+     * <code>required int32 noticeId = 1;</code>
+     *
+     * <pre>
+     *公告id
+     * </pre>
+     */
+    public int getNoticeId() {
+      return noticeId_;
+    }
+
+    // required int32 sort = 2;
+    public static final int SORT_FIELD_NUMBER = 2;
+    private int sort_;
+    /**
+     * <code>required int32 sort = 2;</code>
+     *
+     * <pre>
+     *排序id
+     * </pre>
+     */
+    public boolean hasSort() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 sort = 2;</code>
+     *
+     * <pre>
+     *排序id
+     * </pre>
+     */
+    public int getSort() {
+      return sort_;
+    }
+
+    // optional string tagTitle = 3;
+    public static final int TAGTITLE_FIELD_NUMBER = 3;
+    private java.lang.Object tagTitle_;
+    /**
+     * <code>optional string tagTitle = 3;</code>
+     *
+     * <pre>
+     *页签标题
+     * </pre>
+     */
+    public boolean hasTagTitle() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string tagTitle = 3;</code>
+     *
+     * <pre>
+     *页签标题
+     * </pre>
+     */
+    public java.lang.String getTagTitle() {
+      java.lang.Object ref = tagTitle_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tagTitle_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tagTitle = 3;</code>
+     *
+     * <pre>
+     *页签标题
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTagTitleBytes() {
+      java.lang.Object ref = tagTitle_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tagTitle_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string tagIcon = 4;
+    public static final int TAGICON_FIELD_NUMBER = 4;
+    private java.lang.Object tagIcon_;
+    /**
+     * <code>optional string tagIcon = 4;</code>
+     *
+     * <pre>
+     *页签图标
+     * </pre>
+     */
+    public boolean hasTagIcon() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string tagIcon = 4;</code>
+     *
+     * <pre>
+     *页签图标
+     * </pre>
+     */
+    public java.lang.String getTagIcon() {
+      java.lang.Object ref = tagIcon_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tagIcon_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tagIcon = 4;</code>
+     *
+     * <pre>
+     *页签图标
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTagIconBytes() {
+      java.lang.Object ref = tagIcon_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tagIcon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string title = 5;
+    public static final int TITLE_FIELD_NUMBER = 5;
+    private java.lang.Object title_;
+    /**
+     * <code>optional string title = 5;</code>
+     *
+     * <pre>
+     *页签标签
+     * </pre>
+     */
+    public boolean hasTitle() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string title = 5;</code>
+     *
+     * <pre>
+     *页签标签
+     * </pre>
      */
     public java.lang.String getTitle() {
       java.lang.Object ref = title_;
@@ -267,7 +680,11 @@ public final class NoticeProtos {
       }
     }
     /**
-     * <code>required string title = 1;</code>
+     * <code>optional string title = 5;</code>
+     *
+     * <pre>
+     *页签标签
+     * </pre>
      */
     public com.google.protobuf.ByteString
         getTitleBytes() {
@@ -283,20 +700,52 @@ public final class NoticeProtos {
       }
     }
 
-    // required string content = 2;
-    public static final int CONTENT_FIELD_NUMBER = 2;
-    private java.lang.Object content_;
+    // optional int32 annonceType = 6;
+    public static final int ANNONCETYPE_FIELD_NUMBER = 6;
+    private int annonceType_;
     /**
-     * <code>required string content = 2;</code>
+     * <code>optional int32 annonceType = 6;</code>
+     *
+     * <pre>
+     *公告类型
+     * </pre>
      */
-    public boolean hasContent() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+    public boolean hasAnnonceType() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>required string content = 2;</code>
+     * <code>optional int32 annonceType = 6;</code>
+     *
+     * <pre>
+     *公告类型
+     * </pre>
      */
-    public java.lang.String getContent() {
-      java.lang.Object ref = content_;
+    public int getAnnonceType() {
+      return annonceType_;
+    }
+
+    // optional string bg = 7;
+    public static final int BG_FIELD_NUMBER = 7;
+    private java.lang.Object bg_;
+    /**
+     * <code>optional string bg = 7;</code>
+     *
+     * <pre>
+     *图标公告
+     * </pre>
+     */
+    public boolean hasBg() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string bg = 7;</code>
+     *
+     * <pre>
+     *图标公告
+     * </pre>
+     */
+    public java.lang.String getBg() {
+      java.lang.Object ref = bg_;
       if (ref instanceof java.lang.String) {
         return (java.lang.String) ref;
       } else {
@@ -304,42 +753,319 @@ public final class NoticeProtos {
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
         if (bs.isValidUtf8()) {
-          content_ = s;
+          bg_ = s;
         }
         return s;
       }
     }
     /**
-     * <code>required string content = 2;</code>
+     * <code>optional string bg = 7;</code>
+     *
+     * <pre>
+     *图标公告
+     * </pre>
      */
     public com.google.protobuf.ByteString
-        getContentBytes() {
-      java.lang.Object ref = content_;
+        getBgBytes() {
+      java.lang.Object ref = bg_;
       if (ref instanceof java.lang.String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        content_ = b;
+        bg_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
 
+    // optional string announceTitle = 8;
+    public static final int ANNOUNCETITLE_FIELD_NUMBER = 8;
+    private java.lang.Object announceTitle_;
+    /**
+     * <code>optional string announceTitle = 8;</code>
+     *
+     * <pre>
+     *公告标题
+     * </pre>
+     */
+    public boolean hasAnnounceTitle() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <code>optional string announceTitle = 8;</code>
+     *
+     * <pre>
+     *公告标题
+     * </pre>
+     */
+    public java.lang.String getAnnounceTitle() {
+      java.lang.Object ref = announceTitle_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          announceTitle_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string announceTitle = 8;</code>
+     *
+     * <pre>
+     *公告标题
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAnnounceTitleBytes() {
+      java.lang.Object ref = announceTitle_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        announceTitle_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string announceContent = 9;
+    public static final int ANNOUNCECONTENT_FIELD_NUMBER = 9;
+    private java.lang.Object announceContent_;
+    /**
+     * <code>optional string announceContent = 9;</code>
+     *
+     * <pre>
+     *公告内容
+     * </pre>
+     */
+    public boolean hasAnnounceContent() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional string announceContent = 9;</code>
+     *
+     * <pre>
+     *公告内容
+     * </pre>
+     */
+    public java.lang.String getAnnounceContent() {
+      java.lang.Object ref = announceContent_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          announceContent_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string announceContent = 9;</code>
+     *
+     * <pre>
+     *公告内容
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getAnnounceContentBytes() {
+      java.lang.Object ref = announceContent_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        announceContent_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 isShowButton = 10;
+    public static final int ISSHOWBUTTON_FIELD_NUMBER = 10;
+    private int isShowButton_;
+    /**
+     * <code>optional int32 isShowButton = 10;</code>
+     *
+     * <pre>
+     *是否显示button
+     * </pre>
+     */
+    public boolean hasIsShowButton() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional int32 isShowButton = 10;</code>
+     *
+     * <pre>
+     *是否显示button
+     * </pre>
+     */
+    public int getIsShowButton() {
+      return isShowButton_;
+    }
+
+    // optional string buttonText = 11;
+    public static final int BUTTONTEXT_FIELD_NUMBER = 11;
+    private java.lang.Object buttonText_;
+    /**
+     * <code>optional string buttonText = 11;</code>
+     *
+     * <pre>
+     *按钮内容
+     * </pre>
+     */
+    public boolean hasButtonText() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    /**
+     * <code>optional string buttonText = 11;</code>
+     *
+     * <pre>
+     *按钮内容
+     * </pre>
+     */
+    public java.lang.String getButtonText() {
+      java.lang.Object ref = buttonText_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          buttonText_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string buttonText = 11;</code>
+     *
+     * <pre>
+     *按钮内容
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getButtonTextBytes() {
+      java.lang.Object ref = buttonText_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        buttonText_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional int32 gotoType = 12;
+    public static final int GOTOTYPE_FIELD_NUMBER = 12;
+    private int gotoType_;
+    /**
+     * <code>optional int32 gotoType = 12;</code>
+     *
+     * <pre>
+     *跳转类型
+     * </pre>
+     */
+    public boolean hasGotoType() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional int32 gotoType = 12;</code>
+     *
+     * <pre>
+     *跳转类型
+     * </pre>
+     */
+    public int getGotoType() {
+      return gotoType_;
+    }
+
+    // optional int32 gotoTypeId = 13;
+    public static final int GOTOTYPEID_FIELD_NUMBER = 13;
+    private int gotoTypeId_;
+    /**
+     * <code>optional int32 gotoTypeId = 13;</code>
+     *
+     * <pre>
+     *跳转id
+     * </pre>
+     */
+    public boolean hasGotoTypeId() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional int32 gotoTypeId = 13;</code>
+     *
+     * <pre>
+     *跳转id
+     * </pre>
+     */
+    public int getGotoTypeId() {
+      return gotoTypeId_;
+    }
+
+    // optional int32 isConfig = 14;
+    public static final int ISCONFIG_FIELD_NUMBER = 14;
+    private int isConfig_;
+    /**
+     * <code>optional int32 isConfig = 14;</code>
+     *
+     * <pre>
+     *是否配置公告（是 读配置表的公告）
+     * </pre>
+     */
+    public boolean hasIsConfig() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    /**
+     * <code>optional int32 isConfig = 14;</code>
+     *
+     * <pre>
+     *是否配置公告（是 读配置表的公告）
+     * </pre>
+     */
+    public int getIsConfig() {
+      return isConfig_;
+    }
+
     private void initFields() {
+      noticeId_ = 0;
+      sort_ = 0;
+      tagTitle_ = "";
+      tagIcon_ = "";
       title_ = "";
-      content_ = "";
+      annonceType_ = 0;
+      bg_ = "";
+      announceTitle_ = "";
+      announceContent_ = "";
+      isShowButton_ = 0;
+      buttonText_ = "";
+      gotoType_ = 0;
+      gotoTypeId_ = 0;
+      isConfig_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasTitle()) {
+      if (!hasNoticeId()) {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasContent()) {
+      if (!hasSort()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -351,10 +1077,46 @@ public final class NoticeProtos {
                         throws java.io.IOException {
       getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getTitleBytes());
+        output.writeInt32(1, noticeId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getContentBytes());
+        output.writeInt32(2, sort_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getTagTitleBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getTagIconBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getTitleBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(6, annonceType_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getBgBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(8, getAnnounceTitleBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(9, getAnnounceContentBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeInt32(10, isShowButton_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeBytes(11, getButtonTextBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeInt32(12, gotoType_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(13, gotoTypeId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeInt32(14, isConfig_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -367,11 +1129,59 @@ public final class NoticeProtos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getTitleBytes());
+          .computeInt32Size(1, noticeId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getContentBytes());
+          .computeInt32Size(2, sort_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getTagTitleBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getTagIconBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getTitleBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, annonceType_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getBgBytes());
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getAnnounceTitleBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(9, getAnnounceContentBytes());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, isShowButton_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getButtonTextBytes());
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(12, gotoType_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, gotoTypeId_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, isConfig_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -489,10 +1299,34 @@ public final class NoticeProtos {
 
       public Builder clear() {
         super.clear();
-        title_ = "";
+        noticeId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        content_ = "";
+        sort_ = 0;
         bitField0_ = (bitField0_ & ~0x00000002);
+        tagTitle_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tagIcon_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        title_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        annonceType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        bg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        announceTitle_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
+        announceContent_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        isShowButton_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
+        buttonText_ = "";
+        bitField0_ = (bitField0_ & ~0x00000400);
+        gotoType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        gotoTypeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
+        isConfig_ = 0;
+        bitField0_ = (bitField0_ & ~0x00002000);
         return this;
       }
 
@@ -524,11 +1358,59 @@ public final class NoticeProtos {
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        result.title_ = title_;
+        result.noticeId_ = noticeId_;
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.content_ = content_;
+        result.sort_ = sort_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.tagTitle_ = tagTitle_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.tagIcon_ = tagIcon_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.title_ = title_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.annonceType_ = annonceType_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.bg_ = bg_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.announceTitle_ = announceTitle_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.announceContent_ = announceContent_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.isShowButton_ = isShowButton_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.buttonText_ = buttonText_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        result.gotoType_ = gotoType_;
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.gotoTypeId_ = gotoTypeId_;
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        result.isConfig_ = isConfig_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -545,26 +1427,72 @@ public final class NoticeProtos {
 
       public Builder mergeFrom(com.rwproto.NoticeProtos.tagNoticeInfo other) {
         if (other == com.rwproto.NoticeProtos.tagNoticeInfo.getDefaultInstance()) return this;
+        if (other.hasNoticeId()) {
+          setNoticeId(other.getNoticeId());
+        }
+        if (other.hasSort()) {
+          setSort(other.getSort());
+        }
+        if (other.hasTagTitle()) {
+          bitField0_ |= 0x00000004;
+          tagTitle_ = other.tagTitle_;
+          onChanged();
+        }
+        if (other.hasTagIcon()) {
+          bitField0_ |= 0x00000008;
+          tagIcon_ = other.tagIcon_;
+          onChanged();
+        }
         if (other.hasTitle()) {
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000010;
           title_ = other.title_;
           onChanged();
         }
-        if (other.hasContent()) {
-          bitField0_ |= 0x00000002;
-          content_ = other.content_;
+        if (other.hasAnnonceType()) {
+          setAnnonceType(other.getAnnonceType());
+        }
+        if (other.hasBg()) {
+          bitField0_ |= 0x00000040;
+          bg_ = other.bg_;
           onChanged();
+        }
+        if (other.hasAnnounceTitle()) {
+          bitField0_ |= 0x00000080;
+          announceTitle_ = other.announceTitle_;
+          onChanged();
+        }
+        if (other.hasAnnounceContent()) {
+          bitField0_ |= 0x00000100;
+          announceContent_ = other.announceContent_;
+          onChanged();
+        }
+        if (other.hasIsShowButton()) {
+          setIsShowButton(other.getIsShowButton());
+        }
+        if (other.hasButtonText()) {
+          bitField0_ |= 0x00000400;
+          buttonText_ = other.buttonText_;
+          onChanged();
+        }
+        if (other.hasGotoType()) {
+          setGotoType(other.getGotoType());
+        }
+        if (other.hasGotoTypeId()) {
+          setGotoTypeId(other.getGotoTypeId());
+        }
+        if (other.hasIsConfig()) {
+          setIsConfig(other.getIsConfig());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasTitle()) {
+        if (!hasNoticeId()) {
           
           return false;
         }
-        if (!hasContent()) {
+        if (!hasSort()) {
           
           return false;
         }
@@ -590,16 +1518,318 @@ public final class NoticeProtos {
       }
       private int bitField0_;
 
-      // required string title = 1;
-      private java.lang.Object title_ = "";
+      // required int32 noticeId = 1;
+      private int noticeId_ ;
       /**
-       * <code>required string title = 1;</code>
+       * <code>required int32 noticeId = 1;</code>
+       *
+       * <pre>
+       *公告id
+       * </pre>
        */
-      public boolean hasTitle() {
+      public boolean hasNoticeId() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required string title = 1;</code>
+       * <code>required int32 noticeId = 1;</code>
+       *
+       * <pre>
+       *公告id
+       * </pre>
+       */
+      public int getNoticeId() {
+        return noticeId_;
+      }
+      /**
+       * <code>required int32 noticeId = 1;</code>
+       *
+       * <pre>
+       *公告id
+       * </pre>
+       */
+      public Builder setNoticeId(int value) {
+        bitField0_ |= 0x00000001;
+        noticeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 noticeId = 1;</code>
+       *
+       * <pre>
+       *公告id
+       * </pre>
+       */
+      public Builder clearNoticeId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        noticeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 sort = 2;
+      private int sort_ ;
+      /**
+       * <code>required int32 sort = 2;</code>
+       *
+       * <pre>
+       *排序id
+       * </pre>
+       */
+      public boolean hasSort() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 sort = 2;</code>
+       *
+       * <pre>
+       *排序id
+       * </pre>
+       */
+      public int getSort() {
+        return sort_;
+      }
+      /**
+       * <code>required int32 sort = 2;</code>
+       *
+       * <pre>
+       *排序id
+       * </pre>
+       */
+      public Builder setSort(int value) {
+        bitField0_ |= 0x00000002;
+        sort_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 sort = 2;</code>
+       *
+       * <pre>
+       *排序id
+       * </pre>
+       */
+      public Builder clearSort() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        sort_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string tagTitle = 3;
+      private java.lang.Object tagTitle_ = "";
+      /**
+       * <code>optional string tagTitle = 3;</code>
+       *
+       * <pre>
+       *页签标题
+       * </pre>
+       */
+      public boolean hasTagTitle() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string tagTitle = 3;</code>
+       *
+       * <pre>
+       *页签标题
+       * </pre>
+       */
+      public java.lang.String getTagTitle() {
+        java.lang.Object ref = tagTitle_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tagTitle_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tagTitle = 3;</code>
+       *
+       * <pre>
+       *页签标题
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTagTitleBytes() {
+        java.lang.Object ref = tagTitle_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tagTitle_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tagTitle = 3;</code>
+       *
+       * <pre>
+       *页签标题
+       * </pre>
+       */
+      public Builder setTagTitle(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tagTitle_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tagTitle = 3;</code>
+       *
+       * <pre>
+       *页签标题
+       * </pre>
+       */
+      public Builder clearTagTitle() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        tagTitle_ = getDefaultInstance().getTagTitle();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tagTitle = 3;</code>
+       *
+       * <pre>
+       *页签标题
+       * </pre>
+       */
+      public Builder setTagTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        tagTitle_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string tagIcon = 4;
+      private java.lang.Object tagIcon_ = "";
+      /**
+       * <code>optional string tagIcon = 4;</code>
+       *
+       * <pre>
+       *页签图标
+       * </pre>
+       */
+      public boolean hasTagIcon() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string tagIcon = 4;</code>
+       *
+       * <pre>
+       *页签图标
+       * </pre>
+       */
+      public java.lang.String getTagIcon() {
+        java.lang.Object ref = tagIcon_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tagIcon_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tagIcon = 4;</code>
+       *
+       * <pre>
+       *页签图标
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTagIconBytes() {
+        java.lang.Object ref = tagIcon_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tagIcon_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tagIcon = 4;</code>
+       *
+       * <pre>
+       *页签图标
+       * </pre>
+       */
+      public Builder setTagIcon(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tagIcon_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tagIcon = 4;</code>
+       *
+       * <pre>
+       *页签图标
+       * </pre>
+       */
+      public Builder clearTagIcon() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        tagIcon_ = getDefaultInstance().getTagIcon();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tagIcon = 4;</code>
+       *
+       * <pre>
+       *页签图标
+       * </pre>
+       */
+      public Builder setTagIconBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        tagIcon_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string title = 5;
+      private java.lang.Object title_ = "";
+      /**
+       * <code>optional string title = 5;</code>
+       *
+       * <pre>
+       *页签标签
+       * </pre>
+       */
+      public boolean hasTitle() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string title = 5;</code>
+       *
+       * <pre>
+       *页签标签
+       * </pre>
        */
       public java.lang.String getTitle() {
         java.lang.Object ref = title_;
@@ -613,7 +1843,11 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>required string title = 1;</code>
+       * <code>optional string title = 5;</code>
+       *
+       * <pre>
+       *页签标签
+       * </pre>
        */
       public com.google.protobuf.ByteString
           getTitleBytes() {
@@ -629,111 +1863,686 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>required string title = 1;</code>
+       * <code>optional string title = 5;</code>
+       *
+       * <pre>
+       *页签标签
+       * </pre>
        */
       public Builder setTitle(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000010;
         title_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string title = 1;</code>
+       * <code>optional string title = 5;</code>
+       *
+       * <pre>
+       *页签标签
+       * </pre>
        */
       public Builder clearTitle() {
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000010);
         title_ = getDefaultInstance().getTitle();
         onChanged();
         return this;
       }
       /**
-       * <code>required string title = 1;</code>
+       * <code>optional string title = 5;</code>
+       *
+       * <pre>
+       *页签标签
+       * </pre>
        */
       public Builder setTitleBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000001;
+  bitField0_ |= 0x00000010;
         title_ = value;
         onChanged();
         return this;
       }
 
-      // required string content = 2;
-      private java.lang.Object content_ = "";
+      // optional int32 annonceType = 6;
+      private int annonceType_ ;
       /**
-       * <code>required string content = 2;</code>
+       * <code>optional int32 annonceType = 6;</code>
+       *
+       * <pre>
+       *公告类型
+       * </pre>
        */
-      public boolean hasContent() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+      public boolean hasAnnonceType() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>required string content = 2;</code>
+       * <code>optional int32 annonceType = 6;</code>
+       *
+       * <pre>
+       *公告类型
+       * </pre>
        */
-      public java.lang.String getContent() {
-        java.lang.Object ref = content_;
+      public int getAnnonceType() {
+        return annonceType_;
+      }
+      /**
+       * <code>optional int32 annonceType = 6;</code>
+       *
+       * <pre>
+       *公告类型
+       * </pre>
+       */
+      public Builder setAnnonceType(int value) {
+        bitField0_ |= 0x00000020;
+        annonceType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 annonceType = 6;</code>
+       *
+       * <pre>
+       *公告类型
+       * </pre>
+       */
+      public Builder clearAnnonceType() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        annonceType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string bg = 7;
+      private java.lang.Object bg_ = "";
+      /**
+       * <code>optional string bg = 7;</code>
+       *
+       * <pre>
+       *图标公告
+       * </pre>
+       */
+      public boolean hasBg() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string bg = 7;</code>
+       *
+       * <pre>
+       *图标公告
+       * </pre>
+       */
+      public java.lang.String getBg() {
+        java.lang.Object ref = bg_;
         if (!(ref instanceof java.lang.String)) {
           java.lang.String s = ((com.google.protobuf.ByteString) ref)
               .toStringUtf8();
-          content_ = s;
+          bg_ = s;
           return s;
         } else {
           return (java.lang.String) ref;
         }
       }
       /**
-       * <code>required string content = 2;</code>
+       * <code>optional string bg = 7;</code>
+       *
+       * <pre>
+       *图标公告
+       * </pre>
        */
       public com.google.protobuf.ByteString
-          getContentBytes() {
-        java.lang.Object ref = content_;
+          getBgBytes() {
+        java.lang.Object ref = bg_;
         if (ref instanceof String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          content_ = b;
+          bg_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
       }
       /**
-       * <code>required string content = 2;</code>
+       * <code>optional string bg = 7;</code>
+       *
+       * <pre>
+       *图标公告
+       * </pre>
        */
-      public Builder setContent(
+      public Builder setBg(
           java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
-        content_ = value;
+  bitField0_ |= 0x00000040;
+        bg_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required string content = 2;</code>
+       * <code>optional string bg = 7;</code>
+       *
+       * <pre>
+       *图标公告
+       * </pre>
        */
-      public Builder clearContent() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        content_ = getDefaultInstance().getContent();
+      public Builder clearBg() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        bg_ = getDefaultInstance().getBg();
         onChanged();
         return this;
       }
       /**
-       * <code>required string content = 2;</code>
+       * <code>optional string bg = 7;</code>
+       *
+       * <pre>
+       *图标公告
+       * </pre>
        */
-      public Builder setContentBytes(
+      public Builder setBgBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
-        content_ = value;
+  bitField0_ |= 0x00000040;
+        bg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string announceTitle = 8;
+      private java.lang.Object announceTitle_ = "";
+      /**
+       * <code>optional string announceTitle = 8;</code>
+       *
+       * <pre>
+       *公告标题
+       * </pre>
+       */
+      public boolean hasAnnounceTitle() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional string announceTitle = 8;</code>
+       *
+       * <pre>
+       *公告标题
+       * </pre>
+       */
+      public java.lang.String getAnnounceTitle() {
+        java.lang.Object ref = announceTitle_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          announceTitle_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string announceTitle = 8;</code>
+       *
+       * <pre>
+       *公告标题
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAnnounceTitleBytes() {
+        java.lang.Object ref = announceTitle_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          announceTitle_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string announceTitle = 8;</code>
+       *
+       * <pre>
+       *公告标题
+       * </pre>
+       */
+      public Builder setAnnounceTitle(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        announceTitle_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string announceTitle = 8;</code>
+       *
+       * <pre>
+       *公告标题
+       * </pre>
+       */
+      public Builder clearAnnounceTitle() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        announceTitle_ = getDefaultInstance().getAnnounceTitle();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string announceTitle = 8;</code>
+       *
+       * <pre>
+       *公告标题
+       * </pre>
+       */
+      public Builder setAnnounceTitleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        announceTitle_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string announceContent = 9;
+      private java.lang.Object announceContent_ = "";
+      /**
+       * <code>optional string announceContent = 9;</code>
+       *
+       * <pre>
+       *公告内容
+       * </pre>
+       */
+      public boolean hasAnnounceContent() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <code>optional string announceContent = 9;</code>
+       *
+       * <pre>
+       *公告内容
+       * </pre>
+       */
+      public java.lang.String getAnnounceContent() {
+        java.lang.Object ref = announceContent_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          announceContent_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string announceContent = 9;</code>
+       *
+       * <pre>
+       *公告内容
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getAnnounceContentBytes() {
+        java.lang.Object ref = announceContent_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          announceContent_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string announceContent = 9;</code>
+       *
+       * <pre>
+       *公告内容
+       * </pre>
+       */
+      public Builder setAnnounceContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        announceContent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string announceContent = 9;</code>
+       *
+       * <pre>
+       *公告内容
+       * </pre>
+       */
+      public Builder clearAnnounceContent() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        announceContent_ = getDefaultInstance().getAnnounceContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string announceContent = 9;</code>
+       *
+       * <pre>
+       *公告内容
+       * </pre>
+       */
+      public Builder setAnnounceContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        announceContent_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 isShowButton = 10;
+      private int isShowButton_ ;
+      /**
+       * <code>optional int32 isShowButton = 10;</code>
+       *
+       * <pre>
+       *是否显示button
+       * </pre>
+       */
+      public boolean hasIsShowButton() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <code>optional int32 isShowButton = 10;</code>
+       *
+       * <pre>
+       *是否显示button
+       * </pre>
+       */
+      public int getIsShowButton() {
+        return isShowButton_;
+      }
+      /**
+       * <code>optional int32 isShowButton = 10;</code>
+       *
+       * <pre>
+       *是否显示button
+       * </pre>
+       */
+      public Builder setIsShowButton(int value) {
+        bitField0_ |= 0x00000200;
+        isShowButton_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 isShowButton = 10;</code>
+       *
+       * <pre>
+       *是否显示button
+       * </pre>
+       */
+      public Builder clearIsShowButton() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        isShowButton_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string buttonText = 11;
+      private java.lang.Object buttonText_ = "";
+      /**
+       * <code>optional string buttonText = 11;</code>
+       *
+       * <pre>
+       *按钮内容
+       * </pre>
+       */
+      public boolean hasButtonText() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional string buttonText = 11;</code>
+       *
+       * <pre>
+       *按钮内容
+       * </pre>
+       */
+      public java.lang.String getButtonText() {
+        java.lang.Object ref = buttonText_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          buttonText_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string buttonText = 11;</code>
+       *
+       * <pre>
+       *按钮内容
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getButtonTextBytes() {
+        java.lang.Object ref = buttonText_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          buttonText_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string buttonText = 11;</code>
+       *
+       * <pre>
+       *按钮内容
+       * </pre>
+       */
+      public Builder setButtonText(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        buttonText_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string buttonText = 11;</code>
+       *
+       * <pre>
+       *按钮内容
+       * </pre>
+       */
+      public Builder clearButtonText() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        buttonText_ = getDefaultInstance().getButtonText();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string buttonText = 11;</code>
+       *
+       * <pre>
+       *按钮内容
+       * </pre>
+       */
+      public Builder setButtonTextBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000400;
+        buttonText_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 gotoType = 12;
+      private int gotoType_ ;
+      /**
+       * <code>optional int32 gotoType = 12;</code>
+       *
+       * <pre>
+       *跳转类型
+       * </pre>
+       */
+      public boolean hasGotoType() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional int32 gotoType = 12;</code>
+       *
+       * <pre>
+       *跳转类型
+       * </pre>
+       */
+      public int getGotoType() {
+        return gotoType_;
+      }
+      /**
+       * <code>optional int32 gotoType = 12;</code>
+       *
+       * <pre>
+       *跳转类型
+       * </pre>
+       */
+      public Builder setGotoType(int value) {
+        bitField0_ |= 0x00000800;
+        gotoType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 gotoType = 12;</code>
+       *
+       * <pre>
+       *跳转类型
+       * </pre>
+       */
+      public Builder clearGotoType() {
+        bitField0_ = (bitField0_ & ~0x00000800);
+        gotoType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 gotoTypeId = 13;
+      private int gotoTypeId_ ;
+      /**
+       * <code>optional int32 gotoTypeId = 13;</code>
+       *
+       * <pre>
+       *跳转id
+       * </pre>
+       */
+      public boolean hasGotoTypeId() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 gotoTypeId = 13;</code>
+       *
+       * <pre>
+       *跳转id
+       * </pre>
+       */
+      public int getGotoTypeId() {
+        return gotoTypeId_;
+      }
+      /**
+       * <code>optional int32 gotoTypeId = 13;</code>
+       *
+       * <pre>
+       *跳转id
+       * </pre>
+       */
+      public Builder setGotoTypeId(int value) {
+        bitField0_ |= 0x00001000;
+        gotoTypeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 gotoTypeId = 13;</code>
+       *
+       * <pre>
+       *跳转id
+       * </pre>
+       */
+      public Builder clearGotoTypeId() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        gotoTypeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 isConfig = 14;
+      private int isConfig_ ;
+      /**
+       * <code>optional int32 isConfig = 14;</code>
+       *
+       * <pre>
+       *是否配置公告（是 读配置表的公告）
+       * </pre>
+       */
+      public boolean hasIsConfig() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <code>optional int32 isConfig = 14;</code>
+       *
+       * <pre>
+       *是否配置公告（是 读配置表的公告）
+       * </pre>
+       */
+      public int getIsConfig() {
+        return isConfig_;
+      }
+      /**
+       * <code>optional int32 isConfig = 14;</code>
+       *
+       * <pre>
+       *是否配置公告（是 读配置表的公告）
+       * </pre>
+       */
+      public Builder setIsConfig(int value) {
+        bitField0_ |= 0x00002000;
+        isConfig_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 isConfig = 14;</code>
+       *
+       * <pre>
+       *是否配置公告（是 读配置表的公告）
+       * </pre>
+       */
+      public Builder clearIsConfig() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        isConfig_ = 0;
         onChanged();
         return this;
       }
@@ -752,37 +2561,27 @@ public final class NoticeProtos {
   public interface NoticeResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // required .ENoticeType type = 1;
+    // repeated .tagNoticeInfo notice = 1;
     /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    boolean hasType();
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    com.rwproto.NoticeProtos.ENoticeType getType();
-
-    // repeated .tagNoticeInfo notice = 2;
-    /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     java.util.List<com.rwproto.NoticeProtos.tagNoticeInfo> 
         getNoticeList();
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     com.rwproto.NoticeProtos.tagNoticeInfo getNotice(int index);
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     int getNoticeCount();
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     java.util.List<? extends com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder> 
         getNoticeOrBuilderList();
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder getNoticeOrBuilder(
         int index);
@@ -838,21 +2637,10 @@ public final class NoticeProtos {
               }
               break;
             }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.NoticeProtos.ENoticeType value = com.rwproto.NoticeProtos.ENoticeType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                type_ = value;
-              }
-              break;
-            }
-            case 18: {
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
                 notice_ = new java.util.ArrayList<com.rwproto.NoticeProtos.tagNoticeInfo>();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000001;
               }
               notice_.add(input.readMessage(com.rwproto.NoticeProtos.tagNoticeInfo.PARSER, extensionRegistry));
               break;
@@ -865,7 +2653,7 @@ public final class NoticeProtos {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           notice_ = java.util.Collections.unmodifiableList(notice_);
         }
         this.unknownFields = unknownFields.build();
@@ -899,53 +2687,36 @@ public final class NoticeProtos {
       return PARSER;
     }
 
-    private int bitField0_;
-    // required .ENoticeType type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private com.rwproto.NoticeProtos.ENoticeType type_;
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    public com.rwproto.NoticeProtos.ENoticeType getType() {
-      return type_;
-    }
-
-    // repeated .tagNoticeInfo notice = 2;
-    public static final int NOTICE_FIELD_NUMBER = 2;
+    // repeated .tagNoticeInfo notice = 1;
+    public static final int NOTICE_FIELD_NUMBER = 1;
     private java.util.List<com.rwproto.NoticeProtos.tagNoticeInfo> notice_;
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     public java.util.List<com.rwproto.NoticeProtos.tagNoticeInfo> getNoticeList() {
       return notice_;
     }
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     public java.util.List<? extends com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder> 
         getNoticeOrBuilderList() {
       return notice_;
     }
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     public int getNoticeCount() {
       return notice_.size();
     }
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     public com.rwproto.NoticeProtos.tagNoticeInfo getNotice(int index) {
       return notice_.get(index);
     }
     /**
-     * <code>repeated .tagNoticeInfo notice = 2;</code>
+     * <code>repeated .tagNoticeInfo notice = 1;</code>
      */
     public com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder getNoticeOrBuilder(
         int index) {
@@ -953,7 +2724,6 @@ public final class NoticeProtos {
     }
 
     private void initFields() {
-      type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
       notice_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -961,10 +2731,6 @@ public final class NoticeProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       for (int i = 0; i < getNoticeCount(); i++) {
         if (!getNotice(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -978,11 +2744,8 @@ public final class NoticeProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, type_.getNumber());
-      }
       for (int i = 0; i < notice_.size(); i++) {
-        output.writeMessage(2, notice_.get(i));
+        output.writeMessage(1, notice_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -993,13 +2756,9 @@ public final class NoticeProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, type_.getNumber());
-      }
       for (int i = 0; i < notice_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, notice_.get(i));
+          .computeMessageSize(1, notice_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1118,11 +2877,9 @@ public final class NoticeProtos {
 
       public Builder clear() {
         super.clear();
-        type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
-        bitField0_ = (bitField0_ & ~0x00000001);
         if (noticeBuilder_ == null) {
           notice_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           noticeBuilder_.clear();
         }
@@ -1153,21 +2910,15 @@ public final class NoticeProtos {
       public com.rwproto.NoticeProtos.NoticeResponse buildPartial() {
         com.rwproto.NoticeProtos.NoticeResponse result = new com.rwproto.NoticeProtos.NoticeResponse(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
         if (noticeBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
             notice_ = java.util.Collections.unmodifiableList(notice_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.notice_ = notice_;
         } else {
           result.notice_ = noticeBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1183,14 +2934,11 @@ public final class NoticeProtos {
 
       public Builder mergeFrom(com.rwproto.NoticeProtos.NoticeResponse other) {
         if (other == com.rwproto.NoticeProtos.NoticeResponse.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
         if (noticeBuilder_ == null) {
           if (!other.notice_.isEmpty()) {
             if (notice_.isEmpty()) {
               notice_ = other.notice_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureNoticeIsMutable();
               notice_.addAll(other.notice_);
@@ -1203,7 +2951,7 @@ public final class NoticeProtos {
               noticeBuilder_.dispose();
               noticeBuilder_ = null;
               notice_ = other.notice_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               noticeBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getNoticeFieldBuilder() : null;
@@ -1217,10 +2965,6 @@ public final class NoticeProtos {
       }
 
       public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
         for (int i = 0; i < getNoticeCount(); i++) {
           if (!getNotice(i).isInitialized()) {
             
@@ -1249,49 +2993,13 @@ public final class NoticeProtos {
       }
       private int bitField0_;
 
-      // required .ENoticeType type = 1;
-      private com.rwproto.NoticeProtos.ENoticeType type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public com.rwproto.NoticeProtos.ENoticeType getType() {
-        return type_;
-      }
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public Builder setType(com.rwproto.NoticeProtos.ENoticeType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
-        onChanged();
-        return this;
-      }
-
-      // repeated .tagNoticeInfo notice = 2;
+      // repeated .tagNoticeInfo notice = 1;
       private java.util.List<com.rwproto.NoticeProtos.tagNoticeInfo> notice_ =
         java.util.Collections.emptyList();
       private void ensureNoticeIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
           notice_ = new java.util.ArrayList<com.rwproto.NoticeProtos.tagNoticeInfo>(notice_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -1299,7 +3007,7 @@ public final class NoticeProtos {
           com.rwproto.NoticeProtos.tagNoticeInfo, com.rwproto.NoticeProtos.tagNoticeInfo.Builder, com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder> noticeBuilder_;
 
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public java.util.List<com.rwproto.NoticeProtos.tagNoticeInfo> getNoticeList() {
         if (noticeBuilder_ == null) {
@@ -1309,7 +3017,7 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public int getNoticeCount() {
         if (noticeBuilder_ == null) {
@@ -1319,7 +3027,7 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public com.rwproto.NoticeProtos.tagNoticeInfo getNotice(int index) {
         if (noticeBuilder_ == null) {
@@ -1329,7 +3037,7 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder setNotice(
           int index, com.rwproto.NoticeProtos.tagNoticeInfo value) {
@@ -1346,7 +3054,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder setNotice(
           int index, com.rwproto.NoticeProtos.tagNoticeInfo.Builder builderForValue) {
@@ -1360,7 +3068,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder addNotice(com.rwproto.NoticeProtos.tagNoticeInfo value) {
         if (noticeBuilder_ == null) {
@@ -1376,7 +3084,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder addNotice(
           int index, com.rwproto.NoticeProtos.tagNoticeInfo value) {
@@ -1393,7 +3101,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder addNotice(
           com.rwproto.NoticeProtos.tagNoticeInfo.Builder builderForValue) {
@@ -1407,7 +3115,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder addNotice(
           int index, com.rwproto.NoticeProtos.tagNoticeInfo.Builder builderForValue) {
@@ -1421,7 +3129,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder addAllNotice(
           java.lang.Iterable<? extends com.rwproto.NoticeProtos.tagNoticeInfo> values) {
@@ -1435,12 +3143,12 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder clearNotice() {
         if (noticeBuilder_ == null) {
           notice_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           noticeBuilder_.clear();
@@ -1448,7 +3156,7 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public Builder removeNotice(int index) {
         if (noticeBuilder_ == null) {
@@ -1461,14 +3169,14 @@ public final class NoticeProtos {
         return this;
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public com.rwproto.NoticeProtos.tagNoticeInfo.Builder getNoticeBuilder(
           int index) {
         return getNoticeFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder getNoticeOrBuilder(
           int index) {
@@ -1478,7 +3186,7 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public java.util.List<? extends com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder> 
            getNoticeOrBuilderList() {
@@ -1489,14 +3197,14 @@ public final class NoticeProtos {
         }
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public com.rwproto.NoticeProtos.tagNoticeInfo.Builder addNoticeBuilder() {
         return getNoticeFieldBuilder().addBuilder(
             com.rwproto.NoticeProtos.tagNoticeInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public com.rwproto.NoticeProtos.tagNoticeInfo.Builder addNoticeBuilder(
           int index) {
@@ -1504,7 +3212,7 @@ public final class NoticeProtos {
             index, com.rwproto.NoticeProtos.tagNoticeInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .tagNoticeInfo notice = 2;</code>
+       * <code>repeated .tagNoticeInfo notice = 1;</code>
        */
       public java.util.List<com.rwproto.NoticeProtos.tagNoticeInfo.Builder> 
            getNoticeBuilderList() {
@@ -1517,7 +3225,7 @@ public final class NoticeProtos {
           noticeBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.NoticeProtos.tagNoticeInfo, com.rwproto.NoticeProtos.tagNoticeInfo.Builder, com.rwproto.NoticeProtos.tagNoticeInfoOrBuilder>(
                   notice_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
+                  ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
                   isClean());
           notice_ = null;
@@ -1538,16 +3246,6 @@ public final class NoticeProtos {
 
   public interface NoticeRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
-
-    // required .ENoticeType type = 1;
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    boolean hasType();
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    com.rwproto.NoticeProtos.ENoticeType getType();
   }
   /**
    * Protobuf type {@code NoticeRequest}
@@ -1582,7 +3280,6 @@ public final class NoticeProtos {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       initFields();
-      int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
       try {
@@ -1597,17 +3294,6 @@ public final class NoticeProtos {
               if (!parseUnknownField(input, unknownFields,
                                      extensionRegistry, tag)) {
                 done = true;
-              }
-              break;
-            }
-            case 8: {
-              int rawValue = input.readEnum();
-              com.rwproto.NoticeProtos.ENoticeType value = com.rwproto.NoticeProtos.ENoticeType.valueOf(rawValue);
-              if (value == null) {
-                unknownFields.mergeVarintField(1, rawValue);
-              } else {
-                bitField0_ |= 0x00000001;
-                type_ = value;
               }
               break;
             }
@@ -1650,35 +3336,13 @@ public final class NoticeProtos {
       return PARSER;
     }
 
-    private int bitField0_;
-    // required .ENoticeType type = 1;
-    public static final int TYPE_FIELD_NUMBER = 1;
-    private com.rwproto.NoticeProtos.ENoticeType type_;
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    public boolean hasType() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required .ENoticeType type = 1;</code>
-     */
-    public com.rwproto.NoticeProtos.ENoticeType getType() {
-      return type_;
-    }
-
     private void initFields() {
-      type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (!hasType()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1686,9 +3350,6 @@ public final class NoticeProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeEnum(1, type_.getNumber());
-      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1698,10 +3359,6 @@ public final class NoticeProtos {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(1, type_.getNumber());
-      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -1818,8 +3475,6 @@ public final class NoticeProtos {
 
       public Builder clear() {
         super.clear();
-        type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -1846,13 +3501,6 @@ public final class NoticeProtos {
 
       public com.rwproto.NoticeProtos.NoticeRequest buildPartial() {
         com.rwproto.NoticeProtos.NoticeRequest result = new com.rwproto.NoticeProtos.NoticeRequest(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.type_ = type_;
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1868,18 +3516,11 @@ public final class NoticeProtos {
 
       public Builder mergeFrom(com.rwproto.NoticeProtos.NoticeRequest other) {
         if (other == com.rwproto.NoticeProtos.NoticeRequest.getDefaultInstance()) return this;
-        if (other.hasType()) {
-          setType(other.getType());
-        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (!hasType()) {
-          
-          return false;
-        }
         return true;
       }
 
@@ -1898,43 +3539,6 @@ public final class NoticeProtos {
             mergeFrom(parsedMessage);
           }
         }
-        return this;
-      }
-      private int bitField0_;
-
-      // required .ENoticeType type = 1;
-      private com.rwproto.NoticeProtos.ENoticeType type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public boolean hasType() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public com.rwproto.NoticeProtos.ENoticeType getType() {
-        return type_;
-      }
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public Builder setType(com.rwproto.NoticeProtos.ENoticeType value) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        bitField0_ |= 0x00000001;
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required .ENoticeType type = 1;</code>
-       */
-      public Builder clearType() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        type_ = com.rwproto.NoticeProtos.ENoticeType.PlatformNotice;
-        onChanged();
         return this;
       }
 
@@ -1973,13 +3577,16 @@ public final class NoticeProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017NoticeMsg.proto\"/\n\rtagNoticeInfo\022\r\n\005ti" +
-      "tle\030\001 \002(\t\022\017\n\007content\030\002 \002(\t\"L\n\016NoticeResp" +
-      "onse\022\032\n\004type\030\001 \002(\0162\014.ENoticeType\022\036\n\006noti" +
-      "ce\030\002 \003(\0132\016.tagNoticeInfo\"+\n\rNoticeReques" +
-      "t\022\032\n\004type\030\001 \002(\0162\014.ENoticeType*1\n\013ENotice" +
-      "Type\022\022\n\016PlatformNotice\020\000\022\016\n\nGameNotice\020\001" +
-      "B\033\n\013com.rwprotoB\014NoticeProtos"
+      "\n\017NoticeMsg.proto\"\224\002\n\rtagNoticeInfo\022\020\n\010n" +
+      "oticeId\030\001 \002(\005\022\014\n\004sort\030\002 \002(\005\022\020\n\010tagTitle\030" +
+      "\003 \001(\t\022\017\n\007tagIcon\030\004 \001(\t\022\r\n\005title\030\005 \001(\t\022\023\n" +
+      "\013annonceType\030\006 \001(\005\022\n\n\002bg\030\007 \001(\t\022\025\n\rannoun" +
+      "ceTitle\030\010 \001(\t\022\027\n\017announceContent\030\t \001(\t\022\024" +
+      "\n\014isShowButton\030\n \001(\005\022\022\n\nbuttonText\030\013 \001(\t" +
+      "\022\020\n\010gotoType\030\014 \001(\005\022\022\n\ngotoTypeId\030\r \001(\005\022\020" +
+      "\n\010isConfig\030\016 \001(\005\"0\n\016NoticeResponse\022\036\n\006no" +
+      "tice\030\001 \003(\0132\016.tagNoticeInfo\"\017\n\rNoticeRequ" +
+      "estB\033\n\013com.rwprotoB\014NoticeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1991,19 +3598,19 @@ public final class NoticeProtos {
           internal_static_tagNoticeInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_tagNoticeInfo_descriptor,
-              new java.lang.String[] { "Title", "Content", });
+              new java.lang.String[] { "NoticeId", "Sort", "TagTitle", "TagIcon", "Title", "AnnonceType", "Bg", "AnnounceTitle", "AnnounceContent", "IsShowButton", "ButtonText", "GotoType", "GotoTypeId", "IsConfig", });
           internal_static_NoticeResponse_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_NoticeResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_NoticeResponse_descriptor,
-              new java.lang.String[] { "Type", "Notice", });
+              new java.lang.String[] { "Notice", });
           internal_static_NoticeRequest_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_NoticeRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_NoticeRequest_descriptor,
-              new java.lang.String[] { "Type", });
+              new java.lang.String[] { });
           return null;
         }
       };

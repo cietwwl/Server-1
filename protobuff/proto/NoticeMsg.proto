@@ -2,22 +2,27 @@ syntax="proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "NoticeProtos";
 
-enum ENoticeType{
-	PlatformNotice = 0;  //平台公告
-	GameNotice = 1;		 //游戏公告
-}
 
 message tagNoticeInfo{
-	required string title = 1;
-	required string content = 2;
-
+	required int32 noticeId = 1;		//公告id
+	required int32 sort = 2;			//排序id
+	optional string tagTitle = 3;		//页签标题
+	optional string tagIcon = 4;		//页签图标
+	optional string title = 5;          //页签标签
+	optional int32 annonceType = 6;		//公告类型
+	optional string bg = 7;				//图标公告
+	optional string announceTitle = 8;	//公告标题
+	optional string announceContent = 9;//公告内容
+	optional int32 isShowButton = 10;	//是否显示button
+	optional string buttonText = 11;	//按钮内容
+	optional int32 gotoType = 12;		//跳转类型
+	optional int32 gotoTypeId = 13;		//跳转id
+	optional int32 isConfig = 14;       //是否配置公告（是 读配置表的公告 否）
 }
 
 message NoticeResponse{
-	required ENoticeType type = 1;
-	repeated tagNoticeInfo notice = 2;
+	repeated tagNoticeInfo notice = 1;
 }
 
 message NoticeRequest{
-	required ENoticeType type = 1;
 }

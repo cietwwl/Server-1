@@ -2,6 +2,8 @@ package com.rwbase.dao.platformNotice;
 
 import java.util.List;
 
+import com.bm.notice.Notice;
+import com.bm.notice.NoticeMgr;
 import com.rw.fsutil.cacheDao.PFDataRdbDao;
 
 public class TablePlatformNoticeDAO extends PFDataRdbDao<TablePlatformNotice>{
@@ -32,6 +34,6 @@ public class TablePlatformNoticeDAO extends PFDataRdbDao<TablePlatformNotice>{
 		}else{
 			super.updateToDB(notice);
 		}
-		
+		NoticeMgr.getInstance().AddNotice(notice);
 	}
 }

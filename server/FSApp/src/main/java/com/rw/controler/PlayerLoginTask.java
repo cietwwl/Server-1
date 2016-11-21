@@ -159,6 +159,7 @@ public class PlayerLoginTask implements PlayerTask {
 		});
 
 		long lastLoginTime = player.getLastLoginTime();
+		player.setZoneLoginInfo(zoneLoginInfo);
 		UserChannelMgr.bindUserId(userId, sessionId, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		ByteString loginSynData = player.onLogin(LOGIN);
@@ -171,7 +172,7 @@ public class PlayerLoginTask implements PlayerTask {
 		}
 		response.setUserId(userId);
 		GameLog.debug("Game Login Finish --> accountId:" + accountId + ",zoneId:" + zoneId + ",userId:" + userId);
-		player.setZoneLoginInfo(zoneLoginInfo);
+		
 
 		
 		// 补充进入主城需要同步的数据

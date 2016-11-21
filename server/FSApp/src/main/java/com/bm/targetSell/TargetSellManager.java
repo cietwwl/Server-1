@@ -13,14 +13,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.management.timer.Timer;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bm.targetSell.net.BenefitMsgController;
 import com.bm.targetSell.net.TargetSellOpType;
-import com.bm.targetSell.param.ERoleAttrs;
-import com.bm.targetSell.param.RoleAttrs;
 import com.bm.targetSell.param.TargetSellAbsArgs;
 import com.bm.targetSell.param.TargetSellApplyRoleItemParam;
 import com.bm.targetSell.param.TargetSellData;
@@ -31,22 +28,21 @@ import com.bm.targetSell.param.TargetSellRoleDataParam;
 import com.bm.targetSell.param.TargetSellSendRoleItems;
 import com.bm.targetSell.param.TargetSellServerErrorParam;
 import com.bm.targetSell.param.attrs.AttrsProcessMgr;
+import com.bm.targetSell.param.attrs.EAchieveType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
-import com.playerdata.charge.dao.ChargeInfo;
-import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.MD5;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.netty.UserChannelMgr;
 import com.rwbase.dao.copy.pojo.ItemInfo;
-import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
-import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.targetSell.BenefitDataDAO;
@@ -55,6 +51,7 @@ import com.rwbase.dao.targetSell.TargetSellRecord;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerPredecessor;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 import com.rwproto.MsgDef.Command;
@@ -93,9 +90,15 @@ public class TargetSellManager {
 	
 	private final static BenefitItemComparator Item_Comparetor = new BenefitItemComparator();
 	
-	public static final ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
+	public static ConcurrentHashMap<String, TargetSellRoleChange> RoleAttrChangeMap = new ConcurrentHashMap<String, TargetSellRoleChange>();
 	
-	private TargetSellManager() {
+	/*
+	 * key=heroID, value=ChangeAttr  这个缓存是保存部分无法找到角色id的英雄改变属性，每次RoleAttrChangeMap发送的时候会进入此缓存检查是否存在自己的英雄属性
+	 * 角色下线也会做检索移除操作
+	 */
+	public static ConcurrentHashMap<String, List<EAchieveType>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<EAchieveType>>();
+	
+	public TargetSellManager() {
 		dataDao = BenefitDataDAO.getDao();
 	}
 	
@@ -196,7 +199,7 @@ public class TargetSellManager {
 				boolean suc = player.getItemBagMgr().addItem(tranfer2ItemInfo(items));
 				if(suc){
 					score -= items.getRecharge();
-					//通知精准服
+					//通知精准服   
 					notifyBenefitServerRoleGetItem(player, preCharge.getT1());
 				}
 			}
@@ -465,17 +468,70 @@ public class TargetSellManager {
 	 * @param player
 	 * @param list
 	 */
-	public void notifyRoleAttrsChange(Player player, List<ERoleAttrs> list){
-		String userId = player.getUserId();
-		if(RoleAttrChangeMap.containsKey(userId)){
-			TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
-			if(targetSellRoleChange != null){
-				targetSellRoleChange.addChange(list);
+//	public void notifyRoleAttrsChange(Player player, List<ERoleAttrs> list){
+//		String userId = player.getUserId();
+//		if(RoleAttrChangeMap.containsKey(userId)){
+//			TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
+//			if(targetSellRoleChange != null){
+//				targetSellRoleChange.addChange(list);
+//			}
+//		}else{
+//			TargetSellRoleChange targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
+//			targetSellRoleChange.addChange(list);
+//			RoleAttrChangeMap.put(userId, targetSellRoleChange);
+//		}
+//	}
+	
+	
+	public void notifyHeroAttrsChange(String heroID, EAchieveType eRoleAttrID){
+		List<EAchieveType> change = HeroAttrChangeMap.get(heroID);
+		if(change == null){
+			change = new ArrayList<EAchieveType>();
+			List<EAchieveType> list = HeroAttrChangeMap.putIfAbsent(heroID, change);
+			if(list != null){
+				change = list;
 			}
-		}else{
-			TargetSellRoleChange targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
-			targetSellRoleChange.addChange(list);
-			RoleAttrChangeMap.put(userId, targetSellRoleChange);
+		}
+		change.add(eRoleAttrID);
+	}
+	
+	/**
+	 * 通知属性改变
+	 * @param player
+	 * @param list
+	 */
+	public void notifyRoleAttrsChange(String userId, String eRoleAttrID){
+		TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
+		if(targetSellRoleChange == null){
+			targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
+			//这里做个判断，避免多线程问题
+			TargetSellRoleChange old = RoleAttrChangeMap.putIfAbsent(userId, targetSellRoleChange);
+			if(old != null){
+				targetSellRoleChange = old;
+			}
+		}
+		synchronized (targetSellRoleChange) {
+			if(RoleAttrChangeMap.containsKey(userId)){
+				targetSellRoleChange.addChange(eRoleAttrID);
+			}else{
+				notifyRoleAttrsChange(userId, eRoleAttrID);
+			}
+		}
+	}
+	
+	/**
+	 * 检查打包英雄改变的属性
+	 * @param userID
+	 * @param value
+	 */
+	public void packHeroChangeAttr(String userID, TargetSellRoleChange value) {
+		Player player = PlayerMgr.getInstance().find(userID);
+		List<String> list = FSHeroMgr.getInstance().getHeroIdList(player);
+		for (String heroID : list) {
+			List<EAchieveType> change = HeroAttrChangeMap.remove(heroID);
+			if(change != null && value != null){
+				AttrsProcessMgr.getInstance().addHeroChangeAttrs(userID, heroID, change, value);
+			}
 		}
 	}
 	
@@ -486,7 +542,7 @@ public class TargetSellManager {
 		}
 		
 		String userId = value.getUserId();
-		List<ERoleAttrs> list = value.getChangeList();
+		List<String> list = value.getChangeList();
 		Player player = PlayerMgr.getInstance().find(userId);
 		Map<String, Object> attrs = AttrsProcessMgr.getInstance().packChangeAttr(player, list);
 		
@@ -730,6 +786,29 @@ public class TargetSellManager {
 	
 	
 	/**
+	 * 角色下线通知,清除一下英雄缓存
+	 * @param userID
+	 */
+	public void checkLogOutRoleList(){
+		List<String> offLineUserIds = UserChannelMgr.extractLogoutUserIdList();
+		if(offLineUserIds == null || offLineUserIds.isEmpty()){
+			return;
+		}
+		
+		for (final String userID : offLineUserIds) {
+			GameWorldFactory.getGameWorld().asyncExecute(userID, new PlayerPredecessor() {
+				
+				@Override
+				public void run(String e) {
+					packHeroChangeAttr(userID, null);
+					
+				}
+			});
+		}
+	}
+	
+	
+	/**
 	 * 发送数据到精准服
 	 * @param content
 	 */
@@ -758,6 +837,10 @@ public class TargetSellManager {
 		}
 		
 	}
+
+
+
+	
 
 	
 	

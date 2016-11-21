@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.common.TypeIdentification;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.fsutil.util.RandomUtil;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.gameworld.GameWorldConstant;
 
@@ -34,8 +35,6 @@ public class HPCUtil {
 
 	private static String[] zeroArray; // 按长度填充0的字符串数组
 	private static int zeroArrayLength; // 数组长度
-
-	private static ThreadLocal<Random> randomThreadLocal = new ThreadLocal<Random>();
 
 	static {
 		// 预设8位，超过8位由方法自己填充
@@ -172,12 +171,7 @@ public class HPCUtil {
 	}
 
 	public static Random getRandom() {
-		Random random = randomThreadLocal.get();
-		if (random == null) {
-			random = new Random();
-			randomThreadLocal.set(random);
-		}
-		return random;
+		return RandomUtil.getRandom();
 	}
 
 	/**

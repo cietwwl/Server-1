@@ -1,10 +1,13 @@
 package com.rw.service.platformNotice;
 
+import java.util.List;
+
+import com.bm.notice.Notice;
+import com.bm.notice.NoticeMgr;
 import com.google.protobuf.ByteString;
 import com.rw.account.Account;
 import com.rw.platform.PlatformFactory;
 import com.rwbase.dao.platformNotice.TablePlatformNotice;
-import com.rwproto.NoticeProtos.ENoticeType;
 import com.rwproto.NoticeProtos.NoticeRequest;
 import com.rwproto.NoticeProtos.NoticeResponse;
 import com.rwproto.NoticeProtos.tagNoticeInfo;
@@ -22,18 +25,38 @@ public class PlatformNoticeHandler {
 	}
 	
 	public ByteString requestNotice(NoticeRequest request, Account account){
-		ENoticeType type = request.getType();
 		NoticeResponse.Builder response = NoticeResponse.newBuilder();
-		response.setType(type);
-		TablePlatformNotice platformNotice = PlatformFactory.getPlatformService().getPlatformNotice();
-		
-		if (platformNotice != null) {
+		List<Notice> noticeList = NoticeMgr.getInstance().getNoticeList();
+		if (noticeList.size() > 0) {
+			
 			long currentTimeMillis = System.currentTimeMillis();
-			if (currentTimeMillis >= (platformNotice.getStartTime()*1000) && currentTimeMillis <= (platformNotice.getEndTime()*1000)) {
-				tagNoticeInfo.Builder noticeInfo = tagNoticeInfo.newBuilder();
-				noticeInfo.setTitle(platformNotice.getTitle());
-				noticeInfo.setContent(platformNotice.getContent());
-				response.addNotice(noticeInfo);
+			for (Notice notice : noticeList) {
+				if (currentTimeMillis >= notice.getStartTime() && currentTimeMillis <= notice.getEndTime()) {
+					tagNoticeInfo.Builder noticeInfo = tagNoticeInfo.newBuilder();
+					noticeInfo.setNoticeId(notice.getId());
+					noticeInfo.setSort(notice.getSort());
+					noticeInfo.setTagTitle(notice.getTagTitle());
+					noticeInfo.setTagIcon(notice.getTagIcon());
+					noticeInfo.setTitle(notice.getTitle());
+					int annoceType = notice.getAnnoceType();
+					noticeInfo.setAnnonceType(annoceType);
+					if (annoceType == NoticeMgr.AnnonceType_Word) {
+						noticeInfo.setAnnounceTitle(notice.getAnnounceTitle());
+						noticeInfo.setAnnounceContent(notice.getAnnounceContent());
+					}
+					if (annoceType == NoticeMgr.AnnonceType_Pic) {
+						noticeInfo.setBg(notice.getBg());
+					}
+					if (notice.getIsShowButton() != 0) {
+						noticeInfo.setIsShowButton(notice.getIsShowButton());
+						noticeInfo.setButtonText(notice.getButtonText());
+						noticeInfo.setGotoType(notice.getGotoType());
+						noticeInfo.setGotoTypeId(notice.getGotoTypeId());
+
+					}
+					noticeInfo.setIsConfig(notice.isConfigNotice() ? 1 : 0);
+					response.addNotice(noticeInfo);
+				}
 			}
 		}
 		return response.build().toByteString();
