@@ -49,9 +49,11 @@ public class NoticeMgr {
 		
 		//加载数据库的公告
 		TablePlatformNotice platformNotice = PlatformFactory.getPlatformService().getPlatformNotice();
-		Notice notice = new Notice();
-		notice.SetNotice(platformNotice);
-		NoticeList.add(notice);
+		if (platformNotice != null) {
+			Notice notice = new Notice();
+			notice.SetNotice(platformNotice);
+			NoticeList.add(notice);
+		}
 	}
 	
 	public void AddNotice(TablePlatformNotice tableGameNotice){
