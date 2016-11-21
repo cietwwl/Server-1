@@ -1,13 +1,14 @@
 package com.rw.trace.listener;
 
+import java.util.List;
+import java.util.Map;
+
 import com.bm.targetSell.TargetSellManager;
-import com.bm.targetSell.param.ERoleAttrs;
 import com.bm.targetSell.param.attrs.EAchieveType;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
-import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
-import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
-import com.rwbase.dao.targetSell.BenefitAttrCfg;
-import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.dao.cache.trace.RoleExtChangedEvent;
+import com.rw.fsutil.dao.cache.trace.RoleExtChangedListener;
 
 /**
  * 普通神器数据监听器
@@ -15,18 +16,34 @@ import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
  *
  * 2016年11月17日 下午10:27:15
  */
-public class FixNorEquipDataListener implements SingleChangedListener<FixNormEquipDataItem>{
+public class FixNorEquipDataListener implements RoleExtChangedListener<FixNormEquipDataItem>{
+
+
 
 	@Override
-	public void notifyDataChanged(SignleChangedEvent<FixNormEquipDataItem> event) {
-		FixNormEquipDataItem oldRecord = event.getOldRecord();
-		FixNormEquipDataItem currentRecord = event.getCurrentRecord();
-		if(oldRecord.getStar() != currentRecord.getStar()){
-			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(oldRecord.getSlot(), EAchieveType.AchieveveHeroFixEquipUpgradStar.getId());
-			if (cfg != null) {
-				TargetSellManager.getInstance().notifyHeroAttrsChange(oldRecord.getOwnerId(), cfg.getId());
+	public void notifyDataChanged(RoleExtChangedEvent<FixNormEquipDataItem> event) {
+		List<Pair<Integer,FixNormEquipDataItem>> addList = event.getAddList();
+		if(addList != null && !addList.isEmpty()){
+			Pair<Integer, FixNormEquipDataItem> pair = addList.get(0);
+			//有增加神器
+			FixNormEquipDataItem item = pair.getT2();
+			TargetSellManager.getInstance().notifyHeroAttrsChange(item.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
+			
+		}
+		
+		
+		Map<Integer, Pair<FixNormEquipDataItem, FixNormEquipDataItem>> changedMap = event.getChangedMap();
+		if(changedMap != null && !changedMap.isEmpty()){
+			for (Pair<FixNormEquipDataItem, FixNormEquipDataItem> pair : changedMap.values()) {
+				if(pair != null){
+					FixNormEquipDataItem item = pair.getT2();
+					TargetSellManager.getInstance().notifyHeroAttrsChange(item.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
+					break;
+				}
 			}
 		}
+		
+		
 	}
 
 }
