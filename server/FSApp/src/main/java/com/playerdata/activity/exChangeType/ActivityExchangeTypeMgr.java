@@ -36,7 +36,8 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 
 	private static ActivityExchangeTypeMgr instance = new ActivityExchangeTypeMgr();
 	public static final Random random = new Random();
-	private Map<Integer, Integer> idAndNumMap = new HashMap<Integer, Integer>();
+
+	// private Map<Integer, Integer> idAndNumMap = new HashMap<Integer, Integer>();
 
 	public static ActivityExchangeTypeMgr getInstance() {
 		return instance;
@@ -355,6 +356,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		if (itemCostMap.isEmpty()) {
 			return true;
 		}
+
 		if (ItemBagMgr.getInstance().hasEnoughItems(player.getUserId(), itemCostMap)) {
 			return true;
 		}
@@ -412,7 +414,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	 * @param copyCfg 战斗场景是否有掉落
 	 */
 	public Map<Integer, Integer> AddItemOfExchangeActivity(Player player, CopyCfg copyCfg) {
-		idAndNumMap = new HashMap<Integer, Integer>();
+		Map<Integer, Integer> idAndNumMap = new HashMap<Integer, Integer>();
 		List<ActivityExchangeTypeCfg> allCfgList = ActivityExchangeTypeCfgDAO.getInstance().getAllCfg();
 		ActivityExchangeTypeDropCfgDAO activityExchangeTypeCfgDAO = ActivityExchangeTypeDropCfgDAO.getInstance();
 		for (ActivityExchangeTypeCfg activityExchangeTypeCfg : allCfgList) {// 遍历所有的活动
@@ -456,7 +458,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 	 * @param copyCfg 战斗场景是否有掉落
 	 */
 	public void AddItemOfExchangeActivityBefore(Player player, CopyCfg copyCfg, List<ItemInfo> itemInfoList) {
-		AddItemOfExchangeActivity(player, copyCfg);
+		Map<Integer, Integer> idAndNumMap = AddItemOfExchangeActivity(player, copyCfg);
 		if (idAndNumMap == null) {
 			// 没声场额外掉落
 			return;
@@ -466,7 +468,6 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 			itemInfo.setItemID(entry.getKey());
 			itemInfo.setItemNum(entry.getValue());
 			itemInfoList.add(itemInfo);
-
 		}
 	}
 
