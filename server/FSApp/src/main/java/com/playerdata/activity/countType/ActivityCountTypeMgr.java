@@ -165,7 +165,7 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 	}
 
 	@Override
-	protected boolean isThisActivityIndex(int index) {
+	public boolean isThisActivityIndex(int index) {
 		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

@@ -81,8 +81,36 @@ public enum GameWorldKey {
 	 * 成长基金数据
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
-	;
+	/**
+	 * 活跃着的活动
+	 */
+	ALIVE_ACTIVITY("ALIVE_ACTIVITY"),
 	
+	/**
+	 * 活动:充值排行榜
+	 */
+	ACTIVITY_CHARGE_RANK("ACTIVITY_CHARGE_RANK"),
+	/**
+	 * 活动:消费排行榜
+	 */
+	ACTIVITY_CONSUME_RANK("ACTIVITY_CONSUME_RANK"),
+	/**
+	 * 活动:每日充值
+	 */
+	ACTIVITY_DAILY_RECHARGE("ACTIVITY_DAILY_RECHARGE"),
+	/**
+	 * 活动:成长基金
+	 */
+	ACTIVITY_GROWTHFUND("ACTIVITY_GROWTHFUND"),
+	/**
+	 * 活动:登录活动等基本活动
+	 */
+	ACTIVITY_COUNTTYPE("ACTIVITY_COUNTTYPE"),
+	/**
+	 * 活动:申公豹驾到
+	 */
+	ACTIVITY_EVILBAOARRIVE("ACTIVITY_EVILBAOARRIVE"),
+	;
 	
 
 	GameWorldKey(String name) {

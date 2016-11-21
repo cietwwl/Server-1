@@ -39,6 +39,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.user.LevelCfgDAO;
+import com.rwbase.dao.user.UserIdCache;
 import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.HeroServiceProtos.MsgHeroResponse;
@@ -222,6 +223,7 @@ public class FSHeroMgr implements HeroMgr {
 		return mapItemStore.getItem(uuid);
 	}
 
+	
 	public FSHero getHeroById(String userId, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
 		if (userId.equals(uuid)) {

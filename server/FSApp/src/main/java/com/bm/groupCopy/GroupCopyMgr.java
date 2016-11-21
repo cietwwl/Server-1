@@ -31,7 +31,6 @@ import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
-import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
@@ -743,8 +742,9 @@ public class GroupCopyMgr {
 	 * 
 	 * @param groupName
 	 */
-	public void checkAndSendGroupPriceMail(String groupName) {
+	public void checkAndSendGroupPriceMail(Group group) {
 		try {
+			String groupName = group.getGroupBaseDataMgr().getGroupData().getGroupName();
 			List<CopyItemDropAndApplyRecord> itemList = dropHolder.getItemList();
 			// 检查每个章节
 			List<ApplyInfo> applyInfo = new ArrayList<ApplyInfo>();
@@ -771,9 +771,8 @@ public class GroupCopyMgr {
 					// 找到符合的申请人，在物品掉落后进入帮派的不可以分
 					for (int i = 0; i < applyInfo.size(); i++) {
 						apply = applyInfo.get(i);
-						Player applyRole = PlayerMgr.getInstance().find(apply.getRoleID());
-						UserGroupAttributeDataIF baseData = applyRole.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-						if (baseData == null || (drop.getTime() < baseData.getJoinTime())) {
+						GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(apply.getRoleID(), false);
+						if (memberData == null || (drop.getTime() < memberData.getReceiveTime())) {
 							// System.out.println(String.format("item drop time [%s], role[%s] join group time [%s], he can't get item",
 							// DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),applyRole.getUserName(),
 							// DateUtils.getDateTimeFormatString(baseData.getJoinTime(), "yyyy-MM-dd hh:m:ss")));
@@ -967,8 +966,8 @@ public class GroupCopyMgr {
 				member.setLv(m.getLevel());
 				member.setRoleName(m.getName());
 				member.setDamage(getRoleDamage(m.getUserId(), mapID));
-				if (m.getReceiveTime() > dropTime) {
 
+				if (m.getReceiveTime() > dropTime) {
 					member.setCanDist(false);
 				} else {
 					member.setCanDist(true);

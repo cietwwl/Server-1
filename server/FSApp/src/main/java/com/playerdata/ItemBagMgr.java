@@ -390,6 +390,7 @@ public class ItemBagMgr {
 	 * @param bagOperation 是否直接背包操作
 	 */
 	private boolean addItem0(Player player, int cfgId, int count) {
+		boolean success = true;
 		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
 			modifyCurrency(player, cfgId, count);
 		} else {// 操作道具
@@ -400,14 +401,16 @@ public class ItemBagMgr {
 			List<INewItem> newItemList = new ArrayList<INewItem>(1);
 			newItemList.add(new NewItem(cfgId, count, null));
 
-			return updateItemBg(player, null, newItemList);
+			success = updateItemBg(player, null, newItemList);
+			if (success) {
+				// 通知羁绊检查法宝
+				if (ItemCfgHelper.getItemType(cfgId) == EItemTypeDef.Magic) {
+					player.getMe_FetterMgr().notifyMagicChange(player);
+				}
+			}
 		}
 
-		// 通知羁绊检查法宝
-		if (ItemCfgHelper.getItemType(cfgId) == EItemTypeDef.Magic) {
-			player.getMe_FetterMgr().notifyMagicChange(player);
-		}
-		return true;
+		return success;
 	}
 
 	/**

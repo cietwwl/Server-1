@@ -476,4 +476,14 @@ public class InlayMgr /* extends IDataMgr */{
 
 		return gemList;
 	}
+	
+	/**
+	 * 获取身上已经镶嵌的宝石列表,如果为null，表示当前位置没有宝石
+	 * @param heroID
+	 * @return
+	 */
+	public List<InlayItem> getInlayGenList(String heroID){
+		return inlayItemHolder.getItemList(heroID);
+	}
+	
 }

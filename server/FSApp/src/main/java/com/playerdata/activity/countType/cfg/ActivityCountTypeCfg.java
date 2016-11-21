@@ -1,7 +1,7 @@
 package com.playerdata.activity.countType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
-
 
 
 public class ActivityCountTypeCfg implements ActivityCfgIF{
@@ -153,5 +153,17 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	@Override
 	public int getVipLimit() {
 		return 0;
+	}
+
+	@Override
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
+	}
+
+	@Override
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
 	}
 }

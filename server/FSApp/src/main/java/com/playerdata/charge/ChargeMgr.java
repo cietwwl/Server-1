@@ -19,6 +19,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.VipMgr;
+import com.playerdata.activity.chargeRank.ActivityChargeRankMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.activity.timeCardType.cfg.ActivityTimeCardTypeCfgDAO;
@@ -271,6 +272,7 @@ public class ChargeMgr {
 			if (success) {
 				ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney() / 100);
 				EvilBaoArriveMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney() / 100);
+				ActivityChargeRankMgr.getInstance().addFinishCount(player, chargeContentPojo.getMoney() / 100);
 				registerBehavior(player);
 				BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
 

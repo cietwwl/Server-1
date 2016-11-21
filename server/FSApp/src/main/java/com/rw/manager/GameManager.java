@@ -22,6 +22,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.bm.arena.RobotManager;
 import com.bm.login.ZoneBM;
+import com.bm.notice.NoticeMgr;
 import com.bm.player.ObserverFactory;
 import com.bm.rank.ListRankingType;
 import com.bm.rank.RankDataMgr;
@@ -36,6 +37,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
@@ -181,12 +183,17 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
+		
+		// 活动状态的初始化
+		ActivityDetector.getInstance();
 
 		// GM的初始化
 		GmCommandManager.loadCommandClass();
 
 		// ServerStatus的初始化
 		ServerStatusMgr.init();
+		
+		NoticeMgr.getInstance().initNotice();
 
 		// 帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();

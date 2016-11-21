@@ -482,7 +482,8 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
 		}
 
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -528,8 +529,9 @@ public class GroupPersonalHandler {
 			}
 		}
 
-		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
-			memberMgr.resetMemberDataDonateTimes(playerId, now);
+		if (DateUtils.isResetTime(5, 0, 0, baseData.getLastDonateTime())) {// 到了重置时间
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(playerId, now);
+			// memberMgr.resetMemberDataDonateTimes(playerId, now);
 		}
 
 		// 每天可以捐献的次数
@@ -538,11 +540,11 @@ public class GroupPersonalHandler {
 		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
 
 		// 角色当天捐献的次数
-		int donateTimes = memberData.getDonateTimes();
+		int donateTimes = baseData.getDonateTimes();
 
 		OpenDonateViewRspMsg.Builder rsp = OpenDonateViewRspMsg.newBuilder();
 		rsp.setLeftDonateTimes(perDayDonateTimes - donateTimes);
-		rsp.setPrivateContribution(memberData.getContribution());
+		rsp.setPrivateContribution(baseData.getContribution());
 		rsp.setTotalDonateTimes(perDayDonateTimes);
 
 		int vipLevel = player.getVip();// Vip等级
@@ -580,7 +582,8 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
 		}
 
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -638,15 +641,16 @@ public class GroupPersonalHandler {
 			}
 		}
 
-		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
-			memberMgr.resetMemberDataDonateTimes(playerId, now);
+		if (DateUtils.isResetTime(5, 0, 0, baseData.getLastDonateTime())) {// 到了重置时间
+			// memberMgr.resetMemberDataDonateTimes(playerId, now);
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(playerId, now);
 		}
 
 		// by franky
 		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
 
 		// 角色当天捐献的次数
-		int donateTimes = memberData.getDonateTimes();
+		int donateTimes = baseData.getDonateTimes();
 		int donateType = donateCfg.getDonateType();
 		boolean isTokenDonate = donateType == GroupCommonProto.GroupDonateType.TOKEN_DONATE_VALUE;
 
@@ -729,7 +733,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 更新数据
-		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + (isTokenDonate ? 0 : 1), now, rewardContribution, isTokenDonate);// 只有令牌捐献才会增加到今日
+		memberMgr.updateMemberDataWhenDonate(playerId, baseData.getDonateTimes() + (isTokenDonate ? 0 : 1), now, rewardContribution, isTokenDonate);// 只有令牌捐献才会增加到今日
 
 		// 更新捐献后的帮派数据
 		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp(), rewardToken, true);
@@ -742,8 +746,8 @@ public class GroupPersonalHandler {
 
 		// 设置回应消息
 		GroupDonateRspMsg.Builder rsp = GroupDonateRspMsg.newBuilder();
-		rsp.setLeftDonateTimes(perDayDonateTimes - memberData.getDonateTimes());
-		rsp.setPrivateContribution(memberData.getContribution());
+		rsp.setLeftDonateTimes(perDayDonateTimes - baseData.getDonateTimes());
+		rsp.setPrivateContribution(baseData.getContribution());
 		rsp.setTotalDonateTimes(perDayDonateTimes);
 
 		commonRsp.setIsSuccess(true);
@@ -833,6 +837,12 @@ public class GroupPersonalHandler {
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.QUIT_GROUP_TYPE);
 
+		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
+		if (gbct == null) {
+			GameLog.error("退出出帮派", playerId, "没有找到帮派唯一基础的配置表");
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
+		}
+
 		// 判断帮派是否存在
 		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
 		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
@@ -865,8 +875,14 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
-		int post = memberData.getPost();// 成员职位
+		// 检查踢出成员的时间
 		long now = System.currentTimeMillis();
+		long receiveTime = memberData.getReceiveTime();
+		if (now - receiveTime < gbct.getQuitGroupLimitTime()) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("您加入帮派时间不足%s，无法退出", gbct.getQuitGroupLimitTimeTip()));
+		}
+
+		int post = memberData.getPost();// 成员职位
 		if (post == GroupPost.LEADER_VALUE) {// 是帮主
 			String canTransferLeaderMemberId = memberMgr.getCanTransferLeaderMemberId(GroupMemberHelper.transferLeaderComparator);
 			if (!StringUtils.isEmpty(canTransferLeaderMemberId)) {

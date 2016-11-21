@@ -1,7 +1,7 @@
-package com.bm.rank.charge;
+package com.bm.rank.recharge;
 
 import com.bm.rank.RankingJacksonExtension;
-import com.playerdata.charge.dao.ChargeInfo;
+import com.playerdata.Player;
 import com.rw.fsutil.ranking.RankingEntry;
 
 public class ChargeRankExtension extends RankingJacksonExtension<ChargeComparable, RankingChargeData>{
@@ -19,10 +19,10 @@ public class ChargeRankExtension extends RankingJacksonExtension<ChargeComparabl
 		if(param instanceof RankingChargeData){
 			return (RankingChargeData)param;
 		}
-		ChargeInfo player = (ChargeInfo)param;
+		Player player = (Player)param;
 		RankingChargeData toData = new RankingChargeData();
 		toData.setUserId(player.getUserId());
+		toData.setUserName(player.getUserName());
 		return toData;
 	}
-
 }

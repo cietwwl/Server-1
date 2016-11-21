@@ -75,9 +75,4 @@ public class ActivityFortuneCatTypeCfg {
 	public void setLevelLimit(int levelLimit) {
 		this.levelLimit = levelLimit;
 	}
-
-
-	
-	
-	
 }
