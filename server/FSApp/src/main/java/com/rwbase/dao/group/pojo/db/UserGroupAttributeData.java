@@ -48,7 +48,7 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	@NonSave
 	private String groupName;// 帮派名字
 	@NonSave
-	private long joinTime;// 加入帮派的时间
+	private long joinTime;// 获取距离可以捐献还剩余多少时间
 	@NonSave
 	private int dayContribution;// 当天从令牌捐献获取的帮派贡献
 

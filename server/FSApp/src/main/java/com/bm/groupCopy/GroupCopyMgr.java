@@ -797,9 +797,13 @@ public class GroupCopyMgr {
 						apply = applyInfo.get(i);
 						GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(apply.getRoleID(), false);
 						if(memberData == null || (drop.getTime() < memberData.getReceiveTime())){
+							GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format(
+									"Group ID[%s], item drop time [%s], role[%s] join group time [%s], he can't get item",group.getGroupBaseDataMgr().getGroupData().getGroupId(),
+									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),apply.getRoleName(),
+									DateUtils.getDateTimeFormatString(memberData.getReceiveTime(), "yyyy-MM-dd hh:m:ss")));
 //							System.out.println(String.format("item drop time [%s], role[%s] join group time [%s], he can't get item",
-//									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),applyRole.getUserName(),
-//									DateUtils.getDateTimeFormatString(baseData.getJoinTime(), "yyyy-MM-dd hh:m:ss")));
+//									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),apply.getRoleName(),
+//									DateUtils.getDateTimeFormatString(memberData.getReceiveTime(), "yyyy-MM-dd hh:m:ss")));
 							continue;
 						}
 						match = true;
@@ -813,6 +817,8 @@ public class GroupCopyMgr {
 					boolean sendMail = sendGroupPriceMailAndRecord(template.getItemID(), apply, groupName, time);
 					if(sendMail){
 						send = true;
+						GameLog.warn(LogModule.GroupCopy.getName(), "GroupCopyMgr[sendMail]", String.format("发放道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(),
+								DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 //						System.err.println(String.format("发放道具成功，道具：[%s],接收角色[%s],时间：[%s]", template.getItemID(), apply.getRoleName(),
 //								DateUtils.getDateTimeFormatString(time, "yyyy-MM-dd HH:mm:ss")));
 						template.deleteApply(drop, apply);
