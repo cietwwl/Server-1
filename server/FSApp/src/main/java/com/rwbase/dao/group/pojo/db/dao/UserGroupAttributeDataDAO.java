@@ -8,7 +8,7 @@ import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
  * @date 2016年1月19日 下午12:11:22
  * @Description 角色的帮派数据
  */
-public final class UserGroupAttributeDataDAO extends DataRdbDao<UserGroupAttributeData> {
+public class UserGroupAttributeDataDAO extends DataRdbDao<UserGroupAttributeData> {
 	private static UserGroupAttributeDataDAO dao = new UserGroupAttributeDataDAO();
 
 	public static UserGroupAttributeDataDAO getDAO() {

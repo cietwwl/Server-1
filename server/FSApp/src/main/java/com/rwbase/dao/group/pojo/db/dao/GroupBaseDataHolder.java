@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
-import com.rwbase.dao.item.pojo.itembase.UpdateItem;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
