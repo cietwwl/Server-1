@@ -6,7 +6,7 @@ import com.rwbase.dao.platformNotice.TablePlatformNotice;
 public class Notice {
 	private int id;                 	   	//公告id
 	private int sort = 0;						//公告排序id				
-	private int pushType;					//推送类型
+	private int pushType = 0;					//推送类型
 	private String tagTitle = "公告";				//页签标题
 	private String tagIcon = "act_3";					//标签图片
 	private String title = "公告";					//页签标签
