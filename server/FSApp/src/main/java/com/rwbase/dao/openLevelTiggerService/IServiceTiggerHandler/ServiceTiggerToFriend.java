@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.friend.TableFriend;
+import com.rwbase.dao.friend.TableFriendDAO;
 import com.rwbase.dao.openLevelLimit.pojo.CfgOpenLevelLimit;
 import com.rwbase.dao.openLevelTiggerService.CfgOpenLevelTiggerServiceDAO;
 import com.rwbase.dao.openLevelTiggerService.pojo.CfgOpenLevelTiggerService;
@@ -17,8 +18,8 @@ import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
 public class ServiceTiggerToFriend implements IServiceTiggerHandler{
 
 	@Override
-	public void openLevelToCreatItem(Player player,Long now,String userId,CfgOpenLevelLimit cfg,CfgOpenLevelTiggerServiceDAO cfgServiceDao) {
-		TableFriend friendTable = player.getFriendMgr().getTableFriend();
+	public void openLevelToCreatItem(Long now,String userId,CfgOpenLevelLimit cfg,CfgOpenLevelTiggerServiceDAO cfgServiceDao) {
+		TableFriend friendTable = TableFriendDAO.getInstance().get(userId);
 		List<CfgOpenLevelTiggerService> tiggerCfgList = cfgServiceDao.getListByType(cfg.getType());
 		if(tiggerCfgList == null){
 			return;
@@ -45,8 +46,7 @@ public class ServiceTiggerToFriend implements IServiceTiggerHandler{
 //		itemList.add(item);
 //		TableFriendDAO.getInstance().update(friendTable);
 		friendTable.setOpenLevelTiggerServiceItem(item);
-		player.getFriendMgr().save();
-		
+		TableFriendDAO.getInstance().update(userId);
 	}
 
 	@Override

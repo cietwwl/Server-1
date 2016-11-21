@@ -3,12 +3,20 @@ package com.rw.trace.listener;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.attrs.EAchieveType;
+import com.playerdata.ItemCfgHelper;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.service.log.BILogMgr;
+import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
+import com.rwbase.dao.item.pojo.MagicCfg;
+import com.rwbase.dao.targetSell.BenefitAttrCfg;
+import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
+import com.rwproto.ItemBagProtos.EItemTypeDef;
 
 public class ItemDataListener implements MapItemChangedListener<ItemData> {
 
@@ -23,6 +31,10 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			for (Pair<String, ItemData> pair : addList) {
 				ItemData data = pair.getT2();
 				sbAdd.append(data.getModelId()).append(":").append(data.getCount()).append("&");
+				
+				//检查一下道具是否要通知精准营销系统
+				checkItemDataAndNotifyBenefit(data);
+				
 			}
 		}
 		List<Pair<String, ItemData>> delList = event.getRemoveList();
@@ -53,9 +65,11 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 						}
 					}
 				}
+				checkItemDataAndNotifyBenefit(newItem);
 			}
 		}
 		
+		@SuppressWarnings("unchecked")
 		List<Object> list = (List<Object>)DataEventRecorder.getParam();
 		if(list == null){
 			return;
@@ -69,6 +83,25 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			strDel = sbDel.substring(0, sbDel.lastIndexOf("&"));
 		if (strAdd.length() > 0 || strDel.length() > 0) {
 			BILogMgr.getInstance().logItemChanged(list, strAdd.toString(), strDel.toString());
+		}
+	}
+	
+	//检查一下道具是否要通知精准营销系统
+	private void checkItemDataAndNotifyBenefit(ItemData data){
+		EItemTypeDef type = ItemCfgHelper.getItemType(data.getModelId());
+		if(type == EItemTypeDef.Magic){
+			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(data.getId());
+			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getMagicType(), 
+					EAchieveType.AchieveMagicLevel.getId());// 法宝等级
+			if(cfg != null){
+				TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());
+			}
+			
+			cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getMagicType(), 
+					EAchieveType.AchieveMagicUpgradLv.getId());// 法宝进化等级
+			if(cfg != null){
+				TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());
+			}
 		}
 	}
 }

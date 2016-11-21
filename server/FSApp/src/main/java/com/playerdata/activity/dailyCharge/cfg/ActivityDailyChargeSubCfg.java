@@ -43,4 +43,9 @@ public class ActivityDailyChargeSubCfg extends BaseConfig implements ActivitySub
 	public String getDay() {
 		return day;
 	}
+
+	@Override
+	public void setCfgReward(String reward) {
+		this.giftId = reward;
+	}
 }

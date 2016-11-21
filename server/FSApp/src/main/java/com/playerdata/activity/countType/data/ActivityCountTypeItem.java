@@ -71,7 +71,7 @@ public class ActivityCountTypeItem implements ActivityTypeItemIF<ActivityCountTy
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
 
-	public void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
+	public synchronized void reset(ActivityCountTypeCfg cfg,List<ActivityCountTypeSubItem> sublist){
 		cfgId = String.valueOf(cfg.getId());
 		closed = false;
 		count=0;
@@ -85,7 +85,7 @@ public class ActivityCountTypeItem implements ActivityTypeItemIF<ActivityCountTy
 	}
 
 	//重置活动
-	public void reset(){
+	public synchronized void reset(){
 		subItemList = new ArrayList<ActivityCountTypeSubItem>();
 		count = 0;
 	}
@@ -98,11 +98,11 @@ public class ActivityCountTypeItem implements ActivityTypeItemIF<ActivityCountTy
 		this.id = id;
 	}
 
-	public int getCount() {
+	public synchronized int getCount() {
 		return count;
 	}
 
-	public void setCount(int count) {
+	public synchronized void setCount(int count) {
 		this.count = count;
 	}
 

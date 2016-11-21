@@ -1,5 +1,8 @@
 package com.rwbase.dao.fetters.pojo.cfg;
 
+import java.util.Collections;
+import java.util.List;
+
 /*
  * @author HC
  * @date 2016年4月27日 上午10:46:11
@@ -11,6 +14,7 @@ public class FettersBaseCfg {
 	private String fettersConditions;// 羁绊条件Id列表
 	private String fettersHeroId;// 构成羁绊的英雄Id列表
 	private int seq; // 羁绊在面板的位置，相当于一个部位概念，用于战斗力运算
+	private List<Integer> fettersHeroIdList;
 
 	/**
 	 * 获取羁绊Id
@@ -56,5 +60,13 @@ public class FettersBaseCfg {
 	 */
 	public int getSeq() {
 		return seq;
+	}
+
+	public List<Integer> getFettersHeroIdList() {
+		return fettersHeroIdList;
+	}
+
+	public void setFettersHeroIdList(List<Integer> fettersHeroIdList) {
+		this.fettersHeroIdList = Collections.unmodifiableList(fettersHeroIdList);
 	}
 }

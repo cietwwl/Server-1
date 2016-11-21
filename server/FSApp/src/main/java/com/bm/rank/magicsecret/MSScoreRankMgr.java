@@ -104,17 +104,18 @@ public class MSScoreRankMgr {
 						MomentRankingEntry<MagicSecretComparable, MSScoreDataItem> entry = it.nextElement();
 						dispatchingUser = entry.getExtendedAttribute().getUserId();
 						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
+					}else{
+						return;
 					}
 				}
-			}
-			
-			if(null != scdData) {
-				scdData.setMsLastRefreshTime(exeTime);
-				ServerCommonDataHolder.getInstance().update(scdData);
 			}
 		} catch (Exception ex) {
 			GameLog.error(LogModule.MagicSecret, "MSScoreRankMgr", String.format("dispatchMSDailyReward, 给角色[%s]发放每日法宝秘境排行榜奖励[%s]的时候出现异常", dispatchingUser, dispatchingRank), ex);
 		} finally {
+			if(null != scdData) {
+				scdData.setMsLastRefreshTime(exeTime);
+				ServerCommonDataHolder.getInstance().update(scdData);
+			}
 			ranking.clear();
 		}
 	}

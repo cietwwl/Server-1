@@ -3,7 +3,7 @@ id,remarks,type,minLevel,maxLevel,des,vip,checkPointID,serviceId,submoduleId
 2,,2,1,100,,,,,
 3,,3,1,100,,,,MSG_Hero,
 4,,4,1,100,,,,MSG_CopyService,
-5,,5,13,100,,,,MSG_RANKING,
+5,,5,6,100,,,,MSG_RANKING,
 6,,6,42,100,,,110902,,
 7,,7,24,100,,,110510,MSG_TRIAL,TRIAL_TYPE_TRIAL
 8,,8,32,100,,,110612,MSG_TRIAL,TRIAL_TYPE_CELESTIAL

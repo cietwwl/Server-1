@@ -6,6 +6,7 @@ import java.util.List;
 import com.playerdata.Player;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
+import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ActivityMgrHelper {
@@ -21,6 +22,7 @@ public class ActivityMgrHelper {
 	 * @param player
 	 */
 	public void synActivityData(Player player){
+		ActivityModifyMgr.getInstance().synModifiedActivity(player);
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
 			type.getActivityMgr().synData(player);
 		}
