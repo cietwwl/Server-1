@@ -31,8 +31,10 @@ public class GmMessageServiceRemoved implements IGmTask {
 
 			String commandName = (String) requestMap.get("command");
 
-			Command command = Command.valueOf(commandName);
-			if (command == null) {
+			Command command;
+			try {
+				command = Enum.valueOf(Command.class, commandName);
+			} catch (Exception e) {
 				recordResult(response, resultMap, "fail", "找不到Gm命令需要屏蔽的模块名称：" + commandName, null);
 				return response;
 			}
@@ -68,7 +70,7 @@ public class GmMessageServiceRemoved implements IGmTask {
 			recordResult(response, resultMap, "fail", "逻辑处理异常，查看GM日志错误信息", e);
 		}
 
-		return null;
+		return response;
 	}
 
 	private void recordResult(GmResponse response, HashMap<String, Object> resultMap, String key, String reason, Exception e) {

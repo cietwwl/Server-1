@@ -16,7 +16,7 @@ public class GmMessageServiceRemoved extends AGMHandler{
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("command", "MSG_EMAIL");
+		args.put("command", "MSG_RANKING");
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);
