@@ -1,6 +1,7 @@
 package com.rwbase.common.timer.core;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -31,7 +32,7 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 
 	private String _uuid; // 時效任務的uuid，用于作为标识
 	private String _name; // 時效任務的名字
-	private boolean _needRecordData; // 本任務的所有子任務是否需要保存最後一次執行的時間
+	protected boolean needRecordData; // 本任務的所有子任務是否需要保存最後一次執行的時間
 	protected final Map<Integer, FSGamePlayerOperationSubTask> operationList; // 本时效任务的玩家操作行为
 	protected final IPlayerGatherer defaultPlayerGatherer; // 默认的角色收集器
 	
@@ -40,7 +41,7 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		this._name = this.getClass().getSimpleName() + "@" + _uuid;
 		this.operationList = new HashMap<Integer, FSGamePlayerOperationSubTask>();
 		this.defaultPlayerGatherer = playerGatherer;
-		this._needRecordData = needRecordData;
+		this.needRecordData = needRecordData;
 	}
 	
 	void notifyPlayerLogin(Player player) {
@@ -50,15 +51,15 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		}
 	}
 	
-	void addOperator(int operatorType, IPlayerOperable operator) {
+	protected void addOperator(int operatorType, IPlayerOperable operator) {
 		if (operator == null) {
 			throw new NullPointerException("operator不能為null！類型：" + operatorType);
 		}
 		// 添加一個PlayerOperable到列表當中
 		synchronized(operationList) {
-			FSGamePlayerOperationSubTask pre = this.operationList.put(operatorType, new FSGamePlayerOperationSubTask(operator, operatorType, this._needRecordData));
+			FSGamePlayerOperationSubTask pre = this.operationList.put(operatorType, new FSGamePlayerOperationSubTask(operator, operatorType, this.needRecordData));
 			if(pre != null) {
-				throw new RuntimeException("重複的operatorType：" + operatorType + "，上一個實例是：" + pre._operator + "，當前實例是：" + operator);
+				throw new RuntimeException("重複的operatorType：" + operatorType + "，上一個實例是：" + pre.operator + "，當前實例是：" + operator);
 			}
 		}
 	}
@@ -68,7 +69,7 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		synchronized (operationList) {
 			FSGamePlayerOperationSubTask target = this.operationList.remove(operatorType);
 			if (target != null) {
-				return target._operator;
+				return target.operator;
 			} else {
 				return null;
 			}
@@ -87,9 +88,9 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		for (Iterator<FSGamePlayerOperationSubTask> itr = taskList.iterator(); itr.hasNext();) {
 			subTask = itr.next();
 			boolean usingAll = false;
-			if (subTask._operator instanceof IPlayerGatherer) {
+			if (subTask.operator instanceof IPlayerGatherer) {
 				// 如果operator同时是IPlayerGatherer的实例，则按照他的规则来获取player
-				subTask._players = ((IPlayerGatherer) subTask._operator).gatherPlayers();
+				subTask._players = ((IPlayerGatherer) subTask.operator).gatherPlayers();
 			} else {
 				subTask._players = allPlayersRO;
 				usingAll = true;
@@ -146,44 +147,52 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		return Collections.emptyList();
 	}
 	
+	public List<Integer> getSubTaskTypes() {
+		return new ArrayList<Integer>(operationList.keySet());
+	}
+	
 	protected static class FSGamePlayerOperationSubTask implements IGameTimerTask {
 		
-		private IPlayerOperable _operator;
+		protected IPlayerOperable operator;
 		private List<Player> _players;
-		private final Queue<Player> _tempPlayers;
+		protected final Queue<Player> tempPlayers;
 		private String _name;
 		private long _lastExecuteTime; // 上一次执行的时间
 		private final AtomicBoolean _executing = new AtomicBoolean(); // 是否正在执行中
 		private final List<String> _lastExecutePlayers; // 上一次被操作的player信息
 		private final boolean _needRecordData;
 		private int _operatorType;
+		protected Calendar current;
+		protected int dayOfYearNow;
 		
 		public FSGamePlayerOperationSubTask(IPlayerOperable pOperator, int operatorType, boolean pNeedRecordData) {
-			this._operator = pOperator;
-			this._name = this.getClass().getSimpleName() + " for " + _operator;
+			this.operator = pOperator;
+			this._name = this.getClass().getSimpleName() + " for " + operator;
 			this._lastExecutePlayers = new ArrayList<String>();
-			this._tempPlayers = new ConcurrentLinkedQueue<Player>();
+			this.tempPlayers = new ConcurrentLinkedQueue<Player>();
 			this._needRecordData = pNeedRecordData;
 			this._operatorType = operatorType;
+			this.current = Calendar.getInstance();
+			this.dayOfYearNow = this.current.get(Calendar.DAY_OF_YEAR);
 		}
 		
-		private void executeSingle(Player player) {
+		protected void executeSingle(Player player) {
 			if (player.isRobot()) {
 				return;
 			}
 			try {
-				this._operator.operate(player);
+				this.operator.operate(player);
 				this._lastExecutePlayers.add(player.getUserId());
 			} catch (Exception e) {
 				e.printStackTrace();
-				GameLog.error("FSGamePlayerOperationSubTask", "executeSingle", "执行出现错误！playerId：" + player.getUserId() + ", operator=" + _operator.getClass());
+				GameLog.error("FSGamePlayerOperationSubTask", "executeSingle", "执行出现错误！playerId：" + player.getUserId() + ", operator=" + operator.getClass());
 			}
 		}
 		
-		void playerLogin(Player player) {
-			if (this._operator.isInterestingOn(player)) { 
+		protected void playerLogin(Player player) {
+			if (this.operator.isInterestingOn(player)) { 
 				if (_executing.get()) {
-					this._tempPlayers.add(player);
+					this.tempPlayers.add(player);
 				} else if (this._lastExecuteTime > 0 && !_lastExecutePlayers.contains(player.getUserId())) {
 //					this._operator.operate(player);
 					this.executeSingle(player);
@@ -191,12 +200,24 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 			}
 		}
 		
+		void setLastExecuteTime(long lastExecuteTime) {
+			this._lastExecuteTime = lastExecuteTime;
+		}
+		
+		protected boolean isExecuting() {
+			return _executing.get();
+		}
+		
 		protected IPlayerOperable getOperator() {
-			return _operator;
+			return operator;
 		}
 		
 		protected int getOperatorType() {
 			return _operatorType;
+		}
+		
+		protected long getLaseExecuteTime() {
+			return _lastExecuteTime;
 		}
 
 		@Override
@@ -208,6 +229,8 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
 			this._executing.getAndSet(true);
 			this._lastExecutePlayers.clear();
+			this.current.setTimeInMillis(System.currentTimeMillis());
+			this.dayOfYearNow = this.current.get(Calendar.DAY_OF_YEAR);
 			if(_players instanceof RandomAccess) {
 				for (int i = _players.size(); i-- > 0;) {
 					this.executeSingle(_players.get(i));
@@ -217,9 +240,9 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 					this.executeSingle(itr.next());
 				}
 			}
-			if (_tempPlayers.size() > 0) {
+			if (tempPlayers.size() > 0) {
 				Player temp;
-				while ((temp = _tempPlayers.poll()) != null) {
+				while ((temp = tempPlayers.poll()) != null) {
 					this.executeSingle(temp);
 				}
 			}
