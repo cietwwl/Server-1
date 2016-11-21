@@ -40,6 +40,7 @@ import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
 import com.gm.task.GmHotUpdate;
 import com.gm.task.GmKickOffPlayer;
+import com.gm.task.GmMessageServiceRemoved;
 import com.gm.task.GmNotifyGenerateGiftPackage;
 import com.gm.task.GmOnlineCount;
 import com.gm.task.GmOnlineLimitModify;
@@ -155,6 +156,8 @@ public class GmHandler {
 		taskMap.put(20073, new GmQueryGroupInfo());
 		taskMap.put(20074, new GmViewGroupMember());
 		taskMap.put(20075, new GmEditLevel());
+		//移除消息处理器(屏蔽指定功能消息入口)
+		taskMap.put(20076, new GmMessageServiceRemoved());
 		
 		taskMap.put(99999, new GmExecuteGMCommand());
 		
