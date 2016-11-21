@@ -7,7 +7,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
-import com.bm.groupCopy.GroupCopyMailHelper;
 import com.bm.saloon.SaloonBmFactory;
 import com.bm.worldBoss.WBMgr;
 import com.gm.activity.RankingActivity;
@@ -41,7 +40,7 @@ public class TimerManager {
 	private static DayOpOnHour dayOpOn9Pm;
 	private static DayOpOnHour dayOpOn23h50m4Bilog;
 	private static TimeSpanOpHelper timeSecondOp;// 秒时效
-	private static TimeSpanOpHelper time10SecondOp;// 10秒时效
+	private static TimeSpanOpHelper time20SecondOp;// 20秒时效
 	private static TimeSpanOpHelper time10MicroSecondOp; // 10毫秒时效
 
 	private static ScheduledExecutorService timeService = Executors.newScheduledThreadPool(1, new SimpleThreadFactory("timer"));
@@ -76,7 +75,7 @@ public class TimerManager {
 			}
 		}, SECOND);
 
-		time10SecondOp = new TimeSpanOpHelper(new ITimeOp() {
+		time20SecondOp = new TimeSpanOpHelper(new ITimeOp() {
 
 			@Override
 			public void doTask() {
@@ -85,7 +84,7 @@ public class TimerManager {
 				ActivityDetector.getInstance().detectActive();
 			}
 
-		}, SECOND * 10);
+		}, SECOND * 20);
 
 		timeMinuteOp = new TimeSpanOpHelper(new ITimeOp() {
 			@Override
@@ -187,7 +186,7 @@ public class TimerManager {
 			public void run() {
 				try {
 					timeSecondOp.tryRun();
-					time10SecondOp.tryRun();
+					time20SecondOp.tryRun();
 					time10MicroSecondOp.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);

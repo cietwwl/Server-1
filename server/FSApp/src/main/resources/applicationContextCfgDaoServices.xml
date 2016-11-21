@@ -387,6 +387,14 @@
 	<bean class="com.bm.worldBoss.cfg.WBHPCfgDAO" init-method="init" />
 	
 	
+	<!-- 充值排行榜 -->
+	<bean class="com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO" init-method="init" />
+	<bean class="com.playerdata.activity.chargeRank.cfg.ActivityChargeRankSubCfgDAO" init-method="init" />
+	
+	<!-- 消费排行榜 -->
+	<bean class="com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankCfgDAO" init-method="init" />
+	<bean class="com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankSubCfgDAO" init-method="init" />
+	
 	<!-- 申公豹驾到 -->
 	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO"  init-method="init" />
@@ -401,6 +409,8 @@
 	<!-- 精准营销 -->
 	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
 	
+	<!-- notice-->
+	<bean class="com.rwbase.dao.notice.AnnouncementCfgDAO"  init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

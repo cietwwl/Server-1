@@ -1,10 +1,7 @@
 package com.playerdata.activity.retrieve.cfg;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import com.rwbase.common.enu.eSpecialItemId;
 
 public class RewardBackCfg {
 	

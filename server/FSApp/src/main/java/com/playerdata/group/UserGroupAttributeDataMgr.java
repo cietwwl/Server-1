@@ -14,6 +14,7 @@ import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attribute.AttributeItem;
@@ -30,7 +31,6 @@ import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
-import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwproto.GroupCommonProto.GroupPost;
 
 /*
@@ -63,8 +63,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	@Override
 	public void notifyPlayerLogin(Player player) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
-		
-		if(userGroupData == null){
+
+		if (userGroupData == null) {
 			return;
 		}
 		String groupId = userGroupData.getGroupId();
@@ -89,7 +89,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		}
 
 		userGroupData.setGroupName(groupData.getGroupName());
-		userGroupData.setContribution(memberData.getContribution());
+		// userGroupData.setContribution(memberData.getContribution());
 		userGroupData.setDayContribution(memberData.getDayContribution());
 		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
@@ -103,36 +103,36 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * 
 	 * @return
 	 */
-	public UserGroupAttributeDataIF getUserGroupAttributeData() {
+	public UserGroupAttributeData getUserGroupAttributeData() {
 		return holder.getUserGroupData();
 	}
 
 	/**
 	 * 重置管理员每天分配奖励次数
 	 */
-	public void resetAllotGroupRewardCount(){
+	public void resetAllotGroupRewardCount() {
 		UserGroupAttributeData data = holder.getUserGroupData();
-		if(data == null){
+		if (data == null) {
 			return;
 		}
 		Group group = GroupBM.get(data.getGroupId());
-		if(group == null){
+		if (group == null) {
 			return;
 		}
-		//检查职位
+		// 检查职位
 		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
-		if(memberData == null){
+		if (memberData == null) {
 			return;
 		}
-		
+
 		int post = memberData.getPost();
-		if(post != GroupPost.LEADER_VALUE && post != GroupPost.ASSISTANT_LEADER_VALUE){
+		if (post != GroupPost.LEADER_VALUE && post != GroupPost.ASSISTANT_LEADER_VALUE) {
 			return;
 		}
-		group.getGroupMemberMgr().resetAllotGroupRewardCount(userId,GroupCopyLevelBL.MAX_ALLOT_COUNT, false);
-		
+		group.getGroupMemberMgr().resetAllotGroupRewardCount(userId, GroupCopyLevelBL.MAX_ALLOT_COUNT, false);
+
 	}
-	
+
 	/**
 	 * 获取个人的帮贡
 	 * 
@@ -144,17 +144,19 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return 0;
 		}
 
-		Group group = GroupBM.get(userGroupData.getGroupId());
-		if (group == null) {
-			return 0;
-		}
-
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
-		if (memberData == null) {
-			return 0;
-		}
-
-		return memberData.getContribution();
+		return userGroupData.getContribution();
+		//
+		// Group group = GroupBM.get(userGroupData.getGroupId());
+		// if (group == null) {
+		// return 0;
+		// }
+		//
+		// GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
+		// if (memberData == null) {
+		// return 0;
+		// }
+		//
+		// return memberData.getContribution();
 	}
 
 	/**
@@ -231,7 +233,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		UserGroupAttributeData baseData = holder.getUserGroupData();
 		baseData.setGroupId("");
 		baseData.setGroupName("");
-		baseData.setContribution(0);
+		// baseData.setContribution(0);
 		baseData.setQuitGroupTime(quitTime);
 		updateAndSynUserGroupAttributeData(player);
 		notifyGroupSkillAttrData(player);
@@ -327,7 +329,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param player
 	 */
 	private void notifyGroupSkillAttrData(Player player) {
-//		Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
+		// Enumeration<Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration();
 		Enumeration<? extends Hero> herosEnumeration = player.getHeroMgr().getHerosEnumeration(player);
 		while (herosEnumeration.hasMoreElements()) {
 			Hero hero = herosEnumeration.nextElement();
@@ -356,12 +358,20 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * 
 	 * @param player
 	 * @param contribution
-	 * @param dayContribution 今天的总捐献数量
+	 * @param dayContribution
+	 * @param donateTimes 今天捐献的次数
 	 */
-	public void updateContribution(Player player, int contribution, int dayContribution) {
+	public void updateContribution(Player player, int offsetContribution, int dayContribution, int donateTimes) {
 		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		userGroupData.setDonateTimes(donateTimes);
+
+		int contribution = userGroupData.getContribution();
+		contribution += offsetContribution;
+		contribution = contribution < 0 ? 0 : contribution;
 		userGroupData.setContribution(contribution);
+
 		userGroupData.setDayContribution(dayContribution);
+		holder.flush();
 		holder.synData(player);
 	}
 
@@ -444,5 +454,44 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		}
 
 		return map;
+	}
+
+	/**
+	 * 更新帮派成员的捐献时间
+	 * 
+	 * @param userId
+	 * @param donateTimes
+	 * @param lastDonateTime
+	 */
+	public void resetMemberDataDonateTimes(String userId, long lastDonateTime) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		if (userGroupData == null) {
+			return;
+		}
+
+		userGroupData.setDonateTimes(0);
+		userGroupData.setLastDonateTime(lastDonateTime);
+		userGroupData.setDayContribution(0);
+		holder.flush();
+		holder.synData(PlayerMgr.getInstance().find(userId));
+	}
+
+	/**
+	 * 更新帮派成员的捐献时间
+	 * 
+	 * @param userId
+	 * @param donateTimes
+	 * @param lastDonateTime
+	 */
+	public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
+		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		if (userGroupData == null) {
+			return;
+		}
+
+		userGroupData.setDonateTimes(0);
+		userGroupData.setLastDonateTime(lastDonateTime);
+		holder.flush();
+		holder.synData(PlayerMgr.getInstance().find(userId));
 	}
 }

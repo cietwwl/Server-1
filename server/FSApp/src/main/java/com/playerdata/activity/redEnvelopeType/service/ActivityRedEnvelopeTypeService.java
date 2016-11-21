@@ -1,13 +1,11 @@
 package com.playerdata.activity.redEnvelopeType.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.ActivityRedEnvelopeTypeProto.*;
 import com.rwproto.ActivityRedEnvelopeTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityRedEnvelopeTypeProto.RequestType;
 import com.rwproto.RequestProtos.Request;

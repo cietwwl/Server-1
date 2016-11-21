@@ -17,4 +17,8 @@ public interface ActivityCfgIF {
 	public int getVipLimit();
 	
 	public boolean isDailyRefresh();
+	
+	public void setStartTime(String startTime);
+	
+	public void setEndTime(String endTime);
 }

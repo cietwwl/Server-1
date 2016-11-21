@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.bm.targetSell.param.ERoleAttrs;
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
@@ -13,16 +13,14 @@ import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
-import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
 import com.rwbase.dao.user.User;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
-public class AchieveCarrer extends AbsAchieveAttrValue{
+public class AchieveCarrer implements AbsAchieveAttrValue{
 
 	@Override
-	public void achieveAttrValue(Player player, User user, ERoleAttrs roleType, Object param, Map<String, Object> AttrMap, BenefitAttrCfgDAO benefitAttrCfgDAO) {
+	public void achieveAttrValue(Player player, User user, BenefitAttrCfg cfg, Map<String, Object> AttrMap) {
 		HeroMgr heroMgr = player.getHeroMgr();
-		BenefitAttrCfg cfg = benefitAttrCfgDAO.getCfgById(roleType.getIdStr());
 		String[] attrNames = cfg.getAttrName().split(",");
 		
 		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
@@ -48,6 +46,13 @@ public class AchieveCarrer extends AbsAchieveAttrValue{
 			index++;
 		}
 		
+		
+	}
+
+	@Override
+	public void addHeroAttrs(String userID, String heroID,
+			EAchieveType change, TargetSellRoleChange value) {
+		// TODO Auto-generated method stub
 		
 	}
 

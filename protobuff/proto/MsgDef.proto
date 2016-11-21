@@ -149,11 +149,14 @@ enum Command {
 	
 	Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 237; // 帮派争霸队伍功能优化消息协议
 	
+	MSG_FETTER_ACTIVITY_NOTIFY = 238; // 仙缘激活通知
+	
 	
 	
 	
 	MSG_ACTIVITY_TIMECARD_TYPE = 600;//活动；月卡;不是活动的协议不要往下接啊；往上接
 	MSG_ACTIVITY_EVILBAO = 601; //申公豹驾到
+	MSG_ACTIVITY_CHARGE_RANK = 602; //充值和消费排行榜
 	
 
 	MSG_FEEDBACK = 995;//客服功能

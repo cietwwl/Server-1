@@ -1,0 +1,18 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "HeroFetterProto";
+
+enum HeroFetterType {
+	MagicFetter = 1;
+	FixEquipFetter = 2;
+	HeroFetter = 3;
+}
+
+message HeroFetterInfo {
+	required fixed32 fetterId = 1;
+	required HeroFetterType type = 2;
+}
+
+message HeroFetterNotify {
+	repeated HeroFetterInfo fetterInfo = 1;
+}

@@ -11,8 +11,6 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
-import com.playerdata.activity.rankType.ActivityRankTypeEnum;
-import com.playerdata.activity.rankType.ActivityRankTypeHelper;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;

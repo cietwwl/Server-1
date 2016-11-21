@@ -1,0 +1,4 @@
+﻿Key,Remarks,id,sort,pushType,pushTime,tagTitle,tagIcon,title,annonceType,bg,announceTitle,announceContent,isShowButton,buttonText,gotoType,gotoTypeId
+1000000,,9000000,1,1,1:0:7,11月30日开服公告,act_3,公告,,,11月30日开服公告,欢迎玩家进入斗战封神,,,,
+1000001,,9000001,2,1,1:0:7,12月7日更新公告,act_3,公告,,,12月7日更新公告,欢迎玩家进入斗战封神,,,,
+1000002,,9000002,3,2,2:2016-11-10:2016-11-28,充值有礼,act_3,活动,1,Assets/Textures/PackIn/Business/BG_4.png,,,1,充值,,6

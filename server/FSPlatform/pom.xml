@@ -113,6 +113,11 @@
 			<scope>system</scope>
 			<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>csv</artifactId>
+			<version>1.2</version>
+		</dependency>
 	</dependencies>
 
 
