@@ -410,6 +410,28 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		return success;
 	}
+	
+	/**
+	 * 添加机器人的道具，临时方法
+	 * 解决不会触发战力的问题
+	 * @param cfgId
+	 * @param count
+	 * @return
+	 */
+	public boolean addRobotItem(int cfgId, int count) {
+		boolean success = true;
+		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
+			modifyCurrency(cfgId, count);
+		} else {// 操作道具
+			if (count <= 0) {
+				return false;
+			}
+			List<INewItem> newItemList = new ArrayList<INewItem>(1);
+			newItemList.add(new NewItem(cfgId, count, null));
+			success = updateItemBg(player, null, newItemList);
+		}
+		return success;
+	}
 
 	/**
 	 * 使用道具，为了简化外部调用者的处理，就直接把所有的错误或者异常信息都包含在当前这个方法里

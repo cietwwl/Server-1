@@ -38,5 +38,10 @@ public interface FriendGetOperation {
 //	 * @return
 //	 */
 //	public boolean addFriendItem(TableFriend host, String guestUserId, FriendResultVo resultVo);
-
+//
+//	/**
+//	 * 是否到达到人数上限
+//	 * @return
+//	 */
+//	public boolean isReachLimit();
 }

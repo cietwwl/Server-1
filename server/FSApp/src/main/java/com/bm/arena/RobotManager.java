@@ -90,14 +90,13 @@ public class RobotManager {
 	public void createRobots() {
 		ECareer[] carerrs = ECareer.values();
 		ArrayList<Integer> carerrList = new ArrayList<Integer>();
-		int count = 0;
 		for (ECareer c : carerrs) {
 			if (c != ECareer.None) {
 				int carerr = c.getValue();
 				carerrList.add(carerr);
-				count += ArenaBM.getInstance().getRanking(carerr).getRankingSize();
 			}
 		}
+		int count = ArenaBM.getInstance().getRanking().getRankingSize();
 		ArenaRobotCfg robotCfg = ArenaRobotCfgDAO.getInstance().getCfgById("7");
 		String[] arrName = robotCfg.getData().split(",");
 		int len = arrName.length;
@@ -111,47 +110,34 @@ public class RobotManager {
 		}
 		TreeMap<Integer, RobotEntryCfg> robots = RobotCfgDAO.getInstance().getAllArenaRobets();
 		ArenaBM arenaBM = ArenaBM.getInstance();
-		int size = carerrList.size();
+		int carerrSize = carerrList.size();
 		// 只用于存储。。哈哈
 		HashMap<Future<?>, ProductionCompletionTask> futures = new HashMap<Future<?>, ProductionCompletionTask>();
-		ExecutorService futureExecutor = Executors.newFixedThreadPool(size,new SimpleThreadFactory("robot"));
-		for (int career : carerrList) {
-			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(career);
-			if (listRanking == null) {
-				GameLog.error("RobotManager", "createRobots", "不存在竞技场排行榜：" + career);
-				continue;
-			}
-			int rankingSize = listRanking.getRankingSize();
-			int last = robots.lastKey();
-			if (rankingSize >= last) {
-				continue;
-			}
-			Map<Integer, RobotEntryCfg> map = robots.subMap(rankingSize, false, last, true);
-			ArrayList<ProductPlayerTask> productPlayerList = new ArrayList<ProductPlayerTask>(map.size());
-			for (Map.Entry<Integer, RobotEntryCfg> entry : map.entrySet()) {
-				// 随机名字
-				String userName = nameList.remove(nameList.size() - 1);
-				if (userName != null && !userName.isEmpty()) {
-					productPlayerList.add(new ProductPlayerTask(career, entry.getKey(), entry.getValue(), userName));
-				}
-			}
-			if (!productPlayerList.isEmpty()) {
-				ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(career, 5, productPlayerList);
-				Future<?> f = futureExecutor.submit(productionCompletionTask);
-				futures.put(f, productionCompletionTask);
+		ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking();
+		if (listRanking == null) {
+			GameLog.error("RobotManager", "createRobots", "不存在竞技场排行榜");
+			return;
+		}
+		int rankingSize = listRanking.getRankingSize();
+		int last = robots.lastKey();
+		if (rankingSize >= last) {
+			return;
+		}
+		Map<Integer, RobotEntryCfg> map = robots.subMap(rankingSize, false, last, true);
+		ArrayList<ProductPlayerTask> productPlayerList = new ArrayList<ProductPlayerTask>(map.size());
+		Random random = new Random();
+		for (Map.Entry<Integer, RobotEntryCfg> entry : map.entrySet()) {
+			// 随机名字
+			String userName = nameList.remove(nameList.size() - 1);
+			if (userName != null && !userName.isEmpty()) {
+				productPlayerList.add(new ProductPlayerTask(carerrList.get(random.nextInt(carerrSize)), entry.getKey(), entry.getValue(), userName));
 			}
 		}
-		for (Map.Entry<Future<?>, ProductionCompletionTask> entry : futures.entrySet()) {
-			try {
-				entry.getKey().get();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}
-			entry.getValue().close();
+		if (!productPlayerList.isEmpty()) {
+			ProductionCompletionTask productionCompletionTask = new ProductionCompletionTask(10, productPlayerList);
+			productionCompletionTask.run();
+			productionCompletionTask.close();
 		}
-		futureExecutor.shutdown();
 	}
 
 	public void createPeakArenaRobot() {
@@ -210,7 +196,6 @@ public class RobotManager {
 		} finally {
 			e.shutdown();
 		}
-
 	}
 
 	private static void addHero(Player player, String templateId, ArrayList<Hero> heroList, HeroMgr mgr, int[] heroLevel, int roleLevel) {
@@ -227,8 +212,8 @@ public class RobotManager {
 		if (lv > roleLevel) {
 			lv = roleLevel;
 		}
-//		hero.SetHeroLevel(lv);
-//		FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
+		// hero.SetHeroLevel(lv);
+		// FSHeroBaseInfoMgr.getInstance().setLevel(hero, lv);
 		hero.setLevel(lv);
 		heroList.add(hero);
 	}
@@ -239,11 +224,11 @@ public class RobotManager {
 		if (startLevel == 0) {
 			System.out.println();
 		}
-//		hero.setStarLevel(startLevel);
-//		hero.setQualityId(getQualityId(hero, quality));
-//		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
+		// hero.setStarLevel(startLevel);
+		// hero.setQualityId(getQualityId(hero, quality));
+		// FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, startLevel);
 		hero.setStarLevel(startLevel);
-//		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
+		// FSHeroBaseInfoMgr.getInstance().setQualityId(hero, getQualityId(hero, quality));
 		hero.setQualityId(getQualityId(hero, quality));
 	}
 
@@ -405,14 +390,12 @@ public class RobotManager {
 		private final ExecutorCompletionService<RankingPlayer> executor;
 		private final List<ProductPlayerTask> list;
 		private final AtomicBoolean startSwitch = new AtomicBoolean(false);
-		private final int carerr;
 		private final ExecutorService es;
 
-		public ProductionCompletionTask(int carerr, int threadCount, List<ProductPlayerTask> list) {
-			ExecutorService es = Executors.newFixedThreadPool(threadCount, new SimpleThreadFactory("职业-" + carerr));
+		public ProductionCompletionTask(int threadCount, List<ProductPlayerTask> list) {
+			ExecutorService es = Executors.newFixedThreadPool(threadCount, new SimpleThreadFactory("职业竞技场"));
 			this.executor = new ExecutorCompletionService<RankingPlayer>(es);
 			this.list = list;
-			this.carerr = carerr;
 			this.es = es;
 		}
 
@@ -443,9 +426,9 @@ public class RobotManager {
 					e.printStackTrace();
 				}
 			}
-			GameLog.info("RobotManager", "run", "职业[" + carerr + "]创建机器人完成");
+			GameLog.info("RobotManager", "run", "创建机器人完成");
 			ArenaBM arenaBM = ArenaBM.getInstance();
-			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking(carerr);
+			ListRanking<String, ArenaExtAttribute> listRanking = arenaBM.getRanking();
 			ArenaHandler handler = ArenaHandler.getInstance();
 			for (RankingPlayer task : set) {
 				Player player = task.getPlayer();
@@ -584,28 +567,27 @@ public class RobotManager {
 			Player player = new Player(userId, false, playerCfg, new PlayerCreateParam(level));
 			MapItemStoreFactory.notifyPlayerCreated(userId);
 
-			
 			// 品质
 
-//			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
+			// mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
 			player.initMgr();
 			PlayerMgr.getInstance().putToMap(player);
 			player.getUserDataMgr().setHeadId(headImage);
-			
+
 			player.getUserDataMgr().setUserName(userName);
-//			player.SetLevel(level);
+			// player.SetLevel(level);
 
 			Hero mainRoleHero = player.getHeroMgr().getMainRoleHero(player);
 			mainRoleHero.setLevel(level);
 			mainRoleHero.setQualityId(getQualityId(mainRoleHero, quality));
-//			FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
+			// FSHeroBaseInfoMgr.getInstance().setQualityId(mainRoleHero, getQualityId(mainRoleHero, quality));
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
 			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
 			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
-			
+
 			MapItemStoreFactory.getMainHeroDataCache().getMapItemStore(userId, FSHero.class).update(userId);
 			// String fashonId = getRandom(cfg.getFashions());
 			// if (!fashonId.equals("0")) {
@@ -616,12 +598,12 @@ public class RobotManager {
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
 			ItemBagMgr itemBagMgr = player.getItemBagMgr();
-			itemBagMgr.addItem(maigcId, 1);
+			itemBagMgr.addRobotItem(maigcId, 1);
 			ItemData magic = itemBagMgr.getItemListByCfgId(maigcId).get(0);
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
 			HeroMgr heroMgr = player.getHeroMgr();
-			
+
 			String heroGroupId = getRandom(cfg.getHeroGroupId());
 			List<RobotHeroCfg> heroCfgList = RobotHeroCfgDAO.getInstance().getRobotHeroCfg(heroGroupId);
 			if (heroCfgList == null) {

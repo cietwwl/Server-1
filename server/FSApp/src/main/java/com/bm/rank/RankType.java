@@ -31,20 +31,20 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// SECRET_RANK(2, 100000, "秘境", 1, SecretRankExtension.class),
 	LEVEL_PLAYER(2, 5000, "实时等级排行榜", 5, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	LEVEL_ALL(3, 5000, "实时等级排行榜", 5, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
-	
+
 	LEVEL_ALL_DAILY(4, 5000, "全日等级排行榜", 5, LevelExtension.class, RankingCopyerFactory.getLevelExtCopyer()),
 	FIGHTING_ALL(5, 5000, "实时战力排行榜", 5, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	FIGHTING_ALL_DAILY(6, 5000, "全日战力排行榜", 5, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	TEAM_FIGHTING(7, 5000, "实时小队排行榜", 5, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
 	TEAM_FIGHTING_DAILY(8, 5000, "全日小队排行榜", 5, FightingExtension.class, RankingCopyerFactory.getFightingCopyer()),
-	WARRIOR_ARENA(9, 5000, "实时力士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	WARRIOR_ARENA_DAILY(10, 5000, "全日力士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	SWORDMAN_ARENA(11, 5000, "实时剑士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	SWORDMAN_ARENA_DAILY(12, 5000, "全日剑士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	MAGICAN_ARENA(13, 5000, "实时术士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	MAGICAN_ARENA_DAILY(14, 5000, "全日术士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	PRIEST_ARENA(15, 5000, "实时祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	PRIEST_ARENA_DAILY(16, 5000, "全日祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// WARRIOR_ARENA(9, 5000, "实时力士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// WARRIOR_ARENA_DAILY(10, 5000, "全日力士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// SWORDMAN_ARENA(11, 5000, "实时剑士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// SWORDMAN_ARENA_DAILY(12, 5000, "全日剑士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// MAGICAN_ARENA(13, 5000, "实时术士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// MAGICAN_ARENA_DAILY(14, 5000, "全日术士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// PRIEST_ARENA(15, 5000, "实时祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	// PRIEST_ARENA_DAILY(16, 5000, "全日祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	GROUP_BASE_RANK(17, 99, "帮派排行榜", 5, GroupBaseRankExtension.class),
 	GROUP_MEMBER_NUM_RANK(18, 5000, "帮派成员排行榜", 5, GroupMemberNumRankExtension.class),
 	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 5, GroupCreateTimeRankExtension.class),
@@ -76,9 +76,11 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	ACTIVITY_CHARGE_RANK(37, 1000, "充值排行榜", 1, ChargeRankExtension.class),
 	// 消费排行榜
 	ACTIVITY_CONSUME_RANK(38, 1000, "消费排行榜", 1, ConsumeRankExtension.class),
-	;
-	
-	
+
+	// 竞技场排行榜
+	ARENA(39, 20000, "竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
+	ARENA_DAILY(40, 20000, "竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer());
+
 	private RankType(int type, int maxCapacity, String name, int updatePeriodMinutes, Class<? extends RankingExtension> clazz, RankingEntityCopyer copyer) {
 		this(type, maxCapacity, name, updatePeriodMinutes, clazz);
 		this.entityCopyer = copyer;
@@ -105,20 +107,26 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	static {
 		// TODO 兼容旧代码临时的区分实时和每日的方案
 		dailyMap = new HashMap<Integer, RankType>();
-		dailyMap.put(101, WARRIOR_ARENA_DAILY);
-		dailyMap.put(102, SWORDMAN_ARENA_DAILY);
-		dailyMap.put(103, MAGICAN_ARENA_DAILY);
-		dailyMap.put(104, PRIEST_ARENA_DAILY);
+		// dailyMap.put(101, WARRIOR_ARENA_DAILY);
+		// dailyMap.put(102, SWORDMAN_ARENA_DAILY);
+		// dailyMap.put(103, MAGICAN_ARENA_DAILY);
+		// dailyMap.put(104, PRIEST_ARENA_DAILY);
+
+		dailyMap.put(101, ARENA_DAILY);
+
 		dailyMap.put(105, PEAK_ARENA);
 		dailyMap.put(201, FIGHTING_ALL_DAILY);
 		dailyMap.put(203, TEAM_FIGHTING_DAILY);
 		dailyMap.put(301, LEVEL_ALL_DAILY);
 
 		realTimeMap = new HashMap<Integer, RankType>();
-		realTimeMap.put(101, WARRIOR_ARENA);
-		realTimeMap.put(102, SWORDMAN_ARENA);
-		realTimeMap.put(103, MAGICAN_ARENA);
-		realTimeMap.put(104, PRIEST_ARENA);
+		// realTimeMap.put(101, WARRIOR_ARENA);
+		// realTimeMap.put(102, SWORDMAN_ARENA);
+		// realTimeMap.put(103, MAGICAN_ARENA);
+		// realTimeMap.put(104, PRIEST_ARENA);
+
+		realTimeMap.put(101, ARENA);
+
 		realTimeMap.put(105, PEAK_ARENA);
 		realTimeMap.put(201, FIGHTING_ALL);
 		realTimeMap.put(203, TEAM_FIGHTING);
@@ -167,34 +175,14 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	 * 获取本职业 每日 排行类型 None(0), //新手 Warrior(1), //力士... SwordsMan(2), //行者... Magican(3), //术士... Priest(4); //祭祀...
 	 */
 	public static RankType getJobDay(int job) {
-		switch (job) {
-		case 1:
-			return WARRIOR_ARENA_DAILY;
-		case 2:
-			return SWORDMAN_ARENA_DAILY;
-		case 3:
-			return MAGICAN_ARENA_DAILY;
-		case 4:
-			return RankType.PRIEST_ARENA_DAILY;
-		}
-		return RankType.WARRIOR_ARENA_DAILY;
+		return RankType.ARENA_DAILY;
 	}
 
 	/**
 	 * 获取本职业 即时 排行类型 0.力士 1.行者 2.术士 3.祭司 -1.无职业
 	 */
 	public static RankType getJobCurrent(int job) {
-		switch (job) {
-		case 1:
-			return WARRIOR_ARENA;
-		case 2:
-			return SWORDMAN_ARENA;
-		case 3:
-			return MAGICAN_ARENA;
-		case 4:
-			return PRIEST_ARENA;
-		}
-		return RankType.WARRIOR_ARENA;
+		return RankType.ARENA;
 	}
 
 	public RankingEntityCopyer getEntityCopyer() {

@@ -98,41 +98,23 @@ public class RankingMgr {
 
 	public RankingMgr() {
 		this.operationMap = new EnumMap<RankType, RankingGetOperation>(RankType.class);
-		this.operationMap.put(RankType.WARRIOR_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
-		this.operationMap.put(RankType.SWORDMAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
-		this.operationMap.put(RankType.PRIEST_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
-		this.operationMap.put(RankType.MAGICAN_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
+		this.operationMap.put(RankType.ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.operationMap.put(RankType.PEAK_ARENA, RankingGetOperation.ARENA_GET_OPERATION);
 		this.operationMap.put(RankType.GROUP_FIGHTING_RANK, RankingGetOperation.GROUP_FIGHTING_GET_OPERATION);
 		this.defaultGetOp = RankingGetOperation.RANKING_GET_OPERATION;
 		// TODO 这个邮件id应该配置到竞技场配置表
 		this.emailMap = new EnumMap<ListRankingType, Pair<String, String>>(ListRankingType.class);
-		this.emailMap.put(ListRankingType.WARRIOR_ARENA, Pair.Create("10011", "10015"));
-		this.emailMap.put(ListRankingType.SWORDMAN_ARENA, Pair.Create("10012", "10016"));
-		this.emailMap.put(ListRankingType.MAGICAN_ARENA, Pair.Create("10013", "10017"));
-		this.emailMap.put(ListRankingType.PRIEST_ARENA, Pair.Create("10014", "10018"));
+		this.emailMap.put(ListRankingType.ARENA, Pair.Create("10011", "10015"));
 		// TODO 实时榜与昨日榜的映射关系
 		this.dailyMapping = new EnumMap<RankType, RankType>(RankType.class);
-		this.dailyMapping.put(RankType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY);
-		this.dailyMapping.put(RankType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY);
-		this.dailyMapping.put(RankType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY);
-		this.dailyMapping.put(RankType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY);
+		this.dailyMapping.put(RankType.ARENA, RankType.ARENA_DAILY);
 		this.dailyMapping.put(RankType.LEVEL_ALL, RankType.LEVEL_ALL_DAILY);
 		this.dailyMapping.put(RankType.FIGHTING_ALL, RankType.FIGHTING_ALL_DAILY);
 		this.dailyMapping.put(RankType.TEAM_FIGHTING, RankType.TEAM_FIGHTING_DAILY);
 		// 临时兼容配置的做法时
 		this.cfgMapping = new EnumMap<RankType, Integer>(RankType.class);
-		this.cfgMapping.put(RankType.WARRIOR_ARENA_DAILY, 101);
-		this.cfgMapping.put(RankType.WARRIOR_ARENA, 101);
-		this.cfgMapping.put(RankType.SWORDMAN_ARENA_DAILY, 102);
-		this.cfgMapping.put(RankType.SWORDMAN_ARENA, 102);
-
-		this.cfgMapping.put(RankType.MAGICAN_ARENA_DAILY, 103);
-		this.cfgMapping.put(RankType.MAGICAN_ARENA, 103);
-
-		this.cfgMapping.put(RankType.PRIEST_ARENA_DAILY, 104);
-		this.cfgMapping.put(RankType.PRIEST_ARENA, 104);
-
+		this.cfgMapping.put(RankType.ARENA_DAILY, 101);
+		this.cfgMapping.put(RankType.ARENA, 101);
 		this.cfgMapping.put(RankType.PEAK_ARENA, 105);
 		this.cfgMapping.put(RankType.PEAK_ARENA_FIGHTING, 105);
 
@@ -144,10 +126,7 @@ public class RankingMgr {
 		this.cfgMapping.put(RankType.GROUP_FIGHTING_RANK, 405);
 
 		this.worshipList = new ArrayList<String>();
-		worshipList.add(cfgMapping.get(RankType.WARRIOR_ARENA).toString());
-		worshipList.add(cfgMapping.get(RankType.SWORDMAN_ARENA).toString());
-		worshipList.add(cfgMapping.get(RankType.MAGICAN_ARENA).toString());
-		worshipList.add(cfgMapping.get(RankType.PRIEST_ARENA).toString());
+		worshipList.add(cfgMapping.get(RankType.ARENA).toString());
 		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
 		biLogDbMgr = new BILogDbMgr(dataSource);
 	}
@@ -287,10 +266,7 @@ public class RankingMgr {
 	 */
 	private void initAngelArrayTeamInfo() {
 		ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
-		list.addAll(RankingFactory.getSRanking(ListRankingType.WARRIOR_ARENA).getEntrysCopy());
-		list.addAll(RankingFactory.getSRanking(ListRankingType.SWORDMAN_ARENA).getEntrysCopy());
-		list.addAll(RankingFactory.getSRanking(ListRankingType.MAGICAN_ARENA).getEntrysCopy());
-		list.addAll(RankingFactory.getSRanking(ListRankingType.PRIEST_ARENA).getEntrysCopy());
+		list.addAll(RankingFactory.getSRanking(ListRankingType.ARENA).getEntrysCopy());
 
 		int allSize = list.size();// 几个竞技场排行榜的数据
 
@@ -349,10 +325,7 @@ public class RankingMgr {
 			// 第一次初始化的时候调用
 			if (lastResetText == null || lastResetText.isEmpty()) {
 				ArrayList<? extends ListRankingEntry<String, ArenaExtAttribute>> list = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
-				list.addAll(RankingFactory.getSRanking(ListRankingType.WARRIOR_ARENA).getEntrysCopy());
-				list.addAll(RankingFactory.getSRanking(ListRankingType.SWORDMAN_ARENA).getEntrysCopy());
-				list.addAll(RankingFactory.getSRanking(ListRankingType.MAGICAN_ARENA).getEntrysCopy());
-				list.addAll(RankingFactory.getSRanking(ListRankingType.PRIEST_ARENA).getEntrysCopy());
+				list.addAll(RankingFactory.getSRanking(ListRankingType.ARENA).getEntrysCopy());
 
 				Ranking<FightingComparable, RankingLevelData> fightingRanking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
 				Ranking<FightingComparable, RankingLevelData> fightingTeamRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
@@ -410,10 +383,7 @@ public class RankingMgr {
 		GameLog.info("RankingMgr", "arenaCalculate", "执行结算开始：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
 			ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>> settletList = new ArrayList<RankingEntityOfRank<ArenaSettleComparable, ArenaSettlement>>();
-			changeDailyData(ListRankingType.WARRIOR_ARENA, RankType.WARRIOR_ARENA_DAILY, settletList, resetMillis);
-			changeDailyData(ListRankingType.SWORDMAN_ARENA, RankType.SWORDMAN_ARENA_DAILY, settletList, resetMillis);
-			changeDailyData(ListRankingType.MAGICAN_ARENA, RankType.MAGICAN_ARENA_DAILY, settletList, resetMillis);
-			changeDailyData(ListRankingType.PRIEST_ARENA, RankType.PRIEST_ARENA_DAILY, settletList, resetMillis);
+			changeDailyData(ListRankingType.ARENA, RankType.ARENA_DAILY, settletList, resetMillis);
 			Ranking<ArenaSettleComparable, ArenaSettlement> settleRanking = RankingFactory.getRanking(RankType.ARENA_SETTLEMENT);
 			settleRanking.clearAndInsert(settletList);
 			rewardOnlinePlayers();
@@ -556,25 +526,8 @@ public class RankingMgr {
 	 */
 	public RankingLevelData getFirstRankingData(ECareer type) {
 		try {
-			RankType rankingType;
-			switch (type) {
-			case Warrior:
-				rankingType = RankType.WARRIOR_ARENA_DAILY;
-				break;
-			case SwordsMan:
-				rankingType = RankType.SWORDMAN_ARENA_DAILY;
-				break;
-			case Magican:
-				rankingType = RankType.MAGICAN_ARENA_DAILY;
-				break;
-			case Priest:
-				rankingType = RankType.PRIEST_ARENA_DAILY;
-				break;
-			default:
-				return null;
-			}
 
-			Ranking<?, ?> ranking = RankingFactory.getRanking(rankingType);
+			Ranking<?, ?> ranking = RankingFactory.getRanking(RankType.ARENA);
 			if (ranking == null) {
 				GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
 				return null;
