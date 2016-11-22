@@ -20,7 +20,6 @@ import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rw.service.ranking.ERankingType;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwproto.RankServiceProtos.RankInfo;
@@ -30,10 +29,11 @@ public class GmQueryPlayerRanking implements IGmTask {
 	static HashMap<Integer, RankType> RankTypeMap = new HashMap<Integer, RankType>();
 
 	static {
-		RankTypeMap.put(1, RankType.WARRIOR_ARENA);
-		RankTypeMap.put(2, RankType.SWORDMAN_ARENA);
-		RankTypeMap.put(3, RankType.MAGICAN_ARENA);
-		RankTypeMap.put(4, RankType.PRIEST_ARENA);
+		RankTypeMap.put(1, RankType.ARENA);
+//		RankTypeMap.put(1, RankType.WARRIOR_ARENA);
+//		RankTypeMap.put(2, RankType.SWORDMAN_ARENA);
+//		RankTypeMap.put(3, RankType.MAGICAN_ARENA);
+//		RankTypeMap.put(4, RankType.PRIEST_ARENA);
 		RankTypeMap.put(5, RankType.FIGHTING_ALL);
 		RankTypeMap.put(6, RankType.TEAM_FIGHTING);
 		RankTypeMap.put(7, RankType.LEVEL_ALL);
@@ -50,10 +50,8 @@ public class GmQueryPlayerRanking implements IGmTask {
 			RankType rankType = RankTypeMap.get(type);
 
 			switch (rankType) {
-			case WARRIOR_ARENA:
-			case SWORDMAN_ARENA:
-			case MAGICAN_ARENA:
-			case PRIEST_ARENA:
+//			case WARRIOR_ARENA:
+			case ARENA:
 			case LEVEL_ALL:
 			case FIGHTING_ALL:
 			case TEAM_FIGHTING:
@@ -81,10 +79,11 @@ public class GmQueryPlayerRanking implements IGmTask {
 			int value;
 			int levOrPoint = rankInfo.getLevel();
 			switch (rankType) {
-			case WARRIOR_ARENA:
-			case SWORDMAN_ARENA:
-			case MAGICAN_ARENA:
-			case PRIEST_ARENA:
+//			case WARRIOR_ARENA:
+//			case SWORDMAN_ARENA:
+//			case MAGICAN_ARENA:
+//			case PRIEST_ARENA:
+			case ARENA:
 			case TEAM_FIGHTING:
 			case LEVEL_ALL:
 				value = rankInfo.getFightingTeam();

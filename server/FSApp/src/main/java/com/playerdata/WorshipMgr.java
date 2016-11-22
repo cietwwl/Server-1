@@ -41,30 +41,30 @@ public class WorshipMgr {
 	
 	/**重新排行，第一名排行数据改变*/
 	public synchronized void changeFirstRanking(RankType rankingType){
-		ECareer career;
-		switch(rankingType){
-			case WARRIOR_ARENA_DAILY:
-				career = ECareer.Warrior;
-				break;
-			case SWORDMAN_ARENA_DAILY:
-				career = ECareer.SwordsMan;
-				break;
-			case MAGICAN_ARENA_DAILY:
-				career = ECareer.Magican;
-				break;
-			case PRIEST_ARENA_DAILY:
-				career = ECareer.Priest;
-				break;
-			default:
-				career = ECareer.None;
-				break;
-		}
-		if(career == ECareer.None){
-			return;
-		}
+//		ECareer career;
+//		switch(rankingType){
+//			case WARRIOR_ARENA_DAILY:
+//				career = ECareer.Warrior;
+//				break;
+//			case SWORDMAN_ARENA_DAILY:
+//				career = ECareer.SwordsMan;
+//				break;
+//			case MAGICAN_ARENA_DAILY:
+//				career = ECareer.Magican;
+//				break;
+//			case PRIEST_ARENA_DAILY:
+//				career = ECareer.Priest;
+//				break;
+//			default:
+//				career = ECareer.None;
+//				break;
+//		}
+//		if(career == ECareer.None){
+//			return;
+//		}
 		
-		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		sendWorshipReward(career);
+		TableWorship tableWorship = worshipDao.get(String.valueOf(ECareer.Warrior.getValue()));
+		sendWorshipReward(ECareer.Warrior);
 		tableWorship.clear();
 		worshipDao.update(tableWorship);
 //		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());

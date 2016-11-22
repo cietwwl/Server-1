@@ -26,7 +26,7 @@ import com.rwbase.gameworld.GameWorldKey;
 public class GmGetRankList implements IGmTask {
 
 	public enum RankInfoType {
-		FIGHTING, LEVEL, PRIEST_ARENA, SWORDMAN_ARENA, WARRIOR_ARENA, MAGICAN_ARENA, GROUP;
+		FIGHTING, LEVEL, PRIEST_ARENA, SWORDMAN_ARENA, WARRIOR_ARENA, MAGICAN_ARENA, GROUP, ARENA;
 	}
 
 	@Override

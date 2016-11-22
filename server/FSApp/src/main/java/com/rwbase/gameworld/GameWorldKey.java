@@ -47,6 +47,8 @@ public enum GameWorldKey {
 
 	MAGICAN_ARENA(GmGetRankList.RankInfoType.MAGICAN_ARENA.name()),
 
+	ARENA(GmGetRankList.RankInfoType.ARENA.name()),
+	
 	GROUP(GmGetRankList.RankInfoType.GROUP.name()),
 	
 	/**

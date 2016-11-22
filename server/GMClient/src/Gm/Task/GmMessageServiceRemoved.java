@@ -11,12 +11,12 @@ public class GmMessageServiceRemoved extends AGMHandler{
 
 	@Override
 	public GmRequest createGmRequest() {
-		this.opType = 20076;
+		this.opType = 99996;
 		this.account = GMManager.ACCOUNT_VALUE;
 		this.password = GMManager.PASSWORD_VALUE;
 		
 		Map<String, Object> args = new HashMap<String, Object>();
-		args.put("command", "MSG_RANKING");
+		args.put("command", "MSG_DAILY_ACTIVITY");
 		
 		GmRequest gmRequest = new GmRequest();
 		gmRequest.setOpType(opType);

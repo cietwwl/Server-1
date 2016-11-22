@@ -74,7 +74,15 @@ public class RobotCfgDAO extends CfgCsvDao<RobotCfg> {
 			robotId2TypeMap_.put(e.getKey(), robotType);
 		}
 
-		arenaRobots = arenaRobots_;
+		TreeMap<Integer, RobotEntryCfg> arena4timesRobots = new TreeMap<Integer, RobotEntryCfg>();
+		int ranking = 0;
+		for (RobotEntryCfg cfg : arenaRobots_.values()) {
+			for (int i = 0; i < 4; i++) {
+				arena4timesRobots.put(++ranking, cfg);
+			}
+		}
+
+		arenaRobots = arena4timesRobots;
 		peakArenaRobots = peakArenaRobots_;
 		robotMap = robotMap_;
 		robotId2TypeMap = robotId2TypeMap_;
