@@ -54,4 +54,10 @@ public abstract class GrowthFundRewardAbsCfg extends BaseConfig implements Activ
 		}
 		rewardItemInfos = Collections.unmodifiableList(tempList);
 	}
+	
+	@Override
+	public void setCfgReward(String reward) {
+		this.rewardContents = reward;
+		ExtraInitAfterLoad();
+	}
 }

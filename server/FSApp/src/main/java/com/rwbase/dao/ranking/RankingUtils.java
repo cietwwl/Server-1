@@ -37,6 +37,10 @@ public class RankingUtils {
 	public static RankInfo createOneRankInfo(RankingLevelData levelData, int ranking, boolean realTime, RankType type) {
 		return entity.createOneRankInfo(levelData, ranking, realTime, type);
 	}
+	
+	public static RankInfo createOneRankInfo(ListRankingEntry<String, ArenaExtAttribute> entry, int ranking) {
+		return entity.createOneRankInfo(entry, ranking, false, null);
+	}
 
 	public static List<RankingTeamData> createTeamData(ERankingType rankType, String userId, RefInt refInt) {
 		return entity.createTeamData(rankType, userId, refInt);

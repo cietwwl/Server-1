@@ -1,6 +1,8 @@
 package com.rw.dataaccess.attachment;
 
 import com.playerdata.activity.VitalityType.data.ActivityVitalityTypeItem;
+import com.playerdata.activity.chargeRank.data.ActivityChargeRankItem;
+import com.playerdata.activity.consumeRank.data.ActivityConsumeRankItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
@@ -16,6 +18,8 @@ import com.playerdata.activity.redEnvelopeType.data.ActivityRedEnvelopeTypeItem;
 import com.playerdata.activity.retrieve.data.RewardBackItem;
 import com.playerdata.activity.timeCardType.data.ActivityTimeCardTypeItem;
 import com.playerdata.activity.timeCountType.data.ActivityTimeCountTypeItem;
+import com.rw.dataaccess.attachment.creator.ActivityChargeRankCreator;
+import com.rw.dataaccess.attachment.creator.ActivityConsumeRankCreator;
 import com.rw.dataaccess.attachment.creator.ActivityCountTypeCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyDiscountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityDailyRechargeCreator;
@@ -90,6 +94,11 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_GROWTHFUND(19, ActivityGrowthFundItem.class, ActivityGrowthFundCreator.class),
 	/**通用活动，申公豹驾到；不一定触发，创建即生成空数据*/
 	ACTIVITY_EVILBAOARRIVE(20, EvilBaoArriveItem.class, EvilBaoArriveCreator.class),
+	/**通用活动，充值排行榜；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
+	ACTIVITY_CHARGE_RANK(21, ActivityChargeRankItem.class, ActivityChargeRankCreator.class),
+	/**通用活动，消费排行榜；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
+	ACTIVITY_CONSUME_RANK(22, ActivityConsumeRankItem.class, ActivityConsumeRankCreator.class),
+	
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;

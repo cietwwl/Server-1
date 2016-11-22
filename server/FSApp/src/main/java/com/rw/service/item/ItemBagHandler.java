@@ -139,6 +139,7 @@ public class ItemBagHandler {
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();// 要使用的道具列表
 		List<INewItem> newItemList = new ArrayList<INewItem>();// 要新创建的道具列表
 		Map<Integer, Integer> currencyMap = new HashMap<Integer, Integer>();// 消耗的货币列表
+		boolean containsMagic = false;
 
 		for (int i = 0, size = composeList.size(); i < size; i++) {
 			TagCompose compose = composeList.get(i);
@@ -193,13 +194,25 @@ public class ItemBagHandler {
 			}
 
 			// 检查一下是不是宝石
-			if (ItemCfgHelper.getItemType(mateId) == EItemTypeDef.Gem) {
+			EItemTypeDef itemType = ItemCfgHelper.getItemType(mateId);
+			switch (itemType) {
+			case Gem:
 				player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.JEWEREY_COMPOSE, 1);
+				break;
+			case Magic_Piece:
+				containsMagic = true;
+				break;
+			default:
+				break;
 			}
 		}
 
 		itemBagMgr.useLikeBoxItem(useItemList, newItemList, currencyMap);
-
+		
+		if(containsMagic) {
+			player.getMe_FetterMgr().notifyMagicChange(player);
+		}
+		
 		return response.build().toByteString();
 	}
 

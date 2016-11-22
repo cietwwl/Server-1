@@ -15,6 +15,9 @@ public class DateUtils {
 	private static ThreadLocal<SimpleDateFormat> formate_hhmmss = new ThreadLocal<SimpleDateFormat>();
 	private static ThreadLocal<SimpleDateFormat> formate_yyyyMMddHHmm = new ThreadLocal<SimpleDateFormat>();
 	private static ThreadLocal<Calendar> currentCalendar = new ThreadLocal<Calendar>();
+	
+	public static long DayTime = 24 * 60 * 60 * 1000l;
+	
 	private static volatile long secondLevelMillis;
 
 	static {
@@ -58,6 +61,10 @@ public class DateUtils {
 
 	public static int getCurMinuteOfHour() {
 		return getCurrent().get(Calendar.MINUTE);
+	}
+	
+	public static int getCurrentDayOfYear() {
+		return getCurrent().get(Calendar.DAY_OF_YEAR);
 	}
 
 	private static final long DAY_MILLIS = TimeUnit.DAYS.toMillis(1);// 1天的毫秒数
@@ -513,6 +520,27 @@ public class DateUtils {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
 		Calendar instance = Calendar.getInstance();
 		return simpleDateFormat.format(instance.getTime());
+	}
+	
+	/**
+	 * 根据字符串获取时间
+	 * @param time
+	 * @param format
+	 * @return
+	 */
+	public static long getDateTimeFormatTime(String time, String format, int hour) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
+		Date dateTime;
+		try {
+			dateTime = simpleDateFormat.parse(time);
+
+			long time2 = dateTime.getTime();
+			return getHour(time2, hour);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	public static String timeToCountDown(long time) {

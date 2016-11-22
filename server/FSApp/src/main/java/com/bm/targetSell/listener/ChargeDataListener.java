@@ -22,7 +22,6 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 	public void notifyDataChanged(SignleChangedEvent<ChargeInfo> event) {
 		ChargeInfo currentRecord = event.getCurrentRecord();
 		ChargeInfo oldRecord = event.getOldRecord();
-		Player player = PlayerMgr.getInstance().find(oldRecord.getUserId());
 		if(currentRecord.getTotalChargeGold() != oldRecord.getTotalChargeGold()){
 //			System.err.println("gold change-------------------------old charge:" + oldRecord.getTotalChargeGold()
 //					+ ",cur charge:" + currentRecord.getTotalChargeGold());
@@ -32,9 +31,7 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 //			System.err.println("money change =======================================" + oldRecord.getTotalChargeMoney()
 //					+ ", cur money:" + currentRecord.getTotalChargeMoney());
 //			TargetSellManager.getInstance().increaseChargeMoney(currentRecord.getUserId(), currentRecord.getTotalChargeMoney());
-			List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-			roleAttrsList.add(ERoleAttrs.r_Charge);
-			TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(oldRecord.getUserId(), ERoleAttrs.r_Charge.getId());
 		}
 		
 	}

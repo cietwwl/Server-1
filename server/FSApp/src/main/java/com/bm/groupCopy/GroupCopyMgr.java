@@ -12,6 +12,7 @@ import java.util.Set;
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
+import com.bm.group.GroupMemberMgr;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyItemComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyRoleComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.DamageComparator;
@@ -369,7 +370,7 @@ public class GroupCopyMgr {
 			GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 			
 			ArmyInfo info = ArmyInfoHelper.getArmyInfo(player.getUserId(), heroList);
-			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info, player.getUserId());
+			GroupCopyArmyDamageInfo damageInfo = armyInfo2DamageInfo(info, player);
 			damageInfo.setDamage(damage);
 			mapRecordHolder.checkDamageRank(cfg.getChaterID(),damageInfo);
 			//关卡全服单次伤害排行
@@ -388,9 +389,9 @@ public class GroupCopyMgr {
 	}
 
 
-	public static GroupCopyArmyDamageInfo armyInfo2DamageInfo(ArmyInfo info, String playerID) {
+	public static GroupCopyArmyDamageInfo armyInfo2DamageInfo(ArmyInfo info, Player player) {
 		GroupCopyArmyDamageInfo damageInfo = new GroupCopyArmyDamageInfo();
-		damageInfo.setPlayerID(playerID);
+		damageInfo.setPlayerID(player.getUserId());
 		damageInfo.setTime(System.currentTimeMillis());
 		
 		GroupCopyTeamInfo teamInfo = new GroupCopyTeamInfo();
@@ -410,8 +411,9 @@ public class GroupCopyMgr {
 		teamInfo.setPlayer(initTeamHero(tHero, info.getPlayer()));
 		teamInfo.setPlayerHeadImage(info.getPlayerHeadImage());
 		teamInfo.setPlayerName(info.getPlayerName());
-		
+		teamInfo.setPlayerHeadFrame(player.getHeadFrame());
 		damageInfo.setArmy(teamInfo);
+		
 		return damageInfo;
 	}
 
@@ -668,6 +670,7 @@ public class GroupCopyMgr {
 			struct.setLv(item.getArmy().getPlayer().getLevel());
 			struct.setKillTime(item.getTime());
 			struct.setDamage(item.getDamage());
+			struct.setHeadFrame(role.getHeadFrame());
 			hr.addRankData(struct);
 		}
 		
@@ -762,8 +765,9 @@ public class GroupCopyMgr {
 	 * 检查并发送帮派定时奖励
 	 * @param groupName
 	 */
-	public void checkAndSendGroupPriceMail(String groupName){
+	public void checkAndSendGroupPriceMail(Group group){
 		try {
+			String groupName = group.getGroupBaseDataMgr().getGroupData().getGroupName();
 			List<CopyItemDropAndApplyRecord> itemList = dropHolder.getItemList();
 			//检查每个章节
 			List<ApplyInfo> applyInfo = new ArrayList<ApplyInfo>();
@@ -791,9 +795,8 @@ public class GroupCopyMgr {
 					//找到符合的申请人，在物品掉落后进入帮派的不可以分
 					for (int i = 0; i < applyInfo.size(); i++) {
 						apply = applyInfo.get(i);
-						Player applyRole = PlayerMgr.getInstance().find(apply.getRoleID());
-						UserGroupAttributeDataIF baseData = applyRole.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-						if(baseData == null || (drop.getTime() < baseData.getJoinTime())){
+						GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(apply.getRoleID(), false);
+						if(memberData == null || (drop.getTime() < memberData.getReceiveTime())){
 //							System.out.println(String.format("item drop time [%s], role[%s] join group time [%s], he can't get item",
 //									DateUtils.getDateTimeFormatString(drop.getTime(), "yyyy-MM-dd HH:mm:ss"),applyRole.getUserName(),
 //									DateUtils.getDateTimeFormatString(baseData.getJoinTime(), "yyyy-MM-dd hh:m:ss")));
@@ -983,7 +986,6 @@ public class GroupCopyMgr {
 				member.setRoleName(m.getName());
 				member.setDamage(getRoleDamage(m.getUserId(), mapID));
 				if(m.getReceiveTime() > dropTime){
-					
 					member.setCanDist(false);
 				}else{
 					member.setCanDist(true);

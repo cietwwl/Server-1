@@ -5,6 +5,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import com.bm.notice.NoticeMgr;
+
 public class ServerGmNoticeHolder {
 	private ServerGmNoticeDao serverGmNoticeDao = ServerGmNoticeDao.getInstance();
 	private HashMap<Long, ServerGmNotice> GmNoticeMap = new HashMap<Long, ServerGmNotice>();

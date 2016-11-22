@@ -208,7 +208,7 @@ public class GroupSkillHandler {
 		}
 
 		// 检查个人的帮派贡献
-		int contribution = memberData.getContribution();
+		int contribution = baseData.getContribution();
 		int studyNeedContribution = skillLevelTemplate.getStudyNeedContribution();
 		if (studyNeedContribution > contribution) {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "帮派贡献不足");

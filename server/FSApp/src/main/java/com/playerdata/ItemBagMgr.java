@@ -388,6 +388,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param bagOperation 是否直接背包操作
 	 */
 	private boolean addItem0(int cfgId, int count) {
+		boolean success = true;
 		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
 			modifyCurrency(cfgId, count);
 		} else {// 操作道具
@@ -398,14 +399,38 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			List<INewItem> newItemList = new ArrayList<INewItem>(1);
 			newItemList.add(new NewItem(cfgId, count, null));
 
-			return updateItemBg(player, null, newItemList);
+			success = updateItemBg(player, null, newItemList);
+			if (success) {
+				// 通知羁绊检查法宝
+				if (ItemCfgHelper.getItemType(cfgId) == EItemTypeDef.Magic) {
+					player.getMe_FetterMgr().notifyMagicChange(player);
+				}
+			}
 		}
 
-		// 通知羁绊检查法宝
-		if (ItemCfgHelper.getItemType(cfgId) == EItemTypeDef.Magic) {
-			player.getMe_FetterMgr().notifyMagicChange(player);
+		return success;
+	}
+	
+	/**
+	 * 添加机器人的道具，临时方法
+	 * 解决不会触发战力的问题
+	 * @param cfgId
+	 * @param count
+	 * @return
+	 */
+	public boolean addRobotItem(int cfgId, int count) {
+		boolean success = true;
+		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
+			modifyCurrency(cfgId, count);
+		} else {// 操作道具
+			if (count <= 0) {
+				return false;
+			}
+			List<INewItem> newItemList = new ArrayList<INewItem>(1);
+			newItemList.add(new NewItem(cfgId, count, null));
+			success = updateItemBg(player, null, newItemList);
 		}
-		return true;
+		return success;
 	}
 
 	/**

@@ -69,10 +69,11 @@ public class FSGameTimerMgr {
 			IGameTimerTask instance = clazz.newInstance();
 			submitInfos.add(new Object[] { instance, type.getHourOfDay(), type.getMinute(), type.getType() });
 		}
-		if (FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis() > 0) {
+		long lastShutdownMillis = FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis();
+		if (lastShutdownMillis > 0) {
 			// 檢查所有超時的任務
 			Calendar lastShutdownCalendar = Calendar.getInstance();
-			lastShutdownCalendar.setTimeInMillis(FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis());
+			lastShutdownCalendar.setTimeInMillis(lastShutdownMillis);
 			for (int i = 0; i < submitInfos.size(); i++) {
 				Object[] temp = submitInfos.get(i);
 				FSGameTimeSignal timeSignal = this.manualExecute(lastShutdownCalendar, (IGameTimerTask) temp[0], (Integer) temp[1], (Integer) temp[2]);

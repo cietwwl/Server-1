@@ -133,6 +133,7 @@ public class DailyActivityHandler {
 					GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + data.getTaskId(), null);
 					continue;
 				}
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK,0,entity.getCfg().getId());
 				// 从任务列表中删除该任务
 				if(activityMgr.RemoveTaskById(data.getTaskId()))
 				{

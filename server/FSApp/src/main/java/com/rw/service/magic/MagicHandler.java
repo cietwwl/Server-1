@@ -232,6 +232,8 @@ public class MagicHandler {
 		updateItems.add(itemData);
 		itemBagMgr.syncItemData(updateItems);
 
+		// 通知法宝神器羁绊
+		player.getMe_FetterMgr().notifyMagicChange(player);
 		return msgMagicResponse.build().toByteString();
 	}
 

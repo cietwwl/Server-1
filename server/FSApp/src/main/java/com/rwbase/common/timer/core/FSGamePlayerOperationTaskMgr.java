@@ -133,14 +133,26 @@ public class FSGamePlayerOperationTaskMgr {
 	
 	void serverStartComplete() throws Exception {
 		// 服務器啟動完成的通知
-		if (FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis() > 0) {
+		FSGameTimerSaveData saveData = FSGameTimerSaveData.getInstance();
+		long shutdownTimeMillis = saveData.getLastServerShutdownTimeMillis();
+		if (shutdownTimeMillis > 0) {
 			// 檢查所有超時的任務
-			Calendar lastShutdownCalendar = Calendar.getInstance();
-			lastShutdownCalendar.setTimeInMillis(FSGameTimerSaveData.getInstance().getLastServerShutdownTimeMillis());
-			for (Iterator<Map.Entry<Integer, FSGamePlayerOperationDailyTask>> itr = _dailyTaskInstanceMap.entrySet().iterator(); itr.hasNext();) {
-				Map.Entry<Integer, FSGamePlayerOperationDailyTask> entry = itr.next();
-				if (FSGameTimerSaveData.getInstance().getLastExecuteTimeOfPlayerTask(entry.getKey()) > 0) {
-					entry.getValue().manualExecute(lastShutdownCalendar);
+			Calendar lastExecuteCalendar = Calendar.getInstance();
+			long lastExeccuteTime;
+			int subType;
+			for (Iterator<Integer> itr = _dailyTaskInstanceMap.keySet().iterator(); itr.hasNext();) {
+				Integer key = itr.next();
+				FSGamePlayerOperationDailyTask task = _dailyTaskInstanceMap.get(key);
+				List<Integer> subTaskTypes = task.getSubTaskTypes();
+				for (int i = 0, size = subTaskTypes.size(); i < size; i++) {
+					subType = subTaskTypes.get(i);
+					lastExeccuteTime = saveData.getLastExecuteTimeOfPlayerTask(subType);
+					if (lastExeccuteTime > 0) {
+						lastExecuteCalendar.setTimeInMillis(lastExeccuteTime);
+					} else {
+						lastExecuteCalendar.setTimeInMillis(shutdownTimeMillis);
+					}
+					task.manualExecute(lastExecuteCalendar, subType);
 				}
 			}
 		}

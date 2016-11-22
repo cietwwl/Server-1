@@ -1,8 +1,10 @@
-package com.bm.rank.charge;
+package com.bm.rank.recharge;
 
 public class ChargeComparable implements Comparable<ChargeComparable> {
 
 	private int charge;
+	
+	private long time;
 
 	@Override
 	public int compareTo(ChargeComparable o) {
@@ -17,7 +19,11 @@ public class ChargeComparable implements Comparable<ChargeComparable> {
 		this.charge = charge;
 	}
 
-	
-	
+	public long getTime() {
+		return time;
+	}
 
+	public void setTime(long time) {
+		this.time = time;
+	}
 }

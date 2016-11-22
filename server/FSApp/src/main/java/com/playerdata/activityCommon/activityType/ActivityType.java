@@ -82,4 +82,8 @@ public class ActivityType<D extends CfgCsvDao<? extends ActivityCfgIF>, T extend
 	public AbstractActivityMgr<?> getActivityMgr() {
 		return activityMgr;
 	}
+	
+	public boolean equals(ActivityType type){
+		return this.typeId == type.typeId;
+	}
 }

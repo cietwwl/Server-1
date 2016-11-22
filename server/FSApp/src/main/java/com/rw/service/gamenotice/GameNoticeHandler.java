@@ -1,58 +1,73 @@
 package com.rw.service.gamenotice;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
+import java.util.List;
 
+import com.bm.notice.Notice;
+import com.bm.notice.NoticeMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
-import com.rw.manager.GameManager;
-import com.rwbase.dao.gameNotice.TableGameNotice;
-import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
-import com.rwproto.NoticeProtos.ENoticeType;
 import com.rwproto.NoticeProtos.NoticeRequest;
 import com.rwproto.NoticeProtos.NoticeResponse;
 import com.rwproto.NoticeProtos.tagNoticeInfo;
 
 /**
- * 通告处理 
+ * 通告处理
+ * 
  * @author lida
  *
  */
 public class GameNoticeHandler {
 	private static GameNoticeHandler instance;
-	
-	public GameNoticeHandler(){}
-	
-	public static GameNoticeHandler getInstance(){
-		if(instance == null){
+
+	public GameNoticeHandler() {
+	}
+
+	public static GameNoticeHandler getInstance() {
+		if (instance == null) {
 			instance = new GameNoticeHandler();
 		}
 		return instance;
 	}
-	
-	public ByteString requestGameNotice(NoticeRequest request, Player player){
-		ENoticeType type = request.getType();
+
+	public ByteString requestGameNotice(NoticeRequest request, Player player) {
 		NoticeResponse.Builder response = NoticeResponse.newBuilder();
-		response.setType(type);
-		
-		GameNoticeDataHolder gameNotice = GameManager.getGameNotice();
-		
-		HashMap<Integer, TableGameNotice> gameNotices = gameNotice.getGameNotices();
-		if(gameNotices.size() > 0){
+
+		List<Notice> noticeList = NoticeMgr.getInstance().getNoticeList();
+
+		if (noticeList.size() > 0) {
 			long currentTimeMillis = System.currentTimeMillis();
-			for (Iterator<Entry<Integer, TableGameNotice>> iterator = gameNotices.entrySet().iterator(); iterator.hasNext();) {
-				Entry<Integer, TableGameNotice> entry = iterator.next();
-				TableGameNotice notice = entry.getValue();
-				if ((notice.getStartTime() * 1000) <= currentTimeMillis && (notice.getEndTime() * 1000) >= currentTimeMillis) {
+			for (Notice notice : noticeList) {
+				if (notice.getStartTime() <= currentTimeMillis && notice.getEndTime() >= currentTimeMillis) {
 					tagNoticeInfo.Builder noticeInfo = tagNoticeInfo.newBuilder();
+					noticeInfo.setNoticeId(notice.getId());
+					noticeInfo.setSort(notice.getSort());
+					noticeInfo.setTagTitle(notice.getTagTitle());
+					noticeInfo.setTagIcon(notice.getTagIcon());
 					noticeInfo.setTitle(notice.getTitle());
-					noticeInfo.setContent(notice.getContent());
+					int annoceType = notice.getAnnoceType();
+					noticeInfo.setAnnonceType(annoceType);
+					if (annoceType == NoticeMgr.AnnonceType_Word) {
+						noticeInfo.setAnnounceTitle(notice.getAnnounceTitle());
+						noticeInfo.setAnnounceContent(notice.getAnnounceContent());
+					}
+					if (annoceType == NoticeMgr.AnnonceType_Pic) {
+						noticeInfo.setBg(notice.getBg());
+					}
+					if (notice.getIsShowButton() != 0) {
+						noticeInfo.setIsShowButton(notice.getIsShowButton());
+						noticeInfo.setButtonText(notice.getButtonText());
+						noticeInfo.setGotoType(notice.getGotoType());
+						noticeInfo.setGotoTypeId(notice.getGotoTypeId());
+
+					}
+					noticeInfo.setIsConfig(notice.isConfigNotice() ? 1 : 0);
 					response.addNotice(noticeInfo);
 				}
+
 			}
+
 		}
 		return response.build().toByteString();
 	}
-	
+
 }

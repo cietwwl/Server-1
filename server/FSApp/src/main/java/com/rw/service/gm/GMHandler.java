@@ -2,6 +2,7 @@ package com.rw.service.gm;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -35,6 +36,7 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
+import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
@@ -81,6 +83,8 @@ import com.rwbase.dao.copypve.CopyType;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
+import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
@@ -108,6 +112,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.eChatType;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
@@ -291,6 +296,12 @@ public class GMHandler {
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
 		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
+
+		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
+		
+		//修改活动配置的时间和奖励
+		funcCallBackMap.put("setcfgtime", "setCfgTime");
+		funcCallBackMap.put("setcfgreward", "setCfgReward");
 	}
 
 	public boolean isActive() {
@@ -886,11 +897,11 @@ public class GMHandler {
 	}
 
 	public boolean sendEmail(String[] arrCommandContents, Player player) {
-		if (arrCommandContents == null || arrCommandContents.length < 2) {
+		if (arrCommandContents == null /* || arrCommandContents.length < 2 */) {
 			System.out.println(" command param not right ...");
 			return false;
 		}
-		EmailUtils.sendEmail(player.getUserId(), arrCommandContents[0], arrCommandContents[1]);
+		EmailUtils.sendEmail(player.getUserId(), arrCommandContents[0], arrCommandContents.length > 2 ? arrCommandContents[1] : null);
 		return true;
 	}
 
@@ -1322,19 +1333,22 @@ public class GMHandler {
 			tableBattleTower.setResetTimes(0);
 			TableBattleTowerDao.getDao().update(tableBattleTower);
 		} else if (functionName.equalsIgnoreCase("dt")) {
-			UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+			UserGroupAttributeData userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData();
 			String groupId = userGroupAttributeData.getGroupId();
 			if (StringUtils.isEmpty(groupId)) {
 				return false;
 			}
 
-			Group group = GroupBM.get(groupId);
-			if (group == null) {
-				return false;
-			}
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 
-			GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+			// Group group = GroupBM.get(groupId);
+			// if (group == null) {
+			// return false;
+			// }
+			//
+			// GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
+			// groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
 		}
 
 		return true;
@@ -1402,7 +1416,7 @@ public class GMHandler {
 				return false;
 			}
 
-			int su = memberData.getContribution() + value;
+			int su = baseGroupData.getContribution() + value;
 			if (su < 0) {
 				return false;
 			}
@@ -2176,13 +2190,84 @@ public class GMHandler {
 		MsgChatRequest.Builder chatRequestBuilder = MsgChatRequest.newBuilder();
 		chatRequestBuilder.setChatMessageData(chatMsgBuilder.build());
 		chatRequestBuilder.setChatType(eChatType.CHANNEL_WORLD);
-//		com.rwproto.RequestProtos.RequestHeader.Builder headerBuilder = com.rwproto.RequestProtos.RequestHeader.newBuilder();
-//		headerBuilder.setCommand(com.rwproto.MsgDef.Command.MSG_CHAT);
-//		com.rwproto.RequestProtos.RequestBody.Builder bodyBuilder = com.rwproto.RequestProtos.RequestBody.newBuilder();
-//		bodyBuilder.setSerializedContent(chatRequestBuilder.build().toByteString());
-//		com.rwproto.RequestProtos.Request.Builder requestBuilder = com.rwproto.RequestProtos.Request.newBuilder();
-//		this.assumeSendRequest(target, requestBuilder.setHeader(headerBuilder.build()).setBody(bodyBuilder.build()).build());
 		ChatHandler.getInstance().chatWorld(target, chatRequestBuilder.build());
 		return true;
+	}
+
+	public boolean sendOneHundredEmails(String[] arrCommandContents, Player player) {
+		GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
+
+			@Override
+			public void run(Player e) {
+				Calendar instance = Calendar.getInstance();
+				instance.add(Calendar.DAY_OF_YEAR, 7);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+				String deadline = sdf.format(instance.getTime());
+				for (int i = 0; i < 100; i++) {
+					EmailData emailData = new EmailData();
+					emailData.setTitle("标题_" + (1000 + i));
+					emailData.setContent("邮件内容：" + (1000 + i));
+					emailData.setSender("神探夏洛克");
+					emailData.setCheckIcon("btn_YouJian_h");
+					emailData.setSubjectIcon("btn_YouJian_n");
+					emailData.setDeleteType(EEmailDeleteType.GET_DELETE);
+					emailData.setDeadlineTime(deadline);
+					emailData.setCfgid("10001");
+					emailData.setEmailAttachment("1~100,2~100,5~100,3~100");
+					EmailUtils.sendEmail(e.getUserId(), emailData);
+					try {
+						TimeUnit.MILLISECONDS.sleep(5);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+				}
+			}
+		});
+
+		return true;
+	}
+	
+	/**
+	 * 修改活动配置的时间
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	public boolean setCfgTime(String[] arrCommandContents, Player player){
+		if(arrCommandContents.length < 4){
+			return false;
+		}
+		try{
+			int cfgId = Integer.parseInt(arrCommandContents[0]);
+			String startTime = arrCommandContents[1];
+			String endTime = arrCommandContents[2];
+			int version = Integer.parseInt(arrCommandContents[3]);
+			ActivityModifyMgr.getInstance().gmSetCfgTime(cfgId, startTime, endTime, version);
+			return true;
+		}catch(Exception ex){
+			return false;
+		}
+	}
+	
+	/**
+	 * 修改活动配置的奖励
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	public boolean setCfgReward(String[] arrCommandContents, Player player){
+		if(arrCommandContents.length < 4){
+			return false;
+		}
+		try{
+			int cfgId = Integer.parseInt(arrCommandContents[0]);
+			int subCfgId = Integer.parseInt(arrCommandContents[1]);
+			String reward = arrCommandContents[2];
+			int version = Integer.parseInt(arrCommandContents[3]);
+			ActivityModifyMgr.getInstance().gmSetSubCfgReward(cfgId, subCfgId, reward, version);
+			return true;
+		}catch(Exception ex){
+			return false;
+		}
 	}
 }

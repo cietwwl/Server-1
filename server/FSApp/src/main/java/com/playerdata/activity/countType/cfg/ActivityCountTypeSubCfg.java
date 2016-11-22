@@ -49,4 +49,9 @@ public class ActivityCountTypeSubCfg implements ActivitySubCfgIF{
 	public int getType() {
 		return Integer.parseInt(parentCfg);
 	}
+
+	@Override
+	public void setCfgReward(String reward) {
+		this.awardGift = reward;
+	}
 }

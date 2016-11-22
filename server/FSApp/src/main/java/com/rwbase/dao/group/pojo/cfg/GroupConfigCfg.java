@@ -38,6 +38,8 @@ public class GroupConfigCfg {
 	private int maxSupplyLimitPerDay;// 每天可以获得最大的物资数量...
 	private int maxContributionLimitPerDay;// 每天可以捐献的最大数量...
 	private int tokenId;// 令牌的Id
+	private int kickMemberLimitTime;// 多久能踢出成员
+	private int quitGroupLimitTime;// 退出帮派限制时间
 
 	public String getCfgId() {
 		return cfgId;
@@ -235,5 +237,23 @@ public class GroupConfigCfg {
 
 	public int getTokenId() {
 		return tokenId;
+	}
+
+	/**
+	 * 加入多久之后才能被踢出
+	 * 
+	 * @return
+	 */
+	public int getKickMemberLimitTime() {
+		return kickMemberLimitTime;
+	}
+
+	/**
+	 * 加入帮派之后多久才能退出
+	 * 
+	 * @return
+	 */
+	public int getQuitGroupLimitTime() {
+		return quitGroupLimitTime;
 	}
 }
