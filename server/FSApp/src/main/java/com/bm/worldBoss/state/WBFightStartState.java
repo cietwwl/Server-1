@@ -1,10 +1,9 @@
 package com.bm.worldBoss.state;
 
-import javax.management.timer.Timer;
-
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
+import com.rw.fsutil.util.DateUtils;
 
  class WBFightStartState implements  IwbState{
 
@@ -16,7 +15,9 @@ import com.bm.worldBoss.data.WBState;
 		WBData wbData = WBDataHolder.getInstance().get();
 		
 		long currentTimeMillis = System.currentTimeMillis();
-		if((wbData.getEndTime() - 5 * Timer.ONE_SECOND) <= currentTimeMillis || wbData.getCurLife() <= 0){
+//		System.out.println("fight start state, cur minunt:" + DateUtils.getDateTimeFormatString(currentTimeMillis, "yyyy-MM-dd HH:mm:ss")
+//				+ ",END stat :" + DateUtils.getDateTimeFormatString(wbData.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
+		if((wbData.getEndTime()) <= currentTimeMillis || wbData.getCurLife() <= 0){
 			return new WBFightEndState();
 		}
 		

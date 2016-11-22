@@ -66,16 +66,6 @@ public class WBMgr {
 	}
 	
 	
-	public void runOn10Second(){
-		try {
-			
-			WBStateFSM.getInstance().tranfer();
-			
-		} catch (Throwable e) {
-			GameLog.error(LogModule.WorldBoss, "WBMgr[runOn10Second]", "", e);
-		}
-	}
-	
 
 	
 	public boolean initNewBoss(WBCfg nextCfg ){
@@ -119,9 +109,13 @@ public class WBMgr {
 		writeLock.lock();		
 		try {			
 			WBData wbData = WBDataHolder.getInstance().get();
+			
 			if(wbData.getCurLife()>0){				
-				WBDataHolder.getInstance().decrHp(player, hurt);
+				long curLife = WBDataHolder.getInstance().decrHp(player, hurt);
+				System.out.println("curlift :" + curLife);
+				if(curLife <= 0) WBMgr.getInstance().broatCastBossLeave();
 				if(isBossDie()){
+					System.err.println("--------------world boss was killed!!");
 					broatCastBossDie();
 				}
 				success = true;			
@@ -156,6 +150,8 @@ public class WBMgr {
 		for (String userIdTmp: allOnFightUserIds) {
 			Player online = PlayerMgr.getInstance().findPlayerFromMemory(userIdTmp);
 			if(online!=null){				
+				System.out.println("broatcast world boss !, rec role:" + online.getUserName() + ", death:" + broatCastData.isBossDie()
+						+", leave :" + broatCastData.isBossLeave());
 				WBBroatCastDataHolder.getInstance().syn(online, broatCastData);
 			}
 		}

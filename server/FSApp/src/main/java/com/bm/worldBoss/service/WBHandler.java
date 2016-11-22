@@ -181,7 +181,7 @@ public class WBHandler {
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		FightUpdateParam fightParam = commonReq.getFightUpdateParam();;	
+		FightUpdateParam fightParam = commonReq.getFightUpdateParam();	
 
 		WBResult result = checkFightEnd(player);
 		if(result.isSuccess()){
