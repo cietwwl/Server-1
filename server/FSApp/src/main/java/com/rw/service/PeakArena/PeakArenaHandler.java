@@ -1261,7 +1261,7 @@ public class PeakArenaHandler {
 		}
 		result.setGender(record.getGender()); // 性别
 		result.setVipLv(record.getVipLv());
-		record.setFighting(record.getFighting());
+		result.setFighting(record.getFighting());
 		return result.build();
 	}
 
