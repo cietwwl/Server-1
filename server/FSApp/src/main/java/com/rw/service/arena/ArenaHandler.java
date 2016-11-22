@@ -889,8 +889,6 @@ public class ArenaHandler {
 		ArmyMagic magic = armyInfo.getArmyMagic();
 		data.setMagicId(magic.getModelId());
 		data.setMagicLevel(magic.getLevel());
-
-		data.setFighting(fighting);
 		List<SkillItem> skills = armyInfo.getPlayer().getSkillList();
 		for (SkillItem skill : skills) {
 			data.addRoleSkill(transfrom(skill));

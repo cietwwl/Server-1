@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
@@ -847,6 +848,8 @@ public class ChatBM {
 			// 設置時裝模板id
 			userInfo.setFashionTemplateId(info.getFashionTemplateId());
 		}
+		
+		userInfo.setFighting(FSHeroMgr.getInstance().getFightingTeam(info.getUserId()));
 
 		return userInfo;
 	}
