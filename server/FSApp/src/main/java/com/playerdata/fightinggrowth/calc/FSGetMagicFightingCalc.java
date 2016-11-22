@@ -50,12 +50,12 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 		if (magicParam.isMainRole()) {
 			// （强化主技能战力+强化被动技能战力）*法宝成长系数+（品阶主技能战力+品阶被动技能战力）*法宝等级
 //			System.out.println(String.format("强化主动技能战力：%s，强化被动技能战力：%s，品阶主动技能战力：%s，品阶被动技能战力：%s，成长系数：%s", levelSkillFightingCfg.getActiveSkillFighting(), levelSkillFightingCfg.getPassiveSkillFighting(),
-//					qualitySkillFightingCfg.getActiveSkillFighting(), qualitySkillFightingCfg.getPassiveSkillFighting(), levelSkillFightingCfg.getPassiveSkillFighting()));
+//					qualitySkillFightingCfg.getActiveSkillFighting(), qualitySkillFightingCfg.getPassiveSkillFighting(), aptitudeCoefficient));
 			return Math.round((levelSkillFightingCfg.getActiveSkillFighting() + levelSkillFightingCfg.getPassiveSkillFighting()) * aptitudeCoefficient)
 					+ ((qualitySkillFightingCfg.getActiveSkillFighting() + qualitySkillFightingCfg.getPassiveSkillFighting()) * magicParam.getMagicLevel());
 		} else {
 			// 强化被动技能战力*法宝成长系数+品阶被动技能战力*法宝等级
-//			System.out.println(String.format("强化被动技能战力：%s，品阶被动技能战力：%s，成长系数：%s",levelSkillFightingCfg.getPassiveSkillFighting(), qualitySkillFightingCfg.getPassiveSkillFighting(), levelSkillFightingCfg.getPassiveSkillFighting()));
+//			System.out.println(String.format("强化被动技能战力：%s，品阶被动技能战力：%s，成长系数：%s",levelSkillFightingCfg.getPassiveSkillFighting(), qualitySkillFightingCfg.getPassiveSkillFighting(), aptitudeCoefficient));
 			return Math.round(levelSkillFightingCfg.getPassiveSkillFighting() * aptitudeCoefficient) + qualitySkillFightingCfg.getPassiveSkillFighting() * magicParam.getMagicLevel();
 		}
 	}
