@@ -125,7 +125,7 @@ public class ArenaBM {
 
 	public ArenaExtAttribute createArenaExt(Player player) {
 //		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
-		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel());
+		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel(), player.getVip());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
 //		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
@@ -592,6 +592,7 @@ public class ArenaBM {
 			arenaExt.setHeadbox(headBox);
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
+			arenaExt.setVip(player.getVip());
 //			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 			// 不主动提交属性变化的更新了

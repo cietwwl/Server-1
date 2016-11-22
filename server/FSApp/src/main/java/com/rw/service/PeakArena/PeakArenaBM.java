@@ -414,7 +414,7 @@ public class PeakArenaBM implements IStreamListner<Pair<Player, Integer>> {
 
 	public PeakArenaExtAttribute createExtData(Player player) {
 //		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
-		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel());
+		PeakArenaExtAttribute arenaExt = new PeakArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel(), player.getVip());
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
 //		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());

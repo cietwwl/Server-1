@@ -483,14 +483,12 @@ public class GroupMemberMgr {
 	 * @param userId
 	 * @param vipLevel
 	 */
-	public void updateMemberFashion(String userId){
-		GroupMemberData item = holder.getMemberData(userId, false);
+	public void updateMemberFashion(Player player){
+		GroupMemberData item = holder.getMemberData(player.getUserId(), false);
 		if (item == null) {
 			return;
 		}
-
-		Player player = PlayerMgr.getInstance().findPlayerFromMemory(userId);
-		FashionBeingUsed fashion = FashionBeingUsedHolder.getInstance().get(userId);
+		FashionBeingUsed fashion = FashionBeingUsedHolder.getInstance().get(player.getUserId());
 		if(null != fashion && null != player){
 			ArmyFashion armyFasion = new ArmyFashion();
 			armyFasion.setGender(player.getSex());
