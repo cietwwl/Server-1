@@ -62,6 +62,7 @@ public enum RedPointType {
     LIMIT_HERO_Buy_One,
     HOME_WINDOW_PEAK_ARENA, // 巅峰竞技场入口
     PEAK_ARENA_SCORE_REWARD, // 巅峰竞技场红点
+    EVIL_BAO_ARRIVE,		//申公豹驾到
     ;
 	
     private RedPointType(){

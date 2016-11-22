@@ -15,6 +15,7 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCf
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
+import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
@@ -186,6 +187,7 @@ public class ActivityCollector implements RedPointCollector {
 		// if (!activityList.isEmpty()) {
 		map.put(RedPointType.HOME_WINDOW_ACTIVITY, activityList);
 		// }
+		map.put(RedPointType.EVIL_BAO_ARRIVE, EvilBaoArriveMgr.getInstance().getRedPoint(player));
 	}
 
 	@Override

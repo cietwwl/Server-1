@@ -58,7 +58,7 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	@Override
  	public void ExtraInitAfterLoad() {
  		startTime = DateUtils.YyyymmddhhmmToMillionseconds(startTimeStr);
-		endTime = DateUtils.YyyymmddhhmmToMillionseconds(endTimeStr);	
+		endTime = DateUtils.YyyymmddhhmmToMillionseconds(endTimeStr);
  	}
 
 	@Override
