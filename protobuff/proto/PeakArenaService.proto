@@ -74,7 +74,7 @@ message ArenaData{
     optional string groupName = 23; // 帮派名称
 	optional string armyInfo = 24;//暂时没有用 Json字符串：队伍信息
 	optional string headFrame = 25;	//userId对应玩家的头像框
-	optional string fashionId = 26; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional FashionService.FashionUsed fashionUsed = 26; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 	optional int32 vip = 27;	//vip等级
 	optional int32 sex = 28;
 }
@@ -105,7 +105,7 @@ message ArenaRecord{
 	optional int64 time = 7; // 记录产生的时间
 	optional int32 challenge = 8; // 0=防守，1=挑战
 	required fixed32 recordId = 9; // 记录的id
-	optional fixed32 suitId = 10; // 时装的套装id
+	optional FashionService.FashionUsed fashionUsed = 10; // 时装的套装id
 	optional fixed32 gender = 11; // 性别
 	optional fixed32 vipLv = 12; // VIP等级
 	optional int32 fighting = 13;
