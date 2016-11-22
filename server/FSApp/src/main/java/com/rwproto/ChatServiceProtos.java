@@ -523,6 +523,121 @@ public final class ChatServiceProtos {
     // @@protoc_insertion_point(enum_scope:eAttachItemType)
   }
 
+  /**
+   * Protobuf enum {@code eClickEvent}
+   */
+  public enum eClickEvent
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>None = 1;</code>
+     *
+     * <pre>
+     *无事件
+     * </pre>
+     */
+    None(0, 1),
+    /**
+     * <code>HeroPreview = 2;</code>
+     *
+     * <pre>
+     *英雄预览
+     * </pre>
+     */
+    HeroPreview(1, 2),
+    /**
+     * <code>AddFriend = 3;</code>
+     *
+     * <pre>
+     *添加好友
+     * </pre>
+     */
+    AddFriend(2, 3),
+    ;
+
+    /**
+     * <code>None = 1;</code>
+     *
+     * <pre>
+     *无事件
+     * </pre>
+     */
+    public static final int None_VALUE = 1;
+    /**
+     * <code>HeroPreview = 2;</code>
+     *
+     * <pre>
+     *英雄预览
+     * </pre>
+     */
+    public static final int HeroPreview_VALUE = 2;
+    /**
+     * <code>AddFriend = 3;</code>
+     *
+     * <pre>
+     *添加好友
+     * </pre>
+     */
+    public static final int AddFriend_VALUE = 3;
+
+
+    public final int getNumber() { return value; }
+
+    public static eClickEvent valueOf(int value) {
+      switch (value) {
+        case 1: return None;
+        case 2: return HeroPreview;
+        case 3: return AddFriend;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<eClickEvent>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<eClickEvent>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<eClickEvent>() {
+            public eClickEvent findValueByNumber(int number) {
+              return eClickEvent.valueOf(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.rwproto.ChatServiceProtos.getDescriptor().getEnumTypes().get(3);
+    }
+
+    private static final eClickEvent[] VALUES = values();
+
+    public static eClickEvent valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int index;
+    private final int value;
+
+    private eClickEvent(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:eClickEvent)
+  }
+
   public interface MessageUserInfoOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -777,6 +892,32 @@ public final class ChatServiceProtos {
      * </pre>
      */
     int getGender();
+
+    // optional .FashionService.FashionUsed fashionUsage = 12;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    boolean hasFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
   }
   /**
    * Protobuf type {@code MessageUserInfo}
@@ -882,6 +1023,19 @@ public final class ChatServiceProtos {
             case 88: {
               bitField0_ |= 0x00000400;
               gender_ = input.readInt32();
+              break;
+            }
+            case 98: {
+              com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000800) == 0x00000800)) {
+                subBuilder = fashionUsage_.toBuilder();
+              }
+              fashionUsage_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(fashionUsage_);
+                fashionUsage_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000800;
               break;
             }
           }
@@ -1374,6 +1528,40 @@ public final class ChatServiceProtos {
       return gender_;
     }
 
+    // optional .FashionService.FashionUsed fashionUsage = 12;
+    public static final int FASHIONUSAGE_FIELD_NUMBER = 12;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public boolean hasFashionUsage() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+      return fashionUsage_;
+    }
+    /**
+     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     *
+     * <pre>
+     *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+     * </pre>
+     */
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+      return fashionUsage_;
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -1386,6 +1574,7 @@ public final class ChatServiceProtos {
       fashionTemplateId_ = 0;
       careerType_ = 0;
       gender_ = 0;
+      fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1435,6 +1624,9 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         output.writeInt32(11, gender_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeMessage(12, fashionUsage_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1488,6 +1680,10 @@ public final class ChatServiceProtos {
       if (((bitField0_ & 0x00000400) == 0x00000400)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(11, gender_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(12, fashionUsage_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1597,6 +1793,7 @@ public final class ChatServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getFashionUsageFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1627,6 +1824,12 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000200);
         gender_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -1699,6 +1902,14 @@ public final class ChatServiceProtos {
           to_bitField0_ |= 0x00000400;
         }
         result.gender_ = gender_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        if (fashionUsageBuilder_ == null) {
+          result.fashionUsage_ = fashionUsage_;
+        } else {
+          result.fashionUsage_ = fashionUsageBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1759,6 +1970,9 @@ public final class ChatServiceProtos {
         }
         if (other.hasGender()) {
           setGender(other.getGender());
+        }
+        if (other.hasFashionUsage()) {
+          mergeFashionUsage(other.getFashionUsage());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2624,6 +2838,159 @@ public final class ChatServiceProtos {
         return this;
       }
 
+      // optional .FashionService.FashionUsed fashionUsage = 12;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public boolean hasFashionUsage() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          return fashionUsage_;
+        } else {
+          return fashionUsageBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          fashionUsage_ = value;
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder setFashionUsage(
+          com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = builderForValue.build();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder mergeFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsageBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) == 0x00000800) &&
+              fashionUsage_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsage_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsage_).mergeFrom(value).buildPartial();
+          } else {
+            fashionUsage_ = value;
+          }
+          onChanged();
+        } else {
+          fashionUsageBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public Builder clearFashionUsage() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+          onChanged();
+        } else {
+          fashionUsageBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
+        return this;
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsageBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return getFashionUsageFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
+        if (fashionUsageBuilder_ != null) {
+          return fashionUsageBuilder_.getMessageOrBuilder();
+        } else {
+          return fashionUsage_;
+        }
+      }
+      /**
+       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       *
+       * <pre>
+       *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
+          getFashionUsageFieldBuilder() {
+        if (fashionUsageBuilder_ == null) {
+          fashionUsageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
+                  fashionUsage_,
+                  getParentForChildren(),
+                  isClean());
+          fashionUsage_ = null;
+        }
+        return fashionUsageBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:MessageUserInfo)
     }
 
@@ -2887,6 +3254,60 @@ public final class ChatServiceProtos {
      */
     com.rwproto.ChatServiceProtos.ChatAttachItemOrBuilder getAttachItemOrBuilder(
         int index);
+
+    // optional .eClickEvent clickEvent = 11;
+    /**
+     * <code>optional .eClickEvent clickEvent = 11;</code>
+     *
+     * <pre>
+     *点击事件
+     * </pre>
+     */
+    boolean hasClickEvent();
+    /**
+     * <code>optional .eClickEvent clickEvent = 11;</code>
+     *
+     * <pre>
+     *点击事件
+     * </pre>
+     */
+    com.rwproto.ChatServiceProtos.eClickEvent getClickEvent();
+
+    // repeated string clickEventData = 12;
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    java.util.List<java.lang.String>
+    getClickEventDataList();
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    int getClickEventDataCount();
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    java.lang.String getClickEventData(int index);
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getClickEventDataBytes(int index);
   }
   /**
    * Protobuf type {@code ChatMessageData}
@@ -3008,6 +3429,25 @@ public final class ChatServiceProtos {
               attachItem_.add(input.readMessage(com.rwproto.ChatServiceProtos.ChatAttachItem.PARSER, extensionRegistry));
               break;
             }
+            case 88: {
+              int rawValue = input.readEnum();
+              com.rwproto.ChatServiceProtos.eClickEvent value = com.rwproto.ChatServiceProtos.eClickEvent.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(11, rawValue);
+              } else {
+                bitField0_ |= 0x00000200;
+                clickEvent_ = value;
+              }
+              break;
+            }
+            case 98: {
+              if (!((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+                clickEventData_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000800;
+              }
+              clickEventData_.add(input.readBytes());
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3018,6 +3458,9 @@ public final class ChatServiceProtos {
       } finally {
         if (((mutable_bitField0_ & 0x00000200) == 0x00000200)) {
           attachItem_ = java.util.Collections.unmodifiableList(attachItem_);
+        }
+        if (((mutable_bitField0_ & 0x00000800) == 0x00000800)) {
+          clickEventData_ = new com.google.protobuf.UnmodifiableLazyStringList(clickEventData_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3436,6 +3879,76 @@ public final class ChatServiceProtos {
       return attachItem_.get(index);
     }
 
+    // optional .eClickEvent clickEvent = 11;
+    public static final int CLICKEVENT_FIELD_NUMBER = 11;
+    private com.rwproto.ChatServiceProtos.eClickEvent clickEvent_;
+    /**
+     * <code>optional .eClickEvent clickEvent = 11;</code>
+     *
+     * <pre>
+     *点击事件
+     * </pre>
+     */
+    public boolean hasClickEvent() {
+      return ((bitField0_ & 0x00000200) == 0x00000200);
+    }
+    /**
+     * <code>optional .eClickEvent clickEvent = 11;</code>
+     *
+     * <pre>
+     *点击事件
+     * </pre>
+     */
+    public com.rwproto.ChatServiceProtos.eClickEvent getClickEvent() {
+      return clickEvent_;
+    }
+
+    // repeated string clickEventData = 12;
+    public static final int CLICKEVENTDATA_FIELD_NUMBER = 12;
+    private com.google.protobuf.LazyStringList clickEventData_;
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    public java.util.List<java.lang.String>
+        getClickEventDataList() {
+      return clickEventData_;
+    }
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    public int getClickEventDataCount() {
+      return clickEventData_.size();
+    }
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    public java.lang.String getClickEventData(int index) {
+      return clickEventData_.get(index);
+    }
+    /**
+     * <code>repeated string clickEventData = 12;</code>
+     *
+     * <pre>
+     *点击事件数据
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getClickEventDataBytes(int index) {
+      return clickEventData_.getByteString(index);
+    }
+
     private void initFields() {
       sendMessageUserInfo_ = com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance();
       receiveMessageUserInfo_ = com.rwproto.ChatServiceProtos.MessageUserInfo.getDefaultInstance();
@@ -3447,6 +3960,8 @@ public final class ChatServiceProtos {
       treasureType_ = 0;
       isRead_ = false;
       attachItem_ = java.util.Collections.emptyList();
+      clickEvent_ = com.rwproto.ChatServiceProtos.eClickEvent.None;
+      clickEventData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3512,6 +4027,12 @@ public final class ChatServiceProtos {
       for (int i = 0; i < attachItem_.size(); i++) {
         output.writeMessage(10, attachItem_.get(i));
       }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        output.writeEnum(11, clickEvent_.getNumber());
+      }
+      for (int i = 0; i < clickEventData_.size(); i++) {
+        output.writeBytes(12, clickEventData_.getByteString(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3560,6 +4081,19 @@ public final class ChatServiceProtos {
       for (int i = 0; i < attachItem_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, attachItem_.get(i));
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(11, clickEvent_.getNumber());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < clickEventData_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(clickEventData_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getClickEventDataList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3712,6 +4246,10 @@ public final class ChatServiceProtos {
         } else {
           attachItemBuilder_.clear();
         }
+        clickEvent_ = com.rwproto.ChatServiceProtos.eClickEvent.None;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        clickEventData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -3793,6 +4331,16 @@ public final class ChatServiceProtos {
         } else {
           result.attachItem_ = attachItemBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000200;
+        }
+        result.clickEvent_ = clickEvent_;
+        if (((bitField0_ & 0x00000800) == 0x00000800)) {
+          clickEventData_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              clickEventData_);
+          bitField0_ = (bitField0_ & ~0x00000800);
+        }
+        result.clickEventData_ = clickEventData_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3867,6 +4415,19 @@ public final class ChatServiceProtos {
               attachItemBuilder_.addAllMessages(other.attachItem_);
             }
           }
+        }
+        if (other.hasClickEvent()) {
+          setClickEvent(other.getClickEvent());
+        }
+        if (!other.clickEventData_.isEmpty()) {
+          if (clickEventData_.isEmpty()) {
+            clickEventData_ = other.clickEventData_;
+            bitField0_ = (bitField0_ & ~0x00000800);
+          } else {
+            ensureClickEventDataIsMutable();
+            clickEventData_.addAll(other.clickEventData_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5023,6 +5584,187 @@ public final class ChatServiceProtos {
           attachItem_ = null;
         }
         return attachItemBuilder_;
+      }
+
+      // optional .eClickEvent clickEvent = 11;
+      private com.rwproto.ChatServiceProtos.eClickEvent clickEvent_ = com.rwproto.ChatServiceProtos.eClickEvent.None;
+      /**
+       * <code>optional .eClickEvent clickEvent = 11;</code>
+       *
+       * <pre>
+       *点击事件
+       * </pre>
+       */
+      public boolean hasClickEvent() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional .eClickEvent clickEvent = 11;</code>
+       *
+       * <pre>
+       *点击事件
+       * </pre>
+       */
+      public com.rwproto.ChatServiceProtos.eClickEvent getClickEvent() {
+        return clickEvent_;
+      }
+      /**
+       * <code>optional .eClickEvent clickEvent = 11;</code>
+       *
+       * <pre>
+       *点击事件
+       * </pre>
+       */
+      public Builder setClickEvent(com.rwproto.ChatServiceProtos.eClickEvent value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000400;
+        clickEvent_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional .eClickEvent clickEvent = 11;</code>
+       *
+       * <pre>
+       *点击事件
+       * </pre>
+       */
+      public Builder clearClickEvent() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        clickEvent_ = com.rwproto.ChatServiceProtos.eClickEvent.None;
+        onChanged();
+        return this;
+      }
+
+      // repeated string clickEventData = 12;
+      private com.google.protobuf.LazyStringList clickEventData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureClickEventDataIsMutable() {
+        if (!((bitField0_ & 0x00000800) == 0x00000800)) {
+          clickEventData_ = new com.google.protobuf.LazyStringArrayList(clickEventData_);
+          bitField0_ |= 0x00000800;
+         }
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public java.util.List<java.lang.String>
+          getClickEventDataList() {
+        return java.util.Collections.unmodifiableList(clickEventData_);
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public int getClickEventDataCount() {
+        return clickEventData_.size();
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public java.lang.String getClickEventData(int index) {
+        return clickEventData_.get(index);
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getClickEventDataBytes(int index) {
+        return clickEventData_.getByteString(index);
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public Builder setClickEventData(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureClickEventDataIsMutable();
+        clickEventData_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public Builder addClickEventData(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureClickEventDataIsMutable();
+        clickEventData_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public Builder addAllClickEventData(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureClickEventDataIsMutable();
+        super.addAll(values, clickEventData_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public Builder clearClickEventData() {
+        clickEventData_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000800);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string clickEventData = 12;</code>
+       *
+       * <pre>
+       *点击事件数据
+       * </pre>
+       */
+      public Builder addClickEventDataBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureClickEventDataIsMutable();
+        clickEventData_.add(value);
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:ChatMessageData)
@@ -9488,41 +10230,46 @@ public final class ChatServiceProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021ChatService.proto\"\330\001\n\017MessageUserInfo\022" +
-      "\016\n\006userId\030\001 \002(\t\022\020\n\010userName\030\002 \001(\t\022\021\n\thea" +
-      "dImage\030\003 \001(\t\022\r\n\005level\030\004 \001(\005\022\017\n\007groupId\030\005" +
-      " \001(\t\022\021\n\tgroupName\030\006 \001(\t\022\017\n\007headbox\030\007 \001(\t" +
-      "\022\r\n\005vipLv\030\010 \001(\005\022\031\n\021fashionTemplateId\030\t \001" +
-      "(\005\022\022\n\ncareerType\030\n \001(\005\022\016\n\006gender\030\013 \001(\005\"\236" +
-      "\002\n\017ChatMessageData\022-\n\023sendMessageUserInf" +
-      "o\030\001 \001(\0132\020.MessageUserInfo\0220\n\026receiveMess" +
-      "ageUserInfo\030\002 \001(\0132\020.MessageUserInfo\022\017\n\007m" +
-      "essage\030\003 \002(\t\022\014\n\004time\030\004 \001(\003\022\024\n\014treasureNa",
-      "me\030\005 \001(\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\ntrea" +
-      "sureId\030\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016\n\006is" +
-      "Read\030\t \001(\010\022#\n\nattachItem\030\n \003(\0132\017.ChatAtt" +
-      "achItem\"=\n\016ChatAttachItem\022\014\n\004type\030\001 \002(\005\022" +
-      "\n\n\002id\030\002 \002(\t\022\021\n\textraInfo\030\003 \001(\t\"J\n\025MsgPer" +
-      "sonChatUserInfo\022\016\n\006userId\030\001 \002(\t\022\014\n\004name\030" +
-      "\002 \001(\t\022\023\n\013unReadCount\030\003 \001(\005\"Y\n\016MsgChatReq" +
-      "uest\022\034\n\010ChatType\030\001 \002(\0162\n.eChatType\022)\n\017ch" +
-      "atMessageData\030\002 \001(\0132\020.ChatMessageData\"\310\001" +
-      "\n\017MsgChatResponse\022\034\n\010chatType\030\001 \002(\0162\n.eC",
-      "hatType\022(\n\016chatResultType\030\002 \001(\0162\020.eChatR" +
-      "esultType\022%\n\013listMessage\030\003 \003(\0132\020.ChatMes" +
-      "sageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025usersOfPriv" +
-      "ateChannel\030\006 \003(\0132\026.MsgPersonChatUserInfo" +
-      "\",\n\032MsgChatRequestPrivateChats\022\016\n\006userId" +
-      "\030\001 \002(\t*\264\001\n\teChatType\022\021\n\rCHANNEL_WORLD\020\001\022" +
-      "\021\n\rCHANNEL_GROUP\020\002\022\022\n\016CHANNEL_PERSON\020\003\022\021" +
-      "\n\rCHAT_TREASURE\020\004\022\022\n\016CHANNEL_SYSTEM\020\005\022\017\n" +
-      "\013CHAT_FRIEND\020\006\022\r\n\tCHAT_TEAM\020\007\022\024\n\020CHAT_RA" +
-      "NDOM_BOSS\020\010\022\020\n\014CHANNEL_TEAM\020\t*(\n\017eChatRe",
-      "sultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002*m\n\017eAtta" +
-      "chItemType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002\022\010\n\004Hero\020\003\022" +
-      "\t\n\005Magic\020\004\022\014\n\010Treasure\020\005\022\n\n\006Friend\020\006\022\010\n\004" +
-      "Team\020\007\022\016\n\nRandomBoss\020\010B \n\013com.rwprotoB\021C" +
-      "hatServiceProtos"
+      "\n\021ChatService.proto\032\024FashionService.prot" +
+      "o\"\213\002\n\017MessageUserInfo\022\016\n\006userId\030\001 \002(\t\022\020\n" +
+      "\010userName\030\002 \001(\t\022\021\n\theadImage\030\003 \001(\t\022\r\n\005le" +
+      "vel\030\004 \001(\005\022\017\n\007groupId\030\005 \001(\t\022\021\n\tgroupName\030" +
+      "\006 \001(\t\022\017\n\007headbox\030\007 \001(\t\022\r\n\005vipLv\030\010 \001(\005\022\031\n" +
+      "\021fashionTemplateId\030\t \001(\005\022\022\n\ncareerType\030\n" +
+      " \001(\005\022\016\n\006gender\030\013 \001(\005\0221\n\014fashionUsage\030\014 \001" +
+      "(\0132\033.FashionService.FashionUsed\"\330\002\n\017Chat" +
+      "MessageData\022-\n\023sendMessageUserInfo\030\001 \001(\013" +
+      "2\020.MessageUserInfo\0220\n\026receiveMessageUser",
+      "Info\030\002 \001(\0132\020.MessageUserInfo\022\017\n\007message\030" +
+      "\003 \002(\t\022\014\n\004time\030\004 \001(\003\022\024\n\014treasureName\030\005 \001(" +
+      "\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\ntreasureId\030" +
+      "\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016\n\006isRead\030\t " +
+      "\001(\010\022#\n\nattachItem\030\n \003(\0132\017.ChatAttachItem" +
+      "\022 \n\nclickEvent\030\013 \001(\0162\014.eClickEvent\022\026\n\016cl" +
+      "ickEventData\030\014 \003(\t\"=\n\016ChatAttachItem\022\014\n\004" +
+      "type\030\001 \002(\005\022\n\n\002id\030\002 \002(\t\022\021\n\textraInfo\030\003 \001(" +
+      "\t\"J\n\025MsgPersonChatUserInfo\022\016\n\006userId\030\001 \002" +
+      "(\t\022\014\n\004name\030\002 \001(\t\022\023\n\013unReadCount\030\003 \001(\005\"Y\n",
+      "\016MsgChatRequest\022\034\n\010ChatType\030\001 \002(\0162\n.eCha" +
+      "tType\022)\n\017chatMessageData\030\002 \001(\0132\020.ChatMes" +
+      "sageData\"\310\001\n\017MsgChatResponse\022\034\n\010chatType" +
+      "\030\001 \002(\0162\n.eChatType\022(\n\016chatResultType\030\002 \001" +
+      "(\0162\020.eChatResultType\022%\n\013listMessage\030\003 \003(" +
+      "\0132\020.ChatMessageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025" +
+      "usersOfPrivateChannel\030\006 \003(\0132\026.MsgPersonC" +
+      "hatUserInfo\",\n\032MsgChatRequestPrivateChat" +
+      "s\022\016\n\006userId\030\001 \002(\t*\264\001\n\teChatType\022\021\n\rCHANN" +
+      "EL_WORLD\020\001\022\021\n\rCHANNEL_GROUP\020\002\022\022\n\016CHANNEL",
+      "_PERSON\020\003\022\021\n\rCHAT_TREASURE\020\004\022\022\n\016CHANNEL_" +
+      "SYSTEM\020\005\022\017\n\013CHAT_FRIEND\020\006\022\r\n\tCHAT_TEAM\020\007" +
+      "\022\024\n\020CHAT_RANDOM_BOSS\020\010\022\020\n\014CHANNEL_TEAM\020\t" +
+      "*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL" +
+      "\020\002*m\n\017eAttachItemType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002" +
+      "\022\010\n\004Hero\020\003\022\t\n\005Magic\020\004\022\014\n\010Treasure\020\005\022\n\n\006F" +
+      "riend\020\006\022\010\n\004Team\020\007\022\016\n\nRandomBoss\020\010*7\n\013eCl" +
+      "ickEvent\022\010\n\004None\020\001\022\017\n\013HeroPreview\020\002\022\r\n\tA" +
+      "ddFriend\020\003B \n\013com.rwprotoB\021ChatServicePr" +
+      "otos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9534,13 +10281,13 @@ public final class ChatServiceProtos {
           internal_static_MessageUserInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MessageUserInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "GroupId", "GroupName", "Headbox", "VipLv", "FashionTemplateId", "CareerType", "Gender", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "GroupId", "GroupName", "Headbox", "VipLv", "FashionTemplateId", "CareerType", "Gender", "FashionUsage", });
           internal_static_ChatMessageData_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_ChatMessageData_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_ChatMessageData_descriptor,
-              new java.lang.String[] { "SendMessageUserInfo", "ReceiveMessageUserInfo", "Message", "Time", "TreasureName", "TreasureDefNum", "TreasureId", "TreasureType", "IsRead", "AttachItem", });
+              new java.lang.String[] { "SendMessageUserInfo", "ReceiveMessageUserInfo", "Message", "Time", "TreasureName", "TreasureDefNum", "TreasureId", "TreasureType", "IsRead", "AttachItem", "ClickEvent", "ClickEventData", });
           internal_static_ChatAttachItem_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_ChatAttachItem_fieldAccessorTable = new
@@ -9577,6 +10324,7 @@ public final class ChatServiceProtos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          com.rwproto.FashionServiceProtos.getDescriptor(),
         }, assigner);
   }
 

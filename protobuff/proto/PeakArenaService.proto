@@ -74,6 +74,8 @@ message ArenaData{
     optional string groupName = 23; // 帮派名称
 	optional string armyInfo = 24;//暂时没有用 Json字符串：队伍信息
 	optional string headFrame = 25;//userId对应玩家的头像框
+	optional FashionService.FashionUsed fashionUsage = 26; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 vip = 27;	//vip等级
 }
 
 message ArenaInfo{//保存对手概要信息

@@ -45,6 +45,7 @@ message WorshipInfo{
 	optional int32 modelId = 12;//模型ID
 	optional string headFrame = 13;//被膜拜玩家的头像框ID
 	optional FashionService.FashionUsed fashionUsage = 14;//玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 vip = 15;	//vip等级
 }
 
 message WorshipRewardData{
