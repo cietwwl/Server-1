@@ -4,6 +4,8 @@ import com.gm.customer.QuestionType;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerQuestionMgr;
+import com.playerdata.UserDataMgr;
+import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserExtendInfo;
 import com.rwproto.PrivilegeProtos.LoginPrivilegeNames;
@@ -31,7 +33,9 @@ public class FeedbackHandler {
 		} else {
 			String phone = request.getPhone();
 			String model = request.getModel();
-			String channel = request.getChannel();
+			UserDataMgr userDataMgr = player.getUserDataMgr();
+			ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+			String channel = zoneRegInfo.getRegChannelId();
 			String feedbackContent = request.getFeedbackContent();
 			PlayerQuestionMgr playerQuestionMgr = player.getPlayerQuestionMgr();
 			FeedbackResult result = playerQuestionMgr.submitQuestion(questionType, phone, model, channel, feedbackContent);

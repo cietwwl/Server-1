@@ -1,11 +1,8 @@
 package com.playerdata.activity.rankType.cfg;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
@@ -51,17 +48,6 @@ public final class ActivityRankTypeSubCfgDAO extends CfgCsvDao<ActivityRankTypeS
 	}
 
 	public List<ActivityRankTypeSubCfg> getByParentCfgId(String parentCfgId){
-		
 		return subCfgListMap.get(parentCfgId);
-//		List<ActivityRankTypeSubCfg> allCfg = getAllCfg();
-//		for (ActivityRankTypeSubCfg tmpItem : allCfg) {
-//			if(StringUtils.equals(tmpItem.getParentCfgId(), parentCfgId)){
-//				subList.add(tmpItem);
-//			}
-//		}
-		
 	}
-	
-
-
 }
