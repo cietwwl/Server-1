@@ -186,13 +186,14 @@ public class TargetSellManager {
 		}
 		//检查一下是否前置充值记录
 		Pair<Integer, Long> preCharge = PreChargeMap.remove(player.getUserId());
+		BenefitItems removeItem = null;
 		if(preCharge != null){
 			//存在前置记录，检查积分是否可以购买
 			Map<Integer, BenefitItems> map = record.getItemMap();
 			BenefitItems items = map.get(preCharge.getT1());
 			if (items.getRecharge() <= score && (preCharge.getT2() + VALIABLE_TIME) >= System.currentTimeMillis()) {
 				// 积分可以购买并且还没有超时
-				map.remove(preCharge.getT1());
+				removeItem = map.remove(preCharge.getT1());
 				boolean suc = player.getItemBagMgr().addItem(tranfer2ItemInfo(items));
 				if(suc){
 					score -= items.getRecharge();
@@ -206,19 +207,24 @@ public class TargetSellManager {
 		
 		//通知前端
 		if(record.getItemMap() != null){
-			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime()));
+			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), removeItem));
 		}
 	}
 	
 	/**
 	 * 组装更新优惠积分数据
 	 * @param score
+	 * @param item TODO
 	 * @return
 	 */
-	private ByteString getUpdateBenefitScoreMsgData(int score, long nextRefreshTime){
+	private ByteString getUpdateBenefitScoreMsgData(int score, long nextRefreshTime, BenefitItems item){
 		Builder msg = UpdateBenefitScore.newBuilder();
 		msg.setScore(score);
 		msg.setNextRefreshTime(nextRefreshTime);
+		if(item != null){
+			msg.setDataStr(item.getItemIds());
+			msg.setItemGroupId(item.getItemGroupId());
+		}
 		return msg.build().toByteString();
 	}
 	
