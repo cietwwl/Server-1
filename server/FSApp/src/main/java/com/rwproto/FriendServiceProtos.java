@@ -6548,31 +6548,31 @@ public final class FriendServiceProtos {
      */
     int getFighting();
 
-    // optional .FashionService.FashionUsed fashionUsage = 15;
+    // optional .FashionService.FashionUsed fashionUsed = 15;
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    boolean hasFashionUsage();
+    boolean hasFashionUsed();
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed();
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder();
 
     // optional int32 vip = 16;
     /**
@@ -6591,6 +6591,16 @@ public final class FriendServiceProtos {
      * </pre>
      */
     int getVip();
+
+    // optional int32 sex = 17;
+    /**
+     * <code>optional int32 sex = 17;</code>
+     */
+    boolean hasSex();
+    /**
+     * <code>optional int32 sex = 17;</code>
+     */
+    int getSex();
   }
   /**
    * Protobuf type {@code FriendInfo}
@@ -6716,12 +6726,12 @@ public final class FriendServiceProtos {
             case 122: {
               com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
               if (((bitField0_ & 0x00004000) == 0x00004000)) {
-                subBuilder = fashionUsage_.toBuilder();
+                subBuilder = fashionUsed_.toBuilder();
               }
-              fashionUsage_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              fashionUsed_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(fashionUsage_);
-                fashionUsage_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(fashionUsed_);
+                fashionUsed_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00004000;
               break;
@@ -6729,6 +6739,11 @@ public final class FriendServiceProtos {
             case 128: {
               bitField0_ |= 0x00008000;
               vip_ = input.readInt32();
+              break;
+            }
+            case 136: {
+              bitField0_ |= 0x00010000;
+              sex_ = input.readInt32();
               break;
             }
           }
@@ -7355,38 +7370,38 @@ public final class FriendServiceProtos {
       return fighting_;
     }
 
-    // optional .FashionService.FashionUsed fashionUsage = 15;
-    public static final int FASHIONUSAGE_FIELD_NUMBER = 15;
-    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
+    // optional .FashionService.FashionUsed fashionUsed = 15;
+    public static final int FASHIONUSED_FIELD_NUMBER = 15;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_;
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    public boolean hasFashionUsage() {
+    public boolean hasFashionUsed() {
       return ((bitField0_ & 0x00004000) == 0x00004000);
     }
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
-      return fashionUsage_;
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+      return fashionUsed_;
     }
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
-      return fashionUsage_;
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+      return fashionUsed_;
     }
 
     // optional int32 vip = 16;
@@ -7413,6 +7428,22 @@ public final class FriendServiceProtos {
       return vip_;
     }
 
+    // optional int32 sex = 17;
+    public static final int SEX_FIELD_NUMBER = 17;
+    private int sex_;
+    /**
+     * <code>optional int32 sex = 17;</code>
+     */
+    public boolean hasSex() {
+      return ((bitField0_ & 0x00010000) == 0x00010000);
+    }
+    /**
+     * <code>optional int32 sex = 17;</code>
+     */
+    public int getSex() {
+      return sex_;
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -7428,8 +7459,9 @@ public final class FriendServiceProtos {
       groupId_ = "";
       groupName_ = "";
       fighting_ = 0;
-      fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       vip_ = 0;
+      sex_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -7518,10 +7550,13 @@ public final class FriendServiceProtos {
         output.writeInt32(14, fighting_);
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
-        output.writeMessage(15, fashionUsage_);
+        output.writeMessage(15, fashionUsed_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         output.writeInt32(16, vip_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        output.writeInt32(17, sex_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -7590,11 +7625,15 @@ public final class FriendServiceProtos {
       }
       if (((bitField0_ & 0x00004000) == 0x00004000)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(15, fashionUsage_);
+          .computeMessageSize(15, fashionUsed_);
       }
       if (((bitField0_ & 0x00008000) == 0x00008000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(16, vip_);
+      }
+      if (((bitField0_ & 0x00010000) == 0x00010000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(17, sex_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -7704,7 +7743,7 @@ public final class FriendServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getFashionUsageFieldBuilder();
+          getFashionUsedFieldBuilder();
         }
       }
       private static Builder create() {
@@ -7741,14 +7780,16 @@ public final class FriendServiceProtos {
         bitField0_ = (bitField0_ & ~0x00001000);
         fighting_ = 0;
         bitField0_ = (bitField0_ & ~0x00002000);
-        if (fashionUsageBuilder_ == null) {
-          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
         } else {
-          fashionUsageBuilder_.clear();
+          fashionUsedBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00004000);
         vip_ = 0;
         bitField0_ = (bitField0_ & ~0x00008000);
+        sex_ = 0;
+        bitField0_ = (bitField0_ & ~0x00010000);
         return this;
       }
 
@@ -7836,15 +7877,19 @@ public final class FriendServiceProtos {
         if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
           to_bitField0_ |= 0x00004000;
         }
-        if (fashionUsageBuilder_ == null) {
-          result.fashionUsage_ = fashionUsage_;
+        if (fashionUsedBuilder_ == null) {
+          result.fashionUsed_ = fashionUsed_;
         } else {
-          result.fashionUsage_ = fashionUsageBuilder_.build();
+          result.fashionUsed_ = fashionUsedBuilder_.build();
         }
         if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
           to_bitField0_ |= 0x00008000;
         }
         result.vip_ = vip_;
+        if (((from_bitField0_ & 0x00010000) == 0x00010000)) {
+          to_bitField0_ |= 0x00010000;
+        }
+        result.sex_ = sex_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -7919,11 +7964,14 @@ public final class FriendServiceProtos {
         if (other.hasFighting()) {
           setFighting(other.getFighting());
         }
-        if (other.hasFashionUsage()) {
-          mergeFashionUsage(other.getFashionUsage());
+        if (other.hasFashionUsed()) {
+          mergeFashionUsed(other.getFashionUsed());
         }
         if (other.hasVip()) {
           setVip(other.getVip());
+        }
+        if (other.hasSex()) {
+          setSex(other.getSex());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -9062,140 +9110,140 @@ public final class FriendServiceProtos {
         return this;
       }
 
-      // optional .FashionService.FashionUsed fashionUsage = 15;
-      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      // optional .FashionService.FashionUsed fashionUsed = 15;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsedBuilder_;
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public boolean hasFashionUsage() {
+      public boolean hasFashionUsed() {
         return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
-        if (fashionUsageBuilder_ == null) {
-          return fashionUsage_;
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          return fashionUsed_;
         } else {
-          return fashionUsageBuilder_.getMessage();
+          return fashionUsedBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder setFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
-        if (fashionUsageBuilder_ == null) {
+      public Builder setFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          fashionUsage_ = value;
+          fashionUsed_ = value;
           onChanged();
         } else {
-          fashionUsageBuilder_.setMessage(value);
+          fashionUsedBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder setFashionUsage(
+      public Builder setFashionUsed(
           com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
-        if (fashionUsageBuilder_ == null) {
-          fashionUsage_ = builderForValue.build();
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = builderForValue.build();
           onChanged();
         } else {
-          fashionUsageBuilder_.setMessage(builderForValue.build());
+          fashionUsedBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder mergeFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
-        if (fashionUsageBuilder_ == null) {
+      public Builder mergeFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
           if (((bitField0_ & 0x00004000) == 0x00004000) &&
-              fashionUsage_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
-            fashionUsage_ =
-              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsage_).mergeFrom(value).buildPartial();
+              fashionUsed_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsed_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsed_).mergeFrom(value).buildPartial();
           } else {
-            fashionUsage_ = value;
+            fashionUsed_ = value;
           }
           onChanged();
         } else {
-          fashionUsageBuilder_.mergeFrom(value);
+          fashionUsedBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00004000;
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder clearFashionUsage() {
-        if (fashionUsageBuilder_ == null) {
-          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      public Builder clearFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
           onChanged();
         } else {
-          fashionUsageBuilder_.clear();
+          fashionUsedBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsageBuilder() {
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsedBuilder() {
         bitField0_ |= 0x00004000;
         onChanged();
-        return getFashionUsageFieldBuilder().getBuilder();
+        return getFashionUsedFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
-        if (fashionUsageBuilder_ != null) {
-          return fashionUsageBuilder_.getMessageOrBuilder();
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+        if (fashionUsedBuilder_ != null) {
+          return fashionUsedBuilder_.getMessageOrBuilder();
         } else {
-          return fashionUsage_;
+          return fashionUsed_;
         }
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 15;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 15;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -9203,16 +9251,16 @@ public final class FriendServiceProtos {
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
-          getFashionUsageFieldBuilder() {
-        if (fashionUsageBuilder_ == null) {
-          fashionUsageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getFashionUsedFieldBuilder() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
-                  fashionUsage_,
+                  fashionUsed_,
                   getParentForChildren(),
                   isClean());
-          fashionUsage_ = null;
+          fashionUsed_ = null;
         }
-        return fashionUsageBuilder_;
+        return fashionUsedBuilder_;
       }
 
       // optional int32 vip = 16;
@@ -9260,6 +9308,39 @@ public final class FriendServiceProtos {
       public Builder clearVip() {
         bitField0_ = (bitField0_ & ~0x00008000);
         vip_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional int32 sex = 17;
+      private int sex_ ;
+      /**
+       * <code>optional int32 sex = 17;</code>
+       */
+      public boolean hasSex() {
+        return ((bitField0_ & 0x00010000) == 0x00010000);
+      }
+      /**
+       * <code>optional int32 sex = 17;</code>
+       */
+      public int getSex() {
+        return sex_;
+      }
+      /**
+       * <code>optional int32 sex = 17;</code>
+       */
+      public Builder setSex(int value) {
+        bitField0_ |= 0x00010000;
+        sex_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 sex = 17;</code>
+       */
+      public Builder clearSex() {
+        bitField0_ = (bitField0_ & ~0x00010000);
+        sex_ = 0;
         onChanged();
         return this;
       }
@@ -9318,28 +9399,28 @@ public final class FriendServiceProtos {
       "\001 \003(\0132\013.FriendInfo\022 \n\013requestList\030\002 \003(\0132" +
       "\013.FriendInfo\022\036\n\tblackList\030\003 \003(\0132\013.Friend" +
       "Info\022\"\n\rrecommandList\030\004 \003(\0132\013.FriendInfo" +
-      "\"\320\002\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userN" +
+      "\"\334\002\n\nFriendInfo\022\016\n\006userId\030\001 \002(\t\022\020\n\010userN" +
       "ame\030\002 \002(\t\022\021\n\theadImage\030\003 \002(\t\022\016\n\006career\030\004" +
       " \002(\005\022\024\n\014lastLoginTip\030\005 \002(\t\022\025\n\rlastLoginT" +
       "ime\030\006 \002(\002\022\r\n\005level\030\007 \002(\005\022\021\n\tunionName\030\010 " +
       "\002(\t\022\021\n\tgiveState\030\t \001(\010\022\024\n\014receiveState\030\n" +
       " \001(\010\022\017\n\007headbox\030\013 \001(\t\022\017\n\007groupId\030\014 \001(\t\022\021",
-      "\n\tgroupName\030\r \001(\t\022\020\n\010fighting\030\016 \001(\005\0221\n\014f" +
-      "ashionUsage\030\017 \001(\0132\033.FashionService.Fashi" +
-      "onUsed\022\013\n\003vip\030\020 \001(\005*\221\003\n\022EFriendRequestTy" +
-      "pe\022\010\n\004NONE\020\000\022\017\n\013FRIEND_LIST\020\001\022\016\n\nBLACK_L" +
-      "IST\020\002\022\020\n\014REQUEST_LIST\020\003\022\021\n\rSEARCH_FRIEND" +
-      "\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRECEIVE_POWER\020\006\022\022\n" +
-      "\016GIVE_POWER_ALL\020\007\022\025\n\021RECEIVE_POWER_ALL\020\010" +
-      "\022\026\n\022REQUEST_ADD_FRIEND\020\t\022\021\n\rREMOVE_FRIEN" +
-      "D\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014REMOVE_BLACK\020\014\022\026\n\022" +
-      "CONSENT_ADD_FRIEND\020\r\022\026\n\022REFUSED_ADD_FRIE",
-      "ND\020\016\022\032\n\026CONSENT_ADD_FRIEND_ALL\020\017\022\032\n\026REFU" +
-      "SED_ADD_FRIEND_ALL\020\020\022\014\n\010ALL_LIST\020\021\022\033\n\027RE" +
-      "QUEST_ADD_MUTI_FRIEND\020\022*G\n\021EFriendResult" +
-      "Type\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022\n\n\006FAIL_2\020\002\022" +
-      "\017\n\013SUCCESS_MSG\020\003B\"\n\013com.rwprotoB\023FriendS" +
-      "erviceProtos"
+      "\n\tgroupName\030\r \001(\t\022\020\n\010fighting\030\016 \001(\005\0220\n\013f" +
+      "ashionUsed\030\017 \001(\0132\033.FashionService.Fashio" +
+      "nUsed\022\013\n\003vip\030\020 \001(\005\022\013\n\003sex\030\021 \001(\005*\221\003\n\022EFri" +
+      "endRequestType\022\010\n\004NONE\020\000\022\017\n\013FRIEND_LIST\020" +
+      "\001\022\016\n\nBLACK_LIST\020\002\022\020\n\014REQUEST_LIST\020\003\022\021\n\rS" +
+      "EARCH_FRIEND\020\004\022\016\n\nGIVE_POWER\020\005\022\021\n\rRECEIV" +
+      "E_POWER\020\006\022\022\n\016GIVE_POWER_ALL\020\007\022\025\n\021RECEIVE" +
+      "_POWER_ALL\020\010\022\026\n\022REQUEST_ADD_FRIEND\020\t\022\021\n\r" +
+      "REMOVE_FRIEND\020\n\022\r\n\tADD_BLACK\020\013\022\020\n\014REMOVE" +
+      "_BLACK\020\014\022\026\n\022CONSENT_ADD_FRIEND\020\r\022\026\n\022REFU",
+      "SED_ADD_FRIEND\020\016\022\032\n\026CONSENT_ADD_FRIEND_A" +
+      "LL\020\017\022\032\n\026REFUSED_ADD_FRIEND_ALL\020\020\022\014\n\010ALL_" +
+      "LIST\020\021\022\033\n\027REQUEST_ADD_MUTI_FRIEND\020\022*G\n\021E" +
+      "FriendResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FAIL\020\001\022" +
+      "\n\n\006FAIL_2\020\002\022\017\n\013SUCCESS_MSG\020\003B\"\n\013com.rwpr" +
+      "otoB\023FriendServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -9369,7 +9450,7 @@ public final class FriendServiceProtos {
           internal_static_FriendInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_FriendInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Career", "LastLoginTip", "LastLoginTime", "Level", "UnionName", "GiveState", "ReceiveState", "Headbox", "GroupId", "GroupName", "Fighting", "FashionUsage", "Vip", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Career", "LastLoginTip", "LastLoginTime", "Level", "UnionName", "GiveState", "ReceiveState", "Headbox", "GroupId", "GroupName", "Fighting", "FashionUsed", "Vip", "Sex", });
           return null;
         }
       };

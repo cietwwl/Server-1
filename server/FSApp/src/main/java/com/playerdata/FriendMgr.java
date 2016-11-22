@@ -22,6 +22,7 @@ import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.fashion.FashionHandle;
 import com.rw.service.friend.FriendGetOperation;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupHelper;
@@ -40,6 +41,7 @@ import com.rwbase.dao.power.pojo.RoleUpgradeCfg;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.dao.setting.pojo.HeadBoxType;
+import com.rwproto.FashionServiceProtos.FashionUsed;
 import com.rwproto.FriendServiceProtos.EFriendResultType;
 import com.rwproto.FriendServiceProtos.FriendInfo;
 
@@ -768,6 +770,12 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendInfo.setLevel(item.getLevel());
 		friendInfo.setGroupId(GroupHelper.getUserGroupId(userId));
 		friendInfo.setGroupName(GroupHelper.getGroupName(userId));
+		friendInfo.setVip(item.getVip());
+		friendInfo.setSex(item.getSex());
+		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
+		if(null != usingFashion){
+			friendInfo.setFashionUsed(usingFashion);
+		}
 
 		if (item.getHeadFrame() == null) {
 			List<String> defaultHeadBoxList = HeadBoxCfgDAO.getInstance().getHeadBoxByType(HeadBoxType.HEADBOX_DEFAULT);
@@ -849,6 +857,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		// TODO 帮派获取名字后再提供
 		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		friendItem.setFighting(player.getHeroMgr().getFightingAll(player));
+		friendItem.setVip(player.getVip());
+		friendItem.setSex(player.getSex());
 	}
 
 	private void notifyLoginTime(TableFriend hostTable, FriendGetOperation getOp, String userId, long currentTime) {

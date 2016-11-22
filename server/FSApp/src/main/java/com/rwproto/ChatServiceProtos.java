@@ -893,31 +893,41 @@ public final class ChatServiceProtos {
      */
     int getGender();
 
-    // optional .FashionService.FashionUsed fashionUsage = 12;
+    // optional .FashionService.FashionUsed fashionUsed = 12;
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    boolean hasFashionUsage();
+    boolean hasFashionUsed();
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage();
+    com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed();
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
+    com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder();
+
+    // optional int32 fighting = 13;
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    boolean hasFighting();
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    int getFighting();
   }
   /**
    * Protobuf type {@code MessageUserInfo}
@@ -1028,14 +1038,19 @@ public final class ChatServiceProtos {
             case 98: {
               com.rwproto.FashionServiceProtos.FashionUsed.Builder subBuilder = null;
               if (((bitField0_ & 0x00000800) == 0x00000800)) {
-                subBuilder = fashionUsage_.toBuilder();
+                subBuilder = fashionUsed_.toBuilder();
               }
-              fashionUsage_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
+              fashionUsed_ = input.readMessage(com.rwproto.FashionServiceProtos.FashionUsed.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(fashionUsage_);
-                fashionUsage_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(fashionUsed_);
+                fashionUsed_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000800;
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00001000;
+              fighting_ = input.readInt32();
               break;
             }
           }
@@ -1528,38 +1543,54 @@ public final class ChatServiceProtos {
       return gender_;
     }
 
-    // optional .FashionService.FashionUsed fashionUsage = 12;
-    public static final int FASHIONUSAGE_FIELD_NUMBER = 12;
-    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_;
+    // optional .FashionService.FashionUsed fashionUsed = 12;
+    public static final int FASHIONUSED_FIELD_NUMBER = 12;
+    private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_;
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    public boolean hasFashionUsage() {
+    public boolean hasFashionUsed() {
       return ((bitField0_ & 0x00000800) == 0x00000800);
     }
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
-      return fashionUsage_;
+    public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+      return fashionUsed_;
     }
     /**
-     * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+     * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
      *
      * <pre>
      *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
      * </pre>
      */
-    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
-      return fashionUsage_;
+    public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+      return fashionUsed_;
+    }
+
+    // optional int32 fighting = 13;
+    public static final int FIGHTING_FIELD_NUMBER = 13;
+    private int fighting_;
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    public boolean hasFighting() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    /**
+     * <code>optional int32 fighting = 13;</code>
+     */
+    public int getFighting() {
+      return fighting_;
     }
 
     private void initFields() {
@@ -1574,7 +1605,8 @@ public final class ChatServiceProtos {
       fashionTemplateId_ = 0;
       careerType_ = 0;
       gender_ = 0;
-      fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      fighting_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1626,7 +1658,10 @@ public final class ChatServiceProtos {
         output.writeInt32(11, gender_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
-        output.writeMessage(12, fashionUsage_);
+        output.writeMessage(12, fashionUsed_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeInt32(13, fighting_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1683,7 +1718,11 @@ public final class ChatServiceProtos {
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(12, fashionUsage_);
+          .computeMessageSize(12, fashionUsed_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, fighting_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1793,7 +1832,7 @@ public final class ChatServiceProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getFashionUsageFieldBuilder();
+          getFashionUsedFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1824,12 +1863,14 @@ public final class ChatServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000200);
         gender_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
-        if (fashionUsageBuilder_ == null) {
-          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
         } else {
-          fashionUsageBuilder_.clear();
+          fashionUsedBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000800);
+        fighting_ = 0;
+        bitField0_ = (bitField0_ & ~0x00001000);
         return this;
       }
 
@@ -1905,11 +1946,15 @@ public final class ChatServiceProtos {
         if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
           to_bitField0_ |= 0x00000800;
         }
-        if (fashionUsageBuilder_ == null) {
-          result.fashionUsage_ = fashionUsage_;
+        if (fashionUsedBuilder_ == null) {
+          result.fashionUsed_ = fashionUsed_;
         } else {
-          result.fashionUsage_ = fashionUsageBuilder_.build();
+          result.fashionUsed_ = fashionUsedBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        result.fighting_ = fighting_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1971,8 +2016,11 @@ public final class ChatServiceProtos {
         if (other.hasGender()) {
           setGender(other.getGender());
         }
-        if (other.hasFashionUsage()) {
-          mergeFashionUsage(other.getFashionUsage());
+        if (other.hasFashionUsed()) {
+          mergeFashionUsed(other.getFashionUsed());
+        }
+        if (other.hasFighting()) {
+          setFighting(other.getFighting());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -2838,140 +2886,140 @@ public final class ChatServiceProtos {
         return this;
       }
 
-      // optional .FashionService.FashionUsed fashionUsage = 12;
-      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      // optional .FashionService.FashionUsed fashionUsed = 12;
+      private com.rwproto.FashionServiceProtos.FashionUsed fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsageBuilder_;
+          com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> fashionUsedBuilder_;
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public boolean hasFashionUsage() {
+      public boolean hasFashionUsed() {
         return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsage() {
-        if (fashionUsageBuilder_ == null) {
-          return fashionUsage_;
+      public com.rwproto.FashionServiceProtos.FashionUsed getFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          return fashionUsed_;
         } else {
-          return fashionUsageBuilder_.getMessage();
+          return fashionUsedBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder setFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
-        if (fashionUsageBuilder_ == null) {
+      public Builder setFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          fashionUsage_ = value;
+          fashionUsed_ = value;
           onChanged();
         } else {
-          fashionUsageBuilder_.setMessage(value);
+          fashionUsedBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder setFashionUsage(
+      public Builder setFashionUsed(
           com.rwproto.FashionServiceProtos.FashionUsed.Builder builderForValue) {
-        if (fashionUsageBuilder_ == null) {
-          fashionUsage_ = builderForValue.build();
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = builderForValue.build();
           onChanged();
         } else {
-          fashionUsageBuilder_.setMessage(builderForValue.build());
+          fashionUsedBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder mergeFashionUsage(com.rwproto.FashionServiceProtos.FashionUsed value) {
-        if (fashionUsageBuilder_ == null) {
+      public Builder mergeFashionUsed(com.rwproto.FashionServiceProtos.FashionUsed value) {
+        if (fashionUsedBuilder_ == null) {
           if (((bitField0_ & 0x00000800) == 0x00000800) &&
-              fashionUsage_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
-            fashionUsage_ =
-              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsage_).mergeFrom(value).buildPartial();
+              fashionUsed_ != com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance()) {
+            fashionUsed_ =
+              com.rwproto.FashionServiceProtos.FashionUsed.newBuilder(fashionUsed_).mergeFrom(value).buildPartial();
           } else {
-            fashionUsage_ = value;
+            fashionUsed_ = value;
           }
           onChanged();
         } else {
-          fashionUsageBuilder_.mergeFrom(value);
+          fashionUsedBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000800;
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public Builder clearFashionUsage() {
-        if (fashionUsageBuilder_ == null) {
-          fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      public Builder clearFashionUsed() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsed_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
           onChanged();
         } else {
-          fashionUsageBuilder_.clear();
+          fashionUsedBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsageBuilder() {
+      public com.rwproto.FashionServiceProtos.FashionUsed.Builder getFashionUsedBuilder() {
         bitField0_ |= 0x00000800;
         onChanged();
-        return getFashionUsageFieldBuilder().getBuilder();
+        return getFashionUsedFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
        * </pre>
        */
-      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder() {
-        if (fashionUsageBuilder_ != null) {
-          return fashionUsageBuilder_.getMessageOrBuilder();
+      public com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsedOrBuilder() {
+        if (fashionUsedBuilder_ != null) {
+          return fashionUsedBuilder_.getMessageOrBuilder();
         } else {
-          return fashionUsage_;
+          return fashionUsed_;
         }
       }
       /**
-       * <code>optional .FashionService.FashionUsed fashionUsage = 12;</code>
+       * <code>optional .FashionService.FashionUsed fashionUsed = 12;</code>
        *
        * <pre>
        *玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
@@ -2979,16 +3027,49 @@ public final class ChatServiceProtos {
        */
       private com.google.protobuf.SingleFieldBuilder<
           com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder> 
-          getFashionUsageFieldBuilder() {
-        if (fashionUsageBuilder_ == null) {
-          fashionUsageBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getFashionUsedFieldBuilder() {
+        if (fashionUsedBuilder_ == null) {
+          fashionUsedBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               com.rwproto.FashionServiceProtos.FashionUsed, com.rwproto.FashionServiceProtos.FashionUsed.Builder, com.rwproto.FashionServiceProtos.FashionUsedOrBuilder>(
-                  fashionUsage_,
+                  fashionUsed_,
                   getParentForChildren(),
                   isClean());
-          fashionUsage_ = null;
+          fashionUsed_ = null;
         }
-        return fashionUsageBuilder_;
+        return fashionUsedBuilder_;
+      }
+
+      // optional int32 fighting = 13;
+      private int fighting_ ;
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public boolean hasFighting() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public int getFighting() {
+        return fighting_;
+      }
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public Builder setFighting(int value) {
+        bitField0_ |= 0x00001000;
+        fighting_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 fighting = 13;</code>
+       */
+      public Builder clearFighting() {
+        bitField0_ = (bitField0_ & ~0x00001000);
+        fighting_ = 0;
+        onChanged();
+        return this;
       }
 
       // @@protoc_insertion_point(builder_scope:MessageUserInfo)
@@ -10231,45 +10312,45 @@ public final class ChatServiceProtos {
   static {
     java.lang.String[] descriptorData = {
       "\n\021ChatService.proto\032\024FashionService.prot" +
-      "o\"\213\002\n\017MessageUserInfo\022\016\n\006userId\030\001 \002(\t\022\020\n" +
+      "o\"\234\002\n\017MessageUserInfo\022\016\n\006userId\030\001 \002(\t\022\020\n" +
       "\010userName\030\002 \001(\t\022\021\n\theadImage\030\003 \001(\t\022\r\n\005le" +
       "vel\030\004 \001(\005\022\017\n\007groupId\030\005 \001(\t\022\021\n\tgroupName\030" +
       "\006 \001(\t\022\017\n\007headbox\030\007 \001(\t\022\r\n\005vipLv\030\010 \001(\005\022\031\n" +
       "\021fashionTemplateId\030\t \001(\005\022\022\n\ncareerType\030\n" +
-      " \001(\005\022\016\n\006gender\030\013 \001(\005\0221\n\014fashionUsage\030\014 \001" +
-      "(\0132\033.FashionService.FashionUsed\"\330\002\n\017Chat" +
-      "MessageData\022-\n\023sendMessageUserInfo\030\001 \001(\013" +
-      "2\020.MessageUserInfo\0220\n\026receiveMessageUser",
-      "Info\030\002 \001(\0132\020.MessageUserInfo\022\017\n\007message\030" +
-      "\003 \002(\t\022\014\n\004time\030\004 \001(\003\022\024\n\014treasureName\030\005 \001(" +
-      "\t\022\026\n\016treasureDefNum\030\006 \001(\005\022\022\n\ntreasureId\030" +
-      "\007 \001(\t\022\024\n\014treasureType\030\010 \001(\005\022\016\n\006isRead\030\t " +
-      "\001(\010\022#\n\nattachItem\030\n \003(\0132\017.ChatAttachItem" +
-      "\022 \n\nclickEvent\030\013 \001(\0162\014.eClickEvent\022\026\n\016cl" +
-      "ickEventData\030\014 \003(\t\"=\n\016ChatAttachItem\022\014\n\004" +
-      "type\030\001 \002(\005\022\n\n\002id\030\002 \002(\t\022\021\n\textraInfo\030\003 \001(" +
-      "\t\"J\n\025MsgPersonChatUserInfo\022\016\n\006userId\030\001 \002" +
-      "(\t\022\014\n\004name\030\002 \001(\t\022\023\n\013unReadCount\030\003 \001(\005\"Y\n",
-      "\016MsgChatRequest\022\034\n\010ChatType\030\001 \002(\0162\n.eCha" +
-      "tType\022)\n\017chatMessageData\030\002 \001(\0132\020.ChatMes" +
-      "sageData\"\310\001\n\017MsgChatResponse\022\034\n\010chatType" +
-      "\030\001 \002(\0162\n.eChatType\022(\n\016chatResultType\030\002 \001" +
-      "(\0162\020.eChatResultType\022%\n\013listMessage\030\003 \003(" +
-      "\0132\020.ChatMessageData\022\017\n\007onLogin\030\005 \001(\010\0225\n\025" +
-      "usersOfPrivateChannel\030\006 \003(\0132\026.MsgPersonC" +
-      "hatUserInfo\",\n\032MsgChatRequestPrivateChat" +
-      "s\022\016\n\006userId\030\001 \002(\t*\264\001\n\teChatType\022\021\n\rCHANN" +
-      "EL_WORLD\020\001\022\021\n\rCHANNEL_GROUP\020\002\022\022\n\016CHANNEL",
-      "_PERSON\020\003\022\021\n\rCHAT_TREASURE\020\004\022\022\n\016CHANNEL_" +
-      "SYSTEM\020\005\022\017\n\013CHAT_FRIEND\020\006\022\r\n\tCHAT_TEAM\020\007" +
-      "\022\024\n\020CHAT_RANDOM_BOSS\020\010\022\020\n\014CHANNEL_TEAM\020\t" +
-      "*(\n\017eChatResultType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL" +
-      "\020\002*m\n\017eAttachItemType\022\007\n\003Emo\020\001\022\010\n\004Item\020\002" +
-      "\022\010\n\004Hero\020\003\022\t\n\005Magic\020\004\022\014\n\010Treasure\020\005\022\n\n\006F" +
-      "riend\020\006\022\010\n\004Team\020\007\022\016\n\nRandomBoss\020\010*7\n\013eCl" +
-      "ickEvent\022\010\n\004None\020\001\022\017\n\013HeroPreview\020\002\022\r\n\tA" +
-      "ddFriend\020\003B \n\013com.rwprotoB\021ChatServicePr" +
-      "otos"
+      " \001(\005\022\016\n\006gender\030\013 \001(\005\0220\n\013fashionUsed\030\014 \001(" +
+      "\0132\033.FashionService.FashionUsed\022\020\n\010fighti" +
+      "ng\030\r \001(\005\"\330\002\n\017ChatMessageData\022-\n\023sendMess" +
+      "ageUserInfo\030\001 \001(\0132\020.MessageUserInfo\0220\n\026r",
+      "eceiveMessageUserInfo\030\002 \001(\0132\020.MessageUse" +
+      "rInfo\022\017\n\007message\030\003 \002(\t\022\014\n\004time\030\004 \001(\003\022\024\n\014" +
+      "treasureName\030\005 \001(\t\022\026\n\016treasureDefNum\030\006 \001" +
+      "(\005\022\022\n\ntreasureId\030\007 \001(\t\022\024\n\014treasureType\030\010" +
+      " \001(\005\022\016\n\006isRead\030\t \001(\010\022#\n\nattachItem\030\n \003(\013" +
+      "2\017.ChatAttachItem\022 \n\nclickEvent\030\013 \001(\0162\014." +
+      "eClickEvent\022\026\n\016clickEventData\030\014 \003(\t\"=\n\016C" +
+      "hatAttachItem\022\014\n\004type\030\001 \002(\005\022\n\n\002id\030\002 \002(\t\022" +
+      "\021\n\textraInfo\030\003 \001(\t\"J\n\025MsgPersonChatUserI" +
+      "nfo\022\016\n\006userId\030\001 \002(\t\022\014\n\004name\030\002 \001(\t\022\023\n\013unR",
+      "eadCount\030\003 \001(\005\"Y\n\016MsgChatRequest\022\034\n\010Chat" +
+      "Type\030\001 \002(\0162\n.eChatType\022)\n\017chatMessageDat" +
+      "a\030\002 \001(\0132\020.ChatMessageData\"\310\001\n\017MsgChatRes" +
+      "ponse\022\034\n\010chatType\030\001 \002(\0162\n.eChatType\022(\n\016c" +
+      "hatResultType\030\002 \001(\0162\020.eChatResultType\022%\n" +
+      "\013listMessage\030\003 \003(\0132\020.ChatMessageData\022\017\n\007" +
+      "onLogin\030\005 \001(\010\0225\n\025usersOfPrivateChannel\030\006" +
+      " \003(\0132\026.MsgPersonChatUserInfo\",\n\032MsgChatR" +
+      "equestPrivateChats\022\016\n\006userId\030\001 \002(\t*\264\001\n\te" +
+      "ChatType\022\021\n\rCHANNEL_WORLD\020\001\022\021\n\rCHANNEL_G",
+      "ROUP\020\002\022\022\n\016CHANNEL_PERSON\020\003\022\021\n\rCHAT_TREAS" +
+      "URE\020\004\022\022\n\016CHANNEL_SYSTEM\020\005\022\017\n\013CHAT_FRIEND" +
+      "\020\006\022\r\n\tCHAT_TEAM\020\007\022\024\n\020CHAT_RANDOM_BOSS\020\010\022" +
+      "\020\n\014CHANNEL_TEAM\020\t*(\n\017eChatResultType\022\013\n\007" +
+      "SUCCESS\020\001\022\010\n\004FAIL\020\002*m\n\017eAttachItemType\022\007" +
+      "\n\003Emo\020\001\022\010\n\004Item\020\002\022\010\n\004Hero\020\003\022\t\n\005Magic\020\004\022\014" +
+      "\n\010Treasure\020\005\022\n\n\006Friend\020\006\022\010\n\004Team\020\007\022\016\n\nRa" +
+      "ndomBoss\020\010*7\n\013eClickEvent\022\010\n\004None\020\001\022\017\n\013H" +
+      "eroPreview\020\002\022\r\n\tAddFriend\020\003B \n\013com.rwpro" +
+      "toB\021ChatServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -10281,7 +10362,7 @@ public final class ChatServiceProtos {
           internal_static_MessageUserInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_MessageUserInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "GroupId", "GroupName", "Headbox", "VipLv", "FashionTemplateId", "CareerType", "Gender", "FashionUsage", });
+              new java.lang.String[] { "UserId", "UserName", "HeadImage", "Level", "GroupId", "GroupName", "Headbox", "VipLv", "FashionTemplateId", "CareerType", "Gender", "FashionUsed", "Fighting", });
           internal_static_ChatMessageData_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_ChatMessageData_fieldAccessorTable = new

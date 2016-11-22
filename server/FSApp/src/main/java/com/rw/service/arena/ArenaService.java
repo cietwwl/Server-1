@@ -1,7 +1,6 @@
 package com.rw.service.arena;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.Player;
 import com.rw.service.FsService;

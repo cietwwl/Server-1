@@ -176,7 +176,8 @@ public class ArenaBM {
 		data.setCareer(career);
 		data.setMaxPlace(place);
 		data.setFighting(fighting);
-
+		data.setVip(player.getVip());
+		data.setSex(player.getSex());
 		// data.setHeros(new ArrayList<TableHeroData>());
 		// data.setHeroAtrrs(new ArrayList<TableAttr>());
 		// data.setPlayerAttr(player.getAttrMgr().getTableAttr()); //
@@ -566,6 +567,8 @@ public class ArenaBM {
 			data.setFighting(fighting);
 			data.setHeadImage(headImage);
 			data.setHeadbox(headBox);
+			data.setVip(player.getVip());
+			data.setSex(player.getSex());
 			ItemData magic = player.getMagic();
 			if (magic != null) {
 				data.setMagicId(magic.getModelId());

@@ -10,9 +10,12 @@ import java.util.concurrent.TimeUnit;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.army.ArmyFashion;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.dao.fashion.FashionBeingUsed;
+import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
@@ -190,6 +193,17 @@ public class GroupMemberMgr {
 		memberData.setTemplateId(templateId);
 		memberData.setHeadbox(headbox);
 		memberData.setAllotRewardCount(alloctTime);
+		Player player = PlayerMgr.getInstance().findPlayerFromMemory(playerId);
+		FashionBeingUsed fashion = FashionBeingUsedHolder.getInstance().get(playerId);
+		if(null != fashion && null != player){
+			ArmyFashion armyFasion = new ArmyFashion();
+			armyFasion.setGender(player.getSex());
+			armyFasion.setCareer(player.getCareer());
+			armyFasion.setPetId(fashion.getPetId());
+			armyFasion.setSuitId(fashion.getSuitId());
+			armyFasion.setWingId(fashion.getWingId());
+			memberData.setArmyFashion(armyFasion);
+		}
 		return memberData;
 	}
 
@@ -461,6 +475,32 @@ public class GroupMemberMgr {
 
 		item.setVipLevel((byte) vipLevel);
 		holder.updateMemberData(item.getId());
+	}
+	
+	/**
+	 * 更新成员的时装
+	 * 
+	 * @param userId
+	 * @param vipLevel
+	 */
+	public void updateMemberFashion(String userId){
+		GroupMemberData item = holder.getMemberData(userId, false);
+		if (item == null) {
+			return;
+		}
+
+		Player player = PlayerMgr.getInstance().findPlayerFromMemory(userId);
+		FashionBeingUsed fashion = FashionBeingUsedHolder.getInstance().get(userId);
+		if(null != fashion && null != player){
+			ArmyFashion armyFasion = new ArmyFashion();
+			armyFasion.setGender(player.getSex());
+			armyFasion.setCareer(player.getCareer());
+			armyFasion.setPetId(fashion.getPetId());
+			armyFasion.setSuitId(fashion.getSuitId());
+			armyFasion.setWingId(fashion.getWingId());
+			item.setArmyFashion(armyFasion);
+			holder.updateMemberData(item.getId());
+		}
 	}
 
 	/**

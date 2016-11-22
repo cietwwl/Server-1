@@ -5,6 +5,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.army.ArmyFashion;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
@@ -49,7 +50,8 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@IgnoreSynField
 	private int dayContribution;// 当天捐献的数量
 	private int allotRewardCount;//每天分配奖励次数  非管理员则为0
-
+	private ArmyFashion armyFashion;	//时装
+	
 	// ////////////////////////////////////////////GET区域
 	/**
 	 * 获取成员的Id，实际上是角色的Id
@@ -403,5 +405,12 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	public void setAllotRewardCount(int allotRewardCount) {
 		this.allotRewardCount = allotRewardCount;
 	}
-	
+
+	public ArmyFashion getArmyFashion() {
+		return armyFashion;
+	}
+
+	public void setArmyFashion(ArmyFashion armyFashion) {
+		this.armyFashion = armyFashion;
+	}
 }
