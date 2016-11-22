@@ -2,8 +2,10 @@ package com.playerdata.fightinggrowth;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetBasicCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetBasicMaxFightingFunc;
@@ -23,9 +25,11 @@ import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipCurrentFightingF
 import com.playerdata.fightinggrowth.fightingfunc.FSGetNormEquipMaxFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetSkillMaxFightingFunc;
+import com.playerdata.fightinggrowth.fightingfunc.FSGetSpriteAttachCurrentFighting;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistCurrentFightingFunc;
 import com.playerdata.fightinggrowth.fightingfunc.FSGetTaoistMaxFightingFunc;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwbase.common.IBIFunction;
 import com.rwbase.common.IFunction;
 import com.rwbase.dao.fightinggrowth.pojo.FSUserFightingGrowthWayInfoCfg;
 
@@ -52,10 +56,11 @@ public enum FSFightingGrowthWayType {
 	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistMaxFightingFunc.getInstance()), // 道术战斗力获取
 	GEM(8, FSGetGemCurrentFightingFunc.getInstance(), FSGetGemMaxFightingFunc.getInstance()), // 宝石属性的战斗力获取
 	FASHION(9, FSGetFashionCurrentFightingFunc.getInstance(), FSGetFashionMaxFightingFunc.getInstance()), // 时装战斗力获取
-	NORMAL_SKILL(10, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 普通装备战力获取
+	SPRITE_ATTACH(10, FSGetSpriteAttachCurrentFighting.getInstance(), null), // 附灵战力获取
+	NORMAL_EQUIPMENT(11, FSGetNormEquipCurrentFightingFunc.getInstance(), FSGetNormEquipMaxFightingFunc.getInstance()), // 普通装备战力获取
 	;
 	private final int _sign;
-	private final IFunction<Player, Integer> _getCurrentFightingFunc;
+	private final IBIFunction<Player, List<Hero>, Integer> _getCurrentFightingFunc;
 	private final IFunction<Player, Integer> _getMaxFightingFunc;
 	
 	private static final Map<Integer, FSFightingGrowthWayType> _all;
@@ -74,7 +79,7 @@ public enum FSFightingGrowthWayType {
 	 * @param getCurrentFightingClazz 根据角色等级获取当前该模块的战斗力函数
 	 * @param getMaxFightingClazz 根据角色等级获取当前该模块所能达到的最大战斗力函数
 	 */
-	private FSFightingGrowthWayType(int pSign, IFunction<Player, Integer> getCurrentFightingFunc, IFunction<Player, Integer> getMaxFightingFunc) {
+	private FSFightingGrowthWayType(int pSign, IBIFunction<Player, List<Hero>, Integer> getCurrentFightingFunc, IFunction<Player, Integer> getMaxFightingFunc) {
 		this._sign = pSign;
 		this._getCurrentFightingFunc = getCurrentFightingFunc;
 		this._getMaxFightingFunc = getMaxFightingFunc;
@@ -90,7 +95,7 @@ public enum FSFightingGrowthWayType {
 	 * 
 	 * @return
 	 */
-	public IFunction<Player, Integer> getGetCurrentFightingFunc() {
+	public IBIFunction<Player, List<Hero>, Integer> getGetCurrentFightingFunc() {
 		return _getCurrentFightingFunc;
 	}
 	

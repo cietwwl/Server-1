@@ -37,10 +37,11 @@ public class HeroMagicAttributeComponent extends AbstractAttributeCalc {
 
 		MagicParam.MagicBuilder builder = new MagicBuilder();
 		builder.setUserId(userId);
-		builder.setHeroId(hero.getUUId());
+		builder.setHeroTemplateId(hero.getTemplateId());
 		builder.setMagicId(String.valueOf(modelId));
 		builder.setMagicLevel(magicLevel);
 		builder.setMagicAptitude(magicAptitude);
+		builder.setIsMainRole(hero.isMainRole());
 
 		IComponentCalc calc = AttributeBM.getComponentCalc(getComponentTypeEnum());
 		if (calc == null) {

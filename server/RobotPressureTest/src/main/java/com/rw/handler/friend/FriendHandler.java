@@ -1,8 +1,11 @@
 package com.rw.handler.friend;
 
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.actionHelper.ActionEnum;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
@@ -14,6 +17,8 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.ResponseProtos.Response;
 
 public class FriendHandler implements RandomMethodIF{
+	
+	private static ConcurrentHashMap<String, Integer> funcStageMap = new ConcurrentHashMap<String, Integer>();
 
 	private static FriendHandler instance = new FriendHandler();
 
@@ -362,7 +367,25 @@ public class FriendHandler implements RandomMethodIF{
 
 	@Override
 	public boolean executeMethod(Client client) {
-		//TODO 需要拟定顺序
-		return acceptAll(client);
+		Integer stage = funcStageMap.get(client.getAccountId());
+		if(null == stage){
+			stage = new Integer(0);
+			funcStageMap.put(client.getAccountId(), stage);
+		}
+		switch (stage) {
+		case 0:
+			funcStageMap.put(client.getAccountId(), 1);
+			client.getRateHelper().addActionToQueue(ActionEnum.Friend);
+			return acceptAll(client);
+		case 1:
+			funcStageMap.put(client.getAccountId(), 2);
+			client.getRateHelper().addActionToQueue(ActionEnum.Friend);
+			return givePowerAll(client);
+		case 2:
+			funcStageMap.put(client.getAccountId(), 0);
+			return receivePowerAll(client);
+		default:
+			return true;
+		}
 	}
 }

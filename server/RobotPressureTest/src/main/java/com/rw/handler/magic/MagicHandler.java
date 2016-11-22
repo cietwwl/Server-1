@@ -111,8 +111,6 @@ public class MagicHandler implements RandomMethodIF{
 		req.setMagicType(eMagicType.Magic_Upgrade);
 		req.setState(0);
 		req.setId(itemData.getId());
-
-
 		client.getMsgHandler().sendMsg(Command.MSG_MAGIC, req.build().toByteString(), new MagicMsgReceiver(command, functionName, "法宝强化"));
 		return true;
 	}

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.playerdata.Hero;
 import com.playerdata.Player;
-import com.playerdata.hero.core.FSHeroMgr;
+import com.rwbase.common.IBIFunction;
 import com.rwbase.common.IFunction;
 
 /**
@@ -14,7 +14,7 @@ import com.rwbase.common.IFunction;
  * @author CHEN.P
  *
  */
-public class FSGetNormEquipCurrentFightingFunc implements IFunction<Player, Integer> {
+public class FSGetNormEquipCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
 	private static final FSGetNormEquipCurrentFightingFunc _instance = new FSGetNormEquipCurrentFightingFunc();
 
@@ -29,12 +29,11 @@ public class FSGetNormEquipCurrentFightingFunc implements IFunction<Player, Inte
 	}
 
 	@Override
-	public Integer apply(Player player) {
-		List<Hero> allHeros = FSHeroMgr.getInstance().getAllHeros(player, null);
+	public Integer apply(Player player, List<Hero> teamHeros) {
 		Hero h;
 		int fighting = 0;
-		for (int i = 0; i < allHeros.size(); i++) {
-			h = allHeros.get(i);
+		for (int i = 0; i < teamHeros.size(); i++) {
+			h = teamHeros.get(i);
 			fighting += _single.apply(h);
 		}
 		return fighting;
