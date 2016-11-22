@@ -31,7 +31,6 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
-import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.angelarray.AngelArrayConst;
 import com.rwbase.dao.angelarray.pojo.db.AngelArrayTeamInfoData;
 import com.rwbase.dao.arena.pojo.TableArenaData;
@@ -550,47 +549,13 @@ public final class AngelArrayMatchHelper {
 	 */
 	private static int getArenaRankIndex(MatchUserInfo userInfo) {
 		String userId = userInfo.getUserId();
-		int career = userInfo.getCareer();
-		if (career == -1) {
-			PlayerIF player = PlayerMgr.getInstance().getReadOnlyPlayer(userId);
-			if (player == null) {
-				return -1;
-			}
-
-			career = player.getMainRoleHero().getCareerType();
-		}
-
-		ECareer careerType = ECareer.valueOf(career);
-		int rankType;
-		switch (careerType) {
-		case Magican:
-			rankType = RankType.MAGICAN_ARENA_DAILY.getType();
-			break;
-		case Priest:
-			rankType = RankType.PRIEST_ARENA_DAILY.getType();
-			break;
-		case SwordsMan:
-			rankType = RankType.SWORDMAN_ARENA_DAILY.getType();
-			break;
-		case Warrior:
-			rankType = RankType.WARRIOR_ARENA_DAILY.getType();
-			break;
-		default:
-			rankType = -1;
-			break;
-		}
-
-		if (rankType == -1) {
-			return -1;
-		}
-
-		Ranking ranking = RankingFactory.getRanking(rankType);
+		Ranking ranking = RankingFactory.getRanking(RankType.ARENA);
 		if (ranking == null) {
 			return -1;
 		}
-
 		return ranking.getRanking(userId);
 	}
+	
 }
 
 class MatchUserInfo {
