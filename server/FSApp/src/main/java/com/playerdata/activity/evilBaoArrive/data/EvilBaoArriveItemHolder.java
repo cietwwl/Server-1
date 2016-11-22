@@ -23,7 +23,7 @@ public class EvilBaoArriveItemHolder extends UserActivityChecker<EvilBaoArriveIt
 		return instance;
 	}
 
-	final private eSynType synType = eSynType.ActivityDailyRechargeType;
+	final private eSynType synType = eSynType.ActivityEvilBaoArrive;
 	
 	public void updateItem(Player player, EvilBaoArriveItem item){
 		getItemStore(player.getUserId()).update(item.getId());
