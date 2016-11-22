@@ -50,7 +50,8 @@ message MessageUserInfo{
 	optional int32 fashionTemplateId = 9; // 时装的模板id
 	optional int32 careerType = 10; // 职业类型
 	optional int32 gender = 11; // 性别
-	optional FashionService.FashionUsed fashionUsage = 12; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional string fashionId = 12; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional int32 fighting = 13;
 }
 
 message ChatMessageData{

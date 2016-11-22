@@ -2,7 +2,6 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "FriendServiceProtos";
 
-import "FashionService.proto";
 
 enum EFriendRequestType{
 	NONE = 0;//空
@@ -73,6 +72,7 @@ message FriendInfo{
 	optional string groupId = 12; //帮派ID
 	optional string groupName = 13; //帮派名字
 	optional int32 fighting = 14;	//战力
-	optional FashionService.FashionUsed fashionUsage = 15; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
+	optional string fashionId = 15; //玩家穿戴的时装（如果玩家没有购买时装，则是没有指定）
 	optional int32 vip = 16;	//vip等级
+	optional int32 sex = 17;
 }
