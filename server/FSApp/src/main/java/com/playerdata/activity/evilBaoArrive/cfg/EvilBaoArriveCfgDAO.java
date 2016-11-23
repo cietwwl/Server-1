@@ -7,7 +7,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
-//	<bean class="com.rw.service.EvilBaoArrive.datamodel.EvilBaoArriveCfgHelper"  init-method="init" />
+//	<bean class="com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO"  init-method="init" />
 
 public class EvilBaoArriveCfgDAO extends CfgCsvDao<EvilBaoArriveCfg> {
 	public static EvilBaoArriveCfgDAO getInstance() {

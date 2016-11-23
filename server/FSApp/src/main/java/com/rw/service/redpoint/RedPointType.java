@@ -70,7 +70,9 @@ public enum RedPointType {
 	HOME_WINDOW_ITEM_BAG,
 	ITEM_BAG_ALL_BTN,
 	ITEM_BAG_CONSUME_BTN,
-	HOME_WINDOW_FRIEND, ;
+	HOME_WINDOW_FRIEND,
+	EVIL_BAO_ARRIVE,
+	;
 
 	private RedPointType() {
 

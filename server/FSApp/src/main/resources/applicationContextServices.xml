@@ -86,6 +86,7 @@
 			     <entry key="MSG_ACTIVITY_DAILY_CHARGE_TYPE" value-ref="activityDailyChargeTypeService" />
 			     <entry key="MSG_ACTIVITY_LimitHero_TYPE" value-ref="activityLimitHeroTypeService" />
 			     <entry key="MSG_ACTIVITY_RETRIEVE" value-ref="activityRetrieveTypeService" />
+			     <entry key="MSG_ACTIVITY_EVILBAO" value-ref="activityEvilBaoArriveService" />
 			     
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
@@ -195,9 +196,10 @@
 	<bean id="activityRedEnvelopeTypeService" class="com.playerdata.activity.redEnvelopeType.service.ActivityRedEnvelopeTypeService"  />
 	<bean id="activityDailyChargeTypeService" class="com.playerdata.activity.dailyCharge.service.ActivityDailyRechargeTypeService" />
 	<bean id="activityLimitHeroTypeService" class="com.playerdata.activity.limitHeroType.service.ActivityLimitHeroTypeService"  />
-	
+	<bean id="activityEvilBaoArriveService" class = "com.playerdata.activity.evilBaoArrive.service.ActivityEvilBaoArriveService" />
 	<bean id="activityFortuneCatTypeService" class="com.playerdata.activity.fortuneCatType.service.ActivityFortuneCatTypeService"  />
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
+	
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />
 	<bean id="magicSecretService" class="com.playerdata.mgcsecret.service.MagicSecretService"/>
