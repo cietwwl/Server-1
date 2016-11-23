@@ -15,6 +15,10 @@ public class RecordInfo {
 	private String userId;  //对手的ID
 	private int challenge;// 1是我打别人，01是别人打我
 	private List<HurtValueRecord> hurtList;
+	private int vip;
+	private int sex;
+	private int fighting;
+	
 
 	public int getWin() {
 		return win;
@@ -99,4 +103,27 @@ public class RecordInfo {
 		this.hurtList = hurtList;
 	}
 
+	public int getVip() {
+		return vip;
+	}
+
+	public void setVip(int vip) {
+		this.vip = vip;
+	}
+
+	public int getSex() {
+		return sex;
+	}
+
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+
+	public int getFighting() {
+		return fighting;
+	}
+
+	public void setFighting(int fighting) {
+		this.fighting = fighting;
+	}
 }

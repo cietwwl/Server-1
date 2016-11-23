@@ -499,6 +499,7 @@ public class RankingMgr {
 			toData.setSex(p.getSex());
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
+			toData.setVip(p.getVip());
 		}
 	}
 
@@ -562,6 +563,7 @@ public class RankingMgr {
 			toData.setSex(p.getSex());
 			toData.setCareerLevel(p.getStarLevel());
 			toData.setArenaPlace(ArenaBM.getInstance().getOtherArenaPlace(userId, p.getCareer()));
+			toData.setVip(p.getVip());
 			return toData;
 		} catch (Exception e) {
 			return null;
@@ -836,9 +838,6 @@ public class RankingMgr {
 	private interface RobotInteface{
 		public void doCount(User user);
 	}
-	
-	
-	
 }
 
 class RankingEntityOfRankImpl<C extends Comparable<C>, E> implements RankingEntityOfRank<C, E> {
@@ -875,8 +874,4 @@ class RankingEntityOfRankImpl<C extends Comparable<C>, E> implements RankingEnti
 	public E getExtendedAttribute() {
 		return this.extendedAttribute;
 	}
-	
-	
-	
-
 }

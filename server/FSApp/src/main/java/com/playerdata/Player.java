@@ -994,6 +994,8 @@ public class Player implements PlayerIF {
 			if (observer != null) {
 				observer.playerChangeVipLevel(this);
 			}
+			RankingMgr.getInstance().onPlayerChange(this);
+			getFriendMgr().onPlayerChange(this);
 			return 0;
 		}
 		return -1;
