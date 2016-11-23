@@ -12,6 +12,7 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.MapItemStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwbase.common.MapItemStoreFactory;
+import com.rwbase.common.enu.TaskState;
 import com.rwbase.dao.task.pojo.TaskCfg;
 import com.rwbase.dao.task.pojo.TaskItem;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -59,7 +60,9 @@ public class TaskItemHolder {
 	
 	public void updateItem(Player player, TaskItem item, boolean isSyn) {
 		getItemStore().updateItem(item);
-		if(isSyn) ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.UPDATE_SINGLE);
+		if (isSyn) {
+			ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.UPDATE_SINGLE);
+		}
 	}
 
 	public TaskItem getItem(String itemId) {
@@ -85,6 +88,10 @@ public class TaskItemHolder {
 			ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.REMOVE_SINGLE);
 		}
 		return success;
+	}
+	
+	public void synRemove(Player player, TaskItem item) {
+		ClientDataSynMgr.updateData(player, item, dataSynType, eSynOpType.REMOVE_SINGLE);
 	}
 	
 	public boolean removeItem(Player player, List<TaskItem> items) {
@@ -143,6 +150,10 @@ public class TaskItemHolder {
 			if(cfg == null){
 				removeList.add(taskItem);
 				GameLog.error(LogModule.COMMON, "TaskItemHolder[synAllData]", "同步任务数据到客户端，发现任务不存在，任务id:" + taskItem.getTaskId(), null);
+			} else if (taskItem.getDrawState() == TaskState.DRAWED.sign) {
+				// 2016-11-07 by PERRY ： 已经领取奖励的任务不发送到客户端，否则客户端会显示一个无状态的任务在列表中（Bug #4902）
+				// 以前的代码在领取奖励的时候，判断前置任务为-1的任务不删除，暂时未知用意，但这里不能发送到客户端
+				removeList.add(taskItem);
 			}
 //			System.out.println("+++++++++，id:" + taskItem.getTaskId() + ",desc:" + cfg.getDesc() );
 		}

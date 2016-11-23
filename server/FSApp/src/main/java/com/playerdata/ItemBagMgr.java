@@ -990,14 +990,15 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param selfModelId
 	 * @return
 	 */
-	public List<IUseItem> checkEnoughItem(int itemModelId, int count, ItemData selfItem){
-		List<IUseItem> useItemList = new ArrayList<IUseItem>(); 
+	public List<IUseItem> checkEnoughItem(int itemModelId, int count,
+			ItemData selfItem, ICheckItemWare checker) {
+		List<IUseItem> useItemList = new ArrayList<IUseItem>();
 		ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 		int stackNum = itemBaseCfg.getStackNum();
 		if (stackNum > 1) {
-			if(!checkEnoughItem(itemModelId, count)){
+			if (!checkEnoughItem(itemModelId, count)) {
 				return null;
-			}else{
+			} else {
 				Map<Integer, ItemData> modelFirstItemDataMap = getModelFirstItemDataMap();
 				ItemData itemData = modelFirstItemDataMap.get(itemModelId);
 				useItemList.add(new UseItem(itemData.getId(), count));
@@ -1005,29 +1006,20 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			}
 		} else {
 			List<ItemData> itemDatas = getItemListByCfgId(itemModelId);
-			boolean enough = false;
-			if(selfItem != null){
-				enough = itemDatas.size() > count;
-			}else{
-				enough = itemDatas.size() > (selfItem.getModelId() == itemModelId ? count +1 : count);
-			}
-			if(enough){
-				int index = 0;
-				for (int i = 0; i < count; i++) {
-					ItemData itemData = itemDatas.get(index);
-					while (itemData.getId().equals(selfItem.getId())) {
-						index++;
-						if (index >= itemDatas.size()) {
-							break;
-						}
-						itemData = itemDatas.get(index);
-
-					}
-					useItemList.add(new UseItem(itemData.getId(), 1));
-					index++;
+			String id = selfItem == null ? "" : selfItem.getId();
+			for (int i = 0; i < itemDatas.size(); i++) {
+				ItemData itemData = itemDatas.get(i);
+				if ((itemData.getId().equals(id)) || checker.checkWare(itemData)) {
+					continue;
 				}
+				useItemList.add(new UseItem(itemData.getId(), 1));
+				if(useItemList.size() >= count){
+					break;
+				}
+			}
+			if (useItemList.size() >= count) {
 				return useItemList;
-			}else{
+			} else {
 				return null;
 			}
 		}

@@ -1,5 +1,11 @@
 package com.rwbase.dao.task.pojo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class TaskCfg {
 
 	private int id;
@@ -11,11 +17,13 @@ public class TaskCfg {
 	private int preTask;
 	private int finishType;
 	private String finishParam;
+	private List<String> finishParamList;
 	private String reward;
 	private int achievementPoint;
 	private String skip;
 	private int openLevel;
 	private String altar;
+	private Map<Integer, Integer> rewardMap; // 奖励的map
 	public int getId() {
 		return id;
 	}
@@ -99,5 +107,21 @@ public class TaskCfg {
 	}
 	public void setAltar(String altar) {
 		this.altar = altar;
+	}
+
+	public Map<Integer, Integer> getRewardMap() {
+		return rewardMap;
+	}
+
+	public void setRewardMap(Map<Integer, Integer> rewardMap) {
+		this.rewardMap = Collections.unmodifiableMap(new HashMap<Integer, Integer>(rewardMap));
+	}
+
+	public List<String> getFinishParamList() {
+		return finishParamList;
+	}
+
+	public void setFinishParamList(List<String> finishParamList) {
+		this.finishParamList = Collections.unmodifiableList(new ArrayList<String>(finishParamList));
 	}
 }

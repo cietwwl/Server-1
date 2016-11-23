@@ -98,7 +98,7 @@ public class FSUserFightingGrowthHolder {
 			hasNextTitle = false;
 			fightingRequired = 0;
 			itemsRequired = Collections.emptyMap();
-			maxFightingMap = Collections.emptyMap();
+			maxFightingMap = currentTitleCfg.getExpectedFightingMap();
 		}
 		if (StringUtils.isEmpty(userFightingGrowthData.getCurrentTitleKey())) {
 			// 当前还没有达成任何的称号
