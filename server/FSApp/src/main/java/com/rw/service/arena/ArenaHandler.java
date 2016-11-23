@@ -590,6 +590,9 @@ public class ArenaHandler {
 			recordForEnemy.setLevel(m_MyArenaData.getLevel());
 			recordForEnemy.setTime(currentTime);
 			recordForEnemy.setChallenge(0);
+			recordForEnemy.setVip(m_MyArenaData.getVip());
+			recordForEnemy.setSex(m_MyArenaData.getSex());
+			recordForEnemy.setFighting(m_MyArenaData.getFighting());
 			ArenaBM.getInstance().addRecord(enemyUserId, recordForEnemy, true);
 			ArenaRecord ar = getArenaRecord(record);
 
