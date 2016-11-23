@@ -28,8 +28,7 @@ public class OpenLevelTiggerServiceMgr {
 		this.friendTigger = new ServiceTiggerToFriend();
 	}
 
-	public void tiggerServiceByLevel(Player player, User oldRecord, User currentRecord) {
-		String userId = player.getUserId();
+	public void tiggerServiceByLevel(String userId, User oldRecord, User currentRecord) {
 		Long currentTime = DateUtils.getSecondLevelMillis();
 		CfgOpenLevelLimitDAO cfgLimitDao = CfgOpenLevelLimitDAO.getInstance();
 		CfgOpenLevelTiggerServiceDAO cfgServiceDao = CfgOpenLevelTiggerServiceDAO.getInstance();
@@ -39,7 +38,7 @@ public class OpenLevelTiggerServiceMgr {
 				continue;
 			}
 			for (CfgOpenLevelLimit cfg : cfgList) {// 很少一个级别配置多个引导；获得该等级各激活的功能的对应辅助配置
-				friendTigger.openLevelToCreatItem(player, currentTime, userId, cfg, cfgServiceDao);
+				friendTigger.openLevelToCreatItem(currentTime, userId, cfg, cfgServiceDao);
 			}
 		}
 	}

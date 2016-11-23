@@ -76,21 +76,17 @@ public final class ActivityRateTypeCfgDAO extends
 	private void parseTimeByHour(ActivityRateTypeCfg cfgTmp) {
 		try {
 			String[] startAndEndgroup = cfgTmp.getTimeStr().split(";");
-			List<ActivityRateTypeStartAndEndHourHelper> timeList = cfgTmp
-					.getStartAndEnd();
+			List<ActivityRateTypeStartAndEndHourHelper> timeList = cfgTmp.getStartAndEnd();
 			for (String subStartAndEnd : startAndEndgroup) {
 				String[] substartAndEndlist = subStartAndEnd.split(":");
 				ActivityRateTypeStartAndEndHourHelper timebyHour = new ActivityRateTypeStartAndEndHourHelper();
-				timebyHour
-						.setStarthour(Integer.parseInt(substartAndEndlist[0]) / 100);
-				timebyHour
-						.setEndhour(Integer.parseInt(substartAndEndlist[1]) / 100);
+				timebyHour.setStarthour(Integer.parseInt(substartAndEndlist[0]));
+				timebyHour.setEndhour(Integer.parseInt(substartAndEndlist[1]));
 				timeList.add(timebyHour);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-
 	}
 
 	private void parseTime(ActivityRateTypeCfg cfgItem) {

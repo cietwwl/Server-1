@@ -26,11 +26,16 @@ public class TargetSellSendTask implements IGameTimerTask{
 			Entry<String, TargetSellRoleChange> entry = iterator.next();
 			TargetSellRoleChange value = entry.getValue();
 			if(current - value.getStartTime() >= ONE_MINUTE){
-				iterator.remove();
+				synchronized (value) {
+					iterator.remove();
+				}
+				TargetSellManager.getInstance().packHeroChangeAttr(entry.getKey(), value);
 				TargetSellManager.getInstance().packAndSendMsg(value);
 			}
-			
 		}
+		
+		//检查一下角色退出列表
+		TargetSellManager.getInstance().checkLogOutRoleList();
 		return "SUCCESS";
 	}
 

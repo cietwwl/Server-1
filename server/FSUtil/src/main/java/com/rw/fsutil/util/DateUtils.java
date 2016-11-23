@@ -451,6 +451,19 @@ public class DateUtils {
 		return format;
 	}
 	
+	public static String getTimeOfDayFomrateTips(long time){
+		return getTimeOfDayFormater().format(new Date(time));
+	}
+	
+	public static SimpleDateFormat getTimeOfDayFormater() {
+		SimpleDateFormat format = formate_hhmmss.get();
+		if (format == null) {
+			format = new SimpleDateFormat("HHmmss");
+			formate_hhmmss.set(format);
+		}
+		return format;
+	}
+	
 	public static String getHHMMSSFomrateTips(){
 		return getHHmmFormater().format(new Date(System.currentTimeMillis()));
 	}

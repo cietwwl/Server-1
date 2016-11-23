@@ -20,11 +20,12 @@ public class BenefitAttrCfgDAO extends CfgCsvDao<BenefitAttrCfg>{
 		return cfgCacheMap;
 	}
 	
-	public BenefitAttrCfg getCfgByHeroModelIdAndProcessType(int modelId, int processType){
+	public BenefitAttrCfg getCfgByHeroModelIdAndProcessType(int param, int processType){
 		for (Iterator<Entry<String, BenefitAttrCfg>> iterator = cfgCacheMap.entrySet().iterator(); iterator.hasNext();) {
 			Entry<String, BenefitAttrCfg> entry = iterator.next();
 			BenefitAttrCfg value = entry.getValue();
-			if(value.getHeroModelId() == modelId && value.getProcessType() == processType){
+			int heroModelID = Integer.parseInt(value.getParam());
+			if(heroModelID == param && value.getProcessType() == processType){
 				return value;
 			}
 		}

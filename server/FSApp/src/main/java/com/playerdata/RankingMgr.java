@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.util.StringUtils;
 
-
-import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.arena.ArenaBM;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
@@ -33,6 +32,7 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.dao.optimize.DataAccessFactory;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
 import com.rw.fsutil.ranking.MomentRankingEntry;
@@ -40,17 +40,13 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntityOfRank;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
-import com.rw.fsutil.ranking.impl.RankingEntryData;
 import com.rw.fsutil.util.DateUtils;
-import com.rw.fsutil.util.SpringContextUtil;
-import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.PeakArena.PeakArenaBM;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
-import com.rw.service.log.db.BILogDbMgr;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.ranking.RankingGetOperation;
 import com.rwbase.common.enu.ECareer;
@@ -63,7 +59,6 @@ import com.rwbase.dao.ranking.CfgRankingDAO;
 import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.CfgRanking;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
-import com.rwbase.dao.user.User;
 import com.rwbase.gameworld.GameWorld;
 import com.rwbase.gameworld.GameWorldConstant;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -77,8 +72,9 @@ import com.rwbase.gameworld.GameWorldKey;
  * @version
  * 
  */
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RankingMgr {
-	private static BILogDbMgr biLogDbMgr;
 
 	private static RankingMgr m_instance = new RankingMgr();
 
@@ -148,8 +144,6 @@ public class RankingMgr {
 		worshipList.add(cfgMapping.get(RankType.SWORDMAN_ARENA).toString());
 		worshipList.add(cfgMapping.get(RankType.MAGICAN_ARENA).toString());
 		worshipList.add(cfgMapping.get(RankType.PRIEST_ARENA).toString());
-		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
-		biLogDbMgr = new BILogDbMgr(dataSource);
 	}
 
 	public void onInitRankData() {
@@ -179,29 +173,24 @@ public class RankingMgr {
 			GameLog.error(LogModule.robotFriend, "", "重启发现机器人榜有数据，size =" + levelRanking.size() + "  榜id = " + RankType.LEVEL_ROBOT.getType(), null);
 			return;
 		}
-		// RankingEntityCopyer copyer = RankType.LEVEL_ROBOT.getEntityCopyer();
-		List<User> userList = getRobotFromUserTable();
-		if (userList == null || userList.isEmpty()) {
-			GameLog.error(LogModule.COMMON, null, "从user表获取机器人失败,无法生成榜单", null);
-			return;
+		GameLog.info("开始生成机器人好友", null, null);
+		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.LEVEL_ALL);
+		int friendFuncOpenLevel = CfgOpenLevelLimitDAO.getInstance().getOpenLevel(eOpenLevelType.FRIEND);
+		String sql = "SELECT userId FROM user where level >= " + friendFuncOpenLevel + " and isRobot = 1";
+		List<Map<String, Object>> list = DataAccessFactory.getSimpleSupport().getMainTemplate().queryForList(sql);
+
+		for (Map<String, Object> map : list) {
+			String userId = (String) map.get("userId");
+			RankingEntry<LevelComparable, RankingLevelData> entry = ranking.getRankingEntry(userId);
+			if (entry == null) {
+				continue;
+			}
+			levelRanking.addOrUpdateRankingEntry(userId, entry.getComparable(), entry.getExtendedAttribute());
 		}
-		ArrayList<RankingEntryData> rankingList = userToRankingEntryList(userList, RankType.LEVEL_ROBOT);
-		if (rankingList == null || rankingList.isEmpty()) {
-			GameLog.error(LogModule.COMMON, null, "取出的数据无法生成entrydata", null);
-			return;
-		}
-		GameLog.info("机器人好友", null, "机器人榜单处理开始，size = " + rankingList.size(), null);
-		for (int i = 1, size = rankingList.size(); i <= size; i++) {
-			RankingEntryData entry = rankingList.get(i - 1);
-			LevelComparable comparable = new LevelComparable(Integer.parseInt(entry.getCondition()), 0);
-			RankingLevelData levelData = RankingUtils.createRankingLevelDataByEntryData(entry);
-			levelRanking.addOrUpdateRankingEntry(entry.getKey(), comparable, levelData);
-		}
-		GameLog.info("机器人好友", null, "机器人榜单处理结束，size = " + rankingList.size(), null);
+		GameLog.info("机器人好友", null, "机器人榜单处理结束，size = " + ranking.size(), null);
 	}
 
 	/* 把实时排行榜数据拷贝到每日排行榜 */
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void changeDailyData(RankType ordinalType, RankType copyType, boolean ignoreRobot) {
 		Ranking ordinalRanking = RankingFactory.getRanking(ordinalType);
 		Ranking copyRanking = RankingFactory.getRanking(copyType);
@@ -238,50 +227,7 @@ public class RankingMgr {
 		}
 		copyRanking.clearAndInsert(copyList);
 	}
-
-	/**将取出来的机器人user转为排行榜entry*/
-	private ArrayList<RankingEntryData> userToRankingEntryList(
-			List<User> userList, RankType type) {
-		int size = userList.size();
-		ArrayList<RankingEntryData> rankingList = new ArrayList<RankingEntryData>(size);
-		for (int i = 0; i < size; i++) {
-			User user = userList.get(i);
-			Long id = (long) (i + 1);
-			String key = user.getUserId();
-			String condition = user.getLevel() + "";
-			String extension = user.getLevel() + "," + user.getVip();
-			RankingEntryData data = new RankingEntryData(id, type.getType(), key, condition, extension);
-			rankingList.add(data);
-		}
-		return rankingList;
-	}
-
-	private List<User> getRobotFromUserTable() {
-		final List<User> userList = new ArrayList<User>();
-		int friendFuncOpenLevel = CfgOpenLevelLimitDAO.getInstance().getOpenLevel(eOpenLevelType.FRIEND);
-		final String sql = "SELECT userId,vip,level FROM user where level >= " + friendFuncOpenLevel + " and userId not like '%" + String.valueOf(GameManager.getZoneId()) + "%' limit 105";
-		doReadRobotDb(sql, new RobotInteface() {
-
-			@Override
-			public void doCount(User user) {
-				if (user.getUserId().length() <= 20 || userList.size() > 99) {
-					return;
-				}
-				userList.add(user);
-			}
-		});
-		return userList;
-	}
-
-	private void doReadRobotDb(String sql, RobotInteface robotInteface) {
-		int OFFSET = 0;
-		final int LIMIT = 1000;
-		List<User> userList = biLogDbMgr.query(sql, new Object[] {}, User.class);
-		for (User user : userList) {
-			robotInteface.doCount(user);
-		}
-	}
-
+	
 	/**
 	 * 初始化竞技场阵容排行榜
 	 */
@@ -333,7 +279,6 @@ public class RankingMgr {
 	/**
 	 * 对外提供重置每日排行榜的通知
 	 */
-	@SuppressWarnings("unchecked")
 	public void resetUpdateState() {
 		GameLog.info("RankingMgr", "resetUpdateState", "执行排行榜重置：" + DateUtils.getyyyyMMddHHmmFormater().format(new Date()));
 		try {
@@ -522,7 +467,6 @@ public class RankingMgr {
 		ArenaBM.getInstance().onPlayerChanged(p);
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void updateCurrentInfo(Player p, RankType type) {
 		Ranking ranking = RankingFactory.getRanking(type);
 		String userId = p.getUserId();
@@ -678,14 +622,10 @@ public class RankingMgr {
 			
 			//精准营销的战力改变的通知
 			if(teamFightingChanged){
-				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-				roleAttrsList.add(ERoleAttrs.r_TeamPower);
-				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_TeamPower.getId());
 			}
 			if(allFightingChanged){
-				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-				roleAttrsList.add(ERoleAttrs.r_AllPower);
-				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_AllPower.getId());
 			}
 		}
 
@@ -793,6 +733,9 @@ public class RankingMgr {
 	}
 
 	public void addPeakFightingRanking(Player player) {
+		if (player == null || player.isRobot()) {
+			return;
+		}
 		try {
 			checkUpdateFighting(player, RankType.PEAK_ARENA_FIGHTING, getPeakArenaFighting(player), ERankingType.ATHLETICS_FIGHTING);
 		} catch (Exception ex) {
@@ -823,7 +766,6 @@ public class RankingMgr {
 		return true;
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void updateEntryFighting(RankType type, int fighting, int teamFighting, String userId) {
 		Ranking ranking = RankingFactory.getRanking(type);
 		RankingEntry entry = ranking.getRankingEntry(userId);
@@ -844,7 +786,6 @@ public class RankingMgr {
 		}
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void updateLevelAndExp(RankType type, int level, long exp, String userId) {
 		Ranking ranking = RankingFactory.getRanking(type);
 		RankingEntry entry = ranking.getRankingEntry(userId);
@@ -884,10 +825,6 @@ public class RankingMgr {
 
 	public RankType getDailyRankType(RankType type) {
 		return this.dailyMapping.get(type);
-	}
-
-	private interface RobotInteface {
-		public void doCount(User user);
 	}
 
 }
