@@ -215,6 +215,7 @@ public class RankingUtilEntity {
 		}
 		levelData.setModelId(modelId);
 		levelData.setSex(areanExt.getSex());
+		levelData.setVip(areanExt.getVip());
 		levelData.setUserHead(areanExt.getHeadImage());
 		levelData.setHeadbox(areanExt.getHeadbox());
 		levelData.setUserName(areanExt.getName());
