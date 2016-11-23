@@ -197,7 +197,7 @@ public class GroupPersonalHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -258,7 +258,7 @@ public class GroupPersonalHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -322,7 +322,7 @@ public class GroupPersonalHandler {
 
 		// 检查当前角色的等级有没有达到可以使用帮派功能
 		RefParam<String> outTip = new RefParam<String>();
-		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player,outTip)){
+		if (!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.GROUP, player, outTip)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, outTip.value);
 		}
 
@@ -419,7 +419,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 战力之和
-//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+		// List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		int fighting = player.getMainRoleHero().getFighting();
 		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
@@ -429,14 +429,12 @@ public class GroupPersonalHandler {
 
 		// 要验证后才能加入
 		if (validateType == GroupValidateType.FIRST_VALIDATE_VALUE) {
-			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-				GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
+			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, 0, true, player.getHeadFrame(), 0);
 
 			// 帮派扩展属性增加一个申请的帮派Id
 			userGroupAttributeDataMgr.updateApplyGroupData(player, applyGroupId);
 		} else {
-			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(),
-				GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
+			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
 
 			// 记录一个日志
 			GroupLog log = new GroupLog();
@@ -832,6 +830,12 @@ public class GroupPersonalHandler {
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.QUIT_GROUP_TYPE);
 
+		GroupBaseConfigTemplate gbct = GroupConfigCfgDAO.getDAO().getUniqueCfg();
+		if (gbct == null) {
+			GameLog.error("退出出帮派", playerId, "没有找到帮派唯一基础的配置表");
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
+		}
+
 		// 判断帮派是否存在
 		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
 		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
@@ -864,8 +868,14 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
 		}
 
-		int post = memberData.getPost();// 成员职位
+		// 检查踢出成员的时间
 		long now = System.currentTimeMillis();
+		long receiveTime = memberData.getReceiveTime();
+		if (now - receiveTime < gbct.getQuitGroupLimitTime()) {
+			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, String.format("您加入帮派时间不足%s，无法退出", gbct.getQuitGroupLimitTimeTip()));
+		}
+
+		int post = memberData.getPost();// 成员职位
 		if (post == GroupPost.LEADER_VALUE) {// 是帮主
 			String canTransferLeaderMemberId = memberMgr.getCanTransferLeaderMemberId(GroupMemberHelper.transferLeaderComparator);
 			if (!StringUtils.isEmpty(canTransferLeaderMemberId)) {
