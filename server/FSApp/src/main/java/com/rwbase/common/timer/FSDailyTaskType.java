@@ -27,6 +27,7 @@ public enum FSDailyTaskType {
 	 * 乾坤幻境每日排名奖励
 	 */
 	MS_DISPATCH_DAILY_REWARD(3, MSDailyRefreshMgr.class, 5, 0),
+
 	//DEMO(999, com.rwbase.common.timer.test.FSGameDailyTaskDemo.class, 14, 30);
 	;
 	private static final Map<Class<? extends IGameTimerTask>, Integer> _typeOfClasses = new HashMap<Class<? extends IGameTimerTask>, Integer>();

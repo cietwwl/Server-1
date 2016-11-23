@@ -1,32 +1,26 @@
 package com.rwbase.dao.targetSell;
 
 public class BenefitAttrCfg {
-	private int id;
+	private String id;
 	private String attrName;
-	private int heroModelId;
+	private String param;
 	private int processType;
-	public int getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	public String getAttrName() {
 		return attrName;
 	}
-	public void setAttrName(String attrName) {
-		this.attrName = attrName;
+
+
+	public String getParam() {
+		return param;
 	}
-	public int getHeroModelId() {
-		return heroModelId;
-	}
-	public void setHeroModelId(int heroModelId) {
-		this.heroModelId = heroModelId;
-	}
+
 	public int getProcessType() {
 		return processType;
 	}
-	public void setProcessType(int processType) {
-		this.processType = processType;
-	}
+
 }

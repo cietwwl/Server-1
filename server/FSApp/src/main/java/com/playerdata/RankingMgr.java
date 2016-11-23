@@ -619,17 +619,13 @@ public class RankingMgr {
 			updateEntryFighting(RankType.PEAK_ARENA_FIGHTING, fighting, teamFighting, userId);
 			// 通知竞技场更新
 			ArenaBM.getInstance().onPlayerChanged(player);
-
-			// 精准营销的战力改变的通知
-			if (teamFightingChanged) {
-				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-				roleAttrsList.add(ERoleAttrs.r_TeamPower);
-				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			
+			//精准营销的战力改变的通知
+			if(teamFightingChanged){
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_TeamPower.getId());
 			}
-			if (allFightingChanged) {
-				List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
-				roleAttrsList.add(ERoleAttrs.r_AllPower);
-				TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
+			if(allFightingChanged){
+				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_AllPower.getId());
 			}
 		}
 

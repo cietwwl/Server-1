@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.bm.targetSell.param.ERoleAttrs;
+import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Player;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
 import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
@@ -23,7 +24,6 @@ public class AttrsProcessMgr {
 		return instance;
 	}
 	
-	private static BenefitAttrCfgDAO cfgDAO = BenefitAttrCfgDAO.getInstance();
 
 	/**
 	 * 打包所有的属性
@@ -31,23 +31,22 @@ public class AttrsProcessMgr {
 	 * @return
 	 */
 	public Map<String, Object> packAllAttrs(Player player) {
-		ERoleAttrs[] all = ERoleAttrs.getAll();
+		BenefitAttrCfgDAO cfgDAO = BenefitAttrCfgDAO.getInstance();
 		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
+		List<BenefitAttrCfg> allCfg = cfgDAO.getAllCfg();
 		Map<String, Object> result = new HashMap<String, Object>();
-		for (ERoleAttrs eRoleAttrs : all) {
-			if(eRoleAttrs == null){
-				continue;
-			}
-			String idStr = eRoleAttrs.getIdStr();
-			BenefitAttrCfg cfg = cfgDAO.getCfgById(idStr);
+		
+		for (BenefitAttrCfg cfg : allCfg) {
 			int processType = cfg.getProcessType();
 			EAchieveType achieveType = EAchieveType.getAchieveType(processType);
 			if(achieveType == null){
 				continue;
 			}
 			AbsAchieveAttrValue instance = achieveType.getInstance();
-			instance.achieveAttrValue(player, user, eRoleAttrs, null, result, cfgDAO);
+			instance.achieveAttrValue(player, user, cfg, result);
+			
 		}
+		
 		return result;
 	}
 	
@@ -59,7 +58,8 @@ public class AttrsProcessMgr {
 	public Map<String, Object> packLoginAttr(Player player) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
-		String idStr = ERoleAttrs.r_Level.getIdStr();
+		String idStr = ERoleAttrs.r_Level.getId();
+		BenefitAttrCfgDAO cfgDAO = BenefitAttrCfgDAO.getInstance();
 		BenefitAttrCfg cfg = cfgDAO.getCfgById(idStr);
 		int processType = cfg.getProcessType();
 		EAchieveType achieveType = EAchieveType.getAchieveType(processType);
@@ -67,7 +67,7 @@ public class AttrsProcessMgr {
 			return result;
 		}
 		AbsAchieveAttrValue instance = achieveType.getInstance();
-		instance.achieveAttrValue(player, user, ERoleAttrs.r_Level, null, result, cfgDAO);
+		instance.achieveAttrValue(player, user, cfg, result);
 		return result;
 	}
 
@@ -77,20 +77,36 @@ public class AttrsProcessMgr {
 	 * @param list
 	 * @return
 	 */
-	public Map<String, Object> packChangeAttr(Player player, List<ERoleAttrs> list) {
+	public Map<String, Object> packChangeAttr(Player player, List<String> list) {
 		Map<String, Object> result = new HashMap<String, Object>();
+		BenefitAttrCfgDAO cfgDAO = BenefitAttrCfgDAO.getInstance();
 		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
-		for (ERoleAttrs eRoleAttrs : list) {
-			String idStr = eRoleAttrs.getIdStr();
-			BenefitAttrCfg cfg = cfgDAO.getCfgById(idStr);
+		for (String id : list) {
+			BenefitAttrCfg cfg = cfgDAO.getCfgById(id);
 			int processType = cfg.getProcessType();
 			EAchieveType achieveType = EAchieveType.getAchieveType(processType);
 			if(achieveType == null){
 				continue;
 			}
 			AbsAchieveAttrValue instance = achieveType.getInstance();
-			instance.achieveAttrValue(player, user, eRoleAttrs, null, result, cfgDAO);
+			instance.achieveAttrValue(player, user, cfg, result);
 		}
 		return result;
+	}
+
+
+
+
+
+	public void addHeroChangeAttrs(String userID, String heroID, List<EAchieveType> change, TargetSellRoleChange value) {
+		for (EAchieveType eAchieveType : change) {
+			AbsAchieveAttrValue ins = eAchieveType.getInstance();
+			if(ins == null){
+				continue;
+			}
+			ins.addHeroAttrs(userID, heroID, eAchieveType, value);
+		}
+	
+		
 	}
 }

@@ -30,44 +30,46 @@ public class BenefitSystemMsgService {
 	}
 	
 	public void doTask(String jsonStr){
-		TargetSellData sellData = FastJsonUtil.deserialize(jsonStr, TargetSellData.class);
+		JSONObject json = (JSONObject) JSONObject.parse(jsonStr);
+		int opType = json.getIntValue("opType");
+		String sign = json.getString("sign");
+		JSONObject args = json.getJSONObject("args");
 		
-		int type = sellData.getOpType();
+//		TargetSellData sellData = FastJsonUtil.deserialize(jsonStr, TargetSellData.class);
+//		int type = sellData.getOpType();
 		try {
-			
-			ITargetSellMsgExcutor args = null;
-			switch (type) {
+			ITargetSellMsgExcutor excutor = null;
+			switch (opType) {
 			case TargetSellOpType.OPTYPE_5003:
 			case TargetSellOpType.OPTYPE_5005:
-				args = JSONObject.toJavaObject(sellData.getArgs(), TargetSellAbsArgs.class);
+				excutor = JSONObject.toJavaObject(args, TargetSellAbsArgs.class);
 				break;
 			case TargetSellOpType.OPTYPE_5004:
-				args = JSONObject.toJavaObject(sellData.getArgs(), TargetSellSendRoleItems.class);
+				excutor = JSONObject.toJavaObject(args, TargetSellSendRoleItems.class);
 				break;
 			case TargetSellOpType.OPTYPE_5009:
-				args = JSONObject.toJavaObject(sellData.getArgs(), TargetSellServerErrorParam.class);
+				excutor = JSONObject.toJavaObject(args, TargetSellServerErrorParam.class);
 				break;
-
 			default:
 				break;
 			}
 
-			if(args == null){
+			if(excutor == null){
 				//201 参数有误
-				TargetSellManager.getInstance().buildErrorMsg(TargetSellOpType.ERRORCODE_201, type, jsonStr);
+				TargetSellManager.getInstance().buildErrorMsg(TargetSellOpType.ERRORCODE_201, opType, jsonStr);
 				return;
 			}
 			
-			if(!StringUtils.equals(TargetSellManager.MD5_Str, sellData.getSign())){
+			if(!StringUtils.equals(TargetSellManager.MD5_Str, sign)){
 				//检查sign参数不通过
 				GameLog.error("TargetSell'", "TargetSellMsgHandler[doTask]", "检查sign参数，发现不正确，发送的sign："
-						+sellData.getSign() +"，校验得到的sign值："+ TargetSellManager.MD5_Str, null);
+						+ args +"，校验得到的sign值："+ TargetSellManager.MD5_Str, null);
 				//202 签名错误
-				TargetSellManager.getInstance().buildErrorMsg(TargetSellOpType.ERRORCODE_202, type, jsonStr);
+				TargetSellManager.getInstance().buildErrorMsg(TargetSellOpType.ERRORCODE_202, opType, jsonStr);
 				return;
 			}
 			
-			args.excuteMsg(type);
+			excutor.excuteMsg(opType);
 			
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellMsgService[doTask]", "解析精准服推送到的消息出现异常", e);

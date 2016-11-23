@@ -9,7 +9,7 @@ public interface IServiceTiggerHandler {
 	/*
 	 * 提升等级时，向对应的功能数据增加初始的等级引导数据
 	 */
-	public void openLevelToCreatItem(Player player,Long now,String userId,CfgOpenLevelLimit cfg,CfgOpenLevelTiggerServiceDAO cfgServiceDao);
+	public void openLevelToCreatItem(Long now,String userId,CfgOpenLevelLimit cfg,CfgOpenLevelTiggerServiceDAO cfgServiceDao);
 
 	
 	

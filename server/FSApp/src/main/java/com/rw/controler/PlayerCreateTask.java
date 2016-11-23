@@ -157,9 +157,7 @@ public class PlayerCreateTask implements Runnable {
 		player.setZoneLoginInfo(zoneLoginInfo);
 		
 		//通知精准营销
-		List<ERoleAttrs> list = new ArrayList<ERoleAttrs>();
-		list.add(ERoleAttrs.r_CreateTime);
-		TargetSellManager.getInstance().notifyRoleAttrsChange(player, list);
+		TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_CreateTime.getId());
 
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);

@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @JsonAutoDetect(fieldVisibility=Visibility.ANY)
@@ -26,7 +27,10 @@ public class TargetSellRecord {
 	private long nextClearScoreTime;
 
 
-	/**已经领取的道具<道具组id,还可领取次数>*/
+	/**
+	 * 已经领取的道具<道具组id,还可领取次数>
+	 * 记录这个变量，是避免有些道具组已经没有领取次数了，但精准服没有通知过来
+	 */
 	private Map<Integer, Integer> recieveMap;
 	
 	public String getUserId() {
@@ -78,7 +82,8 @@ public class TargetSellRecord {
 	public void setRecieveMap(Map<Integer, Integer> recieveMap) {
 		this.recieveMap = recieveMap;
 	}
-	
+
+
 	
 	
 	

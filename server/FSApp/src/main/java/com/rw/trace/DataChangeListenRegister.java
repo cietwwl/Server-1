@@ -11,6 +11,9 @@ import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.trace.listener.FSHeroDataListener;
+import com.rw.trace.listener.FixExpEquipDataListener;
+import com.rw.trace.listener.FixNorEquipDataListener;
+import com.rw.trace.listener.InlayDataListener;
 import com.rw.trace.listener.ItemDataListener;
 import com.rw.trace.listener.MajorDataListener;
 import com.rw.trace.listener.UserGameDataListener;
@@ -37,6 +40,9 @@ public enum DataChangeListenRegister {
 	USERDATA(DataTraceRegistrator.USER, UserDataListener.class),
 	CHARGEDATA(DataTraceRegistrator.CHARGE_DATA, ChargeDataListener.class),
 	HERODATA(DataTraceRegistrator.HERO, FSHeroDataListener.class),
+	FIXEXPEQUIPDATA(DataTraceRegistrator.FIX_EXP_EQUIP_ITEM, FixExpEquipDataListener.class),
+	FIXNOREQUIPDATA(DataTraceRegistrator.FIX_NOMR_EQUIP_ITEM, FixNorEquipDataListener.class),
+	INLAYDATA(DataTraceRegistrator.INLAY_ITEM, InlayDataListener.class),
 	;
 	private DataChangeListenRegister(DataTraceRegistrator traceClass, Class<? extends DataChangedVisitor<?>> listenerClass) {
 		this.traceClass = traceClass;
