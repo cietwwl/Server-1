@@ -31,12 +31,16 @@ public class GroupBaseDataHolder {
 
 	/**
 	 * 获取帮派等级
+	 * 
 	 * @return
 	 */
-	public int getGroupLevel(){
+	public int getGroupLevel() {
+		if (groupBaseData == null) {
+			return 0;
+		}
 		return groupBaseData.getGroupLevel();
 	}
-	
+
 	/**
 	 * 
 	 * 获取帮派的等级

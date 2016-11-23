@@ -54,6 +54,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
+import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
@@ -121,6 +122,7 @@ public class GameManager {
 			System.exit(1);
 		}
 		// initServerProperties();
+		BILogMgr.getInstance().initLogger();
 		initServerOpenTime();
 
 		ServerSwitch.initLogic();

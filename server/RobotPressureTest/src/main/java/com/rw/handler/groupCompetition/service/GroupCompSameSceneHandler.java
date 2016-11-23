@@ -28,30 +28,30 @@ public class GroupCompSameSceneHandler implements RandomMethodIF{
 	public static GroupCompSameSceneHandler getHandler() {
 		return handler;
 	}
-	
+
 	private Random random = new Random();
-	
+
 	private AreaPosition getRandomPosition() {
 		AreaPosition.Builder areaBuilder = AreaPosition.newBuilder();
 		areaBuilder.setX((pxMax - pxMin) * random.nextFloat() + pxMin);
 		areaBuilder.setY((pyMax - pyMin) * random.nextFloat() + pyMin);
 		return areaBuilder.build();
 	}
-	
+
 	boolean leavePreareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.LeavePrepareArea);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION, req.build().toByteString(), null);
 		return success;
 	}
-	
+
 	boolean inPrepareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.InPrepareArea);
 		boolean success = client.getMsgHandler().sendMsg(Command.MSG_GROUP_COMPETITION, req.build().toByteString(), null);
 		return success;
 	}
-	
+
 	boolean enterPrepareArea(Client client) {
 		CommonReqMsg.Builder req = CommonReqMsg.newBuilder();
 		req.setReqType(GCRequestType.EnterPrepareArea);
@@ -87,9 +87,10 @@ public class GroupCompSameSceneHandler implements RandomMethodIF{
 		});
 		return success;
 	}
-	
+
 	/**
 	 * 备战区内走动
+	 * 
 	 * @param player
 	 * @param gcRsp
 	 */

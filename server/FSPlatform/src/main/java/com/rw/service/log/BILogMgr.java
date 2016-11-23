@@ -67,6 +67,29 @@ public class BILogMgr {
 		}
 	}
 	
+	public void initLogger(){
+		eBILogType[] allValue = eBILogType.getAllValue();
+		for (eBILogType bilog : allValue) {
+			Logger logger = Logger.getLogger(bilog.getLogName());
+			try {
+
+				logger.removeAllAppenders();
+				logger.setAdditivity(false);
+				PatternLayout layout = new PatternLayout();
+				layout.setConversionPattern("[%-5p] %m%n");
+				DailyRollingFileAppender appender;
+
+				appender = new DailyRollingFileAppender(layout, "./log/biLog/" + bilog.getLogName()+"/"+bilog.getLogName(), "yyyy-MM-dd");
+
+				logger.addAppender(appender);
+				LogMap.put(bilog, logger);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	/**手机硬件信息只在极刑注册处有用*/
 	public void logAccountReg(ClientInfo clientInfo, Long registerTime, RegLog reglog,boolean success){
 		

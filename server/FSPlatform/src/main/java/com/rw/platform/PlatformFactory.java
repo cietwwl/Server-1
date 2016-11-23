@@ -9,6 +9,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.rw.fsutil.log.EngineLoggerFactory;
 import com.rw.netty.client.ClientManager;
+import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
 import com.rwbase.gameworld.GameWorldFactory;
 
@@ -51,7 +52,7 @@ public class PlatformFactory {
 		}
 		
 		clientManager = new ClientManager();
-		
+		BILogMgr.getInstance().initLogger();
 		LogService.getInstance().initLogService();
 	}
 	
