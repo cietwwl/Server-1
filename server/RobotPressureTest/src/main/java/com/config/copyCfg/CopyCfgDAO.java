@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.config.cfgHelper.CfgCsvDao;
 import com.config.cfgHelper.CfgCsvHelper;
+import com.rw.common.RobotLog;
 
 public class CopyCfgDAO extends CfgCsvDao<CopyCfg>{
 
@@ -76,12 +77,16 @@ public class CopyCfgDAO extends CfgCsvDao<CopyCfg>{
 		while(loopMaxCount-- > 0){
 			CopyLevelNode node = copyMap.get(checkId);
 			if(null == node) {
+				RobotLog.fail(String.format("getNextId失败:{CopyId:%s}--node null", checkId));
 				return startId;
 			}
 			if(node.getBefore() == id){
 				return node.getId();
 			} else{
 				checkId = node.getNext();
+				if(checkId == 0){
+					RobotLog.fail(String.format("getNextId失败:{CopyId:%s}--next node null", node.getId()));
+				}
 			}
 		}
 		return startId;

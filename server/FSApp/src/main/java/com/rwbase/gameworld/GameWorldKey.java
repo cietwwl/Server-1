@@ -81,6 +81,10 @@ public enum GameWorldKey {
 	 * 成长基金数据
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
+	/**
+	 * 帮派排行榜的静态榜
+	 */
+	GROUP_STATIC_RANK("GROUP_STATIC_RANK"),
 	;
 	
 	
