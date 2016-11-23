@@ -1,4 +1,4 @@
-id,remarks,id,bossName,preStartTimeStr,startTimeStr,endTimeStr,finishTimeStr,copyId,weekDay,killAttackAward,killAttackAwardId,position,rotation,scale,position2,rotation2,scale2
+key,remarks,id,bossName,preStartTimeStr,startTimeStr,endTimeStr,finishTimeStr,copyId,weekDay,killAttackAward,killAttackAwardId,position,rotation,scale,position2,rotation2,scale2
 1001,,1001,ZT_HuangQuanLongYan,11:45,12:00,12:30,13:00,195001,2,"1~16800,806132~1",18003,-190,140,95,"51,-4,-6",-95,1.5
 1002,,1002,ZT_MoYuanLingZhu,18:30,19:00,19:30,20:00,195002,2,"1~25200,806132~1",18003,-220,140,90,"49,-4,-6",-110,1.3
 1003,,1003,ZT_TianLeiJinJiu,21:30,22:00,22:30,23:00,195003,2,"1~42000,806132~1",18003,-180,155,160,"51,0,-6",-100,2
