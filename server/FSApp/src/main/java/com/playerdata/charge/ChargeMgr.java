@@ -38,6 +38,7 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.playerdata.charge.dao.ChargeRecord;
 import com.playerdata.charge.dao.ChargeRecordDAO;
+import com.playerdata.charge.data.ChargeOrderInfo;
 import com.playerdata.charge.data.ChargeParam;
 import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.common.IReadOnlyPair;
@@ -159,6 +160,18 @@ public class ChargeMgr {
 		
 		return true;
 	}
+	
+	// 主要检测是不是测试订单，并且能不能使用测试订单
+	private boolean verifyTestOrder(ChargeContentPojo chargeContentPojo) {
+		String privateField = chargeContentPojo.getPrivateField();
+		if (privateField != null && privateField.length() > 0) {
+			ChargeParam info = JsonUtil.readValue(privateField, ChargeParam.class);
+			if (info != null && info.getOrderInfo() != null && info.getOrderInfo().getOrderId().equals(ChargeOrderInfo.TEST_KEY)) {
+				return ServerSwitch.isTestCharge();
+			}
+		}
+		return false;
+	}
 
 	public boolean charge(ChargeContentPojo chargeContentPojo){
 		if (chargeContentPojo.getCpTradeNo() == null) {
@@ -172,30 +185,19 @@ public class ChargeMgr {
 		boolean success = false;
 		// 充值，保存订单，返回结果
 		Player player = get(chargeContentPojo);
-//		if(player!=null){
-//			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
-//			if(!chargeInfo.isOrderExist(chargeContentPojo.getCpTradeNo())){
-//				ChargeOrder chargeOrder = ChargeOrder.fromReq(chargeContentPojo);
-//				success = ChargeInfoHolder.getInstance().addChargeOrder(player,chargeOrder);
-//			}else{
-//				GameLog.error("chargemgr", "sdk-充值", "充值失败,订单号异常！面额" + chargeContentPojo.getMoney() + "元"+ " ； uid ="  + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
-//			}
-//		}
-//		if(success){
-//			success = chargeType(player,chargeContentPojo);			
-//		}
 		try {
 			if (player != null) {
 				if (!_checker.checkChargeCallback(chargeContentPojo)) {
-					return false;
+					if (!verifyTestOrder(chargeContentPojo)) {
+						return false;
+					}
 				}
 				if (!ChargeRecordDAO.getInstance().isRecordExists(chargeContentPojo.getCpTradeNo())) {
 					ChargeRecord chargeRecord = _checker.generateChargeRecord(chargeContentPojo);
 					if (ChargeRecordDAO.getInstance().addChargeRecord(chargeRecord)) {
 						success = chargeType(player, chargeContentPojo);
 					} else {
-						GameLog.error("chargemgr", "sdk-充值",
-								"重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+						GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
 					}
 				} else {
 					GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
