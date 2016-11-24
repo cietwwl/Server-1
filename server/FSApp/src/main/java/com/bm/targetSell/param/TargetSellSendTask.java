@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.bm.targetSell.TargetSellManager;
+import com.rw.manager.ServerSwitch;
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
@@ -21,14 +22,13 @@ public class TargetSellSendTask implements IGameTimerTask{
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
+		
 		long current = System.currentTimeMillis();
 		for (Iterator<Entry<String, TargetSellRoleChange>> iterator = TargetSellManager.RoleAttrChangeMap.entrySet().iterator(); iterator.hasNext();) {
 			Entry<String, TargetSellRoleChange> entry = iterator.next();
 			TargetSellRoleChange value = entry.getValue();
 			if(current - value.getStartTime() >= ONE_MINUTE){
-				synchronized (value) {
-					iterator.remove();
-				}
+				iterator.remove();
 				TargetSellManager.getInstance().packHeroChangeAttr(entry.getKey(), value);
 				TargetSellManager.getInstance().packAndSendMsg(value);
 			}
