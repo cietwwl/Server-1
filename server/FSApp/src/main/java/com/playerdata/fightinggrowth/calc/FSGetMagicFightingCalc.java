@@ -41,7 +41,7 @@ public class FSGetMagicFightingCalc implements IFightingCalc {
 		}
 		
 		MagicSkillFightingCfg levelSkillFightingCfg = magicLevelFightingCfgDAO.getCfgById(String.valueOf(magicParam.getMagicLevel()));
-		MagicSkillFightingCfg qualitySkillFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getQuality()));
+		MagicSkillFightingCfg qualitySkillFightingCfg = magicQualityFightingCfgDAO.getCfgById(String.valueOf(cfg.getUplevel()));
 		MagicAptitudeCoefficientCfg aptitudeCoefficientCfg = magicAptitudeCoefficientCfgDAO.getCfgById(String.valueOf(magicParam.getMagicAptitude()));
 		float aptitudeCoefficient = 1.0f;
 		if(aptitudeCoefficientCfg != null) {
