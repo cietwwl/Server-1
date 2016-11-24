@@ -259,7 +259,7 @@ public class ArenaHandler {
 		arenaData.setVip(player.getVip());
 		arenaData.setSex(player.getSex());
 		TableArenaDataDAO.getInstance().update(arenaData);
-		ListRanking<String, ArenaExtAttribute> ranking = ArenaBM.getInstance().getRanking(player.getCareer());
+		ListRanking<String, ArenaExtAttribute> ranking = ArenaBM.getInstance().getRanking();
 		if (ranking != null) {
 			ListRankingEntry<String, ArenaExtAttribute> entry = ranking.getRankingEntry(userId);
 			if (entry != null) {
@@ -371,13 +371,8 @@ public class ArenaHandler {
 		if (enemyArenaData == null) {
 			return sendFailResponse(response, ArenaConstant.ENEMY_NOT_EXIST, player);
 		}
-		int enemyCareer = enemyArenaData.getCareer();
-		// 不是同一个职业
-		if (career != enemyCareer) {
-			return sendFailResponse(response, "无法挑战该名对手，请重新选择对手", player);
-		}
 		ArenaBM arenaBM = ArenaBM.getInstance();
-		ListRanking<String, ArenaExtAttribute> ranking = arenaBM.getRanking(career);
+		ListRanking<String, ArenaExtAttribute> ranking = arenaBM.getRanking();
 		ListRankingEntry<String, ArenaExtAttribute> entry = ranking.getRankingEntry(userId);
 		if (entry == null && !ranking.isFull()) {
 			arenaBM.addArenaData(player);
@@ -437,7 +432,7 @@ public class ArenaHandler {
 		if (career <= 0) {
 			return sendFailResponse(response, "数据错误", player);
 		}
-		ListRanking<String, ArenaExtAttribute> ranking = arenaBM.getRanking(career);
+		ListRanking<String, ArenaExtAttribute> ranking = arenaBM.getRanking();
 		ListRankingEntry<String, ArenaExtAttribute> entry = ranking.getRankingEntry(userId);
 		int oldPlace;
 		ArenaExtAttribute arenaExt = null;
@@ -460,14 +455,6 @@ public class ArenaHandler {
 		TableArenaData enemyArenaData = ArenaBM.getInstance().getArenaData(enemyUserId);
 		if (enemyArenaData == null) {
 			// 对手战斗状态未设置，采用等待超时的容错机制
-			if (arenaExt != null) {
-				arenaExt.setNotFighting();
-			}
-			return sendFailResponse(response, ArenaConstant.ENEMY_PLACE_CHANGED, player);
-		}
-
-		int enemyCareer = enemyArenaData.getCareer();
-		if (career != enemyCareer) {
 			if (arenaExt != null) {
 				arenaExt.setNotFighting();
 			}

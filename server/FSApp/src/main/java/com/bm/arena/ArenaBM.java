@@ -145,7 +145,7 @@ public class ArenaBM {
 		if (career <= 0) {
 			return null;
 		}
-		ListRanking<String, ArenaExtAttribute> listRanking = getRanking(career);
+		ListRanking<String, ArenaExtAttribute> listRanking = getRanking();
 		int fighting = player.getMainRoleHero().getFighting();
 		// int fighting = userOther.getFighting();
 		String userId = tableUser.getUserId();
@@ -219,25 +219,9 @@ public class ArenaBM {
 		return data;
 	}
 
-	// 删除竞技场数据
-	public void deleteArenaData(Player player, int carerr) {
-		String userId = player.getUserId();
-		ListRanking<String, ArenaExtAttribute> ranking = getRanking(carerr);
-		if (ranking != null) {
-			ranking.remove(userId);
-		} else {
-			GameLog.error("删除竞技场数据时找不到Ranking:" + userId + "," + player.getCareer());
-		}
-		TableArenaData arena = tableArenaDataDAO.get(userId);
-		if (arena == null) {
-			GameLog.error("arena", "转职", "转职时找不到ArenaData:" + player+","+player.getLevel());
-		} else {
-			arena.setCareer(player.getCareer());
-		}
-	}
-
 	public ListRankingEntry<String, ArenaExtAttribute> getEntry(String userId, int career) {
-		ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
+		//ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
+		ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.ARENA);
 		if (ranking == null) {
 			return null;
 		}
@@ -245,19 +229,20 @@ public class ArenaBM {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ListRanking<String, ArenaExtAttribute> getRanking(int career) {
-		return RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
+	public ListRanking<String, ArenaExtAttribute> getRanking() {
+		return RankingFactory.getSRanking(ListRankingType.ARENA);
 	}
 
 	public int getArenaPlace(Player player) {
+		int maxCapacity = ListRankingType.ARENA.getMaxCapacity();
 		int career = player.getCareer();
 		if (career <= 0) {
-			return ListRankingType.WARRIOR_ARENA.getMaxCapacity();
+			return maxCapacity;
 		}
-		ListRanking<String, ArenaExtAttribute> ranking = getRanking(career);
+		ListRanking<String, ArenaExtAttribute> ranking = getRanking();
 		if (ranking == null) {
 			GameLog.error("找不到竞技场排行榜：" + career);
-			return ListRankingType.WARRIOR_ARENA.getMaxCapacity();
+			return maxCapacity;
 		}
 		String userId = player.getUserId();
 		ListRankingEntry<String, ArenaExtAttribute> entry = ranking.getRankingEntry(userId);
@@ -278,7 +263,7 @@ public class ArenaBM {
 	}
 
 	public int getOtherArenaPlace(String userId, int career) {
-		ListRanking<String, ArenaExtAttribute> ranking = getRanking(career);
+		ListRanking<String, ArenaExtAttribute> ranking = getRanking();
 		if (ranking == null) {
 			GameLog.error("找不到竞技场排行榜：" + career);
 			return -1;
@@ -343,7 +328,7 @@ public class ArenaBM {
 			return Collections.EMPTY_LIST;
 		}
 		String userId = player.getUserId();
-		ListRanking<String, ArenaExtAttribute> ranking = getRanking(career);
+		ListRanking<String, ArenaExtAttribute> ranking = getRanking();
 		ArrayList<ListRankingEntry<String, ArenaExtAttribute>> result = new ArrayList<ListRankingEntry<String, ArenaExtAttribute>>();
 		// 排行前10名，ing，随机拉取前10名的其中三个作为对手
 		// 前10名以外按照此规则拉取对手(M是名次)：

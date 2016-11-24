@@ -15,6 +15,9 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoCall;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
+import com.bm.worldBoss.WBMgr;
+import com.bm.worldBoss.WBUserMgr;
+import com.bm.worldBoss.data.WBDataHolder;
 import com.common.Action;
 import com.common.TimeAction;
 import com.google.protobuf.ByteString;
@@ -421,6 +424,8 @@ public class Player implements PlayerIF {
 					PraiseMgr.getMgr().synData(player);
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
+					
+					WBUserMgr.getInstance().synWBUserData(player, version);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -449,6 +454,8 @@ public class Player implements PlayerIF {
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
 			// 帮派争霸角色登录通知
 			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
+			
+			WBMgr.getInstance().onPlayerLogin(this);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}

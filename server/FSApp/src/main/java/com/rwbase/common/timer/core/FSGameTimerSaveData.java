@@ -21,9 +21,9 @@ public class FSGameTimerSaveData {
 	private long _lastServerShutdownTimeMillis; // 最後一次停服時間
 	
 	@JsonProperty(_KEY_LAST_EXECUTE_TIME_OF_DAILY_TASK)
-	private Map<Integer, Long> _lastExecuteTimeOfDailyTask = new HashMap<Integer, Long>(); // 玩家每日任務最後一次執行的時間
+	private Map<Integer, Long> _lastExecuteTimeOfDailyTask = new HashMap<Integer, Long>(); // 普通每日任务最后一次的执行时间
 	@JsonProperty(_KEY_LAST_EXECUTE_TIME_OF_PLAYER_DAILY_TASK)
-	private Map<Integer, Long> _lastExecuteTimeOfPlayerDailyTask = new HashMap<Integer, Long>(); // 普通每日任务最后一次的执行时间
+	private Map<Integer, Long> _lastExecuteTimeOfPlayerDailyTask = new HashMap<Integer, Long>(); // 玩家每日任務最後一次執行的時間
 	
 	public static FSGameTimerSaveData getInstance() {
 		return _instance;
@@ -64,7 +64,7 @@ public class FSGameTimerSaveData {
 	
 	/**
 	 * 
-	 * 獲取每日任務的最後一次執行的時間
+	 * 获取玩家每日任务的最后一次执行时间
 	 * 
 	 * @param type
 	 * @return
@@ -75,6 +75,8 @@ public class FSGameTimerSaveData {
 	}
 	
 	/**
+	 * 
+	 * 获取每日任务的最后一次执行时间
 	 * 
 	 * @param type
 	 * @return

@@ -62,6 +62,10 @@ public class DateUtils {
 	public static int getCurMinuteOfHour() {
 		return getCurrent().get(Calendar.MINUTE);
 	}
+	
+	public static int getCurrentDayOfYear() {
+		return getCurrent().get(Calendar.DAY_OF_YEAR);
+	}
 
 	private static final long DAY_MILLIS = TimeUnit.DAYS.toMillis(1);// 1天的毫秒数
 
@@ -449,6 +453,19 @@ public class DateUtils {
 		SimpleDateFormat format = formate_hhmmss.get();
 		if (format == null) {
 			format = new SimpleDateFormat("HH:mm:ss");
+			formate_hhmmss.set(format);
+		}
+		return format;
+	}
+	
+	public static String getTimeOfDayFomrateTips(long time){
+		return getTimeOfDayFormater().format(new Date(time));
+	}
+	
+	public static SimpleDateFormat getTimeOfDayFormater() {
+		SimpleDateFormat format = formate_hhmmss.get();
+		if (format == null) {
+			format = new SimpleDateFormat("HHmmss");
 			formate_hhmmss.set(format);
 		}
 		return format;

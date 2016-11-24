@@ -56,7 +56,7 @@ public class GambleHandler {
 		response.setRequest(request);
 
 		int gamblePlanId = request.getGamblePlanId();
-		String planIdStr = String.valueOf(gamblePlanId);
+		String planIdStr = String.valueOf(gamblePlanId);		
 		GamblePlanCfg planCfg = GamblePlanCfgHelper.getInstance().getConfig(gamblePlanId, player.getLevel());
 		if (planCfg == null) {
 			return GambleLogicHelper.SetError(response, player, String.format("找不到配置:ID=%s,level=%d", planIdStr, player.getLevel()), "没有配置");
@@ -260,7 +260,7 @@ public class GambleHandler {
 			boolean isGuarantee = false;
 			if (historyRecord.passExclusiveCheck(isFree)) {// 前面N次的抽卡必须不一样，之后的就不需要唯一性检查
 				GambleLogicHelper.logTrace(trace, "passExclusiveCheck:true");
-				if (historyRecord.checkGuarantee(isFree, dropPlan, historyByGroup)) {
+				if (historyRecord.checkGuarantee(isFree, dropPlan, historyByGroup, dropList)) {
 					dropGroupId = dropPlan.getGuaranteeGroup(ranGen, selectedDropGroupIndex);
 					isGuarantee = true;
 					GambleLogicHelper.logTrace(trace, "checkGuarantee:true,dropGroupId=" + dropGroupId);
@@ -285,7 +285,7 @@ public class GambleHandler {
 				List<String> checkHistory = historyRecord.getExculsiveHistory(isFree, dropPlan, historyByGroup);
 				GambleLogicHelper.logTrace(trace, "checkHistory:", checkHistory);
 				GambleDropGroup tmpGroup = null;
-				if (historyRecord.checkGuarantee(isFree, dropPlan, historyByGroup)) {
+				if (historyRecord.checkGuarantee(isFree, dropPlan, historyByGroup, dropList)) {
 					tmpGroup = dropPlan.getGuaranteeGroup(ranGen, checkHistory, selectedDropGroupIndex);
 					isGuarantee = true;
 					GambleLogicHelper.logTrace(trace, "checkGuarantee:true,tmpGroup=", tmpGroup);

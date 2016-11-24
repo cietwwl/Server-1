@@ -137,18 +137,19 @@ enum Command {
 	MSG_BUY_GROWTH_FUND = 230; // 购买成长基金礼包
 	MSG_SPRITE_ATTACH_UPGRADE = 231;//升级附灵
 	
+	
 	MSG_GROUP_COMPETITION_EVENTS_START = 232; // 帮派争霸：赛事开始，如果收到消息，需要弹框。
 	
 	MSG_VIP_GIFT_NOTIFY = 233; // 通知客户端发送了VIP专享礼包，发送Vip.proto里面的VIPGiftNotify
 	
-	MSG_COMMON_SOUL = 234; // 万能魂石协议
+	MSG_SALOON = 234;//同屏服务
+	MSG_COMMON_SOUL = 235; // 万能魂石协议
 	
-	MSG_CHARGE_NOTIFY = 235; // 充值通知
+	MSG_CHARGE_NOTIFY = 236; // 充值通知
 	
-	Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 236; // 帮派争霸队伍功能优化消息协议
+	Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 237; // 帮派争霸队伍功能优化消息协议
 	
-	MSG_FETTER_ACTIVITY_NOTIFY = 237; // 仙缘激活通知
-	
+	MSG_FETTER_ACTIVITY_NOTIFY = 238; // 仙缘激活通知
 	
 	
 	

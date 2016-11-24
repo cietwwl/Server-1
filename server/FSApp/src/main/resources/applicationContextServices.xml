@@ -139,6 +139,8 @@
      			<entry key="MSG_SPRITE_ATTACH_UPGRADE" value-ref="spriteAttachService" />
      			
      			<entry key="MSG_COMMON_SOUL" value-ref="commonSoulService" />
+     			<entry key="MSG_SALOON" value-ref="saloonService" />
+     			<entry key="MSG_WORLD_BOSS" value-ref="worldBossService" />
 			</map>
 		</property>
 	</bean>
@@ -249,5 +251,9 @@
 	<bean id="praiseService" class="com.rw.service.praise.PraiseService" />
 	<bean id="spriteAttachService" class="com.rw.service.spriteAttach.SpriteAttachService" />
 	
+	
 	<bean id="commonSoulService" class="com.playerdata.commonsoul.CommonSoulService" />
+	<bean id="saloonService" class="com.bm.saloon.service.SaloonService" />
+	
+	<bean id="worldBossService"  class="com.bm.worldBoss.service.WBService" />
 </beans>  

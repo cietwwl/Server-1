@@ -1,5 +1,6 @@
 package com.rw.service.gamble.datamodel;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -95,16 +96,22 @@ public class GambleRecord {
 	public void adjustCountOfSameGroup(GamblePlanCfg planCfg, IDropGambleItemPlan dropPlan, int incrCount) {
 		if (incrCount <= 0)
 			return;
-		// int mainKey = planCfg.getKey();
+//		int mainKey = planCfg.getKey();
 		int dropType = planCfg.getDropType();
 		List<GamblePlanCfg> lst = GamblePlanCfgHelper.getInstance().getCfgOfSameGroup(planCfg);
+		List<Integer> processDropTypes = new ArrayList<Integer>();
+		processDropTypes.add(dropType);
 		for (GamblePlanCfg cfg : lst) {
 			// if (cfg.getKey() == mainKey){//这里用key判断，但是获取GambleDropHistory 用dropType,配置表内存在key不同但dropType相同的配置，所以这里判断会出错
-			if (cfg.getDropType() == dropType) {
-				continue;
+//			if (cfg.getDropType() == dropType) {
+//				continue;
+//			}
+			int nowDropType = cfg.getDropType();
+			if (!processDropTypes.contains(nowDropType)) {
+				processDropTypes.add(nowDropType);
+				GambleDropHistory his = getHistory(nowDropType);
+				his.increaseCount(dropPlan, incrCount);
 			}
-			GambleDropHistory his = getHistory(cfg.getDropType());
-			his.increaseCount(dropPlan, incrCount);
 		}
 	}
 }

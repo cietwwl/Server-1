@@ -43,7 +43,7 @@ import com.rw.handler.career.SelectCareerHandler;;
 public enum ActionEnum {
 	TeamBattle(0, TeamBattleHandler.getInstance()),
 	PVP(1, PVPHandler.instance()),
-	PVE(2, PVEHandler.instance(), 60),
+	PVE(2, PVEHandler.instance(), 6000),
 	ActivityDailyCount(3, ActivityDailyCountHandler.getHandler()),
 	Chat(4, ChatHandler.instance()),
 	Gamble(5, GambleHandler.instance()),

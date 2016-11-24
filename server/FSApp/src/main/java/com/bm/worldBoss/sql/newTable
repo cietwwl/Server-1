@@ -1,0 +1,6 @@
+CREATE TABLE `wbdata` (
+  `dbkey` varchar(255) NOT NULL,
+  `dbvalue` text NOT NULL,
+  PRIMARY KEY  (`dbkey`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

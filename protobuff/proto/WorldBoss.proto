@@ -1,0 +1,69 @@
+syntax = "proto2";
+option java_package = "com.rwproto";
+option java_outer_classname = "WorldBossProtos";
+import "RandomBoss.proto";
+package WorldBoss;
+
+
+enum RequestType{
+
+	Enter = 1; //首页
+	FightBegin = 2; //开始打
+	FightEnd = 3; //结算
+	BuyBuff = 4; //购买鼓舞
+	SynData = 5;  //请求同步数据
+	BuyCD = 6;   //购买复活	
+	FightUpdate = 7; //战斗过程同步血量等
+
+}
+
+
+message BuyBuffParam{
+	required string cfgId = 1;
+}
+
+message FightUpdateParam{
+	required int64 hurt = 1;
+	optional string vCode = 2; // 战斗验证码
+}
+
+message FightEndParam{
+	required int64 totalHurt = 1;
+	optional string vCode = 2; // 战斗验证码
+}
+
+message FightBeginParam{
+	repeated string heroIds = 1; //选中出战的英雄Id列表
+	repeated int32 heroPositions = 2; //选中出战的英雄站位信息
+}
+
+message FightBeginRep{
+	required string bossArmy = 1; //boss队伍
+	required string selfArmy = 2; //用户队伍	
+}
+
+message CommonReqMsg{
+
+	required RequestType reqType = 1;
+	optional int32 wbDataVersion = 2;//数据版本：世界boss自己的数据
+	optional int32 wbUserDataVersion = 3;//数据版本：玩家关于世界boss的数据
+	optional BuyBuffParam buyBuffParam = 4;
+	optional FightBeginParam fightBeginParam = 5;
+	optional FightEndParam fightEndParam = 6;
+	optional FightUpdateParam fightUpdateParam = 7;
+
+}
+
+message CommonRspMsg{
+	required RequestType reqType = 1;//回应的功能协议类型
+	required bool isSuccess = 2;//是否成功处理
+	optional string tipMsg = 3;//提示消息，可以是成功，也可以是失败的提示消息
+	optional FightBeginRep fightBeginRep = 4; //开战返回参数
+	optional FightEndReward reward = 5;//战斗结算奖励
+}
+
+message FightEndReward{
+	required int64 totalHarm = 1;//boss受到的总伤害
+	required int64 curHarm = 2; //本次战斗伤害
+	repeated RandomBoss.ItemInfo itemList = 3;//奖励道具列表
+}

@@ -3,7 +3,7 @@ package com.rw.mutiTest;
 public class MutiTestAccount {
 
 	
-	public static String preName = "12700";
+	public static String preName = "127000";
 
 	public static int totalCount = 10000;
 

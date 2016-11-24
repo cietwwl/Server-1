@@ -2,6 +2,7 @@ package com.playerdata.army;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -93,7 +94,7 @@ public class ArmyInfo {
 	public void setArmyFashion(ArmyFashion armyFashion) {
 		this.armyFashion = armyFashion;
 	}
-	public String toJson() throws Exception {		
+	public String toJson() {		
 		String jsonData = ClientDataSynMgr.toClientData(this);
 		return jsonData;
 	}
@@ -109,6 +110,23 @@ public class ArmyInfo {
 		amryInfo.setPlayer(armyHero);
 		System.out.println(amryInfo.toJson());
 
+	}
+
+	public void setPos(Map<String, Integer> posMap) {
+		setArmyHeroPos(posMap, player);
+		for (ArmyHero armyHero : heroList) {
+			setArmyHeroPos(posMap, armyHero);			
+		}
+		
+	}
+
+	private void setArmyHeroPos(Map<String, Integer> posMap, ArmyHero target) {
+		if(target!=null){
+			Integer position = posMap.get(target.getRoleBaseInfo().getId());
+			if(position!=null){
+				target.setPosition(position);
+			}
+		}
 	}
 
 }

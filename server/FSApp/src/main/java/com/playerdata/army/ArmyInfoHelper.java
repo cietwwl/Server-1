@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
@@ -17,6 +19,7 @@ import com.playerdata.army.simple.ArmyHeroSimple;
 import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rw.service.fashion.FashionHandle;
 import com.rwbase.common.attrdata.AttrData;
+import com.rwbase.common.attrdata.AttrData.Builder;
 import com.rwbase.dao.battle.pojo.BattleCfgDAO;
 import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -133,6 +136,10 @@ public class ArmyInfoHelper {
 			if (heroTmp == null) {
 				continue;
 			}
+			//这里要去掉主角
+			if(StringUtils.equals(heroTmp.getId(), player.getUserId())){
+				continue;
+			}
 			ArmyHero armyHero = getArmyHero(heroTmp);
 			heroList.add(armyHero);
 		}
@@ -160,6 +167,18 @@ public class ArmyInfoHelper {
 		setCurAttrData(armyInfo, attrDataList);
 		setPositionOffset(armyInfo, copyID);
 		return armyInfo;
+	}
+
+	
+	public static ArmyInfo buildMonsterArmy (String monsterId, String copyID)
+	{
+		ArmyInfo army = new ArmyInfo ();	
+
+		ArmyHero armyHero = MonsterArmyHelper.buildMonster(monsterId);
+		army.setPlayer(armyHero);
+		setPositionOffset(army, copyID);
+
+		return army;
 	}
 
 	/**
@@ -202,11 +221,35 @@ public class ArmyInfoHelper {
 
 		return army;
 	}
-
-	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList) {
-
-		Map<String, ArmyHero> heroDic = new HashMap<String, ArmyHero>();
-
+	
+	/**
+	 * 增加army的攻击力
+	 * @param army
+	 * @param percent 增加万分比
+	 */
+	public static void IncreaseArmyAttrack(ArmyInfo army, int percent){
+		ArmyHero player = army.getPlayer();
+		if(player != null){
+			AttrData.Builder builder = new Builder();
+			builder.setPhysiqueAttack(percent);
+			player.getAttrData().addPercent(builder.build());
+		}
+		
+		for (ArmyHero hero : army.getHeroList()) {
+			if(hero == null){
+				continue;
+			}
+			AttrData.Builder builder = new Builder();
+			builder.setPhysiqueAttack(percent);
+			hero.getAttrData().addPercent(builder.build());
+		}
+	}
+	
+	
+	private static void setCurAttrData(ArmyInfo armyInfo, List<CurAttrData> attrDataList){
+		
+		Map<String,ArmyHero> heroDic = new HashMap<String,ArmyHero>();
+	
 		ArmyHero player = armyInfo.getPlayer();
 		if (player != null) {
 			heroDic.put(player.getRoleBaseInfo().getId(), player);

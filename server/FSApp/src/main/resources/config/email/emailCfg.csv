@@ -210,4 +210,3 @@ Key,Remarks,id,title,deleteType,delayTime,deadlineTime,sender,subjectIcon,checkI
 18001,,18001,世界Boss排名奖励,1,604800,,除魔小仙,btn_YouJian_n,btn_YouJian_h,恭喜您在除魔征战活动中排名{S0}名，这是给你的奖励，要继续努力哦！,
 18002,,18002,世界Boss击杀奖励,1,604800,,除魔小仙,btn_YouJian_n,btn_YouJian_h,由于在除魔征战活动中在限定时间内击败了魔神，因此我们为所有参与玩家发放以下额外奖励~,
 18003,,18003,世界Boss最后一击奖励,1,604800,,除魔小仙,btn_YouJian_n,btn_YouJian_h,恭喜您在除魔征战活动中对魔神进行了最后一击，这是我们为您准备的厚礼~,
-19001,,19001,随机boss发现者奖励,1,604800,,除魔小仙,btn_YouJian_n,btn_YouJian_h,您发现的[{S0}]已经被[{S1}]成功讨伐，这是我为您准备的特殊奖励，请收好。,

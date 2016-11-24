@@ -40,13 +40,16 @@ public class GameWorldObjDAO {
 	public boolean update(GameWorldKey gwKey, Object value){
 		
 		String key = gwKey.getName();
-		ClassInfo classInfo = classInfoMap.get(value.getClass());
+		ClassInfo classInfo = getClassInfo(value.getClass());
 		boolean success = false;
 		writeLock.lock();
 		try {
 			String json = classInfo.toJson(value);
-			GameWorldAttributeData data = new GameWorldAttributeData();
-			data.setKey(key);
+			GameWorldAttributeData data = GameWorldDAO.getInstance().get(key);
+			if(data==null){
+				data = new GameWorldAttributeData();
+				data.setKey(key);
+			}
 			data.setValue(json);
 			success = GameWorldDAO.getInstance().update(data);
 			if(success){
@@ -97,7 +100,7 @@ public class GameWorldObjDAO {
 		
 		if(StringUtils.isNotBlank(value)){
 			
-			ClassInfo classInfo = classInfoMap.get(clazz);
+			ClassInfo classInfo = getClassInfo(clazz);
 			try {
 				@SuppressWarnings("unchecked")
 				T valueObject = (T)classInfo.fromJson(value);
@@ -110,7 +113,6 @@ public class GameWorldObjDAO {
 		return null;
 	}
 	
-	@SuppressWarnings("unused")
 	private ClassInfo getClassInfo(Class<?> clazz){
 		
 		if(!classInfoMap.containsKey(clazz)){

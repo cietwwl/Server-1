@@ -47,6 +47,8 @@ public enum GameWorldKey {
 
 	MAGICAN_ARENA(GmGetRankList.RankInfoType.MAGICAN_ARENA.name()),
 
+	ARENA(GmGetRankList.RankInfoType.ARENA.name()),
+	
 	GROUP(GmGetRankList.RankInfoType.GROUP.name()),
 	
 	/**
@@ -81,6 +83,11 @@ public enum GameWorldKey {
 	 * 成长基金数据
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
+	/**
+	 * 帮派排行榜的静态榜
+	 */
+	GROUP_STATIC_RANK("GROUP_STATIC_RANK"),
+
 	/**
 	 * 活跃着的活动
 	 */

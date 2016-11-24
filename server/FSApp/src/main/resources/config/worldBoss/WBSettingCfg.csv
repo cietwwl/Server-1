@@ -1,0 +1,2 @@
+key,remarks,id,bossInitLevel,quickKillTime,quickKillMax,survialMax,cdInSecond,cdCost,beforeBattleCountTime,battleTime,countDownTime,buyBuffLimit
+1,,1,30,15,3,3,30,50;100;200;350;500,90,90000,5,5

@@ -30,6 +30,7 @@ import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.bm.targetSell.net.BenefitMsgController;
+import com.bm.worldBoss.state.WBStateFSM;
 import com.gm.task.gmCommand.GmCommandManager;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -205,6 +206,9 @@ public class GameManager {
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
+		
+		//世界boss 初始化
+		WBStateFSM.getInstance().init();
 	}
 
 	public static void initServerProperties() {

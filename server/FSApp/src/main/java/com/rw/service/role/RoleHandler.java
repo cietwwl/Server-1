@@ -101,9 +101,6 @@ public class RoleHandler {
 			player.getUserGameDataMgr().setCarrerChangeTime();
 			
 			result = response.setResult(resultType).build().toByteString();
-			if(changeCareer){
-				ArenaBM.getInstance().deleteArenaData(player,oldCareer);
-			}
 			
 		}
 		return result;

@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.RankType;
+import com.common.Utils;
 import com.google.protobuf.ByteString;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.common.enu.ECareer;
@@ -39,30 +41,30 @@ public class WorshipMgr {
 	
 	/**重新排行，第一名排行数据改变*/
 	public synchronized void changeFirstRanking(RankType rankingType){
-		ECareer career;
-		switch(rankingType){
-			case WARRIOR_ARENA_DAILY:
-				career = ECareer.Warrior;
-				break;
-			case SWORDMAN_ARENA_DAILY:
-				career = ECareer.SwordsMan;
-				break;
-			case MAGICAN_ARENA_DAILY:
-				career = ECareer.Magican;
-				break;
-			case PRIEST_ARENA_DAILY:
-				career = ECareer.Priest;
-				break;
-			default:
-				career = ECareer.None;
-				break;
-		}
-		if(career == ECareer.None){
-			return;
-		}
+//		ECareer career;
+//		switch(rankingType){
+//			case WARRIOR_ARENA_DAILY:
+//				career = ECareer.Warrior;
+//				break;
+//			case SWORDMAN_ARENA_DAILY:
+//				career = ECareer.SwordsMan;
+//				break;
+//			case MAGICAN_ARENA_DAILY:
+//				career = ECareer.Magican;
+//				break;
+//			case PRIEST_ARENA_DAILY:
+//				career = ECareer.Priest;
+//				break;
+//			default:
+//				career = ECareer.None;
+//				break;
+//		}
+//		if(career == ECareer.None){
+//			return;
+//		}
 		
-		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		sendWorshipReward(career);
+		TableWorship tableWorship = worshipDao.get(String.valueOf(ECareer.Warrior.getValue()));
+		sendWorshipReward(ECareer.Warrior);
 		tableWorship.clear();
 		worshipDao.update(tableWorship);
 //		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
@@ -158,7 +160,13 @@ public class WorshipMgr {
 	}
 	
 	private ByteString getWorshipState(Player player) {
-		List<WorshipInfo> list = getByWorshipedList();
+		
+		List<WorshipInfo> list = null;
+		if(DateUtils.dayChanged(GameManager.getOpenTime())){
+			list = getByWorshipedList();
+		}else{
+			list = new ArrayList<WorshipInfo>();
+		}
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(EWorshipRequestType.WORSHIP_STATE);
 		response.setResultType(EWorshipResultType.SUCCESS);
@@ -175,6 +183,7 @@ public class WorshipMgr {
 		response.addAllByWorshippedList(list);
 		return response.build().toByteString();
 	}
+	
 	
 	public List<WorshipInfo> getByWorshipedList(){
 		List<WorshipInfo> list = new ArrayList<WorshipInfo>();

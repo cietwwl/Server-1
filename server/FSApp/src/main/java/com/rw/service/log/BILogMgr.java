@@ -51,8 +51,6 @@ import com.rw.service.log.template.FinanceMainConsumeLogTemplate;
 import com.rw.service.log.template.GiftGoldChangedLogTemplate;
 import com.rw.service.log.template.GiftPackageLogTemplate;
 import com.rw.service.log.template.GoldChangeLogTemplate;
-import com.rw.service.log.template.ItemChangedEventType_1;
-import com.rw.service.log.template.ItemChangedEventType_2;
 import com.rw.service.log.template.ItemChangedLogTemplate;
 import com.rw.service.log.template.OnlineCountLogTemplate;
 import com.rw.service.log.template.PayLogTemplate;
@@ -73,8 +71,6 @@ import com.rw.service.log.template.ZoneLogoutLogTemplate;
 import com.rw.service.log.template.ZoneRegLogTemplate;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copypve.CopyType;
-import com.rwbase.dao.email.EEmailDeleteType;
-import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.email.EmailItem;
 import com.rwbase.dao.fresherActivity.FresherActivityCfgDao;
 import com.rwbase.dao.fresherActivity.pojo.FresherActivityCfg;
@@ -226,7 +222,9 @@ public class BILogMgr {
 		Map<String, String> moreInfo = new HashMap<String, String>();
 		UserDataMgr userDataMgr = player.getUserDataMgr();
 		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
-		moreInfo.put("chatSenderAccount", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
+		if(null != zoneRegInfo){
+			moreInfo.put("chatSenderAccount", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
+		}
 		moreInfo.put("vip", String.valueOf(player.getVip()));
 		moreInfo.put("chatReceiverUseId", targetUserId);
 		moreInfo.put("chatType", String.valueOf(type));

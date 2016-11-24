@@ -53,6 +53,8 @@ public enum LogModule {
 	RefOpt("反射优化模块"),
 	Skill("技能模块"),
 	robotFriend("好友机器人模块"),
+	WorldBoss("世界boss"),
+	Saloon("同屏模块"),
 	;
 	
 	private String name;

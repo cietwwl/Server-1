@@ -617,5 +617,8 @@ public class UserChannelMgr {
 	public static Enumeration<PairValue<Command, AtomicLong>> getPurgeCount() {
 		return purgeStat.elements();
 	}
-
+	
+	public static boolean isLogout(String userId){
+		return !userChannelsMap.containsKey(userId)&&!disconnectMap.containsKey(userId);
+	}
 }

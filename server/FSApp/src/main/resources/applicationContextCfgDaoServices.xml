@@ -376,6 +376,17 @@
 	<bean class="com.rwbase.dao.spriteattach.SpriteAttachLevelCostCfgDAO" init-method="init" />
 	<bean class="com.rwbase.dao.spriteattach.SpriteAttachRoleCfgDAO" init-method="init" />
 	
+	
+	<!-- 世界boss配置表 -->
+	<bean class="com.bm.worldBoss.cfg.WBCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBAwardCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBBuyBuffCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBRankAwardCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBSettingCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBExAwardCfgDAO" init-method="init" />
+	<bean class="com.bm.worldBoss.cfg.WBHPCfgDAO" init-method="init" />
+	
+	
 	<!-- 充值排行榜 -->
 	<bean class="com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO" init-method="init" />
 	<bean class="com.playerdata.activity.chargeRank.cfg.ActivityChargeRankSubCfgDAO" init-method="init" />

@@ -61,6 +61,7 @@ import com.rw.service.Privilege.datamodel.PrivilegeConfigHelper;
 import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
+import com.rw.service.chat.ChatHandler;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
@@ -109,6 +110,9 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.ChatServiceProtos.ChatMessageData;
+import com.rwproto.ChatServiceProtos.MsgChatRequest;
+import com.rwproto.ChatServiceProtos.eChatType;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
@@ -292,6 +296,7 @@ public class GMHandler {
 		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
+		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
 
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
 		
@@ -2176,6 +2181,19 @@ public class GMHandler {
 
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
+	}
+	
+	public boolean sendWorldChat(String[] arrCommandContents, Player player) {
+		String targetUserId = arrCommandContents[0];
+		Player target = PlayerMgr.getInstance().find(targetUserId);
+		ChatMessageData.Builder chatMsgBuilder = ChatMessageData.newBuilder();
+		String str = String.valueOf(System.currentTimeMillis());
+		chatMsgBuilder.setMessage(target.getUserName() + str.substring(str.length() - 6));
+		MsgChatRequest.Builder chatRequestBuilder = MsgChatRequest.newBuilder();
+		chatRequestBuilder.setChatMessageData(chatMsgBuilder.build());
+		chatRequestBuilder.setChatType(eChatType.CHANNEL_WORLD);
+		ChatHandler.getInstance().chatWorld(target, chatRequestBuilder.build());
+		return true;
 	}
 
 	public boolean sendOneHundredEmails(String[] arrCommandContents, Player player) {

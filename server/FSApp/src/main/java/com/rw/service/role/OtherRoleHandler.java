@@ -19,6 +19,7 @@ import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.ItemDataIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.service.fashion.FashionHandle;
+import com.rw.service.skill.SkillConstant;
 import com.rwbase.dao.equipment.EquipItemIF;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.skill.pojo.SkillIF;
@@ -129,16 +130,19 @@ public class OtherRoleHandler {
 
 		List<? extends SkillIF> skillList = player.getSkillMgr().getSkillList(mainRoleHero.getId());
 		for (int j = 0; j < skillList.size(); j++) {
-
-			SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
 			SkillIF skill = skillList.get(j);
+			int order = skill.getOrder();
+			if (order == SkillConstant.NORMAL_SKILL_ORDER) {
+				continue;
+			}
+			SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
 			skillInfo.setId(skill.getSkillId());
 			skillInfo.setLevel(skill.getLevel());
-			skillInfo.setOrder(skill.getOrder());
+			skillInfo.setOrder(order);
 			otherRoleAttr.addSkillInfo(skillInfo);
 		}
-		
-		//获取显示的五人
+
+		// 获取显示的五人
 		ArrayList<Hero> heroList = new ArrayList<Hero>(5);
 		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
 		if (embattleInfo != null) {
@@ -175,7 +179,7 @@ public class OtherRoleHandler {
 				heroList.add(0, mainPHero);
 			}
 		}
-		
+
 		for (Hero hero : heroList) {
 			RoleCfg roleCfg = FSHeroMgr.getInstance().getHeroCfg(hero);
 			OtherHero.Builder otherHero = OtherHero.newBuilder();
@@ -197,12 +201,15 @@ public class OtherRoleHandler {
 
 			skillList = hero.getSkillMgr().getSkillList(hero.getUUId());
 			for (int j = 0; j < skillList.size(); j++) {
-
-				SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
 				SkillIF skill = skillList.get(j);
+				int order = skill.getOrder();
+				if (order == SkillConstant.NORMAL_SKILL_ORDER) {
+					continue;
+				}
+				SkillInfo.Builder skillInfo = SkillInfo.newBuilder();
 				skillInfo.setId(skill.getSkillId());
 				skillInfo.setLevel(skill.getLevel());
-				skillInfo.setOrder(skill.getOrder());
+				skillInfo.setOrder(order);
 				otherHero.addSkillInfo(skillInfo);
 			}
 

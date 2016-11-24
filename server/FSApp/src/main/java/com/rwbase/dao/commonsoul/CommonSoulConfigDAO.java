@@ -47,7 +47,7 @@ public class CommonSoulConfigDAO extends CfgCsvDao<CommonSoulConfig> {
 			}
 		}
 		if(config.getCommonSoulStoneCfgId() == 0) {
-			throw new IllegalArgumentException("万能魂石不存在！");
+//			throw new IllegalArgumentException("万能魂石不存在！");
 		}
 	}
 

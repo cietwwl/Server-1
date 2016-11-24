@@ -382,6 +382,8 @@ public class RandomBossMgr {
 
 		// 通知日常任务系统
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.RANDOM_BOSS, 1);
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.RANDOMBOSS_BATTLE, 1);
+		
 		return rewardInfo;
 	}
 

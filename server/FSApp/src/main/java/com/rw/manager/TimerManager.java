@@ -7,6 +7,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
+import com.bm.saloon.SaloonBmFactory;
+import com.bm.worldBoss.WBMgr;
+import com.bm.worldBoss.state.WBStateFSM;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -56,7 +59,8 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				try {
+				try{
+					SaloonBmFactory.getInstance().update();
 					DataAutoSynMgr.getInstance().synDataAuto();
 				} catch (Exception ex) {
 
@@ -68,6 +72,7 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
+				WBStateFSM.getInstance().tranfer();
 				PlayerMgr.getInstance().secondFunc4AllPlayer();
 			}
 		}, SECOND);
@@ -76,6 +81,7 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
+				
 				GFightStateTransfer.getInstance().checkTransfer();
 				ActivityDetector.getInstance().detectActive();
 			}

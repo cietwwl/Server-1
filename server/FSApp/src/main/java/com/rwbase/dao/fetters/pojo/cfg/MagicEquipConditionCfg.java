@@ -23,7 +23,7 @@ import com.rwbase.dao.fetters.pojo.cfg.dao.MagicEquipConditionKey;
  */
 public class MagicEquipConditionCfg {
 
-	private static final int _FETTER_TYPE_MAGIC = 1; // 羁绊类型：法宝
+	public static final int FETTER_TYPE_MAGIC = 1; // 羁绊类型：法宝
 
 	private int uniqueId; // 羁绊条件唯一的id
 
@@ -145,7 +145,7 @@ public class MagicEquipConditionCfg {
 	 * @return
 	 */
 	public boolean isMagicFetter() {
-		return this.type == _FETTER_TYPE_MAGIC;
+		return this.type == FETTER_TYPE_MAGIC;
 	}
 
 	public MagicEquipConditionKey getCompositeKey() {

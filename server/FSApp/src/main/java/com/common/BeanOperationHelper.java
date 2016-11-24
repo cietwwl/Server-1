@@ -90,6 +90,9 @@ public class BeanOperationHelper {
 					Object sourceValue = sourcefield.get(source);
 					Object targetValue = targetfield.get(target);
 					Object mutiValue = countPercentValue(sourceValue, targetValue, division);
+					if(mutiValue == null){
+						continue;
+					}
 					
 					sourcefield.set(source, mutiValue);
 					
