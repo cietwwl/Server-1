@@ -481,7 +481,8 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
 		}
 
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -527,8 +528,9 @@ public class GroupPersonalHandler {
 			}
 		}
 
-		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
-			memberMgr.resetMemberDataDonateTimes(playerId, now);
+		if (DateUtils.isResetTime(5, 0, 0, baseData.getLastDonateTime())) {// 到了重置时间
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(playerId, now);
+			// memberMgr.resetMemberDataDonateTimes(playerId, now);
 		}
 
 		// 每天可以捐献的次数
@@ -537,11 +539,11 @@ public class GroupPersonalHandler {
 		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
 
 		// 角色当天捐献的次数
-		int donateTimes = memberData.getDonateTimes();
+		int donateTimes = baseData.getDonateTimes();
 
 		OpenDonateViewRspMsg.Builder rsp = OpenDonateViewRspMsg.newBuilder();
 		rsp.setLeftDonateTimes(perDayDonateTimes - donateTimes);
-		rsp.setPrivateContribution(memberData.getContribution());
+		rsp.setPrivateContribution(baseData.getContribution());
 		rsp.setTotalDonateTimes(perDayDonateTimes);
 
 		int vipLevel = player.getVip();// Vip等级
@@ -578,7 +580,8 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
 		}
 
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataIF baseData = userGroupAttributeDataMgr.getUserGroupAttributeData();
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -636,15 +639,16 @@ public class GroupPersonalHandler {
 			}
 		}
 
-		if (DateUtils.isResetTime(5, 0, 0, memberData.getLastDonateTime())) {// 到了重置时间
-			memberMgr.resetMemberDataDonateTimes(playerId, now);
+		if (DateUtils.isResetTime(5, 0, 0, baseData.getLastDonateTime())) {// 到了重置时间
+			// memberMgr.resetMemberDataDonateTimes(playerId, now);
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(playerId, now);
 		}
 
 		// by franky
 		int perDayDonateTimes = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.donateCount);
 
 		// 角色当天捐献的次数
-		int donateTimes = memberData.getDonateTimes();
+		int donateTimes = baseData.getDonateTimes();
 		int donateType = donateCfg.getDonateType();
 		boolean isTokenDonate = donateType == GroupCommonProto.GroupDonateType.TOKEN_DONATE_VALUE;
 
@@ -726,7 +730,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 更新数据
-		memberMgr.updateMemberDataWhenDonate(playerId, memberData.getDonateTimes() + (isTokenDonate ? 0 : 1), now, rewardContribution, isTokenDonate);// 只有令牌捐献才会增加到今日
+		memberMgr.updateMemberDataWhenDonate(playerId, baseData.getDonateTimes() + (isTokenDonate ? 0 : 1), now, rewardContribution, isTokenDonate);// 只有令牌捐献才会增加到今日
 
 		// 更新捐献后的帮派数据
 		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp(), rewardToken, true);
@@ -739,8 +743,8 @@ public class GroupPersonalHandler {
 
 		// 设置回应消息
 		GroupDonateRspMsg.Builder rsp = GroupDonateRspMsg.newBuilder();
-		rsp.setLeftDonateTimes(perDayDonateTimes - memberData.getDonateTimes());
-		rsp.setPrivateContribution(memberData.getContribution());
+		rsp.setLeftDonateTimes(perDayDonateTimes - baseData.getDonateTimes());
+		rsp.setPrivateContribution(baseData.getContribution());
 		rsp.setTotalDonateTimes(perDayDonateTimes);
 
 		commonRsp.setIsSuccess(true);
