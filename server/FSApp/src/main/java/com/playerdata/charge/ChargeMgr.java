@@ -186,6 +186,7 @@ public class ChargeMgr {
 		Boolean pre = _processOrders.put(chargeContentPojo.getCpTradeNo(), PRESENT);
 		if (pre != null) {
 			// 订单处理中
+			GameLog.info("chargeMgr", chargeContentPojo.getCpTradeNo(), "订单正在处理中！");
 			return true;
 		}
 		boolean success = false;
