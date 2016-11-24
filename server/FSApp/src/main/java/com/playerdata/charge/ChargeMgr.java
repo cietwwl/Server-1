@@ -172,6 +172,12 @@ public class ChargeMgr {
 		}
 		return false;
 	}
+	
+	private ChargeRecord createChargeRecord(Player player, ChargeContentPojo chargeContentPojo) {
+		ChargeRecord chargeRecord = _checker.generateChargeRecord(chargeContentPojo);
+		chargeRecord.setSdkUserId(player.getUserDataMgr().getAccount());
+		return chargeRecord;
+	}
 
 	public boolean charge(ChargeContentPojo chargeContentPojo){
 		if (chargeContentPojo.getCpTradeNo() == null) {
@@ -193,7 +199,7 @@ public class ChargeMgr {
 					}
 				}
 				if (!ChargeRecordDAO.getInstance().isRecordExists(chargeContentPojo.getCpTradeNo())) {
-					ChargeRecord chargeRecord = _checker.generateChargeRecord(chargeContentPojo);
+					ChargeRecord chargeRecord = createChargeRecord(player, chargeContentPojo);
 					if (ChargeRecordDAO.getInstance().addChargeRecord(chargeRecord)) {
 						success = chargeType(player, chargeContentPojo);
 					} else {
