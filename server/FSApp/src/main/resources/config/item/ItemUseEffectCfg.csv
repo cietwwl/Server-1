@@ -39,6 +39,13 @@ Key,Remarks,modelId,combineUse,useEffectClass,directResult,dropResult
 806355,,806355,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35080;35081
 806356,,806356,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35082;35083
 806357,,806357,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35084;35085
+806358,,806358,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35096;35097
+806359,,806359,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35098;35099
+806360,,806360,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35086;35087
+806361,,806361,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35088;35089
+806362,,806362,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35094;35095
+806363,,806363,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35090;35091
+806364,,806364,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,35092;35093
 806120,,806120,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,39001;39002;39003;39004;39005;39006;39007
 806121,,806121,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,39008;39009;39010;39011;39012;39013;39014
 806122,,806122,,com.rw.service.item.useeffect.impl.UseTreasureBoxEffectImpl,,39015;39016;39017;39018;39019;39020;39021
