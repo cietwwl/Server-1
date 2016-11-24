@@ -219,6 +219,8 @@ public class GMHandler {
 
 		// 道术
 		funcCallBackMap.put("setalltaoist", "setAllTaoist");
+		funcCallBackMap.put("resetTaoistLevelByTag".toLowerCase(), "resetTaoistLevelByTag");
+		funcCallBackMap.put("resetTaoistLevelById".toLowerCase(), "resetTaoistLevelById");
 
 		// 设置帮战阶段
 		funcCallBackMap.put("setgfstate", "setGFightState");
@@ -397,6 +399,36 @@ public class GMHandler {
 			mgr.setLevel(cfg.getKey(), 50);
 		}
 		GameLog.info("GM", "setAllTaoist ", "finished", null);
+		return result;
+	}
+	
+	public boolean resetTaoistLevelByTag(String[] arrCommandContents, Player player) {
+		int tag = Integer.parseInt(arrCommandContents[0]);
+		GameLog.info("GM", "resetTaoistLevel", "start", null);
+		boolean result = true;
+		ITaoistMgr mgr = player.getTaoistMgr();
+		Iterable<TaoistMagicCfg> cfglst = TaoistMagicCfgHelper.getInstance().getIterateAllCfg();
+		for (TaoistMagicCfg cfg : cfglst) {
+			if (cfg.getTagNum() == tag) {
+				mgr.setLevel(cfg.getKey(), 1);
+			}
+		}
+		GameLog.info("GM", "resetTaoistLevel ", "finished", null);
+		return result;
+	}
+	
+	public boolean resetTaoistLevelById(String[] arrCommandContents, Player player) {
+		int id = Integer.parseInt(arrCommandContents[0]);
+		GameLog.info("GM", "resetTaoistLevel", "start", null);
+		boolean result = true;
+		ITaoistMgr mgr = player.getTaoistMgr();
+		Iterable<TaoistMagicCfg> cfglst = TaoistMagicCfgHelper.getInstance().getIterateAllCfg();
+		for (TaoistMagicCfg cfg : cfglst) {
+			if (cfg.getKey() == id) {
+				mgr.setLevel(cfg.getKey(), 1);
+			}
+		}
+		GameLog.info("GM", "resetTaoistLevel ", "finished", null);
 		return result;
 	}
 

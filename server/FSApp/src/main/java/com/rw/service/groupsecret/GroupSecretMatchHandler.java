@@ -615,7 +615,8 @@ public class GroupSecretMatchHandler {
 
 		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_BATTLE, 1);
-
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_SCAN, 1);
+		
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
