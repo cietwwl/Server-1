@@ -32,7 +32,7 @@ public class BenefitMsgController {
 	private static BenefitMsgController controller = new BenefitMsgController();
 
 
-	private BenefitMsgController() {
+	protected BenefitMsgController() {
 	}
 
 	public static BenefitMsgController getInstance() {

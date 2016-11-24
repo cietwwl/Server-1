@@ -40,10 +40,10 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	public static final int MAX_SKILL_COUNT = 10;// 最大技能点数量
 	public static final int DIE_SKILL_LEVEL = -2;
 
-	private static final SkillMgr _INSTANCE = new SkillMgr();
+	private static SkillMgr _instance = new SkillMgr();
 
 	public static final SkillMgr getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	protected SkillMgr() {

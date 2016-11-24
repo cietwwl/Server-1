@@ -10,7 +10,7 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompEventsDataHolder {
 
-	private static final GCompEventsDataHolder _instance = new GCompEventsDataHolder();
+	private static GCompEventsDataHolder _instance = new GCompEventsDataHolder();
 	
 	public static GCompEventsDataHolder getInstance() {
 		return _instance;

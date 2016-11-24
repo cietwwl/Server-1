@@ -17,7 +17,7 @@ import com.rwbase.common.IFunction;
  */
 public class FSGetFixEquipCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
-	private static final FSGetFixEquipCurrentFightingFunc _instance = new FSGetFixEquipCurrentFightingFunc();
+	private static FSGetFixEquipCurrentFightingFunc _instance = new FSGetFixEquipCurrentFightingFunc();
 	
 	private IFunction<Hero, Integer> _single;
 	

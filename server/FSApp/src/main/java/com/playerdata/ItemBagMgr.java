@@ -13,7 +13,6 @@ import org.springframework.util.StringUtils;
 
 import com.common.RefInt;
 import com.log.GameLog;
-import com.playerdata.readonly.ItemBagMgrIF;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.service.Email.EmailUtils;
@@ -41,15 +40,14 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * @Modified-by HC
  * @date 2015-08-06
  */
-public class ItemBagMgr implements ItemBagMgrIF {
-	private static final String ITEM_BAG_FULL_EMAIL_ID = "10068";// 背包物品叠加到了上限的邮件提示
-	private static final String MAGIC_FULL_EMAIL_ID = "10069";// 法宝满了的邮件提示
+public class ItemBagMgr {
+	private static String ITEM_BAG_FULL_EMAIL_ID = "10068";// 背包物品叠加到了上限的邮件提示
+	private static String MAGIC_FULL_EMAIL_ID = "10069";// 法宝满了的邮件提示
 
-	private Player player;
 	/**
 	 * 消耗物品规则的比较器
 	 */
-	private static final Comparator<ItemData> comparator = new Comparator<ItemData>() {
+	private static Comparator<ItemData> comparator = new Comparator<ItemData>() {
 
 		@Override
 		public int compare(ItemData o1, ItemData o2) {
@@ -57,47 +55,51 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		}
 	};
 
-	private ItemBagHolder holder;// 背包的数据层
+	private static ItemBagMgr instance = new ItemBagMgr();
 
-	// 初始化
-	public boolean init(Player player) {
-		this.player = player;
-		holder = new ItemBagHolder(player.getUserId());
-		return true;
+	public static ItemBagMgr getInstance() {
+		return instance;
+	}
+
+	protected ItemBagMgr() {
 	}
 
 	/**
 	 * 在登出游戏的时候保存
 	 */
-	public void save() {
-		holder.flush();
+	public void save(String userId) {
+		ItemBagHolder.getHolder().flush(userId);
 	}
 
 	/**
-	 * 推送所有的道具信息到客户端
+	 * 推送所有的物品数据到客户端
+	 * 
+	 * @param player
 	 */
-	public void syncAllItemData() {
-		holder.syncAllData(player);
+	public void syncAllItemData(Player player) {
+		ItemBagHolder.getHolder().syncAllData(player);
 	}
 
 	/**
 	 * 通过物品的背包位置获取物品的信息
 	 * 
-	 * @param id 物品的位置
+	 * @param userId
+	 * @param id
 	 * @return
 	 */
-	public ItemData findBySlotId(String id) {
-		return holder.getItemData(id);
+	public ItemData findBySlotId(String userId, String id) {
+		return ItemBagHolder.getHolder().getItemData(userId, id);
 	}
 
 	/**
 	 * 获取物品数量
 	 * 
+	 * @param userId 角色的Id
 	 * @param modelId 道具模板Id
 	 * @return
 	 */
-	public int getItemCountByModelId(int modelId) {
-		return holder.getItemCountByModelId(modelId);
+	public int getItemCountByModelId(String userId, int modelId) {
+		return ItemBagHolder.getHolder().getItemCountByModelId(userId, modelId);
 	}
 
 	/**
@@ -107,8 +109,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * 
 	 * @return {key=modelId,value=count}
 	 */
-	public Map<Integer, RefInt> getModelCountMap() {
-		return holder.getModelCountMap();
+	public Map<Integer, RefInt> getModelCountMap(String userId) {
+		return ItemBagHolder.getHolder().getModelCountMap(userId);
 	}
 
 	/**
@@ -116,8 +118,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * 
 	 * @return
 	 */
-	public Map<Integer, ItemData> getModelFirstItemDataMap() {
-		return holder.getModelFirstItemDataMap();
+	public Map<Integer, ItemData> getModelFirstItemDataMap(String userId) {
+		return ItemBagHolder.getHolder().getModelFirstItemDataMap(userId);
 	}
 
 	/**
@@ -128,8 +130,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param itemsMap {key=modelId,value=count}
 	 * @return
 	 */
-	public boolean hasEnoughItems(Map<Integer, Integer> itemsMap) {
-		return holder.hasEnoughItems(itemsMap);
+	public boolean hasEnoughItems(String userId, Map<Integer, Integer> itemsMap) {
+		return ItemBagHolder.getHolder().hasEnoughItems(userId, itemsMap);
 	}
 
 	/**
@@ -138,13 +140,13 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * 
 	 * @param strPrize
 	 */
-	public void addItemByPrizeStr(String strPrize) {
+	public void addItemByPrizeStr(Player player, String strPrize) {
 		String[] arrPrizes = strPrize.split(",");
 
 		int size = arrPrizes.length;
 		List<INewItem> newItemList = new ArrayList<INewItem>(size);
 		List<ItemInfo> items = new ArrayList<ItemInfo>();
-		
+
 		for (int i = 0; i < size; i++) {
 			String[] arrItem = arrPrizes[i].split("~");
 			if (arrItem.length < 2)
@@ -152,24 +154,24 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int itemId = Integer.valueOf(arrItem[0]);
 			int itemCount = Integer.valueOf(arrItem[1]);
 
-			if (itemId < eSpecialItemId.eSpecial_End.getValue() ) {
+			if (itemId < eSpecialItemId.eSpecial_End.getValue()) {
 				ItemInfo item = new ItemInfo();
 				item.setItemID(itemId);
 				item.setItemNum(itemCount);
 				items.add(item);
-			} else if(ItemCfgHelper.isFashionSpecialItem(itemId)){
-				addItem(itemId,itemId);
-			}	else {
+			} else if (ItemCfgHelper.isFashionSpecialItem(itemId)) {
+				addItem(player, itemId, itemId);
+			} else {
 				INewItem newItem = new NewItem(itemId, itemCount, null);
 				newItemList.add(newItem);
 			}
 		}
 		if (!items.isEmpty()) {
-			addItem(items);
+			addItem(player, items);
 		}
 		// 增加新的道具
 		if (!newItemList.isEmpty()) {
-			useLikeBoxItem(null, newItemList);
+			useLikeBoxItem(player, null, newItemList);
 		}
 	}
 
@@ -186,20 +188,20 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param count 增加物品的个数
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
-	public boolean addItem(int cfgId, int count) {
+	public boolean addItem(Player player, int cfgId, int count) {
 		boolean success = false;
 		// 增加特殊物品时装的判断，时装物品不会设计为可以使用的物品
 		// TODO franky 时装作为特殊物品占用了90000000 ~ 99999999
 		if (ItemCfgHelper.isFashionSpecialItem(cfgId)) {
-			success = addFashion(cfgId);
-		}else{
-			success = addItem0(cfgId, count);
+			success = addFashion(player, cfgId);
+		} else {
+			success = addItem0(player, cfgId, count);
 		}
 
 		return success;
 	}
 
-	private boolean addFashion(int cfgId) {
+	private boolean addFashion(Player player, int cfgId) {
 		boolean success;
 		RefInt fashionId = new RefInt();
 		RefInt expireTimeCount = new RefInt();
@@ -215,12 +217,12 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param count 使用道具的数量
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
-	public boolean useItemBySlotId(String slotId, int count) {
+	public boolean useItemBySlotId(Player player, String slotId, int count) {
 		if (count <= 0) {
 			return false;
 		}
 
-		return useItem0(slotId, count);
+		return useItem0(player, slotId, count);
 	}
 
 	/**
@@ -230,8 +232,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param count
 	 * @return
 	 */
-	public boolean useItemByCfgId(int cfgId, int count) {
-		return useItemByCfgId0(cfgId, count);
+	public boolean useItemByCfgId(Player player, int cfgId, int count) {
+		return useItemByCfgId0(player, cfgId, count);
 	}
 
 	/**
@@ -241,19 +243,19 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param dataOperation 是否直接数据库操作
 	 * @return
 	 */
-	private boolean useItemByCfgId0(int cfgId, int count) {
+	private boolean useItemByCfgId0(Player player, int cfgId, int count) {
 		if (count <= 0) {
 			return false;
 		}
 
-		List<ItemData> itemList = holder.getItemDataByCfgId(cfgId);
+		List<ItemData> itemList = ItemBagHolder.getHolder().getItemDataByCfgId(player.getUserId(), cfgId);
 		if (itemList.isEmpty()) {
 			return false;
 		}
 
 		Collections.sort(itemList, comparator);// 物品排序
 
-		return useItem0(itemList.get(0).getId(), count);
+		return useItem0(player, itemList.get(0).getId(), count);
 	}
 
 	/**
@@ -264,7 +266,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param modifyMoneyMap 要使用的货币，使用货币的修改<如果是正数：加；如果是负数：减>
 	 * @return
 	 */
-	public boolean useLikeBoxItem(List<IUseItem> useItemList, List<INewItem> addItemList, Map<Integer, Integer> modifyMoneyMap) {
+	public boolean useLikeBoxItem(Player player, List<IUseItem> useItemList, List<INewItem> addItemList, Map<Integer, Integer> modifyMoneyMap) {
 		// 金钱操作
 		if (modifyMoneyMap != null) {
 			for (Entry<Integer, Integer> e : modifyMoneyMap.entrySet()) {
@@ -273,7 +275,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 					continue;
 				}
 
-				if (!addItem(e.getKey(), useCount)) {
+				if (!addItem(player, e.getKey(), useCount)) {
 					return false;
 				}
 			}
@@ -284,7 +286,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			return true;
 		}
 
-		return useLikeBoxItem(useItemList, addItemList);
+		return useLikeBoxItem(player, useItemList, addItemList);
 	}
 
 	/**
@@ -293,7 +295,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param useItemList 要使用物品列表(只能是物品类，不能是货币)
 	 * @param addItemList 要产生的物品
 	 */
-	public boolean useLikeBoxItem(List<IUseItem> useItemList, List<INewItem> addItemList) {
+	public boolean useLikeBoxItem(Player player, List<IUseItem> useItemList, List<INewItem> addItemList) {
 		if ((useItemList == null || useItemList.isEmpty()) && (addItemList == null || addItemList.isEmpty())) {
 			return false;
 		}
@@ -333,7 +335,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param count
 	 * @return
 	 */
-	public boolean checkEnoughItem(int cfgId, int count) {
+	public boolean checkEnoughItem(Player player, int cfgId, int count) {
 		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
 			if (cfgId == eSpecialItemId.Coin.getValue()) {
 				return player.getUserGameDataMgr().getCoin() >= count;
@@ -354,7 +356,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				return player.getUserGameDataMgr().getWakenPiece() >= count;
 			} else if (cfgId == eSpecialItemId.WAKEN_KEY.getValue()) {
 				return player.getUserGameDataMgr().getWakenKey() >= count;
-			} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()){
+			} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()) {
 				return player.getUserGameDataMgr().getTeamBattleCoin() >= count;
 			}
 		} else {// 操作道具
@@ -367,7 +369,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				return false;
 			}
 
-			List<ItemData> itemList = holder.getItemDataByCfgId(cfgId);
+			List<ItemData> itemList = ItemBagHolder.getHolder().getItemDataByCfgId(player.getUserId(), cfgId);
 			int sum = 0;
 			for (ItemData itemData : itemList) {
 				sum += itemData.getCount();
@@ -387,10 +389,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param updateItemList
 	 * @param bagOperation 是否直接背包操作
 	 */
-	private boolean addItem0(int cfgId, int count) {
+	private boolean addItem0(Player player, int cfgId, int count) {
 		boolean success = true;
 		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
-			modifyCurrency(cfgId, count);
+			modifyCurrency(player, cfgId, count);
 		} else {// 操作道具
 			if (count <= 0) {
 				return false;
@@ -418,10 +420,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param count
 	 * @return
 	 */
-	public boolean addRobotItem(int cfgId, int count) {
+	public boolean addRobotItem(Player player, int cfgId, int count) {
 		boolean success = true;
 		if (cfgId <= eSpecialItemId.eSpecial_End.getValue()) {
-			modifyCurrency(cfgId, count);
+			modifyCurrency(player, cfgId, count);
 		} else {// 操作道具
 			if (count <= 0) {
 				return false;
@@ -443,12 +445,12 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param bagOperation 是否直接把结果更新到背包中去
 	 * @return 当前返回的只是一个状态，但是以后可能会返回失败的详细信息（这里要改成返回一个类型码）
 	 */
-	private boolean useItem0(String slotId, int count) {
+	private boolean useItem0(Player player, String slotId, int count) {
 		if (count <= 0) {
 			return false;
 		}
 
-		ItemData item = findBySlotId(slotId);// 查找对应的物品
+		ItemData item = findBySlotId(player.getUserId(), slotId);// 查找对应的物品
 		if (item == null) {
 			return false;
 		}
@@ -464,8 +466,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param cfgId
 	 * @return
 	 */
-	public List<ItemData> getItemListByCfgId(int cfgId) {
-		return holder.getItemDataByCfgId(cfgId);
+	public List<ItemData> getItemListByCfgId(String userId, int cfgId) {
+		return ItemBagHolder.getHolder().getItemDataByCfgId(userId, cfgId);
 	}
 
 	/**
@@ -474,15 +476,15 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param modelId
 	 * @return
 	 */
-	public ItemData getFirstItemByModelId(int modelId) {
-		return holder.getFirstItemByModelId(modelId);
+	public ItemData getFirstItemByModelId(String userId, int modelId) {
+		return ItemBagHolder.getHolder().getFirstItemByModelId(userId, modelId);
 	}
 
 	/**
 	 * 更新数据
 	 */
-	public void syncItemData(List<ItemData> itemList) {
-		holder.syncItemData(player, itemList);
+	public void syncItemData(Player player, List<ItemData> itemList) {
+		ItemBagHolder.getHolder().syncItemData(player, itemList);
 	}
 
 	/**
@@ -491,7 +493,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param itemData
 	 */
 	public void updateItem(ItemData itemData) {
-		holder.updateItem(itemData);
+		ItemBagHolder.getHolder().updateItem(itemData);
 	}
 
 	/**
@@ -500,8 +502,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param itemType
 	 * @return
 	 */
-	public List<ItemData> getItemListByType(EItemTypeDef itemType) {
-		return holder.getItemListByType(itemType);
+	public List<ItemData> getItemListByType(String userId, EItemTypeDef itemType) {
+		return ItemBagHolder.getHolder().getItemListByType(userId, itemType);
 	}
 
 	/**
@@ -510,7 +512,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param cfgId
 	 * @param value
 	 */
-	private void modifyCurrency(int cfgId, int value) {
+	private void modifyCurrency(Player player, int cfgId, int value) {
 		if (cfgId == eSpecialItemId.Coin.getValue()) {
 			player.getUserGameDataMgr().addCoin(value);
 		} else if (cfgId == eSpecialItemId.Gold.getValue()) {
@@ -542,7 +544,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			player.getUserGameDataMgr().addWakenKey(value);
 		} else if (cfgId == eSpecialItemId.TEAM_BATTLE_GOLD.getValue()) {
 			player.getUserGameDataMgr().addTeamBattleCoin(value);
-		} 
+		}
 	}
 
 	/**
@@ -560,6 +562,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			throw new IllegalArgumentException("使用物品和要新增的物品为空");
 		}
 
+		String userId = player.getUserId();
 		List<ItemData> newItemList = new ArrayList<ItemData>();
 		List<ItemData> updateItemList = new ArrayList<ItemData>();
 		// 叠加上限超出
@@ -569,18 +572,17 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 		// 使用物品
 		if (useItemList != null && !useItemList.isEmpty()) {
-			useItem(updateItemWrap(useItemList), newItemList, updateItemList, modelIdList, typeDefList);
+			useItem(userId, updateItemWrap(userId, useItemList), newItemList, updateItemList, modelIdList, typeDefList);
 		}
 
 		// 增加新的物品
 		if (addItemList != null && !addItemList.isEmpty()) {
-			addItem(nonRepeatAddMap(addItemList), newItemList, updateItemList, modelIdList, typeDefList);
+			addItem(player, nonRepeatAddMap(addItemList), newItemList, updateItemList, modelIdList, typeDefList);
 		}
 
 		// 更新背包
-		String userId = player.getUserId();
 		try {
-			holder.updateItemBgData(player, newItemList, updateItemList);
+			ItemBagHolder.getHolder().updateItemBgData(player, newItemList, updateItemList);
 		} catch (DuplicatedKeyException e) {
 			GameLog.error("背包模块", userId, "添加物品出现了重复的Key", e);
 			return;
@@ -642,10 +644,10 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @throws ItemNotExistException
 	 * @throws ItemCountNotEnoughException
 	 */
-	private HashMap<String, Integer> updateItemWrap(List<IUseItem> useItemList) throws DataNotExistException, ItemCountNotEnoughException {
+	private HashMap<String, Integer> updateItemWrap(String userId, List<IUseItem> useItemList) throws DataNotExistException, ItemCountNotEnoughException {
 		int size = useItemList.size();
 
-		Map<Integer, RefInt> modelCountMap = getModelCountMap();
+		Map<Integer, RefInt> modelCountMap = getModelCountMap(userId);
 		HashMap<String, Integer> tempMap = new HashMap<String, Integer>(size);
 		Map<Integer, String> cacheSlotMap = new HashMap<Integer, String>(size);
 		for (int i = 0; i < size; i++) {
@@ -656,7 +658,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			}
 
 			String slotId = useItem.getSlotId();
-			ItemData itemData = findBySlotId(slotId);
+			ItemData itemData = findBySlotId(userId, slotId);
 			if (itemData == null) {
 				throw new DataNotExistException("在背包中不存在要使用的道具");
 			}
@@ -706,13 +708,13 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param updateItemList
 	 * @return
 	 */
-	private void useItem(HashMap<String, Integer> updateItemMap, List<ItemData> addItemList, List<ItemData> updateItemList, List<Integer> modelIdList, List<EItemTypeDef> typeDefList) {
+	private void useItem(String userId, HashMap<String, Integer> updateItemMap, List<ItemData> addItemList, List<ItemData> updateItemList, List<Integer> modelIdList, List<EItemTypeDef> typeDefList) {
 		// 转换成Update
 		for (Entry<String, Integer> e : updateItemMap.entrySet()) {
 			String slotId = e.getKey();
 			int useCount = e.getValue();
 
-			ItemData itemData = findBySlotId(slotId);
+			ItemData itemData = findBySlotId(userId, slotId);
 			if (itemData == null) {
 				continue;
 			}
@@ -726,7 +728,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			int stackCount = cfg.getStackNum();// 叠加数量
 			boolean isMerger = stackCount > 1;
 			if (isMerger) {// 叠加物品
-				List<ItemData> itemList = holder.getItemDataByCfgId(modelId);
+				List<ItemData> itemList = ItemBagHolder.getHolder().getItemDataByCfgId(userId, modelId);
 				if (itemList.isEmpty()) {// 空的
 					return;
 				}
@@ -802,17 +804,18 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param addItemList
 	 * @param updateItemList
 	 */
-	private void addItem(HashMap<Integer, Integer> addMap, List<ItemData> addItemList, List<ItemData> updateItemList, List<Integer> modelIdList, List<EItemTypeDef> typeDefList) {
+	private void addItem(Player player, HashMap<Integer, Integer> addMap, List<ItemData> addItemList, List<ItemData> updateItemList, List<Integer> modelIdList, List<EItemTypeDef> typeDefList) {
 		EnumMap<EItemTypeDef, Integer> offSizeMap = new EnumMap<EItemTypeDef, Integer>(EItemTypeDef.class);// 叠加物品的数量
 		// 增加数据
+		String userId = player.getUserId();
 		for (Entry<Integer, Integer> e : addMap.entrySet()) {
 			int modelId = e.getKey();
 			if (ItemCfgHelper.isFashionSpecialItem(modelId)) {
 				// 2016-11-12 添加对时装的判断
-				addFashion(modelId);
+				addFashion(player, modelId);
 				continue;
 			} else if (modelId < eSpecialItemId.eSpecial_End.getValue()) {
-				modifyCurrency(modelId, e.getValue());
+				modifyCurrency(player, modelId, e.getValue());
 				continue;
 			}
 			ItemBaseCfg cfg = ItemCfgHelper.GetConfig(modelId);
@@ -825,7 +828,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 
 			int stackNum = cfg.getStackNum();
 			if (stackNum > 1) {// 叠加
-				List<ItemData> itemList = holder.getItemDataByCfgId(modelId);
+				List<ItemData> itemList = ItemBagHolder.getHolder().getItemDataByCfgId(userId, modelId);
 				if (!itemList.isEmpty()) {// 空的
 					// 排序
 					Collections.sort(itemList, comparator);
@@ -852,11 +855,11 @@ public class ItemBagMgr implements ItemBagMgrIF {
 						modelIdList.add(modelId);// 把超出叠加上限的添加出来
 					}
 
-					addItem(modelId, addCount, addItemList, offSizeMap, typeDefList);
+					addItem1(player, modelId, addCount, addItemList, offSizeMap, typeDefList);
 				}
 			} else {
 				for (int i = 0; i < addCount; i++) {
-					addItem(modelId, 1, addItemList, offSizeMap, typeDefList);
+					addItem1(player, modelId, 1, addItemList, offSizeMap, typeDefList);
 				}
 			}
 		}
@@ -872,8 +875,8 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * 
 	 * @return 是否打到了某类型物品的叠加上限
 	 */
-	private boolean addItem(int modelId, int count, List<ItemData> addItemList, EnumMap<EItemTypeDef, Integer> offSizeMap, List<EItemTypeDef> typeDefList) {
-		ItemData newItemData = holder.newItemData(modelId, count);
+	private boolean addItem1(Player player, int modelId, int count, List<ItemData> addItemList, EnumMap<EItemTypeDef, Integer> offSizeMap, List<EItemTypeDef> typeDefList) {
+		ItemData newItemData = player.newItemData(modelId, count);
 		EItemTypeDef type = newItemData.getType();
 		int capacity = getCapacityByType(type);
 		if (capacity <= 0) {
@@ -881,7 +884,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		} else {
 			Integer hasValue = offSizeMap.get(type);
 			int offSize = hasValue == null ? 0 : hasValue;
-			int hasSize = getItemListByType(type).size() + offSize;
+			int hasSize = getItemListByType(player.getUserId(), type).size() + offSize;
 			if (hasSize < capacity) {
 				addItemList.add(newItemData);
 				offSizeMap.put(type, ++offSize);
@@ -912,13 +915,13 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * @param type
 	 * @return
 	 */
-	public boolean checkItemCapacityIsFull(EItemTypeDef type) {
+	public boolean checkItemCapacityIsFull(String userId, EItemTypeDef type) {
 		int capacity = getCapacityByType(type);
 		if (capacity <= 0) {
 			return false;
 		}
 
-		return getItemListByType(type).size() < capacity;
+		return getItemListByType(userId, type).size() < capacity;
 	}
 
 	/**
@@ -947,8 +950,6 @@ public class ItemBagMgr implements ItemBagMgrIF {
 		// 发送邮件
 		EmailUtils.sendEmail(userId, emailData);
 	}
-	
-	
 
 	/**
 	 * <pre>
@@ -964,7 +965,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 	 * 
 	 * @return
 	 */
-	public boolean addItem(List<ItemInfo> itemInfoList) throws IllegalArgumentException {
+	public boolean addItem(Player player, List<ItemInfo> itemInfoList) throws IllegalArgumentException {
 		if (itemInfoList == null || itemInfoList.isEmpty()) {
 			return true;
 		}
@@ -1002,7 +1003,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				}
 			} else if (ItemCfgHelper.isFashionSpecialItem(itemID)) {
 				// 2016-11-01 添加对时装的判断
-				addFashion(itemID);
+				addFashion(player, itemID);
 			} else {
 				newItemList.add(new NewItem(itemID, itemNum, null));
 			}
@@ -1013,32 +1014,33 @@ public class ItemBagMgr implements ItemBagMgrIF {
 			return false;
 		}
 
-		return useLikeBoxItem(null, newItemList, currencyMap);
+		return useLikeBoxItem(player, null, newItemList, currencyMap);
 	}
-	
+
 	/**
 	 * 区分叠加和不叠加是否足够道具
+	 * 
 	 * @param itemModelId
 	 * @param count
 	 * @param selfModelId
 	 * @return
 	 */
-	public List<IUseItem> checkEnoughItem(int itemModelId, int count,
-			ItemData selfItem, ICheckItemWare checker) {
+	public List<IUseItem> checkEnoughItem(Player player, int itemModelId, int count, ItemData selfItem, ICheckItemWare checker) {
+		String userId = player.getUserId();
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();
 		ItemBaseCfg itemBaseCfg = ItemCfgHelper.GetConfig(itemModelId);
 		int stackNum = itemBaseCfg.getStackNum();
 		if (stackNum > 1) {
-			if (!checkEnoughItem(itemModelId, count)) {
+			if (!checkEnoughItem(player, itemModelId, count)) {
 				return null;
 			} else {
-				Map<Integer, ItemData> modelFirstItemDataMap = getModelFirstItemDataMap();
+				Map<Integer, ItemData> modelFirstItemDataMap = getModelFirstItemDataMap(userId);
 				ItemData itemData = modelFirstItemDataMap.get(itemModelId);
 				useItemList.add(new UseItem(itemData.getId(), count));
 				return useItemList;
 			}
 		} else {
-			List<ItemData> itemDatas = getItemListByCfgId(itemModelId);
+			List<ItemData> itemDatas = getItemListByCfgId(userId, itemModelId);
 			String id = selfItem == null ? "" : selfItem.getId();
 			for (int i = 0; i < itemDatas.size(); i++) {
 				ItemData itemData = itemDatas.get(i);
@@ -1046,7 +1048,7 @@ public class ItemBagMgr implements ItemBagMgrIF {
 					continue;
 				}
 				useItemList.add(new UseItem(itemData.getId(), 1));
-				if(useItemList.size() >= count){
+				if (useItemList.size() >= count) {
 					break;
 				}
 			}
@@ -1056,5 +1058,12 @@ public class ItemBagMgr implements ItemBagMgrIF {
 				return null;
 			}
 		}
+	}
+
+	/**
+	 * 解析产生的Id
+	 */
+	public int initMaxId(String userId) {
+		return ItemBagHolder.getHolder().initMaxId(userId);
 	}
 }

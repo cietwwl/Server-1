@@ -18,15 +18,12 @@ import com.rwproto.TaoistMagicProtos.TaoistResponse;
 import com.rwproto.TaoistMagicProtos.TaoistResponse.Builder;
 
 public class TaoistHandler {
-	private static TaoistHandler instance;
+	private static TaoistHandler instance = new TaoistHandler();
 
-	private TaoistHandler() {
+	protected TaoistHandler() {
 	}
 
 	public static TaoistHandler getInstance() {
-		if (instance == null) {
-			instance = new TaoistHandler();
-		}
 		return instance;
 	}
 

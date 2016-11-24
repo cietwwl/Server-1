@@ -8,7 +8,7 @@ import com.rwbase.dao.fighting.pojo.ExpectedHeroStatusCfg;
 
 public class FSGetFashionMaxFightingFunc implements IFunction<Player, Integer> {
 
-	private static final FSGetFashionMaxFightingFunc _INSTANCE = new FSGetFashionMaxFightingFunc();
+	private static FSGetFashionMaxFightingFunc _instance = new FSGetFashionMaxFightingFunc();
 
 	private FashionFightingCfgDAO _fashionFightingCfgDAO;
 	private ExpectedHeroStatusCfgDAO _expectedHeroStatusCfgDAO;
@@ -18,8 +18,8 @@ public class FSGetFashionMaxFightingFunc implements IFunction<Player, Integer> {
 		_expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
 	}
 
-	public static final FSGetFashionMaxFightingFunc getInstance() {
-		return _INSTANCE;
+	public static FSGetFashionMaxFightingFunc getInstance() {
+		return _instance;
 	}
 
 	@Override

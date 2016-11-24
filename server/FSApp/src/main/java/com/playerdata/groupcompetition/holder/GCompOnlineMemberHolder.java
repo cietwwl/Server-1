@@ -15,9 +15,9 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompOnlineMemberHolder {
 
-	private static final GCompOnlineMemberHolder _instance = new GCompOnlineMemberHolder();
+	private static GCompOnlineMemberHolder _instance = new GCompOnlineMemberHolder();
 	
-	public static final GCompOnlineMemberHolder getInstance() {
+	public static GCompOnlineMemberHolder getInstance() {
 		return _instance;
 	}
 	

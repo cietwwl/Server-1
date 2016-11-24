@@ -5,11 +5,9 @@ import com.rw.config.ConfigMap;
 import com.rwbase.dao.battletower.pojo.cfg.BattleTowerCommonCfg;
 
 public class BattleTowerCommonCfgConfig extends ConfigMap<String, BattleTowerCommonCfg> {
-	private static BattleTowerCommonCfgConfig instance;
+	private static BattleTowerCommonCfgConfig instance = new BattleTowerCommonCfgConfig();
 
 	public static BattleTowerCommonCfgConfig getInstance() {
-		if (instance == null)
-			instance = new BattleTowerCommonCfgConfig();
 		return instance;
 	}
 

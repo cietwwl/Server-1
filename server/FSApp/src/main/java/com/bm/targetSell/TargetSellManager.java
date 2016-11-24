@@ -31,6 +31,7 @@ import com.bm.targetSell.param.attrs.AttrsProcessMgr;
 import com.bm.targetSell.param.attrs.EAchieveType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -739,7 +740,7 @@ public class TargetSellManager {
 			
 			BenefitItems items = itemMap.remove(itemGroupId);
 			//添加道具
-			boolean addItem = player.getItemBagMgr().addItem(tranfer2ItemInfo(items));
+			boolean addItem = ItemBagMgr.getInstance().addItem(player, tranfer2ItemInfo(items));
 			if(addItem){
 				//通知精准服，玩家领取了道具,同时保存一下可领取次数
 				notifyBenefitServerRoleGetItem(player, itemGroupId);

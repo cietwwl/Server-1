@@ -58,15 +58,12 @@ import com.rwproto.GroupCompetitionProto.TeamStatusRequest;
 
 public class GroupCompetitionHandler {
 
-	private static GroupCompetitionHandler instance;	
+	private static GroupCompetitionHandler instance = new GroupCompetitionHandler();	
 
-	private GroupCompetitionHandler() {
+	protected GroupCompetitionHandler() {
 	}
 
 	public static GroupCompetitionHandler getInstance() {
-		if (instance == null) {
-			instance = new GroupCompetitionHandler();
-		}
 		return instance;
 	}
 	

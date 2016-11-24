@@ -597,9 +597,9 @@ public class RobotManager {
 			// }
 			int maigcId = getRandom(cfg.getMagicId());
 			int magicLevel = getRandom(cfg.getMagicLevel());
-			ItemBagMgr itemBagMgr = player.getItemBagMgr();
-			itemBagMgr.addRobotItem(maigcId, 1);
-			ItemData magic = itemBagMgr.getItemListByCfgId(maigcId).get(0);
+			ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+			itemBagMgr.addRobotItem(player, maigcId, 1);
+			ItemData magic = itemBagMgr.getItemListByCfgId(userId, maigcId).get(0);
 			magic.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(magicLevel));
 			player.getMagicMgr().wearMagic(magic.getId());
 			HeroMgr heroMgr = player.getHeroMgr();

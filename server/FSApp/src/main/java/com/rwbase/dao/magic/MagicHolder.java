@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.common.Action;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -104,13 +105,7 @@ public class MagicHolder {
 	 * @return
 	 */
 	private ItemData switchMagic2ItemData(Player player, String magicId) {
-		// ItemData magicData = player.getItemBagMgr().findBySlotId(magicId);
-		// if (magicData == null) {
-		// return null;
-		// }
-		//
-		// return new ItemData(magicData);
-		return player.getItemBagMgr().findBySlotId(magicId);
+		return ItemBagMgr.getInstance().findBySlotId(player.getUserId(), magicId);
 	}
 
 	/**
@@ -149,8 +144,8 @@ public class MagicHolder {
 			action.doAction();
 		}
 	}
-	
-	private MapItemStore<Magic> getItemStore(){
+
+	private MapItemStore<Magic> getItemStore() {
 		MapItemStoreCache<Magic> cache = MapItemStoreFactory.getMagicCache();
 		return cache.getMapItemStore(userId, Magic.class);
 	}

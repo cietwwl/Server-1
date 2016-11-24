@@ -14,7 +14,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FSGetFixEquipCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetFixEquipCurrentFightingOfSingleFunc _instance = new FSGetFixEquipCurrentFightingOfSingleFunc();
+	private static FSGetFixEquipCurrentFightingOfSingleFunc _instance = new FSGetFixEquipCurrentFightingOfSingleFunc();
 
 	// private FixEquipLevelFightingCfgDAO fixEquipLevelFightingCfgDAO;
 	// private FixEquipQualityFightingCfgDAO fixEquipQualityFightingCfgDAO;

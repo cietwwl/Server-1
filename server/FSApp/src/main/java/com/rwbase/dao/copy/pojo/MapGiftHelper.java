@@ -9,7 +9,7 @@ public class MapGiftHelper {
 	
 	private static MapGiftHelper instance = new MapGiftHelper();
 
-	private MapGiftHelper(){};
+	protected MapGiftHelper(){};
 	
 	
 	final private String SEPERATOR = ","; 

@@ -15,7 +15,7 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 
 public class FSGetTaoistMaxFightingFunc implements IFunction<Player, Integer> {
 
-	private static final FSGetTaoistMaxFightingFunc _INSTANCE = new FSGetTaoistMaxFightingFunc();
+	private static FSGetTaoistMaxFightingFunc _instance = new FSGetTaoistMaxFightingFunc();
 	
 	private ExpectedHeroStatusCfgDAO _expectedHeroStatusCfgDAO;
 	private TaoistFightingCfgDAO _taoistFightingCfgDAO;
@@ -29,8 +29,8 @@ public class FSGetTaoistMaxFightingFunc implements IFunction<Player, Integer> {
 		_cfgOpenLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 	}
 	
-	public static final FSGetTaoistMaxFightingFunc getInstance() {
-		return _INSTANCE;
+	public static FSGetTaoistMaxFightingFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

@@ -12,14 +12,14 @@ import com.rwbase.gameworld.GameWorldKey;
 public class GCompGroupScoreRankingDAO {
 
 	
-	private static final GCompGroupScoreRankingDAO _INSTANCE = new GCompGroupScoreRankingDAO();
+	private static GCompGroupScoreRankingDAO _instance = new GCompGroupScoreRankingDAO();
 	
 	private final List<GCompGroupTotalScoreRecord> _allRecords = new ArrayList<GCompGroupTotalScoreRecord>();
 	
 	protected GCompGroupScoreRankingDAO() {}
 	
 	public static GCompGroupScoreRankingDAO getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 	public void loadData() {

@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityTypeHelper;
@@ -177,12 +178,12 @@ public class ActivityRetrieveTypeMgr {
 			result.setSuccess(true);
 			Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 			map.put(type, -tmp);
-			player.getItemBagMgr().useLikeBoxItem(null, null, map);
+			ItemBagMgr.getInstance().useLikeBoxItem(player, null, null, map);
 			// player.getItemBagMgr().useItemByCfgId(id, entry.getValue());
 			String[] reward = rewards.split(";");
 			for (String tmpreward : reward) {
 				String[] str = tmpreward.split(":");
-				player.getItemBagMgr().addItem(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+				ItemBagMgr.getInstance().addItem(player, Integer.parseInt(str[0]), Integer.parseInt(str[1]));
 			}
 			subItem.setIstaken(true);
 			subItem.setCount(subItem.getMaxCount());

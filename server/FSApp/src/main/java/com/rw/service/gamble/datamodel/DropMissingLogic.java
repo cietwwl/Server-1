@@ -45,13 +45,13 @@ public class DropMissingLogic {
 	 */
 	public String searchMissingItem(Player player, DropMissingCfg cfg) {
 		RoleQualityCfgDAO qualityHelper = RoleQualityCfgDAO.getInstance();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		Random r = HPCUtil.getRandom();
 
+		String userId = player.getUserId();
 		List<Hero> heroList = FSHeroMgr.getInstance().getAllHeros(player, comparator);
 		for (int i = 0; i < heroList.size(); i++) {
 			Hero hero = heroList.get(i);
-			List<Integer> equipCandidates = searchOneHero(hero, itemBagMgr, qualityHelper, cfg);
+			List<Integer> equipCandidates = searchOneHero(hero, userId, qualityHelper, cfg);
 			int max = equipCandidates.size();
 			if (max <= 0) {
 				continue;
@@ -70,7 +70,7 @@ public class DropMissingLogic {
 	 * @param cfg
 	 * @return
 	 */
-	private List<Integer> searchOneHero(Hero hero, ItemBagMgr itemBagMgr, RoleQualityCfgDAO qualityHelper, DropMissingCfg cfg) {
+	private List<Integer> searchOneHero(Hero hero, String userId, RoleQualityCfgDAO qualityHelper, DropMissingCfg cfg) {
 		ArrayList<Integer> result = new ArrayList<Integer>();
 		if (hero == null) {
 			return result;
@@ -100,7 +100,7 @@ public class DropMissingLogic {
 				continue;
 			}
 			// 搜索背包
-			if (!isBagContain(itemBagMgr, equipCfgId)) {
+			if (!isBagContain(userId, equipCfgId)) {
 				result.add(equipCfgId);
 			}
 		}
@@ -113,11 +113,8 @@ public class DropMissingLogic {
 		return result;
 	}
 
-	private boolean isBagContain(ItemBagMgr itemBagMgr, Integer equipCfgId) {
-		if (itemBagMgr == null) {
-			return false;
-		}
-		List<ItemData> itemDataList = itemBagMgr.getItemListByCfgId(equipCfgId);
+	private boolean isBagContain(String userId, Integer equipCfgId) {
+		List<ItemData> itemDataList = ItemBagMgr.getInstance().getItemListByCfgId(userId, equipCfgId);
 		if (itemDataList == null || itemDataList.isEmpty()) {
 			return false;
 		}

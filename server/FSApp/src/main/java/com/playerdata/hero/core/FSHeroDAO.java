@@ -10,10 +10,10 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 
 public class FSHeroDAO {
 	
-	private static final FSHeroDAO _INSTANCE = new FSHeroDAO();
+	private static FSHeroDAO _instance = new FSHeroDAO();
 	
 	public static FSHeroDAO getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 	MapItemStore<FSHero> getOtherHeroMapItemStore(String userId) {

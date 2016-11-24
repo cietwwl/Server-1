@@ -17,7 +17,7 @@ public class GroupSkillCfgDAO extends CfgCsvDao<GroupSkillCfg> {
 		return SpringContextUtil.getBean(GroupSkillCfgDAO.class);
 	}
 
-	private GroupSkillCfgDAO() {
+	protected GroupSkillCfgDAO() {
 	}
 
 	@Override

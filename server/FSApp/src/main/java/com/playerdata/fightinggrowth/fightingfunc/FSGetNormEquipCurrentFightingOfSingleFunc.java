@@ -12,7 +12,7 @@ import com.rwbase.dao.equipment.EquipItem;
 
 public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetNormEquipCurrentFightingOfSingleFunc _instance = new FSGetNormEquipCurrentFightingOfSingleFunc();
+	private static FSGetNormEquipCurrentFightingOfSingleFunc _instance = new FSGetNormEquipCurrentFightingOfSingleFunc();
 
 	// private HeroEquipCfgDAO heroEquipCfgDAO;
 
@@ -20,7 +20,7 @@ public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero
 		// heroEquipCfgDAO = HeroEquipCfgDAO.getInstance();
 	}
 
-	public static final FSGetNormEquipCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetNormEquipCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 

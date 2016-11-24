@@ -48,9 +48,8 @@ class MSInnerProcessor extends MSConditionJudger {
 	 * @param dropItems
 	 */
 	public static void handleDropItem(Player player, List<ItemInfo> dropItems) {
-		ItemBagMgr bagMgr = player.getItemBagMgr();
 		GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品：%s", dropItems), null);
-		bagMgr.addItem(dropItems);
+		ItemBagMgr.getInstance().addItem(player, dropItems);
 	}
 
 	/**
@@ -162,10 +161,9 @@ class MSInnerProcessor extends MSConditionJudger {
 			DungeonsDataCfg dungDataCfg = dungeonsDataCfgDAO.getCfgById(dungID);
 			if (dungDataCfg == null)
 				continue;
-			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(player,
-					dungDataCfg.getDrop()));
-			if(nextStageID > umsData.getMaxStageID() && StringUtils.isNotBlank(dungDataCfg.getFirstDrop())){
-				//判断是否首掉，如果首掉（并且有首掉配置），就改成首掉物品
+			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(player, dungDataCfg.getDrop()));
+			if (nextStageID > umsData.getMaxStageID() && StringUtils.isNotBlank(dungDataCfg.getFirstDrop())) {
+				// 判断是否首掉，如果首掉（并且有首掉配置），就改成首掉物品
 				msdInfo.setDropItem(generateDropItem(player, dungDataCfg.getFirstDrop()));
 			}
 			selectableDungeons.add(msdInfo);

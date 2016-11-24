@@ -74,7 +74,7 @@ public class UserEventMgr {
 		return instance;
 	}
 	
-	private UserEventMgr(){
+	protected UserEventMgr(){
 		eventHandlerMap.put(UserEventType.LOGIN, new UserEventLoginHandler());
 		eventHandlerMap.put(UserEventType.USE_GOLD, new UserEventUseGoldHandler());
 		eventHandlerMap.put(UserEventType.COPY_WIN, new UserEventCopyWinHandler());

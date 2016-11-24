@@ -19,7 +19,7 @@ import com.rwproto.MsgDef.Command;
 public class MainMsgHandler {
 	private static MainMsgHandler instance = new MainMsgHandler();
 
-	private MainMsgHandler() {
+	protected MainMsgHandler() {
 	}
 
 	public static MainMsgHandler getInstance() {

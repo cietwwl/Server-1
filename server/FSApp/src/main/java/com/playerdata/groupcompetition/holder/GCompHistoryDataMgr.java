@@ -12,7 +12,7 @@ import com.rwbase.dao.group.pojo.Group;
 
 public class GCompHistoryDataMgr {
 
-	private static final GCompHistoryDataMgr _instance = new GCompHistoryDataMgr();
+	private static GCompHistoryDataMgr _instance = new GCompHistoryDataMgr();
 	
 	public static GCompHistoryDataMgr getInstance() {
 		return _instance;

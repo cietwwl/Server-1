@@ -284,7 +284,7 @@ public class ChatBM {
 
 	// ===================================================================================
 
-	private ChatBM() {
+	protected ChatBM() {
 		ses.scheduleAtFixedRate(new ChatRun(), 0, _CHAT_WORLD_TASK_ITR, TimeUnit.MILLISECONDS);
 	}
 

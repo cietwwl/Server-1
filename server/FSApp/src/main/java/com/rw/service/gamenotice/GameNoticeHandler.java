@@ -17,15 +17,12 @@ import com.rwproto.NoticeProtos.tagNoticeInfo;
  *
  */
 public class GameNoticeHandler {
-	private static GameNoticeHandler instance;
+	private static GameNoticeHandler instance = new GameNoticeHandler();
 
 	public GameNoticeHandler() {
 	}
 
 	public static GameNoticeHandler getInstance() {
-		if (instance == null) {
-			instance = new GameNoticeHandler();
-		}
 		return instance;
 	}
 

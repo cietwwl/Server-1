@@ -29,7 +29,7 @@ public class TaskItemMgr implements TaskMgrIF {
 	private TaskItemHolder taskItemHolder;
 
 	private Player m_pPlayer = null;
-	
+
 	private static final int TASK_STATE_NOT_DONE = TaskState.NOT_DONE.sign; // 未完成
 	private static final int TASK_STATE_CAN_DRAW = TaskState.CAN_DRAW.sign; // 可领取奖励
 	private static final int TASK_STATE_REWARD_DRAWED = TaskState.DRAWED.sign; // 已领取奖励
@@ -124,7 +124,7 @@ public class TaskItemMgr implements TaskMgrIF {
 		curplan = getCurProgress(task.getFinishType(), value, value1);
 		task.setCurProgress(curplan);
 		task.setTotalProgress(total);
-//		task.setDrawState(curplan >= total ? 1 : 0);
+		// task.setDrawState(curplan >= total ? 1 : 0);
 		task.setDrawState(curplan >= total ? TASK_STATE_CAN_DRAW : TASK_STATE_NOT_DONE);
 	}
 
@@ -205,11 +205,11 @@ public class TaskItemMgr implements TaskMgrIF {
 				if (curProgress != task.getCurProgress()) {
 					task.setCurProgress(curProgress);
 					if (task.getCurProgress() >= task.getTotalProgress()) {
-//						task.setDrawState(1);
+						// task.setDrawState(1);
 						task.setDrawState(TASK_STATE_CAN_DRAW);
 						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					} else {
-//						task.setDrawState(0);
+						// task.setDrawState(0);
 						task.setDrawState(TASK_STATE_NOT_DONE);
 						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 					}
@@ -231,11 +231,11 @@ public class TaskItemMgr implements TaskMgrIF {
 			if (task.getFinishType() == taskType && task.getDrawState() == TASK_STATE_NOT_DONE && task.getSuperType() == eTaskSuperType.More.ordinal()) {
 				task.setCurProgress(count + task.getCurProgress());
 				if (task.getCurProgress() >= task.getTotalProgress()) {
-//					task.setDrawState(1);
+					// task.setDrawState(1);
 					task.setDrawState(TASK_STATE_CAN_DRAW);
 					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, true, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				} else {
-//					task.setDrawState(0);
+					// task.setDrawState(0);
 					task.setDrawState(TASK_STATE_NOT_DONE);
 					BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
 				}
@@ -268,7 +268,7 @@ public class TaskItemMgr implements TaskMgrIF {
 			Integer count = taskRewards.get(itemId);
 			items.add(new ItemInfo(itemId.intValue(), count.intValue()));
 		}
-		m_pPlayer.getItemBagMgr().addItem(items);
+		ItemBagMgr.getInstance().addItem(m_pPlayer, items);
 		task.setDrawState(TASK_STATE_REWARD_DRAWED);
 		if (cfg.getPreTask() != -1) { // 这里为什么不删除？BY PERRY @ 2016-11-07
 			taskItemHolder.removeItem(m_pPlayer, task);

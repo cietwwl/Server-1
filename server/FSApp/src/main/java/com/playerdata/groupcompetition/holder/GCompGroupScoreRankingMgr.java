@@ -18,7 +18,7 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 
 public class GCompGroupScoreRankingMgr {
 
-	private static final GCompGroupScoreRankingMgr _INSTANCE = new GCompGroupScoreRankingMgr();
+	private static GCompGroupScoreRankingMgr _instance = new GCompGroupScoreRankingMgr();
 	
 	private GCompGroupScoreRankingDAO _dao;
 	
@@ -27,7 +27,7 @@ public class GCompGroupScoreRankingMgr {
 	}
 	
 	public static GCompGroupScoreRankingMgr getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 	public void serverStartComplete() {

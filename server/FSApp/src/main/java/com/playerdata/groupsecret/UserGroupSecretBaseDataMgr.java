@@ -26,7 +26,7 @@ public class UserGroupSecretBaseDataMgr {
 		return mgr;
 	}
 
-	private UserGroupSecretBaseDataMgr() {
+	protected UserGroupSecretBaseDataMgr() {
 	}
 
 	/**

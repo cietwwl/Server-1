@@ -38,7 +38,7 @@ import com.rwproto.TowerServiceProtos.eTowerResultType;
 import com.rwproto.TowerServiceProtos.eTowerType;
 
 public class TowerHandler {
-	private static TowerHandler instance;
+	private static TowerHandler instance = new TowerHandler();
 
 	private Comparator<TagTowerHeadInfo> comparator = new Comparator<TagTowerHeadInfo>() {
 
@@ -52,13 +52,10 @@ public class TowerHandler {
 		}
 	};
 
-	private TowerHandler() {
+	protected TowerHandler() {
 	}
 
 	public static TowerHandler getInstance() {
-		if (instance == null) {
-			instance = new TowerHandler();
-		}
 		return instance;
 	}
 

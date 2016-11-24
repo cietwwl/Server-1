@@ -286,7 +286,7 @@ public class CopyDataMgr implements CopyDataMgrIF {
 			item.setItemNum(itemCount);
 			addList.add(item);
 		}
-		player.getItemBagMgr().addItem(addList);
+		ItemBagMgr.getInstance().addItem(player, addList);
 		return addList;
 	}
 

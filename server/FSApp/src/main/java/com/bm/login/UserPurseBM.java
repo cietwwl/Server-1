@@ -9,7 +9,7 @@ public class UserPurseBM {
 	
 	private UserPurseDAO userPurseDAO = UserPurseDAO.getInstance();
 	private static  UserPurseBM instance = new UserPurseBM();
-	private UserPurseBM(){}
+	protected UserPurseBM(){}
 	public static UserPurseBM getInstance(){
 		return instance;
 	}

@@ -16,15 +16,10 @@ public class GroupDonateCfgDAO extends CfgCsvDao<GroupDonateCfg> {
 	// private static GroupDonateCfgDAO dao;
 
 	public static GroupDonateCfgDAO getDAO() {
-		// if (dao == null) {
-		// dao = new GroupDonateCfgDAO();
-		// }
-		//
-		// return dao;
 		return SpringContextUtil.getBean(GroupDonateCfgDAO.class);
 	}
 
-	private GroupDonateCfgDAO() {
+	protected GroupDonateCfgDAO() {
 	}
 
 	@Override

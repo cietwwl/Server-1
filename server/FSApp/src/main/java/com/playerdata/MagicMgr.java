@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.util.StringUtils;
 
 import com.common.Action;
-import com.common.RandomMgr;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.magic.MagicHolder;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
@@ -17,7 +16,7 @@ import com.rwproto.ItemBagProtos.EItemTypeDef;
  * @date 2015年10月15日 下午5:43:08
  * @Description 法宝Mgr
  */
-public class MagicMgr extends RandomMgr {
+public class MagicMgr {
 
 	private MagicHolder holder;// 法宝Holder
 	private Player player;// 角色
@@ -47,8 +46,8 @@ public class MagicMgr extends RandomMgr {
 	 * @return
 	 */
 	public boolean wearMagic(String magicId) {
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		ItemData item = itemBagMgr.findBySlotId(magicId);
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		ItemData item = itemBagMgr.findBySlotId(player.getUserId(), magicId);
 		if (item == null) {
 			return false;
 		}
@@ -66,7 +65,7 @@ public class MagicMgr extends RandomMgr {
 		// ItemData oldItem = itemBagMgr.findBySlotId(holder.getMagicId());
 		ItemData oldItem = getMagic();
 		if (oldItem != null) {// 旧法宝数据设定
-		// oldItem = itemBagMgr.findBySlotId(oldItem.getId());// 获取数据库中的道具
+			// oldItem = itemBagMgr.findBySlotId(oldItem.getId());// 获取数据库中的道具
 			oldItem.setExtendAttr(EItemAttributeType.Magic_State_VALUE, "0");// 设置新的状态
 			updateItems.add(oldItem);
 			itemBagMgr.updateItem(oldItem);// 刷新
@@ -78,7 +77,7 @@ public class MagicMgr extends RandomMgr {
 		updateItems.add(item);
 		itemBagMgr.updateItem(item);// 刷新
 		// 刷新数据
-		itemBagMgr.syncItemData(updateItems);
+		itemBagMgr.syncItemData(player, updateItems);
 		// 替换法宝
 		// replaceMagic(magicId);
 		holder.replaceMagic(this.player, magicId);

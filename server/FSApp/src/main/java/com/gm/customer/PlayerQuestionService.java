@@ -2,14 +2,8 @@ package com.gm.customer;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.Spring;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -24,36 +18,37 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.PlayerQuestionMgr;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
-import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.ServerConfig;
 
 public class PlayerQuestionService {
-	private GmSenderConfig senderConfig; 
+	// private static PlayerQuestionService instance = new PlayerQuestionService();
+	private GmSenderConfig senderConfig;
+	// private BlockingQueue<QuestionObject> Queue = new LinkedBlockingQueue<PlayerQuestionService.QuestionObject>();
 
+	// private ExecutorService sendService;
 	private ExecutorService submitService;
 
 	private GmSenderPool giftSenderPool;
-	
-	public static PlayerQuestionService getInstance(){
+
+	public static PlayerQuestionService getInstance() {
 		return SpringContextUtil.getBean(PlayerQuestionService.class);
 	}
-	
-	public void init(){
+
+	public void init() {
 		if (!ServerSwitch.isGiftCodeOpen()) {
 			return;
 		}
 		String giftCodeServerIp = ServerConfig.getInstance().getServeZoneInfo().getGiftCodeServerIp();
 		int giftCodeServerPort = ServerConfig.getInstance().getServeZoneInfo().getGiftCodeServerPort();
-		senderConfig = new GmSenderConfig(giftCodeServerIp, giftCodeServerPort, 10000, (short)10354);
-		
+		senderConfig = new GmSenderConfig(giftCodeServerIp, giftCodeServerPort, 10000, (short) 10354);
 
 		giftSenderPool = new GmSenderPool(senderConfig);
 		submitService = Executors.newFixedThreadPool(10);
 
 	}
-	
-	public <T> T submitRequestSync(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass){
+
+	public <T> T submitRequestSync(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass) {
 		GmSender borrowSender = giftSenderPool.borrowSender();
 		if (borrowSender != null) {
 			try {
@@ -64,10 +59,10 @@ public class PlayerQuestionService {
 				QueryBaseResponse send = borrowSender.send(content, QueryBaseResponse.class, opType);
 				String result = send.getResult();
 				List<T> deserializeList = FastJsonUtil.deserializeList(result, responseClass);
-				return deserializeList.get(0); 
+				return deserializeList.get(0);
 
 			} catch (Exception e) {
-				borrowSender.setAvailable(false);//return pool之后会呗销毁。
+				borrowSender.setAvailable(false);// return pool之后会呗销毁。
 				GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[addSendTask]", "borrowSender.send error", e);
 			} finally {
 				giftSenderPool.returnSender(borrowSender);
@@ -75,14 +70,14 @@ public class PlayerQuestionService {
 		}
 		return null;
 	}
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public <T> void submitRequest(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass){
+	public <T> void submitRequest(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass) {
 		if (!ServerSwitch.isGiftCodeOpen()) {
 			return;
 		}
 		final QuestionObject obj = new QuestionObject(content, opType, userId, requireList, responseClass);
-		
+
 		submitService.submit(new Runnable() {
 			@Override
 			public void run() {
@@ -101,9 +96,9 @@ public class PlayerQuestionService {
 							String result = send.getResult();
 							List deserializeList = FastJsonUtil.deserializeList(result, obj.getResponseClass());
 							playerQuestionMgr.processResponse(deserializeList, obj.getOpType());
-							
+
 						} catch (Exception e) {
-							borrowSender.setAvailable(false);//return pool之后会呗销毁。
+							borrowSender.setAvailable(false);// return pool之后会呗销毁。
 							GameLog.error(LogModule.GmSender, "GiftCodeSenderBm[addSendTask]", "borrowSender.send error", e);
 						} finally {
 							giftSenderPool.returnSender(borrowSender);
@@ -114,20 +109,18 @@ public class PlayerQuestionService {
 			}
 		});
 
-		
 	}
-	
-	@JsonIgnoreProperties(ignoreUnknown=true)
-	public class QuestionObject<T>{
+
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public class QuestionObject<T> {
 		Map<String, Object> content;
 		int opType;
 		String userId;
 		Class<T> responseClass;
 		boolean requireList = false;
 		boolean blnSuccuess = false;
-		
-		
-		public QuestionObject(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass){
+
+		public QuestionObject(Map<String, Object> content, int opType, String userId, boolean requireList, Class<T> responseClass) {
 			this.content = content;
 			this.opType = opType;
 			this.userId = userId;

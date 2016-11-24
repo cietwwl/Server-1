@@ -27,7 +27,7 @@ import com.rwproto.RankServiceProtos.RankInfo;
 public class RankingHandler {
 	private static RankingHandler instance = new RankingHandler();
 
-	private RankingHandler() {
+	protected RankingHandler() {
 
 	}
 

@@ -16,10 +16,10 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class InlayItemHolder {
 
-	private static final InlayItemHolder _INSTANCE = new InlayItemHolder();
+	private static InlayItemHolder _instance = new InlayItemHolder();
 
 	public static InlayItemHolder getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	// private final String heroModelId;// 英雄的模版Id

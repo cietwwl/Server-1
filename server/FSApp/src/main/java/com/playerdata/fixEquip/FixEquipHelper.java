@@ -49,7 +49,7 @@ public class FixEquipHelper {
 
 		return Integer.parseInt(cfgId);
 	}
-	
+
 	public static Map<Integer, Integer> parseNeedItems(String itemsNeedStr) {
 		Map<Integer, Integer> itemsNeed = new HashMap<Integer, Integer>();
 		if (StringUtils.isNotBlank(itemsNeedStr)) {
@@ -174,15 +174,16 @@ public class FixEquipHelper {
 		return result;
 
 	}
-	
+
 	/**
 	 * 返回背包中可以用于神器升级的物品
+	 * 
 	 * @param player
 	 * @return
 	 */
-	public static HashMap<eConsumeTypeDef,List<ItemData>> getFixConsumeItemMap(Player player) {
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		List<ItemData> lst = itemBagMgr.getItemListByType(EItemTypeDef.Consume);
+	public static HashMap<eConsumeTypeDef, List<ItemData>> getFixConsumeItemMap(Player player) {
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		List<ItemData> lst = itemBagMgr.getItemListByType(player.getUserId(), EItemTypeDef.Consume);
 		HashMap<eConsumeTypeDef, List<ItemData>> result = new HashMap<eConsumeTypeDef, List<ItemData>>(eConsumeTypeDef.values().length);
 		for (ItemData itemData : lst) {
 			ConsumeCfg cfg = ItemCfgHelper.getConsumeCfg(itemData.getModelId());
@@ -201,28 +202,16 @@ public class FixEquipHelper {
 	}
 
 	public static boolean isItemEnough(Player player, Map<Integer, Integer> itemCostMap) {
-//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-//
-//		boolean isItemEnough = true;
-//		for (int modelId : itemCostMap.keySet()) {
-//			int countInBag = itemBagMgr.getItemCountByModelId(modelId);
-//			if (itemCostMap.get(modelId) > countInBag) {
-//				isItemEnough = false;
-//				break;
-//			}
-//
-//		}
-//		return isItemEnough;
-		return player.getItemBagMgr().hasEnoughItems(itemCostMap);
+		return ItemBagMgr.getInstance().hasEnoughItems(player.getUserId(), itemCostMap);
 	}
 
 	private static boolean costItemBag(Player player, Map<Integer, Integer> itemCostMap) {
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		boolean success = isItemEnough(player, itemCostMap);
 		if (success) {
 			for (int modelId : itemCostMap.keySet()) {
 				Integer need = itemCostMap.get(modelId);
-				if (!itemBagMgr.useItemByCfgId(modelId, need)) {
+				if (!itemBagMgr.useItemByCfgId(player, modelId, need)) {
 					success = false;
 					break;
 				}
@@ -236,14 +225,14 @@ public class FixEquipHelper {
 	public static boolean turnBackItems(Player player, Map<Integer, Integer> itemCostMap) {
 
 		boolean success = true;
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		List<ItemInfo> list = new ArrayList<ItemInfo>(itemCostMap.size());
 		for (Integer modelId : itemCostMap.keySet()) {
 			Integer count = itemCostMap.get(modelId);
-//			itemBagMgr.addItem(modelId, count);
+			// itemBagMgr.addItem(modelId, count);
 			list.add(new ItemInfo(modelId, count));
 		}
-		itemBagMgr.addItem(list);
+		itemBagMgr.addItem(player, list);
 
 		return success;
 	}

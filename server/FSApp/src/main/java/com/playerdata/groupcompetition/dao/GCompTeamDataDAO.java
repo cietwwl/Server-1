@@ -9,9 +9,9 @@ import com.playerdata.groupcompetition.util.GCEventsType;
 
 public class GCompTeamDataDAO {
 	
-	private static final GCompTeamDataDAO _instance = new GCompTeamDataDAO();
+	private static GCompTeamDataDAO _instance = new GCompTeamDataDAO();
 	
-	public static final GCompTeamDataDAO getInstance() {
+	public static GCompTeamDataDAO getInstance() {
 		return _instance;
 	}
 	

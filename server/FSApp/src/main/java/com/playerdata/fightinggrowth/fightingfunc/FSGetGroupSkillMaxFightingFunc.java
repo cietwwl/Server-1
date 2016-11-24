@@ -12,7 +12,7 @@ import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 
 public class FSGetGroupSkillMaxFightingFunc implements IFunction<Player, Integer> {
 	
-	private static final FSGetGroupSkillMaxFightingFunc _INSTANCE = new FSGetGroupSkillMaxFightingFunc();
+	private static FSGetGroupSkillMaxFightingFunc _instance = new FSGetGroupSkillMaxFightingFunc();
 
 	private GroupSkillFightingCfgDAO _groupSkillFightingCfgDAO;
 	private ExpectedHeroStatusCfgDAO _expectedHerStatusCfgDAO;
@@ -23,7 +23,7 @@ public class FSGetGroupSkillMaxFightingFunc implements IFunction<Player, Integer
 	}
 	
 	public static FSGetGroupSkillMaxFightingFunc getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	@Override

@@ -26,15 +26,15 @@ import com.rwproto.MsgDef.Command;
 
 public class GroupCompetitionBroadcastCenter {
 
-	private static final GroupCompetitionBroadcastCenter _INSTANCE = new GroupCompetitionBroadcastCenter();
+	private static GroupCompetitionBroadcastCenter _instance = new GroupCompetitionBroadcastCenter();
 	
 	private final GroupCompetitionBroadcastTask _task = new GroupCompetitionBroadcastTask();
 	
-	public static final GroupCompetitionBroadcastCenter getInstance() {
-		return _INSTANCE;
+	public static GroupCompetitionBroadcastCenter getInstance() {
+		return _instance;
 	}
 	
-	GroupCompetitionBroadcastCenter() {
+	protected GroupCompetitionBroadcastCenter() {
 	}
 	
 	public void onEventsStart(List<String> relativeGroupIds) {

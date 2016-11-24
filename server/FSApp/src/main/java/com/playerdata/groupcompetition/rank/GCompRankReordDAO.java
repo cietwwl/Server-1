@@ -9,6 +9,6 @@ public class GCompRankReordDAO extends DataKVDao<GCompRankReordData>{
 		return instance;
 	}
 
-	private GCompRankReordDAO() {
+	protected GCompRankReordDAO() {
 	}
 }

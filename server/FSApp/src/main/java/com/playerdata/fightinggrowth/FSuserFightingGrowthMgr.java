@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.rw.fsutil.common.Pair;
@@ -18,24 +19,26 @@ import com.rwbase.dao.setting.pojo.HeadBoxCfg;
 
 public class FSuserFightingGrowthMgr {
 
-	private static final FSuserFightingGrowthMgr _instance = new FSuserFightingGrowthMgr();
-	
+	private static FSuserFightingGrowthMgr _instance = new FSuserFightingGrowthMgr();
 	private FSUserFightingGrowthHolder _holder = FSUserFightingGrowthHolder.getInstance();
-	
-	protected FSuserFightingGrowthMgr() {}
-	
+
+	protected FSuserFightingGrowthMgr() {
+	}
+
 	public static FSuserFightingGrowthMgr getInstance() {
 		return _instance;
 	}
-	
+
 	private Pair<String, Boolean> checkUpgradeCondition(Player player, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		// 检查晋级条件
-		if (player.getHeroMgr().getFightingTeam(player.getUserId()) < nextTitleCfg.getFightingRequired()) {
+		String userId = player.getUserId();
+		if (player.getHeroMgr().getFightingTeam(userId) < nextTitleCfg.getFightingRequired()) {
 			// 战斗力不符合
 			return Pair.Create(FSFightingGrowthTips.getTipsFightingNotReached(nextTitleCfg.getFightingRequired()), false);
 		}
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
 		if (itemMap.size() > 0) {
+			ItemBagMgr instance = ItemBagMgr.getInstance();
 			for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
 				Integer itemCfgId = keyItr.next();
 				int count = itemMap.get(itemCfgId).intValue();
@@ -56,18 +59,21 @@ public class FSuserFightingGrowthMgr {
 						}
 						return Pair.Create(FSFightingGrowthTips.getTipsCurrencyNotEnough(currencyName, count), false);
 					}
-				} else if (player.getItemBagMgr().getItemCountByModelId(itemCfgId) < count) {
-					// 材料数量不符合
-					return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(itemCfgId).getName(), count), false);
+				} else {
+					if (instance.getItemCountByModelId(userId, itemCfgId) < count) {
+						// 材料数量不符合
+						return Pair.Create(FSFightingGrowthTips.getTipsItemNotEnough(ItemCfgHelper.GetConfig(itemCfgId).getName(), count), false);
+					}
 				}
 			}
 		}
 		return Pair.Create(null, true);
 	}
-	
+
 	private boolean executeUpgradeCondition(Player player, FSUserFightingGrowthTitleCfg nextTitleCfg) {
 		// 执行晋级条件
 		Map<Integer, Integer> itemMap = nextTitleCfg.getItemRequiredMap();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		for (Iterator<Integer> keyItr = itemMap.keySet().iterator(); keyItr.hasNext();) {
 			Integer itemCfgId = keyItr.next();
 			int count = itemMap.get(itemCfgId);
@@ -75,22 +81,24 @@ public class FSuserFightingGrowthMgr {
 				if (!player.getUserGameDataMgr().deductCurrency(eSpecialItemId.getDef(itemCfgId), count)) {
 					return false;
 				}
-			} else if (!player.getItemBagMgr().useItemByCfgId(itemCfgId, count)) {
-				return false;
+			} else {
+				if (!itemBagMgr.useItemByCfgId(player, itemCfgId, count)) {
+					return false;
+				}
 			}
 		}
 		return true;
 	}
-	
+
 	private void sendUpgradeTitleReward(Player player, FSUserFightingGrowthTitleCfg cfg) {
 		// 发送战力提升晋级奖励
-//		if (cfg.getItemRewardMap().size() > 0) {
-//			String attachment = EmailUtils.createEmailAttachment(cfg.getItemRewardMap());
-//			EmailUtils.sendEmail(player.getUserId(), cfg.getEmailCfgIdOfReward(), attachment, Arrays.asList(cfg.getFightingTitle()));
-//		}
-		player.getItemBagMgr().addItem(cfg.getItemRewardList());
+		// if (cfg.getItemRewardMap().size() > 0) {
+		// String attachment = EmailUtils.createEmailAttachment(cfg.getItemRewardMap());
+		// EmailUtils.sendEmail(player.getUserId(), cfg.getEmailCfgIdOfReward(), attachment, Arrays.asList(cfg.getFightingTitle()));
+		// }
+		ItemBagMgr.getInstance().addItem(player, cfg.getItemRewardList());
 	}
-	
+
 	/**
 	 * 
 	 * 获取玩家当前的称号
@@ -105,7 +113,7 @@ public class FSuserFightingGrowthMgr {
 		}
 		return FSUserFightingGrowthTitleCfgDAO.getInstance().getCfgById(data.getCurrentTitleKey()).getFightingTitle();
 	}
-	
+
 	/**
 	 * 
 	 * 获取玩家当前的称号
@@ -120,7 +128,7 @@ public class FSuserFightingGrowthMgr {
 		}
 		return data.getCurrentTitleKey();
 	}
-	
+
 	/**
 	 * 
 	 * 获取玩家当前的称号的图标
@@ -135,11 +143,11 @@ public class FSuserFightingGrowthMgr {
 		}
 		return FSUserFightingGrowthTitleCfgDAO.getInstance().getCfgById(data.getCurrentTitleKey()).getFightingIcon();
 	}
-	
+
 	public FSUserFightingGrowthHolder getHolder() {
 		return _holder;
 	}
-	
+
 	/**
 	 * 
 	 * 请求提升战力称号
@@ -171,7 +179,7 @@ public class FSuserFightingGrowthMgr {
 				tips = FSFightingGrowthTips.getTipsConsumeItemFail();
 			}
 		}
-		if(success) {
+		if (success) {
 			_holder.updateToDB(player);
 			// 同步数据
 			_holder.synData(player);
@@ -183,19 +191,19 @@ public class FSuserFightingGrowthMgr {
 		Pair<String, Boolean> result = Pair.Create(tips, success);
 		return result;
 	}
-	
-	public List<? extends PrivilegeDescItem> getPrivilegeDescItem(Player player){
+
+	public List<? extends PrivilegeDescItem> getPrivilegeDescItem(Player player) {
 		String privId = getCurrentTitleId(player);
-		if(org.apache.commons.lang3.StringUtils.isBlank(privId)){
+		if (org.apache.commons.lang3.StringUtils.isBlank(privId)) {
 			return null;
 		}
 		FSUserFightingGrowthTitleCfg cfg = FSUserFightingGrowthTitleCfgDAO.getInstance().getCfgById(privId);
-		if(null == cfg) {
+		if (null == cfg) {
 			return null;
 		}
 		return cfg.getPrivilegeDescItem();
 	}
-	
+
 	public void synFightingTitleData(Player player) {
 		_holder.synFightingTitleBaseData(player);
 	}

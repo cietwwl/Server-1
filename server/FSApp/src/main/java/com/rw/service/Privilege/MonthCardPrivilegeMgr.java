@@ -19,7 +19,7 @@ public class MonthCardPrivilegeMgr{
 
 	private final String[] monthLevelStr = { "none","normal", "vip" };
 	private final HashMap<Integer,String> previousLevelMap;
-	private MonthCardPrivilegeMgr() {
+	protected MonthCardPrivilegeMgr() {
 		previousLevelMap = new HashMap<Integer,String>();
 		previousLevelMap.put(0, ChargeTypePriority.vipPrefix + "0");
 		previousLevelMap.put(1, ChargeTypePriority.vipPrefix + "0");

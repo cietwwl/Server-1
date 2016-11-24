@@ -19,9 +19,9 @@ import com.rwproto.DataSynProtos.eSynType;
  */
 public class GCompHistoryDataHolder {
 
-	private static final GCompHistoryDataHolder _instance = new GCompHistoryDataHolder();
+	private static GCompHistoryDataHolder _instance = new GCompHistoryDataHolder();
 	
-	public static final GCompHistoryDataHolder getInstance() {
+	public static GCompHistoryDataHolder getInstance() {
 		return _instance;
 	}
 	

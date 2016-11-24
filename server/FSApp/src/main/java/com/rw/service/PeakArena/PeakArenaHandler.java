@@ -94,15 +94,12 @@ import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class PeakArenaHandler {
 
-	private static PeakArenaHandler instance;
+	private static PeakArenaHandler instance = new PeakArenaHandler();
 
-	private PeakArenaHandler() {
+	protected PeakArenaHandler() {
 	}
 
 	public static PeakArenaHandler getInstance() {
-		if (instance == null) {
-			instance = new PeakArenaHandler();
-		}
 		return instance;
 	}
 
@@ -666,7 +663,7 @@ public class PeakArenaHandler {
 	}
 
 	private PeakRecordMagicInfo createPeakMagicInfo(Player player, String magicId) {
-		ItemData magic = player.getItemBagMgr().findBySlotId(magicId);
+		ItemData magic = ItemBagMgr.getInstance().findBySlotId(player.getUserId(), magicId);
 		PeakRecordMagicInfo magicInfo = new PeakRecordMagicInfo();
 		magicInfo.setCfgId(magic.getModelId());
 		magicInfo.setLevel(magic.getMagicLevel());
@@ -864,7 +861,7 @@ public class PeakArenaHandler {
 		data.setName(player.getUserName());
 		data.setHeadFrame(player.getHeadFrame());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());
-		if(null != usingFashion){
+		if (null != usingFashion) {
 			data.setFashionUsed(usingFashion);
 		}
 
@@ -884,7 +881,7 @@ public class PeakArenaHandler {
 
 		HeroData teamMainRole = getHeroData(player);
 		ItemData magic = player.getMagicMgr().getMagic();
-		ItemBagMgr bagMgr = player.getItemBagMgr();
+		ItemBagMgr bagMgr = ItemBagMgr.getInstance();
 
 		for (int i = 0; i < arenaData.getTeamCount(); i++) {
 			TeamInfo.Builder teamBuilder = TeamInfo.newBuilder();
@@ -893,7 +890,7 @@ public class PeakArenaHandler {
 			String magicId = team.getMagicId();
 			ItemData selectedMagic = null;
 			// 如果背包找不到法宝，可能是法宝被分解了！这时自动切换为玩家的法宝
-			selectedMagic = bagMgr.findBySlotId(magicId);
+			selectedMagic = bagMgr.findBySlotId(userId, magicId);
 			if (selectedMagic != null) {
 				EItemTypeDef ty = ItemCfgHelper.getItemType(selectedMagic.getModelId());
 				if (ty != EItemTypeDef.Magic) {
@@ -1256,7 +1253,7 @@ public class PeakArenaHandler {
 		result.setChallenge(record.getActionType().sign); // 0=防守，1=挑战
 		result.setRecordId(record.getId()); // 记录的id
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(record.getEnemyUserId());
-		if(null != usingFashion){
+		if (null != usingFashion) {
 			result.setFashionUsed(usingFashion);
 		}
 		result.setGender(record.getGender()); // 性别
@@ -1341,7 +1338,7 @@ public class PeakArenaHandler {
 			Integer key = keyItr.next();
 			itemInfoList.add(new ItemInfo(key, rewards.get(key)));
 		}
-		player.getItemBagMgr().addItem(itemInfoList);
+		ItemBagMgr.getInstance().addItem(player, itemInfoList);
 	}
 
 	private ByteString sendFailRespon(Player player, MsgArenaResponse.Builder response, String tips) {

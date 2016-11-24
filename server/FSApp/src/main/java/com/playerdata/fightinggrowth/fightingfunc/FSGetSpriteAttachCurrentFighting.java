@@ -8,7 +8,7 @@ import com.rwbase.common.IBIFunction;
 
 public class FSGetSpriteAttachCurrentFighting implements IBIFunction<Player, List<Hero>, Integer> {
 
-	private static final FSGetSpriteAttachCurrentFighting _instance = new FSGetSpriteAttachCurrentFighting();
+	private static FSGetSpriteAttachCurrentFighting _instance = new FSGetSpriteAttachCurrentFighting();
 	
 	public static FSGetSpriteAttachCurrentFighting getInstance() {
 		return _instance;

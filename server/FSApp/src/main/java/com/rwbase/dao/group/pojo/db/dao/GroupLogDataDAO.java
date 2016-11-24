@@ -16,7 +16,7 @@ public class GroupLogDataDAO extends DataKVCacheDao<GroupLogData> {
 		return dao;
 	}
 
-	private GroupLogDataDAO() {
+	protected GroupLogDataDAO() {
 	}
 
 	/**

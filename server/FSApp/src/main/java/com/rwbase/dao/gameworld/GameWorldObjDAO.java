@@ -16,7 +16,7 @@ import com.rwbase.gameworld.GameWorldKey;
 
 public class GameWorldObjDAO {
 
-	private static GameWorldObjDAO instance;
+	private static GameWorldObjDAO instance = new GameWorldObjDAO();
 	
 	private static Map<String,Object> cacheMap = new ConcurrentHashMap<String, Object>();
 	
@@ -34,9 +34,6 @@ public class GameWorldObjDAO {
 	}
 	
 	public static GameWorldObjDAO getInstance() {
-		if (instance == null) {
-			instance = new GameWorldObjDAO();
-		}
 		return instance;
 	}
 	

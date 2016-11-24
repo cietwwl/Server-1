@@ -523,7 +523,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param storeType
 	 * @return
 	 */
-	public int ResqRefresh(int storeType) {
+	public int ResqRefresh(Player player, int storeType) {
 		StoreCfg cfg = StoreCfgDAO.getInstance().getStoreCfg(storeType);
 		if (cfg == null) {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：store表没有类型为" + storeType + "的数据", null);
@@ -577,7 +577,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			return -1;
 		}
 		if (!blnFree) {
-			m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cost);
+			ItemBagMgr.getInstance().addItem(player, cfg.getCostType(), -cost);
 			refreshnum++;
 			pStoreData.setRefreshNum(refreshnum);
 		} else {
@@ -598,7 +598,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param count
 	 * @return
 	 */
-	public int BuyCommodity(int commodityId, int count) {
+	public int BuyCommodity(Player player, int commodityId, int count) {
 		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(commodityId);
 		if (cfg == null) {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：commodity表没有id为" + commodityId + "的商品", null);
@@ -617,8 +617,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					if (m_pPlayer.getReward(etype) < cfg.getCost()) {
 						return -2;
 					}
-					m_pPlayer.getItemBagMgr().addItem(cfg.getGoodsId(), cfg.getCount());
-					m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -cfg.getCost());
+					ItemBagMgr.getInstance().addItem(player, cfg.getGoodsId(), cfg.getCount());
+					ItemBagMgr.getInstance().addItem(player, cfg.getCostType(), -cfg.getCost());
 					pCommodityData.setCount(0);
 					storeDataHolder.update(m_pPlayer, storeCfg.getType());
 					return 1;
@@ -738,7 +738,7 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 	 * @param count
 	 * @return
 	 */
-	public int exchangeItem(int commodityId, int time) {
+	public int exchangeItem(Player player, int commodityId, int time) {
 		CommodityCfg cfg = CommodityCfgDAO.getInstance().GetCommodityCfg(commodityId);
 		if (cfg == null) {
 			GameLog.info("store", m_pPlayer.getUserId(), "配置表错误：commodity表没有id为" + commodityId + "的商品", null);
@@ -759,8 +759,8 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 					if (m_pPlayer.getReward(etype) < cfg.getCost() * time) {
 						return -2;
 					}
-					m_pPlayer.getItemBagMgr().addItem(cfg.getGoodsId(), cfg.getCount() * time);
-					m_pPlayer.getItemBagMgr().addItem(cfg.getCostType(), -(cfg.getCost() * time));
+					ItemBagMgr.getInstance().addItem(player, cfg.getGoodsId(), cfg.getCount() * time);
+					ItemBagMgr.getInstance().addItem(player, cfg.getCostType(), -(cfg.getCost() * time));
 					pCommodityData.setExchangeCount(exchangeCount);
 					storeDataHolder.update(m_pPlayer, storeCfg.getType());
 					return exchangeCount;

@@ -56,11 +56,11 @@ import com.rwbase.gameworld.GameWorldFactory;
  */
 public class GroupCompetitionMgr {
 
-	private static final GroupCompetitionMgr _instance = new GroupCompetitionMgr();
+	private static GroupCompetitionMgr _instance = new GroupCompetitionMgr();
 	
 	protected GroupCompetitionMgr() {}
 	
-	public static final GroupCompetitionMgr getInstance() {
+	public static GroupCompetitionMgr getInstance() {
 		return _instance;
 	}
 	

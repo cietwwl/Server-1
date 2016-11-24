@@ -5,10 +5,9 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import javassist.compiler.ast.IntConst;
-
 import com.common.RefInt;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rwbase.dao.assistant.cfg.AssistantCfg.AssistantEventID;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
@@ -38,7 +37,7 @@ public class AssistantHeroLevelUpCheck extends DefaultAssistantChecker {
 			return hasMaterail;
 		}
 
-		Map<Integer, RefInt> modelCountMap = player.getItemBagMgr().getModelCountMap();
+		Map<Integer, RefInt> modelCountMap = ItemBagMgr.getInstance().getModelCountMap(player.getUserId());
 		for (int i = 0; i < materialId.size(); i++) {
 			RefInt refInt = modelCountMap.get(materialId.get(i));
 			int count = refInt == null ? 0 : refInt.value;
