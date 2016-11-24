@@ -26,7 +26,7 @@ public class BenefitMsgExcutor implements FSMessageExecutor<String>{
 
 		@Override
 		public void run() {
-			System.out.println("recv response:" + content);
+//			System.out.println("recv response:" + content);
 			BenefitSystemMsgService.getHandler().doTask(content);
 		}
 		

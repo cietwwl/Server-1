@@ -287,7 +287,7 @@ public class TargetSellManager {
 			}
 		}
 
-		System.out.println("Next clear score time:" + DateUtils.getDateTimeFormatString(record.getNextClearScoreTime(), "yyyy-MM-dd hh:mm:ss"));
+//		System.out.println("Next clear score time:" + DateUtils.getDateTimeFormatString(record.getNextClearScoreTime(), "yyyy-MM-dd hh:mm:ss"));
 		if(nowTime >= record.getNextClearScoreTime() && record.getBenefitScore() != 0){
 			//到达清0时间，自动购买物品重置并设置下次清0时间
 			Map<Integer, Integer> itemMap = autoBuy(record);
@@ -464,44 +464,6 @@ public class TargetSellManager {
 	}
 	
 	
-//	/**
-//	 * 推送角色属性到精准服
-//	 * @param player
-//	 * @param attrs   这个可以是全部属性或者是部分属性
-//	 */
-//	public void pushRoleAttrData(Player player, RoleAttrs attrs){
-//		try {
-//			
-//			TargetSellData msgData = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
-//			TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
-//
-//			roleData.setAttrs(attrs);
-//			msgData.setArgs(toJsonObj(roleData));
-//			sendMsg(toJsonString(msgData));
-//			
-//		} catch (Exception e) {
-//			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrData]", "发送角色属性到精准服时出现异常", e);
-//		}
-//	}
-	
-	/**
-	 * 通知属性改变
-	 * @param player
-	 * @param list
-	 */
-//	public void notifyRoleAttrsChange(Player player, List<ERoleAttrs> list){
-//		String userId = player.getUserId();
-//		if(RoleAttrChangeMap.containsKey(userId)){
-//			TargetSellRoleChange targetSellRoleChange = RoleAttrChangeMap.get(userId);
-//			if(targetSellRoleChange != null){
-//				targetSellRoleChange.addChange(list);
-//			}
-//		}else{
-//			TargetSellRoleChange targetSellRoleChange = new TargetSellRoleChange(userId, System.currentTimeMillis());
-//			targetSellRoleChange.addChange(list);
-//			RoleAttrChangeMap.put(userId, targetSellRoleChange);
-//		}
-//	}
 	
 	
 	public void notifyHeroAttrsChange(String heroID, EAchieveType eRoleAttrID){
@@ -531,13 +493,8 @@ public class TargetSellManager {
 				targetSellRoleChange = old;
 			}
 		}
-		synchronized (targetSellRoleChange) {
-			if(RoleAttrChangeMap.containsKey(userId)){
-				targetSellRoleChange.addChange(eRoleAttrID);
-			}else{
-				notifyRoleAttrsChange(userId, eRoleAttrID);
-			}
-		}
+		targetSellRoleChange.addChange(eRoleAttrID);
+		
 	}
 	
 	/**
