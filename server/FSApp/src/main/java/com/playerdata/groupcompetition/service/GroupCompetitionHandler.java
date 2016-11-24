@@ -125,9 +125,9 @@ public class GroupCompetitionHandler {
 	private void packSelectionData(CommonGetDataRspMsg.Builder rspBuilder, Player player) {
 		List<GCompFightingItem> list;
 		GCompStageType stageType = GroupCompetitionMgr.getInstance().getCurrentStageType();
-		if(stageType == GCompStageType.SELECTION){
+		if (stageType == GCompStageType.SELECTION && GroupCompetitionMgr.getInstance().getCurrentStageEndTime() > System.currentTimeMillis()) {
 			list = GCompFightingRankMgr.getFightingRankList(20);
-		}else{
+		} else {
 			list = GroupStaticRankMgr.getInstance().getStaticGroupRank();
 		}
 		GCompFightingItem fightingItem;
