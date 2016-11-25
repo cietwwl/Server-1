@@ -11,7 +11,12 @@ public enum eConsumeTypeDef {
 	VipExpConsume(16), // Vip经验卡
 	treasureBox(17), // 宝箱
 	Exp4FixEquip_4(18), // 专属装备经验
-	Exp4FixEquip_5(19);// 专属装备经验
+	Exp4FixEquip_5(19),// 专属装备经验
+	FixEquipUpgradeStar(20),// 神器升星材料
+	FixEquipAdvance(21),// 神器觉醒材料
+	MemorizeCoin(22), // 纪念币
+	GroupFightTicket(23),// 帮派据点争夺战门票
+	;
 
 	private int order;
 
