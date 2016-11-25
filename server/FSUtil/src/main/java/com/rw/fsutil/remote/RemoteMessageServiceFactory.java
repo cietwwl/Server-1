@@ -34,7 +34,7 @@ public class RemoteMessageServiceFactory {
 			throw new IllegalArgumentException("illegal host or port,host=" + host + ",port=" + port);
 		}
 		if (service == null) {
-			service = new RemoteMessageService<SendMessage, ReceiveMessage>(1, host, port, threadCount, maxConnection, decoder, encoder, executor);
+			service = new RemoteMessageService<SendMessage, ReceiveMessage>(type, host, port, threadCount, maxConnection, decoder, encoder, executor);
 			RemoteMessageService<?, ?> old = serviceMap.putIfAbsent(type, service);
 			if (old != null) {
 				service = old;

@@ -11,10 +11,6 @@ import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 
 public class ActivityConsumeRankItemHolder extends UserActivityChecker<ActivityConsumeRankItem>{
 	
-	protected ActivityConsumeRankItemHolder(){
-		super(ActivityConsumeRankItem.class);
-	}
-	
 	private static ActivityConsumeRankItemHolder instance = new ActivityConsumeRankItemHolder();
 	
 	public static ActivityConsumeRankItemHolder getInstance(){

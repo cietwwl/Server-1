@@ -1,0 +1,7 @@
+key,Remarks,id,percent,max,image,upLimit
+None,,All,All,All,All,Sever
+140001,,140001,0|49|1|50|85|2|86|98|3|99|-1|4,75000,ZT_LiangHao|ZT_YouXiu|ZT_perfect|ZT_ChaoShen,90000
+140002,,140002,0|49|1|50|85|2|86|98|3|99|-1|4,90000,ZT_LiangHao|ZT_YouXiu|ZT_perfect|ZT_ChaoShen,105000
+140003,,140003,0|49|1|50|85|2|86|98|3|99|-1|4,105000,ZT_LiangHao|ZT_YouXiu|ZT_perfect|ZT_ChaoShen,125000
+140004,,140004,0|49|1|50|85|2|86|98|3|99|-1|4,120000,ZT_LiangHao|ZT_YouXiu|ZT_perfect|ZT_ChaoShen,140000
+140005,,140005,0|49|1|50|85|2|86|98|3|99|-1|4,134999,ZT_LiangHao|ZT_YouXiu|ZT_perfect|ZT_ChaoShen,160000

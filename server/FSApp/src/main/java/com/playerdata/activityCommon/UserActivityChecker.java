@@ -1,5 +1,6 @@
 package com.playerdata.activityCommon;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -30,12 +31,6 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
  */
 @SuppressWarnings("rawtypes")
 public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
-	
-	private Class<T> clazz;
-	
-	protected UserActivityChecker(Class<T> clazz){
-		this.clazz = clazz;
-	}
 	
 	public List<T> getItemList(String userId){
 		return refreshActivity(userId);
@@ -173,7 +168,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	}
 	
 	public RoleExtPropertyStore<T> getItemStore(String userId) {
-		RoleExtPropertyStoreCache<T> cache = RoleExtPropertyFactory.getPlayerExtCache(getExtPropertyType(), clazz);
+		RoleExtPropertyStoreCache<T> cache = RoleExtPropertyFactory.getPlayerExtCache(getExtPropertyType(), getGenericClazz());
 		try {
 			return cache.getStore(userId);
 		} catch (InterruptedException e) {
@@ -184,6 +179,12 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private Class<T> getGenericClazz(){
+		ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
+		return (Class<T>)type.getActualTypeArguments()[0];
 	}
 	
 	public abstract ActivityType getActivityType();

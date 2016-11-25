@@ -10,6 +10,8 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
+import com.rw.manager.ServerSwitch;
+import com.sun.org.apache.regexp.internal.recompile;
 
 /**
  * 充值数据监听器
@@ -20,6 +22,9 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 
 	@Override
 	public void notifyDataChanged(SignleChangedEvent<ChargeInfo> event) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		ChargeInfo currentRecord = event.getCurrentRecord();
 		ChargeInfo oldRecord = event.getOldRecord();
 		if(currentRecord.getTotalChargeGold() != oldRecord.getTotalChargeGold()){

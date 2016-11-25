@@ -1,7 +1,6 @@
 package com.playerdata.activity.exChangeType.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
