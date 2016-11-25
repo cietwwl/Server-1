@@ -48,7 +48,7 @@ public class WBMgr {
 	} 
 
 	public void synWBData(Player player, int wbDataVersion){
-		
+		WBUserMgr.getInstance().synWBUserData(player, wbDataVersion);
 		WBDataHolder.getInstance().syn(player, wbDataVersion);
 		WBHurtRankMgr.syn(player);
 	}
@@ -106,27 +106,26 @@ public class WBMgr {
 		return armyInfo;		
 	}
 	
-	public boolean decrHp(Player player, long hurt){	
-		boolean success = false;
+	public long decrHp(Player player, long hurt){	
+		long curLife = 0;
 		writeLock.lock();		
 		try {			
 			WBData wbData = WBDataHolder.getInstance().get();
 			
 			if(wbData.getCurLife()>0){				
-				long curLife = WBDataHolder.getInstance().decrHp(player, hurt);
+				curLife = WBDataHolder.getInstance().decrHp(player, hurt);
 //				System.out.println("curlift :" + curLife);
 				if(isBossDie()){
 //					System.err.println("--------------world boss was killed!!");
 					broatCastBossDie(player.getUserId());
 				}
-				success = true;			
 			}
 			
 		} finally {
 			writeLock.unlock();			
 		}		
 		synWBData(player, -1);	
-		return success;		
+		return curLife;		
 	}
 	
 	private void broatCastBossDie(String killRoleID) {

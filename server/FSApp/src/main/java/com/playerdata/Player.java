@@ -425,7 +425,6 @@ public class Player implements PlayerIF {
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
 					
-					WBUserMgr.getInstance().synWBUserData(player, version);
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);

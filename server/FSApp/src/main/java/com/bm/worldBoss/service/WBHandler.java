@@ -159,8 +159,8 @@ public class WBHandler {
 				result.setSuccess(true);
 			}else{
 				
-				boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
-				if(success){				
+				updateHurt = WBMgr.getInstance().decrHp(player,updateHurt);
+				if(updateHurt >= 0){				
 					long totalHurt = WBUserMgr.getInstance().fightUpdate(player, updateHurt);
 					WBOnFightMgr.getInstance().enter(player.getUserId(), totalHurt);
 				}else{
