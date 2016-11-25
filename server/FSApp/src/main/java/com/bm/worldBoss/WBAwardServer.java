@@ -119,7 +119,7 @@ public class WBAwardServer {
 			int offset = wbRankAwardCfg.getOffset();
 			int size = wbRankAwardCfg.getSize();
 			
-			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, offset: " + offset+" size:"+size);
+//			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, offset: " + offset+" size:"+size);
 			
 			List<WBHurtItem> rankList = WBHurtRankMgr.getRankList(offset, offset + size -1);
 			List<String> args = new ArrayList<String>();
@@ -133,7 +133,7 @@ public class WBAwardServer {
 				args.clear();
 			}	
 			
-			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward finish, offset: " + offset+" size:"+size);
+//			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward finish, offset: " + offset+" size:"+size);
 		}
 		
 	}
