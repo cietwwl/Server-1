@@ -146,6 +146,7 @@ enum Command {
 	
 	
 	MSG_ACTIVITY_TIMECARD_TYPE = 600;//活动；月卡;不是活动的协议不要往下接啊；往上接
+	MSG_ACTIVITY_EVILBAO = 601; //申公豹驾到
 	
 
 	MSG_FEEDBACK = 995;//客服功能
