@@ -226,9 +226,8 @@ public class TargetSellManager {
 		dataDao.update(record);
 		
 		//通知前端
-		if(record.getItemMap() != null){
-			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), removeItem));
-		}
+		player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), removeItem));
+		
 	}
 	
 	/**
@@ -709,6 +708,8 @@ public class TargetSellManager {
 			}
 			dataDao.update(record);
 			respMsg.setIsSuccess(true);
+			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), null));
+			
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellManager[roleGetItem]", "玩家领取物品时出现异常", e);
 		}
