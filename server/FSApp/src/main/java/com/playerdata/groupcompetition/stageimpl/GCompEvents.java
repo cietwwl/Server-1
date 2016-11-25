@@ -120,9 +120,9 @@ public class GCompEvents {
 		GroupCompetitionMgr.getInstance().updateCurrenEventstData(_type, eventsData.getRelativeGroupIds());
 		GCompDetailInfoMgr.getInstance().onEventsAgainstAssign(eventsData.getAgainsts());
 		GCompFightingRecordMgr.getInstance().initRecordList(eventsData.getAgainsts());
+		GCompMemberMgr.getInstance().notifyEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知成员管理器
 		GCompTeamMgr.getInstance().onEventsStart(_type, eventsData.getAgainsts()); // 通知队伍数据管理
 		GCompOnlineMemberMgr.getInstance().onEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知在线数据管理
-		GCompMemberMgr.getInstance().notifyEventsStart(_type, eventsData.getRelativeGroupIds()); // 通知成员管理器
 		// GCompQuizMgr.getInstance().groupCompEventsStart(); // 竞猜模块
 		GroupCompetitionMatchingCenter.getInstance().onEventsStart(eventsData.getAgainsts());
 		GCompUtil.sendMarquee(GCompTips.getTipsEnterEventsType(_type.chineseName)); // 跑马灯
