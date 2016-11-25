@@ -45,6 +45,10 @@ public class GroupFightHandler {
 			return result;
 		}
 		GFightOnlineResourceData gfResData = client.getGFightOnlineResourceHolder().getUserGFData(RESOURCE_ID);
+		if(gfResData == null){
+			RobotLog.fail("当前不是帮战阶段");
+			return true;
+		}
 		switch(gfResData.getState()){
 		case 1://休战
 			RobotLog.fail("playGroupFight[send]在线帮战资源点" + RESOURCE_ID + "正在休战中");

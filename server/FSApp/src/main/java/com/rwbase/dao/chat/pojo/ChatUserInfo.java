@@ -36,6 +36,7 @@ public class ChatUserInfo {
 	private static final String _KEY_GENDER = "9";
 	private static final String _KEY_VIP_LV = "10";
 	private static final String _KEY_FASHION_TEMPLATE_ID = "11";
+	private static final String _KEY_FIGHTING_ID = "12";
 	
 
 	private static final Map<String, Field> _fieldsOfNewKeys;
@@ -96,6 +97,10 @@ public class ChatUserInfo {
 	@JsonProperty(_KEY_VIP_LV)
 	@JsonSerialize(include=Inclusion.NON_DEFAULT)
 	private int vipLv; // VIP等級
+	
+	@JsonProperty(_KEY_FIGHTING_ID)
+	@JsonSerialize(include=Inclusion.NON_DEFAULT)
+	private int fighting; // 战斗力
 	
 	@JsonProperty(_KEY_FASHION_TEMPLATE_ID)
 	@JsonSerialize(include=Inclusion.NON_DEFAULT)
@@ -209,7 +214,15 @@ public class ChatUserInfo {
 	public int getFashionTemplateId() {
 		return fashionTemplateId;
 	}
-	
+
+	public int getFighting() {
+		return fighting;
+	}
+
+	public void setFighting(int fighting) {
+		this.fighting = fighting;
+	}
+
 	public ChatUserInfo createAndCopy() {
 		ChatUserInfo newInstance = new ChatUserInfo();
 		try {

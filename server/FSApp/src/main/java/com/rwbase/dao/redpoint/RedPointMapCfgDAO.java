@@ -1,5 +1,7 @@
 package com.rwbase.dao.redpoint;
 
+import io.netty.util.collection.IntObjectHashMap;
+
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class RedPointMapCfgDAO extends CfgCsvDao<RedPointMap> {
 
 	/** 红点对应的类型映射 */
 	private EnumMap<RedPointType, Integer> redPointTypeMap = new EnumMap<RedPointType, Integer>(RedPointType.class);
+	private IntObjectHashMap<RedPointType> redPointMapKeyFirst;
 
 	@Override
 	protected Map<String, RedPointMap> initJsonCfg() {
@@ -39,6 +42,7 @@ public class RedPointMapCfgDAO extends CfgCsvDao<RedPointMap> {
 			}
 
 			EnumMap<RedPointType, Integer> redPointTypeMap = new EnumMap<RedPointType, Integer>(RedPointType.class);
+			IntObjectHashMap<RedPointType> redPointMapKeyFirst = new IntObjectHashMap<RedPointType>(size);
 
 			// 映射一下枚举和类型
 			RedPointType[] values = RedPointType.values();
@@ -52,9 +56,11 @@ public class RedPointMapCfgDAO extends CfgCsvDao<RedPointMap> {
 				}
 
 				redPointTypeMap.put(redPointType, redPointId);
+				redPointMapKeyFirst.put(redPointId, redPointType);
 			}
 
 			this.redPointTypeMap = redPointTypeMap;
+			this.redPointMapKeyFirst = redPointMapKeyFirst;
 		}
 
 		return cfgCacheMap;
@@ -73,5 +79,19 @@ public class RedPointMapCfgDAO extends CfgCsvDao<RedPointMap> {
 
 		Integer hasValue = redPointTypeMap.get(redPointType);
 		return hasValue == null ? 0 : hasValue.intValue();
+	}
+
+	/**
+	 * 获取红点对应的枚举
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public RedPointType getRedPointTypeById(int id) {
+		if (redPointMapKeyFirst == null || redPointMapKeyFirst.isEmpty()) {
+			return RedPointType.NONE;
+		}
+
+		return redPointMapKeyFirst.get(id);
 	}
 }

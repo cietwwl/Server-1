@@ -94,7 +94,6 @@ public class PlatformHandler {
 			RobotLog.fail("连接登陆服连接失败！退出注册用户步骤 host:"+PlatformConfig.getPlatformHost()+" port:"+PlatformConfig.getPlatformPort());
 			return null;
 		}
-		RobotLog.fail("连接登陆服连接成功host:"+PlatformConfig.getPlatformHost()+" port:"+PlatformConfig.getPlatformPort());
 		return client;
 	}
 

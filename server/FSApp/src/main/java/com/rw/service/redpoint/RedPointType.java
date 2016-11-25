@@ -7,6 +7,7 @@ package com.rw.service.redpoint;
  *
  */
 public enum RedPointType {
+	NONE, //
 	HOME_TOP_WINDOW_MAINCITY,
 	HOME_TOP_WINDOW_GROUP,
 	HOME_TOP_WINDOW_AREA,

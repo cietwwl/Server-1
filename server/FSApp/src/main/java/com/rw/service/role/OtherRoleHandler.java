@@ -65,7 +65,7 @@ public class OtherRoleHandler {
 		otherRoleAttr.setUserId(userId);
 		otherRoleAttr.setLevel(player.getLevel());
 		otherRoleAttr.setUserName(tableUser.getUserName());
-
+		otherRoleAttr.setVip(player.getVip());
 		// by franky
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
 		if (usingFashion != null) {

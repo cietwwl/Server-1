@@ -940,21 +940,21 @@ public final class MsgDef {
      */
     MSG_VIP_GIFT_NOTIFY(122, 233),
     /**
+     * <code>MSG_COMMON_SOUL = 234;</code>
+     *
+     * <pre>
+     * 万能魂石协议
+     * </pre>
+     */
+    MSG_COMMON_SOUL(123, 234),
+    /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
      * <pre>
      *活动；月卡;不是活动的协议不要往下接啊；往上接
      * </pre>
      */
-    MSG_ACTIVITY_TIMECARD_TYPE(123, 600),
-    /**
-     * <code>MSG_ACTIVITY_EVILBAO = 601;</code>
-     *
-     * <pre>
-     *申公豹驾到
-     * </pre>
-     */
-    MSG_ACTIVITY_EVILBAO(124, 601),
+    MSG_ACTIVITY_TIMECARD_TYPE(124, 600),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1924,6 +1924,14 @@ public final class MsgDef {
      */
     public static final int MSG_VIP_GIFT_NOTIFY_VALUE = 233;
     /**
+     * <code>MSG_COMMON_SOUL = 234;</code>
+     *
+     * <pre>
+     * 万能魂石协议
+     * </pre>
+     */
+    public static final int MSG_COMMON_SOUL_VALUE = 234;
+    /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
      * <pre>
@@ -1931,14 +1939,6 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_ACTIVITY_TIMECARD_TYPE_VALUE = 600;
-    /**
-     * <code>MSG_ACTIVITY_EVILBAO = 601;</code>
-     *
-     * <pre>
-     *申公豹驾到
-     * </pre>
-     */
-    public static final int MSG_ACTIVITY_EVILBAO_VALUE = 601;
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -2108,8 +2108,8 @@ public final class MsgDef {
         case 231: return MSG_SPRITE_ATTACH_UPGRADE;
         case 232: return MSG_GROUP_COMPETITION_EVENTS_START;
         case 233: return MSG_VIP_GIFT_NOTIFY;
+        case 234: return MSG_COMMON_SOUL;
         case 600: return MSG_ACTIVITY_TIMECARD_TYPE;
-        case 601: return MSG_ACTIVITY_EVILBAO;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -2175,7 +2175,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\323\030\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\316\030\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2250,12 +2250,11 @@ public final class MsgDef {
       "AISE\020\345\001\022\030\n\023MSG_BUY_GROWTH_FUND\020\346\001\022\036\n\031MSG" +
       "_SPRITE_ATTACH_UPGRADE\020\347\001\022\'\n\"MSG_GROUP_C" +
       "OMPETITION_EVENTS_START\020\350\001\022\030\n\023MSG_VIP_GI" +
-      "FT_NOTIFY\020\351\001\022\037\n\032MSG_ACTIVITY_TIMECARD_TY" +
-      "PE\020\330\004\022\031\n\024MSG_ACTIVITY_EVILBAO\020\331\004\022\021\n\014MSG_" +
-      "FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_" +
-      "NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007" +
-      "\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006Msg",
-      "Def"
+      "FT_NOTIFY\020\351\001\022\024\n\017MSG_COMMON_SOUL\020\352\001\022\037\n\032MS" +
+      "G_ACTIVITY_TIMECARD_TYPE\020\330\004\022\021\n\014MSG_FEEDB" +
+      "ACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMER" +
+      "IC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rM" +
+      "SG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

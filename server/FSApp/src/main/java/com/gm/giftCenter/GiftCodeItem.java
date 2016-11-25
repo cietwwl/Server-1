@@ -48,7 +48,7 @@ public class GiftCodeItem {
 		args.put("activateCode", this.activateCode);
 		args.put("iSequenceNum", this.iSequenceNum);
 		args.put("roleId", this.userId);
-		args.put("account", this.account);
+		args.put("account", this.channelId + "_" + this.account);
 		args.put("channel", this.channelId);
 
 		return args;

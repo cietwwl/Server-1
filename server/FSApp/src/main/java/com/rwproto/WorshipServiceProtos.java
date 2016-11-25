@@ -3064,6 +3064,24 @@ public final class WorshipServiceProtos {
      * </pre>
      */
     com.rwproto.FashionServiceProtos.FashionUsedOrBuilder getFashionUsageOrBuilder();
+
+    // optional int32 vip = 15;
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    boolean hasVip();
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    int getVip();
   }
   /**
    * Protobuf type {@code WorshipInfo}
@@ -3200,6 +3218,11 @@ public final class WorshipServiceProtos {
                 fashionUsage_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00002000;
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00004000;
+              vip_ = input.readInt32();
               break;
             }
           }
@@ -3753,6 +3776,30 @@ public final class WorshipServiceProtos {
       return fashionUsage_;
     }
 
+    // optional int32 vip = 15;
+    public static final int VIP_FIELD_NUMBER = 15;
+    private int vip_;
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    public boolean hasVip() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    /**
+     * <code>optional int32 vip = 15;</code>
+     *
+     * <pre>
+     *vip等级
+     * </pre>
+     */
+    public int getVip() {
+      return vip_;
+    }
+
     private void initFields() {
       userId_ = "";
       userName_ = "";
@@ -3768,6 +3815,7 @@ public final class WorshipServiceProtos {
       modelId_ = 0;
       headFrame_ = "";
       fashionUsage_ = com.rwproto.FashionServiceProtos.FashionUsed.getDefaultInstance();
+      vip_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3861,6 +3909,9 @@ public final class WorshipServiceProtos {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         output.writeMessage(14, fashionUsage_);
       }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeInt32(15, vip_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3925,6 +3976,10 @@ public final class WorshipServiceProtos {
       if (((bitField0_ & 0x00002000) == 0x00002000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(14, fashionUsage_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(15, vip_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4080,6 +4135,8 @@ public final class WorshipServiceProtos {
           fashionUsageBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00002000);
+        vip_ = 0;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -4172,6 +4229,10 @@ public final class WorshipServiceProtos {
         } else {
           result.fashionUsage_ = fashionUsageBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        result.vip_ = vip_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4239,6 +4300,9 @@ public final class WorshipServiceProtos {
         }
         if (other.hasFashionUsage()) {
           mergeFashionUsage(other.getFashionUsage());
+        }
+        if (other.hasVip()) {
+          setVip(other.getVip());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5444,6 +5508,55 @@ public final class WorshipServiceProtos {
         return fashionUsageBuilder_;
       }
 
+      // optional int32 vip = 15;
+      private int vip_ ;
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public boolean hasVip() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public int getVip() {
+        return vip_;
+      }
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public Builder setVip(int value) {
+        bitField0_ |= 0x00004000;
+        vip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 vip = 15;</code>
+       *
+       * <pre>
+       *vip等级
+       * </pre>
+       */
+      public Builder clearVip() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        vip_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:WorshipInfo)
     }
 
@@ -6141,7 +6254,7 @@ public final class WorshipServiceProtos {
       "hipList\030\003 \003(\0132\014.WorshipInfo\022&\n\020byWorship" +
       "pedList\030\004 \003(\0132\014.WorshipInfo\022\022\n\nrewardLis" +
       "t\030\005 \001(\t\022\022\n\ncanWorship\030\006 \001(\010\022\025\n\rworshipCa" +
-      "reer\030\007 \001(\005\"\270\002\n\013WorshipInfo\022\016\n\006userId\030\001 \002",
+      "reer\030\007 \001(\005\"\305\002\n\013WorshipInfo\022\016\n\006userId\030\001 \002",
       "(\t\022\020\n\010userName\030\002 \002(\t\022\r\n\005level\030\003 \002(\005\022\017\n\007i" +
       "mageId\030\004 \002(\t\022\016\n\006career\030\005 \002(\005\022\013\n\003sex\030\006 \002(" +
       "\005\022\023\n\013careerLevel\030\007 \002(\005\022\023\n\013fightingAll\030\010 " +
@@ -6149,13 +6262,13 @@ public final class WorshipServiceProtos {
       " \001(\0132\022.WorshipRewardData\022\014\n\004time\030\013 \001(\t\022\017" +
       "\n\007modelId\030\014 \001(\005\022\021\n\theadFrame\030\r \001(\t\0221\n\014fa" +
       "shionUsage\030\016 \001(\0132\033.FashionService.Fashio" +
-      "nUsed\"2\n\021WorshipRewardData\022\016\n\006itemId\030\001 \002" +
-      "(\t\022\r\n\005count\030\002 \002(\005*d\n\023EWorshipRequestType" +
-      "\022\013\n\007WORSHIP\020\001\022\026\n\022BY_WORSHIPPED_LIST\020\002\022\021\n",
-      "\rWORSHIP_STATE\020\003\022\025\n\021PUSH_WORSHIP_LIST\020\004*" +
-      "+\n\022EWorshipResultType\022\013\n\007SUCCESS\020\000\022\010\n\004FA" +
-      "IL\020\001B#\n\013com.rwprotoB\024WorshipServiceProto" +
-      "s"
+      "nUsed\022\013\n\003vip\030\017 \001(\005\"2\n\021WorshipRewardData\022" +
+      "\016\n\006itemId\030\001 \002(\t\022\r\n\005count\030\002 \002(\005*d\n\023EWorsh" +
+      "ipRequestType\022\013\n\007WORSHIP\020\001\022\026\n\022BY_WORSHIP",
+      "PED_LIST\020\002\022\021\n\rWORSHIP_STATE\020\003\022\025\n\021PUSH_WO" +
+      "RSHIP_LIST\020\004*+\n\022EWorshipResultType\022\013\n\007SU" +
+      "CCESS\020\000\022\010\n\004FAIL\020\001B#\n\013com.rwprotoB\024Worshi" +
+      "pServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6179,7 +6292,7 @@ public final class WorshipServiceProtos {
           internal_static_WorshipInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_WorshipInfo_descriptor,
-              new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "CanReceive", "RandomRward", "Time", "ModelId", "HeadFrame", "FashionUsage", });
+              new java.lang.String[] { "UserId", "UserName", "Level", "ImageId", "Career", "Sex", "CareerLevel", "FightingAll", "CanReceive", "RandomRward", "Time", "ModelId", "HeadFrame", "FashionUsage", "Vip", });
           internal_static_WorshipRewardData_descriptor =
             getDescriptor().getMessageTypes().get(3);
           internal_static_WorshipRewardData_fieldAccessorTable = new

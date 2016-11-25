@@ -141,7 +141,11 @@ public class GCompQuizMgr {
 	 * @param gcRsp
 	 */
 	public void getCanQuizMatch(Player player, com.rwproto.GroupCompetitionProto.RspAllGuessInfo.Builder gcRsp) {
-		GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
+		try{
+			GCompUserQuizItemHolder.getInstance().synCanQuizItem(player);
+		}catch(Exception ex){
+			//当不在帮战阶段的时候，该方法会抛异常，但不用做逻辑处理
+		}
 		gcRsp.setRstType(GCResultType.SUCCESS);
 	}
 	

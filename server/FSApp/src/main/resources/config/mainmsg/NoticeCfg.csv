@@ -4,3 +4,4 @@ Key,Remarks,id,title,type,content,pic,pushLevel,pushTime,gotoType
 3,,3,七日登陆活动长期有效,2,,Assets/Textures/PackIn/Business/BG_6.png,13,1:0:7,0:29
 4,,4,活动时间：11月30日10:00-12月07日5:00,2,,Assets/Textures/PackIn/Business/BG_5.png,13,2:201611300500:201612070500,1:110002
 5,,5,活动时间：11月30日10:00-12月07日5:00,2,,Assets/Textures/PackIn/Business/BG_4.png,13,2:201611300500:201612070500,1:110003
+6,,6,活动时间：11月16日10:00-11月23日5:00,2,,Assets/Textures/PackIn/Business/BG_7.png,13,2:201611160500:201611230500,1:80002
