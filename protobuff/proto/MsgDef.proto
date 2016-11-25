@@ -151,6 +151,8 @@ enum Command {
 	
 	MSG_FETTER_ACTIVITY_NOTIFY = 238; // 仙缘激活通知
 	
+	MSG_BATTLE_VERIFY = 239; // 战斗信息校对
+	
 	
 	
 	
