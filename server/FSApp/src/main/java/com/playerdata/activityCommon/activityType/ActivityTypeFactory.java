@@ -29,6 +29,9 @@ import com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO;
 import com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
 import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
+import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
+import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activityCommon.activityType.exception.RepeatedActivityTypeException;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -40,6 +43,7 @@ public class ActivityTypeFactory {
 	public static final ActivityType EvilBaoArrive;
 	public static final ActivityType ChargeRank;
 	public static final ActivityType ConsumeRank;
+	public static final ActivityType ActRankType;	//竞技之王
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -55,6 +59,8 @@ public class ActivityTypeFactory {
 				null, null, ActivityChargeRankMgr.getInstance());
 		ConsumeRank = new ActivityType(1006, ActivityConsumeRankCfgDAO.class, ActivityConsumeRankItem.class,
 				null, null, ActivityConsumeRankMgr.getInstance());
+		ActRankType = new ActivityType(1007, ActivityRankTypeCfgDAO.class, ActivityRankTypeItem.class,
+				null, null, ActivityRankTypeMgr.getInstance());
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -63,6 +69,7 @@ public class ActivityTypeFactory {
 		addType(EvilBaoArrive);
 		addType(ChargeRank);
 		addType(ConsumeRank);
+		addType(ActRankType);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

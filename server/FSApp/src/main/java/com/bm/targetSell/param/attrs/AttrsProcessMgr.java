@@ -55,7 +55,7 @@ public class AttrsProcessMgr {
 	public Map<String, Object> packLoginAttr(Player player) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		User user = UserDataDao.getInstance().getByUserId(player.getUserId());
-		String idStr = ERoleAttrs.r_Level.getId();
+		String idStr = ERoleAttrs.r_LastLoginTime.getId();
 		BenefitAttrCfgDAO cfgDAO = BenefitAttrCfgDAO.getInstance();
 		BenefitAttrCfg cfg = cfgDAO.getCfgById(idStr);
 		int processType = cfg.getProcessType();

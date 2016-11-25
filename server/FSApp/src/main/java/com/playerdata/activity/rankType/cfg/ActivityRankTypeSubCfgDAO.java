@@ -1,8 +1,11 @@
 package com.playerdata.activity.rankType.cfg;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.log.GameLog;
 import com.log.LogModule;
@@ -30,6 +33,17 @@ public final class ActivityRankTypeSubCfgDAO extends CfgCsvDao<ActivityRankTypeS
 		HashMap<String, List<ActivityRankTypeSubCfg>> subCfgListMapTmp  = new HashMap<String, List<ActivityRankTypeSubCfg>>();
 		for(ActivityRankTypeSubCfg subCfg : cfgCacheMap.values()){
 			ActivityTypeHelper.add(subCfg, subCfg.getParentCfgId(), subCfgListMapTmp);
+		}
+		for(Entry<String, List<ActivityRankTypeSubCfg>> entry : subCfgListMapTmp.entrySet()){
+			Collections.sort(entry.getValue(), new Comparator<ActivityRankTypeSubCfg>(){
+				@Override
+				public int compare(ActivityRankTypeSubCfg o1,
+						ActivityRankTypeSubCfg o2) {
+					if(o1.getRankRanges()[0] > o2.getRankRanges()[0]) return 1;
+					if(o1.getRankRanges()[0] < o2.getRankRanges()[0]) return -1;
+					return 0;
+				}
+			});
 		}
 		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;

@@ -7,17 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.log.GameLog;
-import com.log.LogModule;
-import com.playerdata.Player;
-import com.playerdata.activity.rankType.ActivityRankTypeEnum;
-import com.playerdata.activity.rankType.ActivityRankTypeHelper;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 

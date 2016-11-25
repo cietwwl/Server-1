@@ -74,5 +74,4 @@ public class ActivityRankTypeSubCfg {
 	public void setParentCfgId(String parentCfgId) {
 		this.parentCfgId = parentCfgId;
 	}
-
 }

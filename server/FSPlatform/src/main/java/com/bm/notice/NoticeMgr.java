@@ -39,7 +39,7 @@ public class NoticeMgr {
 		//加载配置表的公告
 		List<AnnouncementCfg> allCfg = AnnouncementCfgDAO.getInstance().getAllCfg();
 		for (AnnouncementCfg announcementCfg : allCfg) {
-			if(announcementCfg.getEndTime() < secondLevelMillis || announcementCfg.getPushType() == PUSHTYPE_PLATFORM){
+			if(announcementCfg.getEndTime() < secondLevelMillis || announcementCfg.getPushType() == PUSHTYPE_GAME){
 				continue;
 			}
 			Notice notice =new Notice();

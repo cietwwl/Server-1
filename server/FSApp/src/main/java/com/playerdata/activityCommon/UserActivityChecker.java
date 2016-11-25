@@ -15,8 +15,11 @@ import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
+import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 
 
@@ -27,6 +30,12 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
  */
 @SuppressWarnings("rawtypes")
 public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
+	
+	private Class<T> clazz;
+	
+	protected UserActivityChecker(Class<T> clazz){
+		this.clazz = clazz;
+	}
 	
 	public List<T> getItemList(String userId){
 		return refreshActivity(userId);
@@ -163,9 +172,23 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		}
 	}
 	
-	public abstract RoleExtPropertyStore<T> getItemStore(String userId);
+	public RoleExtPropertyStore<T> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<T> cache = RoleExtPropertyFactory.getPlayerExtCache(getExtPropertyType(), clazz);
+		try {
+			return cache.getStore(userId);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	public abstract ActivityType getActivityType();
+	
+	public abstract PlayerExtPropertyType getExtPropertyType();
 	
 	public abstract void updateItem(Player player, T item);
 	
