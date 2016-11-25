@@ -183,10 +183,10 @@ public class ActivityCfgChecker {
 				GameLog.cfgError(LogModule.ComActivityRank, null, "时间开启关闭冲突；id =" + cfg.getId() );
 			}
 			for(ActivityRankTypeCfg cfgTmp:allCfg){
-				if(StringUtils.equals(cfg.getId(), cfgTmp.getId())){
+				if(cfg.getId() == cfgTmp.getId()){
 					continue;
 				}
-				if(!StringUtils.equals(cfg.getEnumId(), cfgTmp.getEnumId())){
+				if(cfg.getEnumId() != cfgTmp.getEnumId()){
 					continue;
 				}
 				if(cfg.getStartTime()>=cfgTmp.getEndTime()||cfgTmp.getStartTime()>=cfg.getEndTime()){
@@ -194,7 +194,6 @@ public class ActivityCfgChecker {
 				}
 				GameLog.cfgError(LogModule.ComActivityRank, null, "时间冲突；A.id =" + cfg.getId() + " ,B。id = " + cfgTmp.getId());
 			}
-			
 		}
 	}
 	

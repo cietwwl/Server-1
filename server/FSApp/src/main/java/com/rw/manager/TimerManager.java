@@ -8,14 +8,12 @@ import java.util.concurrent.TimeUnit;
 
 import com.bm.group.GroupBM;
 import com.bm.saloon.SaloonBmFactory;
-import com.bm.worldBoss.WBMgr;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.gm.activity.RankingActivity;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.dataSyn.sameSceneSyn.DataAutoSynMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
@@ -100,7 +98,7 @@ public class TimerManager {
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
 				
-				ActivityRankTypeMgr.getInstance().changeMap();
+				//ActivityRankTypeMgr.getInstance().changeMap();
 			}
 		}, HOUR);
 
@@ -260,8 +258,6 @@ public class TimerManager {
 	/***** 每分刷新 *****/
 	private static void minutesFun() {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
-		/**** 排行 榜奖励 ***/
-		ActivityRankTypeMgr.getInstance().sendGift();
 
 		// GambleMgr.minutesUpdate();
 

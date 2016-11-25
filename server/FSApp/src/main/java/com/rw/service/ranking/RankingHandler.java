@@ -66,10 +66,10 @@ public class RankingHandler {
 		response.setRankType(request.getRankType());
 		String userId = player.getUserId();
 		CfgRanking cfgRanking = CfgRankingDAO.getInstance().getRankingCf(request.getRankType());
-		if (player.getLevel() < cfgRanking.getLimitLevel()) {
-			response.setResultType(ERankResultType.NOT_LEVEL);
-			return response.build().toByteString();
-		}
+//		if (player.getLevel() < cfgRanking.getLimitLevel()) {
+//			response.setResultType(ERankResultType.NOT_LEVEL);
+//			return response.build().toByteString();
+//		}
 
 		RankType rankType = RankType.getRankType(request.getRankType(), cfgRanking.getRealTime());
 		List<RankInfo> rankList = RankingUtils.createRankList(rankType);

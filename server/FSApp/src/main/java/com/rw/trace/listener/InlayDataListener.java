@@ -8,6 +8,7 @@ import com.bm.targetSell.param.attrs.EAchieveType;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedEvent;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedListener;
+import com.rw.manager.ServerSwitch;
 import com.rwbase.dao.inlay.InlayItem;
 
 /**
@@ -21,6 +22,9 @@ public class InlayDataListener implements RoleExtChangedListener<InlayItem>{
 
 	@Override
 	public void notifyDataChanged(RoleExtChangedEvent<InlayItem> event) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		List<Pair<Integer,InlayItem>> addList = event.getAddList();
 		if(addList != null && !addList.isEmpty()){
 			Pair<Integer, InlayItem> pair = addList.get(0);

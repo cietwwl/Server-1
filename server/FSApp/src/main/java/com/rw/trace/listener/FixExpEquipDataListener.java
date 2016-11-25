@@ -9,6 +9,7 @@ import com.playerdata.fixEquip.exp.data.FixExpEquipDataItem;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedEvent;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedListener;
+import com.rw.manager.ServerSwitch;
 
 
 /**
@@ -23,7 +24,9 @@ public class FixExpEquipDataListener implements RoleExtChangedListener<FixExpEqu
 
 	@Override
 	public void notifyDataChanged(RoleExtChangedEvent<FixExpEquipDataItem> event) {
-		
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		List<Pair<Integer,FixExpEquipDataItem>> addList = event.getAddList();
 		if(addList != null && !addList.isEmpty()){
 			Pair<Integer, FixExpEquipDataItem> pair = addList.get(0);
