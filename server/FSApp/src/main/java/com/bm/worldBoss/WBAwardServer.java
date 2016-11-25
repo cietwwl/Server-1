@@ -101,7 +101,7 @@ public class WBAwardServer {
 //		boolean isBossKilled = wbData.isKilled();
 		List<WBRankAwardCfg> allCfg = WBRankAwardCfgDAO.getInstance().getAllCfg();
 		for (WBRankAwardCfg wbRankAwardCfg : allCfg) {
-			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, wbRankAwardCfgId: " + wbRankAwardCfg.getId());
+//			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, wbRankAwardCfgId: " + wbRankAwardCfg.getId());
 			
 			String awardId = wbRankAwardCfg.getAwardId();
 			String award = wbRankAwardCfg.getAward();
