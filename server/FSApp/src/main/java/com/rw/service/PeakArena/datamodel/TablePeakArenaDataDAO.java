@@ -7,7 +7,7 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 public class TablePeakArenaDataDAO extends DataKVDao<TablePeakArenaData> {
 
 	private static TablePeakArenaDataDAO instance = new TablePeakArenaDataDAO();
-	private TablePeakArenaDataDAO(){}
+	protected TablePeakArenaDataDAO(){}
 	
 	public static TablePeakArenaDataDAO getInstance()
 	{

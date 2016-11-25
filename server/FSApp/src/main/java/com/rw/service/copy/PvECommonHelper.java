@@ -8,6 +8,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
@@ -69,7 +70,7 @@ public class PvECommonHelper {
 			// player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 			// }
 			List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(dropItems);
-			player.getItemBagMgr().addItem(itemInfoList);
+			ItemBagMgr.getInstance().addItem(player, itemInfoList);
 
 			// ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 
@@ -118,8 +119,8 @@ public class PvECommonHelper {
 			}
 			dropItem = dropItemUnderBuff;
 		}
-		player.getItemBagMgr().addItem(dropItem);
-		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()) * multiplePower);
+		ItemBagMgr.getInstance().addItem(player, dropItem);
+		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Power.getValue(), -(copyCfg.getSuccSubPower() - copyCfg.getFailSubPower()) * multiplePower);
 		// player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp()*multiplePlayerExp);
 		// player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin()*multipleCoin);
 	}
@@ -167,8 +168,8 @@ public class PvECommonHelper {
 			}
 			dropItem = dropItemUnderBuff;
 		}
-		player.getItemBagMgr().addItem(dropItem);
-		player.getItemBagMgr().addItem(eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times * multiplePower);
+		ItemBagMgr.getInstance().addItem(player, dropItem);
+		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Power.getValue(), -copyCfg.getSuccSubPower() * times * multiplePower);
 		// player.getItemBagMgr().addItem(eSpecialItemId.PlayerExp.getValue(), copyCfg.getPlayerExp() * times*multiplePlayerExp);
 		// player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), copyCfg.getCoin() * times*multipleCoin);
 	}
@@ -203,7 +204,7 @@ public class PvECommonHelper {
 					// 将奖励放入背包
 					// player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
-				player.getItemBagMgr().addItem(dropItems);
+				ItemBagMgr.getInstance().addItem(player, dropItems);
 				// Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 				// for(Map.Entry<Integer, Integer> entry:map.entrySet()){
 				// listItem.add(entry.getKey()+","+entry.getValue());
@@ -221,7 +222,7 @@ public class PvECommonHelper {
 				int extraItem = Integer.parseInt(extraRewards);
 				int extraCount = Integer.parseInt(copyCfg.getExtraRewardsNum());
 				extraCount = extraCount * times;
-				player.getItemBagMgr().addItem(extraItem, extraCount);
+				ItemBagMgr.getInstance().addItem(player, extraItem, extraCount);
 			} catch (Exception e) {
 				GameLog.error("PvECommonHelper", "#gainSweepRewards()", "扫荡额外掉落异常：" + player.getUserId(), e);
 			}
@@ -253,7 +254,7 @@ public class PvECommonHelper {
 
 		if (player.getUserGameDataMgr().getGold() >= pCfgBuyLevel.getNeedPurse()) // 钻石够的话...
 		{
-			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), -pCfgBuyLevel.getNeedPurse());
+			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Gold.getValue(), -pCfgBuyLevel.getNeedPurse());
 
 			String buyLevelRecord = player.getCopyRecordMgr().buyLevel(levelId);
 			UserEventMgr.getInstance().ResetElityVitality(player, 1);
@@ -325,19 +326,19 @@ public class PvECommonHelper {
 
 	public static void deduceSweepCost(Player player, MsgCopyRequest copyRequest, MsgCopyResponse.Builder copyResponse, int times) {
 		ERequestType requestType = copyRequest.getRequestType();
-		int ticketCount = player.getItemBagMgr().getItemCountByModelId(PvECommonHelper.SweepTicketID);
+		int ticketCount = ItemBagMgr.getInstance().getItemCountByModelId(player.getUserId(), PvECommonHelper.SweepTicketID);
 		if (requestType == ERequestType.SWEEP_LEVEL_DIAMOND) { // 钻石扫荡
 			if (times > ticketCount) {
-				player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, ticketCount);
+				ItemBagMgr.getInstance().useItemByCfgId(player, PvECommonHelper.SweepTicketID, ticketCount);
 				player.getUserGameDataMgr().addGold(-(times - ticketCount));
-				//UserEventMgr.getInstance().UseSweepTicketVitality(player, ticketCount);
+				// UserEventMgr.getInstance().UseSweepTicketVitality(player, ticketCount);
 			} else {
 				player.getUserGameDataMgr().addGold(-times);
 			}
 		} else if (copyRequest.getRequestType() == ERequestType.SWEEP_LEVEL_TICKET) { // 扫荡券扫荡
-			player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, times);
+			ItemBagMgr.getInstance().useItemByCfgId(player, PvECommonHelper.SweepTicketID, times);
 		}
-		//扫荡时消耗的钻石，也算消耗的扫荡券
+		// 扫荡时消耗的钻石，也算消耗的扫荡券
 		UserEventMgr.getInstance().UseSweepTicketVitality(player, times);
 	}
 

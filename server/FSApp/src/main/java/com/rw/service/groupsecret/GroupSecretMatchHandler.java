@@ -19,6 +19,7 @@ import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -215,7 +216,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 扣除费用
-		player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), -matchPrice);
+		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), -matchPrice);
 
 		// 获取可以掠夺的资源数量
 		mgr.updateMatchEnemyData(player, groupSecretData, cfg, levelGetResTemplate, zoneId, zoneName, groupId);
@@ -342,7 +343,7 @@ public class GroupSecretMatchHandler {
 		if (rankingEntry == null) {
 			GroupSecretBM.clearMatchEnemyInfo(player);
 			// 第三步返回钱
-			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), matchPrice);
+			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), matchPrice);
 
 			GameLog.error("挑战秘境敌人", userId, String.format("从匹配排行榜中找不到对应[%s]的记录", id));
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "对方已被其他玩家挑战，搜索秘境费用返回");
@@ -353,7 +354,7 @@ public class GroupSecretMatchHandler {
 		if (!rankingEntry.getExtendedAttribute().setFightingState(userId, now)) {
 			GroupSecretBM.clearMatchEnemyInfo(player);
 			// 第三步返回钱
-			player.getItemBagMgr().addItem(eSpecialItemId.Coin.getValue(), matchPrice);
+			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), matchPrice);
 
 			GameLog.error("挑战秘境敌人", userId, String.format("从匹配排行榜中找不到对应[%s]的记录,获取的攻击对象不是自己或者状态为不可攻击", id));
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "对方已被其他玩家挑战，搜索秘境费用返回");
@@ -615,7 +616,8 @@ public class GroupSecretMatchHandler {
 
 		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_BATTLE, 1);
-
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_SCAN, 1);
+		
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
@@ -672,14 +674,14 @@ public class GroupSecretMatchHandler {
 		// 增加资源
 		GroupSecretResourceCfg cfg = GroupSecretResourceCfgDAO.getCfgDAO().getGroupSecretResourceTmp(matchEnemyData.getCfgId());
 		if (cfg != null && robRes > 0) {
-			player.getItemBagMgr().addItem(cfg.getReward(), robRes);
+			ItemBagMgr.getInstance().addItem(player, cfg.getReward(), robRes);
 		}
 
 		if (cfg != null) {
 			int level = player.getLevel();
 			GroupSecretLevelGetResTemplate levelGetResTemplate = GroupSecretLevelGetResCfgDAO.getCfgDAO().getLevelGetResTemplate(cfg.getLevelGroupId(), level);
 			if (levelGetResTemplate != null) {
-				player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), levelGetResTemplate.getRobDiamond());
+				ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Gold.getValue(), levelGetResTemplate.getRobDiamond());
 			}
 		}
 

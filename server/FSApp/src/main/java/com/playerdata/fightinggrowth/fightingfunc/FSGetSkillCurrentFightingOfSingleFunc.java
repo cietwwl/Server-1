@@ -12,7 +12,7 @@ import com.rwbase.dao.skill.pojo.SkillItem;
 
 public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetSkillCurrentFightingOfSingleFunc _instance = new FSGetSkillCurrentFightingOfSingleFunc();
+	private static FSGetSkillCurrentFightingOfSingleFunc _instance = new FSGetSkillCurrentFightingOfSingleFunc();
 
 	// private SkillFightingCfgDAO skillFightingCfgDAO;
 
@@ -20,7 +20,7 @@ public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, In
 		// skillFightingCfgDAO = SkillFightingCfgDAO.getInstance();
 	}
 
-	public static final FSGetSkillCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetSkillCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 

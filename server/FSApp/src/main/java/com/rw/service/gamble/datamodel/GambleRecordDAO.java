@@ -4,12 +4,9 @@ import com.log.GameLog;
 import com.rw.fsutil.cacheDao.DataKVDao;
 
 public class GambleRecordDAO extends DataKVDao<GambleRecord> {
-	private static GambleRecordDAO m_instance;
+	private static GambleRecordDAO m_instance = new GambleRecordDAO();
 
 	public static GambleRecordDAO getInstance() {
-		if (m_instance == null) {
-			m_instance = new GambleRecordDAO();
-		}
 		return m_instance;
 	}
 	

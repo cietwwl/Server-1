@@ -15,6 +15,6 @@ public class UserCreateGroupSecretDataDAO extends DataKVDao<UserCreateGroupSecre
 		return dao;
 	}
 
-	UserCreateGroupSecretDataDAO() {
+	protected UserCreateGroupSecretDataDAO() {
 	}
 }

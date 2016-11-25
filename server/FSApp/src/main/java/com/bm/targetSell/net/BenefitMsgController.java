@@ -32,7 +32,7 @@ public class BenefitMsgController {
 	private static BenefitMsgController controller = new BenefitMsgController();
 
 
-	private BenefitMsgController() {
+	protected BenefitMsgController() {
 	}
 
 	public static BenefitMsgController getInstance() {
@@ -45,7 +45,7 @@ public class BenefitMsgController {
 	}
 
 	public void addMsg(String content) {
-		System.err.println("add msg:" + content);
+//		System.err.println("add msg:" + content);
 		server.sendMsg(content);
 
 	}

@@ -9,7 +9,7 @@ import com.rwbase.common.IFunction;
 
 public class FSGetSkillCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
-	private static final FSGetSkillCurrentFightingFunc _instance = new FSGetSkillCurrentFightingFunc();
+	private static FSGetSkillCurrentFightingFunc _instance = new FSGetSkillCurrentFightingFunc();
 
 
 	private IFunction<Hero, Integer> _single;
@@ -18,7 +18,7 @@ public class FSGetSkillCurrentFightingFunc implements IBIFunction<Player, List<H
 		_single = FSGetSkillCurrentFightingOfSingleFunc.getInstance();
 	}
 	
-	public static final FSGetSkillCurrentFightingFunc getInstance() {
+	public static FSGetSkillCurrentFightingFunc getInstance() {
 		return _instance;
 	}
 	

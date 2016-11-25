@@ -16,7 +16,7 @@ import com.rwbase.common.IFunction;
  */
 public class FSGetBasicCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 	
-	private static final FSGetBasicCurrentFightingFunc _instance = new FSGetBasicCurrentFightingFunc();
+	private static FSGetBasicCurrentFightingFunc _instance = new FSGetBasicCurrentFightingFunc();
 
 	private IFunction<Hero, Integer> _single;
 	
@@ -24,7 +24,7 @@ public class FSGetBasicCurrentFightingFunc implements IBIFunction<Player, List<H
 		_single = FSGetBasicCurrentFightingOfSingleFunc.getInstance();
 	}
 	
-	public static final FSGetBasicCurrentFightingFunc getInstance() {
+	public static FSGetBasicCurrentFightingFunc getInstance() {
 		return _instance;
 	}
 	

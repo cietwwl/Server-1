@@ -28,7 +28,7 @@ public class WBHurtRankMgr {
 			return -1;
 		}
 		// 比较数据
-		WBHurtComparable comparable = new WBHurtComparable( wbUserData.getTotalHurt(), wbUserData.getLastFightTime());
+		WBHurtComparable comparable = new WBHurtComparable(wbUserData.getTotalHurt(), wbUserData.getLastFightTime());
 		String userID = player.getUserId();
 		RankingEntry<WBHurtComparable, WBHurtItem> rankingEntry = ranking.getRankingEntry(userID);
 		if (rankingEntry == null) {

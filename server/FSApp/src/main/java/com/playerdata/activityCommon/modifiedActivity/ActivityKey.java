@@ -28,6 +28,8 @@ public enum ActivityKey {
 	ACTIVITY_COUNTTYPE(5, GameWorldKey.ACTIVITY_COUNTTYPE, ActivityTypeFactory.CountType),
 	/**--	申公豹驾到	--*/
 	ACTIVITY_EVILBAOARRIVE(6, GameWorldKey.ACTIVITY_EVILBAOARRIVE, ActivityTypeFactory.EvilBaoArrive),
+	/**--	申公豹驾到	--*/
+	ACTIVITY_RANK_TYPE(7, GameWorldKey.ACTIVITY_RANK_TYPE, ActivityTypeFactory.ActRankType),
 	;
 	
 	@SuppressWarnings("rawtypes")

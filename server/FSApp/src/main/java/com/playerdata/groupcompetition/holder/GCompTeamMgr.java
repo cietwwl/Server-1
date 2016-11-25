@@ -33,6 +33,7 @@ import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
 import com.rw.service.group.helper.GroupHelper;
+import com.rwproto.GroupCompetitionProto.GroupCompetitionTeamMember;
 import com.rwproto.GroupCompetitionProto.TeamInvitation;
 import com.rwproto.GroupCompetitionProto.TeamStatusChange;
 import com.rwproto.GroupCompetitionProto.TeamStatusType;
@@ -40,11 +41,11 @@ import com.rwproto.MsgDef.Command;
 
 public class GCompTeamMgr {
 
-	private static final GCompTeamMgr _instance = new GCompTeamMgr();
+	private static GCompTeamMgr _instance = new GCompTeamMgr();
 	
 	private static AtomicInteger _idGenerator = new AtomicInteger(10000000);
 	
-	public static final GCompTeamMgr getInstance() {
+	public static GCompTeamMgr getInstance() {
 		return _instance;
 	}
 	
@@ -134,7 +135,7 @@ public class GCompTeamMgr {
 		}
 	}
 	
-	private boolean checkIfCanMatching(Pair<Boolean, String> result) {
+	private boolean checkIfCanTeamMatching(Pair<Boolean, String> result) {
 		// 检查是否处于队伍战状态
 		GCompEventsStatus eventsStatus = GroupCompetitionMgr.getInstance().getCurrentEventsStatus();
 		if (eventsStatus == GCompEventsStatus.TEAM_EVENTS) {
@@ -283,16 +284,17 @@ public class GCompTeamMgr {
 	private void initStatus(IGCGroup gcGroup) {
 		String groupId;
 		if ((groupId = gcGroup.getGroupId()).length() > 0) {
-			statusOfGroup.put(groupId, GroupBM.get(groupId).getGroupMemberMgr().getGroupMemberSize() >= GCompCommonConfig.getMinMemberCountOfGroup());
+			statusOfGroup.put(groupId, GCompMemberMgr.getInstance().getSizeOfGroupMember(groupId) >= GCompCommonConfig.getMinMemberCountOfGroup());
 		}
 	}
 	
 	public void onGroupMemberLeave(String groupId) {
 		if(statusOfGroup.containsKey(groupId)) {
-			boolean result = GroupBM.get(groupId).getGroupMemberMgr().getGroupMemberSize() >= GCompCommonConfig.getMinMemberCountOfGroup();
+			boolean result = GCompMemberMgr.getInstance().getSizeOfGroupMember(groupId) >= GCompCommonConfig.getMinMemberCountOfGroup();
 			if(!result) {
 				statusOfGroup.put(groupId, result);
 			}
+			GCompUtil.log("{}，有成员离开帮派，离开后的匹配状态：{}", groupId, result);
 		}
 	}
 	
@@ -304,6 +306,7 @@ public class GCompTeamMgr {
 			this.initStatus(against.getGroupA());
 			this.initStatus(against.getGroupB());
 		}
+		GCompUtil.log("[{}]比赛开始，所有帮派的匹配状态:{}", eventsType.chineseName, statusOfGroup);
 	}
 	
 	public void forcePlayerLeaveTeam(Player player) {
@@ -717,7 +720,7 @@ public class GCompTeamMgr {
 	
 	private void setReady(Player player, GCompTeam team, Pair<Boolean, String> result) {
 		
-		if (!checkIfCanMatching(result)) {
+		if (!checkIfCanTeamMatching(result)) {
 			return;
 		}
 		
@@ -776,7 +779,7 @@ public class GCompTeamMgr {
 	public IReadOnlyPair<Boolean, String> startTeamMatching(Player player) {
 		Pair<Boolean, String> result = Pair.Create(false, null);
 		
-		if(!this.checkIfCanMatching(result)) {
+		if(!this.checkIfCanTeamMatching(result)) {
 			return result;
 		}
 

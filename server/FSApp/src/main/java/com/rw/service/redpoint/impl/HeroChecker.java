@@ -44,10 +44,11 @@ public class HeroChecker implements RedPointCollector {
 		ArrayList<String> heroEquipList = new ArrayList<String>();
 		ArrayList<String> upgradeStarList = new ArrayList<String>();
 		HeroMgr heroMgr = player.getHeroMgr();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 
-		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
-		Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+		String userId = player.getUserId();
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap(userId);
+		Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap(userId);
 
 		Map<String, RoleCfg> roleCfgCopys = RoleCfgDAO.getInstance().getAllRoleCfgCopy();
 		ComposeCfgDAO composeCfgDAO = ComposeCfgDAO.getInstance();
@@ -97,7 +98,7 @@ public class HeroChecker implements RedPointCollector {
 						}
 						boolean canCompose = true;
 						for (Map.Entry<Integer, Integer> entry : composeItems.entrySet()) {
-							if (itemBagMgr.getItemCountByModelId(entry.getKey()) < entry.getValue()) {
+							if (itemBagMgr.getItemCountByModelId(userId, entry.getKey()) < entry.getValue()) {
 								canCompose = false;
 								break;
 							}

@@ -1,6 +1,7 @@
 package com.playerdata.activity.consumeRank;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.RankType;
@@ -114,7 +115,8 @@ public class ActivityConsumeRankMgr extends AbstractActivityMgr<ActivityConsumeR
 		if (!item.isHasViewed()) {
 			redPointList.add(String.valueOf(item.getCfgId()));
 		}
-		return redPointList;
+		return Collections.emptyList();
+		//return redPointList;
 	}
 	
 	protected UserActivityChecker<ActivityConsumeRankItem> getHolder(){

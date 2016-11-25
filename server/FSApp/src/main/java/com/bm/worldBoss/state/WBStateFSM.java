@@ -85,7 +85,9 @@ public class WBStateFSM {
 	}
 
 	public void tranfer(){
-		
+		if(curState == null){
+			return;
+		}
 		IwbState nextState = curState.doTransfer();		
 		if(nextState!=null){	
 			GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[tranfer]", "world boss state transfer to " + nextState);

@@ -61,7 +61,8 @@ public class ActivityTypeHelper {
 	 * 将加载配置文件时的多个模块的缓存化数据使用统一方法处理
 	 * @param cfgItem
 	 */
-	public static <T> void add(Object cfg,String id,HashMap<String, List<T>> enumIdCfgMapping_){
+	@SuppressWarnings("unchecked")
+	public static <T> void add(Object cfg, String id, HashMap<String, List<T>> enumIdCfgMapping_){
 		List<T> list = enumIdCfgMapping_.get(id);
 		if (list == null) {
 			list = new ArrayList<T>();
@@ -69,6 +70,4 @@ public class ActivityTypeHelper {
 		}
 		list.add((T) cfg);
 	}
-	
-	
 }

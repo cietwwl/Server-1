@@ -9,7 +9,7 @@ public class ServerCommonDataDAO extends DataKVDao<ServerCommonData>{
 		return instance;
 	}
 
-	private ServerCommonDataDAO() { }
+	protected ServerCommonDataDAO() { }
 	
 	public ServerCommonData get(String id){
 		ServerCommonData data = super.get(id);

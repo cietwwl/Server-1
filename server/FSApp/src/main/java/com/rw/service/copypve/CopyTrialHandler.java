@@ -20,15 +20,12 @@ import com.rwproto.CopyTrialServiceProtos.eTrialResultType;
 
 public class CopyTrialHandler {
 
-	private static CopyTrialHandler instance;
+	private static CopyTrialHandler instance = new CopyTrialHandler();
 
-	private CopyTrialHandler() {
+	protected CopyTrialHandler() {
 	}
 
 	public static CopyTrialHandler getInstance() {
-		if (instance == null) {
-			instance = new CopyTrialHandler();
-		}
 		return instance;
 	}
 

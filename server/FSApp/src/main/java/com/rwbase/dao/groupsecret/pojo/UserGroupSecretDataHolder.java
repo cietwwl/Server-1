@@ -16,7 +16,7 @@ public class UserGroupSecretDataHolder {
 		return holder;
 	}
 
-	private UserGroupSecretDataHolder() {
+	protected UserGroupSecretDataHolder() {
 	}
 
 	/**

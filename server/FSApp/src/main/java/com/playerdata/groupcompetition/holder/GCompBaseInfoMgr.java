@@ -6,9 +6,9 @@ import com.playerdata.groupcompetition.holder.data.GCompBaseInfo;
 
 public class GCompBaseInfoMgr {
 
-	private static final GCompBaseInfoMgr _instance = new GCompBaseInfoMgr();
+	private static GCompBaseInfoMgr _instance = new GCompBaseInfoMgr();
 	
-	public static final GCompBaseInfoMgr getInstance() {
+	public static GCompBaseInfoMgr getInstance() {
 		return _instance;
 	}
 	

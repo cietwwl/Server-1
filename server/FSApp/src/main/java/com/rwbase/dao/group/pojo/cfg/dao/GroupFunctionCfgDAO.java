@@ -20,16 +20,13 @@ import com.rwproto.GroupCommonProto.GroupPost;
  */
 public class GroupFunctionCfgDAO extends CfgCsvDao<GroupFunctionCfg> {
 
-	// private static GroupFunctionCfgDAO dao = new GroupFunctionCfgDAO();
-
 	public static GroupFunctionCfgDAO getDAO() {
-		// return dao;
 		return SpringContextUtil.getBean(GroupFunctionCfgDAO.class);
 	}
 
 	private HashMap<Integer, GroupFunctionTemplate> templateMap;
 
-	private GroupFunctionCfgDAO() {
+	protected GroupFunctionCfgDAO() {
 	}
 
 	@Override

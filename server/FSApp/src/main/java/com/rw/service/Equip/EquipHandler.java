@@ -175,8 +175,10 @@ public class EquipHandler {
 			response.setError(ErrorType.NOT_ROLE);
 			return response.build().toByteString();
 		}
+		String userId = player.getUserId();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		for (TagMate mate : mateList) {// 循环遍历统计物品的总附灵经验
-			ItemData itemData = player.getItemBagMgr().findBySlotId(mate.getId());
+			ItemData itemData = itemBagMgr.findBySlotId(userId, mate.getId());
 			if (itemData == null || itemData.getCount() < mate.getCount()) {
 				response.setError(ErrorType.NOT_ENOUGH_MATE);
 				return response.build().toByteString();
@@ -271,8 +273,8 @@ public class EquipHandler {
 		}
 
 		RefInt out = new RefInt();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, equipId, 1, out);
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(userId, equipId, 1, out);
 		if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {
 			GameLog.error("装备合成", userId, String.format("装备Id[%s]需要的材料不足或者根本就不需要合成", equipId));
 			response.setError(ErrorType.NOT_ENOUGH_MATE);
@@ -293,20 +295,20 @@ public class EquipHandler {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<Integer, Integer> e : composeNeedMateMap.entrySet()) {
 			sb.append(e.getKey()).append("_").append(e.getValue()).append(";");
-			IUseItem useItem = new UseItem(itemBagMgr.getItemListByCfgId(e.getKey()).get(0).getId(), e.getValue());
+			IUseItem useItem = new UseItem(itemBagMgr.getItemListByCfgId(userId, e.getKey()).get(0).getId(), e.getValue());
 			useItemList.add(useItem);
 		}
 
 		INewItem newItem = new NewItem(equipId, 1, null);
 		addItemList.add(newItem);
 
-		if (!itemBagMgr.addItem(eSpecialItemId.Coin.getValue(), -out.value)) {
+		if (!itemBagMgr.addItem(player, eSpecialItemId.Coin.getValue(), -out.value)) {
 			GameLog.error("装备合成", userId, String.format("装备Id[%s]需要金币是[%s]，实际上只有[%s]", equipId, out.value, coinVlaue));
 			response.setError(ErrorType.NOT_ENOUGH_COIN);
 			return response.build().toByteString();
 		}
 
-		if (!itemBagMgr.useLikeBoxItem(useItemList, addItemList)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, addItemList)) {
 			GameLog.error("装备合成", userId, String.format("装备Id[%s]消耗道具失败，需要消耗的道具是[%s]", equipId, sb.toString()));
 			response.setError(ErrorType.FAIL);
 			return response.build().toByteString();
@@ -325,7 +327,7 @@ public class EquipHandler {
 	 * @param out
 	 * @return
 	 */
-	private static Map<Integer, Integer> getComposeNeedMateMap(ItemBagMgr itemBagMgr, int id, int needCount, RefInt out) {
+	private static Map<Integer, Integer> getComposeNeedMateMap(String userId, int id, int needCount, RefInt out) {
 		Map<Integer, Integer> idMap = new HashMap<Integer, Integer>();
 		ComposeCfgDAO cfgDAO = ComposeCfgDAO.getInstance();
 		Map<Integer, Integer> mateMap = cfgDAO.getMate(id);// 获取需要的所有材料
@@ -333,7 +335,8 @@ public class EquipHandler {
 			return idMap;
 		}
 
-		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap(userId);
 
 		for (Entry<Integer, Integer> e : mateMap.entrySet()) {
 			int templateId = e.getKey();// 需要的材料模版Id
@@ -343,7 +346,7 @@ public class EquipHandler {
 			int bagCount = refInt == null ? 0 : refInt.value;
 			if (bagCount < count) {// 如果数量不足，检查是否还能有其他材料辅助合成
 				int canUseCount = count - bagCount;
-				Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, templateId, canUseCount, out);// 需要的辅助材料实际要消耗数量
+				Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(userId, templateId, canUseCount, out);// 需要的辅助材料实际要消耗数量
 				if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {// 确实材料不够了
 					return null;
 				}
@@ -401,13 +404,15 @@ public class EquipHandler {
 	 */
 	public static int checkCompose(Player player, int id) {
 		RefInt out = new RefInt();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(itemBagMgr, id, 1, out);
+		String userId = player.getUserId();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+
+		Map<Integer, Integer> composeNeedMateMap = getComposeNeedMateMap(userId, id, 1, out);
 		if (composeNeedMateMap == null || composeNeedMateMap.isEmpty()) {
 			return -1;
 		}
 
-		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap();
+		Map<Integer, RefInt> modelCountMap = itemBagMgr.getModelCountMap(userId);
 
 		for (Entry<Integer, Integer> e : composeNeedMateMap.entrySet()) {
 			int mateId = e.getKey().intValue();
@@ -449,7 +454,7 @@ public class EquipHandler {
 			return response.build().toByteString();
 		}
 		int equipId = equips.get(equipIndex);
-		int count = player.getItemBagMgr().getItemCountByModelId(equipId);
+		int count = ItemBagMgr.getInstance().getItemCountByModelId(player.getUserId(), equipId);
 		if (count <= 0) {
 			response.setError(ErrorType.NOT_EQUIP);
 			return response.build().toByteString();
@@ -527,7 +532,7 @@ public class EquipHandler {
 		int level = hero.getLevel();// 英雄的等级
 		HeroEquipCfgDAO cfgDAO = HeroEquipCfgDAO.getInstance();
 
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		/** <格子Id,装备的数据库Id> */
 		Map<Integer, String> needEquipMap = new HashMap<Integer, String>();// 需要穿的装备
 		/** <装备的模版Id> */
@@ -558,7 +563,7 @@ public class EquipHandler {
 			}
 
 			// 搜索背包
-			List<ItemData> itemDataList = itemBagMgr.getItemListByCfgId(templateId);
+			List<ItemData> itemDataList = itemBagMgr.getItemListByCfgId(userId, templateId);
 			if (itemDataList == null || itemDataList.isEmpty()) {
 				continue;
 			}
@@ -575,13 +580,13 @@ public class EquipHandler {
 			return fillFailMsg(rsp, ErrorType.FAIL, "当前没有可穿戴装备");
 		}
 
-//		// 准备穿戴装备
-//		for (Entry<Integer, String> e : needEquipMap.entrySet()) {
-//			Integer index = e.getKey();
-//			if (equipMgr.wearEquip(player, roleId, e.getValue(), index)) {
-//				rsp.addOneKeySuccessIndex(index);
-//			}
-//		}
+		// // 准备穿戴装备
+		// for (Entry<Integer, String> e : needEquipMap.entrySet()) {
+		// Integer index = e.getKey();
+		// if (equipMgr.wearEquip(player, roleId, e.getValue(), index)) {
+		// rsp.addOneKeySuccessIndex(index);
+		// }
+		// }
 		// 准备穿戴装备
 		if (equipMgr.wearEquips(player, roleId, needEquipMap)) {
 			rsp.addAllOneKeySuccessIndex(needEquipMap.keySet());

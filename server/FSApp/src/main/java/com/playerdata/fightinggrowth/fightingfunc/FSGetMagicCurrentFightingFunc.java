@@ -18,7 +18,7 @@ import com.rwbase.dao.item.pojo.ItemData;
  */
 public class FSGetMagicCurrentFightingFunc implements IBIFunction<Player, List<Hero>, Integer> {
 
-	private static final FSGetMagicCurrentFightingFunc _instance = new FSGetMagicCurrentFightingFunc();
+	private static FSGetMagicCurrentFightingFunc _instance = new FSGetMagicCurrentFightingFunc();
 
 	// private MagicCfgDAO magicCfgDAO;
 	// private MagicLevelFightingCfgDAO magicLevelFightingCfgDAO;
@@ -32,7 +32,7 @@ public class FSGetMagicCurrentFightingFunc implements IBIFunction<Player, List<H
 		// magicAptitudeFightingCfgDAO = MagicAptitudeFightingCfgDAO.getInstance();
 	}
 
-	public static final FSGetMagicCurrentFightingFunc getInstance() {
+	public static FSGetMagicCurrentFightingFunc getInstance() {
 		return _instance;
 	}
 

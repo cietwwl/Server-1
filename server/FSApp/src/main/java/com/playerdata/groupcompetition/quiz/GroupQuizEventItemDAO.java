@@ -12,7 +12,7 @@ public class GroupQuizEventItemDAO extends DataKVDao<GCQuizEventItem>{
 		return instance;
 	}
 
-	private GroupQuizEventItemDAO() { }
+	protected GroupQuizEventItemDAO() { }
 	
 	public GCQuizEventItem getQuizInfo(int matchId){
 		return this.get(String.valueOf(matchId));

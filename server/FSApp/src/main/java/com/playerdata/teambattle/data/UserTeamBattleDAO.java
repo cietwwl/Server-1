@@ -9,5 +9,5 @@ public class UserTeamBattleDAO extends DataKVDao<UserTeamBattleData>{
 		return instance;
 	}
 
-	private UserTeamBattleDAO() { }
+	protected UserTeamBattleDAO() { }
 }

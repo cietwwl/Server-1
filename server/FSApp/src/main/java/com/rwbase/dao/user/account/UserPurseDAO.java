@@ -4,7 +4,7 @@ import com.rw.fsutil.cacheDao.DataKVDao;
 
 public class UserPurseDAO extends DataKVDao<UserPurse> {
 	private static UserPurseDAO instance = new UserPurseDAO();
-	private UserPurseDAO(){}
+	protected UserPurseDAO(){}
 	public static UserPurseDAO getInstance(){
 		return instance;
 	}

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.alibaba.druid.util.StringUtils;
 import com.google.protobuf.ByteString;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.groupFightOnline.bm.GFightHelper;
 import com.rw.dataaccess.processor.EmailCreator;
@@ -30,15 +31,12 @@ import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class EmailHandler {
 
-	private static EmailHandler instance;
+	private static EmailHandler instance = new EmailHandler();
 
-	private EmailHandler() {
+	protected EmailHandler() {
 	}
 
 	public static EmailHandler getInstance() {
-		if (instance == null) {
-			instance = new EmailHandler();
-		}
 		return instance;
 	}
 
@@ -76,7 +74,7 @@ public class EmailHandler {
 		if (result.equals("")) {
 
 			response.setResultType(EmailResultType.SUCCESS);
-			player.getItemBagMgr().addItemByPrizeStr(item.getEmailAttachment());
+			ItemBagMgr.getInstance().addItemByPrizeStr(player, item.getEmailAttachment());
 			item.setReceive(true);
 			item.setChecked(true);
 			player.getEmailMgr().checkUnread();

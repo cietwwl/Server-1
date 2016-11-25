@@ -45,14 +45,14 @@ import com.rwbase.dao.groupcompetition.pojo.GCompCommonRankRewardCfg;
  */
 public class GroupCompetitionRewardCenter {
 
-	private static final GroupCompetitionRewardCenter _INSTANCE = new GroupCompetitionRewardCenter();
+	private static GroupCompetitionRewardCenter _instance = new GroupCompetitionRewardCenter();
 	
 	protected GroupCompetitionRewardCenter() {
 		
 	}
 	
-	public static final GroupCompetitionRewardCenter getInstance() {
-		return _INSTANCE;
+	public static GroupCompetitionRewardCenter getInstance() {
+		return _instance;
 	}
 	
 	private <E extends GroupMemberDataIF> void sendMailToMembers(List<E> memberList, String emailCfgId, Map<Integer, Integer> rewardMap, List<String> args) {
@@ -167,7 +167,7 @@ public class GroupCompetitionRewardCenter {
 		Comparator<IGCGroup> cmp = new GCompScoreComparator();
 		GCompEventsData data;
 		IGCGroup loseGroup;
-		while (type != GCEventsType.FINAL) {
+		while (type != GCEventsType.QUATER) { // 半决赛的四队都会在决赛重新分配
 			data = GCompEventsDataMgr.getInstance().getEventsData(type);
 			List<GCompAgainst> againstList = data.getAgainsts();
 			List<IGCGroup> groups = new ArrayList<IGCGroup>();

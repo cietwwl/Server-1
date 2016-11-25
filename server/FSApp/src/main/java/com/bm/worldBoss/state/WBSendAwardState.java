@@ -1,6 +1,7 @@
 package com.bm.worldBoss.state;
 
 import com.bm.worldBoss.WBAwardServer;
+import com.bm.worldBoss.WBOnFightMgr;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
@@ -32,5 +33,7 @@ class WBSendAwardState implements  IwbState{
 		WBDataHolder.getInstance().update();	
 		
 		WBAwardServer.getInstance().doAwardTask();
-	}//1477311660920   1477311660920  1477311707151  1477315800000
+		//发送完成后，清除战斗队列信息
+		WBOnFightMgr.getInstance().clear();
+	}
 }

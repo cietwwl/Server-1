@@ -84,6 +84,11 @@ public enum GameWorldKey {
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
 	/**
+	 * 帮派排行榜的静态榜
+	 */
+	GROUP_STATIC_RANK("GROUP_STATIC_RANK"),
+
+	/**
 	 * 活跃着的活动
 	 */
 	ALIVE_ACTIVITY("ALIVE_ACTIVITY"),
@@ -112,6 +117,10 @@ public enum GameWorldKey {
 	 * 活动:申公豹驾到
 	 */
 	ACTIVITY_EVILBAOARRIVE("ACTIVITY_EVILBAOARRIVE"),
+	/**
+	 * 活动:竞技之王
+	 */
+	ACTIVITY_RANK_TYPE("ACTIVITY_RANK_TYPE"),
 	;
 	
 

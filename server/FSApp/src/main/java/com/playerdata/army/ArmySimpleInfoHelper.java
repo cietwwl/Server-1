@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.simple.ArmyHeroSimple;
@@ -14,9 +15,8 @@ import com.playerdata.army.simple.ArmyInfoSimple;
 import com.rwbase.dao.item.pojo.ItemData;
 
 public class ArmySimpleInfoHelper {
-	
-	public static ArmyInfoSimple fromArmyInfo(ArmyInfo armyInfo){
-	
+
+	public static ArmyInfoSimple fromArmyInfo(ArmyInfo armyInfo) {
 
 		ArmyInfoSimple armyInfoSimple = new ArmyInfoSimple();
 		ArmyHero player = armyInfo.getPlayer();
@@ -30,16 +30,14 @@ public class ArmySimpleInfoHelper {
 			heroList.add(ArmyHeroSimple.newInstance(armyHeroTmp));
 		}
 		armyInfoSimple.setHeroList(heroList);
-		
+
 		int teamFighting = getTeamFighting(armyInfoSimple);
 		armyInfoSimple.setTeamFighting(teamFighting);
 		return armyInfoSimple;
-		
+
 	}
-	
 
-
-	public static ArmyInfoSimple getSimpleInfo(String playerId,List<String> heroIdList) {
+	public static ArmyInfoSimple getSimpleInfo(String playerId, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
 		ItemData magic = player.getMagic();
@@ -47,12 +45,14 @@ public class ArmySimpleInfoHelper {
 		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
 		return armyInfoSimple;
 	}
-	
+
 	public static ArmyInfoSimple getSimpleInfo(String playerId, String magicID, List<String> heroIdList) {
 
 		Player player = PlayerMgr.getInstance().find(playerId);
 		ItemData magic = null;
-		if(StringUtils.isNotBlank(magicID)) magic = player.getItemBagMgr().findBySlotId(magicID);
+		if (StringUtils.isNotBlank(magicID)) {
+			magic = ItemBagMgr.getInstance().findBySlotId(playerId, magicID);
+		}
 		ArmyInfoSimple armyInfoSimple = build(heroIdList, player, magic);
 		return armyInfoSimple;
 	}
@@ -65,17 +65,16 @@ public class ArmySimpleInfoHelper {
 		armyInfoSimple.setPlayer(armyPlayer);
 		armyInfoSimple.setPlayerName(player.getUserName());
 		armyInfoSimple.setPlayerHeadImage(player.getHeadImage());
-		
 
-		if(magic!=null){
+		if (magic != null) {
 			armyInfoSimple.setArmyMagic(new ArmyMagic(magic));
-		}else{
+		} else {
 			armyInfoSimple.setArmyMagic(new ArmyMagic(player.getMagic()));
 		}
 
 		List<ArmyHeroSimple> heroList = getSimpleArmyHeros(player, heroIdList);
 		armyInfoSimple.setHeroList(heroList);
-		
+
 		int teamFighting = getTeamFighting(armyInfoSimple);
 		armyInfoSimple.setTeamFighting(teamFighting);
 		return armyInfoSimple;
@@ -83,12 +82,14 @@ public class ArmySimpleInfoHelper {
 
 	private static List<ArmyHeroSimple> getSimpleArmyHeros(Player player, List<String> heroIdList) {
 		List<ArmyHeroSimple> heroList = new ArrayList<ArmyHeroSimple>();
-		if (heroIdList == null) return heroList;
+		if (heroIdList == null)
+			return heroList;
 		HeroMgr heroMgr = player.getHeroMgr();
 		for (String heroId : heroIdList) {
-			if(StringUtils.isBlank(heroId) || StringUtils.equals(heroId, "0")) heroList.add(ArmyHeroSimple.newBlankInstance());
-			else{
-//				Hero heroTmp = heroMgr.getHeroById(heroId);
+			if (StringUtils.isBlank(heroId) || StringUtils.equals(heroId, "0"))
+				heroList.add(ArmyHeroSimple.newBlankInstance());
+			else {
+				// Hero heroTmp = heroMgr.getHeroById(heroId);
 				Hero heroTmp = heroMgr.getHeroById(player, heroId);
 				ArmyHeroSimple armyHero = ArmyHeroSimple.newInstance(heroTmp);
 				heroList.add(armyHero);
@@ -96,8 +97,8 @@ public class ArmySimpleInfoHelper {
 		}
 		return heroList;
 	}
-	
-	private static int getTeamFighting(ArmyInfoSimple armyInfoSimple){
+
+	private static int getTeamFighting(ArmyInfoSimple armyInfoSimple) {
 		int totalFighting = armyInfoSimple.getPlayer().getFighting();
 		for (ArmyHeroSimple heroTmp : armyInfoSimple.getHeroList()) {
 			totalFighting = totalFighting + heroTmp.getFighting();

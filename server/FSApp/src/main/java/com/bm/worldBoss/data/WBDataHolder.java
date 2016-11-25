@@ -85,12 +85,12 @@ public class WBDataHolder {
 			ArmyVector3 position = copyCfg.getPosition(monsterId);
 			
 			data.setPosition(position);
-//			data.setMaxLife(maxLife);
-//			data.setCurLife(maxLife);	
-//			data.setRankBossHP(maxLife);
-			data.setMaxLife(500000);
-			data.setCurLife(500000);	
-			data.setRankBossHP(500000);
+			data.setMaxLife(maxLife);
+			data.setCurLife(maxLife);	
+			data.setRankBossHP(maxLife);
+//			data.setMaxLife(500000);
+//			data.setCurLife(500000);	
+//			data.setRankBossHP(500000);
 			data.setPreStartTime(wbCfg.getPreStartTime());
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
@@ -149,10 +149,17 @@ public class WBDataHolder {
 		version.incrementAndGet();			
 	}
 	
+	/**
+	 * 扣血，返回当前的血量
+	 * @param player
+	 * @param delta
+	 * @return
+	 */
 	public long decrHp(Player player, long delta){
 		
 		WBData wbData = get();
 		long curLifeTmp = wbData.getCurLife() - delta;
+		curLifeTmp = curLifeTmp <= 0 ? 0 : curLifeTmp;
 		wbData.setCurLife(curLifeTmp);
 		
 		if(curLifeTmp <= 0){

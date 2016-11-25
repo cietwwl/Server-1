@@ -16,6 +16,6 @@ public class GroupSecretDefendRecordDataDAO extends DataKVDao<GroupSecretDefendR
 		return dao;
 	}
 
-	private GroupSecretDefendRecordDataDAO() {
+	protected GroupSecretDefendRecordDataDAO() {
 	}
 }

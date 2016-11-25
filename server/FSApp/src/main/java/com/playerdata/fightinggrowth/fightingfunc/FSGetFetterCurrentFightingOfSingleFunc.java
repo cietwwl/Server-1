@@ -10,9 +10,9 @@ import com.rwbase.dao.fetters.pojo.SynFettersData;
 
 public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetFetterCurrentFightingOfSingleFunc _instance = new FSGetFetterCurrentFightingOfSingleFunc();
+	private static FSGetFetterCurrentFightingOfSingleFunc _instance = new FSGetFetterCurrentFightingOfSingleFunc();
 
-	public static final FSGetFetterCurrentFightingOfSingleFunc getInstnce() {
+	public static FSGetFetterCurrentFightingOfSingleFunc getInstnce() {
 		return _instance;
 	}
 

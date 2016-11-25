@@ -8,9 +8,9 @@ import com.rwbase.common.attrdata.AttrData;
 
 public class FSGetBasicCurrentFightingOfSingleFunc implements IFunction<Hero, Integer> {
 
-	private static final FSGetBasicCurrentFightingOfSingleFunc _instance = new FSGetBasicCurrentFightingOfSingleFunc();
+	private static FSGetBasicCurrentFightingOfSingleFunc _instance = new FSGetBasicCurrentFightingOfSingleFunc();
 
-	public static final FSGetBasicCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetBasicCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 

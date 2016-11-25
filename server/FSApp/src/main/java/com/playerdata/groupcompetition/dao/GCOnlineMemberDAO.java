@@ -10,9 +10,9 @@ import com.playerdata.groupcompetition.holder.data.GCompOnlineMember;
 
 public class GCOnlineMemberDAO {
 
-	private static final GCOnlineMemberDAO _instance = new GCOnlineMemberDAO();
+	private static GCOnlineMemberDAO _instance = new GCOnlineMemberDAO();
 	
-	public static final GCOnlineMemberDAO getInstance() {
+	public static GCOnlineMemberDAO getInstance() {
 		return _instance;
 	}
 	

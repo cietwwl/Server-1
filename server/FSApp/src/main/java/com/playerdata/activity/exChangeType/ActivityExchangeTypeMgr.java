@@ -8,6 +8,7 @@ import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.ActivityRedPointUpdate;
@@ -355,7 +356,8 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		if (itemCostMap.isEmpty()) {
 			return true;
 		}
-		if (player.getItemBagMgr().hasEnoughItems(itemCostMap)) {
+
+		if (ItemBagMgr.getInstance().hasEnoughItems(player.getUserId(), itemCostMap)) {
 			return true;
 		}
 		return false;
@@ -380,14 +382,15 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		if (exchangeNeedslist == null) {
 			return;
 		}
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		for (Map.Entry<Integer, Integer> entry : exchangeNeedslist.entrySet()) {
 			int id = entry.getKey();
 			if (id < eSpecialItemId.eSpecial_End.getValue()) {
 				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 				map.put(entry.getKey(), -entry.getValue());
-				player.getItemBagMgr().useLikeBoxItem(null, null, map);
+				itemBagMgr.useLikeBoxItem(player, null, null, map);
 			} else {
-				player.getItemBagMgr().useItemByCfgId(id, entry.getValue());
+				itemBagMgr.useItemByCfgId(player, id, entry.getValue());
 			}
 		}
 	}
@@ -401,7 +404,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate {
 		// ComGiftMgr.getInstance().addGiftById(player, subCfg.getAwardGift());
 
 		String[] str = subCfg.getAwardGift().split("_");
-		player.getItemBagMgr().addItem(Integer.parseInt(str[0]), Integer.parseInt(str[1]));
+		ItemBagMgr.getInstance().addItem(player, Integer.parseInt(str[0]), Integer.parseInt(str[1]));
 	}
 
 	/**

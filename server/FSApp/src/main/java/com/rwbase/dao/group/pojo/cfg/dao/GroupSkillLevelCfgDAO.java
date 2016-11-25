@@ -28,7 +28,7 @@ public class GroupSkillLevelCfgDAO extends CfgCsvDao<GroupSkillLevelCfg> {
 	private HashMap<Integer, HashMap<Integer, GroupSkillLevelTemplate>> skillLevelTmpMap = new HashMap<Integer, HashMap<Integer, GroupSkillLevelTemplate>>();
 	private List<Integer> skillIdList = new ArrayList<Integer>();// 技能的Id列表
 
-	private GroupSkillLevelCfgDAO() {
+	protected GroupSkillLevelCfgDAO() {
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class GroupSkillLevelCfgDAO extends CfgCsvDao<GroupSkillLevelCfg> {
 	public List<GroupSkillLevelTemplate> getSkillLevelTmpList(int skillId) {
 		HashMap<Integer, GroupSkillLevelTemplate> hashMap = skillLevelTmpMap.get(skillId);
 		if (hashMap == null) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		return new ArrayList<GroupSkillLevelTemplate>(hashMap.values());

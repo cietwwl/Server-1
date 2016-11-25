@@ -9,7 +9,7 @@ import com.rwbase.dao.battletower.pojo.db.TableBattleTowerStrategy;
  * @Description 试练塔公用的里程碑关卡Dao
  */
 public class TableBattleTowerStrategyDao extends DataKVDao<TableBattleTowerStrategy> {
-	private static TableBattleTowerStrategyDao dao;
+	private static TableBattleTowerStrategyDao dao = new TableBattleTowerStrategyDao();
 
 	/**
 	 * 获取试练塔公用里程碑关卡Dao实例
@@ -17,9 +17,6 @@ public class TableBattleTowerStrategyDao extends DataKVDao<TableBattleTowerStrat
 	 * @return
 	 */
 	public static TableBattleTowerStrategyDao getDao() {
-		if (dao == null) {
-			dao = new TableBattleTowerStrategyDao();
-		}
 		return dao;
 	}
 

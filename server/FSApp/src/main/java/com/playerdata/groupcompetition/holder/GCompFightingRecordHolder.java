@@ -18,9 +18,9 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class GCompFightingRecordHolder {
 
-	private static final GCompFightingRecordHolder _instance = new GCompFightingRecordHolder();
+	private static GCompFightingRecordHolder _instance = new GCompFightingRecordHolder();
 	
-	public static final GCompFightingRecordHolder getInstance() {
+	public static GCompFightingRecordHolder getInstance() {
 		return _instance;
 	}
 	

@@ -14,7 +14,7 @@ import com.rwbase.dao.group.pojo.Group;
 public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 
 	private static FashionBeingUsedHolder instance = new FashionBeingUsedHolder();
-	private FashionBeingUsedHolder(){}
+	protected FashionBeingUsedHolder(){}
 	public static FashionBeingUsedHolder getInstance(){
 		return instance;
 	}

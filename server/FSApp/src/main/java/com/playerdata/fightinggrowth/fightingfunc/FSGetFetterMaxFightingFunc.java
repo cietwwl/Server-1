@@ -12,7 +12,7 @@ import com.rwbase.dao.fighting.pojo.MagicFetterFightingCfg;
 
 public class FSGetFetterMaxFightingFunc implements IFunction<Player, Integer> {
 
-	private static final FSGetFetterMaxFightingFunc _INSTANCE = new FSGetFetterMaxFightingFunc();
+	private static FSGetFetterMaxFightingFunc _instance = new FSGetFetterMaxFightingFunc();
 	
 	private ExpectedHeroStatusCfgDAO _expectedHeroStatusCfgDAO;
 	private HeroFetterFightingCfgDAO _heroFetterFightingCfgDAO;
@@ -26,8 +26,8 @@ public class FSGetFetterMaxFightingFunc implements IFunction<Player, Integer> {
 		_fixEquipFetterFightingCfgDAO = FixEquipFetterFightingCfgDAO.getInstnce();
 	}
 	
-	public static final FSGetFetterMaxFightingFunc getInstance() {
-		return _INSTANCE;
+	public static FSGetFetterMaxFightingFunc getInstance() {
+		return _instance;
 	}
 	
 	@Override

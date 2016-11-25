@@ -1,12 +1,9 @@
 package com.rw.service.Privilege.datamodel;
 
 public class DoublePropertyWriter extends AbstractPropertyWriter<Double> {
-	private static DoublePropertyWriter instance;
+	private static DoublePropertyWriter instance = new DoublePropertyWriter();
 
 	public static DoublePropertyWriter getShareInstance() {
-		if (instance == null) {
-			instance = new DoublePropertyWriter();
-		}
 		return instance;
 	}
 

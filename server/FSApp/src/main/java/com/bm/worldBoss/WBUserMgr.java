@@ -55,7 +55,13 @@ public class WBUserMgr {
 		WBUserDataHolder.getInstance().update(player);
 	}
 	
-	public void fightUpdate(Player player, long hurt){	
+	/**
+	 * 更新伤害值，返回总伤害
+	 * @param player
+	 * @param hurt
+	 * @return
+	 */
+	public long fightUpdate(Player player, long hurt){	
 		
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
 		
@@ -64,13 +70,12 @@ public class WBUserMgr {
 		WBUserDataHolder.getInstance().update(player);
 		
 		WBHurtRankMgr.addOrUpdate(player);
+		return wbUserData.getAccHurt();
 	}
 	
-	public void fightEndUpdate(Player player, long hurt){	
+	public void fightEndUpdate(Player player){	
 		
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());	
-		
-		wbUserData.addAccHurt(hurt);
 		
 		long lastHurt = wbUserData.getAccHurt();
 		wbUserData.setLastHurt(lastHurt);

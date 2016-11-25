@@ -22,10 +22,10 @@ public class FixExpEquipDataItemHolder{
 	
 	final private eSynType synType = eSynType.FIX_EXP_EQUIP;
 	
-	private static final FixExpEquipDataItemHolder _INSTANCE = new FixExpEquipDataItemHolder();
+	private static FixExpEquipDataItemHolder _instance = new FixExpEquipDataItemHolder();
 	
 	public static FixExpEquipDataItemHolder getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 

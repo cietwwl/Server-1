@@ -15,6 +15,6 @@ public class UserGroupSecretBaseDataDAO extends DataKVDao<UserGroupSecretBaseDat
 		return dao;
 	}
 
-	private UserGroupSecretBaseDataDAO() {
+	protected UserGroupSecretBaseDataDAO() {
 	}
 }

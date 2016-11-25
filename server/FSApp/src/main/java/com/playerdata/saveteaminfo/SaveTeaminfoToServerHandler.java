@@ -15,15 +15,12 @@ import com.rwproto.BattleCommon.eBattlePositionType;
 
 public class SaveTeaminfoToServerHandler {
 
-	private static SaveTeaminfoToServerHandler instance;
+	private static SaveTeaminfoToServerHandler instance = new SaveTeaminfoToServerHandler();
 
-	private SaveTeaminfoToServerHandler() {
+	protected SaveTeaminfoToServerHandler() {
 	}
 
 	public static SaveTeaminfoToServerHandler getInstance() {
-		if (instance == null) {
-			instance = new SaveTeaminfoToServerHandler();
-		}
 		return instance;
 	}
 

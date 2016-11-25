@@ -31,6 +31,7 @@ import com.bm.targetSell.param.attrs.AttrsProcessMgr;
 import com.bm.targetSell.param.attrs.EAchieveType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.dataSyn.ClientDataSynMgr;
@@ -42,7 +43,10 @@ import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.UserChannelMgr;
+import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
+import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.dao.publicdata.PublicData;
 import com.rwbase.dao.publicdata.PublicDataCfgDAO;
 import com.rwbase.dao.targetSell.BenefitDataDAO;
@@ -79,7 +83,6 @@ public class TargetSellManager {
 
 	
 	private static TargetSellManager manager = new TargetSellManager();
-	private BenefitDataDAO dataDao;
 
 	
 	//充值前记录，<userID, Pair<充值的物品组id, 记录时刻>>
@@ -99,7 +102,7 @@ public class TargetSellManager {
 	public static ConcurrentHashMap<String, List<EAchieveType>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<EAchieveType>>();
 	
 	public TargetSellManager() {
-		dataDao = BenefitDataDAO.getDao();
+		
 	}
 	
 	public static TargetSellManager getInstance(){
@@ -177,6 +180,7 @@ public class TargetSellManager {
 			return;
 		}
 		int score = 0;
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
 			score = (int) charge;
@@ -197,7 +201,21 @@ public class TargetSellManager {
 			if (items.getRecharge() <= score && (preCharge.getT2() + VALIABLE_TIME) >= System.currentTimeMillis()) {
 				// 积分可以购买并且还没有超时
 				removeItem = map.remove(preCharge.getT1());
-				boolean suc = player.getItemBagMgr().addItem(tranfer2ItemInfo(items));
+//				boolean suc = player.getItemBagMgr().addItem(tranfer2ItemInfo(items)); 不直接发给玩家了，改为邮件发
+				
+				String mailID = PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.BENEFIT_ITEM_BUY_SUC);
+				Map<Integer,Integer> mailAttach = new HashMap<Integer, Integer>();
+				
+				List<ItemInfo> info = tranfer2ItemInfo(items);
+				for (ItemInfo item : info) {
+					Integer num = mailAttach.get(item.getItemID());
+					if(num == null){
+						mailAttach.put(item.getItemID(), item.getItemNum());
+					}else{
+						mailAttach.put(item.getItemID(), item.getItemNum() + num);
+					}
+				}
+				boolean suc = EmailUtils.sendEmail(player.getUserId(), mailID, mailAttach);
 				if(suc){
 					score -= items.getRecharge();
 					//通知精准服   
@@ -224,38 +242,14 @@ public class TargetSellManager {
 		msg.setScore(score);
 		msg.setNextRefreshTime(nextRefreshTime);
 		if(item != null){
-			msg.setDataStr(item.getItemIds());
-			msg.setItemGroupId(item.getItemGroupId());
+//			msg.setDataStr(item.getItemIds());
+//			msg.setItemGroupId(item.getItemGroupId());
 		}
 		return msg.build().toByteString();
 	}
 	
 	
 	
-//	/**
-//	 * 玩家充值后总金额变化通知
-//	 * @param userID 角色id
-//	 * @param totalChargeMoney 充值后的总金额
-//	 */
-//	public void increaseChargeMoney(String userID, int totalChargeMoney) {
-//		if(!ServerSwitch.isOpenTargetSell()){
-//			return;
-//		}
-//		User user = UserDataDao.getInstance().getByUserId(userID);
-//		if(user == null){
-//			GameLog.error("TargetSell", "TargetSell[increaseChargeMoney]", "玩家充值后精准营销系统无法找到User数据", null);
-//			return;
-//		}
-//		TargetSellData data = TargetSellData.create(TargetSellOpType.OPTYPE_5002);
-//		
-//		TargetSellRoleDataParam roleData = new TargetSellRoleDataParam();
-//		roleData = iniCommonParam(roleData, user.getChannelId(), userID, user.getAccount());
-//		RoleAttrs attrs = new RoleAttrs();
-//		attrs.setCharge(totalChargeMoney);
-//		roleData.setAttrs(attrs);
-//		data.setArgs(toJsonObj(roleData));
-//		sendMsg(toJsonString(data));
-//	}
 
 	/**
 	 * 检查角色特惠积分 一般在角色登录的时候进行此操作
@@ -265,8 +259,12 @@ public class TargetSellManager {
 		if(!ServerSwitch.isOpenTargetSell()){
 			return;
 		}
+		if(!CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TARGET_SELL, player)){
+			return;
+		}
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
 		pushRoleLoginData(player);
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		long nowTime = System.currentTimeMillis();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
@@ -288,17 +286,19 @@ public class TargetSellManager {
 			}
 		}
 
-		
-		if(nowTime >= record.getNextClearScoreTime()){
+		System.out.println("Next clear score time:" + DateUtils.getDateTimeFormatString(record.getNextClearScoreTime(), "yyyy-MM-dd hh:mm:ss"));
+		if(nowTime >= record.getNextClearScoreTime() && record.getBenefitScore() != 0){
 			//到达清0时间，自动购买物品重置并设置下次清0时间
-			//TODO 这里还要添加自动购买物品的逻辑,如果还没有开放不购买
-//			if(CfgOpenLevelLimitDAO.getInstance().isOpen(eOpenLevelType.TARGET_SELL, player)){
-//				
-//			}
-//			List<ItemInfo> list = autoBuy(record);
-//			if(!list.isEmpty()){
-//				player.getItemBagMgr().addItem(list);
-//			}
+			Map<Integer, Integer> itemMap = autoBuy(record);
+			String mailID;
+			if(!itemMap.isEmpty()){
+				//这里通过邮件发送
+				mailID = PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.BENEFIT_ITEM_AUTO_BUY_SUC);
+				EmailUtils.sendEmail(player.getUserId(), mailID, itemMap);
+			}else{
+				mailID = PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.BENEFIT_ITEM_AUTO_BUY_FAIL);
+				EmailUtils.sendEmail(player.getUserId(), mailID);
+			}
 			//-------------------重置--------------------------------
 			record.setBenefitScore(0);
 			record.setNextClearScoreTime(getNextRefreshTimeMils());
@@ -314,19 +314,23 @@ public class TargetSellManager {
 	}
 	
 	/**
-	 * 自动领取物品,物品自动添加入背包
+	 * 自动领取物品,物品通过邮件发送
 	 * @param record
 	 * @return 
 	 */
-	private List<ItemInfo> autoBuy(TargetSellRecord record){
+	private Map<Integer,Integer> autoBuy(TargetSellRecord record){
 		Map<Integer, BenefitItems> itemMap = record.getItemMap();
 		if(itemMap.isEmpty()){
-			return Collections.emptyList();
+			return Collections.emptyMap();
 		}
 		Map<Integer, Integer> recieveMap = record.getRecieveMap();
+		if(recieveMap == null){
+			recieveMap = new HashMap<Integer, Integer>();
+			record.setRecieveMap(recieveMap);
+		}
 		List<BenefitItems> itemList = new ArrayList<BenefitItems>(itemMap.values());
 		Collections.sort(itemList, Item_Comparetor);
-		List<ItemInfo> addItems = new ArrayList<ItemInfo>();
+		Map<Integer,Integer> items = new HashMap<Integer, Integer>();
 		int score = record.getBenefitScore();
 		for (BenefitItems i : itemList) {
 			
@@ -341,13 +345,22 @@ public class TargetSellManager {
 				
 				if(add){
 					score -= i.getRecharge();
-					addItems.addAll(tranfer2ItemInfo(i));
+					List<ItemInfo> info = tranfer2ItemInfo(i);
+					for (ItemInfo item : info) {
+						Integer num = items.get(item.getItemID());
+						if(num == null){
+							items.put(item.getItemID(), item.getItemNum());
+						}else{
+							items.put(item.getItemID(), item.getItemNum() + num);
+						}
+						
+					}
 					itemMap.remove(i.getItemGroupId());
 				}
 			}
 		}
 		
-		return addItems;
+		return items;
 	}
 
 	/**
@@ -377,7 +390,7 @@ public class TargetSellManager {
 	 * 获取下次积分重置时间
 	 * @return
 	 */
-	private long getNextRefreshTimeMils(){
+	public long getNextRefreshTimeMils(){
 		int dayOfWeek = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.REFRESH_BENEFIT_SCORE_TIME);
 		return DateUtils.getTargetDayOfWeekTimeMils(dayOfWeek, 5, true);
 	}
@@ -391,6 +404,7 @@ public class TargetSellManager {
 		if(!ServerSwitch.isOpenTargetSell()){
 			return;
 		}
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		TargetSellRecord record = dataDao.get(itemData.getRoleId());
 		Map<Integer, BenefitItems> map = new HashMap<Integer, BenefitItems>();
 		for (BenefitItems i : itemData.getItems()) {
@@ -401,6 +415,7 @@ public class TargetSellManager {
 			record.setBenefitScore(0);
 			record.setNextClearScoreTime(getNextRefreshTimeMils());
 			record.setItemMap(map);
+			record.setRecieveMap(new HashMap<Integer, Integer>());
 			record.setUserId(itemData.getRoleId());
 			dataDao.commit(record);
 		}else{
@@ -622,6 +637,7 @@ public class TargetSellManager {
 			return;
 		}
 		try {
+			BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 			TargetSellRecord record = dataDao.get(data.getRoleId());
 			if(record == null){
 				//角色这个时候还没有数据   要不要创建
@@ -696,6 +712,7 @@ public class TargetSellManager {
 		TargetSellRespMsg.Builder respMsg = TargetSellRespMsg.newBuilder();
 		try {
 			respMsg.setReqType(request.getReqType());
+			BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 			TargetSellRecord record = dataDao.get(player.getUserId());
 			
 			if(record == null){
@@ -722,7 +739,7 @@ public class TargetSellManager {
 			
 			BenefitItems items = itemMap.remove(itemGroupId);
 			//添加道具
-			boolean addItem = player.getItemBagMgr().addItem(tranfer2ItemInfo(items));
+			boolean addItem = ItemBagMgr.getInstance().addItem(player, tranfer2ItemInfo(items));
 			if(addItem){
 				//通知精准服，玩家领取了道具,同时保存一下可领取次数
 				notifyBenefitServerRoleGetItem(player, itemGroupId);
@@ -779,6 +796,7 @@ public class TargetSellManager {
 		respMsg.setReqType(request.getReqType());
 		int id = request.getItemGroupId();
 		//检查一下是否存在道具组ID
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		Map<Integer, BenefitItems> map = record.getItemMap();
 		if(map.containsKey(id)){
@@ -843,6 +861,19 @@ public class TargetSellManager {
 			return 1;
 		}
 		
+	}
+
+
+
+	/**
+	 * 检查并清空所有在线玩家优惠积分
+	 */
+	public void checkOnLineRoleList() {
+		List<String> onlineList = UserChannelMgr.getOnlineList();
+		for (String userID : onlineList) {
+			Player player = PlayerMgr.getInstance().find(userID);
+			checkBenefitScoreAndSynData(player);
+		}
 	}
 
 

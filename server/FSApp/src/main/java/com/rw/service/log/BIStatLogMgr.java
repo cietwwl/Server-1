@@ -24,7 +24,7 @@ public class BIStatLogMgr {
 	
 	private static BILogDbMgr biLogDbMgr;
 	
-	private BIStatLogMgr(){
+	protected BIStatLogMgr(){
 		
 //		String url = "jdbc:mysql://127.0.0.1:3306/fs_data_mt?useUnicode=true&amp;characterEncoding=utf8&amp;characterResultSets=utf8";
 //		String username = "root";

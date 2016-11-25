@@ -18,6 +18,7 @@ import com.common.Utils;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
@@ -500,12 +501,12 @@ public class GroupSecretHandler {
 
 		// 增加资源
 		if (proRes > 0) {
-			player.getItemBagMgr().addItem(groupSecretResTmp.getReward(), proRes);
+			ItemBagMgr.getInstance().addItem(player, groupSecretResTmp.getReward(), proRes);
 		}
 
 		// 钻石
 		if (dropDiamond > 0) {
-			player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), dropDiamond);
+			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Gold.getValue(), dropDiamond);
 		}
 
 		// 把自己的驻守信息移除
@@ -913,7 +914,7 @@ public class GroupSecretHandler {
 
 		baseDataMgr.updateBuyKeyData(player, add);
 
-		player.getItemBagMgr().addItem(eSpecialItemId.Gold.getValue(), -price);
+		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Gold.getValue(), -price);
 
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();

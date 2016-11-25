@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfg;
 import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO;
@@ -29,7 +30,7 @@ public class GMAddFixEquip {
 			}
 		}
 		if (fillList == null) {
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 		} else {
 			fillList.addAll(list);
 		}
@@ -42,7 +43,7 @@ public class GMAddFixEquip {
 		list.add(new ItemInfo(806505, 99999));
 		list.add(new ItemInfo(806510, 99999));
 		if (fillList == null) {
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 		} else {
 			fillList.addAll(list);
 		}
@@ -63,7 +64,7 @@ public class GMAddFixEquip {
 			}
 		}
 		if (fillList == null) {
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 		} else {
 			fillList.addAll(list);
 		}

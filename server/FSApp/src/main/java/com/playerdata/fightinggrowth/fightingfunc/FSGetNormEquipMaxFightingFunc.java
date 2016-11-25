@@ -23,7 +23,7 @@ import com.rwbase.dao.role.pojo.RoleQualityCfg;
  */
 public class FSGetNormEquipMaxFightingFunc implements IFunction<Player, Integer> {
 	
-	private static final FSGetNormEquipMaxFightingFunc _instance = new FSGetNormEquipMaxFightingFunc();
+	private static FSGetNormEquipMaxFightingFunc _instance = new FSGetNormEquipMaxFightingFunc();
 
 	private HeroEquipCfgDAO heroEquipCfgDAO;
 	private ExpectedHeroStatusCfgDAO expectedHeroStatusCfgDAO;
@@ -35,7 +35,7 @@ public class FSGetNormEquipMaxFightingFunc implements IFunction<Player, Integer>
 		roleQualityCfgDAO = RoleQualityCfgDAO.getInstance();
 	}
 	
-	public static final FSGetNormEquipMaxFightingFunc getInstance() {
+	public static FSGetNormEquipMaxFightingFunc getInstance() {
 		return _instance;
 	}
 
