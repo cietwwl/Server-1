@@ -10,6 +10,7 @@ import com.playerdata.hero.core.FSHero;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
+import com.rw.manager.ServerSwitch;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
 import com.rwbase.dao.targetSell.BenefitAttrCfgDAO;
 
@@ -17,6 +18,9 @@ public class FSHeroDataListener  implements MapItemChangedListener<FSHero>{
 
 	@Override
 	public void notifyDataChanged(MapItemChangedEvent<FSHero> event) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		Map<String, Pair<FSHero, FSHero>> changedMap = event.getChangedMap();
 		
 		for (Pair<FSHero, FSHero> pair : changedMap.values()) {

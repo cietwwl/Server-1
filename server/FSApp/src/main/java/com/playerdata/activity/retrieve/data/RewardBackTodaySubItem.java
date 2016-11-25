@@ -1,7 +1,6 @@
 package com.playerdata.activity.retrieve.data;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 

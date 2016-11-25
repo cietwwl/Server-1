@@ -489,6 +489,8 @@ public class MagicHandler {
 		updateItems.add(magic);
 		updateItems.add(toMagic);
 		itemBagMgr.syncItemData(player, updateItems);
+		
+		player.getMe_FetterMgr().notifyMagicChange(player); // 法宝继承通知羁绊变化
 
 		rsp.setEMagicResultType(eMagicResultType.SUCCESS);
 		return rsp.build().toByteString();

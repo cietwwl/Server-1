@@ -16,10 +16,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 
 public class ActivityChargeRankItemHolder extends UserActivityChecker<ActivityChargeRankItem>{
-		
-	protected ActivityChargeRankItemHolder(){
-		super(ActivityChargeRankItem.class);
-	}
 
 	private static ActivityChargeRankItemHolder instance = new ActivityChargeRankItemHolder();
 	

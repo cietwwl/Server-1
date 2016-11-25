@@ -13,7 +13,6 @@ import com.playerdata.activity.dateType.cfg.ActivityDateTypeSubCfg;
 import com.playerdata.activity.dateType.cfg.ActivityDateTypeSubCfgDAO;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
-import com.rw.fsutil.cacheDao.mapItem.IMapItem;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
 

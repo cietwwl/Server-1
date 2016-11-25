@@ -13,10 +13,6 @@ import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityCountTypeItemHolder extends UserActivityChecker<ActivityCountTypeItem>{
-
-	private ActivityCountTypeItemHolder(){
-		super(ActivityCountTypeItem.class);
-	}
 	
 	private static ActivityCountTypeItemHolder instance = new ActivityCountTypeItemHolder();
 

@@ -14,10 +14,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class EvilBaoArriveItemHolder extends UserActivityChecker<EvilBaoArriveItem>{
 	
-	protected EvilBaoArriveItemHolder(){
-		super(EvilBaoArriveItem.class);
-	}
-	
 	private static EvilBaoArriveItemHolder instance = new EvilBaoArriveItemHolder();
 	
 	public static EvilBaoArriveItemHolder getInstance(){

@@ -37,7 +37,7 @@ public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
 		if (dataSize < 0 || dataSize > maxDataSize) {
 			byte[] data = new byte[in.readableBytes()];
 			in.readBytes(data);
-			System.out.println("error:"+new String(data));
+//			System.out.println("error:"+new String(data));
 			throw new CorruptedFrameException("wrong size of packet ,size=" + dataSize);
 		}
 		if (in.readableBytes() < dataSize) {
@@ -47,7 +47,7 @@ public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
 		byte[] data = new byte[dataSize];
 		in.readBytes(data);
 		String content = new String(data);
-		System.out.println("normal:"+content);
+//		System.out.println("normal:"+content);
 		if(content.charAt(content.length()-1) != '}'){
 
 			int readSize = in.readableBytes();
@@ -70,8 +70,8 @@ public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
 			return;
 		}
 		in.markReaderIndex();
-		byte[] remain = new byte[remainSize];
-		System.out.println("remain:"+new String(remain));
+//		byte[] remain = new byte[remainSize];
+//		System.out.println("remain:"+new String(remain));
 		in.resetReaderIndex();
 	}
 }
