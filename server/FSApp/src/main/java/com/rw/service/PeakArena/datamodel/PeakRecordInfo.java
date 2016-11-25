@@ -42,6 +42,8 @@ public class PeakRecordInfo implements RoleExtProperty {
 	private int gender; // 性别
 	@JsonProperty("13")
 	private int vipLv; // VIP等级
+	@JsonProperty("14")
+	private int fighting; // 战斗力
 	
 	@Override
 	public Integer getId() {
@@ -147,5 +149,12 @@ public class PeakRecordInfo implements RoleExtProperty {
 	public void setVipLv(int vipLv) {
 		this.vipLv = vipLv;
 	}
-	
+
+	public int getFighting() {
+		return fighting;
+	}
+
+	public void setFighting(int fighting) {
+		this.fighting = fighting;
+	}
 }

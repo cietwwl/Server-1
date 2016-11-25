@@ -161,6 +161,29 @@ public class BILogMgr {
 			return logger;
 		}
 	}
+	
+	public void initLogger() {
+		eBILogType[] allValue = eBILogType.getAllValue();
+		for (eBILogType bilog : allValue) {
+			Logger logger = Logger.getLogger(bilog.getLogName());
+			try {
+
+				logger.removeAllAppenders();
+				logger.setAdditivity(false);
+				PatternLayout layout = new PatternLayout();
+				layout.setConversionPattern("[%-5p] %m%n");
+				DailyRollingFileAppender appender;
+
+				appender = new DailyRollingFileAppender(layout, "./log/biLog/" + bilog.getLogName() + "/" + bilog.getLogName(), "yyyy-MM-dd");
+
+				logger.addAppender(appender);
+				LogMap.put(bilog, logger);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
 	public void logZoneReg(Player player) {
 		logPlayer(eBILogType.ZoneReg, player, null);

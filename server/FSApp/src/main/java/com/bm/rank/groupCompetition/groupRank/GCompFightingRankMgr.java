@@ -9,10 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.rank.RankType;
 import com.bm.rank.fightingAll.FightingComparable;
-import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.groupcompetition.GroupCompetitionMgr;
-import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -30,7 +27,7 @@ import com.rwbase.dao.ranking.pojo.RankingLevelData;
  * @author aken
  */
 public class GCompFightingRankMgr {
-	
+
 	public static int MAX_RANK_COUNT = 30;
 
 	/**
@@ -43,12 +40,12 @@ public class GCompFightingRankMgr {
 			return;
 		}
 		Group group = GroupBM.get(groupId);
-		if(null == group) {
+		if (null == group) {
 			return;
 		}
 		long groupFight = getGroupFighting(group);
-		GCompFightingComparable comparable = new GCompFightingComparable(groupFight, 
-				group.getGroupBaseDataMgr().getGroupData().getGroupLevel(), getRankIndex(groupId));
+		GCompFightingComparable comparable = new GCompFightingComparable(groupFight,
+				group.getGroupBaseDataMgr().getGroupData().getGroupLevel());
 		RankingEntry<GCompFightingComparable, GCompFightingItem> rankingEntry = ranking.getRankingEntry(groupId);
 		if (rankingEntry == null) {
 			// 加入榜
@@ -58,34 +55,35 @@ public class GCompFightingRankMgr {
 			ranking.updateRankingEntry(rankingEntry, comparable);
 		}
 	}
-	
+
 	/**
 	 * 计算帮派战斗力
 	 * @param group
 	 * @return
 	 */
-	public static long getGroupFighting(Group group){
+	public static long getGroupFighting(Group group) {
 		Ranking<FightingComparable, RankingLevelData> personalRanking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
-		if(null == personalRanking){
+		if (null == personalRanking) {
 			return 0l;
 		}
 		long totalFighting = 0l;
 		List<? extends GroupMemberDataIF> list = group.getGroupMemberMgr().getMemberSortList(null);
-		for(GroupMemberDataIF member : list){
+		for (GroupMemberDataIF member : list) {
 			RankingEntry<FightingComparable, RankingLevelData> memberEntry = personalRanking.getRankingEntry(member.getUserId());
-			if(null != memberEntry){
+			if (null != memberEntry) {
 				totalFighting += memberEntry.getComparable().getFighting();
 				continue;
 			}
-//			Player player = PlayerMgr.getInstance().find(member.getUserId());
-//			if(null != player){
-//				totalFighting += player.getHeroMgr().getFightingTeam(player);
-//			}
-			totalFighting += FSHeroMgr.getInstance().getFightingTeam(member.getUserId());
+			// Player player = PlayerMgr.getInstance().find(member.getUserId());
+			// if(null != player){
+			// totalFighting += player.getHeroMgr().getFightingTeam(player);
+			// }
+//			totalFighting += FSHeroMgr.getInstance().getFightingTeam(member.getUserId());
+			totalFighting += member.getFighting();
 		}
 		return totalFighting;
 	}
-	
+
 	/**
 	 * 
 	 * @param groupId
@@ -93,12 +91,12 @@ public class GCompFightingRankMgr {
 	 */
 	public static long getGroupFighting(String groupId) {
 		Group group = GroupBM.get(groupId);
-		if(group != null) {
+		if (group != null) {
 			return getGroupFighting(group);
 		}
 		return 0;
 	}
-	
+
 	/**
 	 * 获取帮派排名
 	 * @param groupID
@@ -120,7 +118,7 @@ public class GCompFightingRankMgr {
 	public static List<GCompFightingItem> getFightingRankList() {
 		return getFightingRankList(MAX_RANK_COUNT);
 	}
-	
+
 	/**
 	 * 获取排行榜
 	 * @param topCount 前面多少名
@@ -135,51 +133,52 @@ public class GCompFightingRankMgr {
 			GCompFightingComparable fightingComparable = entry.getComparable();
 			GCompFightingItem fightingItem = entry.getExtendedAttribute();
 			fightingItem.setGroupFight(fightingComparable.getGroupFight());
-			fightingItem.setLastRank(fightingComparable.getLastRank());
+			// fightingItem.setLastRank(fightingComparable.getLastRank());
 			itemList.add(fightingItem);
 		}
 		return itemList;
 	}
-	
+
 	/**
 	 * 获取某个帮派的战力排行实体
 	 * @param groupID
 	 * @return
 	 */
 	public static GCompFightingItem getFightingRankItem(String groupID) {
-		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);		
+		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		RankingEntry<GCompFightingComparable, GCompFightingItem> entry = ranking.getRankingEntry(groupID);
-		if(null == entry) return null;
+		if (null == entry)
+			return null;
 		GCompFightingComparable fightingComparable = entry.getComparable();
 		GCompFightingItem fightingItem = entry.getExtendedAttribute();
 		fightingItem.setGroupFight(fightingComparable.getGroupFight());
-		fightingItem.setLastRank(fightingComparable.getLastRank());
+		// fightingItem.setLastRank(fightingComparable.getLastRank());
 		return fightingItem;
 	}
-	
-	public static void clearRank(){
+
+	public static void clearRank() {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		ranking.clear();
 	}
-	
+
 	/**
 	 * 帮派解散或其它原因，从排行榜中删除
 	 * @param groupId
 	 */
-	public static void removeGroup(String groupId){
+	public static void removeGroup(String groupId) {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
-		ranking.removeRankingEntry(groupId);		
+		ranking.removeRankingEntry(groupId);
 	}
-	
+
 	/**
 	 * 更新帮派的基本信息
 	 * @param group
 	 */
-	public static void updateGroupBaseInfo(Group group){
+	public static void updateGroupBaseInfo(Group group) {
 		GroupBaseDataIF groupBaseData = group.getGroupBaseDataMgr().getGroupData();
-		GroupMemberDataIF leaderInfo  = group.getGroupMemberMgr().getGroupLeader();	
+		GroupMemberDataIF leaderInfo = group.getGroupMemberMgr().getGroupLeader();
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
-		if(null == ranking){
+		if (null == ranking) {
 			return;
 		}
 		RankingEntry<GCompFightingComparable, GCompFightingItem> entry = ranking.getRankingEntry(groupBaseData.getGroupId());
@@ -191,7 +190,7 @@ public class GCompFightingRankMgr {
 			ranking.subimitUpdatedTask(entry);
 		}
 	}
-	
+
 	/**
 	 * 定时更新帮派战力排行榜
 	 */
@@ -208,13 +207,13 @@ public class GCompFightingRankMgr {
 		EnumerateList<? extends MomentRankingEntry<FightingComparable, RankingLevelData>> personalItor = personalRanking.getEntriesEnumeration();
 		for (; personalItor.hasMoreElements();) {
 			MomentRankingEntry<FightingComparable, RankingLevelData> entry = personalItor.nextElement();
-//			String groupId = GroupHelper.getUserGroupId(entry.getKey());
+			// String groupId = GroupHelper.getUserGroupId(entry.getKey());
 			UserGroupAttributeData groupAttr = UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(entry.getKey());
-			if(groupAttr == null) {
+			if (groupAttr == null) {
 				continue;
 			}
 			String groupId = groupAttr.getGroupId();
-			if(StringUtils.isNotBlank(groupId)){
+			if (StringUtils.isNotBlank(groupId)) {
 				needRefreshGroup.add(groupId);
 			}
 		}
@@ -224,7 +223,7 @@ public class GCompFightingRankMgr {
 			MomentRankingEntry<GCompFightingComparable, GCompFightingItem> entry = groupItor.nextElement();
 			needRefreshGroup.add(entry.getKey());
 		}
-		for(String groupId : needRefreshGroup){
+		for (String groupId : needRefreshGroup) {
 			addOrUpdateGroupFightRank(groupId);
 		}
 	}

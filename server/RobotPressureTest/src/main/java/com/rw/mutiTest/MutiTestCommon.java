@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.rw.Robot;
 
-public class MutiTestGCompQuiz {
+public class MutiTestCommon {
 
 	private static Logger tmpLog = Logger.getLogger("tmpLog");
 
@@ -40,8 +40,9 @@ public class MutiTestGCompQuiz {
 	private static AtomicInteger executeCount = new AtomicInteger(0);
 
 	public static void main(String[] args) throws Exception {
-
+		int i = 1;
 		final List<Robot> robotList = loginRobots();
+		if(i == 0) return;
 		for (final Robot robot : robotList) {
 			executorService.submit(new Runnable() {
 				@Override
@@ -51,8 +52,8 @@ public class MutiTestGCompQuiz {
 							Thread.sleep(span/10);
 							long start = System.currentTimeMillis();
 							//boolean success = robot.groupCompSameScene();
-							boolean success = robot.groupCompQuiz();
-							tmpLog.info("争霸赛同屏测试:" + success);
+							boolean success = robot.executeRandomMethod();
+							tmpLog.info("随机测试:" + success);
 							long cost = System.currentTimeMillis() - start;
 							timeCost.addAndGet(cost);
 							if(success) successCount.incrementAndGet();
@@ -92,8 +93,7 @@ public class MutiTestGCompQuiz {
 		final AtomicInteger finishLoginCount = new AtomicInteger();
 
 		ExecutorService loginService = Executors.newFixedThreadPool(threadCount);
-		//for (int i = start; i < start + threadCount * 3; i++) {
-		for (int i = 13; i < 16; i++) {
+		for (int i = 100; i < 200; i++) {
 			final int index = i;
 			loginService.submit(new Runnable() {
 				@Override
@@ -116,7 +116,7 @@ public class MutiTestGCompQuiz {
 //		while(finishLoginCount.get() < threadCount * 3){
 //			Thread.sleep(span);
 //		}
-		Thread.sleep(2000);
+		Thread.sleep(15000);
 		loginService.shutdownNow();
 		tmpLog.info("+++++++++++++++++++++++++++++++++ login success:"
 				+ robotList.size() + " total:" + threadCount);
@@ -128,8 +128,6 @@ public class MutiTestGCompQuiz {
 		Robot robot = Robot.newInstance(accountId);
 		if (robot.loginPlatform()) {
 			if (robot.loginGame()) {
-				robot.addCoin(10000000);
-				robot.addGold(10000000);
 				return robot;
 			}
 		}
@@ -142,11 +140,22 @@ public class MutiTestGCompQuiz {
 		Robot robot = Robot.newInstance(accountId);
 		if (robot.regPlatform()) {
 			if (robot.creatRole()) {
+				return robot;
+			}
+		}
+		return null;
+	}
+	
+	// 修改角色数据
+	private static Robot setRobot(String accountId) {
+		Robot robot = Robot.newInstance(accountId);
+		if (robot.loginPlatform()) {
+			if (robot.loginGame()) {
 				Random rd = new Random();
-				robot.upgrade(rd.nextInt(30) + 30);
-				robot.addCoin(10000000);
-				robot.addGold(10000000);
-				robot.applyGroup("10016");
+				robot.upgrade(rd.nextInt(10) + 1);
+//				robot.addCoin(10000);
+//				robot.addGold(10000);
+				//robot.applyGroup("10016");
 				return robot;
 			}
 		}

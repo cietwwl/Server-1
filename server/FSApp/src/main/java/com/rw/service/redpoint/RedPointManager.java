@@ -22,7 +22,8 @@ public class RedPointManager {
 
 	public static RedPointManager instance = new RedPointManager();
 	private ArrayList<RedPointCollector> list;
-	private final RedPointType[] redPointTypeArray;
+
+	// private final RedPointType[] redPointTypeArray;
 
 	public static RedPointManager getRedPointManager() {
 		return instance;
@@ -35,7 +36,7 @@ public class RedPointManager {
 			for (Class<? extends RedPointCollector> c : l) {
 				list.add(c.newInstance());
 			}
-			this.redPointTypeArray = RedPointType.values();
+			// this.redPointTypeArray = RedPointType.values();
 		} catch (Exception e) {
 			throw new ExceptionInInitializerError(e);
 		}
@@ -117,8 +118,8 @@ public class RedPointManager {
 		return map;
 	}
 
-	public RedPointType getRedPointType(int order) {
-		return redPointTypeArray[order];
+	public RedPointType getRedPointType(int id) {
+		// return redPointTypeArray[order];
+		return RedPointMapCfgDAO.getCfgDAO().getRedPointTypeById(id);
 	}
-
 }

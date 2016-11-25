@@ -1,12 +1,17 @@
 package com.rw.fsutil.dao.optimize;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import com.rw.fsutil.cacheDao.FSUtilLogger;
+import com.rw.fsutil.common.PairValue;
 import com.rw.fsutil.dao.cache.evict.EldestEvictedResult;
 import com.rw.fsutil.dao.cache.evict.EldestHandler;
 
@@ -365,7 +370,7 @@ public class FSLRUCache<K, V> {
 			this.readLock.unlock();
 		}
 	}
-
+	
 	private CacheEntry<K, V> removeEntryForKey(int hash, Object key, Object oldValue) {
 		int i = hash & lengthFactor;
 		CacheEntry<K, V> prev = table[i];
@@ -417,43 +422,4 @@ public class FSLRUCache<K, V> {
 		}
 	}
 
-	public static void main(String[] args) {
-		final Integer T = Integer.MAX_VALUE;
-		// final FSLRUCache<Integer, Integer> cache = new FSLRUCache<Integer,
-		// Integer>("test", 2, new EldestHandler<Integer, Integer>() {
-		//
-		// @Override
-		// public boolean beforeElementEvicted(Entry<Integer, Integer>
-		// evictedList) {
-		// try {
-		// Thread.sleep(2000);
-		// } catch (InterruptedException e) {
-		// // TODO Auto-generated catch block
-		// e.printStackTrace();
-		// }
-		// return true;
-		// }
-		// }, T);
-		// new Thread() {
-		//
-		// public void run() {
-		// for (int i = 0; i < 1000; i++) {
-		// System.out.println(cache.putIfAbsent(i, i));
-		// System.out.println(Thread.currentThread().getName() + "," + cache);
-		// }
-		// }
-		//
-		// }.start();
-
-		// new Thread() {
-		//
-		// public void run() {
-		// for (int i = 5000; i < 6000; i++) {
-		// System.out.println(cache.putIfAbsent(i, i));
-		// System.out.println(Thread.currentThread().getName()+","+cache);
-		// }
-		// }
-		//
-		// }.start();
-	}
 }

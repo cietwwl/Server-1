@@ -55,6 +55,7 @@ public class RankingUtilEntity {
 		toData.setJob(player.getCareer());
 		toData.setSex(player.getSex());
 		toData.setCareerLevel(player.getStarLevel());
+		toData.setVip(player.getVip());
 	}
 
 	public List<RankingLevelData> subListByLevelData(List<RankingLevelData> list, ERankingType rankType) {
@@ -95,6 +96,7 @@ public class RankingUtilEntity {
 			} else {
 				rankInfo.setRankingLevel(rankLevel > 0 ? rankLevel : ranking);
 			}
+			rankInfo.setVip(levelData.getVip());
 			rankInfo.setLevel(levelData.getLevel());
 			rankInfo.setHeroName(levelData.getUserName());
 			rankInfo.setImageId(levelData.getUserHead());
@@ -213,6 +215,7 @@ public class RankingUtilEntity {
 		}
 		levelData.setModelId(modelId);
 		levelData.setSex(areanExt.getSex());
+		levelData.setVip(areanExt.getVip());
 		levelData.setUserHead(areanExt.getHeadImage());
 		levelData.setHeadbox(areanExt.getHeadbox());
 		levelData.setUserName(areanExt.getName());
@@ -231,8 +234,5 @@ public class RankingUtilEntity {
 		
 		return levelData;
 	}
-	
-	
-	
 
 }
