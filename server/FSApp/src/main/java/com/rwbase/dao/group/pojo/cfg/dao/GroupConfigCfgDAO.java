@@ -3,7 +3,6 @@ package com.rwbase.dao.group.pojo.cfg.dao;
 import java.util.List;
 import java.util.Map;
 
-
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -15,7 +14,7 @@ import com.rwbase.dao.group.pojo.cfg.GroupConfigCfg;
  * @date 2016年1月16日 下午5:42:44
  * @Description 帮派的基础配置表Dao
  */
-public final class GroupConfigCfgDAO extends CfgCsvDao<GroupConfigCfg> {
+public class GroupConfigCfgDAO extends CfgCsvDao<GroupConfigCfg> {
 	// private static GroupConfigCfgDAO dao;
 
 	private GroupBaseConfigTemplate template;// 唯一的模版配置
@@ -29,7 +28,7 @@ public final class GroupConfigCfgDAO extends CfgCsvDao<GroupConfigCfg> {
 		return SpringContextUtil.getBean(GroupConfigCfgDAO.class);
 	}
 
-	private GroupConfigCfgDAO() {
+	protected GroupConfigCfgDAO() {
 	}
 
 	@Override

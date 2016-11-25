@@ -5,12 +5,9 @@ import com.rwbase.dao.guide.pojo.UserPlotProgress;
 
 public class PlotProgressDAO extends DataKVDao<UserPlotProgress> {
 
-	private static PlotProgressDAO instance;
+	private static PlotProgressDAO instance = new PlotProgressDAO();
 
 	public static PlotProgressDAO getInstance() {
-		if (instance == null) {
-			instance = new PlotProgressDAO();
-		}
 		return instance;
 	}
 

@@ -240,7 +240,7 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		// ItemInfoIF itemInfo = list.get(i);
 		// m_pPlayer.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
 		// }
-		m_pPlayer.getItemBagMgr().addItem(list);
+		ItemBagMgr.getInstance().addItem(m_pPlayer, list);
 	}
 
 	// private List<ItemInfoIF> getGiftList(MapCfg mapCfg, int index) {
@@ -330,7 +330,8 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 			m_pPlayer.NotifyCommonMsg(CommonTip.POWER_NOT_ENOUGH);
 			return false;
 		}
-		int ticketCount = m_pPlayer.getItemBagMgr().getItemCountByModelId(PvECommonHelper.SweepTicketID);
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		int ticketCount = itemBagMgr.getItemCountByModelId(userId, PvECommonHelper.SweepTicketID);
 		if (requestType == ERequestType.SWEEP_LEVEL_DIAMOND) { // 钻石扫荡
 			if (m_pPlayer.getUserGameDataMgr().getGold() < times - ticketCount) {
 				m_pPlayer.NotifyCommonMsg(CommonTip.GOLD_NOT_ENOUGH);
@@ -404,7 +405,7 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		}
 		List<ItemInfo> list = getItemListFromMap(config.getGiftMap());
 
-		boolean take = m_pPlayer.getItemBagMgr().addItem(list);
+		boolean take = ItemBagMgr.getInstance().addItem(m_pPlayer, list);
 		if (take) {
 			take = copyMapRecordHolder.takeCopyBox(m_pPlayer, mapReord, copy);
 
@@ -461,7 +462,7 @@ public class CopyRecordMgr implements CopyRecordMgrIF {
 		}
 		List<ItemInfo> list = getItemListFromMap(config.getGiftMap());
 
-		boolean take = m_pPlayer.getItemBagMgr().addItem(list);
+		boolean take = ItemBagMgr.getInstance().addItem(m_pPlayer, list);
 		if (take) {
 			take = copyMapRecordHolder.takeGodBox(m_pPlayer, mapReord, mapID);
 		}

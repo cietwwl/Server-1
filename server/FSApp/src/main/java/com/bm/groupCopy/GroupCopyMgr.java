@@ -12,7 +12,6 @@ import java.util.Set;
 import org.springframework.util.StringUtils;
 
 import com.bm.group.GroupBM;
-import com.bm.group.GroupMemberMgr;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyItemComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.ApplyRoleComparator;
 import com.bm.groupCopy.GroupCopyDamegeRankComparator.DamageComparator;
@@ -20,6 +19,7 @@ import com.bm.groupCopy.GroupCopyDamegeRankComparator.DropItemComparator;
 import com.common.Utils;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -31,7 +31,6 @@ import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
-import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfg;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyDonateCfgDao;
 import com.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
@@ -310,7 +309,7 @@ public class GroupCopyMgr {
 			for (CopyRewardStruct struct : rewardList) {
 				addList.add(new ItemInfo(struct.getItemID(), struct.getCount()));
 			}
-			player.getItemBagMgr().addItem(addList);
+			ItemBagMgr.getInstance().addItem(player, addList);
 		}
 		//检查有没有最后一击奖励
 		if(item.getFinalHitPrice() != 0){

@@ -47,10 +47,10 @@ import com.rwbase.dao.user.readonly.TableUserIF;
 public class ArenaBM {
 
 	private RandomCombination[][] randomArray;
-	private static ArenaBM instance;
+	private static ArenaBM instance = new ArenaBM();
 	private TableArenaDataDAO tableArenaDataDAO = TableArenaDataDAO.getInstance();
 
-	private ArenaBM() {
+	protected ArenaBM() {
 		RandomCombination[] singleDigitArray = new RandomCombination[10];
 		for (int i = 1; i <= 10; i++) {
 			singleDigitArray[i - 1] = new RandomCombination(i);
@@ -86,9 +86,9 @@ public class ArenaBM {
 	}
 
 	public static ArenaBM getInstance() {
-		if (instance == null) {
-			instance = new ArenaBM();
-		}
+//		if (instance == null) {
+//			instance = new ArenaBM();
+//		}
 		return instance;
 	}
 

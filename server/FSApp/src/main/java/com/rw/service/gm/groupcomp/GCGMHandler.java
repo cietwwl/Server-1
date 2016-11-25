@@ -27,17 +27,17 @@ import com.rwproto.GroupPersonalProto.GroupPersonalCommonRspMsg;
  */
 public class GCGMHandler {
 	
-	private static final GCGMHandler _INSTANCE = new GCGMHandler();
+	private static GCGMHandler _instance = new GCGMHandler();
 
-	public static final GCGMHandler getHandler() {
-		return _INSTANCE;
+	public static GCGMHandler getHandler() {
+		return _instance;
 	}
 	
 	private final Map<String, AtomicBoolean> groupNameMap = new HashMap<String, AtomicBoolean>();
 	
 	private final AtomicInteger _checkTimes = new AtomicInteger();
 	
-	private GCGMHandler() {
+	protected GCGMHandler() {
 		groupNameMap.put("亞洲", new AtomicBoolean());
 		groupNameMap.put("北美洲", new AtomicBoolean());
 		groupNameMap.put("大洋洲", new AtomicBoolean());

@@ -32,8 +32,9 @@ public class UsePowerCardEffectImpl implements IItemUseEffect {
 	@Override
 	public ByteString useItem(Player player, ItemDataIF itemData, int useCount, MsgItemBagResponse.Builder rsp) {
 		RoleUpgradeCfg roleUpgradeCfg = RoleUpgradeCfgDAO.getInstance().getCfg(player.getLevel());
+		String userId = player.getUserId();
 		if (roleUpgradeCfg == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("角色的等级为[%s]的RoleUpgradeCfg模版找不到", player.getLevel()));
+			GameLog.error("背包道具使用", userId, String.format("角色的等级为[%s]的RoleUpgradeCfg模版找不到", player.getLevel()));
 			rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "数据异常"));
 			return rsp.build().toByteString();
 		}
@@ -49,7 +50,7 @@ public class UsePowerCardEffectImpl implements IItemUseEffect {
 			return rsp.build().toByteString();
 		}
 
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();
 		useItemList.add(new UseItem(itemData.getId(), useCount));
@@ -57,13 +58,13 @@ public class UsePowerCardEffectImpl implements IItemUseEffect {
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {
 
-			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap(userId);
 
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
 				int key = e.getKey();
 				Integer value = e.getValue();
 				if (key < eSpecialItemId.eSpecial_End.getValue()) {
-					itemBagMgr.addItem(key, -value * useCount);
+					itemBagMgr.addItem(player, key, -value * useCount);
 				} else {
 					ItemData item = modelFirstItemDataMap.get(modelId);
 					if (item == null) {
@@ -77,7 +78,7 @@ public class UsePowerCardEffectImpl implements IItemUseEffect {
 		}
 
 		// 使用道具
-		if (!itemBagMgr.useLikeBoxItem(useItemList, null)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, null)) {
 			rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "使用失败"));
 			return rsp.build().toByteString();
 		}

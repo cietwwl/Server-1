@@ -1,7 +1,6 @@
 package com.playerdata.hero.core;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
@@ -13,13 +12,13 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
-import com.playerdata.embattle.EmbattleInfo;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.playerdata.hero.IHeroConsumer;
@@ -49,10 +48,10 @@ import com.rwproto.MsgDef.Command;
 
 public class FSHeroMgr implements HeroMgr {
 
-	private static final FSHeroMgr _INSTANCE = new FSHeroMgr();
+	private static FSHeroMgr _instance = new FSHeroMgr();
 
-	public static final FSHeroMgr getInstance() {
-		return _INSTANCE;
+	public static FSHeroMgr getInstance() {
+		return _instance;
 	}
 
 	private List<Hero> getAllHeros(PlayerIF player, Comparator<Hero> comparator, boolean includeMain) {
@@ -98,7 +97,7 @@ public class FSHeroMgr implements HeroMgr {
 
 		Hero heroByModerId = this.getHeroByModerId(player, Integer.parseInt(modelId));
 		if (heroByModerId != null) {
-			player.getItemBagMgr().addItem(heroCfg.getSoulStoneId(), heroCfg.getTransform());
+			ItemBagMgr.getInstance().addItem(player, heroCfg.getSoulStoneId(), heroCfg.getTransform());
 			updateHeroIdToClient(player, modelId);
 			return null;
 		}
@@ -331,7 +330,7 @@ public class FSHeroMgr implements HeroMgr {
 		ArrayList<Hero> result = new ArrayList<Hero>(size > 4 ? 5 : size + 1);
 		result.add(consumer.getMainHero());
 		if (size > 4) {
-			Collections.sort(targetList, FSHeroFightPowerComparator.INSTANCE);
+			Collections.sort(targetList, FSHeroFightPowerComparator._instance);
 			result.addAll(targetList.subList(0, 4));
 		} else {
 			result.addAll(targetList);
@@ -360,11 +359,11 @@ public class FSHeroMgr implements HeroMgr {
 		this.loopAll(userId, consumer);
 		return consumer.getResultHeros();
 	}
-	
+
 	@Override
 	public List<Hero> getMainCityTeamHeros(String userId) {
 		EmbattlePositionInfo positionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userId, eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
-		if(positionInfo == null) {
+		if (positionInfo == null) {
 			return Collections.singletonList(this.getMainRoleHero(userId));
 		} else {
 			List<EmbattleHeroPosition> posList = positionInfo.getPos();
@@ -470,7 +469,7 @@ public class FSHeroMgr implements HeroMgr {
 		Player player = this.getOwnerOfHero(hero);
 		int result = 0;
 		RoleCfg rolecfg = this.getHeroCfg(hero);
-		int soulStoneCount = player.getItemBagMgr().getItemCountByModelId(rolecfg.getSoulStoneId());
+		int soulStoneCount = ItemBagMgr.getInstance().getItemCountByModelId(player.getUserId(), rolecfg.getSoulStoneId());
 		if (soulStoneCount < rolecfg.getRisingNumber()) {
 			result = -1;
 		} else if (player.getUserGameDataMgr().getCoin() < rolecfg.getUpNeedCoin()) {

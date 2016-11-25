@@ -17,8 +17,8 @@ import com.rwproto.DataSynProtos.eSynType;
 public class UserGroupAttributeDataHolder {
 
 	// private UserGroupAttributeData userGroupAttributeData;// 个人的帮派数据
-	private static final eSynType synType = eSynType.UserGroupAttributeData;// 同步的类型
-	private final String userId;
+	private static eSynType synType = eSynType.UserGroupAttributeData;// 同步的类型
+	private String userId;
 
 	// private static final eSynType skillSynType = eSynType.GroupStudySkill;//
 	// 学习技能的同步类型

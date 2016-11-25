@@ -11,9 +11,9 @@ import com.rwproto.FashionServiceProtos.FashionType;
 
 public class FSGetFashionCurrentFightingOfSingleFunc implements IFunction<Player, Integer> {
 	
-	private static final FSGetFashionCurrentFightingOfSingleFunc _instance = new FSGetFashionCurrentFightingOfSingleFunc();
+	private static FSGetFashionCurrentFightingOfSingleFunc _instance = new FSGetFashionCurrentFightingOfSingleFunc();
 
-	public static final FSGetFashionCurrentFightingOfSingleFunc getInstance() {
+	public static FSGetFashionCurrentFightingOfSingleFunc getInstance() {
 		return _instance;
 	}
 	

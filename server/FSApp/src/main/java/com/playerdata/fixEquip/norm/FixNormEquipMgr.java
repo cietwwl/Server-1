@@ -33,10 +33,10 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 public class FixNormEquipMgr {
 	
 
-	private static final FixNormEquipMgr _INSTANCE = new FixNormEquipMgr();
+	private static FixNormEquipMgr _instance = new FixNormEquipMgr();
 	
-	public static final FixNormEquipMgr getInstance() {
-		return _INSTANCE;
+	public static FixNormEquipMgr getInstance() {
+		return _instance;
 	}
 	
 	protected FixNormEquipMgr() {}

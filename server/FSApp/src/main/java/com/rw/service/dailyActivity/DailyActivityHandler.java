@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.DailyActivityMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.rw.service.log.BILogMgr;
@@ -25,12 +26,9 @@ import com.rwproto.MsgDef.Command;
 import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class DailyActivityHandler {
-	private static DailyActivityHandler m_instance = null;
+	private static DailyActivityHandler m_instance = new DailyActivityHandler();
 
 	public static DailyActivityHandler getInstance() {
-		if (m_instance == null) {
-			m_instance = new DailyActivityHandler();
-		}
 		return m_instance;
 	}
 
@@ -81,50 +79,44 @@ public class DailyActivityHandler {
 			GameLog.error("daily", "takeFinish", player + "领取配置不存在的日常任务：" + taskId, null);
 			return returnFailResponse(response);
 		}
-		
-		
-//		BIActivityCode activitycode =  BILogTemplateHelper.getByDailyTaskId(taskId);
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK,0,entity.getCfg().getId());
-		
+
+		// BIActivityCode activitycode = BILogTemplateHelper.getByDailyTaskId(taskId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK, 0, entity.getCfg().getId());
+
 		// 从任务列表中删除该任务
-		if(activityMgr.RemoveTaskById(taskId))
-		{
+		if (activityMgr.RemoveTaskById(taskId)) {
 			List<ItemInfo> rewardList = entity.getReward();
-//			for(ItemInfo info:rewardList){
-//				player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
-//			}
-			player.getItemBagMgr().addItem(rewardList);
+			// for(ItemInfo info:rewardList){
+			// player.getItemBagMgr().addItem(info.getItemID(), info.getItemNum());
+			// }
+			ItemBagMgr.getInstance().addItem(player, rewardList);
 			response.setTaskId(request.getTaskId());
-			
-			
-			
+
 			List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
-			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
+			String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);
 			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
-			UserFeatruesMgr.getInstance().checkDailyTask(player,entity.getCfg().getId());
-		}
-		else
-		{
+			UserFeatruesMgr.getInstance().checkDailyTask(player, entity.getCfg().getId());
+		} else {
 			GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + taskId, null);
 			response.setResultType(eDailyActivityResultType.FAIL);
 		}
-		
+
 		// 返回任务列表
 		List<DailyActivityData> taskList = activityMgr.getAllTask();
 		for (DailyActivityData td : taskList) {
 			DailyActivityCfgEntity e = DailyActivityCfgDAO.getInstance().getCfgEntity(td.getTaskId());
-			System.out.println("task id:" + td.getTaskId()+",desc:" + e.getCfg().getDescription() + ",titel:"
-					+ e.getCfg().getTitle());
+			System.out.println("task id:" + td.getTaskId() + ",desc:" + e.getCfg().getDescription() + ",titel:" + e.getCfg().getTitle());
 			response.addTaskList(toTaskInfo(td));
 		}
 		return response.build().toByteString();
 	}
-	
+
 	// 领取所有已经完成的日常
 	public OneKeyResultType taskAllFinish(Player player, HashMap<Integer, Integer> rewardMap) {
 		DailyActivityMgr activityMgr = player.getDailyActivityMgr();
 		List<DailyActivityData> dailyList = activityMgr.getAllTask();
-		if(null == dailyList || dailyList.isEmpty()) return OneKeyResultType.NO_REWARD;
+		if (null == dailyList || dailyList.isEmpty())
+			return OneKeyResultType.NO_REWARD;
 		boolean haveReward = false;
 		for (DailyActivityData data : dailyList) {
 			if (data.getCanGetReward() == 1) {
@@ -135,28 +127,30 @@ public class DailyActivityHandler {
 				}
 				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.DAILY_TASK,0,entity.getCfg().getId());
 				// 从任务列表中删除该任务
-				if(activityMgr.RemoveTaskById(data.getTaskId()))
-				{
+				if (activityMgr.RemoveTaskById(data.getTaskId())) {
 					haveReward = true;
 					List<ItemInfo> rewardList = entity.getReward();
-					for(ItemInfo info: rewardList){
+					for (ItemInfo info : rewardList) {
 						Integer haveCount = rewardMap.get(info.getItemID());
-						if(null == haveCount) haveCount = info.getItemNum();
-						else haveCount += info.getItemNum();
+						if (null == haveCount)
+							haveCount = info.getItemNum();
+						else
+							haveCount += info.getItemNum();
 						rewardMap.put(info.getItemID(), haveCount);
 					}
 					List<BilogItemInfo> rewardslist = BilogItemInfo.fromItemList(rewardList);
-					String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);	
+					String rewardInfoActivity = BILogTemplateHelper.getString(rewardslist);
 					BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.DAILY_TASK, 0, true, 0, rewardInfoActivity, entity.getCfg().getId());
-					UserFeatruesMgr.getInstance().checkDailyTask(player,entity.getCfg().getId());
-				
-				}else{
+					UserFeatruesMgr.getInstance().checkDailyTask(player, entity.getCfg().getId());
+
+				} else {
 					GameLog.error("daily", "takeFinish", player + "重复领取的日常任务：" + data.getTaskId(), null);
 					continue;
 				}
 			}
 		}
-		if(!haveReward) return OneKeyResultType.NO_REWARD;
+		if (!haveReward)
+			return OneKeyResultType.NO_REWARD;
 		activityMgr.resRed();
 		return OneKeyResultType.OneKey_SUCCESS;
 	}

@@ -42,15 +42,12 @@ public class GambleHandler {
 		return HPCUtil.getRandom();
 	}
 
-	private GambleHandler() {
+	protected GambleHandler() {
 	}
 
 	private static GambleHandler instance = new GambleHandler();
 
 	public static GambleHandler getInstance() {
-		if (instance == null) {
-			instance = new GambleHandler();
-		}
 		return instance;
 	}
 
@@ -120,8 +117,8 @@ public class GambleHandler {
 		record.adjustCountOfSameGroup(planCfg, dropPlan, adjustCount);
 
 		// 必掉经验丹，个数跟掉落物品个数一样
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		itemBagMgr.addItem(planCfg.getGoods(), planCfg.getDropItemCount());
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		itemBagMgr.addItem(player, planCfg.getGoods(), planCfg.getDropItemCount());
 		// 保存到背包，并发送跑马灯数据
 		{
 			String reward = "";
@@ -135,7 +132,7 @@ public class GambleHandler {
 					MainMsgHandler.getInstance().sendPmdJtGoods(player, rewardData.getItemId());
 				}
 			}
-			itemBagMgr.addItemByPrizeStr(reward);
+			itemBagMgr.addItemByPrizeStr(player, reward);
 		}
 
 		// 保存到历史

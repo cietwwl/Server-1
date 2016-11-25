@@ -14,7 +14,7 @@ import com.rwproto.GroupCopyCmdProto.GroupCopyReqType;
 
 public class GroupCopyCmdHandler {
 
-	private final static GroupCopyCmdHandler instance = new GroupCopyCmdHandler();
+	private static GroupCopyCmdHandler instance = new GroupCopyCmdHandler();
 	
 	
 	public static GroupCopyCmdHandler getInstance() {

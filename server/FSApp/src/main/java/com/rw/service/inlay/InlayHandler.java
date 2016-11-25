@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -22,55 +23,55 @@ public class InlayHandler {
 		return instance;
 	}
 
-	public ByteString InlayOne(Player playe, MsgInlayRequest msgReques) {
+	public ByteString InlayOne(Player player, MsgInlayRequest msgReques) {
 		MsgInlayResponse.Builder res = MsgInlayResponse.newBuilder();
 		res.setType(msgReques.getType());
 
-		List<ItemData> itemlist = playe.getItemBagMgr().getItemListByCfgId(msgReques.getGemId());
+		List<ItemData> itemlist = ItemBagMgr.getInstance().getItemListByCfgId(player.getUserId(), msgReques.getGemId());
 		if (itemlist == null || itemlist.size() == 0) {
-			playe.NotifyCommonMsg("找不到物品");
+			player.NotifyCommonMsg("找不到物品");
 			return null;
 		}
 
 		InlayMgr inlayMgr = null;
 		ItemData itemData = itemlist.get(0);
 		GemCfg gemCfg = ItemCfgHelper.getGemCfg(itemData.getModelId());
-		if (playe.getUserId().equals(msgReques.getRoleId())) {
-			inlayMgr = playe.getMainRoleHero().getInlayMgr();
-			if (gemCfg != null && gemCfg.getLevel() > playe.getLevel()) {
-				playe.NotifyCommonMsg("需要英雄等级:" + gemCfg.getLevel());
+		if (player.getUserId().equals(msgReques.getRoleId())) {
+			inlayMgr = player.getMainRoleHero().getInlayMgr();
+			if (gemCfg != null && gemCfg.getLevel() > player.getLevel()) {
+				player.NotifyCommonMsg("需要英雄等级:" + gemCfg.getLevel());
 				return null;
 			}
 
 		} else {
 			// Hero hero=playe.getHeroMgr().getHeroById(msgReques.getRoleId());
-			Hero hero = playe.getHeroMgr().getHeroById(playe, msgReques.getRoleId());
+			Hero hero = player.getHeroMgr().getHeroById(player, msgReques.getRoleId());
 			if (hero == null) {
-				playe.NotifyCommonMsg("找不到佣兵");
+				player.NotifyCommonMsg("找不到佣兵");
 				return null;
 			}
 			inlayMgr = hero.getInlayMgr();
 
 			if (gemCfg != null && gemCfg.getLevel() > hero.getLevel()) {
-				playe.NotifyCommonMsg("英雄等级不足");
+				player.NotifyCommonMsg("英雄等级不足");
 				return null;
 			}
 
 		}
 
 		// if(!inlayMgr.CheckAddSize())
-		if (!inlayMgr.CheckAddSize(playe, msgReques.getRoleId())) {
-			playe.NotifyCommonMsg("镶嵌位置已满");
+		if (!inlayMgr.CheckAddSize(player, msgReques.getRoleId())) {
+			player.NotifyCommonMsg("镶嵌位置已满");
 			return null;
 		}
 
 		if (!inlayMgr.CheckAddType(msgReques.getRoleId(), itemData.getModelId())) {
-			playe.NotifyCommonMsg("不可镶嵌相同颜色宝石");
+			player.NotifyCommonMsg("不可镶嵌相同颜色宝石");
 			return null;
 		}
 
-		if (!inlayMgr.InlayGem(playe, msgReques.getRoleId(), itemData)) {
-			playe.NotifyCommonMsg("没有更多位置可镶嵌");
+		if (!inlayMgr.InlayGem(player, msgReques.getRoleId(), itemData)) {
+			player.NotifyCommonMsg("没有更多位置可镶嵌");
 			return null;
 		}
 

@@ -15,7 +15,7 @@ public class GroupBaseDataDAO extends DataRdbDao<GroupBaseData> {
 		return dao;
 	}
 
-	private GroupBaseDataDAO() {
+	protected GroupBaseDataDAO() {
 	}
 
 	/**

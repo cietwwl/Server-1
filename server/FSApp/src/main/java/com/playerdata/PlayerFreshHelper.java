@@ -1,7 +1,6 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -77,12 +76,13 @@ public class PlayerFreshHelper {
 				int[] rewardInfo = initItemArr[i];
 				list.add(new ItemInfo(rewardInfo[0], rewardInfo[1]));
 			}
-			player.getItemBagMgr().addItem(list);
-			ItemData item = player.getItemBagMgr().getItemListByCfgId(cfgId).get(0);
+			ItemBagMgr instance = ItemBagMgr.getInstance();
+			instance.addItem(player, list);
+			ItemData item = instance.getItemListByCfgId(player.getUserId(), cfgId).get(0);
 			int level = initMagicInfo[1];
 			if (level > 1) {
 				item.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(level));
-				player.getItemBagMgr().updateItem(item);
+				ItemBagMgr.getInstance().updateItem(item);
 			}
 			player.getMagicMgr().wearMagic(item.getId());
 

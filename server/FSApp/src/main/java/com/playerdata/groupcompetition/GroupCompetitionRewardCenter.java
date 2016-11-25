@@ -45,14 +45,14 @@ import com.rwbase.dao.groupcompetition.pojo.GCompCommonRankRewardCfg;
  */
 public class GroupCompetitionRewardCenter {
 
-	private static final GroupCompetitionRewardCenter _INSTANCE = new GroupCompetitionRewardCenter();
+	private static GroupCompetitionRewardCenter _instance = new GroupCompetitionRewardCenter();
 	
 	protected GroupCompetitionRewardCenter() {
 		
 	}
 	
-	public static final GroupCompetitionRewardCenter getInstance() {
-		return _INSTANCE;
+	public static GroupCompetitionRewardCenter getInstance() {
+		return _instance;
 	}
 	
 	private <E extends GroupMemberDataIF> void sendMailToMembers(List<E> memberList, String emailCfgId, Map<Integer, Integer> rewardMap, List<String> args) {

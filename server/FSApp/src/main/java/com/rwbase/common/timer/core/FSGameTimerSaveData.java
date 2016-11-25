@@ -11,7 +11,7 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 
 public class FSGameTimerSaveData {
 	
-	private static final FSGameTimerSaveData _INSTANCE = new FSGameTimerSaveData(); // 單例
+	private static FSGameTimerSaveData _instance = new FSGameTimerSaveData(); // 單例
 
 	private static final String _KEY_LAST_SERVER_SHUTDOWN_TIME_MILLIS = "1";
 	private static final String _KEY_LAST_EXECUTE_TIME_OF_DAILY_TASK = "2";
@@ -26,7 +26,7 @@ public class FSGameTimerSaveData {
 	private Map<Integer, Long> _lastExecuteTimeOfPlayerDailyTask = new HashMap<Integer, Long>(); // 玩家每日任務最後一次執行的時間
 	
 	public static FSGameTimerSaveData getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 	protected FSGameTimerSaveData() {}
@@ -38,7 +38,7 @@ public class FSGameTimerSaveData {
 			Field tempField = allFields[i];
 			if (tempField.isAnnotationPresent(JsonProperty.class)) {
 				Object value = tempField.get(tempData);
-				tempField.set(_INSTANCE, value);
+				tempField.set(_instance, value);
 			}
 		}
 	}

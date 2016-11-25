@@ -12,7 +12,7 @@ public class BenefitDataDAO  extends DataKVDao<TargetSellRecord>{
 	
 	private static BenefitDataDAO dao = new BenefitDataDAO();
 	
-	private BenefitDataDAO(){}
+	protected BenefitDataDAO(){}
 	
 	public static BenefitDataDAO getDao(){
 		return dao;

@@ -14,10 +14,10 @@ import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 
 public class PeakArenaRecordHolder {
 
-	public static final PeakArenaRecordHolder _INSTANCE = new PeakArenaRecordHolder();
+	public static PeakArenaRecordHolder _instance = new PeakArenaRecordHolder();
 	
 	public static PeakArenaRecordHolder getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 
 	public List<PeakRecordInfo> getRecordList(String ownerId) {

@@ -5,11 +5,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.common.HPCUtil;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -24,24 +24,22 @@ import com.rwbase.dao.store.pojo.TableStore;
 import com.rwbase.dao.store.pojo.WakenLotteryDrawCfg;
 import com.rwbase.dao.store.pojo.WakenLotteryRewardPoolCfg;
 import com.rwproto.StoreProtos.StoreResponse;
-import com.rwproto.StoreProtos.eStoreRequestType;
 import com.rwproto.StoreProtos.eStoreResultType;
 import com.rwproto.StoreProtos.eWakenRewardDrawType;
-import com.rwproto.StoreProtos.tagCommodity;
 import com.rwproto.StoreProtos.tagReward;
 
 public class WakenLotteryProcesser {
-	
-	public final static int TYPE_FRIST_FREE_DRAW = 1;  	//免费首抽
-	public final static int TYPE_FRIST_PAY_DRAW = 2;   	//付费首抽
-	public final static int TYPE_FREE_DRAW = 3;			//免费抽
-	public final static int TYPE_PAY_DRAW = 4;			//付费抽
-	public final static int TYPE_GUARANTEE_DRAW = 5;	//保底抽
-	public final static int TYPE_TEN_DRAW = 6;          //十连抽
-	
+
+	public final static int TYPE_FRIST_FREE_DRAW = 1; // 免费首抽
+	public final static int TYPE_FRIST_PAY_DRAW = 2; // 付费首抽
+	public final static int TYPE_FREE_DRAW = 3; // 免费抽
+	public final static int TYPE_PAY_DRAW = 4; // 付费抽
+	public final static int TYPE_GUARANTEE_DRAW = 5; // 保底抽
+	public final static int TYPE_TEN_DRAW = 6; // 十连抽
+
 	private final static HashMap<Integer, IWakenLotteryDraw> WakenLotteryProcesserMap = new HashMap<Integer, IWakenLotteryDraw>();
-	
-	static{
+
+	static {
 		WakenLotteryProcesserMap.put(TYPE_FRIST_FREE_DRAW, new FirstFreeWakenLotteryDraw());
 		WakenLotteryProcesserMap.put(TYPE_FRIST_PAY_DRAW, new FirstPayWakenLotteryDraw());
 		WakenLotteryProcesserMap.put(TYPE_FREE_DRAW, new FreeWakenLotteryDraw());
@@ -49,15 +47,16 @@ public class WakenLotteryProcesser {
 		WakenLotteryProcesserMap.put(TYPE_GUARANTEE_DRAW, new GuaranteeLotteryDraw());
 		WakenLotteryProcesserMap.put(TYPE_TEN_DRAW, new TenWakenLotteryDraw());
 	}
-	
+
 	private static WakenLotteryProcesser instance = new WakenLotteryProcesser();
-	
-	public static WakenLotteryProcesser getInstantce(){
+
+	public static WakenLotteryProcesser getInstantce() {
 		return instance;
 	}
-	
+
 	/**
 	 * 处理觉醒宝箱抽取
+	 * 
 	 * @param player
 	 * @param holder
 	 * @param type
@@ -67,26 +66,24 @@ public class WakenLotteryProcesser {
 		int lotteryDrawType = type.getNumber();
 		int level = player.getLevel();
 		WakenLotteryDrawCfg cfg = WakenLotteryDrawCfgDAO.getInstance().getCfgByType(lotteryDrawType, level);
-		
+
 		TableStore tableStore = holder.get();
-		ConcurrentHashMap<Integer,StoreData> storeDataMap = tableStore.getStoreDataMap();
+		ConcurrentHashMap<Integer, StoreData> storeDataMap = tableStore.getStoreDataMap();
 		StoreData storeData = storeDataMap.get(eStoreType.Waken.getOrder());
 		checkDrawReset(player, holder, storeData, cfg);
-		
+
 		int processType = getProcessType(storeData, cfg, type);
-		//判断是否金钱充足
-		if((storeData.getDrawTime() >= cfg.getFreeTime() || processType == TYPE_TEN_DRAW) && !checkEnoughConsumeAndUse(player, cfg, consumeType)){
+		// 判断是否金钱充足
+		if ((storeData.getDrawTime() >= cfg.getFreeTime() || processType == TYPE_TEN_DRAW) && !checkEnoughConsumeAndUse(player, cfg, consumeType)) {
 			resp.setReslutType(eStoreResultType.FAIL);
 			resp.setReslutValue(SpecialItemCfgDAO.getDAO().getCfgById(String.valueOf(consumeType)).getName() + "不足");
 			return;
 		}
-		
-		
+
 		IWakenLotteryDraw handler = WakenLotteryProcesserMap.get(processType);
 		HashMap<Integer, Integer> map = handler.lotteryDraw(player, holder, cfg);
 		int guaranteeTime = storeData.getRecordGuaranteeTime();
-		
-		
+
 		if (processType != TYPE_TEN_DRAW) {
 			if (processType != TYPE_GUARANTEE_DRAW) {
 				guaranteeTime++;
@@ -95,21 +92,18 @@ public class WakenLotteryProcesser {
 			if (guaranteeTime == cfg.getGuaranteeeTime()) {
 				storeData.setRecordGuaranteeTime(0);
 			}
-			//当前是免费抽则消耗免费抽的次数
-			if(storeData.getDrawTime() < cfg.getFreeTime()){
+			// 当前是免费抽则消耗免费抽的次数
+			if (storeData.getDrawTime() < cfg.getFreeTime()) {
 				storeData.setDrawTime(storeData.getDrawTime() + 1);
 			}
 		}
-		
-			
-
 
 		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(map.size());
 		for (Iterator<Entry<Integer, Integer>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, Integer> entry = iterator.next();
 			Integer modelId = entry.getKey();
 			Integer count = entry.getValue();
-//			player.getItemBagMgr().addItem(modelId, count);
+			// player.getItemBagMgr().addItem(modelId, count);
 			itemInfoList.add(new ItemInfo(modelId, count));
 			if (modelId != eSpecialItemId.WAKEN_PIECE.getValue()) {
 				tagReward.Builder reward = tagReward.newBuilder();
@@ -118,31 +112,33 @@ public class WakenLotteryProcesser {
 				resp.addRewards(reward);
 			}
 		}
-		player.getItemBagMgr().addItem(itemInfoList);
+		ItemBagMgr.getInstance().addItem(player, itemInfoList);
 		storeData.setLastDrawTime(System.currentTimeMillis());
 		holder.update(player, eStoreType.Waken.getOrder());
 		resp.setReslutType(eStoreResultType.SUCCESS);
 	}
-	
-	private boolean checkEnoughConsumeAndUse(Player player, WakenLotteryDrawCfg cfg, int consumeType){
-		HashMap<Integer,Integer> consumeMap = cfg.getConsumeMap();
+
+	private boolean checkEnoughConsumeAndUse(Player player, WakenLotteryDrawCfg cfg, int consumeType) {
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		HashMap<Integer, Integer> consumeMap = cfg.getConsumeMap();
 		for (Iterator<Entry<Integer, Integer>> iterator = consumeMap.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, Integer> entry = iterator.next();
 			int cfgId = entry.getKey();
 			int value = entry.getValue();
 			if (consumeType == cfgId) {
-				if (player.getItemBagMgr().checkEnoughItem(cfgId, value)) {
-					player.getItemBagMgr().addItem(cfgId, -1 * value);
+				if (itemBagMgr.checkEnoughItem(player, cfgId, value)) {
+					itemBagMgr.addItem(player, cfgId, -1 * value);
 					return true;
 				}
 			}
-			
+
 		}
 		return false;
 	}
-	
+
 	/**
 	 * 检测是否需要重置次数
+	 * 
 	 * @param player
 	 * @param holder
 	 * @param cfg
@@ -151,7 +147,7 @@ public class WakenLotteryProcesser {
 		long lastDrawTime = storeData.getLastDrawTime();
 		int resetTime = Integer.parseInt(cfg.getResetTime());
 		Calendar current = Calendar.getInstance();
-		
+
 		Calendar instance = Calendar.getInstance();
 		instance.set(Calendar.HOUR_OF_DAY, resetTime);
 		instance.set(Calendar.MINUTE, 0);
@@ -170,52 +166,54 @@ public class WakenLotteryProcesser {
 			}
 		}
 	}
-	
-	private void resetDrawTime(Player player, StoreDataHolder holder, StoreData storeData){
-		if(storeData.getDrawTime() > 0){
+
+	private void resetDrawTime(Player player, StoreDataHolder holder, StoreData storeData) {
+		if (storeData.getDrawTime() > 0) {
 			storeData.setDrawTime(0);
 			holder.add(player, storeData.getType().getOrder());
 		}
 	}
-	
+
 	/**
 	 * 获取抽取的类型
+	 * 
 	 * @param tableStore
 	 * @param cfg
 	 * @return
 	 */
-	private int getProcessType(StoreData storeData, WakenLotteryDrawCfg cfg, eWakenRewardDrawType type){
-		
-		if(type == eWakenRewardDrawType.tenDraw)
+	private int getProcessType(StoreData storeData, WakenLotteryDrawCfg cfg, eWakenRewardDrawType type) {
+
+		if (type == eWakenRewardDrawType.tenDraw)
 			return TYPE_TEN_DRAW;
 		int processType = TYPE_PAY_DRAW;
-		if(storeData.getDrawTime() < cfg.getFreeTime()){
-			if(storeData.isFirstFreeLottery()){
+		if (storeData.getDrawTime() < cfg.getFreeTime()) {
+			if (storeData.isFirstFreeLottery()) {
 				processType = TYPE_FRIST_FREE_DRAW;
-			}else{
+			} else {
 				processType = TYPE_FREE_DRAW;
 			}
-		}else{
-			if(storeData.isFirstPayLottery()){
+		} else {
+			if (storeData.isFirstPayLottery()) {
 				processType = TYPE_FRIST_PAY_DRAW;
-			}else{
+			} else {
 				processType = TYPE_PAY_DRAW;
 			}
 		}
-		
-		if(storeData.getRecordGuaranteeTime() + 1 >= cfg.getGuaranteeeTime()){
+
+		if (storeData.getRecordGuaranteeTime() + 1 >= cfg.getGuaranteeeTime()) {
 			processType = TYPE_GUARANTEE_DRAW;
 		}
-		
+
 		return processType;
 	}
-	
+
 	/**
 	 * 获取随机的奖品
+	 * 
 	 * @param poolIds
 	 * @return
 	 */
-	public WakenLotteryResult processLottery(List<Integer> poolIds){
+	public WakenLotteryResult processLottery(List<Integer> poolIds) {
 		HashMap<Integer, Integer> rewardMap = new HashMap<Integer, Integer>();
 		WakenLotteryResult wakenLotteryResult = new WakenLotteryResult();
 		boolean isGuarantee = false;
@@ -232,10 +230,10 @@ public class WakenLotteryProcesser {
 		}
 		wakenLotteryResult.setRewardMap(rewardMap);
 		wakenLotteryResult.setGuarantee(isGuarantee);
-		
+
 		return wakenLotteryResult;
-	} 
-	
+	}
+
 	private WakenLotteryRewardPoolCfg getRandomResult(List<WakenLotteryRewardPoolCfg> list, int randomResult) {
 		int value = 0;
 		for (WakenLotteryRewardPoolCfg wakenLotteryRewardPoolCfg : list) {
@@ -247,4 +245,3 @@ public class WakenLotteryProcesser {
 		return list.size() > 0 ? list.get(0) : null;
 	}
 }
-

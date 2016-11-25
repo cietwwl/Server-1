@@ -447,10 +447,10 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			}
 		}
 		if (list.size() > 1) {
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 		} else if (list.size() > 0) {
 			ItemInfo itemInfo = list.get(0);
-			player.getItemBagMgr().addItem(itemInfo.getItemID(), itemInfo.getItemNum());
+			ItemBagMgr.getInstance().addItem(player, itemInfo.getItemID(), itemInfo.getItemNum());
 		}
 	}
 

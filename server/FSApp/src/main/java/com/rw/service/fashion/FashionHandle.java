@@ -34,7 +34,7 @@ import com.rwproto.FashionServiceProtos.FashionUsed;
 public class FashionHandle {
 	private static FashionHandle instance = new FashionHandle();
 
-	private FashionHandle() {
+	protected FashionHandle() {
 	};
 
 	public static FashionHandle getInstance() {

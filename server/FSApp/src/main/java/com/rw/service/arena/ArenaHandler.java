@@ -20,6 +20,7 @@ import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyHero;
@@ -86,15 +87,12 @@ import com.rwproto.TaskProtos.OneKeyResultType;
 
 public class ArenaHandler {
 
-	private static ArenaHandler instance;
+	private static ArenaHandler instance = new ArenaHandler();
 
-	private ArenaHandler() {
+	protected ArenaHandler() {
 	}
 
 	public static ArenaHandler getInstance() {
-		if (instance == null) {
-			instance = new ArenaHandler();
-		}
 		return instance;
 	}
 
@@ -272,8 +270,7 @@ public class ArenaHandler {
 
 		if (!player.isRobot()) {
 			// 存储到阵容中
-			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE),
-					EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
+			EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
 		}
 	}
 
@@ -408,8 +405,7 @@ public class ArenaHandler {
 		}
 
 		// 存储到阵容中
-		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE),
-				EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
+		EmbattleInfoMgr.getMgr().updateOrAddEmbattleInfo(player, eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_ATK_VALUE), EmbattlePositonHelper.parseMsgHeroPos2Memery(heroPosList));
 
 		arenaBM.updateAtkHeroList(heroIds, player);
 		return response.build().toByteString();
@@ -775,7 +771,7 @@ public class ArenaHandler {
 			// HeroIF hero = player.getHeroMgr().getHeroById(heroId);
 			Hero hero = player.getHeroMgr().getHeroById(player, heroId);
 			if (hero != null) {
-//				heroImages.add(hero.getHeroCfg().getImageId());
+				// heroImages.add(hero.getHeroCfg().getImageId());
 				heroImages.add(FSHeroMgr.getInstance().getHeroCfg(hero).getImageId());
 			}
 		}
@@ -934,7 +930,7 @@ public class ArenaHandler {
 		result.setVip(record.getVip());
 		result.setSex(record.getSex());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(record.getUserId());
-		if(null != usingFashion){
+		if (null != usingFashion) {
 			result.setFashionUsed(usingFashion);
 		}
 		return result.build();
@@ -989,12 +985,12 @@ public class ArenaHandler {
 		rewardList.add(id);
 		Map<Integer, Integer> rewards = template.getRewards();
 		List<ItemInfo> itemInfoList = new ArrayList<ItemInfo>(rewards.size());
-//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		// ItemBagMgr itemBagMgr = player.getItemBagMgr();
 		for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
-//			itemBagMgr.addItem(entry.getKey(), entry.getValue());
+			// itemBagMgr.addItem(entry.getKey(), entry.getValue());
 			itemInfoList.add(new ItemInfo(entry.getKey(), entry.getValue()));
 		}
-		player.getItemBagMgr().addItem(itemInfoList);
+		ItemBagMgr.getInstance().addItem(player, itemInfoList);
 
 		List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
 		String rewardInfoActivity = BILogTemplateHelper.getString(list);
@@ -1161,11 +1157,11 @@ public class ArenaHandler {
 		}
 		historyRewards.add(id);
 		List<ItemInfo> rewards = rankEntity.getRewardList();
-//		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-//		for (ItemInfo item : rewards) {
-//			itemBagMgr.addItem(item.getItemID(), item.getItemNum());
-//		}
-		player.getItemBagMgr().addItem(rewards);
+		// ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		// for (ItemInfo item : rewards) {
+		// itemBagMgr.addItem(item.getItemID(), item.getItemNum());
+		// }
+		ItemBagMgr.getInstance().addItem(player, rewards);
 		TableArenaDataDAO.getInstance().update(userId);
 		response.setArenaResultType(eArenaResultType.ARENA_SUCCESS);
 

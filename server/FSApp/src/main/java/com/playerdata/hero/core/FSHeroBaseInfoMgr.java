@@ -8,9 +8,9 @@ import com.rwbase.dao.role.pojo.RoleQualityCfg;
 
 public class FSHeroBaseInfoMgr implements RoleBaseInfoMgr {
 	
-	private static final FSHeroBaseInfoMgr _instance = new FSHeroBaseInfoMgr();
+	private static FSHeroBaseInfoMgr _instance = new FSHeroBaseInfoMgr();
 	
-	public static final FSHeroBaseInfoMgr getInstance() {
+	public static FSHeroBaseInfoMgr getInstance() {
 		return _instance;
 	}
 	

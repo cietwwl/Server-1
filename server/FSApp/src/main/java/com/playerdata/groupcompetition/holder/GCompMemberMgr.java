@@ -27,14 +27,14 @@ import com.rwbase.dao.groupcompetition.pojo.UserGroupCompetitionScoreRecord;
 public class GCompMemberMgr {
 
 	
-	private static final GCompMemberMgr _instance = new GCompMemberMgr();
+	private static GCompMemberMgr _instance = new GCompMemberMgr();
 	
 	private Map<String, Map<String, GCompMember>> _allMembers = new HashMap<String, Map<String, GCompMember>>();
 	private Map<String, List<GCompMember>> _sorted = new HashMap<String, List<GCompMember>>();
 	private UserGroupCompetitionDataDAO kvDataDAO = UserGroupCompetitionDataDAO.getInstance();
 	private GCEventsType _currentType;
 	
-	public static final GCompMemberMgr getInstance() {
+	public static GCompMemberMgr getInstance() {
 		return _instance;
 	}
 	

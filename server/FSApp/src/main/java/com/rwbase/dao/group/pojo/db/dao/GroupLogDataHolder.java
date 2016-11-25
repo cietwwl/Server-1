@@ -19,7 +19,7 @@ import com.rwproto.DataSynProtos.eSynType;
  */
 public class GroupLogDataHolder {
 
-	private static final Comparator<GroupLog> comparator = new Comparator<GroupLog>() {
+	private static Comparator<GroupLog> comparator = new Comparator<GroupLog>() {
 
 		@Override
 		public int compare(GroupLog o1, GroupLog o2) {
@@ -33,7 +33,7 @@ public class GroupLogDataHolder {
 	};
 
 	private GroupLogData groupLogData;
-	final private eSynType synType = eSynType.GroupLog;
+	private eSynType synType = eSynType.GroupLog;
 
 	public GroupLogDataHolder(String groupId) {
 		groupLogData = GroupLogDataDAO.getDAO().get(groupId);

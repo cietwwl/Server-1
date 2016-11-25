@@ -31,7 +31,7 @@ import com.rwproto.GroupCommonProto.GroupPost;
  * @date 2016年1月18日 下午2:31:11
  * @Description 帮派成员的Holder管理
  */
-public final class GroupMemberDataHolder {
+public class GroupMemberDataHolder {
 
 	/** 同步数据的类型 */
 	private eSynType memberSynType = eSynType.GroupMemberData;// 正式成员

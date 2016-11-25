@@ -7,9 +7,9 @@ import com.rwbase.gameworld.GameWorldKey;
 
 public class GCompEventsDataDAO {
 
-	private static final GCompEventsDataDAO _instance = new GCompEventsDataDAO();
+	private static GCompEventsDataDAO _instance = new GCompEventsDataDAO();
 
-	public static final GCompEventsDataDAO getInstance() {
+	public static GCompEventsDataDAO getInstance() {
 		return _instance;
 	}
 	

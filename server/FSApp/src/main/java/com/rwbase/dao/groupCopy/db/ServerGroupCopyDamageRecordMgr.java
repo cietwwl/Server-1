@@ -15,7 +15,7 @@ import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class ServerGroupCopyDamageRecordMgr {
-	private final static ServerGroupCopyDamageRecordMgr instance = new ServerGroupCopyDamageRecordMgr();
+	private static ServerGroupCopyDamageRecordMgr instance = new ServerGroupCopyDamageRecordMgr();
 	
 	private final String groupId = "server_group_copy_record";
 	

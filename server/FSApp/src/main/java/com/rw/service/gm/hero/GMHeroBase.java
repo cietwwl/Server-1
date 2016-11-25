@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -27,7 +26,6 @@ import com.playerdata.fixEquip.norm.cfg.FixNormEquipQualityCfgDAO;
 import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.playerdata.hero.core.FSHeroBaseInfoMgr;
 import com.playerdata.hero.core.FSHeroMgr;
-import com.playerdata.team.HeroFixEquipInfo;
 import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfg;
 import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
@@ -48,39 +46,41 @@ import com.rwbase.dao.skill.pojo.SkillItem;
 import com.rwbase.dao.user.LevelCfgDAO;
 import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwproto.ItemBagProtos.EItemAttributeType;
-import com.rwproto.TaoistMagicProtos.TaoistInfo;
 
 public class GMHeroBase {
-	
+
 	private static int maxLevel = 0;
 	private static int maxQuality = 0;
 	private static int NOT_UPDATE_SIGN = -1;
-	
+
 	private final static Map<String, String> MaxSkillIdMap = new HashMap<String, String>();
-	
+
 	/**
 	 * gm指令添加英雄
+	 * 
 	 * @param templateId
 	 * @param player
 	 */
-	public static void gmAddHero(String templateId, Player player){
-//		player.getHeroMgr().addHero(templateId);
+	public static void gmAddHero(String templateId, Player player) {
+		// player.getHeroMgr().addHero(templateId);
 		player.getHeroMgr().addHero(player, templateId);
 	}
-	
+
 	/**
 	 * 获取玩家的英雄列表
+	 * 
 	 * @param player
 	 * @return
 	 */
-	public static List<String> gmHeroIdList(Player player){
-//		List<String> heroIdList = player.getHeroMgr().getHeroIdList();
+	public static List<String> gmHeroIdList(Player player) {
+		// List<String> heroIdList = player.getHeroMgr().getHeroIdList();
 		List<String> heroIdList = player.getHeroMgr().getHeroIdList(player);
 		return heroIdList;
 	}
-	
+
 	/**
 	 * 修改英雄的等级
+	 * 
 	 * @param templateId
 	 * @param level
 	 * @param player
@@ -98,6 +98,7 @@ public class GMHeroBase {
 
 	/**
 	 * 修改英雄的星级
+	 * 
 	 * @param templateId
 	 * @param starLevel
 	 * @param player
@@ -112,48 +113,50 @@ public class GMHeroBase {
 		}
 		RoleCfg config = RoleCfgDAO.getInstance().getConfig(hero.getModeId(), star);
 		FSHeroBaseInfoMgr.getInstance().setTemplateId(hero, config.getRoleId());
-//		hero.setStarLevel(star);
+		// hero.setStarLevel(star);
 		FSHeroBaseInfoMgr.getInstance().setStarLevel(hero, star);
 		return star;
 	}
-	
-	public static void gmUpdateTemplateId(Hero hero){
-//		RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, carrer, startLevel);
+
+	public static void gmUpdateTemplateId(Hero hero) {
+		// RoleCfg cfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, carrer, startLevel);
 		String templateId = hero.getTemplateId();
-//		hero.setTemplateId(cfg.getRoleId());
+		// hero.setTemplateId(cfg.getRoleId());
 		FSHeroBaseInfoMgr.getInstance().setTemplateId(hero, templateId);
 	}
-	
+
 	/**
 	 * 修改英雄品质
+	 * 
 	 * @param templateId
 	 * @param qualityId
 	 * @param player
 	 */
-	public static void gmEditHeroQuality(Hero hero, String qualityId, Player player){
-		if(qualityId.equals("")){
+	public static void gmEditHeroQuality(Hero hero, String qualityId, Player player) {
+		if (qualityId.equals("")) {
 			return;
 		}
-//		hero.setQualityId(qualityId);
+		// hero.setQualityId(qualityId);
 		FSHeroBaseInfoMgr.getInstance().setQualityId(hero, qualityId);
 		FSHeroMgr.getInstance().gmCheckActiveSkill(hero);
 	}
-	
+
 	/**
 	 * 修改英雄技能等级
+	 * 
 	 * @param templateId
 	 * @param skillId
 	 * @param skillLevel
 	 * @param player
 	 */
-	public static void gmEditHeroSkillLevel(Hero hero, String skillId, String maxSkillId, Player player){
-		if(maxSkillId.equals("")){
+	public static void gmEditHeroSkillLevel(Hero hero, String skillId, String maxSkillId, Player player) {
+		if (maxSkillId.equals("")) {
 			return;
 		}
 		SkillMgr skillMgr = hero.getSkillMgr();
 		List<SkillItem> skillList = skillMgr.getSkillList(hero.getUUId());
 		for (SkillItem skill : skillList) {
-			if(skill.getSkillId().equals(skillId)){
+			if (skill.getSkillId().equals(skillId)) {
 				SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(maxSkillId);
 				skill.setLevel(cfg.getLevel());
 				skill.setSkillId(maxSkillId);
@@ -162,73 +165,74 @@ public class GMHeroBase {
 			}
 		}
 	}
-	
+
 	/**
 	 * 英雄穿装备
+	 * 
 	 * @param templateId
 	 * @param equipIndex
 	 * @param player
 	 */
-	public static void gmHeroEequip(Hero hero, int equipIndex, Player player){
+	public static void gmHeroEequip(Hero hero, int equipIndex, Player player) {
 		try {
 			hero.getEquipMgr().gmEquip(player, hero.getUUId(), equipIndex);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param hero
 	 * @param player
 	 */
-	public static void gmRemoveHeroEquip(Hero hero, Player player){
+	public static void gmRemoveHeroEquip(Hero hero, Player player) {
 		hero.getEquipMgr().subAllEquip(player, hero.getUUId());
 	}
-	
-	
-	
+
 	/**
 	 * 附灵装备
+	 * 
 	 * @param templateId
 	 * @param equipIndex
-	 * @param level    等级设成负数则可以升到顶级
+	 * @param level 等级设成负数则可以升到顶级
 	 * @param player
 	 */
-	public static void gmUpgradeHeroEquipment(Hero hero, int equipIndex, int level, Player player){
-		if(level == -1){
+	public static void gmUpgradeHeroEquipment(Hero hero, int equipIndex, int level, Player player) {
+		if (level == -1) {
 			return;
 		}
 		hero.getEquipMgr().gmEquipAttach(player, hero.getUUId(), equipIndex, level);
 	}
-	
+
 	/***
 	 * 镶嵌宝石
+	 * 
 	 * @param templateId
 	 * @param player
 	 * @param genType
 	 * @param blnLimited
 	 */
-	public static void gmInlayJewel(Hero hero, Player player, int gemType, int level, boolean blnLimited, int heroLevel){
+	public static void gmInlayJewel(Hero hero, Player player, int gemType, int level, boolean blnLimited, int heroLevel) {
 		InlayMgr inlayMgr = hero.getInlayMgr();
 		List<GemCfg> gemList = ItemCfgHelper.getGemCfgByType(gemType);
 		int max = -1;
 		int itemId = 0;
-		if(blnLimited){
+		if (blnLimited) {
 			for (GemCfg gemCfg : gemList) {
-				if(gemCfg.getLevel() <= heroLevel && max <= gemCfg.getGemLevel()){
+				if (gemCfg.getLevel() <= heroLevel && max <= gemCfg.getGemLevel()) {
 					max = gemCfg.getGemLevel();
 					itemId = gemCfg.getId();
-					if(max == level){
+					if (max == level) {
 						break;
 					}
-				} 
+				}
 			}
-		}else{
+		} else {
 			for (GemCfg gemCfg : gemList) {
-				if(level == gemCfg.getGemLevel()){
+				if (level == gemCfg.getGemLevel()) {
 					itemId = gemCfg.getId();
-				} 
+				}
 			}
 		}
 		if (itemId != 0) {
@@ -240,46 +244,50 @@ public class GMHeroBase {
 			inlayMgr.InlayGem(player, hero.getUUId(), itemData);
 		}
 	}
-	
+
 	/**
 	 * 移除所有宝石
+	 * 
 	 * @param hero
 	 * @param player
 	 */
-	public static void gmUnloadGem(Hero hero, Player player){
+	public static void gmUnloadGem(Hero hero, Player player) {
 		hero.getInlayMgr().XieXiaAll(player, hero.getUUId());
-		
+
 	}
-	
+
 	/**
 	 * 镶嵌宝石
+	 * 
 	 * @param hero
 	 * @param player
 	 * @param itemId
 	 */
-	public static void gmInlayJewel(Hero hero, Player player, int itemId){
+	public static void gmInlayJewel(Hero hero, Player player, int itemId) {
 		InlayMgr inlayMgr = hero.getInlayMgr();
 		ItemData itemData = new ItemData();
 		itemData.setCount(1);
 		itemData.setUserId(player.getUserId());
 		itemData.setModelId(itemId);
-		
+
 		inlayMgr.InlayGem(player, hero.getUUId(), itemData);
-		
+
 	}
-	
+
 	/**
-	 * 穿法宝 
+	 * 穿法宝
+	 * 
 	 * @param magicId
 	 * @param player
 	 */
-	public static void gmWearMagic(String magicId, Player player){
+	public static void gmWearMagic(String magicId, Player player) {
 		MagicMgr magicMgr = player.getMagicMgr();
 		magicMgr.wearMagic(magicId);
 	}
-	
+
 	/**
 	 * 获取英雄最高的等级
+	 * 
 	 * @return
 	 */
 	public static int gmGetMaxLevel() {
@@ -294,49 +302,52 @@ public class GMHeroBase {
 		}
 		return maxLevel;
 	}
-	
+
 	/**
 	 * 获取最高星级
+	 * 
 	 * @param templateId
 	 * @return
 	 */
 	public static int gmGetMaxStar(String templateId) {
-		RoleCfg roleCfg = (RoleCfg)RoleCfgDAO.getInstance().getCfgById(templateId);
+		RoleCfg roleCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(templateId);
 		while (!roleCfg.getNextRoleId().equals("")) {
-			roleCfg = (RoleCfg)RoleCfgDAO.getInstance().getCfgById(roleCfg.getNextRoleId());
+			roleCfg = (RoleCfg) RoleCfgDAO.getInstance().getCfgById(roleCfg.getNextRoleId());
 		}
 		return roleCfg.getStarLevel();
 	}
-	
+
 	/**
 	 * 获取最高级的品质
+	 * 
 	 * @return
 	 */
-	public static int gmGetMaxQuality(){
-		if(maxQuality == 0){
+	public static int gmGetMaxQuality() {
+		if (maxQuality == 0) {
 			List<RoleQualityCfg> allCfg = RoleQualityCfgDAO.getInstance().getAllCfg();
 			for (RoleQualityCfg roleQualityCfg : allCfg) {
-				if(maxQuality < roleQualityCfg.getQuality()){
+				if (maxQuality < roleQualityCfg.getQuality()) {
 					maxQuality = roleQualityCfg.getQuality();
 				}
 			}
 		}
 		return maxQuality;
 	}
-	
+
 	/**
 	 * 获取最高级技能id
+	 * 
 	 * @param skillId
 	 * @return
 	 */
-	public static String gmGetMaxSkillId(String skillId, int maxLevel){
+	public static String gmGetMaxSkillId(String skillId, int maxLevel) {
 		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillId);
 		if (MaxSkillIdMap.containsKey(cfg.getSkillEffectId())) {
 			return MaxSkillIdMap.get(cfg.getSkillEffectId());
 		} else {
 			while (!cfg.getNextSillId().equals("")) {
 				cfg = SkillCfgDAO.getInstance().getCfg(cfg.getNextSillId());
-				if(cfg.getLevel() == maxLevel){
+				if (cfg.getLevel() == maxLevel) {
 					break;
 				}
 			}
@@ -344,9 +355,10 @@ public class GMHeroBase {
 			return cfg.getSkillId();
 		}
 	}
-	
+
 	/**
 	 * 获取指定等级的技能
+	 * 
 	 * @param skillId
 	 * @param level
 	 * @return
@@ -357,7 +369,7 @@ public class GMHeroBase {
 		}
 		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillId);
 		String skillEffectId = cfg.getSkillEffectId();
-		String baseSkillId = skillEffectId+"_1";
+		String baseSkillId = skillEffectId + "_1";
 		cfg = SkillCfgDAO.getInstance().getCfg(baseSkillId);
 
 		while (!cfg.getNextSillId().equals("")) {
@@ -368,8 +380,8 @@ public class GMHeroBase {
 		}
 		return cfg.getSkillId();
 	}
-	
-	public static List<SkillItem> gmGetHeroBaseSkillList(RoleCfg roleCfg){
+
+	public static List<SkillItem> gmGetHeroBaseSkillList(RoleCfg roleCfg) {
 		List<SkillItem> list = new ArrayList<SkillItem>();
 		list.add(parseSkill(roleCfg.getSkillId01()));
 		list.add(parseSkill(roleCfg.getSkillId02()));
@@ -378,9 +390,9 @@ public class GMHeroBase {
 		list.add(parseSkill(roleCfg.getSkillId05()));
 		return list;
 	}
-	
-	private static SkillItem parseSkill(String skillValue){
-		if(skillValue == null || skillValue.equals("")){
+
+	private static SkillItem parseSkill(String skillValue) {
+		if (skillValue == null || skillValue.equals("")) {
 			return null;
 		}
 		SkillItem skill = new SkillItem();
@@ -389,36 +401,38 @@ public class GMHeroBase {
 		skill.setLevel(Integer.parseInt(tmpIds[1]));
 		return skill;
 	}
-	
+
 	/**
 	 * 升级道术
+	 * 
 	 * @param player
 	 */
-	public static void gmUpgradeTaoist(Player player, int upgradelevel){
+	public static void gmUpgradeTaoist(Player player, int upgradelevel) {
 		ITaoistMgr taoistMgr = player.getTaoistMgr();
 		Iterable<TaoistMagicCfg> openList = TaoistMagicCfgHelper.getInstance().getAllTaoistMagic();
 		for (Iterator<TaoistMagicCfg> iterator = openList.iterator(); iterator.hasNext();) {
 			TaoistMagicCfg taoistMagicCfg = iterator.next();
 			taoistMgr.setLevel(taoistMagicCfg.getKey(), upgradelevel);
 		}
-//		Iterable<TaoistInfo> magicList = taoistMgr.getMagicList();
-//		Iterable<Entry<Integer, Integer>> allTaoist = taoistMgr.getAllTaoist();
-//		for (Iterator<Entry<Integer, Integer>> iterator = allTaoist.iterator(); iterator.hasNext();) {
-//			Entry<Integer, Integer> entry = iterator.next();
-//			Integer taoistId = entry.getKey();
-//			taoistMgr.setLevel(taoistId, upgradelevel);
-//		}
+		// Iterable<TaoistInfo> magicList = taoistMgr.getMagicList();
+		// Iterable<Entry<Integer, Integer>> allTaoist = taoistMgr.getAllTaoist();
+		// for (Iterator<Entry<Integer, Integer>> iterator = allTaoist.iterator(); iterator.hasNext();) {
+		// Entry<Integer, Integer> entry = iterator.next();
+		// Integer taoistId = entry.getKey();
+		// taoistMgr.setLevel(taoistId, upgradelevel);
+		// }
 	}
-	
+
 	/**
 	 * 升级神器到指定等级
+	 * 
 	 * @param player
 	 * @param upgradeLevel 指定等级
 	 */
-	public static void gmFixEquipLevelUp(Player player, int upgradeLevel){
+	public static void gmFixEquipLevelUp(Player player, int upgradeLevel) {
 		String userId = player.getUserId();
 		int level = player.getLevel();
-		if(upgradeLevel > level){
+		if (upgradeLevel > level) {
 			upgradeLevel = level;
 		}
 		HeroMgr heroMgr = player.getHeroMgr();
@@ -442,41 +456,42 @@ public class GMHeroBase {
 			}
 		}
 	}
-	
-	private static void gmFixNormalEquipQualityUp(FixNormEquipDataItem dataItem, int toLevel){
+
+	private static void gmFixNormalEquipQualityUp(FixNormEquipDataItem dataItem, int toLevel) {
 		int quality = 1;
 		FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 		FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), quality);
 		int allowMaxLevel = curQualityCfg.getLevelNeed();
-		while(allowMaxLevel < toLevel){
+		while (allowMaxLevel < toLevel) {
 			quality++;
 			curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), quality);
 			allowMaxLevel = curQualityCfg.getLevelNeed();
 		}
-		
+
 		dataItem.setQuality(quality);
-		
+
 	}
-	
-	private static void gmFixExpEquipQualityUp(FixExpEquipDataItem dataItem, int toLevel){
+
+	private static void gmFixExpEquipQualityUp(FixExpEquipDataItem dataItem, int toLevel) {
 		int quality = 1;
 		FixExpEquipQualityCfg curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), quality);
 		int allowMaxLevel = curQualityCfg.getLevelNeed();
-		while(allowMaxLevel < toLevel){
+		while (allowMaxLevel < toLevel) {
 			quality++;
 			curQualityCfg = FixExpEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(dataItem.getQualityPlanId(), quality);
 			allowMaxLevel = curQualityCfg.getLevelNeed();
 		}
-		
+
 		dataItem.setQuality(quality);
 	}
-	
+
 	/**
 	 * 修改神器的觉醒星级
+	 * 
 	 * @param player
 	 * @param starLevel
 	 */
-	public static void gmFixEquipStarUp(Player player, int starLevel){
+	public static void gmFixEquipStarUp(Player player, int starLevel) {
 		String userId = player.getUserId();
 		HeroMgr heroMgr = player.getHeroMgr();
 		List<Hero> allHeros = heroMgr.getAllHeros(player, null);
@@ -495,41 +510,38 @@ public class GMHeroBase {
 			}
 		}
 	}
-	
+
 	public static void gmUpgradeMagic(Player player, int upgradeLevel) {
 		MagicMgr magicMgr = player.getMagicMgr();
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		ItemData itemData = magicMgr.getMagic();
 		int level = player.getLevel();
 		if (upgradeLevel > level) {
 			upgradeLevel = level;
 		}
-		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE,
-				String.valueOf(upgradeLevel));
+		itemData.setExtendAttr(EItemAttributeType.Magic_Level_VALUE, String.valueOf(upgradeLevel));
 
 		player.getMagicMgr().updateMagic();
-		UserEventMgr.getInstance()
-				.StrengthenMagicVitality(player, upgradeLevel);
+		UserEventMgr.getInstance().StrengthenMagicVitality(player, upgradeLevel);
 		itemBagMgr.updateItem(itemData);
 		List<ItemData> updateItems = new ArrayList<ItemData>(1);
 		updateItems.add(itemData);
-		itemBagMgr.syncItemData(updateItems);
+		itemBagMgr.syncItemData(player, updateItems);
 
 		player.getFresherActivityMgr().doCheck(eActivityType.A_MagicLv);
 
 		// 通知角色日常任务 by Alex
-		player.getDailyActivityMgr().AddTaskTimesByType(
-				DailyActivityType.MAGIC_STRENGTH, 1);
+		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.MAGIC_STRENGTH, 1);
 
 		// 通知法宝神器羁绊
 		player.getMe_FetterMgr().notifyMagicChange(player);
 
 	}
-	
-	private static String beforeMagicModelId(String modelId){
+
+	private static String beforeMagicModelId(String modelId) {
 		List<MagicCfg> allCfg = MagicCfgDAO.getInstance().getAllCfg();
 		for (MagicCfg magicCfg : allCfg) {
-			if(magicCfg.getUpMagic().equals(modelId)){
+			if (magicCfg.getUpMagic().equals(modelId)) {
 				modelId = String.valueOf(magicCfg.getId());
 				break;
 			}

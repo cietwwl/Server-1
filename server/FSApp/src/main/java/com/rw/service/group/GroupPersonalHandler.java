@@ -21,6 +21,7 @@ import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.ItemCfgHelper;
 import com.playerdata.Player;
 import com.playerdata.group.UserGroupAttributeDataMgr;
@@ -95,16 +96,13 @@ public class GroupPersonalHandler {
 	private static final String QUIT_GROUP_TIME_TIP_FOR_JOIN = "%s后才可再次加入帮派";
 	private static final String JOIN_COOLING_TIME_FOR_DONATE = "%s后才可以捐献";
 
-	private static GroupPersonalHandler handler;
+	private static GroupPersonalHandler handler = new GroupPersonalHandler();
 
 	public static GroupPersonalHandler getHandler() {
-		if (handler == null) {
-			handler = new GroupPersonalHandler();
-		}
 		return handler;
 	}
 
-	private GroupPersonalHandler() {
+	protected GroupPersonalHandler() {
 	}
 
 	/**
@@ -569,7 +567,8 @@ public class GroupPersonalHandler {
 	 * @return
 	 */
 	public ByteString groupDonateHandler(Player player, GroupDonateReqMsg req) {
-		String playerId = player.getUserId();
+		String userId = player.getUserId();
+		String playerId = userId;
 
 		GroupPersonalCommonRspMsg.Builder commonRsp = GroupPersonalCommonRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.GROUP_DONATE_TYPE);
@@ -669,6 +668,7 @@ public class GroupPersonalHandler {
 		Map<Integer, Integer> useMoney = null;
 
 		int rewardToken = 0;
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 		if (donateItemType < eSpecialItemId.eSpecial_End.getValue()) {
 			eSpecialItemId def = eSpecialItemId.getDef(donateItemType);
 			if (def == null) {
@@ -694,13 +694,13 @@ public class GroupPersonalHandler {
 				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "数据异常");
 			}
 
-			List<ItemData> itemList = player.getItemBagMgr().getItemListByCfgId(donateItemType);
+			List<ItemData> itemList = itemBagMgr.getItemListByCfgId(userId, donateItemType);
 			if (itemList == null || itemList.isEmpty()) {
 				GameLog.error("帮派捐献", playerId, String.format("捐献Id[%s]使用的物品[%s]对应的在背包中的数据为空", donateId, donateItemType));
 				return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, name + "不足");
 			}
 
-			hasCount = player.getItemBagMgr().getItemCountByModelId(donateItemType);
+			hasCount = itemBagMgr.getItemCountByModelId(userId, donateItemType);
 			name = cfg.getName();
 
 			useItemList = new ArrayList<IUseItem>(1);
@@ -713,7 +713,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, name + "不足");
 		}
 
-		if (!player.getItemBagMgr().useLikeBoxItem(useItemList, null, useMoney)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, null, useMoney)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "扣费失败");
 		}
 

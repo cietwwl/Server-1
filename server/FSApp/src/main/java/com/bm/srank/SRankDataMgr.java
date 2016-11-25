@@ -24,7 +24,7 @@ public class SRankDataMgr {
 		return instance;
 	}
 	
-	private SRankDataMgr(){
+	protected SRankDataMgr(){
 		
 		sqlQueue = new ConcurrentLinkedQueue<ISRankDbTask>();
 		

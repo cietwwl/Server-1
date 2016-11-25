@@ -35,8 +35,9 @@ public class UseVipCardEffectImpl implements IItemUseEffect {
 
 		int addVip = tmp.getDirectResult();
 
+		String userId = player.getUserId();
 		if (PrivilegeCfgDAO.getInstance().getCfg(addVip) == null) {
-			GameLog.error("背包道具使用", player.getUserId(), String.format("使用VIP卡的等级是[%s]并无PrivilegeCfg配置", addVip));
+			GameLog.error("背包道具使用", userId, String.format("使用VIP卡的等级是[%s]并无PrivilegeCfg配置", addVip));
 			rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "当前没有VIP" + addVip));
 			return rsp.build().toByteString();
 		}
@@ -47,7 +48,7 @@ public class UseVipCardEffectImpl implements IItemUseEffect {
 			return rsp.build().toByteString();
 		}
 
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
 
 		List<IUseItem> useItemList = new ArrayList<IUseItem>();
 		useItemList.add(new UseItem(itemData.getId(), useCount));
@@ -55,13 +56,13 @@ public class UseVipCardEffectImpl implements IItemUseEffect {
 		Map<Integer, Integer> combineUseMap = tmp.getCombineUseMap();
 		if (combineUseMap != null && !combineUseMap.isEmpty()) {
 
-			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap();
+			Map<Integer, ItemData> modelFirstItemDataMap = itemBagMgr.getModelFirstItemDataMap(userId);
 
 			for (Entry<Integer, Integer> e : combineUseMap.entrySet()) {
 				int key = e.getKey();
 				Integer value = e.getValue();
 				if (key < eSpecialItemId.eSpecial_End.getValue()) {
-					itemBagMgr.addItem(key, -value * useCount);
+					itemBagMgr.addItem(player, key, -value * useCount);
 				} else {
 					ItemData item = modelFirstItemDataMap.get(key);
 					if (item == null) {
@@ -75,7 +76,7 @@ public class UseVipCardEffectImpl implements IItemUseEffect {
 		}
 
 		// 使用道具
-		if (!itemBagMgr.useLikeBoxItem(useItemList, null)) {
+		if (!itemBagMgr.useLikeBoxItem(player, useItemList, null)) {
 			rsp.setRspInfo(ItemBagHandler.fillResponseInfo(false, "使用失败"));
 			return rsp.build().toByteString();
 		}

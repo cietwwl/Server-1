@@ -16,7 +16,7 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class FSHeroHolder {
 
-	private static final FSHeroHolder _INSTANCE = new FSHeroHolder();
+	private static FSHeroHolder _instance = new FSHeroHolder();
 	private static final List<String> _namesOfBaseInfoSyncFields;
 	private static final com.rwproto.DataSynProtos.eSynType _syn_type_base_info = com.rwproto.DataSynProtos.eSynType.ROLE_BASE_ITEM;
 	private static final com.rwproto.DataSynProtos.eSynType _syn_type_user_heros = com.rwproto.DataSynProtos.eSynType.USER_HEROS;
@@ -36,7 +36,7 @@ public class FSHeroHolder {
 	private List<IHeroCallbackAction> _baseInfoChangeCallbackList = new ArrayList<IHeroCallbackAction>();
 	
 	public static FSHeroHolder getInstance() {
-		return _INSTANCE;
+		return _instance;
 	}
 	
 	private void notifyBaseInfoChange(Hero hero) {

@@ -23,18 +23,18 @@ import com.rwproto.CommonSoulServiceProto.ResultType;
 
 public class CommonSoulHandler {
 
-	private static final CommonSoulHandler _instance = new CommonSoulHandler();
+	private static CommonSoulHandler _instance = new CommonSoulHandler();
 
 	public static final CommonSoulHandler getInstance() {
 		return _instance;
 	}
 
 	private CommonSoulConfigDAO _commonSoulConfigDAO;
-	
+
 	protected CommonSoulHandler() {
 		_commonSoulConfigDAO = CommonSoulConfigDAO.getInstance();
 	}
-	
+
 	private boolean checkExchangeEnable(Player player, int soulStoneId, CommonSoulConfig config) {
 		SoulStoneCfg soulStoneCfg = SoulStoneCfgDAO.getInstance().getCfgById(String.valueOf(soulStoneId));
 		if (soulStoneCfg == null) {
@@ -55,13 +55,13 @@ public class CommonSoulHandler {
 			}
 		}
 	}
-	
+
 	private ByteString fillFail(CommonSoulResponse.Builder builder, String msg) {
 		builder.setResultType(ResultType.fail);
 		builder.setTips(msg);
 		return builder.build().toByteString();
 	}
-	
+
 	public ByteString processExchange(Player player, CommonSoulRequest request) {
 		CommonSoulResponse.Builder responseBuilder = CommonSoulResponse.newBuilder();
 		responseBuilder.setRequestType(request.getRequestType());
@@ -73,14 +73,14 @@ public class CommonSoulHandler {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsExchangeNotOpened());
 		}
 		int requiredCount = exchangeCount * exchangeRate;
-		ItemBagMgr itemBagMgr = player.getItemBagMgr();
-		ItemData itemData = itemBagMgr.getFirstItemByModelId(config.getCommonSoulStoneCfgId());
+		ItemBagMgr itemBagMgr = ItemBagMgr.getInstance();
+		ItemData itemData = itemBagMgr.getFirstItemByModelId(player.getUserId(), config.getCommonSoulStoneCfgId());
 		if (itemData == null || itemData.getCount() < requiredCount) {
 			return fillFail(responseBuilder, CommonSoulTips.getTipsItemNotEnough(config.getCommonSoulStoneName(), exchangeCount));
 		}
 		List<IUseItem> useItemList = Arrays.asList((IUseItem) new UseItem(itemData.getId(), requiredCount));
 		List<INewItem> newItemList = Arrays.asList((INewItem) new NewItem(targetSoulItemId, exchangeCount, null));
-		if (itemBagMgr.useLikeBoxItem(useItemList, newItemList)) {
+		if (itemBagMgr.useLikeBoxItem(player, useItemList, newItemList)) {
 			responseBuilder.setResultCount(exchangeCount);
 			responseBuilder.setResultType(ResultType.success);
 			return responseBuilder.build().toByteString();

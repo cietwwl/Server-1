@@ -7,20 +7,11 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.log.GameLog;
-import com.log.LogModule;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
-import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
+import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
@@ -30,15 +21,10 @@ import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSu
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
-import com.playerdata.activity.exChangeType.ActivityExChangeTypeHelper;
-import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
-import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -52,10 +38,10 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	public void synCountTypeData(Player player) {
-		if(isOpen(System.currentTimeMillis())){
+		if (isOpen(System.currentTimeMillis())) {
 			ActivityDailyDiscountTypeItemHolder.getInstance().synAllData(player);
 		}
-		
+
 	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时晴空 */
@@ -69,13 +55,13 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 
 	private void checkNewOpen(Player player) {
 		String userId = player.getUserId();
-		creatItems(userId, true);		
+		creatItems(userId, true);
 	}
 
-	public List<ActivityDailyDiscountTypeItem> creatItems(String userid,boolean isHasPlayer) {
+	public List<ActivityDailyDiscountTypeItem> creatItems(String userid, boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityDailyDiscountTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_DAILYDISCOUNT, ActivityDailyDiscountTypeItem.class);
 		RoleExtPropertyStore<ActivityDailyDiscountTypeItem> store = null;
-		
+
 		List<ActivityDailyDiscountTypeCfg> activitydailydiscountcfglist = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
 		ArrayList<ActivityDailyDiscountTypeItem> addItemList = null;
 		ActivityDailyDiscountItemCfgDao itemDao = ActivityDailyDiscountItemCfgDao.getInstance();
@@ -88,9 +74,9 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 			if (countTypeEnum == null) {
 				continue;
 			}
-//			String itemId = ActivityDailyDiscountTypeHelper.getItemId(userid, countTypeEnum);
+			// String itemId = ActivityDailyDiscountTypeHelper.getItemId(userid, countTypeEnum);
 			int id = Integer.parseInt(countTypeEnum.getCfgId());
-			if(isHasPlayer){
+			if (isHasPlayer) {
 				try {
 					store = storeCach.getStore(userid);
 				} catch (InterruptedException e) {
@@ -99,14 +85,14 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}				
+				}
 				if (store != null) {
 					if (store.get(id) != null) {
 						continue;
 					}
-				}				
+				}
 			}
-			
+
 			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
 			item.setId(id);
 			item.setEnumId(cfg.getEnumId());
@@ -114,19 +100,19 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 			item.setCfgId(cfg.getId());
 			item.setVersion(cfg.getVersion());
 			item.setLastTime(System.currentTimeMillis());
-			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());			
+			int day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
 			List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
 			List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
-			if(subCfgList == null){
+			if (subCfgList == null) {
 				subCfgList = new ArrayList<ActivityDailyDiscountTypeSubCfg>();
-			}			
-			for(ActivityDailyDiscountTypeSubCfg subCfg : subCfgList){
-				if(subCfg.getAfterSomeDays() != day){
+			}
+			for (ActivityDailyDiscountTypeSubCfg subCfg : subCfgList) {
+				if (subCfg.getAfterSomeDays() != day) {
 					continue;
-				}				
-				for(Integer itemIdTmp:subCfg.getItemList()){
-					ActivityDailyDiscountItemCfg itemCfg = itemDao.getCfgById(itemIdTmp+"");
-					if(itemCfg == null){
+				}
+				for (Integer itemIdTmp : subCfg.getItemList()) {
+					ActivityDailyDiscountItemCfg itemCfg = itemDao.getCfgById(itemIdTmp + "");
+					if (itemCfg == null) {
 						continue;
 					}
 					ActivityDailyDiscountTypeSubItem subitem = new ActivityDailyDiscountTypeSubItem();
@@ -136,15 +122,15 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 					subitem.setCount(0);
 					subItemList.add(subitem);
 				}
-				break;//按理只有一个子类				
+				break;// 按理只有一个子类
 			}
-			item.setSubItemList(subItemList);			
+			item.setSubItemList(subItemList);
 			if (addItemList == null) {
 				addItemList = new ArrayList<ActivityDailyDiscountTypeItem>();
 			}
 			addItemList.add(item);
 		}
-		if(isHasPlayer&&addItemList != null){
+		if (isHasPlayer && addItemList != null) {
 			try {
 				store.addItem(addItemList);
 			} catch (DuplicatedKeyException e) {
@@ -169,22 +155,22 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 	private void checkCfgVersion(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
 		ActivityDailyDiscountTypeCfgDAO dao = ActivityDailyDiscountTypeCfgDAO.getInstance();
-		List<ActivityDailyDiscountTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityDailyDiscountTypeItem> itemList = null;// dataHolder.getItemList(player.getUserId());
 		List<ActivityDailyDiscountTypeCfg> cfgList = dao.getAllCfg();
-		for(ActivityDailyDiscountTypeCfg cfg : cfgList){
-			if(!isOpen(cfg)){
+		for (ActivityDailyDiscountTypeCfg cfg : cfgList) {
+			if (!isOpen(cfg)) {
 				continue;
 			}
-			if(itemList == null){
+			if (itemList == null) {
 				itemList = dataHolder.getItemList(player.getUserId());
 			}
 			ActivityDailyDiscountTypeItem freshItem = null;
-			for(ActivityDailyDiscountTypeItem item : itemList){
-				if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&!StringUtils.equals(item.getVersion(), cfg.getVersion())){
+			for (ActivityDailyDiscountTypeItem item : itemList) {
+				if (StringUtils.equals(item.getEnumId(), cfg.getEnumId()) && !StringUtils.equals(item.getVersion(), cfg.getVersion())) {
 					freshItem = item;
 				}
 			}
-			if(freshItem == null){
+			if (freshItem == null) {
 				continue;
 			}
 			freshItem.reset(cfg);
@@ -194,86 +180,86 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 
 	private void checkOtherDay(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		List<ActivityDailyDiscountTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityDailyDiscountTypeItem> itemList = null;// dataHolder.getItemList(player.getUserId());
 		List<ActivityDailyDiscountTypeCfg> cfgList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
-		for(ActivityDailyDiscountTypeCfg cfg : cfgList){
-			if(!isOpen(cfg)){
+		for (ActivityDailyDiscountTypeCfg cfg : cfgList) {
+			if (!isOpen(cfg)) {
 				continue;
 			}
-			if(itemList == null){
+			if (itemList == null) {
 				itemList = dataHolder.getItemList(player.getUserId());
 			}
 			ActivityDailyDiscountTypeItem freshItem = null;
-			for(ActivityDailyDiscountTypeItem item : itemList){
-				if(StringUtils.equals(item.getEnumId(), cfg.getEnumId())&&StringUtils.equals(item.getVersion(), cfg.getVersion())){
+			for (ActivityDailyDiscountTypeItem item : itemList) {
+				if (StringUtils.equals(item.getEnumId(), cfg.getEnumId()) && StringUtils.equals(item.getVersion(), cfg.getVersion())) {
 					freshItem = item;
 				}
 			}
-			if(freshItem == null){
+			if (freshItem == null) {
 				continue;
 			}
 			if (ActivityTypeHelper.isNewDayHourOfActivity(5, freshItem.getLastTime())) {
 				freshItem.reset(cfg);
 				dataHolder.updateItem(player, freshItem);
 			}
-		}	
+		}
 	}
 
 	private void checkClose(Player player) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		List<ActivityDailyDiscountTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityDailyDiscountTypeItem> itemList = null;// dataHolder.getItemList(player.getUserId());
 		ActivityDailyDiscountTypeCfgDAO dao = ActivityDailyDiscountTypeCfgDAO.getInstance();
 		List<ActivityDailyDiscountTypeCfg> cfgList = dao.getAllCfg();
 		long createTime = player.getUserDataMgr().getCreateTime();
 		long currentTime = DateUtils.getSecondLevelMillis();
-		for(ActivityDailyDiscountTypeCfg cfg : cfgList){
-			if(isOpen(cfg)){//配置开启
+		for (ActivityDailyDiscountTypeCfg cfg : cfgList) {
+			if (isOpen(cfg)) {// 配置开启
 				continue;
 			}
-			if(createTime>cfg.getEndTime()){//配置过旧
+			if (createTime > cfg.getEndTime()) {// 配置过旧
 				continue;
 			}
-			if(currentTime < cfg.getStartTime()){//配置过新
+			if (currentTime < cfg.getStartTime()) {// 配置过新
 				continue;
 			}
-			if(itemList == null){
+			if (itemList == null) {
 				itemList = dataHolder.getItemList(player.getUserId());
 			}
 			ActivityDailyDiscountTypeItem closeItem = null;
-			for(ActivityDailyDiscountTypeItem item : itemList){
-				if(StringUtils.equals(item.getVersion(), cfg.getVersion())&&StringUtils.equals(item.getEnumId(), cfg.getEnumId())){
+			for (ActivityDailyDiscountTypeItem item : itemList) {
+				if (StringUtils.equals(item.getVersion(), cfg.getVersion()) && StringUtils.equals(item.getEnumId(), cfg.getEnumId())) {
 					closeItem = item;
 					break;
-				}			
+				}
 			}
-			if(closeItem == null){
+			if (closeItem == null) {
 				continue;
-			}			
+			}
 			if (!closeItem.isClosed()) {
 				closeItem.setClosed(true);
 				closeItem.setTouchRedPoint(true);
 				dataHolder.updateItem(player, closeItem);
-			}			
+			}
 		}
-		
-//		for (ActivityDailyDiscountTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
-//			if (isClose(activityDailyCountTypeItem)) {
-//				activityDailyCountTypeItem.setClosed(true);
-//				activityDailyCountTypeItem.setTouchRedPoint(true);
-//				dataHolder.updateItem(player, activityDailyCountTypeItem);
-//			}
-//		}
+
+		// for (ActivityDailyDiscountTypeItem activityDailyCountTypeItem : itemList) {// 每种活动
+		// if (isClose(activityDailyCountTypeItem)) {
+		// activityDailyCountTypeItem.setClosed(true);
+		// activityDailyCountTypeItem.setTouchRedPoint(true);
+		// dataHolder.updateItem(player, activityDailyCountTypeItem);
+		// }
+		// }
 	}
 
-	private boolean isClose(ActivityDailyDiscountTypeItem activityDailyCountTypeItem) {
-		ActivityDailyDiscountTypeCfg cfgById = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(activityDailyCountTypeItem.getCfgId());
-		if (cfgById == null) {
-			return false;
-		}
-		long endTime = cfgById.getEndTime();
-		long currentTime = System.currentTimeMillis();
-		return currentTime > endTime;
-	}
+	// private boolean isClose(ActivityDailyDiscountTypeItem activityDailyCountTypeItem) {
+	// ActivityDailyDiscountTypeCfg cfgById = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(activityDailyCountTypeItem.getCfgId());
+	// if (cfgById == null) {
+	// return false;
+	// }
+	// long endTime = cfgById.getEndTime();
+	// long currentTime = System.currentTimeMillis();
+	// return currentTime > endTime;
+	// }
 
 	public ActivityComResult buyItem(Player player, ActivityDailyDiscountTypeCfg cfg, String subItemId) {
 		ActivityDailyDiscountTypeItemHolder dataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
@@ -332,7 +318,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 			} else {
 				Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 				map.put(eSpecialItemId.Gold.getValue(), -itemCfg.getPriceAfterDiscount());
-				player.getItemBagMgr().useLikeBoxItem(null, null, map);
+				ItemBagMgr.getInstance().useLikeBoxItem(player, null, null, map);
 			}
 			getItem(player, targetItem);
 			dataHolder.updateItem(player, dataItem);
@@ -375,7 +361,7 @@ public class ActivityDailyDiscountTypeMgr implements ActivityRedPointUpdate {
 			return;
 		}
 		targetItem.setCount(targetItem.getCount() + 1);
-		player.getItemBagMgr().addItem(targetItem.getItemId(), targetItem.getItemNum());
+		ItemBagMgr.getInstance().addItem(player, targetItem.getItemId(), targetItem.getItemNum());
 	}
 
 	@Override

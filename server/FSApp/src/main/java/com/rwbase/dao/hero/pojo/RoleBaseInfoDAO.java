@@ -6,7 +6,7 @@ import com.rw.manager.GameManager;
 
 public class RoleBaseInfoDAO extends DataKVDao<RoleBaseInfoIF> {
 	private static RoleBaseInfoDAO m_instance = new RoleBaseInfoDAO();
-	private RoleBaseInfoDAO(){}
+	protected RoleBaseInfoDAO(){}
 	
 	public static RoleBaseInfoDAO getInstance(){
 		return m_instance;

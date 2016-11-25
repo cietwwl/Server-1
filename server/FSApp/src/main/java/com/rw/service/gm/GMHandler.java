@@ -33,6 +33,7 @@ import com.playerdata.BattleTowerMgr;
 import com.playerdata.CopyDataMgr;
 import com.playerdata.FashionMgr;
 import com.playerdata.Hero;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
@@ -131,7 +132,7 @@ public class GMHandler {
 	// 是否激活gm指令
 	private boolean active = false;
 
-	private GMHandler() {
+	protected GMHandler() {
 		initMap();
 	};
 
@@ -570,7 +571,7 @@ public class GMHandler {
 			// TODO @fixing HC 减少作弊的循环次数，提高效率，如果是可叠加物品就直接把全部数量放过去就好了
 			// for (int i = 0; i < itemNum; i++) {
 			// player.getItemBagMgr().addItem(itemId, itemNum);
-			player.getItemBagMgr().addItem(itemId, itemNum);
+			ItemBagMgr.getInstance().addItem(player, itemId, itemNum);
 			// }
 			return true;
 		}
@@ -656,7 +657,7 @@ public class GMHandler {
 			GMAddFixEquip.addStarUp(player, list);
 			GMAddFixEquip.addexp(player, list);
 			GMAddFixEquip.addqualityUp(player, list);
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 			return true;
 		}
 		return false;
@@ -770,7 +771,7 @@ public class GMHandler {
 		}
 		if (player != null) {
 			if ("1".equals(arrCommandContents[0])) {
-				player.getItemBagMgr().removeAllItems();
+				ItemBagMgr.getInstance().removeAllItems();
 				return true;
 			}
 		}
@@ -1267,7 +1268,7 @@ public class GMHandler {
 			addItemList.add(newItem);
 		}
 
-		return player.getItemBagMgr().useLikeBoxItem(null, addItemList);
+		return ItemBagMgr.getInstance().useLikeBoxItem(player, null, addItemList);
 	}
 
 	/**
@@ -1819,16 +1820,17 @@ public class GMHandler {
 			return true;
 		}
 
-		return player.getItemBagMgr().addItem(itemInfoList);
+		return ItemBagMgr.getInstance().addItem(player, itemInfoList);
 	}
 
 	public boolean emptyBag(String[] arrCommandContents, Player player) {
 		List<ItemData> list = new ArrayList<ItemData>();
-		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Consume));
-		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.HeroEquip));
-		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.RoleEquip));
-		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.SoulStone));
-		list.addAll(player.getItemBagMgr().getItemListByType(EItemTypeDef.Gem));
+		String userId = player.getUserId();
+		list.addAll(ItemBagMgr.getInstance().getItemListByType(userId, EItemTypeDef.Consume));
+		list.addAll(ItemBagMgr.getInstance().getItemListByType(userId, EItemTypeDef.HeroEquip));
+		list.addAll(ItemBagMgr.getInstance().getItemListByType(userId, EItemTypeDef.RoleEquip));
+		list.addAll(ItemBagMgr.getInstance().getItemListByType(userId, EItemTypeDef.SoulStone));
+		list.addAll(ItemBagMgr.getInstance().getItemListByType(userId, EItemTypeDef.Gem));
 		List<IUseItem> items = new ArrayList<IUseItem>(list.size());
 		List<INewItem> newItems = new ArrayList<INewItem>();
 		for (ItemData itemData : list) {
@@ -1836,7 +1838,7 @@ public class GMHandler {
 		}
 		if (items.size() > 0) {
 			try {
-				player.getItemBagMgr().updateItemBag(player, items, newItems);
+				ItemBagMgr.getInstance().updateItemBag(player, items, newItems);
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
@@ -1875,7 +1877,7 @@ public class GMHandler {
 				itemInfo.setItemNum(1);
 				list.add(itemInfo);
 			}
-			player.getItemBagMgr().addItem(list);
+			ItemBagMgr.getInstance().addItem(player, list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2087,7 +2089,7 @@ public class GMHandler {
 		for (Integer pieceId : piecesIds) {
 			itemInfos.add(new ItemInfo(pieceId, 999));
 		}
-		player.getItemBagMgr().addItem(itemInfos);
+		ItemBagMgr.getInstance().addItem(player, itemInfos);
 		return true;
 	}
 

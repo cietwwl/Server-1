@@ -19,9 +19,9 @@ import com.rwbase.gameworld.GameWorldKey;
  */
 public class GCompDetailInfoDAO {
 
-	private static final GCompDetailInfoDAO _instance = new GCompDetailInfoDAO();
+	private static GCompDetailInfoDAO _instance = new GCompDetailInfoDAO();
 	
-	public static final GCompDetailInfoDAO getInstance() {
+	public static GCompDetailInfoDAO getInstance() {
 		return _instance;
 	}
 	

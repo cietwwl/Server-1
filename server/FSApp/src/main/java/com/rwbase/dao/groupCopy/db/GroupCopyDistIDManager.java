@@ -31,7 +31,7 @@ public class GroupCopyDistIDManager {
 	//所有需要分发的帮派id
 	private List<String> GroupIDList = new ArrayList<String>();
 	
-	private GroupCopyDistIDManager() {
+	protected GroupCopyDistIDManager() {
 	}
 
 	public static GroupCopyDistIDManager getInstance(){
