@@ -7,6 +7,7 @@ import com.bm.targetSell.param.ERoleAttrs;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rwbase.dao.majorDatas.pojo.MajorData;
 
@@ -30,8 +31,9 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		long newCoin = newRecord.getCoin();
 		if(oldCoin != newCoin){
 			BILogMgr.getInstance().logCoinChanged(list, (int)(newCoin - oldCoin), newCoin);
-			
-			TargetSellManager.getInstance().notifyRoleAttrsChange(newRecord.getId(), ERoleAttrs.r_Coin.getId());
+			if(ServerSwitch.isOpenTargetSell()){
+				TargetSellManager.getInstance().notifyRoleAttrsChange(newRecord.getId(), ERoleAttrs.r_Coin.getId());
+			}
 		}
 		
 		//记录赠送充值币的变动日志
@@ -47,8 +49,9 @@ public class MajorDataListener implements SingleChangedListener<MajorData>{
 		if(oldChargeGold != newChargeGold){
 			BILogMgr.getInstance().logGoldChanged(list, (int)(newChargeGold- oldChargeGold), newChargeGold);
 			BILogMgr.getInstance().logFinanceMainCoinConsume(list, (int)(newChargeGold- oldChargeGold), newChargeGold);
-			
-			TargetSellManager.getInstance().notifyRoleAttrsChange(newRecord.getId(), ERoleAttrs.r_Charge.getId());
+			if(!ServerSwitch.isOpenTargetSell()){
+				TargetSellManager.getInstance().notifyRoleAttrsChange(newRecord.getId(), ERoleAttrs.r_Charge.getId());
+			}
 		}
 	}
 

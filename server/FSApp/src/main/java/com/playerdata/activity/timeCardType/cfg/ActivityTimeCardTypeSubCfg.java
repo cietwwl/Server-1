@@ -17,6 +17,7 @@ public class ActivityTimeCardTypeSubCfg {
 	//每日领取钻石
 	private int gold;
 	private int daysLimit;//超过天数不可再续费
+	private String chargeId;
 	@EnumIndex
 	private ChargeTypeEnum chargeType;//类型
 	
@@ -85,5 +86,13 @@ public class ActivityTimeCardTypeSubCfg {
 
 	public void setGold(int gold) {
 		this.gold = gold;
+	}
+
+	public String getChargeId() {
+		return chargeId;
+	}
+
+	public void setChargeId(String chargeId) {
+		this.chargeId = chargeId;
 	}
 }
