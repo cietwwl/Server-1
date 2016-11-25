@@ -1,10 +1,14 @@
 package com.playerdata.activity.dailyDiscountType.cfg;
 
+import com.common.BaseConfig;
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
-public class ActivityDailyDiscountTypeCfg {
 
-	private String id;
+public class ActivityDailyDiscountTypeCfg extends BaseConfig implements ActivityCfgIF{
+
+	private int id;
 	
 	private long startTime;
 	
@@ -14,27 +18,29 @@ public class ActivityDailyDiscountTypeCfg {
 	
 	private String endTimeStr;
 	
-	private String version;
+	private int version;
 	
 	private int levelLimit;
 	
 	private int refreshTime;
 	
-	private String enumId;	
+	private int enumId;
 	
-	public String getEnumId() {
+	private int isRefresh;
+	
+	public int getEnumId() {
 		return enumId;
 	}
 
-	public void setEnumId(String enumId) {
+	public void setEnumId(int enumId) {
 		this.enumId = enumId;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -70,11 +76,11 @@ public class ActivityDailyDiscountTypeCfg {
 		this.endTimeStr = endTimeStr;
 	}
 
-	public String getVersion() {
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
 
@@ -93,7 +99,37 @@ public class ActivityDailyDiscountTypeCfg {
 	public void setRefreshTime(int refreshTime) {
 		this.refreshTime = refreshTime;
 	}
+
+	@Override
+	public int getCfgId() {
+		return id;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return isRefresh == 1;
+	}
+
+	@Override
+ 	public void ExtraInitAfterLoad() {
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+ 	}
 	
-	
-	
+	@Override
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
+	}
+
+	@Override
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
+	}
 }

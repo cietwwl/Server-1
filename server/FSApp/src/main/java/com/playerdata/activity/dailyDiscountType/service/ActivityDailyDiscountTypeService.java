@@ -1,7 +1,6 @@
 package com.playerdata.activity.dailyDiscountType.service;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.GeneratedMessage;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -15,21 +14,18 @@ public class ActivityDailyDiscountTypeService implements FsService<ActivityCommo
 
 	@Override
 	public ByteString doTask(ActivityCommonReqMsg request, Player player) {
-		// TODO Auto-generated method stub
 		ActivityDailyDiscountTypeHandler handler = ActivityDailyDiscountTypeHandler.getInstance();
-
 		ByteString byteString = null;
 		try {
 			RequestType reqType = request.getReqType();
 			switch (reqType) {
-			case BUY_ITEM:// 获取奖励
+			case BUY_ITEM:	//购买打折物品
 				byteString = handler.buyItem(player, request);
 				break;
 			default:
 				GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				break;
 			}
-
 		} catch (Exception e) {
 			GameLog.error(LogModule.ComActivityDailyDisCount, player.getUserId(), "出现了Exception异常", e);
 		}
@@ -48,5 +44,4 @@ public class ActivityDailyDiscountTypeService implements FsService<ActivityCommo
 		// TODO Auto-generated method stub
 		return request.getReqType();
 	}
-
 }

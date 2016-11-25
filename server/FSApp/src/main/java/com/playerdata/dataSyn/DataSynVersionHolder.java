@@ -13,7 +13,6 @@ import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
@@ -290,7 +289,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityDailyDiscountType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				ActivityDailyDiscountTypeMgr.getInstance().synCountTypeData(player);
+				//ActivityDailyDiscountTypeMgr.getInstance().synCountTypeData(player);
 				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));

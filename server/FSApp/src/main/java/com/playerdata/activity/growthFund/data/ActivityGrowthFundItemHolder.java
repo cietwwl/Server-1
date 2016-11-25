@@ -28,8 +28,6 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 	public static ActivityGrowthFundItemHolder getInstance(){
 		return instance;
 	}
-
-	final private eSynType synType = eSynType.ActivityGrowthFund;
 	
 	private GrowthFundGlobalData _globalData;
 	
@@ -49,17 +47,12 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 			}
 		}
 	}
-	
-	public void updateItem(Player player, ActivityGrowthFundItem item){
-		getItemStore(player.getUserId()).update(item.getId());
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
-	}
 
 	public void synAllData(Player player) {
 		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
 		if (null != itemList && !itemList.isEmpty()) {
 			checkGrowthFundItemData(itemList);
-			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
 		}
 	}
 
@@ -83,7 +76,12 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 	}
 
 	@Override
-	public PlayerExtPropertyType getExtPropertyType() {
+	protected PlayerExtPropertyType getExtPropertyType() {
 		return PlayerExtPropertyType.ACTIVITY_GROWTHFUND;
+	}
+	
+	@Override
+	protected eSynType getSynType() {
+		return eSynType.ActivityGrowthFund;
 	}
 }

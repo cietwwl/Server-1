@@ -1,16 +1,19 @@
 package com.playerdata.activity.dailyDiscountType.cfg;
 
 public class ActivityDailyDiscountItemCfg {
+	
 	private String id;
 	private String itemIdAndNum;
 	private int countLimit;
 	private int priceAfterDiscount;
 	private int itemId;
 	private int itemNum;
+	private int vipLimit;
 	
 	public String getId() {
 		return id;
 	}
+	
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -18,6 +21,7 @@ public class ActivityDailyDiscountItemCfg {
 	public int getPriceAfterDiscount() {
 		return priceAfterDiscount;
 	}
+	
 	public void setPriceAfterDiscount(int priceAfterDiscount) {
 		this.priceAfterDiscount = priceAfterDiscount;
 	}
@@ -25,29 +29,40 @@ public class ActivityDailyDiscountItemCfg {
 	public int getCountLimit() {
 		return countLimit;
 	}
+	
 	public void setCountLimit(int countLimit) {
 		this.countLimit = countLimit;
 	}
+	
 	public String getItemIdAndNum() {
 		return itemIdAndNum;
 	}
+	
 	public void setItemIdAndNum(String itemIdAndNum) {
 		this.itemIdAndNum = itemIdAndNum;
 	}
+	
 	public int getItemId() {
 		return itemId;
 	}
+	
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
+	
 	public int getItemNum() {
 		return itemNum;
 	}
+	
 	public void setItemNum(int itemNum) {
 		this.itemNum = itemNum;
 	}
-	
-	
-	
-	
+
+	public int getVipLimit() {
+		return vipLimit;
+	}
+
+	public void setVipLimit(int vipLimit) {
+		this.vipLimit = vipLimit;
+	}
 }
