@@ -9,17 +9,11 @@ import com.playerdata.dataSyn.annotation.SynClass;
 public class WBBroatCastData {
 
 	
-	private boolean bossDie;
+	private String killBossRole;
 	
 	private boolean bossLeave;
 
-	public boolean isBossDie() {
-		return bossDie;
-	}
 
-	public void setBossDie(boolean bossDie) {
-		this.bossDie = bossDie;
-	}
 
 	public boolean isBossLeave() {
 		return bossLeave;
@@ -27,6 +21,14 @@ public class WBBroatCastData {
 
 	public void setBossLeave(boolean bossLeave) {
 		this.bossLeave = bossLeave;
+	}
+
+	public String getKillBossRole() {
+		return killBossRole;
+	}
+
+	public void setKillBossRole(String killBossRole) {
+		this.killBossRole = killBossRole;
 	}
 	
 	

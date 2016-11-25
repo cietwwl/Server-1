@@ -5,6 +5,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.cfg.WBHPCfg;
@@ -112,10 +114,10 @@ public class WBMgr {
 			
 			if(wbData.getCurLife()>0){				
 				long curLife = WBDataHolder.getInstance().decrHp(player, hurt);
-				System.out.println("curlift :" + curLife);
+//				System.out.println("curlift :" + curLife);
 				if(isBossDie()){
-					System.err.println("--------------world boss was killed!!");
-					broatCastBossDie();
+//					System.err.println("--------------world boss was killed!!");
+					broatCastBossDie(player.getUserId());
 				}
 				success = true;			
 			}
@@ -127,10 +129,10 @@ public class WBMgr {
 		return success;		
 	}
 	
-	private void broatCastBossDie() {
+	private void broatCastBossDie(String killRoleID) {
 		
 		WBBroatCastData broatCastData = new WBBroatCastData();
-		broatCastData.setBossDie(true);
+		broatCastData.setKillBossRole(killRoleID);
 		
 		broatCast(broatCastData);
 		
@@ -149,8 +151,8 @@ public class WBMgr {
 		for (String userIdTmp: allOnFightUserIds) {
 			Player online = PlayerMgr.getInstance().findPlayerFromMemory(userIdTmp);
 			if(online!=null){				
-				System.out.println("broatcast world boss !, rec role:" + online.getUserName() + ", death:" + broatCastData.isBossDie()
-						+", leave :" + broatCastData.isBossLeave());
+//				System.out.println("broatcast world boss !, rec role:" + online.getUserName() + ", death:" + !StringUtils.isBlank(broatCastData.getKillBossRole())
+//						+", leave :" + broatCastData.isBossLeave());
 				WBBroatCastDataHolder.getInstance().syn(online, broatCastData);
 			}
 		}
