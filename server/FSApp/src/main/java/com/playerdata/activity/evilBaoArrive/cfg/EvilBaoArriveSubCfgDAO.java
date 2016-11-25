@@ -16,7 +16,7 @@ public class EvilBaoArriveSubCfgDAO extends CfgCsvDao<EvilBaoArriveSubCfg> {
 
 	@Override
 	public Map<String, EvilBaoArriveSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("EvilBaoArrive/EvilBaoArriveSubCfg.csv",EvilBaoArriveSubCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/EvilBaoArrive/EvilBaoArriveSubCfg.csv",EvilBaoArriveSubCfg.class);
 		Collection<EvilBaoArriveSubCfg> vals = cfgCacheMap.values();
 		for (EvilBaoArriveSubCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
