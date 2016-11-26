@@ -38,6 +38,7 @@ import com.rw.handler.taoist.TaoistHandler;
 import com.rw.handler.task.TaskHandler;
 import com.rw.handler.teamBattle.service.TeamBattleHandler;
 import com.rw.handler.worShip.WorShipHandler;
+import com.rw.handler.career.SelectCareerHandler;;
 
 public enum ActionEnum {
 	TeamBattle(0, TeamBattleHandler.getInstance()),
@@ -78,6 +79,7 @@ public enum ActionEnum {
 	GroupCompetitionQuiz(35, GroupCompetitionQuizHandler.getHandler()),
 	GroupCompSameScene(36, GroupCompSameSceneHandler.getHandler()),
 	GroupCompetition(37, GroupCompetitionHandler.getHandler()),
+	SelectCareer(38, SelectCareerHandler.instance(), 0),
 	;
 	
 	private int indx;

@@ -40,7 +40,7 @@ public class RecieverData {
 		User user = UserDataDao.getInstance().getByUserId(roleID);
 		TargetSellData returnData = TargetSellData.create(TargetSellOpType.OPTYPE_5004);
 		TargetSellSendRoleItems items = new TargetSellSendRoleItems();
-		items = TargetSellManager.getInstance().iniCommonParam(items, user.getChannelId(), roleID, user.getAccount());
+		items = TargetSellManager.getInstance().initCommonParam(items, user.getChannelId(), roleID, user.getAccount());
 		items.setActionName("all");
 		List<BenefitItems> itemList = new ArrayList<BenefitItems>();
 		itemList.add(getBenefitItems(roleID));

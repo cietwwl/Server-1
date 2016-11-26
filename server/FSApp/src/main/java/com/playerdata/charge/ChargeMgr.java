@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.lang3.StringUtils;
 
 import com.bm.targetSell.TargetSellManager;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
@@ -280,6 +281,7 @@ public class ChargeMgr {
 					ChargeInfoHolder.getInstance().update(player);
 				}
 
+				player.SendMsg(Command.MSG_CHARGE_NOTIFY, null, ByteString.EMPTY); // 充值成功通知
 				GameLog.error("chargemgr", "sdk-充值", "充值成功;  " + chargeContentPojo.getMoney() + "分" + ",充值类型 =" + target.getChargeType() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 			} else {
 				GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元" + ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId() + " 订单号 ="
@@ -433,6 +435,10 @@ public class ChargeMgr {
 		while (cfg.getRechargeCount() <= totalChargeGold) {
 			player.AddVip(1);
 			cfg = privilegeCfgDAO.getCfg(player.getVip() + 1); // 获取下一级的cfg
+			if (cfg == null) {
+				// 没有下一级的cfg，已到达VIP上限
+				break;
+			}
 		}
 		if (preVip != player.getVip()) {
 			// 新添加的直接发送VIP等级礼包

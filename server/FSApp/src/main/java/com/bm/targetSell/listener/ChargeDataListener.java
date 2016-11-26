@@ -1,6 +1,12 @@
 package com.bm.targetSell.listener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.ERoleAttrs;
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
@@ -16,6 +22,7 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 	public void notifyDataChanged(SignleChangedEvent<ChargeInfo> event) {
 		ChargeInfo currentRecord = event.getCurrentRecord();
 		ChargeInfo oldRecord = event.getOldRecord();
+		Player player = PlayerMgr.getInstance().find(oldRecord.getUserId());
 		if(currentRecord.getTotalChargeGold() != oldRecord.getTotalChargeGold()){
 //			System.err.println("gold change-------------------------old charge:" + oldRecord.getTotalChargeGold()
 //					+ ",cur charge:" + currentRecord.getTotalChargeGold());
@@ -24,7 +31,10 @@ public class ChargeDataListener implements SingleChangedListener<ChargeInfo>{
 		if(currentRecord.getTotalChargeMoney() > oldRecord.getTotalChargeMoney()){
 //			System.err.println("money change =======================================" + oldRecord.getTotalChargeMoney()
 //					+ ", cur money:" + currentRecord.getTotalChargeMoney());
-			TargetSellManager.getInstance().increaseChargeMoney(currentRecord.getUserId(), currentRecord.getTotalChargeMoney());
+//			TargetSellManager.getInstance().increaseChargeMoney(currentRecord.getUserId(), currentRecord.getTotalChargeMoney());
+			List<ERoleAttrs> roleAttrsList = new ArrayList<ERoleAttrs>();
+			roleAttrsList.add(ERoleAttrs.r_Charge);
+			TargetSellManager.getInstance().notifyRoleAttrsChange(player, roleAttrsList);
 		}
 		
 	}
