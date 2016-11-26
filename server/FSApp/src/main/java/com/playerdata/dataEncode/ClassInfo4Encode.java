@@ -46,15 +46,22 @@ public class ClassInfo4Encode {
 		if(synClass){
 			String className = StringUtils.substringAfterLast(clazzP.getName(), ".") ;
 			
-			Field[] fields = clazzP.getDeclaredFields();
-			for (Field field : fields) {			
-				String fieldName = field.getName();
-				if(nodeMaper.isEncodedField(className, fieldName)){		
-					
-					field.setAccessible(true);
-					encodeFiledList.add(new EncodeFieldInfo(field,nodeMaper));	
-					nodeMaper.incrEncodeCount(className, fieldName);
-				}
+//			Field[] fields = clazzP.getDeclaredFields();
+//			for (Field field : fields) {			
+//				String fieldName = field.getName();
+//				if(nodeMaper.isEncodedField(className, fieldName)){		
+//					
+//					field.setAccessible(true);
+//					encodeFiledList.add(new EncodeFieldInfo(field,nodeMaper));	
+//					nodeMaper.incrEncodeCount(className, fieldName);
+//				}
+//			}
+			
+			List<String> fieldList = nodeMaper.getFieldList(className);
+			for (String strField : fieldList) {
+				Field declaredField = clazz.getDeclaredField(strField);
+				declaredField.setAccessible(true);
+				encodeFiledList.add(new EncodeFieldInfo(declaredField, nodeMaper));
 			}
 			
 //			Collections.sort(clientFiledList, comparator);
