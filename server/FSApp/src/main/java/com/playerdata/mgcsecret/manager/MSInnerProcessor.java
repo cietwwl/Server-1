@@ -47,11 +47,6 @@ class MSInnerProcessor extends MSConditionJudger {
 	 */
 	public static void handleDropItem(Player player, List<ItemInfo> dropItems) {
 		ItemBagMgr bagMgr = player.getItemBagMgr();
-//		for (ItemInfo itm : dropItems) {
-//			GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品[%s]数量[%s]", itm.getItemID(), itm.getItemNum()), null);
-//			if (!bagMgr.addItem(itm.getItemID(), itm.getItemNum()))
-//				GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("handleDropItem, 添加物品[%s]的时候不成功，有[%s]未添加", itm.getItemID(), itm.getItemNum()), null);
-//		}
 		GameLog.info(LogModule.MagicSecret.getName(), player.getUserId(), String.format("handleDropItem, 准备添加物品：%s", dropItems), null);
 		bagMgr.addItem(dropItems);
 	}
@@ -147,8 +142,13 @@ class MSInnerProcessor extends MSConditionJudger {
 		int stageID = fromDungeonIDToStageID(player, currentDungeonID);
 		int chapterID = fromStageIDToChapterID(stageID);
 		MagicChapterInfo mcInfo = MagicChapterInfoHolder.getInstance().getItem(player.getUserId(), String.valueOf(chapterID));
-		if (mcInfo == null) {
+		if (null == mcInfo) {
 			GameLog.error(LogModule.MagicSecret, player.getUserId(), String.format("provideNextSelectalbeBuff, 由副本id[%s]获得的章节[%s]信息为空", currentDungeonID, chapterID), null);
+			return;
+		}
+		UserMagicSecretData umsData = UserMagicSecretHolder.getInstance().get(player);
+		if (null == umsData) {
+			GameLog.error(LogModule.MagicSecret, player.getUserId(), "provideNextSelectalbeBuff，玩家乾坤幻境信息为空", null);
 			return;
 		}
 		mcInfo.setSelectedDungeonIndex(-1); // -1表示未选择
@@ -162,6 +162,10 @@ class MSInnerProcessor extends MSConditionJudger {
 				continue;
 			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(player,
 					dungDataCfg.getDrop()));
+			if(nextStageID > umsData.getMaxStageID()){
+				//判断是否首掉，如果首掉，就改成首掉物品
+				msdInfo.setDropItem(generateDropItem(player, dungDataCfg.getFirstDrop()));
+			}
 			selectableDungeons.add(msdInfo);
 		}
 		mcInfo.setSelectableDungeons(selectableDungeons);
