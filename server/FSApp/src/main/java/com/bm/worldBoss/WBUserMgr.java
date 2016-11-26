@@ -86,6 +86,8 @@ public class WBUserMgr {
 		WBUserDataHolder.getInstance().update(player);
 		
 		WBHurtRankMgr.addOrUpdate(player);
+//		System.err.println("world boss end battle, last hurt:" + wbUserData.getLastHurt() + ", totalHurt:" + wbUserData.getTotalHurt()
+//				+",reward coin:" + awardCoin);
 	}
 	
 	private int countAwardCoin(Player player, long totalHurt) {

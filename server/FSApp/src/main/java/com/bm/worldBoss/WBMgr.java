@@ -107,13 +107,14 @@ public class WBMgr {
 	}
 	
 	public long decrHp(Player player, long hurt){	
-		long curLife = 0;
+		long trueHurt = 0;
 		writeLock.lock();		
 		try {			
 			WBData wbData = WBDataHolder.getInstance().get();
-			
-			if(wbData.getCurLife()>0){				
-				curLife = WBDataHolder.getInstance().decrHp(player, hurt);
+			long beforeLife = wbData.getCurLife();
+			if(beforeLife > 0){				
+				long curLife = WBDataHolder.getInstance().decrHp(player, hurt);
+				trueHurt = beforeLife - curLife;
 //				System.out.println("curlift :" + curLife);
 				if(isBossDie()){
 //					System.err.println("--------------world boss was killed!!");
@@ -125,7 +126,7 @@ public class WBMgr {
 			writeLock.unlock();			
 		}		
 		synWBData(player, -1);	
-		return curLife;		
+		return trueHurt;		
 	}
 	
 	private void broatCastBossDie(String killRoleID) {
