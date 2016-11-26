@@ -3,6 +3,8 @@ package com.playerdata.mgcsecret.manager;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.bm.rank.magicsecret.MSScoreRankMgr;
 import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.bm.robot.RobotHeroBuilder;
@@ -162,8 +164,8 @@ class MSInnerProcessor extends MSConditionJudger {
 				continue;
 			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), generateEnimyForDungeon(dungDataCfg.getEnimy()), generateDropItem(player,
 					dungDataCfg.getDrop()));
-			if(nextStageID > umsData.getMaxStageID()){
-				//判断是否首掉，如果首掉，就改成首掉物品
+			if(nextStageID > umsData.getMaxStageID() && StringUtils.isNotBlank(dungDataCfg.getFirstDrop())){
+				//判断是否首掉，如果首掉（并且有首掉配置），就改成首掉物品
 				msdInfo.setDropItem(generateDropItem(player, dungDataCfg.getFirstDrop()));
 			}
 			selectableDungeons.add(msdInfo);
