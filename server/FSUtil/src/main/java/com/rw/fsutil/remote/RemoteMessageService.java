@@ -1,20 +1,12 @@
 package com.rw.fsutil.remote;
 
-import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.Future;
-import io.netty.util.concurrent.GenericFutureListener;
-
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
-
-import com.rw.fsutil.cacheDao.FSUtilLogger;
 import com.rw.fsutil.remote.parse.FSMessageDecoder;
 import com.rw.fsutil.remote.parse.FSMessageEncoder;
 import com.rw.fsutil.remote.parse.FSMessageExecutor;
@@ -38,111 +30,102 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 	private final String remoteHost;
 	private final int remotePort;
 	private final int type;
-	private final String portString;
-	private volatile ArrayList<Channel> channels;
-	private final Bootstrap bootstrap;
+	private volatile ArrayList<RemoteServiceSender<SendMessage, ReceiveMessage>> channels;
 	private final int maxConnection;
 	private final RemoteMessageDecoder<ReceiveMessage> decoder;
 	private final RemoteMessageEncoder<SendMessage> encoder;
 	private final FSMessageExecutor<ReceiveMessage> executor;
-	private final AtomicLong sendFailStat;
-	private final AtomicLong sendSuccessStat;
-	private final AtomicLong sendRejectStat;
+	private final NioEventLoopGroup eventGroup;
+	private final AtomicLong sendAvailable;
+	private final AtomicLong unAvailable;
+	private volatile boolean debugLogger;
 
 	public RemoteMessageService(int type, String host, int port, int threadCount, int maxConnection,
 			FSMessageDecoder<ReceiveMessage> decoder, FSMessageEncoder<SendMessage> encoder, FSMessageExecutor<ReceiveMessage> executor) {
 		this.remoteHost = host;
 		this.remotePort = port;
 		this.type = type;
-		this.portString = String.valueOf(port);
 		this.maxConnection = maxConnection;
-		NioEventLoopGroup eventGroup = new NioEventLoopGroup(threadCount);
-		this.bootstrap = new Bootstrap();
-		this.bootstrap.group(eventGroup).channel(NioSocketChannel.class).handler(new ChannelInit());
-		this.channels = new ArrayList<Channel>();
+		this.eventGroup = new NioEventLoopGroup(threadCount);
 		this.decoder = new RemoteMessageDecoder<ReceiveMessage>(decoder);
 		this.encoder = new RemoteMessageEncoder<SendMessage>(encoder);
 		this.executor = executor;
-		this.sendFailStat = new AtomicLong();
-		this.sendSuccessStat = new AtomicLong();
-		this.sendRejectStat = new AtomicLong();
+		this.sendAvailable = new AtomicLong();
+		this.unAvailable = new AtomicLong();
+		this.channels = new ArrayList<RemoteServiceSender<SendMessage, ReceiveMessage>>();
+		for (int i = 0; i < this.maxConnection; i++) {
+			RemoteServiceSender<SendMessage, ReceiveMessage> sender = new RemoteServiceSender<SendMessage, ReceiveMessage>(i + 1, 8192, null, RemoteMessageService.this);
+			this.channels.add(sender);
+			if (i == 0) {
+				sender.checkAndConnect();
+			}
+		}
 
 		eventGroup.scheduleAtFixedRate(new Runnable() {
 
 			@Override
 			public void run() {
-				checkAndCreate();
+				for (int i = 0, size = channels.size(); i < size; i++) {
+					RemoteServiceSender<SendMessage, ReceiveMessage> sender = channels.get(i);
+					if (sender.isWritable()) {
+						break;
+					}
+					if (sender.isActive()) {
+						continue;
+					}
+					sender.checkAndConnect();
+					break;
+				}
 			}
 		}, 1, 1, TimeUnit.SECONDS);
 	}
 
-	private class ChannelInit extends ChannelInitializer<SocketChannel> {
+	class ChannelInit extends ChannelInitializer<SocketChannel> {
+
+		private RemoteServiceSender<SendMessage, ReceiveMessage> sender;
+
+		public ChannelInit(RemoteServiceSender<SendMessage, ReceiveMessage> sender) {
+			this.sender = sender;
+		}
 
 		@Override
 		protected void initChannel(SocketChannel ch) throws Exception {
 			ch.pipeline().addLast(new RemoteMessageDecoderWrap<ReceiveMessage>(decoder));
-			ch.pipeline().addLast(new RemoteServerHandler<SendMessage, ReceiveMessage>(RemoteMessageService.this));
+			ch.pipeline().addLast(new RemoteServerHandler<SendMessage, ReceiveMessage>(sender));
 			ch.pipeline().addLast(new RemoteMessageEncoderWrap<SendMessage>(encoder));
 		}
 	};
 
-	public void checkAndCreate() {
-		if (channels.size() < RemoteMessageService.this.maxConnection) {
-			bootstrap.connect(remoteHost, remotePort).addListener(new GenericFutureListener<Future<? super Void>>() {
-
-				@Override
-				public void operationComplete(Future<? super Void> future) throws Exception {
-					if (future.isSuccess()) {
-						sendSuccessStat.incrementAndGet();
-					} else {
-						sendFailStat.incrementAndGet();
-					}
-				}
-			});
-		}
+	protected ChannelInitializer<SocketChannel> createChannelInitializer(RemoteServiceSender<SendMessage, ReceiveMessage> sender) {
+		return new ChannelInit(sender);
 	}
 
-	protected void add(ChannelHandlerContext ctx) {
-		Channel channel = ctx.channel();
-		String address = channel.remoteAddress().toString();
-		if (!address.contains(remoteHost) || !address.contains(portString)) {
-			FSUtilLogger.error("illegal remote address=" + address + ",expect=" + remoteHost + ":" + portString);
-			return;
-		}
-		synchronized (this) {
-			ArrayList<Channel> list = new ArrayList<Channel>(this.channels);
-			list.add(channel);
-			this.channels = list;
-		}
-		FSUtilLogger.error("remote connection active:" + type + ",address=" + address);
-	}
-
-	protected void remove(ChannelHandlerContext ctx) {
-		Channel channel = ctx.channel();
-		synchronized (this) {
-			ArrayList<Channel> list = new ArrayList<Channel>(this.channels);
-			list.remove(channel);
-			this.channels = list;
-		}
-		FSUtilLogger.error("remote connection closed:" + type + ",address=" + ctx.channel().remoteAddress());
-	}
-
-	public boolean sendMsg(String content) {
-		ArrayList<Channel> current = channels;
-		int size = current.size();
-		if (size == 0) {
-			sendRejectStat.incrementAndGet();
+	public boolean sendMsg(SendMessage content) {
+		RemoteServiceSender<SendMessage, ReceiveMessage> sender = getAvailableSender();
+		if (sender == null) {
+			unAvailable.incrementAndGet();
 			return false;
+		} else {
+			sender.sendMsg(content);
+			sendAvailable.incrementAndGet();
+			return true;
 		}
+	}
 
+	public List<RemoteServiceSender<SendMessage, ReceiveMessage>> getAllSenders() {
+		return new ArrayList<RemoteServiceSender<SendMessage, ReceiveMessage>>(this.channels);
+	}
+
+	public RemoteServiceSender<SendMessage, ReceiveMessage> getAvailableSender() {
+		ArrayList<RemoteServiceSender<SendMessage, ReceiveMessage>> current = channels;
+		int size = current.size();
 		int index = RandomUtil.getRandom().nextInt(size);
 		int maxIndex = size - 1;
 		// writable
 		for (int i = 0; i < size; i++) {
-			Channel channel = current.get(index);
+			RemoteServiceSender<SendMessage, ReceiveMessage> channel = current.get(index);
 			if (channel.isWritable()) {
-				channel.writeAndFlush(content);
-				return true;
+				return channel;
 			}
 			if (index == maxIndex) {
 				index = 0;
@@ -152,10 +135,9 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 		}
 		// active
 		for (int i = 0; i < size; i++) {
-			Channel channel = current.get(index);
+			RemoteServiceSender<SendMessage, ReceiveMessage> channel = current.get(index);
 			if (channel.isActive()) {
-				channel.writeAndFlush(content);
-				return true;
+				return channel;
 			}
 			if (index == maxIndex) {
 				index = 0;
@@ -163,8 +145,7 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 				index++;
 			}
 		}
-		sendRejectStat.incrementAndGet();
-		return false;
+		return null;
 	}
 
 	public FSMessageExecutor<ReceiveMessage> getExecutor() {
@@ -172,33 +153,17 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 	}
 
 	/**
-	 * 获取发送消息被拒绝数
+	 * 获取远程连接ip
 	 * @return
 	 */
-	public long getSendRejectCount() {
-		return this.sendRejectStat.get();
-	}
-
-	/**
-	 * 获取发送消息成功数
-	 * @return
-	 */
-	public long getSendSuccessCount() {
-		return this.sendSuccessStat.get();
-	}
-
-	/**
-	 * 获取发送消息失败数
-	 * @return
-	 */
-	public long getSendFailCount() {
-		return this.sendFailStat.get();
-	}
-
 	public String getRemoteHost() {
 		return remoteHost;
 	}
 
+	/**
+	 * 获取远程连接端口
+	 * @return
+	 */
 	public int getRemotePort() {
 		return remotePort;
 	}
@@ -214,4 +179,17 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 	public int getConnectionCount() {
 		return channels.size();
 	}
+
+	protected NioEventLoopGroup getEventGroup() {
+		return eventGroup;
+	}
+
+	public boolean isDebugLogger() {
+		return debugLogger;
+	}
+
+	public void setDebugLogger(boolean debugLogger) {
+		this.debugLogger = debugLogger;
+	}
+
 }

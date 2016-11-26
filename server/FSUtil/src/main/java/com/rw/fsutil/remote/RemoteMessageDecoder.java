@@ -1,15 +1,14 @@
 package com.rw.fsutil.remote;
 
-import java.util.Arrays;
-import java.util.List;
-
-import com.rw.fsutil.remote.parse.FSMessageDecoder;
-import com.rw.fsutil.remote.parse.FSMessagePrefix;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.CorruptedFrameException;
+
+import java.util.List;
+
+import com.rw.fsutil.remote.parse.FSMessageDecoder;
+import com.rw.fsutil.remote.parse.FSMessagePrefix;
 
 public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
 
@@ -46,32 +45,7 @@ public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
 		}
 		byte[] data = new byte[dataSize];
 		in.readBytes(data);
-		String content = new String(data);
-		System.out.println("normal:"+content);
-		if(content.charAt(content.length()-1) != '}'){
-
-			int readSize = in.readableBytes();
-			System.out.println("exception:"+readSize+",dataSize="+dataSize);
-			if(readSize > 0){
-				in.markReaderIndex();
-				byte[] remainArray = new byte[readSize];
-				in.readBytes(remainArray);
-				in.resetReaderIndex();
-				byte[] total = new byte[dataSize+readSize];
-				System.arraycopy(data, 0, total, 0, data.length);
-				System.arraycopy(remainArray, 0, total, data.length, remainArray.length);
-				System.out.println("exception:"+new String(total));
-			}
-		}
 		ReceiveMessage message = decoder.convertToMessage(data);
 		out.add(message);
-		int remainSize = in.readableBytes();
-		if(remainSize == 0){
-			return;
-		}
-		in.markReaderIndex();
-		byte[] remain = new byte[remainSize];
-		System.out.println("remain:"+new String(remain));
-		in.resetReaderIndex();
 	}
 }

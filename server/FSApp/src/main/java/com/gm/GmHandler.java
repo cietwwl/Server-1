@@ -40,6 +40,7 @@ import com.gm.task.GmForClassLoad;
 import com.gm.task.GmGetRankList;
 import com.gm.task.GmHotUpdate;
 import com.gm.task.GmKickOffPlayer;
+import com.gm.task.GmRemoteMsgSenderState;
 import com.gm.task.GmMessageServiceRemoved;
 import com.gm.task.GmNotifyGenerateGiftPackage;
 import com.gm.task.GmOnlineCount;
@@ -78,18 +79,18 @@ import com.log.LogModule;
 import com.rw.fsutil.log.GmLog;
 
 public class GmHandler {
-	
+
 	private String gmAccount = "gm";
-	
+
 	private String gmPassword = "passwd";
-	
+
 	private Map<Integer, IGmTask> taskMap = new HashMap<Integer, IGmTask>();
-	
-	public GmHandler(String account, String password){
+
+	public GmHandler(String account, String password) {
 		this.gmAccount = account;
 		this.gmPassword = password;
-		
-		//运维功能
+
+		// 运维功能
 		taskMap.put(1001, new GmServerSwitch());
 		taskMap.put(1002, new GmKickOffPlayer());
 		taskMap.put(1003, new GmSavePlayer());
@@ -98,19 +99,17 @@ public class GmHandler {
 		taskMap.put(1006, new GmWhiteListModify());
 		taskMap.put(1007, new GmOnlineLimitModify());
 		taskMap.put(1008, new GmChargeSwitch());
-		taskMap.put(1009, new GmServerInfo());				
+		taskMap.put(1009, new GmServerInfo());
 		taskMap.put(1010, new GmCheckDataOpProgress());
 		taskMap.put(1011, new GmHotUpdate());
-		//机器人
+		// 机器人
 		taskMap.put(3001, new GmStartRobotCreation());
-		//开启和关闭游戏内的gm指令
+		// 开启和关闭游戏内的gm指令
 		taskMap.put(4001, new GmSwitchBIGm());
-		//for class load by classname
+		// for class load by classname
 		taskMap.put(888888, new GmForClassLoad());
-		
-	
-		
-		//运营功能
+
+		// 运营功能
 		taskMap.put(20001, new GmUserInfo());
 		taskMap.put(20002, new GmServerStatus());
 		taskMap.put(20003, new GmEditPlatformNotice());
@@ -128,7 +127,7 @@ public class GmHandler {
 		taskMap.put(20020, new GmExecuteGM());
 		taskMap.put(20021, new GmEmailSingleCheck());
 		taskMap.put(20022, new GmEmailSingleDelete());
-		
+
 		taskMap.put(20023, new GmBlockPlayer());
 		taskMap.put(20024, new GmBlockRelease());
 		taskMap.put(20025, new GmChatBanPlayer());
@@ -138,7 +137,7 @@ public class GmHandler {
 		taskMap.put(20029, new GmOpExp());
 		taskMap.put(20030, new GmUserDetailInfo());
 		taskMap.put(20032, new GmViewFriends());
-		
+
 		taskMap.put(20035, new GmCheckBag());
 		taskMap.put(20036, new GmDeleteBag());
 		taskMap.put(20037, new GmViewEquipments());
@@ -156,24 +155,23 @@ public class GmHandler {
 		taskMap.put(20073, new GmQueryGroupInfo());
 		taskMap.put(20074, new GmViewGroupMember());
 		taskMap.put(20075, new GmEditLevel());
-		//移除消息处理器(屏蔽指定功能消息入口)
+		// 移除消息处理器(屏蔽指定功能消息入口)
 		taskMap.put(20076, new GmMessageServiceRemoved());
-		
+		taskMap.put(20077, new GmRemoteMsgSenderState());
+
 		taskMap.put(99999, new GmExecuteGMCommand());
-		
-		
-		//获取各种排名的用户id列表
+
+		// 获取各种排名的用户id列表
 		taskMap.put(77777, new GmGetRankList());
-		//修改服务器关闭提示语
+		// 修改服务器关闭提示语
 		taskMap.put(99998, new GmEditCloseTips());
-		//更新缓存记录开关
+		// 更新缓存记录开关
 		taskMap.put(99997, new GmUpdateCacheSwitch());
-		//重新加载配置表
+		// 重新加载配置表
 		taskMap.put(99996, new GmReloadCfg());
 	}
 
-	
-	public void handle(Socket socket){
+	public void handle(Socket socket) {
 		try {
 			// 读取客户端数据
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
@@ -187,7 +185,7 @@ public class GmHandler {
 				gmResponse.setCount(0);
 				Map<String, Object> resultMap = new HashMap<String, Object>();
 				resultMap.put("value", "Can not find the gm command.");
-				gmResponse.addResult(resultMap );
+				gmResponse.addResult(resultMap);
 			} else {
 				if (unAuthorize(gmRequest)) {
 
@@ -210,15 +208,15 @@ public class GmHandler {
 					}
 				}
 			}
-			
+
 			SocketHelper.write(output, gmResponse);
 			output.flush();
 			GameLog.info(LogModule.GM.getName(), "gmId", "GmHandler[handle] 消息发送成功", null);
-			
+
 			output.close();
 			input.close();
-			
-		} catch (Exception e) {			
+
+		} catch (Exception e) {
 			GameLog.error(LogModule.GM.getName(), "gmId", "GmHandler[handle] gm处理异常", e);
 		} finally {
 			if (socket != null) {
@@ -232,22 +230,18 @@ public class GmHandler {
 		}
 	}
 
-
 	private boolean unAuthorize(GmRequest gmRequest) {
 		String account = gmRequest.getAccount();
-		String password = gmRequest.getPassword();		
+		String password = gmRequest.getPassword();
 		return !StringUtils.equals(gmAccount, account) || !StringUtils.equals(gmPassword, password);
 	}
-
 
 	public void setGmAccount(String gmAccount) {
 		this.gmAccount = gmAccount;
 	}
 
-
 	public void setGmPassword(String gmPassword) {
 		this.gmPassword = gmPassword;
 	}
-	
-	
+
 }
