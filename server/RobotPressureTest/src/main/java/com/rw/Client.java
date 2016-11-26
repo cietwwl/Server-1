@@ -52,6 +52,7 @@ import com.rw.handler.magicSecret.MagicChapterInfoHolder;
 import com.rw.handler.magicSecret.MagicSecretHolder;
 import com.rw.handler.majordata.MajorDataholder;
 import com.rw.handler.peakArena.PeakArenaDataHolder;
+import com.rw.handler.player.RoleBaseInfoHolder;
 import com.rw.handler.player.UserGameDataHolder;
 import com.rw.handler.sign.SignDataHolder;
 import com.rw.handler.store.StoreItemHolder;
@@ -157,6 +158,8 @@ public class Client {
 	private TaoistDataHolder taoistDataHolder = new TaoistDataHolder();
 
 	private UserGameDataHolder userGameDataHolder = new UserGameDataHolder();
+	
+	private RoleBaseInfoHolder roleBaseInfoHolder = new RoleBaseInfoHolder();
 
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
 	
@@ -435,6 +438,10 @@ public class Client {
 
 	public UserGameDataHolder getUserGameDataHolder() {
 		return userGameDataHolder;
+	}
+
+	public RoleBaseInfoHolder getRoleBaseInfoHolder() {
+		return roleBaseInfoHolder;
 	}
 
 	public CopyHolder getCopyHolder() {
