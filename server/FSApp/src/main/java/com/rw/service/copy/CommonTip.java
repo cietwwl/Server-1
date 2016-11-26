@@ -13,4 +13,5 @@ public class CommonTip {
 	public static String STAGE_NOT_3_STAR_PASS = "非3星通关不可扫荡";
 	public static String TICKET_OR_GOLD_NOT_ENOUGH = "扫荡券或钻石不足";
 	public static String STAR_NOT_ENOUGH = "领取失败，星数不够";
+	public static String COIN_TOO_MUCH = "数据异常，本次战斗无效";
 }
