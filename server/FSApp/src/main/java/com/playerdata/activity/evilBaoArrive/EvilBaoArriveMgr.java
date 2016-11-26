@@ -10,8 +10,6 @@ import com.log.LogModule;
 import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfg;
-import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfg;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfg;
@@ -83,14 +81,14 @@ public class EvilBaoArriveMgr extends AbstractActivityMgr<EvilBaoArriveItem> {
 				result.setReason("已领取过该奖励");
 				return result;
 			}
-			ActivityDailyChargeSubCfg subCfg = ActivityDailyChargeSubCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+			EvilBaoArriveSubCfg subCfg = EvilBaoArriveSubCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
 			if (null == subCfg) {
 				result.setReason("找不到子活动类型的配置数据");
 				return result;
 			}
 			EvilBaoArriveCfg cfg = EvilBaoArriveCfgDAO.getInstance().getCfgById(activityID);
 			// 判断领取条件
-			if (isLevelEnough(player, cfg) && dataItem.getFinishCount() >= subCfg.getCount()) {
+			if (isLevelEnough(player, cfg) && dataItem.getFinishCount() >= subCfg.getAwardCount()) {
 				if (takeGift(player, targetItem)) {
 					result.setSuccess(true);
 					dataHolder.updateItem(player, dataItem);
