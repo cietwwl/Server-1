@@ -527,7 +527,7 @@ public class RankingMgr {
 	public RankingLevelData getFirstRankingData(ECareer type) {
 		try {
 
-			Ranking<?, ?> ranking = RankingFactory.getRanking(RankType.ARENA);
+			Ranking<?, ?> ranking = RankingFactory.getRanking(RankType.ARENA_DAILY);
 			if (ranking == null) {
 				GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
 				return null;

@@ -11,7 +11,7 @@ public class GmMessageServiceRemoved extends AGMHandler{
 
 	@Override
 	public GmRequest createGmRequest() {
-		this.opType = 20076;
+		this.opType = 99996;
 		this.account = GMManager.ACCOUNT_VALUE;
 		this.password = GMManager.PASSWORD_VALUE;
 		

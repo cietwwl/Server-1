@@ -138,9 +138,19 @@ public enum RankType implements TypeIdentification, RankingConfig {
 
 	public static RankType getRankType(int type, int realTime) {
 		if (realTime == 0) {
-			return dailyMap.get(type);
+			RankType rankType = dailyMap.get(type);
+			if (rankType == null) {
+				return ARENA_DAILY;
+			} else {
+				return rankType;
+			}
 		} else {
-			return realTimeMap.get(type);
+			RankType rankType = realTimeMap.get(type);
+			if (rankType == null) {
+				return ARENA;
+			} else {
+				return rankType;
+			}
 		}
 	}
 

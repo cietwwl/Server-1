@@ -60,13 +60,13 @@ public class WorshipMgr {
 //		if(career == ECareer.None){
 //			return;
 //		}
-//		
-//		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-//		sendWorshipReward(career);
-//		tableWorship.clear();
-//		worshipDao.update(tableWorship);
+		
+		TableWorship tableWorship = worshipDao.get(String.valueOf(ECareer.Warrior.getValue()));
+		sendWorshipReward(ECareer.Warrior);
+		tableWorship.clear();
+		worshipDao.update(tableWorship);
 //		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
-//		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship,"TopChanged", getByWorshipedInfo());
+		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship,"TopChanged", getByWorshipedInfo());
 	}
 	
 	/**重排排行榜时发送膜拜奖励*/
