@@ -1,7 +1,7 @@
 package com.playerdata.activity.dailyCharge.cfg;
 import com.common.BaseConfig;
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
-import com.rw.fsutil.util.DateUtils;
 
 public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	private int id; //活动id
@@ -57,8 +57,8 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 
 	@Override
  	public void ExtraInitAfterLoad() {
- 		startTime = DateUtils.YyyymmddhhmmToMillionseconds(startTimeStr);
-		endTime = DateUtils.YyyymmddhhmmToMillionseconds(endTimeStr);
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
  	}
 
 	@Override

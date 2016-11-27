@@ -1,5 +1,6 @@
 package com.playerdata.activity.evilBaoArrive.cfg;
 import com.common.BaseConfig;
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 public class EvilBaoArriveCfg extends BaseConfig implements ActivityCfgIF{
@@ -48,20 +49,12 @@ public class EvilBaoArriveCfg extends BaseConfig implements ActivityCfgIF{
 
 	@Override
 	public long getStartTime() {
-		return 0;
+		return startTime;
 	}
 
 	@Override
 	public long getEndTime() {
-		return Long.MAX_VALUE;
-	}
-	
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
+		return endTime;
 	}
 
 	@Override
@@ -73,4 +66,10 @@ public class EvilBaoArriveCfg extends BaseConfig implements ActivityCfgIF{
 	public boolean isDailyRefresh() {
 		return isAutoRefresh == 1;
 	}
+	
+	@Override
+ 	public void ExtraInitAfterLoad() {
+ 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+ 	}
 }
