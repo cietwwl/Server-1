@@ -67,9 +67,9 @@ HAS_NOT_EQUIP,,HAS_NOT_EQUIP,无装备
 BUY_HERO_SKILL,,BUY_HERO_SKILL,购买{1}技能点需花费{2}钻石，是否继续
 WORSHIP_RULE,,WORSHIP_RULE,"1、膜拜者列表显示膜拜者信息，有膜拜者才有奖励
 2、一个膜拜者对应一份奖励，领取的奖励有上限值
-3、奖励跟随竞技场排名的刷新时间，每天下午5点重置奖励
+3、奖励跟随论道场排名的刷新时间，每天下午5点重置奖励
 4、每隔一段时间会更换奖励类型"
-WORSHIP_INTRO,,WORSHIP_INTRO,成为竞技场职业排名第一就可让全服玩家膜拜，被膜拜的玩家收到来自膜拜者的奖励。
+WORSHIP_INTRO,,WORSHIP_INTRO,成为论道场排名第一就可让全服玩家膜拜，被膜拜的玩家收到来自膜拜者的奖励。
 SECRET_INTRODUCE,,SECRET_INTRODUCE,"1，在帮派秘境，你可以选择探索多个秘境，也能搜索并掠夺被人的秘境。
 2，你需要派遣英雄防守自己的秘境，主角等级越高，探索资源的越多
 3，秘境可以探索到帮派物资，用于帮派技能升级，该资源的获取与主角等级无关
@@ -94,8 +94,8 @@ WORSHIP_POWER_SPILL,,WORSHIP_POWER_SPILL,你的体力已达到上限，是否继
 SECRET_ENTER_LIMIT,,SECRET_ENTER_LIMIT,加入帮派才能进入帮派秘境
 INLAY_Level,,INLAY_Level,英雄等级不足
 ARENA_MODETIMES_TIP,,ARENA_MODETIMES_TIP,"购买次数已满，请前往升级贵族等级,以获得更多次数！"
-ARENA_BATTLETIMES_CONSUME_TIP,,ARENA_BATTLETIMES_CONSUME_TIP,是否花费{0}钻石购买竞技场门票？
-ARENA_BATTLETIMES_RESET,,ARENA_BATTLETIMES_RESET,需要贵族等级3才能重置竞技场 ，是否前往充值？
+ARENA_BATTLETIMES_CONSUME_TIP,,ARENA_BATTLETIMES_CONSUME_TIP,是否花费{0}钻石购买论道场门票？
+ARENA_BATTLETIMES_RESET,,ARENA_BATTLETIMES_RESET,需要贵族等级3才能重置论道场 ，是否前往充值？
 BATTLETOWERDTIP,,BATTLETOWERDTIP,"1.封神台通关任意层或进行扫荡或挑战将会有几率触发神秘BOSS，攻打神秘BOSS，不消耗任何资源
 2.神秘BOSS在每天扫荡或挑战封神台时，必然会出现一次，最多出现3次
 3.每个神秘BOSS都非常特殊，需要适合的英雄去挑战
@@ -107,8 +107,8 @@ Guild_pos_1,,,帮主
 Guild_pos_2,,,副帮主
 Guild_pos_3,,,官员
 Guild_pos_4,,,成员
-Guild_online,,,在线
-Guild_offline,,,离线
+Guild_online,,,[25ae00]在线[-]
+Guild_offline,,,[2f2f2f]离线[-]
 Consume_item_1,,,金币
 Consume_item_2,,,钻石
 DonateIncomeType_1,,," +帮派物资"
@@ -145,7 +145,7 @@ MAGIC_QUALITY_B,,,名器
 MAGIC_QUALITY_C,,,凡器
 NewGuide_NonTargetTip,,,请按照指示操作
 ArenaScoreRule_Tip,,,胜利：积分+{0}  失败：积分+{1}
-ArenaScore_Tip,,,在竞技场与对手战斗皆可获得积分，每天5:00重置.
+ArenaScore_Tip,,,在论道场与对手战斗皆可获得积分，每天5:00重置.
 PVERestTip1,,,重置次数不足，提升贵族等级可获取更多次数
 PVERestTip2,,,重置次数不足，提升贵族等级可获取更多次数。（今日已重置{0}次）
 PVERestTip3,,,重置关卡进入次数需要花费{0}钻石，是否重置？(今日已重置{1}次)
@@ -264,12 +264,11 @@ GroupCopyRule,,,"
 11，完成每个关卡最后一击的成员可以获得一定贡献奖励。
 12，每场帮派副本的战斗结束时，挑战者会根据单次战斗的输出伤害，得到一定金币奖励。
 13，帮派副本会掉落特殊战利品，帮派成员可以申请获得这些战利品。
-14，每天10:30至23:30之间每隔1小时30分，系统会按照队列顺序自动分配所有未分配战利品。
+14，每天每隔1小时，系统会按照队列顺序自动分配所有未分配战利品。
 15，在战利品掉落后才加入帮派的成员无法获得这件战利品，系统自动在自动分配时会暂时跳过队列中加入帮派过晚的玩家。
 16，每位玩家同时只能申请一件战利品，取消申请或者申请其他战利品都将离开原队列，原排名不保留。
 17，帮主每天可以手动分配一件战利品。通过任何方式获得战利品的玩家，都将自动离开这件战利品的申请队列。
-18，在某个申请队列中不处于在首位的玩家可以支付一定帮派贡献插队至首位，被插队的玩家将获得一定帮派贡献的补偿。
-19，若发生插队的时间距离下次分配时间不足1小时，则该战利品延迟一次分配。"
+18，在某个申请队列中不处于在首位的玩家可以支付一定帮派贡献插队至首位，被插队的玩家将获得一定帮派贡献的补偿。"
 GambleLeftGuarantee,,,再买[FFBB00]{0}[-]个后必送{1}
 GambleBuyGuarantee,,,本次必送{0}
 GambleCoinPreviewTitle,,,低级经验丹购买——英雄奖励预览
@@ -374,7 +373,10 @@ RB_ParticipationAward,,RB_ParticipationAward,[FF7200]魔神掉落[-]
 RB_DiscoveryPackage,,RB_DiscoveryPackage,[FF7200]发现者礼包[-]
 RB_FianlBlow,,RB_FianlBlow,[2F2F2F]完成[-][FF7200]最后一击[-][2F2F2F]奖励[-]
 LevelNotEnoughUse,,LevelNotEnoughUse,您的等级还无法使用此道具哦
-WorldBossKilledTips,,WorldBossKilledTips,世界boss在{0}被击杀，[2F2F2F]{1}完成[-][FF7200]最后一击[-]
+WorldBossKilledTips,,WorldBossKilledTips,"魔神在[ff7200]{0}[-]后[ff7200]被击杀[-]
+由[ff7200]{1}[-]完成[ff7200]最后一击[-]"
+WorldBossLeaveTips,,WorldBossLeaveTips,"魔神在[ff7200]{0}[-][ff7200]逃跑[-]
+魔神[ff7200]下次击杀奖励增加[-]"
 CHARGE_CLOSE_TIPS,,CHARGE_CLOSE_TIPS,充值功能暂未开放哦
 TipsNoSkillNeedToUpgrade,,TipsNoSkillNeedToUpgrade,暂时没有需要升级技能的英雄
 LevelNotEnoughCompose,,LevelNotEnoughCompose,合成所需主角等级不足
@@ -383,4 +385,5 @@ CommonSoul_Limit,,CommonSoul_Limit,每次最多只能转化{0}个英雄魂石
 CommonSoul_Max,,CommonSoul_Max,万能魂石数量不足
 CommonSoul_Zero,,CommonSoul_Zero,请选择转化数量
 CommonSoul_Use,,CommonSoul_Use,该物品无法直接使用，请点击英雄魂石获取进行转化
-TipsNoSkillNeedToUpgrade,,,暂时没有需要升级技能的英雄
+DiscountRefreshTips,,DiscountRefreshTips,每天凌晨5点刷新折扣商品
+DiscountNotRefreshTips,,DiscountNotRefreshTips,欢迎大家前来购物
