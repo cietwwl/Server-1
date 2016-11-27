@@ -25,10 +25,6 @@ public class WBCfg {
 	private String killAttackAwardId;//最后一击奖励
 	private String killAttackAward;//最后一击奖励
 	
-	private long preStartTime;
-	private long startTime;
-	private long endTime;
-	private long finishTime;
 
 	public String getId() {
 		return id;
@@ -52,19 +48,19 @@ public class WBCfg {
 	}
 	
 	public long getStartTime(){
-		return startTime;
+		return getTime(startTimeStr);
 	}
 
 	public long getEndTime(){
-		return endTime;
+		return getTime(endTimeStr);
 	}
 	
 	public long getPreStartTime(){
-		return preStartTime;
+		return getTime(preStartTimeStr);
 	}
 	
 	public long getFinishTime(){
-		return finishTime;
+		return getTime(finishTimeStr);
 	}
 		
 	
@@ -87,13 +83,7 @@ public class WBCfg {
 	}
 	
 	
-	
-	public void fomatData() {
-		this.preStartTime = getTime(preStartTimeStr);
-		this.startTime = getTime(startTimeStr);
-		this.endTime = getTime(endTimeStr);
-		this.finishTime = getTime(finishTimeStr);
-	}
+
 	
 	private long getTime(String cfgTime) {
 

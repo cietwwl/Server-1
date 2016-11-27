@@ -23,15 +23,6 @@ public final class WBCfgDAO extends CfgCsvDao<WBCfg> {
 		return cfgCacheMap;
 	}
 	
-	@Override
-	public void CheckConfig() {
-		for (WBCfg cfg : cfgCacheMap.values()) {
-			cfg.fomatData();
-		}
-	}
-
-	
-	
 	
 
 	public WBCfg getNextCfg(){
