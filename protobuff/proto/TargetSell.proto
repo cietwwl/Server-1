@@ -24,4 +24,6 @@ message TargetSellRespMsg{
 message UpdateBenefitScore{
 	required int32 score = 1;//当前积分
 	required int64 nextRefreshTime = 2;//下次刷新时间
+	optional string dataStr = 3;//可显示奖励 
+	optional int32 itemGroupId = 4;//需要隐藏的道具组id
 }

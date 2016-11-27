@@ -505,7 +505,7 @@ public class FettersBM {
 			fetterInfoList.add(builder.build());
 		}
 		if (fetterInfoList.size() > 0) {
-			System.out.println("发送仙缘激活列表到客户端！" + fetterIds);
+			com.log.GameLog.info("FettersBM", player.getUserId(), String.format("发送仙缘激活列表到客户端！%s，类型：%s", fetterIds, type));
 			HeroFetterNotify.Builder notifyBuilder = HeroFetterNotify.newBuilder();
 			notifyBuilder.addAllFetterInfo(fetterInfoList);
 			player.SendMsg(Command.MSG_FETTER_ACTIVITY_NOTIFY, notifyBuilder.build().toByteString());
