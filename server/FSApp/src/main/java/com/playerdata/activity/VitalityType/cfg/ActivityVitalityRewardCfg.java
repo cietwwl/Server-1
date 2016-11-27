@@ -1,12 +1,9 @@
 package com.playerdata.activity.VitalityType.cfg;
 
 
-
-
 public class ActivityVitalityRewardCfg {
 
-	private String id;
-	
+	private String id;	
 	
 	//计数
 	private int activeCount;
@@ -19,6 +16,8 @@ public class ActivityVitalityRewardCfg {
 	private String emailTitle;
 	
 	private int activeType;	
+	
+	private String version;
 	
 	public int getActiveType() {
 		return activeType;
@@ -65,13 +64,9 @@ public class ActivityVitalityRewardCfg {
 		this.id = id;
 	}
 
-	private String version;
-	
 	public String getId() {
 		return id;
 	}
-
-
 
 	public int getDay() {
 		return day;
@@ -80,13 +75,4 @@ public class ActivityVitalityRewardCfg {
 	public void setDay(int day) {
 		this.day = day;
 	}
-
-
-
-
-
-	
-	
-	
-	
 }

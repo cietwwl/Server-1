@@ -21,15 +21,10 @@ public class ActivityVitalityCfg {
 	private boolean isCanGetReward;
 	
 	private String enumID;
-	
-
 
 	private String version;
 
 	private int levelLimit;
-
-	
-
 
 	public String getEnumID() {
 		return enumID;
@@ -98,14 +93,4 @@ public class ActivityVitalityCfg {
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
-
-	
-
-
-
-
-
-
-	
-	
 }
