@@ -29,11 +29,7 @@ import com.rw.manager.ServerSwitch;
 import com.rw.netty.ServerConfig;
 
 public class PlayerQuestionService {
-	private static PlayerQuestionService instance = new PlayerQuestionService();
 	private GmSenderConfig senderConfig; 
-	private BlockingQueue<QuestionObject> Queue = new LinkedBlockingQueue<PlayerQuestionService.QuestionObject>();
-	
-	private ExecutorService sendService;
 
 	private ExecutorService submitService;
 
@@ -53,8 +49,6 @@ public class PlayerQuestionService {
 		
 
 		giftSenderPool = new GmSenderPool(senderConfig);
-
-		sendService = Executors.newSingleThreadExecutor();
 		submitService = Executors.newFixedThreadPool(10);
 
 	}
@@ -67,11 +61,10 @@ public class PlayerQuestionService {
 				if (player == null) {
 					return null;
 				}
-				PlayerQuestionMgr playerQuestionMgr = player.getPlayerQuestionMgr();
 				QueryBaseResponse send = borrowSender.send(content, QueryBaseResponse.class, opType);
 				String result = send.getResult();
-				List deserializeList = FastJsonUtil.deserializeList(result, responseClass);
-				return (T)deserializeList.get(0); 
+				List<T> deserializeList = FastJsonUtil.deserializeList(result, responseClass);
+				return deserializeList.get(0); 
 
 			} catch (Exception e) {
 				borrowSender.setAvailable(false);//return pool之后会呗销毁。
@@ -97,18 +90,6 @@ public class PlayerQuestionService {
 				final GmSender borrowSender = giftSenderPool.borrowSender();
 				if (borrowSender != null) {
 					if (obj != null) {
-						addSendTask(borrowSender, obj);
-					}
-				}
-
-			}
-
-			private void addSendTask(final GmSender borrowSender, final QuestionObject obj) {
-				sendService.submit(new Runnable() {
-
-					@SuppressWarnings({ "unchecked", "rawtypes" })
-					@Override
-					public void run() {
 						try {
 							String userId = obj.getUserId();
 							Player player = PlayerMgr.getInstance().find(userId);
@@ -127,9 +108,9 @@ public class PlayerQuestionService {
 						} finally {
 							giftSenderPool.returnSender(borrowSender);
 						}
-
 					}
-				});
+				}
+
 			}
 		});
 

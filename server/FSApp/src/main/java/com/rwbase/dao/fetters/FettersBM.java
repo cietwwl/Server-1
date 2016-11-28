@@ -3,9 +3,12 @@ package com.rwbase.dao.fetters;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import com.playerdata.Player;
 import com.rwbase.dao.fetters.pojo.IFettersCheckForceUseHeroId;
@@ -13,6 +16,7 @@ import com.rwbase.dao.fetters.pojo.IFettersSubCondition;
 import com.rwbase.dao.fetters.pojo.IFettersSubRestrictCondition;
 import com.rwbase.dao.fetters.pojo.SynConditionData;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
+import com.rwbase.dao.fetters.pojo.cfg.FettersBaseCfg;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersBaseTemplate;
@@ -26,6 +30,10 @@ import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroFightingCheckImpl;
 import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroLevelCheckImpl;
 import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroQualityCheckImpl;
 import com.rwbase.dao.fetters.pojo.impl.subcondition.HeroStarCheckImpl;
+import com.rwproto.HeroFetterProto.HeroFetterInfo;
+import com.rwproto.HeroFetterProto.HeroFetterNotify;
+import com.rwproto.HeroFetterProto.HeroFetterType;
+import com.rwproto.MsgDef.Command;
 
 /*
  * @author HC
@@ -220,8 +228,10 @@ public class FettersBM {
 	 * 
 	 * @param player 角色
 	 * @param heroModelId 英雄ModelId
+	 * @param canSyn
+	 * @param newIdList
 	 */
-	public static void checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn) {
+	public static void checkOrUpdateHeroFetters(Player player, int heroModelId, boolean canSyn, List<Integer> newIdList) {
 		List<FettersBaseTemplate> fettersList = FettersBaseCfgDAO.getCfgDAO().getFettersBaseTemplateListByHeroModelId(heroModelId);
 		if (fettersList == null || fettersList.isEmpty()) {
 			return;
@@ -298,11 +308,27 @@ public class FettersBM {
 
 		// 推送数据
 		SynFettersData syn = player.getHeroFettersByModelId(heroModelId);
+		Set<Integer> currentSet = null;
 		if (syn == null) {
 			syn = new SynFettersData();
 			syn.setHeroModelId(heroModelId);
+		} else {
+			currentSet = new HashSet<Integer>(syn.getOpenList().keySet());
 		}
 		syn.setOpenList(openFettersMap);
+		if (newIdList != null) {
+			if (currentSet != null) {
+				Integer newId;
+				for (Iterator<Integer> keyItr = openFettersMap.keySet().iterator(); keyItr.hasNext();) {
+					newId = keyItr.next();
+					if (!currentSet.contains(newId)) {
+						newIdList.add(newId);
+					}
+				}
+			} else {
+				newIdList.addAll(openFettersMap.keySet());
+			}
+		}
 		player.addOrUpdateHeroFetters(heroModelId, syn, canSyn);
 	}
 
@@ -452,9 +478,37 @@ public class FettersBM {
 		if (list == null || list.isEmpty()) {
 			return;
 		}
-
+		List<Integer> newIdList = new ArrayList<Integer>();
 		for (int i = 0, size = list.size(); i < size; i++) {
-			checkOrUpdateHeroFetters(player, list.get(i), true);
+			checkOrUpdateHeroFetters(player, list.get(i), true, newIdList);
+		}
+		if (newIdList.size() > 0) {
+			// 过滤一下不相关的
+			// 只发新增的
+			FettersBaseCfgDAO dao = FettersBaseCfgDAO.getCfgDAO();
+			for (Iterator<Integer> itr = newIdList.iterator(); itr.hasNext();) {
+				FettersBaseCfg fettersBaseCfg = dao.getCfgById(String.valueOf(itr.next()));
+				if (!fettersBaseCfg.getFettersHeroIdList().contains(changeHeroModelId)) {
+					itr.remove();
+				}
+			}
+		}
+		sendFetterNotifyMsg(player, newIdList, HeroFetterType.HeroFetter);
+	}
+	
+	public static void sendFetterNotifyMsg(Player player, Iterable<Integer> fetterIds, HeroFetterType type) {
+		List<HeroFetterInfo> fetterInfoList = new ArrayList<HeroFetterInfo>();
+		HeroFetterInfo.Builder builder = HeroFetterInfo.newBuilder();
+		for (Integer fetterId : fetterIds) {
+			builder.setFetterId(fetterId);
+			builder.setType(type);
+			fetterInfoList.add(builder.build());
+		}
+		if (fetterInfoList.size() > 0) {
+			com.log.GameLog.info("FettersBM", player.getUserId(), String.format("发送仙缘激活列表到客户端！%s，类型：%s", fetterIds, type));
+			HeroFetterNotify.Builder notifyBuilder = HeroFetterNotify.newBuilder();
+			notifyBuilder.addAllFetterInfo(fetterInfoList);
+			player.SendMsg(Command.MSG_FETTER_ACTIVITY_NOTIFY, notifyBuilder.build().toByteString());
 		}
 	}
 }

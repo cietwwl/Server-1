@@ -70,13 +70,13 @@ public class CopyCfgDAO extends CfgCsvDao<CopyCfg>{
 		return getNextId(id, ELITE_COPY_START_ID, eliteCopyMap);
 	}
 	
-	private int getNextId(int id, int startId, HashMap<Integer, CopyLevelNode> copyMap){
+	private int getNextId(int id, final int startId, HashMap<Integer, CopyLevelNode> copyMap){
 		int loopMaxCount = 1000;
 		int checkId = startId;
 		while(loopMaxCount-- > 0){
 			CopyLevelNode node = copyMap.get(checkId);
 			if(null == node) {
-				return 0;
+				return startId;
 			}
 			if(node.getBefore() == id){
 				return node.getId();
@@ -84,7 +84,7 @@ public class CopyCfgDAO extends CfgCsvDao<CopyCfg>{
 				checkId = node.getNext();
 			}
 		}
-		return 0;
+		return startId;
 	}
 
 	/**

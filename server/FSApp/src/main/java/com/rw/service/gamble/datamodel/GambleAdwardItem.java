@@ -20,4 +20,10 @@ public class GambleAdwardItem {
 		this.itemNum = itemNum;
 	}
 
+	@Override
+	public String toString() {
+		return "GambleAdwardItem [itemId=" + itemId + ", itemNum=" + itemNum + "]";
+	}
+
+	
 }

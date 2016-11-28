@@ -223,8 +223,8 @@ public class GambleDropHistory {
 	 * @return
 	 */
 	@JsonIgnore
-	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, GambleHistoryRecord groupRec) {
-		List<String> history = groupRec.getChargeGambleHistory();
+	public boolean checkGuarantee(boolean isFree, IDropGambleItemPlan dropPlan, GambleHistoryRecord groupRec, List<GambleAdwardItem> dropList) {
+//		List<String> history = groupRec.getChargeGambleHistory();
 		int checkNum = dropPlan.getCheckNum(chargeGuaranteePlanIndex);
 		int historySize = lookbackNumber;
 		// if (lookbackNumber > history.size()) {
@@ -243,10 +243,24 @@ public class GambleDropHistory {
 		}
 
 		// 检查最后(checkNum - 1)个历史!
-		historySize = history.size();
-		int size = historySize - checkNum;
-		for (int i = historySize - 1; i >= 0 && i > size; i--) {
-			String itemModelId = history.get(i);
+//		historySize = history.size();
+//		int size = historySize - checkNum;
+//		System.out.println("history:" + history);
+//		System.out.println("history sublist:" + history.subList(size + 1, historySize));
+//		for (int i = historySize - 1; i >= 0 && i > size; i--) {
+//			String itemModelId = history.get(i);
+//			if (dropPlan.checkInList(itemModelId)) {
+//				return false;
+//			}
+//		}
+		int begin;
+		if (dropList.size() >= checkNum) {
+			begin = dropList.size() - checkNum + 1;
+		} else {
+			begin = 0;
+		}
+		for (int i = begin, end = dropList.size(); i < end; i++) {
+			String itemModelId = dropList.get(i).getItemId();
 			if (dropPlan.checkInList(itemModelId)) {
 				return false;
 			}

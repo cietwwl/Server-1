@@ -6,6 +6,7 @@ public enum ActivityRankTypeEnum{	// implements TypeIdentification
 	
 	FIGHTING("70001",new int[]{203}),//战力大比拼
 	ARENA("70002",new int[]{101,102,103,104});//竞技之王
+//	ARENA("70002",new int[]{ECareer.Magican.getValue(),ECareer.Priest.getValue(),ECareer.Warrior.getValue(),ECareer.SwordsMan.getValue()});//竞技之王
 	
 	
 	private String cfgId;
