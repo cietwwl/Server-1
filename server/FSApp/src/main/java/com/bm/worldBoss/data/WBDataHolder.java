@@ -149,10 +149,17 @@ public class WBDataHolder {
 		version.incrementAndGet();			
 	}
 	
+	/**
+	 * 扣血，返回当前的血量
+	 * @param player
+	 * @param delta
+	 * @return
+	 */
 	public long decrHp(Player player, long delta){
 		
 		WBData wbData = get();
 		long curLifeTmp = wbData.getCurLife() - delta;
+		curLifeTmp = curLifeTmp <= 0 ? 0 : curLifeTmp;
 		wbData.setCurLife(curLifeTmp);
 		
 		if(curLifeTmp <= 0){

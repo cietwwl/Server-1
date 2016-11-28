@@ -72,7 +72,7 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				//WBStateFSM.getInstance().tranfer();
+				WBStateFSM.getInstance().tranfer();
 				PlayerMgr.getInstance().secondFunc4AllPlayer();
 			}
 		}, SECOND);

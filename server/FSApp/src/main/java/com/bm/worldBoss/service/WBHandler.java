@@ -28,6 +28,7 @@ import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
+import com.rw.fsutil.common.Pair;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwproto.BattleCommon.eBattlePositionType;
@@ -90,7 +91,7 @@ public class WBHandler {
 			
 			FightBeginRep beginRep = FightBeginRep.newBuilder().setBossArmy(bossJson).setSelfArmy(armyJson).build();	
 			response.setFightBeginRep(beginRep);
-			WBOnFightMgr.getInstance().enter(player.getUserId());
+			WBOnFightMgr.getInstance().enter(player.getUserId(), 0);
 			
 		}
 		response.setIsSuccess(result.isSuccess());
@@ -160,8 +161,8 @@ public class WBHandler {
 				
 				boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
 				if(success){				
-					WBUserMgr.getInstance().fightUpdate(player, updateHurt);
-					WBOnFightMgr.getInstance().enter(player.getUserId());
+					long totalHurt = WBUserMgr.getInstance().fightUpdate(player, updateHurt);
+					WBOnFightMgr.getInstance().enter(player.getUserId(), totalHurt);
 				}else{
 					result.setSuccess(false);
 					result.setReason("世界boss已被击杀。");
@@ -175,34 +176,27 @@ public class WBHandler {
 		
 		return response.build().toByteString();
 	}
+	
+	/**
+	 * 战斗结束
+	 * @param player
+	 * @param commonReq
+	 * @return
+	 */
 	public ByteString doFightEnd(Player player, CommonReqMsg commonReq) {
 		WBUserMgr.getInstance().resetUserDataIfNeed(player);
 		
 		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 		
-		FightUpdateParam fightParam = commonReq.getFightUpdateParam();	
-
-		WBResult result = checkFightEnd(player);
-		if(result.isSuccess()){
-			long updateHurt = fightParam.getHurt();
-			boolean success = WBMgr.getInstance().decrHp(player,updateHurt);
-			if(success){				
-				WBUserMgr.getInstance().fightEndUpdate(player, updateHurt);
-			}else{
-				result.setSuccess(false);
-				result.setReason("世界boss已被击杀。");
-			}
-			
+		//检查角色是否在战斗列表内
+		Pair<String,Long> data = WBOnFightMgr.getInstance().getRoleBattleData(player.getUserId());
+		if(data != null){
+			WBUserMgr.getInstance().fightEndUpdate(player);
+			WBOnFightMgr.getInstance().leave(player.getUserId());
 		}
 		
-		WBOnFightMgr.getInstance().leave(player.getUserId());
-		
-		response.setIsSuccess(result.isSuccess());
-		if(result.getReason() != null){
-			response.setTipMsg(result.getReason());	
-		}
-				
+		response.setIsSuccess(true);
 		return response.build().toByteString();
 	}
 

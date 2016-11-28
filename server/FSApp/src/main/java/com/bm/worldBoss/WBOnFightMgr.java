@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.rw.fsutil.common.Pair;
+import com.rw.fsutil.common.PairValue;
+
 public class WBOnFightMgr {
 	
 	private static WBOnFightMgr instance = new WBOnFightMgr();
@@ -15,9 +18,9 @@ public class WBOnFightMgr {
 
 	private Map<String,Long> onFightUserIdMap = new ConcurrentHashMap<String,Long>();
 	
-	public void enter(String userId){
+	public void enter(String userId, long totalHurt){
 		
-		onFightUserIdMap.put(userId, System.currentTimeMillis());
+		onFightUserIdMap.put(userId, totalHurt);
 		
 	}
 	
@@ -33,4 +36,11 @@ public class WBOnFightMgr {
 		return new ArrayList<String>(onFightUserIdMap.keySet());
 	}
 	
+	public Pair<String, Long> getRoleBattleData(String userId){
+		Long damage = onFightUserIdMap.get(userId);
+		if(damage == null){
+			return null;
+		}
+		return Pair.Create(userId, damage);
+	}
 }

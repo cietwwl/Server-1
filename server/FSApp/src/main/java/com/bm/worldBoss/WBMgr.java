@@ -113,7 +113,6 @@ public class WBMgr {
 			if(wbData.getCurLife()>0){				
 				long curLife = WBDataHolder.getInstance().decrHp(player, hurt);
 				System.out.println("curlift :" + curLife);
-				if(curLife <= 0) WBMgr.getInstance().broatCastBossLeave();
 				if(isBossDie()){
 					System.err.println("--------------world boss was killed!!");
 					broatCastBossDie();
