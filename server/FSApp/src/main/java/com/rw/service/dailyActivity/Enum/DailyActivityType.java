@@ -170,4 +170,14 @@ public class DailyActivityType
 	 */
 	public static final int GROUPCOPY_BATTLE = 36;
 	
+	/**
+	 * 帮派秘境掠夺 30次
+	 */
+	public static final int GROUPSERCET_SCAN = 37;
+	
+	/**
+	 * 随机boss30次
+	 */
+	public static final int RANDOMBOSS_BATTLE = 38;
+	
 }
