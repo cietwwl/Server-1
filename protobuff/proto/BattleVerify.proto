@@ -3,14 +3,13 @@ option java_package = "com.rwproto";
 option java_outer_classname = "BattleVerifyProto";
 package BattleVerifyProto;
 
-
 enum RequestType{
 	Copy = 1;
 }
 
 message CopyReqMsg{
-	required string copyId = 1;//����id
-	required string code = 2;  //У������
+	required string copyId = 1;//副本id
+	required string code = 2;  //校验密码
 }
 
 message BattleVerifyComReqMsg{
@@ -23,4 +22,29 @@ message BattleVerifyComRspMsg{
 	required bool isSuccess = 2;
 	optional string tipMsg = 3;
 
+}
+
+// 英雄属性校对信息
+message HeroVerifyData {
+	required string uuid = 1; // 英雄的uuid
+	required string md5 = 2; // attrData的md5校对信息
+}
+
+// 队伍属性校验数据
+message TeamVerifyData {
+	required int32 index = 1; // 队伍索引，从0开始
+	required string userId = 2; // 队伍所属的userId
+	repeated HeroVerifyData verifyData = 3; // 英雄校验数据
+}
+
+// 阵容校验数据
+message BattleVerifyMsg {
+	required int32 copyType = 1; // 副本类型
+	required int32 levelId = 2; // 关卡id
+	repeated TeamVerifyData verifyTeamData = 3; // 队伍校验数据
+}
+
+// 阵容检验反馈
+message BattleVerifyResponse {
+	required bool success = 1;
 }

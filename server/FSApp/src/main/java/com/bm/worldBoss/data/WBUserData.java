@@ -22,10 +22,10 @@ public class WBUserData {
 	
 	private long lastFightTime;
 	private long fightCdTime;
-	private long lastHurt;
+	private long lastHurt;//上一次boss战的伤害
 	private int lastAwardCoin; //
 
-	private long totalHurt;
+	private long totalHurt;//对上一个boss的总伤害
 	
 	private List<String> buffCfgIdList =new ArrayList<String>();
 	private int cdBuyCount = 0;
