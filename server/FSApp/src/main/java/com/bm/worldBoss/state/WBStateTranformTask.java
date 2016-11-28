@@ -29,14 +29,11 @@ public class WBStateTranformTask implements IGameTimerTask{
 
 	@Override
 	public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void rejected(RejectedExecutionException e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
