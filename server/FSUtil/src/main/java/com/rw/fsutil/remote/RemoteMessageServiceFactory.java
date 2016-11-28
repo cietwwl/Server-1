@@ -1,17 +1,46 @@
 package com.rw.fsutil.remote;
 
+import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-
+import java.util.concurrent.TimeUnit;
+import org.apache.log4j.Logger;
+import com.rw.fsutil.record.SimpleRecordService;
 import com.rw.fsutil.remote.parse.FSMessageDecoder;
 import com.rw.fsutil.remote.parse.FSMessageEncoder;
 import com.rw.fsutil.remote.parse.FSMessageExecutor;
+import com.rw.fsutil.util.DateUtils;
 
+
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class RemoteMessageServiceFactory {
 
+	private static Logger remoteMsgLogger = Logger.getLogger("remoteMsgLogger");
 	private static ConcurrentHashMap<Integer, RemoteMessageService<?, ?>> serviceMap;
 
 	static {
 		serviceMap = new ConcurrentHashMap<Integer, RemoteMessageService<?, ?>>();
+		SimpleRecordService.getRecrodExectuor().scheduleAtFixedRate(new Runnable() {
+
+			@Override
+			public void run() {
+				if (serviceMap.isEmpty()) {
+					return;
+				}
+				StringBuilder sb = new StringBuilder();
+				sb.append(DateUtils.getddHHmmFormater().format(new Date())).append('\n');
+				for (RemoteMessageService service : serviceMap.values()) {
+					int type = service.getType();
+					List<RemoteServiceSender> senders = service.getAllSenders();
+					for (int i = 0, size = senders.size(); i < size; i++) {
+						RemoteServiceSender sender = senders.get(i);
+						sb.append("type=").append(type).append(",id=").append(sender.getUniqueId()).append(",currentCount=").append(sender.getCount());
+						sb.append(",success=").append(sender.getSendSuccessStatCount()).append(",fail=").append(sender.getSendFailStatCount()).append(",reject=").append(sender.getSendRejectStatCount()).append('\n');
+					}
+				}
+				remoteMsgLogger.info(sb.toString());
+			}
+		}, 5, 5, TimeUnit.MINUTES);
 	}
 
 	/**
