@@ -118,11 +118,12 @@ public enum DataKVType {
 	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class),
 	// 个人充值数据
 	CHARGE_INFO(35, ChargeInfoDao.class, ChargeInfoCreator.class),
-	// 个人每日重置记录
-	DAILY_RESET_RECORD(36, DailyResetReccordDao.class, DailyResetReccordCreator.class),
-	;
+	
+	WB_USER_DATA(36, WBUserDataDao.class, WBUserDataCreator.class),
 
-	WB_USER_DATA(36, WBUserDataDao.class, WBUserDataCreator.class);
+	// 个人每日重置记录
+	DAILY_RESET_RECORD(37, DailyResetReccordDao.class, DailyResetReccordCreator.class),
+	;
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
 		this.typeValue = type;
