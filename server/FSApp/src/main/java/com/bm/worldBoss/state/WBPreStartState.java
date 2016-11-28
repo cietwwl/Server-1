@@ -36,7 +36,7 @@ class WBPreStartState implements  IwbState{
 		wbData.setState(state);
 		WBDataHolder.getInstance().update();
 		
-		WBHurtRankMgr.clearRank();	
+		
 		
 	}
 }
