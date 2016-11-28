@@ -18,7 +18,6 @@ public class ActivityFortuneCatTypeHandler {
 	public ByteString getGold(Player player, ActivityCommonReqMsg commonReq) {
 		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
-	
 		
 		boolean success = false;
 		String tips = null;
@@ -26,9 +25,6 @@ public class ActivityFortuneCatTypeHandler {
 		ActivityComResult result = ActivityFortuneCatTypeMgr.getInstance().getGold(player,response);
 		success = result.isSuccess();
 		tips = result.getReason()+"";
-		
-		
-
 		
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);
@@ -39,7 +35,6 @@ public class ActivityFortuneCatTypeHandler {
 		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
 		response.setReqType(commonReq.getReqType());
 	
-		
 		boolean success = false;
 		String tips = null;
 		
@@ -47,14 +42,8 @@ public class ActivityFortuneCatTypeHandler {
 		success = result.isSuccess();
 		tips = result.getReason()+"";
 		
-		
-
-		
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);
 		return response.build().toByteString();
 	}
-	
-
-
 }

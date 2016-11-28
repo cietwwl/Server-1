@@ -32,6 +32,8 @@ public enum ActivityKey {
 	ACTIVITY_RANK_TYPE(7, GameWorldKey.ACTIVITY_RANK_TYPE, ActivityTypeFactory.ActRankType),
 	/**--	超值欢乐购	--*/
 	ACTIVITY_DISCOUNT(8, GameWorldKey.ACTIVITY_DISCOUNT, ActivityTypeFactory.DailyDiscount),
+	/**--	招财猫	--*/
+	ACTIVITY_FORTUNECAT(9, GameWorldKey.ACTIVITY_FORTUNECAT, ActivityTypeFactory.FortuneCat),
 	;
 	
 	@SuppressWarnings("rawtypes")

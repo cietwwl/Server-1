@@ -3,7 +3,7 @@ package com.common.serverdata;
 
 public class ServerCommonDataHolder {
 	private static ServerCommonDataHolder instance = new ServerCommonDataHolder();
-	private ServerCommonData commonData = ServerCommonDataDAO.getInstance().get("1");
+	private ServerCommonData commonData = ServerCommonDataDAO.getInstance().get("100");
 	
 	public static ServerCommonDataHolder getInstance() {
 		return instance;
@@ -11,7 +11,7 @@ public class ServerCommonDataHolder {
 	
 	public ServerCommonData get() {
 		if(null == commonData)
-			return ServerCommonDataDAO.getInstance().get("1");
+			return ServerCommonDataDAO.getInstance().get("100");
 		return commonData;
 	}
 	

@@ -288,7 +288,7 @@ TeamBattleRule,,,"1.组队战每天5点重置，重置时刷新可挑战的英�
 TeamBattleMail,,,自己完成战斗后，每有1名其他队友完成战斗，可额外获得{0}奖励（邮件发放）
 TeamBattleScore,,,完成当前战斗可获得{0}驱魔币
 TeamBattleOpenBuyTips,,,{0}开启购买心魔录功能，充值可提升贵族等级
-TeamBattleBuyTips,,,今日心魔录购买次数已用完，提升贵族等级可以增加购买次数
+TeamBattleBuyTips,,,今日心魔录购买次数已用完，将贵族等级提升到6级、12级可各增加1次购买次数
 TeamBattleTips,,,今日心魔录购买次数已用完，大神，您已经无法再增加购买次数
 GroupCopyOpenTips,,GroupCopyOpenTips,帮主、副帮主可开启
 GroupCopyNoPriceItemTips,,GroupCopyNoPriceItemTips,没有可分配的战利品
@@ -339,7 +339,7 @@ WorldBossKilledTisp,,WorldBossKilledTisp,世界boss出现{0}后被击败，由{1
 WBossRuleKey,,WBossRuleKey,"
 [ff7200]除魔征战规则[-]
 
-[2f2f2f]1.魔神会在每天12:00、19:00、20:00出现，越接近深夜，魔神的力量就越强[-]
+[2f2f2f]1.魔神会在每天12:00、19:00、22:00出现，越接近深夜，魔神的力量就越强[-]
 
 [2f2f2f]2.与魔神进行战斗后，会根据造成的伤害量，换算成金币奖励！[-]
 
@@ -387,3 +387,5 @@ CommonSoul_Zero,,CommonSoul_Zero,请选择转化数量
 CommonSoul_Use,,CommonSoul_Use,该物品无法直接使用，请点击英雄魂石获取进行转化
 DiscountRefreshTips,,DiscountRefreshTips,每天凌晨5点刷新折扣商品
 DiscountNotRefreshTips,,DiscountNotRefreshTips,欢迎大家前来购物
+GCompFlush,,GCompFlush,榜单实时刷新，海选结束后不再变化
+ActiMonthCardRule,,ActiMonthCardRule,月卡规则:_{0}__普通月卡特权:_{1}__至尊月卡特权:_{2}

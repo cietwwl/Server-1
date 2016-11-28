@@ -1,6 +1,7 @@
 package com.playerdata.activityCommon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -98,15 +99,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param item
 	 */
 	protected void dailyRefresh(Player player, T item){
-		List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
-		ActivityType activityType = getHolder().getActivityType();
-		for (String subId : todaySubs) {
-			ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
-			subItem.setCfgId(subId);
-			subItemList.add(subItem);
-		}
-		item.setSubItemList(subItemList);
+		item.setSubItemList(getHolder().newSubItemList(item.getCfgId()));
 		getHolder().updateItem(player, item);
 	}
 	
@@ -117,34 +110,34 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param item
 	 */
 	protected void dailyCheck(Player player, T item){
-		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
-		List<ActivityTypeSubItemIF> subItemList = item.getSubItemList();
-		HashSet<String> subIDList = new HashSet<String>();
-		Iterator<ActivityTypeSubItemIF> subItor = subItemList.iterator();
-		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
-		ActivityType activityType = getHolder().getActivityType();
+		List<ActivityTypeSubItemIF> oldSubItemList = item.getSubItemList();
+		HashSet<String> oldSubIDList = new HashSet<String>();
+		Iterator<ActivityTypeSubItemIF> oldSubItor = oldSubItemList.iterator();
+		List<? extends ActivityTypeSubItemIF> todaySubs = getHolder().newSubItemList(item.getCfgId());
+		HashMap<String, ActivityTypeSubItemIF> todaySubMap = new HashMap<String, ActivityTypeSubItemIF>();
+		for(ActivityTypeSubItemIF todaySub : todaySubs){
+			todaySubMap.put(todaySub.getCfgId(), todaySub);
+		}
 		boolean changed = false;
-		while(subItor.hasNext()){
+		while(oldSubItor.hasNext()){
 			//移除旧的
-			ActivityTypeSubItemIF subItem = subItor.next();
-			if(!todaySubs.contains(subItem.getCfgId())){
-				subItor.remove();
+			ActivityTypeSubItemIF oldSubItem = oldSubItor.next();
+			if(!todaySubMap.containsKey(oldSubItem.getCfgId())){
+				oldSubItor.remove();
 				changed = true;
 			}else{
-				subIDList.add(subItem.getCfgId());
+				oldSubIDList.add(oldSubItem.getCfgId());
 			}
 		}
-		for (String subId : todaySubs) {
+		for (String subId : todaySubMap.keySet()) {
 			//添加新的
-			if(!subIDList.contains(subId)){
-				ActivityTypeSubItemIF subItem = activityType.getNewActivityTypeSubItem();
-				subItem.setCfgId(subId);
-				subItemList.add(subItem);
+			if(!oldSubIDList.contains(subId)){
+				oldSubItemList.add(todaySubMap.get(subId));
 				changed = true;
 			}
 		}
 		if(changed){
-			item.setSubItemList(subItemList);
+			item.setSubItemList(oldSubItemList);
 			getHolder().updateItem(player, item);
 		}
 	}

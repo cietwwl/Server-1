@@ -29,6 +29,11 @@ import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO;
 import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
 import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveSubItem;
+import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeCfgDAO;
+import com.playerdata.activity.fortuneCatType.cfg.ActivityFortuneCatTypeSubCfgDAO;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeItem;
+import com.playerdata.activity.fortuneCatType.data.ActivityFortuneCatTypeSubItem;
 import com.playerdata.activity.growthFund.ActivityGrowthFundMgr;
 import com.playerdata.activity.growthFund.cfg.GrowthFundBasicCfgDAO;
 import com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO;
@@ -50,6 +55,7 @@ public class ActivityTypeFactory {
 	public static final ActivityType ConsumeRank;
 	public static final ActivityType ActRankType;	//竞技之王
 	public static final ActivityType DailyDiscount;	//折扣活动
+	public static final ActivityType FortuneCat;	//招财猫
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -69,6 +75,8 @@ public class ActivityTypeFactory {
 				null, null, ActivityRankTypeMgr.getInstance());
 		DailyDiscount = new ActivityType(1008, ActivityDailyDiscountTypeCfgDAO.class, ActivityDailyDiscountTypeItem.class,
 				ActivityDailyDiscountTypeSubCfgDAO.class, ActivityDailyDiscountTypeSubItem.class, ActivityDailyDiscountTypeMgr.getInstance());
+		FortuneCat = new ActivityType(1009, ActivityFortuneCatTypeCfgDAO.class, ActivityFortuneCatTypeItem.class,
+				ActivityFortuneCatTypeSubCfgDAO.class, ActivityFortuneCatTypeSubItem.class, ActivityFortuneCatTypeMgr.getInstance());
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -79,6 +87,7 @@ public class ActivityTypeFactory {
 		addType(ConsumeRank);
 		addType(ActRankType);
 		addType(DailyDiscount);
+		addType(FortuneCat);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

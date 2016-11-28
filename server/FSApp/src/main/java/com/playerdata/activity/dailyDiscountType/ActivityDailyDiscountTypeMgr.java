@@ -13,7 +13,6 @@ import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfg;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountItemCfgDao;
 import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
@@ -128,42 +127,6 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 	 */
 	private boolean isVipEnough(Player player, ActivityDailyDiscountItemCfg itemCfg){
 		return player.getVip() >= itemCfg.getVipLimit();
-	}
-	
-	/**
-	 * 需要每日刷新的活动
-	 * @param player
-	 * @param item
-	 */
-	protected void dailyRefresh(Player player, ActivityDailyDiscountTypeItem item){
-		ActivityDailyDiscountTypeItemHolder itemHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		ActivityDailyDiscountTypeCfg discountCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
-		item.setSubItemList(itemHolder.newSubItemList(discountCfg));
-		itemHolder.updateItem(player, item);
-	}
-	
-	/**
-	 * 不需要每日刷新的活动
-	 * 每天要检查有更改的子项
-	 * @param player
-	 * @param item
-	 */
-	protected void dailyCheck(Player player, ActivityDailyDiscountTypeItem item){
-		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
-		List<ActivityDailyDiscountTypeSubItem> subItemList = item.getSubItemList();	
-		ActivityDailyDiscountTypeItemHolder itemHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		ActivityDailyDiscountTypeCfg discountCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
-		List<ActivityDailyDiscountTypeSubItem> newSubs = itemHolder.newSubItemList(discountCfg);
-		for(ActivityDailyDiscountTypeSubItem newSub : newSubs){
-			for(ActivityDailyDiscountTypeSubItem oldSub : subItemList){
-				if(StringUtils.equals(newSub.getCfgId(), oldSub.getCfgId())
-						&& newSub.getItemId() == oldSub.getItemId()){
-					newSub.setCount(oldSub.getCount());
-				}
-			}
-		}
-		item.setSubItemList(newSubs);
-		getHolder().updateItem(player, item);
 	}
 	
 	@Override
