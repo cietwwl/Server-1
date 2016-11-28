@@ -19,6 +19,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.common.refOpt.RefOptClassGener;
+import com.gm.GmHotFixManager;
 import com.log.GameLog;
 import com.playerdata.GambleMgr;
 import com.rw.manager.DataCacheInitialization;
@@ -68,6 +69,7 @@ public class Server {
 			// GambleTest.Test();
 
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
+			GmHotFixManager.serverStartComplete(); // 自动执行hot fix
 
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
 			serverBootstrap.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);
