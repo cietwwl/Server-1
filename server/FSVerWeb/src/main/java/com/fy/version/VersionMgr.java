@@ -14,6 +14,12 @@ public class VersionMgr {
 		
 		//获取下一个完整包,有则直接升级到这个完整包
 		Version targetVersion = versionDao.getNextCompVer(clientVersion);
+		
+		//没有说明已经是最高的完整包,继续获取优先级高的补丁包
+		if(targetVersion == null){
+			targetVersion = versionDao.getPriorityPatch(clientVersion);
+		}
+		
 		//没有说明已经是最高的完整包，继续获取看有没有patch
 		if(targetVersion == null){
 			targetVersion = versionDao.getNextPatch(clientVersion);
