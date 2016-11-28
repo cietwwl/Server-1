@@ -19,7 +19,6 @@ public class SameSceneContainer {
 	private HashMap<Long, Integer> sceneCountMap;
 	private Lock readLock;
 	private Lock writeLock;
-	private AtomicLong UUKEY = new AtomicLong();
 	
 	private static AtomicLong ATOMIC_SCENE_ID;	//场景id的生成器，每个主id都是SERIAL_SCENE_COUNT的倍数
 	private static int SERIAL_SCENE_COUNT = 16;	//每类场景的总场景个数（一个主场景，其它是子场景）
@@ -36,6 +35,7 @@ public class SameSceneContainer {
 		readLock = rwLock.readLock();
 		writeLock = rwLock.writeLock();
 		container = new HashMap<Long, ConcurrentHashMap<String, ? extends SameSceneDataBaseIF>>();
+		sceneCountMap = new HashMap<Long, Integer>();
 	}
 	
 	private static class InstanceHolder{
@@ -76,7 +76,7 @@ public class SameSceneContainer {
 					writeLock.unlock();
 				}
 			}
-		}		
+		}
 		DataAutoSynMgr.getInstance().addWaitScene(sceneId);
 		SameSceneDataBaseIF data = scene.get(userId);
 		if(null != data){
@@ -207,7 +207,8 @@ public class SameSceneContainer {
 	public long createNewScene(){
 		writeLock.lock();
 		try {
-			long newSceneId = System.nanoTime() + UUKEY.incrementAndGet();
+			long newSceneId = ATOMIC_SCENE_ID.addAndGet(SERIAL_SCENE_COUNT);
+			//long newSceneId = System.nanoTime() + UUKEY.incrementAndGet();
 			ConcurrentHashMap<String, SameSceneDataBaseIF> scene = new ConcurrentHashMap<String, SameSceneDataBaseIF>();
 			container.put(newSceneId, scene);
 			return newSceneId;

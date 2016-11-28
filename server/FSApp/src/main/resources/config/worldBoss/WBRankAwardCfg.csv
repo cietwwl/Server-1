@@ -1,4 +1,4 @@
-id,remarks,id,offset,size,award,awardId
+key,remarks,id,offset,size,award,awardId
 1,,1,1,1,"1~140000,806130~1",18001
 2,,2,2,1,"1~130000,806131~1",18001
 3,,3,3,1,"1~126400,806131~1",18001
