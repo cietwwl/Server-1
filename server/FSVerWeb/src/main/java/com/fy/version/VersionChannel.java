@@ -164,6 +164,34 @@ public class VersionChannel {
 			}
 			
 		}
+		if (targetPatch != null && targetPatch.getPriority() == 1) {
+			targetPatch = null;
+		}
+		return targetPatch;
+	}
+	
+	public Version getNextPriorityPatch(Version clientVersion){
+		Version target = null;
+		for (Version verTmp : compVerOrderList) {
+			if(verTmp.isSameCompVer(clientVersion)){
+				target = verTmp;
+				break;
+			}
+		}
+		Version targetPatch = null;
+		if(target!=null){
+			List<Version> patchList = highPriorityMap.get(target);
+			boolean takeNext = false;
+			for (Version patchTmp : patchList) {
+				if(takeNext){
+					targetPatch = comparePriorityPatch(patchTmp, targetPatch);
+				}
+				if(patchTmp.isSamePath(clientVersion)){
+					takeNext = true;
+				}
+			}
+			
+		}
 		
 		return targetPatch;
 	}
