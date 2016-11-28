@@ -40,7 +40,7 @@ public class BenefitMsgController {
 	}
 
 	public void init(String removeIp, int port, int localPort, int timeoutMillis, int priod) {
-		server = RemoteMessageServiceFactory.createService(RemoteMessageEnum.RMType_Benefit.getId(), removeIp,port, 2, 2, decoder, encoder, executor);
+		server = RemoteMessageServiceFactory.createService(RemoteMessageEnum.RMType_Benefit.getId(), removeIp,port, 1, 1, decoder, encoder, executor);
 		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
 	}
 
