@@ -217,6 +217,10 @@ public class MagicEquipFetterDataHolder {
 			MagicEquipConditionCfg sameTypeCfg = curCfgs.get(cfg.getCompositeKey());
 			// TODO 如果没有此类型，不保留，需要和策划确认(原逻辑是这样跑)
 			if (sameTypeCfg == null) {
+				if(cfg.recordOldData()) {
+					// 已经激活的需要保留
+					curCfgsMap.put(cfg.getUniqueId(), cfg);
+				}
 				continue;
 			}
 
