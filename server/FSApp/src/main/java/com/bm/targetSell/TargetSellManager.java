@@ -82,7 +82,6 @@ public class TargetSellManager {
 
 	
 	private static TargetSellManager manager = new TargetSellManager();
-	private BenefitDataDAO dataDao;
 
 	
 	//充值前记录，<userID, Pair<充值的物品组id, 记录时刻>>
@@ -102,7 +101,7 @@ public class TargetSellManager {
 	public static ConcurrentHashMap<String, List<EAchieveType>> HeroAttrChangeMap = new ConcurrentHashMap<String, List<EAchieveType>>();
 	
 	public TargetSellManager() {
-		dataDao = BenefitDataDAO.getDao();
+		
 	}
 	
 	public static TargetSellManager getInstance(){
@@ -180,6 +179,7 @@ public class TargetSellManager {
 			return;
 		}
 		int score = 0;
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
 			score = (int) charge;
@@ -264,6 +264,7 @@ public class TargetSellManager {
 		}
 		//向精准服请求一下，让它知道角色登录  ---- 这里改为5002
 		pushRoleLoginData(player);
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		long nowTime = System.currentTimeMillis();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		if(record == null){
@@ -399,6 +400,7 @@ public class TargetSellManager {
 		if(!ServerSwitch.isOpenTargetSell()){
 			return;
 		}
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		TargetSellRecord record = dataDao.get(itemData.getRoleId());
 		Map<Integer, BenefitItems> map = new HashMap<Integer, BenefitItems>();
 		for (BenefitItems i : itemData.getItems()) {
@@ -631,6 +633,7 @@ public class TargetSellManager {
 			return;
 		}
 		try {
+			BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 			TargetSellRecord record = dataDao.get(data.getRoleId());
 			if(record == null){
 				//角色这个时候还没有数据   要不要创建
@@ -705,6 +708,7 @@ public class TargetSellManager {
 		TargetSellRespMsg.Builder respMsg = TargetSellRespMsg.newBuilder();
 		try {
 			respMsg.setReqType(request.getReqType());
+			BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 			TargetSellRecord record = dataDao.get(player.getUserId());
 			
 			if(record == null){
@@ -786,6 +790,7 @@ public class TargetSellManager {
 		respMsg.setReqType(request.getReqType());
 		int id = request.getItemGroupId();
 		//检查一下是否存在道具组ID
+		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 		TargetSellRecord record = dataDao.get(player.getUserId());
 		Map<Integer, BenefitItems> map = record.getItemMap();
 		if(map.containsKey(id)){
