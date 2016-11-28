@@ -38,13 +38,15 @@ public class NoticeMgr {
 		long secondLevelMillis = DateUtils.getSecondLevelMillis();
 		//加载配置表的公告
 		List<AnnouncementCfg> allCfg = AnnouncementCfgDAO.getInstance().getAllCfg();
-		for (AnnouncementCfg announcementCfg : allCfg) {
-			if(announcementCfg.getEndTime() < secondLevelMillis || announcementCfg.getPushType() == PUSHTYPE_GAME){
-				continue;
+		if (allCfg != null) {
+			for (AnnouncementCfg announcementCfg : allCfg) {
+				if (announcementCfg.getEndTime() < secondLevelMillis || announcementCfg.getPushType() == PUSHTYPE_GAME) {
+					continue;
+				}
+				Notice notice = new Notice();
+				notice.SetNotice(announcementCfg);
+				NoticeList.add(notice);
 			}
-			Notice notice =new Notice();
-			notice.SetNotice(announcementCfg);
-			NoticeList.add(notice);
 		}
 		
 		//加载数据库的公告

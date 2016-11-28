@@ -1,10 +1,9 @@
 package com.playerdata.activity.dailyDiscountType.cfg;
 
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.playerdata.activity.ActivityTypeHelper;
+
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -15,23 +14,23 @@ public final class ActivityDailyDiscountTypeSubCfgDAO extends CfgCsvDao<Activity
 		return SpringContextUtil.getBean(ActivityDailyDiscountTypeSubCfgDAO.class);
 	}
 
-	private HashMap<String, List<ActivityDailyDiscountTypeSubCfg>> subCfgListMap ;
+	//private HashMap<String, List<ActivityDailyDiscountTypeSubCfg>> subCfgListMap ;
 	
 	@Override
 	public Map<String, ActivityDailyDiscountTypeSubCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityDailyDiscountTypeSubCfg.csv", ActivityDailyDiscountTypeSubCfg.class);	
 		for (ActivityDailyDiscountTypeSubCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
+			parseItemList(cfgTmp);
 		}		
-		HashMap<String, List<ActivityDailyDiscountTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityDailyDiscountTypeSubCfg>>();
-		for(ActivityDailyDiscountTypeSubCfg subCfg : cfgCacheMap.values()){
-			ActivityTypeHelper.add(subCfg, subCfg.getParentId(), subCfgListMapTmp);
- 		}
-		this.subCfgListMap = subCfgListMapTmp;
+//		HashMap<String, List<ActivityDailyDiscountTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityDailyDiscountTypeSubCfg>>();
+//		for(ActivityDailyDiscountTypeSubCfg subCfg : cfgCacheMap.values()){
+//			ActivityTypeHelper.add(subCfg, subCfg.getParentId(), subCfgListMapTmp);
+// 		}
+//		this.subCfgListMap = subCfgListMapTmp;
 		return cfgCacheMap;
 	}
 	
-	private void parseTime(ActivityDailyDiscountTypeSubCfg cfgTmp){
+	private void parseItemList(ActivityDailyDiscountTypeSubCfg cfgTmp){
 		List<Integer> itemList = cfgTmp.getItemList();
 		String tmp = cfgTmp.getItemIdList();
 		String[] tmps = tmp.split("_");
@@ -39,10 +38,5 @@ public final class ActivityDailyDiscountTypeSubCfgDAO extends CfgCsvDao<Activity
 			int tmpInt = Integer.parseInt(itemId);
 			itemList.add(tmpInt);
 		}
-	}
-
-
-	public List<ActivityDailyDiscountTypeSubCfg> getCfgListByParentId(String parantId) {		
-		return subCfgListMap.get(parantId);
 	}
 }

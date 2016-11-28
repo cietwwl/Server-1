@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
@@ -101,6 +102,7 @@ public class ActivityModifyMgr {
 	public void gmSetCfgTime(int cfgId, String startTime, String endTime, int version){
 		ActivityKey activityKey = ActivityKey.getByCfgId(cfgId);
 		if(null == activityKey){
+			GameLog.info("GM-gmSetCfgTime", "", "id[" + cfgId + "]暂时不支持动态更换时间");
 			return;
 		}
 		long current = System.currentTimeMillis();
@@ -133,6 +135,7 @@ public class ActivityModifyMgr {
 	public void gmSetSubCfgReward(int cfgId, int subCfgId, String reward, int version){
 		ActivityKey activityKey = ActivityKey.getByCfgId(cfgId);
 		if(null == activityKey){
+			GameLog.info("GM-gmSetCfgTime", "", "id[" + cfgId + "]暂时不支持动态更换奖励物品");
 			return;
 		}
 		ActivityModifyItem modifyItem = getModifiedActivity(activityKey, cfgId, 0);

@@ -1,8 +1,8 @@
 package com.rw.dataaccess.attachment.creator;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
@@ -20,8 +20,7 @@ public class ActivityDailyDiscountCreator implements PlayerExtPropertyCreator<Ac
 	@Override
 	public List<ActivityDailyDiscountTypeItem> firstCreate(
 			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityDailyDiscountTypeMgr.getInstance().creatItems(params.getUserId(), false);
+		return new ArrayList<ActivityDailyDiscountTypeItem>();
 	}
 
 	@Override
@@ -34,8 +33,7 @@ public class ActivityDailyDiscountCreator implements PlayerExtPropertyCreator<Ac
 
 	@Override
 	public boolean requiredToPreload(PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityDailyDiscountTypeMgr.getInstance().isOpen(params.getCreateTime());
+		return true;
 	}
 
 }

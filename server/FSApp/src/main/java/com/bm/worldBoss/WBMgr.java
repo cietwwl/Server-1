@@ -27,6 +27,8 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
+import com.playerdata.battleVerify.damageControll.DamageControllCfg;
+import com.playerdata.battleVerify.damageControll.DamageControllCfgDAO;
 
 
 public class WBMgr {
@@ -48,7 +50,7 @@ public class WBMgr {
 	} 
 
 	public void synWBData(Player player, int wbDataVersion){
-		
+		WBUserMgr.getInstance().synWBUserData(player, wbDataVersion);
 		WBDataHolder.getInstance().syn(player, wbDataVersion);
 		WBHurtRankMgr.syn(player);
 	}
@@ -106,27 +108,27 @@ public class WBMgr {
 		return armyInfo;		
 	}
 	
-	public boolean decrHp(Player player, long hurt){	
-		boolean success = false;
+	public long decrHp(Player player, long hurt){	
+		long trueHurt = 0;
 		writeLock.lock();		
 		try {			
 			WBData wbData = WBDataHolder.getInstance().get();
-			
-			if(wbData.getCurLife()>0){				
+			long beforeLife = wbData.getCurLife();
+			if(beforeLife > 0){				
 				long curLife = WBDataHolder.getInstance().decrHp(player, hurt);
+				trueHurt = beforeLife - curLife;
 //				System.out.println("curlift :" + curLife);
 				if(isBossDie()){
 //					System.err.println("--------------world boss was killed!!");
 					broatCastBossDie(player.getUserId());
 				}
-				success = true;			
 			}
 			
 		} finally {
 			writeLock.unlock();			
 		}		
 		synWBData(player, -1);	
-		return success;		
+		return trueHurt;		
 	}
 	
 	private void broatCastBossDie(String killRoleID) {
@@ -225,6 +227,22 @@ public class WBMgr {
 
 	public void onPlayerLogin(Player player) {
 		synWBData(player, -10);//登录通知的版本不作维护
+	}
+
+	
+	/**
+	 * 检查伤害控制表，是否伤害已经超过控制值
+	 * @param player
+	 * @param updateHurt
+	 * @return
+	 */
+	public long checkHurt(Player player, long updateHurt) {
+		long checkHurt = 0; 
+		DamageControllCfg cfg = DamageControllCfgDAO.getInstance().getCfgById(String.valueOf(player.getLevel()));
+		if(cfg != null){
+			checkHurt = updateHurt > cfg.getSingleHitMaxHurt() ? cfg.getSingleHitMaxHurt() : updateHurt;
+		}
+		return checkHurt;
 	}
 	
 	

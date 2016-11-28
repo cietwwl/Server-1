@@ -10,6 +10,7 @@ import com.playerdata.activity.retrieve.userFeatures.UserFeatruesMgr;
 import com.playerdata.activity.retrieve.userFeatures.UserFeaturesEnum;
 import com.playerdata.readonly.CopyLevelRecordIF;
 import com.rw.fsutil.common.DataAccessTimeoutException;
+import com.rw.service.copy.CommonTip;
 import com.rw.service.copy.PvECommonHelper;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.dropitem.DropItemManager;
@@ -48,7 +49,6 @@ public class JBZDHandler {
 		TagBattleData tagBattleData = copyRequest.getTagBattleData();
 		boolean isWin = tagBattleData.getFightResult() == EBattleStatus.WIN;
 		int fightTime = tagBattleData.getFightTime();
-
 		int levelId = copyRequest.getTagBattleData().getLevelId();
 
 		CopyCfg copyCfg = CopyCfgDAO.getInstance().getCfg(levelId);
@@ -59,6 +59,16 @@ public class JBZDHandler {
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
 		if (type != EResultType.NONE) {
 			return copyResponse.setEResultType(type).build().toByteString();
+		}
+		
+		// 验证聚宝之地的金币数量是否合法
+		int addCoin = copyRequest.getTagBattleData().getFortuneResult().getGainGoldCount();
+		if (addCoin > 0) {
+			FortuneResultCfg cfg = FortuneResultCfgDAO.getInstance().getCfgById(String.valueOf(levelId));
+			if(null != cfg && cfg.getUpLimit() < addCoin){
+				player.NotifyCommonMsg(CommonTip.COIN_TOO_MUCH);
+				return copyResponse.setEResultType(EResultType.NONE).build().toByteString();
+			}
 		}
 
 		List<? extends ItemInfo> dropItems = null;
@@ -94,15 +104,9 @@ public class JBZDHandler {
 		copyResponse.setLevelId(copyCfg.getLevelID());
 		copyResponse.setEResultType(EResultType.BATTLE_CLEAR);
 
-		// 增加聚宝之地的金币
-		int addCoin = copyRequest.getTagBattleData().getFortuneResult().getGainGoldCount();
-		if (addCoin > 0) {
-			FortuneResultCfg cfg = FortuneResultCfgDAO.getInstance().getCfgById(String.valueOf(levelId));
-			if(null != cfg && cfg.getUpLimit() < addCoin){
-				addCoin = cfg.getUpLimit();
-			}
-			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), addCoin);
-		}
+		// 增加金币
+		ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), addCoin);
+		
 		// 聚宝之地
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Trial_JBZD, 1);
 		UserEventMgr.getInstance().TreasureLandCopyWinDaily(player, 1);

@@ -31,7 +31,7 @@ public class ActivityDetector {
 		return instance;
 	}
 	
-	private ActivityDetector(){
+	protected ActivityDetector(){
 		// 读取数据库中停服前保存的活动数据（单例，只会加载一次）
 		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.ALIVE_ACTIVITY);
 		if (attribute != null && (attribute = attribute.trim()).length() > 0) {
@@ -85,7 +85,13 @@ public class ActivityDetector {
 		if(changed){
 			//活动有变化时，保存一下数据库
 			ActivityAliveGlobleData _globalData = new ActivityAliveGlobleData();
-			_globalData.setActivityMap(activityMap);
+			HashMap<Integer, ArrayList<String>> newActivity = new HashMap<Integer, ArrayList<String>>();
+			if(null != activityMap){
+				for(Entry<Integer, HashMap<String, ? extends ActivityCfgIF>> entry : activityMap.entrySet()){
+					newActivity.put(entry.getKey(), new ArrayList<String>(entry.getValue().keySet()));
+				}
+			}
+			_globalData.setActivityMap(newActivity);
 			GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.ALIVE_ACTIVITY, JsonUtil.writeValue(_globalData));
 		}
 	}

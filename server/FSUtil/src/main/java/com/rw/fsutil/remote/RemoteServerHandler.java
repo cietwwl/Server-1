@@ -1,39 +1,29 @@
 package com.rw.fsutil.remote;
 
-import com.rw.fsutil.cacheDao.FSUtilLogger;
-
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class RemoteServerHandler<SendMessage, ReceiveMessage> extends ChannelInboundHandlerAdapter {
 
-	private final RemoteMessageService<SendMessage, ReceiveMessage> server;
+	private final RemoteServiceSender<SendMessage,ReceiveMessage> sender;
 
-	public RemoteServerHandler(RemoteMessageService<SendMessage, ReceiveMessage> server) {
-		this.server = server;
+	public RemoteServerHandler(RemoteServiceSender<SendMessage,ReceiveMessage> sender) {
+		this.sender = sender;
 	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		this.server.getExecutor().execute((ReceiveMessage) msg);
+		this.sender.channelRead(ctx, msg);
 	}
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		try {
-			server.add(ctx);
-		} finally {
-			ctx.fireChannelActive();
-		}
+		this.sender.channelActive(ctx);
 	}
 
 	@Override
 	public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-		try {
-			server.remove(ctx);
-		} finally {
-			ctx.fireChannelInactive();
-		}
+		this.sender.channelInactive(ctx);
 	}
 
 	@Override

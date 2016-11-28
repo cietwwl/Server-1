@@ -1,4 +1,6 @@
 package com.playerdata.mgcsecret.cfg;
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.mgcsecret.data.MSRewardBox;
 
 public class DungeonsDataCfg {
@@ -17,6 +19,9 @@ public class DungeonsDataCfg {
 	private int copyId; //关卡ID
 	private String drop; //掉落方案
 	private String firstDrop; //首掉方案
+	private String fighting; //战力范围
+	private int fightStart;
+	private int fightEnd;
 
 	public String getKey() {
 		return key;
@@ -81,6 +86,14 @@ public class DungeonsDataCfg {
 	public MSRewardBox getObjHiBox() {
 		return objHiBox;
 	}
+	
+	public int getFightStart() {
+		return fightStart;
+	}
+
+	public int getFightEnd() {
+		return fightEnd;
+	}
 
 	public void ExtraInitAfterLoad(){
 		String[] coboxArr = this.coBox.split(":");
@@ -94,5 +107,13 @@ public class DungeonsDataCfg {
 		objHiBox.getBoxCost().setItemID(Integer.parseInt(hiCostArr[0]));
 		objHiBox.getBoxCost().setItemNum(Integer.parseInt(hiCostArr[1]));
 		objHiBox.setDropStr(hiboxArr[1]);
+		
+		if(StringUtils.isNotBlank(fighting)){
+			String[] fightArea = this.fighting.split("_");
+			if(fightArea.length == 2){
+				fightStart = Integer.parseInt(fightArea[0]);
+				fightEnd = Integer.parseInt(fightArea[1]);
+			}
+		}
 	}
 }
