@@ -324,6 +324,10 @@ public class TargetSellManager {
 			return Collections.emptyMap();
 		}
 		Map<Integer, Integer> recieveMap = record.getRecieveMap();
+		if(recieveMap == null){
+			recieveMap = new HashMap<Integer, Integer>();
+			record.setRecieveMap(recieveMap);
+		}
 		List<BenefitItems> itemList = new ArrayList<BenefitItems>(itemMap.values());
 		Collections.sort(itemList, Item_Comparetor);
 		Map<Integer,Integer> items = new HashMap<Integer, Integer>();
