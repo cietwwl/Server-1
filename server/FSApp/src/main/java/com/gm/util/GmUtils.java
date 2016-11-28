@@ -1,24 +1,62 @@
 package com.gm.util;
 
 import java.io.DataInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
+import javax.xml.parsers.DocumentBuilderFactory;
 
-import com.gm.GmRequest;
-import com.gm.task.GmItem;
+import org.apache.commons.lang3.StringUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import com.playerdata.ItemCfgHelper;
+import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.log.GmLog;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
 
 public class GmUtils {
+	
+private static final DocumentBuilderFactory documentBuilderFactory;
+	
+	static {
+		documentBuilderFactory = DocumentBuilderFactory.newInstance();
+	}
+	
+	public static Pair<String, List<String>> getHotUpdateInfo() throws Exception {
+		URL url = ClassLoader.getSystemResource("runtimeupdate.xml");
+		Document document = documentBuilderFactory.newDocumentBuilder().parse(new File(url.getFile()));
+		Node root = document.getFirstChild();
+		NodeList nodeList = root.getChildNodes();
+		List<String> list = Collections.emptyList();
+		String version = "";
+		for (int i = 0, length = nodeList.getLength(); i < length; i++) {
+			Node node = nodeList.item(i);
+			if (node.getNodeName().equals("updateList")) {
+				NodeList updateList = node.getChildNodes();
+				list = new ArrayList<String>(updateList.getLength());
+				for (int j = 0, updateSize = updateList.getLength(); j < updateSize; j++) {
+					Node updateNode = updateList.item(j);
+					if (updateNode.getNodeName().equals("classPath")) {
+						list.add(updateNode.getTextContent().trim());
+					}
+				}
+			} else if (node.getNodeName().equals("version")) {
+				version = node.getTextContent().trim();
+			}
+		}
+		return Pair.Create(version, list);
+	}
 
 	
 	public static boolean parseBoolean(Map<String, Object> args, String argsName){

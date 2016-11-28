@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.gm.task.GMRuntimeUpdate;
 import com.gm.task.GmBlockPlayer;
 import com.gm.task.GmBlockRelease;
 import com.gm.task.GmChargeSwitch;
@@ -102,6 +103,7 @@ public class GmHandler {
 		taskMap.put(1009, new GmServerInfo());
 		taskMap.put(1010, new GmCheckDataOpProgress());
 		taskMap.put(1011, new GmHotUpdate());
+		taskMap.put(1012, new GMRuntimeUpdate());
 		// 机器人
 		taskMap.put(3001, new GmStartRobotCreation());
 		// 开启和关闭游戏内的gm指令
