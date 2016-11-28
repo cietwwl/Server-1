@@ -136,7 +136,16 @@ public class WBHandler {
 
 	
 	private WBResult checkFightBegin(Player player ){
-		WBResult result = checkBoss();
+		
+		WBResult result = WBResult.newInstance(true);
+		WBState state = WBStateFSM.getInstance().getState();
+		if(state == WBState.PreStart){
+			result.setSuccess(false);
+			result.setReason("魔神尚未降临。");
+		}else if(state == WBState.FightEnd || state == WBState.SendAward || state == WBState.Finish){
+			result.setSuccess(false);
+			result.setReason("活动已经结束。");
+		}
 		if(result.isSuccess()){
 			result = checkCD(player);
 		}
