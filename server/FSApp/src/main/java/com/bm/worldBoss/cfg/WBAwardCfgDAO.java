@@ -6,7 +6,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
-public final class WBAwardCfgDAO extends CfgCsvDao<WBAwardCfg> {	
+public class WBAwardCfgDAO extends CfgCsvDao<WBAwardCfg> {	
 
 
 	public static WBAwardCfgDAO getInstance() {

@@ -194,7 +194,7 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 		this.addCure = target.getAddCure();
 		this.cutCure = target.getCutCure();
 		this.lifeGrowUp = target.getLifeGrowUp();
-		this.pAttackGrowUp = target.getpAttackGrowUp();
+		this.pAttackGrowUp = target.getPAttackGrowUp();
 		this.sAttackGrowUp = target.getSAttackGrowUp();
 		this.physicqueDefGrowUp = target.getPhysicqueDefGrowUp();
 		this.spiritDefGrowUp = target.getSpiritDefGrowUp();
@@ -323,7 +323,7 @@ public class FSHeroAttrDelegator  implements AttrDataIF {
 	}
 
 	@Override
-	public int getpAttackGrowUp() {
+	public int getPAttackGrowUp() {
 		return pAttackGrowUp;
 	}
 

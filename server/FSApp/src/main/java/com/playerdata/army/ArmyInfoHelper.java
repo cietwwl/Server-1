@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.beanCopy.FastBeanCopyer;
+import com.common.beanCopy.bak.BeanCopyerGen;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Hero;
@@ -152,8 +154,15 @@ public class ArmyInfoHelper {
 		SkillMgr skillMgr = role.getSkillMgr();
 		List<SkillItem> skillList = skillMgr.getSkillList(role.getUUId());
 		AttrData totalAttrData = role.getAttrMgr().getTotalAttrData();
-		// RoleBaseInfoIF baseInfo = role.getRoleBaseInfoMgr().getBaseInfo();
-		ArmyHero armyHero = new ArmyHero(role, totalAttrData, skillList);
+		
+		//------------这里不可以直接用 totalAttrData,否则有被外部修改的危险  by Alex 2016.11.26
+		AttrData.Builder builder = new Builder();		
+		FastBeanCopyer.getInstance().copy(totalAttrData, builder);
+		
+		AttrData data = builder.build();
+		
+		
+		ArmyHero armyHero = new ArmyHero(role, data, skillList);
 		armyHero.setFighting(role.getFighting());
 		return armyHero;
 	}

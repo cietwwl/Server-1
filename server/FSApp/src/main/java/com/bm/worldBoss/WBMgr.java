@@ -27,6 +27,8 @@ import com.playerdata.army.ArmyHero;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
+import com.playerdata.battleVerify.damageControll.DamageControllCfg;
+import com.playerdata.battleVerify.damageControll.DamageControllCfgDAO;
 
 
 public class WBMgr {
@@ -225,6 +227,22 @@ public class WBMgr {
 
 	public void onPlayerLogin(Player player) {
 		synWBData(player, -10);//登录通知的版本不作维护
+	}
+
+	
+	/**
+	 * 检查伤害控制表，是否伤害已经超过控制值
+	 * @param player
+	 * @param updateHurt
+	 * @return
+	 */
+	public long checkHurt(Player player, long updateHurt) {
+		long checkHurt = 0; 
+		DamageControllCfg cfg = DamageControllCfgDAO.getInstance().getCfgById(String.valueOf(player.getLevel()));
+		if(cfg != null){
+			checkHurt = updateHurt > cfg.getSingleHitMaxHurt() ? cfg.getSingleHitMaxHurt() : updateHurt;
+		}
+		return checkHurt;
 	}
 	
 	
