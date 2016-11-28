@@ -7,10 +7,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class VersionChannel {
 
 	private List<Version> compVerOrderList = new ArrayList<Version>();
+	
+	/**
+	 * 优先更新
+	 */
+	private Map<Version, List<Version>> highPriorityMap = new HashMap<Version, List<Version>>();
 	/**
 	 * 资源更新map
 	 */
@@ -23,6 +29,7 @@ public class VersionChannel {
 	public VersionChannel(List<Version> allChannelVerList){
 		
 		compVerOrderList = getCompVerOrderList(allChannelVerList);
+		highPriorityMap = sumPriorityMap(allChannelVerList, compVerOrderList);
 		patchMap = sumPatchMap(allChannelVerList, compVerOrderList);
 		codePatchMap = sumCodePatchMap(allChannelVerList, compVerOrderList);
 		
@@ -127,6 +134,34 @@ public class VersionChannel {
 			}
 			
 		}
+		if (targetPatch != null && targetPatch.getPriority() == 1) {
+			targetPatch = null;
+		}
+		return targetPatch;
+	}
+	
+	public Version getNextPriorityPatch(Version clientVersion){
+		Version target = null;
+		for (Version verTmp : compVerOrderList) {
+			if(verTmp.isSameCompVer(clientVersion)){
+				target = verTmp;
+				break;
+			}
+		}
+		Version targetPatch = null;
+		if(target!=null){
+			List<Version> patchList = highPriorityMap.get(target);
+			boolean takeNext = false;
+			for (Version patchTmp : patchList) {
+				if(takeNext){
+					targetPatch = comparePriorityPatch(patchTmp, targetPatch);
+				}
+				if(patchTmp.isSamePath(clientVersion)){
+					takeNext = true;
+				}
+			}
+			
+		}
 		
 		return targetPatch;
 	}
@@ -143,6 +178,46 @@ public class VersionChannel {
 			}
 		}
 		return bigPatch;
+	}
+	
+	private Version comparePriorityPatch(Version patchTmp, Version bigPatch){
+		if(bigPatch == null){
+			return patchTmp;
+		}
+		if(patchTmp.getMain() >= bigPatch.getMain()){
+			if(patchTmp.getSub() >= bigPatch.getSub()){
+				if(patchTmp.getThird() >= bigPatch.getThird()){
+					return patchTmp;
+				}
+			}
+		}
+		return bigPatch;
+	}
+	
+	private Map<Version, List<Version>> sumPriorityMap(List<Version> allVerList, List<Version> compVerList) {
+		Map<Version, List<Version>> priorityMapTmp = new HashMap<Version, List<Version>>();
+
+		for (Version verTmp : compVerList) {
+			List<Version> patchList = new ArrayList<Version>();
+			patchList.add(verTmp);
+			for (Version patchTmp : allVerList) {
+				if (patchTmp.getPriority() == 0) {
+					continue;
+				}
+				if (verTmp.targetIsVerCodePatch(patchTmp)) {
+					patchList.add(patchTmp);
+				}
+			}
+			Collections.sort(patchList, new Comparator<Version>() {
+				@Override
+				public int compare(Version source, Version target) {
+					return source.getPatch() - target.getPatch();
+				}
+			});
+
+			priorityMapTmp.put(verTmp, patchList);
+		}
+		return priorityMapTmp;
 	}
 
 	private Map<Version, List<Version>> sumPatchMap(List<Version> allVerList, List<Version> compVerList) {

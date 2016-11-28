@@ -133,6 +133,11 @@ public class VersionDao {
 		return channelVersionMap.get(clientVersion.getChannel()).getNextCodePatch(clientVersion);
 	}
 	
+	//下一个priority补丁
+	public Version getPriorityPatch(Version clientVersion){
+		return channelVersionMap.get(clientVersion.getChannel()).getNextPriorityPatch(clientVersion);
+	}
+	
 
 	private List<Version> getAllVer(List<File> fileList) {
 		List<Version> allVerList = new ArrayList<Version>();
