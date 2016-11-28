@@ -85,12 +85,12 @@ public class WBDataHolder {
 			ArmyVector3 position = copyCfg.getPosition(monsterId);
 			
 			data.setPosition(position);
-//			data.setMaxLife(maxLife);
-//			data.setCurLife(maxLife);	
-//			data.setRankBossHP(maxLife);
-			data.setMaxLife(500000);
-			data.setCurLife(500000);	
-			data.setRankBossHP(500000);
+			data.setMaxLife(maxLife);
+			data.setCurLife(maxLife);	
+			data.setRankBossHP(maxLife);
+//			data.setMaxLife(500000);
+//			data.setCurLife(500000);	
+//			data.setRankBossHP(500000);
 			data.setPreStartTime(wbCfg.getPreStartTime());
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
