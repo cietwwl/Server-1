@@ -19,6 +19,7 @@ import com.playerdata.readonly.FriendMgrIF;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.friend.FriendGetOperation;
+import com.rw.service.friend.FriendOperationFactory;
 import com.rw.service.friend.FriendHandler;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.common.enu.eTaskFinishDef;
@@ -62,8 +63,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		try {
 			long currentTime = System.currentTimeMillis();
 			TableFriend tableFriend = getTableFriend();
-			notifyLoginTime(tableFriend, FriendGetOperation.FRIEND, userId, currentTime);
-			notifyLoginTime(tableFriend, FriendGetOperation.BLACKLIST, userId, currentTime);
+			notifyLoginTime(tableFriend, FriendOperationFactory.getFriendOperation(), userId, currentTime);
+			notifyLoginTime(tableFriend, FriendOperationFactory.getBlackListOperation(), userId, currentTime);
 		} catch (Exception e) {
 			GameLog.error("FriendMgr", "#updateLoginTime()", "登录更新好友信息异常", e);
 		}
@@ -372,21 +373,19 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 			String otherUserId = friendList.get(i);
 			Player other = PlayerMgr.getInstance().find(otherUserId);
 			if (isSelfUser(otherUserId)) {
-				// resultVo.resultType = EFriendResultType.FAIL;
-				// resultVo.resultMsg = "该玩家是自己";
-			} else if (tableFriend.getFriendList().containsKey(otherUserId)) {
-				// resultVo.resultType = EFriendResultType.FAIL;
-				// resultVo.resultMsg = "对方已经是你的好友";
-			} else if (other != null && otherUserId.length() > 20) {
+				continue;
+			}
+			if (tableFriend.getFriendList().containsKey(otherUserId)) {
+				continue;
+			}
+			if (other != null && other.isRobot()) {
 				FriendResultVo vo = requestAddOneRobotToFriend(otherUserId);
 				if (vo.resultType == EFriendResultType.SUCCESS) {
 					resultVo.updateList.addAll(vo.updateList);
 				}
 			} else {
 				TableFriend otherTable = getOtherTableFriend(otherUserId);
-				if (otherTable.getBlackList().containsKey(userId)) {
-					// 如果在对方的黑名单列表中，不做操作
-				} else {
+				if (!otherTable.getBlackList().containsKey(userId)) {
 					FriendItem friendItem = FriendHandler.getInstance().newFriendItem(userId);
 					if (!otherTable.getRequestList().containsKey(friendItem.getUserId())) {
 						otherTable.getRequestList().put(friendItem.getUserId(), friendItem);
@@ -399,7 +398,6 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 				PlayerMgr.getInstance().setRedPointForHeartBeat(otherUserId);
 			}
 		}
-
 		return resultVo;
 	}
 
@@ -831,8 +829,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	/** 玩家数据改变 */
 	public void onPlayerChange(Player changedPlayer) {
 		TableFriend tableFriend = getTableFriend();
-		changeOtherInfo(tableFriend, changedPlayer, FriendGetOperation.FRIEND);
-		changeOtherInfo(tableFriend, changedPlayer, FriendGetOperation.BLACKLIST);
+		changeOtherInfo(tableFriend, changedPlayer, FriendOperationFactory.getFriendOperation());
+		changeOtherInfo(tableFriend, changedPlayer, FriendOperationFactory.getBlackListOperation());
 	}
 
 	private void changeOtherInfo(TableFriend hostTable, Player changedPlayer, FriendGetOperation op) {

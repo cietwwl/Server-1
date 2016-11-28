@@ -1,7 +1,5 @@
 package com.rw.service.PeakArena;
 
-import java.util.Calendar;
-
 import com.playerdata.Player;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.PeakArena.datamodel.TablePeakArenaData;
@@ -25,7 +23,7 @@ public class PeakArenaPlayerResetTask implements IPlayerOperable {
 	@Override
 	public void operate(Player player) {
 		TablePeakArenaData data = PeakArenaBM.getInstance().getOrAddPeakArenaData(player);
-		int dayOfYear = DateUtils.getCalendar().get(Calendar.DAY_OF_YEAR);
+		int dayOfYear = DateUtils.getCurrentDayOfYear();
 		if (data != null && data.getLastResetDayOfYear() < dayOfYear) {
 			data.setScore(0);
 			data.resetRewardList();

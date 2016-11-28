@@ -4,6 +4,7 @@ import java.util.Enumeration;
 
 import com.rwbase.dao.friend.TableFriend;
 import com.rwbase.dao.friend.vo.FriendItem;
+import com.rwbase.dao.friend.vo.FriendResultVo;
 
 /**
  * 基于TableFriend数据结构的封装
@@ -27,32 +28,20 @@ public interface FriendGetOperation {
 	 * @return
 	 */
 	public Enumeration<FriendItem> getItemEnumeration(TableFriend tableFriend);
-	
-	/** 好友实现 **/
-	FriendGetOperation FRIEND = new FriendGetOperation() {
 
-		@Override
-		public FriendItem getItem(TableFriend tableFriend, String userId) {
-			return tableFriend.getFriendItem(userId);
-		}
-
-		@Override
-		public Enumeration<FriendItem> getItemEnumeration(TableFriend tableFriend) {
-			return tableFriend.getFriendMap();
-		}
-	};
-
-	/** 黑名单实现 **/
-	FriendGetOperation BLACKLIST = new FriendGetOperation() {
-
-		@Override
-		public FriendItem getItem(TableFriend tableFriend, String userId) {
-			return tableFriend.getBlackItem(userId);
-		}
-
-		@Override
-		public Enumeration<FriendItem> getItemEnumeration(TableFriend tableFriend) {
-			return tableFriend.getBlackMap();
-		}
-	};
+//	/**
+//	 * <pre>
+//	 * 向指定关系添加指定{@link FriendItem}
+//	 * </pre>
+//	 * @param host
+//	 * @param guestUserId
+//	 * @return
+//	 */
+//	public boolean addFriendItem(TableFriend host, String guestUserId, FriendResultVo resultVo);
+//
+//	/**
+//	 * 是否到达到人数上限
+//	 * @return
+//	 */
+//	public boolean isReachLimit();
 }

@@ -41,11 +41,7 @@ public class RankingActivity {
 				return;
 			}
 		}
-		recordRanking(RankType.WARRIOR_ARENA, GameWorldKey.WARRIOR_ARENA);
-		recordRanking(RankType.SWORDMAN_ARENA, GameWorldKey.SWORDMAN_ARENA);
-		recordRanking(RankType.MAGICAN_ARENA, GameWorldKey.MAGICAN_ARENA);
-		recordRanking(RankType.PRIEST_ARENA, GameWorldKey.PRIEST_ARENA);
-		recordRanking(RankType.FIGHTING_ALL, GameWorldKey.FIGHTING);
+		recordRanking(RankType.ARENA, GameWorldKey.ARENA);
 		recordRanking(RankType.LEVEL_ALL, GameWorldKey.LEVEL);
 		updateDBString(GameWorldKey.GROUP, getGroupList());
 		world.updateAttribute(GameWorldKey.RANKING_ACTIVITY_CAL, String.valueOf(System.currentTimeMillis()));

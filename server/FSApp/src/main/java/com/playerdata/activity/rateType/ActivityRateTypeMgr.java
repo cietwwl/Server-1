@@ -179,9 +179,9 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			return isopen;
 		}
 		
-		int hour = DateUtils.getCurrentHour();
+		int currentHHMMSS = Integer.parseInt(DateUtils.getTimeOfDayFomrateTips(currentTime));
 		for (ActivityRateTypeStartAndEndHourHelper timebyhour : ActivityRateTypeCfg.getStartAndEnd()) {
-			isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
+			isopen = currentHHMMSS >= timebyhour.getStarthour()&& currentHHMMSS < timebyhour.getEndhour() ? true : false;
 			if (isopen) {
 				return isopen;
 			}
@@ -378,14 +378,15 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			if(!isopen){
 				return isopen;
 			}
-			int hour = DateUtils.getCurrentHour();
+			//int hour = DateUtils.getCurrentHour();
+			int currentHHMMSS = Integer.parseInt(DateUtils.getTimeOfDayFomrateTips(currentTime));
 			for (ActivityRateTypeStartAndEndHourHelper timebyhour : cfg.getStartAndEnd()) {
-				isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
+				isopen = currentHHMMSS >= timebyhour.getStarthour()&& currentHHMMSS < timebyhour.getEndhour() ? true : false;
 				if (isopen) {
 					return isopen;
 				}
-			}			
+			}
 		}
-		return isopen;	
+		return isopen;
 	}
 }
