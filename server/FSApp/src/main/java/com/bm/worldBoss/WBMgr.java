@@ -120,7 +120,7 @@ public class WBMgr {
 //				System.out.println("curlift :" + curLife);
 				if(isBossDie()){
 //					System.err.println("--------------world boss was killed!!");
-					broatCastBossDie(player.getUserId());
+					broatCastBossDie(player.getUserId(), player.getUserName());
 				}
 			}
 			
@@ -131,10 +131,10 @@ public class WBMgr {
 		return trueHurt;		
 	}
 	
-	private void broatCastBossDie(String killRoleID) {
+	private void broatCastBossDie(String killRoleID, String name) {
 		
 		WBBroatCastData broatCastData = new WBBroatCastData();
-		broatCastData.setKillBossRole(killRoleID);
+		broatCastData.setKillBossRole(killRoleID, name);
 		
 		broatCast(broatCastData);
 		

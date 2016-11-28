@@ -13,6 +13,7 @@ public class WBBroatCastData {
 	
 	private boolean bossLeave;
 
+	private String killBossRoleName;
 
 
 	public boolean isBossLeave() {
@@ -27,8 +28,9 @@ public class WBBroatCastData {
 		return killBossRole;
 	}
 
-	public void setKillBossRole(String killBossRole) {
+	public void setKillBossRole(String killBossRole, String roleName) {
 		this.killBossRole = killBossRole;
+		this.killBossRoleName = roleName;
 	}
 	
 	
