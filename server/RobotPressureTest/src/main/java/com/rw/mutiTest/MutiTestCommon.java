@@ -93,14 +93,14 @@ public class MutiTestCommon {
 		final AtomicInteger finishLoginCount = new AtomicInteger();
 
 		ExecutorService loginService = Executors.newFixedThreadPool(threadCount);
-		for (int i = 100; i < 200; i++) {
+		for (int i = 100; i < 101; i++) {
 			final int index = i;
 			loginService.submit(new Runnable() {
 				@Override
 				public void run() {
 					try {
 						String accountId = preName + index;
-						Robot robotTmp = loginRobot(accountId);
+						Robot robotTmp = createRobot(accountId);
 						if (robotTmp != null) {
 							robotList.add(robotTmp);
 						}

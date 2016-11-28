@@ -40,13 +40,19 @@ public class SynDataListHolder<T extends SynItem> {
 				updatePartList(synDataList);
 				break;
 			case UPDATE_SINGLE:
-				updateSingle(synDataList.get(0));
+				if(null != synDataList.get(0)){
+					updateSingle(synDataList.get(0));
+				}
 				break;
 			case ADD_SINGLE:
-				addSingle(synDataList.get(0));
+				if(null != synDataList.get(0)){
+					addSingle(synDataList.get(0));
+				}
 				break;
 			case REMOVE_SINGLE:
-				removeSingle(synDataList.get(0));
+				if(null != synDataList.get(0)){
+					removeSingle(synDataList.get(0));
+				}
 				break;
 
 			default:
