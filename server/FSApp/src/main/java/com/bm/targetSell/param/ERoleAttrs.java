@@ -30,12 +30,14 @@ public enum ERoleAttrs {
 
 	;
 	private int id;
+	private String idValue;
 	private ERoleAttrs(int id){
 		this.id = id;
+		this.idValue = String.valueOf(id);
 	}
 
 	public String getId() {
-		return String.valueOf(id);
+		return idValue;
 	}
 	
 

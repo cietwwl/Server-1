@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.bm.targetSell.TargetSellManager;
+import com.bm.targetSell.param.TargetSellPlayerListener;
+import com.bm.targetSell.param.TargetSellSendTask;
 import com.common.RemoteMessageEnum;
 import com.rw.fsutil.remote.RemoteMessageService;
 import com.rw.fsutil.remote.RemoteMessageServiceFactory;
@@ -14,23 +16,22 @@ import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
+import com.rwbase.gameworld.GameWorldFactory;
 
 public class BenefitMsgController {
-	
-	//用于计算包头的key
+
+	// 用于计算包头的key
 	public final static int MSG_KEY = 13542;
 
 	private RemoteMessageService<String, String> server;
-	
-	
+
 	FSMessageDecoder<String> decoder = new BenefitMsgDecoder();
 
 	FSMessageEncoder<String> encoder = new BenefitMsgEncoder();
 
 	FSMessageExecutor<String> executor = new BenefitMsgExcutor();
-	
-	private static BenefitMsgController controller = new BenefitMsgController();
 
+	private static BenefitMsgController controller = new BenefitMsgController();
 
 	private BenefitMsgController() {
 	}
@@ -40,17 +41,17 @@ public class BenefitMsgController {
 	}
 
 	public void init(String removeIp, int port, int localPort, int timeoutMillis, int priod) {
-		server = RemoteMessageServiceFactory.createService(RemoteMessageEnum.RMType_Benefit.getId(), removeIp,port, 1, 1, decoder, encoder, executor);
-		FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
+		server = RemoteMessageServiceFactory.createService(RemoteMessageEnum.RMType_Benefit.getId(), removeIp, port, 1, 1, decoder, encoder, executor);
+		//FSGameTimerMgr.getInstance().submitSecondTask(new HeartBeatTask(priod), priod);
+		GameWorldFactory.getGameWorld().registerPlayerDataListener(new TargetSellPlayerListener());
 	}
 
 	public void addMsg(String content) {
-//		System.err.println("add msg:" + content);
+		// System.err.println("add msg:" + content);
 		server.sendMsg(content);
 
 	}
-	
-	
+
 	// 心跳任务
 	private class HeartBeatTask implements IGameTimerTask {
 
@@ -67,7 +68,6 @@ public class BenefitMsgController {
 
 		@Override
 		public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-			FSGameTimerMgr.getInstance().submitSecondTask(this, interval);
 
 			String heartBeatData = TargetSellManager.getInstance().getHeartBeatMsgData();
 			// 发送心跳消息
@@ -88,7 +88,7 @@ public class BenefitMsgController {
 
 		@Override
 		public boolean isContinue() {
-			return false;
+			return true;
 		}
 
 		@Override
@@ -96,8 +96,6 @@ public class BenefitMsgController {
 			return null;
 		}
 
-	
 	}
-
 
 }
