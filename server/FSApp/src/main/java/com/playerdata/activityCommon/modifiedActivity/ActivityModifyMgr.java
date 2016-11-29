@@ -37,7 +37,7 @@ public class ActivityModifyMgr {
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
 			if(null != globleData){
 				for(Entry<Integer, ActivityModifyItem> entry : globleData.getItems().entrySet()){
-					updateModifiedActivity(activityKey, entry.getValue());
+					updateModifiedActivity(activityKey, entry.getValue(), true);
 				}
 			}
 		}
@@ -123,7 +123,7 @@ public class ActivityModifyMgr {
 		modifyItem.setStartTime(startTime);
 		modifyItem.setEndTime(endTime);
 		modifyItem.setVersion(version);
-		updateModifiedActivity(activityKey, modifyItem);
+		updateModifiedActivity(activityKey, modifyItem, false);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public class ActivityModifyMgr {
 			modifyItem.setRewardStrMap(new HashMap<Integer, String>());
 		}
 		modifyItem.getRewardStrMap().put(subCfgId, reward);
-		updateModifiedActivity(activityKey, modifyItem);
+		updateModifiedActivity(activityKey, modifyItem, false);
 	}
 	
 	/**
@@ -156,19 +156,16 @@ public class ActivityModifyMgr {
 	 * @param activityKey
 	 * @param item
 	 */
-	private void updateModifiedActivity(ActivityKey activityKey, ActivityModifyItem item){
+	private void updateModifiedActivity(ActivityKey activityKey, ActivityModifyItem item, boolean isDropOld){
 		if(modifyActivityCfg(activityKey.getActivityType(), item)){
 			// 更新数据库中关于配置表的修改
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
 			if(null == globleData){
 				globleData = new ActivityModifyGlobleData();
 			}
-			ActivityModifyItem oldItem = globleData.getItems().get(item.getId());
-			if(null == oldItem || oldItem.getVersion() < item.getVersion()){
-				globleData.getItems().put(item.getId(), item);
-				GameWorldFactory.getGameWorld().updateAttribute(activityKey.getGameWorldKey(), JsonUtil.writeValue(globleData));
-			}
-		}else{
+			globleData.getItems().put(item.getId(), item);
+			GameWorldFactory.getGameWorld().updateAttribute(activityKey.getGameWorldKey(), JsonUtil.writeValue(globleData));
+		}else if(isDropOld){
 			ActivityModifyGlobleData globleData = getModifiedActivity(activityKey);
 			if(null != globleData){
 				globleData.getItems().remove(item.getId());
@@ -191,13 +188,14 @@ public class ActivityModifyMgr {
 		if(null == cfg){
 			return false;
 		}
-		if(cfg.getVersion() < item.getVersion()){
+		if(cfg.getVersion() <= item.getVersion()){
 			if(StringUtils.isNotBlank(item.getStartTime())){
 				cfg.setStartTime(item.getStartTime());
 			}
 			if(StringUtils.isNotBlank(item.getEndTime())){
 				cfg.setEndTime(item.getEndTime());
 			}
+			cfg.setVersion(item.getVersion());
 			setRewardContent(actType, item);
 			return true;
 		}

@@ -144,7 +144,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		Enumeration<T> mapEnum = itemStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			T item = mapEnum.nextElement();
-			boolean isActive = detector.containsActivityByCfgId(getActivityType(), item.getCfgId());
+			boolean isActive = detector.containsActivityByCfgId(getActivityType(), item.getCfgId(), item.getVersion());
 			if(isActive){
 				activeItemMap.put(item.getId(), item);
 			}else{

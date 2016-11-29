@@ -52,6 +52,11 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	}
 	
 	@Override
+	public void setVersion(int version) {
+		//TODO 以后要加上
+	}
+	
+	@Override
 	public int getLevelLimit() {
 		return levelLimit;
 	}
