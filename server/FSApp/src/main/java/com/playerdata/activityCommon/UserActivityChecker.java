@@ -47,7 +47,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 
 	public void synAllData(Player player){
 		List<T> itemList = getItemList(player.getUserId());
-		if(null != itemList && !itemList.isEmpty() && null != getSynType()){
+		if(null != itemList && null != getSynType()){
 			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
 		}
 	}
