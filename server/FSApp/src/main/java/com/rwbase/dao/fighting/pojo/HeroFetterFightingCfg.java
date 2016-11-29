@@ -12,6 +12,7 @@ import com.rwbase.common.FightingIndexKey;
 public class HeroFetterFightingCfg extends FightingCfgBase {
 
 	private int level;
+	private int requiredLv;
 	@FightingIndexKey(1)
 	private int fightingOfFetter1; 	
 	@FightingIndexKey(2)
@@ -29,7 +30,7 @@ public class HeroFetterFightingCfg extends FightingCfgBase {
 	
 	@Override
 	public int getRequiredLv() {
-		return 0;
+		return requiredLv;
 	}
 
 }
