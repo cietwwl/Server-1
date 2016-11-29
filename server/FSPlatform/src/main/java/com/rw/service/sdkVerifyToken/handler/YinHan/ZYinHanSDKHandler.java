@@ -6,6 +6,6 @@ package com.rw.service.sdkVerifyToken.handler.YinHan;
  *
  */
 public class ZYinHanSDKHandler extends AbsSDKHandler{
-	protected String URL = "http://nsdk.hk.1251001793.clb.myqcloud.com:4006/verifyToken";
-	protected String BackupURL = "http://nsdk.hk.1251001793.clb.myqcloud.com:4006/verifyToken";
+	protected String URL = "http://audityhsdk.yhres.cn:4006/verifyToken";
+	protected String BackupURL = "http://audityhsdk.yhres.cn:4006/verifyToken";
 }

@@ -8,5 +8,5 @@ package com.rw.service.sdkVerifyToken.handler.YinHan;
 public class YinHanSDKHandler extends AbsSDKHandler{
 
 	protected String URL = "http://nsdk.yhres.cn:4003/verifyToken";
-	protected String BackupURL = "http://123.206.2.107:4003/verifyToken";
+	protected String BackupURL = "http://nsdk.yhres.cn:4003/verifyToken";
 }
