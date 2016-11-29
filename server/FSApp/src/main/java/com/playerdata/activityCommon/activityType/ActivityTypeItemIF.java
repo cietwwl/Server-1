@@ -16,6 +16,8 @@ public interface ActivityTypeItemIF<T> extends RoleExtProperty{
 	
 	public void setVersion(int version);
 	
+	public int getVersion();
+	
 	public void setClosed(boolean isClose);
 	
 	public void setSubItemList(List<T> subItemList);

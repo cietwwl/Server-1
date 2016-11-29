@@ -11,7 +11,6 @@ import com.bm.targetSell.TargetSellManager;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
@@ -227,15 +226,6 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.FRESHER_ATIVITY_DATA);
 
-		versionMap.put(eSynType.ActivityCountType, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {
-				ActivityCountTypeMgr.getInstance().synData(player);
-				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
-			}
-		}));
-		orderList.add(eSynType.ActivityCountType);
-
 		versionMap.put(eSynType.Charge, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
@@ -272,7 +262,6 @@ public class DataSynVersionHolder {
 			@Override
 			public void synAllData(Player player, int version) {
 				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);
-				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyType);
@@ -284,15 +273,6 @@ public class DataSynVersionHolder {
 			}
 		}));
 		orderList.add(eSynType.ActivityExchangeType);
-
-		versionMap.put(eSynType.ActivityDailyDiscountType, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {
-				//ActivityDailyDiscountTypeMgr.getInstance().synCountTypeData(player);
-				// ActivityTimeCardTypeMgr.getInstance().synCountTypeData(player);
-			}
-		}));
-		orderList.add(eSynType.ActivityDailyDiscountType);
 
 		versionMap.put(eSynType.ActivityDailyRechargeType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
@@ -329,7 +309,6 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				// ActivityDailyTypeMgr.getInstance().synCountTypeData(player);
 				ActivityVitalityTypeMgr.getInstance().synVitalityTypeData(player);
 			}
 		}));

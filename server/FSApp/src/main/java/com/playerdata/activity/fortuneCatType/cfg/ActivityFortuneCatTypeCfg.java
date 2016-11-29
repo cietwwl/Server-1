@@ -77,6 +77,11 @@ public class ActivityFortuneCatTypeCfg extends BaseConfig implements ActivityCfg
 	public int getVersion() {
 		return version;
 	}
+	
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
 	@Override
 	public int getVipLimit() {
