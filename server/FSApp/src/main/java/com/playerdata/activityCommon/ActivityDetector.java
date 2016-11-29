@@ -18,7 +18,6 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
 import com.rwbase.gameworld.PlayerPredecessor;
-import com.rwbase.gameworld.PlayerTask;
 
 /**
  * 活动状态检测

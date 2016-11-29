@@ -23,6 +23,10 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	public void synData(Player player) {
 		getHolder().synAllData(player);
 	}
+	
+	public void synDataWithoutEmpty(Player player) {
+		getHolder().synAllDataWithoutEmpty(player);
+	}
 
 	/** 登陆或打开活动入口时，核实所有活动是否开启，并根据活动类型生成空的奖励数据;如果活动为重复的,如何在活动重复时清空 */
 	protected void checkActivityOpen(Player player) {
