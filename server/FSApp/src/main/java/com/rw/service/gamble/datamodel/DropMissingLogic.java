@@ -12,6 +12,8 @@ import com.playerdata.Hero;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.hero.core.FSHeroMgr;
+import com.rw.fsutil.common.IReadOnlyPair;
+import com.rw.fsutil.common.Pair;
 import com.rwbase.dao.equipment.EquipItem;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -22,6 +24,8 @@ public class DropMissingLogic {
 	public static DropMissingLogic getInstance() {
 		return instance;
 	}
+	
+	private static final IDropMissingRecord _defaultRecord = new DropMissingRecordDefaultImpl();
 
 	private static Comparator<Hero> comparator = new Comparator<Hero>() {
 		@Override
@@ -44,21 +48,52 @@ public class DropMissingLogic {
 	 * @return
 	 */
 	public String searchMissingItem(Player player, DropMissingCfg cfg) {
+//		RoleQualityCfgDAO qualityHelper = RoleQualityCfgDAO.getInstance();
+//		Random r = HPCUtil.getRandom();
+//
+//		String userId = player.getUserId();
+//		List<Hero> heroList = FSHeroMgr.getInstance().getAllHeros(player, comparator);
+//		for (int i = 0; i < heroList.size(); i++) {
+//			Hero hero = heroList.get(i);
+//			List<Integer> equipCandidates = searchOneHero(hero, userId, qualityHelper, cfg);
+//			int max = equipCandidates.size();
+//			if (max <= 0) {
+//				continue;
+//			}
+//			return String.valueOf(equipCandidates.get(r.nextInt(max)));
+//		}
+//		return null;
+		return this.searchMissingItem(player, cfg, _defaultRecord);
+	}
+	
+	/**
+	 * 假设player,cfg非空
+	 * 
+	 * @param player
+	 * @param cfg
+	 * @return
+	 */
+	public String searchMissingItem(Player player, DropMissingCfg cfg, IDropMissingRecord dropMissingRecord) {
 		RoleQualityCfgDAO qualityHelper = RoleQualityCfgDAO.getInstance();
 		Random r = HPCUtil.getRandom();
 
 		String userId = player.getUserId();
 		List<Hero> heroList = FSHeroMgr.getInstance().getAllHeros(player, comparator);
+		List<Integer> allEquipCfgIds = new ArrayList<Integer>();
 		for (int i = 0; i < heroList.size(); i++) {
 			Hero hero = heroList.get(i);
-			List<Integer> equipCandidates = searchOneHero(hero, userId, qualityHelper, cfg);
-			int max = equipCandidates.size();
-			if (max <= 0) {
+			IReadOnlyPair<Boolean, List<Integer>> dropResult = searchOneHero(hero, userId, qualityHelper, cfg, dropMissingRecord);
+			if (dropResult.getT1()) {
+				allEquipCfgIds.addAll(dropResult.getT2());
 				continue;
+			} else {
+				List<Integer> equipCandidates = dropResult.getT2();
+				Integer dropItemId = equipCandidates.get(r.nextInt(equipCandidates.size()));
+				dropMissingRecord.addToRecord(hero.getId(), dropItemId);
+				return String.valueOf(dropItemId);
 			}
-			return String.valueOf(equipCandidates.get(r.nextInt(max)));
 		}
-		return null;
+		return String.valueOf(allEquipCfgIds.get(r.nextInt(allEquipCfgIds.size())));
 	}
 
 	/**
@@ -68,12 +103,14 @@ public class DropMissingLogic {
 	 * @param itemBagMgr
 	 * @param qualityHelper
 	 * @param cfg
-	 * @return
+	 * @return {@link Pair#getT1()}表示是否有missingItem，
 	 */
-	private List<Integer> searchOneHero(Hero hero, String userId, RoleQualityCfgDAO qualityHelper, DropMissingCfg cfg) {
-		ArrayList<Integer> result = new ArrayList<Integer>();
+//	private List<Integer> searchOneHero(Hero hero, String userId, RoleQualityCfgDAO qualityHelper, DropMissingCfg cfg) {
+	private IReadOnlyPair<Boolean, List<Integer>> searchOneHero(Hero hero, String userId, RoleQualityCfgDAO qualityHelper, DropMissingCfg cfg, IDropMissingRecord recorder) {
+		List<Integer> result = new ArrayList<Integer>();
+		Pair<Boolean, List<Integer>> pairResult = Pair.Create(false, result);
 		if (hero == null) {
-			return result;
+			return pairResult;
 		}
 		String qualityId = hero.getQualityId();
 		int quality = qualityHelper.getQuality(qualityId);
@@ -95,22 +132,25 @@ public class DropMissingLogic {
 			}
 		}
 
+		String heroId = hero.getId();
 		for (Integer equipCfgId : equipCfgList) {// 每个位置对应的装备ID
 			if (wearEquipIdList.contains(equipCfgId)) {// 已穿戴
 				continue;
 			}
 			// 搜索背包
-			if (!isBagContain(userId, equipCfgId)) {
+//			if (!isBagContain(userId, equipCfgId)) {
+			if (!isBagContain(userId, equipCfgId) && !recorder.containsRecord(heroId, equipCfgId)) {
 				result.add(equipCfgId);
 			}
 		}
 
 		// 装备空缺组容错规则：如果没有空缺，则用非空缺的位置补上
 		if (result.size() <= 0) {
-			result = equipCfgList;
+			result.addAll(equipCfgList);
+			pairResult.setT1(true);
 		}
 
-		return result;
+		return pairResult;
 	}
 
 	private boolean isBagContain(String userId, Integer equipCfgId) {

@@ -29,6 +29,7 @@ import com.rw.service.gamble.datamodel.GambleRecord;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gamble.datamodel.IDropGambleItemPlan;
+import com.rw.service.gamble.datamodel.IDropMissingRecord;
 import com.rw.service.gamble.datamodel.ItemOrHeroGambleInfo;
 import com.rwbase.dao.item.SoulStoneCfgDAO;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
@@ -552,6 +553,36 @@ public class GambleLogicHelper {
 				}
 				return getRandomGroup(player, again, slotCount, weight);
 			}
+		}
+
+		return result;
+	}
+	
+	/**
+	 * 获取掉落的物品
+	 * 
+	 * @param player
+	 * @param drop
+	 * @param slotCount
+	 * @param weight
+	 * @return
+	 */
+	public static String randomDrop(Player player, GambleDropGroup drop, RefInt slotCount, RefInt weight, IDropMissingRecord record) {
+		RefInt planIndex = new RefInt();
+		Random r = HPCUtil.getRandom();
+		String result = drop.getRandomGroup(r, planIndex, weight);// 先获取索引
+
+		slotCount.value = drop.getSlotCountArr()[planIndex.value];// 获取到数量
+
+		// 这个是根据人身上装备的数据来获取掉落
+		if (StringUtils.isNotBlank(result)) {
+			DropMissingCfg cfg = DropMissingCfgHelper.getInstance().getCfgById(result);// 如果读取到的是DropMissing这类型的掉落
+			if (cfg == null) {
+				// 如果不是随机到dropMissing
+				return result;
+			}
+
+			result = DropMissingLogic.getInstance().searchMissingItem(player, cfg, record);
 		}
 
 		return result;
