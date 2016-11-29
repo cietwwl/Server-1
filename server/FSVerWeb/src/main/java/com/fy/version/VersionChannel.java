@@ -88,6 +88,12 @@ public class VersionChannel {
 				}
 				if(patchTmp.isSamePatch(clientVersion)){
 					takeNext = true;
+					continue;
+				}
+				if(patchTmp.isBigPath(clientVersion)){
+					targetPatch = patchTmp;
+					takeNext = true;
+					continue;
 				}
 			}
 			
@@ -114,6 +120,12 @@ public class VersionChannel {
 				}
 				if(patchTmp.isSameCodePath(clientVersion)){
 					takeNext = true;
+					continue;
+				}
+				if(patchTmp.isBigCodePath(clientVersion)){
+					targetPatch = patchTmp;
+					takeNext = true;
+					continue;
 				}
 			}
 			
@@ -142,6 +154,12 @@ public class VersionChannel {
 				}
 				if(patchTmp.isSamePath(clientVersion)){
 					takeNext = true;
+					continue;
+				}
+				if(patchTmp.isBigCodePath(clientVersion)){
+					targetPatch = patchTmp;
+					takeNext = true;
+					continue;
 				}
 			}
 			

@@ -232,6 +232,11 @@ public class Version {
 				&& this.patch == target.patch;
 	}
 	
+	public boolean isBigPath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/
+				&& this.patch > target.patch;
+	}
+	
 	public boolean isSameCodePath(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				/**&& this.patch == target.patch*/;
@@ -240,6 +245,10 @@ public class Version {
 	public boolean isSamePath(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				&& this.patch == target.patch;
+	}
+	
+	public boolean isBigCodePath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third > target.third;
 	}
 	
 	public String getCurrentVersionNo() {
