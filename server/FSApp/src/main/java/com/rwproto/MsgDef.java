@@ -980,13 +980,21 @@ public final class MsgDef {
      */
     MSG_FETTER_ACTIVITY_NOTIFY(127, 238),
     /**
+     * <code>MSG_BATTLE_VERIFY = 239;</code>
+     *
+     * <pre>
+     * 战斗信息校对
+     * </pre>
+     */
+    MSG_BATTLE_VERIFY(128, 239),
+    /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
      * <pre>
      *活动；月卡;不是活动的协议不要往下接啊；往上接
      * </pre>
      */
-    MSG_ACTIVITY_TIMECARD_TYPE(128, 600),
+    MSG_ACTIVITY_TIMECARD_TYPE(129, 600),
     /**
      * <code>MSG_ACTIVITY_EVILBAO = 601;</code>
      *
@@ -994,7 +1002,7 @@ public final class MsgDef {
      *申公豹驾到
      * </pre>
      */
-    MSG_ACTIVITY_EVILBAO(129, 601),
+    MSG_ACTIVITY_EVILBAO(130, 601),
     /**
      * <code>MSG_ACTIVITY_CHARGE_RANK = 602;</code>
      *
@@ -1002,7 +1010,7 @@ public final class MsgDef {
      *充值和消费排行榜
      * </pre>
      */
-    MSG_ACTIVITY_CHARGE_RANK(130, 602),
+    MSG_ACTIVITY_CHARGE_RANK(131, 602),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -1010,7 +1018,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(131, 995),
+    MSG_FEEDBACK(132, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -1018,7 +1026,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(132, 996),
+    MSG_SDK_VERIFY(133, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -1026,7 +1034,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(133, 997),
+    MSG_NUMERIC_ANALYSIS(134, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -1034,7 +1042,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(134, 998),
+    MSG_PLATFORMGS(135, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -1042,7 +1050,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(135, 999),
+    MSG_GAMEPRESS(136, 999),
     ;
 
     /**
@@ -2012,6 +2020,14 @@ public final class MsgDef {
      */
     public static final int MSG_FETTER_ACTIVITY_NOTIFY_VALUE = 238;
     /**
+     * <code>MSG_BATTLE_VERIFY = 239;</code>
+     *
+     * <pre>
+     * 战斗信息校对
+     * </pre>
+     */
+    public static final int MSG_BATTLE_VERIFY_VALUE = 239;
+    /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
      * <pre>
@@ -2209,6 +2225,7 @@ public final class MsgDef {
         case 236: return MSG_CHARGE_NOTIFY;
         case 237: return Msg_GROUP_COMPETITION_TEAM_OPTIMIZE;
         case 238: return MSG_FETTER_ACTIVITY_NOTIFY;
+        case 239: return MSG_BATTLE_VERIFY;
         case 600: return MSG_ACTIVITY_TIMECARD_TYPE;
         case 601: return MSG_ACTIVITY_EVILBAO;
         case 602: return MSG_ACTIVITY_CHARGE_RANK;
@@ -2277,7 +2294,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\374\031\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\224\032\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2355,13 +2372,13 @@ public final class MsgDef {
       "FT_NOTIFY\020\351\001\022\017\n\nMSG_SALOON\020\352\001\022\024\n\017MSG_COM" +
       "MON_SOUL\020\353\001\022\026\n\021MSG_CHARGE_NOTIFY\020\354\001\022(\n#M" +
       "sg_GROUP_COMPETITION_TEAM_OPTIMIZE\020\355\001\022\037\n" +
-      "\032MSG_FETTER_ACTIVITY_NOTIFY\020\356\001\022\037\n\032MSG_AC" +
-      "TIVITY_TIMECARD_TYPE\020\330\004\022\031\n\024MSG_ACTIVITY_",
-      "EVILBAO\020\331\004\022\035\n\030MSG_ACTIVITY_CHARGE_RANK\020\332" +
-      "\004\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344" +
-      "\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLAT" +
-      "FORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwp" +
-      "rotoB\006MsgDef"
+      "\032MSG_FETTER_ACTIVITY_NOTIFY\020\356\001\022\026\n\021MSG_BA" +
+      "TTLE_VERIFY\020\357\001\022\037\n\032MSG_ACTIVITY_TIMECARD_",
+      "TYPE\020\330\004\022\031\n\024MSG_ACTIVITY_EVILBAO\020\331\004\022\035\n\030MS" +
+      "G_ACTIVITY_CHARGE_RANK\020\332\004\022\021\n\014MSG_FEEDBAC" +
+      "K\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC" +
+      "_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG" +
+      "_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
