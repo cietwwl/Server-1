@@ -38,7 +38,8 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 	private final NioEventLoopGroup eventGroup;
 	private final AtomicLong sendAvailable;
 	private final AtomicLong unAvailable;
-	private volatile boolean debugLogger;
+	private volatile boolean debugLogger = true;
+	private final AtomicLong msgIdGenerator;
 
 	public RemoteMessageService(int type, String host, int port, int threadCount, int maxConnection,
 			FSMessageDecoder<ReceiveMessage> decoder, FSMessageEncoder<SendMessage> encoder, FSMessageExecutor<ReceiveMessage> executor) {
@@ -52,6 +53,7 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 		this.executor = executor;
 		this.sendAvailable = new AtomicLong();
 		this.unAvailable = new AtomicLong();
+		this.msgIdGenerator = new AtomicLong();
 		this.channels = new ArrayList<RemoteServiceSender<SendMessage, ReceiveMessage>>();
 		for (int i = 0; i < this.maxConnection; i++) {
 			RemoteServiceSender<SendMessage, ReceiveMessage> sender = new RemoteServiceSender<SendMessage, ReceiveMessage>(i + 1, 8192, null, RemoteMessageService.this);
@@ -184,6 +186,14 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 		return eventGroup;
 	}
 
+	public long getUnAvailableCount() {
+		return this.unAvailable.get();
+	}
+
+	public long getAvailableCount() {
+		return this.sendAvailable.get();
+	}
+
 	public boolean isDebugLogger() {
 		return debugLogger;
 	}
@@ -192,4 +202,7 @@ public class RemoteMessageService<SendMessage, ReceiveMessage> {
 		this.debugLogger = debugLogger;
 	}
 
+	protected long generateMsgId() {
+		return this.msgIdGenerator.incrementAndGet();
+	}
 }

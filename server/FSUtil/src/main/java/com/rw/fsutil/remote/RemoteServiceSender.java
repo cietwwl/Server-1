@@ -10,6 +10,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.log4j.Logger;
 
@@ -29,6 +30,7 @@ public class RemoteServiceSender<SendMessage, ReceiveMessage> {
 	private final Bootstrap bootstrap;
 	private final RemoteMessageService<SendMessage, ReceiveMessage> service;
 	private final int halfCapacity;
+	private final AtomicReference<Runnable> connectTask;
 
 	public RemoteServiceSender(int uniqueId, int maxCapacity, MessageSendFailHandler<SendMessage> sendFailHandler, RemoteMessageService<SendMessage, ReceiveMessage> service) {
 		this.maxCapacity = maxCapacity;
@@ -41,6 +43,7 @@ public class RemoteServiceSender<SendMessage, ReceiveMessage> {
 		this.sendRejectStat = new AtomicLong();
 		this.bootstrap = new Bootstrap();
 		this.service = service;
+		this.connectTask = new AtomicReference<Runnable>();
 		this.bootstrap.group(service.getEventGroup()).channel(NioSocketChannel.class).handler(service.createChannelInitializer(this));
 	}
 
@@ -65,14 +68,18 @@ public class RemoteServiceSender<SendMessage, ReceiveMessage> {
 			return false;
 		}
 		count.incrementAndGet();
+		boolean isDebugLogger = service.isDebugLogger();
 		final SendMessage sendMessage;
-		if (sendFailHandler != null || service.isDebugLogger()) {
+		final long msgId;
+		if (sendFailHandler != null || isDebugLogger) {
+			msgId = service.generateMsgId();
 			sendMessage = content;
 		} else {
 			sendMessage = null;
+			msgId = 0;
 		}
-		if (service.isDebugLogger()) {
-			remoteMsgLogger.debug("send success=" + count.get() + ",type=" + service.getType() + "," + content);
+		if (isDebugLogger) {
+			remoteMsgLogger.debug("send current=" + count.get() + ",type=" + service.getType() + ",id=" + uniqueId + ",msgId=" + msgId);
 		}
 		channel.writeAndFlush(content).addListener(new GenericFutureListener<Future<? super Void>>() {
 
@@ -89,7 +96,7 @@ public class RemoteServiceSender<SendMessage, ReceiveMessage> {
 					sendSuccessStat.incrementAndGet();
 				}
 				if (sendMessage != null) {
-					remoteMsgLogger.debug("send " + (sendSuccess ? "success" : "fail") + ":" + sendMessage);
+					remoteMsgLogger.debug("send " + (sendSuccess ? "success" : "fail") + ",type=" + service.getType() + ",msgId=" + msgId + ",msg=" + sendMessage);
 				}
 			}
 		});
@@ -97,20 +104,33 @@ public class RemoteServiceSender<SendMessage, ReceiveMessage> {
 	}
 
 	protected void checkAndConnect() {
-		if (channel == null || !channel.isActive()) {
-			final ChannelFuture channelFuture = bootstrap.connect(service.getRemoteHost(), service.getRemotePort());
-			remoteMsgLogger.info("connect remote service:" + service.getType() + ",host=" + service.getRemoteHost() + ",port=" + service.getRemotePort());
-			channelFuture.addListener(new GenericFutureListener<Future<? super Void>>() {
+		if (channel == null || !channel.isActive() && connectTask.get() == null) {
+			Runnable task = new Runnable() {
 
 				@Override
-				public void operationComplete(Future<? super Void> future) throws Exception {
-					boolean success = future.isSuccess();
-					if (success) {
-						channel = channelFuture.channel();
-					}
-					remoteMsgLogger.info("connect remote service:" + service.getType() + channelFuture.channel() + "," + success);
+				public void run() {
+					final ChannelFuture channelFuture = bootstrap.connect(service.getRemoteHost(), service.getRemotePort());
+					remoteMsgLogger.info("start connect:type=" + service.getType() + ",host=" + service.getRemoteHost() + ",port=" + service.getRemotePort());
+					channelFuture.addListener(new GenericFutureListener<Future<? super Void>>() {
+
+						@Override
+						public void operationComplete(Future<? super Void> future) throws Exception {
+							try {
+								boolean success = future.isSuccess();
+								if (success) {
+									channel = channelFuture.channel();
+								}
+								remoteMsgLogger.info("connect remote service finish:type=" + service.getType() + channelFuture.channel() + ",result=" + success);
+							} finally {
+								connectTask.set(null);
+							}
+						}
+					});
 				}
-			});
+			};
+			if (connectTask.compareAndSet(null, task)) {
+				task.run();
+			}
 		}
 	}
 
@@ -125,9 +145,12 @@ public class RemoteServiceSender<SendMessage, ReceiveMessage> {
 	}
 
 	protected void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		service.getExecutor().execute((ReceiveMessage) msg);
-		if (service.isDebugLogger()) {
-			remoteMsgLogger.debug(msg);
+		try {
+			service.getExecutor().execute((ReceiveMessage) msg);
+		} finally {
+			if (service.isDebugLogger()) {
+				remoteMsgLogger.debug("receive type=" + service.getType() + ",id=" + uniqueId + ",msg=" + msg);
+			}
 		}
 	}
 
