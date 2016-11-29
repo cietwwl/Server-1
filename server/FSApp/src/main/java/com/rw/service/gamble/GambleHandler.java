@@ -1,7 +1,9 @@
 package com.rw.service.gamble;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +17,7 @@ import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.UserGameDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
+import com.rw.service.gamble.datamodel.DropMissingRecordImpl;
 import com.rw.service.gamble.datamodel.GambleAdwardItem;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropGroup;
@@ -27,6 +30,7 @@ import com.rw.service.gamble.datamodel.GambleRecord;
 import com.rw.service.gamble.datamodel.GambleRecordDAO;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
 import com.rw.service.gamble.datamodel.IDropGambleItemPlan;
+import com.rw.service.gamble.datamodel.IDropMissingRecord;
 import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwproto.GambleServiceProtos.EGambleResultType;
@@ -247,6 +251,7 @@ public class GambleHandler {
 
 		final int maxCount = planCfg.getDropItemCount();
 		RefInt selectedDropGroupIndex = new RefInt();
+		IDropMissingRecord dropMissingRecord = new DropMissingRecordImpl();
 		while (dropList.size() < maxCount) {
 			GambleLogicHelper.logTrace(trace, "dropListCount=" + dropList.size());
 			if (dropPlan == null) {
@@ -268,7 +273,8 @@ public class GambleHandler {
 					dropGroupId = dropPlan.getOrdinaryGroup(ranGen, selectedDropGroupIndex);
 					GambleLogicHelper.logTrace(trace, "checkGuarantee:false,dropGroupId=" + dropGroupId);
 				}
-				String itemModel = gambleDropConfig.getRandomDrop(player, dropGroupId, slotCount);
+//				String itemModel = gambleDropConfig.getRandomDrop(player, dropGroupId, slotCount);
+				String itemModel = gambleDropConfig.randomDrop(player, dropGroupId, slotCount, null, dropMissingRecord);
 				GambleLogicHelper.logTrace(trace, "random generate itemModel=" + itemModel + ",slotCount=" + slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem)) {
 					historyRecord.add(isFree, itemModel, slotCount.value, historyByGroup);
@@ -302,7 +308,7 @@ public class GambleHandler {
 				}
 
 				RefInt tmpWeight = null;
-				String itemModel = GambleLogicHelper.getRandomGroup(player, tmpGroup, slotCount, tmpWeight);
+				String itemModel = GambleLogicHelper.randomDrop(player, tmpGroup, slotCount, tmpWeight, dropMissingRecord);
 				GambleLogicHelper.logTrace(trace, "random generate itemModel=" + itemModel + ",slotCount=" + slotCount.value);
 				if (GambleLogicHelper.add2DropList(dropList, slotCount.value, itemModel, userId, planIdStr, defaultItem)) {
 					historyRecord.add(isFree, itemModel, slotCount.value, historyByGroup);
