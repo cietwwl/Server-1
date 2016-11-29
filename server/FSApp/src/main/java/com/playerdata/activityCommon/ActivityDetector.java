@@ -107,10 +107,12 @@ public class ActivityDetector {
 		return null != subMap && !subMap.isEmpty();
 	}
 
-	public boolean containsActivityByCfgId(ActivityType type, String cfgId) {
+	public boolean containsActivityByCfgId(ActivityType type, String cfgId, int version) {
 		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return false;
-		return subMap.containsKey(cfgId);
+		ActivityCfgIF cfg = subMap.get(cfgId);
+		if(null == cfg) return false;
+		return cfg.getVersion() == version;
 	}
 	
 	public boolean containsActivityByActId(ActivityType type, String actId) {

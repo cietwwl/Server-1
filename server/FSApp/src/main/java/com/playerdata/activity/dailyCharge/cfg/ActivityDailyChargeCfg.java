@@ -46,6 +46,11 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
  	public int getVersion() {
  		return version;
  	}
+ 	
+ 	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
  	public long getStartTime() {
 		return startTime;
