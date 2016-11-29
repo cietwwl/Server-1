@@ -29,13 +29,13 @@ public class Version {
 
 	private int sub; // 次版本号
 
-	private int third; // 第三版本号(代码更新)
+	private int third; // 代码更新，third和patch必须有一个为0
 
 	private String channel;
 
-	private int patch;//(资源更新)
+	private int patch;//资源更新，third和patch必须有一个为0
 	
-	private String priority = "0";//(优先更新)
+	private String priority = "0";//是否需要立即强制重启后再继续（0表示不需要）
 
 	private String md5;
 
@@ -232,8 +232,21 @@ public class Version {
 				&& this.patch == target.patch;
 	}
 	
+	// 找不到对应的version的时候，就找到
+	public boolean isBigPath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/
+				&& this.patch > target.patch;
+	}
+	
+	//版本相同
 	public boolean isSameCodePath(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
+				/**&& this.patch == target.patch*/;
+	}
+	
+	//版本更新
+	public boolean isBigCodePath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third > target.third
 				/**&& this.patch == target.patch*/;
 	}
 	

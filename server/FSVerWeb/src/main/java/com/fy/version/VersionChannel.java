@@ -5,19 +5,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.beans.BeanUtils;
 
 public class VersionChannel {
 
 	private List<Version> compVerOrderList = new ArrayList<Version>();
 	
-	/**
-	 * 优先更新
-	 */
-	private Map<Version, List<Version>> highPriorityMap = new HashMap<Version, List<Version>>();
 	/**
 	 * 资源更新map
 	 */
@@ -30,7 +26,6 @@ public class VersionChannel {
 	public VersionChannel(List<Version> allChannelVerList){
 		
 		compVerOrderList = getCompVerOrderList(allChannelVerList);
-		highPriorityMap = sumPriorityMap(allChannelVerList, compVerOrderList);
 		patchMap = sumPatchMap(allChannelVerList, compVerOrderList);
 		codePatchMap = sumCodePatchMap(allChannelVerList, compVerOrderList);
 		
@@ -49,7 +44,7 @@ public class VersionChannel {
 		Version maxVersion = compVerOrderList.get(compVerOrderList.size() - 1);
 		maxVersion = maxVersion.isSameCompVer(clientVersion) ? null : maxVersion;
 		
-		for (Iterator iterator = compVerOrderList.iterator(); iterator.hasNext();) {
+		for (Iterator<Version> iterator = compVerOrderList.iterator(); iterator.hasNext();) {
 			Version version = (Version) iterator.next();
 			if(!version.isMainVer()){
 				continue;
@@ -79,19 +74,13 @@ public class VersionChannel {
 		Version targetPatch = null;
 		if(target!=null){
 			List<Version> patchList = patchMap.get(target);
-			boolean takeNext = false;
 			for (Version patchTmp : patchList) {
-				if(takeNext){
+				if(patchTmp.isBigPath(clientVersion)){
 					targetPatch = patchTmp;
 					break;
 				}
-				if(patchTmp.isSamePatch(clientVersion)){
-					takeNext = true;
-				}
 			}
-			
 		}
-		
 		return targetPatch;
 	}
 	
@@ -111,12 +100,11 @@ public class VersionChannel {
 			for (Version patchTmp : patchList) {
 				if(takeNext){
 					result.add(patchTmp);
-				}
-				if(patchTmp.isSamePatch(clientVersion)){
+				}else if(patchTmp.isBigPath(clientVersion)){
+					result.add(patchTmp);
 					takeNext = true;
 				}
 			}
-			
 		}
 		return result;
 	}
@@ -131,105 +119,32 @@ public class VersionChannel {
 			}
 		}
 		Version targetPatch = null;
+		boolean needRestart = false;
 		if(target!=null){
 			List<Version> patchList = codePatchMap.get(target);
-			boolean takeNext = false;
-			for (Version patchTmp : patchList) {
-				if(takeNext){
-					targetPatch = compareCodePatch(patchTmp, targetPatch);
+			if(!patchList.isEmpty()){
+				targetPatch = patchList.get(patchList.size() - 1);
+				if(clientVersion.isSameCodePath(targetPatch) || clientVersion.isBigCodePath(targetPatch)){
+					//客户端比服务端新，或者相同
+					return null;
 				}
-				if(patchTmp.isSameCodePath(clientVersion)){
-					takeNext = true;
+				//查看比当前客户端版本新的，有没有需要强制重启的
+				for (Version patchTmp : patchList) {
+					if(patchTmp.isBigCodePath(clientVersion) && patchTmp.getPriority() == 1){
+						needRestart = true;
+					}
 				}
 			}
-			
 		}
-		if (targetPatch != null && targetPatch.getPriority() == 1) {
-			targetPatch = null;
+		if (needRestart){
+			Version tmpPatch = new Version();
+			BeanUtils.copyProperties(targetPatch, tmpPatch);
+			tmpPatch.setPriority("1");
+			targetPatch = tmpPatch;
 		}
 		return targetPatch;
 	}
 	
-	public Version getNextPriorityPatch(Version clientVersion){
-		Version target = null;
-		for (Version verTmp : compVerOrderList) {
-			if(verTmp.isSameCompVer(clientVersion)){
-				target = verTmp;
-				break;
-			}
-		}
-		Version targetPatch = null;
-		if(target!=null){
-			List<Version> patchList = highPriorityMap.get(target);
-			boolean takeNext = false;
-			for (Version patchTmp : patchList) {
-				if(takeNext){
-					targetPatch = comparePriorityPatch(patchTmp, targetPatch);
-				}
-				if(patchTmp.isSamePath(clientVersion)){
-					takeNext = true;
-				}
-			}
-			
-		}
-		
-		return targetPatch;
-	}
-
-	private Version compareCodePatch(Version patchTmp, Version bigPatch){
-		if(bigPatch == null){
-			return patchTmp;
-		}
-		if(patchTmp.getMain() >= bigPatch.getMain()){
-			if(patchTmp.getSub() >= bigPatch.getSub()){
-				if(patchTmp.getThird() >= bigPatch.getThird()){
-					return patchTmp;
-				}
-			}
-		}
-		return bigPatch;
-	}
-	
-	private Version comparePriorityPatch(Version patchTmp, Version bigPatch){
-		if(bigPatch == null){
-			return patchTmp;
-		}
-		if(patchTmp.getMain() >= bigPatch.getMain()){
-			if(patchTmp.getSub() >= bigPatch.getSub()){
-				if(patchTmp.getThird() >= bigPatch.getThird()){
-					return patchTmp;
-				}
-			}
-		}
-		return bigPatch;
-	}
-	
-	private Map<Version, List<Version>> sumPriorityMap(List<Version> allVerList, List<Version> compVerList) {
-		Map<Version, List<Version>> priorityMapTmp = new HashMap<Version, List<Version>>();
-
-		for (Version verTmp : compVerList) {
-			List<Version> patchList = new ArrayList<Version>();
-			patchList.add(verTmp);
-			for (Version patchTmp : allVerList) {
-				if (patchTmp.getPriority() == 0) {
-					continue;
-				}
-				if (verTmp.targetIsVerCodePatch(patchTmp)) {
-					patchList.add(patchTmp);
-				}
-			}
-			Collections.sort(patchList, new Comparator<Version>() {
-				@Override
-				public int compare(Version source, Version target) {
-					return source.getPatch() - target.getPatch();
-				}
-			});
-
-			priorityMapTmp.put(verTmp, patchList);
-		}
-		return priorityMapTmp;
-	}
-
 	private Map<Version, List<Version>> sumPatchMap(List<Version> allVerList, List<Version> compVerList) {
 		
 		Map<Version, List<Version>> patchMapTmp= new HashMap<Version, List<Version>>();
@@ -286,7 +201,7 @@ public class VersionChannel {
 	private List<Version>  getCompVerOrderList(List<Version> allVerList) {
 		List<Version> compVerList = new ArrayList<Version>();
 		for (Version verTmp : allVerList) {
-			if(verTmp.getPatch() == 0){
+			if(verTmp.getPatch() == 0 && verTmp.getThird() == 0){
 				compVerList.add(verTmp);
 			}
 		}
@@ -307,7 +222,5 @@ public class VersionChannel {
 			}
 		});
 		return compVerList;
-		
 	}
-	
 }

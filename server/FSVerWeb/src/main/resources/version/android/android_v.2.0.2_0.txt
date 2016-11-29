@@ -1,0 +1,9 @@
+name=android_v.2.0.2_0
+location=android/android_v.2.0.2_0.zip
+md5=48A0846AE05C2E97BFF60FD0C46ED569
+size=2634521
+loginServerDomain=192.168.2.234:8081
+cdnDomain=http://192.168.2.129:8080/download
+cdnBackUpDomain=http://192.168.2.129:8080/download
+logServerAddress=http://192.168.2.129:8080
+patchInstall=1

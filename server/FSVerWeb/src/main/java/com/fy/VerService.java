@@ -14,7 +14,6 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.fy.constant.Constant;
-import com.fy.json.JSONArray;
 import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
 import com.fy.lua.LuaInfo;
@@ -42,7 +41,6 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 	public void doService() throws IOException {
 
 		try {
-
 			ServletInputStream inputStream = request.getInputStream();
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -56,21 +54,8 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				return;
 			}
 			Version clientVersion = getClientVersion(jsonString);
-			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(clientVersion.getChannel());
-//			Version updateVersion = versionMgr.getUpdateVersion(clientVersion);
-//			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersion == null);
-//			if(updateVersion == null){
-//				Version maxVersion = versionMgr.getMaxVersion(clientVersion);
-//				updateVersion = new Version();
-//				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
-//				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
-//			}
-//			if(channelLuaInfo != null){
-//				updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
-//			}
-//			updateVersion.setLuaAction("lua");
-			
-			List<Version> updateVersionList = versionMgr.getUpdateVersion2(clientVersion);
+			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(clientVersion.getChannel());			
+			List<Version> updateVersionList = versionMgr.getUpdateVersion(clientVersion);
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
 			if(updateVersionList.isEmpty()){
 				Version maxVersion = versionMgr.getMaxVersion(clientVersion);
@@ -94,7 +79,6 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private Version getClientVersion(String jsonVersion) {
@@ -158,35 +142,13 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		return json.toString();
 	}
 	
-	private JSONObject packVerifyVersionToJSONObject(Version updateVersion) {
-		JSONObject json = new JSONObject();
-		try {
-			if (!(updateVersion.getChannel() == null ||  updateVersion.getChannel().equals(""))) {
-				if (updateVersion.getPatchInstall().equals(Constant.PATCH_LINK)) {
-					packageBrowserLink(updateVersion, json);
-				} else {
-					packageDownloadInfo(updateVersion, json);
-				}
-				json.put("patchInstall", updateVersion.getPatchInstall());
-			} else {
-				json.put("update", 0);
-			}
-			json.put("loginServerDomain", updateVersion.getLoginServerDomain());
-			json.put("logServerAddress", updateVersion.getLogServerAddress());
-			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
-			json.put("luaAction", updateVersion.getLuaAction());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		return json;
-	}
-	
 	private String packVerifyVersionResult2(List<Version> updateVersions) {
-		JSONArray array = new JSONArray();
-		for(Version ver : updateVersions){
-			array.put(packVerifyVersionToJSONObject(ver));
+		StringBuffer buff = new StringBuffer();
+		for(int i = 0; i < updateVersions.size(); i++){
+			buff.append(packVerifyVersionResult(updateVersions.get(i)));
+			if(i != updateVersions.size() -1) buff.append("@");
 		}
-		return array.toString();
+		return buff.toString();
 	}
 
 	private void packageBrowserLink(Version updateVersion, JSONObject json)
@@ -198,8 +160,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		} else {
 			json.put("update", 1);
 			String forceUpdateTime = cfg.getForceUpdateTime();
-			long time = DateTimeUtils.getTime(forceUpdateTime,
-					"yyyy-MM-dd");
+			long time = DateTimeUtils.getTime(forceUpdateTime, "yyyy-MM-dd");
 			boolean force = false;
 			String tips;
 			if (time < System.currentTimeMillis()) {
@@ -236,11 +197,6 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		json.put("size", updateVersion.getSize());
 	}
 
-	private Version getClientVersion() {
-
-		return new Version();
-	}
-
 	public void setVersionMgr(VersionMgr versionMgr) {
 		this.versionMgr = versionMgr;
 	}
@@ -248,13 +204,10 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 	@Override
 	public void setServletResponse(HttpServletResponse arg0) {
 		this.response = arg0;
-
 	}
 
 	@Override
 	public void setServletRequest(HttpServletRequest arg0) {
 		this.request = arg0;
-
 	}
-
 }

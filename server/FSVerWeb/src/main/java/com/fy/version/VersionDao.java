@@ -10,31 +10,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.engine.spi.VersionValue;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.fy.SpringContextUtil;
 import com.fy.address.AddressInfo;
-import com.fy.lua.LuaDao;
 import com.fy.utils.FileUtils;
-import com.sun.tools.javac.resources.version;
 
 public class VersionDao {
-
-
 
 	private Map<String, VersionChannel> channelVersionMap = new HashMap<String, VersionChannel>();
 	
 	private Map<String, VersionFileInfo> versionFileMap = new HashMap<String, VersionFileInfo>();
 	
 	private String verDirPath = "";
-	
-	
 	
 	public static VersionDao getInstance(){
 		return SpringContextUtil.getBean("versionDao");
@@ -133,12 +122,6 @@ public class VersionDao {
 		return channelVersionMap.get(clientVersion.getChannel()).getNextCodePatch(clientVersion);
 	}
 	
-	//下一个priority补丁
-	public Version getPriorityPatch(Version clientVersion){
-		return channelVersionMap.get(clientVersion.getChannel()).getNextPriorityPatch(clientVersion);
-	}
-	
-
 	private List<Version> getAllVer(List<File> fileList) {
 		List<Version> allVerList = new ArrayList<Version>();
 		for (File file : fileList) {
@@ -154,7 +137,6 @@ public class VersionDao {
 		return allVerList;
 	}
 	
-
 	//name=chanel_v.*.*.*_patch(0 完整包, >1 patch)
 	private Version fromFile(File file) throws IOException{
 		BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -180,7 +162,6 @@ public class VersionDao {
 		return version;
 		
 	}
-	
 	
 	public void setVerDirPath(String verDirPath) {
 		this.verDirPath = verDirPath;

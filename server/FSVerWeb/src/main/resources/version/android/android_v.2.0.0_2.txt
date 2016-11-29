@@ -1,0 +1,8 @@
+name=android_v.2.0.0_2
+location=android/android_v.2.0.0_2.zip
+md5=BE4EBE231F2DC05C542EA156A8DFD221
+size=8169083
+loginServerDomain=192.168.2.234:8081
+cdnDomain=http://192.168.2.129:8080/download
+cdnBackUpDomain=http://192.168.2.129:8080/download
+logServerAddress=http://192.168.2.129:8080
