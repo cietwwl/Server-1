@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -22,10 +23,10 @@ public class ItemDropAndApplyTemplate {
 
 	int itemID;
 	
-	private List<DropInfo> dropInfoList = new LinkedList<DropInfo>();
+	private List<DropInfo> dropInfoList = new CopyOnWriteArrayList<DropInfo>();
 	
 	//申请的角色列表<key=roleID,value=applyTime>
-	private List<ApplyInfo> applyData = new LinkedList<ApplyInfo>();
+	private List<ApplyInfo> applyData = new CopyOnWriteArrayList<ApplyInfo>();
 	
 	
 	public ItemDropAndApplyTemplate() {
@@ -48,7 +49,7 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public List<DropInfo> getDropInfoList() {
-		return new ArrayList<DropInfo>(dropInfoList);
+		return dropInfoList;
 	}
 
 	public void setDropInfoList(List<DropInfo> dropInfoList) {
@@ -56,7 +57,7 @@ public class ItemDropAndApplyTemplate {
 	}
 
 	public List<ApplyInfo> getApplyData() {
-		return new ArrayList<ApplyInfo>(applyData);
+		return applyData;
 	}
 
 	public void setApplyData(List<ApplyInfo> applyData) {

@@ -63,7 +63,6 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;

@@ -1,45 +1,45 @@
-package com.playerdata.teambattle.manager;
+package com.rwbase.common.timer.test;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 import com.rwbase.common.timer.IGameTimerTask;
 import com.rwbase.common.timer.core.FSGameTimeSignal;
+import com.rwbase.common.timer.core.FSGameTimer;
 import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 
-public class TBDailyRefreshMgr implements IGameTimerTask{
+public class FSGameHourTaskDemo implements IGameTimerTask {
 
 	@Override
 	public String getName() {
-		return "组队战的每日刷新";
+		return "FSGameHourTaskDemo";
 	}
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
-		TBTeamItemMgr.getInstance().dailyReset(timeSignal.getAssumeExecuteTime());
-		return "";
+		System.out.println("FSGameHourTaskDemo#onTimeSignal : nowTime : " + FSGameTimer.FORMAT_DEBUG.format(new Date(System.currentTimeMillis())));
+		return null;
 	}
 
 	@Override
 	public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void rejected(RejectedExecutionException e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public boolean isContinue() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
-		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

@@ -647,8 +647,6 @@ public class GroupCopyMgr {
 	 * @return
 	 */
 	private void clearBeforeApplyRecord(String userID, CopyItemDropAndApplyRecord record){
-		List<Integer> List = new ArrayList<Integer>();
-		//TODO 这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错 ---Alex
 		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 		ApplyInfo beforeApply = null;
 		ItemDropAndApplyTemplate target = null;

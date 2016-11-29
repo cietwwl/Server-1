@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.AbstractQueuedSynchronizer;
 
+import com.rwbase.common.timer.FSDailyTaskType;
 import com.rwbase.common.timer.IGameTimerDelegate;
 import com.rwbase.common.timer.IGameTimerTask;
 
@@ -22,28 +23,33 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 	private IGameTimerTask _task;
 	
 	public final long deadline; // 执行的时间
+	private long _assumeExecuteTime; // 预定的执行时间
 	private volatile int _stopIndex;
 	private volatile int _remainingRounds;
 	
-	private final long _createTimeMillis;
+	private final long _createTimeMillis; // 时效任务创建的时间
 	
 	private Sync _sync;
 	
 	private IGameTimerDelegate _timerDelegate;
 	
-	private long _interval;
+	private long _interval; // 间隔
 	
-	public FSGameTimeSignal(IGameTimerDelegate pDelegate, IGameTimerTask pTask, long pInterval) {
+	private boolean _isDailyTask; // 是否天时效
+	
+	public FSGameTimeSignal(IGameTimerDelegate pDelegate, IGameTimerTask pTask, long pInterval, boolean isDayTask) {
 		if(pTask == null) {
 			throw new NullPointerException("task不能为null！");
 		}
 		long currentTime = System.currentTimeMillis();
 		this._timerDelegate = pDelegate;
 		this.deadline = pInterval + currentTime;
+		this._assumeExecuteTime = deadline;
 		this._createTimeMillis = currentTime;
 		this._task = pTask;
 		this._interval = pInterval;
 		this._sync = new Sync(_task);
+		this._isDailyTask = isDayTask;
 //		System.out.println("task:" + _task.getName() + ", deadline:" + deadline);
 	}
 	
@@ -51,7 +57,7 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 		List<FSGameTimerTaskSubmitInfoImpl> childTasks = this._task.getChildTasks();
 		if (childTasks != null && childTasks.size() > 0) {
 			for (FSGameTimerTaskSubmitInfoImpl submitInfo : childTasks) {
-				_timerDelegate.submitNewTask(submitInfo.getTask(), submitInfo.getInterval(), submitInfo.getTimeUnitOfInterval());
+				_timerDelegate.submitNewTask(submitInfo.getTask(), submitInfo.getInterval(), submitInfo.getTimeUnitOfInterval(), submitInfo.isDayTask());
 			}
 		}
 	}
@@ -60,7 +66,7 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 		this._timerDelegate = null;
 		this._task = null;
 		this._sync.release();
-		this._sync = null;
+//		this._sync = null;
 	}
 	
 	void setStopIndex(int pStopIndex) {
@@ -79,6 +85,10 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 		this._interval = pNewInterval;
 	}
 	
+	void updateAssumeTime(long value) {
+		this._assumeExecuteTime = value;
+	}
+	
 	public int getRemainingRounds() {
 		return _remainingRounds;
 	}
@@ -89,6 +99,16 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 	
 	protected void done() {
 		_task.afterOneRoundExecuted(this);
+	}
+	
+	/**
+	 * 
+	 * 获取预设的执行时间
+	 * 
+	 * @return
+	 */
+	public long getAssumeExecuteTime() {
+		return _assumeExecuteTime;
 	}
 	
 	public IGameTimerTask getTask() {
@@ -156,9 +176,15 @@ public class FSGameTimeSignal implements RunnableFuture<Object> {
 	@Override
 	public void run() {
 		this._sync.innerRun();
+		if (this._isDailyTask) {
+			int type = FSDailyTaskType.getTypeByClass(_task.getClass());
+			if (type > 0) {
+				FSGameTimerSaveData.getInstance().updateLastExecuteTimeOfDailyTask(type, System.currentTimeMillis());
+			}
+		}
 		this.checkChildTasks();
 		if (this._task.isContinue()) {
-			_timerDelegate.submitNewTask(_task, _interval, FSGameTimer.STANDARD_UNIT_OF_TIMER);
+			_timerDelegate.submitNewTask(_task, _interval, FSGameTimer.STANDARD_UNIT_OF_TIMER, this._isDailyTask);
 			this.release();
 		}
 	}

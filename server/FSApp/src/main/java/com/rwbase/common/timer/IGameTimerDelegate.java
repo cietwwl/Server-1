@@ -28,6 +28,7 @@ public interface IGameTimerDelegate {
 	 * @param task
 	 * @param delay
 	 * @param unit
+	 * @param isDayTask
 	 */
-	public FSGameTimeSignal submitNewTask(IGameTimerTask task, long delay, TimeUnit unit);
+	public FSGameTimeSignal submitNewTask(IGameTimerTask task, long delay, TimeUnit unit, boolean isDayTask);
 }

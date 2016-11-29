@@ -86,7 +86,7 @@ public class GFightOnlineResourceMgr {
 	/**
 	 * 发放资源点占领的每日奖励
 	 */
-	public void dispatchDailyReward(){
+	public void dispatchDailyReward(long exeTime){
 		long lastRefreshTime = 0;
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(null != scdData) lastRefreshTime = scdData.getTbLastRefreshTime();
@@ -97,7 +97,7 @@ public class GFightOnlineResourceMgr {
 			}
 			
 			if(null != scdData) {
-				scdData.setGfLastRefreshTime(System.currentTimeMillis());
+				scdData.setGfLastRefreshTime(exeTime);
 				ServerCommonDataHolder.getInstance().update(scdData);
 			}
 		}
