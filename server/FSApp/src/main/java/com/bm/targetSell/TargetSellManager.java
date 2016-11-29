@@ -60,6 +60,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerPredecessor;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
+import com.rwproto.MsgDef.Command;
 import com.rwproto.TargetSellProto.TargetSellReqMsg;
 import com.rwproto.TargetSellProto.TargetSellRespMsg;
 import com.rwproto.TargetSellProto.UpdateBenefitScore;
@@ -219,7 +220,7 @@ public class TargetSellManager {
 
 		// 通知前端
 		ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
-		// player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), removeItem));
+		//player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), removeItem));
 
 	}
 
@@ -234,8 +235,8 @@ public class TargetSellManager {
 		msg.setScore(score);
 		msg.setNextRefreshTime(nextRefreshTime);
 		if (item != null) {
-			// msg.setDataStr(item.getItemIds());
-			// msg.setItemGroupId(item.getItemGroupId());
+//			 msg.setDataStr(item.getItemIds());
+//			 msg.setItemGroupId(item.getItemGroupId());
 		}
 		return msg.build().toByteString();
 	}
@@ -747,10 +748,12 @@ public class TargetSellManager {
 				int benefitScore = record.getBenefitScore();
 				record.setBenefitScore(benefitScore - items.getRecharge());
 			}
+			//System.out.println("itemstr" + items.getItemIds() + ",item desc" + items.getTitle()+ ", item groupid" + items.getItemGroupId());
 			dataDao.update(record);
+			respMsg.setDataStr(items.getItemIds());
 			respMsg.setIsSuccess(true);
-			// player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), null));
 			ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
+//			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), items));
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellManager[roleGetItem]", "玩家领取物品时出现异常", e);
 		}
