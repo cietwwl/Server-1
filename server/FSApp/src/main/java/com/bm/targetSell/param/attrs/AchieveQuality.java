@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.bm.targetSell.param.ERoleAttrs;
 import com.bm.targetSell.param.TargetSellRoleChange;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -18,6 +19,12 @@ import com.rwbase.dao.targetSell.BenefitAttrCfg;
 import com.rwbase.dao.user.User;
 import com.rwproto.BattleCommon.eBattlePositionType;
 
+/**
+ * 检查上阵英雄品阶
+ * @author Alex
+ *
+ * 2016年11月29日 下午4:45:00
+ */
 public class AchieveQuality implements AbsAchieveAttrValue{
 
 	@Override
@@ -53,10 +60,27 @@ public class AchieveQuality implements AbsAchieveAttrValue{
 	}
 
 	@Override
-	public void addHeroAttrs(String userID, String heroID,
-			EAchieveType change, TargetSellRoleChange value) {
-		// TODO Auto-generated method stub
+	public void addHeroAttrs(String userID, String heroID, EAchieveType change, TargetSellRoleChange value) {
+		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(userID, eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
+		if(embattleInfo == null){
+			return;
+		}
 		
+		//检查一下是否为上阵英雄
+		int posIndex = -1;
+		List<EmbattleHeroPosition> pos = embattleInfo.getPos();
+		for (EmbattleHeroPosition embattleHeroPosition : pos) {
+			if (embattleHeroPosition.getId().equals(heroID)) {
+				posIndex = embattleHeroPosition.getPos();
+				break;
+			}
+		}
+		if(posIndex <= 0){
+			//不上阵
+			return;
+		}
+		//是上阵英雄，添加改变通知
+		value.addChange(ERoleAttrs.r_EmbattleQuality.getId());
 	}
 
 }

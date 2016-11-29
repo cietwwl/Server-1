@@ -23,7 +23,7 @@ public enum ERoleAttrs {
 	r_Coin(8),							//玩家拥有的金币数量
 	r_Power(9), 						//玩家当前体力值
 	r_EmbattleQuality(10),              //上阵英雄的品阶
-	r_EmbattleCarrer(11), 				//上阵英雄的品阶
+	r_EmbattleCarrer(11), 				//上阵英雄的职业
 	
 	
 	
