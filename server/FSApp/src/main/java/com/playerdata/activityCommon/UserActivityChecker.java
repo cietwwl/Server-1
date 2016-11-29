@@ -45,9 +45,26 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		}
 	}
 
+	/**
+	 * 同步活动数据
+	 * <note>没数据的时候也同步</note>
+	 * @param player
+	 */
 	public void synAllData(Player player){
 		List<T> itemList = getItemList(player.getUserId());
 		if(null != itemList && null != getSynType()){
+			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
+		}
+	}
+	
+	/**
+	 * 当数据为空时，不同步（表示活动未开启）
+	 * <note>只用于登录的时候</note>
+	 * @param player
+	 */
+	public void synAllDataWithoutEmpty(Player player){
+		List<T> itemList = getItemList(player.getUserId());
+		if(null != itemList && !itemList.isEmpty() && null != getSynType()){
 			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
 		}
 	}
