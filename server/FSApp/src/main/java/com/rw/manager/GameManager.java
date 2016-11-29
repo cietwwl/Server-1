@@ -28,6 +28,7 @@ import com.bm.rank.RankDataMgr;
 import com.bm.rank.RankType;
 import com.bm.serverStatus.ServerStatus;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.net.BenefitMsgController;
 import com.gm.task.gmCommand.GmCommandManager;
 import com.log.GameLog;
@@ -63,8 +64,6 @@ import com.rw.trace.HeroPropertyMigration;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
-import com.rwbase.dao.arena.ArenaRobotCfgDAO;
-import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.fetters.FettersBM;
 import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
@@ -159,10 +158,12 @@ public class GameManager {
 		tempTimers = System.currentTimeMillis();
 		GameLog.debug("竞技场初始化用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 		tempTimers = System.currentTimeMillis();
-		
+
 		RobotManager.getInstance().createRobots();
 		RobotManager.getInstance().createPeakArenaRobot();
 		PlayerMgr.getInstance().initRobotCache();
+		//顺序必须在initRobotCache之后，否则不能清除
+		TargetSellManager.getInstance().clearRobotRecord();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
 		tempTimers = System.currentTimeMillis();
