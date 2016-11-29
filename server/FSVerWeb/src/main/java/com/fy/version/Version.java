@@ -34,6 +34,8 @@ public class Version {
 	private String channel;
 
 	private int patch;//(资源更新)
+	
+	private String priority = "0";//(优先更新)
 
 	private String md5;
 
@@ -192,6 +194,14 @@ public class Version {
 		this.patchInstall = patchInstall;
 	}
 
+	public int getPriority() {
+		return Integer.parseInt(priority);
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
 	public boolean targetIsVerPatch(Version target) {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				&& target.patch > 0;
@@ -221,6 +231,11 @@ public class Version {
 	public boolean isSameCodePath(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				/**&& this.patch == target.patch*/;
+	}
+	
+	public boolean isSamePath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
+				&& this.patch == target.patch;
 	}
 	
 	public String getCurrentVersionNo() {
