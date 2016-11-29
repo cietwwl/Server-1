@@ -12,7 +12,7 @@ public enum FSMinuteTaskType {
 	GROUP_FIGHT_RANK_REFRESH(GroupFightRankRefreshMgr.class, 15, false),
 	GROWTH_FUND_SAVE_TASK(GrowthFundGlobalDataSaveTask.class, 5, false),
 	GROWTH_FUND_SYN_TASK(GrowthFundBoughtCountSynTask.class, 1, false),
-	TARGET_SELL_SEND_TASK(TargetSellSendTask.class, 5, false),
+	TARGET_SELL_SEND_TASK(TargetSellSendTask.class, 2, false),
 	//DEMO(com.rwbase.common.timer.test.FSGameMinuteTaskDemo.class, 1, false),
 	;
 	private Class<? extends IGameTimerTask> _classOfTask; // 實例化的class
