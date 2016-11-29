@@ -51,7 +51,7 @@ public class GameWorldExecutor implements GameWorld {
 					GameWorldExecutor.this.logger.error("listeners notify fail cause by player is null:" + key);
 					return;
 				}
-				for (int i = listeners.size(); --i >= 0;) {
+				for (int i = 0, size = listeners.size(); i < size; i++) {
 					try {
 						PlayerTaskListener listener = listeners.get(i);
 						listener.notifyTaskCompleted(player);

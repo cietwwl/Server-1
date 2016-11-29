@@ -579,9 +579,6 @@ public class TargetSellManager {
 			roleData.setAttrs(attrs);
 			sellData.setArgs(toJsonObj(roleData));
 			sendMsg(toJsonString(sellData));
-			if(toJsonString(sellData).contains("teamPower")){
-				System.out.println("~~~");
-			}
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellManager[pushRoleAttrsData]", "发送角色所有属性到精准服时出现异常", e);
 		}
