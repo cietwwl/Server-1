@@ -26,7 +26,7 @@ public class WBUserMgr {
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
 		int bossVersion = wbUserData.getBossVersion();
 		if(!WBMgr.getInstance().isSameBoss(bossVersion)){
-			wbUserData.clean(bossVersion);
+			//wbUserData.clean(bossVersion);  不可以在同步的时候检查并清除上一次记录，否则下一个boss在准备期就看不到上一个boss战的记录
 			WBUserDataHolder.getInstance().update(player);
 		}else{
 			WBUserDataHolder.getInstance().syn(player, wbUserDataVersion);		
