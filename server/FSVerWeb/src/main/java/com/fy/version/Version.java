@@ -217,9 +217,13 @@ public class Version {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/;
 	}
 	
+	public boolean isMainVer(){
+		return this.main > 0 && this.sub == 0 && this.third == 0 && this.patch == 0;
+	}
+	
 	//是否最新版本
 	public boolean isLatestCompVer(Version target){
-		return StringUtils.equals(this.channel, target.channel) && this.main >= target.main /**&& this.sub >= target.sub && this.third >= target.third*/;
+		return StringUtils.equals(this.channel, target.channel) && this.main > target.main /**&& this.sub >= target.sub && this.third >= target.third*/;
 	}
 
 	// patch比较

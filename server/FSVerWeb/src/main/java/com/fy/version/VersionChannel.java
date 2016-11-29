@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,15 @@ public class VersionChannel {
 				+ ";codePatchMap:" + codePatchMap.size());
 		Version maxVersion = compVerOrderList.get(compVerOrderList.size() - 1);
 		maxVersion = maxVersion.isSameCompVer(clientVersion) ? null : maxVersion;
+		
+		for (Iterator iterator = compVerOrderList.iterator(); iterator.hasNext();) {
+			Version version = (Version) iterator.next();
+			if(!version.isMainVer()){
+				continue;
+			}
+			maxVersion = version;
+		}
+		
 		if (maxVersion != null) {
 			maxVersion = maxVersion.isLatestCompVer(clientVersion) ? maxVersion : null;
 		}
