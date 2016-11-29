@@ -2,7 +2,6 @@ package com.common.serverdata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -110,14 +109,4 @@ public class ServerCommonData {
 			List<ActivityLimitHeroRankRecord> activityLimitHeroRankRecord) {
 		this.activityLimitHeroRankRecord = activityLimitHeroRankRecord;
 	}
-
-	
-
-	
-
-	
-
-
-	
-	
 }

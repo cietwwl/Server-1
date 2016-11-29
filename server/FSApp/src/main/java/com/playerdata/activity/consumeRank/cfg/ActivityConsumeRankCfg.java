@@ -41,6 +41,11 @@ public class ActivityConsumeRankCfg extends BaseConfig implements ActivityCfgIF{
 	public int getVersion() {
 		return version;
 	}
+	
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
 	@Override
 	public int getCfgId() {

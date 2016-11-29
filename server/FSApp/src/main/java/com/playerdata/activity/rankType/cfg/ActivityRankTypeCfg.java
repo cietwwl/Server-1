@@ -52,8 +52,14 @@ public class ActivityRankTypeCfg implements ActivityCfgIF{
 		return levelLimit;
 	}
 
+	@Override
 	public int getVersion() {
 		return version;
+	}
+	
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
 	}
 
 	public int getDailyOrRealtime() {
