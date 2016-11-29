@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.management.timer.Timer;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -74,6 +75,7 @@ import com.rwproto.TargetSellProto.UpdateBenefitScore.Builder;
  */
 public class TargetSellManager {
 
+	private static Logger remoteMsgLogger = Logger.getLogger("remoteMsgLogger");
 	public final static String publicKey = "6489CD1B7E9AE5BD8311435";// 用于校验的key
 	public final static String appId = "1012";// 用于校验的游戏服务器app id
 	public final static int linkId = GameManager.getZoneId();// 这个id是随意定的，银汉那边并不做特殊要求.所以暂时用zoneID
@@ -853,6 +855,30 @@ public class TargetSellManager {
 		for (String userID : onlineList) {
 			Player player = PlayerMgr.getInstance().find(userID);
 			checkBenefitScoreAndSynData(player);
+		}
+	}
+
+	/**
+	 * 清除机器人相关信息
+	 */
+	public void clearRobotRecord() {
+		PlayerMgr playerMgr = PlayerMgr.getInstance();
+		for (Iterator<Entry<String, TargetSellRoleChange>> iterator = RoleAttrChangeMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<String, TargetSellRoleChange> entry = iterator.next();
+			String userId = entry.getKey();
+			if (playerMgr.isPersistantRobot(userId)) {
+				remoteMsgLogger.error("remove robot:" + userId);
+				iterator.remove();
+				HeroAttrChangeMap.remove(userId);
+				MapItemStore<FSHero> store = MapItemStoreFactory.getHeroDataCache().getFromMemoryForRead(userId);
+				if (store != null) {
+					List<String> heroList = store.getReadOnlyKeyList();
+					for (String id : heroList) {
+						HeroAttrChangeMap.remove(id);
+					}
+				}
+				continue;
+			}
 		}
 	}
 

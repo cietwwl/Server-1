@@ -415,7 +415,11 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			SendRewardRecord record = new SendRewardRecord();
 			record.setId(modelCfg.getId());
 			record.setVersion(modelCfg.getVersion());
-			record.setSend(false);
+			if(isOpen(modelCfg)){
+				record.setSend(false);
+			}else{
+				record.setSend(true);
+			}
 			record.setEnumId(modelCfg.getEnumId());
 			sendMap.put(cfg.getEnumId(), record);
 		}
