@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.Hero;
 //import com.monster.cfg.CopyMonsterCfg;
 //import com.monster.cfg.CopyMonsterCfgDao;
@@ -50,7 +51,7 @@ public class BattleVerifyHandler {
 //		return null;
 //	}
 	
-	private void verifyTeamData(TeamVerifyData teamData) {
+	private void verifyTeamData(Player player, TeamVerifyData teamData) {
 		List<HeroVerifyData> dataList = teamData.getVerifyDataList();
 		List<String> allHeroIds = new ArrayList<String>();
 		Map<String, String> md5Map = new HashMap<String, String>();
@@ -64,7 +65,8 @@ public class BattleVerifyHandler {
 			String attrMd5 = DataEncoder.encodeAttrData(hero.getAttrMgr().getTotalAttrData());
 			String clientMd5 = md5Map.get(hero.getUUId());
 			if (!attrMd5.endsWith(clientMd5)) {
-				System.out.println("==========校验不通过，heroId=" + hero.getId() + "，服务器的md5：" + attrMd5 + "，客户端md5：" + clientMd5 + "=========");
+				GameLog.error("BattleVerifyHandler", player.getUserId(),
+						"==========校验不通过，heroId=" + hero.getId() + "，服务器的md5：" + attrMd5 + "，客户端md5：" + clientMd5 + "，队伍所属的user：" + userId + "=========");
 			}
 		}
 	}
@@ -72,7 +74,7 @@ public class BattleVerifyHandler {
 	public ByteString verifyArmyInfo(Player player, BattleVerifyMsg msg) {
 		List<TeamVerifyData> teamDataList = msg.getVerifyTeamDataList();
 		for (TeamVerifyData teamData : teamDataList) {
-			verifyTeamData(teamData);
+			verifyTeamData(player, teamData);
 		}
 		return ByteString.EMPTY;
 	}

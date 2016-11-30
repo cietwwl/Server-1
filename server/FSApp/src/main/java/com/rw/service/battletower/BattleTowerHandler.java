@@ -376,6 +376,9 @@ public class BattleTowerHandler {
 			rankingRoleInfo.setName(roleInfo.getName());
 			rankingRoleInfo.setHeadIcon(roleInfo.getHeadIcon());
 			rankingRoleInfo.setLevel(roleInfo.getLevel());
+			if (StringUtils.isNotBlank(roleInfo.getHeadFrame())) {
+				rankingRoleInfo.setHeadFrame(roleInfo.getHeadFrame());
+			}
 			String magicId = roleInfo.getMagicIcon();
 			if (StringUtils.isNotBlank(magicId)) {
 				// 正常玩家一定有法宝的！

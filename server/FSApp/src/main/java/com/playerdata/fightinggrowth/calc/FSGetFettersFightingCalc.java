@@ -115,7 +115,7 @@ public class FSGetFettersFightingCalc implements IFightingCalc {
 
 		@Override
 		public Integer apply(Integer level, Integer seq) {
-			FightingCfgBase fightingCfg = fightingCfgDAO.getByLevel(level);
+			FightingCfgBase fightingCfg = fightingCfgDAO.getCfgById(String.valueOf(level));
 			return fightingCfg.getFightingOfIndex(seq);
 		}
 	}

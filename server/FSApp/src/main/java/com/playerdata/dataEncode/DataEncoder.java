@@ -38,7 +38,6 @@ public class DataEncoder {
 		String md5ofStr=null;
 		try {
 			String strToEncode = classInfo.toStr(target).toLowerCase();
-			System.out.println(strToEncode);
 			
 //			System.out.println(strToEncode);
 			md5ofStr = MD5.getMD5ofStr(strToEncode).toLowerCase();

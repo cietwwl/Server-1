@@ -62,6 +62,9 @@ public class GmHotFixManager {
 				temp = files[i];
 				if (temp.getName().endsWith(".class")) {
 					String classPath = temp.getPath().replace(systemPath, "").replace("\\", ".").replace("/", ".").replace(".class", "");
+					if(classPath.startsWith(".")) {
+						classPath = classPath.substring(1, classPath.length());
+					}
 					Class<?> loadClass = ClassLoader.getSystemClassLoader().loadClass(classPath);
 					if (Callable.class.isAssignableFrom(loadClass)) {
 						// 是Callable类型的任务才执行

@@ -11,43 +11,45 @@ import com.rw.fsutil.dao.cache.trace.RoleExtChangedEvent;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedListener;
 import com.rw.manager.ServerSwitch;
 
-
 /**
  * 经验神器数据监听器
  * @author Alex
  *
  * 2016年11月17日 下午10:09:37
  */
-public class FixExpEquipDataListener implements RoleExtChangedListener<FixExpEquipDataItem>{
-
-
+public class FixExpEquipDataListener implements RoleExtChangedListener<FixExpEquipDataItem> {
 
 	@Override
 	public void notifyDataChanged(RoleExtChangedEvent<FixExpEquipDataItem> event) {
-		if(!ServerSwitch.isOpenTargetSell()){
+		if (!ServerSwitch.isOpenTargetSell()) {
 			return;
 		}
-		List<Pair<Integer,FixExpEquipDataItem>> addList = event.getAddList();
-		if(addList != null && !addList.isEmpty()){
+		List<Pair<Integer, FixExpEquipDataItem>> addList = event.getAddList();
+		if (addList != null && !addList.isEmpty()) {
 			Pair<Integer, FixExpEquipDataItem> pair = addList.get(0);
-			//有增加神器
+			// 有增加神器
 			FixExpEquipDataItem item = pair.getT2();
 			TargetSellManager.getInstance().notifyHeroAttrsChange(item.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
-			
+
 		}
-		
-		
+
 		Map<Integer, Pair<FixExpEquipDataItem, FixExpEquipDataItem>> changedMap = event.getChangedMap();
-		if(changedMap != null && !changedMap.isEmpty()){
+		if (changedMap != null && !changedMap.isEmpty()) {
 			for (Pair<FixExpEquipDataItem, FixExpEquipDataItem> pair : changedMap.values()) {
-				if(pair != null){
-					FixExpEquipDataItem item = pair.getT2();
-					TargetSellManager.getInstance().notifyHeroAttrsChange(item.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
-					break;
+				if (pair == null) {
+					continue;
+				}
+				FixExpEquipDataItem old = pair.getT1();
+				FixExpEquipDataItem current = pair.getT2();
+				if (current == null) {
+					continue;
+				}
+				if (old == null || old.getStar() != current.getStar()) {
+					TargetSellManager.getInstance().notifyHeroAttrsChange(current.getOwnerId(), EAchieveType.AchieveveHeroFixEquipUpgradStar);
 				}
 			}
 		}
-		
+
 	}
 
 }
