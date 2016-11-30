@@ -2,8 +2,8 @@ package com.common.serverdata;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.TreeMap;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -36,8 +36,7 @@ public class ServerCommonData {
 	private long gfLastRefreshTime = 0;		//帮战上次刷新时间
 	
 	@CombineSave
-	private HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord = new HashMap<Integer, ActivityFortuneCatRecord>();	//记录最近的三个摇奖
-	
+	private LinkedList<ActivityFortuneCatRecord> activityFortuneCatRecord = new LinkedList<ActivityFortuneCatRecord>();	//记录最近的三个摇奖
 	
 	//临时存一下，稍后分割出去
 	@CombineSave
@@ -93,12 +92,12 @@ public class ServerCommonData {
 		}
 	}
 
-	public HashMap<Integer, ActivityFortuneCatRecord> getActivityFortuneCatRecord() {
+	public LinkedList<ActivityFortuneCatRecord> getActivityFortuneCatRecord() {
 		return activityFortuneCatRecord;
 	}
 
 	public void setActivityFortuneCatRecord(
-			HashMap<Integer, ActivityFortuneCatRecord> activityFortuneCatRecord) {
+			LinkedList<ActivityFortuneCatRecord> activityFortuneCatRecord) {
 		this.activityFortuneCatRecord = activityFortuneCatRecord;
 	}
 
@@ -110,14 +109,4 @@ public class ServerCommonData {
 			List<ActivityLimitHeroRankRecord> activityLimitHeroRankRecord) {
 		this.activityLimitHeroRankRecord = activityLimitHeroRankRecord;
 	}
-
-	
-
-	
-
-	
-
-
-	
-	
 }

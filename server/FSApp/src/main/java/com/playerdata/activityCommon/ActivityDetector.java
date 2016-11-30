@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
@@ -15,6 +17,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
+import com.rwbase.gameworld.PlayerPredecessor;
 
 /**
  * 活动状态检测
@@ -63,7 +66,8 @@ public class ActivityDetector {
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
 		List<ActivityType> types = ActivityTypeFactory.getAllTypes();
 		boolean changed = false;
-		for(ActivityType activityType : types){
+		List<Player> players = PlayerMgr.getInstance().getOnlinePlayers();
+		for(final ActivityType activityType : types){
 			HashMap<String, ActivityCfgIF> currentSubMap = new HashMap<String, ActivityCfgIF>();
 			List<? extends ActivityCfgIF> actCfgs = activityType.getActivityDao().getAllCfg();
 			if (null != actCfgs && !actCfgs.isEmpty()) {
@@ -76,6 +80,14 @@ public class ActivityDetector {
 			if(isMapChanged(currentSubMap, activityMap.get(activityType.getTypeId()), activityType)){
 				activityType.addVerStamp();
 				changed = true;
+				for(final Player player : players){
+					GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerPredecessor() {
+						@Override
+						public void run(String e) {
+							activityType.getActivityMgr().synData(player);
+						}
+					});
+				}
 			}
 			if(!currentSubMap.isEmpty()){
 				currentTotalMap.put(activityType.getTypeId(), currentSubMap);
@@ -107,10 +119,12 @@ public class ActivityDetector {
 		return null != subMap && !subMap.isEmpty();
 	}
 
-	public boolean containsActivityByCfgId(ActivityType type, String cfgId) {
+	public boolean containsActivityByCfgId(ActivityType type, String cfgId, int version) {
 		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return false;
-		return subMap.containsKey(cfgId);
+		ActivityCfgIF cfg = subMap.get(cfgId);
+		if(null == cfg) return false;
+		return cfg.getVersion() == version;
 	}
 	
 	public boolean containsActivityByActId(ActivityType type, String actId) {

@@ -152,25 +152,27 @@ public class EvilBaoArriveMgr extends AbstractActivityMgr<EvilBaoArriveItem> {
 		if (null == items || items.isEmpty())
 			return redPointList;
 		for (EvilBaoArriveItem item : items) {
-			redPointList.addAll(getRedPoint(player, item));
+			if(haveRedPoint(player, item)){
+				redPointList.add(String.valueOf(item.getCfgId()));
+			}
+			
 		}
 		return redPointList;
 	}	
 		
-	private List<String> getRedPoint(Player player, EvilBaoArriveItem item) {
-		List<String> redPointList = new ArrayList<String>();
+	private boolean haveRedPoint(Player player, EvilBaoArriveItem item) {
 		EvilBaoArriveSubCfgDAO subCfgDao = EvilBaoArriveSubCfgDAO.getInstance();
 		List<EvilBaoArriveSubItem> subItems = item.getSubItemList();
 		for (EvilBaoArriveSubItem subItem : subItems) {
 			EvilBaoArriveSubCfg subCfg = subCfgDao.getCfgById(subItem.getCfgId());
-			if (null == subCfg)
+			if (null == subCfg){
 				continue;
+			}
 			if ((subCfg.getAwardCount() <= item.getFinishCount() && !subItem.isGet()) || !item.isHasViewed()) {
-				redPointList.add(String.valueOf(item.getCfgId()));
-				break;
+				return true;
 			}
 		}
-		return redPointList;
+		return false;
 	}
 	
 	protected UserActivityChecker<EvilBaoArriveItem> getHolder(){

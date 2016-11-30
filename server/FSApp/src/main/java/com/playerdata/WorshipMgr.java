@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.RankType;
-import com.common.Utils;
 import com.google.protobuf.ByteString;
+import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
@@ -28,59 +28,57 @@ import com.rwproto.WorshipServiceProtos.WorshipInfo;
 import com.rwproto.WorshipServiceProtos.WorshipResponse;
 
 public class WorshipMgr {
-	public static final int MAX_RECORD_COUNT = 50;//数据库保存记录的上限
+	public static final int MAX_RECORD_COUNT = 50;// 数据库保存记录的上限
 	private static WorshipMgr _instance = new WorshipMgr();
-	
-	public static WorshipMgr getInstance(){
+
+	public static WorshipMgr getInstance() {
 		return _instance;
 	}
-	
-	private TableWorshipDAO worshipDao = TableWorshipDAO.getInstance();
-	
 
-	
-	/**重新排行，第一名排行数据改变*/
-	public synchronized void changeFirstRanking(RankType rankingType){
-//		ECareer career;
-//		switch(rankingType){
-//			case WARRIOR_ARENA_DAILY:
-//				career = ECareer.Warrior;
-//				break;
-//			case SWORDMAN_ARENA_DAILY:
-//				career = ECareer.SwordsMan;
-//				break;
-//			case MAGICAN_ARENA_DAILY:
-//				career = ECareer.Magican;
-//				break;
-//			case PRIEST_ARENA_DAILY:
-//				career = ECareer.Priest;
-//				break;
-//			default:
-//				career = ECareer.None;
-//				break;
-//		}
-//		if(career == ECareer.None){
-//			return;
-//		}
-		
+	private TableWorshipDAO worshipDao = TableWorshipDAO.getInstance();
+
+	/** 重新排行，第一名排行数据改变 */
+	public synchronized void changeFirstRanking(RankType rankingType) {
+		// ECareer career;
+		// switch(rankingType){
+		// case WARRIOR_ARENA_DAILY:
+		// career = ECareer.Warrior;
+		// break;
+		// case SWORDMAN_ARENA_DAILY:
+		// career = ECareer.SwordsMan;
+		// break;
+		// case MAGICAN_ARENA_DAILY:
+		// career = ECareer.Magican;
+		// break;
+		// case PRIEST_ARENA_DAILY:
+		// career = ECareer.Priest;
+		// break;
+		// default:
+		// career = ECareer.None;
+		// break;
+		// }
+		// if(career == ECareer.None){
+		// return;
+		// }
+
 		TableWorship tableWorship = worshipDao.get(String.valueOf(ECareer.Warrior.getValue()));
 		sendWorshipReward(ECareer.Warrior);
 		tableWorship.clear();
 		worshipDao.update(tableWorship);
-//		PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
-		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship,"TopChanged", getByWorshipedInfo());
+		// PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
+		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship, "TopChanged", getByWorshipedInfo());
 	}
-	
-	/**重排排行榜时发送膜拜奖励*/
-	public void sendWorshipReward(ECareer career){
+
+	/** 重排排行榜时发送膜拜奖励 */
+	public void sendWorshipReward(ECareer career) {
 		WorshipInfo info;
 		info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData(career));
-		if(info == null){
+		if (info == null) {
 			return;
 		}
 		int size = getWorshipList(career).size();
 		CfgWorshipReward cfg = CfgWorshipRewardHelper.getInstance().getByWorshipRewardCfgByCount(size);
-		if(cfg == null){
+		if (cfg == null) {
 			return;
 		}
 		String reward = cfg.getRewardStr();
@@ -89,82 +87,88 @@ public class WorshipMgr {
 		emailData.setContent(content);
 		EmailUtils.sendEmail(info.getUserId(), emailData);
 	}
-	
 
-	/**是否可以膜拜*/
-	public boolean isWorship(Player player){
-		return isWorship(player.getUserGameDataMgr().getLastWorshipTime());
+	/** 是否可以膜拜 */
+	public boolean isWorship(Player player) {
+		// 检查榜里第一名是不是自己
+		RankingEntry<?, ?> entry = RankingMgr.getInstance().getFirstRankingEntry(ECareer.valueOf(player.getCareer()));
+		if (entry == null) {
+			return false;
+		}
+
+		boolean worship = isWorship(player.getUserGameDataMgr().getLastWorshipTime());
+		return worship && (!entry.getKey().equals(player.getUserId()));// 是否当天已经膜拜过了
 	}
-	
-	/**是否可以膜拜*/
-	public boolean isWorship(long lastWorshipTime){
+
+	/** 是否可以膜拜 */
+	private boolean isWorship(long lastWorshipTime) {
 		return DateUtils.isResetTime(5, 0, 0, lastWorshipTime);
 	}
-	
-	/**添加膜拜者*/
-	public synchronized void addWorshippers(ECareer career, Player player, WorshipItemData rewardData){
-		if(career == null || career == ECareer.None || player == null){
+
+	/** 添加膜拜者 */
+	public synchronized void addWorshippers(ECareer career, Player player, WorshipItemData rewardData) {
+		if (career == null || career == ECareer.None || player == null) {
 			return;
 		}
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
 		List<WorshipItem> list = tableWorship.getWorshipItemList();
-		if(list.size() >= MAX_RECORD_COUNT){
+		if (list.size() >= MAX_RECORD_COUNT) {
 			Collections.sort(list, WorshipUtils.comparator);
 			tableWorship.remove(list.get(list.size() - 1));
 		}
 		tableWorship.add(WorshipUtils.playerInfoToWorshipItem(player, rewardData));
 		worshipDao.update(tableWorship);
 	}
-	
-	/**获取膜拜者列表*/
-	public List<WorshipInfo> getWorshipList(ECareer career){
-		if(career == null || career == ECareer.None){
+
+	/** 获取膜拜者列表 */
+	public List<WorshipInfo> getWorshipList(ECareer career) {
+		if (career == null || career == ECareer.None) {
 			return new ArrayList<WorshipInfo>();
 		}
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
+		if (tableWorship == null) {
 			return new ArrayList<WorshipInfo>();
 		}
 		return WorshipUtils.toWorshipList(tableWorship.getWorshipItemList());
 	}
-	
-	/**领取膜拜奖励*/
-	public int getWorshipReward(Player player, ECareer career){
+
+	/** 领取膜拜奖励 */
+	public int getWorshipReward(Player player, ECareer career) {
 		int result = 0;
-		if(career == null || career == ECareer.None){
+		if (career == null || career == ECareer.None) {
 			return result;
 		}
 		RankingLevelData levelData = RankingMgr.getInstance().getFirstRankingData(career);
-		if(levelData == null || levelData.getJob() != career.getValue()){
+		if (levelData == null || levelData.getJob() != career.getValue()) {
 			return 0;
 		}
 		TableWorship tableWorship = worshipDao.get(String.valueOf(career.getValue()));
-		if(tableWorship == null){
+		if (tableWorship == null) {
 			return result;
 		}
-		for(WorshipItem item : tableWorship.getWorshipItemList()){
-			if(item.isCanReceive()){
+		for (WorshipItem item : tableWorship.getWorshipItemList()) {
+			if (item.isCanReceive()) {
 				item.setCanReceive(false);
 				result++;
-			}			
+			}
 		}
 		worshipDao.update(tableWorship);
 		return result;
 	}
-	
-	/**推送被膜拜者*/
-	public void pushByWorshiped(Player player){
-		if(player != null){
+
+	/** 推送被膜拜者 */
+	public void pushByWorshiped(Player player) {
+		if (player != null) {
 			player.SendMsg(Command.MSG_Worship, getWorshipState(player));
 		}
 	}
-	
+
 	private ByteString getWorshipState(Player player) {
-		
+
 		List<WorshipInfo> list = null;
-		if(DateUtils.dayChanged(GameManager.getOpenTime())){
+		if (DateUtils.dayChanged(GameManager.getOpenTime())) {
 			list = getByWorshipedList();
-		}else{
+		} else {
 			list = new ArrayList<WorshipInfo>();
 		}
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
@@ -175,7 +179,7 @@ public class WorshipMgr {
 		return response.build().toByteString();
 	}
 
-	public ByteString getByWorshipedInfo(){
+	public ByteString getByWorshipedInfo() {
 		List<WorshipInfo> list = getByWorshipedList();
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(EWorshipRequestType.BY_WORSHIPPED_LIST);
@@ -183,20 +187,18 @@ public class WorshipMgr {
 		response.addAllByWorshippedList(list);
 		return response.build().toByteString();
 	}
-	
-	
-	public List<WorshipInfo> getByWorshipedList(){
+
+	public List<WorshipInfo> getByWorshipedList() {
 		List<WorshipInfo> list = new ArrayList<WorshipInfo>();
 		ECareer[] careerList = ECareer.values();
 		RankingMgr helper = RankingMgr.getInstance();
 		for (ECareer eCareer : careerList) {
 			WorshipInfo info = WorshipUtils.rankInfoToWorshipInfo(helper.getFirstRankingData(eCareer));
-			if(info != null){
+			if (info != null) {
 				list.add(info);
 			}
 		}
 		return list;
 	}
 
-	
 }

@@ -1,5 +1,5 @@
 name,Remarks,threshold,buyTip,nomoreTip,enableTip
-arenaMaxCount,,999,今日竞技场门票购买次数已用完，提高贵族等级可以增加购买次数。,今日竞技场门票购买次数已用完，大神，您已经无法再增加购买次数。,贵族3开启购买竞技场门票功能，充值可提升贵族等级。
-isAllowResetArena,,,,,贵族3开启重置竞技场CD功能，充值可提升贵族等级。
+arenaMaxCount,,999,今日论道场门票购买次数已用完，提高贵族等级可以增加购买次数。,今日论道场门票购买次数已用完，大神，您已经无法再增加购买次数。,贵族3开启购买论道场门票功能，充值可提升贵族等级。
+isAllowResetArena,,,,,贵族3开启重置论道场CD功能，充值可提升贵族等级。
 arenaRewardAdd,,,,,
 arenaChallengeDec,,300,,,

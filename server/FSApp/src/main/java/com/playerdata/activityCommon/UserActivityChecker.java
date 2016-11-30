@@ -45,7 +45,24 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		}
 	}
 
+	/**
+	 * 同步活动数据
+	 * <note>没数据的时候也同步</note>
+	 * @param player
+	 */
 	public void synAllData(Player player){
+		List<T> itemList = getItemList(player.getUserId());
+		if(null != itemList && null != getSynType()){
+			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
+		}
+	}
+	
+	/**
+	 * 当数据为空时，不同步（表示活动未开启）
+	 * <note>只用于登录的时候</note>
+	 * @param player
+	 */
+	public void synAllDataWithoutEmpty(Player player){
 		List<T> itemList = getItemList(player.getUserId());
 		if(null != itemList && !itemList.isEmpty() && null != getSynType()){
 			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
@@ -84,8 +101,13 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		List<T> newAddItems = new ArrayList<T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
 		Player player = PlayerMgr.getInstance().find(userId);
+		if(null == player){
+			return newAddItems;
+		}
+		int playerLevel = player.getLevel();
+		int playerVip = player.getVip();
 		for(ActivityCfgIF cfg : activeDailyList){
-			if(null != player && player.getLevel() < cfg.getLevelLimit() && player.getVip() < cfg.getVipLimit()){
+			if(playerLevel < cfg.getLevelLimit() && playerVip < cfg.getVipLimit()){
 				continue;
 			}
 			T item = itemStore.get(cfg.getId());
@@ -100,16 +122,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 					item.setCfgId(String.valueOf(cfg.getCfgId()));
 					item.setUserId(userId);
 					item.setVersion(cfg.getVersion());
-					List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
-					List<String> todaySubs = getTodaySubActivity(String.valueOf(cfg.getCfgId()));
-					for(String subId : todaySubs){
-						ActivityTypeSubItemIF subItem = getActivityType().getNewActivityTypeSubItem();
-						if(null != subItem){
-							subItem.setCfgId(subId);
-							subItemList.add(subItem);
-						}
-					}
-					item.setSubItemList(subItemList);
+					item.setSubItemList(newSubItemList(String.valueOf(cfg.getCfgId())));
 					newAddItems.add(item);
 				}
 			}
@@ -120,6 +133,19 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			e.printStackTrace();
 		}
 		return newAddItems;
+	}
+	
+	public List<? extends ActivityTypeSubItemIF> newSubItemList(String cfgId){
+		List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
+		List<String> todaySubs = getTodaySubActivity(cfgId);
+		for(String subId : todaySubs){
+			ActivityTypeSubItemIF subItem = getActivityType().getNewActivityTypeSubItem();
+			if(null != subItem){
+				subItem.setCfgId(subId);
+				subItemList.add(subItem);
+			}
+		} 
+		return subItemList;
 	}
 	
 	/**
@@ -135,7 +161,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		Enumeration<T> mapEnum = itemStore.getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
 			T item = mapEnum.nextElement();
-			boolean isActive = detector.containsActivityByCfgId(getActivityType(), item.getCfgId());
+			boolean isActive = detector.containsActivityByCfgId(getActivityType(), item.getCfgId(), item.getVersion());
 			if(isActive){
 				activeItemMap.put(item.getId(), item);
 			}else{

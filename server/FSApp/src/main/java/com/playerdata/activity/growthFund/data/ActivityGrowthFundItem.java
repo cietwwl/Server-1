@@ -46,6 +46,9 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 	
 	@IgnoreSynField
 	private GrowthFundType _growthFundType;
+	
+	@IgnoreSynField
+	private int version;
 
 	public Integer getId() {
 		return id;
@@ -102,7 +105,12 @@ public class ActivityGrowthFundItem implements ActivityTypeItemIF<ActivityGrowth
 
 	@Override
 	public void setVersion(int version) {
-		
+		this.version = version;
+	}
+	
+	@Override
+	public int getVersion() {
+		return version;
 	}
 
 	public boolean isBought() {
