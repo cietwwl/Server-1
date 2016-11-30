@@ -10,6 +10,7 @@ import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
+import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rwbase.dao.item.MagicCfgDAO;
 import com.rwbase.dao.item.pojo.ItemData;
@@ -88,6 +89,9 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 	
 	//检查一下道具是否要通知精准营销系统
 	private void checkItemDataAndNotifyBenefit(ItemData data){
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		EItemTypeDef type = ItemCfgHelper.getItemType(data.getModelId());
 		if(type == EItemTypeDef.Magic){
 			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(data.getId());
