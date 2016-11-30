@@ -7,6 +7,7 @@ import com.bm.worldBoss.cfg.WBSettingCfgDAO;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBUserData;
+import com.bm.worldBoss.data.WBUserDataDao;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
 import com.bm.worldBoss.service.WBHelper;
@@ -23,15 +24,15 @@ public class WBUserMgr {
 		return wbMgr;
 	} 
 	public void synWBUserData(Player player, int wbUserDataVersion){	
-		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
-		int bossVersion = wbUserData.getBossVersion();
+//		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
+//		int bossVersion = wbUserData.getBossVersion();
 //		if(!WBMgr.getInstance().isSameBoss(bossVersion)){
-//			wbUserData.clean(bossVersion);  //不可以在同步的时候检查并清除上一次记录，否则下一个boss在准备期就看不到上一个boss战的记录
+//			//wbUserData.clean(bossVersion);  //不可以在同步的时候检查并清除上一次记录，否则下一个boss在准备期就看不到上一个boss战的记录
 //			WBUserDataHolder.getInstance().update(player);
 //		}else{
-//			WBUserDataHolder.getInstance().syn(player, wbUserDataVersion);		
 //		}
-		WBUserDataHolder.getInstance().syn(player, bossVersion);
+		WBUserDataHolder.getInstance().syn(player, wbUserDataVersion);		
+		
 	}	
 	
 	public void addBuff(Player player, String buffCfgId){	
@@ -129,6 +130,11 @@ public class WBUserMgr {
 			WBUserDataHolder.getInstance().update(player, wbUserData);
 		}
 		
+	}
+	public void cleanBuff(String userID) {
+		WBUserData wbUserData = WBUserDataHolder.getInstance().get(userID);
+		wbUserData.cleanBuff();
+		WBUserDataDao.getInstance().update(wbUserData);
 	}
 
 }

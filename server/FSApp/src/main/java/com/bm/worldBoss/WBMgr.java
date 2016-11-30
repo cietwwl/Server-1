@@ -17,6 +17,9 @@ import com.bm.worldBoss.data.WBBroatCastData;
 import com.bm.worldBoss.data.WBBroatCastDataHolder;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
+import com.bm.worldBoss.data.WBUserData;
+import com.bm.worldBoss.data.WBUserDataDao;
+import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.log.GameLog;
@@ -243,6 +246,18 @@ public class WBMgr {
 			checkHurt = updateHurt > cfg.getSingleHitMaxHurt() ? cfg.getSingleHitMaxHurt() : updateHurt;
 		}
 		return checkHurt;
+	}
+
+	
+	/**
+	 * 广播boss改变
+	 */
+	public void broatBossChange() {
+		List<Player> list = PlayerMgr.getInstance().getOnlinePlayers();
+		for (Player player : list) {
+			WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			synWBData(player, -1);	
+		}
 	}
 	
 	

@@ -19,7 +19,7 @@ class WBFinishState implements  IwbState{
 		
 		boolean success = tryNextBoss();
 		if(success){
-			return new WBPreStartState();
+			return new WBNewBossState();
 		}
 		
 		return 	null;	
@@ -53,12 +53,14 @@ class WBFinishState implements  IwbState{
 	@Override
 	public void doEnter() {
 		WBData wbData = WBDataHolder.getInstance().get();
-		if(wbData!=null){			
+		if (wbData != null) {
 			wbData.setState(state);
-			WBDataHolder.getInstance().update();	
-			
+			WBDataHolder.getInstance().update();
+
 			WBMgr.getInstance().adjustBossLevel();
 		}
+		
+		
 	}
 
 }

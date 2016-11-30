@@ -7,6 +7,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.army.ArmyVector3;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.rw.fsutil.dao.annotation.NonSave;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
@@ -31,7 +32,6 @@ public class WBData {
 	private int survivalCount;//boss 存活次数
 	private int quickKillCount;//boss 被快速击杀的次数
 	
-//	private long killedTime;//boss 被杀死的时间
 	//版本号，通过这个版本来判断是不是同一个boss，新boss会加1
 	private int version = 0;
 	//最后一击信息
@@ -39,6 +39,9 @@ public class WBData {
 	private long rankBossHP;//上一个boss总hp
 	@IgnoreSynField
 	private ArmyVector3 position;
+	
+	@NonSave
+	private boolean open;//是否开启世界boss  这个字段不保存到数据库，只在起服的时候做检查
 	
 	public static WBData newInstance(){
 		WBData data = new WBData();
@@ -209,6 +212,14 @@ public class WBData {
 
 	public void setPosition(ArmyVector3 position) {
 		this.position = position;
+	}
+
+	public boolean isOpen() {
+		return open;
+	}
+
+	public void setOpen(boolean open) {
+		this.open = open;
 	}
 
 	

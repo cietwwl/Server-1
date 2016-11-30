@@ -27,6 +27,7 @@ public class ServerSwitch {
 	private static boolean openTargetSell = false;//是否开启精准营销
 	private static int targetSellTestModel;//精准营销是否为测试模式：0否，1是
 	private static boolean testCharge = false;//是否测试充值
+	private static boolean openWorldBoss = false;//是否开启世界boss
 
 	public static void initProperty() {
 		Resource resource = new ClassPathResource("switch.properties");
@@ -44,6 +45,7 @@ public class ServerSwitch {
 			}
 			openTargetSell = Boolean.parseBoolean(props.getProperty("openTargetSell"));
 			targetSellTestModel = Integer.parseInt(props.getProperty("targetSellTestModel"));
+			openWorldBoss = Boolean.parseBoolean(props.getProperty("openWorldBoss"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -92,5 +94,14 @@ public class ServerSwitch {
 		ServerSwitch.testCharge = testCharge;
 	}
 
+	public static boolean isOpenWorldBoss() {
+		return openWorldBoss;
+	}
+
+	public static void setOpenWorldBoss(boolean open) {
+		ServerSwitch.openWorldBoss = open;
+	}
+
+	
 	
 }

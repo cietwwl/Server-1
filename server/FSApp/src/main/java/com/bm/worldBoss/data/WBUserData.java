@@ -27,7 +27,7 @@ public class WBUserData {
 
 	private long totalHurt;//对上一个boss的总伤害
 	
-	private List<String> buffCfgIdList =new ArrayList<String>();
+	private List<String> buffCfgIdList = new ArrayList<String>();
 	private int cdBuyCount = 0;
 	
 	//user在一次战斗中对boss造成的累积伤害
@@ -154,6 +154,11 @@ public class WBUserData {
 	}
 	public long getAccHurt(){
 		return this.accHurtInBattle;
+	}
+
+	public void cleanBuff() {
+		
+		buffCfgIdList.clear();
 	}
 	
 }
