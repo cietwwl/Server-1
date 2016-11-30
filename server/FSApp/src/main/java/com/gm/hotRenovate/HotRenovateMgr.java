@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import sun.management.ManagementFactory;
-
 import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 
@@ -45,7 +43,7 @@ public class HotRenovateMgr {
 				String clazzNames = String.valueOf(chars);
 				clazzNames = clazzNames.replaceAll("\n", "").replaceAll("\r", "").trim();
 				
-				String name = ManagementFactory.getRuntimeMXBean().getName();
+				String name = "";//ManagementFactory.getRuntimeMXBean().getName();
 				VirtualMachine vm = VirtualMachine.attach(name.split("@")[0]);
 				try{
 					vm.loadAgent(libFilePath, localPath + "/update/@" + clazzNames);
