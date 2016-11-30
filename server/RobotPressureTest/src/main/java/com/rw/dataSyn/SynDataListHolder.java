@@ -1,6 +1,7 @@
 package com.rw.dataSyn;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.rw.common.RobotLog;
@@ -14,15 +15,16 @@ public class SynDataListHolder<T extends SynItem> {
 
 	private List<T> m_SynItemList = new ArrayList<T>();
 
-	public List<T> getItemList() {
-		return m_SynItemList;
+	public synchronized List<T> getItemList() {
+		List<T> copyList = new ArrayList<T>(m_SynItemList);
+		return copyList;
 	}
 
 	public SynDataListHolder(Class<T> clazz) {
 		itemClazz = clazz;
 	}
 
-	public void Syn(MsgDataSyn msgDataSyn) {
+	public synchronized void Syn(MsgDataSyn msgDataSyn) {
 
 		try {
 			List<SynData> synDataList = msgDataSyn.getSynDataList();
@@ -52,7 +54,7 @@ public class SynDataListHolder<T extends SynItem> {
 		}
 	}
 
-	private void updateList(List<SynData> synDataList) {
+	private  void updateList(List<SynData> synDataList) {
 		List<T> itemListTmp = new ArrayList<T>();
 		try{
 		for (SynData synData : synDataList) {
@@ -67,20 +69,26 @@ public class SynDataListHolder<T extends SynItem> {
 
 	private void updateSingle(SynData synData) {
 		T newT = DataSynHelper.ToObject(itemClazz, synData.getJsonData());
-		T oldT = getById(newT.getId());
-		m_SynItemList.remove(oldT);
-		m_SynItemList.add(newT);
+		update(newT);
 	}
 
-	private T getById(String id) {
-		T target = null;
-
-		for (T item : m_SynItemList) {
-			if (id.equals(item.getId())) {
-				return item;
+	private void update(T newItem) {
+		for (Iterator iterator = m_SynItemList.iterator(); iterator.hasNext();) {
+			T tempItem = (T) iterator.next();
+			if(tempItem.getId().equals(newItem.getId())){
+				iterator.remove();
 			}
 		}
-		return target;
+		m_SynItemList.add(newItem);
+	}
+	
+	private void remove(String Id){
+		for (Iterator iterator = m_SynItemList.iterator(); iterator.hasNext();) {
+			T tempItem = (T) iterator.next();
+			if(tempItem.getId().equals(Id)){
+				iterator.remove();
+			}
+		}
 	}
 
 	private void addSingle(SynData synData) {
@@ -89,8 +97,7 @@ public class SynDataListHolder<T extends SynItem> {
 	}
 
 	private void removeSingle(SynData synData) {
-		T oldT = getById(synData.getId());
-		m_SynItemList.remove(oldT);
+		remove(synData.getId());
 	}
 
 }

@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.fixEquip.FixEquipHelper;
+import com.playerdata.fixEquip.exp.cfg.FixExpEquipQualityCfg;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -82,5 +83,13 @@ public final class FixNormEquipQualityCfgDAO extends CfgCsvDao<FixNormEquipQuali
 		return target;
 		
 	}
+	/**机器人用1个模板来获得一系列cfg,进而获得材料列表，方便gm命令添加*/
+	public List<FixNormEquipQualityCfg> getByPlanId(int parentCfgId){
+		List<FixNormEquipQualityCfg>  allCfg = parentCfgLevelMap.get(parentCfgId);
+		if(allCfg == null){
+			allCfg = new ArrayList<FixNormEquipQualityCfg>();
+		}
 
+		return allCfg;		
+	}
 }
