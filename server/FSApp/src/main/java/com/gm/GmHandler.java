@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.gm.task.GMRuntimeUpdate;
+import com.gm.task.GMWorldBossState;
 import com.gm.task.GmBlockPlayer;
 import com.gm.task.GmBlockRelease;
 import com.gm.task.GmChargeSwitch;
@@ -160,6 +161,8 @@ public class GmHandler {
 		// 移除消息处理器(屏蔽指定功能消息入口)
 		taskMap.put(20076, new GmMessageServiceRemoved());
 		taskMap.put(20077, new GmRemoteMsgSenderState());
+		//GM开启世界boss
+		taskMap.put(20078, new GMWorldBossState());
 
 		taskMap.put(99999, new GmExecuteGMCommand());
 
