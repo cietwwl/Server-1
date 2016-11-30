@@ -43,4 +43,16 @@ public class PublicData {
 	 * 特惠积分刷新时间点
 	 */
 	public static final int REFRESH_BENEFIT_SCORE_TIME = 25;
+	/**
+	 * 特惠礼包自动购买成功
+	 */
+	public static final int BENEFIT_ITEM_AUTO_BUY_SUC = 28;
+	/**
+	 * 特惠礼包自动购买失败
+	 */
+	public static final int BENEFIT_ITEM_AUTO_BUY_FAIL = 29;
+	/**
+	 * 特惠礼包手动购买成功
+	 */
+	public static final int BENEFIT_ITEM_BUY_SUC = 30;
 }

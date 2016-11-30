@@ -45,7 +45,6 @@ import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
 import com.rwbase.dao.zone.TableZoneInfo;
-import com.rwbase.dao.zone.TableZoneInfoDAO;
 import com.rwbase.gameworld.GameWorldFactory;
 
 /**

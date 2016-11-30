@@ -17,7 +17,7 @@ class WBPreStartState implements  IwbState{
 		WBData wbData = WBDataHolder.getInstance().get();
 		
 		long curTime = System.currentTimeMillis();//1477364091320
-		System.out.println("PreStart state ,start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+//		System.out.println("PreStart state ,start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
 		if((wbData.getStartTime() - 5 * Timer.ONE_SECOND) <= curTime){     //提前5s开启,前端会在开启前后10s内进行状态同步
 			return new WBFightStartState();
 		}

@@ -45,7 +45,7 @@ public class BenefitMsgController {
 	}
 
 	public void addMsg(String content) {
-		System.err.println("add msg:" + content);
+//		System.err.println("add msg:" + content);
 		server.sendMsg(content);
 
 	}

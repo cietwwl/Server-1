@@ -940,13 +940,53 @@ public final class MsgDef {
      */
     MSG_VIP_GIFT_NOTIFY(122, 233),
     /**
+     * <code>MSG_COMMON_SOUL = 234;</code>
+     *
+     * <pre>
+     * 万能魂石协议
+     * </pre>
+     */
+    MSG_COMMON_SOUL(123, 234),
+    /**
+     * <code>MSG_CHARGE_NOTIFY = 235;</code>
+     *
+     * <pre>
+     * 充值通知
+     * </pre>
+     */
+    MSG_CHARGE_NOTIFY(124, 235),
+    /**
+     * <code>Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 236;</code>
+     *
+     * <pre>
+     * 帮派争霸队伍功能优化消息协议
+     * </pre>
+     */
+    Msg_GROUP_COMPETITION_TEAM_OPTIMIZE(125, 236),
+    /**
+     * <code>MSG_FETTER_ACTIVITY_NOTIFY = 237;</code>
+     *
+     * <pre>
+     * 仙缘激活通知
+     * </pre>
+     */
+    MSG_FETTER_ACTIVITY_NOTIFY(126, 237),
+    /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
      * <pre>
      *活动；月卡;不是活动的协议不要往下接啊；往上接
      * </pre>
      */
-    MSG_ACTIVITY_TIMECARD_TYPE(123, 600),
+    MSG_ACTIVITY_TIMECARD_TYPE(127, 600),
+    /**
+     * <code>MSG_ACTIVITY_EVILBAO = 601;</code>
+     *
+     * <pre>
+     *申公豹驾到
+     * </pre>
+     */
+    MSG_ACTIVITY_EVILBAO(128, 601),
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -954,7 +994,7 @@ public final class MsgDef {
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(124, 995),
+    MSG_FEEDBACK(129, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -962,7 +1002,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(125, 996),
+    MSG_SDK_VERIFY(130, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -970,7 +1010,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(126, 997),
+    MSG_NUMERIC_ANALYSIS(131, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -978,7 +1018,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(127, 998),
+    MSG_PLATFORMGS(132, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -986,7 +1026,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(128, 999),
+    MSG_GAMEPRESS(133, 999),
     ;
 
     /**
@@ -1916,6 +1956,38 @@ public final class MsgDef {
      */
     public static final int MSG_VIP_GIFT_NOTIFY_VALUE = 233;
     /**
+     * <code>MSG_COMMON_SOUL = 234;</code>
+     *
+     * <pre>
+     * 万能魂石协议
+     * </pre>
+     */
+    public static final int MSG_COMMON_SOUL_VALUE = 234;
+    /**
+     * <code>MSG_CHARGE_NOTIFY = 235;</code>
+     *
+     * <pre>
+     * 充值通知
+     * </pre>
+     */
+    public static final int MSG_CHARGE_NOTIFY_VALUE = 235;
+    /**
+     * <code>Msg_GROUP_COMPETITION_TEAM_OPTIMIZE = 236;</code>
+     *
+     * <pre>
+     * 帮派争霸队伍功能优化消息协议
+     * </pre>
+     */
+    public static final int Msg_GROUP_COMPETITION_TEAM_OPTIMIZE_VALUE = 236;
+    /**
+     * <code>MSG_FETTER_ACTIVITY_NOTIFY = 237;</code>
+     *
+     * <pre>
+     * 仙缘激活通知
+     * </pre>
+     */
+    public static final int MSG_FETTER_ACTIVITY_NOTIFY_VALUE = 237;
+    /**
      * <code>MSG_ACTIVITY_TIMECARD_TYPE = 600;</code>
      *
      * <pre>
@@ -1923,6 +1995,14 @@ public final class MsgDef {
      * </pre>
      */
     public static final int MSG_ACTIVITY_TIMECARD_TYPE_VALUE = 600;
+    /**
+     * <code>MSG_ACTIVITY_EVILBAO = 601;</code>
+     *
+     * <pre>
+     *申公豹驾到
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_EVILBAO_VALUE = 601;
     /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
@@ -2092,7 +2172,12 @@ public final class MsgDef {
         case 231: return MSG_SPRITE_ATTACH_UPGRADE;
         case 232: return MSG_GROUP_COMPETITION_EVENTS_START;
         case 233: return MSG_VIP_GIFT_NOTIFY;
+        case 234: return MSG_COMMON_SOUL;
+        case 235: return MSG_CHARGE_NOTIFY;
+        case 236: return Msg_GROUP_COMPETITION_TEAM_OPTIMIZE;
+        case 237: return MSG_FETTER_ACTIVITY_NOTIFY;
         case 600: return MSG_ACTIVITY_TIMECARD_TYPE;
+        case 601: return MSG_ACTIVITY_EVILBAO;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -2158,7 +2243,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\270\030\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\314\031\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2233,11 +2318,15 @@ public final class MsgDef {
       "AISE\020\345\001\022\030\n\023MSG_BUY_GROWTH_FUND\020\346\001\022\036\n\031MSG" +
       "_SPRITE_ATTACH_UPGRADE\020\347\001\022\'\n\"MSG_GROUP_C" +
       "OMPETITION_EVENTS_START\020\350\001\022\030\n\023MSG_VIP_GI" +
-      "FT_NOTIFY\020\351\001\022\037\n\032MSG_ACTIVITY_TIMECARD_TY" +
-      "PE\020\330\004\022\021\n\014MSG_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERI" +
-      "FY\020\344\007\022\031\n\024MSG_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_" +
-      "PLATFORMGS\020\346\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com" +
-      ".rwprotoB\006MsgDef"
+      "FT_NOTIFY\020\351\001\022\024\n\017MSG_COMMON_SOUL\020\352\001\022\026\n\021MS" +
+      "G_CHARGE_NOTIFY\020\353\001\022(\n#Msg_GROUP_COMPETIT" +
+      "ION_TEAM_OPTIMIZE\020\354\001\022\037\n\032MSG_FETTER_ACTIV" +
+      "ITY_NOTIFY\020\355\001\022\037\n\032MSG_ACTIVITY_TIMECARD_T" +
+      "YPE\020\330\004\022\031\n\024MSG_ACTIVITY_EVILBAO\020\331\004\022\021\n\014MSG",
+      "_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG" +
+      "_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346" +
+      "\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006Ms" +
+      "gDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

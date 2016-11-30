@@ -84,6 +84,11 @@ public enum GameWorldKey {
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
 	/**
+	 * 帮派排行榜的静态榜
+	 */
+	GROUP_STATIC_RANK("GROUP_STATIC_RANK"),
+
+	/**
 	 * 活跃着的活动
 	 */
 	ALIVE_ACTIVITY("ALIVE_ACTIVITY"),
