@@ -14,7 +14,7 @@ public class TBBuyCostCfgDAO extends CfgCsvDao<TBBuyCostCfg> {
 
 	@Override
 	public Map<String, TBBuyCostCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("team/cost.csv",TBBuyCostCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("teamBattle/cost.csv",TBBuyCostCfg.class);
 		Collection<TBBuyCostCfg> vals = cfgCacheMap.values();
 		for (TBBuyCostCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();
