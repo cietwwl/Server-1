@@ -8,6 +8,7 @@ import com.bm.worldBoss.data.WBState;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.ServerSwitch;
 
 public class WBStateFSM {
 	
@@ -40,9 +41,9 @@ public class WBStateFSM {
 		WBState state = wbData.getState();
 		IwbState curStateTmp = null;
 		switch (state) {
-//			case NewBoss:
-//				curStateTmp = new WBNewBossState();
-//				break;
+			case NewBoss:
+				curStateTmp = new WBNewBossState();
+				break;
 
 			case PreStart:
 				curStateTmp = new WBPreStartState();
@@ -76,10 +77,11 @@ public class WBStateFSM {
 	}
 	
 	/**
-	 * 检查一下配置文件
+	 * 检查一下配置文件,并且设置是否开启世界boss
 	 */
 	private void checkCfg(){
 		WBData data = WBDataHolder.getInstance().get();
+		data.setOpen(ServerSwitch.isOpenWorldBoss());
 		WBCfg cfg = WBCfgDAO.getInstance().getCfgById(data.getWbcfgId());
 		WBDataHolder.getInstance().reCfg(data, cfg);
 	}

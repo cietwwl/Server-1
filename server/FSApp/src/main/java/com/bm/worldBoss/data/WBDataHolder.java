@@ -16,6 +16,7 @@ import com.playerdata.army.ArmyVector3;
 import com.playerdata.battleVerify.MonsterCfg;
 import com.playerdata.battleVerify.MonsterCfgDao;
 import com.playerdata.dataSyn.ClientDataSynMgr;
+import com.rw.manager.ServerSwitch;
 import com.rwbase.dao.battle.pojo.BattleCfgDAO;
 import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwproto.DataSynProtos.eSynOpType;
@@ -64,7 +65,7 @@ public class WBDataHolder {
 			newData = oldData.nextInstance();
 		}
 		
-		boolean success = init(newData, wbCfg );
+		boolean success = init(newData, wbCfg);
 		
 		return success;
 	}
@@ -88,14 +89,15 @@ public class WBDataHolder {
 			data.setMaxLife(maxLife);
 			data.setCurLife(maxLife);	
 			data.setRankBossHP(maxLife);
-//			data.setMaxLife(500000);
-//			data.setCurLife(500000);	
-//			data.setRankBossHP(500000);
+			//data.setMaxLife(500000);
+			//data.setCurLife(500000);	
+			//data.setRankBossHP(500000);
 			data.setPreStartTime(wbCfg.getPreStartTime());
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
 			data.setFinishTime(wbCfg.getFinishTime());
 			data.setWbcfgId(wbCfg.getId());
+			data.setOpen(ServerSwitch.isOpenWorldBoss());
 			boolean update = WBDataDao.getInstance().update(data);
 			
 			GameLog.info(LogModule.WorldBoss.getName(), "WBDataHolder[init]", "world boss update wbdata result: " + update);

@@ -3,6 +3,7 @@ package com.bm.worldBoss.state;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
+import com.rw.fsutil.util.DateUtils;
 
 class WBPreStartState implements  IwbState{
 
@@ -13,7 +14,8 @@ class WBPreStartState implements  IwbState{
 		WBData wbData = WBDataHolder.getInstance().get();
 		
 		long curTime = System.currentTimeMillis();//1477364091320
-//		System.out.println("PreStart state ,start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm:ss"));
+//		System.out.println("PreStart state ,start time : " + DateUtils.getDateTimeFormatString(wbData.getStartTime(), "yyyy-MM-dd HH:mm:ss")
+//				+", millinsecond:" + wbData.getPreStartTime());
 		if(wbData.getStartTime() <= curTime){
 			return new WBFightStartState();
 		}
