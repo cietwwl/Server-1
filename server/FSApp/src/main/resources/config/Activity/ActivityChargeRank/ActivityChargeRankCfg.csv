@@ -1,2 +1,2 @@
-Key,Remarks,id,icon,icon2,sort,goToType,title,titleBG,startTimeStr,endTimeStr,isAutoRefresh,levelLimit,version
-170001,,170001,huodong_002,,3,,充值排行榜,活动期间，累计充值送好礼！,201608080001,201612300000,,1,1
+Key,Remarks,id,bg,icon,icon2,sort,goToType,title,bgTitle,titleBG,startTimeStr,endTimeStr,isAutoRefresh,levelLimit,version
+170001,,170001,SmallTex/Activity/ActivityTitleText_09,huodong_004,,3,,充值大比拼,,,201611300500,201612070500,,1,1
