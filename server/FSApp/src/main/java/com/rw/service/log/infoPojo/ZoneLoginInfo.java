@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.GameManager;
 import com.rw.netty.ServerConfig;
 import com.rwbase.dao.zone.TableZoneInfo;
 
@@ -77,7 +78,7 @@ public class ZoneLoginInfo {
 	public static ZoneLoginInfo fromClientInfo(ClientInfo clientInfo){
 		ZoneLoginInfo zoneLoginInfo = new ZoneLoginInfo();
 		TableZoneInfo serveZoneInfo = ServerConfig.getInstance().getServeZoneInfo();
-		zoneLoginInfo.setLoginZoneId(serveZoneInfo.getZoneId());
+		zoneLoginInfo.setLoginZoneId(GameManager.getZoneId());
 		zoneLoginInfo.setLoginZoneTime(System.currentTimeMillis());
 		zoneLoginInfo.setLoginChannelId(clientInfo.getChannelId());
 		zoneLoginInfo.setLoginSubChannelId(clientInfo.getSubChannelId());

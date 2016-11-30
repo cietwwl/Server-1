@@ -160,7 +160,7 @@ public class JsonValueWriter {
 				if (jsonValue == null) {
 					continue;
 				}
-				newList.add(element);
+				newList.add(newValue);
 			}
 			return (T) newList;
 		}
@@ -300,29 +300,40 @@ public class JsonValueWriter {
 				array = checkCreateJSONArray(max, i, array);
 				array.add(json);
 				oldRecord_.set(i, newObject);
-				break;
+				continue;
 			} else if (newValue == null) {
 				array = checkCreateJSONArray(max, i, array);
 				array.add(null);
 				oldRecord_.set(i, null);
 				continue;
-			} else if (oldValue.equals(newValue)) {
-				if (array != null) {
-					array.add("");
-				}
-				continue;
-			} else {
-				Object newObject = copyObject(newValue);
-				if (newObject == null) {
+			}  else {
+				Class<?> oldValueClass = oldValue.getClass();
+				Class<?> newValueClass = newValue.getClass();
+				// 先判断类型是否一致
+				if (oldValueClass != newValueClass) {
+					array = copyIntoList(newValue, oldRecord_, array, max, i);
 					continue;
 				}
-				Object json = toJSON(newValue);
-				if (json == null) {
-					continue;
+				// 复制&替换
+				DataValueParser parser = DataValueParserMap.getParser(newValueClass);
+				if (parser != null) {
+					JSONObject diff = parser.recordAndUpdate(oldValue, newValue);
+					array = writeIntoList(diff, array, max, i);
+				} else if (newValue instanceof Map) {
+					JSONObject temp = compareSetDiff(null, "", (Map<?, ?>) oldValue, (Map<?, ?>) newValue);
+					Object diff = (temp == null) ? null : temp.get("");
+					array = writeIntoList(diff, array, max, i);
+				} else if (newValue instanceof List) {
+					JSONObject temp = compareSetDiff(null, "", (List<?>) oldValue, (List<?>) newValue);
+					Object diff = (temp == null) ? null : temp.get("");
+					array = writeIntoList(diff, array, max, i);
+				} else if (oldValue.equals(newValue)) {
+					if (array != null) {
+						array.add("");
+					}
+				} else {
+					array = copyIntoList(newValue, oldRecord_, array, max, i);
 				}
-				oldRecord_.set(i, newObject);
-				array = checkCreateJSONArray(max, i, array);
-				array.add(json);
 			}
 		}
 		if (oldLen > newLen) {
@@ -364,6 +375,35 @@ public class JsonValueWriter {
 		return recordMap;
 	}
 
+	/** 写入差异，diff可能是JSONArray或者JSONObject **/
+	private JSONArray writeIntoList(Object diff, JSONArray array, int max, int i) {
+		if (diff == null) {
+			if (array != null) {
+				array.add("");
+			}
+		} else {
+			array = checkCreateJSONArray(max, i, array);
+			array.add(diff);
+		}
+		return array;
+	}
+
+	/** 拷贝新值并写入差异 **/
+	private JSONArray copyIntoList(Object newValue, List<Object> oldRecord_, JSONArray array, int max, int i) {
+		Object newObject = copyObject(newValue);
+		if (newObject == null) {
+			return array;
+		}
+		Object json = toJSON(newValue);
+		if (json == null) {
+			return array;
+		}
+		oldRecord_.set(i, newObject);
+		array = checkCreateJSONArray(max, i, array);
+		array.add(json);
+		return array;
+	}
+
 	/** 检查并创建JsonArray **/
 	private JSONArray checkCreateJSONArray(int len, int fillSize, JSONArray array) {
 		if (array != null) {
@@ -377,35 +417,6 @@ public class JsonValueWriter {
 			array.add("");
 		}
 		return array;
-	}
-
-	public static void main(String[] args) {
-		// HashMap<String, List> map = new HashMap<String, List>();
-		// ArrayList<String> list = new ArrayList<String>();
-		// list.add("1");
-		// map.put("1", list);
-		//
-		// HashMap<String, List> map2 = new HashMap<String, List>();
-		// ArrayList<String> list2 = new ArrayList<String>();
-		// list2.add("1");
-		// list2.add("2");
-		// map2.put("1", list2);
-		// System.out.println(new JsonValueWriter().compareSetDiff(null, "set",
-		// map, map2));
-		// System.out.println(map);
-		// System.out.println(map2);
-		HashMap<String, Map> map = new HashMap<String, Map>();
-		HashMap<String, String> map1 = new HashMap<String, String>();
-		map1.put("1", "1");
-		map.put("a", map1);
-
-		HashMap<String, Map> map_ = new HashMap<String, Map>();
-		HashMap<String, String> map2 = new HashMap<String, String>();
-		map2.put("1", "2");
-		map_.put("a", map2);
-		System.out.println(new JsonValueWriter().compareSetDiff(null, "set", map, map_));
-		System.out.println(map);
-		System.out.println(map_);
 	}
 
 	public JSONObject compareSetDiff(JSONObject recordMap, String keyName, Map<?, ?> lastRecord_, Map<?, ?> newRecord_) {
@@ -663,7 +674,7 @@ public class JsonValueWriter {
 		if (newValue instanceof List) {
 			return hasChanged((List<?>) oldValue, (List<?>) newValue);
 		}
-		//not support distributed
+		// not support distributed
 		if (newValueClass.isEnum()) {
 			return oldValue != newValue;
 		}
@@ -677,4 +688,5 @@ public class JsonValueWriter {
 		}
 		return false;
 	}
+
 }
