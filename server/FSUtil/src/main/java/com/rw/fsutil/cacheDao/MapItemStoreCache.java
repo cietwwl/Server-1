@@ -13,11 +13,9 @@ import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.cacheDao.mapItem.MapItemUpdater;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
-import com.rw.fsutil.dao.cache.DataDeletedException;
 import com.rw.fsutil.dao.cache.DataNotExistException;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.dao.cache.MapItemCache;
-import com.rw.fsutil.dao.cache.evict.EvictedUpdateTask;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.fsutil.dao.common.CommonMultiTable;
@@ -83,7 +81,19 @@ public class MapItemStoreCache<T extends IMapItem> implements MapItemUpdater<Str
 			return null;
 		}
 	}
-	
+
+	/**
+	 * <pre>
+	 * 从缓存中读取{@link MapItemStore}
+	 * 此对象不能修改，写操作不能保证更新到数据库
+	 * </pre>
+	 * @param key
+	 * @return
+	 */
+	public MapItemStore<T> getFromMemoryForRead(String key) {
+		return this.cache.getFromMemoryForWrite(key);
+	}
+
 	public void notifyPlayerCreate(String userId) {
 		@SuppressWarnings("unchecked")
 		MapItemStore<T> m = new MapItemStore<T>(Collections.EMPTY_LIST, userId, commonJdbc, MapItemStoreCache.this);

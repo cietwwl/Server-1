@@ -15,6 +15,7 @@ import com.rw.trace.listener.FixExpEquipDataListener;
 import com.rw.trace.listener.FixNorEquipDataListener;
 import com.rw.trace.listener.InlayDataListener;
 import com.rw.trace.listener.ItemDataListener;
+import com.rw.trace.listener.MainRoleDataListener;
 import com.rw.trace.listener.MajorDataListener;
 import com.rw.trace.listener.UserGameDataListener;
 
@@ -39,6 +40,7 @@ public enum DataChangeListenRegister {
 	MAJOR_DATA(DataTraceRegistrator.MAJOR_DATA, MajorDataListener.class),
 	USERDATA(DataTraceRegistrator.USER, UserDataListener.class),
 	CHARGEDATA(DataTraceRegistrator.CHARGE_DATA, ChargeDataListener.class),
+	MAINROLE(DataTraceRegistrator.MAIN_ROLE, MainRoleDataListener.class),
 	HERODATA(DataTraceRegistrator.HERO, FSHeroDataListener.class),
 	FIXEXPEQUIPDATA(DataTraceRegistrator.FIX_EXP_EQUIP_ITEM, FixExpEquipDataListener.class),
 	FIXNOREQUIPDATA(DataTraceRegistrator.FIX_NOMR_EQUIP_ITEM, FixNorEquipDataListener.class),

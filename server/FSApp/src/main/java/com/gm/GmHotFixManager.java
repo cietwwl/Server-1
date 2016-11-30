@@ -62,7 +62,7 @@ public class GmHotFixManager {
 				temp = files[i];
 				if (temp.getName().endsWith(".class")) {
 					String classPath = temp.getPath().replace(systemPath, "").replace("\\", ".").replace("/", ".").replace(".class", "");
-					if (classPath.startsWith(".")) {
+					if(classPath.startsWith(".")) {
 						classPath = classPath.substring(1, classPath.length());
 					}
 					Class<?> loadClass = ClassLoader.getSystemClassLoader().loadClass(classPath);
