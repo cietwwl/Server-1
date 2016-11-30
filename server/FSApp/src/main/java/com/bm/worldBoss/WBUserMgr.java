@@ -12,7 +12,6 @@ import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
 import com.bm.worldBoss.service.WBHelper;
 import com.playerdata.Player;
-import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
 
 
 public class WBUserMgr {
