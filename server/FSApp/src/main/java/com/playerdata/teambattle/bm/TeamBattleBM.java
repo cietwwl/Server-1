@@ -670,4 +670,14 @@ public class TeamBattleBM {
 		UserTeamBattleDataHolder.getInstance().update(player, utbData);
 		tbRsp.setRstType(TBResultType.SUCCESS);
 	}
+
+	/**
+	 * 购买挑战次数
+	 * @param player
+	 * @param tbRsp
+	 * @param hardID
+	 */
+	public void buyBattleTimes(Player player, Builder tbRsp, String hardID) {
+		
+	}
 }

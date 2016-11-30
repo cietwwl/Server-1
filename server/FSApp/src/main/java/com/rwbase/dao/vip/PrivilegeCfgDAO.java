@@ -136,6 +136,8 @@ public class PrivilegeCfgDAO extends CfgCsvDao<PrivilegeCfg>{
 		case BATTLE_TOWER_TIMES:
 			value = cfg.getBattleTowerResetTimes();
 			break;
+		case TEAMBATTLE_TIMES:
+			value = cfg.getTeamBattleTimes();
 		default:
 			break;
 		}

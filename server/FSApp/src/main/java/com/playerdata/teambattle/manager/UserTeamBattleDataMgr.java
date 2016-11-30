@@ -4,8 +4,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.teambattle.cfg.TeamCfg;
+import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.data.TBTeamItem;
 import com.playerdata.teambattle.data.TBTeamItemHolder;
+import com.playerdata.teambattle.data.TeamHardInfo;
 import com.playerdata.teambattle.data.TeamMember;
 import com.playerdata.teambattle.data.UserTeamBattleData;
 import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
@@ -43,10 +46,6 @@ public class UserTeamBattleDataMgr {
 		if(teamItem != null) {
 			TeamMember self = teamItem.findMember(userID);
 			if(null != self){
-//				if(self.getState().equals(TBMemberState.Finish)){
-//					self.setState(TBMemberState.Leave);
-//				}
-//				else 
 				if(self.getState().equals(TBMemberState.Ready) || self.getState().equals(TBMemberState.Fight)){
 					teamItem.removeMember(self);
 					if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
@@ -60,5 +59,23 @@ public class UserTeamBattleDataMgr {
 	
 	public void dailyReset(Player player){
 		UserTeamBattleDataHolder.getInstance().dailyReset(player);
+	}
+	
+	/**
+	 * 判断是否还有挑战次数
+	 * @param player
+	 * @param hardID 副本id
+	 * @param isChangeTimes 如果次数足够，是否更改挑战次数
+	 * @return
+	 */
+	public boolean haveFightTimes(Player player, String hardID, boolean isChangeTimes){
+		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardID);
+		if(null == teamCfg) return false;
+		
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null == utbData) return false;
+		TeamHardInfo thInfo = utbData.getFinishedHardMap().get(hardID);
+		if(null == thInfo) return true;
+		return true;
 	}
 }

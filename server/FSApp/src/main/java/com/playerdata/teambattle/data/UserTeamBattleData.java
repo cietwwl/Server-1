@@ -37,7 +37,7 @@ public class UserTeamBattleData {
 	private List<Integer> finishedLoops = new ArrayList<Integer>();	//假如一个难度（即章节）三个节点，这个是已经完成的节点id号，如果已经有完成的（并且没有全部完成），就不能更换难度（章节）
 	
 	@CombineSave
-	private List<String> finishedHards = new ArrayList<String>();	//已经完成的章节
+	private HashMap<String, TeamHardInfo> finishedHardMap = new HashMap<String, TeamHardInfo>();	//章节完成的情况
 	
 	@CombineSave
 	@IgnoreSynField
@@ -105,15 +105,15 @@ public class UserTeamBattleData {
 	public void setTbGold(int tbGold) {
 		this.tbGold = tbGold;
 	}
-
-	public List<String> getFinishedHards() {
-		return finishedHards;
-	}
-
-	public void setFinishedHards(List<String> finishedHards) {
-		this.finishedHards = finishedHards;
-	}
 	
+	public HashMap<String, TeamHardInfo> getFinishedHardMap() {
+		return finishedHardMap;
+	}
+
+	public void setFinishedHardMap(HashMap<String, TeamHardInfo> finishedHardMap) {
+		this.finishedHardMap = finishedHardMap;
+	}
+
 	public boolean isSynTeam() {
 		return isSynTeam;
 	}
@@ -138,7 +138,7 @@ public class UserTeamBattleData {
 	public void dailyReset(){
 		enimyMap = null;
 		finishedLoops.clear();
-		finishedHards.clear();
+		finishedHardMap.clear();
 		teamID = null;
 	}
 }
