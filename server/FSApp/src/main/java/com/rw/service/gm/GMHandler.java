@@ -43,6 +43,7 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
+import com.rw.service.gm.fixequip.GMAddFixEquip;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -95,6 +96,7 @@ public class GMHandler {
 		funcCallBackMap.put("addcoin", "addCoin");
 		funcCallBackMap.put("addgold", "addGold");
 		funcCallBackMap.put("addhero", "addHero");
+		funcCallBackMap.put("addfixequipitem", "addFixEquipItem");
 		funcCallBackMap.put("clrbag", "clrBag");
 		funcCallBackMap.put("setlevel", "setLevel");
 		funcCallBackMap.put("ranksort", "rankSort");
@@ -505,6 +507,22 @@ public class GMHandler {
 		return false;
 	}
 
+	public boolean addFixEquipItem(String[] arrCommandContents,Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			GMAddFixEquip.addStarUp(player);
+			GMAddFixEquip.addexp(player);
+			GMAddFixEquip.addqualityUp(player);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean addCoin(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");

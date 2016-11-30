@@ -308,7 +308,9 @@ public class Robot {
 			gainItem(modelId, 9999);
 		}
 	}
-
+	
+	
+	
 	/**
 	 * 穿装备
 	 * 
@@ -375,7 +377,78 @@ public class Robot {
 	public boolean receivePower(String friendUserId) {
 		return FriendHandler.instance().receivePowerOne(client, friendUserId);
 	}
-
+	
+	/**神器操作需要涉及的材料，创建角色是单独调用*/
+	public boolean addFixEquip(){
+		
+		boolean sendSuccess = GmHandler.instance().send(client, "* addfixequipitem " + 1);
+		
+		return sendSuccess;
+		
+//		checkItemEnough(806511);// 普通进化材料
+//		checkItemEnough(806512);
+//		checkItemEnough(806513);
+//		checkItemEnough(806514);
+//		checkItemEnough(806515);
+//		checkItemEnough(806516);
+//		checkItemEnough(806517);
+//		checkItemEnough(806518);
+//		checkItemEnough(806519);
+//		checkItemEnough(806520);
+//		checkItemEnough(806521);
+//		checkItemEnough(806522);
+//		checkItemEnough(806523);
+//		checkItemEnough(806524);
+//		checkItemEnough(806525);
+//		checkItemEnough(806526);
+//		checkItemEnough(806527);
+//		checkItemEnough(806528);
+//		
+//		checkItemEnough(806551);// 特殊←进阶别材料
+//		checkItemEnough(806552);// 特殊右进阶		
+//
+//		checkItemEnough(806553);// 升星材料
+//		checkItemEnough(806554);// 升星材料
+//		checkItemEnough(806555);// 升星材料
+//		checkItemEnough(806556);// 升星材料
+//		checkItemEnough(806557);// 升星材料
+//		checkItemEnough(806558);// 升星材料
+//		checkItemEnough(806559);// 升星材料
+//		checkItemEnough(806560);// 升星材料
+//		checkItemEnough(806561);// 升星材料
+//		checkItemEnough(806562);// 升星材料
+//		checkItemEnough(806563);// 升星材料
+//		checkItemEnough(806564);// 升星材料
+//		checkItemEnough(806565);// 升星材料
+//		checkItemEnough(806566);// 升星材料
+//		checkItemEnough(806567);// 升星材料
+//		checkItemEnough(806568);// 升星材料
+//		checkItemEnough(806569);// 升星材料
+//		checkItemEnough(806570);// 升星材料
+//		checkItemEnough(806571);// 升星材料
+//		checkItemEnough(806572);// 升星材料
+//		checkItemEnough(806573);// 升星材料
+//		checkItemEnough(806574);// 升星材料
+//		checkItemEnough(806575);// 升星材料
+//		checkItemEnough(806576);// 升星材料
+//		checkItemEnough(806577);// 升星材料
+//		checkItemEnough(806578);// 升星材料
+//		checkItemEnough(806579);// 升星材料
+//		checkItemEnough(806580);// 升星材料
+//		checkItemEnough(806581);// 升星材料
+//		checkItemEnough(806582);// 升星材料
+//		checkItemEnough(806583);// 升星材料
+//		checkItemEnough(806584);// 升星材料
+//		checkItemEnough(806585);// 升星材料
+//		checkItemEnough(806586);// 升星材料
+////
+//		checkItemEnough(806505);// 下←格经验材料
+//		checkItemEnough(806510);// 下右格经验材料
+		
+//		return true;
+		
+	}
+	
 	public boolean addCoin(int coin) {
 		boolean sendSuccess = GmHandler.instance().send(client, "* addCoin " + coin);
 		return sendSuccess;
@@ -1006,71 +1079,7 @@ public class Robot {
 		return GroupSecretHandler.getInstance().acceptMemberDefend(client);
 	}
 	
-	/**神器操作需要涉及的材料，创建角色是单独调用*/
-	public void addFixEquip(){
-		upgrade(50);
-		addCoin(9999999);
-		addGold(88888);
-		checkItemEnough(806511);// 进化材料
-		checkItemEnough(806512);
-		checkItemEnough(806513);
-		checkItemEnough(806514);
-		checkItemEnough(806515);
-		checkItemEnough(806516);
-		checkItemEnough(806517);
-		checkItemEnough(806518);
-		checkItemEnough(806519);
-		checkItemEnough(806520);
-		checkItemEnough(806521);
-		checkItemEnough(806522);
-		checkItemEnough(806523);
-		checkItemEnough(806524);
-		checkItemEnough(806525);
-		checkItemEnough(806526);
-		checkItemEnough(806527);
-		checkItemEnough(806528);
-
-		checkItemEnough(806553);// 升星材料
-		checkItemEnough(806554);// 升星材料
-		checkItemEnough(806555);// 升星材料
-		checkItemEnough(806556);// 升星材料
-		checkItemEnough(806557);// 升星材料
-		checkItemEnough(806558);// 升星材料
-		checkItemEnough(806559);// 升星材料
-		checkItemEnough(806560);// 升星材料
-		checkItemEnough(806561);// 升星材料
-		checkItemEnough(806562);// 升星材料
-		checkItemEnough(806563);// 升星材料
-		checkItemEnough(806564);// 升星材料
-		checkItemEnough(806565);// 升星材料
-		checkItemEnough(806566);// 升星材料
-		checkItemEnough(806567);// 升星材料
-		checkItemEnough(806568);// 升星材料
-		checkItemEnough(806569);// 升星材料
-		checkItemEnough(806570);// 升星材料
-		checkItemEnough(806571);// 升星材料
-		checkItemEnough(806572);// 升星材料
-		checkItemEnough(806573);// 升星材料
-		checkItemEnough(806574);// 升星材料
-		checkItemEnough(806575);// 升星材料
-		checkItemEnough(806576);// 升星材料
-		checkItemEnough(806577);// 升星材料
-		checkItemEnough(806578);// 升星材料
-		checkItemEnough(806579);// 升星材料
-		checkItemEnough(806580);// 升星材料
-		checkItemEnough(806581);// 升星材料
-		checkItemEnough(806582);// 升星材料
-		checkItemEnough(806583);// 升星材料
-		checkItemEnough(806584);// 升星材料
-		checkItemEnough(806585);// 升星材料
-		checkItemEnough(806586);// 升星材料
-
-		checkItemEnough(806505);// 下←格经验材料
-		checkItemEnough(806510);// 下右格经验材料
-		checkItemEnough(806551);// ←升级别材料
-		checkItemEnough(806552);// 右升级
-		
-	}
+	
 	
 	
 	
