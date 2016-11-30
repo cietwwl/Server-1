@@ -164,7 +164,7 @@ public class TeamBattleBM {
 				}
 			}
 		}
-		if (UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
+		if (!UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("挑战次数不足！");
 			return;
@@ -212,7 +212,7 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if (UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
+		if (!UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("挑战次数不足！");
 			return;
@@ -228,7 +228,7 @@ public class TeamBattleBM {
 				}
 			}
 		}
-		TBTeamItem canJionTeam = TBTeamItemMgr.getInstance().getOneCanJionTeam(hardID);
+		TBTeamItem canJionTeam = TBTeamItemMgr.getInstance().getOneCanJionTeam(player.getUserId(), hardID);
 		if(canJionTeam == null) {
 			createTeam(player, tbRsp, hardID);
 			return;
@@ -268,7 +268,7 @@ public class TeamBattleBM {
 			return;
 		}
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
-		if(UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
+		if(!UserTeamBattleDataMgr.getInstance().haveFightTimes(player, hardID)) {
 			tbRsp.setRstType(TBResultType.DATA_ERROR);
 			tbRsp.setTipMsg("挑战次数不足！");
 			return;
@@ -592,6 +592,7 @@ public class TeamBattleBM {
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
 			utbData.getFinishedLoops().add(battleTime);
+			utbData.clearCurrentTeam();
 			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
 			}

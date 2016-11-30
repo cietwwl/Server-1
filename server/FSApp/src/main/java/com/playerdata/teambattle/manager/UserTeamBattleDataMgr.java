@@ -85,4 +85,18 @@ public class UserTeamBattleDataMgr {
 		}
 		return thInfo.getFinishTimes() < totalTimes;
 	}
+	
+	/**
+	 * 判断玩家的队伍是否满员（用于红点）
+	 * @param player
+	 * @return
+	 */
+	public boolean isTeamFull(Player player){
+		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
+		if(null == utbData) return false;
+		if(StringUtils.isBlank(utbData.getTeamID())) return false;
+		TBTeamItem teamItem = TBTeamItemMgr.getInstance().get(utbData.getTeamID());
+		if(null == teamItem) return false;
+		return teamItem.isFull();
+	}
 }

@@ -95,11 +95,13 @@ public class TBTeamItemMgr{
 		teamItem.setTeamMembers(memTeams);
 	}
 	
-	public synchronized TBTeamItem getOneCanJionTeam(String hardID){
+	public synchronized TBTeamItem getOneCanJionTeam(String userID, String hardID){
 		List<TBTeamItem> jionAble = new ArrayList<TBTeamItem>();
 		Enumeration<TBTeamItem> itemEnum = TBTeamItemHolder.getInstance().getItemStore(hardID).getEnum();
 		while(itemEnum.hasMoreElements()){
 			TBTeamItem item = itemEnum.nextElement();
+			//不能加入自己已经打过的队伍
+			if(null != item.findMember(userID)) continue;
 			if(item.isCanFreeJion() && !item.isSelecting() && !item.isFull()){
 				jionAble.add(item);
 			}
