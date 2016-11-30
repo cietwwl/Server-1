@@ -665,6 +665,33 @@ public final class TargetSellProto {
      */
     com.google.protobuf.ByteString
         getTipsMsgBytes();
+
+    // optional string dataStr = 4;
+    /**
+     * <code>optional string dataStr = 4;</code>
+     *
+     * <pre>
+     *可领取的道具信息
+     * </pre>
+     */
+    boolean hasDataStr();
+    /**
+     * <code>optional string dataStr = 4;</code>
+     *
+     * <pre>
+     *可领取的道具信息
+     * </pre>
+     */
+    java.lang.String getDataStr();
+    /**
+     * <code>optional string dataStr = 4;</code>
+     *
+     * <pre>
+     *可领取的道具信息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getDataStrBytes();
   }
   /**
    * Protobuf type {@code TargetSell.TargetSellRespMsg}
@@ -736,6 +763,11 @@ public final class TargetSellProto {
             case 26: {
               bitField0_ |= 0x00000004;
               tipsMsg_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              dataStr_ = input.readBytes();
               break;
             }
           }
@@ -873,10 +905,66 @@ public final class TargetSellProto {
       }
     }
 
+    // optional string dataStr = 4;
+    public static final int DATASTR_FIELD_NUMBER = 4;
+    private java.lang.Object dataStr_;
+    /**
+     * <code>optional string dataStr = 4;</code>
+     *
+     * <pre>
+     *可领取的道具信息
+     * </pre>
+     */
+    public boolean hasDataStr() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string dataStr = 4;</code>
+     *
+     * <pre>
+     *可领取的道具信息
+     * </pre>
+     */
+    public java.lang.String getDataStr() {
+      java.lang.Object ref = dataStr_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          dataStr_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string dataStr = 4;</code>
+     *
+     * <pre>
+     *可领取的道具信息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getDataStrBytes() {
+      java.lang.Object ref = dataStr_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        dataStr_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       reqType_ = com.rwproto.TargetSellProto.RequestType.CHARGE_ITEM;
       isSuccess_ = false;
       tipsMsg_ = "";
+      dataStr_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -907,6 +995,9 @@ public final class TargetSellProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBytes(3, getTipsMsgBytes());
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getDataStrBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -927,6 +1018,10 @@ public final class TargetSellProto {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(3, getTipsMsgBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getDataStrBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1050,6 +1145,8 @@ public final class TargetSellProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         tipsMsg_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        dataStr_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -1090,6 +1187,10 @@ public final class TargetSellProto {
           to_bitField0_ |= 0x00000004;
         }
         result.tipsMsg_ = tipsMsg_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.dataStr_ = dataStr_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1115,6 +1216,11 @@ public final class TargetSellProto {
         if (other.hasTipsMsg()) {
           bitField0_ |= 0x00000004;
           tipsMsg_ = other.tipsMsg_;
+          onChanged();
+        }
+        if (other.hasDataStr()) {
+          bitField0_ |= 0x00000008;
+          dataStr_ = other.dataStr_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -1331,6 +1437,104 @@ public final class TargetSellProto {
   }
   bitField0_ |= 0x00000004;
         tipsMsg_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string dataStr = 4;
+      private java.lang.Object dataStr_ = "";
+      /**
+       * <code>optional string dataStr = 4;</code>
+       *
+       * <pre>
+       *可领取的道具信息
+       * </pre>
+       */
+      public boolean hasDataStr() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string dataStr = 4;</code>
+       *
+       * <pre>
+       *可领取的道具信息
+       * </pre>
+       */
+      public java.lang.String getDataStr() {
+        java.lang.Object ref = dataStr_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          dataStr_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string dataStr = 4;</code>
+       *
+       * <pre>
+       *可领取的道具信息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getDataStrBytes() {
+        java.lang.Object ref = dataStr_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          dataStr_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string dataStr = 4;</code>
+       *
+       * <pre>
+       *可领取的道具信息
+       * </pre>
+       */
+      public Builder setDataStr(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        dataStr_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string dataStr = 4;</code>
+       *
+       * <pre>
+       *可领取的道具信息
+       * </pre>
+       */
+      public Builder clearDataStr() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        dataStr_ = getDefaultInstance().getDataStr();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string dataStr = 4;</code>
+       *
+       * <pre>
+       *可领取的道具信息
+       * </pre>
+       */
+      public Builder setDataStrBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        dataStr_ = value;
         onChanged();
         return this;
       }
@@ -2254,14 +2458,15 @@ public final class TargetSellProto {
     java.lang.String[] descriptorData = {
       "\n\020TargetSell.proto\022\nTargetSell\"Q\n\020Target" +
       "SellReqMsg\022(\n\007reqType\030\001 \002(\0162\027.TargetSell" +
-      ".RequestType\022\023\n\013itemGroupId\030\002 \002(\005\"a\n\021Tar" +
+      ".RequestType\022\023\n\013itemGroupId\030\002 \002(\005\"r\n\021Tar" +
       "getSellRespMsg\022(\n\007reqType\030\001 \002(\0162\027.Target" +
       "Sell.RequestType\022\021\n\tisSuccess\030\002 \002(\010\022\017\n\007t" +
-      "ipsMsg\030\003 \001(\t\"b\n\022UpdateBenefitScore\022\r\n\005sc" +
-      "ore\030\001 \002(\005\022\027\n\017nextRefreshTime\030\002 \002(\003\022\017\n\007da" +
-      "taStr\030\003 \001(\t\022\023\n\013itemGroupId\030\004 \001(\005*,\n\013Requ" +
-      "estType\022\017\n\013CHARGE_ITEM\020\001\022\014\n\010GET_ITEM\020\002B\036" +
-      "\n\013com.rwprotoB\017TargetSellProto"
+      "ipsMsg\030\003 \001(\t\022\017\n\007dataStr\030\004 \001(\t\"b\n\022UpdateB" +
+      "enefitScore\022\r\n\005score\030\001 \002(\005\022\027\n\017nextRefres" +
+      "hTime\030\002 \002(\003\022\017\n\007dataStr\030\003 \001(\t\022\023\n\013itemGrou" +
+      "pId\030\004 \001(\005*,\n\013RequestType\022\017\n\013CHARGE_ITEM\020" +
+      "\001\022\014\n\010GET_ITEM\020\002B\036\n\013com.rwprotoB\017TargetSe",
+      "llProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2279,7 +2484,7 @@ public final class TargetSellProto {
           internal_static_TargetSell_TargetSellRespMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TargetSell_TargetSellRespMsg_descriptor,
-              new java.lang.String[] { "ReqType", "IsSuccess", "TipsMsg", });
+              new java.lang.String[] { "ReqType", "IsSuccess", "TipsMsg", "DataStr", });
           internal_static_TargetSell_UpdateBenefitScore_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_TargetSell_UpdateBenefitScore_fieldAccessorTable = new

@@ -12,7 +12,7 @@ public class TargetSellRoleChange {
 	public TargetSellRoleChange(String userId, long startTime) {
 		this.userId = userId;
 		this.startTime = startTime;
-		this.changeList = new ArrayList<String>();
+		this.changeList = new ArrayList<String>(5);
 	}
 
 	public String getUserId() {

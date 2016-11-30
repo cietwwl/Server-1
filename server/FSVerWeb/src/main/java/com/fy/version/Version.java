@@ -34,6 +34,8 @@ public class Version {
 	private String channel;
 
 	private int patch;//(资源更新)
+	
+	private String priority = "0";//(优先更新)
 
 	private String md5;
 
@@ -192,6 +194,14 @@ public class Version {
 		this.patchInstall = patchInstall;
 	}
 
+	public int getPriority() {
+		return Integer.parseInt(priority);
+	}
+
+	public void setPriority(String priority) {
+		this.priority = priority;
+	}
+
 	public boolean targetIsVerPatch(Version target) {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				&& target.patch > 0;
@@ -207,9 +217,13 @@ public class Version {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/;
 	}
 	
+	public boolean isMainVer(){
+		return this.main > 0 && this.sub == 0 && this.third == 0 && this.patch == 0;
+	}
+	
 	//是否最新版本
 	public boolean isLatestCompVer(Version target){
-		return StringUtils.equals(this.channel, target.channel) && this.main >= target.main /**&& this.sub >= target.sub && this.third >= target.third*/;
+		return StringUtils.equals(this.channel, target.channel) && this.main > target.main /**&& this.sub >= target.sub && this.third >= target.third*/;
 	}
 
 	// patch比较
@@ -218,9 +232,23 @@ public class Version {
 				&& this.patch == target.patch;
 	}
 	
+	public boolean isBigPath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/
+				&& this.patch > target.patch;
+	}
+	
 	public boolean isSameCodePath(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				/**&& this.patch == target.patch*/;
+	}
+	
+	public boolean isSamePath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
+				&& this.patch == target.patch;
+	}
+	
+	public boolean isBigCodePath(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third > target.third;
 	}
 	
 	public String getCurrentVersionNo() {
