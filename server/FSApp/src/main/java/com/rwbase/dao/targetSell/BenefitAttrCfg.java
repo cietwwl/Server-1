@@ -5,7 +5,7 @@ public class BenefitAttrCfg {
 	private String attrName;
 	private String param;
 	private int processType;
-	
+
 	public String getId() {
 		return id;
 	}
@@ -14,13 +14,17 @@ public class BenefitAttrCfg {
 		return attrName;
 	}
 
-
 	public String getParam() {
 		return param;
 	}
 
 	public int getProcessType() {
 		return processType;
+	}
+
+	@Override
+	public String toString() {
+		return "BenefitAttrCfg [id=" + id + ", attrName=" + attrName + ", param=" + param + ", processType=" + processType + "]";
 	}
 
 }

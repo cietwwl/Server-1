@@ -7,14 +7,11 @@ import io.netty.handler.codec.CorruptedFrameException;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.rw.fsutil.remote.parse.FSMessageDecoder;
 import com.rw.fsutil.remote.parse.FSMessagePrefix;
 
 public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
-	
-	private static Logger remoteMsgLogger = Logger.getLogger("remoteMsgLogger");
+
 	private final FSMessageDecoder<ReceiveMessage> decoder;
 	private final FSMessagePrefix prefix;
 	private final int prefixSize;
@@ -39,7 +36,7 @@ public class RemoteMessageDecoder<ReceiveMessage> extends ByteToMessageDecoder {
 		if (dataSize < 0 || dataSize > maxDataSize) {
 			byte[] data = new byte[in.readableBytes()];
 			in.readBytes(data);
-			remoteMsgLogger.warn("remote service decode error:"+new String(data));
+			System.out.println("error:"+new String(data));
 			throw new CorruptedFrameException("wrong size of packet ,size=" + dataSize);
 		}
 		if (in.readableBytes() < dataSize) {

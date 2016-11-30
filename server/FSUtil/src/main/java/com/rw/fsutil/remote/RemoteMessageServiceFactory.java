@@ -11,7 +11,6 @@ import com.rw.fsutil.remote.parse.FSMessageEncoder;
 import com.rw.fsutil.remote.parse.FSMessageExecutor;
 import com.rw.fsutil.util.DateUtils;
 
-
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class RemoteMessageServiceFactory {
 
@@ -28,14 +27,23 @@ public class RemoteMessageServiceFactory {
 					return;
 				}
 				StringBuilder sb = new StringBuilder();
-				sb.append(DateUtils.getddHHmmFormater().format(new Date())).append('\n');
+				int max = serviceMap.size();
+				int count = 0;
 				for (RemoteMessageService service : serviceMap.values()) {
 					int type = service.getType();
 					List<RemoteServiceSender> senders = service.getAllSenders();
+					sb.append("service type=").append(type).append(",availableCount=").append(service.getAvailableCount()).append(",unAvailableCount=").append(service.getUnAvailableCount()).append('[');
 					for (int i = 0, size = senders.size(); i < size; i++) {
 						RemoteServiceSender sender = senders.get(i);
-						sb.append("type=").append(type).append(",id=").append(sender.getUniqueId()).append(",currentCount=").append(sender.getCount());
-						sb.append(",success=").append(sender.getSendSuccessStatCount()).append(",fail=").append(sender.getSendFailStatCount()).append(",reject=").append(sender.getSendRejectStatCount()).append('\n');
+						sb.append("id=").append(sender.getUniqueId()).append(",currentCount=").append(sender.getCount());
+						sb.append(",success=").append(sender.getSendSuccessStatCount()).append(",fail=").append(sender.getSendFailStatCount()).append(",reject=").append(sender.getSendRejectStatCount());
+						if (i < (size - 1)) {
+							sb.append(';');
+						}
+					}
+					sb.append(']');
+					if (++count < max) {
+						sb.append('\n');
 					}
 				}
 				remoteMsgLogger.info(sb.toString());

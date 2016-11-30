@@ -18,6 +18,7 @@ message TargetSellRespMsg{
 	required RequestType reqType = 1;
 	required bool isSuccess = 2;//是否处理成功
 	optional string tipsMsg = 3;//提示消息
+	optional string dataStr = 4;//可领取的道具信息
 }
 
 //服务器通知客户端更新优惠积分
