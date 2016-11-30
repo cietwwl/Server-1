@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.teambattle.cfg.TBBuyCostCfg;
+import com.playerdata.teambattle.cfg.TBBuyCostCfgDAO;
 import com.playerdata.teambattle.cfg.TeamCfg;
 import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.data.TBTeamItem;
@@ -65,17 +67,22 @@ public class UserTeamBattleDataMgr {
 	 * 判断是否还有挑战次数
 	 * @param player
 	 * @param hardID 副本id
-	 * @param isChangeTimes 如果次数足够，是否更改挑战次数
 	 * @return
 	 */
-	public boolean haveFightTimes(Player player, String hardID, boolean isChangeTimes){
+	public boolean haveFightTimes(Player player, String hardID){
 		TeamCfg teamCfg = TeamCfgDAO.getInstance().getCfgById(hardID);
 		if(null == teamCfg) return false;
-		
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		if(null == utbData) return false;
 		TeamHardInfo thInfo = utbData.getFinishedHardMap().get(hardID);
 		if(null == thInfo) return true;
-		return true;
+		int totalTimes = teamCfg.getTimes();
+		for(int i = 1; i <= thInfo.getBuyTimes(); i++){
+			String buyId = hardID + "_" + i;
+			TBBuyCostCfg buyCfg = TBBuyCostCfgDAO.getInstance().getCfgById(hardID + "_" + buyId);
+			if(null == buyCfg) continue;
+			totalTimes += buyCfg.getNumbers();
+		}
+		return thInfo.getFinishTimes() < totalTimes;
 	}
 }

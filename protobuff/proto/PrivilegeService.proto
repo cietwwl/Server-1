@@ -50,6 +50,7 @@ enum PvePrivilegeNames {
      expResetCnt = 9; // 炼气山谷可重置次数
      survivalTimeDec = 10; // 生存幻境挑战cd减少x秒
      survivalResetCnt = 11; // 生存幻境可重置次数
+     teamBattleTimes = 12;	// 购买心魔录次数
 }
 
 enum GroupPrivilegeNames {
