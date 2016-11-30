@@ -12,6 +12,7 @@ public enum FSHourTaskType {
 	private FSHourTaskType(Class<? extends IGameTimerTask> pClassOfTask, int pIntervalHour, boolean pIsFixed) {
 		this._classOfTask = pClassOfTask;
 		this._intervalHours = pIntervalHour;
+		this._isFixed = pIsFixed;
 	}
 	
 	public Class<? extends IGameTimerTask> getClassOfTask() {

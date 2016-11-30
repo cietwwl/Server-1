@@ -97,8 +97,6 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 	
 	}
 
-	
-
 	public List<ActivityVitalityTypeSubItem> newItemList(int day,ActivityVitalityCfg cfg) {
 		List<ActivityVitalityTypeSubItem> subItemList = null;
 		List<ActivityVitalitySubCfg> allsubCfgList = ActivityVitalitySubCfgDAO.getInstance().getAllCfg();
@@ -150,7 +148,6 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return subItemList;
 	}
 	
-
 	public List<ActivityVitalityTypeSubBoxItem> newBoxItemList(int day,ActivityVitalityCfg cfg) {
 		List<ActivityVitalityTypeSubBoxItem> subItemList = null;
 		List<ActivityVitalityRewardCfg> allsubCfgList = ActivityVitalityRewardCfgDAO.getInstance().getAllCfg();
@@ -207,9 +204,6 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		return subItemList;
 	}
 
-
-	
-
 	public ActivityVitalityCfg getCfgByItemOfVersion(ActivityVitalityTypeItem item) {
 		List<ActivityVitalityCfg> openCfgList = new ArrayList<ActivityVitalityCfg>();
 		ActivityVitalityTypeMgr activityVitalityTypeMgr = ActivityVitalityTypeMgr.getInstance();
@@ -241,5 +235,4 @@ public final class ActivityVitalityCfgDAO extends CfgCsvDao<ActivityVitalityCfg>
 		}
 		return cfgList;		
 	}
-
 }

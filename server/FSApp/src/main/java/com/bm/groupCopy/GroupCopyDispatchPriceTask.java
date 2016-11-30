@@ -22,6 +22,7 @@ public class GroupCopyDispatchPriceTask implements IGameTimerTask{
 
 	@Override
 	public Object onTimeSignal(FSGameTimeSignal timeSignal) throws Exception {
+//		System.err.println("+++++++++++++++进行帮派副本战利品分配");
 		GroupCopyMailHelper.getInstance().dispatchGroupWarPrice();
 		return null;
 	}
@@ -38,7 +39,7 @@ public class GroupCopyDispatchPriceTask implements IGameTimerTask{
 
 	@Override
 	public boolean isContinue() {
-		return false;
+		return true;
 	}
 
 	@Override

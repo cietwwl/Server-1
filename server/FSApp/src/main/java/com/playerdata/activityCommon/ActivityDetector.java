@@ -38,7 +38,7 @@ public class ActivityDetector {
 			if (null != actCfgs && !actCfgs.isEmpty()) {
 				for (ActivityCfgIF cfg : actCfgs) {
 					if (isActive(cfg)) {
-						currentSubMap.put(String.valueOf(cfg.getId()), cfg);
+						currentSubMap.put(String.valueOf(cfg.getCfgId()), cfg);
 					}
 				}
 			}
@@ -61,10 +61,20 @@ public class ActivityDetector {
 		return null != subMap && !subMap.isEmpty();
 	}
 
-	public boolean containsActivity(ActivityType type, String cfgId) {
+	public boolean containsActivityByCfgId(ActivityType type, String cfgId) {
 		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
 		if(null == subMap || subMap.isEmpty()) return false;
 		return subMap.containsKey(cfgId);
+	}
+	
+	public boolean containsActivityByActId(ActivityType type, String actId) {
+		int id = Integer.valueOf(actId);
+		HashMap<String, ? extends ActivityCfgIF> subMap = activityMap.get(type.getTypeId());
+		if(null == subMap || subMap.isEmpty()) return false;
+		for(ActivityCfgIF cfg : subMap.values()){
+			if(id == cfg.getId()) return true;
+		}
+		return false;
 	}
 
 	/**

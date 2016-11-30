@@ -1,13 +1,14 @@
 package com.playerdata.activity.countType.cfg;
 
+import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 
-public class ActivityCountTypeSubCfg {
 
-	private String id;
+public class ActivityCountTypeSubCfg implements ActivitySubCfgIF{
+
+	private int id;
 	
 	//所属活动配置id
 	private String parentCfg;
-	
 	
 	//计数
 	private int awardCount;
@@ -16,35 +17,36 @@ public class ActivityCountTypeSubCfg {
 
 	private String emailTitle;
 	
-	
-	
 	public String getEmailTitle() {
 		return emailTitle;
 	}
+	
 	public void setEmailTitle(String emailTitle) {
 		this.emailTitle = emailTitle;
 	}
-	public String getId() {
+	
+	public int getId() {
 		return id;
 	}
 	public String getParentCfg() {
 		return parentCfg;
 	}
 	
-	public void setParentCfg(String parentCfg) {
-		this.parentCfg = parentCfg;
-	}
-	
 	public int getAwardCount() {
 		return awardCount;
 	}
+	
 	public String getAwardGift() {
 		return awardGift;
 	}
-
-
 	
+	@Override
+	public String getDay() {
+		return "1";
+	}
 	
-	
-	
+	@Override
+	public int getType() {
+		return Integer.parseInt(parentCfg);
+	}
 }

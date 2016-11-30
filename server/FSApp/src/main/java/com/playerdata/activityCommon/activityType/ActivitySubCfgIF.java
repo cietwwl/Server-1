@@ -6,6 +6,10 @@ public interface ActivitySubCfgIF {
 	
 	String getDay();
 	
+	/**
+	 * 父类型id（主表的配置id）
+	 * @return
+	 */
 	int getType();
 	
 }

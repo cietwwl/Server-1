@@ -2,6 +2,7 @@ syntax = "proto2";
 option java_package = "com.rwproto";
 option java_outer_classname = "GroupCompetitionProto";
 import "FashionService.proto";
+import "TeamBattle.proto";
 
 package groupCompetition;
 
@@ -39,6 +40,10 @@ enum GCRequestType{
 	InPrepareArea = 30;		//加载完了备战区
 	GetNewestScore = 31; // 请求当前最新的积分
 	GetFightInfoInScene = 32;	//在同屏场景内请求积分、连胜等信息
+	AllTeamData = 33; // 所有的队伍信息
+	RandomJoinTeam = 34; // 随机加入队伍
+	JoinTeam = 35; // 加入指定队伍
+	RefreshTeams = 36; // 属性所有队伍数据
 }
 
 enum TeamStatusType {
@@ -289,4 +294,27 @@ message EventsResult {
 message GroupScoreData {
 	required string groupId = 1; // 帮派id
 	required fixed32 score = 2; // 积分
+}
+
+message GroupCompetitionTeamDataReq {
+	required GCRequestType requestType = 1; // 请求类型（）
+	optional string teamId = 2; // 队伍的id
+}
+
+message GroupCompetitionTeamDataResp {
+	required GCRequestType requestType = 1; // 请求的类型
+	required GCResultType resultType = 2; // 请求的结果类型
+	optional string tips = 3; // 提示信息
+	repeated GroupCompetitionTeam allTeams = 4; // 所有的队伍信息
+}
+
+message GroupCompetitionTeam {
+	required string teamId = 1; // 队伍的id
+	repeated GroupCompetitionTeamMember members = 2; // 队伍的成员
+}
+
+message GroupCompetitionTeamMember {
+	required string userName = 1;
+	required string playerHeadImage = 2;
+	repeated teamBattle.HeroSimple heros = 3;	//第一个位置放主角的
 }

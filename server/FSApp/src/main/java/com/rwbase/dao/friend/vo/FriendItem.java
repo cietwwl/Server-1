@@ -1,13 +1,17 @@
 package com.rwbase.dao.friend.vo;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.readonly.FriendItemIF;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.user.readonly.TableUserIF;
 import com.rwbase.dao.user.readonly.TableUserOtherIF;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class FriendItem implements FriendItemIF {
 	private String userId;
 	private String userName;
@@ -20,43 +24,7 @@ public class FriendItem implements FriendItemIF {
 	private int fighting;
 	private int vip;
 	private int sex;
-
-	public static FriendItem newInstance(String userId) {
-		Player player = PlayerMgr.getInstance().find(userId);
-		FriendItem newItem = new FriendItem();
-		if (player == null) {
-			return newItem;
-		}
-
-		TableUserIF tableUser = player.getTableUser();
-		if (tableUser == null) {
-			return newItem;
-		}
-
-		Hero mainRoleHero = player.getMainRoleHero();
-		if (mainRoleHero == null) {
-			return newItem;
-		}
-
-		TableUserOtherIF tableUserOther = player.getTableUserOther();
-		if (tableUserOther == null) {
-			return newItem;
-		}
-
-		newItem.setUserId(tableUser.getUserId());
-		newItem.setUserName(tableUser.getUserName());
-		newItem.setLevel(tableUser.getLevel());
-		newItem.setUserHead(tableUser.getHeadImageWithDefault());
-		newItem.setCareer(mainRoleHero.getCareerType());
-		newItem.setLastLoginTime(tableUser.getLastLoginTime());
-		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
-		//TODO 帮派获取名字后再提供
-		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
-		newItem.setFighting(player.getHeroMgr().getFightingAll(player));
-		newItem.setVip(player.getVip());
-		newItem.setSex(player.getSex());
-		return newItem;
-	}
+	private long createTime;
 
 	public String getUserId() {
 		return userId;
@@ -145,4 +113,13 @@ public class FriendItem implements FriendItemIF {
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
+
+	public long getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(long createTime) {
+		this.createTime = createTime;
+	}
+	
 }

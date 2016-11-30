@@ -35,14 +35,15 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 	 * @param count
 	 */
 	public void addFinishCount(Player player, int count) {
-		List<ActivityDailyRechargeTypeItem> items = ActivityDailyRechargeTypeItemHolder.getInstance().getItemList(player.getUserId());
+		ActivityDailyRechargeTypeItemHolder holder = ActivityDailyRechargeTypeItemHolder.getInstance();
+		List<ActivityDailyRechargeTypeItem> items = holder.getItemList(player.getUserId());
 		if (null == items || items.isEmpty())
 			return;
 		for (ActivityDailyRechargeTypeItem item : items) {
 			item.setFinishCount(item.getFinishCount() + count);
-			ActivityDailyRechargeTypeItemHolder.getInstance().updateItem(player, item);
+			holder.updateItem(player, item);
 		}
-		ActivityDailyRechargeTypeItemHolder.getInstance().synAllData(player);
+		holder.synAllData(player);
 	}
 	
 	/**
@@ -62,7 +63,7 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 			result.setReason("活动尚未开启");
 		} else {
 			ActivityDailyRechargeTypeSubItem targetItem = null;
-			List<ActivityDailyRechargeTypeSubItem> subItemList = (List<ActivityDailyRechargeTypeSubItem>) dataItem.getSubItemList();
+			List<ActivityDailyRechargeTypeSubItem> subItemList = dataItem.getSubItemList();
 			for (ActivityDailyRechargeTypeSubItem itemTmp : subItemList) {
 				if (StringUtils.equals(itemTmp.getCfgId(), subItemId)) {
 					targetItem = itemTmp;
@@ -119,7 +120,7 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 	 */
 	@Override
 	public void expireActivityHandler(Player player, ActivityDailyRechargeTypeItem item) {
-		List<ActivityDailyRechargeTypeSubItem> subItems = (List<ActivityDailyRechargeTypeSubItem>) item.getSubItemList();
+		List<ActivityDailyRechargeTypeSubItem> subItems = item.getSubItemList();
 		ActivityDailyChargeCfg cfg = ActivityDailyChargeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		if (isLevelEnough(player, cfg)) {
 			ActivityDailyChargeSubCfgDAO chargeSubCfgDAO = ActivityDailyChargeSubCfgDAO.getInstance();
@@ -141,7 +142,7 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 	protected List<String> checkRedPoint(Player player, ActivityDailyRechargeTypeItem item) {
 		List<String> redPointList = new ArrayList<String>();
 		ActivityDailyChargeSubCfgDAO subCfgDao = ActivityDailyChargeSubCfgDAO.getInstance();
-		List<ActivityDailyRechargeTypeSubItem> subItems = (List<ActivityDailyRechargeTypeSubItem>) item.getSubItemList();
+		List<ActivityDailyRechargeTypeSubItem> subItems = item.getSubItemList();
 		for (ActivityDailyRechargeTypeSubItem subItem : subItems) {
 			ActivityDailyChargeSubCfg subCfg = subCfgDao.getCfgById(subItem.getCfgId());
 			if (null == subCfg)

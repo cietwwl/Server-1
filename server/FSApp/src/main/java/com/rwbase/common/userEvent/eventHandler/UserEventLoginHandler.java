@@ -10,7 +10,8 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
+import com.playerdata.activityCommon.ActivityDetector;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
@@ -27,11 +28,9 @@ public class UserEventLoginHandler implements IUserEventHandler {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				if (!ActivityCountTypeCfgDAO.getInstance().isOpen(
-						ActivityCountTypeEnum.Login)) {
+				if(!ActivityDetector.getInstance().containsActivityByActId(ActivityTypeFactory.CountType, ActivityCountTypeEnum.Login.getCfgId())){
 					return;
 				}
-
 				/** 登陆是否隔天;如果不加between则必须保证dataitem会在结束时立刻移出 */
 				boolean isnewday = false;
 				if (StringUtils.equals(params + "", "0")) {// 没有活动的登陆数据，首次登陆

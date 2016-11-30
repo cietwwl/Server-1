@@ -75,6 +75,7 @@ public enum RedPointType {
 	//========================帮派秘境
 	GROUP_SECRET_ADVENTURE, // 帮派秘境可探索
 	GROUP_SECRET_ROB, // 帮派秘境可掠夺
+	EVIL_BAO_ARRIVE,
 	;
 
 	private RedPointType() {

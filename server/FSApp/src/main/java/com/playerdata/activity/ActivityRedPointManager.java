@@ -48,7 +48,7 @@ public class ActivityRedPointManager {
 		boolean issucce = false;
 		int tmp = Integer.parseInt(str);
 		ActivityMgrHelper.getInstance().updateRedPoint(player, str);
-		if(tmp < 150000 && tmp > 0){
+		if(tmp < 170000 && tmp > 0){
 			issucce = true;
 		}
 		if (tmp < 10000 && tmp > 0) {

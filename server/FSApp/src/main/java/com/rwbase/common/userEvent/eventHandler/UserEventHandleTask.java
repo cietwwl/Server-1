@@ -5,7 +5,6 @@ import com.playerdata.Player;
 
 public abstract class UserEventHandleTask {
 
-	
 	public void doWrapAction(Player player, Object params){
 		try {
 			doAction(player, params);

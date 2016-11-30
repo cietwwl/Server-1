@@ -8,9 +8,10 @@ import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.countType.ActivityCountTypeEnum;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
-import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activityCommon.ActivityDetector;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.rwbase.common.userEvent.IUserEventHandler;
 
 public class UserEventBattleTowerHandler implements IUserEventHandler {
@@ -26,13 +27,10 @@ public class UserEventBattleTowerHandler implements IUserEventHandler {
 			@Override
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
-				if (!ActivityCountTypeCfgDAO.getInstance()
-						.isOpenAndLevelEnough(player.getLevel(),
-								ActivityCountTypeEnum.BattleTower)) {
+				if(!ActivityDetector.getInstance().containsActivityByActId(ActivityTypeFactory.CountType, ActivityCountTypeEnum.BattleTower.getCfgId())){
 					return;
 				}
-				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder
-						.getInstance();
+				ActivityCountTypeItemHolder dataHolder = ActivityCountTypeItemHolder.getInstance();
 				ActivityCountTypeItem dataItem = dataHolder.getItem(
 						player.getUserId(), ActivityCountTypeEnum.BattleTower);
 				// 试练塔存在每日刷新，需要判断传入的最高层是否低于奖励表的最高层
