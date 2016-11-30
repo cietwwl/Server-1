@@ -9,6 +9,7 @@ import com.bm.worldBoss.data.WBState;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.ServerSwitch;
 
 class WBFinishState implements  IwbState{
 
@@ -57,7 +58,10 @@ class WBFinishState implements  IwbState{
 			wbData.setState(state);
 			WBDataHolder.getInstance().update();
 
-			WBMgr.getInstance().adjustBossLevel();
+			//如果是在关闭状态，则不调整boss等级
+			if(ServerSwitch.isOpenWorldBoss()){
+				WBMgr.getInstance().adjustBossLevel();
+			}
 		}
 		
 		
