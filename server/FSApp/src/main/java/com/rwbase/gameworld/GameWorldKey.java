@@ -80,6 +80,10 @@ public enum GameWorldKey {
 	 */
 	GROUP_COMPETITION_SCORE_RANKING("GROUP_COMPETITION_SCORE_RANKING"),
 	/**
+	 * 帮派争霸：首次启动的参考时间
+	 */
+	GROUP_COMPETITION_REFERENCE_TIME("GROUP_COMPETITION_REFERENCE_TIME"),
+	/**
 	 * 成长基金数据
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
@@ -129,6 +133,10 @@ public enum GameWorldKey {
 	 * 活动:招财猫
 	 */
 	ACTIVITY_FORTUNECAT("ACTIVITY_FORTUNECAT"),
+	/**
+	 * 热更记录
+	 */
+	HOTFIX_HISTORY("HOTFIX_HISTORY"),
 	;
 	
 

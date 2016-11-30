@@ -1,16 +1,12 @@
 package com.playerdata.groupcompetition;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.bm.login.ZoneBM;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.playerdata.Player;
 import com.playerdata.groupcompetition.data.IGCompStage;
@@ -37,15 +33,14 @@ import com.playerdata.groupcompetition.util.GCompUpdateGroupInfoTask;
 import com.playerdata.groupcompetition.util.GCompUtil;
 import com.rw.fsutil.common.IReadOnlyPair;
 import com.rw.fsutil.common.Pair;
-import com.rw.manager.GameManager;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageCfgDAO;
 import com.rwbase.dao.groupcompetition.GroupCompetitionStageControlCfgDAO;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
-import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.GameWorldKey;
 
 /**
  * 
@@ -66,26 +61,37 @@ public class GroupCompetitionMgr {
 	
 	private GroupCompetitionDataHolder _dataHolder = GroupCompetitionDataHolder.getInstance();
 	private final AtomicInteger _againstIdGenerator = new AtomicInteger();
-	private static final SimpleDateFormat _FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
+//	private static final SimpleDateFormat _FORMATTER = new SimpleDateFormat("yyyy-MM-dd");
 	
-	private long getServerStartTime() {
-		Calendar instance = Calendar.getInstance();
-//		instance.add(Calendar.WEEK_OF_YEAR, -3);
-//		instance.set(Calendar.HOUR_OF_DAY, 11);
-//		instance.set(Calendar.MINUTE, 0);
-		TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(GameManager.getZoneId());
-		if(zoneInfo == null){
-			System.out.println("---------------zoneInfo is null. zoneId:" + GameManager.getZoneId());
+//	private long getServerStartTime() {
+//		Calendar instance = Calendar.getInstance();
+////		instance.add(Calendar.WEEK_OF_YEAR, -3);
+////		instance.set(Calendar.HOUR_OF_DAY, 11);
+////		instance.set(Calendar.MINUTE, 0);
+//		TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(GameManager.getZoneId());
+//		if(zoneInfo == null){
+//			System.out.println("---------------zoneInfo is null. zoneId:" + GameManager.getZoneId());
+//		}
+//		try {
+//			Date date = _FORMATTER.parse(zoneInfo.getOpenTime());
+//			instance.setTime(date);
+//			instance.set(Calendar.HOUR_OF_DAY, 10);
+//			instance.set(Calendar.MINUTE, 0);
+//		} catch (Exception e) {
+//			throw new IllegalArgumentException("开服时间不正确：" + zoneInfo.getOpenTime());
+//		}
+//		return instance.getTimeInMillis();
+//	}
+	
+	private long getFirstStartReferenceTime() {
+		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.GROUP_COMPETITION_REFERENCE_TIME);
+		if (attribute != null && attribute.length() > 0) {
+			return Long.parseLong(attribute);
+		} else {
+			long timeMillis = System.currentTimeMillis();
+			GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.GROUP_COMPETITION_REFERENCE_TIME, String.valueOf(timeMillis));
+			return timeMillis;
 		}
-		try {
-			Date date = _FORMATTER.parse(zoneInfo.getOpenTime());
-			instance.setTime(date);
-			instance.set(Calendar.HOUR_OF_DAY, 10);
-			instance.set(Calendar.MINUTE, 0);
-		} catch (Exception e) {
-			throw new IllegalArgumentException("开服时间不正确：" + zoneInfo.getOpenTime());
-		}
-		return instance.getTimeInMillis();
 	}
 	
 	private List<IGCompStage> getStageList(GCompStartType startType) {
@@ -270,7 +276,7 @@ public class GroupCompetitionMgr {
 //			this.continueOldSelectionStageController(data); // 测试：现在先默认重新开始
 		} else {
 			// 没有举办过
-			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, this.getServerStartTime(), 0);
+			this.startStageController(GCompStartType.SERVER_TIME_OFFSET, this.getFirstStartReferenceTime(), 0);
 		}
 	}
 	
@@ -358,6 +364,46 @@ public class GroupCompetitionMgr {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 
+	 * 判断帮派是有参与本届赛事
+	 * 
+	 * @param groupId
+	 * @return
+	 */
+	public boolean isGroupInCompetition(String groupId) {
+		GCompStageType currentStageType = this.getCurrentStageType();
+		if(currentStageType == null) {
+			return false;
+		}
+		switch (currentStageType) {
+		case SELECTION:
+			long endTime = this.getEndTimeOfSelection();
+			if (endTime > 0 && endTime < System.currentTimeMillis()) {
+				return GCompHistoryDataMgr.getInstance().getSelectedGroupIds().contains(groupId);
+			}
+			break;
+		case EVENTS:
+			GCompEventsRecord record = _dataHolder.get().getCurrentEventsRecord();
+			GCEventsType eventsType = record.getCurrentEventsType();
+			List<String> groupIds = null;
+			if (record.isCurrentTypeFinished()) {
+				if (eventsType == GCEventsType.FINAL) {
+					return false;
+				}
+//				groupIds = record.getRelativeGroupIds(eventsType.getNext());
+				GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(eventsType.getNext());
+				groupIds = eventsData.getRelativeGroupIds();
+			} else {
+				groupIds = record.getRelativeGroupIds(eventsType);
+			}
+			return groupIds.contains(groupId);
+		default:
+			break;
+		}
+		return false;
 	}
 	
 	/**

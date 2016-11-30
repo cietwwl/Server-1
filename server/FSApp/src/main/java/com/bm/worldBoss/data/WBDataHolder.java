@@ -40,6 +40,7 @@ public class WBDataHolder {
 			
 			WBData wbData = get();
 			if (wbData != null) {
+				//System.out.println("syn world boss data, boss hp:" + wbData.getCurLife() +", version:" + version.get());
 				ClientDataSynMgr.synData(player, wbData, synType, eSynOpType.UPDATE_SINGLE,version.get());
 			} else {
 				GameLog.error("WBDataHolder", "#syn()", "find wbData fail");
@@ -88,10 +89,8 @@ public class WBDataHolder {
 			data.setPosition(position);
 			data.setMaxLife(maxLife);
 			data.setCurLife(maxLife);	
-			data.setRankBossHP(maxLife);
-			//data.setMaxLife(500000);
-			//data.setCurLife(500000);	
-			//data.setRankBossHP(500000);
+//			data.setMaxLife(500000);
+//			data.setCurLife(500000);	
 			data.setPreStartTime(wbCfg.getPreStartTime());
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
