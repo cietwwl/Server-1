@@ -29,7 +29,7 @@ public class AchieveMagicUpgradLv implements AbsAchieveAttrValue {
 		List<ItemData> list = ItemBagMgr.getInstance().getItemListByType(player.getUserId(), EItemTypeDef.Magic);
 		for (ItemData data : list) {
 			MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(data.getModelId());
-			if (magicCfg.getMagicType() == magicType && data.getMagicAdvanceLevel() > currLv) {
+			if (magicCfg.getType() == magicType && data.getMagicAdvanceLevel() > currLv) {
 				currLv = data.getMagicAdvanceLevel();
 			}
 		}
@@ -39,7 +39,6 @@ public class AchieveMagicUpgradLv implements AbsAchieveAttrValue {
 
 	@Override
 	public void addHeroAttrs(String userID, String heroID, EAchieveType change, TargetSellRoleChange value) {
-		// TODO Auto-generated method stub
 
 	}
 
