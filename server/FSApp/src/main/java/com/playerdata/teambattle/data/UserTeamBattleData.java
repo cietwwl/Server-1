@@ -10,6 +10,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
+import com.playerdata.teambattle.cfg.TeamCfg;
+import com.playerdata.teambattle.cfg.TeamCfgDAO;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
@@ -139,6 +141,13 @@ public class UserTeamBattleData {
 		enimyMap = null;
 		finishedLoops.clear();
 		finishedHardMap.clear();
+		List<TeamCfg> teamCfgs = TeamCfgDAO.getInstance().getAllCfg();
+		for(TeamCfg cfg : teamCfgs){
+			TeamHardInfo hardInfo = new TeamHardInfo();
+			hardInfo.setHardID(cfg.getId());
+			hardInfo.setBuyTimes(0);
+			hardInfo.setFinishTimes(0);
+		}
 		teamID = null;
 	}
 }
