@@ -164,9 +164,10 @@ public final class AngleArrayMatchHelper {
 
 			int teamFighting = 0;
 			List<Integer> heroModelIdList = new ArrayList<Integer>();
+			PlayerIF readOnlyPlayer = null;
 			if (teamInfo == null) {// 阵容信息为空
 				TableArenaData arenaData = ArenaBM.getInstance().getArenaData(ranResult);
-				PlayerIF readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
+				readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
 				if (arenaData != null) {
 					// 先找攻击阵容<模版Id>
 					List<String> atkHeroList = arenaData.getAtkList();// 阵容信息
@@ -241,10 +242,14 @@ public final class AngleArrayMatchHelper {
 			}
 
 			if (fit) {// 正好满足条件
-				if (!hasTeam) {
-					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
+				if (teamInfo != null) {
+					finalTeamInfo = teamInfo;
 				} else {
-					finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId, new BuildRoleInfo(ranResult, playerName, headId, groupName, career, heroModelIdList), true);
+					if (!hasTeam) {
+						finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
+					} else {
+						finalTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
+					}
 				}
 			} else {
 				if (!hasTeam) {
@@ -279,8 +284,8 @@ public final class AngleArrayMatchHelper {
 				(finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
 
 		AngelArrayTeamInfoData angelArrayTeamInfoData = new AngelArrayTeamInfoData();
-		int saveMinFighting = (int) (matchFighting * (1 - AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_LOW_RATE));
-		int saveMaxFighting = (int) (matchFighting * (1 + AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_HIGH_RATE));
+		int saveMinFighting = (int) (minFighting * (1 - AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_LOW_RATE));
+		int saveMaxFighting = (int) (maxFighting * (1 + AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_HIGH_RATE));
 
 		angelArrayTeamInfoData.setMinFighting(saveMinFighting);
 		angelArrayTeamInfoData.setMaxFighting(saveMaxFighting);

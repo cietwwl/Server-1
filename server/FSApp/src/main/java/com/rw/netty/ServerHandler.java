@@ -68,7 +68,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 				long current = System.currentTimeMillis();
 				if (current - session.getLastRecvMsgMillis() > UserChannelMgr.RECONNECT_TIME) {
 					ctx.close();
-					GameLog.info("session idle", ctx.channel().remoteAddress().toString(), "session has not command:" + UserChannelMgr.getCtxInfo(ctx));
+					GameLog.info("session idle", ctx.channel().remoteAddress().toString(), "idle timeout:" + UserChannelMgr.getCtxInfo(ctx));
 				}
 			}
 		}

@@ -5,6 +5,8 @@ import io.netty.channel.ChannelHandlerContext;
 import org.apache.commons.lang3.StringUtils;
 
 import com.common.HPCUtil;
+import com.log.FSTraceLogger;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.dataaccess.GameOperationFactory;
@@ -12,6 +14,7 @@ import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rw.manager.GameManager;
+import com.rw.netty.UserChannelMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
@@ -39,6 +42,7 @@ public class PlayerCreateTask implements Runnable {
 	private final RequestHeader header;
 	private final ChannelHandlerContext ctx;
 	private final IdentityIdGenerator generator;
+	private final long submitTime;
 
 	public PlayerCreateTask(GameLoginRequest request, RequestHeader header, ChannelHandlerContext ctx, IdentityIdGenerator generator) {
 		super();
@@ -46,15 +50,23 @@ public class PlayerCreateTask implements Runnable {
 		this.header = header;
 		this.ctx = ctx;
 		this.generator = generator;
+		this.submitTime = System.currentTimeMillis();
 	}
 
 	@Override
 	public void run() {
+		if(!this.ctx.channel().isActive()){
+			GameLog.error("PlayerCreateTask", request.getAccountId(), "create player fail by disconnect:"+UserChannelMgr.getCtxInfo(ctx));
+			return;
+		}
+		long executeTime = System.currentTimeMillis();
+		int seqID = header.getSeqID();
 		String nick = request.getNick();
 		int sex = request.getSex();
 		final int zoneId = request.getZoneId();
 		final String accountId = request.getAccountId();
 		String userId = nettyControler.getGameLoginHandler().getUserId(accountId, zoneId);
+		FSTraceLogger.logger("run(" + (executeTime - submitTime)+", CREATE ," + seqID  + ")[" + accountId  +"]"+((userId == null)?"":userId));
 		GameWorld world = GameWorldFactory.getGameWorld();
 		if (userId != null) {
 			// author: lida 增加容错 如果已经创建角色则进入主城
@@ -114,8 +126,7 @@ public class PlayerCreateTask implements Runnable {
 		GameOperationFactory.getCreatedOperation().execute(param);
 		
 		//临时做法
-		DropRecord record = new DropRecord();
-		record.setUserId(userId);
+		DropRecord record = new DropRecord(userId);
 		DropRecordDAO.getInstance().update(record);
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		player.setZoneLoginInfo(zoneLoginInfo);
@@ -129,6 +140,7 @@ public class PlayerCreateTask implements Runnable {
 //			}
 //		});
 		world.asyncExecute(userId, new PlayerLoginTask(ctx, header, request,false));
+		FSTraceLogger.logger("login(" + (System.currentTimeMillis() - executeTime)+", CREATE ," + seqID  + ")[" + accountId  +"]");
 	}
 
 	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {

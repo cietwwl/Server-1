@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
@@ -15,7 +14,6 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwproto.GroupCopyBattleProto;
-import com.rwproto.GroupCopyBattleProto.CopyBattleRoleStruct;
 import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComReqMsg;
 import com.rwproto.GroupCopyBattleProto.GroupCopyBattleComRspMsg;
@@ -50,7 +48,7 @@ public class GroupCopyBattleHandler {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.FIGHT_BEGIN);	
 	
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
 			String levelID = req.getLevel();
@@ -99,7 +97,7 @@ public class GroupCopyBattleHandler {
 		}
 		
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		
 		boolean success = false;
 		if(group!=null){
@@ -130,7 +128,7 @@ public class GroupCopyBattleHandler {
 		GroupCopyBattleComRspMsg.Builder commonRsp = GroupCopyBattleComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.ENTER_APPLY);
 		String level = req.getLevel();
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		commonRsp.setIsSuccess(false);
 		if(group!=null){
 			group.getGroupCopyMgr().applyEnterCopy(player, level,commonRsp);
@@ -156,7 +154,7 @@ public class GroupCopyBattleHandler {
 		
 		
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
 			GroupCopyResult result = group.getGroupCopyMgr().endFight(player, levelID, null, null);

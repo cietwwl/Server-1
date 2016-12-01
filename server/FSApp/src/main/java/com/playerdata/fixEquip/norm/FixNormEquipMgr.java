@@ -164,7 +164,7 @@ public class FixNormEquipMgr {
 			FixEquipCfg fixEquipCfg = FixEquipCfgDAO.getInstance().getCfgById(dataItem.getCfgId());
 			int curLevel = dataItem.getLevel();
 			
-			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), curLevel);
+			FixNormEquipQualityCfg curQualityCfg = FixNormEquipQualityCfgDAO.getInstance().getByPlanIdAndQuality(fixEquipCfg.getQualityPlanId(), dataItem.getQuality());
 			int nextQualityLevel = curQualityCfg.getLevelNeed();
 			if(curLevel < nextQualityLevel){				
 				

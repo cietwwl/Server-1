@@ -20,6 +20,7 @@ import org.codehaus.jackson.map.JsonDeserializer;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
+import com.log.GameLog;
 import com.rw.service.dropitem.DropResult;
 import com.rwbase.common.enu.eTaskFinishDef;
 
@@ -33,43 +34,26 @@ import com.rwbase.common.enu.eTaskFinishDef;
 @Table(name = "drop_record")
 public class DropRecord {
 
-	private static final String PRESENT = "1";
+	private static final Integer PRESENT = 1;
 	@Id
 	private String userId;
-	private ConcurrentHashMap<Integer, String> firstDropMap;
+	private ConcurrentHashMap<Integer, Integer> firstDropMap;
 	// key = DropRecordId
 	private ConcurrentHashMap<Integer, Integer> dropMissTimesMap;
 	// key = DropRuleId(只存在内存)
 	private ConcurrentHashMap<Integer, DropResult> pretreatMap;
-	
+
 	public DropRecord() {
-		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>();
-		this.firstDropMap = new ConcurrentHashMap<Integer, String>();
-		this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>();
+		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>(4, 1.0f, 2);
 	}
-	
-//	private class MapSerializer extends JsonSerializer<Map>{
-//
-//		@Override
-//		public void serialize(Map value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-//			ArrayList<String> list = new ArrayList<String>(value.size());
-//			for(Object o:value.keySet()){
-//				list.add(o.toString());
-//			}
-//			jgen.writeObject(list);
-//		}	
-//	}
-//	
-//	private class ListDeserializer extends JsonDeserializer<List>{
-//
-//		@Override
-//		public List deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-//			// TODO Auto-generated method stub
-//			return null;
-//		}
-//		
-//	}
-	
+
+	public DropRecord(String userId) {
+		this.userId = userId;
+		this.pretreatMap = new ConcurrentHashMap<Integer, DropResult>(4, 1.0f, 2);
+		this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(); 
+		this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(); 
+	}
+
 	@JsonIgnore
 	public int getDropRecordTimes(int dropRecordId) {
 		Integer times = dropMissTimesMap.get(dropRecordId);
@@ -138,12 +122,19 @@ public class DropRecord {
 		this.firstDropMap.put(dropRecordId, PRESENT);
 	}
 
-	public ConcurrentHashMap<Integer, String> getFirstDropMap() {
+	public ConcurrentHashMap<Integer, Integer> getFirstDropMap() {
 		return firstDropMap;
 	}
 
-	public void setFirstDropMap(ConcurrentHashMap<Integer, String> firstDropMap) {
-		this.firstDropMap = firstDropMap;
+	public void setFirstDropMap(ConcurrentHashMap<Integer, Integer> firstDropMap) {
+		if (firstDropMap == null) {
+			GameLog.error("DropRecord", userId, "firstDropMap is null");
+			this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(8, 0.9f, 2);
+		} else {
+			int size = firstDropMap.size();
+			this.firstDropMap = new ConcurrentHashMap<Integer, Integer>(size, 0.9f, 2);
+			this.firstDropMap.putAll(firstDropMap);
+		}
 	}
 
 	public ConcurrentHashMap<Integer, Integer> getDropMissTimesMap() {
@@ -151,7 +142,14 @@ public class DropRecord {
 	}
 
 	public void setDropMissTimesMap(ConcurrentHashMap<Integer, Integer> dropMissTimesMap) {
-		this.dropMissTimesMap = dropMissTimesMap;
+		if (dropMissTimesMap == null) {
+			GameLog.error("DropRecord", userId, "firstDropMap is null");
+			this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(8, 0.9f, 2);
+		} else {
+			int size = dropMissTimesMap.size();
+			this.dropMissTimesMap = new ConcurrentHashMap<Integer, Integer>(size, 0.9f, 2);
+			this.dropMissTimesMap.putAll(dropMissTimesMap);
+		}
 	}
 
 	public ConcurrentHashMap<Integer, Integer> getRecordMap() {

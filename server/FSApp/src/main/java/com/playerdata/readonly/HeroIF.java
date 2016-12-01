@@ -1,5 +1,8 @@
 package com.playerdata.readonly;
 
+import com.playerdata.InlayMgr;
+import com.playerdata.fixEquip.exp.FixExpEquipMgr;
+import com.playerdata.fixEquip.norm.FixNormEquipMgr;
 import com.rwbase.dao.hero.pojo.RoleBaseInfoIF;
 import com.rwbase.dao.role.pojo.RoleCfg;
 
@@ -79,4 +82,20 @@ public interface HeroIF {
 	// * @return
 	// */
 	// public ItemDataIF getMagic();
+
+	public int getStarLevel();
+
+	public boolean isMainRole();
+
+	public EquipMgrIF getEquipMgr();
+
+	public InlayMgr getInlayMgr();
+
+	public SkillMgrIF getSkillMgr();
+
+	public String getUUId();
+
+	public FixExpEquipMgr getFixExpEquipMgr();
+
+	public FixNormEquipMgr getFixNormEquipMgr();
 }

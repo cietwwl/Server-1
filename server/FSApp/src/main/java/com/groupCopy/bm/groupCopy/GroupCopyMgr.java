@@ -260,7 +260,7 @@ public class GroupCopyMgr {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		//发放帮派经验
-		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
 		
@@ -1029,11 +1029,14 @@ public class GroupCopyMgr {
 			public void run() {
 				//clear role apply war price data
 				List<CopyItemDropAndApplyRecord> daList = dropHolder.getItemList();
+				List<ApplyInfo> tempData = new ArrayList<ApplyInfo>();
 				for (CopyItemDropAndApplyRecord record : daList) {
 					Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 					boolean remove = false;
 					for (ItemDropAndApplyTemplate item : map.values()) {
-						for (ApplyInfo d : item.getApplyData()) {
+						tempData.clear();
+						tempData.addAll(item.getApplyData());
+						for (ApplyInfo d : tempData) {
 							if(d.getRoleID().equals(kickMemberId)){
 								remove = item.deleteApplyData(d);
 							}

@@ -1,10 +1,8 @@
 package com.groupCopy.rw.service.groupCopy;
 
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersion;
 import com.groupCopy.bm.groupCopy.GroupCopyDataVersionMgr;
-import com.groupCopy.bm.groupCopy.GroupCopyMgr;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwbase.dao.groupCopy.db.ServerGroupCopyDamageRecordMgr;
 import com.playerdata.Player;
@@ -29,7 +27,7 @@ public class GroupCopyCmdHandler {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.GET_INFO);
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group != null){
 			rspCmd.setIsSuccess(true);
 			GroupCopyDataVersionMgr.synAllDataByVersion(player, reqMsg.getVersion());
@@ -49,7 +47,7 @@ public class GroupCopyCmdHandler {
 	public ByteString getDropApplyInfo(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.GET_DROP_APPLY_INFO);
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group != null){
 			group.synGroupCopyDropApplyData(player, reqMsg.getId());
 			rspCmd.setIsSuccess(true);
@@ -62,7 +60,7 @@ public class GroupCopyCmdHandler {
 	public ByteString getServerRankInfo(Player player, GroupCopyCmdReqMsg reqMsg){
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.APPLY_SERVER_RANK);
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group != null){
 			GroupCopyDataVersion version = GroupCopyDataVersionMgr.fromJson(reqMsg.getVersion());
 			String id = reqMsg.getId();
@@ -85,7 +83,7 @@ public class GroupCopyCmdHandler {
 	public ByteString donateBuff(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.BUFF_DONATE);
-		Group g = GroupHelper.getGroup(player);
+		Group g = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(g != null){
 			GroupCopyResult suc = g.getGroupCopyMgr().donateBuff(player, g, reqMsg);
 			rspCmd.setIsSuccess(suc.isSuccess());
@@ -108,7 +106,7 @@ public class GroupCopyCmdHandler {
 	public ByteString getGroupDamageRank(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.BUFF_DONATE);
-		Group g = GroupHelper.getGroup(player);
+		Group g = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(g != null){
 			GroupCopyResult rs = g.getGroupCopyMgr().getDamageRank(player, g, reqMsg);
 			rspCmd.setIsSuccess(rs.isSuccess());
@@ -134,7 +132,7 @@ public class GroupCopyCmdHandler {
 	public ByteString cancelApplyItem(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.CANCEL_APPLY_ITEM);
-		Group g = GroupHelper.getGroup(player);
+		Group g = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(g != null){
 			GroupCopyResult result = g.getGroupCopyMgr().ApplyOrCancelItem(player, reqMsg, false);
 			rspCmd.setIsSuccess(result.isSuccess());
@@ -159,7 +157,7 @@ public class GroupCopyCmdHandler {
 	public ByteString applyWarPrice(Player player, GroupCopyCmdReqMsg reqMsg) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.APPLY_WAR_PRICE);
-		Group g = GroupHelper.getGroup(player);
+		Group g = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(g != null){
 			GroupCopyResult result = g.getGroupCopyMgr().ApplyOrCancelItem(player, reqMsg, true);
 			rspCmd.setIsSuccess(result.isSuccess());
@@ -183,7 +181,7 @@ public class GroupCopyCmdHandler {
 	public ByteString getDistRewardLog(Player player) {
 		GroupCopyCmdRspMsg.Builder rspCmd = GroupCopyCmdRspMsg.newBuilder();
 		rspCmd.setReqType(GroupCopyReqType.GET_DIST_REWARD_LOG);
-		Group g = GroupHelper.getGroup(player);
+		Group g = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(g != null){
 			g.getGroupCopyMgr().synRewardLogData(player);
 			rspCmd.setIsSuccess(true);
