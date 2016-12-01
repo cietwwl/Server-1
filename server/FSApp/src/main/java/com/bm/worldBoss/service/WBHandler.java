@@ -14,6 +14,8 @@ import com.bm.worldBoss.cfg.WBBuyBuffCfg;
 import com.bm.worldBoss.cfg.WBBuyBuffCfgDAO;
 import com.bm.worldBoss.cfg.WBSettingCfg;
 import com.bm.worldBoss.cfg.WBSettingCfgDAO;
+import com.bm.worldBoss.data.WBData;
+import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 import com.bm.worldBoss.data.WBUserData;
 import com.bm.worldBoss.data.WBUserDataDao;
@@ -136,7 +138,7 @@ public class WBHandler {
 
 	
 	private WBResult checkFightBegin(Player player ){
-		
+		WBData data = WBDataHolder.getInstance().get();
 		WBResult result = WBResult.newInstance(true);
 		WBState state = WBStateFSM.getInstance().getState();
 		if(state == WBState.PreStart){
@@ -145,6 +147,9 @@ public class WBHandler {
 		}else if(state == WBState.FightEnd || state == WBState.SendAward || state == WBState.Finish){
 			result.setSuccess(false);
 			result.setReason("活动已经结束。");
+		}else if(data == null || !data.isOpen()){
+			result.setSuccess(false);
+			result.setReason("活动暂时不开放。");
 		}
 		if(result.isSuccess()){
 			result = checkCD(player);

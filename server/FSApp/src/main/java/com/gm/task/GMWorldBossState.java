@@ -3,6 +3,9 @@ package com.gm.task;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.bm.worldBoss.data.WBData;
+import com.bm.worldBoss.data.WBDataHolder;
+import com.bm.worldBoss.data.WBState;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.rw.fsutil.log.GmLog;
@@ -46,6 +49,7 @@ public class GMWorldBossState implements IGmTask{
 				return response;
 			}
 			
+			resetWorldBossOpenState();
 			
 			reMap.put("result", "世界boss当前状态已为开启：" + ServerSwitch.isOpenWorldBoss());
 			response.setStatus(0);
@@ -57,9 +61,18 @@ public class GMWorldBossState implements IGmTask{
 		return response;
 	}
 
+	private void resetWorldBossOpenState(){
+		WBData data = WBDataHolder.getInstance().get();
+		if(data == null || data.getState() != WBState.NewBoss){
+			return;
+		}
+		data.setOpen(ServerSwitch.isOpenWorldBoss());
+		WBDataHolder.getInstance().update();
+	}
+	
 	private void recordResult(GmResponse response, HashMap<String, Object> resultMap, String key, String reason, Exception e) {
 		if (e != null) {
-			GmLog.error("屏蔽开启或打开RemoteMessage异常", e);
+			GmLog.error("屏蔽开启或打开世界boss异常", e);
 		}
 		resultMap.put(key, reason);
 		response.setCount(0);
