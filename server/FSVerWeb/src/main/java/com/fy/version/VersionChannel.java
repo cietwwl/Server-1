@@ -92,8 +92,7 @@ public class VersionChannel {
 				}
 				if(patchTmp.isBigPath(clientVersion)){
 					targetPatch = patchTmp;
-					takeNext = true;
-					continue;
+					break;
 				}
 			}
 			
@@ -164,7 +163,9 @@ public class VersionChannel {
 			}
 			
 		}
-		
+		if (targetPatch != null && targetPatch.getPriority() == 1) {
+			targetPatch = null;
+		}
 		return targetPatch;
 	}
 
