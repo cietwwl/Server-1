@@ -57,7 +57,7 @@ public class AchieveveHeroFixEquipUpgradStar implements AbsAchieveAttrValue{
 			List<HeroFixEquipInfo> fixSimpleInfo = FixExpEquipMgr.getInstance().getHeroFixSimpleInfo(hero.getId());
 			
 			for (int i = 0; i < fixSimpleInfo.size(); i++) {
-				HeroFixEquipInfo info = dataInfo.get(i);
+				HeroFixEquipInfo info = fixSimpleInfo.get(i);
 				if(info.getSlot() >= attrName.length){//这里做个容错
 					GameLog.error(LogModule.COMMON.getName(), "AchiveveHeroFixEquipUpgradStar", "精准营销获取角色的神器觉醒星级时出现问题，神器id:"
 							+info.getId()+"位置slot值为"+info.getSlot()+"，参数长度为"+ attrName.length, null);

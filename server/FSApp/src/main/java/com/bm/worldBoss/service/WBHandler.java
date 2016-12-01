@@ -147,7 +147,7 @@ public class WBHandler {
 		}else if(state == WBState.FightEnd || state == WBState.SendAward || state == WBState.Finish){
 			result.setSuccess(false);
 			result.setReason("活动已经结束。");
-		}else if(data == null || data.isOpen()){
+		}else if(data == null || !data.isOpen()){
 			result.setSuccess(false);
 			result.setReason("活动暂时不开放。");
 		}
