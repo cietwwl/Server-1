@@ -35,7 +35,6 @@ public class GFightOnlineResourceData {
 	private List<GFFightRecord> recordList = new ArrayList<GFFightRecord>();
 	
 	@CombineSave
-	@IgnoreSynField
 	private boolean ownerBidAble = false;
 	
 	@IgnoreSynField
