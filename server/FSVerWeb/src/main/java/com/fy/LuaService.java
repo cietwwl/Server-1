@@ -77,7 +77,7 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 				}else{
 					luaValidateResponse.setDownloadPath(AddressInfo.getInstance().getCdnDomain()+File.separator+channelLuaInfo.getLualocation());
 					luaValidateResponse.setBackupDownloadPath(AddressInfo.getInstance().getCdnBackUpDomain()+File.separator+channelLuaInfo.getLualocation());
-					luaValidateResponse.setDownloadSize(channelLuaInfo.getFilesize());
+					luaValidateResponse.setDownloadSize(channelLuaInfo.getLuasize());
 					luaValidateResponse.setMd5Value(channelLuaInfo.getLuamd5());
 					luaValidateResponse.setFileName(channelLuaInfo.getLuaFilesName());
 				}
