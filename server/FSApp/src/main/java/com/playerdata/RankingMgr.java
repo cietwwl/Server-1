@@ -49,7 +49,6 @@ import com.rw.service.PeakArena.datamodel.TablePeakArenaDataDAO;
 import com.rw.service.PeakArena.datamodel.TeamData;
 import com.rw.service.ranking.ERankingType;
 import com.rw.service.ranking.RankingGetOperation;
-import com.rwbase.common.enu.ECareer;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -468,9 +467,9 @@ public class RankingMgr {
 	 * @param type
 	 * @return
 	 */
-	public RankingLevelData getFirstRankingData(ECareer type) {
+	public RankingLevelData getFirstRankingData() {
 		try {
-			RankingEntry<?, ?> entry = getFirstRankingEntry(type);
+			RankingEntry<?, ?> entry = getFirstRankingEntry();
 			if (entry == null) {
 				return null;
 			}
@@ -508,13 +507,12 @@ public class RankingMgr {
 	/**
 	 * 获取第一名的人
 	 * 
-	 * @param type
 	 * @return
 	 */
-	public RankingEntry<?, ?> getFirstRankingEntry(ECareer type) {
+	public RankingEntry<?, ?> getFirstRankingEntry() {
 		Ranking<?, ?> ranking = RankingFactory.getRanking(RankType.ARENA_DAILY);
 		if (ranking == null) {
-			GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
+			GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + RankType.ARENA_DAILY);
 			return null;
 		}
 
