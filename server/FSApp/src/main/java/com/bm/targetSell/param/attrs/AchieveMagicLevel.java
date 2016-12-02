@@ -30,7 +30,7 @@ public class AchieveMagicLevel implements AbsAchieveAttrValue {
 		List<ItemData> list = ItemBagMgr.getInstance().getItemListByType(player.getUserId(), EItemTypeDef.Magic);
 		for (ItemData data : list) {
 			MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(data.getModelId());
-			if (magicCfg.getMagicType() == magicType && data.getMagicLevel() > currLv) {
+			if (magicCfg.getType() == magicType && data.getMagicLevel() > currLv) {
 				currLv = data.getMagicLevel();
 			}
 		}

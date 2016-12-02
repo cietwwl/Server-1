@@ -66,8 +66,8 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 						}
 					}
 				}
-				checkItemDataAndNotifyBenefit(newItem);
 			}
+			checkItemDataAndNotifyBenefit(newItem);
 		}
 		
 		@SuppressWarnings("unchecked")
@@ -94,14 +94,18 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 		}
 		EItemTypeDef type = ItemCfgHelper.getItemType(data.getModelId());
 		if(type == EItemTypeDef.Magic){
-			MagicCfg magicCfg = MagicCfgDAO.getInstance().getCfgById(data.getId());
-			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getMagicType(), 
+			
+			MagicCfg magicCfg = ItemCfgHelper.getMagicCfg(data.getModelId());
+			if(magicCfg == null){
+				return;
+			}
+			BenefitAttrCfg cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getType(),
 					EAchieveType.AchieveMagicLevel.getId());// 法宝等级
 			if(cfg != null){
 				TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());
 			}
 			
-			cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getMagicType(), 
+			cfg = BenefitAttrCfgDAO.getInstance().getCfgByHeroModelIdAndProcessType(magicCfg.getType(), 
 					EAchieveType.AchieveMagicUpgradLv.getId());// 法宝进化等级
 			if(cfg != null){
 				TargetSellManager.getInstance().notifyRoleAttrsChange(data.getUserId(), cfg.getId());

@@ -34,7 +34,7 @@ public class WBStateFSM {
 			}
 		}
 		curState.doEnter();
-		GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[init]", "world boss init finish, world boss open:" + wbData.isOpen());
+		GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[init]", "world boss init finish, world boss open:" + ServerSwitch.isOpenWorldBoss());
 	}
 	
 	private IwbState initFromWbData(WBData wbData) {

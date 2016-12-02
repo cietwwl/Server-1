@@ -28,7 +28,7 @@ public class MagicCfg extends ItemBaseCfg {
 	private int energyReceive; // 能量回复
 	private int attackType;
 	private int struckEnergy;
-	private int magicType;
+	private int magicType;//用于区分是不是碎片
 	private int composeItemID;
 	private int composeNeedNum;
 	private int composeCostCoin;
@@ -40,6 +40,7 @@ public class MagicCfg extends ItemBaseCfg {
 	private String Skill_UnLock;
 	private Map<Integer, List<String>> unlockSkills;
 	private int firstAptitude;// 法宝的资质
+	private int type;//法定类型，如剑系，蟠系
 
 	public void ExtraInitAfterLoad() {
 		ParseConversionGoods();
@@ -335,4 +336,18 @@ public class MagicCfg extends ItemBaseCfg {
 			unlockSkills = Collections.unmodifiableMap(copyMap);
 		}
 	}
+
+	/**
+	 * 获取法宝类型,用于区剑系，幡系等
+	 * @return
+	 */
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+	
+	
 }

@@ -333,8 +333,12 @@ public class AccountLoginHandler {
 		HashMap<Integer, Integer> ZoneStatusList = new HashMap<Integer, Integer>();
 		for (ZoneInfoCache zone : allZoneList) {
 			// 当设置服务器不显示，则不发送到客户端
-			if (zone.getEnabled() != 0 || account.isWhiteList()) {
+			if (account.isWhiteList()) {
 				response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
+			}else{
+				if(zone.getEnabled() != 0){
+					response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
+				} 
 			}
 			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
 		}
