@@ -969,6 +969,7 @@ public class GroupPersonalHandler {
 		long logoutTimeNoneRecomment = TimeUnit.DAYS.toMillis(gbct.getLeaderLogoutTimeNoneRecommend());// 帮主离线多少时间之后不推荐
 		int recommendSize = gbct.getRecommendSize();// 可以推荐的总数量
 
+		GroupLevelCfgDAO groupLevelDAO = GroupLevelCfgDAO.getDAO();
 		// 基础排行榜
 		Ranking baseRanking = RankingFactory.getRanking(RankType.GROUP_BASE_RANK);
 
@@ -992,19 +993,14 @@ public class GroupPersonalHandler {
 					if (gbrea == null) {
 						continue;
 					}
-					// 检查是否已经申请该帮派
-					// if (baseData.hasApplyGroup(gbrea.getGroupId())) {
-					// continue;
-					// }
-					long leaderLogoutTime = gbrea.getLeaderLogoutTime();
-					// 当前离线时间不是0（表离线）或者离线超过指定的时间
-					if (leaderLogoutTime > 0 && (now - leaderLogoutTime) >= logoutTimeNoneRecomment) {
-						continue;
-					}
 
 					// 获取帮派的数据
 					Group group = GroupBM.get(gbrea.getGroupId());
 					if (group == null) {
+						continue;
+					}
+
+					if (!canRecomment(group, groupLevelDAO)) {
 						continue;
 					}
 
@@ -1045,18 +1041,14 @@ public class GroupPersonalHandler {
 					}
 					// 检查是否已经申请该帮派
 					String key = gsea.getGroupId();
-					// if (baseData.hasApplyGroup(key)) {
-					// continue;
-					// }
-					long leaderLogoutTime = gsea.getLeaderLogoutTime();
-					// 当前离线时间不是0（表离线）或者离线超过指定的时间
-					if (leaderLogoutTime > 0 && (now - leaderLogoutTime) >= logoutTimeNoneRecomment) {
-						continue;
-					}
 
 					// 获取帮派的数据
 					Group group = GroupBM.get(key);
 					if (group == null) {
+						continue;
+					}
+
+					if (!canRecomment(group, groupLevelDAO)) {
 						continue;
 					}
 
@@ -1094,14 +1086,6 @@ public class GroupPersonalHandler {
 						}
 						// 检查是否已经申请该帮派
 						String key = gsea.getGroupId();
-						// if (baseData.hasApplyGroup(key)) {
-						// continue;
-						// }
-						long leaderLogoutTime = gsea.getLeaderLogoutTime();
-						// 当前离线时间不是0（表离线）或者离线超过指定的时间
-						if (leaderLogoutTime > 0 && (now - leaderLogoutTime) >= logoutTimeNoneRecomment) {
-							continue;
-						}
 
 						// 防止推荐到相同的帮派
 						if (hasGroupIdList.contains(key)) {
@@ -1111,6 +1095,10 @@ public class GroupPersonalHandler {
 						// 获取帮派的数据
 						Group group = GroupBM.get(key);
 						if (group == null) {
+							continue;
+						}
+
+						if (!canRecomment(group, groupLevelDAO)) {
 							continue;
 						}
 
@@ -1176,6 +1164,33 @@ public class GroupPersonalHandler {
 			return rIndex1 - rIndex2;
 		}
 	};
+
+	/**
+	 * 检查成员数量是否已经满了
+	 * 
+	 * @param group
+	 * @param groupLevelDAO
+	 * @return
+	 */
+	private boolean canRecomment(Group group, GroupLevelCfgDAO groupLevelDAO) {
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			return false;
+		}
+
+		int groupLevel = groupData.getGroupLevel();
+		GroupLevelCfg levelCfg = groupLevelDAO.getLevelCfg(groupLevel);
+		if (levelCfg == null) {
+			return false;
+		}
+
+		int groupMemberSize = group.getGroupMemberMgr().getGroupMemberSize();// 成員數量
+		if (groupMemberSize >= levelCfg.getMaxMemberLimit()) {
+			return false;
+		}
+
+		return true;
+	}
 
 	// ======================TEMPLATE======================
 	// String playerId = player.getUserId();
