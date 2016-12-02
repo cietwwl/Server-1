@@ -206,7 +206,7 @@ public class RankingMgr {
 		}
 		copyRanking.clearAndInsert(copyList);
 	}
-	
+
 	/**
 	 * 初始化竞技场阵容排行榜
 	 */
@@ -470,22 +470,18 @@ public class RankingMgr {
 	 */
 	public RankingLevelData getFirstRankingData(ECareer type) {
 		try {
-
-			Ranking<?, ?> ranking = RankingFactory.getRanking(RankType.ARENA_DAILY);
-			if (ranking == null) {
-				GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
-				return null;
-			}
-			RankingEntry<?, ?> entry = ranking.getFirstEntry();
+			RankingEntry<?, ?> entry = getFirstRankingEntry(type);
 			if (entry == null) {
 				return null;
 			}
+
 			String userId = (String) entry.getKey();
 			Player p = (Player) PlayerMgr.getInstance().getReadOnlyPlayer(userId);
 			if (p == null) {
 				GameLog.error("ranking", "getFirstRankingData", "找不到玩家：" + userId);
 				return null;
 			}
+
 			RankingLevelData levelData = (RankingLevelData) entry.getExtendedAttribute();
 			RankingLevelData toData = new RankingLevelData();
 			toData.setUserId(userId);
@@ -507,6 +503,22 @@ public class RankingMgr {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	/**
+	 * 获取第一名的人
+	 * 
+	 * @param type
+	 * @return
+	 */
+	public RankingEntry<?, ?> getFirstRankingEntry(ECareer type) {
+		Ranking<?, ?> ranking = RankingFactory.getRanking(RankType.ARENA_DAILY);
+		if (ranking == null) {
+			GameLog.error("ranking", "getFirstRankingData", "找不到指定竞技场类型：" + type);
+			return null;
+		}
+
+		return ranking.getFirstEntry();
 	}
 
 	/**
@@ -572,12 +584,12 @@ public class RankingMgr {
 			updateEntryFighting(RankType.PEAK_ARENA_FIGHTING, fighting, teamFighting, userId);
 			// 通知竞技场更新
 			ArenaBM.getInstance().onPlayerChanged(player);
-			
-			//精准营销的战力改变的通知
-			if(teamFightingChanged){
+
+			// 精准营销的战力改变的通知
+			if (teamFightingChanged) {
 				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_TeamPower.getId());
 			}
-			if(allFightingChanged){
+			if (allFightingChanged) {
 				TargetSellManager.getInstance().notifyRoleAttrsChange(player.getUserId(), ERoleAttrs.r_AllPower.getId());
 			}
 		}
