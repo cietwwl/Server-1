@@ -41,6 +41,7 @@ public class SDKVerifyHandler {
 		try {
 			ESDKType sdkType = ESDKType.getSDKType(sdkVerifyRequest.getSdkType());
 			Class<?> cInstance = SDKMap.get(sdkType);
+			System.out.println("------------------sdkType:" + sdkType);
 			ISDKHandler handler = (ISDKHandler) cInstance.newInstance();
 			handler.init(sdkVerifyRequest);
 			SDKVerifyResult verifySDK = handler.verifySDK();
