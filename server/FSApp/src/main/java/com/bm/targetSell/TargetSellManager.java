@@ -33,6 +33,7 @@ import com.bm.targetSell.param.attrs.AttrsProcessMgr;
 import com.bm.targetSell.param.attrs.EAchieveType;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -87,7 +88,7 @@ public class TargetSellManager {
 	private static TargetSellManager manager = new TargetSellManager();
 
 	// 充值前记录，<userID, Pair<充值的物品组id, 记录时刻>>
-	private static final ConcurrentHashMap<String, Pair<Integer, Long>> PreChargeMap = new ConcurrentHashMap<String, Pair<Integer, Long>>();
+	private static ConcurrentHashMap<String, Pair<Integer, Long>> PreChargeMap = new ConcurrentHashMap<String, Pair<Integer, Long>>();
 
 	// 前置记录有效时间,如果超过这个时间就当作是其他的充值
 	private static final long VALIABLE_TIME = 1 * Timer.ONE_MINUTE;
@@ -171,60 +172,54 @@ public class TargetSellManager {
 	 * @param charge
 	 */
 	public void playerCharge(Player player, float charge) {
-		if (!ServerSwitch.isOpenTargetSell()) {
-			return;
-		}
-		int score = 0;
-		BenefitDataDAO dataDao = BenefitDataDAO.getDao();
-		TargetSellRecord record = dataDao.get(player.getUserId());
-		if (record == null) {
-			score = (int) charge;
-			record = new TargetSellRecord();
-			record.setNextClearScoreTime(getNextRefreshTimeMils());
-			dataDao.commit(record);
-		} else {
+		try {
+			if (!ServerSwitch.isOpenTargetSell()) {
+				return;
+			}
+			int score = 0;
+			BenefitDataDAO dataDao = BenefitDataDAO.getDao();
+			TargetSellRecord record = dataDao.get(player.getUserId());
+			
 			score = record.getBenefitScore();
 			score += charge;
-		}
-		// 检查一下是否前置充值记录
-		Pair<Integer, Long> preCharge = PreChargeMap.remove(player.getUserId());
-		BenefitItems removeItem = null;
-		if (preCharge != null) {
-			// 存在前置记录，检查积分是否可以购买
-			Map<Integer, BenefitItems> map = record.getItemMap();
-			BenefitItems items = map.get(preCharge.getT1());
-			if (items.getRecharge() <= score && (preCharge.getT2() + VALIABLE_TIME) >= System.currentTimeMillis()) {
-				// 积分可以购买并且还没有超时
-				removeItem = map.remove(preCharge.getT1());
-				// boolean suc = player.getItemBagMgr().addItem(tranfer2ItemInfo(items)); 不直接发给玩家了，改为邮件发
-
-				String mailID = PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.BENEFIT_ITEM_BUY_SUC);
-				Map<Integer, Integer> mailAttach = new HashMap<Integer, Integer>();
-
-				List<ItemInfo> info = tranfer2ItemInfo(items);
-				for (ItemInfo item : info) {
-					Integer num = mailAttach.get(item.getItemID());
-					if (num == null) {
-						mailAttach.put(item.getItemID(), item.getItemNum());
-					} else {
-						mailAttach.put(item.getItemID(), item.getItemNum() + num);
+			// 检查一下是否前置充值记录
+			Pair<Integer, Long> preCharge = PreChargeMap.remove(player.getUserId());
+			BenefitItems items = null;
+			if (preCharge != null) {
+				// 存在前置记录，检查积分是否可以购买
+				Map<Integer, BenefitItems> map = record.getItemMap();
+				items = map.remove(preCharge.getT1());
+				if (items != null && items.getRecharge() <= score && (preCharge.getT2() + Timer.ONE_MINUTE) >= System.currentTimeMillis()) {
+					// 积分可以购买并且还没有超时
+					String mailID = PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.BENEFIT_ITEM_BUY_SUC);
+					Map<Integer, Integer> mailAttach = new HashMap<Integer, Integer>();
+					
+					List<ItemInfo> info = tranfer2ItemInfo(items);
+					for (ItemInfo item : info) {
+						Integer num = mailAttach.get(item.getItemID());
+						if (num == null) {
+							mailAttach.put(item.getItemID(), item.getItemNum());
+						} else {
+							mailAttach.put(item.getItemID(), item.getItemNum() + num);
+						}
+					}
+					boolean suc = EmailUtils.sendEmail(player.getUserId(), mailID, mailAttach);
+					if (suc) {
+						score -= items.getRecharge();
+						// 通知精准服
+						notifyBenefitServerRoleGetItem(player, preCharge.getT1());
 					}
 				}
-				boolean suc = EmailUtils.sendEmail(player.getUserId(), mailID, mailAttach);
-				if (suc) {
-					score -= items.getRecharge();
-					// 通知精准服
-					notifyBenefitServerRoleGetItem(player, preCharge.getT1());
-				}
 			}
+			record.setBenefitScore(score);
+			dataDao.update(record);
+			
+			// 通知前端
+			ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
+			
+		} catch (Throwable e) {
+			GameLog.error(LogModule.COMMON.getName(), "TargetSellManager[playerCharge]", "精准营销角色充值判断出现异常！", e);
 		}
-		record.setBenefitScore(score);
-		dataDao.update(record);
-
-		// 通知前端
-		ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
-		//player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), removeItem));
-
 	}
 
 	/**
@@ -482,34 +477,6 @@ public class TargetSellManager {
 
 	}
 
-	/**
-	 * 检查打包英雄改变的属性
-	 * @param userID
-	 * @param value
-	 */
-	// public void packHeroChangeAttr(String userId) {
-	// GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerTask() {
-	//
-	// @Override
-	// public void run(Player player) {
-	// String userId = player.getUserId();
-	// TargetSellRoleChange value = TargetSellManager.RoleAttrChangeMap.remove(userId);
-	// List<String> list = FSHeroMgr.getInstance().getHeroIdList(player);
-	// for (String heroID : list) {
-	// List<EAchieveType> change = HeroAttrChangeMap.remove(heroID);
-	// if (change != null) {
-	// if (value == null) {
-	// value = new TargetSellRoleChange(userId, DateUtils.getSecondLevelMillis());
-	// }
-	// AttrsProcessMgr.getInstance().addHeroChangeAttrs(userId, heroID, change, value);
-	// }
-	// }
-	// if (value != null) {
-	// packAndSendMsg(value);
-	// }
-	// }
-	// });
-	// }
 
 	public void packHeroChangeAttr(String userId) {
 		GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerPredecessor() {
@@ -541,8 +508,21 @@ public class TargetSellManager {
 		if (value != null) {
 			packAndSendMsg(value);
 		}
+		
+		checkAndRemovePreChangeRecord(userId);
 	}
 
+	
+	private void checkAndRemovePreChangeRecord(String userID){
+		Pair<Integer, Long> pair = PreChargeMap.get(userID);
+		if(pair != null){
+			long passTime = pair.getT2() + Timer.ONE_MINUTE * 10;
+			if(passTime < System.currentTimeMillis()){
+				PreChargeMap.remove(userID);//清除超时记录
+			}
+		}
+	}
+	
 	private TargetSellRoleChange checkAndPack(String userId, String heroId, boolean forceRead, TargetSellRoleChange value) {
 		TargetSellHeroChange heroChanged;
 		if (forceRead || HeroAttrChangeMap.containsKey(heroId)) {
