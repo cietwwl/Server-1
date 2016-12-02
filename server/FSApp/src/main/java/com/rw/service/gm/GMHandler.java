@@ -310,6 +310,7 @@ public class GMHandler {
 		//世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
 		funcCallBackMap.put("callwb", "callWorldBoss");
 		funcCallBackMap.put("wbstate", "changeWBState");
+		funcCallBackMap.put("openwb", "openWorldBoss");//开启/关闭世界boss状态   openwb num(0=关闭，1=开启)
 	}
 
 	public boolean isActive() {
@@ -975,6 +976,13 @@ public class GMHandler {
 
 	public boolean callWorldBoss(String[] args, Player player){
 		WBMgr.getInstance().reCallNewBoss();
+		return true;
+	}
+	
+	
+	public boolean openWorldBossState(String[] args,Player player){
+		int state = Integer.parseInt(args[0]);
+		WBMgr.getInstance().changeWorldBossState(state);
 		return true;
 	}
 	

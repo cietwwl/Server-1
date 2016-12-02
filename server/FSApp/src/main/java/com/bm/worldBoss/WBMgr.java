@@ -39,6 +39,7 @@ import com.playerdata.army.CurAttrData;
 import com.playerdata.battleVerify.damageControll.DamageControllCfg;
 import com.playerdata.battleVerify.damageControll.DamageControllCfgDAO;
 import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.ServerSwitch;
 
 
 public class WBMgr {
@@ -330,6 +331,21 @@ public class WBMgr {
 		}
 		broatBossChange();
 		System.out.println("world boss state transform to :" + fsm.getState());
+	}
+
+	public void changeWorldBossState(int state) {
+		if(state == 0){//关闭
+			ServerSwitch.setOpenWorldBoss(false);
+		}else if(state == 1){ //开启
+			ServerSwitch.setOpenWorldBoss(true);
+		}
+		
+		WBData data = WBDataHolder.getInstance().get();
+		if(data == null || data.getState() != WBState.NewBoss){
+			return;
+		}
+		data.setOpen(ServerSwitch.isOpenWorldBoss());
+		WBDataHolder.getInstance().update();
 	}
 	
 	
