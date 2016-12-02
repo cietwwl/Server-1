@@ -108,8 +108,14 @@ public class AccountLoginHandler {
 			if (zoneInfo == null) {
 				zoneInfo = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 			}
-			if (zoneInfo != null && (zoneInfo.getEnabled() != 0 || account.isWhiteList())) {
-				response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
+			if (zoneInfo != null) {
+				if (account.isWhiteList()) {
+					response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
+				}else{
+					if(zoneInfo.getEnabled() != 0){
+						response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
+					} 
+				}
 			}
 		} else {
 			ZoneInfoCache zoneInfo = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
