@@ -1,9 +1,9 @@
 
 package com.fy;
 
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * This class saves a map of spring-bean ids to their corresponding interfaces. <br/>

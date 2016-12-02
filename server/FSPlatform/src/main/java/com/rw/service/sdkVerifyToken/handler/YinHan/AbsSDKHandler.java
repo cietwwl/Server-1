@@ -45,9 +45,10 @@ public class AbsSDKHandler implements ISDKHandler{
 		String para = parseToJson();
 		PlatformLog.info("YinHanSDKHandler", "YinHanSDKHandler[verifySDK]","............send json:" + para);
 		
-		
+		System.out.println("------------URL" + URL);
 		InputStream streamResult = HttpUtils.sentHttpPostMsg(URL, para);
 		if(streamResult == null){
+			System.out.println("------------BackupURL" + BackupURL);
 			streamResult = HttpUtils.sentHttpPostMsg(BackupURL, para);
 		}
 		String strResult = HttpUtils.getInputStreamToString(streamResult);
@@ -59,7 +60,7 @@ public class AbsSDKHandler implements ISDKHandler{
 		return sdkVerifyResult;
 	}
 	
-	private String parseToJson() {
+	protected String parseToJson() {
 		JSONObject json = new JSONObject();
 		try {
 
@@ -77,7 +78,7 @@ public class AbsSDKHandler implements ISDKHandler{
 		return json.toString();
 	}
 	
-	private void decodeJson(String value) {
+	protected void decodeJson(String value) {
 		PlatformLog.info("YinHanSDKHandler", "YinHanSDKHandler[decodeJson]","json:" + value);
 		if (value == null || value.length() == 0) {
 			sdkVerifyResult.setBlnSuccess(false);

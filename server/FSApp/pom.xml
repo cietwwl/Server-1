@@ -41,14 +41,17 @@
 		</plugins>
 	</build>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>com.rw</groupId>
 			<artifactId>FSUtil</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+		<dependency>
+			<groupId>RainWings</groupId>
+			<artifactId>RainWings.HotFix</artifactId>
+			<version>1.0.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.apache.struts</groupId>

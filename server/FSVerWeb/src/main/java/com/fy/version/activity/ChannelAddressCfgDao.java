@@ -1,13 +1,11 @@
 package com.fy.version.activity;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.fy.utils.CfgCsvDao;
 import com.fy.utils.CfgCsvHelper;
 
 public class ChannelAddressCfgDao extends CfgCsvDao<ChannelAddressCfg> {
-	
 	
 	private static ChannelAddressCfgDao instance = new ChannelAddressCfgDao();
 	

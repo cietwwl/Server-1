@@ -340,21 +340,13 @@ public final class PrivilegeProtos {
      */
     teamBattleTimes(11, 12),
     /**
-     * <code>worldBossMaxBuyBuffCount = 13;</code>
-     *
-     * <pre>
-     *世界Boss鼓舞次数
-     * </pre>
-     */
-    worldBossMaxBuyBuffCount(12, 13),
-    /**
-     * <code>worldBossAutoPlay = 14;</code>
+     * <code>worldBossAutoPlay = 13;</code>
      *
      * <pre>
      *世界Boss自动参战
      * </pre>
      */
-    worldBossAutoPlay(13, 14),
+    worldBossAutoPlay(12, 13),
     ;
 
     /**
@@ -454,21 +446,13 @@ public final class PrivilegeProtos {
      */
     public static final int teamBattleTimes_VALUE = 12;
     /**
-     * <code>worldBossMaxBuyBuffCount = 13;</code>
-     *
-     * <pre>
-     *世界Boss鼓舞次数
-     * </pre>
-     */
-    public static final int worldBossMaxBuyBuffCount_VALUE = 13;
-    /**
-     * <code>worldBossAutoPlay = 14;</code>
+     * <code>worldBossAutoPlay = 13;</code>
      *
      * <pre>
      *世界Boss自动参战
      * </pre>
      */
-    public static final int worldBossAutoPlay_VALUE = 14;
+    public static final int worldBossAutoPlay_VALUE = 13;
 
 
     public final int getNumber() { return value; }
@@ -487,8 +471,7 @@ public final class PrivilegeProtos {
         case 10: return survivalTimeDec;
         case 11: return survivalResetCnt;
         case 12: return teamBattleTimes;
-        case 13: return worldBossMaxBuyBuffCount;
-        case 14: return worldBossAutoPlay;
+        case 13: return worldBossAutoPlay;
         default: return null;
       }
     }
@@ -5807,32 +5790,31 @@ public final class PrivilegeProtos {
       "esetArena\020\002\022\022\n\016arenaRewardAdd\020\003\022\025\n\021arena" +
       "ChallengeDec\020\004*A\n\027PeakArenaPrivilegeName" +
       "s\022\020\n\014peakMaxCount\020\001\022\024\n\020isAllowResetPeak\020" +
-      "\002*\272\002\n\021PvePrivilegeNames\022\021\n\rmaxResetCount",
+      "\002*\234\002\n\021PvePrivilegeNames\022\021\n\rmaxResetCount",
       "\020\001\022\020\n\014sweepTimeDec\020\002\022\024\n\020arrayMaxResetCnt" +
       "\020\003\022\024\n\020warfareRewardAdd\020\004\022\023\n\017warfareReset" +
       "Cnt\020\005\022\023\n\017treasureTimeDec\020\006\022\024\n\020treasureRe" +
       "setCnt\020\007\022\016\n\nexpTimeDec\020\010\022\017\n\013expResetCnt\020" +
       "\t\022\023\n\017survivalTimeDec\020\n\022\024\n\020survivalResetC" +
-      "nt\020\013\022\023\n\017teamBattleTimes\020\014\022\034\n\030worldBossMa" +
-      "xBuyBuffCount\020\r\022\025\n\021worldBossAutoPlay\020\016*A" +
-      "\n\023GroupPrivilegeNames\022\017\n\013donateCount\020\001\022\031" +
-      "\n\025mysteryChallengeCount\020\002*\235\001\n\023StorePrivi" +
-      "legeNames\022\032\n\026isOpenBlackmarketStore\020\001\022\026\n",
-      "\022isOpenMysteryStore\020\002\022\027\n\023storeFreeRefres" +
-      "hCnt\020\003\022\036\n\032mysteryStoreFreeRefreshCnt\020\004\022\031" +
-      "\n\025bmstoreFreeRefreshCnt\020\005*c\n\022CopyPrivile" +
-      "geNames\022\021\n\rcopyRewardAdd\020\001\022\023\n\017isAllowTen" +
-      "Sweep\020\002\022\022\n\016eliteRewardAdd\020\003\022\021\n\reliteRese" +
-      "tCnt\020\004*i\n\023LoginPrivilegeNames\022\021\n\rbuyPowe" +
-      "rCount\020\001\022\025\n\021useCoinTransCount\020\002\022\025\n\021getSw" +
-      "eepTicketNum\020\003\022\021\n\risAllowReport\020\004*g\n\022Her" +
-      "oPrivilegeNames\022\022\n\016skillThreshold\020\001\022\030\n\024i" +
-      "sAllowBuySkillPoint\020\002\022\020\n\014skillTimeDec\020\003\022",
-      "\021\n\risAllowAttach\020\004*\201\001\n\025GeneralPrivilegeN" +
-      "ames\022\017\n\013battleSpeed\020\001\022\025\n\021isAllowBuyFashi" +
-      "on\020\002\022\022\n\016isAllowSoulBox\020\003\022\024\n\020isAllowReple" +
-      "nish\020\004\022\026\n\022isAllowVipHeadIcon\020\005B\036\n\013com.rw" +
-      "protoB\017PrivilegeProtos"
+      "nt\020\013\022\023\n\017teamBattleTimes\020\014\022\025\n\021worldBossAu" +
+      "toPlay\020\r*A\n\023GroupPrivilegeNames\022\017\n\013donat" +
+      "eCount\020\001\022\031\n\025mysteryChallengeCount\020\002*\235\001\n\023" +
+      "StorePrivilegeNames\022\032\n\026isOpenBlackmarket" +
+      "Store\020\001\022\026\n\022isOpenMysteryStore\020\002\022\027\n\023store",
+      "FreeRefreshCnt\020\003\022\036\n\032mysteryStoreFreeRefr" +
+      "eshCnt\020\004\022\031\n\025bmstoreFreeRefreshCnt\020\005*c\n\022C" +
+      "opyPrivilegeNames\022\021\n\rcopyRewardAdd\020\001\022\023\n\017" +
+      "isAllowTenSweep\020\002\022\022\n\016eliteRewardAdd\020\003\022\021\n" +
+      "\reliteResetCnt\020\004*i\n\023LoginPrivilegeNames\022" +
+      "\021\n\rbuyPowerCount\020\001\022\025\n\021useCoinTransCount\020" +
+      "\002\022\025\n\021getSweepTicketNum\020\003\022\021\n\risAllowRepor" +
+      "t\020\004*g\n\022HeroPrivilegeNames\022\022\n\016skillThresh" +
+      "old\020\001\022\030\n\024isAllowBuySkillPoint\020\002\022\020\n\014skill" +
+      "TimeDec\020\003\022\021\n\risAllowAttach\020\004*\201\001\n\025General",
+      "PrivilegeNames\022\017\n\013battleSpeed\020\001\022\025\n\021isAll" +
+      "owBuyFashion\020\002\022\022\n\016isAllowSoulBox\020\003\022\024\n\020is" +
+      "AllowReplenish\020\004\022\026\n\022isAllowVipHeadIcon\020\005" +
+      "B\036\n\013com.rwprotoB\017PrivilegeProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
