@@ -83,6 +83,9 @@ public class WBStateFSM {
 	 */
 	private void setOpenState(){
 		WBData data = WBDataHolder.getInstance().get();
+		if(data == null){
+			return;
+		}
 		data.setOpen(ServerSwitch.isOpenWorldBoss());
 		
 		boolean update = WBDataDao.getInstance().update(data);
@@ -101,10 +104,19 @@ public class WBStateFSM {
 		}	
 		
 	}
+	
+	
 
 	
 	public WBState getState(){
 		return curState.getState();
 	}
 	
+	/**
+	 * 设置世界boss状态，此方法只用于作弊，普通方法不可以调用
+	 * @param state
+	 */
+	public void setState(IwbState state){
+		curState = state;
+	}
 }
