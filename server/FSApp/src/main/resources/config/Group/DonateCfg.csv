@@ -1,5 +1,5 @@
 key,Remarks,donateId,donateType,unlockIcon,bgIcon,titleIcon,donateItemType,donateVal,vipLevelLimit,rewardContribution,rewardGroupSupply,rewardGroupExp,unlockTip,unlockLabel
-1,,1,1,,SmallTex/Group/bg_BangPai_01,,1,10000,,50,10,20,贵族等级达到0解锁,贵族0解锁
+1,,1,1,,SmallTex/Group/bg_BangPai_01,,1,10000,,50,5,5,贵族等级达到0解锁,贵族0解锁
 2,,2,1,,SmallTex/Group/bg_BangPai_02,,2,50,,500,100,200,贵族等级达到0解锁,贵族0解锁
 3,,3,1,,SmallTex/Group/bg_BangPai_03,,2,200,,2200,250,400,贵族等级达到0解锁,贵族0解锁
 4,,4,1,,SmallTex/Group/bg_BangPai_04,,2,500,,6000,500,800,贵族等级达到0解锁,贵族0解锁
