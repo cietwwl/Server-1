@@ -24,7 +24,7 @@ public class ActivityMgrHelper {
 	public void synActivityData(Player player){
 		ActivityModifyMgr.getInstance().synModifiedActivity(player);
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
-			type.getActivityMgr().synData(player);
+			type.getActivityMgr().synDataWithoutEmpty(player);
 		}
 	}
 	

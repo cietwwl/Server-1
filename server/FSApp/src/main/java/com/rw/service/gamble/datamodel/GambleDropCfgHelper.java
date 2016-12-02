@@ -80,6 +80,15 @@ public class GambleDropCfgHelper extends CfgCsvDao<GambleDropCfg> {
 
 		return GambleLogicHelper.getRandomGroup(player, group, slotCount, weight);
 	}
+	
+	public String randomDrop(Player player, int groupKey, RefInt slotCount, RefInt weight, IDropMissingRecord dropMissingRecord) {
+		GambleDropGroup group = dropGroupMappings.get(groupKey);
+		if (group == null) {
+			return null;
+		}
+
+		return GambleLogicHelper.randomDrop(player, group, slotCount, weight, dropMissingRecord);
+	}
 
 	public GambleDropGroup getGroup(int groupKey) {
 		return dropGroupMappings.get(groupKey);
