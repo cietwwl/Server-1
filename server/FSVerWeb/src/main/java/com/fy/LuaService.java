@@ -45,7 +45,7 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 			}
 
 			String jsonString = baos.toString();
-			
+			System.out.println("-----------jsonString:" + jsonString);
 			LuaValidateRequest luaValidateRequest = JSONUtil.readValue(jsonString, LuaValidateRequest.class);
 			
 			String channel = luaValidateRequest.getChannel();
@@ -59,7 +59,7 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 					channel += "32";
 				}
 			}
-			
+			System.out.println("-----------channel:" + channel);
 			LuaInfo channelLuaInfo = luaMgr.getChannelLuaInfo(channel);
 			System.out.println("request lua service");
 			LuaValidateResponse luaValidateResponse = new LuaValidateResponse();
@@ -86,6 +86,7 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 			}
 			
 			String luaValidateResult = JSONUtil.writeValue(luaValidateResponse);
+			System.out.println("---------------luaValidateResult:" + luaValidateResult);
 			ServletOutputStream out = response.getOutputStream();
 			out.write(luaValidateResult.getBytes("UTF-8"));
 			out.flush();
@@ -115,6 +116,7 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 	
     private final static String PhoneSign = "iPhone";
     private final static String PadSign = "iPad";
+    private final static String PodSign = "iPod";
 	
 	private boolean checkIos32Or64(String deviceModel, String cpuType) {
 		if (cpuType.equals("arm64")) {
@@ -134,6 +136,13 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 			if (deviceModel.indexOf(PadSign) != -1) {
 				int versionNo = Integer.parseInt(model.replace(PadSign, ""));
 				if (versionNo >= 4) {
+					return true;
+				}
+			}
+			//iPod
+			if (deviceModel.indexOf(PodSign) != -1) {
+				int versionNo = Integer.parseInt(model.replace(PodSign, ""));
+				if (versionNo >= 6) {
 					return true;
 				}
 			}
