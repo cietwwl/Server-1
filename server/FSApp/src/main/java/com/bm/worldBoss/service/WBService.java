@@ -17,50 +17,52 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 	@Override
 	public ByteString doTask(CommonReqMsg request, Player player) {
 
-
 		ByteString byteString = null;
 		try {
-			
+
 			player.getUserTmpGameDataFlag().setSynFightingAll(true);
-			
+
 			RequestType reqType = request.getReqType();
 			switch (reqType) {
-				case Enter:
-					byteString = WBHandler.getInstance().getSuccessRep(player, request);
+			case Enter:
+				byteString = WBHandler.getInstance().getSuccessRep(player, request);
 				break;
-				
-				case SynData:
-					byteString = WBHandler.getInstance().getSuccessRep(player, request);
-					break;
-				
-				case BuyBuff:
-					byteString = WBHandler.getInstance().doBuyBuff(player, request);
+
+			case SynData:
+				byteString = WBHandler.getInstance().getSuccessRep(player, request);
 				break;
-				
-				case BuyCD:
-					byteString = WBHandler.getInstance().doBuyCD(player, request);
+
+			case BuyBuff:
+				byteString = WBHandler.getInstance().doBuyBuff(player, request);
 				break;
-				
-				case FightBegin:
-					byteString = WBHandler.getInstance().doFightBegin(player, request);
+
+			case BuyCD:
+				byteString = WBHandler.getInstance().doBuyCD(player, request);
 				break;
-				case FightUpdate:
-					byteString = WBHandler.getInstance().doFightUpdate(player, request);
-					break;
-				
-				case FightEnd:
-					byteString = WBHandler.getInstance().doFightEnd(player, request);
+
+			case FightBegin:
+				byteString = WBHandler.getInstance().doFightBegin(player, request);
 				break;
-				
-				default:
-				break;			
-			
+			case FightUpdate:
+				byteString = WBHandler.getInstance().doFightUpdate(player, request);
+				break;
+
+			case FightEnd:
+				byteString = WBHandler.getInstance().doFightEnd(player, request);
+				break;
+			case ApplyAutoFight:
+				byteString = WBHandler.getInstance().applyAutoFight(player,request);
+				break;
+			default:
+				break;
+
 			}
 			WBMgr.getInstance().synWBData(player, request.getWbDataVersion());
-			
+
 		} catch (Exception e) {
-			
-			GameLog.error(LogModule.WorldBoss, player.getUserId(), "出现了Exception异常", e);
+
+			GameLog.error(LogModule.WorldBoss, player.getUserId(),
+					"出现了Exception异常", e);
 		}
 		return byteString;
 	}

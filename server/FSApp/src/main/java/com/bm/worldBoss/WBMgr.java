@@ -314,6 +314,9 @@ public class WBMgr {
 		case NewBoss:
 			fsm.setState(new WBPreStartState());
 			break;
+		case PreStart:
+			fsm.setState(new WBFinishState());
+			break;
 		case FightStart:
 			fsm.setState(new WBFightEndState());
 			break;
@@ -330,7 +333,7 @@ public class WBMgr {
 			break;
 		}
 		broatBossChange();
-		System.out.println("world boss state transform to :" + fsm.getState());
+		GameLog.info(LogModule.GM.getName(), "GM", "world boss state transform to :" + fsm.getState());
 	}
 
 	public void changeWorldBossState(int state) {
@@ -346,6 +349,8 @@ public class WBMgr {
 		}
 		data.setOpen(ServerSwitch.isOpenWorldBoss());
 		WBDataHolder.getInstance().update();
+		broatBossChange();
+		GameLog.info(LogModule.GM.getName(), "GM", "world boss is open:" + ServerSwitch.isOpenWorldBoss());
 	}
 	
 	
