@@ -14,7 +14,7 @@ enum RequestType{
 	SynData = 5;  //请求同步数据
 	BuyCD = 6;   //购买复活	
 	FightUpdate = 7; //战斗过程同步血量等
-
+	ApplyAutoFight = 8;//请求自动战斗
 }
 
 

@@ -30,8 +30,6 @@ public class WBFinishState implements  IwbState{
 		boolean success = false;
 		WBData wbData = WBDataHolder.getInstance().get();
 		long curTime = System.currentTimeMillis();
-//		if(wbData != null)
-//			System.out.println("end time : " + DateUtils.getDateTimeFormatString(wbData.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
 		if(wbData == null || wbData.getEndTime() < curTime){
 			WBCfg nextCfg = WBCfgDAO.getInstance().getNextCfg();
 			
@@ -42,6 +40,7 @@ public class WBFinishState implements  IwbState{
 //				GameLog.info(LogModule.WorldBoss.getName(), "WBFinishState[tryNextBoss]", "no wbcfg for today ");
 			}
 		}
+		//System.out.println("tryNextBoss, suc : " + success);
 		return success;
 		
 	}
@@ -63,7 +62,7 @@ public class WBFinishState implements  IwbState{
 				WBMgr.getInstance().adjustBossLevel();
 			}
 		}
-		
+		WBMgr.getInstance().broatBossChange(false);
 		
 	}
 

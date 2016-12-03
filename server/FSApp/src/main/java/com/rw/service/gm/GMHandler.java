@@ -903,7 +903,7 @@ public class GMHandler {
 		}
 		String itemId = arrCommandContents[0];
 		if (player != null) {
-			ChargeMgr.getInstance().charge(player, itemId);
+			ChargeMgr.getInstance().testCharge(player, itemId);
 			return true;
 		}
 		return false;
@@ -980,7 +980,7 @@ public class GMHandler {
 	}
 	
 	
-	public boolean openWorldBossState(String[] args,Player player){
+	public boolean openWorldBoss(String[] args,Player player){
 		int state = Integer.parseInt(args[0]);
 		WBMgr.getInstance().changeWorldBossState(state);
 		return true;

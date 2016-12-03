@@ -69,6 +69,14 @@ public final class WorldBossProtos {
      * </pre>
      */
     FightUpdate(6, 7),
+    /**
+     * <code>ApplyAutoFight = 8;</code>
+     *
+     * <pre>
+     *请求自动战斗
+     * </pre>
+     */
+    ApplyAutoFight(7, 8),
     ;
 
     /**
@@ -127,6 +135,14 @@ public final class WorldBossProtos {
      * </pre>
      */
     public static final int FightUpdate_VALUE = 7;
+    /**
+     * <code>ApplyAutoFight = 8;</code>
+     *
+     * <pre>
+     *请求自动战斗
+     * </pre>
+     */
+    public static final int ApplyAutoFight_VALUE = 8;
 
 
     public final int getNumber() { return value; }
@@ -140,6 +156,7 @@ public final class WorldBossProtos {
         case 5: return SynData;
         case 6: return BuyCD;
         case 7: return FightUpdate;
+        case 8: return ApplyAutoFight;
         default: return null;
       }
     }
@@ -7254,10 +7271,11 @@ public final class WorldBossProtos {
       "\031.WorldBoss.FightEndReward\"\\\n\016FightEndRe",
       "ward\022\021\n\ttotalHarm\030\001 \002(\003\022\017\n\007curHarm\030\002 \002(\003" +
       "\022&\n\010itemList\030\003 \003(\0132\024.RandomBoss.ItemInfo" +
-      "*l\n\013RequestType\022\t\n\005Enter\020\001\022\016\n\nFightBegin" +
-      "\020\002\022\014\n\010FightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynData" +
-      "\020\005\022\t\n\005BuyCD\020\006\022\017\n\013FightUpdate\020\007B\036\n\013com.rw" +
-      "protoB\017WorldBossProtos"
+      "*\200\001\n\013RequestType\022\t\n\005Enter\020\001\022\016\n\nFightBegi" +
+      "n\020\002\022\014\n\010FightEnd\020\003\022\013\n\007BuyBuff\020\004\022\013\n\007SynDat" +
+      "a\020\005\022\t\n\005BuyCD\020\006\022\017\n\013FightUpdate\020\007\022\022\n\016Apply" +
+      "AutoFight\020\010B\036\n\013com.rwprotoB\017WorldBossPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

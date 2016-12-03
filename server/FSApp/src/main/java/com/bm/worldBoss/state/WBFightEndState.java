@@ -31,6 +31,7 @@ public class WBFightEndState implements  IwbState{
 		if(wbData.getCurLife() > 0 ){
 			WBMgr.getInstance().broatCastBossLeave();
 		}
+		WBMgr.getInstance().broatBossChange(false);
 	}
 
 }

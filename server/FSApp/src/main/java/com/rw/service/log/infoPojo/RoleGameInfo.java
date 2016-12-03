@@ -6,10 +6,13 @@ import java.util.Map;
 
 import org.springframework.util.StringUtils;
 
+import com.bm.login.AccoutBM;
 import com.playerdata.Player;
+import com.playerdata.UserDataMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
+import com.rwbase.dao.user.accountInfo.TableAccount;
 
 
 public class RoleGameInfo {
@@ -81,48 +84,57 @@ public class RoleGameInfo {
 	}
 	
 	public static RoleGameInfo fromPlayer(Player player,Map<String, String> moreinfo){
+		
+		
 		RoleGameInfo roleGameInfo = new RoleGameInfo();
-		roleGameInfo.setUserId(player.getUserId());
-		roleGameInfo.setVip(player.getVip());
-		roleGameInfo.setLevel(player.getLevel());
-//		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
-//		roleGameInfo.setAllfighting(player.getHeroMgr().getFightingAll());
-		roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam(player));
-		roleGameInfo.setAllfighting(player.getHeroMgr().getFightingAll(player));
-		roleGameInfo.setCareerType(player.getCareer());
-		
-		UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
-		if(baseData != null){
-			//新创建角色没有帮派，所以要加这个判断
-			String groupId = baseData.getGroupId();
-			if (!StringUtils.isEmpty(groupId)) {
-				roleGameInfo.setFactionId(groupId);
-			}
-		}
-		
-		
+		try {
+			roleGameInfo.setUserId(player.getUserId());
+			roleGameInfo.setVip(player.getVip());
+			roleGameInfo.setLevel(player.getLevel());
+			// roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam());
+			// roleGameInfo.setAllfighting(player.getHeroMgr().getFightingAll());
+			roleGameInfo.setFighting(player.getHeroMgr().getFightingTeam(player));
+			roleGameInfo.setAllfighting(player.getHeroMgr().getFightingAll(player));
+			roleGameInfo.setCareerType(player.getCareer());
 
-		long roleCreatedTime = player.getUserDataMgr().getCreateTime();
-		
-		if(roleCreatedTime>0){
-			roleGameInfo.setRoleCreatedTime(DateUtils.getDateTimeFormatString(roleCreatedTime, "yyyy-MM-dd HH:mm:ss"));
+			UserGroupAttributeDataMgr mgr = player.getUserGroupAttributeDataMgr();
+			UserGroupAttributeDataIF baseData = mgr.getUserGroupAttributeData();
+			if (baseData != null) {
+				// 新创建角色没有帮派，所以要加这个判断
+				String groupId = baseData.getGroupId();
+				if (!StringUtils.isEmpty(groupId)) {
+					roleGameInfo.setFactionId(groupId);
+				}
+			}
+
+			UserDataMgr userDataMgr = player.getUserDataMgr();
+			long roleCreatedTime = userDataMgr.getCreateTime();
+
+			if (roleCreatedTime > 0) {
+				roleGameInfo.setRoleCreatedTime(DateUtils.getDateTimeFormatString(roleCreatedTime, "yyyy-MM-dd HH:mm:ss"));
+			}
+			AccoutBM accountBM = AccoutBM.getInstance();
+			String account = userDataMgr.getAccount();
+			TableAccount userAccount = accountBM.getByAccountId(account);
+			if (userAccount != null) {
+				long userCreateTime = userAccount.getRegisterTime();
+				if (userCreateTime > 0) {
+					roleGameInfo.setUserCreatedTime(DateUtils.getDateTimeFormatString(userCreateTime, "yyyy-MM-dd HH:mm:ss"));
+				}
+				if (player.getZoneLoginInfo() != null) {
+					logout(player, roleGameInfo, moreinfo);
+					logcopy(player, roleGameInfo, moreinfo);
+					logactivity(player, roleGameInfo, moreinfo);
+					logtask(player, roleGameInfo, moreinfo);
+				}
+			}
+
+			// if(player.getCopyRecordMgr().getCalculateState() != null){
+			// roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
+			// }
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		
-		long userCreateTime = player.getUserDataMgr().getCreateTime();
-		if(userCreateTime>0){
-			roleGameInfo.setUserCreatedTime(DateUtils.getDateTimeFormatString(userCreateTime, "yyyy-MM-dd HH:mm:ss"));
-		}
-		if(player.getZoneLoginInfo()!=null){
-			logout(player,roleGameInfo,moreinfo);
-			logcopy(player,roleGameInfo,moreinfo);
-			logactivity(player,roleGameInfo,moreinfo);
-			logtask(player,roleGameInfo,moreinfo);			
-		}		
-		
-//		if(player.getCopyRecordMgr().getCalculateState() != null){
-//			roleGameInfo.setMapId(player.getCopyRecordMgr().getCalculateState().getLastBattleId());
-//		}
 		
 		return roleGameInfo;
 	}
