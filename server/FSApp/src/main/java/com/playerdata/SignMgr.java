@@ -8,6 +8,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.common.HPCUtil;
 import com.log.GameLog;
 import com.playerdata.common.PlayerEventListener;
 import com.rw.fsutil.util.DateUtils;
@@ -249,7 +250,8 @@ public class SignMgr implements PlayerEventListener {
 	 * 
 	 * @param itemId
 	 * @param count
-	 * @param sendIfItem 如果是道具，是否也发送
+	 * @param sendIfItem
+	 *            如果是道具，是否也发送
 	 * @return itemId是否道具
 	 */
 	private boolean sendReward(String itemId, int count, boolean sendIfItem) {
@@ -481,41 +483,12 @@ public class SignMgr implements PlayerEventListener {
 	 * 检查此时请求的时间是否处于本签到周期内...
 	 */
 	public boolean checkRefreshTime() {
-		boolean isNeedToUpdate = false;
-		TreeMap<String, SignData> map = signDataHolder.getSignDataMap();
-		int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY); // 当前小时数
-		int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH); // 当前日期数
-		int month = Calendar.getInstance().get(Calendar.MONTH) + 1; // 当前月份数(比实际月份小1）
-		int year = Calendar.getInstance().get(Calendar.YEAR); // 当前年份数
-
-		if (map != null) // 本月有签到可用...
-		{
-			Calendar lastUpdate = signDataHolder.getLastUpdate();
-			if (year > lastUpdate.get(Calendar.YEAR)) // 不在同一年
-			{
-				isNeedToUpdate = true;
-			} else
-			// 在同一年
-			{
-				if (month > (lastUpdate.get(Calendar.MONTH) + 1)) // 不同月份（下一个月）
-				{
-					if (day == 1) // 如果是一号，则需要判断是否是在第一天的凌晨5点前
-					{
-						if (hour >= 5) // 5点后就要更新
-						{
-							isNeedToUpdate = true;
-						}
-					} else
-					// 不在一号必然要更新...
-					{
-						isNeedToUpdate = true;
-					}
-				}
-			}
-		} else {
-			GameLog.debug("没有初始化");
+		//TODO 为null的时候当重置处理是否有bug，其他地方不能置
+		Calendar lastUpdate = signDataHolder.getLastUpdate();
+		if (lastUpdate == null) {
+			return true;
 		}
-		return isNeedToUpdate;
+		return HPCUtil.isResetTime(lastUpdate.getTimeInMillis());
 	}
 
 	/*
