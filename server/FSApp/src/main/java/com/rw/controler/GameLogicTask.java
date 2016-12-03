@@ -74,7 +74,7 @@ public class GameLogicTask implements PlayerTask {
 				userId = player.getUserId();
 				int zoneId = player.getUserDataMgr().getZoneId();
 				TableZoneInfo zone = ZoneBM.getInstance().getTableZoneInfo(zoneId);
-				if (zone == null || (zone.getEnabled() != 1)) {
+				if (zone == null) {
 					UserChannelMgr.sendSyncResponse(userId, request.getHeader(), MsgResultType.ZONE_NOT_OPEN.getPreDesc(zoneId), null, 600, sessionId, null);
 					return;
 				}
