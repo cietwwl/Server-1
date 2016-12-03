@@ -185,7 +185,7 @@ public class RobotManager {
 			// 随机名字
 			String userName = nameList.remove(index++);
 			if (userName != null && !userName.isEmpty()) {
-				productPlayerList.add(new ProductPlayerTask(carerrs[random.nextInt(totalCarerrs)].getValue(), entry.getKey(), entry.getValue(), userName));
+				productPlayerList.add(new ProductPlayerTask(carerrs[random.nextInt(totalCarerrs - 1) + 1].getValue(), entry.getKey(), entry.getValue(), userName));
 			}
 		}
 		ExecutorService e = Executors.newFixedThreadPool(10);
