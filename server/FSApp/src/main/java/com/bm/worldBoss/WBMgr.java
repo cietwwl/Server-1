@@ -259,11 +259,14 @@ public class WBMgr {
 	
 	/**
 	 * 广播boss改变
+	 * @param cleanBuff TODO 切换到新boss此参数才为true
 	 */
-	public void broatBossChange() {
+	public void broatBossChange(boolean cleanBuff) {
 		List<Player> list = PlayerMgr.getInstance().getOnlinePlayers();
 		for (Player player : list) {
-			WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			if(cleanBuff){
+				WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			}
 			synWBData(player, -1);	
 		}
 	}
@@ -282,7 +285,7 @@ public class WBMgr {
 		int hour = DateUtils.getCurrentHour();
 		int min = DateUtils.getCurMinuteOfHour();
 		copyCfg.setPreStartTimeStr(hour +":" + min);
-		int afterTime = min + 10;
+		int afterTime = min + 2;
 		if(afterTime >= 60){
 			hour ++;
 			afterTime = afterTime % 60;
@@ -332,7 +335,7 @@ public class WBMgr {
 		default:
 			break;
 		}
-		broatBossChange();
+		broatBossChange(false);
 		GameLog.info(LogModule.GM.getName(), "GM", "world boss state transform to :" + fsm.getState());
 	}
 
@@ -344,12 +347,12 @@ public class WBMgr {
 		}
 		
 		WBData data = WBDataHolder.getInstance().get();
-		if(data == null || data.getState() != WBState.NewBoss){
+		if(data == null){
 			return;
 		}
 		data.setOpen(ServerSwitch.isOpenWorldBoss());
 		WBDataHolder.getInstance().update();
-		broatBossChange();
+		broatBossChange(false);
 		GameLog.info(LogModule.GM.getName(), "GM", "world boss is open:" + ServerSwitch.isOpenWorldBoss());
 	}
 	
