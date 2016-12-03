@@ -148,7 +148,7 @@ public class SpriteAttachHolder {
 	public void synAllData(Player player, Hero hero) {
 		SpriteAttachSyn spriteAttachSyn = getSpriteAttachSyn(hero.getId());
 		if (spriteAttachSyn != null) {
-			ClientDataSynMgr.synData(player, spriteAttachSyn, synType, eSynOpType.ADD_SINGLE);
+			ClientDataSynMgr.synData(player, spriteAttachSyn, synType, eSynOpType.UPDATE_SINGLE);
 		}
 	}
 

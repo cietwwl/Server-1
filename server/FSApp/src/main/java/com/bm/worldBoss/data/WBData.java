@@ -19,7 +19,7 @@ public class WBData {
 	
 	private long preStartTime;
 	private long startTime;
-	private long endTime;
+	private long endTime;//boss如果被击杀，endtime会改变为当时击杀时刻，而不是配置表时刻
 	private long finishTime;
 	
 	private long curLife;// 当前生命值

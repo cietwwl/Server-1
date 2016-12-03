@@ -5,8 +5,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.cfg.WBHPCfg;
@@ -18,10 +16,9 @@ import com.bm.worldBoss.data.WBBroatCastDataHolder;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
-import com.bm.worldBoss.data.WBUserData;
-import com.bm.worldBoss.data.WBUserDataDao;
-import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
+import com.bm.worldBoss.service.WBService;
+import com.bm.worldBoss.state.IwbState;
 import com.bm.worldBoss.state.WBFightEndState;
 import com.bm.worldBoss.state.WBFinishState;
 import com.bm.worldBoss.state.WBNewBossState;
@@ -306,28 +303,31 @@ public class WBMgr {
 		}
 		copyCfg.setFinishTimeStr(hour + ":" + afterTime);
 		WBDataHolder.getInstance().newBoss(copyCfg);
-				
-		WBStateFSM.getInstance().setState(new WBNewBossState());
+		WBNewBossState state = new WBNewBossState();
+		WBStateFSM.getInstance().setState(state);
+		state.doEnter();
 	}
 	
 	public void change2NextState(){
 		WBStateFSM fsm = WBStateFSM.getInstance();
 		WBState state = fsm.getState();
+		IwbState wb = null;
 		switch (state) {
 		case NewBoss:
-			fsm.setState(new WBPreStartState());
+			wb = new WBPreStartState();
 			break;
 		case PreStart:
-			fsm.setState(new WBFinishState());
+			wb = new WBFinishState();
 			break;
 		case FightStart:
-			fsm.setState(new WBFightEndState());
+			wb = new WBFightEndState();
 			break;
 		case FightEnd:
-			fsm.setState(new WBSendAwardState());
+			wb = new WBSendAwardState();
 			break;
 		case SendAward:
-			fsm.setState(new WBFinishState());
+			wb = new WBFinishState();
+			break;
 		case Finish:
 			reCallNewBoss();
 			break;
@@ -335,7 +335,10 @@ public class WBMgr {
 		default:
 			break;
 		}
-		broatBossChange(false);
+		if(wb != null){
+			fsm.setState(wb);
+			wb.doEnter();
+		}
 		GameLog.info(LogModule.GM.getName(), "GM", "world boss state transform to :" + fsm.getState());
 	}
 
