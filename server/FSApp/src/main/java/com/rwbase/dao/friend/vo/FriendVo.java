@@ -1,5 +1,6 @@
 package com.rwbase.dao.friend.vo;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.common.HPCUtil;
@@ -33,6 +34,7 @@ public class FriendVo implements FriendVoIF {
 		this.lastResetMillis = lastResetMillis;
 	}
 
+	@JsonIgnore
 	public int getAndCheckReceivePower() {
 		//这里不主动保存，有修复附带一起
 		if (HPCUtil.isResetTime(lastResetMillis)) {
@@ -43,12 +45,14 @@ public class FriendVo implements FriendVoIF {
 	}
 
 	/** 今日还可领取次数 */
+	@JsonIgnore
 	public int getSurplusCount(int level) {
 		CfgFriendGift cfg = CfgFriendGiftDAO.getInstance().getFriendGiftCfg(level + "");
 		return cfg.getReceiveLimit() - getAndCheckReceivePower();
 	}
 
 	/** 是否达到了领取上限 */
+	@JsonIgnore
 	public boolean isCanReceive(int level) {
 		CfgFriendGift cfg = CfgFriendGiftDAO.getInstance().getFriendGiftCfg(level + "");
 		if (getAndCheckReceivePower() < cfg.getReceiveLimit()) {

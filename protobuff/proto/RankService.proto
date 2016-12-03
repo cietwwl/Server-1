@@ -47,6 +47,7 @@ message RankInfo{
 	optional int32 sex = 13;//显示时装需要性别，具体的值参见服务器ESex,客户端eSex
 	optional int32 popularity = 14;//人气值
 	optional int32 vip = 15;	//vip等级
+	optional int32 magicId = 16; //法宝id
 }
 
 message BaseRankInfo{

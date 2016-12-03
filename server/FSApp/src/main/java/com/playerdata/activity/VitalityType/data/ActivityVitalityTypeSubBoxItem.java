@@ -9,7 +9,7 @@ import com.playerdata.dataSyn.annotation.SynClass;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ActivityVitalityTypeSubBoxItem {
 
-private String cfgId;
+	private String cfgId;
 	
 	private int count;
 
@@ -17,6 +17,7 @@ private String cfgId;
 	private boolean taken = false;
 
 	private String giftId ;
+	
 	public String getGiftId() {
 		return giftId;
 	}
@@ -38,10 +39,8 @@ private String cfgId;
 	}
 
 	public void setCount(int count) {
-		
 		this.count = count;
 	}
-
 
 	public boolean isTaken() {
 		return taken;
@@ -49,8 +48,5 @@ private String cfgId;
 
 	public void setTaken(boolean taken) {
 		this.taken = taken;
-	}
-	
-	
-	
+	}		
 }

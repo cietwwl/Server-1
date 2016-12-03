@@ -330,14 +330,15 @@ public class PvECommonHelper {
 			if (times > ticketCount) {
 				player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, ticketCount);
 				player.getUserGameDataMgr().addGold(-(times - ticketCount));
-				UserEventMgr.getInstance().UseSweepTicketVitality(player, ticketCount);
+				//UserEventMgr.getInstance().UseSweepTicketVitality(player, ticketCount);
 			} else {
 				player.getUserGameDataMgr().addGold(-times);
 			}
 		} else if (copyRequest.getRequestType() == ERequestType.SWEEP_LEVEL_TICKET) { // 扫荡券扫荡
 			player.getItemBagMgr().useItemByCfgId(PvECommonHelper.SweepTicketID, times);
-			UserEventMgr.getInstance().UseSweepTicketVitality(player, times);
 		}
+		//扫荡时消耗的钻石，也算消耗的扫荡券
+		UserEventMgr.getInstance().UseSweepTicketVitality(player, times);
 	}
 
 }
