@@ -234,7 +234,14 @@ public class JsonValueWriter {
 		}
 		DataValueParser parser = DataValueParserMap.getParser(oldRecord.getClass());
 		if (parser != null) {
-			return parser.recordAndUpdate(oldRecord, newRecord);
+			JSONObject subJson = parser.recordAndUpdate(oldRecord, newRecord);
+			if (subJson == null) {
+				return recordMap;
+			}
+			if (recordMap == null) {
+				recordMap = new JSONObject();
+			}
+			recordMap.put(keyName, subJson);
 		}
 		return recordMap;
 	}

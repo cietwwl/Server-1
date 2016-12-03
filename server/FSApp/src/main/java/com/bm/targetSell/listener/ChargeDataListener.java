@@ -1,17 +1,11 @@
 package com.bm.targetSell.listener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.ERoleAttrs;
-import com.playerdata.Player;
-import com.playerdata.PlayerMgr;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.rw.fsutil.dao.cache.trace.SignleChangedEvent;
 import com.rw.fsutil.dao.cache.trace.SingleChangedListener;
 import com.rw.manager.ServerSwitch;
-import com.sun.org.apache.regexp.internal.recompile;
 
 /**
  * 充值数据监听器
