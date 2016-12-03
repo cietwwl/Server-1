@@ -36,8 +36,9 @@ public enum ChargeTypeEnum {
 		_orderList = Collections.unmodifiableList(orderList);
 	}
 	
-	private ChargeTypeEnum (String cfgId, IChargeAction action){
+	private ChargeTypeEnum (String cfgId, IChargeAction pAction){
 		this.cfgId = cfgId;
+		this.action = pAction;
 	}
 	
 	public String getCfgId(){

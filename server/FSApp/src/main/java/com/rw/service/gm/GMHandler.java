@@ -897,7 +897,7 @@ public class GMHandler {
 		}
 		String itemId = arrCommandContents[0];
 		if (player != null) {
-			ChargeMgr.getInstance().charge(player, itemId);
+			ChargeMgr.getInstance().testCharge(player, itemId);
 			return true;
 		}
 		return false;

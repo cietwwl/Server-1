@@ -1,6 +1,7 @@
 package com.playerdata.charge.action;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +26,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.dailyActivity.DailyActivityHandler;
+import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
 
@@ -97,8 +99,18 @@ public class MonthCardChargeAction implements IChargeAction {
 	 * 
 	 * @param player
 	 */
-	protected void onPresentMonthCardFail(Player player) {
-		EmailUtils.sendEmail(player.getUserId(), SEND_MONTH_CARD_FAIL_EMAIL_ID);
+	protected void onPresentMonthCardFail(Player player, ChargeCfg cfg) {
+		switch (cfg.getChargeType()) {
+		case VipMonthCard:
+			EmailUtils.sendEmail(player.getUserId(), SEND_MONTH_CARD_FAIL_EMAIL_ID);
+			break;
+		case MonthCard:
+			EmailUtils.sendEmail(player.getUserId(), SEND_MONTH_CARD_FAIL_EMAIL_ID, Collections.singletonMap(eSpecialItemId.Gold.getValue(), cfg.getMoneyCount() / 10));
+			break;
+		default:
+			GameLog.error("onPresentMonthCardFail", player.getUserId(), "无法识别的月卡类型：" + cfg.getChargeType());
+			break;
+		}
 	}
 	
 	/**
@@ -153,8 +165,9 @@ public class MonthCardChargeAction implements IChargeAction {
 		if (result.isSuccess()) {
 			onPresentMonthCardSuccess(selfPlayer, friendPlayer.getUserId(), timeCardSubCfgId);
 		} else {
-			onPresentMonthCardFail(selfPlayer);
+			onPresentMonthCardFail(selfPlayer, target);
 		}
+		result.setSuccess(true); // 赠送月卡失败，但是处理了充值到自身，所以也应该成功
 		return result;
 	}
 
@@ -198,7 +211,7 @@ public class MonthCardChargeAction implements IChargeAction {
 					friendPlayer = PlayerMgr.getInstance().find(friendId);
 					// 找不到要赠送的好友
 					if (null == friendPlayer) {
-						onPresentMonthCardFail(player);
+						onPresentMonthCardFail(player, target);
 					}
 				}
 				if (null != friendPlayer) {
