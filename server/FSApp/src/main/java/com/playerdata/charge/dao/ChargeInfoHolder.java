@@ -76,6 +76,12 @@ public class ChargeInfoHolder {
 			GameLog.error("ChargeInfoHolder", "#update()", "find ChargeInfo fail:" + userId);
 		}
 	}
+	
+	public void updateToDB(ChargeInfo chargeInfo) {
+		if (chargeInfo != null) {
+			ChargeInfoDao.getInstance().update(chargeInfo);
+		}
+	}
 
 
 }
