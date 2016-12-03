@@ -2,7 +2,7 @@ package com.bm.worldBoss.state;
 
 import com.bm.worldBoss.data.WBState;
 
-interface IwbState {
+public interface IwbState {
 	
 	public void doEnter();
 

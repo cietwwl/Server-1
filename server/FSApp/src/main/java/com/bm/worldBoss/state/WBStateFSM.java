@@ -3,6 +3,7 @@ package com.bm.worldBoss.state;
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.data.WBData;
+import com.bm.worldBoss.data.WBDataDao;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 import com.log.GameLog;
@@ -33,6 +34,8 @@ public class WBStateFSM {
 				curState = initFromWbData(wbData);
 			}
 		}
+		//设置一下开启状态
+		setOpenState();
 		curState.doEnter();
 		GameLog.info(LogModule.WorldBoss.getName(), "WBStateFSM[init]", "world boss init finish, world boss open:" + ServerSwitch.isOpenWorldBoss());
 	}
@@ -69,8 +72,7 @@ public class WBStateFSM {
 			break;
 		}
 		
-		//检查一下配置表
-		checkCfg();
+		
 		
 		return curStateTmp;
 		
@@ -79,11 +81,15 @@ public class WBStateFSM {
 	/**
 	 * 检查一下配置文件,并且设置是否开启世界boss
 	 */
-	private void checkCfg(){
+	private void setOpenState(){
 		WBData data = WBDataHolder.getInstance().get();
+		if(data == null){
+			return;
+		}
 		data.setOpen(ServerSwitch.isOpenWorldBoss());
-		WBCfg cfg = WBCfgDAO.getInstance().getCfgById(data.getWbcfgId());
-		WBDataHolder.getInstance().reCfg(data, cfg);
+		
+		boolean update = WBDataDao.getInstance().update(data);
+		GameLog.info(LogModule.WorldBoss.getName(), "WBDataHolder[init]", "world boss update wbdata result: " + update);
 	}
 
 	public void tranfer(){
@@ -98,10 +104,19 @@ public class WBStateFSM {
 		}	
 		
 	}
+	
+	
 
 	
 	public WBState getState(){
 		return curState.getState();
 	}
 	
+	/**
+	 * 设置世界boss状态，此方法只用于作弊，普通方法不可以调用
+	 * @param state
+	 */
+	public void setState(IwbState state){
+		curState = state;
+	}
 }

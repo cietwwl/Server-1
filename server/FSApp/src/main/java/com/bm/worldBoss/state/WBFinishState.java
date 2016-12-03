@@ -11,7 +11,7 @@ import com.log.LogModule;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.ServerSwitch;
 
-class WBFinishState implements  IwbState{
+public class WBFinishState implements  IwbState{
 
 	final private WBState state = WBState.Finish;
 	
@@ -30,8 +30,6 @@ class WBFinishState implements  IwbState{
 		boolean success = false;
 		WBData wbData = WBDataHolder.getInstance().get();
 		long curTime = System.currentTimeMillis();
-//		if(wbData != null)
-//			System.out.println("end time : " + DateUtils.getDateTimeFormatString(wbData.getEndTime(), "yyyy-MM-dd HH:mm:ss"));
 		if(wbData == null || wbData.getEndTime() < curTime){
 			WBCfg nextCfg = WBCfgDAO.getInstance().getNextCfg();
 			
@@ -42,6 +40,7 @@ class WBFinishState implements  IwbState{
 //				GameLog.info(LogModule.WorldBoss.getName(), "WBFinishState[tryNextBoss]", "no wbcfg for today ");
 			}
 		}
+		//System.out.println("tryNextBoss, suc : " + success);
 		return success;
 		
 	}
@@ -63,7 +62,7 @@ class WBFinishState implements  IwbState{
 				WBMgr.getInstance().adjustBossLevel();
 			}
 		}
-		
+		WBMgr.getInstance().broatBossChange(false);
 		
 	}
 

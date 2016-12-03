@@ -6,7 +6,7 @@ import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 
-class WBSendAwardState implements  IwbState{
+public class WBSendAwardState implements  IwbState{
 	
 	final private WBState state = WBState.SendAward;
 	

@@ -15,7 +15,10 @@ import com.playerdata.activity.dateType.data.ActivityDateTypeItem;
 import com.playerdata.activity.dateType.data.ActivityDateTypeItemHolder;
 import com.playerdata.activity.dateType.data.ActivityDateTypeSubItem;
 
-
+/**
+ * 目前没用的功能（旧的每日福利）
+ *
+ */
 public class ActivityDateTypeMgr {
 	
 	private static ActivityDateTypeMgr instance = new ActivityDateTypeMgr();

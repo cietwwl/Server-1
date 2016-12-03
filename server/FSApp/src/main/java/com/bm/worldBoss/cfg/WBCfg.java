@@ -25,6 +25,22 @@ public class WBCfg {
 	private String killAttackAwardId;//最后一击奖励
 	private String killAttackAward;//最后一击奖励
 	
+	
+
+	public WBCfg() {
+	}
+	
+	public WBCfg(WBCfg cfg){
+		this.id = cfg.id;
+		this.preStartTimeStr = cfg.preStartTimeStr;
+		this.startTimeStr = cfg.preStartTimeStr;
+		this.endTimeStr = cfg.endTimeStr;
+		this.finishTimeStr = cfg.finishTimeStr;
+		this.copyId = cfg.copyId;
+		this.weekDay = cfg.weekDay;
+		this.killAttackAward = cfg.killAttackAward;
+		this.killAttackAwardId = cfg.killAttackAwardId;
+	}
 
 	public String getId() {
 		return id;
@@ -109,6 +125,42 @@ public class WBCfg {
 		String timeStr = DateUtils.getDateTimeFormatString(1477365300000L, "yyyy-MM-dd HH:mm");
 		System.out.println(timeStr);
 		
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setPreStartTimeStr(String preStartTimeStr) {
+		this.preStartTimeStr = preStartTimeStr;
+	}
+
+	public void setStartTimeStr(String startTimeStr) {
+		this.startTimeStr = startTimeStr;
+	}
+
+	public void setEndTimeStr(String endTimeStr) {
+		this.endTimeStr = endTimeStr;
+	}
+
+	public void setFinishTimeStr(String finishTimeStr) {
+		this.finishTimeStr = finishTimeStr;
+	}
+
+	public void setCopyId(String copyId) {
+		this.copyId = copyId;
+	}
+
+	public void setWeekDay(int weekDay) {
+		this.weekDay = weekDay;
+	}
+
+	public void setKillAttackAwardId(String killAttackAwardId) {
+		this.killAttackAwardId = killAttackAwardId;
+	}
+
+	public void setKillAttackAward(String killAttackAward) {
+		this.killAttackAward = killAttackAward;
 	}
 
 	

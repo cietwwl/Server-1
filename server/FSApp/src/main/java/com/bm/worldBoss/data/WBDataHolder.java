@@ -137,10 +137,6 @@ public class WBDataHolder {
 			data.setStartTime(wbCfg.getStartTime());
 			data.setEndTime(wbCfg.getEndTime());
 			data.setFinishTime(wbCfg.getFinishTime());
-			
-			boolean update = WBDataDao.getInstance().update(data);
-			
-			GameLog.info(LogModule.WorldBoss.getName(), "WBDataHolder[init]", "world boss update wbdata result: " + update);
 		}
 	}
 	 
@@ -171,6 +167,7 @@ public class WBDataHolder {
 							.setUserName(player.getUserName());;							
 			
 			wbData.setLastFightInfo(lastFightInfo );
+			wbData.setEndTime(System.currentTimeMillis());
 		}
 		
 		

@@ -5,8 +5,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.bm.worldBoss.cfg.WBCfg;
 import com.bm.worldBoss.cfg.WBCfgDAO;
 import com.bm.worldBoss.cfg.WBHPCfg;
@@ -17,10 +15,15 @@ import com.bm.worldBoss.data.WBBroatCastData;
 import com.bm.worldBoss.data.WBBroatCastDataHolder;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
-import com.bm.worldBoss.data.WBUserData;
-import com.bm.worldBoss.data.WBUserDataDao;
-import com.bm.worldBoss.data.WBUserDataHolder;
+import com.bm.worldBoss.data.WBState;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
+import com.bm.worldBoss.service.WBService;
+import com.bm.worldBoss.state.IwbState;
+import com.bm.worldBoss.state.WBFightEndState;
+import com.bm.worldBoss.state.WBFinishState;
+import com.bm.worldBoss.state.WBNewBossState;
+import com.bm.worldBoss.state.WBPreStartState;
+import com.bm.worldBoss.state.WBSendAwardState;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -32,6 +35,8 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.battleVerify.damageControll.DamageControllCfg;
 import com.playerdata.battleVerify.damageControll.DamageControllCfgDAO;
+import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.ServerSwitch;
 
 
 public class WBMgr {
@@ -251,16 +256,108 @@ public class WBMgr {
 	
 	/**
 	 * 广播boss改变
+	 * @param cleanBuff TODO 切换到新boss此参数才为true
 	 */
-	public void broatBossChange() {
+	public void broatBossChange(boolean cleanBuff) {
 		List<Player> list = PlayerMgr.getInstance().getOnlinePlayers();
 		for (Player player : list) {
-			WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			if(cleanBuff){
+				WBUserMgr.getInstance().cleanBuff(player.getUserId());
+			}
 			synWBData(player, -1);	
 		}
 	}
+
 	
+	/**
+	 * 作弊指令召唤世界boss，除了GMHandler，其他部分禁止调用此方法
+	 */
+	public void reCallNewBoss() {
+		//先清除旧的世界boss数据
+		WBStateFSM.getInstance().setState(null);
+		
+		//copy一个世界boss配置出来
+		WBCfg cfg = WBCfgDAO.getInstance().getAllCfg().get(0);
+		WBCfg copyCfg = new WBCfg(cfg);
+		int hour = DateUtils.getCurrentHour();
+		int min = DateUtils.getCurMinuteOfHour();
+		copyCfg.setPreStartTimeStr(hour +":" + min);
+		int afterTime = min + 2;
+		if(afterTime >= 60){
+			hour ++;
+			afterTime = afterTime % 60;
+		}
+		copyCfg.setStartTimeStr(hour + ":" + afterTime);
+		
+		afterTime = afterTime + 40;
+		if(afterTime >= 60){
+			hour ++;
+			afterTime = afterTime % 60;
+		}
+		
+		copyCfg.setEndTimeStr(hour + ":" + afterTime);
+		afterTime = afterTime + 10;
+		if(afterTime >= 60){
+			hour ++;
+			afterTime = afterTime % 60;
+		}
+		copyCfg.setFinishTimeStr(hour + ":" + afterTime);
+		WBDataHolder.getInstance().newBoss(copyCfg);
+		WBNewBossState state = new WBNewBossState();
+		WBStateFSM.getInstance().setState(state);
+		state.doEnter();
+	}
 	
+	public void change2NextState(){
+		WBStateFSM fsm = WBStateFSM.getInstance();
+		WBState state = fsm.getState();
+		IwbState wb = null;
+		switch (state) {
+		case NewBoss:
+			wb = new WBPreStartState();
+			break;
+		case PreStart:
+			wb = new WBFinishState();
+			break;
+		case FightStart:
+			wb = new WBFightEndState();
+			break;
+		case FightEnd:
+			wb = new WBSendAwardState();
+			break;
+		case SendAward:
+			wb = new WBFinishState();
+			break;
+		case Finish:
+			reCallNewBoss();
+			break;
+
+		default:
+			break;
+		}
+		if(wb != null){
+			fsm.setState(wb);
+			wb.doEnter();
+		}
+		GameLog.info(LogModule.GM.getName(), "GM", "world boss state transform to :" + fsm.getState());
+	}
+
+	public void changeWorldBossState(int state) {
+		if(state == 0){//关闭
+			ServerSwitch.setOpenWorldBoss(false);
+		}else if(state == 1){ //开启
+			ServerSwitch.setOpenWorldBoss(true);
+		}
+		
+		WBData data = WBDataHolder.getInstance().get();
+		if(data == null){
+			return;
+		}
+		data.setOpen(ServerSwitch.isOpenWorldBoss());
+		WBDataHolder.getInstance().update();
+		broatBossChange(false);
+		GameLog.info(LogModule.GM.getName(), "GM", "world boss is open:" + ServerSwitch.isOpenWorldBoss());
+	}
 	
 	
 }

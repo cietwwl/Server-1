@@ -26,6 +26,7 @@ import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankAttribute;
 import com.bm.rank.groupsecretmatch.GroupSecretMatchRankComparable;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.bm.worldBoss.WBMgr;
 import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -305,6 +306,11 @@ public class GMHandler {
 		//修改活动配置的时间和奖励
 		funcCallBackMap.put("setcfgtime", "setCfgTime");
 		funcCallBackMap.put("setcfgreward", "setCfgReward");
+		
+		//世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
+		funcCallBackMap.put("callwb", "callWorldBoss");
+		funcCallBackMap.put("wbstate", "changeWBState");
+		funcCallBackMap.put("openwb", "openWorldBoss");//开启/关闭世界boss状态   openwb num(0=关闭，1=开启)
 	}
 
 	public boolean isActive() {
@@ -968,6 +974,23 @@ public class GMHandler {
 		return true;
 	}
 
+	public boolean callWorldBoss(String[] args, Player player){
+		WBMgr.getInstance().reCallNewBoss();
+		return true;
+	}
+	
+	
+	public boolean openWorldBoss(String[] args,Player player){
+		int state = Integer.parseInt(args[0]);
+		WBMgr.getInstance().changeWorldBossState(state);
+		return true;
+	}
+	
+	public boolean changeWBState(String[] args, Player player){
+		WBMgr.getInstance().change2NextState();
+		return true;
+	}
+	
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
 		player.unendingWarMgr.save();

@@ -5,7 +5,7 @@ import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 
-class WBFightEndState implements  IwbState{
+public class WBFightEndState implements  IwbState{
 
 	
 	final private WBState state = WBState.FightEnd;
@@ -31,6 +31,7 @@ class WBFightEndState implements  IwbState{
 		if(wbData.getCurLife() > 0 ){
 			WBMgr.getInstance().broatCastBossLeave();
 		}
+		WBMgr.getInstance().broatBossChange(false);
 	}
 
 }
