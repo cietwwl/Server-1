@@ -1,4 +1,4 @@
-package com.playerdata.charge;
+package com.playerdata.charge.util;
 
 import java.net.URLDecoder;
 

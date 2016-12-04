@@ -32,14 +32,14 @@ public class ChargeInfo {
 	private int lastCharge;
 	//上次充值时间
 	private long lastChargeTime;
-	//总的充值金额
+	//总的充值金额（单位：分）
 	private int totalChargeMoney;
-	
+	// 总的充值所获得的钻石
 	private int totalChargeGold;	
 	
 //	private List<ChargeOrder> chargeOrderList = new ArrayList<ChargeOrder>();
 	
-	private List<String> alreadyChargeIds = new ArrayList<String>();
+	private List<String> alreadyChargeIds = new ArrayList<String>(); // 已经充值过的充值档位id，只有首次充的时候会添加进来
 	
 	private boolean isChargeOn ;
 	
@@ -55,6 +55,12 @@ public class ChargeInfo {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+	/**
+	 * 
+	 * 获取充值次数
+	 * 
+	 * @return
+	 */
 	public int getCount() {
 		return count;
 	}
@@ -96,21 +102,30 @@ public class ChargeInfo {
 		this.totalChargeGold+=addGold;
 		return this;
 	}
+	
+	/**
+	 * 
+	 * 增加充值的总金额
+	 * 
+	 * @param addMoney
+	 * @return
+	 */
 	public ChargeInfo addTotalChargeMoney(int addMoney){
 		this.totalChargeMoney += addMoney;
 		return this;
 	}
 	
+	/**
+	 * 
+	 * 增加充值的次数
+	 * 
+	 * @param count
+	 * @return
+	 */
 	public ChargeInfo addCount(int count){
 		this.count += count;
 		return this;
 	}
-//	public List<ChargeOrder> getChargeOrderList() {
-//		return chargeOrderList;
-//	}
-//	public void setChargeOrderList(List<ChargeOrder> chargeOrderList) {
-//		this.chargeOrderList = chargeOrderList;
-//	}
 	
 	public List<ChargeInfoSubRecording> getPayTimesList() {
 		return payTimesList;
@@ -118,35 +133,6 @@ public class ChargeInfo {
 	public void setPayTimesList(List<ChargeInfoSubRecording> payTimesList) {
 		this.payTimesList = payTimesList;
 	}
-	
-//	public void addOrder(ChargeOrder chargeOrder){
-//
-//		if(chargeOrder == null){
-//			return;
-//		}
-//		
-//		final int maxSizeKeep = 10;//最多只保留10条订单信息
-//		if(chargeOrderList.size()>=maxSizeKeep){
-//			chargeOrderList.remove(0);
-//			chargeOrderList.add(0,chargeOrder);
-//			Collections.sort(chargeOrderList);//排序，最新的排在后面
-//		}else{
-//			chargeOrderList.add(chargeOrder);
-//			Collections.sort(chargeOrderList);//排序，最新的排在后面
-//		}
-//	
-//	}
-//
-//	public boolean isOrderExist(String cpTradeNo) {
-//		boolean isExist = false;
-//		for (ChargeOrder chargeOrder : chargeOrderList) {
-//			if (StringUtils.equals(cpTradeNo, chargeOrder.getCpTradeNo())) {
-//				isExist = true;
-//				break;
-//			}
-//		}
-//		return isExist;
-//	}
 
 	public List<String> getAlreadyChargeIds() {
 		return alreadyChargeIds;

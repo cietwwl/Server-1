@@ -16,7 +16,8 @@ public class ChargeCfg {
 	private int goldCount;//充值钻石数量	
 	private int vipExp;//充值增加vip经验数
 	private int extraGive;//额外赠送钻石	
-	private int moneyCount;//充值金额	
+	private int moneyCount;//充值金额(单位：分)
+	private int moneyYuan; // 充值金额（单位：元）
 	private int extraGiftId;//额外赠送礼包
 	@EnumIndex
 	private ChargeTypeEnum chargeType;//充值类型...
@@ -70,6 +71,12 @@ public class ChargeCfg {
 	public void setGoldCount(int goldCount) {
 		this.goldCount = goldCount;
 	}
+	/**
+	 * 
+	 * 获取充值的money，单位：分
+	 * 
+	 * @return
+	 */
 	public int getMoneyCount() {
 		return moneyCount;
 	}
@@ -99,6 +106,16 @@ public class ChargeCfg {
 	}
 	public void setVipExp(int vipExp) {
 		this.vipExp = vipExp;
+	}
+	/**
+	 * 获取充值金额（单位：元）
+	 * @return
+	 */
+	public int getMoneyYuan() {
+		return moneyYuan;
+	}
+	public void setMoneyYuan(int moneyYuan) {
+		this.moneyYuan = moneyYuan;
 	}
 
 	

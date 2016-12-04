@@ -1,6 +1,5 @@
 package com.playerdata.charge.cfg;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
