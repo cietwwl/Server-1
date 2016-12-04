@@ -91,6 +91,7 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 				ItemBagMgr.getInstance().useLikeBoxItem(player, null, null, map);
 			}
 			targetItem.setCount(targetItem.getCount() + 1);
+			ItemBagMgr.getInstance().addItem(player, targetItem.getItemId(), targetItem.getItemNum());
 			dataHolder.updateItem(player, dataItem);
 			result.setReason("购买成功");
 			result.setSuccess(true);
