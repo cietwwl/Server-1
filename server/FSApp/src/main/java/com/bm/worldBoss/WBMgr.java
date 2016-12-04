@@ -346,6 +346,7 @@ public class WBMgr {
 		}
 		data.setOpen(ServerSwitch.isOpenWorldBoss());
 		WBDataHolder.getInstance().update();
+		broatBossChange();
 	}
 	
 	

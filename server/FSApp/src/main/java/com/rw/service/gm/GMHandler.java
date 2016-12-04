@@ -980,7 +980,7 @@ public class GMHandler {
 	}
 	
 	
-	public boolean openWorldBossState(String[] args,Player player){
+	public boolean openWorldBoss(String[] args,Player player){
 		int state = Integer.parseInt(args[0]);
 		WBMgr.getInstance().changeWorldBossState(state);
 		return true;
