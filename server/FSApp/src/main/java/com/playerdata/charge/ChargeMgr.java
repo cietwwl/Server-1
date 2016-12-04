@@ -244,6 +244,36 @@ public class ChargeMgr {
 		return result;
 	}
 	
+	public ChargeResult addMonthCard(Player player, ChargeTypeEnum monthCardType, int count) {
+		ChargeResult result = ChargeResult.newResult(false);
+		if (player != null) {
+			switch (monthCardType) {
+			case VipMonthCard:
+				count = 1;
+				break;
+			case MonthCard:
+				break;
+			default:
+				result.setTips("该类型不是月卡！");
+				return result;
+			}
+			List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
+			for (ChargeCfg cfg : allCfg) {
+				if (cfg.getChargeType() == monthCardType) {
+					ChargeParam chargeParam = new ChargeParam();
+					for (int i = 0; i < count; i++) {
+						monthCardType.getAction().doCharge(player, cfg, chargeParam);
+					}
+					break;
+				}
+			}
+			result.setSuccess(true);
+		} else {
+			result.setTips("参数错误！");
+		}
+		return result;
+	}
+	
 	protected static class ChargeNotifyTask implements Runnable {
 
 		private Player player;
