@@ -125,9 +125,15 @@ public class ChargeMgr {
 		if (target != null) {
 			if (ServerSwitch.isTestCharge()) {
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			} else if (chargeContentPojo.getMoney() != target.getMoneyCount()) {
-				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-				return false;
+			} else  {
+				int money = chargeContentPojo.getMoney();
+				if (money == -1) {
+					money = chargeContentPojo.getItemAmount();
+				}
+				if (money != target.getMoneyCount()) {
+					GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+					return false;
+				}
 			}
 
 			IChargeAction action = target.getChargeType().getAction();
