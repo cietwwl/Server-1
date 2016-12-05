@@ -83,6 +83,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 					updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
 				}
 				updateVersion.setLuaAction("lua");
+				updateVersion.setLuaVerifySwitch(false);
 			}
 			System.out.println("---------------channelLuaInfo.getFilesmd5()" + channelLuaInfo.getFilesmd5());
 			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList);
@@ -152,6 +153,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			json.put("logServerAddress", updateVersion.getLogServerAddress());
 			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
 			json.put("luaAction", updateVersion.getLuaAction());
+			json.put("luaVerifySwitch", updateVersion.isLuaVerifySwitch());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
