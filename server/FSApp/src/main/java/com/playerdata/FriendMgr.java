@@ -736,13 +736,21 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		if (result) {
 			FriendItem friendItem = FriendHandler.getInstance().newFriendItem(otherUserId);
 			otherFriend.getFriendList().put(otherUserId, friendItem);
-			FriendHandler.getInstance().pushConsentAddFriend(PlayerMgr.getInstance().find(selfUserId), friendItem);
+
 			FriendGiveState giveState = otherFriend.getFriendGiveList().get(otherUserId);
 			if (giveState == null) {
 				giveState = new FriendGiveState();
 				giveState.setUserId(otherUserId);
 				otherFriend.getFriendGiveList().put(otherUserId, giveState);
 			}
+
+			// 是机器人的情况下，把人身上记录的赠送和接受状态都设置为true
+			if (PlayerMgr.getInstance().isPersistantRobot(otherUserId)) {
+				giveState.setGiveState(true);
+				giveState.setReceiveState(true);
+			}
+
+			FriendHandler.getInstance().pushConsentAddFriend(PlayerMgr.getInstance().find(selfUserId), friendItem);
 
 			// if(otherFriend.getRequestList().containsKey(otherUserId)){//从请求列表中移除
 			// otherFriend.getRequestList().remove(otherUserId);
