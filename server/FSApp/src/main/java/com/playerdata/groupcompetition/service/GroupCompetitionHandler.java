@@ -95,7 +95,7 @@ public class GroupCompetitionHandler {
 		if (ownGroup != null) {
 			GroupBaseDataIF baseData = ownGroup.getGroupBaseDataMgr().getGroupData();
 			int ranking = GCompFightingRankMgr.getRankIndex(baseData.getGroupId());
-			if (ranking > 0) {
+			if (ranking > 0 && ranking <= GCompFightingRankMgr.MAX_RANK_COUNT) {
 				// 在榜单中
 				GCompFightingItem fightingItem;
 				if (ranking < gCompFightingItemList.size()) {
