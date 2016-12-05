@@ -6,7 +6,9 @@ import com.bm.login.AccoutBM;
 import com.google.protobuf.ByteString;
 import com.log.PlatformLog;
 import com.rw.service.sdkVerifyToken.handler.ISDKHandler;
+import com.rw.service.sdkVerifyToken.handler.YinHan.DefaultSDKHandler;
 import com.rw.service.sdkVerifyToken.handler.YinHan.YinHanSDKHandler;
+import com.rw.service.sdkVerifyToken.handler.YinHan.ZYinHanSDKHandler;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwproto.SDKVerifyProtos.SDKVerifyRequest;
 import com.rwproto.SDKVerifyProtos.SDKVerifyResponse;
@@ -19,7 +21,9 @@ public class SDKVerifyHandler {
 	private final static HashMap<ESDKType, Class<?>> SDKMap = new HashMap<ESDKType, Class<?>>();
 	
 	static{
+		SDKMap.put(ESDKType.DEFAULT_SDK, DefaultSDKHandler.class);
 		SDKMap.put(ESDKType.YINHAN_SDK, YinHanSDKHandler.class);
+		SDKMap.put(ESDKType.ZYINHAN_SDK, ZYinHanSDKHandler.class);
 	}
 	
 	private SDKVerifyHandler(){};
@@ -37,6 +41,7 @@ public class SDKVerifyHandler {
 		try {
 			ESDKType sdkType = ESDKType.getSDKType(sdkVerifyRequest.getSdkType());
 			Class<?> cInstance = SDKMap.get(sdkType);
+			System.out.println("------------------sdkType:" + sdkType);
 			ISDKHandler handler = (ISDKHandler) cInstance.newInstance();
 			handler.init(sdkVerifyRequest);
 			SDKVerifyResult verifySDK = handler.verifySDK();

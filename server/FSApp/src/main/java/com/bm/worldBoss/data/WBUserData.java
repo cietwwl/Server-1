@@ -22,17 +22,14 @@ public class WBUserData {
 	
 	private long lastFightTime;
 	private long fightCdTime;
-	private long lastHurt;//上一次boss战的伤害
-	private int lastAwardCoin; //
+	private long lastHurt;//上一次boss战的伤害 战斗结算时显示
+	private int lastAwardCoin; //上一次boss战时奖励，战斗结算时显示
 
 	private long totalHurt;//对上一个boss的总伤害
 	
 	private List<String> buffCfgIdList = new ArrayList<String>();
 	private int cdBuyCount = 0;
 	
-	//user在一次战斗中对boss造成的累积伤害
-	@IgnoreSynField
-	private long accHurtInBattle;
 	
 	public static WBUserData newInstance(String userId){
 		WBUserData data =  new WBUserData();
@@ -53,7 +50,6 @@ public class WBUserData {
 		this.buffCfgIdList = new ArrayList<String>();
 		this.cdBuyCount = 0;
 		
-		this.accHurtInBattle = 0;		
 	}
 	
 	public WBUserData nextInstance(int bossVersion){	
@@ -115,9 +111,6 @@ public class WBUserData {
 		return lastHurt;
 	}
 
-	public void setLastHurt(long lastHurt) {
-		this.lastHurt = lastHurt;
-	}
 
 	public long getLastAwardCoin() {
 		return lastAwardCoin;
@@ -146,19 +139,27 @@ public class WBUserData {
 		this.cdBuyCount++;
 	}
 
-	public void addAccHurt(long hurt){
-		this.accHurtInBattle = this.accHurtInBattle + hurt;
-	}
-	public void cleanAccHurt(){
-		this.accHurtInBattle = 0L;
-	}
-	public long getAccHurt(){
-		return this.accHurtInBattle;
-	}
+//	public void addAccHurt(long hurt){
+//		this.accHurtInBattle = this.accHurtInBattle + hurt;
+//	}
+//	public void cleanAccHurt(){
+//		this.accHurtInBattle = 0L;
+//	}
+//	public long getAccHurt(){
+//		return this.accHurtInBattle;
+//	}
 
 	public void cleanBuff() {
 		
 		buffCfgIdList.clear();
+	}
+
+	public void cleanLastHurt() {
+		lastHurt = 0;
+	}
+
+	public void addLastHurt(long hurt) {
+		this.lastHurt += hurt;
 	}
 	
 }

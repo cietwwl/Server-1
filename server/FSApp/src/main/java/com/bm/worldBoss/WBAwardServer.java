@@ -76,7 +76,7 @@ public class WBAwardServer {
 		boolean killBoss = data.isKilled();
 		if(killBoss){
 			WBExAwardCfg cfg = WBExAwardCfgDAO.getInstance().getCfg(data.getSurvivalCount());
-			if(cfg == null && data.getSurvivalCount() != 0){
+			if(cfg == null){
 				GameLog.error(LogModule.WorldBoss.getName(), "WBAwardServer[sendKillBossAward]", "Can not find the WBExAwardCfg, the key is:" + data.getSurvivalCount(), null);
 				return;
 			}

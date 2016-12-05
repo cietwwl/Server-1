@@ -295,7 +295,7 @@ public class FriendHandler {
 	public FriendInfo reCommandRobot(Player player, TableFriend tableFriend, RankType rankType) {
 		Ranking<LevelComparable, RankingLevelData> ranking = RankingFactory.getRanking(rankType);
 		int size = ranking.size();
-		if (size == 0) {
+		if (size <= 1) {
 			return null;
 		}
 		int start = HPCUtil.getRandom().nextInt(size - 1) + 1;
@@ -685,7 +685,7 @@ public class FriendHandler {
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// TODO 帮派获取名字后再提供
 		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
-		newItem.setFighting(player.getHeroMgr().getFightingAll(player));
+		newItem.setFighting(player.getHeroMgr().getFightingTeam(player));
 		newItem.setVip(player.getVip());
 		newItem.setSex(player.getSex());
 		newItem.setCreateTime(DateUtils.getSecondLevelMillis());
@@ -728,7 +728,7 @@ public class FriendHandler {
 			friendInfo.setGiveState(giveState.isGiveState());
 			friendInfo.setReceiveState(giveState.isReceiveState());
 		}
-		Ranking<FightingComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.FIGHTING_ALL);
+		Ranking<FightingComparable, RankingLevelData> ranking = RankingFactory.getRanking(RankType.TEAM_FIGHTING);
 		RankingEntry<FightingComparable, RankingLevelData> entry = ranking.getRankingEntry(itemUserId);
 		if (entry != null) {
 			friendInfo.setFighting(entry.getComparable().getFighting());

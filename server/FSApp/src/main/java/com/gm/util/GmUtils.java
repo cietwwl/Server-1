@@ -10,52 +10,113 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilderFactory;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang3.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.playerdata.ItemCfgHelper;
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.log.GmLog;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
+import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.manager.ServerVersionConfig;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.item.pojo.ItemBaseCfg;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.GameWorldKey;
 
 public class GmUtils {
 	
-private static final DocumentBuilderFactory documentBuilderFactory;
+	public static final String MULTIPLE_TIME_HOT_FIX = "com/gm/multipletimeshotfix"; // 可以多次执行的hot fix
+	public static final String ONE_TIME_HOT_FIX = "com/gm/onetimehotfix"; // 只执行的hot fix
 	
-	static {
-		documentBuilderFactory = DocumentBuilderFactory.newInstance();
-	}
+	public static final String recordPath = "./.hotfix_history";
 	
-	public static Pair<String, List<String>> getHotUpdateInfo() throws Exception {
-		URL url = ClassLoader.getSystemResource("runtimeupdate.xml");
-		Document document = documentBuilderFactory.newDocumentBuilder().parse(new File(url.getFile()));
-		Node root = document.getFirstChild();
-		NodeList nodeList = root.getChildNodes();
-		List<String> list = Collections.emptyList();
-		String version = "";
-		for (int i = 0, length = nodeList.getLength(); i < length; i++) {
-			Node node = nodeList.item(i);
-			if (node.getNodeName().equals("updateList")) {
-				NodeList updateList = node.getChildNodes();
-				list = new ArrayList<String>(updateList.getLength());
-				for (int j = 0, updateSize = updateList.getLength(); j < updateSize; j++) {
-					Node updateNode = updateList.item(j);
-					if (updateNode.getNodeName().equals("classPath")) {
-						list.add(updateNode.getTextContent().trim());
+	private static List<Class<? extends Callable<?>>> getHotFixClasses(String path) throws Exception {
+		URL url = ClassLoader.getSystemResource(path);
+		String packagePath = url.getFile();
+		File packageFile = new File(url.getFile());
+		File[] files = packageFile.listFiles();
+		List<Class<? extends Callable<?>>> list;
+		if (files.length > 0) {
+			list = new ArrayList<Class<? extends Callable<?>>>(files.length);
+			String systemPath = packagePath.substring(1, packagePath.indexOf("com")).replace("/", File.separator);
+			ClassLoader loader = ClassLoader.getSystemClassLoader();
+			File temp;
+			for (int i = 0, length = files.length; i < length; i++) {
+				temp = files[i];
+				if (temp.getName().endsWith(".class") && !temp.getName().contains("$")) { // 是class并且非子类
+					String classPath = temp.getPath().replace(systemPath, "").replace("\\", ".").replace("/", ".").replace(".class", "");
+					if (classPath.startsWith(".")) {
+						classPath = classPath.substring(1, classPath.length());
+					}
+					Class<?> loadedClass = loader.loadClass(classPath);
+					if (Callable.class.isAssignableFrom(loadedClass)) {
+						@SuppressWarnings("unchecked")
+						Class<? extends Callable<?>> callableClass = (Class<? extends Callable<?>>) loadedClass;
+						list.add(callableClass);
 					}
 				}
-			} else if (node.getNodeName().equals("version")) {
-				version = node.getTextContent().trim();
 			}
+		} else {
+			list = Collections.emptyList();
 		}
-		return Pair.Create(version, list);
+		return list;
+	}
+	
+	public static List<Class<? extends Callable<?>>> getAllHotFixes() throws Exception {
+		List<Class<? extends Callable<?>>> returnList = new ArrayList<Class<? extends Callable<?>>>();
+		returnList.addAll(getHotFixClasses(ONE_TIME_HOT_FIX));
+		returnList.addAll(getHotFixClasses(MULTIPLE_TIME_HOT_FIX));
+		return returnList;
+	}
+	
+	public static List<Class<? extends Callable<?>>> getMultipleTimesHotFixes() throws Exception {
+		return getHotFixClasses(MULTIPLE_TIME_HOT_FIX);
+	}
+	
+	public static HotFixHistoryRecord getHotUpdateInfoFromHistoryRecord() throws Exception {
+//		Pair<String, Map<String, Long>> result = Pair.Create("", null);
+//		File file = new File(recordPath);
+//		String version = null;
+//		if (file.exists()) {
+//			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
+//			version = br.readLine();
+//			String line;
+//			Map<String, Long> list = new LinkedHashMap<String, Long>();
+//			while ((line = br.readLine()) != null) {
+//				line = line.trim();
+//				String[] record = line.split(":");
+//				list.put(record[1], Long.parseLong(record[2]));
+//			}
+//			br.close();
+//			result.setT1(version);
+//			result.setT2(list);
+//		}
+//		return result;
+		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.HOTFIX_HISTORY);
+		if (attribute != null && (attribute = attribute.trim()).length() > 0) {
+			return JsonUtil.readValue(attribute, HotFixHistoryRecord.class);
+		}
+		return null;
+	}
+	
+	public static void recordHotfixHistory(Map<String, Long> hotUpdateHistory) throws Exception {
+//		OutputStreamWriter osw = new OutputStreamWriter(new FileOutputStream(GmUtils.recordPath, false), "UTF-8");
+//		BufferedWriter bw = new BufferedWriter(osw);
+//		bw.write(ServerVersionConfig.getInstance().getVersion());
+//		bw.newLine();
+//		for (Iterator<String> keyItr = hotUpdateHistory.keySet().iterator(); keyItr.hasNext();) {
+//			String path = keyItr.next();
+//			Long time = hotUpdateHistory.get(path);
+//			bw.write("classPath:" + path + ":" + time);
+//			bw.newLine();
+//		}
+//		bw.flush();
+//		bw.close();
+		HotFixHistoryRecord record = new HotFixHistoryRecord();
+		record.setVersion(ServerVersionConfig.getInstance().getVersion());
+		record.setHotfixHistories(hotUpdateHistory);
+		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.HOTFIX_HISTORY, JsonUtil.writeValue(record));
 	}
 
 	

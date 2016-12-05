@@ -60,6 +60,8 @@ public class Version {
 	private String cpuType;
 	
 	private String deviceModel;
+	
+	private boolean luaVerifySwitch = false;     //lua校验开关
 
 	public String getLuaAction() {
 		return luaAction;
@@ -220,6 +222,14 @@ public class Version {
 
 	public void setDeviceModel(String deviceModel) {
 		this.deviceModel = deviceModel;
+	}
+
+	public boolean isLuaVerifySwitch() {
+		return luaVerifySwitch;
+	}
+
+	public void setLuaVerifySwitch(boolean luaVerifySwitch) {
+		this.luaVerifySwitch = luaVerifySwitch;
 	}
 
 	/**
