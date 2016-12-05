@@ -71,6 +71,8 @@ import com.rw.service.gm.fixequip.GMAddFixEquip;
 import com.rw.service.gm.groupcomp.GCGMHandler;
 import com.rw.service.gm.hero.GMHeroBase;
 import com.rw.service.gm.hero.GMHeroProcesser;
+import com.rw.service.group.helper.GroupHelper;
+import com.rw.service.group.helper.GroupRankHelper;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
 import com.rw.service.role.MainMsgHandler;
@@ -92,6 +94,7 @@ import com.rwbase.dao.fashion.FashionCommonCfgDao;
 import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.group.pojo.Group;
+import com.rwbase.dao.group.pojo.db.GroupBaseData;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
 import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -111,10 +114,10 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.ChatServiceProtos.ChatMessageData;
 import com.rwproto.ChatServiceProtos.MsgChatRequest;
 import com.rwproto.ChatServiceProtos.eChatType;
-import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GMServiceProtos.MsgGMRequest;
 import com.rwproto.GMServiceProtos.MsgGMResponse;
 import com.rwproto.GMServiceProtos.eGMResultType;
@@ -311,6 +314,8 @@ public class GMHandler {
 		funcCallBackMap.put("callwb", "callWorldBoss");
 		funcCallBackMap.put("wbstate", "changeWBState");
 		funcCallBackMap.put("openwb", "openWorldBoss");//开启/关闭世界boss状态   openwb num(0=关闭，1=开启)
+		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
+		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
 	}
 
 	public boolean isActive() {
@@ -2326,5 +2331,39 @@ public class GMHandler {
 		}catch(Exception ex){
 			return false;
 		}
+	}
+	
+	public boolean addGroupDonateAndExp(String[] arrCommandContents, Player player) {
+		int groupSupply = Integer.parseInt(arrCommandContents[0]);
+		int groupExp = 0;
+		if (arrCommandContents.length > 1) {
+			groupExp = Integer.parseInt(arrCommandContents[1]);
+		}
+		Group group = GroupBM.get(GroupHelper.getGroupId(player));
+		if (group != null) {
+			GroupBaseData groupBaseData = (GroupBaseData)group.getGroupBaseDataMgr().getGroupData();
+			groupBaseData.setSupplies(groupBaseData.getSupplies() + groupSupply);
+			groupBaseData.setDaySupplies(groupBaseData.getDaySupplies() + groupSupply);
+			if(groupExp > 0) {
+				groupBaseData.setGroupExp(groupBaseData.getGroupExp() + groupExp);
+				groupBaseData.setDayExp(groupBaseData.getDayExp() + groupExp);
+			}
+			group.getGroupBaseDataMgr().updateAndSynGroupData(player);
+			// 更新帮派排行榜属性
+			GroupRankHelper.addOrUpdateGroup2BaseRank(group);
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean addPersonalContribute(String[] arrCommandContents, Player player) {
+		Group group = GroupBM.get(GroupHelper.getGroupId(player));
+		if (group != null) {
+			int contribute = Integer.parseInt(arrCommandContents[0]);
+			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			group.getGroupMemberMgr().updateMemberDataWhenDonate(player.getUserId(), baseData.getDonateTimes() + 1, System.currentTimeMillis(), contribute, true);
+		}
+		return true;
 	}
 }
