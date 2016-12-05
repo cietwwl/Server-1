@@ -3,6 +3,7 @@ package com.rw.manager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,7 @@ import com.rwbase.dao.gameNotice.pojo.GameNoticeDataHolder;
 import com.rwbase.dao.group.GroupCheckDismissTask;
 import com.rwbase.dao.groupCopy.db.GroupCopyDistIDManager;
 import com.rwbase.dao.zone.TableZoneInfo;
+import com.rwbase.gameworld.GameWorldConstant;
 import com.rwbase.gameworld.GameWorldFactory;
 
 public class GameManager {
@@ -82,6 +84,7 @@ public class GameManager {
 	// author:lida 2015-09-23 区id
 	private static int zoneId;
 	private static long openTime; // 新服开服时间
+	private static long openTimeAt5Clock;
 	private static List<PlatformInfo> platformInfos = new ArrayList<PlatformInfo>(); // 登陆服信息
 	private static String logServerIp; // 日志服ip
 	private static int logServerPort; // 日志服端口
@@ -164,7 +167,7 @@ public class GameManager {
 		RobotManager.getInstance().createRobots();
 		RobotManager.getInstance().createPeakArenaRobot();
 		PlayerMgr.getInstance().initRobotCache();
-		//顺序必须在initRobotCache之后，否则不能清除
+		// 顺序必须在initRobotCache之后，否则不能清除
 		TargetSellManager.getInstance().clearRobotRecord();
 		GameLog.debug("创建竞技场机器人用时:" + (System.currentTimeMillis() - tempTimers) + "毫秒");
 
@@ -183,7 +186,7 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
-		
+
 		// 活动状态的初始化
 		ActivityDetector.getInstance();
 
@@ -192,7 +195,7 @@ public class GameManager {
 
 		// ServerStatus的初始化
 		ServerStatusMgr.init();
-		
+
 		NoticeMgr.getInstance().initNotice();
 
 		// 帮派副本奖励分发数据初始化
@@ -205,8 +208,8 @@ public class GameManager {
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
-		
-		//世界boss 初始化
+
+		// 世界boss 初始化
 		WBStateFSM.getInstance().init();
 	}
 
@@ -244,6 +247,12 @@ public class GameManager {
 	private static void initServerOpenTime() {
 		TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(zoneId);
 		openTime = DateUtils.getTime(zoneInfo.getOpenTime());
+		Calendar calener = Calendar.getInstance();
+		calener.setTimeInMillis(openTime);
+		calener.set(Calendar.HOUR_OF_DAY, GameWorldConstant.RESET_HOUR);
+		calener.set(Calendar.MINUTE, GameWorldConstant.RESET_MINUTE);
+		calener.set(Calendar.SECOND, GameWorldConstant.RESET_SECOND);
+		openTimeAt5Clock = calener.getTimeInMillis();
 	}
 
 	private static void initServerPerformanceConfig() {
@@ -423,6 +432,10 @@ public class GameManager {
 
 	public static long getOpenTime() {
 		return openTime;
+	}
+
+	public static long getOpenTimeAt5Clock() {
+		return openTimeAt5Clock;
 	}
 
 	public static List<PlatformInfo> getPlatformInfos() {

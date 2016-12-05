@@ -25,9 +25,6 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 			RequestType reqType = request.getReqType();
 			switch (reqType) {
 			case Enter:
-				byteString = WBHandler.getInstance().getSuccessRep(player, request);
-				break;
-
 			case SynData:
 				byteString = WBHandler.getInstance().getSuccessRep(player, request);
 				break;
@@ -46,7 +43,6 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 			case FightUpdate:
 				byteString = WBHandler.getInstance().doFightUpdate(player, request);
 				break;
-
 			case FightEnd:
 				byteString = WBHandler.getInstance().doFightEnd(player, request);
 				break;
@@ -57,7 +53,7 @@ public class WBService implements FsService<CommonReqMsg, RequestType>  {
 				break;
 
 			}
-			WBMgr.getInstance().synWBData(player, request.getWbDataVersion());
+			
 
 		} catch (Exception e) {
 

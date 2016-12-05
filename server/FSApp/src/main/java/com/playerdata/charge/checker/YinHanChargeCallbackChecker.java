@@ -64,7 +64,12 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		record.setUserId(content.getRoleId());
 		record.setSdkUserId(content.getUserId());
 		record.setTradeNo(content.getCpTradeNo());
-		record.setMoney(content.getMoney());
+		int money = content.getMoney();
+		if (money != -1) { // IOS版本的money会是-1
+			record.setMoney(money);
+		} else {
+			record.setMoney(content.getItemAmount());
+		}
 		record.setCurrencyType(content.getCurrencyType());
 		record.setChannelId(content.getChannelId());
 		String itemId;

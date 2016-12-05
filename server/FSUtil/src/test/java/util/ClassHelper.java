@@ -87,9 +87,6 @@ public class ClassHelper {
 		for (File file : fileList) {
 			String path = file.getAbsolutePath();
 			String className = toClass(path);
-			if(className.contains("SkillCfgDAO")){
-				System.out.println("tt");
-			}
 			try {
 				Class<?> forName = Class.forName(className);
 				

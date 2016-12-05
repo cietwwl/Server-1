@@ -7,7 +7,6 @@ public class WBHurtComparable implements Comparable<WBHurtComparable> {
 	private long lastHurtTime;	//上次造成伤害的时间
 	
 	public WBHurtComparable(){
-		System.out.println();
 	}
 	
 	public WBHurtComparable(long totalHurt, long lastHurtTime){

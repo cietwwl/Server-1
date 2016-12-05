@@ -741,6 +741,10 @@ public class GroupMemberManagerHandler {
 		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派已经是解散状态");
 		}
+		
+		if(GroupCompetitionMgr.getInstance().isGroupInCompetition(groupId)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "你的帮派在本届帮派争霸中有赛事，不能踢除成员！");
+		}
 
 		// TODO HC 检查帮主离线时间检查
 		group.checkGroupLeaderLogoutTime();
