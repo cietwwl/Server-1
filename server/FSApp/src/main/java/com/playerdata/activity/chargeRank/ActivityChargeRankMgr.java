@@ -10,8 +10,6 @@ import com.bm.rank.recharge.RankingChargeData;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfg;
-import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO;
 import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankSubCfg;
 import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankSubCfgDAO;
 import com.playerdata.activity.chargeRank.data.ActivityChargeRankItem;
@@ -20,6 +18,7 @@ import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItemHolder;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.ranking.MomentRankingEntry;
 import com.rw.fsutil.ranking.Ranking;
@@ -59,22 +58,8 @@ public class ActivityChargeRankMgr extends AbstractActivityMgr<ActivityChargeRan
 		holder.synAllData(player);
 	}
 	
-	/**
-	 * 邮件发放排行的奖励
-	 * 
-	 * @param player
-	 * @param item
-	 */
 	@Override
-	public void expireActivityHandler(Player player, ActivityChargeRankItem item) {
-		ActivityChargeRankCfg cfg = ActivityChargeRankCfgDAO.getInstance().getCfgById(item.getCfgId());
-		if (isLevelEnough(player, cfg)) {
-			
-		}
-		item.reset();
-	}
-	
-	public void expireActivityHandler(){
+	public void activityEndHandler(ActivityCfgIF cfg){
 		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
 		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
 		Ranking<ChargeComparable, RankingChargeData> ranking = RankingFactory.getRanking(RankType.ACTIVITY_CHARGE_RANK);

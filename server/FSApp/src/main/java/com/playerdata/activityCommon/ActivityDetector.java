@@ -42,7 +42,7 @@ public class ActivityDetector {
 					}
 				}
 			}
-			if(isMapChanged(currentSubMap, activityMap.get(activityType.getTypeId()))){
+			if(isMapChanged(currentSubMap, activityMap.get(activityType.getTypeId()), activityType)){
 				activityType.addVerStamp();
 			}
 			currentTotalMap.put(activityType.getTypeId(), currentSubMap);
@@ -95,24 +95,49 @@ public class ActivityDetector {
 	
 	/**
 	 * 检查两个map是否一样
+	 * 该方法中有活动开始和结束的事件处理
 	 * @param currentMap
 	 * @param oldMap
+	 * @param activityType
 	 * @return 一样返回false，不一样返回true
 	 */
-	private boolean isMapChanged(HashMap<String, ? extends ActivityCfgIF> currentMap, HashMap<String, ? extends ActivityCfgIF> oldMap){
-		if(null == oldMap || currentMap.size() != oldMap.size()){
+	private boolean isMapChanged(HashMap<String, ? extends ActivityCfgIF> currentMap, HashMap<String, ? extends ActivityCfgIF> oldMap, ActivityType activityType){
+		if((null == oldMap || oldMap.isEmpty()) && !currentMap.isEmpty()){
+			for(ActivityCfgIF cfg : currentMap.values()){
+				activityType.getActivityMgr().activityStartHandler(cfg);
+			}
 			return true;
 		}
+		
+		if((null == currentMap || currentMap.isEmpty()) && !oldMap.isEmpty()){
+			for(ActivityCfgIF cfg : currentMap.values()){
+				activityType.getActivityMgr().activityEndHandler(cfg);
+			}
+			return true;
+		}
+		
+		boolean changed = false;
 		for(Entry<String, ? extends ActivityCfgIF> entry : currentMap.entrySet()){
 			ActivityCfgIF oldCfg = oldMap.get(entry.getKey());
 			if(null == oldCfg){
-				return true;
+				//有新增的改变
+				activityType.getActivityMgr().activityStartHandler(entry.getValue());
+				changed = true;
 			}
 			if(oldCfg.getStartTime() != entry.getValue().getStartTime() ||
 					oldCfg.getEndTime() != entry.getValue().getEndTime()){
-				return true;
+				//无新增，只是时间的改变
+				changed = true;
 			}
 		}
-		return false;
+		for(Entry<String, ? extends ActivityCfgIF> entry : oldMap.entrySet()){
+			if(!currentMap.containsKey(entry.getKey())){
+				//有过期的活动
+				activityType.getActivityMgr().activityEndHandler(entry.getValue());
+				changed = true;
+			}
+		}
+		
+		return changed;
 	}
 }

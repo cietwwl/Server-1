@@ -165,12 +165,28 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	}
 	
 	/**
-	 * 重载该函数做活动过期处理
+	 * 重载该函数做活动过期处理（个人的处理）
 	 * @param player
 	 * @param item
 	 */
 	protected void expireActivityHandler(Player player, T item){
 		//如果有过期处理，就需要重载这个方法
+	}
+	
+	/**
+	 * 重载该函数做活动开始的统一处理（全服，非个人）
+	 * @param cfg 开始的活动的配置
+	 */
+	protected void activityStartHandler(ActivityCfgIF cfg){
+		//如果有活动开始的统一处理，就需要重载这个方法
+	}
+	
+	/**
+	 * 重载该函数做活动结束的统一处理（全服，非个人）
+	 * @param cfg 结束的活动的配置
+	 */
+	protected void activityEndHandler(ActivityCfgIF cfg){
+		//如果有活动结束的统一处理，就需要重载这个方法
 	}
 	
 	protected abstract UserActivityChecker<T> getHolder();
