@@ -3,6 +3,12 @@ package com.playerdata.activityCommon.activityType;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.chargeRank.ActivityChargeRankMgr;
+import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO;
+import com.playerdata.activity.chargeRank.data.ActivityChargeRankItem;
+import com.playerdata.activity.consumeRank.ActivityConsumeRankMgr;
+import com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankCfgDAO;
+import com.playerdata.activity.consumeRank.data.ActivityConsumeRankItem;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeCfgDAO;
 import com.playerdata.activity.countType.cfg.ActivityCountTypeSubCfgDAO;
@@ -32,6 +38,8 @@ public class ActivityTypeFactory {
 	public static final ActivityType GrowthFund;
 	public static final ActivityType CountType;
 	public static final ActivityType EvilBaoArrive;
+	public static final ActivityType ChargeRank;
+	public static final ActivityType ConsumeRank;
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -42,13 +50,19 @@ public class ActivityTypeFactory {
 		CountType = new ActivityType(1003, ActivityCountTypeCfgDAO.class, ActivityCountTypeItem.class,
 				ActivityCountTypeSubCfgDAO.class, ActivityCountTypeSubItem.class, ActivityCountTypeMgr.getInstance());
 		EvilBaoArrive = new ActivityType(1004, EvilBaoArriveCfgDAO.class, EvilBaoArriveItem.class,
-				EvilBaoArriveSubCfgDAO.class, EvilBaoArriveSubItem.class, EvilBaoArriveMgr.getInstance());	
+				EvilBaoArriveSubCfgDAO.class, EvilBaoArriveSubItem.class, EvilBaoArriveMgr.getInstance());
+		ChargeRank = new ActivityType(1005, ActivityChargeRankCfgDAO.class, ActivityChargeRankItem.class,
+				null, null, ActivityChargeRankMgr.getInstance());
+		ConsumeRank = new ActivityType(1006, ActivityConsumeRankCfgDAO.class, ActivityConsumeRankItem.class,
+				null, null, ActivityConsumeRankMgr.getInstance());
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
 		addType(GrowthFund);
 		addType(CountType);
 		addType(EvilBaoArrive);
+		addType(ChargeRank);
+		addType(ConsumeRank);
 	}
 	
 	public static List<ActivityType> getAllTypes(){
