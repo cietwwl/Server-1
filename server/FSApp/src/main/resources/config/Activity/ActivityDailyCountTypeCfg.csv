@@ -1,3 +1,3 @@
-Key,Remarks,id,enumId,bg,activityIcon,icon2,activityType,title,bgTitle,titleBG,levelLimit,startTimeStr,endTimeStr,version
+﻿Key,Remarks,id,enumId,bg,activityIcon,icon2,activityType,title,bgTitle,titleBG,levelLimit,startTimeStr,endTimeStr,version
 10001,,10001,19999,SmallTex/Activity/ActivityTitleText_04,huodong_002,,10,每日福利,,,1,201610070500,201610140500,10
-10002,,10002,19999,SmallTex/Activity/ActivityTitleText_04,huodong_002,,10,每日福利,,,1,201611300500,201612070500,14
+10002,,10002,19999,SmallTex/Activity/ActivityTitleText_04,huodong_002,,10,每日福利,,,1,201611300500,201612071200,14
