@@ -3,15 +3,26 @@ package com.playerdata.activity.consumeRank;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.rank.RankType;
+import com.bm.rank.consume.ConsumeComparable;
 import com.bm.rank.consume.ConsumeRankMgr;
 import com.bm.rank.consume.RankingConsumeData;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankCfg;
 import com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankCfgDAO;
+import com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankSubCfg;
+import com.playerdata.activity.consumeRank.cfg.ActivityConsumeRankSubCfgDAO;
 import com.playerdata.activity.consumeRank.data.ActivityConsumeRankItem;
 import com.playerdata.activity.consumeRank.data.ActivityConsumeRankItemHolder;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
+import com.rw.fsutil.common.EnumerateList;
+import com.rw.fsutil.ranking.MomentRankingEntry;
+import com.rw.fsutil.ranking.Ranking;
+import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.service.Email.EmailUtils;
 import com.rwproto.ActivityChargeRankProto.ActivityCommonRspMsg;
 import com.rwproto.ActivityChargeRankProto.RankItem;
 
@@ -59,6 +70,37 @@ public class ActivityConsumeRankMgr extends AbstractActivityMgr<ActivityConsumeR
 			
 		}
 		item.reset();
+	}
+	
+	public void expireActivityHandler(){
+		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
+		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
+		Ranking<ConsumeComparable, RankingConsumeData> ranking = RankingFactory.getRanking(RankType.ACTIVITY_CONSUME_RANK);
+		try {
+			EnumerateList<? extends MomentRankingEntry<ConsumeComparable, RankingConsumeData>> it = ranking.getEntriesEnumeration();
+			ActivityConsumeRankSubCfgDAO rankCfgDAO = ActivityConsumeRankSubCfgDAO.getInstance();
+			int rewardCfgCount = rankCfgDAO.getEntryCount();
+			for (int i = 1; i <= rewardCfgCount; i++) {
+				int startRank = 1;
+				if (i != 1){
+					startRank = rankCfgDAO.getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				}
+				ActivityConsumeRankSubCfg rewardCfg = rankCfgDAO.getCfgById(String.valueOf(i));
+				int endRank = rewardCfg.getRankEnd();
+				for (int j = startRank; j <= endRank; j++) {
+					dispatchingRank = j;
+					if (it.hasMoreElements()) {
+						MomentRankingEntry<ConsumeComparable, RankingConsumeData> entry = it.nextElement();
+						dispatchingUser = entry.getExtendedAttribute().getUserId();
+						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
+					}
+				}
+			}
+		} catch (Exception ex) {
+			GameLog.error(LogModule.ComActChargeRank, "ActivityConsumeRankMgr", String.format("expireActivityHandler, 给角色[%s]发放消费排行奖励[%s]的时候出现异常", dispatchingUser, dispatchingRank), ex);
+		} finally {
+			ranking.clear();
+		}
 	}
 	
 	/**

@@ -16,7 +16,7 @@ public class ActivityConsumeRankSubCfgDAO extends CfgCsvDao<ActivityConsumeRankS
 
 	@Override
 	public Map<String, ActivityConsumeRankSubCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityConsumeRank/ActivityChargeRankSubCfg.csv", ActivityConsumeRankSubCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityConsumeRank/ActivityConsumeRankSubCfg.csv", ActivityConsumeRankSubCfg.class);
 		Collection<ActivityConsumeRankSubCfg> vals = cfgCacheMap.values();
 		for (ActivityConsumeRankSubCfg cfg : vals) {
 			cfg.ExtraInitAfterLoad();

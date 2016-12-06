@@ -97,7 +97,7 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	/**通用活动，充值排行榜；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
 	ACTIVITY_CHARGE_RANK(21, ActivityChargeRankItem.class, ActivityChargeRankCreator.class),
 	/**通用活动，消费排行榜；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
-	ACTIVITY_CONSUME_RANK(21, ActivityConsumeRankItem.class, ActivityConsumeRankCreator.class),
+	ACTIVITY_CONSUME_RANK(22, ActivityConsumeRankItem.class, ActivityConsumeRankCreator.class),
 	
 	;
 

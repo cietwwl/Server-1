@@ -88,13 +88,14 @@ public class MSScoreRankMgr {
 		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
 		Ranking<MagicSecretComparable, MSScoreDataItem> ranking = RankingFactory.getRanking(RankType.MAGIC_SECRET_SCORE_RANK);
 		try {
-			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration(1, MagicSecretMgr.MS_RANK_FETCH_COUNT);
+			EnumerateList<? extends MomentRankingEntry<MagicSecretComparable, MSScoreDataItem>> it = ranking.getEntriesEnumeration();
 			MagicScoreRankCfgDAO scoreRankCfgDAO = MagicScoreRankCfgDAO.getInstance();
 			int rewardCfgCount = scoreRankCfgDAO.getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
 				int startRank = 1;
-				if (i != 1)
+				if (i != 1){
 					startRank = scoreRankCfgDAO.getCfgById(String.valueOf(i - 1)).getRankEnd() + 1;
+				}
 				MagicScoreRankCfg rewardCfg = scoreRankCfgDAO.getCfgById(String.valueOf(i));
 				int endRank = rewardCfg.getRankEnd();
 				for (int j = startRank; j <= endRank; j++) {
