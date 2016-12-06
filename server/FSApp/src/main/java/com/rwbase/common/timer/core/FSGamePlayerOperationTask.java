@@ -175,6 +175,7 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 				this._operator.operate(player);
 				this._lastExecutePlayers.add(player.getUserId());
 			} catch (Exception e) {
+				e.printStackTrace();
 				GameLog.error("FSGamePlayerOperationSubTask", "executeSingle", "执行出现错误！playerId：" + player.getUserId() + ", operator=" + _operator.getClass());
 			}
 		}
@@ -184,7 +185,8 @@ public class FSGamePlayerOperationTask implements IGameTimerTask {
 				if (_executing.get()) {
 					this._tempPlayers.add(player);
 				} else if (this._lastExecuteTime > 0 && !_lastExecutePlayers.contains(player.getUserId())) {
-					this._operator.operate(player);
+//					this._operator.operate(player);
+					this.executeSingle(player);
 				}
 			}
 		}

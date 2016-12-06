@@ -78,12 +78,14 @@ public class GroupCopyAdminHandler {
 				GameLog.error(LogModule.GroupCopy, "GroupCopyAdminHandler[open]", "角色尝试开启帮派副本，物资不足，开启消耗["+cfg.getOpenCost()
 						+ "],目前物资："+ supplies, null);
 				commonRsp.setTipMsg("帮派物资不足");
+				commonRsp.setIsSuccess(success);
 				return commonRsp.build().toByteString();
 			}
 			//检查一下帮派的等级是否可以开放
 			int groupLevel = group.getGroupBaseDataMgr().getGroupData().getGroupLevel();
 			if(cfg.getUnLockLv() > groupLevel){
 				commonRsp.setTipMsg("帮派升级到Lv"+cfg.getUnLockLv()+"解锁");
+				commonRsp.setIsSuccess(success);
 				return commonRsp.build().toByteString();
 			}
 			openResult = group.getGroupCopyMgr().openMap(player, mapId );
