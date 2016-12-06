@@ -33,7 +33,7 @@ public class ActivityConsumeRankItemHolder extends UserActivityChecker<ActivityC
 	public void synAllData(Player player){
 		List<ActivityConsumeRankItem> itemList = getItemList(player.getUserId());
 		if(null != itemList && !itemList.isEmpty()){
-			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+			//ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 		}
 	}
 	
@@ -52,6 +52,6 @@ public class ActivityConsumeRankItemHolder extends UserActivityChecker<ActivityC
 	@Override
 	@SuppressWarnings("rawtypes")
 	public ActivityType getActivityType() {
-		return ActivityTypeFactory.ChargeRank;
+		return ActivityTypeFactory.ConsumeRank;
 	}
 }
