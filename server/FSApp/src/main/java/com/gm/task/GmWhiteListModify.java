@@ -36,11 +36,12 @@ public class GmWhiteListModify implements IGmTask{
 			String[] split = accountIdStr.split(",");
 			for (String accountId : split) {
 				if(StringUtils.isNotBlank(accountId)){
-					TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(accountId);
-					if (tableAccount != null) {
-						ServerStatusMgr.addWhite(accountId.trim());
-						accountList.add(accountId);
-					}
+//					TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(accountId);
+//					if (tableAccount != null) {
+//						
+//					}
+					ServerStatusMgr.addWhite(accountId.trim());
+					accountList.add(accountId);
 				}
 			}
 			for (String accountId : accountList) {
