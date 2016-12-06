@@ -1,9 +1,5 @@
 package com.rwbase.dao.gameworld;
 
-import javax.persistence.Table;
-
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
 import com.rw.fsutil.cacheDao.DataKVDao;
 
 

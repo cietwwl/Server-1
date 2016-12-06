@@ -78,4 +78,13 @@ public class ActivityTypeFactory {
 		}
 		typeList.add(type);
 	}
+	
+	public static ActivityType getType(int typeId){
+		for(ActivityType at : typeList){
+			if(at.getTypeId() == typeId){
+				return at;
+			}
+		}
+		return null;
+	}
 }

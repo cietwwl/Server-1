@@ -81,6 +81,10 @@ public enum GameWorldKey {
 	 * 成长基金数据
 	 */
 	GROWTH_FUND("GROWTH_FUND"),
+	/**
+	 * 活跃着的活动
+	 */
+	ALIVE_ACTIVITY("ALIVE_ACTIVITY");
 	;
 	
 	

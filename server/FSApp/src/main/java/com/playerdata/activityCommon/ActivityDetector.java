@@ -12,6 +12,9 @@ import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
+import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.GameWorldKey;
 
 /**
  * 活动状态检测
@@ -29,9 +32,38 @@ public class ActivityDetector {
 		return instance;
 	}
 
+	private ActivityDetector(){
+		// 读取数据库中停服前保存的活动数据（单例，只会加载一次）
+		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.ALIVE_ACTIVITY);
+		if (attribute != null && (attribute = attribute.trim()).length() > 0) {
+			ActivityAliveGlobleData _globalData = JsonUtil.readValue(attribute, ActivityAliveGlobleData.class);
+			if(null != _globalData && null != _globalData.getActivityMap() && !_globalData.getActivityMap().isEmpty()){
+				Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
+				for(Entry<Integer, ArrayList<String>> entry : _globalData.getActivityMap().entrySet()){
+					ActivityType activityType = ActivityTypeFactory.getType(entry.getKey());
+					if(null != activityType){
+						HashMap<String, ActivityCfgIF> cfgs = new HashMap<String, ActivityCfgIF>();
+						CfgCsvDao<? extends ActivityCfgIF> cfgDao = activityType.getActivityDao();
+						for(String cfgId : entry.getValue()){
+							ActivityCfgIF cfg = cfgDao.getCfgById(cfgId);
+							if(null != cfg){
+								cfgs.put(cfgId, cfg);
+							}
+						}
+						if(!cfgs.isEmpty()) {
+							currentTotalMap.put(activityType.getTypeId(), cfgs);
+						}
+					}
+				}
+				activityMap = currentTotalMap;
+			}
+		}
+	}
+	
 	public void detectActive() {
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
 		List<ActivityType> types = ActivityTypeFactory.getAllTypes();
+		boolean changed = false;
 		for(ActivityType activityType : types){
 			HashMap<String, ActivityCfgIF> currentSubMap = new HashMap<String, ActivityCfgIF>();
 			List<? extends ActivityCfgIF> actCfgs = activityType.getActivityDao().getAllCfg();
@@ -44,10 +76,19 @@ public class ActivityDetector {
 			}
 			if(isMapChanged(currentSubMap, activityMap.get(activityType.getTypeId()), activityType)){
 				activityType.addVerStamp();
+				changed = true;
 			}
-			currentTotalMap.put(activityType.getTypeId(), currentSubMap);
+			if(!currentSubMap.isEmpty()){
+				currentTotalMap.put(activityType.getTypeId(), currentSubMap);
+			}
 		}
 		activityMap = currentTotalMap;
+		if(changed){
+			//活动有变化时，保存一下数据库
+			ActivityAliveGlobleData _globalData = new ActivityAliveGlobleData();
+			_globalData.setActivityMap(activityMap);
+			GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.ALIVE_ACTIVITY, JsonUtil.writeValue(_globalData));
+		}
 	}
 
 	public <C extends ActivityCfgIF, T extends ActivityTypeItemIF> List<C> getAllActivityOfType(ActivityType<? extends CfgCsvDao<C>, T> type) {
@@ -102,20 +143,25 @@ public class ActivityDetector {
 	 * @return 一样返回false，不一样返回true
 	 */
 	private boolean isMapChanged(HashMap<String, ? extends ActivityCfgIF> currentMap, HashMap<String, ? extends ActivityCfgIF> oldMap, ActivityType activityType){
+		if((null == currentMap || currentMap.isEmpty()) && (null == oldMap || oldMap.isEmpty())){
+			//都为空时，未改变
+			return false;
+		}
+		//全部是新出现的活动，处理开始事件
 		if((null == oldMap || oldMap.isEmpty()) && !currentMap.isEmpty()){
 			for(ActivityCfgIF cfg : currentMap.values()){
 				activityType.getActivityMgr().activityStartHandler(cfg);
 			}
 			return true;
 		}
-		
+		//全部是已结束的活动，处理结束事件
 		if((null == currentMap || currentMap.isEmpty()) && !oldMap.isEmpty()){
 			for(ActivityCfgIF cfg : currentMap.values()){
 				activityType.getActivityMgr().activityEndHandler(cfg);
 			}
 			return true;
 		}
-		
+		//检查哪些是新增的，哪些是过期的
 		boolean changed = false;
 		for(Entry<String, ? extends ActivityCfgIF> entry : currentMap.entrySet()){
 			ActivityCfgIF oldCfg = oldMap.get(entry.getKey());
@@ -137,7 +183,6 @@ public class ActivityDetector {
 				changed = true;
 			}
 		}
-		
 		return changed;
 	}
 }
