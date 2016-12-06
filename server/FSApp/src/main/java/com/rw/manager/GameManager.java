@@ -36,6 +36,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
+import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
@@ -180,6 +181,9 @@ public class GameManager {
 
 		// 羁绊的初始化
 		FettersBM.init();
+		
+		// 活动状态的初始化
+		ActivityDetector.getInstance();
 
 		// GM的初始化
 		GmCommandManager.loadCommandClass();

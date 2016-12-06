@@ -21,28 +21,19 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	private static final int ACTIVITY_INDEX_END = 150000;
 
 	private static ActivityGrowthFundMgr instance = new ActivityGrowthFundMgr();
-	private GrowthFundBasicCfgDAO _basicCfgDAO;
-	private GrowthFundSubCfgDAO _subCfgDAO;
-	private ActivityGrowthFundItemHolder _dataHolder;
-	
-	protected ActivityGrowthFundMgr() {
-		this._basicCfgDAO = GrowthFundBasicCfgDAO.getInstance();
-		this._subCfgDAO = GrowthFundSubCfgDAO.getInstance();
-		this._dataHolder = ActivityGrowthFundItemHolder.getInstance();
-	}
 
 	public static ActivityGrowthFundMgr getInstance() {
 		return instance;
 	}
 	
 	public void serverStartComplete() {
-		_dataHolder.loadGlobalData();
+		ActivityGrowthFundItemHolder.getInstance().loadGlobalData();
 		ShutdownService.registerShutdownService(new GrowthFundShutdownHandler());
 	}
 	
 	private boolean canGetReward(Player player, ActivityGrowthFundSubItem subItem, GrowthFundType fundType) {
 		if (subItem.getRequiredCondition() == 0) {
-			GrowthFundRewardAbsCfg rewardCfg = (GrowthFundRewardAbsCfg) _subCfgDAO.getCfgById(subItem.getCfgId());
+			GrowthFundRewardAbsCfg rewardCfg = (GrowthFundRewardAbsCfg) GrowthFundSubCfgDAO.getInstance().getCfgById(subItem.getCfgId());
 			subItem.setRequiredCondition(rewardCfg.getRequiredCondition());
 		}
 		switch (fundType) {
@@ -51,20 +42,20 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 			return subItem.getRequiredCondition() <= player.getLevel() && !subItem.isGet();
 		case REWARD:
 			// 人数到达，并且没有领取过
-			return subItem.getRequiredCondition() <= _dataHolder.getGlobalData().getAlreadyBoughtCount() && !subItem.isGet();
+			return subItem.getRequiredCondition() <= ActivityGrowthFundItemHolder.getInstance().getGlobalData().getAlreadyBoughtCount() && !subItem.isGet();
 		}
 		return false;
 	}
 	
 	private void checkIfFundTypeNull(ActivityGrowthFundItem item) {
 		if (item.getGrowthFundType() == null) {
-			GrowthFundBasicCfg cfg = _basicCfgDAO.getCfgById(item.getCfgId());
+			GrowthFundBasicCfg cfg = GrowthFundBasicCfgDAO.getInstance().getCfgById(item.getCfgId());
 			item.setGrowthFundType(cfg.getFundType());
 		}
 	}
 	
 	GrowthFundGlobalData getGlobalData() {
-		return _dataHolder.getGlobalData();
+		return ActivityGrowthFundItemHolder.getInstance().getGlobalData();
 	}
 	
 	@Override
@@ -92,7 +83,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	}
 	
 	protected UserActivityChecker<ActivityGrowthFundItem> getHolder() {
-		return _dataHolder;
+		return ActivityGrowthFundItemHolder.getInstance();
 	}
 
 	protected boolean isThisActivityIndex(int index) {
@@ -100,7 +91,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	}
 	
 	public ActivityGrowthFundItem getByType(String userId, GrowthFundType type) {
-		List<ActivityGrowthFundItem> list = _dataHolder.getItemList(userId);
+		List<ActivityGrowthFundItem> list = ActivityGrowthFundItemHolder.getInstance().getItemList(userId);
 		for (ActivityGrowthFundItem temp : list) {
 			checkIfFundTypeNull(temp);
 			if (temp.getGrowthFundType() == type) {
@@ -111,6 +102,7 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	}
 	
 	public void onPlayerBuyGrowthFundGift(Player player) {
+		ActivityGrowthFundItemHolder _dataHolder = ActivityGrowthFundItemHolder.getInstance();
 		List<ActivityGrowthFundItem> list = _dataHolder.getItemList(player.getUserId());
 		_dataHolder.getGlobalData().increaseAlreadyBoughtCount();
 		int boughtCount = _dataHolder.getGlobalData().getAlreadyBoughtCount();
@@ -124,10 +116,10 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 	
 	public void onPlayerGetReward(Player player, ActivityGrowthFundItem item, ActivityGrowthFundSubItem subItem) {
 		subItem.setGet(true);
-		_dataHolder.updateItem(player, item);
+		ActivityGrowthFundItemHolder.getInstance().updateItem(player, item);
 	}
 	
 	public int getBoughtCount() {
-		return _dataHolder.getGlobalData().getAlreadyBoughtCount();
+		return ActivityGrowthFundItemHolder.getInstance().getGlobalData().getAlreadyBoughtCount();
 	}
 }

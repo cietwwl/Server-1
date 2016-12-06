@@ -28,8 +28,6 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 @SuppressWarnings("rawtypes")
 public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
-	private ActivityDetector detector = ActivityDetector.getInstance();
-	
 	public List<T> getItemList(String userId){
 		return refreshActivity(userId);
 	}
@@ -58,7 +56,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 */
 	@SuppressWarnings("unchecked")
 	private List<T> addNewActivity(String userId){
-		List<? extends ActivityCfgIF> activeDailyList = detector.getAllActivityOfType(getActivityType());
+		List<? extends ActivityCfgIF> activeDailyList = ActivityDetector.getInstance().getAllActivityOfType(getActivityType());
 		List<T> newAddItems = new ArrayList<T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
 		Player player = PlayerMgr.getInstance().find(userId);
@@ -103,6 +101,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 * @return 在有效期内的活动
 	 */
 	private ArrayList<T> removeExpireActivity(String userId){
+		ActivityDetector detector = ActivityDetector.getInstance();
 		List<Integer> removeList = new ArrayList<Integer>();
 		Map<Integer, T> activeItemMap = new HashMap<Integer, T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
@@ -139,7 +138,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		CfgCsvDao<? extends ActivitySubCfgIF> subDao = getActivityType().getSubActivityDao();
 		ActivityCfgIF cfg = actDao.getCfgById(cfgID);
 		if(null == cfg || null == subDao) return todaySubs;
-		if(!detector.isActive(cfg)) return todaySubs;
+		if(ActivityDetector.getInstance().isActive(cfg)) return todaySubs;
 		//还在活跃期内，取当天的数据
 		int todayNum = getCurrentDay(cfg);
 		for(ActivitySubCfgIF subCfg : subDao.getAllCfg()){

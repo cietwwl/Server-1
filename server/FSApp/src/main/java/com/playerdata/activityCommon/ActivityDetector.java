@@ -25,13 +25,12 @@ import com.rwbase.gameworld.GameWorldKey;
 public class ActivityDetector {
 	
 	private Map<Integer, HashMap<String, ? extends ActivityCfgIF>> activityMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
-	
 	private static ActivityDetector instance = new ActivityDetector();
 
 	public static ActivityDetector getInstance() {
 		return instance;
 	}
-
+	
 	private ActivityDetector(){
 		// 读取数据库中停服前保存的活动数据（单例，只会加载一次）
 		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.ALIVE_ACTIVITY);
@@ -59,7 +58,7 @@ public class ActivityDetector {
 			}
 		}
 	}
-	
+
 	public void detectActive() {
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
 		List<ActivityType> types = ActivityTypeFactory.getAllTypes();
