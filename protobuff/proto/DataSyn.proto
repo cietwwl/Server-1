@@ -152,6 +152,11 @@ enum eSynType	//数据同步类型
 	FriendMonthCardInfo = 121;	//好友月卡状况，用于赠送月卡的判断
 	
 	CommonSoulConfig = 122; // 万能魂石配置同步
+	
+	/**300以上为活动，非活动的请写上面*/
+	ActivityChargeRank = 301;	//充值排行榜
+	ActivityConsumeRank = 302;	//消费排行榜
+	/**300以上为活动，非活动的请到300之前*/
 }
 
 message MsgDataSynList

@@ -742,6 +742,16 @@ public class RankingImpl<C extends Comparable<C>, E> implements Ranking<C, E> {
 			readLock.unlock();
 		}
 	}
+	
+	@Override
+	public boolean isEmpty() {
+		readLock.lock();
+		try {
+			return treeMap.isEmpty();
+		} finally {
+			readLock.unlock();
+		}
+	}
 
 	@Override
 	public RankingEntry<C, E> getFirstEntry() {
