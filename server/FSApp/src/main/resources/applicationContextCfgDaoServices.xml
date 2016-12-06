@@ -391,6 +391,10 @@
 	<!-- 红点 -->
 	<bean class="com.rwbase.dao.redpoint.RedPointMapCfgDAO" init-method="init" />
 	
+	<!-- 万能魂石 -->
+	<bean class="com.rwbase.dao.commonsoul.CommonSoulConfigDAO" init-method="init" />
+	<bean class="com.rwbase.dao.commonsoul.ExchangeRateCfgDAO" init-method="init" />
+
 	<!-- 精准营销 -->
 	<bean class="com.rwbase.dao.targetSell.BenefitAttrCfgDAO" init-method="init" />
 	
