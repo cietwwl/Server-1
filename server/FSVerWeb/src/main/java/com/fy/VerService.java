@@ -3,6 +3,7 @@ package com.fy;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
@@ -13,9 +14,9 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.fy.constant.Constant;
+import com.fy.json.JSONArray;
 import com.fy.json.JSONException;
 import com.fy.json.JSONObject;
-import com.fy.json.JSONUtil;
 import com.fy.lua.LuaInfo;
 import com.fy.lua.LuaMgr;
 import com.fy.utils.DateTimeUtils;
@@ -56,20 +57,35 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			}
 			Version clientVersion = getClientVersion(jsonString);
 			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(clientVersion.getChannel());
-			Version updateVersion = versionMgr.getUpdateVersion(clientVersion);
-			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersion == null);
-			if(updateVersion == null){
+//			Version updateVersion = versionMgr.getUpdateVersion(clientVersion);
+//			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersion == null);
+//			if(updateVersion == null){
+//				Version maxVersion = versionMgr.getMaxVersion(clientVersion);
+//				updateVersion = new Version();
+//				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
+//				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
+//			}
+//			if(channelLuaInfo != null){
+//				updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
+//			}
+//			updateVersion.setLuaAction("lua");
+			
+			List<Version> updateVersionList = versionMgr.getUpdateVersion2(clientVersion);
+			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
+			if(updateVersionList.isEmpty()){
 				Version maxVersion = versionMgr.getMaxVersion(clientVersion);
-				updateVersion = new Version();
+				Version updateVersion = new Version();
 				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
 				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
+				updateVersionList.add(updateVersion);
 			}
-			if(channelLuaInfo != null){
-				updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
+			for(Version updateVersion : updateVersionList){
+				if(channelLuaInfo != null){
+					updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
+				}
+				updateVersion.setLuaAction("lua");
 			}
-			updateVersion.setLuaAction("lua");
-			
-			String verifyUpdateResult = packVerifyVersionResult(updateVersion);
+			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList);
 			ServletOutputStream out = response.getOutputStream();
 			out.write(verifyUpdateResult.getBytes("UTF-8"));
 			out.flush();
@@ -123,8 +139,6 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		JSONObject json = new JSONObject();
 		try {
 			if (!(updateVersion.getChannel() == null ||  updateVersion.getChannel().equals(""))) {
-				
-				
 				if (updateVersion.getPatchInstall().equals(Constant.PATCH_LINK)) {
 					packageBrowserLink(updateVersion, json);
 				} else {
@@ -142,6 +156,37 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			ex.printStackTrace();
 		}
 		return json.toString();
+	}
+	
+	private JSONObject packVerifyVersionToJSONObject(Version updateVersion) {
+		JSONObject json = new JSONObject();
+		try {
+			if (!(updateVersion.getChannel() == null ||  updateVersion.getChannel().equals(""))) {
+				if (updateVersion.getPatchInstall().equals(Constant.PATCH_LINK)) {
+					packageBrowserLink(updateVersion, json);
+				} else {
+					packageDownloadInfo(updateVersion, json);
+				}
+				json.put("patchInstall", updateVersion.getPatchInstall());
+			} else {
+				json.put("update", 0);
+			}
+			json.put("loginServerDomain", updateVersion.getLoginServerDomain());
+			json.put("logServerAddress", updateVersion.getLogServerAddress());
+			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
+			json.put("luaAction", updateVersion.getLuaAction());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return json;
+	}
+	
+	private String packVerifyVersionResult2(List<Version> updateVersions) {
+		JSONArray array = new JSONArray();
+		for(Version ver : updateVersions){
+			array.put(packVerifyVersionToJSONObject(ver));
+		}
+		return array.toString();
 	}
 
 	private void packageBrowserLink(Version updateVersion, JSONObject json)

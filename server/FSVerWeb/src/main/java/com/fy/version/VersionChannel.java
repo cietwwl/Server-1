@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,17 +29,15 @@ public class VersionChannel {
 		System.out.print("compVerOrderList:" + compVerOrderList.size()
 				+ ";patchMap:" + patchMap.size());
 		System.err.print("compVerOrderList:" + compVerOrderList.size()
-				+ ";patchMap:" + patchMap.size());
+				+ ";codePatchMap:" + codePatchMap.size());
 	}
 	
-
-
 	//下一个升级全量包
 	public Version getNextCompVer(Version clientVersion){
 		System.out.print("compVerOrderList1:" + compVerOrderList.size()
 				+ ";patchMap:" + patchMap.size());
 		System.err.print("compVerOrderList1:" + compVerOrderList.size()
-				+ ";patchMap:" + patchMap.size());
+				+ ";codePatchMap:" + codePatchMap.size());
 		Version maxVersion = compVerOrderList.get(compVerOrderList.size() - 1);
 		maxVersion = maxVersion.isSameCompVer(clientVersion) ? null : maxVersion;
 		if (maxVersion != null) {
@@ -51,7 +50,7 @@ public class VersionChannel {
 		return  compVerOrderList.get(compVerOrderList.size()-1);
 	}
 	
-	//下一个补丁包
+	//下一个资源补丁包
 	public Version getNextPatch(Version clientVersion){
 		Version target = null;
 		for (Version verTmp : compVerOrderList) {
@@ -79,6 +78,33 @@ public class VersionChannel {
 		return targetPatch;
 	}
 	
+	//剩下的资源补丁包
+	public List<Version> getLeftPatch(Version clientVersion){
+		Version target = null;
+		for (Version verTmp : compVerOrderList) {
+			if(verTmp.isSameCompVer(clientVersion)){
+				target = verTmp;
+				break;
+			}
+		}
+		ArrayList<Version> result = new ArrayList<Version>();
+		if(target!=null){
+			List<Version> patchList = patchMap.get(target);
+			boolean takeNext = false;
+			for (Version patchTmp : patchList) {
+				if(takeNext){
+					result.add(patchTmp);
+				}
+				if(patchTmp.isSamePatch(clientVersion)){
+					takeNext = true;
+				}
+			}
+			
+		}
+		return result;
+	}
+	
+	//下一个代码补丁包
 	public Version getNextCodePatch(Version clientVersion){
 		Version target = null;
 		for (Version verTmp : compVerOrderList) {

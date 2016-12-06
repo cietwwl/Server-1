@@ -123,6 +123,11 @@ public class VersionDao {
 		return channelVersionMap.get(clientVersion.getChannel()).getNextPatch(clientVersion);
 	}
 	
+	//剩余的补丁包
+	public List<Version> getLeftPatch(Version clientVersion){
+		return channelVersionMap.get(clientVersion.getChannel()).getLeftPatch(clientVersion);
+	}
+	
 	//下一个代码补丁包
 	public Version getNextCodePatch(Version clientVersion){
 		return channelVersionMap.get(clientVersion.getChannel()).getNextCodePatch(clientVersion);
