@@ -433,10 +433,8 @@ public class RobotManager {
 			for (RankingPlayer task : set) {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
-				handler.setArenaHero(player, arenaData,
-						EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
-				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
-						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
+				handler.setArenaHero(player, arenaData, EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
+				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = " + listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}
 	}
@@ -448,10 +446,15 @@ public class RobotManager {
 	 * @return
 	 */
 	public static int[] getRobotFixInfo(RobotEntryCfg cfg) {
-		int[] fixInfo = new int[3];
 		// 神器
 		int[] fixEquipLevel = cfg.getFixEquipLevel();
-		fixInfo[0] = getRandom(fixEquipLevel);
+		int ranLevel = getRandom(fixEquipLevel);
+		if (ranLevel == 0) {
+			return null;
+		}
+
+		int[] fixInfo = new int[3];
+		fixInfo[0] = ranLevel;
 		int[] fixEquipQuality = cfg.getFixEquipQuality();
 		fixInfo[1] = getRandom(fixEquipQuality);
 		int[] fixEquipStar = cfg.getFixEquipStar();
