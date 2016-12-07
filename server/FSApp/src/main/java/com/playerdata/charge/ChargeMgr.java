@@ -163,6 +163,16 @@ public class ChargeMgr {
 	    GameBehaviorMgr.getInstance().registerBehavior(player, command, type, value, 0);
 	}
 	
+	private void updateVipLv(Player player, ChargeInfo chargeInfo) {
+		int totalChargeGold = chargeInfo.getTotalChargeGold(); // 充值的总金额
+		PrivilegeCfgDAO privilegeCfgDAO = PrivilegeCfgDAO.getInstance();
+		PrivilegeCfg cfg = privilegeCfgDAO.getCfg(player.getVip() + 1);
+		while (cfg != null && cfg.getRechargeCount() <= totalChargeGold) {
+			player.AddVip(1);
+			cfg = privilegeCfgDAO.getCfg(player.getVip() + 1); // 获取下一级的cfg
+		}
+	}
+	
 	/**
 	 * 充值完成，更新vip信息
 	 * 
@@ -178,13 +188,7 @@ public class ChargeMgr {
 		ChargeInfoHolder.getInstance().update(player);
 		
 		// 升级vip，如果达到条件
-		int totalChargeGold = chargeInfo.getTotalChargeGold(); // 充值的总金额
-		PrivilegeCfgDAO privilegeCfgDAO = PrivilegeCfgDAO.getInstance();
-		PrivilegeCfg cfg = privilegeCfgDAO.getCfg(player.getVip() + 1);
-		while (cfg != null && cfg.getRechargeCount() <= totalChargeGold) {
-			player.AddVip(1);
-			cfg = privilegeCfgDAO.getCfg(player.getVip() + 1); // 获取下一级的cfg
-		}
+		updateVipLv(player, chargeInfo);
 		
 		// 设置界面更新vip
 		player.getSettingMgr().checkOpen();
@@ -338,6 +342,7 @@ public class ChargeMgr {
 			} else {
 				ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
 			}
+			updateVipLv(player, chargeInfo);
 			return true;
 		}
 		return false;
