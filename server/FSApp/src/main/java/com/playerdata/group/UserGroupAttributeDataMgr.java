@@ -145,18 +145,6 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		}
 
 		return userGroupData.getContribution();
-		//
-		// Group group = GroupBM.get(userGroupData.getGroupId());
-		// if (group == null) {
-		// return 0;
-		// }
-		//
-		// GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
-		// if (memberData == null) {
-		// return 0;
-		// }
-		//
-		// return memberData.getContribution();
 	}
 
 	/**

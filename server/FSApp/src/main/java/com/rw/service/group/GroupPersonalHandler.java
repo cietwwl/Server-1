@@ -50,6 +50,7 @@ import com.rwbase.dao.group.pojo.cfg.dao.GroupDonateCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupFunctionCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupLog;
+import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -62,6 +63,7 @@ import com.rwbase.dao.item.pojo.itembase.UseItem;
 import com.rwbase.dao.openLevelLimit.CfgOpenLevelLimitDAO;
 import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupCommonProto;
 import com.rwproto.GroupCommonProto.GroupFunction;
 import com.rwproto.GroupCommonProto.GroupLogType;
@@ -357,7 +359,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 检查申请的帮派Id
-		String applyGroupId = req.getGroupId();
+		final String applyGroupId = req.getGroupId();
 		if (StringUtils.isEmpty(applyGroupId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "申请加入的帮派Id不能为空");
 		}
@@ -384,10 +386,10 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您已经申请过该帮派");
 		}
 
-		int applyMemberSize = memberMgr.getApplyMemberSize();
-		if (applyMemberSize >= gbct.getGroupApplyMemberSize()) {
-			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "该帮派的申请队列已满，暂不能申请");
-		}
+		// int applyMemberSize = memberMgr.getApplyMemberSize();
+		// if (applyMemberSize >= gbct.getGroupApplyMemberSize()) {
+		// return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "该帮派的申请队列已满，暂不能申请");
+		// }
 
 		// 检查帮派等级中对应官职个数的信息
 		GroupLevelCfg levelTemplate = GroupLevelCfgDAO.getDAO().getLevelCfg(groupData.getGroupLevel());
@@ -431,6 +433,19 @@ public class GroupPersonalHandler {
 			// 帮派扩展属性增加一个申请的帮派Id
 			userGroupAttributeDataMgr.updateApplyGroupData(player, applyGroupId);
 			// 检查一下是否超出了上限
+			memberMgr.checkAndRemoveOldestApplyMember(gbct.getGroupApplyMemberSize(), new PlayerTask() {
+
+				@Override
+				public void run(Player p) {
+					UserGroupAttributeDataMgr mgr = p.getUserGroupAttributeDataMgr();
+					UserGroupAttributeData userGroupBaseData = mgr.getUserGroupAttributeData();
+					if (userGroupBaseData == null) {
+						return;
+					}
+
+					mgr.updateDataWhenRefuseByGroup(p, applyGroupId);
+				}
+			});
 		} else {
 			memberMgr.addMemberData(playerId, applyGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.MEMBER_VALUE, fighting, nowTime, nowTime, false, player.getHeadFrame(), 0);
 
