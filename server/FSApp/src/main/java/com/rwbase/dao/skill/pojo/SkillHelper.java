@@ -19,7 +19,6 @@ import com.rwbase.dao.skill.optlisten.SkillListenOptUtils;
 import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class SkillHelper {
-	
 
 	public static List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
 		if (skillLIst == null)
@@ -306,50 +305,30 @@ public class SkillHelper {
 			}
 		}
 	}
-	// /**
-	// * 检查被影响到的Buff列表
-	// *
-	// * @param updateSkillId
-	// * @param buffIdStr
-	// * @param hasBuff
-	// * @return
-	// */
-	// private static List<Integer> checkBuffer(String updateSkillId, String buffIdStr, List<Integer> hasBuff) {
-	// if (StringUtils.isEmpty(buffIdStr)) {
-	// return null;
-	// }
-	//
-	// String[] split = buffIdStr.split(";");
-	//
-	// List<Integer> buffList = new ArrayList<Integer>();
-	//
-	// for (int i = 0, len = split.length; i < len; i++) {
-	// String[] split1 = split[0].split("_");
-	//
-	// if (!updateSkillId.startsWith(split1[0])) {
-	// return null;
-	// }
-	//
-	// for (int j = 1, buffLen = split1.length; j < buffLen; j++) {
-	// int buffId = Integer.parseInt(split1[j]);
-	// if (buffId <= 0 || hasBuff.contains(buffId)) {
-	// continue;
-	// }
-	//
-	// buffList.add(buffId);
-	// }
-	// }
-	//
-	// return buffList;
-	// }
-	
 
 	public static Integer parseSkillItemId(String skillCfgId) {
 		String skillId = skillCfgId;
-		if(skillCfgId.contains("_")){
+		if (skillCfgId.contains("_")) {
 			skillId = StringUtils.substringBefore(skillCfgId, "_");
-		}		
+		}
 		// 生成技能id
 		return Integer.valueOf(skillId);
+	}
+
+	/**
+	 * 检查某个技能是否可以激活
+	 * 
+	 * @param skillTmpId
+	 * @param heroLevel
+	 * @param heroQuality
+	 * @return
+	 */
+	public static boolean hasActive4Skill(String skillTmpId, int heroLevel, int heroQuality) {
+		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillTmpId);
+		if (cfg == null) {
+			return false;
+		}
+
+		return heroLevel >= cfg.getRoleLevel() && heroQuality >= cfg.getRoleQuality();
 	}
 }

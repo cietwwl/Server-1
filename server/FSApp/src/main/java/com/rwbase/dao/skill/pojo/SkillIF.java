@@ -12,10 +12,7 @@ public interface SkillIF {
 
 	public int getExtraDamage();
 
-	// public List<Integer> getBuffId() ;
-
 	public String getOwnerId();
 
 	public String getSkillId();
-
 }
