@@ -313,7 +313,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 
 		List<SkillItem> itemList = getSkillItemHoder().getItemList(heroId);
 
-		SkillHelper.checkAllSkill(itemList);// 检查所有的技能
+		SkillHelper.getInstance().checkAllSkill(itemList);// 检查所有的技能
 	}
 
 	/**
@@ -343,7 +343,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 	 * @return
 	 */
 	public List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
-		return SkillHelper.getSkillProtoList(skillLIst);
+		return SkillHelper.getInstance().getSkillProtoList(skillLIst);
 	}
 
 	/**

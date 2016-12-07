@@ -20,7 +20,16 @@ import com.rwproto.SkillServiceProtos.TagSkillData;
 
 public class SkillHelper {
 
-	public static List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
+	private static SkillHelper instance = new SkillHelper();
+
+	public static SkillHelper getInstance() {
+		return instance;
+	}
+
+	protected SkillHelper() {
+	}
+
+	public List<TagSkillData> getSkillProtoList(List<SkillItem> skillLIst) {
 		if (skillLIst == null)
 			return null;
 		List<TagSkillData> list = new ArrayList<TagSkillData>();
@@ -53,7 +62,7 @@ public class SkillHelper {
 	 * @param playerLevel
 	 * @return
 	 */
-	public static List<SkillItem> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
+	public List<SkillItem> initSkill(RoleCfg rolecfg, String qualityId, int playerLevel) {
 		List<SkillItem> cfgSkillList = RoleCfgDAO.getInstance().getSkill(rolecfg.getRoleId());
 		// 技能buff有相关性，要先一次过加入到列表才行
 		List<SkillItem> battleSkillList = new ArrayList<SkillItem>();
@@ -87,7 +96,7 @@ public class SkillHelper {
 	 * @param dieSkillId
 	 * @return
 	 */
-	public static List<SkillItem> getSkillList(List<String> commonSkillList, String attackSkillId, String dieSkillId) {
+	public List<SkillItem> getSkillList(List<String> commonSkillList, String attackSkillId, String dieSkillId) {
 		int commonSkillSize = commonSkillList.size();
 		List<SkillItem> skillList = new ArrayList<SkillItem>(commonSkillSize + 2);
 
@@ -134,7 +143,7 @@ public class SkillHelper {
 	 * 
 	 * @param skillList
 	 */
-	public static void checkAllSkill(List<SkillItem> skillList) {
+	public void checkAllSkill(List<SkillItem> skillList) {
 		SkillCfgDAO cfgDAO = SkillCfgDAO.getInstance();
 		// 相互影响的伤害值
 		for (int i = skillList.size() - 1; i >= 0; --i) {
@@ -165,7 +174,7 @@ public class SkillHelper {
 	 * @param skill
 	 * @param skillList
 	 */
-	private static void checkControl(SkillItem skill, SkillCfg skillCfg, List<SkillItem> skillList) {
+	private void checkControl(SkillItem skill, SkillCfg skillCfg, List<SkillItem> skillList) {
 		String updateSkillId = skill.getSkillId();
 		if (skill.getLevel() <= 0) {
 			return;
@@ -224,7 +233,7 @@ public class SkillHelper {
 	 * @param skillCfg
 	 * @param skillList
 	 */
-	private static void checkSkillBuffs(SkillItem skill, SkillCfg skillCfg, List<SkillItem> skillList) {
+	private void checkSkillBuffs(SkillItem skill, SkillCfg skillCfg, List<SkillItem> skillList) {
 		String updateSkillId = skill.getSkillId();
 		if (skill.getLevel() <= 0) {
 			return;
@@ -282,7 +291,7 @@ public class SkillHelper {
 	 * @param optResult
 	 * @param listenerIdList
 	 */
-	private static void optResultHandler(OptResult optResult, List<String> listenerIdList) {
+	private void optResultHandler(OptResult optResult, List<String> listenerIdList) {
 		// 检查要新加的
 		List<String> addIdList = optResult.getAddIdList();
 		if (addIdList != null && !addIdList.isEmpty()) {
@@ -306,7 +315,7 @@ public class SkillHelper {
 		}
 	}
 
-	public static Integer parseSkillItemId(String skillCfgId) {
+	public Integer parseSkillItemId(String skillCfgId) {
 		String skillId = skillCfgId;
 		if (skillCfgId.contains("_")) {
 			skillId = StringUtils.substringBefore(skillCfgId, "_");
@@ -323,7 +332,7 @@ public class SkillHelper {
 	 * @param heroQuality
 	 * @return
 	 */
-	public static boolean hasActive4Skill(String skillTmpId, int heroLevel, int heroQuality) {
+	public boolean hasActive4Skill(String skillTmpId, int heroLevel, int heroQuality) {
 		SkillCfg cfg = SkillCfgDAO.getInstance().getCfg(skillTmpId);
 		if (cfg == null) {
 			return false;

@@ -22,6 +22,7 @@ import com.rwproto.DataSynProtos.eSynType;
 public class SkillItemHolder {
 
 	private static SkillItemHolder _instance = new SkillItemHolder();
+	private static Object PRESENT = new Object();
 
 	public static SkillItemHolder getSkillItemHolder() {
 		return _instance;
@@ -48,6 +49,18 @@ public class SkillItemHolder {
 			itemList.add(item);
 		}
 
+		// 检查并初始化技能数据影响
+		Object isInit = mapItemStore.getAttachment();
+		if (isInit == null) {
+			synchronized (mapItemStore) {
+				isInit = mapItemStore.getAttachment();
+				if (isInit == null) {
+					SkillHelper.getInstance().checkAllSkill(itemList);
+					mapItemStore.setAttachment(PRESENT);
+				}
+			}
+		}
+
 		return itemList;
 	}
 
@@ -58,18 +71,17 @@ public class SkillItemHolder {
 	 * @return <技能的模版Id，技能数据>
 	 */
 	public Map<Integer, SkillItem> getItemMap(String heroId) {
-		RoleExtPropertyStore<SkillItem> mapItemStore = getMapItemStore(heroId);
-		if (mapItemStore == null) {
+		List<SkillItem> itemList = getItemList(heroId);
+		if (itemList == null || itemList.isEmpty()) {
 			return Collections.emptyMap();
 		}
 
-		Enumeration<SkillItem> mapEnum = mapItemStore.getExtPropertyEnumeration();
-		HashMap<Integer, SkillItem> skillMap = new HashMap<Integer, SkillItem>();
-		while (mapEnum.hasMoreElements()) {
-			SkillItem item = mapEnum.nextElement();
+		int size = itemList.size();
+		HashMap<Integer, SkillItem> skillMap = new HashMap<Integer, SkillItem>(size);
+		for (int i = 0; i < size; i++) {
+			SkillItem item = itemList.get(i);
 			skillMap.put(item.getId(), item);
 		}
-
 		return skillMap;
 	}
 
@@ -154,7 +166,7 @@ public class SkillItemHolder {
 	 */
 	public boolean addItem(Player player, String heroId, SkillItem item, boolean syn) {
 		item.setOwnerId(heroId);
-		item.setId(SkillHelper.parseSkillItemId(item.getSkillId()));
+		item.setId(SkillHelper.getInstance().parseSkillItemId(item.getSkillId()));
 
 		boolean addSuccess = getMapItemStore(heroId).addItem(item);
 		if (addSuccess) {
