@@ -24,6 +24,7 @@ import com.rwbase.dao.ranking.pojo.RankingLevelData;
 
 /**
  * 帮派战力排行榜
+ * 
  * @author aken
  */
 public class GCompFightingRankMgr {
@@ -32,6 +33,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 更新某个帮派的排行
+	 * 
 	 * @param groupId
 	 */
 	public static void addOrUpdateGroupFightRank(String groupId) {
@@ -39,13 +41,12 @@ public class GCompFightingRankMgr {
 		if (ranking == null) {
 			return;
 		}
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (null == group) {
 			return;
 		}
 		long groupFight = getGroupFighting(group);
-		GCompFightingComparable comparable = new GCompFightingComparable(groupFight,
-				group.getGroupBaseDataMgr().getGroupData().getGroupLevel());
+		GCompFightingComparable comparable = new GCompFightingComparable(groupFight, group.getGroupBaseDataMgr().getGroupData().getGroupLevel());
 		RankingEntry<GCompFightingComparable, GCompFightingItem> rankingEntry = ranking.getRankingEntry(groupId);
 		if (rankingEntry == null) {
 			// 加入榜
@@ -58,6 +59,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 计算帮派战斗力
+	 * 
 	 * @param group
 	 * @return
 	 */
@@ -78,7 +80,7 @@ public class GCompFightingRankMgr {
 			// if(null != player){
 			// totalFighting += player.getHeroMgr().getFightingTeam(player);
 			// }
-//			totalFighting += FSHeroMgr.getInstance().getFightingTeam(member.getUserId());
+			// totalFighting += FSHeroMgr.getInstance().getFightingTeam(member.getUserId());
 			totalFighting += member.getFighting();
 		}
 		return totalFighting;
@@ -90,7 +92,7 @@ public class GCompFightingRankMgr {
 	 * @return
 	 */
 	public static long getGroupFighting(String groupId) {
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group != null) {
 			return getGroupFighting(group);
 		}
@@ -99,6 +101,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 获取帮派排名
+	 * 
 	 * @param groupID
 	 * @return
 	 */
@@ -111,8 +114,8 @@ public class GCompFightingRankMgr {
 	}
 
 	/**
-	 * 获取排行榜
-	 * (默认50名)
+	 * 获取排行榜 (默认50名)
+	 * 
 	 * @return
 	 */
 	public static List<GCompFightingItem> getFightingRankList() {
@@ -121,6 +124,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 获取排行榜
+	 * 
 	 * @param topCount 前面多少名
 	 * @return
 	 */
@@ -141,6 +145,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 获取某个帮派的战力排行实体
+	 * 
 	 * @param groupID
 	 * @return
 	 */
@@ -163,6 +168,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 帮派解散或其它原因，从排行榜中删除
+	 * 
 	 * @param groupId
 	 */
 	public static void removeGroup(String groupId) {
@@ -172,6 +178,7 @@ public class GCompFightingRankMgr {
 
 	/**
 	 * 更新帮派的基本信息
+	 * 
 	 * @param group
 	 */
 	public static void updateGroupBaseInfo(Group group) {

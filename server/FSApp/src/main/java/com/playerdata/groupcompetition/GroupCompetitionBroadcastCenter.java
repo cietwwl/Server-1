@@ -27,36 +27,36 @@ import com.rwproto.MsgDef.Command;
 public class GroupCompetitionBroadcastCenter {
 
 	private static GroupCompetitionBroadcastCenter _instance = new GroupCompetitionBroadcastCenter();
-	
+
 	private final GroupCompetitionBroadcastTask _task = new GroupCompetitionBroadcastTask();
-	
+
 	public static GroupCompetitionBroadcastCenter getInstance() {
 		return _instance;
 	}
-	
+
 	protected GroupCompetitionBroadcastCenter() {
 	}
-	
+
 	public void onEventsStart(List<String> relativeGroupIds) {
 		_task._on = true;
 		_task._broadcastQueue.clear();
 		FSGameTimerMgr.getInstance().submitSecondTask(_task, GCompCommonConfig.getBroadcastIntervalSeconds());
 		FSGameTimerMgr.getInstance().submitSecondTask(new GroupCompetitionStartBroadcastTask(relativeGroupIds), 1);
 	}
-	
+
 	public void onEventsEnd() {
 		_task._on = false;
 	}
-	
+
 	public void addBroadcastMsg(Integer pmdId, List<String> arr) {
 		GCompUtil.log("添加一条广播消息:{}, {}", pmdId, arr);
 		_task._broadcastQueue.add(Pair.CreateReadonly(pmdId, arr));
 	}
-	
+
 	private static class GroupCompetitionBroadcastTask implements IGameTimerTask {
-		
+
 		private boolean _on = false;
-		
+
 		private Queue<IReadOnlyPair<Integer, List<String>>> _broadcastQueue = new ConcurrentLinkedQueue<IReadOnlyPair<Integer, List<String>>>();
 
 		@Override
@@ -78,12 +78,12 @@ public class GroupCompetitionBroadcastCenter {
 
 		@Override
 		public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
-			
+
 		}
 
 		@Override
 		public void rejected(RejectedExecutionException e) {
-			
+
 		}
 
 		@Override
@@ -95,11 +95,11 @@ public class GroupCompetitionBroadcastCenter {
 		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
-		
+
 	}
-	
+
 	private static class GroupCompetitionStartBroadcastTask implements IGameTimerTask {
-		
+
 		private List<String> groupIds;
 
 		public GroupCompetitionStartBroadcastTask(List<String> groupIds) {
@@ -116,7 +116,7 @@ public class GroupCompetitionBroadcastCenter {
 			Group group;
 			List<String> userIds = new ArrayList<String>();
 			for (String groupId : groupIds) {
-				group = GroupBM.get(groupId);
+				group = GroupBM.getInstance().get(groupId);
 				if (group != null) {
 					List<? extends GroupMemberDataIF> memberSortList = group.getGroupMemberMgr().getMemberSortList(null);
 					if (memberSortList.size() > 0) {
@@ -144,12 +144,12 @@ public class GroupCompetitionBroadcastCenter {
 
 		@Override
 		public void afterOneRoundExecuted(FSGameTimeSignal timeSignal) {
-			
+
 		}
 
 		@Override
 		public void rejected(RejectedExecutionException e) {
-			
+
 		}
 
 		@Override
@@ -161,6 +161,6 @@ public class GroupCompetitionBroadcastCenter {
 		public List<FSGameTimerTaskSubmitInfoImpl> getChildTasks() {
 			return null;
 		}
-		
+
 	}
 }

@@ -25,7 +25,7 @@ public class GFightDataVersionMgr {
 		String groupId = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		if (groupId == null || groupId.isEmpty())
 			return;
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}

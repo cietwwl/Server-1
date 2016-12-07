@@ -187,7 +187,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("请求创建秘境", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -491,7 +491,7 @@ public class GroupSecretHandler {
 		String groupId = userGroupAttributeData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
 			if (groupId.equals(groupSecretData.getGroupId())) {
-				Group group = GroupBM.get(groupId);
+				Group group = GroupBM.getInstance().get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
 					group.getGroupBaseDataMgr().updateGroupDonate(player, null, proGS, proGE, 0, true);
@@ -562,7 +562,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("请求更换秘境阵容", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -947,7 +947,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("邀请协助驻守成员", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -1077,7 +1077,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("接受邀请驻守成员", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -1354,7 +1354,7 @@ public class GroupSecretHandler {
 			return rsp.build().toByteString();
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("查看邀请驻守秘境信息", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			GroupSecretHelper.fillRspInfo(rsp, false, "加入帮派才能进行该操作");

@@ -139,7 +139,7 @@ public class GroupBaseManagerHandler {
 		// TODO HC 客户端传递的帮派头像ID的时数据验证，现在先暂时不验证
 		String icon = req.getIcon();
 
-		Group group = GroupBM.create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
+		Group group = GroupBM.getInstance().create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
 		if (group == null) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在，名字为=" + groupName);
 		}
@@ -160,11 +160,11 @@ public class GroupBaseManagerHandler {
 		mgr.updateDataWhenHasGroup(player, newGroupId, groupName);// 更新数据
 
 		// 基础排行榜
-		int rankIndex = GroupRankHelper.addOrUpdateGroup2BaseRank(group);
+		int rankIndex = GroupRankHelper.getInstance().addOrUpdateGroup2BaseRank(group);
 		// 新创建榜
-		GroupRankHelper.addGroup2CreateTimeRank(group);
+		GroupRankHelper.getInstance().addGroup2CreateTimeRank(group);
 		// 人数榜
-		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
 
 		player.getStoreMgr().AddStore();
 		// // 推送帮派数据
@@ -224,11 +224,11 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.groupIsExist(groupId)) {
+		if (!GroupBM.getInstance().groupIsExist(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派改公告", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -315,11 +315,11 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.groupIsExist(groupId)) {
+		if (!GroupBM.getInstance().groupIsExist(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派改名", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -359,7 +359,7 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派名字是否存在
-		if (GroupBM.hasName(groupName)) {
+		if (GroupBM.getInstance().hasName(groupName)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在");
 		}
 
@@ -441,11 +441,11 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.groupIsExist(groupId)) {
+		if (!GroupBM.getInstance().groupIsExist(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派设置", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -549,7 +549,7 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("解散帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -613,7 +613,7 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("取消解散帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -674,7 +674,7 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("获取帮派日志", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");

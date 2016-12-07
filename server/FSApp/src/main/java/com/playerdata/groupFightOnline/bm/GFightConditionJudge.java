@@ -47,7 +47,7 @@ class GFightConditionJudge {
 		String groupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		if (StringUtils.isBlank(groupID))
 			return false;
-		Group group = GroupBM.get(groupID);
+		Group group = GroupBM.getInstance().get(groupID);
 		if (group == null)
 			return false;
 		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(player.getUserId(), false);
@@ -65,7 +65,7 @@ class GFightConditionJudge {
 		String groupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		if (StringUtils.isBlank(groupID))
 			return false;
-		Group group = GroupBM.get(groupID);
+		Group group = GroupBM.getInstance().get(groupID);
 		if (group == null)
 			return false;
 		GroupFunctionCfg funCfg = GroupFunctionCfgDAO.getDAO().getCfgById(GFightConst.GF_BID_AUTHORITY_ID);
@@ -85,7 +85,7 @@ class GFightConditionJudge {
 		String groupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		if (StringUtils.isBlank(groupID))
 			return false;
-		Group group = GroupBM.get(groupID);
+		Group group = GroupBM.getInstance().get(groupID);
 		if (group == null)
 			return false;
 		// 当前令牌数

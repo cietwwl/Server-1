@@ -209,7 +209,7 @@ public class GroupCopyMgr {
 		if (result.isSuccess()) {
 			// 发送重置邮件
 			String groupId = GroupHelper.getInstance().getUserGroupId(player.getUserId());
-			Group group = GroupBM.get(groupId);
+			Group group = GroupBM.getInstance().get(groupId);
 			GroupCopyMapCfg cfg = GroupCopyMapCfgDao.getInstance().getCfgById(mapId);
 			List<? extends GroupMemberDataIF> list = group.getGroupMemberMgr().getMemberSortList(null);
 			for (GroupMemberDataIF dataIF : list) {
@@ -308,7 +308,7 @@ public class GroupCopyMgr {
 		}
 		// 检查有没有最后一击奖励
 		if (item.getFinalHitPrice() != 0) {
-			Group group = GroupBM.get(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId());
+			Group group = GroupBM.getInstance().get(player.getUserGroupAttributeDataMgr().getUserGroupAttributeData().getGroupId());
 			group.getGroupMemberMgr().updateMemberContribution(player.getUserId(), item.getFinalHitPrice(), false);
 		}
 	}

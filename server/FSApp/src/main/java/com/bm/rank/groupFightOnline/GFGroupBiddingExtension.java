@@ -27,8 +27,8 @@ public class GFGroupBiddingExtension extends RankingJacksonExtension<GFGroupBidd
 		String groupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		toData.setGroupID(groupID);
 		toData.setGroupName(GroupHelper.getInstance().getGroupName(player.getUserId()));
-		String leaderName = GroupBM.get(groupID).getGroupMemberMgr().getGroupLeader().getName();
-		String iconID = GroupBM.get(groupID).getGroupBaseDataMgr().getGroupData().getIconId();
+		String leaderName = GroupBM.getInstance().get(groupID).getGroupMemberMgr().getGroupLeader().getName();
+		String iconID = GroupBM.getInstance().get(groupID).getGroupBaseDataMgr().getGroupData().getIconId();
 		toData.setLeaderName(leaderName);
 		toData.setIconID(iconID);
 		return toData;

@@ -85,7 +85,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("获取帮派申请列表", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -151,7 +151,7 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派成员接收", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -342,9 +342,9 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 通知排行榜
-		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
-		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+		GroupRankHelper.getInstance().updateBaseRankExtension(groupData, memberMgr);
 		// 帮派信息发生改变
 		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 
@@ -375,7 +375,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派官员任命", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -499,7 +499,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派取消任命", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -603,7 +603,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "发送全员邮件冷却中");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派全员邮件", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -726,7 +726,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("踢出帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -808,9 +808,9 @@ public class GroupMemberManagerHandler {
 		group.getGroupLogMgr().addLog(player, log);
 
 		// 更新下排行榜数据
-		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
-		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+		GroupRankHelper.getInstance().updateBaseRankExtension(groupData, memberMgr);
 
 		// 清理一下帮派成员申请奖励品的数据
 		group.getGroupCopyMgr().nofityCreateRoleLeaveTask(kickMemberId);

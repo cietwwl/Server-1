@@ -72,7 +72,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -115,7 +115,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		if (data == null) {
 			return;
 		}
-		Group group = GroupBM.get(data.getGroupId());
+		Group group = GroupBM.getInstance().get(data.getGroupId());
 		if (group == null) {
 			return;
 		}
@@ -170,7 +170,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
-		Group group = GroupBM.get(userGroupData.getGroupId());
+		Group group = GroupBM.getInstance().get(userGroupData.getGroupId());
 		if (group == null) {
 			return;
 		}
@@ -398,7 +398,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return null;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			// GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
 			return null;

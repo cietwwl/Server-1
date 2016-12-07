@@ -167,7 +167,7 @@ public class GroupMemberHelper {
 			return;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -193,7 +193,7 @@ public class GroupMemberHelper {
 		int post = memberData.getPost();
 		if (post == GroupPost.LEADER_VALUE) {// 帮主
 			// 三个榜都要更新
-			GroupRankHelper.updateTheTypeForGroupRankExtension(groupId);
+			GroupRankHelper.getInstance().updateTheTypeForGroupRankExtension(groupId);
 		}
 	}
 
@@ -219,7 +219,7 @@ public class GroupMemberHelper {
 			return groupName;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return "";
 		}

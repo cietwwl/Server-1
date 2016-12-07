@@ -58,7 +58,7 @@ public class GCompMemberMgr {
 				if (!map.containsKey(userId)) {
 					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel(), player.getHeadImage());
 					List<GCompMember> list = _sorted.get(groupId);
-					this.addGroupMember(_currentType, member, GroupBM.get(groupId).getGroupBaseDataMgr().getGroupData(), list, map);
+					this.addGroupMember(_currentType, member, GroupBM.getInstance().get(groupId).getGroupBaseDataMgr().getGroupData(), list, map);
 				}
 			}
 		}
@@ -87,7 +87,7 @@ public class GCompMemberMgr {
 			List<GCompMember> list = new ArrayList<GCompMember>();
 			_allMembers.put(groupId, map);
 			_sorted.put(groupId, list);
-			Group group = GroupBM.get(groupId);
+			Group group = GroupBM.getInstance().get(groupId);
 			if (group == null) {
 				GCompUtil.log("帮派：{}，不存在，可能已经解散！", groupId);
 				continue;

@@ -278,7 +278,7 @@ public class GFightPrepareBM {
 			return;
 		for (int i = GFightConst.IN_FIGHT_MAX_GROUP; i < groupBidRank.size(); i++) {
 			GFGroupBiddingItem gBidItem = groupBidRank.get(i);
-			Group group = GroupBM.get(gBidItem.getGroupID());
+			Group group = GroupBM.getInstance().get(gBidItem.getGroupID());
 			if (group == null)
 				continue;
 			// 加回令牌数

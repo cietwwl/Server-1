@@ -56,7 +56,7 @@ public class GroupHelper {
 			return EMPTY_STRING;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return EMPTY_STRING;
 		}
@@ -160,6 +160,6 @@ public class GroupHelper {
 
 	public Group getGroup(Player player) {
 		String groupId = getGroupId(player);
-		return GroupBM.get(groupId);
+		return GroupBM.getInstance().get(groupId);
 	}
 }

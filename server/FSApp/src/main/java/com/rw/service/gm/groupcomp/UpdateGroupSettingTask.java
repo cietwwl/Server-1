@@ -11,7 +11,7 @@ class UpdateGroupSettingTask implements Runnable {
 
 	private String groupName;
 	private String playerId;
-	
+
 	public UpdateGroupSettingTask(String groupNameP, String playerIdP) {
 		this.groupName = groupNameP;
 		this.playerId = playerIdP;
@@ -19,7 +19,7 @@ class UpdateGroupSettingTask implements Runnable {
 
 	@Override
 	public void run() {
-		String groupId = GroupBM.getGroupId(groupName);
+		String groupId = GroupBM.getInstance().getGroupId(groupName);
 		if (groupId != null && groupId.length() > 0) {
 			Player player = PlayerMgr.getInstance().find(playerId);
 			GroupSettingReqMsg.Builder builder = GroupSettingReqMsg.newBuilder();

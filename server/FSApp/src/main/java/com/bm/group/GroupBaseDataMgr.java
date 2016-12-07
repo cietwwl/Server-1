@@ -407,7 +407,7 @@ public class GroupBaseDataMgr {
 		}
 
 		// 更新下排行榜的扩展属性
-		GroupRankHelper.updateTheTypeForGroupRankExtension(groupData.getId());
+		GroupRankHelper.getInstance().updateTheTypeForGroupRankExtension(groupData.getId());
 		return oldLevel != curLevel;
 	}
 

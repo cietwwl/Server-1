@@ -15,7 +15,7 @@ public class GroupCopyDataVersionMgr {
 		if (StringUtils.isNotBlank(versionJson)) {
 			String groupId = GroupHelper.getInstance().getGroupId(player);
 
-			Group group = GroupBM.get(groupId);
+			Group group = GroupBM.getInstance().get(groupId);
 			if (group != null) {
 
 				GroupCopyDataVersion groupDataVersion = fromJson(versionJson);

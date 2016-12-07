@@ -132,7 +132,7 @@ public class GFightOnlineGroupMgr {
 		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
 		if (groupData == null || groupData.getResourceID() <= 0)
 			return;
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (null == group)
 			return;
 		List<? extends GroupMemberDataIF> groupMem = group.getGroupMemberMgr().getMemberSortList(null);
@@ -175,7 +175,7 @@ public class GFightOnlineGroupMgr {
 		GFightOnlineGroupData groupData = GFightOnlineGroupMgr.getInstance().get(groupId);
 		if (groupData == null || groupData.getResourceID() <= 0)
 			return;
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (null == group)
 			return;
 		List<? extends GroupMemberDataIF> groupMem = group.getGroupMemberMgr().getMemberSortList(null);
@@ -251,7 +251,7 @@ public class GFightOnlineGroupMgr {
 				item.setItemNum(baseItem.getItemNum() * totalRateOnGroup);
 				victoryReward.add(item);
 			}
-			Group group = GroupBM.get(groupId);
+			Group group = GroupBM.getInstance().get(groupId);
 			if (null == group)
 				return;
 			// 发放被压标的帮派成员奖励
