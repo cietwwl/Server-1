@@ -50,7 +50,8 @@ public class WBUserMgr {
 		long curTime = System.currentTimeMillis();
 		wbUserData.setLastFightTime(curTime);
 		wbUserData.setFightCdTime(curTime + settingCfg.getCDInMilli() + settingCfg.getBattleTime());
-		wbUserData.cleanAccHurt();
+		wbUserData.cleanLastHurt();
+		
 //		System.out.println("-------------------last cd time:" + DateUtils.getDateTimeFormatString(wbUserData.getFightCdTime(), "yyyy-MM-dd HH:mm:ss"));
 		WBUserDataHolder.getInstance().update(player);
 	}
@@ -65,21 +66,20 @@ public class WBUserMgr {
 		
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());
 		
-		wbUserData.addAccHurt(hurt);
-		
+		wbUserData.addLastHurt(hurt);
+		wbUserData.addTotalHurt(hurt);
 		WBUserDataHolder.getInstance().update(player);
 		
 		WBHurtRankMgr.addOrUpdate(player);
-		return wbUserData.getAccHurt();
+		return wbUserData.getLastHurt();
 	}
 	
 	public void fightEndUpdate(Player player){	
 		
 		WBUserData wbUserData = WBUserDataHolder.getInstance().get(player.getUserId());	
 		
-		long lastHurt = wbUserData.getAccHurt();
-		wbUserData.setLastHurt(lastHurt);
-		wbUserData.addTotalHurt(lastHurt);
+		long lastHurt = wbUserData.getLastHurt();
+		
 		int awardCoin = countAwardCoin(player, lastHurt);
 		wbUserData.setLastAwardCoin(awardCoin);
 		

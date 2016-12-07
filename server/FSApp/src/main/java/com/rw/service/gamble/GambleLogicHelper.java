@@ -609,11 +609,15 @@ public class GambleLogicHelper {
 			if (historyRecord.size() <= 0) {
 				historyRecord.add(heroId);
 			} else {
-				historyRecord.set(0, heroId);
+				historyRecord.set(0, heroId);//historyRecord里保存的是上一个被抽出的记录，因为tmpGroup.removeHistory操作只要跟上次抽取的做比较
 			}
 			tmpGroup = tmpGroup.removeHistory(historyRecord);
 			if (tmpGroup != null && tmpGroup.size() > 0) {
-				heroId = getRandomGroup(player, drop, slotCount, weight);
+				
+				//这里第二个参数不应该用drop,否则上面tmpGroup.removeHistory(historyRecord)这个步骤就没有意义了，因为经过这个步骤，
+				//tmpGroup会把上次抽到移除，重新new一个对象出来   ------by Alex  bugfix:5255
+//				heroId = getRandomGroup(player, drop, slotCount, weight);  
+				heroId = getRandomGroup(player, tmpGroup, slotCount, weight);
 			} else {
 				heroId = guanrateeHero;
 			}
