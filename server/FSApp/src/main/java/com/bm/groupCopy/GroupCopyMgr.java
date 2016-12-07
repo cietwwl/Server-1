@@ -112,7 +112,7 @@ public class GroupCopyMgr {
 		mapRecordHolder = new GroupCopyMapRecordHolder(groupIdP);
 		rewardRecordHolder = new GroupCopyRewardDistRecordHolder(groupIdP);
 		dropHolder = new DropAndApplyRecordHolder(groupIdP);
-		checkAllChapterProgress();
+//		checkAllChapterProgress();
 	}
 	
 	//检查所有副本地图进度，因为副本怪物策划可能会重新配置

@@ -96,12 +96,12 @@ INLAY_Level,,INLAY_Level,英雄等级不足
 ARENA_MODETIMES_TIP,,ARENA_MODETIMES_TIP,"购买次数已满，请前往升级贵族等级,以获得更多次数！"
 ARENA_BATTLETIMES_CONSUME_TIP,,ARENA_BATTLETIMES_CONSUME_TIP,是否花费{0}钻石购买论道场门票？
 ARENA_BATTLETIMES_RESET,,ARENA_BATTLETIMES_RESET,需要贵族等级3才能重置论道场 ，是否前往充值？
-BATTLETOWERDTIP,,BATTLETOWERDTIP,"1.封神台通关任意层或进行扫荡或挑战将会有几率触发神秘BOSS，攻打神秘BOSS，不消耗任何资源
-2.神秘BOSS在每天扫荡或挑战封神台时，必然会出现一次，最多出现3次
-3.每个神秘BOSS都非常特殊，需要适合的英雄去挑战
-4.神秘BOSS会掉落非常丰厚的奖励
-5.攻打神秘BOSS胜利后，BOSS消失。如若攻打失败，可以重整队伍继续挑战，次数不限
-6.神秘BOSS刷出后，会存活2小时，2小时内若未攻打胜利，BOSS消失"
+BATTLETOWERDTIP,,BATTLETOWERDTIP,"1.挑战或扫荡将会有几率触发神秘首领，一天最多可出现3个神秘首领。
+2.攻打神秘首领，不消耗任何资源。
+3.每个神秘首领都非常特殊，需要适合的英雄去挑战。
+4.神秘首领会掉落非常丰厚的奖励。
+5.挑战神秘首领胜利后，首领消失。如若攻打失败，可以重整队伍继续挑战，次数不限。
+6.神秘首领刷出后，会存活2小时，2小时内若未挑战胜利，首领消失。"
 BATTLETOWERDREST_TIP,,BATTLETOWERDREST_TIP,你确定要重置封神台吗？
 Guild_pos_1,,,帮主
 Guild_pos_2,,,副帮主
@@ -277,7 +277,7 @@ FashionEnableEffect,,,收集{0}件服饰(已激活)
 FashionDisableEffect,,,收集{0}件服饰(未激活)
 TeamBattleRule,,,"1.组队战每天5点重置，重置时刷新可挑战的英雄列表，解散所有玩家的队伍
 2.每天每个玩家可选择满足要求的多个英雄进行挑战
-3.点击挑战后直接进入战斗，出战前玩家可以自行拖动头像确定出战的顺序
+3.点击挑战后直接进入战斗
 4.战斗采取车轮战的模式，直至一方全部战败
 5.挑战失败不做记录，视为还未进行挑战
 6.仅队长有权限进行邀请、踢出等操作

@@ -13,6 +13,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
+import com.playerdata.charge.ChargeEventListenerType;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
@@ -54,6 +55,8 @@ public class GmAddVipExp implements IGmTask {
 			addVipExpLogger.info("userName:" + player.getUserName() + " add ActivityDailyRechargeTypeMgr: money:" + cfg.getMoneyYuan());
 			EvilBaoArriveMgr.getInstance().addFinishCount(player, cfg.getMoneyYuan());
 			addVipExpLogger.info("userName:" + player.getUserName() + " add EvilBaoArriveMgr: money:" + cfg.getMoneyYuan());
+			ChargeEventListenerType.PRESENT_GIFT.getListener().notifyCharge(player, cfg, preVip);
+			addVipExpLogger.info("userName:" + player.getUserName() + " present vip gift: money:" + cfg.getMoneyYuan());
 			int nowVipExp = info.getTotalChargeGold();
 			result.put("RESULT", "操作成功，添加前信息：vip等级：" + preVip + "，vip经验：" + preVipExp + "；添加后结果：vip等级：" + player.getVip() + "，vip经验：" + nowVipExp);
 		} else {

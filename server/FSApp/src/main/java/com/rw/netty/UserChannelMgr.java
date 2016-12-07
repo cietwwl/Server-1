@@ -123,7 +123,7 @@ public class UserChannelMgr {
 			GameLog.info("UserChannelMgr", "", "replace binding sessionId:" + oldSessionId + "," + userId);
 		}
 		// 这里缺少多线程保护，会导致已经断线的人时间被清空，后果是无法直接在游戏内重连
-		if (disconnectMap.remove(userId) == null && recordLogin) {
+		if (disconnectMap.remove(userId) == null && recordLogin && oldSessionId == null) {
 			BILogMgr.getInstance().logZoneLogin(userId);
 		}
 		return true;
