@@ -34,9 +34,6 @@ public class ActivityChargeRankItem implements ActivityTypeItemIF<Object> {
 	private int finishCount;	// 已经完成的数量
 	
 	@CombineSave
-	private long lasttime;
-	
-	@CombineSave
 	private boolean hasViewed;	//是否已经查看过该活动
 	
 	public Integer getId() {
@@ -69,14 +66,6 @@ public class ActivityChargeRankItem implements ActivityTypeItemIF<Object> {
 
 	public void setClosed(boolean closed) {
 		this.closed = closed;
-	}
-
-	public long getLasttime() {
-		return lasttime;
-	}
-
-	public void setLasttime(long lasttime) {
-		this.lasttime = lasttime;
 	}
 
 	public int getVersion() {
