@@ -2,10 +2,13 @@ package com.rwbase.dao.skill.pojo;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.OwnerId;
@@ -23,7 +26,7 @@ public class SkillItem implements RoleExtProperty, SkillIF {
 	private String skillId;
 
 	private int level;// 如果0级说明没开放
-	
+
 	private int order;// 第几个技能
 	@JsonIgnore
 	private float skillRate;

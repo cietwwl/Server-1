@@ -1,10 +1,11 @@
 package com.rwbase.dao.skill.pojo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
-
-import org.apache.commons.lang3.StringUtils;
+import java.util.Map;
 
 import com.common.IHeroAction;
 import com.log.GameLog;
@@ -15,35 +16,63 @@ import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.dataaccess.hero.HeroExtPropertyType;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class SkillItemHolder {
 
 	private static SkillItemHolder _instance = new SkillItemHolder();
-	
+
 	public static SkillItemHolder getSkillItemHolder() {
 		return _instance;
 	}
-	
+
 	final private eSynType skillSynType = eSynType.SKILL_ITEM;
-	
-	/*
-	 * 获取用户已经拥有
+
+	/**
+	 * 获取角色的技能
+	 * 
+	 * @param heroId
+	 * @return
 	 */
 	public List<SkillItem> getItemList(String heroId) {
+		RoleExtPropertyStore<SkillItem> mapItemStore = getMapItemStore(heroId);
+		if (mapItemStore == null) {
+			return Collections.emptyList();
+		}
 
+		Enumeration<SkillItem> mapEnum = mapItemStore.getExtPropertyEnumeration();
 		List<SkillItem> itemList = new ArrayList<SkillItem>();
-		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getExtPropertyEnumeration();
 		while (mapEnum.hasMoreElements()) {
-			SkillItem item = (SkillItem) mapEnum.nextElement();
+			SkillItem item = mapEnum.nextElement();
 			itemList.add(item);
 		}
 
 		return itemList;
 	}
-	
+
+	/**
+	 * 获取某个人所有的技能信息
+	 * 
+	 * @param heroId
+	 * @return <技能的模版Id，技能数据>
+	 */
+	public Map<Integer, SkillItem> getItemMap(String heroId) {
+		RoleExtPropertyStore<SkillItem> mapItemStore = getMapItemStore(heroId);
+		if (mapItemStore == null) {
+			return Collections.emptyMap();
+		}
+
+		Enumeration<SkillItem> mapEnum = mapItemStore.getExtPropertyEnumeration();
+		HashMap<Integer, SkillItem> skillMap = new HashMap<Integer, SkillItem>();
+		while (mapEnum.hasMoreElements()) {
+			SkillItem item = mapEnum.nextElement();
+			skillMap.put(item.getId(), item);
+		}
+
+		return skillMap;
+	}
+
 	/**
 	 * 
 	 * 更新一个技能数据
@@ -53,51 +82,44 @@ public class SkillItemHolder {
 	 * @param item
 	 */
 	public void updateItem(Player player, String heroId, SkillItem item) {
-		getMapItemStore(heroId).update(item.getId());
+		if (!getMapItemStore(heroId).update(item.getId())) {// 更新不成功直接返回
+			return;
+		}
+
 		ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.UPDATE_SINGLE);
 		notifyChange(player.getUserId(), heroId);
 	}
-	
+
+	/**
+	 * 提交更新数据
+	 * 
+	 * @param heroId
+	 * @param skillIdList
+	 */
+	public void updateSkillItemById(String heroId, List<Integer> skillIdList) {
+		if (skillIdList == null) {
+			return;
+		}
+
+		getMapItemStore(heroId).updateItems(skillIdList);
+	}
+
 	/**
 	 * 同步变化的技能到前端并且调用notifyChange
+	 * 
 	 * @param player
 	 * @param heroId
 	 * @param skillList
 	 */
-	public void notifyChangedAndSynData(Player player, String heroId, List<SkillItem> skillList){
-		//TODO 要改前端换成eSynOpType.UPDATE_PART_LIST
-		//如果更改的技能是全部，可以调用eSynOpType.UPDATE_LIST
-		for(int i = 0,size = skillList.size();i<size;i++){
+	public void notifyChangedAndSynData(Player player, String heroId, List<SkillItem> skillList) {
+		// TODO 要改前端换成eSynOpType.UPDATE_PART_LIST
+		// 如果更改的技能是全部，可以调用eSynOpType.UPDATE_LIST
+		for (int i = 0, size = skillList.size(); i < size; i++) {
 			ClientDataSynMgr.updateData(player, skillList.get(i), skillSynType, eSynOpType.UPDATE_SINGLE);
 		}
 		notifyChange(player.getUserId(), heroId);
 	}
 
-//	/**
-//	 * 
-//	 * 根据技能模板id，获取指定英雄的技能数据
-//	 * 
-//	 * @param ownerId
-//	 * @param skillcfgId
-//	 * @return
-//	 */
-//	public SkillItem getItem(String ownerId, String skillcfgId) {
-//		Integer itemId = parseSkillItemId(skillcfgId);
-//		return getItem(ownerId, itemId);
-//	}
-	
-	/**
-	 * 
-	 * 根据英雄id和技能id，获取英雄的技能数据
-	 * 
-	 * @param heroId
-	 * @param itemId
-	 * @return
-	 */
-	public SkillItem getItemByItemId(String heroId, Integer itemId) {
-		return getMapItemStore(heroId).get(itemId);
-	}
-	
 	/**
 	 * 
 	 * 根据技能的索引顺序，获取技能数据
@@ -108,9 +130,9 @@ public class SkillItemHolder {
 	 */
 	public SkillItem getByOrder(String heroId, int order) {
 		SkillItem target = null;
-		Enumeration<SkillItem> mapEnum = getMapItemStore(heroId).getExtPropertyEnumeration();
-		while (mapEnum.hasMoreElements()) {
-			SkillItem item = (SkillItem) mapEnum.nextElement();
+		List<SkillItem> itemList = getItemList(heroId);
+		for (int i = 0, size = itemList.size(); i < size; i++) {
+			SkillItem item = itemList.get(i);
 			if (item.getOrder() == order) {
 				target = item;
 				break;
@@ -119,26 +141,7 @@ public class SkillItemHolder {
 
 		return target;
 	}
-	
-	/**
-	 * 
-	 * 移除指定英雄的一个技能
-	 * 
-	 * @param player
-	 * @param heroId
-	 * @param item
-	 * @return
-	 */
-	public boolean removeItem(Player player, String heroId, SkillItem item) {
 
-		boolean success = getMapItemStore(heroId).removeItem(item.getId());
-		if (success) {
-			ClientDataSynMgr.updateData(player, item, skillSynType, eSynOpType.REMOVE_SINGLE);
-			notifyChange(player.getUserId(), heroId);
-		}
-		return success;
-	}
-	
 	/**
 	 * 
 	 * 增加一个技能
@@ -162,31 +165,7 @@ public class SkillItemHolder {
 		}
 		return addSuccess;
 	}
-	
-	/**
-	 * 
-	 * 增加一批技能
-	 * 
-	 * @param player
-	 * @param heroId
-	 * @param skillList
-	 */
-	public void addItem(Player player, String heroId, List<SkillItem> skillList) {
-		for (int i = skillList.size(); --i >= 0;) {
-			SkillItem item = skillList.get(i);
-			item.setOwnerId(heroId);
-			item.setId(SkillHelper.parseSkillItemId(item.getSkillId()));
-		}
-		try {
-			getMapItemStore(heroId).addItem(skillList);
-			ClientDataSynMgr.updateDataList(player, skillList, skillSynType, eSynOpType.UPDATE_LIST);
-			notifyChange(player.getUserId(), heroId);
-		} catch (DuplicatedKeyException e) {
-			GameLog.error("SkillItemHolder", "#addItem()", "批量添加技能失败：" + heroId, e);
-			e.printStackTrace();
-		}
-	}
-	
+
 	/**
 	 * 
 	 * 同步技能数据
@@ -201,37 +180,32 @@ public class SkillItemHolder {
 	}
 
 	/**
+	 * 获取MapItemStore，这个对象限定只能在holder里访问
 	 * 
-	 * 保存技能数据
-	 * 
-	 * @param heroId 目标英雄id
-	 * @param immediately 是否马上写进数据库
+	 * @param heroId
+	 * @return
 	 */
-//	public void flush(String heroId, boolean immediately) {
-//		getMapItemStore(heroId).flush(immediately);
-//	}
-	
-	private final List<IHeroAction> _dataChangeCallbacks = new ArrayList<IHeroAction>();
-	
-	public void regDataChangeCallback(IHeroAction callback) {
-		_dataChangeCallbacks.add(callback);
-	}
-	
-	private void notifyChange(String userId, String heroId) {
-		for(IHeroAction action : _dataChangeCallbacks) {
-			action.doAction(userId, heroId);
-		}
-	}
-	
-	public RoleExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
+	private RoleExtPropertyStore<SkillItem> getMapItemStore(String heroId) {
 		RoleExtPropertyStoreCache<SkillItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SKILL_ITEM, SkillItem.class);
 		RoleExtPropertyStore<SkillItem> store = null;
 		try {
 			store = heroExtCache.getStore(heroId);
 		} catch (Throwable e) {
-			GameLog.error(LogModule.Skill, "heroId:"+heroId, "can not get PlayerExtPropertyStore.", e);
+			GameLog.error(LogModule.Skill, "heroId:" + heroId, "can not get PlayerExtPropertyStore.", e);
 		}
 		return store;
 	}
-	
+
+	// ======================================================一直存在的事件通知
+	private final List<IHeroAction> _dataChangeCallbacks = new ArrayList<IHeroAction>();
+
+	public void regDataChangeCallback(IHeroAction callback) {
+		_dataChangeCallbacks.add(callback);
+	}
+
+	private void notifyChange(String userId, String heroId) {
+		for (IHeroAction action : _dataChangeCallbacks) {
+			action.doAction(userId, heroId);
+		}
+	}
 }

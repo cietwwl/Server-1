@@ -152,14 +152,13 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 		int level = skill.getLevel() + addLevel;
 		StringTokenizer token = new StringTokenizer(skill.getSkillId(), "_");
 		String newSkillId = token.nextToken() + "_" + level;
-		// SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(skill.getSkillId());
-		SkillCfg newSkillCfg = (SkillCfg) SkillCfgDAO.getInstance().getCfgById(newSkillId); // PERRY 2016-08-19，上面的本意应该是要获取下个技能
+		SkillCfg newSkillCfg = SkillCfgDAO.getInstance().getCfgById(newSkillId); // PERRY 2016-08-19，上面的本意应该是要获取下个技能
 		if (newSkillCfg == null) {
 			return false;
 		}
 		skill.setLevel(level);
 		skill.setSkillId(newSkillId);
-		updateMoreInfo(player, heroId, skill);
+		updateMoreInfo(player, heroId, skill);// 检查技能相互影响关系
 		if (update) {
 			getSkillItemHoder().updateItem(player, heroId, skill);
 		}
@@ -222,7 +221,7 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 			}
 		}
 		if (updateList != null) {
-			skillItemHolder.getMapItemStore(heroId).updateItems(updateList);
+			skillItemHolder.updateSkillItemById(heroId, updateList);
 			skillItemHolder.synAllData(player, heroId, -1);
 		}
 	}
@@ -266,14 +265,16 @@ public class SkillMgr implements SkillMgrIF, IDataMgrSingletone {
 			String oldSkillId = oldSkill.getSkillId();
 			String newSkillId = newSkill.getSkillId().split("_")[0] + "_" + oldSkillId.split("_")[1];
 			oldSkill.setSkillId(newSkillId);
-			// getSkillItemHoder().updateItem(player, heroId, oldSkill);
 			updateList.add(oldSkill.getId());
 		}
+
 		if (!updateList.isEmpty()) {
-			SkillItemHolder.getSkillItemHolder().getMapItemStore(heroId).updateItems(updateList);
+			SkillItemHolder skillItemHolder = SkillItemHolder.getSkillItemHolder();
+			skillItemHolder.updateSkillItemById(heroId, updateList);
 			// 检查所有的技能
 			updateMoreInfo(player, heroId, null);
-			SkillItemHolder.getSkillItemHolder().synAllData(player, heroId, -1);
+
+			skillItemHolder.synAllData(player, heroId, -1);
 		}
 	}
 
