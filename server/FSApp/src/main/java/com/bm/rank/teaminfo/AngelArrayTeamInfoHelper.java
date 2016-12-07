@@ -559,10 +559,10 @@ public class AngelArrayTeamInfoHelper {
 		if (fixEquipList != null) {
 			heroInfo.setFixEquip(fixEquipList);
 		}
-		
-		//附灵
+
+		// 附灵
 		List<SpriteAttachItem> spriteAttachList = changeHeroSpriteAttach(p, hero);
-		if(spriteAttachList != null){
+		if (spriteAttachList != null) {
 			heroInfo.setSpriteAttach(spriteAttachList);
 		}
 
@@ -706,14 +706,15 @@ public class AngelArrayTeamInfoHelper {
 
 		return fixInfoList;
 	}
-	
+
 	/**
 	 * 设置附灵信息
+	 * 
 	 * @param player
 	 * @param hero
 	 * @return
 	 */
-	private static List<SpriteAttachItem> changeHeroSpriteAttach(PlayerIF player, Hero hero){
+	private static List<SpriteAttachItem> changeHeroSpriteAttach(PlayerIF player, Hero hero) {
 		List<SpriteAttachItem> spriteAttachList = new ArrayList<SpriteAttachItem>();
 		if (!player.isRobot()) {
 			List<SpriteAttachItem> spriteAttachItemList = SpriteAttachMgr.getInstance().getSpriteAttachHolder().getSpriteAttachItemList(hero.getUUId());
@@ -723,7 +724,7 @@ public class AngelArrayTeamInfoHelper {
 		}
 		return spriteAttachList;
 	}
-	
+
 	/**
 	 * <pre>
 	 * 把TeamInfo转换成ArmyInfo
@@ -841,7 +842,7 @@ public class AngelArrayTeamInfoHelper {
 
 		SkillCfgDAO skillCfgDAO = SkillCfgDAO.getInstance();
 
-		List<SkillItem> skillList = SkillHelper.initSkill(roleCfg, baseInfo.getQuality(), baseInfo.getLevel());
+		List<SkillItem> skillList = SkillHelper.getInstance().initSkill(roleCfg, baseInfo.getQuality(), baseInfo.getLevel());
 
 		int skillSize = skillList.size();
 
@@ -876,7 +877,7 @@ public class AngelArrayTeamInfoHelper {
 
 			// skillLevel += sLevel;
 		}
-		SkillHelper.checkAllSkill(skillList);
+		SkillHelper.getInstance().checkAllSkill(skillList);
 		armyHero.setSkillList(skillList);
 		// 其他属性
 		AttrData heroAttrData = AttributeBM.getRobotAttrData(tmpId, heroInfo, teamInfo);

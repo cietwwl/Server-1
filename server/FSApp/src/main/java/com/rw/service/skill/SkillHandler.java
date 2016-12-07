@@ -204,45 +204,6 @@ public class SkillHandler {
 		return response.build().toByteString();
 	}
 
-	// /**
-	// * 技能升级
-	// *
-	// * @param roleId
-	// * @param player
-	// * @param index
-	// * @return
-	// */
-	// public ByteString skillUpdate(String roleId, Player player, int index) {
-	// SkillResponse.Builder response = SkillResponse.newBuilder();
-	// response.setEventType(SkillEventType.Skill_Upgrade);
-	// SkillMgr pSkillMgr = getSkillMgr(player, roleId);
-	// RoleType pRoleType = getRoleType(player, roleId);
-	// response.setResultType(SkillResultType.fail);
-	// if (pSkillMgr == null) {
-	// player.NotifyCommonMsg("角色不存在！");
-	// return response.build().toByteString();
-	// }
-	// Skill skill = pSkillMgr.getSkill(index);
-	// if (skill == null) {
-	// player.NotifyCommonMsg("技能不存在！");
-	// return response.build().toByteString();
-	// }
-	// if (!pSkillMgr.canUpgradeSkill(skill, true)) {
-	// return response.build().toByteString();
-	// }
-	//
-	// SkillFeeCfg skillFeeCfg =
-	// SkillFeeCfgDAO.getInstance().getSkillFeeCfg(pRoleType.ordinal(),
-	// skill.getOrder(), skill.getLevel());
-	// player.getUserGameDataMgr().addCoin(-skillFeeCfg.getCoin());
-	// pSkillMgr.upgradeSkill(index);
-	// player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Hero_SkillUpgrade,
-	// 1);
-	// response.setOrder(index);
-	// response.setResultType(SkillResultType.succeed);
-	// return response.build().toByteString();
-	// }
-
 	public ByteString buySkillPoint(Player player) {
 		// PrivilegeCfg privilege =
 		// PrivilegeCfgDAO.getInstance().getCfg(player.getVip());

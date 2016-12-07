@@ -114,7 +114,7 @@ public class FSHeroThirdPartyDataMgr {
 		}
 		marqueeMsg(player, hero, marqueeStar, hero.getStarLevel());
 		player.getFresherActivityMgr().doCheck(eActivityType.A_HeroStar);
-//		player.getUserGameDataMgr().notifySingleStarChange(hero.getStarLevel(), preStar);
+		// player.getUserGameDataMgr().notifySingleStarChange(hero.getStarLevel(), preStar);
 		FSUserHeroGlobalDataMgr.getInstance().increaseStarAll(player.getUserId(), (hero.getStarLevel() - preStar));
 	}
 
@@ -132,8 +132,8 @@ public class FSHeroThirdPartyDataMgr {
 	void fireHeroAddedEvent(Player player, Hero hero) {
 		player.getTempAttribute().setHeroFightingChanged();
 		FettersBM.whenHeroChange(player, hero.getModeId());
-//		player.getUserGameDataMgr().increaseFightingAll(hero.getFighting());
-//		player.getUserGameDataMgr().increaseStarAll(hero.getStarLevel());
+		// player.getUserGameDataMgr().increaseFightingAll(hero.getFighting());
+		// player.getUserGameDataMgr().increaseStarAll(hero.getStarLevel());
 		FSUserHeroGlobalDataMgr.getInstance().increaseFightingAndStar(player.getUserId(), hero.getFighting(), hero.getStarLevel());
 	}
 
@@ -170,8 +170,6 @@ public class FSHeroThirdPartyDataMgr {
 		_skillMgr.init(hero);
 		_inlayMgr.init(hero);
 		_equipMgr.init(hero);
-
-		_skillMgr.checkSkill(player, hero.getId(), hero.getTemplateId());
 		_initingHeroIds.remove(hero.getId());
 	}
 

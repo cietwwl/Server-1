@@ -44,30 +44,30 @@ public class MonsterArmyHelper {
 		return data;
 	}
 
-	private static List<SkillItem> getSkillList(MonsterCfg monster){
-        List<String> tempList = new ArrayList<String>();
-        if(StringUtils.isNotBlank(monster.getSkill01())){
-        	tempList.add(monster.getSkill01());
-        }
-        if(StringUtils.isNotBlank(monster.getSkill02())){
-        	tempList.add(monster.getSkill02());
-        }
-        if(StringUtils.isNotBlank(monster.getSkill03())){
-        	tempList.add(monster.getSkill03());
-        }
-        if(StringUtils.isNotBlank(monster.getSkill04())){
-        	tempList.add(monster.getSkill04());
-        }
-        if(StringUtils.isNotBlank(monster.getSkill05())){
-        	tempList.add(monster.getSkill05());
-        }
-        
+	private static List<SkillItem> getSkillList(MonsterCfg monster) {
+		List<String> tempList = new ArrayList<String>();
+		if (StringUtils.isNotBlank(monster.getSkill01())) {
+			tempList.add(monster.getSkill01());
+		}
+		if (StringUtils.isNotBlank(monster.getSkill02())) {
+			tempList.add(monster.getSkill02());
+		}
+		if (StringUtils.isNotBlank(monster.getSkill03())) {
+			tempList.add(monster.getSkill03());
+		}
+		if (StringUtils.isNotBlank(monster.getSkill04())) {
+			tempList.add(monster.getSkill04());
+		}
+		if (StringUtils.isNotBlank(monster.getSkill05())) {
+			tempList.add(monster.getSkill05());
+		}
+
 		return createSkillItems(tempList);
 	}
 
 	public static List<SkillItem> createSkillItems(List<String> ids) {
-		List<SkillItem> skillList = SkillHelper.getSkillList(ids, null, null);
-		SkillHelper.checkAllSkill(skillList);
+		List<SkillItem> skillList = SkillHelper.getInstance().getSkillList(ids, null, null);
+		SkillHelper.getInstance().checkAllSkill(skillList);
 		return skillList;
 	}
 
@@ -80,6 +80,5 @@ public class MonsterArmyHelper {
 		roleInfo.setQualityId(monster.getQualityId());
 		return roleInfo;
 	}
-	
-	
+
 }

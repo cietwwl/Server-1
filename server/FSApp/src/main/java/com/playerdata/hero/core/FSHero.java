@@ -14,7 +14,6 @@ import com.playerdata.Hero;
 import com.playerdata.InlayMgr;
 import com.playerdata.Player;
 import com.playerdata.SkillMgr;
-import com.playerdata.SpriteAttachMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
@@ -45,92 +44,93 @@ import com.rwbase.dao.role.pojo.RoleCfg;
  * 注意事项：
  * 1、内部不能直接使用_userId字段，因为如果是主角类型的英雄，_userId会为""，应该使用{@link #getOwnerUserId()}来获取userId
  * </pre>
+ * 
  * @author CHEN.P
  *
  */
 @Table(name = "hero")
 @SynClass
 public class FSHero implements Hero, AttrMgr {
-	
+
 	@Transient
 	@IgnoreSynField
 	public static final int CURRENT_SYNC_ATTR_VERSION = -1;
-	
+
 	@Transient
 	@IgnoreSynField
 	private static final String _COLUMN_ATTRIBUTE = "attribute";
-	
+
 	@Transient
 	@IgnoreSynField
 	private static final String _EMPTY_USER_ID = "";
-	
+
 	@Id
 	@HeroBaseInfo
 	private String id; // 唯一的id
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	@IgnoreSynField
 	private String _name; // 英雄的名字
-	
+
 	@IgnoreUpdate
-	@Column(name="user_id")
+	@Column(name = "user_id")
 	@IgnoreSynField
 	private String _userId; // 英雄所属的玩家的userId
-	
-	@Column(name="template_id")
+
+	@Column(name = "template_id")
 	@HeroBaseInfo
 	@IgnoreSynField
 	private String templateId; // 数据模板的id
-	
-	@Column(name="hero_type")
+
+	@Column(name = "hero_type")
 	@IgnoreSynField
 	private int _heroType; // 英雄的类型（主英雄，一般英雄）
-	
-	@Column(name="exp")
+
+	@Column(name = "exp")
 	@HeroBaseInfo
 	private long exp; // 英雄的当前经验值
-	
-	@Column(name="level")
+
+	@Column(name = "level")
 	@HeroBaseInfo
 	private int level; // 英雄的等级
-	
-	@Column(name="create_time")
+
+	@Column(name = "create_time")
 	@IgnoreSynField
 	private long _createTime; // 英雄的创建时间
-	
-	@CombineSave(Column=_COLUMN_ATTRIBUTE)
+
+	@CombineSave(Column = _COLUMN_ATTRIBUTE)
 	@HeroBaseInfo
 	private int starLevel; // 英雄的星级
-	
-	@CombineSave(Column=_COLUMN_ATTRIBUTE)
+
+	@CombineSave(Column = _COLUMN_ATTRIBUTE)
 	@HeroBaseInfo
 	private String qualityId; // 英雄的品质
-	
-	@CombineSave(Column=_COLUMN_ATTRIBUTE)
+
+	@CombineSave(Column = _COLUMN_ATTRIBUTE)
 	@HeroBaseInfo
 	private int careerType; // 英雄的职业
-	
-	@CombineSave(Column=_COLUMN_ATTRIBUTE)
+
+	@CombineSave(Column = _COLUMN_ATTRIBUTE)
 	@HeroBaseInfo
 	private int modeId; // 英雄的模型id
-	
-	@CombineSave(Column=_COLUMN_ATTRIBUTE)
+
+	@CombineSave(Column = _COLUMN_ATTRIBUTE)
 	@IgnoreSynField
 	private FSHeroAttr attr = new FSHeroAttr(); // 英雄的属性，總屬性會保存，角色上線，syn的時候才會重新計算屬性
-	
+
 	@NonSave
 	@Transient
 	@IgnoreSynField
 	private AttributeCalculator<AttrData> _calc; // 属性计算器
-	
+
 	@NonSave
 	@Transient
 	@IgnoreSynField
 	private AtomicBoolean _firstInited = new AtomicBoolean(); // 第一次加载是否完成（只有角色第一次登录的时候才会检查这个）
-	
+
 	public FSHero() {
 	}
-	
+
 	public FSHero(Player owner, eRoleType roleTypeP, RoleCfg heroCfg, String uuid) {
 		this.id = uuid;
 		boolean setName = true;
@@ -148,19 +148,19 @@ public class FSHero implements Hero, AttrMgr {
 		this.initFromCfg(heroCfg, setName);
 		this.initAttrCalc();
 	}
-	
+
 	private void initAttrCalc() {
 		if (this._calc == null) {
 			this._calc = AttributeBM.getAttributeCalculator(this.getOwnerUserId(), this.id);
 		}
 	}
-	
+
 	private void getDataFromCfg(RoleCfg heroCfg) {
 		this.modeId = heroCfg.getModelId();
 		this.careerType = heroCfg.getCareerType();
 		this.qualityId = heroCfg.getQualityId();
 	}
-	
+
 	private void initFromCfg(RoleCfg heroCfg, boolean setName) {
 		this.getDataFromCfg(heroCfg);
 		this.templateId = heroCfg.getRoleId();
@@ -170,7 +170,7 @@ public class FSHero implements Hero, AttrMgr {
 			this._name = heroCfg.getName();
 		}
 	}
-	
+
 	private void calculateAttrsInternal(boolean syncToClient) {
 		int preFighting = attr.getFighting();
 		initAttrCalc();
@@ -182,18 +182,16 @@ public class FSHero implements Hero, AttrMgr {
 			FSHeroMgr.getInstance().syncFighting(this, preFighting);
 		}
 	}
-	
+
 	private void checkIfAttrInit() {
 		if (this.attr.getFighting() == 0) {
-			/* 
-			 * 有可能是机器人和旧数据，现在计算属性是在syn的时候计算。
-			 * 机器人不会触发syn，所以有可能属性为0
-			 * 旧数据没有保存离线的attr，所以属性也有可能为0
+			/*
+			 * 有可能是机器人和旧数据，现在计算属性是在syn的时候计算。 机器人不会触发syn，所以有可能属性为0 旧数据没有保存离线的attr，所以属性也有可能为0
 			 */
 			this.firstInit();
 		}
 	}
-	
+
 	/**
 	 * 第一次init
 	 */
@@ -204,7 +202,7 @@ public class FSHero implements Hero, AttrMgr {
 			this.calculateAttrsInternal(false);
 		}
 	}
-	
+
 	boolean hasBeenFirstInited() {
 		return _firstInited.get();
 	}
@@ -213,32 +211,32 @@ public class FSHero implements Hero, AttrMgr {
 	public String getId() {
 		return id;
 	}
-	
+
 	@Override
 	public String getTemplateId() {
 		return this.templateId;
 	}
-	
+
 	@Override
 	public int getLevel() {
 		return level;
 	}
-	
+
 	@Override
 	public int getStarLevel() {
 		return starLevel;
 	}
-	
+
 	@Override
 	public String getQualityId() {
 		return qualityId;
 	}
-	
+
 	@Override
 	public long getExp() {
 		return exp;
 	}
-	
+
 	@Override
 	public int getModeId() {
 		return modeId;
@@ -251,13 +249,13 @@ public class FSHero implements Hero, AttrMgr {
 
 	@Override
 	public String getOwnerUserId() {
-		if(this._heroType == HERO_TYPE_COMMON) {
+		if (this._heroType == HERO_TYPE_COMMON) {
 			return _userId;
 		} else {
 			return id;
 		}
 	}
-	
+
 	@Override
 	public int getCareerType() {
 		return careerType;
@@ -278,8 +276,6 @@ public class FSHero implements Hero, AttrMgr {
 		FSHeroThirdPartyDataMgr.getInstance().notifySave(this);
 	}
 
-	
-
 	@Override
 	public void setTemplateId(String templateId) {
 		this.templateId = templateId;
@@ -287,13 +283,13 @@ public class FSHero implements Hero, AttrMgr {
 
 	@Override
 	public int getFighting() {
-		if(attr.getFighting() == 0) {
+		if (attr.getFighting() == 0) {
 			// 兼容旧数据
 			this.firstInit();
 		}
 		return attr.getFighting();
 	}
-	
+
 	@Override
 	public void setStarLevel(int star) {
 		this.starLevel = star;
@@ -303,7 +299,7 @@ public class FSHero implements Hero, AttrMgr {
 	public void setQualityId(String pQualityId) {
 		this.qualityId = pQualityId;
 	}
-	
+
 	@Override
 	public void setCareerType(int career) {
 		this.careerType = career;
@@ -321,7 +317,7 @@ public class FSHero implements Hero, AttrMgr {
 
 	@Override
 	public void setExp(long exp) {
-		if(exp < 0) {
+		if (exp < 0) {
 			return;
 		}
 		this.exp = exp;
@@ -331,32 +327,32 @@ public class FSHero implements Hero, AttrMgr {
 	public boolean isMainRole() {
 		return this._heroType == HERO_TYPE_MAIN;
 	}
-	
+
 	@Override
 	public AttrMgr getAttrMgr() {
 		return this;
 	}
-	
+
 	@Override
 	public InlayMgr getInlayMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getInlayMgr();
 	}
-	
+
 	@Override
 	public SkillMgr getSkillMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getSkillMgr();
 	}
-	
+
 	@Override
 	public EquipMgr getEquipMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getEquipMgr();
 	}
-	
+
 	@Override
 	public FixNormEquipMgr getFixNormEquipMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getFixNormEquipMgr();
 	}
-	
+
 	@Override
 	public FixExpEquipMgr getFixExpEquipMgr() {
 		return FSHeroThirdPartyDataMgr.getInstance().getFixExpEquipMgr();
@@ -379,6 +375,5 @@ public class FSHero implements Hero, AttrMgr {
 		this.calculateAttrsInternal(true);
 		return this.attr;
 	}
-	
-	
+
 }
