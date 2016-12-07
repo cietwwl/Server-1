@@ -88,7 +88,8 @@ import com.rwproto.TaskProtos.OneKeyResultType;
 public class ArenaHandler {
 
 	private static ArenaHandler instance = new ArenaHandler();
-
+	private static int addScore = 2;
+	
 	protected ArenaHandler() {
 	}
 
@@ -583,9 +584,9 @@ public class ArenaHandler {
 			m_MyArenaData.setLastChallengeVictory(isWin);
 			m_MyArenaData.setRemainCount(m_MyArenaData.getRemainCount() - 1);
 			// 胜利时增加的积分
-			int addScore = isWin ? 2 : 1;
-			m_MyArenaData.setScore(m_MyArenaData.getScore() + addScore);
-			UserEventMgr.getInstance().ArenaDaily(player, addScore);
+			int score = addScore;
+			m_MyArenaData.setScore(m_MyArenaData.getScore() + score);
+			UserEventMgr.getInstance().ArenaDaily(player, score);
 			TableArenaDataDAO.getInstance().update(m_MyArenaData);
 			if (isWin) {
 				Player enemyPlayer = PlayerMgr.getInstance().find(enemyUserId);
