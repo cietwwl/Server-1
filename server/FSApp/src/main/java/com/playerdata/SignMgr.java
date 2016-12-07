@@ -145,13 +145,13 @@ public class SignMgr implements PlayerEventListener {
 						response.setReSignCount(signDataHolder.getCurrentResignCount());
 					}
 				}
-				addItemData(signId, player);
+				addItemData(signId, player, isResign);
 				response.setResultype(EResultType.SUCCESS);
 			} else if (signData.getLastSignDate() != null) // 已经签到过，只可能剩下双倍...
 			{
 				if (signData.isDouble()) {
 					if (player.getVip() >= signCfg.getVipLimit()) {
-						addItemData(signId, player);
+						addItemData(signId, player, isResign);
 						response.setResultype(EResultType.SUCCESS);
 					} else {
 						GameLog.debug("Vip等级不足");
@@ -165,16 +165,16 @@ public class SignMgr implements PlayerEventListener {
 				}
 			}
 
-			List<BilogItemInfo> list = BilogItemInfo.fromSignCfg(signCfg);
-			String rewardInfoActivity = BILogTemplateHelper.getString(list);
-
-			if (isResign) {
-				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.RETROACTIVE, 0, 0);
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.RETROACTIVE, 0, true, 0, rewardInfoActivity, 0);
-			} else {
-				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SIGN_IN, 0, 0);
-				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SIGN_IN, 0, true, 0, rewardInfoActivity, 0);
-			}
+//			List<BilogItemInfo> list = BilogItemInfo.fromSignCfg(signCfg);
+//			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+//
+//			if (isResign) {
+//				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.RETROACTIVE, 0, 0);
+//				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.RETROACTIVE, 0, true, 0, rewardInfoActivity, 0);
+//			} else {
+//				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SIGN_IN, 0, 0);
+//				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SIGN_IN, 0, true, 0, rewardInfoActivity, 0);
+//			}
 
 		} else {
 			GameLog.debug("未开放");
@@ -183,7 +183,7 @@ public class SignMgr implements PlayerEventListener {
 		}
 	}
 
-	private List<String> addItemData(String signId, Player player) {
+	private List<String> addItemData(String signId, Player player, boolean isResign) {
 		List<String> list = new ArrayList<String>();
 		SignCfg signCfg = (SignCfg) SignCfgDAO.getInstance().getCfgById(signId);
 		SignData signData = getSignData(signId);
@@ -210,12 +210,13 @@ public class SignMgr implements PlayerEventListener {
 			if (signData.getLastSignDate() == null || signData.equals(getLastData()))
 				list.add(addRecord(true));
 		}
-
+		boolean isDouble = false;
 		if (signCfg.getVipLimit() > 0) // 有双倍...
 		{
 			if (player.getVip() >= signCfg.getVipLimit()) {
 				if (signData.getLastSignDate() == null) {// 如果没有领过就双倍
 					sendReward(signCfg.getItemID(), signCfg.getItemNum() * 2);
+					isDouble = true;
 				} else {
 					sendReward(signCfg.getItemID(), signCfg.getItemNum());
 				}
@@ -232,6 +233,22 @@ public class SignMgr implements PlayerEventListener {
 		this.signDataHolder.update(player);
 		list.add(getStringRecordFromData(signId, signData));
 		addSignNum();
+		
+		try {
+			List<BilogItemInfo> logList = BilogItemInfo.fromSignCfg(signCfg, isDouble);
+			String rewardInfoActivity = BILogTemplateHelper.getString(logList);
+
+			if (isResign) {
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.RETROACTIVE, 0, 0);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.RETROACTIVE, 0, true, 0, rewardInfoActivity, 0);
+			} else {
+				BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SIGN_IN, 0, 0);
+				BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.SIGN_IN, 0, true, 0, rewardInfoActivity, 0);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		return list;
 	}
 

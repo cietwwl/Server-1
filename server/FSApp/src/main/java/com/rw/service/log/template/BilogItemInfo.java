@@ -147,14 +147,19 @@ public class BilogItemInfo {
 		return newlist;
 	}
 	
-	public static List<BilogItemInfo> fromSignCfg(SignCfg cfg){		
+	public static List<BilogItemInfo> fromSignCfg(SignCfg cfg, boolean isDouble){		
 		List<BilogItemInfo> newlist = new ArrayList<BilogItemInfo>();
 		if(cfg == null){
 			return newlist;
 		}
 		BilogItemInfo newsubitem = new BilogItemInfo();
 		newsubitem.setItemId(cfg.getItemID());
-		newsubitem.setNum(cfg.getItemNum());
+		if(isDouble){
+			newsubitem.setNum(cfg.getItemNum() * 2);
+		}else{
+			newsubitem.setNum(cfg.getItemNum());	
+		}
+		
 		newlist.add(newsubitem);	
 		return newlist;
 	}
