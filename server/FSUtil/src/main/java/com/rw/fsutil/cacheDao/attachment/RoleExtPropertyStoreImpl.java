@@ -19,8 +19,9 @@ public class RoleExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMapI
 	private final short type;
 	private final ObjectMapper mapper;
 	private final RoleExtPropertyManager dataAccessManager;
-	
-	public RoleExtPropertyStoreImpl(RoleExtPropertyManager dataAccessManager,List<RoleExtPropertyData<T>> itemList, String searchId, MapItemUpdater<String, Integer> updater, short type, ObjectMapper mapper) {
+	private volatile Object attachment;
+
+	public RoleExtPropertyStoreImpl(RoleExtPropertyManager dataAccessManager, List<RoleExtPropertyData<T>> itemList, String searchId, MapItemUpdater<String, Integer> updater, short type, ObjectMapper mapper) {
 		super(itemList, searchId, updater);
 		this.type = type;
 		this.mapper = mapper;
@@ -149,6 +150,14 @@ public class RoleExtPropertyStoreImpl<T extends RoleExtProperty> extends RowMapI
 				return entityEnumeration.nextElement().getAttachment();
 			}
 		};
+	}
+
+	public Object getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(Object attachment) {
+		this.attachment = attachment;
 	}
 
 }
