@@ -121,12 +121,21 @@ public class GroupMemberHelper {
 		}
 	};
 
+	private static GroupMemberHelper instance = new GroupMemberHelper();
+
+	public static GroupMemberHelper getInstance() {
+		return instance;
+	}
+
+	protected GroupMemberHelper() {
+	}
+
 	/**
 	 * 当角色上线的时候检查帮派相关数据
 	 * 
 	 * @param player
 	 */
-	public static void onPlayerLogin(Player player) {
+	public void onPlayerLogin(Player player) {
 		updateMemberData(player, true);
 	}
 
@@ -135,7 +144,7 @@ public class GroupMemberHelper {
 	 * 
 	 * @param player
 	 */
-	public static void onPlayerLogout(Player player) {
+	public void onPlayerLogout(Player player) {
 		updateMemberData(player, false);
 	}
 
@@ -145,12 +154,12 @@ public class GroupMemberHelper {
 	 * @param player
 	 * @param isLogin
 	 */
-	public static void updateMemberData(Player player, boolean isLogin) {
+	public void updateMemberData(Player player, boolean isLogin) {
 		String playerId = player.getUserId();
 		// 角色是否有帮派数据
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 
-		if(baseData == null){
+		if (baseData == null) {
 			return;
 		}
 		String groupId = baseData.getGroupId();
@@ -194,7 +203,7 @@ public class GroupMemberHelper {
 	 * @param player
 	 * @return
 	 */
-	public static String getGroupName(Player player) {
+	public String getGroupName(Player player) {
 		UserGroupAttributeDataIF groupBaseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 		if (groupBaseData == null) {
 			return "";

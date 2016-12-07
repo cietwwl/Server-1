@@ -684,7 +684,7 @@ public class FriendHandler {
 		newItem.setLastLoginTime(tableUser.getLastLoginTime());
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// TODO 帮派获取名字后再提供
-		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
+		newItem.setUnionName(GroupMemberHelper.getInstance().getGroupName(player));
 		newItem.setFighting(player.getHeroMgr().getFightingTeam(player));
 		newItem.setVip(player.getVip());
 		newItem.setSex(player.getSex());

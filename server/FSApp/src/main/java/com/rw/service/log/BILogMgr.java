@@ -360,7 +360,7 @@ public class BILogMgr {
 				try {
 					logZoneLogout(offLiner);
 					// TODO HC 临时增加一个离线通知到帮派修改成员离线时间
-					GroupMemberHelper.onPlayerLogout(offLiner);
+					GroupMemberHelper.getInstance().onPlayerLogout(offLiner);
 					TargetSellManager.getInstance().packHeroChangeAttr(uidTmp);
 				} catch (Exception e) {
 					GameLog.error(LogModule.BILOG.getName(), uidTmp, "player BILogMgr[doLogoutLog] error!", e);
@@ -376,8 +376,8 @@ public class BILogMgr {
 	 * 
 	 * @param player
 	 * @param activityEntry 活动入口
-	 * @param activityCode  活动code
-	 * @param severBegin  为开服活动时传入的子参数
+	 * @param activityCode 活动code
+	 * @param severBegin 为开服活动时传入的子参数
 	 */
 	public void logActivityBegin(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId, int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -402,12 +402,12 @@ public class BILogMgr {
 	 * 
 	 * @param player
 	 * @param activityEntry 入口id
-	 * @param activityCode  活动code
-	 * @param copyLevelId   副本id
-	 * @param isWin         是否成功
-	 * @param activityTime  耗时
-	 * @param rewardinfoactivity  奖励文字
-	 * @param severBegin  为开服活动时传入的子参数
+	 * @param activityCode 活动code
+	 * @param copyLevelId 副本id
+	 * @param isWin 是否成功
+	 * @param activityTime 耗时
+	 * @param rewardinfoactivity 奖励文字
+	 * @param severBegin 为开服活动时传入的子参数
 	 */
 	public void logActivityEnd(Player player, BIActivityEntry activityEntry, BIActivityCode activityCode, int copyLevelId, boolean isWin, int activityTime, String rewardinfoactivity, int severBegin) {
 		Map<String, String> moreInfo = new HashMap<String, String>();
@@ -666,6 +666,7 @@ public class BILogMgr {
 
 	/**
 	 * 充值币（变动）
+	 * 
 	 * @param typeList
 	 * @param coinChanged
 	 * @param coinRemain
@@ -694,6 +695,7 @@ public class BILogMgr {
 
 	/**
 	 * 财务充值币消耗
+	 * 
 	 * @param typeList
 	 * @param coinChanged
 	 * @param coinRemain
@@ -833,6 +835,7 @@ public class BILogMgr {
 
 	/**
 	 * 用于邮件日志，邮件日志不需要记录其他信息，只需要传进zoneid
+	 * 
 	 * @param logType
 	 * @param userId
 	 * @param moreInfo

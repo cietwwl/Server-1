@@ -439,7 +439,7 @@ public class Player implements PlayerIF {
 			dataSynVersionHolder.synAll(this);
 			// 检查主角羁绊
 			this.me_FetterMgr.checkPlayerData(this);
-			GroupMemberHelper.onPlayerLogin(this);
+			GroupMemberHelper.getInstance().onPlayerLogin(this);
 			ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 			// TODO HC 登录之后检查一下万仙阵的数据
 			getTowerMgr().checkAndResetMatchData(this);
