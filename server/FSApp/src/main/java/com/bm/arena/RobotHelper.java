@@ -302,6 +302,10 @@ public class RobotHelper {
 	 * @return
 	 */
 	public static List<FixExpEquipDataItem> parseFixExpEquip2Info(int heroModelId, int[] fixEquip) {
+		if (fixEquip == null || fixEquip.length < 3) {
+			return Collections.emptyList();
+		}
+
 		RoleFixEquipCfg cfg = RoleFixEquipCfgDAO.getInstance().getConfig(String.valueOf(heroModelId));
 		if (cfg == null) {
 			return Collections.emptyList();
@@ -332,6 +336,10 @@ public class RobotHelper {
 	 * @return
 	 */
 	public static List<FixNormEquipDataItem> parseFixNormEquip2Info(int heroModelId, int[] fixEquip) {
+		if (fixEquip == null || fixEquip.length < 3) {
+			return Collections.emptyList();
+		}
+
 		RoleFixEquipCfg cfg = RoleFixEquipCfgDAO.getInstance().getConfig(String.valueOf(heroModelId));
 		if (cfg == null) {
 			return Collections.emptyList();
