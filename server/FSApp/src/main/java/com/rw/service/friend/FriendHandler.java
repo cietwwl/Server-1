@@ -707,8 +707,8 @@ public class FriendHandler {
 			friendInfo.setLastLoginTip("当前在线");
 		}
 		friendInfo.setLevel(item.getLevel());
-		friendInfo.setGroupId(GroupHelper.getUserGroupId(itemUserId));
-		friendInfo.setGroupName(GroupHelper.getGroupName(itemUserId));
+		friendInfo.setGroupId(GroupHelper.getInstance().getUserGroupId(itemUserId));
+		friendInfo.setGroupName(GroupHelper.getInstance().getGroupName(itemUserId));
 		friendInfo.setVip(item.getVip());
 		friendInfo.setSex(item.getSex());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(itemUserId);

@@ -166,7 +166,7 @@ public class GroupBaseDataMgr {
 
 		groupData.setGroupName(groupName);
 		updateAndSynGroupData(player);
-		GCompFightingRankMgr.updateGroupBaseInfo(GroupHelper.getGroup(player));
+		GCompFightingRankMgr.updateGroupBaseInfo(GroupHelper.getInstance().getGroup(player));
 	}
 
 	/**
@@ -504,6 +504,6 @@ public class GroupBaseDataMgr {
 
 	public void setGroupSupplier(int s) {
 		groupBaseDataHolder.setGroupSupplier(s);
-		
+
 	}
 }

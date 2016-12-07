@@ -41,7 +41,7 @@ public class FashionBeingUsedHolder extends DataRdbDao<FashionBeingUsed>{
 		Player player = PlayerMgr.getInstance().findPlayerFromMemory(fashionUsed.getUserId());
 		if(null != player){
 			TBListenerPlayerChange.playerChangeFashion(player);
-			Group group = GroupHelper.getGroup(player);
+			Group group = GroupHelper.getInstance().getGroup(player);
 			if(null != group){
 				group.getGroupMemberMgr().updateMemberFashion(player);
 			}

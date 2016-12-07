@@ -7,7 +7,7 @@ import com.playerdata.groupFightOnline.dataForRank.GFGroupBiddingItem;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GFGroupBiddingExtension extends RankingJacksonExtension<GFGroupBiddingComparable, GFGroupBiddingItem>{
+public class GFGroupBiddingExtension extends RankingJacksonExtension<GFGroupBiddingComparable, GFGroupBiddingItem> {
 
 	public GFGroupBiddingExtension() {
 		super(GFGroupBiddingComparable.class, GFGroupBiddingItem.class);
@@ -19,14 +19,14 @@ public class GFGroupBiddingExtension extends RankingJacksonExtension<GFGroupBidd
 
 	@Override
 	public <P> GFGroupBiddingItem newEntryExtension(String key, P param) {
-		if(param instanceof GFGroupBiddingItem){
-			return (GFGroupBiddingItem)param;
+		if (param instanceof GFGroupBiddingItem) {
+			return (GFGroupBiddingItem) param;
 		}
-		Player player = (Player)param;
+		Player player = (Player) param;
 		GFGroupBiddingItem toData = new GFGroupBiddingItem();
-		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		String groupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		toData.setGroupID(groupID);
-		toData.setGroupName(GroupHelper.getGroupName(player.getUserId()));
+		toData.setGroupName(GroupHelper.getInstance().getGroupName(player.getUserId()));
 		String leaderName = GroupBM.get(groupID).getGroupMemberMgr().getGroupLeader().getName();
 		String iconID = GroupBM.get(groupID).getGroupBaseDataMgr().getGroupData().getIconId();
 		toData.setLeaderName(leaderName);

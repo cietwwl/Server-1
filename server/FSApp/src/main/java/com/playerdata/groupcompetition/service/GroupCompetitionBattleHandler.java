@@ -63,7 +63,7 @@ public class GroupCompetitionBattleHandler {
 		GCBattleCommonRspMsg.Builder rsp = GCBattleCommonRspMsg.newBuilder();
 		rsp.setReqType(GCBattleReqType.BATTLE_START);
 
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		if (StringUtils.isEmpty(groupId)) {
 			return fillFailMsg(rsp, "您没有帮派");
 		}
@@ -196,7 +196,7 @@ public class GroupCompetitionBattleHandler {
 		GCBattleCommonRspMsg.Builder rsp = GCBattleCommonRspMsg.newBuilder();
 		rsp.setReqType(GCBattleReqType.UPLOAD_HP_INFO);
 
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		if (StringUtils.isEmpty(groupId)) {
 			return rsp.setIsSuccess(true).build().toByteString();
 		}
@@ -262,12 +262,12 @@ public class GroupCompetitionBattleHandler {
 	 * @return
 	 */
 	public ByteString getMatchGroupScoreHandler(Player player) {
-//		String userId = player.getUserId();
+		// String userId = player.getUserId();
 
 		GCBattleCommonRspMsg.Builder rsp = GCBattleCommonRspMsg.newBuilder();
 		rsp.setReqType(GCBattleReqType.MATCH_GROUP_SOCRE);
 
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		if (StringUtils.isEmpty(groupId)) {
 			return rsp.setIsSuccess(true).build().toByteString();
 		}
@@ -279,16 +279,16 @@ public class GroupCompetitionBattleHandler {
 			return rsp.setIsSuccess(true).build().toByteString();
 		}
 
-//		GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
-//		GCompMatchData matchData = holder.getMatchData(userId);
-//		if (matchData == null) {
-//			return rsp.setIsSuccess(true).build().toByteString();
-//		}
-//
-//		int matchState = matchData.getMatchState();
-//		if (matchState != GCompMatchState.START_BATTLE.state) {
-//			return rsp.setIsSuccess(true).build().toByteString();
-//		}
+		// GCompMatchDataHolder holder = GCompMatchDataHolder.getHolder();
+		// GCompMatchData matchData = holder.getMatchData(userId);
+		// if (matchData == null) {
+		// return rsp.setIsSuccess(true).build().toByteString();
+		// }
+		//
+		// int matchState = matchData.getMatchState();
+		// if (matchState != GCompMatchState.START_BATTLE.state) {
+		// return rsp.setIsSuccess(true).build().toByteString();
+		// }
 
 		IGCGroup groupA = gcAgainstOfGroup.getGroupA();
 		IGCGroup groupB = gcAgainstOfGroup.getGroupB();
@@ -319,7 +319,7 @@ public class GroupCompetitionBattleHandler {
 		GCBattleCommonRspMsg.Builder rsp = GCBattleCommonRspMsg.newBuilder();
 		rsp.setReqType(GCBattleReqType.BATTLE_END);
 
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		if (StringUtils.isEmpty(groupId)) {
 			GCompUtil.log("收到战斗结果，但是返现帮派id为空！成员的名字：{}", player.getUserName());
 			return fillFailMsg(rsp, "您没有帮派");
