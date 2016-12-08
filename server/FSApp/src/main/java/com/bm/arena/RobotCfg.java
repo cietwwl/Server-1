@@ -12,7 +12,7 @@ public class RobotCfg {
 	private String enchant; // 主角附灵星级
 	private String gemCount; // 主角宝石数量
 	private String gemType; // 主角宝石种类
-	private String gemLevel; // 主角宝石等级
+	// private String gemLevel; // 主角宝石等级
 	private String firstSkillLevel;// 第一个技能等级
 	private String secondSkillLevel;// 第二个技能等级
 	private String thirdSkillLevel; // 第三个技能等级
@@ -30,7 +30,7 @@ public class RobotCfg {
 	private String heroEnchant; // 佣兵附灵
 	private String heroGemCount; // 佣兵宝石数量
 	private String heroGemType; // 佣兵宝石种类
-	private String heroGemLevel; // 佣兵宝石等级
+	// private String heroGemLevel; // 佣兵宝石等级
 	private String heroFirstSkillLevel; // 佣兵第一个技能等级
 	private String heroSecondSkillLevel;// 佣兵第二个技能等级
 	private String heroThirdSkillLevel; // 佣兵第三个技能等级
@@ -109,13 +109,13 @@ public class RobotCfg {
 		this.gemType = gemType;
 	}
 
-	public String getGemLevel() {
-		return gemLevel;
-	}
-
-	public void setGemLevel(String gemLevel) {
-		this.gemLevel = gemLevel;
-	}
+	// public String getGemLevel() {
+	// return gemLevel;
+	// }
+	//
+	// public void setGemLevel(String gemLevel) {
+	// this.gemLevel = gemLevel;
+	// }
 
 	public String getFirstSkillLevel() {
 		return firstSkillLevel;
@@ -253,13 +253,13 @@ public class RobotCfg {
 		this.heroGemType = heroGemType;
 	}
 
-	public String getHeroGemLevel() {
-		return heroGemLevel;
-	}
-
-	public void setHeroGemLevel(String heroGemLevel) {
-		this.heroGemLevel = heroGemLevel;
-	}
+	// public String getHeroGemLevel() {
+	// return heroGemLevel;
+	// }
+	//
+	// public void setHeroGemLevel(String heroGemLevel) {
+	// this.heroGemLevel = heroGemLevel;
+	// }
 
 	public String getHeroFirstSkillLevel() {
 		return heroFirstSkillLevel;

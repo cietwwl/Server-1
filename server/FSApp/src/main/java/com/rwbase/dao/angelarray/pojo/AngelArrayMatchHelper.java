@@ -555,7 +555,6 @@ public final class AngelArrayMatchHelper {
 		}
 		return ranking.getRanking(userId);
 	}
-	
 }
 
 class MatchUserInfo {
