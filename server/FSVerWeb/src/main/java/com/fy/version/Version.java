@@ -56,6 +56,10 @@ public class Version {
 	private String luaFileMd5 = "";
 	
 	private String luaAction;
+	
+	private String cpuType;
+	
+	private String deviceModel;
 
 	public String getLuaAction() {
 		return luaAction;
@@ -200,6 +204,22 @@ public class Version {
 
 	public void setPriority(String priority) {
 		this.priority = priority;
+	}
+
+	public String getCpuType() {
+		return cpuType;
+	}
+
+	public void setCpuType(String cpuType) {
+		this.cpuType = cpuType;
+	}
+
+	public String getDeviceModel() {
+		return deviceModel;
+	}
+
+	public void setDeviceModel(String deviceModel) {
+		this.deviceModel = deviceModel;
 	}
 
 	/**
