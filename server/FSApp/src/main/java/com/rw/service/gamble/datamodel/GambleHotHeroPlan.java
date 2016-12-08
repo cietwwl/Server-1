@@ -65,12 +65,12 @@ public class GambleHotHeroPlan {
 	 * 生成热点外其他三个
 	 * 
 	 * @param r
-	 * @param hotPlanId
+	 * @param groupID 热点道具组id
 	 * @param hotCount
 	 * @param errDefaultModelId
 	 */
 	@JsonIgnore
-	private void Init(int hotPlanId, int hotCount, String errDefaultModelId) {
+	private void Init(int groupID, int hotCount, String errDefaultModelId) {
 		this.errDefaultModelId = errDefaultModelId;
 
 		List<Pair<String, Integer>> list = null;
@@ -79,19 +79,19 @@ public class GambleHotHeroPlan {
 			slots[i] = 1;
 		}
 		GambleDropCfgHelper gambleDropConfig = GambleDropCfgHelper.getInstance();
-		int hotGroupSize = gambleDropConfig.getDropGroupSize(hotPlanId);
+		int hotGroupSize = gambleDropConfig.getDropGroupSize(groupID);
 		boolean checkDuplicated = hotGroupSize > hotCount;
 		if (checkDuplicated) {
 			String guanrateeHero = HotGambleCfgHelper.getInstance().getTodayGuanrateeHotHero(null);
 			// 生成热点不重复
-			list = gambleDropConfig.getHotRandomDrop(null, hotPlanId, hotCount, guanrateeHero);
+			list = gambleDropConfig.getHotRandomDrop(null, groupID, hotCount, guanrateeHero);
 		} else {
 			RefInt weight = new RefInt();
 			RefInt slotCount = new RefInt();
 			list = new ArrayList<Pair<String, Integer>>(hotCount);
 
 			for (int i = 0; i < hotCount; i++) {
-				String itemModel = gambleDropConfig.getRandomDrop(null, hotPlanId, slotCount, weight);
+				String itemModel = gambleDropConfig.getRandomDrop(null, groupID, slotCount, weight);
 				if (GambleLogicHelper.isValidHeroOrItemId(itemModel)) {
 					list.add(Pair.Create(itemModel, weight.value));
 					// 忽略配置的数量(slotCount.value)，客户端已经写死一定只能是一个
@@ -114,13 +114,13 @@ public class GambleHotHeroPlan {
 	 * 需要保证额外的容错配置(errDefaultModelId)是有效的！
 	 * 
 	 * @param r
-	 * @param planId
+	 * @param groupID 热点道具组id
 	 * @param hotCount
 	 * @param errDefaultModelId
 	 * @return
 	 */
 	@JsonIgnore
-	public static GambleHotHeroPlan getTodayHotHeroPlan(int planId, int hotCount, String errDefaultModelId) {
+	public static GambleHotHeroPlan getTodayHotHeroPlan(int groupID, int hotCount, String errDefaultModelId) {
 		String date = getDateStr();
 		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
 		GambleHotHeroPlan result = DAO.get(date);
@@ -129,7 +129,7 @@ public class GambleHotHeroPlan {
 			// TODO 改为用一个静态的GambleHotHeroPlan做容错，避免并发修改每日热点数据
 			result = new GambleHotHeroPlan();
 			result.dateAsId = date;
-			result.Init(planId, hotCount, errDefaultModelId);
+			result.Init(groupID, hotCount, errDefaultModelId);
 			if (!DAO.commit(result)) {
 				GameLog.error("钓鱼台", "数据库操作,gamble_hotHeroPlan", "更新失败");
 			}
@@ -206,7 +206,7 @@ public class GambleHotHeroPlan {
 		String errDefaultModelId = GambleLogicHelper.isValidHeroOrItemId(heroId) ? heroId : defaultItem;
 
 		// 用热点组生成N个英雄
-		int hotPlanId = hotGambleConfig.getTodayHotPlanId();
-		GambleHotHeroPlan.getTodayHotHeroPlan(hotPlanId, GambleHandler.HotHeroPoolSize, errDefaultModelId);
+		int groupID = hotGambleConfig.getTodayHotPlanId();
+		GambleHotHeroPlan.getTodayHotHeroPlan(groupID, GambleHandler.HotHeroPoolSize, errDefaultModelId);
 	}
 }
