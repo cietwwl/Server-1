@@ -857,7 +857,7 @@ public class PeakArenaHandler {
 		data.setCareer(player.getCareer());
 		data.setHeadImage(player.getHeadImage());
 		data.setLevel(player.getLevel());
-		data.setFighting(player.getMainRoleHero().getFighting());
+		data.setFighting(FSHeroMgr.getInstance().getFightingTeam(userId));
 		data.setName(player.getUserName());
 		data.setHeadFrame(player.getHeadFrame());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(player.getUserId());

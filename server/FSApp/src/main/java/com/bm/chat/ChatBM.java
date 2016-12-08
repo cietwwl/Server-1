@@ -1,5 +1,6 @@
 package com.bm.chat;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.util.StringUtils;
 
+import com.alibaba.druid.util.Base64;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.hero.core.FSHeroMgr;
@@ -640,14 +642,12 @@ public class ChatBM {
 
 		// 设置其他消息
 		messageData.setIsRead(saveData.isRead());
-		// try {
-		// messageData.setMessage(Base64.byteArrayToBase64((saveData.getMessage()).getBytes("UTF-8")));
-		// } catch (UnsupportedEncodingException e) {
-		// e.printStackTrace();
-		// return null;
-		// }
-		String message = saveData.getMessage();
-		messageData.setMessage(!StringUtils.isEmpty(message) ? message : "");
+		try {
+			messageData.setMessage(Base64.byteArrayToBase64((saveData.getMessage()).getBytes("UTF-8")));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 
 		messageData.setTime(saveData.getSendTime());
 
@@ -758,13 +758,12 @@ public class ChatBM {
 		}
 
 		if (chatMsgData.hasMessage()) {
-			// try {
-			// saveData.setMessage(new String(Base64.base64ToByteArray(chatMsgData.getMessage()), "UTF-8"));
-			// } catch (UnsupportedEncodingException e) {
-			// e.printStackTrace();
-			// return null;
-			// }
-			saveData.setMessage(chatMsgData.getMessage());
+			 try {
+			 saveData.setMessage(new String(Base64.base64ToByteArray(chatMsgData.getMessage()), "UTF-8"));
+			 } catch (UnsupportedEncodingException e) {
+			 e.printStackTrace();
+			 return null;
+			 }
 		}
 
 		if (chatMsgData.hasTreasureId()) {
