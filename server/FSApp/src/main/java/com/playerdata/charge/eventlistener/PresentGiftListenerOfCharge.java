@@ -36,7 +36,9 @@ public class PresentGiftListenerOfCharge implements IChargeEventListener{
 		if (chargeInfo.getCount() == 1) {
 			// 处理首充奖励
 			presentFirstCfgId = this.processFirstChargeReward(player, chargeInfo, target.getGoldCount());
-			present = true;
+			if (presentFirstCfgId > 0) {
+				present = true;
+			}
 		}
 		if (preVipLv != player.getVip()) {
 			// 发送VIP等级礼包

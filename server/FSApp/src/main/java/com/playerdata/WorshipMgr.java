@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.bm.rank.RankType;
+import com.common.HPCUtil;
 import com.google.protobuf.ByteString;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.util.DateUtils;
@@ -65,14 +66,14 @@ public class WorshipMgr {
 		sendWorshipReward(ECareer.Warrior);
 		tableWorship.clear();
 		worshipDao.update(tableWorship);
-		// PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship, getByWorshipedInfo());
+		// PlayerMgr.getInstance().sendPlayerAll(Command.MSG_Worship,
+		// getByWorshipedInfo());
 		UserChannelMgr.broadcastMsgForMainMsg(Command.MSG_Worship, "TopChanged", getByWorshipedInfo());
 	}
 
 	/** 重排排行榜时发送膜拜奖励 */
 	public void sendWorshipReward(ECareer career) {
-		WorshipInfo info;
-		info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData(career));
+		WorshipInfo info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData());
 		if (info == null) {
 			return;
 		}
@@ -91,13 +92,14 @@ public class WorshipMgr {
 	/** 是否可以膜拜 */
 	public boolean isWorship(Player player) {
 		// 检查榜里第一名是不是自己
-		RankingEntry<?, ?> entry = RankingMgr.getInstance().getFirstRankingEntry(ECareer.valueOf(player.getCareer()));
+		RankingEntry<?, ?> entry = RankingMgr.getInstance().getFirstRankingEntry();
 		if (entry == null) {
 			return false;
 		}
 
-		boolean worship = isWorship(player.getUserGameDataMgr().getLastWorshipTime());
-		return worship && (!entry.getKey().equals(player.getUserId()));// 是否当天已经膜拜过了
+		return isWorship(player.getUserGameDataMgr().getLastWorshipTime());
+		// return worship && (!entry.getKey().equals(player.getUserId()));//
+		// 是否当天已经膜拜过了
 	}
 
 	/** 是否可以膜拜 */
@@ -138,7 +140,7 @@ public class WorshipMgr {
 		if (career == null || career == ECareer.None) {
 			return result;
 		}
-		RankingLevelData levelData = RankingMgr.getInstance().getFirstRankingData(career);
+		RankingLevelData levelData = RankingMgr.getInstance().getFirstRankingData();
 		if (levelData == null || levelData.getJob() != career.getValue()) {
 			return 0;
 		}
@@ -164,12 +166,11 @@ public class WorshipMgr {
 	}
 
 	private ByteString getWorshipState(Player player) {
-
 		List<WorshipInfo> list = null;
-		if (DateUtils.dayChanged(GameManager.getOpenTime())) {
-			list = getByWorshipedList();
+		if (!HPCUtil.isResetTime(GameManager.getOpenTimeAt5Clock())) {
+			list = Collections.emptyList();
 		} else {
-			list = new ArrayList<WorshipInfo>();
+			list = getByWorshipedList();
 		}
 		WorshipResponse.Builder response = WorshipResponse.newBuilder();
 		response.setRequestType(EWorshipRequestType.WORSHIP_STATE);
@@ -189,14 +190,10 @@ public class WorshipMgr {
 	}
 
 	public List<WorshipInfo> getByWorshipedList() {
-		List<WorshipInfo> list = new ArrayList<WorshipInfo>();
-		ECareer[] careerList = ECareer.values();
-		RankingMgr helper = RankingMgr.getInstance();
-		for (ECareer eCareer : careerList) {
-			WorshipInfo info = WorshipUtils.rankInfoToWorshipInfo(helper.getFirstRankingData(eCareer));
-			if (info != null) {
-				list.add(info);
-			}
+		ArrayList<WorshipInfo> list = new ArrayList<WorshipInfo>(1);
+		WorshipInfo info = WorshipUtils.rankInfoToWorshipInfo(RankingMgr.getInstance().getFirstRankingData());
+		if (info != null) {
+			list.add(info);
 		}
 		return list;
 	}

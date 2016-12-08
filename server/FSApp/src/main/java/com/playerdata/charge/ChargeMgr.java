@@ -125,9 +125,15 @@ public class ChargeMgr {
 		if (target != null) {
 			if (ServerSwitch.isTestCharge()) {
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-			} else if (chargeContentPojo.getMoney() != target.getMoneyCount()) {
-				GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-				return false;
+			} else  {
+				int money = chargeContentPojo.getMoney();
+				if (money == -1) {
+					money = chargeContentPojo.getItemAmount();
+				}
+				if (money != target.getMoneyCount()) {
+					GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+					return false;
+				}
 			}
 
 			IChargeAction action = target.getChargeType().getAction();
@@ -242,6 +248,99 @@ public class ChargeMgr {
 			result.setTips("商品不存在！");
 		}
 		return result;
+	}
+	
+	/**
+	 * 
+	 * <pre>
+	 * 直接赠送月卡给玩家，此方法一般情况下只允许充值返利功能调用。
+	 * 此方法内部只负责把月卡添加到玩家身上，并不处理任何的VIP经验已经VIP礼包的发放
+	 * </pre>
+	 * 
+	 * @param player 目标玩家
+	 * @param monthCardType 月卡类型
+	 * @param count 月卡的数量，至尊月卡只会处理一次
+	 * @return
+	 */
+	public ChargeResult addMonthCard(Player player, ChargeTypeEnum monthCardType, int count) {
+		ChargeResult result = ChargeResult.newResult(false);
+		if (count <= 0) {
+			result.setTips("非法参数");
+			return result;
+		}
+		if (player != null) {
+			switch (monthCardType) {
+			case VipMonthCard:
+				count = 1;
+				break;
+			case MonthCard:
+				break;
+			default:
+				result.setTips("该类型不是月卡！");
+				return result;
+			}
+			List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
+			for (ChargeCfg cfg : allCfg) {
+				if (cfg.getChargeType() == monthCardType) {
+					ChargeParam chargeParam = new ChargeParam();
+					for (int i = 0; i < count; i++) {
+						monthCardType.getAction().doCharge(player, cfg, chargeParam);
+					}
+					break;
+				}
+			}
+			result.setSuccess(true);
+		} else {
+			result.setTips("参数错误！");
+		}
+		return result;
+	}
+	
+	/**
+	 * <pre>
+	 * 屏蔽玩家首充奖励。
+	 * 调用此方法会把玩家的是否发放首充奖励设置为true
+	 * </pre>
+	 * 
+	 * @param player 目标玩家
+	 * @param syn 是否同步到客户端
+	 */
+	public boolean disableFirstChargeRewardOfPlayer(Player player, boolean syn) {
+		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+		if (chargeInfo != null) {
+			chargeInfo.setFirstAwardTaken(true);
+			if (syn) {
+				ChargeInfoHolder.getInstance().update(player);
+			} else {
+				ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * <pre>
+	 * 为玩家增加VIP经验
+	 * </pre>
+	 * 
+	 * @param player 目标玩家
+	 * @param vipExp 增加的VIP经验
+	 * @param syn 是否同步到客户端
+	 */
+	public boolean addVipExp(Player player, int vipExp, boolean syn) {
+		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+		if (chargeInfo != null) {
+			chargeInfo.addTotalChargeGold(vipExp);
+			if (syn) {
+				ChargeInfoHolder.getInstance().update(player);
+			} else {
+				ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	protected static class ChargeNotifyTask implements Runnable {

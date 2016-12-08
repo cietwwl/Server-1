@@ -62,9 +62,6 @@ public class ProtobufFrameEncoder extends MessageToByteEncoder<ByteBuf>{
 				}
 
 				int size = dataarr.length;
-				if(size<=2815 && size>=2700){
-					System.out.println("tt");
-				}
 				
 				EncryCompHelper.xorByte(dataarr);
 
