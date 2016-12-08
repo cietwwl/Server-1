@@ -107,10 +107,6 @@ public class VersionDao {
 		return  channelVersionMap.get(clientVersion.getChannel()).getMaxVersion();
 	}
 	
-	//下一个补丁包
-	public Version getNextPatch(Version clientVersion){
-		return channelVersionMap.get(clientVersion.getChannel()).getNextPatch(clientVersion);
-	}
 	
 	//剩余的补丁包
 	public List<Version> getLeftPatch(Version clientVersion){

@@ -202,6 +202,17 @@ public class Version {
 		this.priority = priority;
 	}
 
+	/**
+	 * 是否是整合的资源包
+	 * 
+	 * <note>channel相同，main相同，sub>0即可</note>
+	 * @param target
+	 * @return
+	 */
+	public boolean targetIsTotalPatch(Version target) {
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && target.sub > 0;
+	}
+	
 	public boolean targetIsVerPatch(Version target) {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				&& target.patch > 0;
