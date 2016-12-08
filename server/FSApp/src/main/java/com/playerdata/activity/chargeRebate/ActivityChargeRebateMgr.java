@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.bm.login.AccoutBM;
@@ -24,6 +25,7 @@ public class ActivityChargeRebateMgr {
 	private static ActivityChargeRebateMgr _instance = new ActivityChargeRebateMgr();
 
 	public static HashMap<Integer, String> vipEmailMap = new HashMap<Integer, String>();
+	private static Logger checkRebateLogger = Logger.getLogger("checkRebateLogger");
 
 	private static String rebateEmailId = "10319";
 	private static String hundredEmailId = "10320";
@@ -64,13 +66,14 @@ public class ActivityChargeRebateMgr {
 			}
 
 			ActivityChargeRebateData activityChargeRebateData = ActivityChargeRebateDAO.getInstance().queryActivityChargeRebateData(openAccount);
-			if (activityChargeRebateData == null || activityChargeRebateData.isSendReward()) {
+			if (activityChargeRebateData == null) {
 				return;
 			}
 			int zoneId = GameManager.getZoneId();
-			activityChargeRebateData.setSendReward(true);
-			activityChargeRebateData.setZoneId(zoneId);
-			ActivityChargeRebateDAO.getInstance().updateActivityChargeRebateData(activityChargeRebateData);
+			if(!ActivityChargeRebateDAO.getInstance().checkAchieveChargeRebateReward(openAccount, zoneId)){
+				return;
+			}
+			
 			
 			GameLog.debug("activity charge rebate openAccount:" + openAccount + ",zoneId:" + zoneId);
 			
@@ -83,16 +86,21 @@ public class ActivityChargeRebateMgr {
 				result = chargeMoney * 15;
 			}
 
+			int monthCard = activityChargeRebateData.getMonthCard();
+			int vipMonthCard = activityChargeRebateData.getVipMonthCard();
+			int vipExp = activityChargeRebateData.getVipExp();
+			String vipEmailId = "";
+			boolean arenaKing = activityChargeRebateData.isArenaKing();
 			if (result > 0) {
 				// 返回vip经验
 				ChargeMgr chargeMgr = ChargeMgr.getInstance();
-				chargeMgr.addVipExp(player, activityChargeRebateData.getVipExp(), true);
+				chargeMgr.addVipExp(player, vipExp, true);
+				
 				// 返还月卡
-				int monthCard = activityChargeRebateData.getMonthCard();
 				if (monthCard > 0) {
 					chargeMgr.addMonthCard(player, ChargeTypeEnum.MonthCard, monthCard);
 				}
-				int vipMonthCard = activityChargeRebateData.getVipMonthCard();
+				
 				if (vipMonthCard > 0) {
 					chargeMgr.addMonthCard(player, ChargeTypeEnum.VipMonthCard, vipMonthCard);
 				}
@@ -102,7 +110,7 @@ public class ActivityChargeRebateMgr {
 
 				int vip = player.getVip();
 				for (int i = 1; i <= vip; i++) {
-					String vipEmailId = vipEmailMap.get(i);
+					vipEmailId = vipEmailMap.get(i);
 					if (!StringUtils.isEmpty(vipEmailId)) {
 						EmailUtils.sendEmail(player.getUserId(), vipEmailId);
 					}
@@ -114,24 +122,19 @@ public class ActivityChargeRebateMgr {
 			}
 
 			// 返还竞技之王的头框
-			if (activityChargeRebateData.isArenaKing()) {
+			if (arenaKing) {
 				player.getSettingMgr().addHeadBox("20007");
 			}
+			
+			checkRebateLogger.info("userName:" + player.getUserName() + "achieve charge rebate reward: money:" + result 
+					+ ", monthCard:" + monthCard + ", vipMonthCard:" + vipMonthCard + ", vipExp:" + vipExp 
+					+ ", vipEmailId:" + vipEmailId + ",arenaKing:" + arenaKing);
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 	
 	public static void main(String[] objs){
-		new ClassPathXmlApplicationContext(new String[] { "classpath:applicationContext.xml" });
-		String openAccount = "1204212437";
-		ActivityChargeRebateData activityChargeRebateData = ActivityChargeRebateDAO.getInstance().queryActivityChargeRebateData(openAccount);
-		if (activityChargeRebateData == null || activityChargeRebateData.isSendReward()) {
-			return;
-		}
-		int zoneId = GameManager.getZoneId();
-		activityChargeRebateData.setSendReward(true);
-		activityChargeRebateData.setZoneId(zoneId);
-		ActivityChargeRebateDAO.getInstance().updateActivityChargeRebateData(activityChargeRebateData);
 	}
 }

@@ -13,6 +13,7 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.rw.fsutil.dao.annotation.ClassInfo;
 import com.rw.fsutil.dao.common.CommonRowMapper;
 import com.rw.fsutil.dao.optimize.DataAccessFactory;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 
 public class ActivityChargeRebateDAO {
@@ -26,6 +27,7 @@ public class ActivityChargeRebateDAO {
 	private ClassInfo _classInfo;
 	private String _querySql;
 	private String _updateSql;
+	private String _checkExistSql;
 	
 	protected ActivityChargeRebateDAO(){
 		DruidDataSource dataSource = SpringContextUtil.getBean("dataSourcePF");
@@ -50,6 +52,8 @@ public class ActivityChargeRebateDAO {
 		String updateFieldsString = updateFields.toString();
 		_updateSql = "update " + tableName + " set " + updateFieldsString + " where " + idFieldName + " = ?";
 		
+		_checkExistSql = "insert  into `charge_rebate_record`(`openAccount`,`zoneId`,`achieveTime`) values (?, ?, ?)";
+		
 	}
 	
 	public ActivityChargeRebateData queryActivityChargeRebateData(String openAccount){
@@ -58,6 +62,12 @@ public class ActivityChargeRebateDAO {
 		}
 		ActivityChargeRebateData result = _jdbcTemplate.queryForObject(String.format(_querySql, openAccount), new CommonRowMapper<ActivityChargeRebateData>(_classInfo, openAccount));
 		return result;
+	}
+	
+	public boolean checkAchieveChargeRebateReward(String openAccount, int zoneId){
+		String currentTime = DateUtils.getDateTimeFormatString("yyyy-MM-dd HH:mm:ss");
+		int update = _jdbcTemplate.update(_checkExistSql, openAccount, zoneId, currentTime);
+		return update > 0;
 	}
 	
 	public boolean updateActivityChargeRebateData(ActivityChargeRebateData data){
