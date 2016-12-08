@@ -126,9 +126,9 @@ public class ActivityChargeRebateMgr {
 				player.getSettingMgr().addHeadBox("20007");
 			}
 			
-			checkRebateLogger.info("userName:" + player.getUserName() + "achieve charge rebate reward: money:" + result 
-					+ ", monthCard:" + monthCard + ", vipMonthCard:" + vipMonthCard + ", vipExp:" + vipExp 
-					+ ", vipEmailId:" + vipEmailId + ",arenaKing:" + arenaKing);
+			checkRebateLogger.info("userName:" + player.getUserName() + ", openAccount:" + openAccount 
+					+ "achieve charge rebate reward: money:" + result + ", monthCard:" + monthCard + ", vipMonthCard:" 
+					+ vipMonthCard + ", vipExp:" + vipExp + ", vipEmailId:" + vipEmailId + ",arenaKing:" + arenaKing);
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
