@@ -58,7 +58,7 @@ public class WBHandler {
 		response.setReqType(commonReq.getReqType());		
 		
 		response.setIsSuccess(true);	
-				
+		WBMgr.getInstance().synWBData(player, commonReq.getWbDataVersion());
 		return response.build().toByteString();
 	}
 

@@ -55,6 +55,7 @@ public class WBData {
 		data.survivalCount = this.survivalCount;
 		data.quickKillCount = this.quickKillCount;
 		data.version = this.version+1;
+		data.rankBossHP = this.maxLife;
 		return data;
 	}
 
@@ -202,9 +203,7 @@ public class WBData {
 		return rankBossHP;
 	}
 
-	public void setRankBossHP(long rankBossHP) {
-		this.rankBossHP = rankBossHP;
-	}
+	
 
 	public ArmyVector3 getPosition() {
 		return position;
