@@ -128,7 +128,7 @@ public class ChargeMgr {
 			} else  {
 				int money = chargeContentPojo.getMoney();
 				if (money == -1) {
-					money = chargeContentPojo.getItemAmount();
+					money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
 				}
 				if (money != target.getMoneyCount()) {
 					GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
@@ -220,10 +220,10 @@ public class ChargeMgr {
 					if (ChargeRecordDAO.getInstance().addChargeRecord(chargeRecord)) {
 						success = chargeType(player, chargeContentPojo);
 					} else {
-						GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+						GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！商品id：" + chargeContentPojo.getItemId() + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
 					}
 				} else {
-					GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！面额" + chargeContentPojo.getMoney() + "元" + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
+					GameLog.error("chargemgr", "sdk-充值", "重复的订单编号！商品id：" + chargeContentPojo.getItemId() + " ； uid =" + chargeContentPojo.getUserId() + " 订单号 = " + chargeContentPojo.getCpTradeNo());
 				}
 			}
 		} finally {
