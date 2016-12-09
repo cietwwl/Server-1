@@ -13,9 +13,8 @@ import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
 /*
- * @author HC
- * @date 2016年1月16日 下午5:42:44
- * @Description 帮派的基础配置表Dao
+ * @author Aken
+ * @Description 登录活动等基础活动的子表
  */
 public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTypeSubCfg> {
 
@@ -55,5 +54,4 @@ public final class ActivityCountTypeSubCfgDAO extends CfgCsvDao<ActivityCountTyp
 		ActivityCountTypeSubCfg target = cfgCacheMap.get(subId);
 		return target;
 	}
-
 }

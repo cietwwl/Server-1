@@ -70,4 +70,16 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	public int getVipLimit() {
 		return 0;
 	}
+
+	@Override
+	public void setStartTime(long startTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEndTime(long endTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }

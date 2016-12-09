@@ -33,4 +33,9 @@ public class EvilBaoArriveSubCfg extends BaseConfig implements ActivitySubCfgIF{
 	public int getType() {
 		return parentCfg;
 	}
+
+	@Override
+	public void setCfgReward(String reward) {
+		this.awardGift = reward;
+	}
 }

@@ -1,5 +1,7 @@
 package com.playerdata.activityCommon.modifiedActivity;
 
+import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.rwbase.gameworld.GameWorldKey;
 
 /**
@@ -14,17 +16,36 @@ import com.rwbase.gameworld.GameWorldKey;
  */
 public enum ActivityKey {
 	
-	ACTIVITY_CHARGE_RANK(GameWorldKey.DAILY_RANKING_RESET),
-	ACTIVITY_CONSUME_RANK(GameWorldKey.DAILY_RANKING_RESET),
+	/**--	充值排行榜	--*/
+	ACTIVITY_CHARGE_RANK(GameWorldKey.ACTIVITY_CHARGE_RANK, ActivityTypeFactory.ChargeRank),
+	/**--	消费排行榜	--*/
+	ACTIVITY_CONSUME_RANK(GameWorldKey.ACTIVITY_CONSUME_RANK, ActivityTypeFactory.ConsumeRank),
+	/**--	每日充值	--*/
+	ACTIVITY_DAILY_RECHARGE(GameWorldKey.ACTIVITY_DAILY_RECHARGE, ActivityTypeFactory.DailyRecharge),
+	/**--	成长基金	--*/
+	ACTIVITY_GROWTHFUND(GameWorldKey.ACTIVITY_GROWTHFUND, ActivityTypeFactory.GrowthFund),
+	/**--	登陆奖励等基础活动	--*/
+	ACTIVITY_COUNTTYPE(GameWorldKey.ACTIVITY_COUNTTYPE, ActivityTypeFactory.CountType),
+	/**--	申公豹驾到	--*/
+	ACTIVITY_EVILBAOARRIVE(GameWorldKey.ACTIVITY_EVILBAOARRIVE, ActivityTypeFactory.EvilBaoArrive),
 	;
 	
-	ActivityKey(GameWorldKey worldKey) {
+	@SuppressWarnings("rawtypes")
+	ActivityKey(GameWorldKey worldKey, ActivityType activityType) {
 		this.worldKey = worldKey;
+		this.activityType = activityType;
 	}
 
 	private GameWorldKey worldKey;
+	@SuppressWarnings("rawtypes")
+	private ActivityType activityType;
 
 	public GameWorldKey getGameWorldKey() {
 		return worldKey;
+	}
+
+	@SuppressWarnings("rawtypes")
+	public ActivityType getActivityType() {
+		return activityType;
 	}
 }

@@ -75,4 +75,16 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	public int getVipLimit() {
 		return vipLv;
 	}
+
+	@Override
+	public void setStartTime(long startTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEndTime(long endTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }

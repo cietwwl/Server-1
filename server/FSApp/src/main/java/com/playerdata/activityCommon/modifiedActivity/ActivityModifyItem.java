@@ -1,5 +1,7 @@
 package com.playerdata.activityCommon.modifiedActivity;
 
+import java.util.HashMap;
+
 public class ActivityModifyItem {
 	
 	private int id;
@@ -8,7 +10,7 @@ public class ActivityModifyItem {
 	
 	private long endTime;
 	
-	private String rewardStr;
+	private HashMap<Integer, String> rewardStrMap;
 	
 	private int version;
 
@@ -36,12 +38,12 @@ public class ActivityModifyItem {
 		this.endTime = endTime;
 	}
 
-	public String getRewardStr() {
-		return rewardStr;
+	public HashMap<Integer, String> getRewardStrMap() {
+		return rewardStrMap;
 	}
 
-	public void setRewardStr(String rewardStr) {
-		this.rewardStr = rewardStr;
+	public void setRewardStrMap(HashMap<Integer, String> rewardStrMap) {
+		this.rewardStrMap = rewardStrMap;
 	}
 
 	public int getVersion() {

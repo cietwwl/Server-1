@@ -72,4 +72,16 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
  		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
  	}
+
+	@Override
+	public void setStartTime(long startTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setEndTime(long endTime) {
+		// TODO Auto-generated method stub
+		
+	}
 }
