@@ -9,7 +9,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import com.log.GameLog;
 import com.log.LogModule;
-import com.rwbase.dao.email.EmailData;
 
 public class ServerDataHolder{
 	

@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.rw.netty.ServerConfig;
@@ -44,6 +45,7 @@ public class ZoneRegInfo {
 		}
 	}
 	
+	@JsonIgnore
 	public Map<String,String> getInfoMap() throws Exception{
 		Map<String, String> infoMap = new HashMap<String, String>();
 		for (Field field : fieldList) {

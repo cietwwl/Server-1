@@ -2,7 +2,6 @@ package com.rwbase.dao.serverData;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
