@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
+import com.log.GameLog;
 import com.playerdata.readonly.PlayerIF;
 import com.rw.fsutil.dao.cache.DataCacheFactory;
 import com.rw.fsutil.dao.cache.DataDeletedException;
@@ -122,6 +123,15 @@ public class PlayerMgr {
 
 	public Player findPlayerFromMemory(String userId) {
 		return cache.getFromMemory(userId);
+	}
+
+	public Player findPlayerForRead(String userId) {
+		try {
+			return cache.getOrLoadFromDB(userId, true);
+		} catch (Throwable t) {
+			GameLog.error("PlayerMgr", userId, "find player exception:", t);
+			return null;
+		}
 	}
 
 	public Player find(String userId) {
@@ -414,6 +424,7 @@ public class PlayerMgr {
 	 * 用于代替{@link #getOnlinePlayers()}
 	 * 优化对{@link Player}对象的内存管理
 	 * </pre>
+	 * 
 	 * @param action
 	 */
 	public void execteOnlineOperation(DataValueAction<Player> action) {
@@ -434,6 +445,7 @@ public class PlayerMgr {
 	 * 通过角色id判断是否机器人
 	 * 此方法只对生成在数据库的机器人有效
 	 * </pre>
+	 * 
 	 * @param userId
 	 * @return
 	 */

@@ -3,6 +3,7 @@ package com.rw.trace.parser;
 import com.rwbase.dao.user.UserGameData;
 import com.rwbase.dao.user.UserGameExtendInfo;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
+import com.playerdata.MapAnimationState;
 import java.util.List;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
 import com.rw.fsutil.common.Pair;
@@ -44,6 +45,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         userGameDataCopy.setCarrerChangeTime(entity.getCarrerChangeTime());
         userGameDataCopy.setLastWorshipTime(entity.getLastWorshipTime());
         userGameDataCopy.setExtendInfo(writer.copyObject(entity.getExtendInfo()));
+        userGameDataCopy.setMapAnimationState(writer.copyObject(entity.getMapAnimationState()));
         userGameDataCopy.setRandomBossIds(writer.copyObject(entity.getRandomBossIds()));
         userGameDataCopy.setRandomBossFightCount(entity.getRandomBossFightCount());
         userGameDataCopy.setKillBossRewardCount(entity.getKillBossRewardCount());
@@ -233,6 +235,17 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
             jsonMap = writer.compareSetDiff(jsonMap, "extendInfo", extendInfo1, extendInfo2);
         }
 
+        MapAnimationState mapAnimationState1 = entity1.getMapAnimationState();
+        MapAnimationState mapAnimationState2 = entity2.getMapAnimationState();
+        Pair<MapAnimationState, JSONObject> mapAnimationStatePair = writer.checkObject(jsonMap, "mapAnimationState", mapAnimationState1, mapAnimationState2);
+        if (mapAnimationStatePair != null) {
+            mapAnimationState1 = mapAnimationStatePair.getT1();
+            entity1.setMapAnimationState(mapAnimationState1);
+            jsonMap = mapAnimationStatePair.getT2();
+        } else {
+            jsonMap = writer.compareSetDiff(jsonMap, "mapAnimationState", mapAnimationState1, mapAnimationState2);
+        }
+
         List<String> randomBossIds1 = entity1.getRandomBossIds();
         List<String> randomBossIds2 = entity2.getRandomBossIds();
         Pair<List<String>, JSONObject> randomBossIdsPair = writer.checkObject(jsonMap, "randomBossIds", randomBossIds1, randomBossIds2);
@@ -354,6 +367,9 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         if (writer.hasChanged(entity1.getExtendInfo(), entity2.getExtendInfo())) {
             return true;
         }
+        if (writer.hasChanged(entity1.getMapAnimationState(), entity2.getMapAnimationState())) {
+            return true;
+        }
         if (writer.hasChanged(entity1.getRandomBossIds(), entity2.getRandomBossIds())) {
             return true;
         }
@@ -371,7 +387,7 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
 
     @Override
     public JSONObject toJson(UserGameData entity) {
-        JSONObject json = new JSONObject(45);
+        JSONObject json = new JSONObject(46);
         json.put("userId", entity.getUserId());
         json.put("version", entity.getVersion());
         json.put("iphone", entity.isIphone());
@@ -403,6 +419,10 @@ public class UserGameDataParser implements DataValueParser<UserGameData> {
         Object extendInfoJson = writer.toJSON(entity.getExtendInfo());
         if (extendInfoJson != null) {
             json.put("extendInfo", extendInfoJson);
+        }
+        Object mapAnimationStateJson = writer.toJSON(entity.getMapAnimationState());
+        if (mapAnimationStateJson != null) {
+            json.put("mapAnimationState", mapAnimationStateJson);
         }
         Object randomBossIdsJson = writer.toJSON(entity.getRandomBossIds());
         if (randomBossIdsJson != null) {
