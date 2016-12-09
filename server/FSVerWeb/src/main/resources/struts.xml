@@ -7,7 +7,7 @@
 <struts>
 	<constant name="struts.action.excludePattern" value="/download" />
 	<constant name="struts.allowed.action.names" value="[a-zA-Z]*" />
-	<package name="" namespace="/" extends="struts-default">
+	<package name="FSVerWeb" namespace="/" extends="struts-default">
 
 		<action name="service" class="verService" method="doService">
 			<result type="plainText">
@@ -15,7 +15,7 @@
 			</result>
 		</action>
 
-		<action name="lua" class="luaService" method="doService">
+		<action name="lua" class="com.fy.LuaService" method="doService">
 			<result type="plainText">
 				<param name="charSet">UTF-8</param>
 			</result>
