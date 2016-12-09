@@ -12,7 +12,7 @@ import com.rw.fsutil.dao.cache.trace.MapItemChangedEvent;
 import com.rw.fsutil.dao.cache.trace.MapItemChangedListener;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
-import com.rwbase.dao.item.MagicCfgDAO;
+import com.rw.service.log.behavior.GameBehaviorRecord;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.item.pojo.MagicCfg;
 import com.rwbase.dao.targetSell.BenefitAttrCfg;
@@ -70,9 +70,8 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 			checkItemDataAndNotifyBenefit(newItem);
 		}
 		
-		@SuppressWarnings("unchecked")
-		List<Object> list = (List<Object>)DataEventRecorder.getParam();
-		if(list == null){
+		GameBehaviorRecord record = (GameBehaviorRecord)DataEventRecorder.getParam();
+		if(record == null){
 			return;
 		}
 		
@@ -83,7 +82,7 @@ public class ItemDataListener implements MapItemChangedListener<ItemData> {
 		if (sbDel.toString().length() > 0)
 			strDel = sbDel.substring(0, sbDel.lastIndexOf("&"));
 		if (strAdd.length() > 0 || strDel.length() > 0) {
-			BILogMgr.getInstance().logItemChanged(list, strAdd.toString(), strDel.toString());
+			BILogMgr.getInstance().logItemChanged(record, strAdd.toString(), strDel.toString());
 		}
 	}
 	
