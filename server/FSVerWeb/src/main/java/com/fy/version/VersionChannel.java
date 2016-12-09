@@ -62,7 +62,7 @@ public class VersionChannel {
 		}
 		
 		if (maxVersion != null) {
-			maxVersion = maxVersion.isLatestCompVer(clientVersion) ? maxVersion : null;
+			maxVersion = maxVersion.isNewerCompVer(clientVersion) ? maxVersion : null;
 		}
 		return maxVersion;
 	}
@@ -117,7 +117,7 @@ public class VersionChannel {
 			for (Version patchTmp : patchList) {
 				if(takeNext){
 					result.add(patchTmp);
-				}else if(patchTmp.isBigPath(clientVersion)){
+				}else if(patchTmp.isBigPatch(clientVersion)){
 					result.add(patchTmp);
 					takeNext = true;
 				}
@@ -178,7 +178,6 @@ public class VersionChannel {
 		Map<Version, Version> patchMapTmp= new HashMap<Version, Version>();
 		for (Version verTmp : compVerList) {
 			List<Version> patchList = new ArrayList<Version>();
-			patchList.add(verTmp);
 			for (Version patchTmp : allVerList) {
 				if(verTmp.targetIsTotalPatch(patchTmp)){
 					patchList.add(patchTmp);
@@ -272,7 +271,7 @@ public class VersionChannel {
 	private List<Version> getCompVerOrderList(List<Version> allVerList) {
 		List<Version> compVerList = new ArrayList<Version>();
 		for (Version verTmp : allVerList) {
-			if(verTmp.getPatch() == 0 && verTmp.getThird() == 0 && verTmp.getSub() == 0){
+			if(verTmp.isMainVer()){
 				compVerList.add(verTmp);
 			}
 		}
