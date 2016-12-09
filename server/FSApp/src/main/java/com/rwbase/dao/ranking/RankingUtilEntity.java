@@ -85,6 +85,7 @@ public class RankingUtilEntity {
 	}
 
 	/** 写入一条数据 */
+	@SuppressWarnings("rawtypes")
 	public RankInfo createOneRankInfo(RankingLevelData levelData, int ranking, boolean realTime, RankType type) {
 		RankInfo.Builder rankInfo;
 		rankInfo = RankInfo.newBuilder();
@@ -146,6 +147,7 @@ public class RankingUtilEntity {
 	}
 	
 	/** 写入一条数据 */
+	@SuppressWarnings("rawtypes")
 	public RankInfo createOneRankInfo(ListRankingEntry<String, ArenaExtAttribute> entry, int ranking, boolean realTime, RankType type) {
 		RankInfo.Builder rankInfo;
 		rankInfo = RankInfo.newBuilder();

@@ -10,6 +10,7 @@ import com.bm.group.GroupBM;
 import com.bm.saloon.SaloonBmFactory;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.gm.activity.RankingActivity;
+import com.gm.hotRenovate.HotRenovateMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.PlayerMgr;
@@ -79,7 +80,6 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				
 				GFightStateTransfer.getInstance().checkTransfer();
 				ActivityDetector.getInstance().detectActive();
 			}
@@ -97,8 +97,6 @@ public class TimerManager {
 			@Override
 			public void doTask() {
 				PlayerMgr.getInstance().hourFunc4AllPlayer();
-				
-				//ActivityRankTypeMgr.getInstance().changeMap();
 			}
 		}, HOUR);
 
@@ -260,7 +258,8 @@ public class TimerManager {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
 
 		// GambleMgr.minutesUpdate();
-
+		HotRenovateMgr.getInstance().hotRenovate();
+		
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}
