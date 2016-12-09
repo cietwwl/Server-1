@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.serverStatus.ServerStatusMgr;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
@@ -27,6 +28,9 @@ public class UserEventLoginHandler implements IUserEventHandler {
 		eventTaskList.add(new UserEventHandleTask() {
 			@Override
 			public void doAction(Player player, Object params) {
+				
+				ServerStatusMgr.processGmMailWhenLogin(player);
+				
 				/** 活动是否开启 */
 				if(!ActivityDetector.getInstance().containsActivityByActId(ActivityTypeFactory.CountType, ActivityCountTypeEnum.Login.getCfgId())){
 					return;
