@@ -16,23 +16,23 @@ import com.rwbase.dao.openLevelLimit.eOpenLevelType;
 public class FSGetTaoistMaxFightingFunc implements IFunction<Player, Integer> {
 
 	private static FSGetTaoistMaxFightingFunc _instance = new FSGetTaoistMaxFightingFunc();
-	
+
 	private ExpectedHeroStatusCfgDAO _expectedHeroStatusCfgDAO;
 	private TaoistFightingCfgDAO _taoistFightingCfgDAO;
 	private TaoistMagicCfgHelper _taoistMagicCfgHelper;
 	private CfgOpenLevelLimitDAO _cfgOpenLevelLimitDAO;
-	
+
 	protected FSGetTaoistMaxFightingFunc() {
 		_expectedHeroStatusCfgDAO = ExpectedHeroStatusCfgDAO.getInstance();
 		_taoistFightingCfgDAO = TaoistFightingCfgDAO.getInstance();
 		_taoistMagicCfgHelper = TaoistMagicCfgHelper.getInstance();
 		_cfgOpenLevelLimitDAO = CfgOpenLevelLimitDAO.getInstance();
 	}
-	
+
 	public static FSGetTaoistMaxFightingFunc getInstance() {
 		return _instance;
 	}
-	
+
 	@Override
 	public Integer apply(Player player) {
 		if (_cfgOpenLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, player) || player.isRobot()) {

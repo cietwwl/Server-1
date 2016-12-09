@@ -45,21 +45,6 @@ public class FSGetSkillCurrentFightingOfSingleFunc implements IFunction<Hero, In
 		SkillBuilder sb = new SkillBuilder();
 		sb.setHeroTemplateId(hero.getTemplateId());
 		sb.setSkillList(skillInfoList);
-
 		return FightingCalcComponentType.SKILL.calc.calc(sb.build());
-
-		// SkillItem skillItem;
-		// SkillFightingCfg skillFightingCfg;
-		// for (int i = 0; i < size; i++) {
-		// skillItem = skillList.get(i);
-		// if (skillItem.getOrder() == SkillConstant.NORMAL_SKILL_ORDER) {
-		// continue;
-		// }
-		// if (skillItem.getLevel() > 0) {
-		// skillFightingCfg = skillFightingCfgDAO.getByLevel(skillItem.getLevel());
-		// fighting += skillFightingCfg.getFightingOfIndex(skillItem.getOrder() + 1);
-		// }
-		// }
-		// return fighting;
 	}
 }

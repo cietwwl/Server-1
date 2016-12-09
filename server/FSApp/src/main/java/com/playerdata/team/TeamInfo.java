@@ -42,9 +42,9 @@ public class TeamInfo {
 	// 等级
 	private int level;
 	private String uuid;// 角色的唯一Id
-	
+
 	@IgnoreSynField
-	private RandomData randomData;  //生成数据的时候用到的随机数记录。
+	private RandomData randomData; // 生成数据的时候用到的随机数记录。
 
 	public TeamInfo() {
 		hero = new ArrayList<HeroInfo>();
@@ -171,6 +171,5 @@ public class TeamInfo {
 	public void setRandomData(RandomData randomData) {
 		this.randomData = randomData;
 	}
-	
-	
+
 }

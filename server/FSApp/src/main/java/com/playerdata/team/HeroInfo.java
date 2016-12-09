@@ -24,9 +24,11 @@ public class HeroInfo {
 	private List<SkillInfo> skill;// 技能列表
 	private List<String> gem;// 宝石列表
 	private Map<Integer, SynConditionData> fetters;// 英雄羁绊
+	private List<Integer> magicFetters;// 法宝羁绊
+	private List<Integer> fixFetters;// 神器羁绊
 	// 神器
 	private List<HeroFixEquipInfo> fixEquip;// 神器
-	private List<SpriteAttachItem> spriteAttach;//附灵
+	private List<SpriteAttachItem> spriteAttach;// 附灵
 
 	public HeroInfo() {
 		baseInfo = new HeroBaseInfo();
@@ -35,7 +37,7 @@ public class HeroInfo {
 		gem = new ArrayList<String>();
 		fetters = new HashMap<Integer, SynConditionData>();// 英雄羁绊
 		fixEquip = new ArrayList<HeroFixEquipInfo>();// 神器
-		spriteAttach = new ArrayList<SpriteAttachItem>();//附灵
+		spriteAttach = new ArrayList<SpriteAttachItem>();// 附灵
 	}
 
 	public List<EquipInfo> getEquip() {
@@ -92,5 +94,21 @@ public class HeroInfo {
 
 	public void setSpriteAttach(List<SpriteAttachItem> spriteAttach) {
 		this.spriteAttach = spriteAttach;
+	}
+
+	public List<Integer> getMagicFetters() {
+		return magicFetters;
+	}
+
+	public void setMagicFetters(List<Integer> magicFetters) {
+		this.magicFetters = magicFetters;
+	}
+
+	public List<Integer> getFixFetters() {
+		return fixFetters;
+	}
+
+	public void setFixFetters(List<Integer> fixFetters) {
+		this.fixFetters = fixFetters;
 	}
 }
