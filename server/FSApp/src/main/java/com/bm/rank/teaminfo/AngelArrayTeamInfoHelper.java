@@ -196,32 +196,32 @@ public class AngelArrayTeamInfoHelper {
 	 * @param p
 	 */
 	public static void updateRankingEntryWhenPlayerLevelChange(Player p) {
-		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
-		if (ranking == null) {
-			return;
-		}
-
-		String userId = p.getUserId();
-		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
-		if (rankingEntry == null) {
-			return;
-		}
-
-		AngelArrayComparable comparable = rankingEntry.getComparable();
-		int level = p.getLevel();
-		if (level <= comparable.getLevel()) {
-			return;
-		}
-
-		comparable = new AngelArrayComparable();
-		comparable.setFighting(comparable.getFighting());
-		comparable.setLevel(level);
-
-		AngelArrayTeamInfoAttribute attr = rankingEntry.getExtendedAttribute();
-		TeamInfo teamInfo = attr.getTeamInfo();
-		teamInfo.setLevel(level);
-
-		ranking.addOrUpdateRankingEntry(userId, comparable, attr);
+		// Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		// if (ranking == null) {
+		// return;
+		// }
+		//
+		// String userId = p.getUserId();
+		// RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		// if (rankingEntry == null) {
+		// return;
+		// }
+		//
+		// AngelArrayComparable comparable = rankingEntry.getComparable();
+		// int level = p.getLevel();
+		// if (level <= comparable.getLevel()) {
+		// return;
+		// }
+		//
+		// comparable = new AngelArrayComparable();
+		// comparable.setFighting(comparable.getFighting());
+		// comparable.setLevel(level);
+		//
+		// AngelArrayTeamInfoAttribute attr = rankingEntry.getExtendedAttribute();
+		// TeamInfo teamInfo = attr.getTeamInfo();
+		// teamInfo.setLevel(level);
+		//
+		// ranking.addOrUpdateRankingEntry(userId, comparable, attr);
 	}
 
 	/**
@@ -447,6 +447,8 @@ public class AngelArrayTeamInfoHelper {
 		RefInt fighting = new RefInt();
 		teamInfo.setHero(changeHeroInfo(p, teamHeroList, fighting));
 		teamInfo.setTeamFighting(fighting.value);
+
+		System.err.println("--------------------" + fighting.value);
 		return teamInfo;
 	}
 
