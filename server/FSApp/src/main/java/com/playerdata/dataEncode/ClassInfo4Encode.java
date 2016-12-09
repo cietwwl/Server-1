@@ -57,11 +57,20 @@ public class ClassInfo4Encode {
 //				}
 //			}
 			
+			/**
+			 * 这里的fieldList，是在变量里写死的，所以，这里会比较危险，这个类如果有删除字段，就会在这里报错
+			 * 下面虽然catch了，但是不知道会不会有其它潜在的错误
+			 * 而且如果添加了字段，这里是不会处理到的
+			 */
 			List<String> fieldList = nodeMaper.getFieldList(className);
 			for (String strField : fieldList) {
-				Field declaredField = clazz.getDeclaredField(strField);
-				declaredField.setAccessible(true);
-				encodeFiledList.add(new EncodeFieldInfo(declaredField, nodeMaper));
+				try{
+					Field declaredField = clazz.getDeclaredField(strField);
+					declaredField.setAccessible(true);
+					encodeFiledList.add(new EncodeFieldInfo(declaredField, nodeMaper));
+				}catch (NoSuchFieldException ex){
+					ex.printStackTrace();
+				}
 			}
 			
 //			Collections.sort(clientFiledList, comparator);
