@@ -542,7 +542,7 @@ public class AngelArrayMatchHelper {
 			return matchUserInfo;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		// StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < refSize; i++) {
 			MomentRankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> momentRankingEntry = segmentList.get(i);
@@ -563,14 +563,14 @@ public class AngelArrayMatchHelper {
 				break;
 			}
 
-			sb.append("人Id：").append(id).append(",战力：").append(momentRankingEntry.getComparable().getFighting()).append("\n");
+			// sb.append("人Id：").append(id).append(",战力：").append(momentRankingEntry.getComparable().getFighting()).append("\n");
 		}
 
 		if (matchUserInfo.isEmpty()) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中匹配到任何玩家数据", minFighting, maxFighting, rankType));
 		}
 
-		System.err.println("第一步根据竞技场阵容随机到的人信息：" + sb.toString());
+		// System.err.println("第一步根据竞技场阵容随机到的人信息：" + sb.toString());
 		return matchUserInfo;
 	}
 
@@ -605,7 +605,7 @@ public class AngelArrayMatchHelper {
 			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), String.format("匹配区间[%s,%s]中没有在排行榜中截取到数据", minFighting, maxFighting));
 		}
 
-		StringBuilder sb = new StringBuilder();
+		// StringBuilder sb = new StringBuilder();
 
 		int matchCount = 0;
 		for (int i = 0; i < refSize; i++) {
@@ -632,12 +632,12 @@ public class AngelArrayMatchHelper {
 				break;
 			}
 
-			sb.append("人Id：").append(id).append(",战力：").append(momentRankingEntry.getComparable().getFighting()).append("\n");
+			// sb.append("人Id：").append(id).append(",战力：").append(momentRankingEntry.getComparable().getFighting()).append("\n");
 		}
 
 		int offCount = rankCount - matchCount;
 		if (offCount <= 0) {
-			System.err.println(String.format("第二步-全部人够了：%s", sb.toString()));
+			// System.err.println(String.format("第二步-全部人够了：%s", sb.toString()));
 			return;
 		}
 
@@ -669,7 +669,7 @@ public class AngelArrayMatchHelper {
 					break;
 				}
 
-				sb.append("向上浮动人Id：").append(id).append(",战力：").append(rankingEntry.getComparable().getFighting()).append("\n");
+				// sb.append("向上浮动人Id：").append(id).append(",战力：").append(rankingEntry.getComparable().getFighting()).append("\n");
 			}
 		} else {
 			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), String.format("战力[%s]上浮不到任何人", maxFighting));
@@ -677,7 +677,7 @@ public class AngelArrayMatchHelper {
 
 		// 已经够了
 		if (offCount <= 0) {
-			System.err.println(String.format("第二步-上浮全部人够了：%s", sb.toString()));
+			// System.err.println(String.format("第二步-上浮全部人够了：%s", sb.toString()));
 			return;
 		}
 
@@ -708,7 +708,7 @@ public class AngelArrayMatchHelper {
 					break;
 				}
 
-				sb.append("向下浮动人Id：").append(id).append(",战力：").append(rankingEntry.getComparable().getFighting()).append("\n");
+				// sb.append("向下浮动人Id：").append(id).append(",战力：").append(rankingEntry.getComparable().getFighting()).append("\n");
 			}
 		} else {
 			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), String.format("战力[%s]下浮不到任何人", minFighting));
@@ -719,7 +719,7 @@ public class AngelArrayMatchHelper {
 			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), "从战力榜中没有上下浮动到任何人");
 		}
 
-		System.err.println(String.format("第二步-随机结尾：%s", sb.toString()));
+		// System.err.println(String.format("第二步-随机结尾：%s", sb.toString()));
 	}
 
 	/**
