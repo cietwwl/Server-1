@@ -825,9 +825,10 @@ public class BILogMgr {
 		if (player.isRobot()) {
 			return;
 		}
-		ZoneRegInfo zoneRegInfo = player.getUserDataMgr().getZoneRegInfo();
+		UserDataMgr userDataMgr = player.getUserDataMgr();
+		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
 		RoleGameInfo roleGameInfo = RoleGameInfo.fromPlayer(player, moreInfo);
-		ZoneLoginInfo zoneLoginInfo = player.getZoneLoginInfo();
+		ZoneLoginInfo zoneLoginInfo = userDataMgr.getZoneLoginInfo();
 		log(logType, zoneRegInfo, zoneLoginInfo, roleGameInfo, moreInfo);
 	}
 

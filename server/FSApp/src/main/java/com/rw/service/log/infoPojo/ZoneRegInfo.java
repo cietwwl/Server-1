@@ -44,7 +44,7 @@ public class ZoneRegInfo {
 		}
 	}
 	
-	public Map<String,String> getInfoMap() throws Exception{
+	public Map<String,String> achieveInfoMap() throws Exception{
 		Map<String, String> infoMap = new HashMap<String, String>();
 		for (Field field : fieldList) {
 			Object value = field.get(this);

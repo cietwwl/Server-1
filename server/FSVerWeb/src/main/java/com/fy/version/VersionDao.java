@@ -15,6 +15,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fy.SpringContextUtil;
 import com.fy.address.AddressInfo;
+import com.fy.address.ChannelAddressInfo;
+import com.fy.address.ChannelAddressInfoDao;
 import com.fy.utils.FileUtils;
 
 public class VersionDao {
@@ -22,6 +24,8 @@ public class VersionDao {
 	private Map<String, VersionChannel> channelVersionMap = new HashMap<String, VersionChannel>();
 	
 	private Map<String, VersionFileInfo> versionFileMap = new HashMap<String, VersionFileInfo>();
+	
+	private Map<String, ChannelAddressInfo> addressInfoMap = new HashMap<String, ChannelAddressInfo>();
 	
 	private String verDirPath = "";
 	
@@ -36,6 +40,25 @@ public class VersionDao {
 	public void load(){
 		File verDir = new File(verDirPath);
 		List<File> fileList = new ArrayList<File>();
+		
+		// 加载地址信息
+		List<File> pathFileList = new ArrayList<File>();
+		FileUtils.sumFiles(verDir, pathFileList, ".path");
+		try {
+			if (isModified(pathFileList)) {
+
+				for (File file : pathFileList) {
+
+					ChannelAddressInfo channelAddressInfo = ChannelAddressInfoDao.fromFile(file);
+					addressInfoMap.put(channelAddressInfo.getChannel(), channelAddressInfo);
+				}
+			}
+		} catch (Exception ex) {
+
+		}
+		
+		
+		
 		FileUtils.sumFiles(verDir, fileList, ".txt");
 		
 		if(isModified(fileList)){
@@ -136,23 +159,27 @@ public class VersionDao {
 	//name=chanel_v.*.*.*_patch(0 完整包, >1 patch)
 	private Version fromFile(File file) throws IOException{
 		BufferedReader reader = new BufferedReader(new FileReader(file));
-		String loginServerDomain = AddressInfo.getInstance().getLoginServerDomain();
-		String cdnDomain = AddressInfo.getInstance().getCdnDomain();
-		String cdnBackUpDomain = AddressInfo.getInstance().getCdnBackUpDomain();
-		String logServerAddress = AddressInfo.getInstance().getLogServerAddress();
 		Version version = null;
 		try {
 			version = Version.fromFile(file);
-			if (StringUtils.isBlank(version.getLoginServerDomain()) || StringUtils.isBlank(version.getCdnDomain()) || StringUtils.isBlank(version.getCdnBackUpDomain()) || StringUtils.isBlank(version.getLogServerAddress())) {
-				version.setLoginServerDomain(loginServerDomain);
-				version.setCdnDomain(cdnDomain);
-				version.setCdnBackUpDomain(cdnBackUpDomain);
-				version.setLogServerAddress(logServerAddress);
+
+			String channel = version.getChannel();
+			ChannelAddressInfo channelAddressInfo = addressInfoMap.get(channel);
+			if (channelAddressInfo != null) {
+				version.setLoginServerDomain(channelAddressInfo.getLoginServerDomain());
+				version.setCdnDomain(channelAddressInfo.getCdnDomain());
+				version.setCdnBackUpDomain(channelAddressInfo.getCdnBackUpDomain());
+				version.setLogServerAddress(channelAddressInfo.getLogServerAddress());
+				version.setCheckServerURL(channelAddressInfo.getCheckServerURL());
+				version.setCheckServerPayURL(channelAddressInfo.getCheckServerPayURL());
+				version.setBackUrl(channelAddressInfo.getBackUrl());
+			}else{
+				throw (new RuntimeException("版本配置有错，请检查."));
 			}
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw(new RuntimeException("版本配置有错，请检查."));
-		}finally{
+			throw (new RuntimeException("版本配置有错，请检查."));
+		} finally {
 			reader.close();
 		}
 		return version;
