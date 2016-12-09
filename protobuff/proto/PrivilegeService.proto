@@ -51,8 +51,7 @@ enum PvePrivilegeNames {
      survivalTimeDec = 10; // 生存幻境挑战cd减少x秒
      survivalResetCnt = 11; // 生存幻境可重置次数
      teamBattleTimes = 12;	// 购买心魔录次数
-     worldBossMaxBuyBuffCount = 13;//世界Boss鼓舞次数
-     worldBossAutoPlay = 14;//世界Boss自动参战
+     worldBossAutoPlay = 13;//世界Boss自动参战
 }
 
 enum GroupPrivilegeNames {

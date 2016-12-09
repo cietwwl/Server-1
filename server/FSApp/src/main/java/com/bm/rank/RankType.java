@@ -46,7 +46,7 @@ public enum RankType implements TypeIdentification, RankingConfig {
 	// MAGICAN_ARENA_DAILY(14, 5000, "全日术士竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	// PRIEST_ARENA(15, 5000, "实时祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
 	// PRIEST_ARENA_DAILY(16, 5000, "全日祭祀竞技场", 5, ArenaDailyExtension.class, RankingCopyerFactory.getArenaCopyer()),
-	GROUP_BASE_RANK(17, 99, "帮派排行榜", 5, GroupBaseRankExtension.class),
+	GROUP_BASE_RANK(17, 200, "帮派排行榜", 5, GroupBaseRankExtension.class),
 	GROUP_MEMBER_NUM_RANK(18, 5000, "帮派成员排行榜", 5, GroupMemberNumRankExtension.class),
 	GROUP_CREATE_TIME_RANK(19, 10, "帮派创建排行榜", 5, GroupCreateTimeRankExtension.class),
 	// ANGLE_ARRAY_RANK(20, 20000, "万仙阵匹配排行榜", 1, AngleArrayExtension.class),

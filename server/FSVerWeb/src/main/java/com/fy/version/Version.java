@@ -29,13 +29,13 @@ public class Version {
 
 	private int sub; // 次版本号
 
-	private int third; // 第三版本号(代码更新)
+	private int third; // 代码更新，third和patch必须有一个为0
 
 	private String channel;
 
-	private int patch;//(资源更新)
+	private int patch;//资源更新，third和patch必须有一个为0
 	
-	private String priority = "0";//(优先更新)
+	private String priority = "0";//是否需要立即强制重启后再继续（0表示不需要）
 
 	private String md5;
 
@@ -202,53 +202,89 @@ public class Version {
 		this.priority = priority;
 	}
 
+	/**
+	 * 是否是整合的资源包
+	 * 
+	 * <note>channel相同，main相同，sub>0即可</note>
+	 * @param target
+	 * @return
+	 */
+	public boolean targetIsTotalPatch(Version target) {
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && target.sub > 0;
+	}
+	
+	/**
+	 * 是否是单个资源补丁包（目标全量包下的）
+	 * @param target
+	 * @return
+	 */
 	public boolean targetIsVerPatch(Version target) {
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
 				&& target.patch > 0;
 	}
 	
+	/**
+	 * 是否是单个代码补丁包（目标全量包下的）
+	 * @param target
+	 * @return
+	 */
 	public boolean targetIsVerCodePatch(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && target.third > 0
 				&& this.patch == target.patch;
 	}
 
-	// 全量包版本比较
+	/**
+	 * 是否是同一个全量包
+	 * @param target
+	 * @return
+	 */
 	public boolean isSameCompVer(Version target) {
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/;
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main /**&& this.sub == target.sub && this.third == target.third*/;
 	}
 	
+	/**
+	 * 是否是全量包
+	 * @return
+	 */
 	public boolean isMainVer(){
 		return this.main > 0 && this.sub == 0 && this.third == 0 && this.patch == 0;
 	}
 	
-	//是否最新版本
-	public boolean isLatestCompVer(Version target){
+	/**
+	 * 是否是更加新的全量包
+	 * @param target
+	 * @return
+	 */
+	public boolean isNewerCompVer(Version target){
 		return StringUtils.equals(this.channel, target.channel) && this.main > target.main /**&& this.sub >= target.sub && this.third >= target.third*/;
 	}
-
-	// patch比较
-	public boolean isSamePatch(Version target) {
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/
-				&& this.patch == target.patch;
-	}
 	
-	public boolean isBigPath(Version target){
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub /**&& this.third == target.third*/
+	/**
+	 * 是否是更新的资源包
+	 * @param target
+	 * @return
+	 */
+	public boolean isBigPatch(Version target){
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main /**&& this.sub == target.sub && this.third == target.third*/
 				&& this.patch > target.patch;
 	}
 	
+	/**
+	 * 是否是相同的代码补丁包
+	 * @param target
+	 * @return
+	 */
 	public boolean isSameCodePath(Version target){
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
-				/**&& this.patch == target.patch*/;
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.third == target.third;
 	}
 	
-	public boolean isSamePath(Version target){
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third == target.third
-				&& this.patch == target.patch;
-	}
-	
+	/**
+	 * 是否是更加新代码补丁包
+	 * @param target
+	 * @return
+	 */
 	public boolean isBigCodePath(Version target){
-		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.sub == target.sub && this.third > target.third;
+		return StringUtils.equals(this.channel, target.channel) && this.main == target.main && this.third > target.third;
 	}
 	
 	public String getCurrentVersionNo() {
@@ -338,5 +374,4 @@ public class Version {
 		version.setSub(Integer.valueOf(sub));
 		version.setThird(Integer.valueOf(third));
 	}
-
 }

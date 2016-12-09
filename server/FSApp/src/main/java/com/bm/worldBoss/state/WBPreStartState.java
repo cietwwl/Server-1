@@ -5,7 +5,7 @@ import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 import com.rw.fsutil.util.DateUtils;
 
-class WBPreStartState implements  IwbState{
+public class WBPreStartState implements  IwbState{
 
 	final private WBState state = WBState.PreStart;
 	

@@ -20,7 +20,7 @@
 	<filter>
 		<filter-name>Struts2</filter-name>
 		<filter-class>
-            org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+           	 org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
         </filter-class>
         <init-param>
         <param-name>struts.action.extendion</param-name>

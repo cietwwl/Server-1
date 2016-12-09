@@ -11,7 +11,7 @@ import com.log.LogModule;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.ServerSwitch;
 
-class WBFinishState implements  IwbState{
+public class WBFinishState implements  IwbState{
 
 	final private WBState state = WBState.Finish;
 	

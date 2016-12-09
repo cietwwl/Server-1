@@ -17,10 +17,16 @@ import com.bm.worldBoss.data.WBBroatCastData;
 import com.bm.worldBoss.data.WBBroatCastDataHolder;
 import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
+import com.bm.worldBoss.data.WBState;
 import com.bm.worldBoss.data.WBUserData;
 import com.bm.worldBoss.data.WBUserDataDao;
 import com.bm.worldBoss.data.WBUserDataHolder;
 import com.bm.worldBoss.rank.WBHurtRankMgr;
+import com.bm.worldBoss.state.WBFightEndState;
+import com.bm.worldBoss.state.WBFinishState;
+import com.bm.worldBoss.state.WBNewBossState;
+import com.bm.worldBoss.state.WBPreStartState;
+import com.bm.worldBoss.state.WBSendAwardState;
 import com.bm.worldBoss.state.WBStateFSM;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -32,6 +38,8 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.battleVerify.damageControll.DamageControllCfg;
 import com.playerdata.battleVerify.damageControll.DamageControllCfgDAO;
+import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.ServerSwitch;
 
 
 public class WBMgr {
@@ -259,8 +267,86 @@ public class WBMgr {
 			synWBData(player, -1);	
 		}
 	}
+
 	
+	/**
+	 * 作弊指令召唤世界boss，除了GMHandler，其他部分禁止调用此方法
+	 */
+	public void reCallNewBoss() {
+		//先清除旧的世界boss数据
+		WBStateFSM.getInstance().setState(null);
+		
+		//copy一个世界boss配置出来
+		WBCfg cfg = WBCfgDAO.getInstance().getAllCfg().get(0);
+		WBCfg copyCfg = new WBCfg(cfg);
+		int hour = DateUtils.getCurrentHour();
+		int min = DateUtils.getCurMinuteOfHour();
+		copyCfg.setPreStartTimeStr(hour +":" + min);
+		int afterTime = min + 10;
+		if(afterTime >= 60){
+			hour ++;
+			afterTime = afterTime % 60;
+		}
+		copyCfg.setStartTimeStr(hour + ":" + afterTime);
+		
+		afterTime = afterTime + 40;
+		if(afterTime >= 60){
+			hour ++;
+			afterTime = afterTime % 60;
+		}
+		
+		copyCfg.setEndTimeStr(hour + ":" + afterTime);
+		afterTime = afterTime + 10;
+		if(afterTime >= 60){
+			hour ++;
+			afterTime = afterTime % 60;
+		}
+		copyCfg.setFinishTimeStr(hour + ":" + afterTime);
+		WBDataHolder.getInstance().newBoss(copyCfg);
+				
+		WBStateFSM.getInstance().setState(new WBNewBossState());
+	}
 	
+	public void change2NextState(){
+		WBStateFSM fsm = WBStateFSM.getInstance();
+		WBState state = fsm.getState();
+		switch (state) {
+		case NewBoss:
+			fsm.setState(new WBPreStartState());
+			break;
+		case FightStart:
+			fsm.setState(new WBFightEndState());
+			break;
+		case FightEnd:
+			fsm.setState(new WBSendAwardState());
+			break;
+		case SendAward:
+			fsm.setState(new WBFinishState());
+		case Finish:
+			reCallNewBoss();
+			break;
+
+		default:
+			break;
+		}
+		broatBossChange();
+		System.out.println("world boss state transform to :" + fsm.getState());
+	}
+
+	public void changeWorldBossState(int state) {
+		if(state == 0){//关闭
+			ServerSwitch.setOpenWorldBoss(false);
+		}else if(state == 1){ //开启
+			ServerSwitch.setOpenWorldBoss(true);
+		}
+		
+		WBData data = WBDataHolder.getInstance().get();
+		if(data == null || data.getState() != WBState.NewBoss){
+			return;
+		}
+		data.setOpen(ServerSwitch.isOpenWorldBoss());
+		WBDataHolder.getInstance().update();
+	}
 	
 	
 }

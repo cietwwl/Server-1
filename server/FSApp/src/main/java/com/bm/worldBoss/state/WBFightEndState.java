@@ -5,7 +5,7 @@ import com.bm.worldBoss.data.WBData;
 import com.bm.worldBoss.data.WBDataHolder;
 import com.bm.worldBoss.data.WBState;
 
-class WBFightEndState implements  IwbState{
+public class WBFightEndState implements  IwbState{
 
 	
 	final private WBState state = WBState.FightEnd;
