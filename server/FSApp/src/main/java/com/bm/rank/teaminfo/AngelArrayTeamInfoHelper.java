@@ -15,6 +15,7 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.SpriteAttachMgr;
 import com.playerdata.eRoleType;
 import com.playerdata.army.ArmyFashion;
@@ -85,6 +86,85 @@ import com.rwproto.FashionServiceProtos.FashionType;
 public class AngelArrayTeamInfoHelper {
 
 	/**
+	 * 当阵容中的人战力发生了修改，就通知修改，重新记录一下这个人的数据
+	 * 
+	 * @param userId
+	 * @param heroModelId
+	 * @param nowFighting
+	 * @param preFighting
+	 */
+	public static void updateRankingWhenHeroFightingChange(String userId, int heroModelId, int nowFighting, int preFighting) {
+		if (nowFighting <= preFighting) {
+			return;
+		}
+
+		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
+		if (ranking == null) {
+			return;
+		}
+
+		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(userId);
+		if (rankingEntry == null) {
+			return;
+		}
+
+		AngelArrayTeamInfoAttribute attr = rankingEntry.getExtendedAttribute();
+		if (attr == null) {
+			return;
+		}
+
+		TeamInfo teamInfo = attr.getTeamInfo();
+		if (teamInfo == null) {
+			return;
+		}
+
+		List<HeroInfo> heros = teamInfo.getHero();
+		if (heros == null || heros.isEmpty()) {
+			return;
+		}
+
+		int hasHeroIndex = -1;
+		for (int i = 0, size = heros.size(); i < size; i++) {
+			HeroInfo heroInfo = heros.get(i);
+			if (heroInfo == null) {
+				continue;
+			}
+
+			if (heroInfo.getBaseInfo().getTmpId().startsWith(String.valueOf(heroModelId))) {
+				hasHeroIndex = i;
+				break;
+			}
+		}
+
+		if (hasHeroIndex == -1) {
+			return;
+		}
+
+		Player player = PlayerMgr.getInstance().find(userId);
+		if (player == null) {
+			return;
+		}
+
+		FSHero hero = FSHeroMgr.getInstance().getHeroByModerId(player, heroModelId);
+		if (hero == null) {
+			return;
+		}
+
+		int offFighting = nowFighting - preFighting;
+		int level = player.getLevel();
+
+		teamInfo.updateHeroInfo(hasHeroIndex, buildHeroInfo(player, hero));
+		teamInfo.setTeamFighting(teamInfo.getTeamFighting() + offFighting);
+		teamInfo.setLevel(level);
+
+		AngelArrayComparable comparable = new AngelArrayComparable();
+		comparable.setFighting(rankingEntry.getComparable().getFighting() + offFighting);
+		comparable.setLevel(level);
+
+		ranking.updateRankingEntry(rankingEntry, comparable);
+	}
+
+	/**
 	 * 当角色登录的时候，刷新上线时间
 	 * 
 	 * @param p 角色信息
@@ -137,7 +217,11 @@ public class AngelArrayTeamInfoHelper {
 		comparable.setFighting(comparable.getFighting());
 		comparable.setLevel(level);
 
-		ranking.addOrUpdateRankingEntry(userId, comparable, rankingEntry.getExtendedAttribute());
+		AngelArrayTeamInfoAttribute attr = rankingEntry.getExtendedAttribute();
+		TeamInfo teamInfo = attr.getTeamInfo();
+		teamInfo.setLevel(level);
+
+		ranking.addOrUpdateRankingEntry(userId, comparable, attr);
 	}
 
 	/**
@@ -1048,21 +1132,22 @@ public class AngelArrayTeamInfoHelper {
 			mf = FightingCalcComponentType.MAGIC.calc.calc(mb.build());
 			fighting += mf;
 		}
+
 		// // TODO HC 等牙玺调试完成这些代码就全部去掉
 		// StringBuilder printSB = new StringBuilder();
 		// printSB.append(teamInfo.getName()).append("：[").append(tmpId).append("]-->");
 		// printSB.append("属性：").append(BeanOperationHelper.getPositiveValueDiscription(robotBaseAttrData)).append("\n");
-		// printSB.append("\t基础战力：").append(base).append("--");
-		// printSB.append("装备战力：").append(equip).append("--");
-		// printSB.append("羁绊战力：").append(fetters).append("--");
-		// printSB.append("神器战力：").append(fixEquip).append("--");
-		// printSB.append("宝石战力：").append(gem).append("--");
-		// printSB.append("帮派技能战力：").append(gs).append("--");
-		// printSB.append("技能战力：").append(skill).append("--");
-		// printSB.append("道术战力：").append(taoist).append("--");
-		// printSB.append("附灵战力：").append(spriteAttach).append("--");
-		// printSB.append("法宝战力：").append(mf).append("--");
-		// printSB.append("时装战力：").append(fashionF).append("--");
+		// printSB.append("\t基础战力：").append(base).append("--\n");
+		// printSB.append("装备战力：").append(equip).append("--\n");
+		// printSB.append("羁绊战力：").append(fetters).append("--\n");
+		// printSB.append("神器战力：").append(fixEquip).append("--\n");
+		// printSB.append("宝石战力：").append(gem).append("--\n");
+		// printSB.append("帮派技能战力：").append(gs).append("--\n");
+		// printSB.append("技能战力：").append(skill).append("--\n");
+		// printSB.append("道术战力：").append(taoist).append("--\n");
+		// printSB.append("附灵战力：").append(spriteAttach).append("--\n");
+		// printSB.append("法宝战力：").append(mf).append("--\n");
+		// printSB.append("时装战力：").append(fashionF).append("--\n");
 		// printSB.append("最后算出来的总战力：").append(fighting).append("--");
 		// System.err.println(printSB.toString());
 		return fighting;

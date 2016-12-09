@@ -38,9 +38,9 @@ public class TeamInfo {
 	// 指定的额外属性Id(仅用于机器人类)
 	private int extraId;// 指定的额外属性Id(仅用于机器人类)
 	// 阵容的战力
-	private int teamFighting;// 阵容战力
+	private volatile int teamFighting;// 阵容战力
 	// 等级
-	private int level;
+	private volatile int level;
 	private String uuid;// 角色的唯一Id
 
 	@IgnoreSynField
@@ -172,4 +172,13 @@ public class TeamInfo {
 		this.randomData = randomData;
 	}
 
+	/**
+	 * 替换成员
+	 * 
+	 * @param removeIndex
+	 * @param newHeroInfo
+	 */
+	public synchronized void updateHeroInfo(int removeIndex, HeroInfo newHeroInfo) {
+		hero.set(removeIndex, newHeroInfo);
+	}
 }
