@@ -2,13 +2,9 @@ package com.bm.serverStatus;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.print.attribute.standard.Severity;
-
-import com.common.playerFilter.FilterType;
 import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.gmEmail.GMEmail;
@@ -19,10 +15,7 @@ import com.playerdata.PlayerMgr;
 import com.rw.manager.GameManager;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.role.MainMsgHandler;
-import com.rwbase.common.timer.IGameTimerTask;
-import com.rwbase.common.timer.core.FSGameTimeSignal;
 import com.rwbase.common.timer.core.FSGameTimerMgr;
-import com.rwbase.common.timer.core.FSGameTimerTaskSubmitInfoImpl;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.GmNoticeInfo;
 import com.rwbase.dao.serverData.ServerDataHolder;
@@ -31,7 +24,6 @@ import com.rwbase.dao.serverData.ServerGmEmailDao;
 import com.rwbase.dao.serverData.ServerGmEmailHolder;
 import com.rwbase.dao.serverData.ServerGmNotice;
 import com.rwbase.dao.serverData.ServerGmNoticeHolder;
-import com.rwbase.gameworld.GameWorldFactory;
 
 
 public class ServerStatusMgr {
