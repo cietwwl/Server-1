@@ -59,6 +59,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
+import com.rw.service.guide.NewGuideListener;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
@@ -112,6 +113,7 @@ public class GameManager {
 
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
+		GameWorldFactory.getGameWorld().registerPlayerDataListener(new NewGuideListener());
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
