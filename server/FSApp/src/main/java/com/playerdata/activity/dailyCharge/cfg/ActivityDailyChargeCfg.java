@@ -72,12 +72,12 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 	}
 
 	@Override
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 	}
 
 	@Override
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 	}
 }

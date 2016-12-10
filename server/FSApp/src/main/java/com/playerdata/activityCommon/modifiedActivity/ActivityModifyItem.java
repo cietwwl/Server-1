@@ -9,9 +9,9 @@ public class ActivityModifyItem {
 	
 	private int id;
 	
-	private long startTime;
+	private String startTime;
 	
-	private long endTime;
+	private String endTime;
 	
 	private HashMap<Integer, String> rewardStrMap;
 	
@@ -25,19 +25,19 @@ public class ActivityModifyItem {
 		this.id = id;
 	}
 
-	public long getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(long startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public long getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(long endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 

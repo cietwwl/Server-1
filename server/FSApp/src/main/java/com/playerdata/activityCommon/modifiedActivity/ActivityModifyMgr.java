@@ -5,7 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.playerdata.Player;
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
@@ -20,6 +23,7 @@ import com.rwproto.DataSynProtos.eSynType;
 public class ActivityModifyMgr {
 	
 	private static ActivityModifyMgr instance = new ActivityModifyMgr();
+	private final long THREE_MONTH_MS = 3L * 30 * 24 * 60 * 60 * 1000;
 	
 	public static ActivityModifyMgr getInstance(){
 		return instance;
@@ -118,6 +122,35 @@ public class ActivityModifyMgr {
 	}
 	
 	/**
+	 * gm命令设置活动的开始和结束时间
+	 * @param cfgId
+	 * @param startTime
+	 * @param endTime
+	 */
+	public void gmSetCfgTime(int cfgId, String startTime, String endTime){
+		long current = System.currentTimeMillis();
+		long start = ActivityTimeHelper.cftStartTimeToLong(startTime);
+		if(Math.abs(current - start) > THREE_MONTH_MS){
+			return;
+		}
+		long end = ActivityTimeHelper.cftEndTimeToLong(start, endTime);
+		if(Math.abs(current - end) > THREE_MONTH_MS){
+			return;
+		}
+		
+	}
+	
+	/**
+	 * gm命令设置活动的奖励内容
+	 * @param cfgId
+	 * @param subCfgId
+	 * @param reward
+	 */
+	public void gmSetSubCfgReward(int cfgId, int subCfgId, String reward){
+		
+	}
+	
+	/**
 	 * 修改活动主表的配置
 	 * 主要是修改开始和结束时间
 	 * @param actType
@@ -132,10 +165,10 @@ public class ActivityModifyMgr {
 			return false;
 		}
 		if(cfg.getVersion() < item.getVersion()){
-			if(item.getStartTime() > 0){
+			if(StringUtils.isNotBlank(item.getStartTime())){
 				cfg.setStartTime(item.getStartTime());
 			}
-			if(item.getEndTime() > 0){
+			if(StringUtils.isNotBlank(item.getEndTime())){
 				cfg.setEndTime(item.getEndTime());
 			}
 			setRewardContent(actType, item);

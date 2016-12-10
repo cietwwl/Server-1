@@ -69,4 +69,17 @@ public enum ActivityKey {
 		}
 		return null;
 	}
+	
+//	/**
+//	 * 通过配置id找到属于的类型
+//	 * @param cfgId
+//	 * @return
+//	 */
+//	public ActivityKey getByCfgId(int cfgId){
+//		for(ActivityKey act : ActivityKey.values()){
+//			if(act.getActivityType().getActivityMgr().isa(cfgId)){
+//				return act;
+//			}
+//		}
+//	}
 }

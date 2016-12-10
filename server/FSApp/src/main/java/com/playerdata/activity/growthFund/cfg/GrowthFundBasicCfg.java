@@ -1,6 +1,7 @@
 package com.playerdata.activity.growthFund.cfg;
 import com.common.BaseConfig;
 import com.playerdata.activity.growthFund.GrowthFundType;
+import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
@@ -79,12 +80,12 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	}
 
 	@Override
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
 	}
 
 	@Override
-	public void setEndTime(long endTime) {
-		this.endTime = startTime;
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 	}
 }

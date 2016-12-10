@@ -18,7 +18,7 @@ public interface ActivityCfgIF {
 	
 	public boolean isDailyRefresh();
 	
-	public void setStartTime(long startTime);
+	public void setStartTime(String startTime);
 	
-	public void setEndTime(long endTime);
+	public void setEndTime(String endTime);
 }
