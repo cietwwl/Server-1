@@ -14,8 +14,6 @@ import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankSubCfg;
 import com.playerdata.activity.chargeRank.cfg.ActivityChargeRankSubCfgDAO;
 import com.playerdata.activity.chargeRank.data.ActivityChargeRankItem;
 import com.playerdata.activity.chargeRank.data.ActivityChargeRankItemHolder;
-import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
-import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItemHolder;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
@@ -45,11 +43,11 @@ public class ActivityChargeRankMgr extends AbstractActivityMgr<ActivityChargeRan
 	 * @param count
 	 */
 	public void addFinishCount(Player player, int count) {
-		ActivityDailyRechargeTypeItemHolder holder = ActivityDailyRechargeTypeItemHolder.getInstance();
-		List<ActivityDailyRechargeTypeItem> items = holder.getItemList(player.getUserId());
+		ActivityChargeRankItemHolder holder = ActivityChargeRankItemHolder.getInstance();
+		List<ActivityChargeRankItem> items = holder.getItemList(player.getUserId());
 		if (null == items || items.isEmpty())
 			return;
-		for (ActivityDailyRechargeTypeItem item : items) {
+		for (ActivityChargeRankItem item : items) {
 			item.setFinishCount(item.getFinishCount() + count);
 			holder.updateItem(player, item);
 			//该榜目前不支持两个活动同时开启（只有一个榜）

@@ -116,10 +116,11 @@ public class ActivityModifyMgr {
 		if(null == modifyItem){
 			 modifyItem = new ActivityModifyItem();
 			 modifyItem.setId(cfgId);
-			 modifyItem.setVersion(version);
-		}
+		} 
+		//TODO 这里要处理版本的比较
 		modifyItem.setStartTime(startTime);
 		modifyItem.setEndTime(endTime);
+		modifyItem.setVersion(version);
 		updateModifiedActivity(activityKey, modifyItem);
 	}
 	

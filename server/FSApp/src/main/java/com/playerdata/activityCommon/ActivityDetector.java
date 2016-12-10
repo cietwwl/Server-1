@@ -168,8 +168,7 @@ public class ActivityDetector {
 				//有新增的改变
 				activityType.getActivityMgr().activityStartHandler(entry.getValue());
 				changed = true;
-			}
-			if(oldCfg.getStartTime() != entry.getValue().getStartTime() ||
+			}else if(oldCfg.getStartTime() != entry.getValue().getStartTime() ||
 					oldCfg.getEndTime() != entry.getValue().getEndTime()){
 				//无新增，只是时间的改变
 				changed = true;

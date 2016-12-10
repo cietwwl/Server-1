@@ -36,6 +36,7 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
+import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
@@ -82,8 +83,6 @@ import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.copypve.pojo.CopyData;
 import com.rwbase.dao.copypve.pojo.TableCopyData;
 import com.rwbase.dao.email.EEmailDeleteType;
-import com.rwbase.dao.email.EmailCfg;
-import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.fashion.FashionBuyRenewCfgDao;
 import com.rwbase.dao.fashion.FashionCommonCfgDao;
@@ -294,6 +293,10 @@ public class GMHandler {
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
 		
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
+		
+		//修改活动配置的时间和奖励
+		funcCallBackMap.put("setcfgtime", "setCfgTime");
+		funcCallBackMap.put("setcfgreward", "setCfgReward");
 	}
 
 	public boolean isActive() {
@@ -2201,5 +2204,49 @@ public class GMHandler {
 		});
 
 		return true;
+	}
+	
+	/**
+	 * 修改活动配置的时间
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	public boolean setCfgTime(String[] arrCommandContents, Player player){
+		if(arrCommandContents.length < 4){
+			return false;
+		}
+		try{
+			int cfgId = Integer.parseInt(arrCommandContents[0]);
+			String startTime = arrCommandContents[1];
+			String endTime = arrCommandContents[2];
+			int version = Integer.parseInt(arrCommandContents[3]);
+			ActivityModifyMgr.getInstance().gmSetCfgTime(cfgId, startTime, endTime, version);
+			return true;
+		}catch(Exception ex){
+			return false;
+		}
+	}
+	
+	/**
+	 * 修改活动配置的奖励
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	public boolean setCfgReward(String[] arrCommandContents, Player player){
+		if(arrCommandContents.length < 4){
+			return false;
+		}
+		try{
+			int cfgId = Integer.parseInt(arrCommandContents[0]);
+			int subCfgId = Integer.parseInt(arrCommandContents[1]);
+			String reward = arrCommandContents[2];
+			int version = Integer.parseInt(arrCommandContents[3]);
+			ActivityModifyMgr.getInstance().gmSetSubCfgReward(cfgId, subCfgId, reward, version);
+			return true;
+		}catch(Exception ex){
+			return false;
+		}
 	}
 }

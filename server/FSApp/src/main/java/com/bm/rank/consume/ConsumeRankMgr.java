@@ -21,15 +21,20 @@ public class ConsumeRankMgr {
 			return -1;
 		}
 		String userId = player.getUserId();
-		//消费榜只增不减
 		RankingEntry<ConsumeComparable, RankingConsumeData> entry = ranking.getRankingEntry(userId);
-		if(entry.getComparable().getConsume() < consumeCount){
-			// 比较数据
-			ConsumeComparable comparable = new ConsumeComparable();
-			comparable.setConsume(consumeCount);
-			comparable.setTime(System.currentTimeMillis());
+		// 比较数据
+		ConsumeComparable comparable = new ConsumeComparable();
+		comparable.setConsume(consumeCount);
+		comparable.setTime(System.currentTimeMillis());
+		if (entry == null) {
 			// 加入榜
 			ranking.addOrUpdateRankingEntry(userId, comparable, player);
+		} else {
+			//消费榜只增不减
+			if(entry.getComparable().getConsume() < consumeCount){
+				// 更新榜
+				ranking.updateRankingEntry(entry, comparable);
+			}
 		}
 		return ranking.getRanking(userId);
 	}

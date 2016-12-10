@@ -138,7 +138,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		CfgCsvDao<? extends ActivitySubCfgIF> subDao = getActivityType().getSubActivityDao();
 		ActivityCfgIF cfg = actDao.getCfgById(cfgID);
 		if(null == cfg || null == subDao) return todaySubs;
-		if(ActivityDetector.getInstance().isActive(cfg)) return todaySubs;
+		if(!ActivityDetector.getInstance().isActive(cfg)) return todaySubs;
 		//还在活跃期内，取当天的数据
 		int todayNum = getCurrentDay(cfg);
 		for(ActivitySubCfgIF subCfg : subDao.getAllCfg()){

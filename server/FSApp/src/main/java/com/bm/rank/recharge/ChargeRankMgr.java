@@ -22,15 +22,20 @@ public class ChargeRankMgr {
 			return -1;
 		}
 		String userId = player.getUserId();
-		//充值榜只增不减
 		RankingEntry<ChargeComparable, RankingChargeData> entry = ranking.getRankingEntry(userId);
-		if(entry.getComparable().getCharge() < chargeCount){
-			// 比较数据
-			ChargeComparable comparable = new ChargeComparable();
-			comparable.setCharge(chargeCount);
-			comparable.setTime(System.currentTimeMillis());
+		// 比较数据
+		ChargeComparable comparable = new ChargeComparable();
+		comparable.setCharge(chargeCount);
+		comparable.setTime(System.currentTimeMillis());
+		if (entry == null) {
 			// 加入榜
 			ranking.addOrUpdateRankingEntry(userId, comparable, player);
+		} else {
+			//充值榜只增不减
+			if(entry.getComparable().getCharge() < chargeCount){
+				// 更新榜
+				ranking.updateRankingEntry(entry, comparable);
+			}
 		}
 		return ranking.getRanking(userId);
 	}
