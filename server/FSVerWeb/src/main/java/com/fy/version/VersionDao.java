@@ -11,10 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.fy.SpringContextUtil;
-import com.fy.address.AddressInfo;
 import com.fy.address.ChannelAddressInfo;
 import com.fy.address.ChannelAddressInfoDao;
 import com.fy.utils.FileUtils;
@@ -188,6 +185,10 @@ public class VersionDao {
 	
 	public void setVerDirPath(String verDirPath) {
 		this.verDirPath = verDirPath;
+	}
+	
+	public ChannelAddressInfo getChannelAddressInfo(String channel){
+		return addressInfoMap.get(channel);
 	}
 
 	public static void main(String[] args) {
