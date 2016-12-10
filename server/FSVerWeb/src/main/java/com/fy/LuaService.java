@@ -13,13 +13,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
-import com.fy.address.AddressInfo;
+import com.fy.address.ChannelAddressInfo;
 import com.fy.json.JSONUtil;
 import com.fy.lua.LuaInfo;
 import com.fy.lua.LuaMgr;
 import com.fy.lua.validate.LuaRequestType;
 import com.fy.lua.validate.LuaValidateRequest;
 import com.fy.lua.validate.LuaValidateResponse;
+import com.fy.version.VersionDao;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class LuaService extends ActionSupport implements ServletRequestAware,
@@ -53,6 +54,13 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 			String cpuType = luaValidateRequest.getCpuType();
 			String deviceModel = luaValidateRequest.getDeviceModel();
 			
+			ChannelAddressInfo channelAddressInfo = VersionDao.getInstance().getChannelAddressInfo(channel);
+			
+			if(channelAddressInfo == null){
+				System.out.println("can not find channel address info, plaease config!!!");
+				return;
+			}
+			
 			if (!StringUtils.isBlank(cpuType) && !StringUtils.isBlank(deviceModel)) {
 				boolean bln64 = checkIos32Or64(deviceModel, cpuType);
 				if (!bln64) {
@@ -68,15 +76,15 @@ public class LuaService extends ActionSupport implements ServletRequestAware,
 				System.out.println("request lua service:type:" + type);
 				
 				luaValidateResponse.setResult(true);
-				if(type == LuaRequestType.DOWNLOAD_LUAFILE){
-					luaValidateResponse.setDownloadPath(AddressInfo.getInstance().getCdnDomain()+File.separator+channelLuaInfo.getFileslocation());
-					luaValidateResponse.setBackupDownloadPath(AddressInfo.getInstance().getCdnBackUpDomain()+File.separator+channelLuaInfo.getFileslocation());
+				if (type == LuaRequestType.DOWNLOAD_LUAFILE) {
+					luaValidateResponse.setDownloadPath(channelAddressInfo.getCdnDomain() + File.separator + channelLuaInfo.getFileslocation());
+					luaValidateResponse.setBackupDownloadPath(channelAddressInfo.getCdnBackUpDomain() + File.separator + channelLuaInfo.getFileslocation());
 					luaValidateResponse.setDownloadSize(channelLuaInfo.getFilesize());
 					luaValidateResponse.setMd5Value(channelLuaInfo.getFilesmd5());
 					luaValidateResponse.setFileName(channelLuaInfo.getLuaFileMapName());
-				}else{
-					luaValidateResponse.setDownloadPath(AddressInfo.getInstance().getCdnDomain()+File.separator+channelLuaInfo.getLualocation());
-					luaValidateResponse.setBackupDownloadPath(AddressInfo.getInstance().getCdnBackUpDomain()+File.separator+channelLuaInfo.getLualocation());
+				} else {
+					luaValidateResponse.setDownloadPath(channelAddressInfo.getCdnDomain() + File.separator + channelLuaInfo.getLualocation());
+					luaValidateResponse.setBackupDownloadPath(channelAddressInfo.getCdnBackUpDomain() + File.separator + channelLuaInfo.getLualocation());
 					luaValidateResponse.setDownloadSize(channelLuaInfo.getLuasize());
 					luaValidateResponse.setMd5Value(channelLuaInfo.getLuamd5());
 					luaValidateResponse.setFileName(channelLuaInfo.getLuaFilesName());
