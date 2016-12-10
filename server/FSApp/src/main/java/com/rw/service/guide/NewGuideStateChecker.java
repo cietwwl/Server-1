@@ -19,35 +19,39 @@ public class NewGuideStateChecker {
 	}
 
 	public void check(Player player) {
-		String userId = player.getUserId();
-		int level = player.getLevel();
-		//计算出此时是关还是开
-		GuidanceClosure guidanceClosure = GuidanceClosureCfgDAO.getInstance().getOrPreSearch(level);
-		boolean closed;
-		if (guidanceClosure == null) {
-			closed = false;
-		} else {
-			int progress = guidanceClosure.getProgress();
-			if (progress < 0) {
+		try {
+			String userId = player.getUserId();
+			int level = player.getLevel();
+			// 计算出此时是关还是开
+			GuidanceClosure guidanceClosure = GuidanceClosureCfgDAO.getInstance().getOrPreSearch(level);
+			boolean closed;
+			if (guidanceClosure == null) {
 				closed = false;
 			} else {
-				UserGuideProgress guideProgress = GuideProgressDAO.getInstance().get(userId, true);
-				if (guideProgress == null) {
+				int progress = guidanceClosure.getProgress();
+				if (progress < 0) {
 					closed = false;
-				} else if (guideProgress.getProgressMap().containsKey(level)) {
-					closed = true;
 				} else {
-					closed = false;
+					UserGuideProgress guideProgress = GuideProgressDAO.getInstance().get(userId, true);
+					if (guideProgress == null) {
+						closed = false;
+					} else if (guideProgress.getProgressMap().containsKey(level)) {
+						closed = true;
+					} else {
+						closed = false;
+					}
 				}
 			}
+			PlayerTempAttribute tempAttribute = player.getTempAttribute();
+			NewGuideClosure lastClosure = player.getTempAttribute().getLastClosure();
+			if (lastClosure != null && lastClosure.isClose() == closed) {
+				return;
+			}
+			NewGuideClosure guideClosure = new NewGuideClosure(closed);
+			tempAttribute.setLastClosure(guideClosure);
+			ClientDataSynMgr.synData(player, guideClosure, eSynType.NewGuideClosure, eSynOpType.UPDATE_SINGLE);
+		} catch (Throwable t) {
+			t.printStackTrace();
 		}
-		PlayerTempAttribute tempAttribute = player.getTempAttribute();
-		NewGuideClosure lastClosure = player.getTempAttribute().getLastClosure();
-		if (lastClosure != null && lastClosure.isClose() == closed) {
-			return;
-		}
-		NewGuideClosure guideClosure = new NewGuideClosure(closed);
-		tempAttribute.setLastClosure(guideClosure);
-		ClientDataSynMgr.synData(player, guideClosure, eSynType.NewGuideClosure, eSynOpType.UPDATE_SINGLE);
 	}
 }
