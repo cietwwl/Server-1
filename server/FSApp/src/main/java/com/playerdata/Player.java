@@ -58,6 +58,8 @@ import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
+import com.rw.service.guide.NewGuideStateChecker;
+import com.rw.service.guide.datamodel.NewGuideClosure;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
@@ -424,7 +426,7 @@ public class Player implements PlayerIF {
 					PraiseMgr.getMgr().synData(player);
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
-					
+
 				}
 			});
 			dataSynVersionHolder.init(this, notInVersionControlP);
@@ -453,8 +455,9 @@ public class Player implements PlayerIF {
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().playerLogin(this);
 			// 帮派争霸角色登录通知
 			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
-			
+
 			WBMgr.getInstance().onPlayerLogin(this);
+			NewGuideStateChecker.getInstance().check(this);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}

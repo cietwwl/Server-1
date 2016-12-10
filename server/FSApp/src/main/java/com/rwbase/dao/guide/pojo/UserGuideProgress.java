@@ -12,10 +12,10 @@ public class UserGuideProgress {
 	private String userId;
 	private ConcurrentHashMap<Integer, Integer> progressMap;
 
-	public UserGuideProgress(){
-		this.progressMap = new ConcurrentHashMap<Integer, Integer>();
+	public UserGuideProgress() {
+		this.progressMap = new ConcurrentHashMap<Integer, Integer>(16, 1.0f, 1);
 	}
-	
+
 	public String getUserId() {
 		return userId;
 	}
