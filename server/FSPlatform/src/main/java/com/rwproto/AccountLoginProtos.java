@@ -4086,6 +4086,714 @@ public final class AccountLoginProtos {
     // @@protoc_insertion_point(class_scope:UserInfo)
   }
 
+  public interface ServerPageInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // optional int32 pageId = 1;
+    /**
+     * <code>optional int32 pageId = 1;</code>
+     */
+    boolean hasPageId();
+    /**
+     * <code>optional int32 pageId = 1;</code>
+     */
+    int getPageId();
+
+    // optional string pageName = 2;
+    /**
+     * <code>optional string pageName = 2;</code>
+     */
+    boolean hasPageName();
+    /**
+     * <code>optional string pageName = 2;</code>
+     */
+    java.lang.String getPageName();
+    /**
+     * <code>optional string pageName = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPageNameBytes();
+
+    // optional string pageServer = 3;
+    /**
+     * <code>optional string pageServer = 3;</code>
+     */
+    boolean hasPageServer();
+    /**
+     * <code>optional string pageServer = 3;</code>
+     */
+    java.lang.String getPageServer();
+    /**
+     * <code>optional string pageServer = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getPageServerBytes();
+  }
+  /**
+   * Protobuf type {@code ServerPageInfo}
+   */
+  public static final class ServerPageInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ServerPageInfoOrBuilder {
+    // Use ServerPageInfo.newBuilder() to construct.
+    private ServerPageInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ServerPageInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ServerPageInfo defaultInstance;
+    public static ServerPageInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ServerPageInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ServerPageInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              pageId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              pageName_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              pageServer_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.AccountLoginProtos.internal_static_ServerPageInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.AccountLoginProtos.internal_static_ServerPageInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.AccountLoginProtos.ServerPageInfo.class, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ServerPageInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ServerPageInfo>() {
+      public ServerPageInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ServerPageInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ServerPageInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // optional int32 pageId = 1;
+    public static final int PAGEID_FIELD_NUMBER = 1;
+    private int pageId_;
+    /**
+     * <code>optional int32 pageId = 1;</code>
+     */
+    public boolean hasPageId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>optional int32 pageId = 1;</code>
+     */
+    public int getPageId() {
+      return pageId_;
+    }
+
+    // optional string pageName = 2;
+    public static final int PAGENAME_FIELD_NUMBER = 2;
+    private java.lang.Object pageName_;
+    /**
+     * <code>optional string pageName = 2;</code>
+     */
+    public boolean hasPageName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string pageName = 2;</code>
+     */
+    public java.lang.String getPageName() {
+      java.lang.Object ref = pageName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          pageName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string pageName = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPageNameBytes() {
+      java.lang.Object ref = pageName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pageName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string pageServer = 3;
+    public static final int PAGESERVER_FIELD_NUMBER = 3;
+    private java.lang.Object pageServer_;
+    /**
+     * <code>optional string pageServer = 3;</code>
+     */
+    public boolean hasPageServer() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional string pageServer = 3;</code>
+     */
+    public java.lang.String getPageServer() {
+      java.lang.Object ref = pageServer_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          pageServer_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string pageServer = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPageServerBytes() {
+      java.lang.Object ref = pageServer_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        pageServer_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      pageId_ = 0;
+      pageName_ = "";
+      pageServer_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, pageId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getPageNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPageServerBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, pageId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getPageNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPageServerBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.AccountLoginProtos.ServerPageInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.AccountLoginProtos.ServerPageInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ServerPageInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.AccountLoginProtos.internal_static_ServerPageInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.AccountLoginProtos.internal_static_ServerPageInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.AccountLoginProtos.ServerPageInfo.class, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.AccountLoginProtos.ServerPageInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        pageId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        pageName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        pageServer_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.AccountLoginProtos.internal_static_ServerPageInfo_descriptor;
+      }
+
+      public com.rwproto.AccountLoginProtos.ServerPageInfo getDefaultInstanceForType() {
+        return com.rwproto.AccountLoginProtos.ServerPageInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.AccountLoginProtos.ServerPageInfo build() {
+        com.rwproto.AccountLoginProtos.ServerPageInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.AccountLoginProtos.ServerPageInfo buildPartial() {
+        com.rwproto.AccountLoginProtos.ServerPageInfo result = new com.rwproto.AccountLoginProtos.ServerPageInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.pageId_ = pageId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.pageName_ = pageName_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.pageServer_ = pageServer_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.AccountLoginProtos.ServerPageInfo) {
+          return mergeFrom((com.rwproto.AccountLoginProtos.ServerPageInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.AccountLoginProtos.ServerPageInfo other) {
+        if (other == com.rwproto.AccountLoginProtos.ServerPageInfo.getDefaultInstance()) return this;
+        if (other.hasPageId()) {
+          setPageId(other.getPageId());
+        }
+        if (other.hasPageName()) {
+          bitField0_ |= 0x00000002;
+          pageName_ = other.pageName_;
+          onChanged();
+        }
+        if (other.hasPageServer()) {
+          bitField0_ |= 0x00000004;
+          pageServer_ = other.pageServer_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.AccountLoginProtos.ServerPageInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.AccountLoginProtos.ServerPageInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // optional int32 pageId = 1;
+      private int pageId_ ;
+      /**
+       * <code>optional int32 pageId = 1;</code>
+       */
+      public boolean hasPageId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>optional int32 pageId = 1;</code>
+       */
+      public int getPageId() {
+        return pageId_;
+      }
+      /**
+       * <code>optional int32 pageId = 1;</code>
+       */
+      public Builder setPageId(int value) {
+        bitField0_ |= 0x00000001;
+        pageId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 pageId = 1;</code>
+       */
+      public Builder clearPageId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        pageId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // optional string pageName = 2;
+      private java.lang.Object pageName_ = "";
+      /**
+       * <code>optional string pageName = 2;</code>
+       */
+      public boolean hasPageName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string pageName = 2;</code>
+       */
+      public java.lang.String getPageName() {
+        java.lang.Object ref = pageName_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          pageName_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string pageName = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPageNameBytes() {
+        java.lang.Object ref = pageName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pageName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string pageName = 2;</code>
+       */
+      public Builder setPageName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        pageName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string pageName = 2;</code>
+       */
+      public Builder clearPageName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        pageName_ = getDefaultInstance().getPageName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string pageName = 2;</code>
+       */
+      public Builder setPageNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        pageName_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string pageServer = 3;
+      private java.lang.Object pageServer_ = "";
+      /**
+       * <code>optional string pageServer = 3;</code>
+       */
+      public boolean hasPageServer() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional string pageServer = 3;</code>
+       */
+      public java.lang.String getPageServer() {
+        java.lang.Object ref = pageServer_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          pageServer_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string pageServer = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPageServerBytes() {
+        java.lang.Object ref = pageServer_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          pageServer_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string pageServer = 3;</code>
+       */
+      public Builder setPageServer(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        pageServer_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string pageServer = 3;</code>
+       */
+      public Builder clearPageServer() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        pageServer_ = getDefaultInstance().getPageServer();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string pageServer = 3;</code>
+       */
+      public Builder setPageServerBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        pageServer_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ServerPageInfo)
+    }
+
+    static {
+      defaultInstance = new ServerPageInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ServerPageInfo)
+  }
+
   public interface AccountLoginRequestOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -5018,6 +5726,31 @@ public final class AccountLoginProtos {
      */
     com.rwproto.AccountLoginProtos.UserInfoOrBuilder getUserListOrBuilder(
         int index);
+
+    // repeated .ServerPageInfo pageList = 8;
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    java.util.List<com.rwproto.AccountLoginProtos.ServerPageInfo> 
+        getPageListList();
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    com.rwproto.AccountLoginProtos.ServerPageInfo getPageList(int index);
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    int getPageListCount();
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    java.util.List<? extends com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder> 
+        getPageListOrBuilderList();
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder getPageListOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code AccountLoginResponse}
@@ -5139,6 +5872,14 @@ public final class AccountLoginProtos {
               userList_.add(input.readMessage(com.rwproto.AccountLoginProtos.UserInfo.PARSER, extensionRegistry));
               break;
             }
+            case 66: {
+              if (!((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+                pageList_ = new java.util.ArrayList<com.rwproto.AccountLoginProtos.ServerPageInfo>();
+                mutable_bitField0_ |= 0x00000080;
+              }
+              pageList_.add(input.readMessage(com.rwproto.AccountLoginProtos.ServerPageInfo.PARSER, extensionRegistry));
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -5152,6 +5893,9 @@ public final class AccountLoginProtos {
         }
         if (((mutable_bitField0_ & 0x00000040) == 0x00000040)) {
           userList_ = java.util.Collections.unmodifiableList(userList_);
+        }
+        if (((mutable_bitField0_ & 0x00000080) == 0x00000080)) {
+          pageList_ = java.util.Collections.unmodifiableList(pageList_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -5376,6 +6120,42 @@ public final class AccountLoginProtos {
       return userList_.get(index);
     }
 
+    // repeated .ServerPageInfo pageList = 8;
+    public static final int PAGELIST_FIELD_NUMBER = 8;
+    private java.util.List<com.rwproto.AccountLoginProtos.ServerPageInfo> pageList_;
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    public java.util.List<com.rwproto.AccountLoginProtos.ServerPageInfo> getPageListList() {
+      return pageList_;
+    }
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    public java.util.List<? extends com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder> 
+        getPageListOrBuilderList() {
+      return pageList_;
+    }
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    public int getPageListCount() {
+      return pageList_.size();
+    }
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    public com.rwproto.AccountLoginProtos.ServerPageInfo getPageList(int index) {
+      return pageList_.get(index);
+    }
+    /**
+     * <code>repeated .ServerPageInfo pageList = 8;</code>
+     */
+    public com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder getPageListOrBuilder(
+        int index) {
+      return pageList_.get(index);
+    }
+
     private void initFields() {
       loginType_ = com.rwproto.AccountLoginProtos.eAccountLoginType.ACCOUNT_LOGIN;
       resultType_ = com.rwproto.AccountLoginProtos.eLoginResultType.SUCCESS;
@@ -5384,6 +6164,7 @@ public final class AccountLoginProtos {
       lastZone_ = com.rwproto.AccountLoginProtos.ZoneInfo.getDefaultInstance();
       zoneList_ = java.util.Collections.emptyList();
       userList_ = java.util.Collections.emptyList();
+      pageList_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5444,6 +6225,9 @@ public final class AccountLoginProtos {
       for (int i = 0; i < userList_.size(); i++) {
         output.writeMessage(7, userList_.get(i));
       }
+      for (int i = 0; i < pageList_.size(); i++) {
+        output.writeMessage(8, pageList_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -5480,6 +6264,10 @@ public final class AccountLoginProtos {
       for (int i = 0; i < userList_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, userList_.get(i));
+      }
+      for (int i = 0; i < pageList_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(8, pageList_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5593,6 +6381,7 @@ public final class AccountLoginProtos {
           getLastZoneFieldBuilder();
           getZoneListFieldBuilder();
           getUserListFieldBuilder();
+          getPageListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5630,6 +6419,12 @@ public final class AccountLoginProtos {
           bitField0_ = (bitField0_ & ~0x00000040);
         } else {
           userListBuilder_.clear();
+        }
+        if (pageListBuilder_ == null) {
+          pageList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+        } else {
+          pageListBuilder_.clear();
         }
         return this;
       }
@@ -5704,6 +6499,15 @@ public final class AccountLoginProtos {
           result.userList_ = userList_;
         } else {
           result.userList_ = userListBuilder_.build();
+        }
+        if (pageListBuilder_ == null) {
+          if (((bitField0_ & 0x00000080) == 0x00000080)) {
+            pageList_ = java.util.Collections.unmodifiableList(pageList_);
+            bitField0_ = (bitField0_ & ~0x00000080);
+          }
+          result.pageList_ = pageList_;
+        } else {
+          result.pageList_ = pageListBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -5787,6 +6591,32 @@ public final class AccountLoginProtos {
                    getUserListFieldBuilder() : null;
             } else {
               userListBuilder_.addAllMessages(other.userList_);
+            }
+          }
+        }
+        if (pageListBuilder_ == null) {
+          if (!other.pageList_.isEmpty()) {
+            if (pageList_.isEmpty()) {
+              pageList_ = other.pageList_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+            } else {
+              ensurePageListIsMutable();
+              pageList_.addAll(other.pageList_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.pageList_.isEmpty()) {
+            if (pageListBuilder_.isEmpty()) {
+              pageListBuilder_.dispose();
+              pageListBuilder_ = null;
+              pageList_ = other.pageList_;
+              bitField0_ = (bitField0_ & ~0x00000080);
+              pageListBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getPageListFieldBuilder() : null;
+            } else {
+              pageListBuilder_.addAllMessages(other.pageList_);
             }
           }
         }
@@ -6703,6 +7533,246 @@ public final class AccountLoginProtos {
         return userListBuilder_;
       }
 
+      // repeated .ServerPageInfo pageList = 8;
+      private java.util.List<com.rwproto.AccountLoginProtos.ServerPageInfo> pageList_ =
+        java.util.Collections.emptyList();
+      private void ensurePageListIsMutable() {
+        if (!((bitField0_ & 0x00000080) == 0x00000080)) {
+          pageList_ = new java.util.ArrayList<com.rwproto.AccountLoginProtos.ServerPageInfo>(pageList_);
+          bitField0_ |= 0x00000080;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.AccountLoginProtos.ServerPageInfo, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder, com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder> pageListBuilder_;
+
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public java.util.List<com.rwproto.AccountLoginProtos.ServerPageInfo> getPageListList() {
+        if (pageListBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(pageList_);
+        } else {
+          return pageListBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public int getPageListCount() {
+        if (pageListBuilder_ == null) {
+          return pageList_.size();
+        } else {
+          return pageListBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ServerPageInfo getPageList(int index) {
+        if (pageListBuilder_ == null) {
+          return pageList_.get(index);
+        } else {
+          return pageListBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder setPageList(
+          int index, com.rwproto.AccountLoginProtos.ServerPageInfo value) {
+        if (pageListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePageListIsMutable();
+          pageList_.set(index, value);
+          onChanged();
+        } else {
+          pageListBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder setPageList(
+          int index, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder builderForValue) {
+        if (pageListBuilder_ == null) {
+          ensurePageListIsMutable();
+          pageList_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          pageListBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder addPageList(com.rwproto.AccountLoginProtos.ServerPageInfo value) {
+        if (pageListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePageListIsMutable();
+          pageList_.add(value);
+          onChanged();
+        } else {
+          pageListBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder addPageList(
+          int index, com.rwproto.AccountLoginProtos.ServerPageInfo value) {
+        if (pageListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensurePageListIsMutable();
+          pageList_.add(index, value);
+          onChanged();
+        } else {
+          pageListBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder addPageList(
+          com.rwproto.AccountLoginProtos.ServerPageInfo.Builder builderForValue) {
+        if (pageListBuilder_ == null) {
+          ensurePageListIsMutable();
+          pageList_.add(builderForValue.build());
+          onChanged();
+        } else {
+          pageListBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder addPageList(
+          int index, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder builderForValue) {
+        if (pageListBuilder_ == null) {
+          ensurePageListIsMutable();
+          pageList_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          pageListBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder addAllPageList(
+          java.lang.Iterable<? extends com.rwproto.AccountLoginProtos.ServerPageInfo> values) {
+        if (pageListBuilder_ == null) {
+          ensurePageListIsMutable();
+          super.addAll(values, pageList_);
+          onChanged();
+        } else {
+          pageListBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder clearPageList() {
+        if (pageListBuilder_ == null) {
+          pageList_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000080);
+          onChanged();
+        } else {
+          pageListBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public Builder removePageList(int index) {
+        if (pageListBuilder_ == null) {
+          ensurePageListIsMutable();
+          pageList_.remove(index);
+          onChanged();
+        } else {
+          pageListBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ServerPageInfo.Builder getPageListBuilder(
+          int index) {
+        return getPageListFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder getPageListOrBuilder(
+          int index) {
+        if (pageListBuilder_ == null) {
+          return pageList_.get(index);  } else {
+          return pageListBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public java.util.List<? extends com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder> 
+           getPageListOrBuilderList() {
+        if (pageListBuilder_ != null) {
+          return pageListBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(pageList_);
+        }
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ServerPageInfo.Builder addPageListBuilder() {
+        return getPageListFieldBuilder().addBuilder(
+            com.rwproto.AccountLoginProtos.ServerPageInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public com.rwproto.AccountLoginProtos.ServerPageInfo.Builder addPageListBuilder(
+          int index) {
+        return getPageListFieldBuilder().addBuilder(
+            index, com.rwproto.AccountLoginProtos.ServerPageInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ServerPageInfo pageList = 8;</code>
+       */
+      public java.util.List<com.rwproto.AccountLoginProtos.ServerPageInfo.Builder> 
+           getPageListBuilderList() {
+        return getPageListFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.AccountLoginProtos.ServerPageInfo, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder, com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder> 
+          getPageListFieldBuilder() {
+        if (pageListBuilder_ == null) {
+          pageListBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.AccountLoginProtos.ServerPageInfo, com.rwproto.AccountLoginProtos.ServerPageInfo.Builder, com.rwproto.AccountLoginProtos.ServerPageInfoOrBuilder>(
+                  pageList_,
+                  ((bitField0_ & 0x00000080) == 0x00000080),
+                  getParentForChildren(),
+                  isClean());
+          pageList_ = null;
+        }
+        return pageListBuilder_;
+      }
+
       // @@protoc_insertion_point(builder_scope:AccountLoginResponse)
     }
 
@@ -6729,6 +7799,11 @@ public final class AccountLoginProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UserInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ServerPageInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ServerPageInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_AccountLoginRequest_descriptor;
   private static
@@ -6758,20 +7833,23 @@ public final class AccountLoginProtos {
       "\030\007 \001(\005\022\r\n\005color\030\010 \001(\005\022\014\n\004tips\030\t \001(\t\"s\n\010U" +
       "serInfo\022\033\n\010zoneInfo\030\001 \002(\0132\t.ZoneInfo\022\021\n\t" +
       "headImage\030\002 \001(\t\022\r\n\005vipLv\030\003 \001(\005\022\016\n\006career",
-      "\030\004 \001(\005\022\n\n\002lv\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\"t\n\023Acco" +
-      "untLoginRequest\022%\n\tloginType\030\001 \002(\0162\022.eAc" +
-      "countLoginType\022\035\n\007account\030\002 \002(\0132\014.Accoun" +
-      "tInfo\022\027\n\004zone\030\003 \001(\0132\t.ZoneInfo\"\351\001\n\024Accou" +
-      "ntLoginResponse\022%\n\tloginType\030\001 \002(\0162\022.eAc" +
-      "countLoginType\022%\n\nresultType\030\002 \002(\0162\021.eLo" +
-      "ginResultType\022\035\n\007account\030\003 \001(\0132\014.Account" +
-      "Info\022\r\n\005error\030\004 \001(\t\022\033\n\010lastZone\030\005 \001(\0132\t." +
-      "ZoneInfo\022\033\n\010zoneList\030\006 \003(\0132\t.ZoneInfo\022\033\n" +
-      "\010userList\030\007 \003(\0132\t.UserInfo*N\n\021eAccountLo",
-      "ginType\022\021\n\rACCOUNT_LOGIN\020\001\022\r\n\tZONE_LIST\020" +
-      "\002\022\027\n\023REFRESH_ZONE_STATUS\020\003*)\n\020eLoginResu" +
-      "ltType\022\013\n\007SUCCESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwp" +
-      "rotoB\022AccountLoginProtos"
+      "\030\004 \001(\005\022\n\n\002lv\030\005 \001(\005\022\014\n\004name\030\006 \001(\t\"F\n\016Serv" +
+      "erPageInfo\022\016\n\006pageId\030\001 \001(\005\022\020\n\010pageName\030\002" +
+      " \001(\t\022\022\n\npageServer\030\003 \001(\t\"t\n\023AccountLogin" +
+      "Request\022%\n\tloginType\030\001 \002(\0162\022.eAccountLog" +
+      "inType\022\035\n\007account\030\002 \002(\0132\014.AccountInfo\022\027\n" +
+      "\004zone\030\003 \001(\0132\t.ZoneInfo\"\214\002\n\024AccountLoginR" +
+      "esponse\022%\n\tloginType\030\001 \002(\0162\022.eAccountLog" +
+      "inType\022%\n\nresultType\030\002 \002(\0162\021.eLoginResul" +
+      "tType\022\035\n\007account\030\003 \001(\0132\014.AccountInfo\022\r\n\005" +
+      "error\030\004 \001(\t\022\033\n\010lastZone\030\005 \001(\0132\t.ZoneInfo",
+      "\022\033\n\010zoneList\030\006 \003(\0132\t.ZoneInfo\022\033\n\010userLis" +
+      "t\030\007 \003(\0132\t.UserInfo\022!\n\010pageList\030\010 \003(\0132\017.S" +
+      "erverPageInfo*N\n\021eAccountLoginType\022\021\n\rAC" +
+      "COUNT_LOGIN\020\001\022\r\n\tZONE_LIST\020\002\022\027\n\023REFRESH_" +
+      "ZONE_STATUS\020\003*)\n\020eLoginResultType\022\013\n\007SUC" +
+      "CESS\020\001\022\010\n\004FAIL\020\002B!\n\013com.rwprotoB\022Account" +
+      "LoginProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -6796,18 +7874,24 @@ public final class AccountLoginProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UserInfo_descriptor,
               new java.lang.String[] { "ZoneInfo", "HeadImage", "VipLv", "Career", "Lv", "Name", });
-          internal_static_AccountLoginRequest_descriptor =
+          internal_static_ServerPageInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
+          internal_static_ServerPageInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ServerPageInfo_descriptor,
+              new java.lang.String[] { "PageId", "PageName", "PageServer", });
+          internal_static_AccountLoginRequest_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_AccountLoginRequest_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_AccountLoginRequest_descriptor,
               new java.lang.String[] { "LoginType", "Account", "Zone", });
           internal_static_AccountLoginResponse_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_AccountLoginResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_AccountLoginResponse_descriptor,
-              new java.lang.String[] { "LoginType", "ResultType", "Account", "Error", "LastZone", "ZoneList", "UserList", });
+              new java.lang.String[] { "LoginType", "ResultType", "Account", "Error", "LastZone", "ZoneList", "UserList", "PageList", });
           return null;
         }
       };
