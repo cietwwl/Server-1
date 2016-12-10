@@ -59,4 +59,14 @@ public enum ActivityKey {
 		}
 		return null;
 	}
+	
+	@SuppressWarnings("rawtypes")
+	public ActivityKey getByActType(ActivityType type){
+		for(ActivityKey act : ActivityKey.values()){
+			if(act.activityType.equals(type)){
+				return act;
+			}
+		}
+		return null;
+	}
 }

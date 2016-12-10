@@ -25,6 +25,10 @@ public class ActivityModifyMgr {
 		return instance;
 	}
 	
+	/**
+	 * 给玩家同步修改过的活动配置
+	 * @param player
+	 */
 	public void synModifiedActivity(Player player){
 		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
 		for(ActivityKey actKey : ActivityKey.values()){
