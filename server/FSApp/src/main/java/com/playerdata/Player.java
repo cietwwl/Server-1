@@ -426,6 +426,8 @@ public class Player implements PlayerIF {
 					PraiseMgr.getMgr().synData(player);
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
+					//发送屏蔽新手引导信息
+					NewGuideStateChecker.getInstance().check(player, true);
 
 				}
 			});
@@ -457,7 +459,6 @@ public class Player implements PlayerIF {
 			GroupCompetitionMgr.getInstance().onPlayerLogin(this);
 
 			WBMgr.getInstance().onPlayerLogin(this);
-			NewGuideStateChecker.getInstance().check(this);
 		} finally {
 			synData = UserChannelMgr.getDataOnBSEnd(userId, recordKey);
 		}

@@ -10,7 +10,6 @@ public class TargetSellPlayerListener implements PlayerTaskListener {
 	@Override
 	public void notifyTaskCompleted(Player player) {
 		TargetSellManager.getInstance().checkAndPackHeroChanged(player.getUserId(), false);
-		NewGuideStateChecker.getInstance().check(player);
 	}
 
 }

@@ -18,7 +18,7 @@ public class NewGuideStateChecker {
 		return instance;
 	}
 
-	public void check(Player player) {
+	public void check(Player player, boolean foreceSync) {
 		try {
 			String userId = player.getUserId();
 			int level = player.getLevel();
@@ -43,9 +43,11 @@ public class NewGuideStateChecker {
 				}
 			}
 			PlayerTempAttribute tempAttribute = player.getTempAttribute();
-			NewGuideClosure lastClosure = player.getTempAttribute().getLastClosure();
-			if (lastClosure != null && lastClosure.isClose() == closed) {
-				return;
+			if (!foreceSync) {
+				NewGuideClosure lastClosure = player.getTempAttribute().getLastClosure();
+				if (lastClosure != null && lastClosure.isClose() == closed) {
+					return;
+				}
 			}
 			NewGuideClosure guideClosure = new NewGuideClosure(closed);
 			tempAttribute.setLastClosure(guideClosure);

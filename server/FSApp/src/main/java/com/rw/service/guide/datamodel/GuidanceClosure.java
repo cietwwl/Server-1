@@ -14,6 +14,9 @@ public class GuidanceClosure {
 	private int level; // 对应玩家的等级
 	private int progress; // 新手引导的步骤，配置为-1，表示这一等级强制打开
 
+	public GuidanceClosure() {
+	}
+
 	public GuidanceClosure(int level, int progress) {
 		super();
 		this.level = level;
