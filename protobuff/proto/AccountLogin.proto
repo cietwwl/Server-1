@@ -31,6 +31,7 @@ message ZoneInfo{
 	optional int32 recommand = 6;
 	optional int32 isOpen = 7;
 	optional int32 color = 8;
+	optional string tips = 9;
 }
 
 message UserInfo{
@@ -40,6 +41,12 @@ message UserInfo{
 	optional int32 career = 4;
 	optional int32 lv = 5;
 	optional string name = 6;
+}
+
+message ServerPageInfo{
+	optional int32 pageId = 1;
+	optional string pageName = 2;
+	optional string pageServer = 3;
 }
 
 message AccountLoginRequest{
@@ -56,4 +63,5 @@ message AccountLoginResponse{
 	optional ZoneInfo lastZone = 5;
 	repeated ZoneInfo zoneList = 6;
 	repeated UserInfo userList = 7;
+	repeated ServerPageInfo pageList = 8;
 }
