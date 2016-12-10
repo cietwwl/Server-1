@@ -68,7 +68,7 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		content.put("type", type.getType());
 		content.put("serverId", GameManager.getZoneId());
 		content.put("roleId", userId);
-		content.put("account", userDataMgr.getAccount());
+		content.put("account", channel + "_" + userDataMgr.getAccount());
 		content.put("roleName", mPlayer.getUserName());
 		content.put("feedbackTime", System.currentTimeMillis()/1000);
 		content.put("feedbackContent", feedbackContent);

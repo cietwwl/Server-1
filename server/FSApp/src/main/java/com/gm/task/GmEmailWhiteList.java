@@ -7,11 +7,13 @@ import java.util.Map;
 
 import com.bm.login.AccoutBM;
 import com.bm.serverStatus.ServerStatusMgr;
+import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
 import com.gm.GmExecutor;
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.gm.GmResultStatusCode;
+import com.gm.gmEmail.GMEmailDataDao;
 import com.gm.util.GmUtils;
 import com.gm.util.SocketHelper;
 import com.log.GameLog;
@@ -20,6 +22,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.log.GmLog;
 import com.rw.manager.GameManager;
+import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
@@ -41,10 +44,10 @@ public class GmEmailWhiteList implements IGmTask {
 
 			Map<String, Object> args = request.getArgs();
 			final EmailData emailData = GmEmailHelper.getEmailData(args);
-			
+
 			String emailAttachment = emailData.getEmailAttachment();
 			boolean checkAttachItemIegal = GmUtils.checkAttachItemIegal(emailAttachment);
-			if(!checkAttachItemIegal){
+			if (!checkAttachItemIegal) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_INVALID_ATTACHMENT.getStatus()));
 			}
 
@@ -76,20 +79,29 @@ public class GmEmailWhiteList implements IGmTask {
 					continue;
 				}
 			}
-			
+
 			for (Player player : playerList) {
 				GameWorldFactory.getGameWorld().asyncExecute(player.getUserId(), new PlayerTask() {
-					
+
 					@Override
-					public void run(Player e) {
-						// TODO Auto-generated method stub
-						List<Player> list = new ArrayList<Player>();
-						list.add(e);
-						PlayerMgr.getInstance().sendEmailToList(list, emailData, conditionList);
+					public void run(Player player) {
+						boolean filted = false;
+						for (PlayerFilterCondition conTmp : conditionList) {
+							if (!PlayerFilter.isInRange(player, conTmp)) {
+								filted = true;
+								break;
+							}
+						}
+						long taskId = emailData.getTaskId();
+						if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+							boolean sendEmail = EmailUtils.sendEmail(player.getUserId(), emailData);
+							if(sendEmail){
+								GMEmailDataDao.getInstance().updateGmEmailStatus(player.getUserId(), emailData.getTaskId());
+							}
+						}
 					}
 				});
 			}
-			
 
 			response.addResult(resultMap);
 		} catch (Exception ex) {

@@ -61,6 +61,6 @@ message ArmyHurtStruct{
 	required int32 lv = 3;
 	required int64 killTime = 4; //击杀时间
 	required int64 damage = 5;
-	
+	required string headFrame = 6;//头像框	
 }
 

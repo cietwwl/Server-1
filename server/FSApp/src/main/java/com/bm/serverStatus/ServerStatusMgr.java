@@ -3,6 +3,7 @@ package com.bm.serverStatus;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.print.attribute.standard.Severity;
@@ -10,6 +11,8 @@ import javax.print.attribute.standard.Severity;
 import com.common.playerFilter.FilterType;
 import com.common.playerFilter.PlayerFilter;
 import com.common.playerFilter.PlayerFilterCondition;
+import com.gm.gmEmail.GMEmail;
+import com.gm.gmEmail.GMEmailDataDao;
 import com.gm.task.GmEmailAll;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -24,6 +27,7 @@ import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.serverData.GmNoticeInfo;
 import com.rwbase.dao.serverData.ServerDataHolder;
 import com.rwbase.dao.serverData.ServerGmEmail;
+import com.rwbase.dao.serverData.ServerGmEmailDao;
 import com.rwbase.dao.serverData.ServerGmEmailHolder;
 import com.rwbase.dao.serverData.ServerGmNotice;
 import com.rwbase.dao.serverData.ServerGmNoticeHolder;
@@ -123,59 +127,62 @@ public class ServerStatusMgr {
 		dataHolder.setTaskId(taskId);
 	}
 	
-	public static void processGmMailWhenCreateRole(Player player){
-		List<ServerGmEmail> gmMailList = mailHolder.getGmMailList();
+	public static void processGmMailWhenLogin(Player player){
+		List<ServerGmEmail> gmMailList = ServerGmEmailDao.getInstance().getAllMails();
 		long currentTimeMillis = System.currentTimeMillis();
 		for (ServerGmEmail serverGmEmail : gmMailList) {
 			int status = serverGmEmail.getStatus();
-			if(status == GmEmailAll.STATUS_CLOSE || status == GmEmailAll.STATUS_ORIGINAL){
+			if (status == GmEmailAll.STATUS_CLOSE || status == GmEmailAll.STATUS_ORIGINAL) {
 				continue;
 			}
 			List<PlayerFilterCondition> conditionList = serverGmEmail.getConditionList();
-			boolean isEnd = false;
-			for (PlayerFilterCondition condition : conditionList) {
-				if(condition.getType() == FilterType.CREATE_TIME.getValue()){
-					long endTime = condition.getMaxValue() * 1000;
-					if(endTime <= currentTimeMillis){
-						serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
-						isEnd = true;
-						break;
-					}
-				}
-			}
 			EmailData emailData = serverGmEmail.getSendToAllEmailData();
 			int expireTime = emailData.getExpireTime();
 			int delayTime = emailData.getDelayTime() * 1000;
 			long sendTime = emailData.getSendTime();
-			if (expireTime != 0 && (sendTime + delayTime) <= System.currentTimeMillis()) {
-				serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
-				isEnd = true;
+			long dis;
+			if (expireTime == 0) {
+				dis = delayTime;
+
+			} else {
+				dis = TimeUnit.DAYS.toMillis(expireTime);
 			}
-			if(isEnd){
+			if ((sendTime + dis) <= currentTimeMillis) {
+				serverGmEmail.setStatus(GmEmailAll.STATUS_CLOSE);
 				ServerStatusMgr.updateGmMail(serverGmEmail);
 				continue;
 			}
-			
+
 			boolean filted = false;
-			for (PlayerFilterCondition conTmp : serverGmEmail.getConditionList()) {
+			for (PlayerFilterCondition conTmp : conditionList) {
 				if (!PlayerFilter.isInRange(player, conTmp)) {
 					filted = true;
 					break;
 				}
 			}
-			
+
+			if (filted) {
+				continue;
+			}
+
 			long taskId = emailData.getTaskId();
-			if (!filted && player.getEmailMgr().containsEmailWithTaskId(taskId)) {
-				if (status == GmEmailAll.STATUS_DELETE) {
+			if (status == GmEmailAll.STATUS_DELETE) {
+				if (player.getEmailMgr().containsEmailWithTaskId(taskId)) {
+
 					List<Player> temp = new ArrayList<Player>();
 					temp.add(player);
 					PlayerMgr.getInstance().callbackEmailToList(temp, emailData);
 				}
-			}
-			if (!filted && !player.getEmailMgr().containsEmailWithTaskId(taskId)) {
-
-				EmailUtils.sendEmail(player.getUserId(), emailData);
-
+			} else {
+				String userId = player.getUserId();
+				GMEmail gmEmail = GMEmailDataDao.getInstance().getGMEmail(userId);
+				List<Long> taskIdList = gmEmail.getTaskIdList();
+				if (!taskIdList.contains(taskId)) {
+					boolean sendEmail = EmailUtils.sendEmail(userId, emailData);
+					if (sendEmail) {
+						GMEmailDataDao.getInstance().updateGmEmailStatus(userId, taskId);
+					}
+				}
 			}
 		}
 	}
