@@ -2,6 +2,8 @@ package com.rwbase.common.playerext;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.rw.service.guide.datamodel.NewGuideClosure;
+
 /**
  * <pre>
  * 存储玩家临时属性
@@ -20,6 +22,7 @@ public class PlayerTempAttribute {
 	private boolean recordChanged; // 竞技场日志变动
 	private boolean refreshStore;
 	private final PlayerMemoryMark arenaChanged;
+	private volatile NewGuideClosure lastClosure;
 
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
@@ -103,5 +106,13 @@ public class PlayerTempAttribute {
 	public boolean checkAndResetArenaChanged() {
 		return this.arenaChanged.checkAndResetChanged();
 	}
-	
+
+	public NewGuideClosure getLastClosure() {
+		return lastClosure;
+	}
+
+	public void setLastClosure(NewGuideClosure lastClosure) {
+		this.lastClosure = lastClosure;
+	}
+
 }

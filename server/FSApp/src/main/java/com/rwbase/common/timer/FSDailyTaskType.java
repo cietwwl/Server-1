@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.bm.rank.magicsecret.MSDailyRefreshMgr;
 import com.playerdata.groupFightOnline.manager.GFDailyRefreshMgr;
+import com.playerdata.randomname.RandomNameDailySaveTask;
 import com.playerdata.teambattle.manager.TBDailyRefreshMgr;
 
 /**
@@ -27,6 +28,10 @@ public enum FSDailyTaskType {
 	 * 乾坤幻境每日排名奖励
 	 */
 	MS_DISPATCH_DAILY_REWARD(3, MSDailyRefreshMgr.class, 5, 0),
+	/**
+	 * 随机名字每日保存任务
+	 */
+	RANDOM_NAME_DAILY_TASK(4,RandomNameDailySaveTask.class, 5, 0),
 
 	//DEMO(999, com.rwbase.common.timer.test.FSGameDailyTaskDemo.class, 14, 30);
 	;
