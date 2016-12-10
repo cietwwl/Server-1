@@ -314,6 +314,9 @@ public class RobotHelper {
 
 		for (int i = 0; i < size; i++) {
 			FixExpEquipDataItem expEquipDataItem = new FixExpEquipDataItem();
+			if (fixEquip[0] == 0) {
+				continue;
+			}
 			expEquipDataItem.setCfgId(expCfgList.get(i));
 			expEquipDataItem.setLevel(fixEquip[0]);
 			expEquipDataItem.setQuality(fixEquip[1]);
@@ -344,6 +347,9 @@ public class RobotHelper {
 
 		for (int i = 0; i < size; i++) {
 			FixNormEquipDataItem normEquipDataItem = new FixNormEquipDataItem();
+			if (fixEquip[0] == 0) {
+				continue;
+			}
 			normEquipDataItem.setCfgId(normCfgList.get(i));
 			normEquipDataItem.setLevel(fixEquip[0]);
 			normEquipDataItem.setQuality(fixEquip[1]);
