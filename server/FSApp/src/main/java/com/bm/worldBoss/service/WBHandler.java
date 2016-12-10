@@ -31,9 +31,13 @@ import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
 import com.rw.fsutil.common.Pair;
+import com.rw.service.Privilege.IPrivilegeManager;
+import com.rw.service.Privilege.datamodel.pvePrivilege;
 import com.rwbase.common.attribute.AttributeConst;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwproto.BattleCommon.eBattlePositionType;
+import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
+import com.rwproto.TeamBattleProto.TBResultType;
 import com.rwproto.WorldBossProtos.BuyBuffParam;
 import com.rwproto.WorldBossProtos.CommonReqMsg;
 import com.rwproto.WorldBossProtos.CommonRspMsg;
@@ -370,6 +374,34 @@ public class WBHandler {
 			cost = Integer.parseInt(cdCost[buyCount]);
 		}
 		return cost;
+	}
+
+
+	/**
+	 * 请求自动请求
+	 * @param player
+	 * @return
+	 */
+	public ByteString applyAutoFight(Player player, CommonReqMsg req) {
+		WBUserMgr.getInstance().resetUserDataIfNeed(player);
+		
+		
+		CommonRspMsg.Builder response = CommonRspMsg.newBuilder();
+		response.setReqType(req.getReqType());
+		
+		WBResult result = WBResult.newInstance(true);
+		IPrivilegeManager priMgr = player.getPrivilegeMgr();
+		int intPrivilege = priMgr.getIntPrivilege(PvePrivilegeNames.worldBossAutoPlay);
+		if(intPrivilege <= 0){
+			result.setSuccess(false);
+			result.setReason("贵族等级不足，请提升贵族等级");
+		}
+
+		response.setIsSuccess(result.isSuccess());
+		if(result.getReason() != null)
+		response.setTipMsg(result.getReason());	
+				
+		return response.build().toByteString();
 	}
 
 
