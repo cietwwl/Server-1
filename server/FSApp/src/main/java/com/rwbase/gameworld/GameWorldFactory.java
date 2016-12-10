@@ -14,9 +14,9 @@ public class GameWorldFactory {
 	 * 
 	 * @param gameLogicThreadSize
 	 */
-	public static synchronized void init(int gameLogicThreadSize,int asynThreadSize) {
+	public static synchronized void init(int gameLogicThreadSize, int createThreadSize, int asynThreadSize) {
 		if (executor == null) {
-			executor = new GameWorldExecutor(gameLogicThreadSize, EngineLoggerFactory.getLogger("GameWorld"),asynThreadSize);
+			executor = new GameWorldExecutor(gameLogicThreadSize, createThreadSize, EngineLoggerFactory.getLogger("GameWorld"), asynThreadSize);
 		}
 	}
 

@@ -36,7 +36,7 @@ public class Server {
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception {
-		GameWorldFactory.init(64, 16);
+		GameWorldFactory.init(64, 32, 16);
 		// 预加载需要反射优化的类，如果出错则启动失败
 		RefOptClassGener.getInstance().setOpen(true).preLoadClassList();
 

@@ -23,14 +23,14 @@ public class DataEventRecorder {
 		return collector.param;
 	}
 
-	public static Entry endAndPollCollections() {
+	public static Object endAndPollCollections() {
 		DataEventCollector collector = local.get();
 		if(collector == null){
 			return null;
 		}
 		Object param = collector.param;
 		collector.param = null;
-		return new Entry(param);
+		return param;
 	}
 
 	static class DataEventCollector {
@@ -39,18 +39,4 @@ public class DataEventRecorder {
 
 	}
 
-	// 封装结果集
-	public static class Entry {
-
-		final Object param;
-
-		public Object getParam() {
-			return param;
-		}
-
-		public Entry(Object param) {
-			this.param = param;
-		}
-
-	}
 }
