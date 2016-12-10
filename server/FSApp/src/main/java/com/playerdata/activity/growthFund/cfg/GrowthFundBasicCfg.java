@@ -11,7 +11,9 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 	private int levelLimit;	//等级限制
 	private int type; // 成长基金类型
 	private GrowthFundType _fundType; // 类型的枚举形式
-
+	private long startTime = 0;
+	private long endTime = Long.MAX_VALUE;
+	
 	public int getKey() {
 		return key;
 	}
@@ -35,12 +37,12 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 
 	@Override
 	public long getStartTime() {
-		return 0;
+		return startTime;
 	}
 
 	@Override
 	public long getEndTime() {
-		return Long.MAX_VALUE;
+		return endTime;
 	}
 
 	@Override
@@ -78,13 +80,11 @@ public class GrowthFundBasicCfg extends BaseConfig implements ActivityCfgIF{
 
 	@Override
 	public void setStartTime(long startTime) {
-		// TODO Auto-generated method stub
-		
+		this.startTime = startTime;
 	}
 
 	@Override
 	public void setEndTime(long endTime) {
-		// TODO Auto-generated method stub
-		
+		this.endTime = startTime;
 	}
 }

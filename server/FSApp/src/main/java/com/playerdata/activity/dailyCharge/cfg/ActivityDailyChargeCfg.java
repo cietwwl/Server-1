@@ -73,13 +73,11 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 
 	@Override
 	public void setStartTime(long startTime) {
-		// TODO Auto-generated method stub
-		
+		this.startTime = startTime;
 	}
 
 	@Override
 	public void setEndTime(long endTime) {
-		// TODO Auto-generated method stub
-		
+		this.endTime = endTime;
 	}
 }
