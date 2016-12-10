@@ -12,6 +12,7 @@ import com.playerdata.PlayerFreshHelper;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.activity.chargeRebate.ActivityChargeRebateMgr;
+import com.playerdata.randomname.RandomNameMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
@@ -53,7 +54,6 @@ public class PlayerCreateHandler {
 	}
 
 	public void run(GameLoginRequest request, RequestHeader header, Long sessionId, IdentityIdGenerator generator, long submitTime) {
-
 		if (!ServerHandler.isConnecting(sessionId)) {
 			GameLog.error("PlayerCreateTask", request.getAccountId(), "create player fail by disconnect:" + sessionId);
 			return;
@@ -132,21 +132,21 @@ public class PlayerCreateHandler {
 		FashionBeingUsed used = new FashionBeingUsed();
 		used.setUserId(userId);
 		FashionBeingUsedHolder.getInstance().saveOrUpdate(used);
-		// // 提前创建ChargeInfo need trx // chargeInfo改为KVData了，会自动创建
-		// ChargeInfo chargeInfo = new ChargeInfo();
-		// chargeInfo.setUserId(userId);
-		// chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
-		// ChargeInfoDao.getInstance().update(chargeInfo);
+//		// 提前创建ChargeInfo need trx // chargeInfo改为KVData了，会自动创建
+//		ChargeInfo chargeInfo = new ChargeInfo();
+//		chargeInfo.setUserId(userId);
+//		chargeInfo.setChargeOn(ServerStatusMgr.isChargeOn());
+//		ChargeInfoDao.getInstance().update(chargeInfo);
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		User user = player.getUserDataMgr().getUser();
 		user.setZoneLoginInfo(zoneLoginInfo);
-
-		// 通知精准营销
+		
+		//通知精准营销
 		TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_CreateTime.getId());
-		// 封测充值返利
+		//封测充值返利
 		ActivityChargeRebateMgr.getInstance().processChargeRebate(player, accountId);
-
+		
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);
 
@@ -155,15 +155,15 @@ public class PlayerCreateHandler {
 		if (taskMgr != null) {
 			BILogMgr.getInstance().logTaskBegin(player, player.getTaskMgr().getTaskEnumeration(), BITaskType.Main);
 		}
-
+		
 		BILogMgr.getInstance().logZoneReg(player);
 		// 临时处理，新角色创建时没有player，只能将创建时同时处理的新手在线礼包日志打印到这里
 		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, 0);
 		long current = System.currentTimeMillis();
 		world.asyncExecute(userId, new PlayerLoginTask(sessionId, header, request, false, current));
+		RandomNameMgr.getInstance().notifyNameUsed(accountId, nick);
 		// eGameLoginType
 		FSTraceLogger.logger("run", current - executeTime, "CREATE", seqID, userId, accountId, true);
-
 	}
 
 	private void createUser(String userId, int zoneId, String accountId, String nick, int sex, String clientInfoJson) {

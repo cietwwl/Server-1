@@ -41,6 +41,7 @@ import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
+import com.playerdata.randomname.RandomNameMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
@@ -206,6 +207,7 @@ public class GameManager {
 		com.playerdata.activity.growthFund.ActivityGrowthFundMgr.getInstance().serverStartComplete();
 
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
+		RandomNameMgr.getInstance().init();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 
