@@ -8,6 +8,7 @@ import com.bm.rank.teaminfo.TeamInfoListenerPlayerChange;
 import com.playerdata.Player;
 import com.playerdata.activityCommon.ActivityListenerPlayerChange;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.playerdata.randomname.RandomNamePlayerChange;
 import com.playerdata.teambattle.bm.TBListenerPlayerChange;
 import com.rw.service.store.StoreListenerPlayerChange;
 import com.rwbase.dao.group.GroupListenerPlayerChange;
@@ -34,6 +35,7 @@ public class PlayerChangePopertyObserver implements Observer {
 		new TBListenerPlayerChange(this);
 		new GCompListenerPlayerChange(this);
 		new ActivityListenerPlayerChange(this);
+		new RandomNamePlayerChange(this);
 	}
 
 	public void addSubscribe(PlayerChangePopertySubscribe subscribe) {

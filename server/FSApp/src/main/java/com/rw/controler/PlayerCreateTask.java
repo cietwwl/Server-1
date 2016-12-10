@@ -1,11 +1,7 @@
 package com.rw.controler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 
-import com.bm.serverStatus.ServerStatusMgr;
 import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.ERoleAttrs;
 import com.common.HPCUtil;
@@ -16,8 +12,7 @@ import com.playerdata.PlayerFreshHelper;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
 import com.playerdata.activity.chargeRebate.ActivityChargeRebateMgr;
-import com.playerdata.charge.dao.ChargeInfo;
-import com.playerdata.charge.dao.ChargeInfoDao;
+import com.playerdata.randomname.RandomNameMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.IdentityIdGenerator;
@@ -176,6 +171,7 @@ public class PlayerCreateTask implements Runnable {
 		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ACTIVITY_TIME_COUNT_PACKAGE, 0, 0);
 		long current = System.currentTimeMillis();
 		world.asyncExecute(userId, new PlayerLoginTask(sessionId, header, request, false, current));
+		RandomNameMgr.getInstance().notifyNameUsed(accountId, nick);
 		// eGameLoginType
 		FSTraceLogger.logger("run", current - executeTime, "CREATE", seqID, userId, accountId, true);
 
