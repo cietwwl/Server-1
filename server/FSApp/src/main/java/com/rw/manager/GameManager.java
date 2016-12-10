@@ -41,6 +41,7 @@ import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
 import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
+import com.playerdata.randomname.RandomNameMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
@@ -58,6 +59,7 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
+import com.rw.service.guide.NewGuideListener;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
@@ -111,6 +113,7 @@ public class GameManager {
 
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
+		GameWorldFactory.getGameWorld().registerPlayerDataListener(new NewGuideListener());
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
@@ -206,6 +209,7 @@ public class GameManager {
 		com.playerdata.activity.growthFund.ActivityGrowthFundMgr.getInstance().serverStartComplete();
 
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
+		RandomNameMgr.getInstance().init();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 

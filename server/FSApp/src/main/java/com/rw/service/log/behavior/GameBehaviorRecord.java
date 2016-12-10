@@ -77,4 +77,5 @@ public class GameBehaviorRecord {
 		System.out.println(add.getClass());
 		System.out.println(add.getHostAddress());
 	}
+	
 }

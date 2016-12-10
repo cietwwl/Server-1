@@ -968,6 +968,13 @@ public class UserGameDataMgr {
 		list.add(id);
 		userGameDataHolder.update(player);
 	}
+	
+	public void addRBWithoutIncrease(String id){
+		UserGameData data = userGameDataHolder.get();
+		List<String> list = data.getRandomBossIds();
+		list.add(id);
+		userGameDataHolder.update(player);
+	}
 
 	public void increaseBossRewardCount() {
 		UserGameData data = userGameDataHolder.get();
