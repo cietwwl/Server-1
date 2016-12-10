@@ -1,14 +1,20 @@
 package com.playerdata.activityCommon.modifiedActivity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
 
+import com.playerdata.Player;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ActivityModifyMgr {
@@ -17,6 +23,19 @@ public class ActivityModifyMgr {
 	
 	public static ActivityModifyMgr getInstance(){
 		return instance;
+	}
+	
+	public void synModifiedActivity(Player player){
+		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
+		for(ActivityKey actKey : ActivityKey.values()){
+			ActivityModifyGlobleData modiData = getModifiedActivity(actKey);
+			if(null != modiData){
+				modifiedList.add(modiData);
+			}
+		}
+		if(!modifiedList.isEmpty()){
+			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
+		}
 	}
 	
 	/**

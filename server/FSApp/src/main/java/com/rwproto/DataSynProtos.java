@@ -1135,6 +1135,14 @@ public final class DataSynProtos {
      * </pre>
      */
     ActivityConsumeRank(118, 302),
+    /**
+     * <code>ActivityModifiedCfg = 303;</code>
+     *
+     * <pre>
+     *修改过的活动配置
+     * </pre>
+     */
+    ActivityModifiedCfg(119, 303),
     ;
 
     /**
@@ -2089,6 +2097,14 @@ public final class DataSynProtos {
      * </pre>
      */
     public static final int ActivityConsumeRank_VALUE = 302;
+    /**
+     * <code>ActivityModifiedCfg = 303;</code>
+     *
+     * <pre>
+     *修改过的活动配置
+     * </pre>
+     */
+    public static final int ActivityModifiedCfg_VALUE = 303;
 
 
     public final int getNumber() { return value; }
@@ -2214,6 +2230,7 @@ public final class DataSynProtos {
         case 122: return CommonSoulConfig;
         case 301: return ActivityChargeRank;
         case 302: return ActivityConsumeRank;
+        case 303: return ActivityModifiedCfg;
         default: return null;
       }
     }
@@ -8302,7 +8319,7 @@ public final class DataSynProtos {
       "s\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t*{\n\neSynOpType\022\017\n" +
       "\013UPDATE_LIST\020\001\022\021\n\rUPDATE_SINGLE\020\002\022\016\n\nADD" +
       "_SINGLE\020\003\022\021\n\rREMOVE_SINGLE\020\004\022\020\n\014UPDATE_F" +
-      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\263\024\n\010eSynTyp" +
+      "IELD\020\005\022\024\n\020UPDATE_PART_LIST\020\006*\315\024\n\010eSynTyp" +
       "e\022\025\n\021COPY_LEVEL_RECORD\020\001\022\023\n\017COPY_MAP_REC",
       "ORD\020\002\022\030\n\024SECRETAREA_BASE_INFO\020\003\022\031\n\025SECRE" +
       "TAREA_DEF_RECORD\020\004\022\030\n\024SECRETAREA_USER_IN" +
@@ -8368,8 +8385,9 @@ public final class DataSynProtos {
       "w\022\025\n\021SPRITE_ATTACH_SYN\020x\022\027\n\023FriendMonthC" +
       "ardInfo\020y\022\024\n\020CommonSoulConfig\020z\022\027\n\022Activ" +
       "ityChargeRank\020\255\002\022\030\n\023ActivityConsumeRank\020" +
-      "\256\002*\034\n\013RequestType\022\r\n\tSynByType\020\001B\034\n\013com." +
-      "rwprotoB\rDataSynProtos"
+      "\256\002\022\030\n\023ActivityModifiedCfg\020\257\002*\034\n\013RequestT" +
+      "ype\022\r\n\tSynByType\020\001B\034\n\013com.rwprotoB\rDataS" +
+      "ynProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

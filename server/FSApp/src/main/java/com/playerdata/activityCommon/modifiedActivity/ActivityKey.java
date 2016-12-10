@@ -17,25 +17,27 @@ import com.rwbase.gameworld.GameWorldKey;
 public enum ActivityKey {
 	
 	/**--	充值排行榜	--*/
-	ACTIVITY_CHARGE_RANK(GameWorldKey.ACTIVITY_CHARGE_RANK, ActivityTypeFactory.ChargeRank),
+	ACTIVITY_CHARGE_RANK(1, GameWorldKey.ACTIVITY_CHARGE_RANK, ActivityTypeFactory.ChargeRank),
 	/**--	消费排行榜	--*/
-	ACTIVITY_CONSUME_RANK(GameWorldKey.ACTIVITY_CONSUME_RANK, ActivityTypeFactory.ConsumeRank),
+	ACTIVITY_CONSUME_RANK(2, GameWorldKey.ACTIVITY_CONSUME_RANK, ActivityTypeFactory.ConsumeRank),
 	/**--	每日充值	--*/
-	ACTIVITY_DAILY_RECHARGE(GameWorldKey.ACTIVITY_DAILY_RECHARGE, ActivityTypeFactory.DailyRecharge),
+	ACTIVITY_DAILY_RECHARGE(3, GameWorldKey.ACTIVITY_DAILY_RECHARGE, ActivityTypeFactory.DailyRecharge),
 	/**--	成长基金	--*/
-	ACTIVITY_GROWTHFUND(GameWorldKey.ACTIVITY_GROWTHFUND, ActivityTypeFactory.GrowthFund),
+	ACTIVITY_GROWTHFUND(4, GameWorldKey.ACTIVITY_GROWTHFUND, ActivityTypeFactory.GrowthFund),
 	/**--	登陆奖励等基础活动	--*/
-	ACTIVITY_COUNTTYPE(GameWorldKey.ACTIVITY_COUNTTYPE, ActivityTypeFactory.CountType),
+	ACTIVITY_COUNTTYPE(5, GameWorldKey.ACTIVITY_COUNTTYPE, ActivityTypeFactory.CountType),
 	/**--	申公豹驾到	--*/
-	ACTIVITY_EVILBAOARRIVE(GameWorldKey.ACTIVITY_EVILBAOARRIVE, ActivityTypeFactory.EvilBaoArrive),
+	ACTIVITY_EVILBAOARRIVE(6, GameWorldKey.ACTIVITY_EVILBAOARRIVE, ActivityTypeFactory.EvilBaoArrive),
 	;
 	
 	@SuppressWarnings("rawtypes")
-	ActivityKey(GameWorldKey worldKey, ActivityType activityType) {
+	ActivityKey(int key, GameWorldKey worldKey, ActivityType activityType) {
+		this.key = key;
 		this.worldKey = worldKey;
 		this.activityType = activityType;
 	}
 
+	private int key;
 	private GameWorldKey worldKey;
 	@SuppressWarnings("rawtypes")
 	private ActivityType activityType;
@@ -47,5 +49,14 @@ public enum ActivityKey {
 	@SuppressWarnings("rawtypes")
 	public ActivityType getActivityType() {
 		return activityType;
+	}
+	
+	public ActivityKey getByKey(int key){
+		for(ActivityKey act : ActivityKey.values()){
+			if(act.key == key){
+				return act;
+			}
+		}
+		return null;
 	}
 }

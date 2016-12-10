@@ -2,6 +2,9 @@ package com.playerdata.activityCommon.modifiedActivity;
 
 import java.util.HashMap;
 
+import com.playerdata.dataSyn.annotation.SynClass;
+
+@SynClass
 public class ActivityModifyItem {
 	
 	private int id;
