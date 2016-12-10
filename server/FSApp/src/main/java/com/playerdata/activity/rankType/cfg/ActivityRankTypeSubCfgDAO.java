@@ -45,6 +45,7 @@ public final class ActivityRankTypeSubCfgDAO extends CfgCsvDao<ActivityRankTypeS
 		}else{
 			GameLog.error(LogModule.ComActivityRank, null, "范围rankrange格式错误", null);
 		}
+		cfg.setReward(cfg.getReward().replaceAll("_", "~"));
 	}
 
 	public List<ActivityRankTypeSubCfg> getByParentCfgId(String parentCfgId){

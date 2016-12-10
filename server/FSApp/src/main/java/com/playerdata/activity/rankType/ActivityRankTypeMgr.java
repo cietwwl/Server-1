@@ -29,13 +29,17 @@ import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
+import com.rw.fsutil.common.EnumerateList;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.ranking.ListRanking;
 import com.rw.fsutil.ranking.ListRankingEntry;
+import com.rw.fsutil.ranking.MomentRankingEntry;
+import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rwbase.dao.ranking.RankingUtils;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -360,15 +364,32 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		RankType rankEnum = RankType.getRankType(ranktype, 1);
 		ListRankingType sType = ListRankingType.getListRankingType(rankEnum);
 		ListRanking<String, ArenaExtAttribute> sr = RankingFactory.getSRanking(sType);
-		Iterator<? extends ListRankingEntry<String, ArenaExtAttribute>> it = sr.getRankingEntries(offset, size).iterator();
-		for (; it.hasNext();) {
-			ListRankingEntry<String, ArenaExtAttribute> entry = it.next();
-			int ranklevel = entry.getRanking();
-			if(ranklevel > size || ranklevel < offset){//因为方法没有提供截取；只提供了排序；此处忽略多余部分
-				continue;
+		if(null == sr){
+			Ranking<?, RankingLevelData> ranking = RankingFactory.getRanking(rankEnum);
+			if(null == ranking){
+				return;
 			}
-			RankInfo rankInfo = RankingUtils.createOneRankInfo(entry, ranklevel);
-			rankList.add(rankInfo);
+			EnumerateList<? extends MomentRankingEntry<?, RankingLevelData>> enumList = ranking.getEntriesEnumeration(offset, size);
+			for (; enumList.hasMoreElements();) {
+				MomentRankingEntry<?, RankingLevelData> entry = enumList.nextElement();
+				int ranklevel = entry.getRanking();
+				if(ranklevel > size || ranklevel < offset){//因为方法没有提供截取；只提供了排序；此处忽略多余部分
+					continue;
+				}
+				RankInfo rankInfo = RankingUtils.createOneRankInfo(entry.getExtendedAttribute(), ranklevel);
+				rankList.add(rankInfo);
+			}
+		}else{
+			Iterator<? extends ListRankingEntry<String, ArenaExtAttribute>> it = sr.getRankingEntries(offset, size).iterator();
+			for (; it.hasNext();) {
+				ListRankingEntry<String, ArenaExtAttribute> entry = it.next();
+				int ranklevel = entry.getRanking();
+				if(ranklevel > size || ranklevel < offset){//因为方法没有提供截取；只提供了排序；此处忽略多余部分
+					continue;
+				}
+				RankInfo rankInfo = RankingUtils.createOneRankInfo(entry, ranklevel);
+				rankList.add(rankInfo);
+			}
 		}
 	}
 	
