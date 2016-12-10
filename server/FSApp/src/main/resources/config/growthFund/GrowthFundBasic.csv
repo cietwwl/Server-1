@@ -1,3 +1,3 @@
-key,remarks,bg,icon,icon2,type,title,bgTitle,levelLimit,vipLv,price
-140001,,SmallTex/Activity/ActivityTitleText_05,huodong_007,,1,成长基金,,6,2,1000
-140002,,SmallTex/Activity/ActivityTitleText_05,huodong_007,,2,基金福利,,6,2,1000
+key,remarks,id,bg,icon,icon2,type,title,bgTitle,levelLimit,vipLv,price
+140001,,140001,SmallTex/Activity/ActivityTitleText_05,huodong_007,,1,成长基金,,6,2,1000
+140002,,140002,SmallTex/Activity/ActivityTitleText_05,huodong_007,,2,基金福利,,6,2,1000

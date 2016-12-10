@@ -32,13 +32,12 @@ public class GameWorldExecutor implements GameWorld {
 	private QueuedTaskExecutor<String, Player> queuedTaskExecutor;
 	private QueuedTaskExecutor<String, Void> createExecutor;
 
-	public GameWorldExecutor(int threadSize, EngineLogger logger, int asynThreadSize) {
+	public GameWorldExecutor(int playerTaskThreadCount, int accountTaskThreadCount, EngineLogger logger, int asynThreadSize) {
 		this.logger = logger;
 		this.listeners = new ArrayList<PlayerTaskListener>(0);
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player"));
-		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(8192), new SimpleThreadFactory("aysn_logic"),
-				new ThreadPoolExecutor.CallerRunsPolicy());
-		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(threadSize, logger, executor) {
+		ThreadPoolExecutor executor = new ThreadPoolExecutor(playerTaskThreadCount, playerTaskThreadCount, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("player"));
+		this.aysnExecutor = new ThreadPoolExecutor(asynThreadSize, asynThreadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(8192), new SimpleThreadFactory("aysn_logic"), new ThreadPoolExecutor.CallerRunsPolicy());
+		this.queuedTaskExecutor = new QueuedTaskExecutor<String, Player>(playerTaskThreadCount, logger, executor) {
 
 			@Override
 			protected Player tryFetchParam(String key) {
@@ -61,17 +60,8 @@ public class GameWorldExecutor implements GameWorld {
 				}
 			}
 		};
-		ThreadPoolExecutor accountExecutor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("account"));
-		this.createExecutor = new QueuedTaskExecutor<String, Void>(threadSize, logger, accountExecutor) {
-
-			@Override
-			protected Void tryFetchParam(String key) {
-				return null;
-			}
-
-			@Override
-			protected void afterExecute(String key, Void param) {
-			}
+		ThreadPoolExecutor accountExecutor = new ThreadPoolExecutor(accountTaskThreadCount, accountTaskThreadCount, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(), new SimpleThreadFactory("account"));
+		this.createExecutor = new QueuedTaskExecutor<String, Void>(accountTaskThreadCount, logger, accountExecutor) {
 		};
 	}
 
@@ -136,6 +126,7 @@ public class GameWorldExecutor implements GameWorld {
 	/**
 	 * <pre>
 	 * 异步执行玩家前置任务与玩家任务，执行前置任务抛出异常，不会继续执行玩家任务
+	 * 
 	 * <pre>
 	 * @param key
 	 * @param predecessor
@@ -149,6 +140,7 @@ public class GameWorldExecutor implements GameWorld {
 	 * <pre>
 	 * 异步执行玩家前置任务，可用于执行一个不需要不需要{@link Player}对象的任务
 	 * </pre>
+	 * 
 	 * @param userId
 	 * @param predecessor
 	 */

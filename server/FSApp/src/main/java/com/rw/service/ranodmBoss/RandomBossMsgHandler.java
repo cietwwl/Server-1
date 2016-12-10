@@ -15,6 +15,8 @@ import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.shareCfg.ChineseStringHelper;
 import com.rwbase.dao.randomBoss.db.BattleNewsData;
+import com.rwbase.gameworld.GameWorldFactory;
+import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.RandomBossProto.BattleRewardInfo;
 import com.rwproto.RandomBossProto.InvitedFriends;
 import com.rwproto.RandomBossProto.MsgType;
@@ -89,6 +91,11 @@ public class RandomBossMsgHandler {
 		try {
 			boolean invied = RandomBossMgr.getInstance().recordInvitedTime(type, bossID);
 			if(invied){
+				
+				//按策划要求，新加邀请直接加入到目标角色的boss列表
+				addBossInternal(bossID, idList);
+				
+				
 				ChatBM.getInstance().sendInteractiveMsg(player, ChatInteractiveType.RANDOM_BOSS, RandomBossMgr.getInstance().getBossBornInvitedTips(), bossID, bossID, idList);
 				response.setIsSuccess(true);
 			}else{
@@ -101,6 +108,28 @@ public class RandomBossMsgHandler {
 		}
 		return response.build().toByteString();
 	}
+	
+	private void addBossInternal(final String bossID, List<String> targetRoleList){
+		try {
+			
+			
+			for (final String roleID : targetRoleList) {
+				GameWorldFactory.getGameWorld().asyncExecute(roleID, new PlayerTask() {
+					
+					@Override
+					public void run(Player e) {
+						RandomBossMgr.getInstance().acceptedInternal(roleID,bossID);
+						
+					}
+				});
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 
 	/**

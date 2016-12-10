@@ -60,4 +60,11 @@ public interface ItemDataIF extends IMapItem {
 	 * @return
 	 */
 	public int getMagicLevel();
+
+	/**
+	 * 获取法宝的品质等级
+	 * 
+	 * @return
+	 */
+	public int getMagicAdvanceLevel();
 }

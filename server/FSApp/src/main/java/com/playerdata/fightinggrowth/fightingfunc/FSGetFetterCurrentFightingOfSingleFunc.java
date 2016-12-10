@@ -1,5 +1,6 @@
 package com.playerdata.fightinggrowth.fightingfunc;
 
+import com.bm.arena.ArenaRobotDataMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fightinggrowth.calc.FightingCalcComponentType;
@@ -22,20 +23,24 @@ public class FSGetFetterCurrentFightingOfSingleFunc implements IFunction<Hero, I
 	@Override
 	public Integer apply(Hero hero) {
 		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
+		boolean robot = player.isRobot();
 
 		Builder b = new Builder();
 
-		if (hero.isMainRole()) {
-			b.setMagicFetters(player.getMe_FetterMgr().getMagicFetter());
-		} else {
-			SynFettersData fetterDatas = player.getHeroFettersByModelId(hero.getModeId());
-			if (fetterDatas != null) {
-				b.setHeroFetters(fetterDatas.getOpenList());
+		if (!robot) {
+			if (hero.isMainRole()) {
+				b.setMagicFetters(player.getMe_FetterMgr().getMagicFetter());
+			} else {
+				SynFettersData fetterDatas = player.getHeroFettersByModelId(hero.getModeId());
+				if (fetterDatas != null) {
+					b.setHeroFetters(fetterDatas.getOpenList());
+				}
 			}
+
+			b.setFixEquipFetters(player.getMe_FetterMgr().getHeroFixEqiupFetter(hero.getModeId()));
+		} else {
+			b.setHeroFetters(ArenaRobotDataMgr.getMgr().getHeroFettersInfo(hero.getOwnerUserId(), hero.getModeId()));
 		}
-
-		b.setFixEquipFetters(player.getMe_FetterMgr().getHeroFixEqiupFetter(hero.getModeId()));
-
 		return FightingCalcComponentType.FETTERS.calc.calc(b.build());
 	}
 }

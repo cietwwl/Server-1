@@ -15,6 +15,7 @@ import com.common.Utils;
 import com.log.GameLog;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyInfo;
 import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
@@ -79,8 +80,8 @@ public class RandomBossMgr {
 		}
 		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
 		// 先同步一下次数
-		synBattleCount(player);
 		long nowTime = System.currentTimeMillis();
+		synBattleCount(player);
 		long resetTime = DateUtils.getCurrentDayResetTime();
 		List<String> bossIDs = player.getUserGameDataMgr().getRandomBossIDs();
 		List<String> removeList = new ArrayList<String>();
@@ -126,7 +127,12 @@ public class RandomBossMgr {
 			return false;
 		}
 
-		// 同步到前端
+		// 检查等级，如果等级还没有到，不同步到前端
+		RandomBossServerCfg rbServerCfg = RBServerCfgDao.getInstance().getDefaultCfg();
+		int level = player.getLevel();
+		if (level < rbServerCfg.getOpenLv()) {
+			return false;
+		}
 		ClientDataSynMgr.synDataList(player, synList, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_LIST);
 		return true;
 	}
@@ -160,12 +166,13 @@ public class RandomBossMgr {
 		List<String> list = player.getUserGameDataMgr().getRandomBossIDs();
 		if (list.contains(bossID)) {
 			response.setIsSuccess(false);
-			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedAccepted(), "邀请之前已经接受"));
+			response.setTips(ChineseStringHelper.getInstance().getLanguageString(rbServerCfg.getInvitedAccepted(), "已经存在自己的列表里"));
 			return;
 		}
 
-		list.add(bossID);
 		try {
+			player.getUserGameDataMgr().addRBWithoutIncrease(bossID);
+			
 			ClientDataSynMgr.synData(player, record, eSynType.RANDOM_BOSS_DATA, eSynOpType.ADD_SINGLE);
 			response.setIsSuccess(true);
 		} catch (Exception e) {
@@ -173,6 +180,41 @@ public class RandomBossMgr {
 			response.setTips("系统繁忙");
 		}
 	}
+	
+	
+	public void acceptedInternal(String roleID, String bossID) {
+		RandomBossRecordDAO rbDao = RandomBossRecordDAO.getInstance();
+		// 检查一下boss是否还在
+		RandomBossRecord record = rbDao.get(bossID);
+		if (record == null) {
+			return;
+		}
+		
+		// 检查一下是否已经超时
+		if (record.getExcapeTime() <= System.currentTimeMillis()) {
+			return;
+		}
+
+		Player player = PlayerMgr.getInstance().find(roleID);
+		if(player == null || player.isRobot()){//不加给机器人
+			return;
+		}
+			
+		// 检查自己的列表里是否已经存在
+		List<String> list = player.getUserGameDataMgr().getRandomBossIDs();
+		if (list.contains(bossID)) {
+			return;
+		}
+		player.getUserGameDataMgr().addRBWithoutIncrease(bossID);
+		if(PlayerMgr.getInstance().isOnline(roleID)){
+			//角色在线，推送一下
+			checkAndSynRandomBossData(player);
+		}
+		
+		
+	}
+	
+	
 
 	/**
 	 * 获取随机boss讨伐信息
@@ -537,5 +579,7 @@ public class RandomBossMgr {
 		rbDao.update(record);
 		return true;
 	}
+
+	
 
 }

@@ -121,7 +121,7 @@ public class RoleGameInfo {
 				if (userCreateTime > 0) {
 					roleGameInfo.setUserCreatedTime(DateUtils.getDateTimeFormatString(userCreateTime, "yyyy-MM-dd HH:mm:ss"));
 				}
-				if (player.getZoneLoginInfo() != null) {
+				if (userDataMgr.getZoneLoginInfo() != null) {
 					logout(player, roleGameInfo, moreinfo);
 					logcopy(player, roleGameInfo, moreinfo);
 					logactivity(player, roleGameInfo, moreinfo);
@@ -205,7 +205,8 @@ public class RoleGameInfo {
 	}
 
 	private static void logout(Player player, RoleGameInfo roleGameInfo, Map<String, String> moreinfo) {
-		long onlineTime = (System.currentTimeMillis() - player.getZoneLoginInfo().getLoginZoneTime())/1000;
+		UserDataMgr userDataMgr = player.getUserDataMgr();
+		long onlineTime = (System.currentTimeMillis() - userDataMgr.getZoneLoginInfo().getLoginZoneTime())/1000;
 		StringBuilder statInfo = new StringBuilder();			
 		int giftGold = player.getUserGameDataMgr().getGiftGold();
 		int chargeGold = player.getUserGameDataMgr().getChargeGold();

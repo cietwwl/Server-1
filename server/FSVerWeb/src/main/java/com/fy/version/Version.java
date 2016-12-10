@@ -49,6 +49,14 @@ public class Version {
 	
 	private String logServerAddress;
 	
+	/****************************用于Ios***************/
+	private String checkServerURL;   	//审核服地址
+	
+	private String checkServerPayURL;  	//审核服支付地址
+	
+	private String backUrl;      		//审核时记得填写，否则有可能在审核过程中请求到正式服
+	/****************************用于Ios***************/
+	
 	private String patchInstall = "0";
 	
 	private String packageName = "";
@@ -60,6 +68,8 @@ public class Version {
 	private String cpuType;
 	
 	private String deviceModel;
+	
+	private boolean luaVerifySwitch = true;     //lua校验开关
 
 	public String getLuaAction() {
 		return luaAction;
@@ -220,6 +230,38 @@ public class Version {
 
 	public void setDeviceModel(String deviceModel) {
 		this.deviceModel = deviceModel;
+	}
+	
+	public boolean isLuaVerifySwitch() {
+		return luaVerifySwitch;
+	}
+
+	public void setLuaVerifySwitch(boolean luaVerifySwitch) {
+		this.luaVerifySwitch = luaVerifySwitch;
+	}
+
+	public String getCheckServerURL() {
+		return checkServerURL;
+	}
+
+	public void setCheckServerURL(String checkServerURL) {
+		this.checkServerURL = checkServerURL;
+	}
+
+	public String getCheckServerPayURL() {
+		return checkServerPayURL;
+	}
+
+	public void setCheckServerPayURL(String checkServerPayURL) {
+		this.checkServerPayURL = checkServerPayURL;
+	}
+
+	public String getBackUrl() {
+		return backUrl;
+	}
+
+	public void setBackUrl(String backUrl) {
+		this.backUrl = backUrl;
 	}
 
 	/**

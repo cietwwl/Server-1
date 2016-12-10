@@ -150,7 +150,8 @@ public class PlayerCreateTask implements Runnable {
 //		ChargeInfoDao.getInstance().update(chargeInfo);
 
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
-		player.setZoneLoginInfo(zoneLoginInfo);
+		User user = player.getUserDataMgr().getUser();
+		user.setZoneLoginInfo(zoneLoginInfo);
 		
 		//通知精准营销
 		TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_CreateTime.getId());
