@@ -119,7 +119,7 @@ public class ActivityConsumeRankMgr extends AbstractActivityMgr<ActivityConsumeR
 		return ActivityConsumeRankItemHolder.getInstance();
 	}
 	
-	protected boolean isThisActivityIndex(int index){
+	public boolean isThisActivityIndex(int index){
 		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

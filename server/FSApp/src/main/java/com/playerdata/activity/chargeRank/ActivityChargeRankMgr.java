@@ -121,7 +121,7 @@ public class ActivityChargeRankMgr extends AbstractActivityMgr<ActivityChargeRan
 		return ActivityChargeRankItemHolder.getInstance();
 	}
 	
-	protected boolean isThisActivityIndex(int index){
+	public boolean isThisActivityIndex(int index){
 		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

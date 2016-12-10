@@ -13,7 +13,7 @@ public class ActivityModifyItem {
 	
 	private String endTime;
 	
-	private HashMap<Integer, String> rewardStrMap;
+	private HashMap<Integer, String> rewardStrMap = new HashMap<Integer, String>();
 	
 	private int version;
 

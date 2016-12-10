@@ -22,6 +22,9 @@ import com.playerdata.activityCommon.UserActivityChecker;
 
 public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDailyRechargeTypeItem> {
 
+	private static final int ACTIVITY_INDEX_BEGIN = 110000;
+	private static final int ACTIVITY_INDEX_END = 120000;
+	
 	private static ActivityDailyRechargeTypeMgr instance = new ActivityDailyRechargeTypeMgr();
 
 	public static ActivityDailyRechargeTypeMgr getInstance() {
@@ -159,7 +162,8 @@ public class ActivityDailyRechargeTypeMgr extends AbstractActivityMgr<ActivityDa
 		return ActivityDailyRechargeTypeItemHolder.getInstance();
 	}
 	
-	protected boolean isThisActivityIndex(int index){
-		return index < 120000 && index > 110000;
+	@Override
+	public boolean isThisActivityIndex(int index){
+		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 }

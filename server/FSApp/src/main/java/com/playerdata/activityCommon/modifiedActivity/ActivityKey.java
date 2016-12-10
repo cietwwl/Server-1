@@ -51,7 +51,7 @@ public enum ActivityKey {
 		return activityType;
 	}
 	
-	public ActivityKey getByKey(int key){
+	public static ActivityKey getByKey(int key){
 		for(ActivityKey act : ActivityKey.values()){
 			if(act.key == key){
 				return act;
@@ -61,7 +61,7 @@ public enum ActivityKey {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public ActivityKey getByActType(ActivityType type){
+	public static ActivityKey getByActType(ActivityType type){
 		for(ActivityKey act : ActivityKey.values()){
 			if(act.activityType.equals(type)){
 				return act;
@@ -70,16 +70,17 @@ public enum ActivityKey {
 		return null;
 	}
 	
-//	/**
-//	 * 通过配置id找到属于的类型
-//	 * @param cfgId
-//	 * @return
-//	 */
-//	public ActivityKey getByCfgId(int cfgId){
-//		for(ActivityKey act : ActivityKey.values()){
-//			if(act.getActivityType().getActivityMgr().isa(cfgId)){
-//				return act;
-//			}
-//		}
-//	}
+	/**
+	 * 通过配置id找到属于的类型
+	 * @param cfgId
+	 * @return
+	 */
+	public static ActivityKey getByCfgId(int cfgId){
+		for(ActivityKey act : ActivityKey.values()){
+			if(act.getActivityType().getActivityMgr().isThisActivityIndex(cfgId)){
+				return act;
+			}
+		}
+		return null;
+	}
 }

@@ -86,7 +86,8 @@ public class ActivityGrowthFundMgr extends AbstractActivityMgr<ActivityGrowthFun
 		return ActivityGrowthFundItemHolder.getInstance();
 	}
 
-	protected boolean isThisActivityIndex(int index) {
+	@Override
+	public boolean isThisActivityIndex(int index){
 		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
 	}
 	

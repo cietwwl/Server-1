@@ -1,6 +1,5 @@
 package com.playerdata.activity.retrieve.cfg;
 
-import java.util.HashMap;
 
 public class NormalRewardsCfg {
 	private String id;

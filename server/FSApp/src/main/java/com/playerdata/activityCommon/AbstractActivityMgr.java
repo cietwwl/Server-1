@@ -197,5 +197,5 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param index
 	 * @return
 	 */
-	protected abstract boolean isThisActivityIndex(int index);
+	public abstract boolean isThisActivityIndex(int index);
 }
