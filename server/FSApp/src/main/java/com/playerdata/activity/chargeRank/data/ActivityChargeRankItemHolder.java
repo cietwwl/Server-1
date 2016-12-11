@@ -33,7 +33,7 @@ public class ActivityChargeRankItemHolder extends UserActivityChecker<ActivityCh
 	public void synAllData(Player player){
 		List<ActivityChargeRankItem> itemList = getItemList(player.getUserId());
 		if(null != itemList && !itemList.isEmpty()){
-			//ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
 		}
 	}
 	
