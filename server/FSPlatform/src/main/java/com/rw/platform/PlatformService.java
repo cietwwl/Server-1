@@ -111,7 +111,6 @@ public class PlatformService {
 
 	public void initZoneCache() {
 		allZoneList = zoneDataHolder.getZoneList();
-		RecommandZoneMap.clear();
 		for (TableZoneInfo tableZoneInfo : allZoneList) {
 			int subZoneId = tableZoneInfo.getSubZone();
 			int zoneId = tableZoneInfo.getZoneId();
@@ -133,10 +132,6 @@ public class PlatformService {
 				map.put(zoneId, zoneInfoCache);
 				SubZoneMap.put(subZoneId, map);
 			}
-			
-			if (tableZoneInfo.getRecommand() == PlatformService.SERVER_RECOMMAND) {
-				RecommandZoneMap.add(zoneInfoCache);
-			}
 		}
 	}
 	
@@ -144,7 +139,19 @@ public class PlatformService {
 		List<TableServerPage> all = TableServerPageDAO.getInstance().getAll();
 		List<Integer> tempList =new ArrayList<Integer>();
 		for (TableServerPage tableServerPage : all) {
-			ServerPageMap.put(tableServerPage.getPageId(), tableServerPage);
+			int pageId = tableServerPage.getPageId();
+			ServerPageMap.put(pageId, tableServerPage);
+			 if(pageId == TableServerPageDAO.COMMAND_PAGE){
+				 String pageServers = tableServerPage.getPageServers();
+				 String[] split = pageServers.split(",");
+				 for (String tempId : split) {
+					int tempZoneId = Integer.parseInt(tempId);
+					if(ZoneMap.contains(tempZoneId)){
+						ZoneInfoCache zoneInfoCache = ZoneMap.get(tempZoneId);
+						RecommandZoneMap.add(zoneInfoCache);
+					}
+				}
+			 }
 			tempList.add(tableServerPage.getPageId());
 		}
 		for (Iterator<Entry<Integer, TableServerPage>> iterator = ServerPageMap.entrySet().iterator(); iterator.hasNext();) {
