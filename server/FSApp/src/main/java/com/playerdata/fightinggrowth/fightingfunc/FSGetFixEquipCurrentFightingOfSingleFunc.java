@@ -3,9 +3,12 @@ package com.playerdata.fightinggrowth.fightingfunc;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.arena.ArenaRobotDataMgr;
 import com.playerdata.Hero;
+import com.playerdata.Player;
 import com.playerdata.fightinggrowth.calc.FightingCalcComponentType;
 import com.playerdata.fightinggrowth.calc.param.FixEquipFightingParam.Builder;
+import com.playerdata.fixEquip.FixEquipHelper;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.team.HeroFixEquipInfo;
 import com.rwbase.common.IFunction;
@@ -34,34 +37,34 @@ public class FSGetFixEquipCurrentFightingOfSingleFunc implements IFunction<Hero,
 
 	@Override
 	public Integer apply(Hero hero) {
-		if (!openLevelLimitDAO.isOpen(eOpenLevelType.FIX_EQUIP, FSHeroMgr.getInstance().getOwnerOfHero(hero))) {
+		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
+		boolean robot = player.isRobot();
+		boolean open = robot ? true : openLevelLimitDAO.isOpen(eOpenLevelType.FIX_EQUIP, player);
+		if (!open) {
 			return 0;
 		}
 
 		List<HeroFixEquipInfo> fixEquipInfos = new ArrayList<HeroFixEquipInfo>();
-		fixEquipInfos.addAll(hero.getFixExpEquipMgr().getHeroFixSimpleInfo(hero.getId())); // 特殊神器
-		fixEquipInfos.addAll(hero.getFixNormEquipMgr().getHeroFixSimpleInfo(hero.getId())); // 普通神器
+		if (!robot) {
+			fixEquipInfos.addAll(hero.getFixExpEquipMgr().getHeroFixSimpleInfo(hero.getId())); // 特殊神器
+			fixEquipInfos.addAll(hero.getFixNormEquipMgr().getHeroFixSimpleInfo(hero.getId())); // 普通神器
+		} else {
+			String userId = hero.getOwnerUserId();
+			int heroModelId = hero.getModeId();
+			ArenaRobotDataMgr mgr = ArenaRobotDataMgr.getMgr();
+			List<HeroFixEquipInfo> fixExpList = FixEquipHelper.parseFixExpEquip2SimpleList(mgr.getFixExpEquipList(userId, heroModelId));
+			if (!fixExpList.isEmpty()) {
+				fixEquipInfos.addAll(fixExpList);
+			}
+
+			List<HeroFixEquipInfo> fixNormList = FixEquipHelper.parseFixNormEquip2SimpleList(mgr.getFixNormEquipList(userId, heroModelId));
+			if (!fixNormList.isEmpty()) {
+				fixEquipInfos.addAll(fixNormList);
+			}
+		}
 
 		Builder b = new Builder();
 		b.setFixEquips(fixEquipInfos);
-
 		return FightingCalcComponentType.FIX_EQUIP.calc.calc(b.build());
-
-		// int fighting = 0;
-		// HeroFixEquipInfo equipInfo;
-		// FixEquipLevelFightingCfg lvFightingCfg;
-		// FixEquipQualityFightingCfg qualityFightingCfg;
-		// FixEquipStarFightingCfg starFightingCfg;
-		// for (int k = 0; k < fixEquipInfos.size(); k++) {
-		// equipInfo = fixEquipInfos.get(k);
-		// lvFightingCfg = fixEquipLevelFightingCfgDAO.getByLevel(equipInfo.getLevel()); // 神器等级的战斗力配置
-		// qualityFightingCfg = fixEquipQualityFightingCfgDAO.getCfgById(String.valueOf(equipInfo.getQuality())); // 神器进阶的战斗力配置
-		// starFightingCfg = fixEquipStarFightingCfgDAO.getCfgById(String.valueOf(equipInfo.getStar())); // 神器觉醒的战斗力配置
-		// int slotIndex = equipInfo.getSlot() + 1; // 战斗力的配置是从1开始，装备是从0开始
-		// fighting += lvFightingCfg.getFightingOfIndex(slotIndex);
-		// fighting += qualityFightingCfg.getFightingOfIndex(slotIndex);
-		// fighting += starFightingCfg.getFightingOfIndex(slotIndex);
-		// }
-		// return fighting;
 	}
 }

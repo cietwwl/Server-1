@@ -26,6 +26,7 @@ import com.rwbase.dao.sign.pojo.SignData;
 import com.rwbase.dao.sign.pojo.SignDataHolder;
 import com.rwbase.dao.sign.pojo.SignStatisticsCfg;
 import com.rwbase.dao.sign.pojo.TableSignData;
+import com.rwbase.gameworld.GameWorldConstant;
 import com.rwproto.MsgDef.Command;
 import com.rwproto.SignServiceProtos.EResultType;
 import com.rwproto.SignServiceProtos.MsgSignResponse;
@@ -483,12 +484,19 @@ public class SignMgr implements PlayerEventListener {
 	 * 检查此时请求的时间是否处于本签到周期内...
 	 */
 	public boolean checkRefreshTime() {
-		//TODO 为null的时候当重置处理是否有bug，其他地方不能置
+		// TODO 为null的时候当重置处理是否有bug，其他地方不能置
 		Calendar lastUpdate = signDataHolder.getLastUpdate();
 		if (lastUpdate == null) {
+			GameLog.error("SignMgr", player == null ? null : player.getUserId(), "reset sign by empty lastUpdate!");
 			return true;
 		}
-		return HPCUtil.isResetTime(lastUpdate.getTimeInMillis());
+
+		long resetTime = DateUtils.getResetTime(GameWorldConstant.RESET_HOUR, GameWorldConstant.RESET_MINUTE, GameWorldConstant.RESET_SECOND);
+		Calendar calendar = DateUtils.getCalendar();
+		calendar.setTimeInMillis(resetTime);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		long resetTimeOfMonth = calendar.getTimeInMillis();
+		return lastUpdate.getTimeInMillis() < resetTimeOfMonth;
 	}
 
 	/*

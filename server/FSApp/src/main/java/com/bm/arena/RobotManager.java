@@ -32,6 +32,7 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.SkillMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
 import com.playerdata.hero.core.FSHero;
+import com.playerdata.randomname.RandomNameMgr;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.PlayerParam;
 import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
@@ -129,6 +130,7 @@ public class RobotManager {
 			String userName = nameList.remove(nameList.size() - 1);
 			if (userName != null && !userName.isEmpty()) {
 				productPlayerList.add(new ProductPlayerTask(carerrList.get(random.nextInt(carerrSize)), entry.getKey(), entry.getValue(), userName));
+				RandomNameMgr.getInstance().destroyName(userName);
 			}
 		}
 		if (!productPlayerList.isEmpty()) {

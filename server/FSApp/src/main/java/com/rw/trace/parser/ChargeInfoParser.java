@@ -1,13 +1,12 @@
 package com.rw.trace.parser;
 
-import java.util.List;
-
-import com.alibaba.fastjson.JSONObject;
-import com.playerdata.charge.dao.ChargeInfo;
-import com.playerdata.charge.dao.ChargeInfoSubRecording;
-import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
+import java.util.List;
+import com.playerdata.charge.dao.ChargeInfoSubRecording;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.playerdata.charge.dao.ChargeInfo;
+import com.rw.fsutil.common.Pair;
+import com.alibaba.fastjson.JSONObject;
 
 public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
 
@@ -23,6 +22,7 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
         chargeInfoCopy.setLastChargeTime(entity.getLastChargeTime());
         chargeInfoCopy.setTotalChargeMoney(entity.getTotalChargeMoney());
         chargeInfoCopy.setTotalChargeGold(entity.getTotalChargeGold());
+        chargeInfoCopy.setAlreadyChargeIds(writer.copyObject(entity.getAlreadyChargeIds()));
         return chargeInfoCopy;
     }
 
@@ -76,6 +76,16 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
             entity1.setTotalChargeGold(totalChargeGold2);
             jsonMap = writer.write(jsonMap, "totalChargeGold", totalChargeGold2);
         }
+        List<String> alreadyChargeIds1 = entity1.getAlreadyChargeIds();
+        List<String> alreadyChargeIds2 = entity2.getAlreadyChargeIds();
+        Pair<List<String>, JSONObject> alreadyChargeIdsPair = writer.checkObject(jsonMap, "alreadyChargeIds", alreadyChargeIds1, alreadyChargeIds2);
+        if (alreadyChargeIdsPair != null) {
+            alreadyChargeIds1 = alreadyChargeIdsPair.getT1();
+            entity1.setAlreadyChargeIds(alreadyChargeIds1);
+            jsonMap = alreadyChargeIdsPair.getT2();
+        } else {
+            jsonMap = writer.compareSetDiff(jsonMap, "alreadyChargeIds", alreadyChargeIds1, alreadyChargeIds2);
+        }
 
         return jsonMap;
     }
@@ -103,6 +113,9 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
         if (entity1.getTotalChargeGold() != entity2.getTotalChargeGold()) {
             return true;
         }
+        if (writer.hasChanged(entity1.getAlreadyChargeIds(), entity2.getAlreadyChargeIds())) {
+            return true;
+        }
         return false;
     }
 
@@ -119,6 +132,10 @@ public class ChargeInfoParser implements DataValueParser<ChargeInfo> {
         json.put("lastChargeTime", entity.getLastChargeTime());
         json.put("totalChargeMoney", entity.getTotalChargeMoney());
         json.put("totalChargeGold", entity.getTotalChargeGold());
+        Object alreadyChargeIdsJson = writer.toJSON(entity.getAlreadyChargeIds());
+        if (alreadyChargeIdsJson != null) {
+            json.put("alreadyChargeIds", alreadyChargeIdsJson);
+        }
         return json;
     }
 

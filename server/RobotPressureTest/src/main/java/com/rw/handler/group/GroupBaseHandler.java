@@ -20,7 +20,7 @@ import com.rwproto.MsgDef.Command;
  * @date 2016年3月15日 下午5:17:42
  * @Description 帮派基础数据处理
  */
-public class GroupBaseHandler implements RandomMethodIF{
+public class GroupBaseHandler implements RandomMethodIF {
 	private static final Random r = new Random();
 	private static GroupBaseHandler handler = new GroupBaseHandler();
 

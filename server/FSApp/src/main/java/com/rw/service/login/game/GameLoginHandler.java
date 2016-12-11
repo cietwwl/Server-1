@@ -75,13 +75,14 @@ public class GameLoginHandler {
 			UserChannelMgr.sendResponse(null, header, MsgResultType.ACCOUNT_NOT_EXIST, response.build().toByteString(), 200, ctx, null);
 			return;
 		}
-		// 检测白名单 by lida
-		if (GameManager.isWhiteListLimit(userAccount.getOpenAccount())) {
-			response.setError("该区维护中，请稍后尝试，");
-			response.setResultType(eLoginResultType.ServerMainTain);
-			UserChannelMgr.sendResponse(null, header, MsgResultType.SERVER_MAINTAIN, response.build().toByteString(), 200, ctx, null);
-			return;
-		}
+		// 不判断白名单 @ 2016-12-09
+//		// 检测白名单 by lida
+//		if (GameManager.isWhiteListLimit(userAccount.getOpenAccount())) {
+//			response.setError("该区维护中，请稍后尝试，");
+//			response.setResultType(eLoginResultType.ServerMainTain);
+//			UserChannelMgr.sendResponse(null, header, MsgResultType.SERVER_MAINTAIN, response.build().toByteString(), 200, ctx, null);
+//			return;
+//		}
 		String userId = userIdCache.getUserId(accountId, zoneId);
 		if (userId == null) {
 			response.setResultType(eLoginResultType.NO_ROLE);

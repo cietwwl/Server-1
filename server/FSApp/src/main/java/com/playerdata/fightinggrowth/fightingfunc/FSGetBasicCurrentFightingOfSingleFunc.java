@@ -23,7 +23,6 @@ public class FSGetBasicCurrentFightingOfSingleFunc implements IFunction<Hero, In
 		Builder b = new Builder();
 		b.setHeroTmpId(hero.getTemplateId());
 		b.setBaseData((AttrData) hero.getAttrMgr().getRoleAttrData().getRoleBaseTotalData());
-
 		return FightingCalcComponentType.BASE.calc.calc(b.build());
 	}
 }

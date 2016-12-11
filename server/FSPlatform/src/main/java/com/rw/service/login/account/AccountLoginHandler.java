@@ -1,7 +1,10 @@
 package com.rw.service.login.account;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+
+import javax.print.attribute.standard.Severity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -20,6 +23,8 @@ import com.rw.service.log.LogService;
 import com.rw.service.log.RegLog;
 import com.rw.service.log.infoPojo.ClientInfo;
 import com.rwbase.common.enu.EServerStatus;
+import com.rwbase.dao.serverPage.TableServerPage;
+import com.rwbase.dao.serverPage.TableServerPageDAO;
 import com.rwbase.dao.user.accountInfo.AccountLoginRecord;
 import com.rwbase.dao.user.accountInfo.TableAccount;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
@@ -28,6 +33,7 @@ import com.rwbase.dao.user.loginInfo.TableAccountLoginRecordDAO;
 import com.rwproto.AccountLoginProtos.AccountInfo;
 import com.rwproto.AccountLoginProtos.AccountLoginRequest;
 import com.rwproto.AccountLoginProtos.AccountLoginResponse;
+import com.rwproto.AccountLoginProtos.ServerPageInfo;
 import com.rwproto.AccountLoginProtos.UserInfo;
 import com.rwproto.AccountLoginProtos.ZoneInfo;
 import com.rwproto.AccountLoginProtos.eAccountLoginType;
@@ -347,6 +353,21 @@ public class AccountLoginHandler {
 				} 
 			}
 			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
+		}
+		
+		Collection<TableServerPage> allServerPage = PlatformFactory.getPlatformService().getAllServerPage();
+		for (TableServerPage tableServerPage : allServerPage) {
+			int pageId = tableServerPage.getPageId();
+			
+			if(pageId == TableServerPageDAO.TEST_PAGE && !account.isWhiteList()){
+				continue;
+			}
+			
+			ServerPageInfo.Builder serverPageInfo = ServerPageInfo.newBuilder();
+			serverPageInfo.setPageId(pageId);
+			serverPageInfo.setPageName(tableServerPage.getPageName());
+			serverPageInfo.setPageServer(tableServerPage.getPageServers());
+			response.addPageList(serverPageInfo);
 		}
 
 		List<Integer> lastLoginList = userAccount.getLastLoginList();

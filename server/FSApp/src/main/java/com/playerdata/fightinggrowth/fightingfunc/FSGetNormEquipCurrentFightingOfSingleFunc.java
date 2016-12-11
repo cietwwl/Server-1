@@ -31,19 +31,6 @@ public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero
 			return 0;
 		}
 
-		// Map<Integer, Integer> attrMap = new HashMap<Integer, Integer>(heroEquipCfgDAO.getCfgById(String.valueOf(equipList.get(0).getModelId())).getAttrDataMap());
-		// for (int i = 1, size = equipList.size(); i < size; i++) {
-		// HeroEquipCfg equipCfg = heroEquipCfgDAO.getCfgById(String.valueOf(equipList.get(i).getModelId()));
-		// if (equipCfg == null) {
-		// GameLog.error("FSGetNormEquipCurrentFightingOfSingleFunc", hero.getId(), "HeroEquipCfgDAO找不到装备配置，id：" + equipList.get(i).getModelId());
-		// continue;
-		// }
-		// Utils.combineAttrMap(equipCfg.getAttrDataMap(), attrMap);
-		// }
-		// fighting = FightingCalculator.calculateFighting(hero.getTemplateId(), attrMap);
-		// } else {
-		// fighting = 0;
-
 		int size = equipList.size();
 		List<EquipInfo> equipInfoList = new ArrayList<EquipInfo>(size);
 
@@ -60,7 +47,6 @@ public class FSGetNormEquipCurrentFightingOfSingleFunc implements IFunction<Hero
 		EquipBuilder eb = new EquipBuilder();
 		eb.setHeroId(hero.getTemplateId());
 		eb.setEquipList(equipInfoList);
-
 		return FightingCalcComponentType.EQUIP.calc.calc(eb.build());
 	}
 }

@@ -10,7 +10,7 @@ import com.rwbase.common.attribute.param.MagicParam.MagicBuilder;
 import com.rwbase.dao.item.pojo.ItemData;
 
 public class FSGetMagicFightingOfSingleFunc implements IFunction<Hero, Integer> {
-	
+
 	private static FSGetMagicFightingOfSingleFunc _instance = new FSGetMagicFightingOfSingleFunc();
 
 	public static FSGetMagicFightingOfSingleFunc getInstance() {
@@ -23,8 +23,8 @@ public class FSGetMagicFightingOfSingleFunc implements IFunction<Hero, Integer> 
 		if (owner == null) {
 			return 0;
 		}
-		ItemData magic = owner.getMagic();
 
+		ItemData magic = owner.getMagic();
 		if (magic != null) {
 			MagicBuilder mb = new MagicBuilder();
 			mb.setHeroTemplateId(hero.getTemplateId());
@@ -32,7 +32,6 @@ public class FSGetMagicFightingOfSingleFunc implements IFunction<Hero, Integer> 
 			mb.setMagicLevel(magic.getMagicLevel());
 			mb.setMagicAptitude(magic.getMagicAdvanceLevel());
 			mb.setIsMainRole(hero.isMainRole());
-
 			return FightingCalcComponentType.MAGIC.calc.calc(mb.build());
 		} else {
 			GameLog.warn("FSGetMagicFightingOfSingleFunc", owner.getUserId(), "计算法宝战力时，找不到法宝！");

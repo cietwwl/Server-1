@@ -30,4 +30,6 @@ public interface FashionMgrIF {
 	public FashionUsedIF getFashionUsed();
 
 	public int getValidCount();
+
+	public List<? extends FashionItemIF> getOwnedFashions();
 }

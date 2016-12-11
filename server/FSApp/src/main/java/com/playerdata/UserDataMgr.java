@@ -3,6 +3,7 @@ package com.playerdata;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.common.PlayerEventListener;
+import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataHolder;
@@ -144,6 +145,10 @@ public class UserDataMgr implements PlayerEventListener{
 	
 	public ZoneRegInfo getZoneRegInfo(){
 		return userDataHolder.get().getZoneRegInfo();
+	}
+	
+	public ZoneLoginInfo getZoneLoginInfo(){
+		return userDataHolder.get().getZoneLoginInfo();
 	}
 	public boolean isBlocked(){
 		return userDataHolder.get().isBlocked();
