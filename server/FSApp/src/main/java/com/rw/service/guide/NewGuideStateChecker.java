@@ -35,10 +35,13 @@ public class NewGuideStateChecker {
 					UserGuideProgress guideProgress = GuideProgressDAO.getInstance().get(userId, true);
 					if (guideProgress == null) {
 						closed = false;
-					} else if (guideProgress.getProgressMap().containsKey(level)) {
-						closed = true;
 					} else {
-						closed = false;
+						Integer current = guideProgress.getProgressMap().get(progress);
+						if (current == null || current.intValue() != -1) {
+							closed = false;
+						} else {
+							closed = true;
+						}
 					}
 				}
 			}
