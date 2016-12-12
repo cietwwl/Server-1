@@ -313,15 +313,15 @@ public class GMHandler {
 		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
 
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
-		
-		//修改活动配置的时间和奖励
+
+		// 修改活动配置的时间和奖励
 		funcCallBackMap.put("setcfgtime", "setCfgTime");
 		funcCallBackMap.put("setcfgreward", "setCfgReward");
-		
-		//世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
+
+		// 世界boss召唤指令,这个指令会把旧的怪物结束，并且召唤一个新的出来
 		funcCallBackMap.put("callwb", "callWorldBoss");
 		funcCallBackMap.put("wbstate", "changeWBState");
-		funcCallBackMap.put("openwb", "openWorldBoss");//开启/关闭世界boss状态   openwb num(0=关闭，1=开启)
+		funcCallBackMap.put("openwb", "openWorldBoss");// 开启/关闭世界boss状态 openwb num(0=关闭，1=开启)
 		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
 		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
 	}
@@ -431,7 +431,7 @@ public class GMHandler {
 		GameLog.info("GM", "setAllTaoist ", "finished", null);
 		return result;
 	}
-	
+
 	public boolean resetTaoistLevelByTag(String[] arrCommandContents, Player player) {
 		int tag = Integer.parseInt(arrCommandContents[0]);
 		GameLog.info("GM", "resetTaoistLevel", "start", null);
@@ -446,7 +446,7 @@ public class GMHandler {
 		GameLog.info("GM", "resetTaoistLevel ", "finished", null);
 		return result;
 	}
-	
+
 	public boolean resetTaoistLevelById(String[] arrCommandContents, Player player) {
 		int id = Integer.parseInt(arrCommandContents[0]);
 		GameLog.info("GM", "resetTaoistLevel", "start", null);
@@ -987,23 +987,22 @@ public class GMHandler {
 		return true;
 	}
 
-	public boolean callWorldBoss(String[] args, Player player){
+	public boolean callWorldBoss(String[] args, Player player) {
 		WBMgr.getInstance().reCallNewBoss();
 		return true;
 	}
-	
-	
-	public boolean openWorldBoss(String[] args,Player player){
+
+	public boolean openWorldBoss(String[] args, Player player) {
 		int state = Integer.parseInt(args[0]);
 		WBMgr.getInstance().changeWorldBossState(state);
 		return true;
 	}
-	
-	public boolean changeWBState(String[] args, Player player){
+
+	public boolean changeWBState(String[] args, Player player) {
 		WBMgr.getInstance().change2NextState();
 		return true;
 	}
-	
+
 	public boolean setWjzh(String[] arrCommandContents, Player player) {
 		player.unendingWarMgr.getTable().setNum(Integer.parseInt(arrCommandContents[0]) - 1);
 		player.unendingWarMgr.save();
@@ -1495,7 +1494,12 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
+			if (groupData instanceof GroupBaseData) {
+				groupBaseDataMgr.addGroupExp(player, (GroupBaseData) groupData, group.getGroupLogMgr(), value);
+				groupBaseDataMgr.updateAndSynGroupData(player);
+			} else {
+				return false;
+			}
 		} else if (functionName.equalsIgnoreCase("token")) {// 增加帮派令牌
 			if (value == 0) {
 				return false;
@@ -2328,51 +2332,53 @@ public class GMHandler {
 
 		return true;
 	}
-	
+
 	/**
 	 * 修改活动配置的时间
+	 * 
 	 * @param arrCommandContents
 	 * @param player
 	 * @return
 	 */
-	public boolean setCfgTime(String[] arrCommandContents, Player player){
-		if(arrCommandContents.length < 4){
+	public boolean setCfgTime(String[] arrCommandContents, Player player) {
+		if (arrCommandContents.length < 4) {
 			return false;
 		}
-		try{
+		try {
 			int cfgId = Integer.parseInt(arrCommandContents[0]);
 			String startTime = arrCommandContents[1];
 			String endTime = arrCommandContents[2];
 			int version = Integer.parseInt(arrCommandContents[3]);
 			ActivityModifyMgr.getInstance().gmSetCfgTime(cfgId, startTime, endTime, version);
 			return true;
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 修改活动配置的奖励
+	 * 
 	 * @param arrCommandContents
 	 * @param player
 	 * @return
 	 */
-	public boolean setCfgReward(String[] arrCommandContents, Player player){
-		if(arrCommandContents.length < 4){
+	public boolean setCfgReward(String[] arrCommandContents, Player player) {
+		if (arrCommandContents.length < 4) {
 			return false;
 		}
-		try{
+		try {
 			int cfgId = Integer.parseInt(arrCommandContents[0]);
 			int subCfgId = Integer.parseInt(arrCommandContents[1]);
 			String reward = arrCommandContents[2];
 			int version = Integer.parseInt(arrCommandContents[3]);
 			ActivityModifyMgr.getInstance().gmSetSubCfgReward(cfgId, subCfgId, reward, version);
 			return true;
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			return false;
 		}
 	}
-	
+
 	public boolean addGroupDonateAndExp(String[] arrCommandContents, Player player) {
 		int groupSupply = Integer.parseInt(arrCommandContents[0]);
 		int groupExp = 0;
@@ -2381,10 +2387,10 @@ public class GMHandler {
 		}
 		Group group = GroupBM.get(GroupHelper.getGroupId(player));
 		if (group != null) {
-			GroupBaseData groupBaseData = (GroupBaseData)group.getGroupBaseDataMgr().getGroupData();
+			GroupBaseData groupBaseData = (GroupBaseData) group.getGroupBaseDataMgr().getGroupData();
 			groupBaseData.setSupplies(groupBaseData.getSupplies() + groupSupply);
 			groupBaseData.setDaySupplies(groupBaseData.getDaySupplies() + groupSupply);
-			if(groupExp > 0) {
+			if (groupExp > 0) {
 				groupBaseData.setGroupExp(groupBaseData.getGroupExp() + groupExp);
 				groupBaseData.setDayExp(groupBaseData.getDayExp() + groupExp);
 			}
@@ -2396,7 +2402,7 @@ public class GMHandler {
 			return false;
 		}
 	}
-	
+
 	public boolean addPersonalContribute(String[] arrCommandContents, Player player) {
 		Group group = GroupBM.get(GroupHelper.getGroupId(player));
 		if (group != null) {

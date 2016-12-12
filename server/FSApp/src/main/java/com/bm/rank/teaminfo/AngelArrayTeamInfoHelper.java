@@ -447,8 +447,6 @@ public class AngelArrayTeamInfoHelper {
 		RefInt fighting = new RefInt();
 		teamInfo.setHero(changeHeroInfo(p, teamHeroList, fighting));
 		teamInfo.setTeamFighting(fighting.value);
-
-		System.err.println("--------------------" + fighting.value);
 		return teamInfo;
 	}
 

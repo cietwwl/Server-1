@@ -165,7 +165,7 @@ public class AngelArrayMatchHelper {
 					int fighting = teamInfo.getTeamFighting();
 					// int logFighting = fighting;
 					boolean canUseRanking = true;
-					if (matchUser.getRankType() == SECOND_MATCH_RANK_TYPE && fighting != teamFighting) {
+					if (matchUser.getRankType() == SECOND_MATCH_RANK_TYPE && fighting != matchUser.getFighting()) {
 						readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
 						if (readOnlyPlayer != null) {
 							teamFighting = getCopyEmbattleTeamFighting(readOnlyPlayer, heroModelIdList);
@@ -184,7 +184,7 @@ public class AngelArrayMatchHelper {
 						// sb.append("取自玩家万仙阵排行中的阵容：");
 					}
 
-					hasTeam = true;
+					hasTeam = !heroModelIdList.isEmpty();
 
 					groupName = teamInfo.getGroupName();
 					headId = teamInfo.getHeadId();
