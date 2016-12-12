@@ -89,6 +89,8 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		
 		PlayerQuestionService.getInstance().submitRequest(content, QuestionOpType.Question_Submit.getOpType(), userId, false, QuestionSubmitResponse.class);
 		result.setResultType(eSubmitResultType.SUCCESS);
+		//同步最新反馈列表给客户端
+		questionListDataHolder.syn(mPlayer, -1);
 		return result;
 	}
 	
