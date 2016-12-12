@@ -1487,7 +1487,12 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
+			if (groupData instanceof GroupBaseData) {
+				groupBaseDataMgr.addGroupExp(player, (GroupBaseData) groupData, group.getGroupLogMgr(), value);
+				groupBaseDataMgr.updateAndSynGroupData(player);
+			} else {
+				return false;
+			}
 		} else if (functionName.equalsIgnoreCase("token")) {// 增加帮派令牌
 			if (value == 0) {
 				return false;
