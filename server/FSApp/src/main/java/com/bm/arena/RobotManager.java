@@ -706,7 +706,7 @@ public class RobotManager {
 				store.update(hero.getId());
 			}
 
-			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
+			AngelArrayTeamInfoHelper.getInstance().checkAndUpdateTeamInfo(player, heroModelList, fighting);
 			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + player.getLevel() + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
 			return new RankingPlayer(player, arenaList, expectRanking);
 		}

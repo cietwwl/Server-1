@@ -51,7 +51,7 @@ public class SaveTeaminfoToServerHandler {
 		FSHeroMgr.getInstance().updateFightingTeamWhenEmBattleChange(player);
 
 		// 通知到万仙阵这里修改了副本的阵容
-		AngelArrayTeamInfoHelper.updateRankingEntryWhenNormalEmbattleChange(player);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntryWhenNormalEmbattleChange(player);
 
 		return msRsp.build().toByteString();
 	}

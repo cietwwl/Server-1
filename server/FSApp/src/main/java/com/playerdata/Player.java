@@ -447,7 +447,7 @@ public class Player implements PlayerIF {
 			// TODO HC 登录之后检查一下万仙阵的数据
 			getTowerMgr().checkAndResetMatchData(this);
 			// 当角色登录的时候，更新下登录的时间
-			AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+			AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 			// 角色登录检查秘境数据是否可以重置
 			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
 			// 时效任务的角色登录

@@ -319,7 +319,7 @@ public final class RobotHeroBuilder {
 				// 战力
 				// int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
 				// AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));
-				int calFighting = AngelArrayTeamInfoHelper.calcRobotFighting(heroInfo, teamInfo);
+				int calFighting = AngelArrayTeamInfoHelper.getInstance().calcRobotFighting(heroInfo, teamInfo);
 				fighting += calFighting;
 			}
 		}

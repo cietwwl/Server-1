@@ -228,7 +228,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		// 通知好友更改更新帮派名字
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 		// 通知阵容更新下名字
-		AngelArrayTeamInfoHelper.updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
 		player.getStoreMgr().removeStore(eStoreType.Union.getOrder());
 	}
 

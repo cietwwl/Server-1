@@ -160,12 +160,12 @@ class MSInnerProcessor extends MSConditionJudger {
 		for (int i = 1; i <= MagicSecretMgr.DUNGEON_MAX_LEVEL; i++) {
 			String dungID = nextStageID + "_" + i;
 			DungeonsDataCfg dungDataCfg = dungeonsDataCfgDAO.getCfgById(dungID);
-			if (dungDataCfg == null){
+			if (dungDataCfg == null) {
 				continue;
 			}
 			int fighting = 0;
 			int fightArea = dungDataCfg.getFightEnd() - dungDataCfg.getFightStart();
-			if(0 != fightArea){
+			if (0 != fightArea) {
 				fighting = RandomUtil.getRandom().nextInt(fightArea) + dungDataCfg.getFightStart();
 			}
 			MSDungeonInfo msdInfo = new MSDungeonInfo(dungID, provideNextFabaoBuff(dungDataCfg.getFabaoBuff()), generateEnimyForDungeon(dungDataCfg.getEnimy(), fighting), generateDropItem(player, dungDataCfg.getDrop()));
@@ -173,8 +173,7 @@ class MSInnerProcessor extends MSConditionJudger {
 				// 判断是否首掉，如果首掉（并且有首掉配置），就改成首掉物品
 				msdInfo.setDropItem(generateDropItem(player, dungDataCfg.getFirstDrop()));
 			}
-			
-			
+
 			selectableDungeons.add(msdInfo);
 		}
 		mcInfo.setSelectableDungeons(selectableDungeons);
@@ -189,12 +188,12 @@ class MSInnerProcessor extends MSConditionJudger {
 	private static TeamInfo generateEnimyForDungeon(String enimyStr, int fighting) {
 		int robotId = Integer.parseInt(enimyStr);
 		TeamInfo buildOnlyHerosTeamInfo = RobotHeroBuilder.buildOnlyHerosTeamInfo(robotId);
-		if(fighting > 0){
+		if (fighting > 0) {
 			buildOnlyHerosTeamInfo.setTeamFighting(fighting);
 			return buildOnlyHerosTeamInfo;
 		}
 		// 获取战力
-		ArmyInfo armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(buildOnlyHerosTeamInfo);
+		ArmyInfo armyInfo = AngelArrayTeamInfoHelper.getInstance().parseTeamInfo2ArmyInfo(buildOnlyHerosTeamInfo);
 		ArmyHero player = armyInfo.getPlayer();
 		if (player != null) {
 			fighting += player.getFighting();

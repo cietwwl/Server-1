@@ -499,7 +499,7 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			return new ArmyInfo();
 		}
 
-		ArmyInfo armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(teamInfo);
+		ArmyInfo armyInfo = AngelArrayTeamInfoHelper.getInstance().parseTeamInfo2ArmyInfo(teamInfo);
 
 		Map<String, CurAttrData> attrMap = null;
 		AngelArrayEnemyInfoData angelArrayEnemyInfoData = angelArrayEnemyInfoDataHolder.getAngelArrayEnemyInfoData(id);

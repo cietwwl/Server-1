@@ -12,56 +12,52 @@ import com.playerdata.teambattle.cfg.TeamMatchCfg;
 import com.playerdata.teambattle.cfg.TeamMatchCfgDAO;
 
 public class TeamMatchMgr {
-	
-	
+
 	private static TeamMatchMgr instance = new TeamMatchMgr();
-	
-	public static TeamMatchMgr getInstance(){		
-		
+
+	public static TeamMatchMgr getInstance() {
+
 		return instance;
 	}
-	
-	
-	public TeamMatchData newMatchTeamArmy(Player player, String copyId){
-		
+
+	public TeamMatchData newMatchTeamArmy(Player player, String copyId) {
+
 		TeamMatchData teamMatchData = null;
 		TeamMatchCfg matchCfg = TeamMatchCfgDAO.getInstance().getCfgById(copyId);
-		
-		if(matchCfg!=null){
+
+		if (matchCfg != null) {
 			int robotId = matchCfg.getRobotTeamId();
 			RandomData randomData = RandomData.newInstance(robotId).doHeroMakeup(false);
-			TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData);	
-			if(robotTeamInfo!=null){
-				ArmyInfo armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(robotTeamInfo);					
+			TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData);
+			if (robotTeamInfo != null) {
+				ArmyInfo armyInfo = AngelArrayTeamInfoHelper.getInstance().parseTeamInfo2ArmyInfo(robotTeamInfo);
 				ArmyInfoSimple armySimpleInfo = ArmySimpleInfoHelper.fromArmyInfo(armyInfo);
 				teamMatchData = new TeamMatchData(armySimpleInfo, randomData.asData());
 			}
-		}		
-		
+		}
+
 		return teamMatchData;
 	}
-	public TeamMatchData getMatchTeamArmy(RandomData randomData){
+
+	public TeamMatchData getMatchTeamArmy(RandomData randomData) {
 		TeamMatchData teamMatchData = null;
-		TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData.asData());	
-		if(robotTeamInfo!=null){
-			ArmyInfo armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(robotTeamInfo);					
+		TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData.asData());
+		if (robotTeamInfo != null) {
+			ArmyInfo armyInfo = AngelArrayTeamInfoHelper.getInstance().parseTeamInfo2ArmyInfo(robotTeamInfo);
 			ArmyInfoSimple armySimpleInfo = ArmySimpleInfoHelper.fromArmyInfo(armyInfo);
 			teamMatchData = new TeamMatchData(armySimpleInfo, randomData);
 		}
-		
+
 		return teamMatchData;
 	}
 
-
 	public ArmyInfo getArmyInfo(RandomData randomData) {
-		TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData.asData());	
+		TeamInfo robotTeamInfo = RobotHeroBuilder.getRobotTeamInfo(randomData.asData());
 		ArmyInfo armyInfo = null;
-		if(robotTeamInfo!=null){
-			armyInfo = AngelArrayTeamInfoHelper.parseTeamInfo2ArmyInfo(robotTeamInfo);					
+		if (robotTeamInfo != null) {
+			armyInfo = AngelArrayTeamInfoHelper.getInstance().parseTeamInfo2ArmyInfo(robotTeamInfo);
 		}
 		return armyInfo;
 	}
-	
-
 
 }
