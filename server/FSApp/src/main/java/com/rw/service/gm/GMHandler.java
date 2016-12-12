@@ -300,8 +300,16 @@ public class GMHandler {
 		funcCallBackMap.put("exchangeSoul".toLowerCase(), "exchangeSoul");
 		funcCallBackMap.put("resetJBZD".toLowerCase(), "resetJBZD");
 		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
+		funcCallBackMap.put("resetQKHJ".toLowerCase(), "resetQKHJ");
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
+		funcCallBackMap.put("resetQKHJCD".toLowerCase(), "resetQKHJCD");
+		funcCallBackMap.put("resetSCLJ".toLowerCase(), "resetSCLJ");
+		funcCallBackMap.put("resetSCLJCD".toLowerCase(), "resetSCLJCD");
+		funcCallBackMap.put("resetWXZ".toLowerCase(), "resetWXZ");
+		funcCallBackMap.put("resetWXZCD".toLowerCase(), "resetWXZCD");
+		funcCallBackMap.put("resetFST".toLowerCase(), "resetFST");
+		funcCallBackMap.put("resetFSTCD".toLowerCase(), "resetFSTCD");
 		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
 
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
@@ -2241,6 +2249,38 @@ public class GMHandler {
 
 	public boolean resetLQSGCD(String[] arrCommandContents, Player player) {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
+	}
+	
+	public boolean resetQKHJ(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_WARFARE);
+	}
+
+	public boolean resetQKHJCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_WARFARE);
+	}
+	
+	public boolean resetSCLJ(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_CELESTIAL);
+	}
+
+	public boolean resetSCLJCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_CELESTIAL);
+	}
+	
+	public boolean resetWXZ(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_TOWER);
+	}
+
+	public boolean resetWXZCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_TOWER);
+	}
+	
+	public boolean resetFST(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_BATTLETOWER);
+	}
+
+	public boolean resetFSTCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_BATTLETOWER);
 	}
 	
 	public boolean sendWorldChat(String[] arrCommandContents, Player player) {
