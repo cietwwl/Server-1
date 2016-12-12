@@ -2,6 +2,7 @@ package com.rounter.param;
 
 import com.alibaba.fastjson.JSON;
 
+
 /**
  * 9游的响应参数
  * @author Alex
@@ -11,8 +12,8 @@ import com.alibaba.fastjson.JSON;
 public class Response9Game {
 
 	private long id;
-	private String state;
-	private String data;
+	private JSON state;
+	private JSON data;
 	
 	
 	public long getId() {
@@ -21,16 +22,16 @@ public class Response9Game {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getState() {
+	public JSON getState() {
 		return state;
 	}
-	public void setState(String state) {
+	public void setState(JSON state) {
 		this.state = state;
 	}
-	public String getData() {
+	public JSON getData() {
 		return data;
 	}
-	public void setData(String data) {
+	public void setData(JSON data) {
 		this.data = data;
 	}
 	

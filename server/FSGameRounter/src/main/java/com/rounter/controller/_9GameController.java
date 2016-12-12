@@ -1,41 +1,51 @@
 package com.rounter.controller;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.RequestContext;
 
 import com.rounter.param.Request9Game;
+import com.rounter.param.Response9Game;
+import com.rounter.service.IUCService;
+import com.rounter.util.JsonUtil;
+import com.rounter.util.Utils;
 
 
 @RestController
 @RequestMapping("/9game")
 public class _9GameController {
 
-	Logger logger = LoggerFactory.getLogger("mainLogger");
-
-	@RequestMapping("/roleInfo")
-	public @ResponseBody String getRoleInfo(String value) {
-		logger.info("role info,request value{}",value);
-		return "roleInfo";
-	}
-
-	@RequestMapping("/zonelist")
-	public @ResponseBody String getZoneList(String value) {
-		logger.info("get zone list, request value{}", value);
-		return "zoneList";
-	}
+	Logger logger = LoggerFactory.getLogger(_9GameController.class);
 	
-	@RequestMapping(value="roleInfo", method={RequestMethod.POST})
+	@Resource
+	private IUCService ucService;
+	
+
+	
+	/**
+	 * 获取用户在指定区服的角色列表
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="roleinfo", method={RequestMethod.POST})
 	@ResponseBody
 	public String getRoleInfo(@RequestBody Request9Game request){
-		logger.info("get role info by post param");
-		return "response role info";
+		logger.info("Get role info request from 9game, dataStr:{}", request.toString());
+		//先进行解密
+		Utils.decrypt9Game(request);
+		Response9Game resp = ucService.getRoleInfo(request);
+		//进行加密
+		resp = Utils.encrypt9Game(resp);
+		//转为json字符串
+		String returnStr = JsonUtil.writeValue(resp);
+		logger.info("Response role info to 9game:{}", returnStr);
+		return returnStr;
 	}
 	
 	

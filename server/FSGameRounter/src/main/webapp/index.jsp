@@ -48,9 +48,23 @@
 	
 	function postBtnAction() {
 		var requestUrl = url +"/roleInfo";
-		var date = '{"id":'+$('#id').val() +',"client":'+$('#client').val()
+		var dateStr = '{"id":'+$('#id').val() +',"client":'+$('#client').val()
 			+',"data":'+$('#data').val()+',"encrypt":'+$('#encrypt').val()+'}';
-	        
+			alert(data);
+			$.ajax({
+				type:'post',
+				contentType:'application/json',
+				url:requestUrl,
+				dataType:'json',
+				data:dateStr,
+				success: function(data) {
+					alert(data);
+				},
+				error:function(){
+					alert("error.....");
+				}
+			
+			});
 
 	}
 

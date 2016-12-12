@@ -1,6 +1,7 @@
 package com.rounter.param;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * 9游的请求参数
@@ -13,9 +14,9 @@ public class Request9Game {
 	private long id;
 	
 
-	private String data;
+	private JSONObject data;
 	
-	private String client;
+	private JSONObject client;
 	//加密方式
 	private String encrypt;
 	
@@ -30,19 +31,19 @@ public class Request9Game {
 		this.id = id;
 	}
 
-	public String getData() {
+	public JSON getData() {
 		return data;
 	}
 
-	public void setData(String data) {
+	public void setData(JSONObject data) {
 		this.data = data;
 	}
 
-	public String getClient() {
+	public JSONObject getClient() {
 		return client;
 	}
 
-	public void setClient(String client) {
+	public void setClient(JSONObject client) {
 		this.client = client;
 	}
 
@@ -61,6 +62,14 @@ public class Request9Game {
 	public void setSign(String sign) {
 		this.sign = sign;
 	}
+
+	@Override
+	public String toString() {
+		return "id:" + id + ", data:" + data + ", client:" + client + ", encrypt:" + encrypt + ", sign:" + sign;
+	}
+
+	
+
 	
 	
 	
