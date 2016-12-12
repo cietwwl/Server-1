@@ -15,4 +15,9 @@ public class ApplicationController {
 		logger.info("recv msg:{}", "hello");
 		return "Say hello";
 	}
+	
+	@RequestMapping("/index")
+	public String index(){
+		return "<html><body><h2>This is an index html</h2></body></html>";
+	}
 }

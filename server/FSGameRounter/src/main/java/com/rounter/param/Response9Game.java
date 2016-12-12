@@ -11,8 +11,8 @@ import com.alibaba.fastjson.JSON;
 public class Response9Game {
 
 	private long id;
-	private JSON state;
-	private JSON data;
+	private String state;
+	private String data;
 	
 	
 	public long getId() {
@@ -21,16 +21,16 @@ public class Response9Game {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public JSON getState() {
+	public String getState() {
 		return state;
 	}
-	public void setState(JSON state) {
+	public void setState(String state) {
 		this.state = state;
 	}
-	public JSON getData() {
+	public String getData() {
 		return data;
 	}
-	public void setData(JSON data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	
