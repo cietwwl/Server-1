@@ -22,8 +22,6 @@ public class ActivityTimeHelper {
 		}else if(startTime.length() <= MAX_DAYS_SIZE){
 			int afterOpenServerDay = Integer.parseInt(startTime);
 			result = GameManager.getOpenTime() + afterOpenServerDay * ONE_DAY_MS;
-		}
-		if(0 != result){
 			result = DateUtils.getHour(result, RESET_HOUR);   //五点为重置时间
 		}
 		return result;
@@ -37,8 +35,6 @@ public class ActivityTimeHelper {
 		}else if(endTime.length() <= MAX_DAYS_SIZE){
 			int afterStartDay = Integer.parseInt(endTime);
 			result = startTime + afterStartDay * ONE_DAY_MS;
-		}
-		if(Long.MAX_VALUE != result){
 			result = DateUtils.getHour(result, RESET_HOUR);   //五点为重置时间
 		}
 		return result;

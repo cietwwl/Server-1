@@ -155,7 +155,7 @@ public class ActivityDetector {
 		}
 		//全部是已结束的活动，处理结束事件
 		if((null == currentMap || currentMap.isEmpty()) && !oldMap.isEmpty()){
-			for(ActivityCfgIF cfg : currentMap.values()){
+			for(ActivityCfgIF cfg : oldMap.values()){
 				activityType.getActivityMgr().activityEndHandler(cfg);
 			}
 			return true;

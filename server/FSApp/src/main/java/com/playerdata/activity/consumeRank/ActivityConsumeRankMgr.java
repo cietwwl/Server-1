@@ -78,6 +78,8 @@ public class ActivityConsumeRankMgr extends AbstractActivityMgr<ActivityConsumeR
 						MomentRankingEntry<ConsumeComparable, RankingConsumeData> entry = it.nextElement();
 						dispatchingUser = entry.getExtendedAttribute().getUserId();
 						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
+					}else{
+						return;
 					}
 				}
 			}

@@ -78,6 +78,8 @@ public class ActivityChargeRankMgr extends AbstractActivityMgr<ActivityChargeRan
 						MomentRankingEntry<ChargeComparable, RankingChargeData> entry = it.nextElement();
 						dispatchingUser = entry.getExtendedAttribute().getUserId();
 						EmailUtils.sendEmail(dispatchingUser, String.valueOf(rewardCfg.getEmailId()), rewardCfg.getReward());
+					}else{
+						return;
 					}
 				}
 			}
