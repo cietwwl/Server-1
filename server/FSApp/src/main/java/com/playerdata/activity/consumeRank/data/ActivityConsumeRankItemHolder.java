@@ -27,7 +27,7 @@ public class ActivityConsumeRankItemHolder extends UserActivityChecker<ActivityC
 	
 	public void updateItem(Player player, ActivityConsumeRankItem item){
 		getItemStore(player.getUserId()).update(item.getId());
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
+		//ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
 	}
 
 	public void synAllData(Player player){
