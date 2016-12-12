@@ -56,6 +56,7 @@ import com.rw.service.TaoistMagic.ITaoistMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
 import com.rw.service.group.helper.GroupMemberHelper;
+import com.rw.service.guide.NewGuideStateChecker;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
@@ -88,6 +89,7 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.user.CfgChangeRoleInfoDAO;
 import com.rwbase.dao.user.LevelCfgDAO;
+import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.dao.user.pojo.ChangeRoleInfoCfg;
 import com.rwbase.dao.user.pojo.LevelCfg;
@@ -162,8 +164,6 @@ public class Player implements PlayerIF {
 	// 客户端管理工具
 	private PlayerQuestionMgr playerQuestionMgr = new PlayerQuestionMgr();
 
-	private ZoneLoginInfo zoneLoginInfo;
-
 	private OpenLevelTiggerServiceRegeditInfo openLevelTiggerServiceRegeditInfo;
 
 	private volatile long lastWorldChatCacheTime;// 上次世界聊天发送时间
@@ -201,7 +201,8 @@ public class Player implements PlayerIF {
 
 		Player fresh = new Player(userId, false);
 		// 楼下的好巧啊.初始化的任务会触发taskbegin，但日志所需信息需要player来set，这里粗暴点
-		fresh.setZoneLoginInfo(zoneLoginInfo2);
+		User user = fresh.getUserDataMgr().getUser();
+		user.setZoneLoginInfo(zoneLoginInfo2);
 
 		fresh.initMgr();
 		return fresh;
@@ -422,6 +423,8 @@ public class Player implements PlayerIF {
 					PraiseMgr.getMgr().synData(player);
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
+					// 发送屏蔽新手引导信息
+					NewGuideStateChecker.getInstance().check(player, true);
 
 				}
 			});
@@ -730,14 +733,6 @@ public class Player implements PlayerIF {
 		}
 		// getMainRoleHero().getRoleBaseInfoMgr().setExp(exp);
 		FSHeroBaseInfoMgr.getInstance().setExp(getMainRoleHero(), exp);
-	}
-
-	public ZoneLoginInfo getZoneLoginInfo() {
-		return zoneLoginInfo;
-	}
-
-	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
-		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
 	public OpenLevelTiggerServiceRegeditInfo getOpenLevelTiggerServiceRegeditInfo() {
