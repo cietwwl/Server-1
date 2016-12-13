@@ -819,4 +819,8 @@ public class BILogMgr {
 
 	}
 
+	public BILogTemplate getBILogTemplate(eBILogType type) {
+		return templateMap.get(type);
+	}
+
 }
