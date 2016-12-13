@@ -6,6 +6,8 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +25,6 @@ import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
 import com.rounter.util.Utils;
-import com.rw.fsutil.common.Pair;
 
 
 @RestController
@@ -44,8 +45,8 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 	@ResponseBody
 	public String getRoleInfo(@RequestBody Request9Game request){
 		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
-		UCStateCode stateCode = beforeOpt.getT1();
-		String t2 = beforeOpt.getT2();
+		UCStateCode stateCode = beforeOpt.getKey();
+		String t2 = beforeOpt.getValue();
 		if(stateCode != UCStateCode.STATE_OK){
 			return t2;
 		}
@@ -55,8 +56,8 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		
 		IResponseData responseData = ucService.getRoleInfo(roleInfo);
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData);
-		logger.info("response role info msg :{}", afterOpt.getT2());
-		return afterOpt.getT2();
+		logger.info("response role info msg :{}", afterOpt.getValue());
+		return afterOpt.getValue();
 	}
 	
 	
@@ -128,7 +129,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		UCStateCode stateCode = checkCondition(request);
 		if(stateCode != UCStateCode.STATE_OK){
 			//校验不通过，直接返回错误消息
-			return Pair.Create(stateCode, responseString(stateCode, request.getId(), null));
+			return MutablePair.of(stateCode, responseString(stateCode, request.getId(), null));
 		}
 		
 		logger.info("Get role info request from 9game, dataStr:{}", request.toString());
@@ -137,7 +138,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		logger.info("before decrypt 9game data string:{}", params);
 		String decryptStr = Utils.decrypt9Game(params);
 		logger.info("after decrypt 9game data string:{}", decryptStr);
-		return Pair.Create(stateCode, decryptStr);
+		return MutablePair.of(stateCode, decryptStr);
 	}
 
 	@Override
@@ -146,7 +147,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		UCStateCode respCode = UCStateCode.getCodeByID(responseData.getStateCode());
 		if(respCode != UCStateCode.STATE_OK){
 			//处理有问题
-			return Pair.Create(respCode, responseString(respCode, responseData.getId(), null));
+			return MutablePair.of(respCode, responseString(respCode, responseData.getId(), null));
 		}
 		//进行加密
 		String dataStr = Utils.encrypt9Game(responseData.getData().toJSONString());
@@ -154,7 +155,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		//转为json字符串
 		String returnStr = responseString(respCode, responseData.getId(), dataStr);
 		logger.info("Response role info to 9game:{}", returnStr);
-		return Pair.Create(respCode, returnStr);
+		return MutablePair.of(respCode, returnStr);
 	}
 	
 

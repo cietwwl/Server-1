@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rounter.client.sender.exception.NoCanUseNodeException;
 import com.rounter.client.sender.exception.ParamInvalidException;
 import com.rounter.client.sender.node.ChannelNodeManager;
@@ -30,7 +31,26 @@ public class ApplicationController {
 	@RequestMapping("/hello")
 	public String greeting() {
 		final long startTime = System.currentTimeMillis();
-		IResponseData resData = new Response9Game();
+		IResponseData resData = new IResponseData() {
+			
+			@Override
+			public int getStateCode() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public long getId() {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+			
+			@Override
+			public JSONObject getData() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
 		
 		ChannelNodeManager channelMgr = serverMgr.getAreaNodeManager("1001");
 		if(null != channelMgr){
