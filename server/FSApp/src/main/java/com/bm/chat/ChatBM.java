@@ -1,6 +1,5 @@
 package com.bm.chat;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,11 +16,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.util.StringUtils;
 
-import com.alibaba.druid.util.Base64;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
+import com.rw.fsutil.util.Base64Util;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.chat.ChatHandler;
 import com.rw.service.fashion.FashionHandle;
@@ -86,7 +85,7 @@ public class ChatBM {
 			List<ChatInfo> list;
 			synchronized (worldMessageList) {
 				list = new ArrayList<ChatInfo>(worldMessageList);
-//				worldMessageList.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
+				// worldMessageList.clear(); // 2016-08-03 上線不再需要推送世界聊天，所以這裡可以clear
 			}
 			int size = list.size();
 
@@ -642,12 +641,7 @@ public class ChatBM {
 
 		// 设置其他消息
 		messageData.setIsRead(saveData.isRead());
-		try {
-			messageData.setMessage(Base64.byteArrayToBase64((saveData.getMessage()).getBytes("UTF-8")));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-			return null;
-		}
+		messageData.setMessage(Base64Util.decode(saveData.getMessage()));
 
 		messageData.setTime(saveData.getSendTime());
 
@@ -716,7 +710,7 @@ public class ChatBM {
 				userInfo.setFashionTemplateId(info.getFashionTemplateId());
 			}
 			FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(userId);
-			if(null != usingFashion){
+			if (null != usingFashion) {
 				userInfo.setFashionUsed(usingFashion);
 			}
 			return userInfo.build();
@@ -758,12 +752,7 @@ public class ChatBM {
 		}
 
 		if (chatMsgData.hasMessage()) {
-			 try {
-			 saveData.setMessage(new String(Base64.base64ToByteArray(chatMsgData.getMessage()), "UTF-8"));
-			 } catch (UnsupportedEncodingException e) {
-			 e.printStackTrace();
-			 return null;
-			 }
+			saveData.setMessage(Base64Util.encode(chatMsgData.getMessage()));
 		}
 
 		if (chatMsgData.hasTreasureId()) {
@@ -848,12 +837,12 @@ public class ChatBM {
 			// 設置時裝模板id
 			userInfo.setFashionTemplateId(info.getFashionTemplateId());
 		}
-		
+
 		userInfo.setFighting(FSHeroMgr.getInstance().getFightingTeam(info.getUserId()));
 
 		return userInfo;
 	}
-	
+
 	public List<ChatInfo> getWorldList() {
 		return worldMessageListRO;
 	}
