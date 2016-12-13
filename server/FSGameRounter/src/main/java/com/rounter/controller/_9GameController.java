@@ -55,6 +55,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		
 		IResponseData responseData = ucService.getRoleInfo(roleInfo);
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData);
+		logger.info("response role info msg :{}", afterOpt.getT2());
 		return afterOpt.getT2();
 	}
 	
