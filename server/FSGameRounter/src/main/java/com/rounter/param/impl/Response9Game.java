@@ -1,7 +1,12 @@
 package com.rounter.param.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.rounter.param.IResponseData;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.rounter.state.UCStateCode;
+
 
 
 /**
@@ -10,11 +15,11 @@ import com.rounter.param.IResponseData;
  *
  * 2016年12月11日 下午6:07:17
  */
-public class Response9Game implements IResponseData{
+public class Response9Game{
 
 	private long id;
-	private JSON state;
-	private JSON data;
+	private Object state;
+	private Object data;
 	
 	
 	public long getId() {
@@ -25,19 +30,20 @@ public class Response9Game implements IResponseData{
 		this.id = id;
 	}
 	
-	public JSON getState() {
+	public Object getState() {
 		return state;
 	}
 	
-	public void setState(JSON state) {
+	public void setState(Object state) {
 		this.state = state;
 	}
 	
-	public JSON getData() {
+	public Object getData() {
 		return data;
 	}
 	
-	public void setData(JSON data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
+
 }

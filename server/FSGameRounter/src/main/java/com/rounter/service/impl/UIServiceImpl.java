@@ -13,11 +13,11 @@ public class UIServiceImpl implements IUCService{
 
 	@Override
 	public IResponseData getRoleInfo(IRequestData request) {
-		Response9Game resp = new Response9Game();
-		if(request instanceof Request9Game){
-			
-		}
-		return resp;
+//		Response9Game resp = new Response9Game();
+//		if(request instanceof Request9Game){
+//			
+//		}
+		return null;
 	}
 	
 }

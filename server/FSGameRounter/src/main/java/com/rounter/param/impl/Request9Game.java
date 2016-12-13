@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
  *
  * 2016年12月11日 下午6:00:24
  */
-public class Request9Game implements IRequestData{
+public class Request9Game{
 	
 	private long id;
 	

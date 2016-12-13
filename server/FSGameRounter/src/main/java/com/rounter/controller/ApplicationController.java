@@ -26,28 +26,28 @@ public class ApplicationController {
 	@RequestMapping("/hello")
 	public String greeting() {
 		long startTime = System.currentTimeMillis();
-		IResponseData resData = new Response9Game();
-
-		server.sendMsgToGameServer(new IRequestData() {
-			
-			@Override
-			public long getId() {
-				return 999;
-			}
-		}, new IResponseHandler() {
-			
-			@Override
-			public void handleServerResponse(Object msgBack, IResponseData response) {
-				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@handleServerResponse: " + msgBack);
-			}
-			
-			@Override
-			public void handleSendFailResponse(IResponseData response) {
-				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@handleSendFailResponse..........");
-			}
-		}, resData);
+//		IResponseData resData = new Response9Game();
+//
+//		server.sendMsgToGameServer(new IRequestData() {
+//			
+//			@Override
+//			public long getId() {
+//				return 999;
+//			}
+//		}, new IResponseHandler() {
+//			
+//			@Override
+//			public void handleServerResponse(Object msgBack, IResponseData response) {
+//				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@handleServerResponse: " + msgBack);
+//			}
+//			
+//			@Override
+//			public void handleSendFailResponse(IResponseData response) {
+//				System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@handleSendFailResponse..........");
+//			}
+//		}, resData);
 		System.out.println(System.currentTimeMillis() - startTime);
-		return resData.toString();
+		return "";//resData.toString();
 	}
 	
 	@RequestMapping("/index")
