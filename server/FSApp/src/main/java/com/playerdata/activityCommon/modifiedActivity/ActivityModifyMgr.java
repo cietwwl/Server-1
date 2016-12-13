@@ -196,8 +196,9 @@ public class ActivityModifyMgr {
 				cfg.setEndTime(item.getEndTime());
 			}
 			setRewardContent(actType, item);
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	/**
