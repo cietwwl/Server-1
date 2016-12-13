@@ -55,7 +55,7 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		roleInfo.setRequestID(request.getId());
 		
 		IResponseData responseData = ucService.getRoleInfo(roleInfo);
-		Pair<UCStateCode,String> afterOpt = afterOpt(responseData);
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
 	}
@@ -141,19 +141,29 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		return MutablePair.of(stateCode, decryptStr);
 	}
 
+	
+	/**
+	 * 在这个实现类里，第一个参数是service处理后的结果，可能为null,
+	 * 第二个参数是请求的id，逻辑上不会为null，因为在beforeOpt里已经校验过
+	 */
 	@Override
 	Pair<UCStateCode, String> afterOpt(Object... param) {
+		long id =  (Long) param[1];
+		if(param[0] == null){
+			return MutablePair.of(UCStateCode.STATE_SERVER_ERROR, responseString(UCStateCode.STATE_SERVER_ERROR, id, null));
+		}
 		IResponseData responseData = (IResponseData) param[0];
+		
 		UCStateCode respCode = UCStateCode.getCodeByID(responseData.getStateCode());
 		if(respCode != UCStateCode.STATE_OK){
 			//处理有问题
-			return MutablePair.of(respCode, responseString(respCode, responseData.getId(), null));
+			return MutablePair.of(respCode, responseString(respCode, id, null));
 		}
 		//进行加密
 		String dataStr = Utils.encrypt9Game(responseData.getData().toJSONString());
 		
 		//转为json字符串
-		String returnStr = responseString(respCode, responseData.getId(), dataStr);
+		String returnStr = responseString(respCode, id, dataStr);
 		logger.info("Response role info to 9game:{}", returnStr);
 		return MutablePair.of(respCode, returnStr);
 	}
