@@ -22,12 +22,12 @@ public class Utils {
 	/**
 	 * 九游的apikey
 	 */
-	private static final String ApiKey_9Game = "1234567890123456";
+	private static final String ApiKey_9Game = "dedffebe8e6dd8423a4cceca03effaca";
 	
 	/**
 	 * 九游的加密key
 	 */
-	private static final String EncryptKey_9Game = "sdfasgddsfgsd";
+	private static final String EncryptKey_9Game = "d259ksx59wS68x5M";
 	
 	/**
 	 * 九游json的key
