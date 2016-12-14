@@ -19,6 +19,7 @@ import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.login.game.LoginSynDataHelper;
 import com.rw.service.redpoint.RedPointManager;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
@@ -185,6 +186,11 @@ public class PlayerLoginHandler {
 				FSTraceLogger.loggerSendAndSubmit("send", current - submitTime, current - executeTime, LOGIN, null, seqID, userId, null);
 			}
 		});
+
+		// 通知要玩角色登录了
+		if (clientInfo != null) {
+			YaoWanLogHandler.getHandler().sendLoginLogHandler(player, clientInfo);
+		}
 
 	}
 }

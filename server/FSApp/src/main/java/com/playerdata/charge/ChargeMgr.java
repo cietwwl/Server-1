@@ -1,5 +1,7 @@
 package com.playerdata.charge;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +32,9 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
-import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.ChargeServiceProto;
 import com.rwproto.MsgDef;
 
@@ -155,6 +157,9 @@ public class ChargeMgr {
 							}
 						}
 						BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
+
+						// 通知要玩，充值完成了
+						YaoWanLogHandler.getHandler().sendChargeLogHandler(player, chargeParam, chargeContentPojo.getCpTradeNo(), chargeContentPojo.getMoney());
 					} else {
 						GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元" + ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 					}
@@ -390,5 +395,11 @@ public class ChargeMgr {
 			}
 		}
 
+	}
+
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		String format = sdf.format(new Date(1481689764958l));
+		System.err.println(format);
 	}
 }

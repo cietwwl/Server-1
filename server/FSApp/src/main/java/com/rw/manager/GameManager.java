@@ -45,6 +45,7 @@ import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.randomname.RandomNameMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
+import com.rw.config.YaoWanLogConfig;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
@@ -220,6 +221,9 @@ public class GameManager {
 
 		// 世界boss 初始化
 		WBStateFSM.getInstance().init();
+
+		// 启用要玩的日志发送配置
+		YaoWanLogConfig.init();
 	}
 
 	public static void initServerProperties() {
