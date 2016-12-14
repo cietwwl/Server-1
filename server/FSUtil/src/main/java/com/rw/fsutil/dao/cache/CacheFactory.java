@@ -20,7 +20,7 @@ public class CacheFactory {
 	private static CacheWriter cacheWriter;
 	
 	static {
-		executor = Executors.newFixedThreadPool(20, new SimpleThreadFactory("datalogs"));
+		executor = Executors.newFixedThreadPool(10, new SimpleThreadFactory("datalogs"));
 		traceMap = new CacheStackTraceMap(4096, "trace", executor);
 		LINE_SEPARATOR = (String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));
 		cacheWriter = new CacheWriterImpl(traceMap);

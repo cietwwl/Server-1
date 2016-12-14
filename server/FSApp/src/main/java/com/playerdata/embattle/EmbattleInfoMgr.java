@@ -27,7 +27,7 @@ public class EmbattleInfoMgr {
 
 	private eSynType synType = eSynType.EmbattleInfo;// 同步数据
 
-	EmbattleInfoMgr() {
+	protected EmbattleInfoMgr() {
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class EmbattleInfoMgr {
 	 * 
 	 * @param player
 	 * @param type
-	 * @param recordKey   1-4为规范的从其他对应功能获得key值得，5之后为fisher随便写的，比如'copy'
+	 * @param recordKey 1-4为规范的从其他对应功能获得key值得，5之后为fisher随便写的，比如'copy'
 	 * @return
 	 */
 	public synchronized EmbattlePositionInfo getEmbattlePositionInfo(String userId, int type, String recordKey) {
@@ -58,9 +58,9 @@ public class EmbattleInfoMgr {
 	 * @param heroPos
 	 */
 	public synchronized boolean updateOrAddEmbattleInfo(Player player, int type, String recordKey, List<EmbattleHeroPosition> heroPos) {
-//		if(heroPos.isEmpty()) {
-//			return false;
-//		}
+		// if(heroPos.isEmpty()) {
+		// return false;
+		// }
 		recordKey = StringUtils.isEmpty(recordKey) ? "0" : recordKey;
 
 		String userId = player.getUserId();

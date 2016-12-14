@@ -19,7 +19,6 @@ import com.log.GameLog;
 import com.playerdata.army.ArmyMagic;
 import com.playerdata.team.HeroBaseInfo;
 import com.playerdata.team.HeroInfo;
-import com.playerdata.team.SkillInfo;
 import com.playerdata.team.TeamInfo;
 import com.rwbase.common.RandomUtil;
 import com.rwbase.common.enu.ECareer;
@@ -429,7 +428,7 @@ public final class RobotHeroBuilder {
 			return null;
 		}
 
-		String userId = roleInfo == null ? null : roleInfo.getUserId();
+		// String userId = roleInfo == null ? null : roleInfo.getUserId();
 		List<Integer> heroTmpIdList = roleInfo == null ? null : roleInfo.getHeroTmpIdList();
 
 		int[] level = robotCfg.getLevel();
@@ -447,8 +446,8 @@ public final class RobotHeroBuilder {
 		// ----------------------------------------法宝信息
 		ArmyMagic magic = buildMagic(robotCfg, mainRoleLevel, randomData);
 		teamInfo.setMagic(magic);
-		int finalMagicId = magic.getModelId();
-		int magicLevel = magic.getLevel();
+		// int finalMagicId = magic.getModelId();
+		// int magicLevel = magic.getLevel();
 
 		// 检查是否有重复
 		List<Integer> hasList = new ArrayList<Integer>(heroTmpIdList.size());
@@ -499,20 +498,20 @@ public final class RobotHeroBuilder {
 				heroInfo.getBaseInfo().setPos(heroPos);
 				heroInfoList.add(heroInfo);
 
-				int skillLevel = 0;
-				List<SkillInfo> skill = heroInfo.getSkill();
-				for (int j = 0, skillSize = skill.size(); j < skillSize; j++) {
-					SkillInfo skillInfo = skill.get(j);
-					if (skillInfo == null) {
-						continue;
-					}
-
-					int sLevel = skillInfo.getSkillLevel();
-					if (sLevel > 0) {
-						skillLevel += sLevel;
-					}
-				}
-
+				// int skillLevel = 0;
+				// List<SkillInfo> skill = heroInfo.getSkill();
+				// for (int j = 0, skillSize = skill.size(); j < skillSize; j++) {
+				// SkillInfo skillInfo = skill.get(j);
+				// if (skillInfo == null) {
+				// continue;
+				// }
+				//
+				// int sLevel = skillInfo.getSkillLevel();
+				// if (sLevel > 0) {
+				// skillLevel += sLevel;
+				// }
+				// }
+				//
 				// 战力
 				// int calFighting = FightingCalculator.calFighting(heroInfo.getBaseInfo().getTmpId(), skillLevel, isMainRole ? magicLevel : 0, isMainRole ? String.valueOf(finalMagicId) : "",
 				// AttributeBM.getRobotAttrData(userId, heroInfo, teamInfo));

@@ -304,7 +304,7 @@ public class UserChannelMgr {
 		UserDataMgr userDataMgr = nextOnline.getUserDataMgr();
 		if (userDataMgr != null) {
 			ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
-			ZoneLoginInfo zoneLoginInfo = nextOnline.getZoneLoginInfo();
+			ZoneLoginInfo zoneLoginInfo = userDataMgr.getZoneLoginInfo();
 			if (zoneRegInfo != null && zoneLoginInfo != null) {
 				String regSubChannelId = zoneRegInfo.getRegSubChannelId();
 				String clientPlayForm = zoneLoginInfo.getLoginClientPlatForm();

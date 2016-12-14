@@ -159,7 +159,7 @@ public class PlayerLoginTask implements PlayerTask {
 		});
 
 		long lastLoginTime = player.getLastLoginTime();
-		player.setZoneLoginInfo(zoneLoginInfo);
+		user.setZoneLoginInfo(zoneLoginInfo);
 		UserChannelMgr.bindUserId(userId, sessionId, true);
 		// 通知玩家登录，Player onLogin太乱，方法后面需要整理
 		ByteString loginSynData = player.onLogin(LOGIN);
