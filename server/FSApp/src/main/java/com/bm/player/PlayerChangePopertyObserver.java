@@ -3,6 +3,7 @@ package com.bm.player;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.bm.randomBoss.RBPlayerChangeListener;
 import com.bm.rank.groupCompetition.GCompListenerPlayerChange;
 import com.bm.rank.teaminfo.TeamInfoListenerPlayerChange;
 import com.playerdata.Player;
@@ -34,6 +35,7 @@ public class PlayerChangePopertyObserver implements Observer {
 		new TBListenerPlayerChange(this);
 		new GCompListenerPlayerChange(this);
 		new ActivityListenerPlayerChange(this);
+		new RBPlayerChangeListener(this);
 	}
 
 	public void addSubscribe(PlayerChangePopertySubscribe subscribe) {
