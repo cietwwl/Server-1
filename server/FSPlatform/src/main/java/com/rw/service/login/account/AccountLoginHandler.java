@@ -89,6 +89,13 @@ public class AccountLoginHandler {
 				String clientInfoJson = accountInfo.getClientInfoJson();
 				PlatformLog.info("AccountLoginHandler", accountId, "Account Login Start --> accountId:" + accountId + "; openAccountId:" + openAccountId);
 
+				if (accountId == null || accountId.isEmpty()) {
+					TableAccount tableAccount = AccoutBM.getInstance().getByOpenAccount(openAccountId);
+					if (tableAccount != null) {
+						accountId = tableAccount.getAccount();
+						PlatformLog.info("Query by openAccount", "openAccountId", "accountId=" + accountId + ",openAccountId=" + openAccountId);
+					}
+				}
 				// 快速注册账号
 				if (accountId.equals("")) {
 					accountId = handelRandomAccount(account, response, accountId, openAccountId, logType, phoneInfo, clientInfoJson);
