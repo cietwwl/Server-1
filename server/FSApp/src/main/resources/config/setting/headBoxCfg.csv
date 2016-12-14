@@ -5,6 +5,7 @@ key,remarks,order,atlas,spriteName,spriteId,tips,littleThing,type
 4,,4,Assets/UIPrefab/Textures/Lead.prefab,bg_head_tianshi,20004,时装天翎霞衣解锁,,1
 5,,5,Assets/UIPrefab/Textures/Lead.prefab,bg_head_emo,20005,时装魅影蝠袍解锁,,1
 6,,6,Assets/UIPrefab/Textures/Lead.prefab,bg_head_haitan,20006,时装唤海轻纱解锁,,1
+7,,7,Assets/UIPrefab/Textures/Lead.prefab,TitleLead_13,20007,竞技之王,,1
 26,,26,Assets/UIPrefab/Textures/Lead.prefab,TitleLead_01,20026,见习战神,,1
 27,,27,Assets/UIPrefab/Textures/Lead.prefab,TitleLead_02,20027,初级战神,,1
 28,,28,Assets/UIPrefab/Textures/Lead.prefab,TitleLead_03,20028,高级战神,,1
