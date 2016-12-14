@@ -21,7 +21,46 @@ public class FightingCalculator {
 	private static final String MAGIC_LEVEL = "magicLevel";// 法宝等级
 	// private static final float COMMON_ATK_RATE_OLD = 1.5f;// 普通攻击除的系数
 	private static final float COMMON_ATK_RATE = 3.0f;// 普通攻击除的系数 修改于 2016-09-06
-
+	
+//	private static <T> FightingCalculateComponentType getComponentType(IFunction<T, Integer> func) {
+//		java.util.EnumSet<FightingCalculateComponentType> es = java.util.EnumSet.allOf(FightingCalculateComponentType.class);
+//		for(FightingCalculateComponentType type : es) {
+//			if(type.getComponentFunc() == func || type.getPlayerOnlyComponentFunc() == func) {
+//				return type;
+//			}
+//		}
+//		return null;
+//	}
+//
+//	private static <T> int calFighting(T target, List<IFunction<T, Integer>> funcList, StringBuilder strBld) {
+//		int fighting = 0;
+//		IFunction<T, Integer> currentFunc;
+//		int currentFighting;
+//		for (int i = 0, size = funcList.size(); i < size; i++) {
+//			currentFunc = funcList.get(i);
+//			currentFighting = currentFunc.apply(target);
+//			fighting += currentFighting;
+//			FightingCalculateComponentType type = getComponentType(currentFunc);
+//			strBld.append("{").append(type.getChineseName()).append("=").append(currentFighting).append("} ");
+//		}
+//		return fighting;
+//	}
+//
+//	public static int calFighting(Hero roleP, AttrData totalAttrData) {
+//		// 新的战力计算
+//		List<IFunction<Hero, Integer>> allComponentsOfHero = FightingCalculateComponentType.getAllHeroComponents();
+//		StringBuilder strBld = new StringBuilder("========== 开始计算[").append(roleP.getName()).append("]的战斗力 ==========\n");
+//		int fighting = calFighting(roleP, allComponentsOfHero, strBld);
+//		if (roleP.isMainRole()) {
+//			// 主角独有的
+//			Player p = FSHeroMgr.getInstance().getOwnerOfHero(roleP);
+//			fighting += calFighting(p, FightingCalculateComponentType.getAllPlayerComponents(), strBld);
+//		}
+//		strBld.append("\n========== 结束计算[").append(roleP.getName()).append("]的战斗力 ==========\n");
+//		System.err.println(strBld.toString());
+//		return fighting;
+//	}
+	
 	private static <T> int calFighting(T target, List<IFunction<T, Integer>> funcList) {
 		int fighting = 0;
 		IFunction<T, Integer> currentFunc;
