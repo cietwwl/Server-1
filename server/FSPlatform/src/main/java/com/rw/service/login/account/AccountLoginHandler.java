@@ -351,7 +351,13 @@ public class AccountLoginHandler {
 	private void handleZoneList(Account account, AccountLoginResponse.Builder response, String accountId) {
 		TableAccount userAccount = account.getTableAccount();
 		if (userAccount == null) {
-			userAccount = AccoutBM.getInstance().getByAccountId(accountId);
+			//TODO 增加通过OpenAccountId获取的容错
+			String openAccountId = response.getAccount().getOpenAccountId();
+			if(openAccountId != null && !openAccountId.isEmpty()){
+				userAccount = AccoutBM.getInstance().getByOpenAccount(openAccountId);
+			}else{
+				userAccount = AccoutBM.getInstance().getByAccountId(accountId);
+			}
 		}
 		// 没有玩家只发服务器列表
 
