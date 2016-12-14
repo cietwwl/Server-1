@@ -557,6 +557,10 @@ public class AngelArrayMatchHelper {
 			}
 
 			TeamInfo teamInfo = extendedAttribute.getTeamInfo();
+			if (teamInfo == null) {
+				continue;
+			}
+
 			matchUserInfo.put(id, new MatchUserInfo(id, teamInfo == null ? -1 : teamInfo.getCareer(), rankType, teamInfo.getTeamFighting()));
 
 			if (matchUserInfo.size() >= AngelArrayConst.MIN_MATCH_SIZE) {
