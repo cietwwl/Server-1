@@ -44,6 +44,7 @@ import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.CopyInfoCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.ranking.Ranking;
@@ -324,6 +325,7 @@ public class GMHandler {
 		funcCallBackMap.put("openwb", "openWorldBoss");// 开启/关闭世界boss状态 openwb num(0=关闭，1=开启)
 		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
 		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
+		funcCallBackMap.put("recal", "reCal");
 	}
 
 	public boolean isActive() {
@@ -2409,6 +2411,14 @@ public class GMHandler {
 			int contribute = Integer.parseInt(arrCommandContents[0]);
 			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 			group.getGroupMemberMgr().updateMemberDataWhenDonate(player.getUserId(), baseData.getDonateTimes() + 1, System.currentTimeMillis(), contribute, true);
+		}
+		return true;
+	}
+	
+	public boolean reCal(String[] arrCommandContents, Player player) {
+		List<Hero> heros = FSHeroMgr.getInstance().getAllHeros(player, null);
+		for(Hero h : heros) {
+			h.getAttrMgr().reCal();
 		}
 		return true;
 	}
