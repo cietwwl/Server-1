@@ -72,7 +72,7 @@ public abstract class DataCache<K, V> implements EvictedElementTaker {
 		this.evictedQueue = new FSBoundedQueue<ReentrantFutureTask>(name, tenPercent);
 		this.logger = CacheFactory.getLogger(name);
 		this.updatePeriod = updatePeriod;
-		this.updatePeriodMillis = (int) TimeUnit.SECONDS.toMillis(updatePeriod);
+		this.updatePeriodMillis = (int) TimeUnit.SECONDS.toMillis(updatePeriod) * 10;
 		this.taskMap = new ConcurrentHashMap<K, ReentrantFutureTask>();
 		this.penetrationCache = new SimpleCache<K, Long>(1000);
 		this.penetrationTimeOutMillis = TimeUnit.MINUTES.toMillis(5);
