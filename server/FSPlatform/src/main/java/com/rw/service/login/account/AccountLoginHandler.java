@@ -115,13 +115,7 @@ public class AccountLoginHandler {
 				zoneInfo = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
 			}
 			if (zoneInfo != null) {
-				if (account.isWhiteList()) {
-					response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
-				}else{
-					if(zoneInfo.getEnabled() != 0){
-						response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
-					} 
-				}
+				response.setLastZone(getZoneInfo(zoneInfo, account.isWhiteList()));
 			}
 		} else {
 			ZoneInfoCache zoneInfo = PlatformFactory.getPlatformService().getLastZoneCfg(account.isWhiteList());
@@ -342,17 +336,8 @@ public class AccountLoginHandler {
 
 		response.setLoginType(eAccountLoginType.ZONE_LIST);
 		List<ZoneInfoCache> allZoneList = PlatformFactory.getPlatformService().getAllZoneList();
-		HashMap<Integer, Integer> ZoneStatusList = new HashMap<Integer, Integer>();
 		for (ZoneInfoCache zone : allZoneList) {
-			// 当设置服务器不显示，则不发送到客户端
-			if (account.isWhiteList()) {
-				response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
-			}else{
-				if(zone.getEnabled() != 0){
-					response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
-				} 
-			}
-			ZoneStatusList.put(zone.getZoneId(), zone.getEnabled());
+			response.addZoneList(getZoneInfo(zone, account.isWhiteList()));
 		}
 		
 		Collection<TableServerPage> allServerPage = PlatformFactory.getPlatformService().getAllServerPage();
@@ -376,10 +361,6 @@ public class AccountLoginHandler {
 
 		for (int i = lastLoginList.size() - 1; i >= 0; i--) {
 			int zoneId = lastLoginList.get(i);
-			Integer isEnable = ZoneStatusList.get(zoneId);
-			if (isEnable == 0 && !account.isWhiteList()) {
-				continue;
-			}
 			UserZoneInfo userZoneInfo = userAccount.getZoneIdInUserZoneInfoMap(zoneId);
 			if(userZoneInfo == null){
 				continue;
