@@ -558,6 +558,7 @@ public class AngelArrayMatchHelper {
 
 			TeamInfo teamInfo = extendedAttribute.getTeamInfo();
 			if (teamInfo == null) {
+				GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("id为[%s]的用户在万仙阵匹配榜[%s]找不到对应的TeamInfo", id, rankType));
 				continue;
 			}
 
