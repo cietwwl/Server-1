@@ -153,6 +153,8 @@ enum Command {
 	
 	MSG_BATTLE_VERIFY = 239; // 战斗信息校对
 	
+	MSG_RANDOM_NAME = 240; // 请求随机名字
+	
 	
 	
 	
