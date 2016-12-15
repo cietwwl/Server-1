@@ -29,33 +29,32 @@ public class YinHanChargeCallbackChecker implements IChargeCallbackChecker<Charg
 		/*
 		 * sign=md5(cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey) 字段如果为null则用空的字符串代替
 		 */
-		// if (content.getSign() == null) {
-		// GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "订单签名为空！订单号：" + content.getCpTradeNo());
-		// return false;
-		// }
-		// StringBuilder strBld = new StringBuilder();
-		// this.appendField(strBld, content.getCpTradeNo());
-		// this.appendField(strBld, appID);
-		// this.appendField(strBld, content.getUserId());
-		// this.appendField(strBld, content.getRoleId());
-		// this.appendField(strBld, String.valueOf(content.getServerId()));
-		// this.appendField(strBld, content.getChannelId());
-		// this.appendField(strBld, content.getItemId());
-		// this.appendField(strBld, String.valueOf(content.getItemAmount()));
-		// this.appendField(strBld, content.getPrivateField());
-		// this.appendField(strBld, String.valueOf(content.getMoney()));
-		// this.appendField(strBld, content.getStatus());
-		// strBld.append(appKey);
-		// String sign = MD5Encrypt.MD5Encode(strBld.toString()).toLowerCase();
-		// if (content.getSign().equals(sign)) {
-		// return true;
-		// } else {
-		// // GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
-		// System.err.println("签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
-		// return false;
-		// }
-
-		return true;
+		if (content.getSign() == null) {
+			GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "订单签名为空！订单号：" + content.getCpTradeNo());
+			return false;
+		}
+		StringBuilder strBld = new StringBuilder();
+		this.appendField(strBld, content.getCpTradeNo());
+		this.appendField(strBld, appID);
+		this.appendField(strBld, content.getUserId());
+		this.appendField(strBld, content.getRoleId());
+		this.appendField(strBld, String.valueOf(content.getServerId()));
+		this.appendField(strBld, content.getChannelId());
+		this.appendField(strBld, content.getItemId());
+		this.appendField(strBld, String.valueOf(content.getItemAmount()));
+		this.appendField(strBld, content.getPrivateField());
+		this.appendField(strBld, String.valueOf(content.getMoney()));
+		this.appendField(strBld, content.getStatus());
+		strBld.append(appKey);
+		String sign = MD5Encrypt.MD5Encode(strBld.toString()).toLowerCase();
+		if (content.getSign().equals(sign)) {
+			return true;
+		} else {
+			// GameLog.error("YinHanChargeCallbackChecker", content.getRoleId(), "签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" +
+			// strBld.toString());
+			System.err.println("签名匹配！订单号：" + content.getCpTradeNo() + "，订单签名：" + content.getSign() + "，本地生成签名：" + sign + "，签名原串：" + strBld.toString());
+			return false;
+		}
 	}
 
 	@Override

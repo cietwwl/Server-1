@@ -102,7 +102,14 @@ public class PlayerLoginHandler {
 				FSTraceLogger.logger("displace", 0, "DISPLACE", seqID, userId, null, false);
 				UserChannelMgr.KickOffPlayer(oldSessionId, nettyControler, userId);
 			}
+
+			// 设置一下客户端的IP
+			String ip = player.getTempAttribute().getIp();
+			if (StringUtils.isEmpty(ip)) {
+				player.getTempAttribute().setIp(YaoWanLogHandler.getHandler().getClientIp(userId));
+			}
 		}
+
 		// 检查发送版本更新
 		if (clientInfo != null) {
 			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());

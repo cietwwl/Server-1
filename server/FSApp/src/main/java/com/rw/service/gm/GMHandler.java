@@ -1,12 +1,21 @@
 package com.rw.service.gm;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,16 +50,25 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.charge.cfg.ChargeCfg;
+import com.playerdata.charge.cfg.ChargeCfgDao;
+import com.playerdata.charge.checker.YinHanChargeCallbackChecker;
+import com.playerdata.charge.data.ChargeOrderInfo;
+import com.playerdata.charge.data.ChargeParam;
+import com.playerdata.charge.util.MD5Encrypt;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.CopyInfoCfgIF;
+import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
@@ -330,6 +348,8 @@ public class GMHandler {
 		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
 		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
 		funcCallBackMap.put("recal", "reCal");
+		// 充值测试
+		funcCallBackMap.put("charge", "charge");
 	}
 
 	public boolean isActive() {
@@ -2497,4 +2517,137 @@ public class GMHandler {
 			return f2 - f1;
 		}
 	};
+
+	/**
+	 * 测试作弊
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public boolean charge(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 3) {
+			return false;
+		}
+
+		int index = Integer.parseInt(arrCommandContents[0]);
+		ChargeCfgDao cfgDAO = ChargeCfgDao.getInstance();
+		List<ChargeCfg> readOnlyAllCfg = cfgDAO.getReadOnlyAllCfg();
+		int size = readOnlyAllCfg.size();
+		if (index < 0 || index >= size) {
+			return false;
+		}
+
+		ChargeCfg chargeCfg = readOnlyAllCfg.get(index);
+		if (chargeCfg == null) {
+			System.out.println("charge fail! can not find charge id");
+			return false;
+		}
+		String chargeId = chargeCfg.getId();
+
+		System.out.println("-------------charge id:" + chargeId);
+		System.out.println("-------------chargeCfg.getMoney():" + chargeCfg.getMoneyCount());
+
+		SimpleDateFormat sdf = new SimpleDateFormat("MMdd_HHmmssSS");
+		String cpTradeNo = "YINHAN" + sdf.format(new Date(System.currentTimeMillis()));
+
+		String userId = player.getUserId();
+
+		ChargeContentPojo content = new ChargeContentPojo();
+		content.setCpTradeNo(cpTradeNo);
+		content.setGameId(1);
+		content.setUserId(userId);
+		content.setRoleId(userId);
+
+		content.setServerId(GameManager.getZoneId());
+		content.setChannelId("0");
+
+		ChargeParam para = new ChargeParam();
+		ChargeOrderInfo info = new ChargeOrderInfo();
+		para.setProductId(chargeId);
+		para.setChargeEntrance("1");
+		para.setFriendId(null);
+		info.setOrderId("182FA1C42A2468F8488E6DCF75A81B81");
+		para.setOrderInfo(info);
+		para.setImei(arrCommandContents[1]);
+		para.setSysVer(arrCommandContents[2]);
+
+		content.setItemId(chargeId);
+		content.setItemAmount(1);
+		content.setPrivateField(JsonUtil.writeValue(para));
+		content.setMoney(chargeCfg.getMoneyCount());
+		content.setCurrencyType("CNY");
+		content.setFee(chargeCfg.getMoneyYuan());
+		content.setStatus("0");
+		content.setGiftId(String.valueOf(chargeCfg.getExtraGiftId()));
+		content.setSign(getChargeSign(content));
+
+		String json = JsonUtil.writeValue(content);
+		try {
+			InetAddress localHost = Inet4Address.getLocalHost();
+			sendPost(localHost.getHostAddress(), "10000", json);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	private void appendField(StringBuilder strBld, String value) {
+		if (value == null || value.length() == 0) {
+			value = "";
+		}
+		strBld.append(value).append("|");
+	}
+
+	/**
+	 * 充值的Sign
+	 * 
+	 * @param content
+	 * @return
+	 */
+	private String getChargeSign(ChargeContentPojo content) {
+		/*
+		 * sign=md5(cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey) 字段如果为null则用空的字符串代替
+		 */
+		StringBuilder strBld = new StringBuilder();
+		this.appendField(strBld, content.getCpTradeNo());
+		this.appendField(strBld, YinHanChargeCallbackChecker.appID);
+		this.appendField(strBld, content.getUserId());
+		this.appendField(strBld, content.getRoleId());
+		this.appendField(strBld, String.valueOf(content.getServerId()));
+		this.appendField(strBld, content.getChannelId());
+		this.appendField(strBld, content.getItemId());
+		this.appendField(strBld, String.valueOf(content.getItemAmount()));
+		this.appendField(strBld, content.getPrivateField());
+		this.appendField(strBld, String.valueOf(content.getMoney()));
+		this.appendField(strBld, content.getStatus());
+		strBld.append(YinHanChargeCallbackChecker.appKey);
+		return MD5Encrypt.MD5Encode(strBld.toString()).toLowerCase();
+	}
+
+	private void sendPost(String ip, String host, String param) {
+		try {
+			// URL url = new URL("http://" + ip + ":" + host + "/Charge/charge");
+			URL url = new URL("http://192.168.2.98:10000/Charge/charge");
+			HttpURLConnection openConnection = (HttpURLConnection) url.openConnection();
+			openConnection.setDoInput(true);
+			openConnection.setDoOutput(true);
+
+			openConnection.setRequestMethod("POST");
+			openConnection.setRequestProperty("Content-type", "application/json;charset-UTF8");
+
+			openConnection.connect();
+
+			PrintWriter pw = new PrintWriter(openConnection.getOutputStream());
+			System.err.println(param);
+			pw.write(param);
+			pw.flush();
+			pw.close();
+
+			System.err.println(openConnection.getResponseCode());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

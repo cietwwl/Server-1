@@ -6,10 +6,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 import org.springframework.util.StringUtils;
 
@@ -73,11 +73,11 @@ public class YaoWanLogHandler {
 		// 获取客户端的IP信息
 		String clientIp = clientInfo.getClientIp();
 		if (StringUtils.isEmpty(clientIp)) {
-			clientIp = getClientIp(userId);
+			clientIp = player.getTempAttribute().getIp();
 		}
 
 		if (StringUtils.isEmpty(clientIp)) {
-			clientIp = player.getTempAttribute().getIp();
+			clientIp = getClientIp(userId);
 		}
 
 		if (StringUtils.isEmpty(clientIp)) {
@@ -86,10 +86,9 @@ public class YaoWanLogHandler {
 
 		String format = String.format(instance.getRegister_log_required_param(), game_name, time, clientIp, imei, instance.getDefault_browser_ver(), clientInfo.getSystemVersion(), userId, md5String.toLowerCase());
 		sendHttpGet(instance.getRegister_log_url(), instance.getRegister_log_action_param() + format);
-
-		// System.err.println(format);
+		// System.err.println("注册>>>" + format);
 		// String sendHttpGet = sendHttpGet(instance.getRegister_log_url(), instance.getRegister_log_action_param() + format);
-		// System.err.println(sendHttpGet);
+		// System.err.println("注册>>>" + sendHttpGet);
 	}
 
 	/**
@@ -127,13 +126,9 @@ public class YaoWanLogHandler {
 		}
 
 		// 获取客户端的IP信息
-		String clientIp = clientInfo.getClientIp();
+		String clientIp = player.getTempAttribute().getIp();
 		if (StringUtils.isEmpty(clientIp)) {
 			clientIp = getClientIp(userId);
-		}
-
-		if (StringUtils.isEmpty(clientIp)) {
-			clientIp = player.getTempAttribute().getIp();
 		}
 
 		if (StringUtils.isEmpty(clientIp)) {
@@ -142,9 +137,9 @@ public class YaoWanLogHandler {
 
 		String format = String.format(instance.getLogin_log_required_param(), game_name, time, clientIp, imei, instance.getDefault_browser_ver(), clientInfo.getSystemVersion(), userId, player.getUserName(), zoneId, md5String.toLowerCase());
 		sendHttpGet(instance.getLogin_log_url(), instance.getLogin_log_action_param() + format);
-		// System.err.println(format);
+		// System.err.println("登录>>>" + format);
 		// String sendHttpGet = sendHttpGet(instance.getLogin_log_url(), instance.getLogin_log_action_param() + format);
-		// System.err.println(sendHttpGet);
+		// System.err.println("登录>>>" + sendHttpGet);
 	}
 
 	/**
@@ -188,9 +183,9 @@ public class YaoWanLogHandler {
 		}
 
 		// 获取客户端的IP信息
-		String clientIp = getClientIp(userId);
+		String clientIp = player.getTempAttribute().getIp();
 		if (StringUtils.isEmpty(clientIp)) {
-			clientIp = player.getTempAttribute().getIp();
+			clientIp = getClientIp(userId);
 		}
 
 		if (StringUtils.isEmpty(clientIp)) {
@@ -199,9 +194,9 @@ public class YaoWanLogHandler {
 
 		String format = String.format(instance.getCharge_log_required_param(), game_name, time, clientIp, imei, instance.getDefault_browser_ver(), clientInfo.getSysVer(), orderId, (money / 100), userId, player.getUserName(), zoneId, md5String.toLowerCase());
 		sendHttpGet(instance.getCharge_log_url(), instance.getCharge_log_action_param() + format);
-		// System.err.println(format);
+		// System.err.println("充值>>>" + format);
 		// String sendHttpGet = sendHttpGet(instance.getCharge_log_url(), instance.getCharge_log_action_param() + format);
-		// System.err.println(sendHttpGet);
+		// System.err.println("充值>>>" + sendHttpGet);
 	}
 
 	/**
@@ -210,7 +205,7 @@ public class YaoWanLogHandler {
 	 * @param userId
 	 * @return
 	 */
-	private String getClientIp(String userId) {
+	public String getClientIp(String userId) {
 		Long sessionId = UserChannelMgr.getSessionId(userId);
 		if (sessionId == null) {
 			return null;
@@ -240,7 +235,9 @@ public class YaoWanLogHandler {
 		try {
 			String urlAddress = StringUtils.isEmpty(param) ? url : (url + "?" + param);
 			URL httpURL = new URL(urlAddress);
-			URLConnection openConnection = httpURL.openConnection();
+			HttpURLConnection openConnection = (HttpURLConnection) httpURL.openConnection();
+			openConnection.setRequestMethod("GET");
+			openConnection.setRequestProperty("Charset", "UTF-8");
 			openConnection.connect();
 
 			InputStream inputStream = openConnection.getInputStream();

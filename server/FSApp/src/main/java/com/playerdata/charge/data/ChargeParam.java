@@ -16,9 +16,9 @@ public class ChargeParam {
 
 	private ChargeOrderInfo orderInfo;
 
-	private String imei = "TestIMEI4WindowsUser";// 用户的IMEI码
+	private String imei;// 用户的IMEI码
 
-	private String sysVer = "win10.0";// 用户的系统版本号
+	private String sysVer;// 用户的系统版本号
 
 	public String getProductId() {
 		return productId;
@@ -58,5 +58,13 @@ public class ChargeParam {
 
 	public String getSysVer() {
 		return sysVer;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	public void setSysVer(String sysVer) {
+		this.sysVer = sysVer;
 	}
 }
