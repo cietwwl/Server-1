@@ -88,8 +88,6 @@ public class ActivityVitalityItemHolder{
 	
 	public RoleExtPropertyStore<ActivityVitalityTypeItem> getItemStore(String userId) {
 		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_VITALITY, ActivityVitalityTypeItem.class);
-//		RoleExtPropertyStoreCache<ActivityVitalityTypeItem> cach = RoleExtPropertyFactory.getPlayerExtCache(null, ActivityVitalityTypeItem.class);
-		
 		try {
 			return cach.getStore(userId);
 		} catch (InterruptedException e) {
@@ -101,5 +99,4 @@ public class ActivityVitalityItemHolder{
 		}
 		return null;
 	}
-	
 }

@@ -14,7 +14,6 @@ import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
@@ -37,20 +36,18 @@ public final class ActivityRateTypeCfgDAO extends
 		cfgCacheMap = CfgCsvHelper.readCsv2Map(
 				"Activity/ActivityRateTypeCfg.csv", ActivityRateTypeCfg.class);
 		for (ActivityRateTypeCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
+			cfgTmp.ExtraInitAfterLoad();
 			parseTimeByHour(cfgTmp);
 			parseCopyTypeAndespecialEnum(cfgTmp);
 		}
 		
 		HashMap<String, List<ActivityRateTypeCfg>> cfgMapByEnumidTemp = new HashMap<String, List<ActivityRateTypeCfg>>();
 		for(ActivityRateTypeCfg cfg : cfgCacheMap.values()){
-			ActivityTypeHelper.add(cfg, cfg.getEnumId(), cfgMapByEnumidTemp);
+			ActivityTypeHelper.add(cfg, String.valueOf(cfg.getEnumId()), cfgMapByEnumidTemp);
 		}
 		this.cfgMapByEnumid = cfgMapByEnumidTemp;		
 		return cfgCacheMap;
 	}
-
-	
 	
 	/**
 	 * 
@@ -87,30 +84,18 @@ public final class ActivityRateTypeCfgDAO extends
 		}
 	}
 
-	private void parseTime(ActivityRateTypeCfg cfgItem) {
-		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem
-				.getStartTimeStr());
-		cfgItem.setStartTime(startTime);
-
-		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfgItem
-				.getEndTimeStr());
-		cfgItem.setEndTime(endTime);
-	}
-
-
-
 	public ActivityRateTypeItem newItem(Player player,
 			ActivityRateTypeCfg cfgById) {
 		if (cfgById != null) {
 			ActivityRateTypeItem item = new ActivityRateTypeItem();
 //			String itemId = ActivityRateTypeHelper.getItemId(
 //					player.getUserId(), ActivityRateTypeEnum.getById(cfgById.getEnumId()));
-			int id = Integer.parseInt(cfgById.getEnumId());
+			int id = Integer.parseInt(String.valueOf(cfgById.getEnumId()));
 			item.setId(id);
-			item.setCfgId(cfgById.getId());
-			item.setEnumId(cfgById.getEnumId());
+			item.setCfgId(String.valueOf(cfgById.getId()));
+			item.setEnumId(String.valueOf((cfgById.getEnumId())));
 			item.setUserId(player.getUserId());
-			item.setVersion(cfgById.getVersion());
+			item.setVersion(String.valueOf((cfgById.getVersion())));
 			item.setMultiple(cfgById.getMultiple());
 			return item;
 		} else {
@@ -129,7 +114,7 @@ public final class ActivityRateTypeCfgDAO extends
 		}
 		List<ActivityRateTypeCfg> cfgListByEnumID = new ArrayList<ActivityRateTypeCfg>();
 		for(ActivityRateTypeCfg cfg : cfgList){
-			if(!StringUtils.equals(item.getCfgId(), cfg.getId())){
+			if(!StringUtils.equals(item.getCfgId(), String.valueOf(cfg.getId()))){
 				cfgListByEnumID.add(cfg);				
 			}			
 		}

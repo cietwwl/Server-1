@@ -15,8 +15,8 @@ import com.playerdata.activity.limitHeroType.ActivityLimitHeroEnum;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeItem;
 import com.playerdata.activity.limitHeroType.data.ActivityLimitHeroTypeSubItem;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rw.fsutil.util.DateUtils;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
@@ -30,25 +30,14 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 		return SpringContextUtil.getBean(ActivityLimitHeroCfgDAO.class);
 	}
 	
-	
-	
 	@Override
 	public Map<String, ActivityLimitHeroCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroCfg.csv", ActivityLimitHeroCfg.class);
-		for (ActivityLimitHeroCfg cfgTmp : cfgCacheMap.values()) {
-			parseTime(cfgTmp);
-		}		
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityLimitHeroCfg.csv", ActivityLimitHeroCfg.class);		
+		for(ActivityCfgIF cfg : cfgCacheMap.values()){
+			cfg.ExtraInitAfterLoad();
+		}
 		return cfgCacheMap;
 	}
-
-
-	public void parseTime(ActivityLimitHeroCfg cfg){
-		long startTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getStartTimeStr());
-		cfg.setStartTime(startTime);		
-		long endTime = DateUtils.YyyymmddhhmmToMillionseconds(cfg.getEndTimeStr());
-		cfg.setEndTime(endTime);		
-	}		
-	
 	
 	/**
 	 * 
@@ -64,9 +53,9 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 //			String itemId = ActivityLimitHeroHelper.getItemId(userid, ActivityLimitHeroEnum.LimitHero);
 			int id = Integer.parseInt(ActivityLimitHeroEnum.LimitHero.getCfgId());
 			item.setId(id);
-			item.setCfgId(cfg.getId());
+			item.setCfgId(String.valueOf(cfg.getId()));
 			item.setUserId(userid);
-			item.setVersion(cfg.getVersion());
+			item.setVersion(String.valueOf(cfg.getVersion()));
 			item.setLastSingleTime(0);
 			item.setSubList(newSubItemList(cfg));
 			item.setIntegral(0);
@@ -77,7 +66,7 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 	}
 
 	public List<ActivityLimitHeroTypeSubItem> newSubItemList(ActivityLimitHeroCfg cfg){
-		List<ActivityLimitHeroBoxCfg> boxCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getCfgListByParentID(cfg.getId());
+		List<ActivityLimitHeroBoxCfg> boxCfgList = ActivityLimitHeroBoxCfgDAO.getInstance().getCfgListByParentID(String.valueOf(cfg.getId()));
 		
 		List<ActivityLimitHeroTypeSubItem> subItemList = new ArrayList<ActivityLimitHeroTypeSubItem>();
 		if(boxCfgList == null){
@@ -99,7 +88,7 @@ public final class ActivityLimitHeroCfgDAO extends CfgCsvDao<ActivityLimitHeroCf
 		ActivityLimitHeroTypeMgr activityLimitHeroTypeMgr = ActivityLimitHeroTypeMgr.getInstance();
 		List<ActivityLimitHeroCfg> allList = getAllCfg();
 		for(ActivityLimitHeroCfg cfg : allList){
-			if (!StringUtils.equals(item.getCfgId(),cfg.getId())&&activityLimitHeroTypeMgr.isOpen(cfg)) {
+			if (!StringUtils.equals(item.getCfgId(), String.valueOf(cfg.getId())) && activityLimitHeroTypeMgr.isOpen(cfg)) {
 				openCfgList.add(cfg);
 			}			
 		}

@@ -10,8 +10,6 @@ import com.bm.randomBoss.RandomBossMgr;
 import com.bm.targetSell.TargetSellManager;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
-import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
@@ -258,14 +256,6 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.ActivityTimeCountType);
 
-		versionMap.put(eSynType.ActivityDailyType, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {
-				ActivityDailyTypeMgr.getInstance().synCountTypeData(player);
-			}
-		}));
-		orderList.add(eSynType.ActivityDailyType);
-
 		versionMap.put(eSynType.ActivityExchangeType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
@@ -306,13 +296,6 @@ public class DataSynVersionHolder {
 		}));
 		orderList.add(eSynType.GCompSelfGuess);
 
-		versionMap.put(eSynType.ActivityVitalityType, new PlayerDataMgr(new RecordSynchronization() {
-			@Override
-			public void synAllData(Player player, int version) {
-				ActivityVitalityTypeMgr.getInstance().synVitalityTypeData(player);
-			}
-		}));
-		orderList.add(eSynType.ActivityVitalityType);
 
 		versionMap.put(eSynType.ActivityRedEnvelopeType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override

@@ -1,8 +1,8 @@
 package com.rw.dataaccess.attachment.creator;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
 import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerPropertyParams;
@@ -13,7 +13,6 @@ public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<Activi
 
 	@Override
 	public eOpenLevelType getOpenLevelType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -22,22 +21,19 @@ public class ActivityDailyTypeCreator implements PlayerExtPropertyCreator<Activi
 	@Override
 	public List<ActivityDailyTypeItem> firstCreate(
 			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityDailyTypeMgr.getInstance().creatItems(params.getUserId(), false);
+		return new ArrayList<ActivityDailyTypeItem>();
 	}
 
 	@Override
 	public List<ActivityDailyTypeItem> checkAndCreate(
 			RoleExtPropertyStore<ActivityDailyTypeItem> store,
 			PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean requiredToPreload(PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityDailyTypeMgr.getInstance().isOpen(params.getCreateTime());
+		return true;
 	}
 
 }

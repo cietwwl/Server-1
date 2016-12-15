@@ -97,9 +97,19 @@ public class HotGambleCfgHelper extends CfgCsvDao<HotGambleCfg> {
 		}
 
 		Calendar cal = Calendar.getInstance();
+		
+		String date = dataFormat.format(cal.getTime());
+		GambleHotHeroPlanDAO DAO = GambleHotHeroPlanDAO.getInstance();
+		GambleHotHeroPlan result = DAO.get(date);
+		if (result != null && result.getDateAsId() != null) {
+			// System.out.println("gamble hot hero list already set for today:"+date);
+			return cacheCfg;
+		}
+		
 		int nowMonth = cal.get(Calendar.MONTH) + 1;// JDK的月份从0开始计数
 		int nowDay = cal.get(Calendar.DAY_OF_MONTH);// 从下一日开始搜索
-		if (cacheCfg.getMonth() < nowMonth || cacheCfg.getMonth() == nowMonth && cacheCfg.getDay() < nowDay) {
+		//if (cacheCfg.getMonth() < nowMonth || cacheCfg.getMonth() == nowMonth && cacheCfg.getDay() < nowDay) {----不可以这样判断，否则跨年就无法刷新    by Alex 12.14.2016
+		if (cacheCfg.getMonth() != nowMonth || (cacheCfg.getMonth() == nowMonth && cacheCfg.getDay() < nowDay)) {
 			// 正常情况下，隔了一天以上没有刷新缓存的时候，当前日期应该在缓存日期之后，这就需要重新计算
 			// 但如果出现某一次计算缓存的时候对应日期没有配置，当时会搜索下一个可用日期的配置作为替代
 			// 那就可能产生当前日期在缓存日期之前的情况，这时候不需要再进行计算

@@ -5,13 +5,10 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.bm.login.AccoutBM;
 import com.log.GameLog;
-import com.playerdata.EmailMgr;
 import com.playerdata.Player;
-import com.playerdata.VipMgr;
 import com.playerdata.activity.chargeRebate.dao.ActivityChargeRebateDAO;
 import com.playerdata.activity.chargeRebate.dao.ActivityChargeRebateData;
 import com.playerdata.charge.ChargeMgr;

@@ -34,6 +34,18 @@ public enum ActivityKey {
 	ACTIVITY_DISCOUNT(8, GameWorldKey.ACTIVITY_DISCOUNT, ActivityTypeFactory.DailyDiscount),
 	/**--	招财猫	--*/
 	ACTIVITY_FORTUNECAT(9, GameWorldKey.ACTIVITY_FORTUNECAT, ActivityTypeFactory.FortuneCat),
+	/**--	每日福利	--*/
+	ACTIVITY_DAILY_COUNT(10, GameWorldKey.ACTIVITY_DAILY_COUNT, ActivityTypeFactory.DailyCount),
+	/**--	交换活动	--*/
+	ACTIVITY_EXCHANGE(11, GameWorldKey.ACTIVITY_EXCHANGE, ActivityTypeFactory.ExChangeType),
+	/**--	限时英雄	--*/
+	ACTIVITY_LIMITHERO(12, GameWorldKey.ACTIVITY_LIMITHERO, ActivityTypeFactory.LimitHeroType),
+	/**--	双倍活动	--*/
+	ACTIVITY_RATETYPE(13, GameWorldKey.ACTIVITY_RATETYPE, ActivityTypeFactory.RateType),
+	/**--	红包活动	--*/
+	ACTIVITY_REDENVELOPE(14, GameWorldKey.ACTIVITY_REDENVELOPE, ActivityTypeFactory.RedEnvelopeType),
+	/**--	活跃之王	--*/
+	ACTIVITY_VITALITYTYPE(15, GameWorldKey.ACTIVITY_VITALITYTYPE, ActivityTypeFactory.VitalityType),
 	;
 	
 	@SuppressWarnings("rawtypes")
@@ -83,7 +95,7 @@ public enum ActivityKey {
 	 */
 	public static ActivityKey getByCfgId(int cfgId){
 		for(ActivityKey act : ActivityKey.values()){
-			if(act.getActivityType().getActivityMgr().isThisActivityIndex(cfgId)){
+			if(act.getActivityType().getActivityJudgeMgr().isThisActivityIndex(cfgId)){
 				return act;
 			}
 		}
