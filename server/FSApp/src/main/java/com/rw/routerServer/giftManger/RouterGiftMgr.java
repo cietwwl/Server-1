@@ -4,9 +4,14 @@ import java.util.Enumeration;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.PlayerMgr;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
+import com.rw.routerServer.cfg.UCGiftCfg;
+import com.rw.routerServer.cfg.UCGiftCfgDAO;
 import com.rw.routerServer.data.ResultState;
+import com.rw.service.Email.EmailUtils;
 
 public class RouterGiftMgr {
 	
@@ -62,5 +67,12 @@ public class RouterGiftMgr {
 	
 	private void sendGift(String userId, String giftId){
 		//TODO 读取礼包配置表，通过邮件发送礼包
+		UCGiftCfg cfg = UCGiftCfgDAO.getInstance().getCfgById(giftId);
+		if(cfg == null){
+			GameLog.error(LogModule.RouterServer.getName(), "RounterGiftMgr[sendGift]", "直通车请求发送礼包，无法找到目标配置,giftID："+ giftId, null);
+			return;
+		}
+		EmailUtils.sendEmail(userId, giftId, cfg.getContent());
+		
 	}
 }
