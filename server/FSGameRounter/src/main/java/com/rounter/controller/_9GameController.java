@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.rounter.controller.ucParam.Request9Game;
 import com.rounter.controller.ucParam.Response9Game;
+import com.rounter.loginServer.LoginServerEnum;
 import com.rounter.param.IResponseData;
-import com.rounter.service.impl.IUCService;
+import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
 import com.rounter.util.Utils;
@@ -49,7 +50,22 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		if(stateCode != UCStateCode.STATE_OK){
 			return t2;
 		}
-		IResponseData responseData = ucService.getRoleInfo("1001", "12306");
+		JSONObject json = (JSONObject) JSONObject.parse(t2);
+		String account = json.getString("accountId");
+		int platform = json.getIntValue("platform");
+		String serverKey = null;
+		if(platform == 2){
+			serverKey = LoginServerEnum.UC_ANDRIOD.name();
+		}else if(platform == 3){
+			serverKey = LoginServerEnum.UC_IOS.name();
+		}
+		
+		if(StringUtils.isEmpty(serverKey)){
+			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+		}
+		
+		
+		IResponseData responseData = ucService.getRoleInfo(serverKey, account);
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
@@ -69,11 +85,93 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		if(stateCode != UCStateCode.STATE_OK){
 			return t2;
 		}
-		IResponseData responseData = ucService.getAreasInfo("1001", 1, 10);
+		
+		
+		JSONObject json = (JSONObject) JSONObject.parse(t2);
+		int platform = json.getIntValue("platform");
+		String serverKey = null;
+		if(platform == 2){
+			serverKey = LoginServerEnum.UC_ANDRIOD.name();
+		}else if(platform == 3){
+			serverKey = LoginServerEnum.UC_IOS.name();
+		}
+		
+		if(StringUtils.isEmpty(serverKey)){
+			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+		}
+		int page = json.getIntValue("page") != 0 ? json.getIntValue("page") : 1;
+		int count = json.getIntValue("count") != 0 ? json.getIntValue("count") : 20;
+		
+		IResponseData responseData = ucService.getAreasInfo(serverKey, page, count);
 		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
 		logger.info("response role info msg :{}", afterOpt.getValue());
 		return afterOpt.getValue();
 	}
+	
+	/**
+	 * 礼包发放接口
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="sendgift", method={RequestMethod.POST})
+	@ResponseBody
+	public String sendGift(@RequestBody Request9Game request){
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+		UCStateCode stateCode = beforeOpt.getKey();
+		String t2 = beforeOpt.getValue();
+		if(stateCode != UCStateCode.STATE_OK){
+			return t2;
+		}
+		
+		JSONObject json = (JSONObject) JSONObject.parse(t2);
+		String areaId = json.getString("serverId");
+		String roleID = json.getString("roleId");
+		String giftId = json.getString("kaId");
+		String recvDate = json.getString("getDate");
+		if(areaId == null || roleID == null || giftId == null || recvDate == null){
+			logger.info("发送礼包时发现参数错误，areaId:{}, roleID:{}, giftID:{}, recvDate:{}", areaId, roleID, giftId, recvDate);
+			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+		}
+		
+		IResponseData responseData = ucService.getGift(areaId, roleID, giftId, recvDate);
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		logger.info("response role info msg :{}", afterOpt.getValue());
+		return afterOpt.getValue();
+	}
+	
+	/**
+	 * 礼包编号校验
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value="checkgift", method={RequestMethod.POST})
+	@ResponseBody
+	public String checkgift(@RequestBody Request9Game request){
+		Pair<UCStateCode,String> beforeOpt = beforeOpt(request);
+		UCStateCode stateCode = beforeOpt.getKey();
+		String t2 = beforeOpt.getValue();
+		if(stateCode != UCStateCode.STATE_OK){
+			return t2;
+		}
+		
+		JSONObject json = (JSONObject) JSONObject.parse(t2);
+		int gameID = json.getIntValue("gameId");
+		String giftId = json.getString("kaId");
+		if( giftId == null || gameID == 0){
+			logger.info("校验礼包时发现参数错误，gameID:{}, giftID:{}", giftId, gameID);
+			return responseString(UCStateCode.STATE_PARAM_ERROR, request.getId(), null);
+		}
+		
+		IResponseData responseData = ucService.checkGiftId(giftId);
+		Pair<UCStateCode,String> afterOpt = afterOpt(responseData, request.getId());
+		logger.info("response role info msg :{}", afterOpt.getValue());
+		return afterOpt.getValue();
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * 从请求的消息中获取client节点中的caller参数值

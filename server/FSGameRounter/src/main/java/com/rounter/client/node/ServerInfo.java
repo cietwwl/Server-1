@@ -1,5 +1,11 @@
 package com.rounter.client.node;
 
+
+/**
+ * 区服信息
+ * @author Alex
+ * 2016年12月16日 下午12:13:36
+ */
 public class ServerInfo implements Comparable<ServerInfo>{
 	
 	private String ip;

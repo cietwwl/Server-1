@@ -19,6 +19,7 @@ import com.rounter.innerParam.RouterRespObject;
 import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.jsonParam.AllAreasInfo;
 import com.rounter.innerParam.jsonParam.TableZoneInfo;
+import com.rounter.loginServer.LoginServerInfo;
 import com.rounter.param.IResponseData;
 import com.rounter.param.impl.ResDataFromServer;
 import com.rounter.service.IResponseHandler;
@@ -39,11 +40,11 @@ public class ServerChannelManager {
 	
 	//游戏服连接管理(第一个key是登录服id，第二个key是区id)
 	private HashMap<String, HashMap<String, ChannelNodeManager>> areaMgrMap = new HashMap<String, HashMap<String,ChannelNodeManager>>();
-	//登录服连接管理
+	//登录服连接管理key=自定义key
 	private HashMap<String, ChannelNodeManager> platformMgrMap = new HashMap<String, ChannelNodeManager>();	
 	//区服务器信息(第一个key是登录服id，第二个key是区id)
 	private HashMap<String, HashMap<String, ServerInfo>> serverMap = new HashMap<String, HashMap<String,ServerInfo>>();
-	//登录服信息
+	//登录服信息key=自定义key
 	private HashMap<String, ServerInfo> platformMap = new HashMap<String, ServerInfo>();
 	
 	public ChannelNodeManager getAreaNodeManager(String platformId, String areaId){
@@ -92,7 +93,7 @@ public class ServerChannelManager {
 	}
 
 	public void refreshPlatformChannel(){
-		HashMap<String, ServerInfo> platforms = refreshPlatformMap();
+		HashMap<String, ServerInfo> platforms = LoginServerInfo.getInstance().checkAndRefreshMap();
 		dropNotExistPlatform(platforms);
 		this.platformMap = platforms;
 		for(ServerInfo platform : this.platformMap.values()){
@@ -183,15 +184,17 @@ public class ServerChannelManager {
 	 * 刷新登录服信息
 	 * @return
 	 */
-	private HashMap<String, ServerInfo> refreshPlatformMap(){
-		HashMap<String, ServerInfo> result = new HashMap<String, ServerInfo>();
-		ServerInfo platform = new ServerInfo();
-		platform.setId("1001");
-		platform.setIp(RouterConst.TARGET_ADDR);
-		platform.setPort(RouterConst.TARGET_PORT);
-		result.put("1001", platform);
-		return result;
-	}
+//	private HashMap<String, ServerInfo> refreshPlatformMap(){
+//		HashMap<String, ServerInfo> result = new HashMap<String, ServerInfo>();
+//		ServerInfo platform = new ServerInfo();
+//		platform.setId("1001");
+//		platform.setIp(RouterConst.TARGET_ADDR);
+//		platform.setPort(RouterConst.TARGET_PORT);
+//		result.put("1001", platform);
+//		
+//		
+//		return 
+//	}
 	
 	/**
 	 * 向登录服请求区信息
@@ -217,7 +220,7 @@ public class ServerChannelManager {
 							area.setId(String.valueOf(zoneInfo.getZoneId()));
 							area.setName(zoneInfo.getZoneName());
 							area.setIp(zoneInfo.getServerIp());
-							area.setPort(Integer.valueOf(zoneInfo.getPort()));
+							area.setPort(Integer.valueOf(zoneInfo.getPort())+1999);
 							//TODO 判断服务器状态
 							area.setActive(true);
 							platformAreas.put(area.getId(), area);

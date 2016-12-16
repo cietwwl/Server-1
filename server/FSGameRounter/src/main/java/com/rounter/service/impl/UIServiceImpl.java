@@ -9,6 +9,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.rounter.client.node.ChannelNodeManager;
 import com.rounter.client.node.ServerChannelManager;
 import com.rounter.client.node.ServerInfo;
+import com.rounter.controller.ucParam.cfg.UCGiftCfg;
+import com.rounter.controller.ucParam.cfg.UCGiftCfgDAO;
 import com.rounter.innerParam.ReqType;
 import com.rounter.innerParam.RouterReqestObject;
 import com.rounter.innerParam.RouterRespObject;
@@ -19,6 +21,7 @@ import com.rounter.innerParam.jsonParam.UserZoneInfo;
 import com.rounter.param.IResponseData;
 import com.rounter.param.impl.ResDataFromServer;
 import com.rounter.service.IResponseHandler;
+import com.rounter.service.IUCService;
 import com.rounter.state.UCStateCode;
 import com.rounter.util.JsonUtil;
 
@@ -168,8 +171,10 @@ public class UIServiceImpl implements IUCService{
 	@Override
 	public IResponseData checkGiftId(String giftId) {
 		IResponseData response = new ResDataFromServer();
+		UCGiftCfg cfg = UCGiftCfgDAO.getInstance().getCfgById(giftId);
+		boolean result = cfg == null ? false : true;
 		JSONObject jsObj = new JSONObject();
-		jsObj.put("result", true);
+		jsObj.put("result", result);
 		response.setData(jsObj);
 		response.setStateCode(UCStateCode.STATE_OK.getId());
 		return response;
