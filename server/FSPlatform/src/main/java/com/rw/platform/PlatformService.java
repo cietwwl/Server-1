@@ -146,7 +146,7 @@ public class PlatformService {
 				 String[] split = pageServers.split(",");
 				 for (String tempId : split) {
 					int tempZoneId = Integer.parseInt(tempId);
-					if(ZoneMap.contains(tempZoneId)){
+					if(ZoneMap.containsKey(tempZoneId)){
 						ZoneInfoCache zoneInfoCache = ZoneMap.get(tempZoneId);
 						RecommandZoneMap.add(zoneInfoCache);
 					}
@@ -191,9 +191,6 @@ public class PlatformService {
 		ZoneInfoCache zoneCache = null;
 		if (RecommandZoneMap.size() > 0) {
 			for (ZoneInfoCache zoneInfoCache : RecommandZoneMap) {
-				if(zoneInfoCache.getEnabled() == 0 && !isWhite){
-					continue;
-				}
 				if(zoneCache == null){
 					zoneCache = zoneInfoCache;
 					continue;
@@ -207,9 +204,6 @@ public class PlatformService {
 			for (Iterator<Entry<Integer, ZoneInfoCache>> iterator = ZoneMap.entrySet().iterator(); iterator.hasNext();) {
 				Entry<Integer, ZoneInfoCache> entry = iterator.next();
 				ZoneInfoCache zoneInfoCache = entry.getValue();
-				if(zoneInfoCache.getEnabled() == 0){
-					continue;
-				}
 				if(zoneCache == null){
 					zoneCache = zoneInfoCache;
 					continue;

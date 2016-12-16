@@ -153,6 +153,8 @@ enum Command {
 	
 	MSG_BATTLE_VERIFY = 239; // 战斗信息校对
 	
+	MSG_RANDOM_NAME = 240; // 请求随机名字
+	
 	
 	
 	
@@ -160,7 +162,7 @@ enum Command {
 	MSG_ACTIVITY_EVILBAO = 601; //申公豹驾到
 	MSG_ACTIVITY_CHARGE_RANK = 602; //充值和消费排行榜
 	
-
+	MSG_ACTIVITY_TIME = 994;//登陆服游戏服活动数据传输
 	MSG_FEEDBACK = 995;//客服功能
 	MSG_SDK_VERIFY = 996;//验证sdk登陆
 	MSG_NUMERIC_ANALYSIS = 997; //数值测试场景通讯协议

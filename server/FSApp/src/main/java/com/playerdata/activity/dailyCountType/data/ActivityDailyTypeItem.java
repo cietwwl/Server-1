@@ -4,43 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
+import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
-import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.OwnerId;
 
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "activity_dailycounttype_item")
-public class ActivityDailyTypeItem implements  RoleExtProperty {
+public class ActivityDailyTypeItem implements ActivityTypeItemIF<ActivityDailyTypeSubItem> {
 
 	@Id
 	private Integer id;
+	
 	@OwnerId
 	private String userId;// 对应的角色Id
+	
 	@CombineSave
     private String cfgid;
 	
-
-	
-	
-
-
-	public String getCfgid() {
-		return cfgid;
-	}
-
-	public void setCfgid(String cfgid) {
-		this.cfgid = cfgid;
-	}
-
 	@CombineSave
 	private boolean closed = false;
 
@@ -50,12 +35,22 @@ public class ActivityDailyTypeItem implements  RoleExtProperty {
 	@CombineSave
 	private List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();
 	
+	@CombineSave
+	private int version ;
 	
 	@CombineSave
-	private String version ;
+	private long redPointLastTime;
 	
 	@CombineSave
-	private long redPointLastTime;	
+	private boolean isTouchRedPoint;
+	
+	public String getCfgid() {
+		return cfgid;
+	}
+
+	public void setCfgid(String cfgid) {
+		this.cfgid = cfgid;
+	}
 	
 	public long getRedPointLastTime() {
 		return redPointLastTime;
@@ -65,9 +60,6 @@ public class ActivityDailyTypeItem implements  RoleExtProperty {
 		this.redPointLastTime = redPointLastTime;
 	}
 	
-	@CombineSave
-	private boolean isTouchRedPoint;	
-
 	public boolean isTouchRedPoint() {
 		return isTouchRedPoint;
 	}
@@ -75,26 +67,15 @@ public class ActivityDailyTypeItem implements  RoleExtProperty {
 	public void setTouchRedPoint(boolean isTouchRedPoint) {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
-	
-	public void reset(ActivityDailyTypeCfg cfg){
-		cfgid = cfg.getId();
-		closed = false;
-		version = cfg.getVersion();
-		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList(cfg.getId()));
-		lastTime = System.currentTimeMillis();
-		isTouchRedPoint = false;
-	}
 
-	public String getVersion() {
+
+	public int getVersion() {
 		return version;
 	}
 
-	public void setVersion(String version) {
+	public void setVersion(int version) {
 		this.version = version;
 	}
-
-
-
 
 	public long getLastTime() {
 		return lastTime;
@@ -104,14 +85,11 @@ public class ActivityDailyTypeItem implements  RoleExtProperty {
 		this.lastTime = lastTime;
 	}
 
-
-
-
 	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -131,8 +109,6 @@ public class ActivityDailyTypeItem implements  RoleExtProperty {
 		this.userId = userId;
 	}
 
-
-
 	public boolean isClosed() {
 		return closed;
 	}
@@ -141,9 +117,29 @@ public class ActivityDailyTypeItem implements  RoleExtProperty {
 		this.closed = closed;
 	}
 
-	
+	@Override
+	public void setCfgId(String cfgId) {
+		this.cfgid = cfgId;
+	}
 
-	
-	
-	
+	@Override
+	public String getCfgId() {
+		return cfgid;
+	}
+
+	@Override
+	public boolean isHasViewed() {
+		return this.isTouchRedPoint;
+	}
+
+	@Override
+	public void setHasViewed(boolean hasViewed) {
+		this.isTouchRedPoint = hasViewed;
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
 }

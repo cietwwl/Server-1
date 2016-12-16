@@ -1,4 +1,4 @@
 Key,Remarks,id,bg,icon,icon2,title,bgTitle,titleBG,levelLimit,startTimeStr,endTimeStr,version,isDailyRefresh
 110001,,110001,SmallTex/Activity/ActivityTitleText_08,huodong_012,,每日充值,,,1,201608300500,201609060500,1,1
-110002,,110002,SmallTex/Activity/ActivityTitleText_08,huodong_012,,每日充值,,,1,201612200500,201612280500,1,1
-110003,,110003,SmallTex/Activity/ActivityTitleText_07,huodong_016,,累计充值,,,1,201612200500,201612280500,1,
+110002,,110002,SmallTex/Activity/ActivityTitleText_08,huodong_012,,每日充值,,,1,0,7,1,1
+110003,,110003,SmallTex/Activity/ActivityTitleText_07,huodong_016,,累计充值,,,1,0,7,1,
