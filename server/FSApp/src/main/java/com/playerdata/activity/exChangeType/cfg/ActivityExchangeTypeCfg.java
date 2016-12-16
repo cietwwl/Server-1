@@ -218,4 +218,9 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 		}
 		return null;
 	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }

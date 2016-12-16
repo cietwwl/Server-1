@@ -100,4 +100,9 @@ public class ActivityDailyChargeCfg extends BaseConfig implements ActivityCfgIF{
 		}
 		return null;
 	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
+	}
 }

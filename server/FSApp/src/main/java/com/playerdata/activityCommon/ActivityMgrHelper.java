@@ -7,6 +7,7 @@ import com.playerdata.Player;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
+import com.playerdata.activityCommon.modifiedActivity.ActivityModifyItem;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 
@@ -39,8 +40,8 @@ public class ActivityMgrHelper {
 	 * 同步活动数据
 	 * @param player
 	 */
-	public void synActivityData(Player player){
-		ActivityModifyMgr.getInstance().synModifiedActivity(player);
+	public void synActivityData(Player player, List<ActivityModifyItem> modifiedList){
+		ActivityModifyMgr.getInstance().synModifiedActivity(player, modifiedList);
 		for(ActivityType type : ActivityTypeFactory.getAllTypes()){
 			if(null != type.getActivityMgr()){
 				type.getActivityMgr().synDataWithoutEmpty(player);

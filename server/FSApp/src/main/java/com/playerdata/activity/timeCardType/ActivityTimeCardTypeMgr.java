@@ -40,8 +40,7 @@ public class ActivityTimeCardTypeMgr {
 				.getInstance();
 		ActivityTimeCardTypeItem dataItem = activityTimecardHolder
 				.getItem(player.getUserId());
-		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem
-				.getSubItemList();
+		List<ActivityTimeCardTypeSubItem> monthCardList = dataItem.getSubItemList();
 		long logintime = dataItem.getActivityLoginTime();
 		long now = DateUtils.getSecondLevelMillis();
 		int dayDistance = DateUtils.getDayDistance(logintime,now);

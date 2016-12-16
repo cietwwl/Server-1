@@ -12,7 +12,7 @@ public class ActivityTimeHelper {
 	private static int MAX_DAYS_SIZE = "9999".length();
 	private static long ONE_DAY_MS = 24 * 60 * 60 * 1000;
 	
-	private static int RESET_HOUR = 5;	//活动的重置时间
+	public static int RESET_HOUR = 5;	//活动的重置时间
 	private static long openTime = 0;
 	
 	public static TimePair transToAbsoluteTime(String startTime, String endTime){

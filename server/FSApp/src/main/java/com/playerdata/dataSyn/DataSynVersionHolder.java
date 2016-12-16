@@ -267,7 +267,7 @@ public class DataSynVersionHolder {
 		versionMap.put(eSynType.ActivityDailyRechargeType, new PlayerDataMgr(new RecordSynchronization() {
 			@Override
 			public void synAllData(Player player, int version) {
-				ActivityMgrHelper.getInstance().synActivityData(player);
+				ActivityMgrHelper.getInstance().synActivityData(player, null);
 			}
 		}));
 		orderList.add(eSynType.ActivityDailyRechargeType);
