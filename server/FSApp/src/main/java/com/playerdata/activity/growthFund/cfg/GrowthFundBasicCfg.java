@@ -96,6 +96,7 @@ public class GrowthFundBasicCfg implements ActivityCfgIF{
 	@Override
 	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
 		startTime = timePair.getStartMil();
 		endTime = timePair.getEndMil();
 		this.startTimeStr = timePair.getStartTime();

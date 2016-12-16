@@ -215,6 +215,7 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	
 	public void ExtraInitViceAfterLoad() {
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
 		startTime = timePair.getStartMil();
 		endTime = timePair.getEndMil();
 		startTimeStr = timePair.getStartTime();
@@ -238,6 +239,7 @@ public class ActivityRateTypeCfg implements ActivityCfgIF, ActivityExtendTimeIF,
 	@Override
 	public void ExtraInitAfterLoad(){
 		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(adStartTimeStr, adEndTimeStr);
+		if(null == timePair) return;
 		adStartTimeStr = timePair.getStartTime();
 		adEndTimeStr = timePair.getEndTime();
 		ExtraInitViceAfterLoad();
