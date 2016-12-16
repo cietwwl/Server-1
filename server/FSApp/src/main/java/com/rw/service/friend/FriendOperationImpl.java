@@ -20,7 +20,7 @@ public class FriendOperationImpl implements FriendGetOperation {
 	public Enumeration<FriendItem> getItemEnumeration(TableFriend tableFriend) {
 		return tableFriend.getFriendMap();
 	}
-
+  
 //	@Override
 //	public boolean addFriendItem(TableFriend tableFriend, String otherUserId, FriendResultVo resultVo) {
 //		if (otherUserId.equals(tableFriend.getUserId())) {
