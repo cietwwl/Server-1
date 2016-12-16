@@ -261,20 +261,20 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	}
 
 	/** 请求添加好友 */
-	public FriendResultVo requestAddFriend(String otherUserId) {
+	public FriendResultVo requestAddFriend(String guestUserId) {
 		FriendResultVo resultVo = new FriendResultVo();
-		TableFriend guest = getTableFriend();
-		if (isSelfUser(otherUserId)) {
+		TableFriend host = getTableFriend();
+		if (isSelfUser(guestUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "该玩家是自己";
-		} else if (guest.getFriendList().containsKey(otherUserId)) {
+		} else if (host.getFriendList().containsKey(guestUserId)) {
 			resultVo.resultType = EFriendResultType.FAIL;
 			resultVo.resultMsg = "对方已经是你的好友";
-		} else if (PlayerMgr.getInstance().isPersistantRobot(otherUserId)) {
-			resultVo = requestAddOneRobotToFriend(otherUserId);
+		} else if (PlayerMgr.getInstance().isPersistantRobot(guestUserId)) {
+			resultVo = requestAddOneRobotToFriend(guestUserId);
 		} else {
-			TableFriend host = getOtherTableFriend(otherUserId);
-			if (host == null) {
+			TableFriend guest = getOtherTableFriend(guestUserId);
+			if (guest == null) {
 				resultVo.resultType = EFriendResultType.FAIL;
 				resultVo.resultMsg = "暂时不能添加好友";
 			} else {
@@ -366,10 +366,8 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 	public FriendResultVo requestAddFriendList(List<String> friendList) {
 		FriendResultVo resultVo = new FriendResultVo();
 		TableFriend host = getTableFriend();
-		String userId = m_pPlayer.getUserId();
 		resultVo.resultType = EFriendResultType.FAIL;
 		resultVo.resultMsg = "没有向人申请好友";
-		FriendHandler friendHandler = FriendHandler.getInstance();
 		RequestOperation request = FriendOperationFactory.getRequestOperation();
 		for (int i = 0; i < friendList.size(); i++) {
 			resultVo.resultType = EFriendResultType.SUCCESS;
