@@ -1,6 +1,5 @@
 package com.rw.routerServer;
 
-
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -15,39 +14,46 @@ import io.netty.handler.codec.string.StringDecoder;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import com.rw.platform.PlatformFactory;
+
 public class RouterHttpServer {
-	
+
 	private ExecutorService service = Executors.newSingleThreadExecutor();
-	public void init(){
-		
-		final int routerPort = 10119;
+
+	public void init() {
+
+		final int routerPort = PlatformFactory.getRounterPort();
 		final String intranetIp = "localhost";
-		
+
 		service.submit(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
-					start(intranetIp, routerPort);					
+					start(intranetIp, routerPort);
 				} catch (Exception e) {
-					System.out.println("RouterHttpServer启动失败，请检查配置，routerPort:" + routerPort);
+					System.out.println("RouterHttpServer启动失败，请检查配置，routerPort:"
+							+ routerPort);
 					e.printStackTrace();
 				}
 			}
-			
+
 		});
 	}
-	
+
 	public void start(String host, int routerPort) throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
-		EventLoopGroup workerGroup = new NioEventLoopGroup();
+		EventLoopGroup workerGroup = new NioEventLoopGroup(8);
 		try {
 			ServerBootstrap b = new ServerBootstrap();
-			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
+			b.group(bossGroup, workerGroup)
+					.channel(NioServerSocketChannel.class)
 					.childHandler(new ChannelInitializer<SocketChannel>() {
 						@Override
-						public void initChannel(SocketChannel ch) throws Exception {
-							ch.pipeline().addLast(new LineBasedFrameDecoder(10240));
+						public void initChannel(SocketChannel ch)
+								throws Exception {
+							ch.pipeline().addLast(
+									new LineBasedFrameDecoder(10240));
 							ch.pipeline().addLast(new StringDecoder());
 							ch.pipeline().addLast(new RouterInboundHandler());
 						}
