@@ -415,6 +415,8 @@
 	
 	<!-- Guidance/GuidanceClosure.csv -->
 	<bean class="com.rw.service.guide.GuidanceClosureCfgDAO"  init-method="init" />
+	
+	<bean class="com.rw.routerServer.cfg.UCGiftCfgDAO"  init-method="init" />
 	<!-- 
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.HeroFettersCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.fetters.pojo.cfg.dao.FettersSubConditionCfgDAO"  init-method="init" />

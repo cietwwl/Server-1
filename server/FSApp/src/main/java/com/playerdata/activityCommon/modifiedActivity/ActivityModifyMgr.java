@@ -82,11 +82,6 @@ public class ActivityModifyMgr {
 			}
 		}
 		if(!modifiedList.isEmpty()){
-			for(ActivityModifyItem item : modifiedList){
-				if(item.getId() == 20001){
-					System.out.println();
-				}
-			}
 			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_PART_LIST);
 		}
 	}

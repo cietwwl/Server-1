@@ -29,6 +29,7 @@ import com.rw.netty.FrameDecoder;
 import com.rw.netty.ProtobufFrameEncoder;
 import com.rw.netty.ServerHandler;
 import com.rw.netty.http.HttpServer;
+import com.rw.routerServer.RouterHttpServer;
 import com.rwproto.RequestProtos.Request;
 
 
@@ -46,7 +47,7 @@ public class Server {
     	PlatformFactory.init();
     	SynTaskExecutor.init();
     	DataService.initDataService();
-    	
+    	RouterHttpServer.getInstance().init();
 		EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
 		int ioThreads = Runtime.getRuntime().availableProcessors()+1;
 		EventLoopGroup ioGroup = new NioEventLoopGroup(128);
@@ -77,6 +78,7 @@ public class Server {
 			serverBootstrap.childOption(ChannelOption.SO_KEEPALIVE, true);
 			System.out.println("---------------------------Platfrom Start Finish-------------------------------");
 			ChannelFuture channelFuture = serverBootstrap.bind(new InetSocketAddress(PlatformFactory.getPort())).sync();
+			
 			channelFuture.channel().closeFuture().sync();
 			
 		} catch (Exception e) {
