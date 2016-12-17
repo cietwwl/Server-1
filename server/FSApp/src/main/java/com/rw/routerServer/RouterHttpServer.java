@@ -12,6 +12,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 
+import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,15 +24,14 @@ public class RouterHttpServer {
 	
 	public void init(){
 
-		final int routerPort = Integer.valueOf(ServerConfig.getInstance().getServeZoneInfo().getPort()) + 1999;
-		final String intranetIp = ServerConfig.getInstance().getServeZoneInfo().getIntranetIp();
+		final int routerPort = ServerConfig.getInstance().getServeZoneInfo().getUcGiftRounterPort();
 		
 		service.submit(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
-					start(intranetIp, routerPort);
+					start(routerPort);
 				} catch (Exception e) {
 					System.out.println("RouterHttpServer启动失败，请检查配置，routerPort:" + routerPort);
 					e.printStackTrace();
@@ -41,7 +41,7 @@ public class RouterHttpServer {
 		});
 	}
 	
-	public void start(String host, int routerPort) throws Exception {
+	public void start(int routerPort) throws Exception {
 		EventLoopGroup bossGroup = new NioEventLoopGroup();
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
@@ -57,7 +57,8 @@ public class RouterHttpServer {
 					}).option(ChannelOption.SO_BACKLOG, 128)
 					.childOption(ChannelOption.SO_KEEPALIVE, true);
 
-			ChannelFuture f = b.bind(host, routerPort).sync();
+			InetSocketAddress address = new InetSocketAddress(routerPort);
+			ChannelFuture f = b.bind(address).sync();
 			System.out.println("router server started, port:" + routerPort);
 			f.channel().closeFuture().sync();
 		} finally {
