@@ -7,14 +7,9 @@ package com.rwbase.dao.chat.pojo.cfg;
  **/
 
 public class TimeOfNotAllowedSpeech {
-	private int id;// Unique Id
 	private int times;// 违规次数
 	private int vipLevel;// vip等级
 	private int time;// 禁言时间
-
-	public int getId() {
-		return id;
-	}
 
 	public int getTimes() {
 		return times;

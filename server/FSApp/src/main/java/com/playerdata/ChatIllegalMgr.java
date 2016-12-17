@@ -1,8 +1,11 @@
 package com.playerdata;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import com.common.RefInt;
 import com.rwbase.dao.chat.pojo.ChatIllegalData;
 import com.rwbase.dao.chat.pojo.ChatIllegalDataDAO;
 import com.rwbase.dao.chat.pojo.ChatTempAttribute;
@@ -46,6 +49,8 @@ public class ChatIllegalMgr {
 			return 0;
 		}
 
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 		boolean hasDataUpdate = false;// 是否有数据刷新
 		// 检查清理违规次数
 		int illegalTimes = chatIllegalData.getIllegalTimes();// 当前已经犯规的次数
@@ -56,6 +61,9 @@ public class ChatIllegalMgr {
 				long timeMillis = TimeUnit.SECONDS.toMillis(listenTime);
 				long intervalMillis = TimeUnit.SECONDS.toMillis(cfg.getInterval());// 发言的间隔
 				long clearTimeMillis = timeMillis + intervalMillis;
+
+				System.err.println(String.format("上一次犯规的时间：%s，当前的时间：%s，发言间隔：%s，清除违规配置时间为：%s，已经过了%s秒", sdf.format(new Date(lastIllegalTime)), sdf.format(new Date(now)), cfg.getInterval(), listenTime, (now - lastIllegalTime) / 1000));
+
 				if (now - lastIllegalTime >= clearTimeMillis) {// 在这个时间点上没有违规过，就把这个清除掉
 					chatIllegalData.setIllegalTimes(0);
 					chatIllegalData.setLastIllegalTime(0);
@@ -70,7 +78,10 @@ public class ChatIllegalMgr {
 			long lastNotAllowedSpeechTime = chatIllegalData.getLastNotAllowedSpeechTime();// 上次被禁言的时间
 			if (lastNotAllowedSpeechTime > 0) {
 				// 检查一下是否是永久禁言
-				int timeOfNotAllowedSpeech = TimeOfNotAllowedSpeechDAO.getCfgDAO().getTimeOfNotAllowedSpeech(triggerTimes, vipLevel);// 获取禁言的时间
+				int timeOfNotAllowedSpeech = TimeOfNotAllowedSpeechDAO.getCfgDAO().getTimeOfNotAllowedSpeech(triggerTimes, vipLevel, null);// 获取禁言的时间
+
+				System.err.println("当前要禁言的时间：" + timeOfNotAllowedSpeech);
+
 				if (timeOfNotAllowedSpeech < 0) {// 是否是永久禁言，那么就直接返回True
 					if (hasDataUpdate) {
 						dao.update(userId);
@@ -80,14 +91,26 @@ public class ChatIllegalMgr {
 					return timeOfNotAllowedSpeech;
 				}
 
-				int listenTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.NOT_ALLOWED_SPEECH_LISTEN_TIME);
 				// 检查禁言时间是否到了
 				long nwSpeechTimeMillis = TimeUnit.SECONDS.toMillis(timeOfNotAllowedSpeech);
-				long timeMillis = TimeUnit.SECONDS.toMillis(listenTime);
+
+				System.err.println(String.format("上次禁言的时间：%s，当前的时间：%s，需要禁言时间：%s秒，禁言已经过了%s秒", sdf.format(new Date(lastNotAllowedSpeechTime)), sdf.format(new Date(now)), timeOfNotAllowedSpeech, (now - lastNotAllowedSpeechTime) / 1000));
+
 				if (now - lastNotAllowedSpeechTime >= nwSpeechTimeMillis) {// 过了禁言时间
 					chatIllegalData.setLastNotAllowedSpeechTime(0);
 					hasDataUpdate = true;
-				} else if (now - lastNotAllowedSpeechTime >= timeMillis) {// 过了24小时的冷却，中间没有犯规过，清除出发的所有数据
+				} else {
+					if (hasDataUpdate) {
+						dao.update(userId);
+					}
+					return timeOfNotAllowedSpeech;
+				}
+
+				int listenTime = PublicDataCfgDAO.getInstance().getPublicDataValueById(PublicData.NOT_ALLOWED_SPEECH_LISTEN_TIME);
+				long timeMillis = TimeUnit.SECONDS.toMillis(listenTime);
+
+				System.err.println(String.format("上次禁言的时间：%s，当前的时间：%s，禁言监听配置时间：%s秒，已经过了%s秒", sdf.format(new Date(lastNotAllowedSpeechTime)), sdf.format(new Date(now)), listenTime, (now - lastNotAllowedSpeechTime) / 1000));
+				if (now - lastNotAllowedSpeechTime >= timeMillis) {// 过了24小时的冷却，中间没有犯规过，清除出发的所有数据
 					chatIllegalData.setTriggerTimes(0);
 					chatIllegalData.setLastNotAllowedSpeechTime(0);
 					hasDataUpdate = true;
@@ -125,7 +148,7 @@ public class ChatIllegalMgr {
 
 			chatTempAttribute.setLastGroupSpeechTime(now);
 			if (msg.equals(lastWorldMsg)) {// 是否跟上边的内容重复
-				chatTempAttribute.setMsgRepeatedTimes(msgRepeatedTimes++);
+				chatTempAttribute.setMsgRepeatedTimes(++msgRepeatedTimes);
 			} else {
 				chatTempAttribute.setLastWorldMsg(msg);
 				chatTempAttribute.setMsgRepeatedTimes(0);
@@ -155,10 +178,16 @@ public class ChatIllegalMgr {
 
 				// 现在的总违规次数
 				int times = hasNotAllowedSpeeckTimes + illegalTimes;
-				int timeOfNotAllowedSpeech = TimeOfNotAllowedSpeechDAO.getCfgDAO().getTimeOfNotAllowedSpeech(times, player.getVip());
-				if (timeOfNotAllowedSpeech == 0) {// 不禁言，只刷新次数
+
+				System.err.println(String.format("之前触发禁言的次数：%s，这一次又触发犯规的次数：%s", hasNotAllowedSpeeckTimes, illegalTimes));
+
+				RefInt refInt = new RefInt();// 返回触发的档次
+				int timeOfNotAllowedSpeech = TimeOfNotAllowedSpeechDAO.getCfgDAO().getTimeOfNotAllowedSpeech(times, player.getVip(), refInt);
+
+				System.err.println(String.format("之前触发禁言的次数：%s，Vip等级是：%s，这一次触发的禁言档次：%s，触发的禁言时间：%s", hasNotAllowedSpeeckTimes, player.getVip(), refInt.value, timeOfNotAllowedSpeech));
+				if (timeOfNotAllowedSpeech == 0 || refInt.value <= hasNotAllowedSpeeckTimes) {// 不禁言，只刷新次数
 					chatIllegalData.setIllegalTimes(illegalTimes);
-				} else {
+				} else {// 跟上一档次一样
 					chatIllegalData.setTriggerTimes(times);// 设置触发禁言的点
 					chatIllegalData.setLastNotAllowedSpeechTime(now);// 设置禁言的时间点
 					chatIllegalData.setIllegalTimes(0);

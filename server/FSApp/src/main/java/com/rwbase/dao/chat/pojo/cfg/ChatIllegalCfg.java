@@ -7,21 +7,11 @@ package com.rwbase.dao.chat.pojo.cfg;
  **/
 
 public class ChatIllegalCfg {
-	private int id;// 记录的Unique ID
 	private int level;// 限制的等级
 	private int vipLevel;// 限制的VIP等级
 	private int interval;// 发言间隔
 	private int illegalInterval;// 违规频率
 	private int repeatedTimes;// 重复内容次数
-
-	/**
-	 * 获取记录的Unique ID
-	 * 
-	 * @return
-	 */
-	public int getId() {
-		return id;
-	}
 
 	/**
 	 * 获取所属的分段最低的等级ID

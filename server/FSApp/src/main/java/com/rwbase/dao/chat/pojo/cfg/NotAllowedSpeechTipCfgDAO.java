@@ -24,7 +24,7 @@ public class NotAllowedSpeechTipCfgDAO extends CfgCsvDao<NotAllowedSpeechTipCfg>
 
 	@Override
 	protected Map<String, NotAllowedSpeechTipCfg> initJsonCfg() {
-		Map<String, NotAllowedSpeechTipCfg> cfgMap = CfgCsvHelper.readCsv2Map("Chat/TimeOfNotAllowedSpeechTip.csv", NotAllowedSpeechTipCfg.class);
+		Map<String, NotAllowedSpeechTipCfg> cfgMap = CfgCsvHelper.readCsv2Map("Chat/NotAllowedSpeechTip.csv", NotAllowedSpeechTipCfg.class);
 
 		if (cfgMap != null && !cfgMap.isEmpty()) {
 			TreeMap<Integer, String> map = new TreeMap<Integer, String>();

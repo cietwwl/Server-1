@@ -173,8 +173,6 @@ public class ChatHandler {
 			}
 		}
 
-		chatTempAttribute.setLastWorldSpeechTime(nowTime);
-
 		ChatMessageData message = msgChatRequest.getChatMessageData();
 		ChatMessageData.Builder data = this.createChatMessageData(player, message, true);
 		String chatContent = data.getMessage();
@@ -186,6 +184,10 @@ public class ChatHandler {
 		ByteString result = msgChatResponse.build().toByteString();
 
 		ChatBM.getInstance().updateWroldList(data);
+
+		// 检查禁言
+		ChatIllegalMgr.getMgr().checkCanTriggerNotAllowedSpeech(player, message, nowTime, chatIllegalCfg);
+		chatTempAttribute.setLastWorldSpeechTime(nowTime);
 		return result;
 	}
 

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.common.RefInt;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -26,7 +27,7 @@ public class TimeOfNotAllowedSpeechDAO extends CfgCsvDao<TimeOfNotAllowedSpeech>
 
 	@Override
 	protected Map<String, TimeOfNotAllowedSpeech> initJsonCfg() {
-		Map<String, TimeOfNotAllowedSpeech> cfgMap = CfgCsvHelper.readCsv2Map("Chat/NotAllowedSpeechTip.csv", TimeOfNotAllowedSpeech.class);
+		Map<String, TimeOfNotAllowedSpeech> cfgMap = CfgCsvHelper.readCsv2Map("Chat/TimeOfNotAllowedSpeech.csv", TimeOfNotAllowedSpeech.class);
 
 		if (cfgMap != null && !cfgMap.isEmpty()) {
 			TreeMap<Integer, List<TimeOfNotAllowedSpeech>> map = new TreeMap<Integer, List<TimeOfNotAllowedSpeech>>();
@@ -59,9 +60,10 @@ public class TimeOfNotAllowedSpeechDAO extends CfgCsvDao<TimeOfNotAllowedSpeech>
 	 * 
 	 * @param times 违规次数
 	 * @param vipLevel vip等级
+	 * @param outKey 返回触发的档次
 	 * @return 返回0代表不禁言，返回-1代表永久性禁言
 	 */
-	public int getTimeOfNotAllowedSpeech(int times, int vipLevel) {
+	public int getTimeOfNotAllowedSpeech(int times, int vipLevel, RefInt outKey) {
 		if (map == null || map.isEmpty()) {
 			return 0;
 		}
@@ -84,6 +86,9 @@ public class TimeOfNotAllowedSpeechDAO extends CfgCsvDao<TimeOfNotAllowedSpeech>
 			if (vipLevelKey > lastVipLevelKey && vipLevelKey <= vipLevel) {
 				lastVipLevelKey = vipLevelKey;
 				time = timeOfNotAllowedSpeech.getTime();
+				if (outKey != null) {
+					outKey.value = timeOfNotAllowedSpeech.getTimes();
+				}
 			}
 		}
 
