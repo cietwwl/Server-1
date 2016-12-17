@@ -5,10 +5,15 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 import com.rounter.client.node.ServerInfo;
 
@@ -22,32 +27,52 @@ public class LoginServerInfo {
 	private static LoginServerInfo instance = new LoginServerInfo();
 
 	private long lastModifyTime = 0;
-	private String fileName = "loginServerInfo.txt";
+	private String fileName = "loginServerInfo.properties";
 	
 	public static LoginServerInfo getInstance(){
 		return instance;
 	}
 
+	
+	
 
 	/**
 	 * 检查登录服信息是否有被改变，如果改了，重装载
 	 * @return
 	 */
-	public HashMap<String, ServerInfo> checkAndRefreshMap(){
-		String path = LoginServerInfo.class.getResource("/"+ fileName).getFile();
-		if(StringUtils.isBlank(path)){
-			logger.info("无法找到登录服配置文件！");
-			return null;
+	public HashMap<String, ServerInfo> checkServerProp(){
+		Resource resource = new ClassPathResource(fileName);
+		try {
+			File file = resource.getFile();
+			if(file == null){
+				logger.info("无法找到登录服配置文件！");
+				return null;
+			}
+			if(!isModified(file)){
+				return null;
+			}
+
+			lastModifyTime = file.lastModified();
+			HashMap<String, ServerInfo> infoTempMap = new HashMap<String, ServerInfo>();
+			Properties props = PropertiesLoaderUtils.loadProperties(resource);
+			for (Entry<Object, Object> element : props.entrySet()) {
+				
+				ServerInfo info = new ServerInfo();
+				String key = (String) element.getKey();
+				String value = (String) element.getValue();
+				String[] strs = value.split(":");
+				info.setId(key);
+				info.setIp(strs[0].trim());
+				info.setPort(Integer.parseInt(strs[1].trim()));
+				
+				infoTempMap.put(info.getId(), info);
+			}
+			
+			return infoTempMap;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-//		String path  = ClassLoader.getSystemResource(fileName).getPath();
-		File file = new File(path);
-		if(!isModified(file)){
-			return null;
-		}
-		HashMap<String, ServerInfo> infoTempMap = new HashMap<String, ServerInfo>();
-		lastModifyTime = file.lastModified();
-		fromFile(file, infoTempMap);
-		return infoTempMap;
+		return null;
 	}
 
 
@@ -97,7 +122,7 @@ public class LoginServerInfo {
 	
 	public static void main(String[] args) {
 		LoginServerInfo in = new LoginServerInfo();
-		in.checkAndRefreshMap();
+		in.checkServerProp();
 	}
 	
 }

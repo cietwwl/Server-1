@@ -93,7 +93,7 @@ public class ServerChannelManager {
 	}
 
 	public void refreshPlatformChannel(){
-		HashMap<String, ServerInfo> platforms = LoginServerInfo.getInstance().checkAndRefreshMap();
+		HashMap<String, ServerInfo> platforms = LoginServerInfo.getInstance().checkServerProp();
 		if(platforms == null){
 			return;
 		}
