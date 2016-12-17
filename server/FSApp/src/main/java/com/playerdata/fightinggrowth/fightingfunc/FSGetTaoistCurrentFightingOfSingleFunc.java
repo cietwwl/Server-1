@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.bm.arena.ArenaRobotDataMgr;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fightinggrowth.calc.FightingCalcComponentType;
@@ -35,30 +36,23 @@ public class FSGetTaoistCurrentFightingOfSingleFunc implements IFunction<Hero, I
 	@Override
 	public Integer apply(Hero hero) {
 		Player player = FSHeroMgr.getInstance().getOwnerOfHero(hero);
-		if (_openLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, player)) {
-			// int fighting = 0;
-			// TaoistFightingCfg taoistFightingCfg;
-			// TaoistMagicCfg taoistMagicCfg;
-			// Iterable<Map.Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
-			// for (Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
-			// Map.Entry<Integer, Integer> entry = itr.next();
-			// taoistFightingCfg = taoistFightingCfgDAO.getByLevel(entry.getValue());
-			// taoistMagicCfg = taoistMagicCfgHelper.getCfgById(String.valueOf(entry.getKey()));
-			// fighting += taoistFightingCfg.getFightingOfIndex(taoistMagicCfg.getTagNum());
-			// }
-			// return fighting;
-
+		boolean robot = player.isRobot();
+		boolean open = robot ? true : _openLevelLimitDAO.isOpen(eOpenLevelType.TAOIST, player);
+		if (open) {
 			Map<Integer, Integer> taoistMap = new HashMap<Integer, Integer>();
-			Iterable<Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
-			for (Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
-				Map.Entry<Integer, Integer> entry = itr.next();
-				taoistMap.put(entry.getKey(), entry.getValue());
+			if (!robot) {
+				Iterable<Entry<Integer, Integer>> taoistList = player.getTaoistMgr().getAllTaoist();
+				for (Iterator<Map.Entry<Integer, Integer>> itr = taoistList.iterator(); itr.hasNext();) {
+					Map.Entry<Integer, Integer> entry = itr.next();
+					taoistMap.put(entry.getKey(), entry.getValue());
+				}
+			} else {
+				taoistMap = ArenaRobotDataMgr.getMgr().getRobotTaoistMap(player.getUserId());
 			}
 
 			TaoistBuilder builder = new TaoistBuilder();
 			builder.setHeroId(hero.getTemplateId());
 			builder.setTaoistMap(taoistMap);
-
 			return FightingCalcComponentType.TAOIST.calc.calc(builder.build());
 		}
 		return 0;

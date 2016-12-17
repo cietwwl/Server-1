@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.bm.rank.teaminfo.AngelArrayTeamInfoHelper;
 import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
@@ -129,6 +130,7 @@ public class FSHeroMgr implements HeroMgr {
 			owner.getTempAttribute().setHeroFightingChanged();
 			owner.getUserTmpGameDataFlag().setSynFightingAll(true);
 			FSUserHeroGlobalDataMgr.getInstance().notifySingleFightingChange(owner.getUserId(), hero.getId(), nowFighting, preFighting);
+			AngelArrayTeamInfoHelper.updateRankingWhenHeroFightingChange(owner.getUserId(), hero.getModeId(), nowFighting, preFighting);// 通知万仙阵
 		}
 	}
 
@@ -223,7 +225,6 @@ public class FSHeroMgr implements HeroMgr {
 		return mapItemStore.getItem(uuid);
 	}
 
-	
 	public FSHero getHeroById(String userId, String uuid) {
 		MapItemStore<FSHero> mapItemStore = null;
 		if (userId.equals(uuid)) {

@@ -61,14 +61,18 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			String deviceModel = clientVersion.getDeviceModel();
 			System.out.println("------------cpuType:" + cpuType + "deviceModel:" + deviceModel);
 			String luaChannel = clientVersion.getChannel();
+			String newLuaChannel = "";
 			if (!StringUtils.isBlank(clientVersion.getCpuType()) && !StringUtils.isBlank(clientVersion.getDeviceModel())) {
 				boolean bln64 = DeviceUtil.checkIos32Or64(deviceModel, cpuType);
 				if (!bln64) {
-					luaChannel += "32";
+					newLuaChannel = luaChannel + "32";
 				}
 			}
-			System.out.println("-----------------------luaChannel"+luaChannel);
-			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(luaChannel);			
+			System.out.println("-----------------------luaChannel" + luaChannel);
+			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(newLuaChannel);
+			if (channelLuaInfo == null) {
+				channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(luaChannel);
+			}
 			List<Version> updateVersionList = versionMgr.getUpdateVersion(clientVersion);
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
 			if(updateVersionList.isEmpty()){
@@ -76,6 +80,9 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				Version updateVersion = new Version();
 				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
 				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
+				updateVersion.setCheckServerURL(maxVersion.getCheckServerURL());
+				updateVersion.setCheckServerPayURL(maxVersion.getCheckServerPayURL());
+				updateVersion.setBackUrl(maxVersion.getBackUrl());
 				updateVersionList.add(updateVersion);
 			}
 			for(Version updateVersion : updateVersionList){
@@ -83,6 +90,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 					updateVersion.setLuaFileMd5(channelLuaInfo.getFilesmd5());
 				}
 				updateVersion.setLuaAction("lua");
+				updateVersion.setLuaVerifySwitch(true);
 			}
 			System.out.println("---------------channelLuaInfo.getFilesmd5()" + channelLuaInfo.getFilesmd5());
 			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList);
@@ -152,6 +160,10 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			json.put("logServerAddress", updateVersion.getLogServerAddress());
 			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
 			json.put("luaAction", updateVersion.getLuaAction());
+			json.put("checkServerURL", updateVersion.getCheckServerURL());
+			json.put("checkServerPayURL", updateVersion.getCheckServerPayURL());
+			json.put("backUrl", updateVersion.getBackUrl());
+			json.put("luaVerifySwitch", updateVersion.isLuaVerifySwitch());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -221,13 +221,15 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 				continue;
 			}
 
+			// System.err.println(String.format("%s----------------------------%s层-----------------------------------START", userId, floor + 1));
 			int minFighting = (int) (fighting * matchCfg.getMinFightingRatio());
 			int maxFighting = (int) (fighting * matchCfg.getMaxFightingRatio());
 
 			AngelArrayTeamInfoData angelArrayTeamInfo = holder.getAngelArrayTeamInfo(minFighting, maxFighting, floor + 1, allEnemyIdList);
+			// AngelArrayTeamInfoData angelArrayTeamInfo = null;
 			boolean isNewRobot = false;
 			if (angelArrayTeamInfo == null || allEnemyIdList.contains(angelArrayTeamInfo.getId())) {
-				angelArrayTeamInfo = AngelArrayMatchHelper.getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList, matchCfg.getRobotId());
+				angelArrayTeamInfo = AngelArrayMatchHelper.getInstance().getMatchAngelArrayTeamInfo(userId, matchCfg.getLevel(), matchCfg.getMaxLevel(), minFighting, maxFighting, allEnemyIdList, hasUserIdList, matchCfg.getRobotId());
 				holder.addAngelArrayTeamInfo(angelArrayTeamInfo);
 				isNewRobot = true;
 			}
@@ -251,6 +253,8 @@ public class TowerMgr implements TowerMgrIF, PlayerEventListener {
 			} else {
 				GameLog.error("万仙阵匹配玩家", userId, String.format("万仙阵第[%s]层，匹配不到玩家阵容", floor));
 			}
+
+			// System.err.println(String.format("%s----------------------------%s层-----------------------------------END", userId, floor + 1));
 		}
 	}
 

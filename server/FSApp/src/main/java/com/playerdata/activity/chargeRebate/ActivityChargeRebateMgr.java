@@ -79,12 +79,8 @@ public class ActivityChargeRebateMgr {
 			
 			int chargeMoney = activityChargeRebateData.getChargeMoney();
 			int result = 0;
-			if (chargeMoney > 10000) {
-				int temp = chargeMoney - 10000;
-				result = 10000 * 15 + temp * 10;
-			} else {
-				result = chargeMoney * 15;
-			}
+			//充值返利 返还1.5倍
+			result = (int)(chargeMoney * 1.5);
 
 			int monthCard = activityChargeRebateData.getMonthCard();
 			int vipMonthCard = activityChargeRebateData.getVipMonthCard();

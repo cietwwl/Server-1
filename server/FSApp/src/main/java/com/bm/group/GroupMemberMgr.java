@@ -16,6 +16,7 @@ import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
 import com.rw.service.group.helper.GroupHelper;
+import com.rw.service.group.helper.GroupMemberHelper;
 import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
@@ -319,6 +320,17 @@ public class GroupMemberMgr {
 	 * @return
 	 */
 	public synchronized boolean removeApplyMemberFromDB(String userId, PlayerTask playerTask) {
+		return removeApplyMemberFromDB0(userId, playerTask);
+	}
+
+	/**
+	 * 移除帮派的申请成员
+	 * 
+	 * @param userId
+	 * @param playerTask
+	 * @return
+	 */
+	private boolean removeApplyMemberFromDB0(String userId, PlayerTask playerTask) {
 		GroupMemberData memberData = holder.getMemberData(userId, true);
 		if (memberData == null) {
 			return false;
@@ -535,51 +547,6 @@ public class GroupMemberMgr {
 		holder.updateMemberData(item.getId());
 	}
 
-	// /**
-	// * 更新帮派成员的捐献时间
-	// *
-	// * @param userId
-	// * @param donateTimes
-	// * @param lastDonateTime
-	// */
-	// public void resetMemberDataDonateTimes(String userId, long lastDonateTime) {
-	// GroupMemberData item = holder.getMemberData(userId, false);
-	// if (item == null) {
-	// return;
-	// }
-	//
-	// item.setDonateTimes(0);
-	// item.setLastDonateTime(lastDonateTime);
-	// item.setDayContribution(0);
-	// holder.updateMemberData(item.getId());
-	//
-	// Player memberPlayer = PlayerMgr.getInstance().find(userId);
-	// // 通知修改了个人贡献值
-	// memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
-	// }
-	//
-	// /**
-	// * 更新帮派成员的捐献时间
-	// *
-	// * @param userId
-	// * @param donateTimes
-	// * @param lastDonateTime
-	// */
-	// public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
-	// GroupMemberData item = holder.getMemberData(userId, false);
-	// if (item == null) {
-	// return;
-	// }
-	//
-	// item.setDonateTimes(0);
-	// item.setLastDonateTime(lastDonateTime);
-	// holder.updateMemberData(item.getId());
-	//
-	// Player memberPlayer = PlayerMgr.getInstance().find(userId);
-	// // 通知修改了个人贡献值
-	// memberPlayer.getUserGroupAttributeDataMgr().updateContribution(memberPlayer, 0, 0);
-	// }
-
 	/**
 	 * 捐献之后更新成员的数据
 	 * 
@@ -709,5 +676,23 @@ public class GroupMemberMgr {
 		}
 
 		return map;
+	}
+
+	/**
+	 * 检查是否可以移除一个申请最久的人
+	 * 
+	 * @param maxApplySize
+	 * @param playerTask
+	 */
+	public synchronized void checkAndRemoveOldestApplyMember(int maxApplySize, PlayerTask playerTask) {
+		int applySize = getApplyMemberSize();
+		if (applySize <= maxApplySize) {
+			return;
+		}
+
+		// 旧的在最后
+		List<? extends GroupMemberDataIF> applyMemberSortList = getApplyMemberSortList(GroupMemberHelper.applyMemberComparator);
+		String userId = applyMemberSortList.get(applyMemberSortList.size() - 1).getUserId();
+		removeApplyMemberFromDB0(userId, playerTask);// 删除数据
 	}
 }

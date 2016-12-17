@@ -102,7 +102,7 @@ public class GameLogicTask implements PlayerTask {
 				}
 
 				msgType = serivice.getMsgType(msg);
-				registerBehavior(player, serivice, command, msgType, msg, header.getViewId());
+				registerBehavior(userId, serivice, command, msgType, msg, header.getViewId());
 
 				if (FunctionOpenLogic.getInstance().isOpen(msgType, request, player)) {
 					resultContent = serivice.doTask(msg, player);
@@ -160,14 +160,14 @@ public class GameLogicTask implements PlayerTask {
 		FSTraceLogger.logger("run exception", System.currentTimeMillis() - executeTime, command, null, seqID, userId, null);
 	}
 
-	@SuppressWarnings({ "rawtypes" })
-	private void registerBehavior(Player player, FsService serivice, Command command, ProtocolMessageEnum msgType, GeneratedMessage msg, int viewId) {
-		if (msgType != null) {
-			String value = String.valueOf(msgType.getNumber());
-			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
-		} else {
-			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
-		}
+	private void registerBehavior(String userId, FsService serivice, Command command, ProtocolMessageEnum msgType, GeneratedMessage msg, int viewId) {
+//		if (msgType != null) {
+//			String value = String.valueOf(msgType.getNumber());
+//			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, value, viewId);
+//		} else {
+//			GameBehaviorMgr.getInstance().registerBehavior(player, command, msgType, "-1", viewId);
+//		}
+		GameBehaviorMgr.getInstance().registerBehavior(userId, command, msgType, viewId);
 	}
 
 	private void handleGuildance(RequestHeader header, String userId) {

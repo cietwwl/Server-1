@@ -2,6 +2,7 @@ package com.bm.targetSell.param;
 
 import com.bm.targetSell.TargetSellManager;
 import com.playerdata.Player;
+import com.rw.service.guide.NewGuideStateChecker;
 import com.rwbase.common.PlayerTaskListener;
 
 public class TargetSellPlayerListener implements PlayerTaskListener {

@@ -71,7 +71,7 @@ public class EliteCopyHandler {
 		}
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
-		GameBehaviorMgr.getInstance().setMapId(player, copyCfg.getLevelID());
+		GameBehaviorMgr.getInstance().setMapId(player.getUserId(), copyCfg.getLevelID());
 
 		
 		if(!isWin){

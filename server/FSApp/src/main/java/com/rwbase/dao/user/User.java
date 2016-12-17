@@ -13,6 +13,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
+import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.user.readonly.TableUserIF;
@@ -45,6 +46,9 @@ public class User implements TableUserIF {
 
 	@SaveAsJson
 	private UserExtendInfo extendInfo;
+	
+	@SaveAsJson
+	private ZoneLoginInfo zoneLoginInfo;
 
 	// 冗余，和mainRoleHero的exp对齐
 	private long exp;
@@ -181,6 +185,14 @@ public class User implements TableUserIF {
 
 	public void setZoneRegInfo(ZoneRegInfo zoneRegInfo) {
 		this.zoneRegInfo = zoneRegInfo;
+	}
+
+	public ZoneLoginInfo getZoneLoginInfo() {
+		return zoneLoginInfo;
+	}
+
+	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
+		this.zoneLoginInfo = zoneLoginInfo;
 	}
 
 	public boolean isInKickOffCoolTime() {

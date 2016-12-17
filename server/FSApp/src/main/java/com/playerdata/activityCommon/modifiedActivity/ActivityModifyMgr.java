@@ -13,9 +13,12 @@ import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class ActivityModifyMgr {
@@ -51,12 +54,12 @@ public class ActivityModifyMgr {
 		List<ActivityModifyGlobleData> modifiedList = new ArrayList<ActivityModifyGlobleData>();
 		for(ActivityKey actKey : ActivityKey.values()){
 			ActivityModifyGlobleData modiData = getModifiedActivity(actKey);
-			if(null != modiData){
+			if(null != modiData && !modiData.getItems().isEmpty()){
 				modifiedList.add(modiData);
 			}
 		}
 		if(!modifiedList.isEmpty()){
-			//ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
+			ClientDataSynMgr.synDataList(player, modifiedList, eSynType.ActivityModifiedCfg, eSynOpType.UPDATE_LIST);
 		}
 	}
 	

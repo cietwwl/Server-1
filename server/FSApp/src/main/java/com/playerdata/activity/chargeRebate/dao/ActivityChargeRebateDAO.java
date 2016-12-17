@@ -60,8 +60,12 @@ public class ActivityChargeRebateDAO {
 		if(StringUtils.isEmpty(openAccount)){
 			return null;
 		}
-		ActivityChargeRebateData result = _jdbcTemplate.queryForObject(String.format(_querySql, openAccount), new CommonRowMapper<ActivityChargeRebateData>(_classInfo, openAccount));
-		return result;
+//		ActivityChargeRebateData result = _jdbcTemplate.queryForObject(String.format(_querySql, openAccount), new CommonRowMapper<ActivityChargeRebateData>(_classInfo, openAccount));
+		List<ActivityChargeRebateData> list = _jdbcTemplate.query(String.format(_querySql, openAccount), new CommonRowMapper<ActivityChargeRebateData>(_classInfo, openAccount));
+		if (list.isEmpty()) {
+			return null;
+		}
+		return list.get(0);
 	}
 	
 	public boolean checkAchieveChargeRebateReward(String openAccount, int zoneId){
