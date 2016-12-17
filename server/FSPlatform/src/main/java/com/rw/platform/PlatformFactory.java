@@ -46,7 +46,10 @@ public class PlatformFactory {
 			if (pDefaultCapacity != null) {
 				defaultCapacity = Integer.parseInt(pDefaultCapacity);
 			}
-			String giftRounterPort = props.getProperty("rounterPort");
+			
+			Resource rounterResource = new ClassPathResource("rounterconfig.properties");
+			Properties rounterResourceProps = PropertiesLoaderUtils.loadProperties(rounterResource);
+			String giftRounterPort = rounterResourceProps.getProperty("rounterPort");
 			if(giftRounterPort != null){
 				rounterPort = Integer.parseInt(giftRounterPort);
 			}
