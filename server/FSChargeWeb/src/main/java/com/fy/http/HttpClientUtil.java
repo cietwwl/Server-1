@@ -66,7 +66,7 @@ public class HttpClientUtil {
 //		while (true) {
 //			Thread.sleep(1000);			
 //		}
-		String url = "http://127.0.0.1:9090/FSGameRounter/9game/roleInfo";
+		String url = "http://119.29.162.42:10006/FSGameRounter/9game/roleinfo";
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("id", 123456897);
 		Map<String, String> client = new HashMap<String, String>();
