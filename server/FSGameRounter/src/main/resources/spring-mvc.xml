@@ -12,6 +12,23 @@
 
 
 	<context:annotation-config />
+	
+	<!-- 这个bean用于解决使用@ResponseBody后返回中文乱码问题 -->
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
+					<property name="writeAcceptCharset" value="false"/>
+					<property name="supportedMediaTypes">
+						<list>
+							<value>text/html;charset=UTF-8</value>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
 	<context:component-scan base-package="com.rounter.*" />
 	<mvc:annotation-driven/>
 

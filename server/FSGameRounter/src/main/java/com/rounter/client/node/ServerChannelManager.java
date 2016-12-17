@@ -213,25 +213,31 @@ public class ServerChannelManager {
 			
 			@Override
 			public void handleServerResponse(Object msgBack, IResponseData response) {
-				RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
-				if(resObject.getResult() == ResultState.SUCCESS){
-					
-					AllAreasInfo areas = JsonUtil.readValue(resObject.getContent(), AllAreasInfo.class);
-					if(null != areas && null != areas.getZoneList()){
-						for(TableZoneInfo zoneInfo : areas.getZoneList()){
-							ServerInfo area = new ServerInfo();
-							area.setId(String.valueOf(zoneInfo.getZoneId()));
-							area.setName(zoneInfo.getZoneName());
-							//area.setIp(zoneInfo.getServerIp());//这里不可以用公网ip跟端口
-							//area.setPort(Integer.valueOf(zoneInfo.getPort())+1999);
-							area.setIp(zoneInfo.getIntranetIp());
-							area.setPort(zoneInfo.getUcGiftRounterPort());
-							//TODO 判断服务器状态
-							area.setActive(true);
-							platformAreas.put(area.getId(), area);
+				try {
+					RouterRespObject resObject = JsonUtil.readValue((String)msgBack, RouterRespObject.class);
+					if(resObject.getResult() == ResultState.SUCCESS){
+						
+						AllAreasInfo areas = JsonUtil.readValue(resObject.getContent(), AllAreasInfo.class);
+						if(null != areas && null != areas.getZoneList()){
+							for(TableZoneInfo zoneInfo : areas.getZoneList()){
+								ServerInfo area = new ServerInfo();
+								area.setId(String.valueOf(zoneInfo.getZoneId()));
+								area.setName(zoneInfo.getZoneName());
+								//area.setIp(zoneInfo.getServerIp());//这里不可以用公网ip跟端口
+								//area.setPort(Integer.valueOf(zoneInfo.getPort())+1999);
+								area.setIp(zoneInfo.getIntranetIp());
+								area.setPort(zoneInfo.getUcGiftRounterPort());
+								//TODO 判断服务器状态
+								area.setActive(true);
+								platformAreas.put(area.getId(), area);
+							}
 						}
+						
 					}
-
+					
+				} catch (Exception e) {
+					handleSendFailResponse(response);
+					e.printStackTrace();
 				}
 			}
 			
