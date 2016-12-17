@@ -988,13 +988,21 @@ public final class MsgDef {
      */
     MSG_ACTIVITY_EVILBAO(128, 601),
     /**
+     * <code>MSG_ACTIVITY_CHARGE_RANK = 602;</code>
+     *
+     * <pre>
+     *充值和消费排行榜
+     * </pre>
+     */
+    MSG_ACTIVITY_CHARGE_RANK(129, 602),
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
      *客服功能
      * </pre>
      */
-    MSG_FEEDBACK(129, 995),
+    MSG_FEEDBACK(130, 995),
     /**
      * <code>MSG_SDK_VERIFY = 996;</code>
      *
@@ -1002,7 +1010,7 @@ public final class MsgDef {
      *验证sdk登陆
      * </pre>
      */
-    MSG_SDK_VERIFY(130, 996),
+    MSG_SDK_VERIFY(131, 996),
     /**
      * <code>MSG_NUMERIC_ANALYSIS = 997;</code>
      *
@@ -1010,7 +1018,7 @@ public final class MsgDef {
      *数值测试场景通讯协议
      * </pre>
      */
-    MSG_NUMERIC_ANALYSIS(131, 997),
+    MSG_NUMERIC_ANALYSIS(132, 997),
     /**
      * <code>MSG_PLATFORMGS = 998;</code>
      *
@@ -1018,7 +1026,7 @@ public final class MsgDef {
      *登陆服游戏服通讯协议
      * </pre>
      */
-    MSG_PLATFORMGS(132, 998),
+    MSG_PLATFORMGS(133, 998),
     /**
      * <code>MSG_GAMEPRESS = 999;</code>
      *
@@ -1026,7 +1034,7 @@ public final class MsgDef {
      *压测协议
      * </pre>
      */
-    MSG_GAMEPRESS(133, 999),
+    MSG_GAMEPRESS(134, 999),
     ;
 
     /**
@@ -2004,6 +2012,14 @@ public final class MsgDef {
      */
     public static final int MSG_ACTIVITY_EVILBAO_VALUE = 601;
     /**
+     * <code>MSG_ACTIVITY_CHARGE_RANK = 602;</code>
+     *
+     * <pre>
+     *充值和消费排行榜
+     * </pre>
+     */
+    public static final int MSG_ACTIVITY_CHARGE_RANK_VALUE = 602;
+    /**
      * <code>MSG_FEEDBACK = 995;</code>
      *
      * <pre>
@@ -2178,6 +2194,7 @@ public final class MsgDef {
         case 237: return MSG_FETTER_ACTIVITY_NOTIFY;
         case 600: return MSG_ACTIVITY_TIMECARD_TYPE;
         case 601: return MSG_ACTIVITY_EVILBAO;
+        case 602: return MSG_ACTIVITY_CHARGE_RANK;
         case 995: return MSG_FEEDBACK;
         case 996: return MSG_SDK_VERIFY;
         case 997: return MSG_NUMERIC_ANALYSIS;
@@ -2243,7 +2260,7 @@ public final class MsgDef {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014MsgDef.proto\022\006MsgDef*\314\031\n\007Command\022\021\n\rMS" +
+      "\n\014MsgDef.proto\022\006MsgDef*\353\031\n\007Command\022\021\n\rMS" +
       "G_HeartBeat\020d\022\017\n\013MSG_Rs_DATA\020e\022\032\n\026MSG_DO" +
       "_MAINROLE_CREATE\020f\022\025\n\021MSG_GET_ROLE_LIST\020" +
       "h\022\014\n\010MSG_ROLE\020i\022\020\n\014MSG_DEL_ROLE\020j\022\023\n\017MSG" +
@@ -2322,11 +2339,11 @@ public final class MsgDef {
       "G_CHARGE_NOTIFY\020\353\001\022(\n#Msg_GROUP_COMPETIT" +
       "ION_TEAM_OPTIMIZE\020\354\001\022\037\n\032MSG_FETTER_ACTIV" +
       "ITY_NOTIFY\020\355\001\022\037\n\032MSG_ACTIVITY_TIMECARD_T" +
-      "YPE\020\330\004\022\031\n\024MSG_ACTIVITY_EVILBAO\020\331\004\022\021\n\014MSG",
-      "_FEEDBACK\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG" +
-      "_NUMERIC_ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346" +
-      "\007\022\022\n\rMSG_GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006Ms" +
-      "gDef"
+      "YPE\020\330\004\022\031\n\024MSG_ACTIVITY_EVILBAO\020\331\004\022\035\n\030MSG",
+      "_ACTIVITY_CHARGE_RANK\020\332\004\022\021\n\014MSG_FEEDBACK" +
+      "\020\343\007\022\023\n\016MSG_SDK_VERIFY\020\344\007\022\031\n\024MSG_NUMERIC_" +
+      "ANALYSIS\020\345\007\022\023\n\016MSG_PLATFORMGS\020\346\007\022\022\n\rMSG_" +
+      "GAMEPRESS\020\347\007B\025\n\013com.rwprotoB\006MsgDef"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
