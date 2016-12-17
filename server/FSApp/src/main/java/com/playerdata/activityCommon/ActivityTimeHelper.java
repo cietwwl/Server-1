@@ -17,6 +17,7 @@ public class ActivityTimeHelper {
 	
 	public static TimePair transToAbsoluteTime(String startTime, String endTime){
 		long startMil = cftStartTimeToLong(startTime);
+		if(startMil <= 0) return null;
 		long endMil = cftEndTimeToLong(startMil, endTime);
 		TimePair tp = new TimePair();
 		tp.setStartMil(startMil);
@@ -24,7 +25,7 @@ public class ActivityTimeHelper {
 		return tp;
 	}
 	
-	public static long cftStartTimeToLong(String startTime){
+	private static long cftStartTimeToLong(String startTime){
 		if(StringUtils.isBlank(startTime)) return 0;
 		long result = 0;
 		if(startTime.length() == TIME_SIZE){
@@ -42,7 +43,7 @@ public class ActivityTimeHelper {
 		return result;
 	}
 	
-	public static long cftEndTimeToLong(long startTime, String endTime){
+	private static long cftEndTimeToLong(long startTime, String endTime){
 		if(StringUtils.isBlank(endTime)) return Long.MAX_VALUE;
 		long result = Long.MAX_VALUE;
 		if(endTime.length() == TIME_SIZE){

@@ -17,7 +17,7 @@ import com.rwbase.gameworld.GameWorldFactory;
 
 public class PlatformFactory {
 	private static PlatformService service;
-	
+
 	private static int port;
 	private static int httpPort;
 	private static int platform_connect_num = 5;
@@ -25,9 +25,10 @@ public class PlatformFactory {
 	private static String logServerIp;
 	private static int logServerPort;
 	private static int defaultCapacity;
-	
+	private static int rounterPort;//直通车服监听端口
+
 	public static ClientManager clientManager;
-	
+
 	public static void init() {
 		GameWorldFactory.init(64, 16);
 		Resource resource = new ClassPathResource("server.properties");
@@ -36,31 +37,37 @@ public class PlatformFactory {
 			threadSize = Integer.parseInt(props.getProperty("threadSize"));
 			port = Integer.parseInt(props.getProperty("port"));
 			httpPort = Integer.parseInt(props.getProperty("httpPort"));
-			platform_connect_num = Integer.parseInt(props.getProperty("platform_connect_num"));
+			platform_connect_num = Integer.parseInt(props
+					.getProperty("platform_connect_num"));
 			logServerIp = props.getProperty("logServerIp");
-			logServerPort = Integer.parseInt(props.getProperty("logServerPort"));
+			logServerPort = Integer
+					.parseInt(props.getProperty("logServerPort"));
 			String pDefaultCapacity = props.getProperty("defaultCapacity");
-			if(pDefaultCapacity != null){
+			if (pDefaultCapacity != null) {
 				defaultCapacity = Integer.parseInt(pDefaultCapacity);
+			}
+			String giftRounterPort = props.getProperty("rounterPort");
+			if(giftRounterPort != null){
+				rounterPort = Integer.parseInt(giftRounterPort);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (service == null) {
 			service = new PlatformService(threadSize,
 					EngineLoggerFactory.getLogger("Platform"));
-			
+
 		}
-		
+
 		clientManager = new ClientManager();
 		BILogMgr.getInstance().initLogger();
 		LogService.getInstance().initLogService();
 		CfgMgr.getInstance().init();
 		NoticeMgr.getInstance().initNotice();
 	}
-	
-	public static PlatformService getPlatformService(){
+
+	public static PlatformService getPlatformService() {
 		return service;
 	}
 
@@ -86,5 +93,9 @@ public class PlatformFactory {
 
 	public static int getDefaultCapacity() {
 		return defaultCapacity;
+	}
+
+	public static int getRounterPort() {
+		return rounterPort;
 	}
 }
