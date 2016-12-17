@@ -94,6 +94,9 @@ public class ServerChannelManager {
 
 	public void refreshPlatformChannel(){
 		HashMap<String, ServerInfo> platforms = LoginServerInfo.getInstance().checkAndRefreshMap();
+		if(platforms == null){
+			return;
+		}
 		dropNotExistPlatform(platforms);
 		this.platformMap = platforms;
 		for(ServerInfo platform : this.platformMap.values()){
@@ -219,8 +222,10 @@ public class ServerChannelManager {
 							ServerInfo area = new ServerInfo();
 							area.setId(String.valueOf(zoneInfo.getZoneId()));
 							area.setName(zoneInfo.getZoneName());
-							area.setIp(zoneInfo.getServerIp());
-							area.setPort(Integer.valueOf(zoneInfo.getPort())+1999);
+							//area.setIp(zoneInfo.getServerIp());//这里不可以用公网ip跟端口
+							//area.setPort(Integer.valueOf(zoneInfo.getPort())+1999);
+							area.setIp(zoneInfo.getIntranetIp());
+							area.setPort(zoneInfo.getUcGiftRounterPort());
 							//TODO 判断服务器状态
 							area.setActive(true);
 							platformAreas.put(area.getId(), area);

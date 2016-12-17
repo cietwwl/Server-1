@@ -29,6 +29,7 @@ public class TableZoneInfo {
 	private String openTime;       //开服时间
 	private String gmPort;         //gm开放端口
 	private String closeTips;      //关闭提示语
+	private int ucGiftRounterPort; //阿里直通车服监听端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -129,5 +130,11 @@ public class TableZoneInfo {
 	}
 	public void setCloseTips(String closeTips) {
 		this.closeTips = closeTips;
+	}
+	public int getUcGiftRounterPort() {
+		return ucGiftRounterPort;
+	}
+	public void setUcGiftRounterPort(int ucGiftRounterPort) {
+		this.ucGiftRounterPort = ucGiftRounterPort;
 	}
 }

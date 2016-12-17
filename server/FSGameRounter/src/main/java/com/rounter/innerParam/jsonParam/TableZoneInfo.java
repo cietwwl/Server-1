@@ -30,6 +30,8 @@ public class TableZoneInfo {
 	private String benefitServerIp;//精准营销服ip
 	private int benefitServerPort;//精准营销服端口
 	private int benefitLocalPort;//本地绑定端口
+	private int ucGiftRounterPort;//阿里直通车监听端口
+	
 
 	public int getZoneId() {
 		return zoneId;
@@ -175,5 +177,11 @@ public class TableZoneInfo {
 	}
 	public void setBenefitLocalPort(int benefitLocalPort) {
 		this.benefitLocalPort = benefitLocalPort;
+	}
+	public int getUcGiftRounterPort() {
+		return ucGiftRounterPort;
+	}
+	public void setUcGiftRounterPort(int ucGiftRounterPort) {
+		this.ucGiftRounterPort = ucGiftRounterPort;
 	}
 }

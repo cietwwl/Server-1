@@ -14,6 +14,8 @@ import com.rounter.client.node.ServerInfo;
 
 
 
+
+
 public class LoginServerInfo {
 	Logger logger = LoggerFactory.getLogger(LoginServerInfo.class);
 	
@@ -21,8 +23,6 @@ public class LoginServerInfo {
 
 	private long lastModifyTime = 0;
 	private String fileName = "loginServerInfo.txt";
-	
-	private HashMap<String, ServerInfo> loginServerInfoMap = new HashMap<String, ServerInfo>();
 	
 	public static LoginServerInfo getInstance(){
 		return instance;
@@ -34,13 +34,20 @@ public class LoginServerInfo {
 	 * @return
 	 */
 	public HashMap<String, ServerInfo> checkAndRefreshMap(){
-		String path  = ClassLoader.getSystemResource(fileName).getPath();
-		File file = new File(path);
-		if(isModified(file)){
-			lastModifyTime = file.lastModified();
-			fromFile(file);
+		String path = LoginServerInfo.class.getResource("/"+ fileName).getFile();
+		if(StringUtils.isBlank(path)){
+			logger.info("无法找到登录服配置文件！");
+			return null;
 		}
-		return loginServerInfoMap;
+//		String path  = ClassLoader.getSystemResource(fileName).getPath();
+		File file = new File(path);
+		if(!isModified(file)){
+			return null;
+		}
+		HashMap<String, ServerInfo> infoTempMap = new HashMap<String, ServerInfo>();
+		lastModifyTime = file.lastModified();
+		fromFile(file, infoTempMap);
+		return infoTempMap;
 	}
 
 
@@ -50,8 +57,8 @@ public class LoginServerInfo {
 	
 	
 	@SuppressWarnings("resource")
-	private void fromFile(File file){
-		loginServerInfoMap.clear();
+	private void fromFile(File file, HashMap<String, ServerInfo> infoTempMap){
+		
 		BufferedReader reader;
 		try {
 			reader = new BufferedReader(new FileReader(file));
@@ -72,7 +79,7 @@ public class LoginServerInfo {
 					info.setId(split[0].trim());
 					info.setIp(ipInfo[0].trim());
 					info.setPort(Integer.parseInt(ipInfo[1].trim()));
-					loginServerInfoMap.put(info.getId(), info);
+					infoTempMap.put(info.getId(), info);
 					
 				} catch (Exception e) {
 					logger.error("登录服信息不正确，无法解释：{}",line);
@@ -85,7 +92,6 @@ public class LoginServerInfo {
 			logger.error("加载登录服信息时异常");
 			e.printStackTrace();
 		}
-		
 		
 	}
 	

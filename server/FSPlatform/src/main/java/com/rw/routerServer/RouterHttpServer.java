@@ -18,6 +18,12 @@ import com.rw.platform.PlatformFactory;
 
 public class RouterHttpServer {
 
+	private static RouterHttpServer instance = new RouterHttpServer();
+	
+	public static RouterHttpServer getInstance(){
+		return instance;
+	}
+	
 	private ExecutorService service = Executors.newSingleThreadExecutor();
 
 	public void init() {
