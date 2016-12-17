@@ -17,17 +17,17 @@ public class TeamInfoListenerPlayerChange extends PlayerChangePopertySubscribe {
 
 	@Override
 	public void playerChangeName(Player p) {
-		AngelArrayTeamInfoHelper.updateRankingEntry(p, AngelArrayTeamInfoCall.nameCall);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(p, AngelArrayTeamInfoCall.nameCall);
 	}
 
 	@Override
 	public void playerChangeLevel(Player p) {
-		AngelArrayTeamInfoHelper.updateRankingEntryWhenPlayerLevelChange(p);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntryWhenPlayerLevelChange(p);
 	}
 
 	@Override
 	public void playerChangeVipLevel(Player p) {
-		AngelArrayTeamInfoHelper.updateRankingEntry(p, AngelArrayTeamInfoCall.vipCall);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(p, AngelArrayTeamInfoCall.vipCall);
 	}
 
 	@Override
@@ -36,12 +36,12 @@ public class TeamInfoListenerPlayerChange extends PlayerChangePopertySubscribe {
 
 	@Override
 	public void playerChangeHeadIcon(Player p) {
-		AngelArrayTeamInfoHelper.updateRankingEntry(p, AngelArrayTeamInfoCall.headIdCall);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(p, AngelArrayTeamInfoCall.headIdCall);
 	}
 
 	@Override
 	public void playerChangeHeadBox(Player p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

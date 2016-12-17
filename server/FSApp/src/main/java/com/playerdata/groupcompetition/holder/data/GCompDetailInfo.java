@@ -21,8 +21,8 @@ import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
  *
  */
 @SynClass
-@JsonIgnoreProperties(ignoreUnknown=true)
-@JsonAutoDetect(getterVisibility=Visibility.NONE, setterVisibility=Visibility.NONE)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class GCompDetailInfo {
 
 	@JsonProperty("1")
@@ -31,9 +31,9 @@ public class GCompDetailInfo {
 	private List<GCompGroupScoreRecord> groupScores;
 	@JsonProperty("3")
 	private GCompPersonalScore mvp;
-	
+
 	private static GCompGroupScoreRecord createNewGroupScoreData(String groupId) {
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group != null) {
 			GroupBaseDataIF groupBaseData = group.getGroupBaseDataMgr().getGroupData();
 			return GCompGroupScoreRecord.createNew(groupId, groupBaseData.getGroupName(), groupBaseData.getIconId());
@@ -41,7 +41,7 @@ public class GCompDetailInfo {
 			return GCompGroupScoreRecord.createNew("", "", "");
 		}
 	}
-	
+
 	public static GCompDetailInfo createNew(int matchId, String idOfGroupA, String idOfGroupB) {
 		GCompDetailInfo instance = new GCompDetailInfo();
 		instance.matchId = matchId;
@@ -50,34 +50,34 @@ public class GCompDetailInfo {
 		instance.groupScores.add(createNewGroupScoreData(idOfGroupB));
 		return instance;
 	}
-	
+
 	public int getMatchId() {
 		return matchId;
 	}
-	
+
 	public void setMatchId(int matchId) {
 		this.matchId = matchId;
 	}
-	
+
 	public List<GCompGroupScoreRecord> getGroupScores() {
 		return groupScores;
 	}
-	
+
 	public void setGroupScores(List<GCompGroupScoreRecord> groupScores) {
 		this.groupScores = groupScores;
 	}
-	
+
 	public GCompPersonalScore getMvp() {
 		return mvp;
 	}
-	
+
 	public void setMvp(GCompPersonalScore mvp) {
 		this.mvp = mvp;
 	}
-	
+
 	public GCompGroupScoreRecord getByGroupId(String groupId) {
-		for(GCompGroupScoreRecord g : groupScores) {
-			if(g.getGroupId().equals(groupId)) {
+		for (GCompGroupScoreRecord g : groupScores) {
+			if (g.getGroupId().equals(groupId)) {
 				return g;
 			}
 		}

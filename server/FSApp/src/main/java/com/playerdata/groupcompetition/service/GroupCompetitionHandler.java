@@ -58,7 +58,7 @@ import com.rwproto.GroupCompetitionProto.TeamStatusRequest;
 
 public class GroupCompetitionHandler {
 
-	private static GroupCompetitionHandler instance = new GroupCompetitionHandler();	
+	private static GroupCompetitionHandler instance = new GroupCompetitionHandler();
 
 	protected GroupCompetitionHandler() {
 	}
@@ -66,7 +66,7 @@ public class GroupCompetitionHandler {
 	public static GroupCompetitionHandler getInstance() {
 		return instance;
 	}
-	
+
 	private int calculateGroupFighting(Group group) {
 		int fighting = 0;
 		List<? extends GroupMemberDataIF> members = group.getGroupMemberMgr().getMemberSortList(null);
@@ -75,7 +75,7 @@ public class GroupCompetitionHandler {
 		}
 		return fighting;
 	}
-	
+
 	private SelectionGroupData createSelectionGroupData(GCompFightingItem fightingItem, int ranking) {
 		SelectionGroupData.Builder groupDataBuilder = SelectionGroupData.newBuilder();
 		groupDataBuilder.setRanking(ranking);
@@ -88,9 +88,9 @@ public class GroupCompetitionHandler {
 		}
 		return groupDataBuilder.build();
 	}
-	
+
 	private SelectionGroupData createOwnGroupData(Player player, List<GCompFightingItem> gCompFightingItemList) {
-		Group ownGroup = GroupHelper.getGroup(player);
+		Group ownGroup = GroupHelper.getInstance().getGroup(player);
 		SelectionGroupData ownGroupData;
 		if (ownGroup != null) {
 			GroupBaseDataIF baseData = ownGroup.getGroupBaseDataMgr().getGroupData();
@@ -101,7 +101,7 @@ public class GroupCompetitionHandler {
 				if (ranking < gCompFightingItemList.size()) {
 					fightingItem = gCompFightingItemList.get(ranking - 1);
 				} else {
-					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking-1);
+					fightingItem = GCompFightingRankMgr.getFightingRankList().get(ranking - 1);
 				}
 				ownGroupData = this.createSelectionGroupData(fightingItem, ranking);
 			} else {
@@ -118,7 +118,7 @@ public class GroupCompetitionHandler {
 		}
 		return ownGroupData;
 	}
-	
+
 	private void packSelectionData(CommonGetDataRspMsg.Builder rspBuilder, Player player) {
 		List<GCompFightingItem> list;
 		GCompStageType stageType = GroupCompetitionMgr.getInstance().getCurrentStageType();
@@ -142,7 +142,7 @@ public class GroupCompetitionHandler {
 		selectionRspDataBuilder.setSelectionEndTime(GroupCompetitionMgr.getInstance().getCurrentStageEndTime());
 		rspBuilder.setSelectionData(selectionRspDataBuilder.build());
 	}
-	
+
 	private CommonGetDataRspMsg.Builder createGetDataRspBuilder(GCResultType resultType, String tips) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		builder.setRstType(resultType);
@@ -151,7 +151,7 @@ public class GroupCompetitionHandler {
 		}
 		return builder;
 	}
-	
+
 	private CommonRsp createCommonRsp(GCResultType resultType, String tips) {
 		CommonRsp.Builder builder = CommonRsp.newBuilder();
 		builder.setResultType(resultType);
@@ -184,7 +184,7 @@ public class GroupCompetitionHandler {
 		PrepareAreaMgr.getInstance().applyUsersBaseInfo(player, gcRsp, request.getPlayersIdListList());
 		return gcRsp.build().toByteString();
 	}
-	
+
 	// 检查是否处于某个阶段
 	private GCResultType checkStageValidate(GCompStageType targetStageType) {
 		GCompStageType stageType = GroupCompetitionMgr.getInstance().getCurrentStageType();
@@ -196,7 +196,7 @@ public class GroupCompetitionHandler {
 		}
 		return resultType;
 	}
-	
+
 	/**
 	 * 
 	 * 获取海选信息
@@ -213,7 +213,7 @@ public class GroupCompetitionHandler {
 		GCompHistoryDataMgr.getInstance().sendLastMatchData(player);
 		return builder.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 获取赛事对阵
@@ -223,7 +223,7 @@ public class GroupCompetitionHandler {
 	 */
 	public ByteString getMatchData(Player player) {
 		GCResultType resultType = this.checkStageValidate(GCompStageType.EVENTS);
-//		GCResultType resultType = GCResultType.SUCCESS;
+		// GCResultType resultType = GCResultType.SUCCESS;
 		CommonGetDataRspMsg.Builder builder = this.createGetDataRspBuilder(resultType, resultType == GCResultType.DATA_ERROR ? GCompTips.getTipsNotMatchStageNow() : null);
 		if (resultType == GCResultType.SUCCESS) {
 			// 成功才有数据
@@ -231,19 +231,19 @@ public class GroupCompetitionHandler {
 		}
 		return builder.build().toByteString();
 	}
-	
+
 	public ByteString haveNewGuess(Player player, ReqNewGuess request) {
 		RsqNewGuess.Builder gcRsp = RsqNewGuess.newBuilder();
 		GCompQuizMgr.getInstance().createNewQuiz(player, gcRsp, request.getMatchId(), request.getGroupId(), request.getCoin());
 		return gcRsp.build().toByteString();
 	}
-	
+
 	public ByteString getCanGuessMatch(Player player, ReqAllGuessInfo request) {
 		RspAllGuessInfo.Builder gcRsp = RspAllGuessInfo.newBuilder();
 		GCompQuizMgr.getInstance().getCanQuizMatch(player, gcRsp);
 		return gcRsp.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 处理玩家创建队伍或者调整队伍阵容
@@ -261,19 +261,19 @@ public class GroupCompetitionHandler {
 		case AdjustTeamMember: // 调整出阵英雄
 			processResult = GCompTeamMgr.getInstance().updateHeros(player, teamRequest.getHeroIdList());
 			break;
-		case StartRandomMatching: // 随机匹配 
+		case StartRandomMatching: // 随机匹配
 			processResult = GCompTeamMgr.getInstance().randomMatching(player, teamRequest.getHeroIdList());
 			break;
-		case CancelRandomMatching: // 取消随机匹配 
+		case CancelRandomMatching: // 取消随机匹配
 			processResult = GCompTeamMgr.getInstance().cancelRandomMatching(player);
 			break;
-		case PersonalMatching: // 个人匹配 
+		case PersonalMatching: // 个人匹配
 			processResult = GCompTeamMgr.getInstance().personalMatching(player, teamRequest.getHeroIdList());
 			break;
-		case PersonalCancelMatching: // 取消个人匹配 
+		case PersonalCancelMatching: // 取消个人匹配
 			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
 			break;
-		case CancelMatching: // 取消匹配 
+		case CancelMatching: // 取消匹配
 			processResult = GCompTeamMgr.getInstance().cancelTeamMatching(player);
 			break;
 		default:
@@ -282,7 +282,7 @@ public class GroupCompetitionHandler {
 		GCompUtil.log("帮派争霸，teamRequest，userId：{}, 请求类型 : {}, 结果：{}, {}", player.getUserId(), teamRequest.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 成员操作：处理{@link GCRequestType#InviteMember}和{@link GCRequestType#KickMember}
@@ -306,7 +306,7 @@ public class GroupCompetitionHandler {
 		GCompUtil.log("帮派争霸，teamMemberRequest，请求类型 : {}, 结果：{}, {}", request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 加入队伍
@@ -319,7 +319,7 @@ public class GroupCompetitionHandler {
 		IReadOnlyPair<Boolean, String> processResult = GCompTeamMgr.getInstance().joinTeam(player, request.getTeamId(), request.getHeroIdList());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 队员状态操作：处理{@link GCRequestType#LeaveTeam}、{@link GCRequestType#SetTeamReady}以及{@link GCRequestType#CancelTeamReady}
@@ -334,13 +334,13 @@ public class GroupCompetitionHandler {
 		case LeaveTeam: // 离开队伍
 			processResult = GCompTeamMgr.getInstance().leaveTeam(player);
 			break;
-		case SetTeamReady: // 设置准备状态 
+		case SetTeamReady: // 设置准备状态
 			processResult = GCompTeamMgr.getInstance().switchMemberStatus(player, true);
 			break;
-		case CancelTeamReady: // 取消准备状态 
+		case CancelTeamReady: // 取消准备状态
 			processResult = GCompTeamMgr.getInstance().switchMemberStatus(player, false);
 			break;
-		case StartMatching: // 开始匹配 
+		case StartMatching: // 开始匹配
 			processResult = GCompTeamMgr.getInstance().startTeamMatching(player);
 			break;
 		default:
@@ -349,7 +349,7 @@ public class GroupCompetitionHandler {
 		GCompUtil.log("帮派争霸，teamStatusRequest，userId：{}, 请求类型 : {}, 结果：{}, {}", player.getUserId(), request.getReqType(), processResult.getT1(), processResult.getT2());
 		return this.createCommonRsp(processResult.getT1() ? GCResultType.SUCCESS : GCResultType.DATA_ERROR, processResult.getT2()).toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 获取赛事的详细信息
@@ -364,7 +364,7 @@ public class GroupCompetitionHandler {
 		GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getLivePara().getMatchId(), player);
 		return builder.build().toByteString();
 	}
-	
+
 	/**
 	 * 
 	 * 获取赛事的详细信息
@@ -373,7 +373,7 @@ public class GroupCompetitionHandler {
 	 * @param request
 	 * @return
 	 */
-	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request){
+	public ByteString getFightRecordLive(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		GCompFightingRecordMgr.getInstance().getFightRecordLive(player, builder, request.getLivePara().getMatchId(), request.getLivePara().getLatestTime());
 		GCompDetailInfoMgr.getInstance().sendDetailInfo(request.getLivePara().getMatchId(), player);
@@ -389,7 +389,7 @@ public class GroupCompetitionHandler {
 	public ByteString getKillRank(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		GCEventsType event = GCEventsType.getBySign(request.getGetRankPara().getEventsType());
-		if(null == event){
+		if (null == event) {
 			builder.setRstType(GCResultType.DATA_ERROR);
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
@@ -402,7 +402,7 @@ public class GroupCompetitionHandler {
 	public ByteString getScoreRank(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		GCEventsType event = GCEventsType.getBySign(request.getGetRankPara().getEventsType());
-		if(null == event){
+		if (null == event) {
 			builder.setRstType(GCResultType.DATA_ERROR);
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
@@ -415,7 +415,7 @@ public class GroupCompetitionHandler {
 	public ByteString getWinRank(Player player, CommonGetDataReqMsg request) {
 		CommonGetDataRspMsg.Builder builder = CommonGetDataRspMsg.newBuilder();
 		GCEventsType event = GCEventsType.getBySign(request.getGetRankPara().getEventsType());
-		if(null == event){
+		if (null == event) {
 			builder.setRstType(GCResultType.DATA_ERROR);
 			builder.setTipMsg("参数错误");
 			return builder.build().toByteString();
@@ -424,7 +424,7 @@ public class GroupCompetitionHandler {
 		builder.setRstType(GCResultType.SUCCESS);
 		return builder.build().toByteString();
 	}
-	
+
 	public ByteString getGroupScoreRank(Player player) {
 		GCEventsType fisrtTypeOfCurrent = GroupCompetitionMgr.getInstance().getFisrtTypeOfCurrent();
 		List<GCompGroupTotalScoreRecord> allRecords = GCompGroupScoreRankingMgr.getInstance().getAllRecord();
@@ -433,7 +433,7 @@ public class GroupCompetitionHandler {
 		GCompGroupTotalScoreRecord tempRecord;
 		GCompGroupScoreRecord currentRecord;
 		builder.setTotalScoreRankItemCount(fisrtTypeOfCurrent == GCEventsType.TOP_16 ? 16 : 8);
-		for(int i = 0, size = allRecords.size(); i < size; i++) {
+		for (int i = 0, size = allRecords.size(); i < size; i++) {
 			tempRecord = allRecords.get(i);
 			currentRecord = tempRecord.getCurrentRecord();
 			rankItemBuilder = GCompGroupScoreRankItem.newBuilder();
@@ -468,7 +468,7 @@ public class GroupCompetitionHandler {
 		rspBuilder.setGroupScoreRankRspData(builder.build());
 		return rspBuilder.build().toByteString();
 	}
-	
+
 	public ByteString getGroupNewestScore(Player player, CommonGetDataReqMsg request) {
 		List<IReadOnlyPair<String, Integer>> list = GCompDetailInfoMgr.getInstance().getNewestScore(request.getMatchId());
 		List<GroupScoreData> dataList;

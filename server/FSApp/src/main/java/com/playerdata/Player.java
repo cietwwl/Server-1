@@ -423,7 +423,7 @@ public class Player implements PlayerIF {
 					PraiseMgr.getMgr().synData(player);
 					// 发送角色的全局数据
 					FSUserHeroGlobalDataMgr.getInstance().synData(player);
-					//发送屏蔽新手引导信息
+					// 发送屏蔽新手引导信息
 					NewGuideStateChecker.getInstance().check(player, true);
 
 				}
@@ -442,12 +442,12 @@ public class Player implements PlayerIF {
 			dataSynVersionHolder.synAll(this);
 			// 检查主角羁绊
 			this.me_FetterMgr.checkPlayerData(this);
-			GroupMemberHelper.onPlayerLogin(this);
+			GroupMemberHelper.getInstance().onPlayerLogin(this);
 			ArenaBM.getInstance().arenaDailyPrize(getUserId(), null);
 			// TODO HC 登录之后检查一下万仙阵的数据
 			getTowerMgr().checkAndResetMatchData(this);
 			// 当角色登录的时候，更新下登录的时间
-			AngelArrayTeamInfoHelper.updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
+			AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(this, AngelArrayTeamInfoCall.loginCall);
 			// 角色登录检查秘境数据是否可以重置
 			UserGroupSecretBaseDataMgr.getMgr().checkCanReset(this, System.currentTimeMillis());
 			// 时效任务的角色登录

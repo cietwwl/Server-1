@@ -63,7 +63,7 @@ public class ArenaRobotDataMgr {
 		}
 
 		int[] fixEquip = arenaRobotData.getFixEquip();
-		if (fixEquip.length != 3) {
+		if (fixEquip == null || fixEquip.length != 3) {
 			return Collections.emptyList();
 		}
 
@@ -84,7 +84,7 @@ public class ArenaRobotDataMgr {
 		}
 
 		int[] fixEquip = arenaRobotData.getFixEquip();
-		if (fixEquip.length != 3) {
+		if (fixEquip == null || fixEquip.length != 3) {
 			return Collections.emptyList();
 		}
 

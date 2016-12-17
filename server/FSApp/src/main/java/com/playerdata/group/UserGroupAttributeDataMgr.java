@@ -72,7 +72,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -115,7 +115,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		if (data == null) {
 			return;
 		}
-		Group group = GroupBM.get(data.getGroupId());
+		Group group = GroupBM.getInstance().get(data.getGroupId());
 		if (group == null) {
 			return;
 		}
@@ -145,18 +145,6 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		}
 
 		return userGroupData.getContribution();
-		//
-		// Group group = GroupBM.get(userGroupData.getGroupId());
-		// if (group == null) {
-		// return 0;
-		// }
-		//
-		// GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userId, false);
-		// if (memberData == null) {
-		// return 0;
-		// }
-		//
-		// return memberData.getContribution();
 	}
 
 	/**
@@ -170,7 +158,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return;
 		}
 
-		Group group = GroupBM.get(userGroupData.getGroupId());
+		Group group = GroupBM.getInstance().get(userGroupData.getGroupId());
 		if (group == null) {
 			return;
 		}
@@ -240,7 +228,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		// 通知好友更改更新帮派名字
 		FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
 		// 通知阵容更新下名字
-		AngelArrayTeamInfoHelper.updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
+		AngelArrayTeamInfoHelper.getInstance().updateRankingEntry(player, AngelArrayTeamInfoCall.groupCall);
 		player.getStoreMgr().removeStore(eStoreType.Union.getOrder());
 	}
 
@@ -398,7 +386,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 			return null;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			// GameLog.error("计算英雄帮派属性", userId, String.format("[%s]的帮派没有找到数据", groupId));
 			return null;

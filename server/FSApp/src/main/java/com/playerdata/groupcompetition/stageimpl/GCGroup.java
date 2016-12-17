@@ -23,10 +23,10 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GroupCommonProto.GroupPost;
 
 @SynClass
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(getterVisibility = Visibility.NONE, setterVisibility = Visibility.NONE)
 public class GCGroup implements IGCGroup {
-	
+
 	@JsonProperty("1")
 	private String groupId; // 帮派的id
 	@JsonProperty("2")
@@ -43,8 +43,8 @@ public class GCGroup implements IGCGroup {
 	private int historyNum; // 客户端需要用的数据
 	@JsonIgnore
 	private int upNum; // 客户端需要用的数据
-//	@JsonIgnore
-//	private String descr;
+	// @JsonIgnore
+	// private String descr;
 	@JsonProperty("7")
 	private long gCompPower;
 	@JsonProperty("8")
@@ -53,13 +53,14 @@ public class GCGroup implements IGCGroup {
 	private int memberNum;
 	@JsonProperty("10")
 	private int maxMemberNum;
-	
-	public GCGroup() {}
-	
+
+	public GCGroup() {
+	}
+
 	public static GCGroup createNew(String groupId) {
 		GCGroup instance = new GCGroup();
 		Group group;
-		if (groupId == null || groupId.length() == 0 || (group = GroupBM.get(groupId)) == null) {
+		if (groupId == null || groupId.length() == 0 || (group = GroupBM.getInstance().get(groupId)) == null) {
 			instance.groupId = "";
 			instance.groupName = "";
 			instance.leaderName = "";
@@ -88,7 +89,7 @@ public class GCGroup implements IGCGroup {
 				instance.gCompPower = fightingRankItem.getGroupFight();
 			}
 		}
-//		instance.descr = "GCGroup [groupId=" + groupId + ", groupName=" + instance.groupName + "]";
+		// instance.descr = "GCGroup [groupId=" + groupId + ", groupName=" + instance.groupName + "]";
 		return instance;
 	}
 
@@ -111,7 +112,7 @@ public class GCGroup implements IGCGroup {
 	public int getGCompScore() {
 		return gCompScore;
 	}
-	
+
 	public void updateScore(int offset) {
 		this.gCompScore += offset;
 	}
@@ -126,8 +127,7 @@ public class GCGroup implements IGCGroup {
 
 	@Override
 	public String toString() {
-		return "GCGroup [groupId=" + groupId + ", groupName=" + groupName + ", gCompScore=" + gCompScore + ", gCompPower=" + gCompPower + ", groupLv=" + groupLv + ", memberNum=" + memberNum
-				+ ", maxMemberNum=" + maxMemberNum + "]";
+		return "GCGroup [groupId=" + groupId + ", groupName=" + groupName + ", gCompScore=" + gCompScore + ", gCompPower=" + gCompPower + ", groupLv=" + groupLv + ", memberNum=" + memberNum + ", maxMemberNum=" + maxMemberNum + "]";
 	}
 
 	public int getGroupLv() {
@@ -157,7 +157,7 @@ public class GCGroup implements IGCGroup {
 	public void setGroupIcon(String groupIcon) {
 		this.groupIcon = groupIcon;
 	}
-	
+
 	public void setFighting(long fighting) {
 		this.gCompPower = fighting;
 	}

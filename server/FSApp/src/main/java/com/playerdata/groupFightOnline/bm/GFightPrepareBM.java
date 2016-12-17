@@ -96,7 +96,7 @@ public class GFightPrepareBM {
 			gfRsp.setTipMsg("压标类型数据有误");
 			return;
 		}
-		String selfGroupID = GroupHelper.getUserGroupId(player.getUserId());
+		String selfGroupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		if (StringUtils.isNotBlank(selfGroupID)) {
 			int selfGroupRank = GFGroupBiddingRankMgr.getRankIndex(resourceID, selfGroupID);
 			if (selfGroupRank >= 1 && selfGroupRank <= GFightConst.IN_FIGHT_MAX_GROUP) {
@@ -201,7 +201,7 @@ public class GFightPrepareBM {
 			gfRsp.setTipMsg("防守队伍数据不存在或者防守方已撤离");
 			return;
 		}
-		defendTeam.getSimpleArmy().setGroupName(GroupHelper.getGroupName(defendTeam.getUserID()));
+		defendTeam.getSimpleArmy().setGroupName(GroupHelper.getInstance().getGroupName(defendTeam.getUserID()));
 		gfRsp.setEnimyDefenderDetails(ClientDataSynMgr.toClientData(defendTeam));
 		gfRsp.setRstType(GFResultType.SUCCESS);
 	}
@@ -215,7 +215,7 @@ public class GFightPrepareBM {
 	 * @param dataVersion
 	 */
 	public void modifySelfDefender(Player player, GroupFightOnlineRspMsg.Builder gfRsp, List<DefendArmyHerosInfo> items, GFightDataVersion dataVersion) {
-		String groupID = GroupHelper.getUserGroupId(player.getUserId());
+		String groupID = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 		if (groupID.isEmpty()) {
 			gfRsp.setRstType(GFResultType.DATA_EXCEPTION);
 			gfRsp.setTipMsg("没有帮派，不能进行此项操作");
@@ -278,7 +278,7 @@ public class GFightPrepareBM {
 			return;
 		for (int i = GFightConst.IN_FIGHT_MAX_GROUP; i < groupBidRank.size(); i++) {
 			GFGroupBiddingItem gBidItem = groupBidRank.get(i);
-			Group group = GroupBM.get(gBidItem.getGroupID());
+			Group group = GroupBM.getInstance().get(gBidItem.getGroupID());
 			if (group == null)
 				continue;
 			// 加回令牌数

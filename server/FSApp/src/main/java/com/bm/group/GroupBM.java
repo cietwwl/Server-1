@@ -37,27 +37,36 @@ import com.rwproto.GroupCommonProto.GroupState;
  * @date 2016年1月19日 下午3:23:11
  * @Description 帮派数据缓存的容器
  */
-public final class GroupBM {
-	private static IdentityIdGenerator generator;// 生成帮派Id的产生类
-	/** 常驻内存的帮派容器 */
-	private static final ConcurrentHashMap<String, Group> cacheGroupDataMap = new ConcurrentHashMap<String, Group>();
-	private static GroupIdCache groupIdCache;
-	
-	public static void init(String dsName,DruidDataSource dataSource){
-		groupIdCache = new GroupIdCache(dsName,dataSource);
+public class GroupBM {
+	private static GroupBM instance = new GroupBM();
+
+	public static GroupBM getInstance() {
+		return instance;
 	}
-	
-	public static String getGroupId(String groupName){
+
+	protected GroupBM() {
+	}
+
+	private IdentityIdGenerator generator;// 生成帮派Id的产生类
+	/** 常驻内存的帮派容器 */
+	private ConcurrentHashMap<String, Group> cacheGroupDataMap = new ConcurrentHashMap<String, Group>();
+	private GroupIdCache groupIdCache;
+
+	public void init(String dsName, DruidDataSource dataSource) {
+		groupIdCache = new GroupIdCache(dsName, dataSource);
+	}
+
+	public String getGroupId(String groupName) {
 		return groupIdCache.getGroupId(groupName);
 	}
-	
+
 	/**
 	 * 检查帮派是否存在
 	 * 
 	 * @param groupId
 	 * @return
 	 */
-	public static boolean groupIsExist(String groupId) {
+	public boolean groupIsExist(String groupId) {
 		return get(groupId) != null;
 	}
 
@@ -67,7 +76,7 @@ public final class GroupBM {
 	 * @param name
 	 * @return
 	 */
-	public static boolean hasName(String name) {
+	public boolean hasName(String name) {
 		if (cacheGroupDataMap.isEmpty()) {
 			return false;
 		}
@@ -101,8 +110,8 @@ public final class GroupBM {
 	 * @param groupId 要命中的帮派Id
 	 * @return
 	 */
-	public static Group get(String groupId) {
-		if(groupId == null || groupId.isEmpty()){
+	public Group get(String groupId) {
+		if (groupId == null || groupId.isEmpty()) {
 			return null;
 		}
 		Group group = cacheGroupDataMap.get(groupId);
@@ -134,7 +143,7 @@ public final class GroupBM {
 	 * @param defaultApplyLevel 默认的验证通过等级
 	 * @return
 	 */
-	public synchronized static Group create(Player player, String groupName, String icon, int defaultValidateType, int defaultApplyLevel) {
+	public synchronized Group create(Player player, String groupName, String icon, int defaultValidateType, int defaultApplyLevel) {
 		if (hasName(groupName)) {
 			return null;
 		}
@@ -193,10 +202,9 @@ public final class GroupBM {
 		}
 
 		// 放入成员
-		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(),
-				player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame(), GroupCopyLevelBL.MAX_ALLOT_COUNT);
+		group.getGroupMemberMgr().addMemberData(player.getUserId(), newGroupId, player.getUserName(), player.getHeadImage(), player.getTemplateId(), player.getLevel(), player.getVip(), player.getCareer(), GroupPost.LEADER_VALUE, 0, now, now, false, player.getHeadFrame(),
+				GroupCopyLevelBL.MAX_ALLOT_COUNT);
 
-		
 		return group;
 	}
 
@@ -205,8 +213,8 @@ public final class GroupBM {
 	 * 
 	 * @param groupId
 	 */
-	public synchronized static void dismiss(final String groupId) {
-		Group group = GroupBM.get(groupId);
+	public synchronized void dismiss(final String groupId) {
+		Group group = get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -269,7 +277,7 @@ public final class GroupBM {
 		// 移除帮派日志
 		GroupLogDataDAO.getDAO().delete(groupId);
 		// 从各个排行榜中移除
-		GroupRankHelper.removeRanking(groupId);
+		GroupRankHelper.getInstance().removeRanking(groupId);
 	}
 
 	/**
@@ -291,7 +299,7 @@ public final class GroupBM {
 	 * 
 	 * @return
 	 */
-	private static String newGroupId() {
+	private String newGroupId() {
 		if (generator == null) {
 			DruidDataSource dataSource = SpringContextUtil.getBean("dataSourceMT");
 			if (dataSource == null) {
@@ -309,7 +317,7 @@ public final class GroupBM {
 	/**
 	 * 检查所有在线帮派的每日经验等限制
 	 */
-	public static void checkOrAllGroupDayLimit() {
+	public void checkOrAllGroupDayLimit() {
 		for (Entry<String, Group> e : cacheGroupDataMap.entrySet()) {
 			Group group = e.getValue();
 			if (group == null) {

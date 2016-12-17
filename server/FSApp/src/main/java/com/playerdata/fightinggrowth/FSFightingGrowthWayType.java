@@ -50,7 +50,7 @@ public enum FSFightingGrowthWayType {
 	GROUP_SKILL(6, FSGetGroupSkillCurrentFightingFunc.getInstance(), FSGetGroupSkillMaxFightingFunc.getInstance()) {
 		@Override
 		public boolean isPlayerCanUse(Player player) {
-			return GroupHelper.hasGroup(player.getUserId());
+			return GroupHelper.getInstance().hasGroup(player.getUserId());
 		}
 	}, // 帮派技能
 	TAOIST(7, FSGetTaoistCurrentFightingFunc.getInstance(), FSGetTaoistMaxFightingFunc.getInstance()), // 道术战斗力获取
@@ -62,17 +62,17 @@ public enum FSFightingGrowthWayType {
 	private final int _sign;
 	private final IBIFunction<Player, List<Hero>, Integer> _getCurrentFightingFunc;
 	private final IFunction<Player, Integer> _getMaxFightingFunc;
-	
+
 	private static final Map<Integer, FSFightingGrowthWayType> _all;
-	
+
 	static {
 		Map<Integer, FSFightingGrowthWayType> map = new HashMap<Integer, FSFightingGrowthWayType>();
-		for(FSFightingGrowthWayType type : values()) {
+		for (FSFightingGrowthWayType type : values()) {
 			map.put(type._sign, type);
 		}
 		_all = Collections.unmodifiableMap(map);
 	}
-	
+
 	/**
 	 * 
 	 * @param pSign 与{@link FSUserFightingGrowthWayInfoCfg#getTypeForServer()} 一一对应
@@ -84,11 +84,11 @@ public enum FSFightingGrowthWayType {
 		this._getCurrentFightingFunc = getCurrentFightingFunc;
 		this._getMaxFightingFunc = getMaxFightingFunc;
 	}
-	
+
 	public int getSign() {
 		return _sign;
 	}
-	
+
 	/**
 	 * 
 	 * 获取当前战斗力的函数实现
@@ -98,7 +98,7 @@ public enum FSFightingGrowthWayType {
 	public IBIFunction<Player, List<Hero>, Integer> getGetCurrentFightingFunc() {
 		return _getCurrentFightingFunc;
 	}
-	
+
 	/**
 	 * 
 	 * 获取最大战斗力的函数实现
@@ -108,7 +108,7 @@ public enum FSFightingGrowthWayType {
 	public IFunction<Player, Integer> getGetMaxFightingFunc() {
 		return _getMaxFightingFunc;
 	}
-	
+
 	/**
 	 * 
 	 * 判断player是否能够使用此项
@@ -119,7 +119,7 @@ public enum FSFightingGrowthWayType {
 	public boolean isPlayerCanUse(Player player) {
 		return true;
 	}
-	
+
 	public static FSFightingGrowthWayType getBySign(int pSign) {
 		return _all.get(pSign);
 	}

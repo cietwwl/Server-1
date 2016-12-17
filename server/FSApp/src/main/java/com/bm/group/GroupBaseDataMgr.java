@@ -166,7 +166,7 @@ public class GroupBaseDataMgr {
 
 		groupData.setGroupName(groupName);
 		updateAndSynGroupData(player);
-		GCompFightingRankMgr.updateGroupBaseInfo(GroupHelper.getGroup(player));
+		GCompFightingRankMgr.updateGroupBaseInfo(GroupHelper.getInstance().getGroup(player));
 	}
 
 	/**
@@ -407,7 +407,7 @@ public class GroupBaseDataMgr {
 		}
 
 		// 更新下排行榜的扩展属性
-		GroupRankHelper.updateTheTypeForGroupRankExtension(groupData.getId());
+		GroupRankHelper.getInstance().updateTheTypeForGroupRankExtension(groupData.getId());
 		return oldLevel != curLevel;
 	}
 
@@ -504,6 +504,6 @@ public class GroupBaseDataMgr {
 
 	public void setGroupSupplier(int s) {
 		groupBaseDataHolder.setGroupSupplier(s);
-		
+
 	}
 }

@@ -29,7 +29,7 @@ import com.rwbase.dao.email.EmailCfg;
 import com.rwbase.dao.email.EmailCfgDAO;
 
 public class GFOnlineHurtRankMgr {
-	
+
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static int addOrUpdateUserGFHurtRank(Player player, UserGFightOnlineData userGFInfo) {
 		Ranking ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
@@ -52,6 +52,7 @@ public class GFOnlineHurtRankMgr {
 
 	/**
 	 * 资源点中的伤害排名
+	 * 
 	 * @param resourceID
 	 * @param userID
 	 * @return
@@ -64,9 +65,11 @@ public class GFOnlineHurtRankMgr {
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
 			GFOnlineHurtComparable hurtComparable = entry.getComparable();
-			if(hurtComparable.getResourceID() != resourceID) continue;
+			if (hurtComparable.getResourceID() != resourceID)
+				continue;
 			GFOnlineHurtItem hurtItem = entry.getExtendedAttribute();
-			if(hurtItem.getUserId().equals(userID)) target = hurtItem;
+			if (hurtItem.getUserId().equals(userID))
+				target = hurtItem;
 			itemList.add(hurtItem);
 		}
 		int indx = itemList.indexOf(target);
@@ -80,14 +83,15 @@ public class GFOnlineHurtRankMgr {
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
 			GFOnlineHurtComparable hurtComparable = entry.getComparable();
-			if(hurtComparable.getResourceID() != resourceID) continue;
+			if (hurtComparable.getResourceID() != resourceID)
+				continue;
 			GFOnlineHurtItem hurtItem = entry.getExtendedAttribute();
 			hurtItem.setTotalHurt(hurtComparable.getTotalHurt());
 			itemList.add(hurtItem);
 		}
 		return itemList;
 	}
-	
+
 	public static List<GFOnlineHurtItem> getGFHurtRankListInGroup(int resourceID, String groupID, int size) {
 		List<GFOnlineHurtItem> result = new ArrayList<GFOnlineHurtItem>();
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
@@ -95,27 +99,29 @@ public class GFOnlineHurtRankMgr {
 		for (; it.hasMoreElements();) {
 			MomentRankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = it.nextElement();
 			GFOnlineHurtComparable hurtComparable = entry.getComparable();
-			if(hurtComparable.getResourceID() != resourceID) continue;
+			if (hurtComparable.getResourceID() != resourceID)
+				continue;
 			GFOnlineHurtItem hurtItem = entry.getExtendedAttribute();
-			if(StringUtils.equals(hurtItem.getGroupID(), groupID)){
+			if (StringUtils.equals(hurtItem.getGroupID(), groupID)) {
 				hurtItem.setTotalHurt(hurtComparable.getTotalHurt());
 				result.add(hurtItem);
 			}
 		}
 		return result;
 	}
-	
+
 	public static void dispatchHurtReward(int resourceID) {
-		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
-		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点
-		long currentTime = System.currentTimeMillis();	//记录奖励发放的时间
-		
+		int dispatchingRank = 0; // 记录正在发放奖励的排名，用做异常的时候查找出错点
+		String dispatchingUser = "0"; // 记录正在发放奖励的角色id，用做异常的时候查找出错点
+		long currentTime = System.currentTimeMillis(); // 记录奖励发放的时间
+
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(String.valueOf(resourceID));
-		if(resCfg == null) return;
+		if (resCfg == null)
+			return;
 		try {
 			List<GFOnlineHurtItem> hurtRank = getGFHurtRankList(resourceID);
 			Iterator<GFOnlineHurtItem> it = hurtRank.iterator();
-			
+
 			GFightOnlineDamageRankDAO damageRankDAO = GFightOnlineDamageRankDAO.getInstance();
 			int rewardCfgCount = damageRankDAO.getEntryCount();
 			for (int i = 1; i <= rewardCfgCount; i++) {
@@ -129,16 +135,16 @@ public class GFOnlineHurtRankMgr {
 					if (it.hasNext()) {
 						GFOnlineHurtItem entry = it.next();
 						dispatchingUser = entry.getUserId();
-						//构造奖励内容
+						// 构造奖励内容
 						GFFinalRewardItem finalRewardItem = new GFFinalRewardItem();
 						finalRewardItem.setEmailId(rewardCfg.getEmailId());
-							
+
 						EmailCfg emailCfg = EmailCfgDAO.getInstance().getCfgById(String.valueOf(rewardCfg.getEmailId()));
-						if(emailCfg != null) {
+						if (emailCfg != null) {
 							finalRewardItem.setRewardDesc(String.format(emailCfg.getContent(), resCfg.getResName(), entry.getTotalHurt(), j));
 							finalRewardItem.setEmailIconPath(emailCfg.getSubjectIcon());
 						}
-						
+
 						finalRewardItem.setResourceID(resourceID);
 						finalRewardItem.setRewardContent(rewardCfg.getRewardList());
 						finalRewardItem.setRewardGetTime(currentTime);
@@ -156,21 +162,21 @@ public class GFOnlineHurtRankMgr {
 			clearRank(resourceID);
 		}
 	}
-	
-	public static void clearRank(int resourceID){
+
+	public static void clearRank(int resourceID) {
 		List<GFOnlineHurtItem> itemList = getGFHurtRankList(resourceID);
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
-		for(GFOnlineHurtItem removeItem : itemList){
+		for (GFOnlineHurtItem removeItem : itemList) {
 			ranking.removeRankingEntry(removeItem.getUserId());
 		}
 	}
-	
-	public static void updateGFHurtRankInfo(Player player){
+
+	public static void updateGFHurtRankInfo(Player player) {
 		Ranking<GFOnlineHurtComparable, GFOnlineHurtItem> ranking = RankingFactory.getRanking(RankType.GF_ONLINE_HURT_RANK);
 		RankingEntry<GFOnlineHurtComparable, GFOnlineHurtItem> entry = ranking.getRankingEntry(player.getUserId());
 		if (entry != null) {
 			entry.getExtendedAttribute().setUserName(player.getUserName());
-			entry.getExtendedAttribute().setGroupID(GroupHelper.getUserGroupId(player.getUserId()));
+			entry.getExtendedAttribute().setGroupID(GroupHelper.getInstance().getUserGroupId(player.getUserId()));
 			ranking.subimitUpdatedTask(entry);
 		}
 	}

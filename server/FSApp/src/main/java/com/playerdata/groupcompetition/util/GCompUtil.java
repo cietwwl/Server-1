@@ -30,10 +30,11 @@ import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
 import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageControlCfg;
 
 public class GCompUtil {
-	
+
 	private static final java.text.SimpleDateFormat _dateFormatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	private static final Random matchingTimeoutRandom = new Random();
+
 	/**
 	 * 
 	 * <pre>
@@ -54,6 +55,7 @@ public class GCompUtil {
 	 * 晋级之后的索引计算，也是按照从左边开始，按照初赛是哪一种类型累加。
 	 * 例如，初赛是8强，则晋级之后索引从5开始计算，16强则是从9开始
 	 * </pre>
+	 * 
 	 * @param eventsType
 	 * @return
 	 */
@@ -78,8 +80,8 @@ public class GCompUtil {
 		}
 		return usedIndex + 1;
 	}
-	
-	/**
+
+/**
 	 * 
 	 * 计算帮派战的开始时间
 	 * 
@@ -115,7 +117,7 @@ public class GCompUtil {
 		}
 		return instance.getTimeInMillis();
 	}
-	
+
 	public static long getNearTimeMillis(int hour, int minute, long relativeMillis) {
 		Calendar instance = Calendar.getInstance();
 		instance.setTimeInMillis(relativeMillis);
@@ -128,7 +130,7 @@ public class GCompUtil {
 		instance.set(Calendar.SECOND, 0);
 		return instance.getTimeInMillis();
 	}
-	
+
 	public static long calculateEndTimeOfStage(String stageCfgId) {
 		GroupCompetitionStageCfgDAO stageCfgDAO = GroupCompetitionStageCfgDAO.getInstance();
 		GroupCompetitionStageCfg cfg = stageCfgDAO.getCfgById(String.valueOf(stageCfgId));
@@ -153,11 +155,11 @@ public class GCompUtil {
 		}
 		return currentDateTime.getTimeInMillis();
 	}
-	
+
 	public static void sendMarquee(String msg) {
 		MainMsgHandler.getInstance().sendPmdNotId(msg);
 	}
-	
+
 	public static List<IGCGroup> getAllGroups(List<GCompAgainst> againstsList, Comparator<IGCGroup> comparator) {
 		List<IGCGroup> allGroups = new ArrayList<IGCGroup>(againstsList.size() * 2);
 		for (GCompAgainst against : againstsList) {
@@ -173,31 +175,31 @@ public class GCompUtil {
 		}
 		return allGroups;
 	}
-	
+
 	/**
 	 * 
 	 * @param msg
 	 * @param args
 	 */
 	public static void log(String msg, Object... args) {
-		System.err.println( _dateFormatter.format(new java.util.Date()) + " " + MessageFormatter.arrayFormat(msg, args));
+		System.err.println(_dateFormatter.format(new java.util.Date()) + " " + MessageFormatter.arrayFormat(msg, args));
 	}
-	
+
 	public static String format(String msg, Object... args) {
 		return MessageFormatter.arrayFormat(msg, args);
 	}
-	
+
 	public static int getMatchingTimeoutMillis() {
 		int randomSecond = matchingTimeoutRandom.nextInt(5);
 		int millis = GCompCommonConfig.getMachingTimeoutMillis();
-		if(randomSecond != 0) {
+		if (randomSecond != 0) {
 			// 随机偏移一定的秒数
 			millis -= TimeUnit.SECONDS.toMillis(randomSecond);
 		}
 		GCompUtil.log("---------- timeout millis : {} ----------", millis);
 		return millis;
 	}
-	
+
 	public static List<String> getTopCountGroupsFromRank() {
 		// 从排行榜获取排名靠前的N个帮派数据
 		List<GCompFightingItem> topGroups = GCompFightingRankMgr.getFightingRankList();
@@ -208,7 +210,7 @@ public class GCompUtil {
 		int minMembersCount = GCompCommonConfig.getMinMemberCountOfGroup();
 		for (int i = 0, size = topGroups.size(); i < size; i++) {
 			groupId = topGroups.get(i).getGroupId();
-			group = GroupBM.get(groupId);
+			group = GroupBM.getInstance().get(groupId);
 			if (group == null) {
 				GCompUtil.log("找不到帮派：{}", groupId);
 				continue;
@@ -226,7 +228,7 @@ public class GCompUtil {
 		GCompUtil.log("----------入围帮派id : " + groupIds + "----------");
 		return groupIds;
 	}
-	
+
 	public static void updateGroupInfo(List<GCompAgainst> list, Group targetGroup) {
 		if (list.size() > 0) {
 			GroupBaseDataIF baseData = targetGroup.getGroupBaseDataMgr().getGroupData();
@@ -266,88 +268,73 @@ public class GCompUtil {
 			}
 		}
 	}
-	
+
 	final static public class MessageFormatter {
-		  static final char DELIM_START = '{';
-		  static final char DELIM_STOP = '}';
-		  static final String DELIM_STR = "{}";
-		  private static final char ESCAPE_CHAR = '\\';
+		static final char DELIM_START = '{';
+		static final char DELIM_STOP = '}';
+		static final String DELIM_STR = "{}";
+		private static final char ESCAPE_CHAR = '\\';
 
-		  /**
-		   * Performs single argument substitution for the 'messagePattern' passed as
-		   * parameter.
-		   * <p>
-		   * For example,
-		   * 
-		   * <pre>
-		   * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;);
-		   * </pre>
-		   * 
-		   * will return the string "Hi there.".
-		   * <p>
-		   * 
-		   * @param messagePattern
-		   *          The message pattern which will be parsed and formatted
-		   * @param argument
-		   *          The argument to be substituted in place of the formatting anchor
-		   * @return The formatted message
-		   */
-		  final public static String format(String messagePattern, Object arg) {
-		    return arrayFormat(messagePattern, new Object[] { arg });
-		  }
+		/**
+		 * Performs single argument substitution for the 'messagePattern' passed as parameter.
+		 * <p>
+		 * For example,
+		 * 
+		 * <pre>
+		 * MessageFormatter.format(&quot;Hi {}.&quot;, &quot;there&quot;);
+		 * </pre>
+		 * 
+		 * will return the string "Hi there.".
+		 * <p>
+		 * 
+		 * @param messagePattern The message pattern which will be parsed and formatted
+		 * @param argument The argument to be substituted in place of the formatting anchor
+		 * @return The formatted message
+		 */
+		final public static String format(String messagePattern, Object arg) {
+			return arrayFormat(messagePattern, new Object[] { arg });
+		}
 
-		  /**
-		   * 
-		   * Performs a two argument substitution for the 'messagePattern' passed as
-		   * parameter.
-		   * <p>
-		   * For example,
-		   * 
-		   * <pre>
-		   * MessageFormatter.format(&quot;Hi {}. My name is {}.&quot;, &quot;Alice&quot;, &quot;Bob&quot;);
-		   * </pre>
-		   * 
-		   * will return the string "Hi Alice. My name is Bob.".
-		   * 
-		   * @param messagePattern
-		   *          The message pattern which will be parsed and formatted
-		   * @param arg1
-		   *          The argument to be substituted in place of the first formatting
-		   *          anchor
-		   * @param arg2
-		   *          The argument to be substituted in place of the second formatting
-		   *          anchor
-		   * @return The formatted message
-		   */
-		  final public static String format(final String messagePattern,
-		      Object arg1, Object arg2) {
-		    return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
-		  }
+		/**
+		 * 
+		 * Performs a two argument substitution for the 'messagePattern' passed as parameter.
+		 * <p>
+		 * For example,
+		 * 
+		 * <pre>
+		 * MessageFormatter.format(&quot;Hi {}. My name is {}.&quot;, &quot;Alice&quot;, &quot;Bob&quot;);
+		 * </pre>
+		 * 
+		 * will return the string "Hi Alice. My name is Bob.".
+		 * 
+		 * @param messagePattern The message pattern which will be parsed and formatted
+		 * @param arg1 The argument to be substituted in place of the first formatting anchor
+		 * @param arg2 The argument to be substituted in place of the second formatting anchor
+		 * @return The formatted message
+		 */
+		final public static String format(final String messagePattern, Object arg1, Object arg2) {
+			return arrayFormat(messagePattern, new Object[] { arg1, arg2 });
+		}
 
-		  static final Throwable getThrowableCandidate(Object[] argArray) {
-		    if (argArray == null || argArray.length == 0) {
-		      return null;
-		    }
+		static final Throwable getThrowableCandidate(Object[] argArray) {
+			if (argArray == null || argArray.length == 0) {
+				return null;
+			}
 
-		    final Object lastEntry = argArray[argArray.length - 1];
-		    if (lastEntry instanceof Throwable) {
-		      return (Throwable) lastEntry;
-		    }
-		    return null;
-		  }
+			final Object lastEntry = argArray[argArray.length - 1];
+			if (lastEntry instanceof Throwable) {
+				return (Throwable) lastEntry;
+			}
+			return null;
+		}
 
-		  /**
-		   * Same principle as the {@link #format(String, Object)} and
-		   * {@link #format(String, Object, Object)} methods except that any number of
-		   * arguments can be passed in an array.
-		   * 
-		   * @param messagePattern
-		   *          The message pattern which will be parsed and formatted
-		   * @param argArray
-		   *          An array of arguments to be substituted in place of formatting
-		   *          anchors
-		   * @return The formatted message
-		   */
+		/**
+		 * Same principle as the {@link #format(String, Object)} and {@link #format(String, Object, Object)} methods except that any number of arguments can be passed in an array.
+		 * 
+		 * @param messagePattern The message pattern which will be parsed and formatted
+		 * @param argArray An array of arguments to be substituted in place of formatting anchors
+		 * @return The formatted message
+		 */
 		final public static String arrayFormat(final String messagePattern, final Object[] argArray) {
 
 			if (messagePattern == null) {
@@ -398,15 +385,15 @@ public class GCompUtil {
 					}
 				}
 			}
-		    // append the characters following the last {} pair.
-		    sBuilder.append(messagePattern.substring(i, messagePattern.length()));
-//		    if (L < argArray.length - 1) {
-//		      return new FormattingTuple(sbuf.toString(), argArray, throwableCandidate);
-//		    } else {
-//		      return new FormattingTuple(sbuf.toString(), argArray, null);
-//		    }
-		    return sBuilder.toString();
-		  }
+			// append the characters following the last {} pair.
+			sBuilder.append(messagePattern.substring(i, messagePattern.length()));
+			// if (L < argArray.length - 1) {
+			// return new FormattingTuple(sbuf.toString(), argArray, throwableCandidate);
+			// } else {
+			// return new FormattingTuple(sbuf.toString(), argArray, null);
+			// }
+			return sBuilder.toString();
+		}
 
 		final static boolean isEscapedDelimeter(String messagePattern, int delimeterStartIndex) {
 

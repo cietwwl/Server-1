@@ -19,7 +19,7 @@ public class RobotEntryCfg {
 	private final int[] enchant; // 主角附灵星级
 	private final int[] gemCount; // 主角宝石数量
 	private final int[] gemType; // 主角宝石种类
-	private final int[] gemLevel; // 主角宝石等级
+	// private final int[] gemLevel; // 主角宝石等级
 	private final int[] firstSkillLevel;// 第一个技能等级
 	private final int[] secondSkillLevel;// 第二个技能等级
 	private final int[] thirdSkillLevel; // 第三个技能等级
@@ -37,7 +37,7 @@ public class RobotEntryCfg {
 	private final int[] heroEnchant; // 佣兵附灵
 	private final int[] heroGemCount; // 佣兵宝石数量
 	private final int[] heroGemType; // 佣兵宝石种类
-	private final int[] heroGemLevel; // 佣兵宝石等级
+	// private final int[] heroGemLevel; // 佣兵宝石等级
 	private final int[] heroFirstSkillLevel; // 佣兵第一个技能等级
 	private final int[] heroSecondSkillLevel;// 佣兵第二个技能等级
 	private final int[] heroThirdSkillLevel; // 佣兵第三个技能等级
@@ -62,7 +62,7 @@ public class RobotEntryCfg {
 		this.enchant = parseIntArray(cfg.getEnchant());
 		this.gemCount = parseIntArray(cfg.getGemCount());
 		this.gemType = parseIntArray(cfg.getGemType()); // 主角宝石种类
-		this.gemLevel = parseIntArray(cfg.getGemLevel()); // 主角宝石等级
+		// this.gemLevel = parseIntArray(cfg.getGemLevel()); // 主角宝石等级
 		this.firstSkillLevel = parseIntArray(cfg.getFirstSkillLevel());// 第一个技能等级
 		this.secondSkillLevel = parseIntArray(cfg.getSecondSkillLevel());// 第二个技能等级
 		this.thirdSkillLevel = parseIntArray(cfg.getThirdSkillLevel()); // 第三个技能等级
@@ -80,7 +80,7 @@ public class RobotEntryCfg {
 		this.heroEnchant = parseIntArray(cfg.getHeroEnchant()); // 佣兵附灵
 		this.heroGemCount = parseIntArray(cfg.getHeroGemCount()); // 佣兵宝石数量
 		this.heroGemType = parseIntArray(cfg.getHeroGemType()); // 佣兵宝石种类
-		this.heroGemLevel = parseIntArray(cfg.getHeroGemLevel());// 佣兵宝石等级
+		// this.heroGemLevel = parseIntArray(cfg.getHeroGemLevel());// 佣兵宝石等级
 		this.heroFirstSkillLevel = parseIntArray(cfg.getHeroFirstSkillLevel()); // 佣兵第一个技能等级
 		this.heroSecondSkillLevel = parseIntArray(cfg.getHeroSecondSkillLevel());// 佣兵第二个技能等级
 		this.heroThirdSkillLevel = parseIntArray(cfg.getHeroThirdSkillLevel()); // 佣兵第三个技能等级
@@ -230,9 +230,9 @@ public class RobotEntryCfg {
 		return gemType;
 	}
 
-	public int[] getGemLevel() {
-		return gemLevel;
-	}
+	// public int[] getGemLevel() {
+	// return gemLevel;
+	// }
 
 	public int[] getFirstSkillLevel() {
 		return firstSkillLevel;
@@ -313,9 +313,9 @@ public class RobotEntryCfg {
 		return heroGemType;
 	}
 
-	public int[] getHeroGemLevel() {
-		return heroGemLevel;
-	}
+	// public int[] getHeroGemLevel() {
+	// return heroGemLevel;
+	// }
 
 	public int[] getHeroFirstSkillLevel() {
 		return heroFirstSkillLevel;
