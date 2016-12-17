@@ -3,6 +3,7 @@ package com.rwbase.common.playerext;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.rw.service.guide.datamodel.NewGuideClosure;
+import com.rwbase.dao.chat.pojo.ChatTempAttribute;
 
 /**
  * <pre>
@@ -23,6 +24,7 @@ public class PlayerTempAttribute {
 	private boolean refreshStore;
 	private final PlayerMemoryMark arenaChanged;
 	private volatile NewGuideClosure lastClosure;
+	private ChatTempAttribute chatTempAttribute;// 聊天临时存储数据
 
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
@@ -30,6 +32,7 @@ public class PlayerTempAttribute {
 		this.heroFightingChanged = new AtomicBoolean();
 		this.checkRedPoint = new AtomicBoolean();
 		this.arenaChanged = new PlayerMemoryMark();
+		this.chatTempAttribute = new ChatTempAttribute();
 	}
 
 	public void setExpChanged() {
@@ -115,4 +118,12 @@ public class PlayerTempAttribute {
 		this.lastClosure = lastClosure;
 	}
 
+	/**
+	 * 获取聊天的临时数据
+	 * 
+	 * @return
+	 */
+	public ChatTempAttribute getChatTempAttribute() {
+		return chatTempAttribute;
+	}
 }
