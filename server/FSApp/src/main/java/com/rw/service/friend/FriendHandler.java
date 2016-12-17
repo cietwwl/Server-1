@@ -684,7 +684,7 @@ public class FriendHandler {
 		newItem.setLastLoginTime(tableUser.getLastLoginTime());
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// TODO 帮派获取名字后再提供
-		newItem.setUnionName(GroupMemberHelper.getInstance().getGroupName(player));
+		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		newItem.setFighting(player.getHeroMgr().getFightingTeam(player));
 		newItem.setVip(player.getVip());
 		newItem.setSex(player.getSex());
@@ -707,8 +707,8 @@ public class FriendHandler {
 			friendInfo.setLastLoginTip("当前在线");
 		}
 		friendInfo.setLevel(item.getLevel());
-		friendInfo.setGroupId(GroupHelper.getInstance().getUserGroupId(itemUserId));
-		friendInfo.setGroupName(GroupHelper.getInstance().getGroupName(itemUserId));
+		friendInfo.setGroupId(GroupHelper.getUserGroupId(itemUserId));
+		friendInfo.setGroupName(GroupHelper.getGroupName(itemUserId));
 		friendInfo.setVip(item.getVip());
 		friendInfo.setSex(item.getSex());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(itemUserId);

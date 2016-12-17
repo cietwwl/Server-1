@@ -1,5 +1,5 @@
-set csPath=F:\NewGitSource\gameNotice\server\protobuff\cs\
-set javaPath=F:\NewGitSource\gameNotice\server\protobuff\java\
+set csPath=F:\NewGitSource\store\server\protobuff\cs\
+set javaPath=F:\NewGitSource\store\server\protobuff\java\
 
 @echo -----begin to explain shape file-----
 

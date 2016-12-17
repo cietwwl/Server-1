@@ -872,7 +872,7 @@ public class FriendMgr implements FriendMgrIF, PlayerEventListener {
 		friendItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// friendItem.setUnionName(player.getGuildUserMgr().getGuildName());
 		// TODO 帮派获取名字后再提供
-		friendItem.setUnionName(GroupMemberHelper.getInstance().getGroupName(player));
+		friendItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		friendItem.setFighting(player.getHeroMgr().getFightingTeam(player));
 		friendItem.setVip(player.getVip());
 		friendItem.setSex(player.getSex());

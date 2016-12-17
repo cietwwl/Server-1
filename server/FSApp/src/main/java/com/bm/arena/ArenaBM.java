@@ -86,9 +86,9 @@ public class ArenaBM {
 	}
 
 	public static ArenaBM getInstance() {
-		// if (instance == null) {
-		// instance = new ArenaBM();
-		// }
+//		if (instance == null) {
+//			instance = new ArenaBM();
+//		}
 		return instance;
 	}
 
@@ -107,7 +107,7 @@ public class ArenaBM {
 		tableArenaDataDAO.update(arenaData);
 
 		// TODO HC 通知万仙阵检查阵容的战力
-		AngelArrayTeamInfoHelper.getInstance().checkAndUpdateTeamInfo(p, arenaData.getAtkList());
+		AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(p, arenaData.getAtkList());
 		return true;
 	}
 
@@ -124,11 +124,11 @@ public class ArenaBM {
 	public static final int ARENA_SIZE = 3;
 
 	public ArenaExtAttribute createArenaExt(Player player) {
-		// ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
+//		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(), player.getUserName(), player.getHeadImage(), player.getLevel());
 		ArenaExtAttribute arenaExt = new ArenaExtAttribute(player.getCareer(), player.getHeroMgr().getFightingAll(player), player.getUserName(), player.getHeadImage(), player.getLevel(), player.getVip(), (player.getMagic() != null ? player.getMagic().getModelId() : 0));
 		arenaExt.setModelId(player.getModelId());
 		arenaExt.setSex(player.getSex());
-		// arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+//		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 		arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 		return arenaExt;
 	}
@@ -185,7 +185,7 @@ public class ArenaBM {
 		// data.setPlayerSkill(player.getSkillMgr().getTableSkill()); //
 		// TableSkillDAO.getInstance().get(player.getUserId()));
 
-		// List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
+//		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros();
 		List<Hero> maxFightingHeros = player.getHeroMgr().getMaxFightingHeros(player);
 		ArrayList<String> defaultHeros = new ArrayList<String>(4);
 		// ArrayList<String> defaultAtkHeros = new ArrayList<String>(4);
@@ -220,7 +220,7 @@ public class ArenaBM {
 	}
 
 	public ListRankingEntry<String, ArenaExtAttribute> getEntry(String userId, int career) {
-		// ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
+		//ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.getListRankingType(career));
 		ListRanking<String, ArenaExtAttribute> ranking = RankingFactory.getSRanking(ListRankingType.ARENA);
 		if (ranking == null) {
 			return null;
@@ -578,7 +578,7 @@ public class ArenaBM {
 			arenaExt.setName(userName);
 			arenaExt.setModelId(player.getModelId());
 			arenaExt.setVip(player.getVip());
-			// arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
+//			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam());
 			arenaExt.setFightingTeam(player.getHeroMgr().getFightingTeam(player));
 			if (player.getMagic() != null) {
 				arenaExt.setMagicCfgId(player.getMagic().getModelId());

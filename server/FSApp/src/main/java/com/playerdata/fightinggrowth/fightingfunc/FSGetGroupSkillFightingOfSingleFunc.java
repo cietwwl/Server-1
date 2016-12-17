@@ -28,7 +28,7 @@ public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Inte
 
 	@Override
 	public Integer apply(Hero hero) {
-		if (!GroupHelper.getInstance().hasGroup(hero.getOwnerUserId())) {
+		if (!GroupHelper.hasGroup(hero.getOwnerUserId())) {
 			return 0;
 		}
 
