@@ -1,9 +1,9 @@
 package com.playerdata.activity.chargeRank.cfg;
-import com.common.BaseConfig;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
-public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
+public class ActivityChargeRankCfg implements ActivityCfgIF{
 	private int id; //活动id
 	private String title;	//活动的标题
 	private String startTimeStr; //开始时间
@@ -13,6 +13,9 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
 	private int version; //活动版本
 	private long startTime;	//活动的开启时间
 	private long endTime;	//活动的结束时间
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public int getId() {
 		return id;
@@ -73,20 +76,36 @@ public class ActivityChargeRankCfg extends BaseConfig implements ActivityCfgIF{
 	}
 	
 	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+	
  	public void ExtraInitAfterLoad() {
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
  	}
-
+	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		this.startTimeStr = startTimeStr;
+		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
 	}
 
 	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
-		this.endTimeStr = endTimeStr;
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

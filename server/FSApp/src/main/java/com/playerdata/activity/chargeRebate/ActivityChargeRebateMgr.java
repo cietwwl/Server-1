@@ -5,13 +5,10 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.bm.login.AccoutBM;
 import com.log.GameLog;
-import com.playerdata.EmailMgr;
 import com.playerdata.Player;
-import com.playerdata.VipMgr;
 import com.playerdata.activity.chargeRebate.dao.ActivityChargeRebateDAO;
 import com.playerdata.activity.chargeRebate.dao.ActivityChargeRebateData;
 import com.playerdata.charge.ChargeMgr;
@@ -80,7 +77,7 @@ public class ActivityChargeRebateMgr {
 			int chargeMoney = activityChargeRebateData.getChargeMoney();
 			int result = 0;
 			//充值返利 返还1.5倍
-			result = (int)(chargeMoney * 1.5);
+			result = (int)((chargeMoney / 10) * 1.5);
 
 			int monthCard = activityChargeRebateData.getMonthCard();
 			int vipMonthCard = activityChargeRebateData.getVipMonthCard();

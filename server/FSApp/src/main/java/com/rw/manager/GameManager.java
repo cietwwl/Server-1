@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -312,17 +313,23 @@ public class GameManager {
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(PlayerMgr.getInstance().getAllPlayer().values());
 		/**** 保存在线玩家 *******/
-		// PlayerMgr.getInstance().saveAllPlayer();
-		// PlayerMgr.getInstance().kickOffAllPlayer();
-
+		try {
+			ShutdownService.notifyShutdown();
+			TimeUnit.SECONDS.sleep(10);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 		shutDownService();
-		ShutdownService.notifyShutdown();
+		try {
+			TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		GameLog.debug("服务器关闭完成...");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);
@@ -330,8 +337,8 @@ public class GameManager {
 		for (final DataCache dao : DataCacheFactory.getAllCaches()) {
 			final String name = dao.getName();
 			List<Runnable> tasks = dao.createUpdateTask();
-			int size = tasks.size();
-			GameLog.error(name + " 保存数据：" + size);
+			final int size = tasks.size();
+			GameLog.error("ShutDown", "", name + " 保存数据：" + size);
 			final AtomicInteger taskCount = new AtomicInteger(size);
 			for (int i = 0; i < size; i++) {
 				final Runnable task = tasks.get(i);
@@ -341,8 +348,7 @@ public class GameManager {
 					public Object call() throws Exception {
 						task.run();
 						if (taskCount.decrementAndGet() == 0) {
-							GameLog.error(name + " 保存数据完毕");
-							// System.err.println(name + " 保存数据完毕");
+							GameLog.error("", "", name + " 保存数据完毕:" + size);
 						}
 						return name;
 					}
@@ -355,25 +361,22 @@ public class GameManager {
 			interrupted = true;
 		}
 		int size = allTasks.size();
-		GameLog.error("保存数据总量：" + size);
-		// System.err.println("保存数据总量：" + size);
+		GameLog.error("ShutDown", "", "保存数据总量：" + size);
 		for (int i = 0; i < size; i++) {
 			NameFuture nameFuture = allTasks.get(i);
 			try {
 				nameFuture.future.get();
 			} catch (InterruptedException e) {
-				GameLog.error("保存数据时接收到inerruptException：" + nameFuture.name);
+				GameLog.error("ShutDown", "", "保存数据时接收到inerruptException：" + nameFuture.name);
 				interrupted = true;
 			} catch (ExecutionException e) {
-				GameLog.error("保存数据ExecutionException：" + nameFuture.name + "," + e);
+				GameLog.error("ShutDown", "", "保存数据ExecutionException：" + nameFuture.name + "," + e);
 			}
 		}
-		GameLog.error("停服保存数据完毕：" + size);
-		// System.err.println("停服保存数据完毕：" + size);
+		GameLog.error("ShutDown", "", "停服保存数据完毕：" + size);
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

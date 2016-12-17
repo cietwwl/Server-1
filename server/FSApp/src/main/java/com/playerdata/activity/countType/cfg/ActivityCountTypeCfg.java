@@ -1,6 +1,7 @@
 package com.playerdata.activity.countType.cfg;
 
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
@@ -21,8 +22,6 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	private String title;
 	
 	private String titleBG;
-	
-	private String desc;	
 
 	private String goToType;
 	
@@ -40,6 +39,8 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	private int sortNum;
 	
 	private String countLimit;
+	
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
 	public String getEnumId() {
 		return enumId;
@@ -97,10 +98,6 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 		return titleBG;
 	}
 
-	public String getDesc() {
-		return desc;
-	}
-
 	public String getGoToType() {
 		return goToType;
 	}
@@ -151,19 +148,41 @@ public class ActivityCountTypeCfg implements ActivityCfgIF{
 	}
 	
 	@Override
+	public boolean isEveryDaySame() {
+		return false;
+	}
+	
+	@Override
 	public int getVipLimit() {
 		return 0;
 	}
 
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
+	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		this.startTimeStr = startTimeStr;
+		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
 	}
 
 	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
-		this.endTimeStr = endTimeStr;
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

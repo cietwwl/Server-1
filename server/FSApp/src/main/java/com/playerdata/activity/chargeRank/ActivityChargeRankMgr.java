@@ -56,6 +56,15 @@ public class ActivityChargeRankMgr extends AbstractActivityMgr<ActivityChargeRan
 		holder.synAllData(player);
 	}
 	
+	
+	@Override
+	public void activityStartHandler(ActivityCfgIF cfg){
+		Ranking<ChargeComparable, RankingChargeData> ranking = RankingFactory.getRanking(RankType.ACTIVITY_CHARGE_RANK);
+		if(null != ranking){
+			ranking.clear();
+		}
+	}
+	
 	@Override
 	public void activityEndHandler(ActivityCfgIF cfg){
 		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点

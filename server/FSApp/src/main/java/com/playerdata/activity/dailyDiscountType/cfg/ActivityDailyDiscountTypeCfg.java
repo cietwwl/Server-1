@@ -1,12 +1,12 @@
 package com.playerdata.activity.dailyDiscountType.cfg;
 
-import com.common.BaseConfig;
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
 
-public class ActivityDailyDiscountTypeCfg extends BaseConfig implements ActivityCfgIF{
+public class ActivityDailyDiscountTypeCfg implements ActivityCfgIF{
 
 	private int id;
 	
@@ -27,6 +27,9 @@ public class ActivityDailyDiscountTypeCfg extends BaseConfig implements Activity
 	private int enumId;
 	
 	private int isRefresh;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 	
 	public int getEnumId() {
 		return enumId;
@@ -114,22 +117,38 @@ public class ActivityDailyDiscountTypeCfg extends BaseConfig implements Activity
 	public boolean isDailyRefresh() {
 		return isRefresh == 1;
 	}
-
+	
 	@Override
- 	public void ExtraInitAfterLoad() {
- 		startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		endTime = ActivityTimeHelper.cftEndTimeToLong(startTime, endTimeStr);
+	public boolean isEveryDaySame() {
+		return false;
+	}
+
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
  	}
 	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
 		this.startTimeStr = startTimeStr;
-	}
-
-	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
 		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

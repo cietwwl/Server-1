@@ -3042,6 +3042,2080 @@ public final class PlatformGSMsg {
     // @@protoc_insertion_point(class_scope:UserStatusResponse)
   }
 
+  public interface ActivityTimeInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // repeated .ActCfgInfo actInfos = 1;
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    java.util.List<com.rwproto.PlatformGSMsg.ActCfgInfo> 
+        getActInfosList();
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    com.rwproto.PlatformGSMsg.ActCfgInfo getActInfos(int index);
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    int getActInfosCount();
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    java.util.List<? extends com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder> 
+        getActInfosOrBuilderList();
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder getActInfosOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code ActivityTimeInfo}
+   */
+  public static final class ActivityTimeInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ActivityTimeInfoOrBuilder {
+    // Use ActivityTimeInfo.newBuilder() to construct.
+    private ActivityTimeInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActivityTimeInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActivityTimeInfo defaultInstance;
+    public static ActivityTimeInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActivityTimeInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActivityTimeInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                actInfos_ = new java.util.ArrayList<com.rwproto.PlatformGSMsg.ActCfgInfo>();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              actInfos_.add(input.readMessage(com.rwproto.PlatformGSMsg.ActCfgInfo.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          actInfos_ = java.util.Collections.unmodifiableList(actInfos_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PlatformGSMsg.internal_static_ActivityTimeInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PlatformGSMsg.internal_static_ActivityTimeInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PlatformGSMsg.ActivityTimeInfo.class, com.rwproto.PlatformGSMsg.ActivityTimeInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActivityTimeInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ActivityTimeInfo>() {
+      public ActivityTimeInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActivityTimeInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActivityTimeInfo> getParserForType() {
+      return PARSER;
+    }
+
+    // repeated .ActCfgInfo actInfos = 1;
+    public static final int ACTINFOS_FIELD_NUMBER = 1;
+    private java.util.List<com.rwproto.PlatformGSMsg.ActCfgInfo> actInfos_;
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    public java.util.List<com.rwproto.PlatformGSMsg.ActCfgInfo> getActInfosList() {
+      return actInfos_;
+    }
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    public java.util.List<? extends com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder> 
+        getActInfosOrBuilderList() {
+      return actInfos_;
+    }
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    public int getActInfosCount() {
+      return actInfos_.size();
+    }
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    public com.rwproto.PlatformGSMsg.ActCfgInfo getActInfos(int index) {
+      return actInfos_.get(index);
+    }
+    /**
+     * <code>repeated .ActCfgInfo actInfos = 1;</code>
+     */
+    public com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder getActInfosOrBuilder(
+        int index) {
+      return actInfos_.get(index);
+    }
+
+    private void initFields() {
+      actInfos_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      for (int i = 0; i < getActInfosCount(); i++) {
+        if (!getActInfos(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < actInfos_.size(); i++) {
+        output.writeMessage(1, actInfos_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      for (int i = 0; i < actInfos_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, actInfos_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PlatformGSMsg.ActivityTimeInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PlatformGSMsg.ActivityTimeInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ActivityTimeInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PlatformGSMsg.ActivityTimeInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PlatformGSMsg.internal_static_ActivityTimeInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PlatformGSMsg.internal_static_ActivityTimeInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PlatformGSMsg.ActivityTimeInfo.class, com.rwproto.PlatformGSMsg.ActivityTimeInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.PlatformGSMsg.ActivityTimeInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getActInfosFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        if (actInfosBuilder_ == null) {
+          actInfos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          actInfosBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PlatformGSMsg.internal_static_ActivityTimeInfo_descriptor;
+      }
+
+      public com.rwproto.PlatformGSMsg.ActivityTimeInfo getDefaultInstanceForType() {
+        return com.rwproto.PlatformGSMsg.ActivityTimeInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.PlatformGSMsg.ActivityTimeInfo build() {
+        com.rwproto.PlatformGSMsg.ActivityTimeInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PlatformGSMsg.ActivityTimeInfo buildPartial() {
+        com.rwproto.PlatformGSMsg.ActivityTimeInfo result = new com.rwproto.PlatformGSMsg.ActivityTimeInfo(this);
+        int from_bitField0_ = bitField0_;
+        if (actInfosBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            actInfos_ = java.util.Collections.unmodifiableList(actInfos_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.actInfos_ = actInfos_;
+        } else {
+          result.actInfos_ = actInfosBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PlatformGSMsg.ActivityTimeInfo) {
+          return mergeFrom((com.rwproto.PlatformGSMsg.ActivityTimeInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PlatformGSMsg.ActivityTimeInfo other) {
+        if (other == com.rwproto.PlatformGSMsg.ActivityTimeInfo.getDefaultInstance()) return this;
+        if (actInfosBuilder_ == null) {
+          if (!other.actInfos_.isEmpty()) {
+            if (actInfos_.isEmpty()) {
+              actInfos_ = other.actInfos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureActInfosIsMutable();
+              actInfos_.addAll(other.actInfos_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.actInfos_.isEmpty()) {
+            if (actInfosBuilder_.isEmpty()) {
+              actInfosBuilder_.dispose();
+              actInfosBuilder_ = null;
+              actInfos_ = other.actInfos_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              actInfosBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getActInfosFieldBuilder() : null;
+            } else {
+              actInfosBuilder_.addAllMessages(other.actInfos_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        for (int i = 0; i < getActInfosCount(); i++) {
+          if (!getActInfos(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PlatformGSMsg.ActivityTimeInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PlatformGSMsg.ActivityTimeInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // repeated .ActCfgInfo actInfos = 1;
+      private java.util.List<com.rwproto.PlatformGSMsg.ActCfgInfo> actInfos_ =
+        java.util.Collections.emptyList();
+      private void ensureActInfosIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          actInfos_ = new java.util.ArrayList<com.rwproto.PlatformGSMsg.ActCfgInfo>(actInfos_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PlatformGSMsg.ActCfgInfo, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder, com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder> actInfosBuilder_;
+
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public java.util.List<com.rwproto.PlatformGSMsg.ActCfgInfo> getActInfosList() {
+        if (actInfosBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(actInfos_);
+        } else {
+          return actInfosBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public int getActInfosCount() {
+        if (actInfosBuilder_ == null) {
+          return actInfos_.size();
+        } else {
+          return actInfosBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public com.rwproto.PlatformGSMsg.ActCfgInfo getActInfos(int index) {
+        if (actInfosBuilder_ == null) {
+          return actInfos_.get(index);
+        } else {
+          return actInfosBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder setActInfos(
+          int index, com.rwproto.PlatformGSMsg.ActCfgInfo value) {
+        if (actInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureActInfosIsMutable();
+          actInfos_.set(index, value);
+          onChanged();
+        } else {
+          actInfosBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder setActInfos(
+          int index, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder builderForValue) {
+        if (actInfosBuilder_ == null) {
+          ensureActInfosIsMutable();
+          actInfos_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          actInfosBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder addActInfos(com.rwproto.PlatformGSMsg.ActCfgInfo value) {
+        if (actInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureActInfosIsMutable();
+          actInfos_.add(value);
+          onChanged();
+        } else {
+          actInfosBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder addActInfos(
+          int index, com.rwproto.PlatformGSMsg.ActCfgInfo value) {
+        if (actInfosBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureActInfosIsMutable();
+          actInfos_.add(index, value);
+          onChanged();
+        } else {
+          actInfosBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder addActInfos(
+          com.rwproto.PlatformGSMsg.ActCfgInfo.Builder builderForValue) {
+        if (actInfosBuilder_ == null) {
+          ensureActInfosIsMutable();
+          actInfos_.add(builderForValue.build());
+          onChanged();
+        } else {
+          actInfosBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder addActInfos(
+          int index, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder builderForValue) {
+        if (actInfosBuilder_ == null) {
+          ensureActInfosIsMutable();
+          actInfos_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          actInfosBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder addAllActInfos(
+          java.lang.Iterable<? extends com.rwproto.PlatformGSMsg.ActCfgInfo> values) {
+        if (actInfosBuilder_ == null) {
+          ensureActInfosIsMutable();
+          super.addAll(values, actInfos_);
+          onChanged();
+        } else {
+          actInfosBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder clearActInfos() {
+        if (actInfosBuilder_ == null) {
+          actInfos_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          actInfosBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public Builder removeActInfos(int index) {
+        if (actInfosBuilder_ == null) {
+          ensureActInfosIsMutable();
+          actInfos_.remove(index);
+          onChanged();
+        } else {
+          actInfosBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public com.rwproto.PlatformGSMsg.ActCfgInfo.Builder getActInfosBuilder(
+          int index) {
+        return getActInfosFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder getActInfosOrBuilder(
+          int index) {
+        if (actInfosBuilder_ == null) {
+          return actInfos_.get(index);  } else {
+          return actInfosBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public java.util.List<? extends com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder> 
+           getActInfosOrBuilderList() {
+        if (actInfosBuilder_ != null) {
+          return actInfosBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(actInfos_);
+        }
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public com.rwproto.PlatformGSMsg.ActCfgInfo.Builder addActInfosBuilder() {
+        return getActInfosFieldBuilder().addBuilder(
+            com.rwproto.PlatformGSMsg.ActCfgInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public com.rwproto.PlatformGSMsg.ActCfgInfo.Builder addActInfosBuilder(
+          int index) {
+        return getActInfosFieldBuilder().addBuilder(
+            index, com.rwproto.PlatformGSMsg.ActCfgInfo.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .ActCfgInfo actInfos = 1;</code>
+       */
+      public java.util.List<com.rwproto.PlatformGSMsg.ActCfgInfo.Builder> 
+           getActInfosBuilderList() {
+        return getActInfosFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.rwproto.PlatformGSMsg.ActCfgInfo, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder, com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder> 
+          getActInfosFieldBuilder() {
+        if (actInfosBuilder_ == null) {
+          actInfosBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.rwproto.PlatformGSMsg.ActCfgInfo, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder, com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder>(
+                  actInfos_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          actInfos_ = null;
+        }
+        return actInfosBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ActivityTimeInfo)
+    }
+
+    static {
+      defaultInstance = new ActivityTimeInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ActivityTimeInfo)
+  }
+
+  public interface ActCfgInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 cfgId = 1;
+    /**
+     * <code>required int32 cfgId = 1;</code>
+     *
+     * <pre>
+     *活动id
+     * </pre>
+     */
+    boolean hasCfgId();
+    /**
+     * <code>required int32 cfgId = 1;</code>
+     *
+     * <pre>
+     *活动id
+     * </pre>
+     */
+    int getCfgId();
+
+    // required string startTime = 2;
+    /**
+     * <code>required string startTime = 2;</code>
+     */
+    boolean hasStartTime();
+    /**
+     * <code>required string startTime = 2;</code>
+     */
+    java.lang.String getStartTime();
+    /**
+     * <code>required string startTime = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getStartTimeBytes();
+
+    // required string endTime = 3;
+    /**
+     * <code>required string endTime = 3;</code>
+     */
+    boolean hasEndTime();
+    /**
+     * <code>required string endTime = 3;</code>
+     */
+    java.lang.String getEndTime();
+    /**
+     * <code>required string endTime = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getEndTimeBytes();
+
+    // optional string startViceTime = 4;
+    /**
+     * <code>optional string startViceTime = 4;</code>
+     */
+    boolean hasStartViceTime();
+    /**
+     * <code>optional string startViceTime = 4;</code>
+     */
+    java.lang.String getStartViceTime();
+    /**
+     * <code>optional string startViceTime = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getStartViceTimeBytes();
+
+    // optional string endViceTime = 5;
+    /**
+     * <code>optional string endViceTime = 5;</code>
+     */
+    boolean hasEndViceTime();
+    /**
+     * <code>optional string endViceTime = 5;</code>
+     */
+    java.lang.String getEndViceTime();
+    /**
+     * <code>optional string endViceTime = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getEndViceTimeBytes();
+
+    // optional string rangeTime = 6;
+    /**
+     * <code>optional string rangeTime = 6;</code>
+     */
+    boolean hasRangeTime();
+    /**
+     * <code>optional string rangeTime = 6;</code>
+     */
+    java.lang.String getRangeTime();
+    /**
+     * <code>optional string rangeTime = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getRangeTimeBytes();
+
+    // optional string actDesc = 7;
+    /**
+     * <code>optional string actDesc = 7;</code>
+     */
+    boolean hasActDesc();
+    /**
+     * <code>optional string actDesc = 7;</code>
+     */
+    java.lang.String getActDesc();
+    /**
+     * <code>optional string actDesc = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getActDescBytes();
+  }
+  /**
+   * Protobuf type {@code ActCfgInfo}
+   */
+  public static final class ActCfgInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements ActCfgInfoOrBuilder {
+    // Use ActCfgInfo.newBuilder() to construct.
+    private ActCfgInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private ActCfgInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final ActCfgInfo defaultInstance;
+    public static ActCfgInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public ActCfgInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private ActCfgInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              cfgId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              startTime_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              endTime_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              startViceTime_ = input.readBytes();
+              break;
+            }
+            case 42: {
+              bitField0_ |= 0x00000010;
+              endViceTime_ = input.readBytes();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              rangeTime_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              bitField0_ |= 0x00000040;
+              actDesc_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.PlatformGSMsg.internal_static_ActCfgInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.PlatformGSMsg.internal_static_ActCfgInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.PlatformGSMsg.ActCfgInfo.class, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<ActCfgInfo> PARSER =
+        new com.google.protobuf.AbstractParser<ActCfgInfo>() {
+      public ActCfgInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new ActCfgInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ActCfgInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 cfgId = 1;
+    public static final int CFGID_FIELD_NUMBER = 1;
+    private int cfgId_;
+    /**
+     * <code>required int32 cfgId = 1;</code>
+     *
+     * <pre>
+     *活动id
+     * </pre>
+     */
+    public boolean hasCfgId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 cfgId = 1;</code>
+     *
+     * <pre>
+     *活动id
+     * </pre>
+     */
+    public int getCfgId() {
+      return cfgId_;
+    }
+
+    // required string startTime = 2;
+    public static final int STARTTIME_FIELD_NUMBER = 2;
+    private java.lang.Object startTime_;
+    /**
+     * <code>required string startTime = 2;</code>
+     */
+    public boolean hasStartTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required string startTime = 2;</code>
+     */
+    public java.lang.String getStartTime() {
+      java.lang.Object ref = startTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          startTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string startTime = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStartTimeBytes() {
+      java.lang.Object ref = startTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        startTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // required string endTime = 3;
+    public static final int ENDTIME_FIELD_NUMBER = 3;
+    private java.lang.Object endTime_;
+    /**
+     * <code>required string endTime = 3;</code>
+     */
+    public boolean hasEndTime() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required string endTime = 3;</code>
+     */
+    public java.lang.String getEndTime() {
+      java.lang.Object ref = endTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          endTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string endTime = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEndTimeBytes() {
+      java.lang.Object ref = endTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        endTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string startViceTime = 4;
+    public static final int STARTVICETIME_FIELD_NUMBER = 4;
+    private java.lang.Object startViceTime_;
+    /**
+     * <code>optional string startViceTime = 4;</code>
+     */
+    public boolean hasStartViceTime() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional string startViceTime = 4;</code>
+     */
+    public java.lang.String getStartViceTime() {
+      java.lang.Object ref = startViceTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          startViceTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string startViceTime = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getStartViceTimeBytes() {
+      java.lang.Object ref = startViceTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        startViceTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string endViceTime = 5;
+    public static final int ENDVICETIME_FIELD_NUMBER = 5;
+    private java.lang.Object endViceTime_;
+    /**
+     * <code>optional string endViceTime = 5;</code>
+     */
+    public boolean hasEndViceTime() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string endViceTime = 5;</code>
+     */
+    public java.lang.String getEndViceTime() {
+      java.lang.Object ref = endViceTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          endViceTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string endViceTime = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getEndViceTimeBytes() {
+      java.lang.Object ref = endViceTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        endViceTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string rangeTime = 6;
+    public static final int RANGETIME_FIELD_NUMBER = 6;
+    private java.lang.Object rangeTime_;
+    /**
+     * <code>optional string rangeTime = 6;</code>
+     */
+    public boolean hasRangeTime() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional string rangeTime = 6;</code>
+     */
+    public java.lang.String getRangeTime() {
+      java.lang.Object ref = rangeTime_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          rangeTime_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string rangeTime = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRangeTimeBytes() {
+      java.lang.Object ref = rangeTime_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        rangeTime_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    // optional string actDesc = 7;
+    public static final int ACTDESC_FIELD_NUMBER = 7;
+    private java.lang.Object actDesc_;
+    /**
+     * <code>optional string actDesc = 7;</code>
+     */
+    public boolean hasActDesc() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string actDesc = 7;</code>
+     */
+    public java.lang.String getActDesc() {
+      java.lang.Object ref = actDesc_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          actDesc_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string actDesc = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getActDescBytes() {
+      java.lang.Object ref = actDesc_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        actDesc_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private void initFields() {
+      cfgId_ = 0;
+      startTime_ = "";
+      endTime_ = "";
+      startViceTime_ = "";
+      endViceTime_ = "";
+      rangeTime_ = "";
+      actDesc_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasCfgId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasStartTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEndTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, cfgId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getStartTimeBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getEndTimeBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getStartViceTimeBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(5, getEndViceTimeBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getRangeTimeBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(7, getActDescBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, cfgId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getStartTimeBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getEndTimeBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getStartViceTimeBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(5, getEndViceTimeBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getRangeTimeBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(7, getActDescBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.PlatformGSMsg.ActCfgInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.PlatformGSMsg.ActCfgInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code ActCfgInfo}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.PlatformGSMsg.ActCfgInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.PlatformGSMsg.internal_static_ActCfgInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.PlatformGSMsg.internal_static_ActCfgInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.PlatformGSMsg.ActCfgInfo.class, com.rwproto.PlatformGSMsg.ActCfgInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.PlatformGSMsg.ActCfgInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        cfgId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        startTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        endTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        startViceTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        endViceTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        rangeTime_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        actDesc_ = "";
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.PlatformGSMsg.internal_static_ActCfgInfo_descriptor;
+      }
+
+      public com.rwproto.PlatformGSMsg.ActCfgInfo getDefaultInstanceForType() {
+        return com.rwproto.PlatformGSMsg.ActCfgInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.PlatformGSMsg.ActCfgInfo build() {
+        com.rwproto.PlatformGSMsg.ActCfgInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.PlatformGSMsg.ActCfgInfo buildPartial() {
+        com.rwproto.PlatformGSMsg.ActCfgInfo result = new com.rwproto.PlatformGSMsg.ActCfgInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.cfgId_ = cfgId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.startTime_ = startTime_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.endTime_ = endTime_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.startViceTime_ = startViceTime_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.endViceTime_ = endViceTime_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.rangeTime_ = rangeTime_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.actDesc_ = actDesc_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.PlatformGSMsg.ActCfgInfo) {
+          return mergeFrom((com.rwproto.PlatformGSMsg.ActCfgInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.PlatformGSMsg.ActCfgInfo other) {
+        if (other == com.rwproto.PlatformGSMsg.ActCfgInfo.getDefaultInstance()) return this;
+        if (other.hasCfgId()) {
+          setCfgId(other.getCfgId());
+        }
+        if (other.hasStartTime()) {
+          bitField0_ |= 0x00000002;
+          startTime_ = other.startTime_;
+          onChanged();
+        }
+        if (other.hasEndTime()) {
+          bitField0_ |= 0x00000004;
+          endTime_ = other.endTime_;
+          onChanged();
+        }
+        if (other.hasStartViceTime()) {
+          bitField0_ |= 0x00000008;
+          startViceTime_ = other.startViceTime_;
+          onChanged();
+        }
+        if (other.hasEndViceTime()) {
+          bitField0_ |= 0x00000010;
+          endViceTime_ = other.endViceTime_;
+          onChanged();
+        }
+        if (other.hasRangeTime()) {
+          bitField0_ |= 0x00000020;
+          rangeTime_ = other.rangeTime_;
+          onChanged();
+        }
+        if (other.hasActDesc()) {
+          bitField0_ |= 0x00000040;
+          actDesc_ = other.actDesc_;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasCfgId()) {
+          
+          return false;
+        }
+        if (!hasStartTime()) {
+          
+          return false;
+        }
+        if (!hasEndTime()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.PlatformGSMsg.ActCfgInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.PlatformGSMsg.ActCfgInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 cfgId = 1;
+      private int cfgId_ ;
+      /**
+       * <code>required int32 cfgId = 1;</code>
+       *
+       * <pre>
+       *活动id
+       * </pre>
+       */
+      public boolean hasCfgId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 cfgId = 1;</code>
+       *
+       * <pre>
+       *活动id
+       * </pre>
+       */
+      public int getCfgId() {
+        return cfgId_;
+      }
+      /**
+       * <code>required int32 cfgId = 1;</code>
+       *
+       * <pre>
+       *活动id
+       * </pre>
+       */
+      public Builder setCfgId(int value) {
+        bitField0_ |= 0x00000001;
+        cfgId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 cfgId = 1;</code>
+       *
+       * <pre>
+       *活动id
+       * </pre>
+       */
+      public Builder clearCfgId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        cfgId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required string startTime = 2;
+      private java.lang.Object startTime_ = "";
+      /**
+       * <code>required string startTime = 2;</code>
+       */
+      public boolean hasStartTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string startTime = 2;</code>
+       */
+      public java.lang.String getStartTime() {
+        java.lang.Object ref = startTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          startTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string startTime = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStartTimeBytes() {
+        java.lang.Object ref = startTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          startTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string startTime = 2;</code>
+       */
+      public Builder setStartTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        startTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string startTime = 2;</code>
+       */
+      public Builder clearStartTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        startTime_ = getDefaultInstance().getStartTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string startTime = 2;</code>
+       */
+      public Builder setStartTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        startTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // required string endTime = 3;
+      private java.lang.Object endTime_ = "";
+      /**
+       * <code>required string endTime = 3;</code>
+       */
+      public boolean hasEndTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required string endTime = 3;</code>
+       */
+      public java.lang.String getEndTime() {
+        java.lang.Object ref = endTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          endTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string endTime = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEndTimeBytes() {
+        java.lang.Object ref = endTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string endTime = 3;</code>
+       */
+      public Builder setEndTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        endTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string endTime = 3;</code>
+       */
+      public Builder clearEndTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        endTime_ = getDefaultInstance().getEndTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string endTime = 3;</code>
+       */
+      public Builder setEndTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        endTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string startViceTime = 4;
+      private java.lang.Object startViceTime_ = "";
+      /**
+       * <code>optional string startViceTime = 4;</code>
+       */
+      public boolean hasStartViceTime() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional string startViceTime = 4;</code>
+       */
+      public java.lang.String getStartViceTime() {
+        java.lang.Object ref = startViceTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          startViceTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string startViceTime = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getStartViceTimeBytes() {
+        java.lang.Object ref = startViceTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          startViceTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string startViceTime = 4;</code>
+       */
+      public Builder setStartViceTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        startViceTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string startViceTime = 4;</code>
+       */
+      public Builder clearStartViceTime() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        startViceTime_ = getDefaultInstance().getStartViceTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string startViceTime = 4;</code>
+       */
+      public Builder setStartViceTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        startViceTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string endViceTime = 5;
+      private java.lang.Object endViceTime_ = "";
+      /**
+       * <code>optional string endViceTime = 5;</code>
+       */
+      public boolean hasEndViceTime() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string endViceTime = 5;</code>
+       */
+      public java.lang.String getEndViceTime() {
+        java.lang.Object ref = endViceTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          endViceTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string endViceTime = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getEndViceTimeBytes() {
+        java.lang.Object ref = endViceTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          endViceTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string endViceTime = 5;</code>
+       */
+      public Builder setEndViceTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        endViceTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string endViceTime = 5;</code>
+       */
+      public Builder clearEndViceTime() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        endViceTime_ = getDefaultInstance().getEndViceTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string endViceTime = 5;</code>
+       */
+      public Builder setEndViceTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        endViceTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string rangeTime = 6;
+      private java.lang.Object rangeTime_ = "";
+      /**
+       * <code>optional string rangeTime = 6;</code>
+       */
+      public boolean hasRangeTime() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional string rangeTime = 6;</code>
+       */
+      public java.lang.String getRangeTime() {
+        java.lang.Object ref = rangeTime_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          rangeTime_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string rangeTime = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRangeTimeBytes() {
+        java.lang.Object ref = rangeTime_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          rangeTime_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string rangeTime = 6;</code>
+       */
+      public Builder setRangeTime(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        rangeTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string rangeTime = 6;</code>
+       */
+      public Builder clearRangeTime() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        rangeTime_ = getDefaultInstance().getRangeTime();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string rangeTime = 6;</code>
+       */
+      public Builder setRangeTimeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        rangeTime_ = value;
+        onChanged();
+        return this;
+      }
+
+      // optional string actDesc = 7;
+      private java.lang.Object actDesc_ = "";
+      /**
+       * <code>optional string actDesc = 7;</code>
+       */
+      public boolean hasActDesc() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional string actDesc = 7;</code>
+       */
+      public java.lang.String getActDesc() {
+        java.lang.Object ref = actDesc_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          actDesc_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string actDesc = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getActDescBytes() {
+        java.lang.Object ref = actDesc_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          actDesc_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string actDesc = 7;</code>
+       */
+      public Builder setActDesc(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        actDesc_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string actDesc = 7;</code>
+       */
+      public Builder clearActDesc() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        actDesc_ = getDefaultInstance().getActDesc();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string actDesc = 7;</code>
+       */
+      public Builder setActDescBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        actDesc_ = value;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:ActCfgInfo)
+    }
+
+    static {
+      defaultInstance = new ActCfgInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:ActCfgInfo)
+  }
+
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_UserInfoRequest_descriptor;
   private static
@@ -3062,6 +5136,16 @@ public final class PlatformGSMsg {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_UserStatusResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ActivityTimeInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ActivityTimeInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_ActCfgInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_ActCfgInfo_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3082,12 +5166,16 @@ public final class PlatformGSMsg {
       "\"S\n\021UserStatusRequest\022.\n\021platformGSMsgTy" +
       "pe\030\001 \002(\0162\023.ePlatformGSMsgType\022\016\n\006userId\030",
       "\002 \001(\005\"D\n\022UserStatusResponse\022.\n\021platformG" +
-      "SMsgType\030\001 \002(\0162\023.ePlatformGSMsgType*L\n\022e" +
-      "PlatformGSMsgType\022\r\n\tUSER_INFO\020\001\022\017\n\013USER" +
-      "_STATUS\020\002\022\026\n\022GAME_SERVER_STATUS\020\003*9\n\021eSe" +
-      "rverStatusType\022\017\n\013SERVER_OPEN\020\001\022\023\n\017SERVE" +
-      "R_SHUTDOWN\020\002B\034\n\013com.rwprotoB\rPlatformGSM" +
-      "sg"
+      "SMsgType\030\001 \002(\0162\023.ePlatformGSMsgType\"1\n\020A" +
+      "ctivityTimeInfo\022\035\n\010actInfos\030\001 \003(\0132\013.ActC" +
+      "fgInfo\"\217\001\n\nActCfgInfo\022\r\n\005cfgId\030\001 \002(\005\022\021\n\t" +
+      "startTime\030\002 \002(\t\022\017\n\007endTime\030\003 \002(\t\022\025\n\rstar" +
+      "tViceTime\030\004 \001(\t\022\023\n\013endViceTime\030\005 \001(\t\022\021\n\t" +
+      "rangeTime\030\006 \001(\t\022\017\n\007actDesc\030\007 \001(\t*L\n\022ePla" +
+      "tformGSMsgType\022\r\n\tUSER_INFO\020\001\022\017\n\013USER_ST" +
+      "ATUS\020\002\022\026\n\022GAME_SERVER_STATUS\020\003*9\n\021eServe" +
+      "rStatusType\022\017\n\013SERVER_OPEN\020\001\022\023\n\017SERVER_S",
+      "HUTDOWN\020\002B\034\n\013com.rwprotoB\rPlatformGSMsg"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -3118,6 +5206,18 @@ public final class PlatformGSMsg {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_UserStatusResponse_descriptor,
               new java.lang.String[] { "PlatformGSMsgType", });
+          internal_static_ActivityTimeInfo_descriptor =
+            getDescriptor().getMessageTypes().get(4);
+          internal_static_ActivityTimeInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ActivityTimeInfo_descriptor,
+              new java.lang.String[] { "ActInfos", });
+          internal_static_ActCfgInfo_descriptor =
+            getDescriptor().getMessageTypes().get(5);
+          internal_static_ActCfgInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_ActCfgInfo_descriptor,
+              new java.lang.String[] { "CfgId", "StartTime", "EndTime", "StartViceTime", "EndViceTime", "RangeTime", "ActDesc", });
           return null;
         }
       };

@@ -1,6 +1,6 @@
 package com.playerdata.activityCommon.activityType;
 
-public interface ActivityCfgIF {
+public interface ActivityCfgIF extends ActivityTimeInitIF{
 	
 	public int getId();
 	
@@ -10,17 +10,25 @@ public interface ActivityCfgIF {
 	
 	public long getEndTime();
 	
-	public int getVersion();
-	
 	public int getLevelLimit();
 	
 	public int getVipLimit();
 	
 	public boolean isDailyRefresh();
 	
-	public void setStartTime(String startTime);
+	public boolean isEveryDaySame();
 	
-	public void setEndTime(String endTime);
+	public void setStartAndEndTime(String startTime, String endTime);
+	
+	public String getStartTimeStr();
+	
+	public String getEndTimeStr();
+	
+	public int getVersion();
 	
 	public void setVersion(int version);
+	
+	public String getActDesc();
+	
+	public void setActDesc(String actDesc);
 }

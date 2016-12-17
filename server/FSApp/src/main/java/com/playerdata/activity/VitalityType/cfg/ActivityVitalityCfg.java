@@ -1,11 +1,13 @@
 package com.playerdata.activity.VitalityType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
+public class ActivityVitalityCfg implements ActivityCfgIF{
 
-public class ActivityVitalityCfg {
-
-	private String id;
+	private int id;
 	
 	private String title;
 	
@@ -20,18 +22,19 @@ public class ActivityVitalityCfg {
 	// 活跃度能否领奖，0=可以，1=不可以
 	private boolean isCanGetReward;
 	
-	private String enumID;
+	private int enumID;
 
-	private String version;
+	private int version;
 
 	private int levelLimit;
+	
+	private int vipLimit;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 
-	public String getEnumID() {
+	public int getEnumID() {
 		return enumID;
-	}
-
-	public void setEnumID(String enumID) {
-		this.enumID = enumID;
 	}
 
 	public boolean isCanGetReward() {
@@ -42,28 +45,12 @@ public class ActivityVitalityCfg {
 		this.isCanGetReward = isCanGetReward;
 	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	public int getLevelLimit() {
 		return levelLimit;
 	}
 
 	public void setLevelLimit(int levelLimit) {
 		this.levelLimit = levelLimit;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public String getId() {
-		return id;
 	}
 
 	public long getEndTime() {
@@ -92,5 +79,69 @@ public class ActivityVitalityCfg {
 
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public int getCfgId() {
+		return id;
+	}
+
+	@Override
+	public int getVersion() {
+		return version;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return vipLimit;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return false;
+	}
+
+	@Override
+	public boolean isEveryDaySame() {
+		return true;
+	}
+
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
+	
+	@Override
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
+		this.startTimeStr = startTimeStr;
+		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
+	}
+
+	@Override
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

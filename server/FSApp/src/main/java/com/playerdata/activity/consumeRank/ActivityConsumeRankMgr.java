@@ -58,6 +58,14 @@ public class ActivityConsumeRankMgr extends AbstractActivityMgr<ActivityConsumeR
 	}
 
 	@Override
+	public void activityStartHandler(ActivityCfgIF cfg){
+		Ranking<ConsumeComparable, RankingConsumeData> ranking = RankingFactory.getRanking(RankType.ACTIVITY_CONSUME_RANK);
+		if(null != ranking){
+			ranking.clear();
+		}
+	}
+	
+	@Override
 	public void activityEndHandler(ActivityCfgIF cfg){
 		int dispatchingRank = 0;  //记录正在发放奖励的排名，用做异常的时候查找出错点
 		String dispatchingUser = "0";  //记录正在发放奖励的角色id，用做异常的时候查找出错点

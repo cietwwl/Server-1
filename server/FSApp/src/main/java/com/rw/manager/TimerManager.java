@@ -175,7 +175,7 @@ public class TimerManager {
 					GameLog.error("同屏测试", "TimerManager", "TimerManager[init]同屏测试数据错误", e);
 				}
 			}
-		}, 0, 10, TimeUnit.MICROSECONDS);
+		}, 0, 30, TimeUnit.MICROSECONDS);
 
 		timeService.scheduleAtFixedRate(new Runnable() {
 
@@ -184,7 +184,6 @@ public class TimerManager {
 				try {
 					timeSecondOp.tryRun();
 					time20SecondOp.tryRun();
-					time10MicroSecondOp.tryRun();
 				} catch (Throwable e) {
 					GameLog.error(LogModule.COMMON.getName(), "TimerManager", "TimerManager[init]用户数据保存错误", e);
 				}
