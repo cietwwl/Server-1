@@ -3,14 +3,16 @@ package com.rounter.util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.PropertyNamingStrategy;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import org.springframework.util.StringUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 
 public class CustomObjectMapper extends ObjectMapper {
 
-
+	private static final long serialVersionUID = 1L;
 	private boolean lowcase = false;
 	private String dateFormatPattern;
 
@@ -30,7 +32,7 @@ public class CustomObjectMapper extends ObjectMapper {
 
 	public void init() {
 		// 排除值为空属性
-		setSerializationInclusion(JsonSerialize.Inclusion.NON_NULL);
+		setSerializationInclusion(JsonInclude.Include.NON_NULL);
 	
 		// 将驼峰转为下划线
 		if (lowcase) {

@@ -13,23 +13,29 @@
 
 	<context:annotation-config />
 	
-	<!-- 这个bean用于解决使用@ResponseBody后返回中文乱码问题 -->
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-			<list>
-				<bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter">
-					<property name="writeAcceptCharset" value="false"/>
-					<property name="supportedMediaTypes">
-						<list>
-							<value>text/html;charset=UTF-8</value>
-						</list>
-					</property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+
 	
 	<context:component-scan base-package="com.rounter.*" />
-	<mvc:annotation-driven/>
+	
+	
+	<bean id="objectMapper" class="com.rounter.util.CustomObjectMapper" init-method="init">
+		<property name="lowcase" value="true" />
+    	<property name="dateFormatPattern" value="yyyy-MM-dd HH:mm:ss" />
+	</bean>
 
+<!--  Jackson 来提供 JSON 的序列化操作  -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper" ref="objectMapper" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<!-- 国际化的消息资源文件（本系统中主要用于显示/错误消息定制） -->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="60"/>
+    </bean>
 </beans>
