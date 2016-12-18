@@ -25,24 +25,24 @@ import com.rwbase.dao.groupcompetition.pojo.GroupCompetitionStageCfg;
  *
  */
 public class GCompSelectionStage implements IGCompStage {
-	
+
 	private long _stageEndTime; // 阶段结束的时间
 	private String _stageCfgId; // 阶段的配置id
-	
+
 	public GCompSelectionStage(GroupCompetitionStageCfg cfg) {
 		_stageCfgId = cfg.getCfgId();
 	}
-	
+
 	@Override
 	public String getStageCfgId() {
 		return _stageCfgId;
 	}
-	
+
 	@Override
 	public GCompStageType getStageType() {
 		return GCompStageType.SELECTION;
 	}
-	
+
 	@Override
 	public void onStageStart(IGCompStage preStage, Object startPara) {
 		if (startPara != null && startPara instanceof GCompRestStartPara) {
@@ -66,17 +66,18 @@ public class GCompSelectionStage implements IGCompStage {
 	public long getStageEndTime() {
 		return _stageEndTime;
 	}
-	
+
 	/**
 	 * 海选结束的时候，邮件通知所有入选帮派的成员玩家
+	 * 
 	 * @param groupIds
 	 */
-	private void emailNotifyAllAgainstMembers(List<String> groupIds){
+	private void emailNotifyAllAgainstMembers(List<String> groupIds) {
 		for (String groupId : groupIds) {
-			Group gp = GroupBM.get(groupId);
-			if(null != gp){
+			Group gp = GroupBM.getInstance().get(groupId);
+			if (null != gp) {
 				List<? extends GroupMemberDataIF> memList = gp.getGroupMemberMgr().getMemberSortList(null);
-				for(GroupMemberDataIF member : memList){
+				for (GroupMemberDataIF member : memList) {
 					EmailUtils.sendEmail(member.getUserId(), GCompCommonConfig.getNotifyStartEmailId());
 				}
 			}

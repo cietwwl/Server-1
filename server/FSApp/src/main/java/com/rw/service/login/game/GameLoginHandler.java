@@ -45,7 +45,7 @@ public class GameLoginHandler {
 		}
 		this.generator = new IdentityIdGenerator("user_identifier", dataSource);
 		this.userIdCache = new UserIdCache(mainDsName, dataSource);
-		GroupBM.init(mainDsName, dataSource);
+		GroupBM.getInstance().init(mainDsName, dataSource);
 		this.loginProdecessor = new LoginProdecessor();
 	}
 

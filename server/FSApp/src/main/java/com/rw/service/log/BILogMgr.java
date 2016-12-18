@@ -360,7 +360,7 @@ public class BILogMgr {
 				try {
 					logZoneLogout(offLiner);
 					// TODO HC 临时增加一个离线通知到帮派修改成员离线时间
-					GroupMemberHelper.onPlayerLogout(offLiner);
+					GroupMemberHelper.getInstance().onPlayerLogout(offLiner);
 					TargetSellManager.getInstance().packHeroChangeAttr(uidTmp);
 				} catch (Exception e) {
 					GameLog.error(LogModule.BILOG.getName(), uidTmp, "player BILogMgr[doLogoutLog] error!", e);

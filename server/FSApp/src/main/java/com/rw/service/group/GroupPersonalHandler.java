@@ -134,11 +134,11 @@ public class GroupPersonalHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.groupIsExist(groupId)) {
+		if (!GroupBM.getInstance().groupIsExist(groupId)) {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("获取帮派信息", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派不存在");
@@ -231,7 +231,7 @@ public class GroupPersonalHandler {
 			rankEntry.setGroupMemberNum(attr.getGroupMemberNum());
 			rsp.addGroupRankEntryInfo(rankEntry);
 
-			int rankIndex = GroupRankHelper.getGroupRankIndex(groupId);
+			int rankIndex = GroupRankHelper.getInstance().getGroupRankIndex(groupId);
 			if (rankIndex != -1) {
 				rsp.setRankIndex(rankIndex);
 			}
@@ -274,7 +274,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派Id不能为空");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派查照", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派不存在");
@@ -295,7 +295,7 @@ public class GroupPersonalHandler {
 		groupSimpleInfo.setGroupLevel(groupData.getGroupLevel());
 		groupSimpleInfo.setGroupMemberNum(group.getGroupMemberMgr().getGroupMemberSize());
 		groupSimpleInfo.setGroupDeclaration(groupData.getDeclaration());
-		int rankIndex = GroupRankHelper.getGroupRankIndex(groupId);
+		int rankIndex = GroupRankHelper.getInstance().getGroupRankIndex(groupId);
 		if (rankIndex != -1) {
 			groupSimpleInfo.setRankIndex(rankIndex);
 		}
@@ -365,7 +365,7 @@ public class GroupPersonalHandler {
 		}
 
 		// 检查帮派是否存在
-		Group group = GroupBM.get(applyGroupId);
+		Group group = GroupBM.getInstance().get(applyGroupId);
 		if (group == null) {
 			GameLog.error("申请加入帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", applyGroupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "帮派不存在");
@@ -460,12 +460,12 @@ public class GroupPersonalHandler {
 			String groupName = groupData.getGroupName();
 			userGroupAttributeDataMgr.updateDataWhenHasGroup(player, applyGroupId, groupName);
 			// 发送邮件
-			GroupHelper.sendJoinGroupMail(playerId, groupName);
+			GroupHelper.getInstance().sendJoinGroupMail(playerId, groupName);
 
 			// 更新下排行榜成员
-			GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
+			GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
 			// 更新下基础排行榜中记录的数据
-			GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+			GroupRankHelper.getInstance().updateBaseRankExtension(groupData, memberMgr);
 			// 帮派争霸
 			GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 			GameWorldFactory.getGameWorld().executeAccountTask(applyGroupId, new GroupFightingRefreshTask(applyGroupId));
@@ -501,7 +501,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("打开捐献界面", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -601,7 +601,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("帮派捐献", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -750,7 +750,7 @@ public class GroupPersonalHandler {
 		// 更新捐献后的帮派数据
 		groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), donateCfg.getRewardGroupSupply(), donateCfg.getRewardGroupExp(), rewardToken, true);
 		// 更新帮派排行榜属性
-		GroupRankHelper.addOrUpdateGroup2BaseRank(group);
+		GroupRankHelper.getInstance().addOrUpdateGroup2BaseRank(group);
 		UserEventMgr.getInstance().factionDonateVitality(player, 1);
 
 		// 通知日常任务
@@ -787,7 +787,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("转让帮主", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -863,7 +863,7 @@ public class GroupPersonalHandler {
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			GameLog.error("退出帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupPersonalFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -945,9 +945,9 @@ public class GroupPersonalHandler {
 		}
 
 		// 排行榜人数减少，检查放入榜
-		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
-		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
+		GroupRankHelper.getInstance().updateBaseRankExtension(groupData, memberMgr);
 
 		commonRsp.setIsSuccess(true);
 		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
@@ -1015,7 +1015,7 @@ public class GroupPersonalHandler {
 					}
 
 					// 获取帮派的数据
-					Group group = GroupBM.get(gbrea.getGroupId());
+					Group group = GroupBM.getInstance().get(gbrea.getGroupId());
 					if (group == null) {
 						continue;
 					}
@@ -1063,7 +1063,7 @@ public class GroupPersonalHandler {
 					String key = gsea.getGroupId();
 
 					// 获取帮派的数据
-					Group group = GroupBM.get(key);
+					Group group = GroupBM.getInstance().get(key);
 					if (group == null) {
 						continue;
 					}
@@ -1113,7 +1113,7 @@ public class GroupPersonalHandler {
 						}
 
 						// 获取帮派的数据
-						Group group = GroupBM.get(key);
+						Group group = GroupBM.getInstance().get(key);
 						if (group == null) {
 							continue;
 						}

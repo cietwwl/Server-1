@@ -59,7 +59,7 @@ public class GFBiddingItemMgr {
 		GFightBiddingCfg bidCfg = GFightBiddingCfgDAO.getInstance().getCfgById(String.valueOf(bidItem.getRateID()));
 		GFightOnlineResourceCfg resCfg = GFightOnlineResourceCfgDAO.getInstance().getCfgById(bidItem.getResourceID());
 		String groupName = "";
-		Group group = GroupBM.get(bidItem.getBidGroup());
+		Group group = GroupBM.getInstance().get(bidItem.getBidGroup());
 		if (null != group) {
 			groupName = group.getGroupBaseDataMgr().getGroupData().getGroupName();
 		}

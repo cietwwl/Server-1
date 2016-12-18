@@ -525,9 +525,9 @@ public class TeamBattleBM {
 				break;
 			case 2:
 				// 公会邀请
-				String groupId = GroupHelper.getUserGroupId(player.getUserId());
+				String groupId = GroupHelper.getInstance().getUserGroupId(player.getUserId());
 				if (!StringUtils.isBlank(groupId)) {
-					Group gp = GroupBM.get(groupId);
+					Group gp = GroupBM.getInstance().get(groupId);
 					if (null != gp) {
 						List<? extends GroupMemberDataIF> members = gp.getGroupMemberMgr().getMemberSortList(null);
 						List<String> memIDs = new ArrayList<String>();

@@ -57,7 +57,7 @@ public class TimerManager {
 
 			@Override
 			public void doTask() {
-				try{
+				try {
 					SaloonBmFactory.getInstance().update();
 					DataAutoSynMgr.getInstance().synDataAuto();
 				} catch (Exception ex) {
@@ -145,7 +145,7 @@ public class TimerManager {
 
 					@Override
 					public void run() {
-						GroupBM.checkOrAllGroupDayLimit();
+						GroupBM.getInstance().checkOrAllGroupDayLimit();
 					}
 				});
 			}
@@ -256,8 +256,8 @@ public class TimerManager {
 		PlayerMgr.getInstance().minutesFunc4AllPlayer();
 
 		// GambleMgr.minutesUpdate();
-		//HotRenovateMgr.getInstance().hotRenovate();
-		
+		// HotRenovateMgr.getInstance().hotRenovate();
+
 		/*** 检查帮派 ***/
 		GroupCheckDismissTask.check();
 	}

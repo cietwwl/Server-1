@@ -367,7 +367,7 @@ public class GMHandler {
 
 	public boolean SetGroupSupplier(String[] comd, Player player) {
 		boolean result = true;
-		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
+		Group group = GroupHelper.getInstance().getGroup(player);
 		if (group == null) {
 			return false;
 		}
@@ -1456,7 +1456,7 @@ public class GMHandler {
 			return false;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return false;
 		}
@@ -1632,7 +1632,7 @@ public class GMHandler {
 			return false;
 		}
 
-		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
+		Group group = GroupHelper.getInstance().getGroup(player);
 		if (group != null) {
 			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(), count, false);
 		}
@@ -2098,7 +2098,7 @@ public class GMHandler {
 			return true;
 		}
 		String groupName = arrCommandContents[0];
-		String groupId = GroupBM.getGroupId(groupName);
+		String groupId = GroupBM.getInstance().getGroupId(groupName);
 		if (groupId != null) {
 			return GCGMHandler.getHandler().joinGroup(arrCommandContents, player);
 		} else {
@@ -2393,7 +2393,7 @@ public class GMHandler {
 		if (arrCommandContents.length > 1) {
 			groupExp = Integer.parseInt(arrCommandContents[1]);
 		}
-		Group group = GroupBM.get(GroupHelper.getGroupId(player));
+		Group group = GroupBM.getInstance().get(GroupHelper.getInstance().getGroupId(player));
 		if (group != null) {
 			GroupBaseData groupBaseData = (GroupBaseData) group.getGroupBaseDataMgr().getGroupData();
 			groupBaseData.setSupplies(groupBaseData.getSupplies() + groupSupply);
@@ -2404,7 +2404,7 @@ public class GMHandler {
 			}
 			group.getGroupBaseDataMgr().updateAndSynGroupData(player);
 			// 更新帮派排行榜属性
-			GroupRankHelper.addOrUpdateGroup2BaseRank(group);
+			GroupRankHelper.getInstance().addOrUpdateGroup2BaseRank(group);
 			return true;
 		} else {
 			return false;
@@ -2412,7 +2412,7 @@ public class GMHandler {
 	}
 
 	public boolean addPersonalContribute(String[] arrCommandContents, Player player) {
-		Group group = GroupBM.get(GroupHelper.getGroupId(player));
+		Group group = GroupBM.getInstance().get(GroupHelper.getInstance().getGroupId(player));
 		if (group != null) {
 			int contribute = Integer.parseInt(arrCommandContents[0]);
 			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();

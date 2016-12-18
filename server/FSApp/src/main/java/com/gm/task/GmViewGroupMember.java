@@ -60,7 +60,7 @@ public class GmViewGroupMember implements IGmTask {
 		try {
 			Map<String, Object> args = request.getArgs();
 			String groupId = GmUtils.parseString(args, "teamId");
-			Group group = GroupBM.get(groupId);
+			Group group = GroupBM.getInstance().get(groupId);
 			if (group == null) {
 				throw new Exception(String.valueOf(GmResultStatusCode.STATUS_NOT_FIND_GROUP.getStatus()));
 			}

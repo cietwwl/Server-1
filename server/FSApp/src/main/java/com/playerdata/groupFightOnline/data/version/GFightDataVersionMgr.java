@@ -22,9 +22,10 @@ public class GFightDataVersionMgr {
 
 	public static void synByVersion(Player player, int resourceID, String versionJson) {
 		// 基础数据版本号
-		String groupId = GroupHelper.getUserGroupId(player.getUserId());
-		if(groupId == null || groupId.isEmpty()) return;
-		Group group = GroupBM.get(groupId);
+		String groupId = GroupHelper.getInstance().getUserGroupId(player.getUserId());
+		if (groupId == null || groupId.isEmpty())
+			return;
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -33,7 +34,7 @@ public class GFightDataVersionMgr {
 		if (groupDataVersion == null) {
 			return;
 		}
-		if(resourceID > 0){
+		if (resourceID > 0) {
 			synOnlineGroupData(player, resourceID, groupDataVersion.getOnlineGroupData());
 			synDefendArmyItem(player, resourceID, groupDataVersion.getDefendArmyItem());
 		}
@@ -41,41 +42,44 @@ public class GFightDataVersionMgr {
 		synBiddingItem(player, groupDataVersion.getBiddingItem());
 		synUserGFData(player);
 	}
-	
-	private static void synUserGFData(Player player){
+
+	private static void synUserGFData(Player player) {
 		UserGFightOnlineHolder.getInstance().synData(player);
 	}
-	
-	private static void synBiddingItem(Player player, int version){
+
+	private static void synBiddingItem(Player player, int version) {
 		GFightGroupBidBM.getInstance().synData(player, version);
 	}
-	
-	private static void synOnlineGroupData(Player player, int resourceID, int version){		
-		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, version); 
+
+	private static void synOnlineGroupData(Player player, int resourceID, int version) {
+		GFightOnlineGroupMgr.getInstance().synAllData(player, resourceID, version);
 	}
-	
-	private static void synOnlineResourceData(Player player, int version){		
+
+	private static void synOnlineResourceData(Player player, int version) {
 		GFightOnlineResourceMgr.getInstance().synData(player);
 	}
-	
-	private static void synDefendArmyItem(Player player, int resourceID, List<SynDataGroupListVersion> versionList){
+
+	private static void synDefendArmyItem(Player player, int resourceID, List<SynDataGroupListVersion> versionList) {
 		List<GFGroupBiddingItem> bidRankList = GFGroupBiddingRankMgr.getGFGroupBidRankList(resourceID);
-		for(GFGroupBiddingItem item : bidRankList){
+		for (GFGroupBiddingItem item : bidRankList) {
 			GFDefendArmyMgr.getInstance().synGroupDefenderData(player, item.getGroupID(), getVersion(item.getGroupID(), versionList));
 		}
 	}
-	
-	private static int getVersion(String groupID, List<SynDataGroupListVersion> versionList){
-		if(null == versionList) return 0;
-		for(SynDataGroupListVersion version : versionList){
-			if(StringUtils.equals(groupID, version.getGroupId())) return version.getVersion();
+
+	private static int getVersion(String groupID, List<SynDataGroupListVersion> versionList) {
+		if (null == versionList)
+			return 0;
+		for (SynDataGroupListVersion version : versionList) {
+			if (StringUtils.equals(groupID, version.getGroupId()))
+				return version.getVersion();
 		}
 		return 0;
 	}
-	
+
 	public static GFightDataVersion fromJson(String versionJson) {
 		GFightDataVersion groupDataVersion = JsonUtil.readValue(versionJson, GFightDataVersion.class);
-		if(groupDataVersion == null) groupDataVersion = new GFightDataVersion();
+		if (groupDataVersion == null)
+			groupDataVersion = new GFightDataVersion();
 		return groupDataVersion;
 	}
 }

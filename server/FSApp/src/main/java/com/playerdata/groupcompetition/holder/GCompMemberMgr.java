@@ -26,18 +26,17 @@ import com.rwbase.dao.groupcompetition.pojo.UserGroupCompetitionScoreRecord;
 
 public class GCompMemberMgr {
 
-	
 	private static GCompMemberMgr _instance = new GCompMemberMgr();
-	
+
 	private Map<String, Map<String, GCompMember>> _allMembers = new HashMap<String, Map<String, GCompMember>>();
 	private Map<String, List<GCompMember>> _sorted = new HashMap<String, List<GCompMember>>();
 	private UserGroupCompetitionDataDAO kvDataDAO = UserGroupCompetitionDataDAO.getInstance();
 	private GCEventsType _currentType;
-	
+
 	public static GCompMemberMgr getInstance() {
 		return _instance;
 	}
-	
+
 	private void addGroupMember(GCEventsType type, GCompMember gcompMember, GroupBaseDataIF baseData, List<GCompMember> list, Map<String, GCompMember> map) {
 		map.put(gcompMember.getUserId(), gcompMember);
 		list.add(gcompMember);
@@ -50,7 +49,7 @@ public class GCompMemberMgr {
 		}
 		kvData.addRecord(this.create(type, baseData));
 	}
-	
+
 	private void checkAndAddGroupMember(Player player, String groupId) {
 		if (groupId != null && groupId.length() > 0) {
 			Map<String, GCompMember> map = _allMembers.get(groupId);
@@ -59,12 +58,12 @@ public class GCompMemberMgr {
 				if (!map.containsKey(userId)) {
 					GCompMember member = new GCompMember(userId, player.getUserName(), player.getLevel(), player.getHeadImage());
 					List<GCompMember> list = _sorted.get(groupId);
-					this.addGroupMember(_currentType, member, GroupBM.get(groupId).getGroupBaseDataMgr().getGroupData(), list, map);
+					this.addGroupMember(_currentType, member, GroupBM.getInstance().get(groupId).getGroupBaseDataMgr().getGroupData(), list, map);
 				}
 			}
 		}
 	}
-	
+
 	private UserGroupCompetitionScoreRecord create(GCEventsType type, GroupBaseDataIF data) {
 		UserGroupCompetitionScoreRecord record = new UserGroupCompetitionScoreRecord();
 		record.setGroupId(data.getGroupId());
@@ -75,7 +74,7 @@ public class GCompMemberMgr {
 		record.setEventsType(type);
 		return record;
 	}
-	
+
 	public void notifyEventsStart(GCEventsType type, List<String> groupIds) {
 		_currentType = type;
 		this._allMembers.clear();
@@ -88,7 +87,7 @@ public class GCompMemberMgr {
 			List<GCompMember> list = new ArrayList<GCompMember>();
 			_allMembers.put(groupId, map);
 			_sorted.put(groupId, list);
-			Group group = GroupBM.get(groupId);
+			Group group = GroupBM.getInstance().get(groupId);
 			if (group == null) {
 				GCompUtil.log("帮派：{}，不存在，可能已经解散！", groupId);
 				continue;
@@ -106,7 +105,7 @@ public class GCompMemberMgr {
 			Collections.sort(list);
 		}
 	}
-	
+
 	public void notifyEventsEnd() {
 		UserGroupCompetitionScoreRecord record;
 		for (Iterator<String> keyItr = _allMembers.keySet().iterator(); keyItr.hasNext();) {
@@ -124,49 +123,49 @@ public class GCompMemberMgr {
 	}
 
 	public void onPlayerEnterPrepareArea(Player player) {
-		String groupId = GroupHelper.getGroupId(player);
+		String groupId = GroupHelper.getInstance().getGroupId(player);
 		this.checkAndAddGroupMember(player, groupId);
 		GCompMember member = this.getGCompMember(groupId, player.getUserId());
 		GCompMemberHolder.getInstance().syn(player, member);
 	}
-	
+
 	public GCompMember getGCompMember(String groupId, String userId) {
 		return _allMembers.get(groupId).get(userId);
 	}
-	
+
 	public void removeGCompMember(String groupId, String userId) {
 		Map<String, GCompMember> map = _allMembers.get(groupId);
-		if(map != null) {
+		if (map != null) {
 			GCompMember member = map.remove(userId);
-			if(member != null) {
+			if (member != null) {
 				_sorted.get(groupId).remove(member);
 			}
 		}
 	}
-	
+
 	public List<GCompMember> getArrayCopyOfAllMembers(String groupId) {
 		List<GCompMember> arrayList = new ArrayList<GCompMember>();
 		getCopyOfAllMembers(groupId, arrayList);
 		return arrayList;
 	}
-	
+
 	public UserGroupCompetitionScoreRecord getRecordOfCurrent(String userId) {
 		return this.getRecord(userId, _currentType);
 	}
-	
+
 	public UserGroupCompetitionScoreRecord getRecord(String userId, GCEventsType type) {
 		UserGroupCompetitionData kvData = kvDataDAO.get(userId);
 		List<UserGroupCompetitionScoreRecord> recordList = kvData.getRecords();
 		UserGroupCompetitionScoreRecord record;
-		for(int i = 0, size = recordList.size(); i < size; i++) {
+		for (int i = 0, size = recordList.size(); i < size; i++) {
 			record = recordList.get(i);
-			if(record.getEventsType() == type) {
+			if (record.getEventsType() == type) {
 				return record;
 			}
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * copy所有的帮派成员数据到指定的集合中
@@ -178,7 +177,7 @@ public class GCompMemberMgr {
 		List<GCompMember> members = _sorted.get(groupId);
 		targetList.addAll(members);
 	}
-	
+
 	/**
 	 * 
 	 * 获取groupMember的大小
@@ -188,7 +187,7 @@ public class GCompMemberMgr {
 	 */
 	public int getSizeOfGroupMember(String groupId) {
 		List<GCompMember> members = _sorted.get(groupId);
-		if(members != null) {
+		if (members != null) {
 			return members.size();
 		} else {
 			return 0;

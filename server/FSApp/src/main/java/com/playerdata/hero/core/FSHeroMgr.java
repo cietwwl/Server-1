@@ -40,7 +40,6 @@ import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 import com.rwbase.dao.role.pojo.RoleQualityCfg;
 import com.rwbase.dao.user.LevelCfgDAO;
-import com.rwbase.dao.user.UserIdCache;
 import com.rwbase.dao.user.pojo.LevelCfg;
 import com.rwproto.BattleCommon.eBattlePositionType;
 import com.rwproto.HeroServiceProtos.MsgHeroResponse;
@@ -130,7 +129,7 @@ public class FSHeroMgr implements HeroMgr {
 			owner.getTempAttribute().setHeroFightingChanged();
 			owner.getUserTmpGameDataFlag().setSynFightingAll(true);
 			FSUserHeroGlobalDataMgr.getInstance().notifySingleFightingChange(owner.getUserId(), hero.getId(), nowFighting, preFighting);
-			AngelArrayTeamInfoHelper.updateRankingWhenHeroFightingChange(owner.getUserId(), hero.getModeId(), nowFighting, preFighting);// 通知万仙阵
+			AngelArrayTeamInfoHelper.getInstance().updateRankingWhenHeroFightingChange(owner.getUserId(), hero.getModeId(), nowFighting, preFighting);// 通知万仙阵
 		}
 	}
 

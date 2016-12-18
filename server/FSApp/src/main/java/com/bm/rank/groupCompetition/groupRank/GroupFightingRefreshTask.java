@@ -23,7 +23,7 @@ public class GroupFightingRefreshTask implements Runnable {
 
 	@Override
 	public void run() {
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}

@@ -28,6 +28,14 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
  * @Description 帮派排行榜Helper
  */
 public class GroupRankHelper {
+	private static GroupRankHelper instance = new GroupRankHelper();
+
+	public static GroupRankHelper getInstance() {
+		return instance;
+	}
+
+	protected GroupRankHelper() {
+	}
 
 	/**
 	 * <pre>
@@ -38,7 +46,7 @@ public class GroupRankHelper {
 	 * @param group 帮派数据
 	 * @return 获取在排行榜中的排名，未入榜是-1
 	 */
-	public static int addOrUpdateGroup2BaseRank(Group group) {
+	public int addOrUpdateGroup2BaseRank(Group group) {
 		if (group == null) {
 			return -1;
 		}
@@ -82,7 +90,7 @@ public class GroupRankHelper {
 	 * 
 	 * @param group 帮派数据
 	 */
-	public static void addOrUpdateGroup2MemberNumRank(Group group) {
+	public void addOrUpdateGroup2MemberNumRank(Group group) {
 		if (group == null) {
 			return;
 		}
@@ -140,7 +148,7 @@ public class GroupRankHelper {
 	 * 
 	 * @param group
 	 */
-	public static void addGroup2CreateTimeRank(Group group) {
+	public void addGroup2CreateTimeRank(Group group) {
 		if (group == null) {
 			return;
 		}
@@ -170,7 +178,7 @@ public class GroupRankHelper {
 	 * @param groupId
 	 * @return
 	 */
-	public static int getGroupRankIndex(String groupId) {
+	public int getGroupRankIndex(String groupId) {
 		Ranking ranking = RankingFactory.getRanking(RankType.GROUP_BASE_RANK);
 		if (ranking == null) {
 			return -1;
@@ -187,12 +195,12 @@ public class GroupRankHelper {
 	 * 
 	 * @param group
 	 */
-	public static void updateTheTypeForGroupRankExtension(String groupId) {
+	public void updateTheTypeForGroupRankExtension(String groupId) {
 		if (StringUtils.isEmpty(groupId)) {
 			return;
 		}
 
-		Group group = GroupBM.get(groupId);
+		Group group = GroupBM.getInstance().get(groupId);
 		if (group == null) {
 			return;
 		}
@@ -203,9 +211,9 @@ public class GroupRankHelper {
 		}
 
 		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
-		GroupRankHelper.updateMemberCreateTimeExtension(groupData, memberMgr);
-		GroupRankHelper.updateMemberNumRankExtension(groupData, memberMgr);
+		updateBaseRankExtension(groupData, memberMgr);
+		updateMemberCreateTimeExtension(groupData, memberMgr);
+		updateMemberNumRankExtension(groupData, memberMgr);
 	}
 
 	/**
@@ -214,7 +222,7 @@ public class GroupRankHelper {
 	 * @param groupData
 	 * @param holder
 	 */
-	public static void updateBaseRankExtension(GroupBaseDataIF groupData, GroupMemberMgr memberMgr) {
+	public void updateBaseRankExtension(GroupBaseDataIF groupData, GroupMemberMgr memberMgr) {
 		if (groupData == null || memberMgr == null) {
 			return;
 		}
@@ -253,7 +261,7 @@ public class GroupRankHelper {
 	 * @param groupData
 	 * @param holder
 	 */
-	public static void updateMemberNumRankExtension(GroupBaseDataIF groupData, GroupMemberMgr memberMgr) {
+	public void updateMemberNumRankExtension(GroupBaseDataIF groupData, GroupMemberMgr memberMgr) {
 		if (groupData == null || memberMgr == null) {
 			return;
 		}
@@ -286,7 +294,7 @@ public class GroupRankHelper {
 	 * @param groupData
 	 * @param holder
 	 */
-	public static void updateMemberCreateTimeExtension(GroupBaseDataIF groupData, GroupMemberMgr memberMgr) {
+	public void updateMemberCreateTimeExtension(GroupBaseDataIF groupData, GroupMemberMgr memberMgr) {
 		if (groupData == null || memberMgr == null) {
 			return;
 		}
@@ -318,11 +326,11 @@ public class GroupRankHelper {
 	 * 
 	 * @param groupId
 	 */
-	public static void removeRanking(String groupId) {
-		GroupRankHelper.removeRankEntry(groupId, RankType.GROUP_BASE_RANK);// 从基础榜中移除
-		GroupRankHelper.removeRankEntry(groupId, RankType.GROUP_CREATE_TIME_RANK);// 从创建时间榜中移除
-		GroupRankHelper.removeRankEntry(groupId, RankType.GROUP_MEMBER_NUM_RANK);// 从成员数量帮中移除
-		GCompFightingRankMgr.removeGroup(groupId);	//从帮派战力排行榜中删除
+	public void removeRanking(String groupId) {
+		removeRankEntry(groupId, RankType.GROUP_BASE_RANK);// 从基础榜中移除
+		removeRankEntry(groupId, RankType.GROUP_CREATE_TIME_RANK);// 从创建时间榜中移除
+		removeRankEntry(groupId, RankType.GROUP_MEMBER_NUM_RANK);// 从成员数量帮中移除
+		GCompFightingRankMgr.removeGroup(groupId); // 从帮派战力排行榜中删除
 	}
 
 	/**
@@ -331,7 +339,7 @@ public class GroupRankHelper {
 	 * @param key
 	 * @param type
 	 */
-	public static void removeRankEntry(String key, RankType type) {
+	public void removeRankEntry(String key, RankType type) {
 		Ranking ranking = RankingFactory.getRanking(type);
 		if (ranking == null) {
 			return;
