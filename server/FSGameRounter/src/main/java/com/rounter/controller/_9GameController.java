@@ -31,7 +31,7 @@ import com.rounter.util.Utils;
 @RequestMapping("/9game")
 public class _9GameController extends AbsController<UCStateCode, String>{
 
-	Logger logger = LoggerFactory.getLogger(_9GameController.class);
+	Logger logger = LoggerFactory.getLogger("mainLogger");
 	
 	@Resource
 	private IUCService ucService;
@@ -203,16 +203,19 @@ public class _9GameController extends AbsController<UCStateCode, String>{
 		String caller = getCaller(request);
 		if(caller == null){
 			//没有caller数据，数据有误
+			logger.info("check data isn't pass, caller is null");
 			return UCStateCode.STATE_CALLER_ERROR;
 		}
 		String params = getDataParam(request);
 		if(params == null){
 			//没有caller数据，数据有误
+			logger.info("check data isn't pass, param is null");
 			return UCStateCode.STATE_PARAM_ERROR;
 		}
 		String sign = Utils.get9GameSign(caller, params);
 		if(!StringUtils.equals(sign, request.getSign())){
 			//签名检查不通过，返回通知
+			logger.info("check data isn't pass, collect sign:{}, request sign:{}", sign, request.getSign());
 			return UCStateCode.STATE_SIGN_ERROR;
 		}
 		return UCStateCode.STATE_OK;

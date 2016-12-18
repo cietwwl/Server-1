@@ -8,8 +8,8 @@
 	</appender>
 
 	<!-- 保存日志的基本路径 -->
-	<!--<property name="LOG_HOME" value="${catalina.base}/logs/" />-->
-	<property name="LOG_HOME" value="${webApp.root}/WEB-INF/logs/" /> <!--开发的时候用这个路径    发布的时候可以改用上面那个 -->
+	<!--<property name="LOG_HOME" value="${catalina.base}/logs/" />--> 
+	<property name="LOG_HOME" value="${webApp.root}/WEB-INF/logs/" /><!--开发的时候用这个路径    发布的时候可以改用上面那个 -->
 
 	
 	<!-- 保存日志的周期及文件命名规则 yy:MM:dd HH:mm:ss.SSS -->
