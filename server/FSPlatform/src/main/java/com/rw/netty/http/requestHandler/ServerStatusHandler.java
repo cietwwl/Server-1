@@ -1,6 +1,5 @@
 package com.rw.netty.http.requestHandler;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +62,7 @@ public class ServerStatusHandler {
 		ActivityTimeInfo.Builder actBuilder = ActivityTimeInfo.newBuilder();
 		List<ActCfgInfo> cfgs = ActivitySpecialTimeCfgDAO.getInstance().getZoneAct(zoneId);
 		if(cfgs == null) {
-			cfgs = new ArrayList<ActCfgInfo>();
+			return;
 		}
 		actBuilder.addAllActInfos(cfgs);
 		ZoneInfoCache zone = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
