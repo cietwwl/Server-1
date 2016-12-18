@@ -362,7 +362,7 @@ public class GroupMemberMgr {
 	public void kickMember(String kickUserId) {
 		String groupID;
 		synchronized (this) {
-			groupID = GroupHelper.getInstance().getUserGroupId(kickUserId);
+			groupID = GroupHelper.getUserGroupId(kickUserId);
 			holder.removeMemberData(kickUserId, false);
 			GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
 		}
