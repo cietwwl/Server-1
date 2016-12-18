@@ -23,7 +23,6 @@ import com.rwproto.RequestProtos.Request;
 public class ActivitySpecialTimeMgr {
 	
 	public static AtomicBoolean ISINIT = new AtomicBoolean(false);
-	public static final long LISTENTIME = System.currentTimeMillis();
 	
 	private static ActivitySpecialTimeMgr instance = new ActivitySpecialTimeMgr();
 	
@@ -40,7 +39,9 @@ public class ActivitySpecialTimeMgr {
 		try {
 			ActivityTimeInfo actCfgs = ActivityTimeInfo.parseFrom(request.getBody().getSerializedContent());
 			reloadSpecialActivity(actCfgs);
-			ISINIT.set(true);
+			if(ISINIT.compareAndSet(false, true)){
+				GameLog.info("Activity", "activity", "Get activity from Login server...");
+			}
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
 		}
