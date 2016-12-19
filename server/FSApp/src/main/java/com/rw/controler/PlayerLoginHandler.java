@@ -65,7 +65,6 @@ public class PlayerLoginHandler {
 			zoneLoginInfo = ZoneLoginInfo.fromClientInfo(clientInfo);
 		}
 		User user = UserDataDao.getInstance().getByUserId(userId);
-		user.initOpenTime();
 		if (user.isBlocked()) {
 			String error = "亲爱的用户，抱歉你已被封号。请联系我们的客服。";
 			if (user.getBlockReason() != null) {
