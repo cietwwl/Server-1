@@ -2,7 +2,6 @@ package com.rw.service.guide;
 
 import com.playerdata.Player;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.service.guide.datamodel.GuidanceClosure;
 import com.rw.service.guide.datamodel.NewGuideClosure;
 import com.rwbase.common.playerext.PlayerTempAttribute;
 import com.rwbase.dao.guide.GuideProgressDAO;
@@ -23,25 +22,27 @@ public class NewGuideStateChecker {
 			String userId = player.getUserId();
 			int level = player.getLevel();
 			// 计算出此时是关还是开
-			GuidanceClosure guidanceClosure = GuidanceClosureCfgDAO.getInstance().getOrPreSearch(level);
-			boolean closed;
-			if (guidanceClosure == null) {
+			int[] progressArray = GuidanceClosureCfgDAO.getInstance().getOrPreSearch(level);
+			boolean closed = true;
+			if (progressArray == null) {
 				closed = false;
 			} else {
-				int progress = guidanceClosure.getProgress();
-				if (progress < 0) {
+				int len = progressArray.length;
+				if (len == 0 || (len == 1 && progressArray[0] < 0)) {
 					closed = false;
 				} else {
 					UserGuideProgress guideProgress = GuideProgressDAO.getInstance().get(userId, true);
 					if (guideProgress == null) {
 						closed = false;
 					} else {
-						Integer current = guideProgress.getProgressMap().get(progress);
-						if (current == null || current.intValue() != -1) {
-							closed = false;
-						} else {
-							closed = true;
+						for (int i = 0; i < len; i++) {
+							Integer current = guideProgress.getProgressMap().get(progressArray[i]);
+							if (current == null || current.intValue() != -1) {
+								closed = false;
+								break;
+							}
 						}
+
 					}
 				}
 			}
@@ -59,4 +60,5 @@ public class NewGuideStateChecker {
 			t.printStackTrace();
 		}
 	}
+
 }
