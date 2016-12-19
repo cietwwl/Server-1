@@ -1,24 +1,13 @@
-package com.rwbase.dao.user.accountInfo;
+package com.rounter.innerParam.jsonParam;
 
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
-
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "mt_user_mapping")
 public class UserMappingInfo {
 
-
-	@Id
 	private String user_id;
-	
+
 	private String account_id;
-	
+
 	private String open_account;
-	
+
 	private int zone_id;
 
 	public String getUser_id() {
@@ -52,7 +41,5 @@ public class UserMappingInfo {
 	public void setZone_id(int zone_id) {
 		this.zone_id = zone_id;
 	}
-	
-	
-	
+
 }
