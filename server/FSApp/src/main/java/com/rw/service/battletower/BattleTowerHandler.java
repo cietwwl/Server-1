@@ -1365,8 +1365,20 @@ public class BattleTowerHandler {
 			return;
 		}
 
-		tableBattleTower.setChallengeBossId(bossId);
-		dao.update(tableBattleTower);
+		boolean hasChange = false;
+		if (!bossInfo.isHasFight()) {
+			bossInfo.setHasFight(true);// 设置已经打过这个Boss
+			hasChange = true;
+		}
+
+		if (tableBattleTower.getChallengeBossId() != bossId) {
+			tableBattleTower.setChallengeBossId(bossId);
+			hasChange = true;
+		}
+
+		if (hasChange) {
+			dao.update(tableBattleTower);
+		}
 
 		commonRsp.setRspState(EResponseState.RSP_SUCESS);
 	}
