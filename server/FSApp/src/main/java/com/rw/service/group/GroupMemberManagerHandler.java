@@ -845,7 +845,7 @@ public class GroupMemberManagerHandler {
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	private String check4ByteString(String source, RefInt out4BytesMark) throws UnsupportedEncodingException {
+	public String check4ByteString(String source, RefInt out4BytesMark) throws UnsupportedEncodingException {
 		out4BytesMark = out4BytesMark == null ? new RefInt() : out4BytesMark;
 		String hexString = toHexString(source, out4BytesMark);// 16进制
 		if (out4BytesMark.value > 0) {
