@@ -549,6 +549,7 @@ public class RobotManager {
 			user.setUserName(userName);
 			user.setSex(sex);
 			user.setAccount(userId);
+			user.setOpenAccount(userId);
 			user.setUserId(userId);
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
