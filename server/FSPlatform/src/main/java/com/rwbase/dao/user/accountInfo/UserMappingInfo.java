@@ -1,5 +1,6 @@
 package com.rwbase.dao.user.accountInfo;
 
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -10,7 +11,8 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 @Table(name = "mt_user_mapping")
 public class UserMappingInfo {
 
-	
+
+	@Id
 	private String user_id;
 	
 	private String account_id;
