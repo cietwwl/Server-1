@@ -2,13 +2,14 @@ package com.rw.routerServer.data.params;
 
 import java.util.List;
 
+import com.rwbase.dao.user.accountInfo.UserMappingInfo;
 import com.rwbase.dao.user.accountInfo.UserZoneInfo;
 
 public class AllRolesInfo {
 	
 	private String accountId;
 	
-	public List<UserZoneInfo> roles;
+	public List<UserMappingInfo> roles;
 
 	public String getAccountId() {
 		return accountId;
@@ -18,11 +19,11 @@ public class AllRolesInfo {
 		this.accountId = accountId;
 	}
 
-	public List<UserZoneInfo> getRoles() {
+	public List<UserMappingInfo> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<UserZoneInfo> roles) {
+	public void setRoles(List<UserMappingInfo> roles) {
 		this.roles = roles;
 	}
 }

@@ -6,23 +6,18 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.gm.GmResponse;
 import com.log.GameLog;
+import com.playerdata.activityCommon.timeControl.ActivitySpecialTimeMgr;
 import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.util.fastjson.FastJsonUtil;
 import com.rw.manager.GameManager;
-import com.rw.service.http.GSRequestAction;
 import com.rw.service.http.request.RequestObject;
 import com.rw.service.http.request.ResponseObject;
 
@@ -96,6 +91,8 @@ public class PlatformService {
 				ResponseObject reponse = processPlatformServiceRequest(platformInfo.getIp(), platformInfo.getPort(), requestObject);
 				if(reponse == null){
 					continue;
+				}else if(null != reponse.getActTimeInfo()){
+					ActivitySpecialTimeMgr.getInstance().decodeActivityTimeInfo(reponse.getActTimeInfo());
 				}
 				if (StringUtils.isBlank(reponse.getResult()) && requestObject.isBlnNotifySingle()) {
 					break;
