@@ -5,14 +5,19 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.bm.login.ZoneBM;
+import com.log.GameLog;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.IgnoreUpdate;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
+import com.rw.fsutil.util.DateUtils;
+import com.rw.manager.GameManager;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.user.readonly.TableUserIF;
+import com.rwbase.dao.zone.TableZoneInfo;
 
 @JsonIgnoreProperties(ignoreUnknown = false)
 @Table(name = "user")
@@ -57,6 +62,8 @@ public class User implements TableUserIF {
 
 	@NonSave
 	private String channelId;// 渠道Id
+	@NonSave
+	private long openTime;//开服时间
 
 	public String getUserId() {
 		return userId;
@@ -274,5 +281,24 @@ public class User implements TableUserIF {
 	public void setOpenAccount(String openAccount) {
 		this.openAccount = openAccount;
 	}
+	
+	public long getOpenTime() {
+		return openTime;
+	}
 
+	public void setOpenTime(long openTime) {
+		this.openTime = openTime;
+	}
+	
+	public void initOpenTime(){
+		if (openTime == 0) {
+			try {
+				TableZoneInfo zoneInfo = ZoneBM.getInstance().getTableZoneInfo(
+						GameManager.getZoneId());
+				openTime = DateUtils.getTime(zoneInfo.getOpenTime());
+			} catch (Exception ex) {
+				GameLog.error("login", "", "can not find the open time");
+			}
+		}
+	}
 }
