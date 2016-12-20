@@ -45,6 +45,7 @@ public class RouterServiceHandler {
 	}
 
 	public String getRoleInfo(String content) {
+		//System.out.println("+++++++++" + content);
 		RouterRespObject resObj = new RouterRespObject();
 		try {
 			ReqestParams paramObj = JsonUtil.readValue(content, ReqestParams.class);	
@@ -59,6 +60,7 @@ public class RouterServiceHandler {
 					dataMap.put("level", user.getLevel());
 					dataMap.put("vipLevel", user.getVip());
 					String value = JsonUtil.writeValue(dataMap);
+					//System.out.println("+++++++++ response:" + value);
 					resObj.setContent(value);
 					resObj.setResult(ResultState.SUCCESS);
 				}else{

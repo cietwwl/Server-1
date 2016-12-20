@@ -43,11 +43,11 @@ public class ServerChannelManager {
 	
 	private EventLoopGroup senderGroup = new NioEventLoopGroup(RouterConst.MAX_THREAD_COUNT);
 	
-	//游戏服连接管理(第一个key是登录服id，第二个key是区id)
+	//游戏服连接管理(第一个key=自定义key，第二个key是区id)
 	private HashMap<String, HashMap<String, ChannelNodeManager>> areaMgrMap = new HashMap<String, HashMap<String,ChannelNodeManager>>();
 	//登录服连接管理key=自定义key
 	private HashMap<String, ChannelNodeManager> platformMgrMap = new HashMap<String, ChannelNodeManager>();	
-	//区服务器信息(第一个key是登录服id，第二个key是区id)
+	//区服务器信息(第一个keykey=自定义key，第二个key是区id)
 	private HashMap<String, HashMap<String, ServerInfo>> serverMap = new HashMap<String, HashMap<String,ServerInfo>>();
 	//登录服信息key=自定义key
 	private HashMap<String, ServerInfo> platformMap = new HashMap<String, ServerInfo>();
