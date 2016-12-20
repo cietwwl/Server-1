@@ -9,31 +9,21 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
-import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeStartAndEndHourHelper;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItem;
 import com.playerdata.activity.rateType.data.ActivityRateTypeItemHolder;
 import com.playerdata.fightinggrowth.FSuserFightingGrowthMgr;
-import com.playerdata.readonly.ItemInfoIF;
-import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
-import com.rw.dataaccess.mapitem.MapItemValidateParam;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
-import com.rw.fsutil.cacheDao.mapItem.MapItemStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.copy.cfg.CopyCfg;
-import com.rwbase.dao.copy.itemPrivilege.ItemPrivilegeFactory;
 import com.rwbase.dao.copy.itemPrivilege.PrivilegeDescItem;
-import com.rwbase.dao.copy.pojo.ItemInfo;
 
 public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 
@@ -396,9 +386,10 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 			if(!isopen){
 				return isopen;
 			}
-			int hour = DateUtils.getCurrentHour();
+			//int hour = DateUtils.getCurrentHour();
+			int currentHHMMSS = Integer.parseInt(DateUtils.getHHMMSSFomrateTips());
 			for (ActivityRateTypeStartAndEndHourHelper timebyhour : cfg.getStartAndEnd()) {
-				isopen = hour >= timebyhour.getStarthour()&& hour < timebyhour.getEndhour() ? true : false;
+				isopen = currentHHMMSS >= timebyhour.getStarthour()&& currentHHMMSS < timebyhour.getEndhour() ? true : false;
 				if (isopen) {
 					return isopen;
 				}
