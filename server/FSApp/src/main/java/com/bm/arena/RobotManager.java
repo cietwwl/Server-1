@@ -435,10 +435,8 @@ public class RobotManager {
 			for (RankingPlayer task : set) {
 				Player player = task.getPlayer();
 				TableArenaData arenaData = arenaBM.addArenaData(task.getPlayer());
-				handler.setArenaHero(player, arenaData,
-						EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
-				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = "
-						+ listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
+				handler.setArenaHero(player, arenaData, EmbattlePositonHelper.parseId2MsgList(player.getUserId(), eBattlePositionType.ArenaPos_VALUE, String.valueOf(ArenaEmbattleType.ARENA_DEFEND_VALUE), task.getHeroList()));
+				GameLog.info("robot", "system", "机器人加入排行榜：carerr = " + player.getCareer() + ",level = " + player.getLevel() + ",ranking = " + listRanking.getRankingEntry(player.getUserId()).getRanking(), null);
 			}
 		}
 	}
@@ -560,7 +558,7 @@ public class RobotManager {
 
 			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
+			PlayerParam param = new PlayerParam(userId, userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
 
 			GameOperationFactory.getCreatedOperation().execute(param);
 			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);

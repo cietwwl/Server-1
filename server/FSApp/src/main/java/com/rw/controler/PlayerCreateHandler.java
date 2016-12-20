@@ -136,7 +136,7 @@ public class PlayerCreateHandler {
 		}
 
 		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
-		PlayerParam param = new PlayerParam(accountId, userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
+		PlayerParam param = new PlayerParam(accountId, openAccount,userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 		GameOperationFactory.getCreatedOperation().execute(param);
 
 		// 提前创建Major need trx
