@@ -451,8 +451,8 @@ public class DateUtils {
 		return format;
 	}
 	
-	public static String getTimeOfDayFomrateTips(){
-		return getTimeOfDayFormater().format(new Date(System.currentTimeMillis()));
+	public static String getTimeOfDayFomrateTips(long time){
+		return getTimeOfDayFormater().format(new Date(time));
 	}
 	
 	public static SimpleDateFormat getTimeOfDayFormater() {
@@ -464,10 +464,8 @@ public class DateUtils {
 		return format;
 	}
 	
-	public static String getHHMMSSFomrateTips(long time){	
-		Calendar cal = getCalendar();
-		cal.setTimeInMillis(time);
-		return getHHmmFormater().format(cal);
+	public static String getHHMMSSFomrateTips(){
+		return getHHmmFormater().format(new Date(System.currentTimeMillis()));
 	}
 	
 	public static void setDayZeroTime(Calendar c) {
