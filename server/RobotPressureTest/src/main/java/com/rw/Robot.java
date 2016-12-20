@@ -623,12 +623,7 @@ public class Robot {
 	}
 
 	public boolean doPvE() {
-		boolean before = PVEHandler.instance().before(client);
-		boolean after = false;
-		if (before) {
-			after = PVEHandler.instance().after(client);
-		}
-		return after;
+		return PVEHandler.instance().executeMethod(client);
 	}
 
 	public boolean doPvP() {

@@ -60,15 +60,15 @@ public class ServerChannelManager {
 		return null;
 	}
 	
-	public ChannelNodeManager getAreaNodeManager(String areaId){
-		for(String platformId : areaMgrMap.keySet()){
-			ChannelNodeManager nodeMgr = getAreaNodeManager(platformId, areaId);
-			if(null != nodeMgr){
-				return nodeMgr;
-			}
-		}
-		return null;
-	}
+//	public ChannelNodeManager getAreaNodeManager(String areaId){
+//		for(String platformId : areaMgrMap.keySet()){
+//			ChannelNodeManager nodeMgr = getAreaNodeManager(platformId, areaId);
+//			if(null != nodeMgr){
+//				return nodeMgr;
+//			}
+//		}
+//		return null;
+//	}
 	
 	public ChannelNodeManager getPlatformNodeManager(String platformId){
 		return platformMgrMap.get(platformId);

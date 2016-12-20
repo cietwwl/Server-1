@@ -108,7 +108,7 @@ public class ActivityChargeRebateMgr {
 					}
 				}
 
-				if (chargeMoney >= 1000) {
+				if (chargeMoney >= 10000) {
 					EmailUtils.sendEmail(player.getUserId(), hundredEmailId);
 				}
 			}

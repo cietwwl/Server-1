@@ -1,4 +1,4 @@
-package com.playerdata.activity.growthFund.data;
+package com.gm.multipletimeshotfix;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,28 +8,28 @@ import com.playerdata.activity.growthFund.GrowthFundGlobalData;
 import com.playerdata.activity.growthFund.GrowthFundSubItemComparator;
 import com.playerdata.activity.growthFund.cfg.GrowthFundRewardAbsCfg;
 import com.playerdata.activity.growthFund.cfg.GrowthFundSubCfgDAO;
-import com.playerdata.activityCommon.UserActivityChecker;
-import com.playerdata.activityCommon.activityType.ActivityType;
-import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
+import com.playerdata.activity.growthFund.data.ActivityGrowthFundItem;
+import com.playerdata.activity.growthFund.data.ActivityGrowthFundItemHolder;
+import com.playerdata.activity.growthFund.data.ActivityGrowthFundSubItem;
 import com.playerdata.dataSyn.ClientDataSynMgr;
-import com.rw.dataaccess.attachment.PlayerExtPropertyType;
+import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
+import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.GameWorldKey;
 import com.rwproto.DataSynProtos.eSynOpType;
-import com.rwproto.DataSynProtos.eSynType;
 
 
-public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGrowthFundItem>{
+public class ActivityGrowthFundItemHolderHotfix extends ActivityGrowthFundItemHolder{
 	
-	private static ActivityGrowthFundItemHolder instance = new ActivityGrowthFundItemHolder();
 	private static GrowthFundSubItemComparator _comparator = new GrowthFundSubItemComparator();
 	
-	public static ActivityGrowthFundItemHolder getInstance(){
-		return instance;
-	}
-	
 	private GrowthFundGlobalData _globalData;
+	
+	public ActivityGrowthFundItemHolderHotfix(){
+		_globalData = ActivityGrowthFundItemHolder.getInstance().getGlobalData();
+	}
 	
 	private void checkGrowthFundItemData(List<ActivityGrowthFundItem> itemList) {
 		int alreadyBoughtCount = _globalData.getAlreadyBoughtCount();
@@ -47,14 +47,6 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 			}
 		}
 	}
-
-	public void synAllData(Player player) {
-		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
-		if (null != itemList && !itemList.isEmpty()) {
-			checkGrowthFundItemData(itemList);
-			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
-		}
-	}
 	
 	public void synAllDataWithoutEmpty(Player player){
 		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
@@ -62,12 +54,6 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 			checkGrowthFundItemData(itemList);
 			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
 		}
-	}
-
-	@Override
-	@SuppressWarnings("rawtypes")
-	public ActivityType getActivityType() {
-		return ActivityTypeFactory.GrowthFund;
 	}
 	
 	public void loadGlobalData() {
@@ -78,18 +64,20 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 			_globalData = GrowthFundGlobalData.newInstance();
 		}
 	}
-
+	
 	public GrowthFundGlobalData getGlobalData() {
 		return _globalData;
 	}
-
-	@Override
-	protected PlayerExtPropertyType getExtPropertyType() {
-		return PlayerExtPropertyType.ACTIVITY_GROWTHFUND;
-	}
 	
-	@Override
-	protected eSynType getSynType() {
-		return eSynType.ActivityGrowthFund;
+	public RoleExtPropertyStore<ActivityGrowthFundItem> getItemStore(String userId) {
+		RoleExtPropertyStoreCache<ActivityGrowthFundItem> cache = RoleExtPropertyFactory.getPlayerExtCache(getExtPropertyType(), ActivityGrowthFundItem.class);
+		try {
+			return cache.getStore(userId);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
