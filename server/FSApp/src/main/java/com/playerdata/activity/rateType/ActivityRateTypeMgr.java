@@ -387,14 +387,14 @@ public class ActivityRateTypeMgr implements ActivityRedPointUpdate{
 				return isopen;
 			}
 			//int hour = DateUtils.getCurrentHour();
-			int currentHHMMSS = Integer.parseInt(DateUtils.getHHMMSSFomrateTips());
+			int currentHHMMSS = Integer.parseInt(DateUtils.getHHMMSSFomrateTips(currentTime));
 			for (ActivityRateTypeStartAndEndHourHelper timebyhour : cfg.getStartAndEnd()) {
 				isopen = currentHHMMSS >= timebyhour.getStarthour()&& currentHHMMSS < timebyhour.getEndhour() ? true : false;
 				if (isopen) {
 					return isopen;
 				}
-			}			
+			}
 		}
-		return isopen;	
+		return isopen;
 	}
 }
