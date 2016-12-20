@@ -7,6 +7,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
 import com.rw.ClientInfo;
+import com.rw.ClientInfoGame;
 import com.rw.account.ServerInfo;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
@@ -56,11 +57,8 @@ public class GameLoginHandler {
 		req.setAccountId(accountId);
 		req.setPassword(client.getPassword());
 		req.setZoneId(sInfo.getZoneId());
-		req.setNick("aa#;" + accountId);// 随机角色名字
+		req.setNick(accountId);// 随机角色名字
 		req.setSex(random.nextInt(2));// 随机性别
-//		ClientInfo clientInfo = new ClientInfo();
-//		clientInfo.setAccountId(accountId);
-//		req.setClientInfoJson(JsonUtil.writeValue(clientInfo));
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_LOGIN_GAME, req.build().toByteString(), new MsgReciver() {
 			
