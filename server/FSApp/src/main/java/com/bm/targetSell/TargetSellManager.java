@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.management.timer.Timer;
@@ -71,21 +72,27 @@ import com.rwproto.TargetSellProto.UpdateBenefitScore.Builder;
 
 /**
  * 精准营销管理类
+ * 
  * @author Alex
  *
- * 2016年8月25日 下午9:29:52
+ *         2016年8月25日 下午9:29:52
  */
 public class TargetSellManager {
 
 	private static Logger remoteMsgLogger = Logger.getLogger("remoteMsgLogger");
 	public final static String publicKey = "6489CD1B7E9AE5BD8311435";// 用于校验的key
 	public final static String appId = "1012";// 用于校验的游戏服务器app id
-	public final static int linkId = GameManager.getZoneId();// 这个id是随意定的，银汉那边并不做特殊要求.所以暂时用zoneID
+	public static int linkId = createLinkedId();// 这个id是随意定的，银汉那边并不做特殊要求.所以暂时用zoneID
 	public final static String ACTION_NAME = "all"; // 默认的actionName
 
-	public final static String MD5_Str = MD5.getMD5String(appId + "," + linkId + "," + publicKey);
+	public static String MD5_Str = MD5.getMD5String(appId + "," + linkId + "," + publicKey);
 
 	private static TargetSellManager manager = new TargetSellManager();
+
+	private static int createLinkedId() {
+		int id = (int) (System.currentTimeMillis() & (0x7fffffff));
+		return id;
+	}
 
 	// 充值前记录，<userID, Pair<充值的物品组id, 记录时刻>>
 	private static ConcurrentHashMap<String, Pair<Integer, Long>> PreChargeMap = new ConcurrentHashMap<String, Pair<Integer, Long>>();
@@ -122,6 +129,7 @@ public class TargetSellManager {
 
 	/**
 	 * 初始化一些默认的公共参数
+	 * 
 	 * @param p
 	 * @return
 	 */
@@ -151,6 +159,7 @@ public class TargetSellManager {
 
 	/**
 	 * 获取心跳消息参数
+	 * 
 	 * @return
 	 */
 	public String getHeartBeatMsgData() {
@@ -168,6 +177,7 @@ public class TargetSellManager {
 	 * 这里会检查是否有目标玩家的精准营销充值前置记录，
 	 * 如果存在就发送物品，如果没有就将金额转为优惠积分·
 	 * </pre>
+	 * 
 	 * @param player
 	 * @param charge
 	 */
@@ -179,7 +189,7 @@ public class TargetSellManager {
 			int score = 0;
 			BenefitDataDAO dataDao = BenefitDataDAO.getDao();
 			TargetSellRecord record = dataDao.get(player.getUserId());
-			
+
 			score = record.getBenefitScore();
 			score += charge;
 			// 检查一下是否前置充值记录
@@ -193,7 +203,7 @@ public class TargetSellManager {
 					// 积分可以购买并且还没有超时
 					String mailID = PublicDataCfgDAO.getInstance().getPublicDataStringValueById(PublicData.BENEFIT_ITEM_BUY_SUC);
 					Map<Integer, Integer> mailAttach = new HashMap<Integer, Integer>();
-					
+
 					List<ItemInfo> info = tranfer2ItemInfo(items);
 					for (ItemInfo item : info) {
 						Integer num = mailAttach.get(item.getItemID());
@@ -213,10 +223,10 @@ public class TargetSellManager {
 			}
 			record.setBenefitScore(score);
 			dataDao.update(record);
-			
+
 			// 通知前端
 			ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
-			
+
 		} catch (Throwable e) {
 			GameLog.error(LogModule.COMMON.getName(), "TargetSellManager[playerCharge]", "精准营销角色充值判断出现异常！", e);
 		}
@@ -224,6 +234,7 @@ public class TargetSellManager {
 
 	/**
 	 * 组装更新优惠积分数据
+	 * 
 	 * @param score
 	 * @param item TODO
 	 * @return
@@ -233,14 +244,15 @@ public class TargetSellManager {
 		msg.setScore(score);
 		msg.setNextRefreshTime(nextRefreshTime);
 		if (item != null) {
-//			 msg.setDataStr(item.getItemIds());
-//			 msg.setItemGroupId(item.getItemGroupId());
+			// msg.setDataStr(item.getItemIds());
+			// msg.setItemGroupId(item.getItemGroupId());
 		}
 		return msg.build().toByteString();
 	}
 
 	/**
 	 * 检查角色特惠积分 一般在角色登录的时候进行此操作
+	 * 
 	 * @param player
 	 */
 	public void checkBenefitScoreAndSynData(Player player) {
@@ -303,8 +315,9 @@ public class TargetSellManager {
 
 	/**
 	 * 自动领取物品,物品通过邮件发送
+	 * 
 	 * @param record
-	 * @return 
+	 * @return
 	 */
 	private Map<Integer, Integer> autoBuy(TargetSellRecord record) {
 		Map<Integer, BenefitItems> itemMap = record.getItemMap();
@@ -353,6 +366,7 @@ public class TargetSellManager {
 
 	/**
 	 * 通知精准服角色领取目标物品
+	 * 
 	 * @param player
 	 * @param itemGroupID
 	 */
@@ -375,6 +389,7 @@ public class TargetSellManager {
 
 	/**
 	 * 获取下次积分重置时间
+	 * 
 	 * @return
 	 */
 	public long getNextRefreshTimeMils() {
@@ -384,6 +399,7 @@ public class TargetSellManager {
 
 	/**
 	 * 更新角色的精准营销物品
+	 * 
 	 * @param itemData
 	 */
 	public void updateRoleItems(TargetSellSendRoleItems itemData) {
@@ -415,6 +431,7 @@ public class TargetSellManager {
 
 	/**
 	 * 推送消息到前端
+	 * 
 	 * @param userId
 	 * @param data
 	 */
@@ -429,6 +446,7 @@ public class TargetSellManager {
 
 	/**
 	 * 推送玩家属性或清空玩家所有精准营销物品
+	 * 
 	 * @param data
 	 * @param msgType 消息类型
 	 */
@@ -460,6 +478,7 @@ public class TargetSellManager {
 
 	/**
 	 * 通知属性改变
+	 * 
 	 * @param player
 	 * @param list
 	 */
@@ -476,7 +495,6 @@ public class TargetSellManager {
 		targetSellRoleChange.addChange(eRoleAttrID);
 
 	}
-
 
 	public void packHeroChangeAttr(String userId) {
 		GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerPredecessor() {
@@ -508,21 +526,20 @@ public class TargetSellManager {
 		if (value != null) {
 			packAndSendMsg(value);
 		}
-		
+
 		checkAndRemovePreChangeRecord(userId);
 	}
 
-	
-	private void checkAndRemovePreChangeRecord(String userID){
+	private void checkAndRemovePreChangeRecord(String userID) {
 		Pair<Integer, Long> pair = PreChargeMap.get(userID);
-		if(pair != null){
+		if (pair != null) {
 			long passTime = pair.getT2() + Timer.ONE_MINUTE * 10;
-			if(passTime < System.currentTimeMillis()){
-				PreChargeMap.remove(userID);//清除超时记录
+			if (passTime < System.currentTimeMillis()) {
+				PreChargeMap.remove(userID);// 清除超时记录
 			}
 		}
 	}
-	
+
 	private TargetSellRoleChange checkAndPack(String userId, String heroId, boolean forceRead, TargetSellRoleChange value) {
 		TargetSellHeroChange heroChanged;
 		if (forceRead || HeroAttrChangeMap.containsKey(heroId)) {
@@ -571,8 +588,9 @@ public class TargetSellManager {
 
 	/**
 	 * 推送玩家所有属性 到精准服
+	 * 
 	 * @param player
-	 * @param data 
+	 * @param data
 	 */
 	public void pushRoleAllAttrsData(Player player, TargetSellAbsArgs data) {
 		if (!ServerSwitch.isOpenTargetSell()) {
@@ -613,6 +631,7 @@ public class TargetSellManager {
 
 	/**
 	 * 清除角色所有精准优惠物品
+	 * 
 	 * @param data
 	 */
 	public void cleanRoleAllBenefitItems(TargetSellAbsArgs data) {
@@ -640,6 +659,7 @@ public class TargetSellManager {
 
 	/**
 	 * 组装错误消息内容
+	 * 
 	 * @param errorCode
 	 * @param opType
 	 * @param obj
@@ -655,6 +675,7 @@ public class TargetSellManager {
 
 	/**
 	 * 接收到错误信息
+	 * 
 	 * @param data
 	 */
 	private void processError(TargetSellServerErrorParam data) {
@@ -665,6 +686,7 @@ public class TargetSellManager {
 
 	/**
 	 * 向精准服请求玩家优惠物品数据
+	 * 
 	 * @param player
 	 */
 	public void applyRoleBenefitItem(Player player) {
@@ -685,6 +707,7 @@ public class TargetSellManager {
 
 	/**
 	 * 玩家领取物品
+	 * 
 	 * @param player
 	 * @param itemGroupId
 	 * @return
@@ -720,7 +743,7 @@ public class TargetSellManager {
 
 			BenefitItems items = itemMap.remove(itemGroupId);
 			// 添加道具
-			boolean addItem = ItemBagMgr.getInstance().addItem(player,tranfer2ItemInfo(items));
+			boolean addItem = ItemBagMgr.getInstance().addItem(player, tranfer2ItemInfo(items));
 			if (addItem) {
 				// 通知精准服，玩家领取了道具,同时保存一下可领取次数
 				notifyBenefitServerRoleGetItem(player, itemGroupId);
@@ -731,12 +754,12 @@ public class TargetSellManager {
 				int benefitScore = record.getBenefitScore();
 				record.setBenefitScore(benefitScore - items.getRecharge());
 			}
-			//System.out.println("itemstr" + items.getItemIds() + ",item desc" + items.getTitle()+ ", item groupid" + items.getItemGroupId());
+			// System.out.println("itemstr" + items.getItemIds() + ",item desc" + items.getTitle()+ ", item groupid" + items.getItemGroupId());
 			dataDao.update(record);
 			respMsg.setDataStr(items.getItemIds());
 			respMsg.setIsSuccess(true);
 			ClientDataSynMgr.synData(player, record, eSynType.BENEFIT_SELL_DATA, eSynOpType.UPDATE_SINGLE);
-//			player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), items));
+			// player.SendMsg(Command.MSG_BENEFIT_ITEM, getUpdateBenefitScoreMsgData(record.getBenefitScore(), record.getNextClearScoreTime(), items));
 		} catch (Exception e) {
 			GameLog.error("TargetSell", "TargetSellManager[roleGetItem]", "玩家领取物品时出现异常", e);
 		}
@@ -746,6 +769,7 @@ public class TargetSellManager {
 
 	/**
 	 * 将BenefitItems 转换为List<ItemInfo>
+	 * 
 	 * @param item
 	 * @return
 	 */
@@ -768,6 +792,7 @@ public class TargetSellManager {
 
 	/**
 	 * 玩家在精准营销界面申请充值
+	 * 
 	 * @param player
 	 * @param request
 	 * @return
@@ -802,6 +827,7 @@ public class TargetSellManager {
 
 	/**
 	 * 发送数据到精准服
+	 * 
 	 * @param content
 	 */
 	private void sendMsg(final String content) {
@@ -813,8 +839,8 @@ public class TargetSellManager {
 
 	/**
 	 * 物品比较器
-	 * @author Alex
-	 * 2016年9月22日 下午5:03:14
+	 * 
+	 * @author Alex 2016年9月22日 下午5:03:14
 	 */
 	private static class BenefitItemComparator implements Comparator<BenefitItems> {
 
