@@ -432,7 +432,7 @@ public class ActivityExchangeTypeMgr implements ActivityRedPointUpdate, IndexRan
 			}
 			List<ActivityExchangeTypeDropCfg> dropCfgList = activityExchangeTypeCfgDAO.getByParentId(String.valueOf(activityExchangeTypeCfg.getId()));
 			if (dropCfgList == null) {
-				return idAndNumMap;
+				continue;
 			}
 			for (ActivityExchangeTypeDropCfg cfg : dropCfgList) {// 遍历单个活动可能对应的所有掉落道具类型
 				Map<Integer, Integer[]> map = cfg.getDropMap();

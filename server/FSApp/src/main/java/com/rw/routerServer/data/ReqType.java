@@ -4,5 +4,6 @@ public enum ReqType {
 	HeartBit,
 	GetAreaInfo,
 	GetSelfRoles,
+	GetRoleDataFromGS,
 	GetGift
 }

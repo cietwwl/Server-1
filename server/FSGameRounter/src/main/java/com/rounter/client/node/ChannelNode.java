@@ -160,7 +160,7 @@ public final class ChannelNode {
 		});
 		if(null != resData && reqData.getType() != ReqType.HeartBit){
 			synchronized (resData) {
-				resData.wait(200);
+				resData.wait(3000);
 			}
 		}
 	}
