@@ -196,17 +196,21 @@ public class MagicEquipFetterDataHolder {
 		}
 
 		FetterMagicEquipCfgDao fetterMagicEquipCfgDao = FetterMagicEquipCfgDao.getInstance();
+		List<Integer> subTypeIdList = new ArrayList<Integer>();
 		// 先找出数据库里多出来的记录，判断是否要保留
 		for (Integer id : fetterIDs) {
 			if (id == null) {
 				continue;
 			}
-			if (curCfgsMap.containsKey(id)) {
-				continue;
-			}
+			
 			MagicEquipConditionCfg cfg = fetterMagicEquipCfgDao.get(id);
 			// 增加判空
 			if (cfg == null) {
+				continue;
+			}
+			subTypeIdList.add(cfg.getSubType());
+			
+			if (curCfgsMap.containsKey(id)) {
 				continue;
 			}
 
@@ -234,7 +238,8 @@ public class MagicEquipFetterDataHolder {
 		for (int i = 0; i < newSize; i++) {
 			int id = keys[i];
 			newList.add(id);
-			if(!fetterIDs.contains(id)) {
+			MagicEquipConditionCfg cfg = curCfgsMap.get(id);
+			if (!subTypeIdList.contains(cfg.getSubType()) && cfg.getType() == MagicEquipConditionCfg.FETTER_TYPE_MAGIC) {
 				updateList.add(id);
 			}
 		}
