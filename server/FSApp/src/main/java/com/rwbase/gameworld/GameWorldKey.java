@@ -158,6 +158,10 @@ public enum GameWorldKey {
 	 */
 	ACTIVITY_VITALITYTYPE("ACTIVITY_VITALITYTYPE"),
 	/**
+	 * 活动:摇一摇红包
+	 */
+	ACTIVITY_SHAKEENVELOPE("ACTIVITY_SHAKEENVELOPE"),
+	/**
 	 * 热更记录
 	 */
 	HOTFIX_HISTORY("HOTFIX_HISTORY"),

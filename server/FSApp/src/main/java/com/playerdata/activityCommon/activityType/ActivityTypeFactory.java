@@ -60,6 +60,9 @@ import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfgDAO;
 import com.playerdata.activity.redEnvelopeType.ActivityRedEnvelopeTypeMgr;
 import com.playerdata.activity.redEnvelopeType.cfg.ActivityRedEnvelopeTypeCfgDAO;
+import com.playerdata.activity.shakeEnvelope.ActivityShakeEnvelopeMgr;
+import com.playerdata.activity.shakeEnvelope.cfg.ActivityShakeEnvelopeCfgDAO;
+import com.playerdata.activity.shakeEnvelope.data.ActivityShakeEnvelopeItem;
 import com.playerdata.activityCommon.activityType.exception.RepeatedActivityTypeException;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -80,6 +83,7 @@ public class ActivityTypeFactory {
 	public static final ActivityType RateType;	//双倍活动
 	public static final ActivityType RedEnvelopeType;	//红包活动
 	public static final ActivityType VitalityType;	//活跃之王
+	public static final ActivityType ShakeEnvelope;	//摇一摇红包
 	
 	private static List<ActivityType> typeList;
 	
@@ -112,6 +116,9 @@ public class ActivityTypeFactory {
 		RedEnvelopeType = new ActivityType(1014, ActivityRedEnvelopeTypeCfgDAO.class, ActivityRedEnvelopeTypeMgr.getInstance());
 		VitalityType = new ActivityType(1015, ActivityVitalityCfgDAO.class, ActivityVitalityTypeMgr.getInstance());
 		
+		ShakeEnvelope = new ActivityType(1016, ActivityShakeEnvelopeCfgDAO.class, ActivityShakeEnvelopeItem.class,
+				null, null, ActivityShakeEnvelopeMgr.getInstance());
+		
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -129,6 +136,7 @@ public class ActivityTypeFactory {
 		addType(RateType);
 		addType(RedEnvelopeType);
 		addType(VitalityType);
+		addType(ShakeEnvelope);
 	}
 	
 	public static List<ActivityType> getAllTypes(){
