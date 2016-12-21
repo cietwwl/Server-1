@@ -103,7 +103,13 @@ public final class ChannelNode {
 				.handler(new HeartbeatChannelInitializer());
 		lastConnectTime = System.currentTimeMillis();
 		ChannelFuture connectFuture = b.connect(TARGET_ADDR, TARGET_PORT);
-		connectFuture.get(RouterConst.MAX_OVER_TIME, TimeUnit.SECONDS);
+		try {
+			connectFuture.get(RouterConst.MAX_OVER_TIME, TimeUnit.SECONDS);
+		} catch (Exception e) {
+			logger.info("请求重新连接远程服(IP:{},PORT:{})的时候发现异常!", TARGET_ADDR, TARGET_PORT);
+			isActive.set(false);
+			return false;
+		}
 		isActive.set(connectFuture.isSuccess());
 		return connectFuture.isSuccess();
 	}

@@ -212,9 +212,9 @@ public class ZoneInfoCache {
 	}
 	
 	public void checkStatus(){
-		if(System.currentTimeMillis() - this.notifyTime > SHUTDOWNTIME){
-			setStatus(EServerStatus.CLOSE.getStatusId());
-		}
+//		if(System.currentTimeMillis() - this.notifyTime > SHUTDOWNTIME){
+//			setStatus(EServerStatus.CLOSE.getStatusId());
+//		}
 	}
 	
 
