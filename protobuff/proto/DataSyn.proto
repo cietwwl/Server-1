@@ -153,6 +153,7 @@ enum eSynType	//数据同步类型
 	WB_Broatcast=122; 	 //世界boss 广播
 	
 	CommonSoulConfig = 123; // 万能魂石配置同步
+	NewGuideClosure = 124;	//关闭新手引导
 	
 	/**300以上为活动，非活动的请写上面*/
 	ActivityChargeRank = 301;	//充值排行榜
