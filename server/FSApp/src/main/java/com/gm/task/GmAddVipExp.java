@@ -26,7 +26,7 @@ public class GmAddVipExp implements IGmTask {
 		list.add(result);
 		resp.setResult(list);
 		Map<String, Object> args = request.getArgs();
-		String userId = args.get("userId").toString();
+		String userId = args.get("roleId").toString();
 		String cfgId = args.get("chargeCfgId").toString();
 		if (userId == null || userId.length() == 0) {
 			result.put("RESULT", "找不到指定的玩家！");
