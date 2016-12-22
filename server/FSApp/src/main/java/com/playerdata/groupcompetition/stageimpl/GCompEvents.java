@@ -113,7 +113,7 @@ public class GCompEvents {
 		_type = eventsType;
 		this.generateAgainstInfo(groupIds, againsts, eventsType, old);
 	}
-
+	
 	// 通知赛事开始
 	private void fireEventsStart() {
 		GCompEventsData eventsData = GCompEventsDataMgr.getInstance().getEventsData(_type);

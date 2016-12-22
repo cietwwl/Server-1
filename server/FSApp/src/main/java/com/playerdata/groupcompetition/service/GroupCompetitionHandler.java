@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.bm.rank.groupCompetition.groupRank.GCompFightingItem;
 import com.bm.rank.groupCompetition.groupRank.GCompFightingRankMgr;
+import com.bm.rank.groupCompetition.groupRank.groupRankStatic.GroupStaticRankMgr;
 import com.google.protobuf.ByteString;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -122,7 +123,13 @@ public class GroupCompetitionHandler {
 	}
 	
 	private void packSelectionData(CommonGetDataRspMsg.Builder rspBuilder, Player player) {
-		List<GCompFightingItem> list = GCompFightingRankMgr.getFightingRankList(20);
+		List<GCompFightingItem> list;
+		GCompStageType stageType = GroupCompetitionMgr.getInstance().getCurrentStageType();
+		if(stageType == GCompStageType.SELECTION){
+			list = GCompFightingRankMgr.getFightingRankList(20);
+		}else{
+			list = GroupStaticRankMgr.getInstance().getStaticGroupRank();
+		}
 		GCompFightingItem fightingItem;
 		List<SelectionGroupData> selectionGroupDataList = new ArrayList<SelectionGroupData>();
 		for (int i = 0, size = list.size(); i < size; i++) {

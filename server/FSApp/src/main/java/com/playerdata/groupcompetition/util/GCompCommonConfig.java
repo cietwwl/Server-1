@@ -12,7 +12,18 @@ public class GCompCommonConfig {
 	private static int topCountGroups = 8; // 入围的帮派数量
 	private static int minMemberCountOfGroup = 3; // 最少的帮派成员数量
 	private static int onlineMemberMonitorTaskInterval = 15; // 在线成员监控的时效间隔
+	private static String notifyStartEmailId = "15006";
 
+	/**
+	 * 
+	 * 海选结束通知所有进入比赛的帮派成员的邮件id
+	 * 
+	 * @return
+	 */
+	public static String getNotifyStartEmailId(){
+		return notifyStartEmailId;
+	}
+	
 	/**
 	 * 
 	 * 获取队伍最大的成员数量
