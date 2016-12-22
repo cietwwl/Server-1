@@ -84,7 +84,7 @@ public class RandomBossMgr {
 		// 先同步一下次数
 		long nowTime = System.currentTimeMillis();
 		synBattleCount(player);
-		long resetTime = DateUtils.getCurrentDayResetTime();
+//		long resetTime = DateUtils.getCurrentDayResetTime();
 		List<String> bossIDs = player.getUserGameDataMgr().getRandomBossIDs();
 		List<String> removeList = new ArrayList<String>();
 		Map<String, RandomBossCfg> map = RandomBossCfgDao.getInstance().getMaps();
@@ -109,12 +109,19 @@ public class RandomBossMgr {
 			}
 
 			// 如果已经超过了早上5点，把之前的击杀boss删除
-			long bornTimeMs = record.getExcapeTime() - (cfg.getExistTime() * 1000);
-			if (bornTimeMs < resetTime && record.getLeftHp() <= 0) {
+//			long bornTimeMs = record.getExcapeTime() - (cfg.getExistTime() * 1000);
+//			if (bornTimeMs < resetTime && record.getLeftHp() <= 0) {
+//				removeList.add(id);
+//				rbDao.delete(id);
+//				continue;
+//			}
+			//按策划要求，修改为只要死了就不要再发送给客户端了    ------by Alex 2016.12.23
+			if(record.getLeftHp() <= 0){
 				removeList.add(id);
 				rbDao.delete(id);
 				continue;
 			}
+			
 
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
