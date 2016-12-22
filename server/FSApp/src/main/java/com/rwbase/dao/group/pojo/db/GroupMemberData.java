@@ -9,6 +9,7 @@ import com.playerdata.army.ArmyFashion;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
@@ -38,10 +39,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@IgnoreSynField
 	private int job;// 成员的职业<byte>
 	private int contribution;// 个人的贡献
-	// @IgnoreSynField
-	// private int donateTimes;// 捐献的次数
-	// @IgnoreSynField
-	// private long lastDonateTime;// 捐献的时间
 	private String templateId = "";// 成员的模版Id
 	// //////////////////////////////////////申请帮派时的数据
 	private int fighting;// 战斗力
@@ -53,6 +50,14 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	private int allotRewardCount;// 每天分配奖励次数 非管理员则为0
 	@SaveAsJson
 	private ArmyFashion armyFashion; // 时装
+
+	// -----------------------------------成员的扩展数据
+	@CombineSave
+	@IgnoreSynField
+	private int prayProcess;// 祈福的进度
+	@CombineSave
+	@IgnoreSynField
+	private int prayCardId;// 祈福的卡Id
 
 	// ////////////////////////////////////////////GET区域
 	/**
@@ -153,15 +158,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		return contribution;
 	}
 
-	// /**
-	// * 获取贡献次数
-	// *
-	// * @return
-	// */
-	// public int getDonateTimes() {
-	// return donateTimes;
-	// }
-
 	/**
 	 * 获取成员请求时的战斗力
 	 * 
@@ -198,15 +194,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		return templateId;
 	}
 
-	// /**
-	// * 获取上次捐献的时间
-	// *
-	// * @return
-	// */
-	// public long getLastDonateTime() {
-	// return lastDonateTime;
-	// }
-
 	/**
 	 * 获取帮派个人总贡献
 	 * 
@@ -218,6 +205,28 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 
 	public int getDayContribution() {
 		return dayContribution;
+	}
+
+	public ArmyFashion getArmyFashion() {
+		return armyFashion;
+	}
+
+	/**
+	 * 获取祈福的进度
+	 * 
+	 * @return
+	 */
+	public int getPrayProcess() {
+		return prayProcess;
+	}
+
+	/**
+	 * 获取祈福的卡Id
+	 * 
+	 * @return
+	 */
+	public int getPrayCardId() {
+		return prayCardId;
 	}
 
 	// ////////////////////////////////////////////SET区域
@@ -320,15 +329,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		this.contribution = contribution;
 	}
 
-	// /**
-	// * 设置贡献次数
-	// *
-	// * @param donateTimes
-	// */
-	// public void setDonateTimes(int donateTimes) {
-	// this.donateTimes = donateTimes;
-	// }
-
 	/**
 	 * 设置成员的战斗力（申请时战斗里最高的4个佣兵和角色的战斗力之和）
 	 * 
@@ -370,15 +370,6 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		this.templateId = templateId;
 	}
 
-	// /**
-	// * 获取上次捐献的时间
-	// *
-	// * @param lastDonateTime
-	// */
-	// public void setLastDonateTime(long lastDonateTime) {
-	// this.lastDonateTime = lastDonateTime;
-	// }
-
 	/**
 	 * 设置帮派个人总贡献
 	 * 
@@ -408,11 +399,25 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 		this.allotRewardCount = allotRewardCount;
 	}
 
-	public ArmyFashion getArmyFashion() {
-		return armyFashion;
-	}
-
 	public void setArmyFashion(ArmyFashion armyFashion) {
 		this.armyFashion = armyFashion;
+	}
+
+	/**
+	 * 设置祈福的进度
+	 * 
+	 * @param prayProcess
+	 */
+	public void setPrayProcess(int prayProcess) {
+		this.prayProcess = prayProcess;
+	}
+
+	/**
+	 * 设置祈福的卡Id
+	 * 
+	 * @param prayCardId
+	 */
+	public void setPrayCardId(int prayCardId) {
+		this.prayCardId = prayCardId;
 	}
 }

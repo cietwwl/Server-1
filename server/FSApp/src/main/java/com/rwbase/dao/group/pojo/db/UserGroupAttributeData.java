@@ -14,6 +14,7 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.cacheDao.mapItem.IMapItem;
+import com.rw.fsutil.dao.annotation.CombineSave;
 import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
@@ -45,6 +46,16 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private int donateTimes;// 捐献的次数
 	@IgnoreSynField
 	private long lastDonateTime;// 捐献的时间
+
+	// ---------------------------------------扩展的内容
+	@CombineSave
+	@IgnoreSynField
+	private List<String> prayList;// 已经给谁送过卡片
+	@CombineSave
+	@IgnoreSynField
+	private long lastPrayTime;// 上次祈福的时间
+
+	// ---------------------------------------内存缓存
 	@NonSave
 	private String groupName;// 帮派名字
 	@NonSave
