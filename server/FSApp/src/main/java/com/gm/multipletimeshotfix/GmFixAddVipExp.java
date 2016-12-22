@@ -1,4 +1,4 @@
-package com.gm.task;
+package com.gm.multipletimeshotfix;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.task.IGmTask;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
@@ -16,7 +17,7 @@ import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 
-public class GmAddVipExp implements IGmTask {
+public class GmFixAddVipExp implements IGmTask{
 
 	@Override
 	public GmResponse doTask(GmRequest request) {
@@ -52,5 +53,4 @@ public class GmAddVipExp implements IGmTask {
 		}
 		return resp;
 	}
-
 }
