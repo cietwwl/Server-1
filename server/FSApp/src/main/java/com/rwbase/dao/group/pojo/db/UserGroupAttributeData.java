@@ -51,6 +51,8 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	private long joinTime;// 获取距离可以捐献还剩余多少时间
 	@NonSave
 	private int dayContribution;// 当天从令牌捐献获取的帮派贡献
+	@NonSave
+	private volatile boolean isInit;// 是否初始化了
 
 	public UserGroupAttributeData() {
 		studySkill = new HashMap<Integer, GroupSkillItem>();
@@ -161,6 +163,10 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 		return dayContribution;
 	}
 
+	public boolean isInit() {
+		return isInit;
+	}
+
 	// ///////////////////////////////////////////////SET区域
 	/**
 	 * 设置角色Id
@@ -257,6 +263,10 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	 */
 	public void setJoinTime(long joinTime) {
 		this.joinTime = joinTime;
+	}
+
+	public void setInit(boolean isInit) {
+		this.isInit = isInit;
 	}
 
 	// ///////////////////////////////////////////////逻辑处理区域

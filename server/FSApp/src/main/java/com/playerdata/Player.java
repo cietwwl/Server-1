@@ -147,7 +147,7 @@ public class Player implements PlayerIF {
 	private GuidanceMgr guideMgr = new GuidanceMgr();
 
 	// 个人帮派数据的Mgr
-	// private UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+	private UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
 	private UserGroupCopyMapRecordMgr userGroupCopyRecordMgr;
 
 	public UnendingWarMgr unendingWarMgr = new UnendingWarMgr();// 无尽战火
@@ -392,7 +392,7 @@ public class Player implements PlayerIF {
 					long now = System.currentTimeMillis();
 					userDataMgr.setLastLoginTime(now);
 					// 推送帮派的数据
-					UserGroupAttributeDataMgr.getMgr().synUserGroupData(player);
+					userGroupAttributeDataMgr.synUserGroupData(player);
 					getGambleMgr().syncMainCityGambleHotPoint();
 					getSignMgr().onLogin();
 					getDailyActivityMgr().onLogin();
@@ -922,7 +922,7 @@ public class Player implements PlayerIF {
 			reslut = userGameDataMgr.getTowerCoin();
 			break;
 		case GuildCoin:
-			reslut = UserGroupAttributeDataMgr.getMgr().getUserGroupContribution(userId);
+			reslut = userGroupAttributeDataMgr.getUserGroupContribution(userId);
 			break;
 		case PeakArenaCoin:
 			reslut = userGameDataMgr.getPeakArenaCoin();

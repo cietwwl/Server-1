@@ -16,20 +16,24 @@ import com.rwproto.DataSynProtos.eSynType;
  */
 public class UserGroupAttributeDataHolder {
 
-	// private UserGroupAttributeData userGroupAttributeData;// 个人的帮派数据
-	private static eSynType synType = eSynType.UserGroupAttributeData;// 同步的类型
-	private String userId;
+	private static UserGroupAttributeDataHolder holder = new UserGroupAttributeDataHolder();
 
-	// private static final eSynType skillSynType = eSynType.GroupStudySkill;//
-	// 学习技能的同步类型
-
-	// private AtomicInteger skillVersion = new AtomicInteger(1);// 个人学习帮派技能的版本号
-
-	public UserGroupAttributeDataHolder(String userId) {
-		this.userId = userId;
+	public static UserGroupAttributeDataHolder getHolder() {
+		return holder;
 	}
 
-	public UserGroupAttributeData getUserGroupData() {
+	private eSynType synType = eSynType.UserGroupAttributeData;// 同步的类型
+
+	protected UserGroupAttributeDataHolder() {
+	}
+
+	/**
+	 * 获取个人的帮派数据
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserGroupAttributeData getUserGroupData(String userId) {
 		return UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(userId);
 	}
 
@@ -39,7 +43,8 @@ public class UserGroupAttributeDataHolder {
 	 * @param player
 	 */
 	public void synData(Player player) {
-		UserGroupAttributeData userGroupAttributeData = UserGroupAttributeDataDAO.getDAO().getUserGroupAttributeData(userId);
+		String userId = player.getUserId();
+		UserGroupAttributeData userGroupAttributeData = getUserGroupData(userId);
 		if (userGroupAttributeData != null) {
 			ClientDataSynMgr.synData(player, userGroupAttributeData, synType, eSynOpType.UPDATE_SINGLE);
 		} else {
@@ -47,34 +52,12 @@ public class UserGroupAttributeDataHolder {
 		}
 	}
 
-	// /**
-	// * 更新个人技能的数据
-	// *
-	// * @param player
-	// * @param version
-	// */
-	// public void synSkillData(Player player, int version) {
-	// int ver = skillVersion.get();
-	// if (ver == version) {
-	// return;
-	// }
-	//
-	// ClientDataSynMgr.synDataList(player,
-	// userGroupAttributeData.getSkillItemList(), skillSynType,
-	// eSynOpType.UPDATE_LIST, ver);
-	// }
-	//
-	// /**
-	// * 增加个人帮派技能数据的版本号
-	// */
-	// public void incrementSkillVersion() {
-	// skillVersion.incrementAndGet();
-	// }
-
 	/**
-	 * 保存到数据库
+	 * 更新数据到数据库
+	 * 
+	 * @param userId
 	 */
-	public void flush() {
+	public void flush(String userId) {
 		UserGroupAttributeDataDAO.getDAO().update(userId);
 	}
 }

@@ -1,7 +1,13 @@
 package com.rwbase.dao.group.pojo.db.dao;
 
+import org.springframework.util.StringUtils;
+
+import com.bm.group.GroupBM;
 import com.rw.fsutil.cacheDao.DataRdbDao;
+import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
+import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
+import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 
 /*
  * @author HC
@@ -25,16 +31,53 @@ public class UserGroupAttributeDataDAO extends DataRdbDao<UserGroupAttributeData
 	 * @return
 	 */
 	public UserGroupAttributeData getUserGroupAttributeData(String userId) {
-		// UserGroupAttributeData data = dao.getObject(userId);
-		// if (data == null) {
-		// data = new UserGroupAttributeData();
-		// data.setUserId(userId);
-		// data.setGroupId("");
-		// dao.saveOrUpdate(data);
-		// }
-		//
-		// return data;
-		return dao.getObject(userId);
+		UserGroupAttributeData data = dao.getObject(userId);
+		if (data != null) {
+			boolean init = data.isInit();
+			if (!init) {
+				synchronized (data) {
+					if (!data.isInit()) {
+						// 设置其他内存数据
+						initMemoryCahce(data);
+					}
+				}
+			}
+		}
+		return data;
+	}
+
+	/**
+	 * 初始化内存数据
+	 * 
+	 * @param userGroupData
+	 */
+	private void initMemoryCahce(UserGroupAttributeData userGroupData) {
+		userGroupData.setInit(true);
+
+		String groupId = userGroupData.getGroupId();
+		if (StringUtils.isEmpty(groupId)) {
+			return;
+		}
+
+		Group group = GroupBM.get(groupId);
+		if (group == null) {
+			return;
+		}
+
+		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+		if (groupData == null) {
+			return;
+		}
+
+		// 检查个人成员信息
+		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(userGroupData.getId(), false);
+		if (memberData == null) {
+			return;
+		}
+
+		userGroupData.setGroupName(groupData.getGroupName());
+		userGroupData.setDayContribution(memberData.getDayContribution());
+		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 
 	/**

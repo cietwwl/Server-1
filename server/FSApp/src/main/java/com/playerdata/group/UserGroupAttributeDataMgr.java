@@ -46,7 +46,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		return mgr;
 	}
 
-	private UserGroupAttributeDataHolder holder;// 个人帮派数据的管理
+	private UserGroupAttributeDataHolder holder = UserGroupAttributeDataHolder.getHolder();// 个人帮派数据的管理
 
 	protected UserGroupAttributeDataMgr() {
 	}
@@ -59,41 +59,12 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		UserGroupAttributeData data = new UserGroupAttributeData();
 		data.setUserId(player.getUserId());
 		data.setGroupId("");
+		data.setInit(true);
 		UserGroupAttributeDataDAO.getDAO().update(data);
 	}
 
 	@Override
 	public void notifyPlayerLogin(Player player) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
-
-		if (userGroupData == null) {
-			return;
-		}
-		String groupId = userGroupData.getGroupId();
-		if (StringUtils.isEmpty(groupId)) {
-			return;
-		}
-
-		Group group = GroupBM.get(groupId);
-		if (group == null) {
-			return;
-		}
-
-		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		if (groupData == null) {
-			return;
-		}
-
-		// 检查个人成员信息
-		GroupMemberDataIF memberData = group.getGroupMemberMgr().getMemberData(player.getUserId(), false);
-		if (memberData == null) {
-			return;
-		}
-
-		userGroupData.setGroupName(groupData.getGroupName());
-		// userGroupData.setContribution(memberData.getContribution());
-		userGroupData.setDayContribution(memberData.getDayContribution());
-		userGroupData.setJoinTime(memberData.getReceiveTime());
 	}
 
 	@Override
@@ -106,14 +77,14 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @return
 	 */
 	public UserGroupAttributeData getUserGroupAttributeData(String userId) {
-		return holder.getUserGroupData();
+		return holder.getUserGroupData(userId);
 	}
 
 	/**
 	 * 重置管理员每天分配奖励次数
 	 */
 	public void resetAllotGroupRewardCount(String userId) {
-		UserGroupAttributeData data = holder.getUserGroupData();
+		UserGroupAttributeData data = holder.getUserGroupData(userId);
 		if (data == null) {
 			return;
 		}
@@ -141,7 +112,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @return
 	 */
 	public long getUserGroupContribution(String userId) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		if (userGroupData == null) {
 			return 0;
 		}
@@ -155,7 +126,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @return
 	 */
 	public void useUserGroupContribution(String userId, int offContribution) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		if (userGroupData == null) {
 			return;
 		}
@@ -175,7 +146,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param groupId 有帮派的数据
 	 */
 	public void updateDataWhenHasGroup(Player player, String groupId, String groupName) {
-		UserGroupAttributeData baseData = holder.getUserGroupData();
+		UserGroupAttributeData baseData = holder.getUserGroupData(player.getUserId());
 		baseData.setQuitGroupTime(0);
 		baseData.clearApplyGroupIdList();// 清除申请队列
 		baseData.setGroupId(groupId);
@@ -196,7 +167,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param removeGroupId
 	 */
 	public void updateDataWhenRefuseByGroup(Player player, String removeGroupId) {
-		UserGroupAttributeData baseData = holder.getUserGroupData();
+		UserGroupAttributeData baseData = holder.getUserGroupData(player.getUserId());
 		baseData.removeApplyGroupId(removeGroupId);
 		updateAndSynUserGroupAttributeData(player);
 	}
@@ -208,7 +179,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param sendTime 发送邮件的时间
 	 */
 	public void updateSendEmailTime(Player player, long sendTime) {
-		UserGroupAttributeData baseData = holder.getUserGroupData();
+		UserGroupAttributeData baseData = holder.getUserGroupData(player.getUserId());
 		baseData.setSendEmailTime(sendTime);
 		updateAndSynUserGroupAttributeData(player);
 	}
@@ -220,7 +191,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param quitTime
 	 */
 	public void updateDataWhenQuitGroup(Player player, long quitTime) {
-		UserGroupAttributeData baseData = holder.getUserGroupData();
+		UserGroupAttributeData baseData = holder.getUserGroupData(player.getUserId());
 		baseData.setGroupId("");
 		baseData.setGroupName("");
 		baseData.setQuitGroupTime(quitTime);
@@ -239,10 +210,10 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param resetTime
 	 */
 	public void updateAndCheckApplyTimes(String userId, long resetTime) {
-		UserGroupAttributeData baseData = holder.getUserGroupData();
+		UserGroupAttributeData baseData = holder.getUserGroupData(userId);
 		baseData.setLastResetApplyTime(resetTime);
 		baseData.setGroupApplySize(0);
-		holder.flush();
+		holder.flush(userId);
 	}
 
 	/**
@@ -251,7 +222,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param applyGroupId
 	 */
 	public void updateApplyGroupData(Player player, String applyGroupId) {
-		UserGroupAttributeData baseData = holder.getUserGroupData();
+		UserGroupAttributeData baseData = holder.getUserGroupData(player.getUserId());
 		baseData.addApplyGroupId(applyGroupId);
 		baseData.setGroupApplySize(baseData.getGroupApplySize() + 1);
 		updateAndSynUserGroupAttributeData(player);
@@ -268,19 +239,20 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @return
 	 */
 	public boolean updateUserGroupDataWhenStudySkill(Player player, int skillId, int skillLevel, long time, int state) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		String userId = player.getUserId();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		if (userGroupData == null) {
 			return false;
 		}
 
 		int hasSkillLevel = userGroupData.getStudySkillLevel(skillId);
 		if (hasSkillLevel == skillLevel) {
-			GameLog.error("学习帮派技能", player.getUserId(), String.format("学习技能Id[%s],技能等级[%s],已经学习的技能等级[%s]", skillId, skillLevel, hasSkillLevel));
+			GameLog.error("学习帮派技能", userId, String.format("学习技能Id[%s],技能等级[%s],已经学习的技能等级[%s]", skillId, skillLevel, hasSkillLevel));
 			return false;
 		}
 
 		if (skillLevel - hasSkillLevel != 1) {
-			GameLog.error("学习帮派技能", player.getUserId(), String.format("学习技能Id[%s],技能等级[%s],已经学习的技能等级[%s]。请求学习等级过高", skillId, skillLevel, hasSkillLevel));
+			GameLog.error("学习帮派技能", userId, String.format("学习技能Id[%s],技能等级[%s],已经学习的技能等级[%s]。请求学习等级过高", skillId, skillLevel, hasSkillLevel));
 			return false;
 		}
 
@@ -297,7 +269,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param userGroupAttributeData 个人帮派数据
 	 */
 	private void updateAndSynUserGroupAttributeData(Player player) {
-		holder.flush();
+		holder.flush(player.getUserId());
 		holder.synData(player);
 	}
 
@@ -334,7 +306,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param groupName
 	 */
 	public void updateGroupName(Player player, String groupName) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(player.getUserId());
 		userGroupData.setGroupName(groupName);
 		holder.synData(player);
 	}
@@ -348,7 +320,8 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param donateTimes 今天捐献的次数
 	 */
 	public void updateContribution(Player player, int offsetContribution, int dayContribution, int donateTimes) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		String userId = player.getUserId();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		userGroupData.setDonateTimes(donateTimes);
 
 		int contribution = userGroupData.getContribution();
@@ -357,7 +330,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		userGroupData.setContribution(contribution);
 
 		userGroupData.setDayContribution(dayContribution);
-		holder.flush();
+		holder.flush(userId);
 		holder.synData(player);
 	}
 
@@ -367,7 +340,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @return
 	 */
 	public Map<Integer, AttributeItem> getGroupSkillAttrDataMap(String userId) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		if (userGroupData == null) {
 			// GameLog.error("计算英雄帮派属性", userId, "角色没有对应的UserGroupAttributeData数据");
 			return null;
@@ -450,7 +423,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param lastDonateTime
 	 */
 	public void resetMemberDataDonateTimes(String userId, long lastDonateTime) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		if (userGroupData == null) {
 			return;
 		}
@@ -458,7 +431,7 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		userGroupData.setDonateTimes(0);
 		userGroupData.setLastDonateTime(lastDonateTime);
 		userGroupData.setDayContribution(0);
-		holder.flush();
+		holder.flush(userId);
 		holder.synData(PlayerMgr.getInstance().find(userId));
 	}
 
@@ -470,14 +443,14 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * @param lastDonateTime
 	 */
 	public void gmResetMemberDataDonateTimes(String userId, long lastDonateTime) {
-		UserGroupAttributeData userGroupData = holder.getUserGroupData();
+		UserGroupAttributeData userGroupData = holder.getUserGroupData(userId);
 		if (userGroupData == null) {
 			return;
 		}
 
 		userGroupData.setDonateTimes(0);
 		userGroupData.setLastDonateTime(lastDonateTime);
-		holder.flush();
+		holder.flush(userId);
 		holder.synData(PlayerMgr.getInstance().find(userId));
 	}
 }
