@@ -5,11 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.gm.GmRequest;
 import com.gm.GmResponse;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
+import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.charge.ChargeMgr;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
@@ -18,6 +21,8 @@ import com.playerdata.charge.dao.ChargeInfoHolder;
 
 public class GmAddVipExp implements IGmTask {
 
+	private static Logger addVipExpLogger = Logger.getLogger("checkRebateLogger");
+	
 	@Override
 	public GmResponse doTask(GmRequest request) {
 		GmResponse resp = new GmResponse();
@@ -44,7 +49,11 @@ public class GmAddVipExp implements IGmTask {
 			ChargeInfo info = ChargeInfoHolder.getInstance().get(userId);
 			int preVipExp = info.getTotalChargeGold();
 			ChargeMgr.getInstance().addVipExp(player, cfg.getVipExp(), true);
+			addVipExpLogger.info("userName:" + player.getUserName() + " add vip exp: cfgId:" + cfgId);
 			ActivityDailyRechargeTypeMgr.getInstance().addFinishCount(player, cfg.getMoneyYuan());
+			addVipExpLogger.info("userName:" + player.getUserName() + " add ActivityDailyRechargeTypeMgr: money:" + cfg.getMoneyYuan());
+			EvilBaoArriveMgr.getInstance().addFinishCount(player, cfg.getMoneyYuan());
+			addVipExpLogger.info("userName:" + player.getUserName() + " add EvilBaoArriveMgr: money:" + cfg.getMoneyYuan());
 			int nowVipExp = info.getTotalChargeGold();
 			result.put("RESULT", "操作成功，添加前信息：vip等级：" + preVip + "，vip经验：" + preVipExp + "；添加后结果：vip等级：" + player.getVip() + "，vip经验：" + nowVipExp);
 		} else {
