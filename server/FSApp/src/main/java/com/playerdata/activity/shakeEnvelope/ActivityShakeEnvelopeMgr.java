@@ -8,6 +8,7 @@ import com.playerdata.activity.shakeEnvelope.data.ActivityShakeEnvelopeItem;
 import com.playerdata.activity.shakeEnvelope.data.ActivityShakeEnvelopeItemHolder;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
+import com.rwproto.ActivityCommonTypeProto.ActivityCommonRspMsg.Builder;
 
 public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeEnvelopeItem> {
 	
@@ -20,6 +21,15 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 		return instance;
 	}
 
+	/**
+	 * 领取摇一摇红包奖励
+	 * @param player
+	 * @param response
+	 */
+	public void getEnvelopeReward(Player player, Builder response) {
+		
+	}
+	
 	@Override
 	protected List<String> checkRedPoint(Player player, ActivityShakeEnvelopeItem item) {
 		List<String> redPointList = new ArrayList<String>();

@@ -7,7 +7,7 @@ import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
 
-//	<bean class="com.playerdata.activity.chargeRank.cfg.ActivityChargeRankCfgDAO"  init-method="init" />
+//	<bean class="com.playerdata.activity.shakeEnvelope.cfg.ActivityShakeEnvelopeCfgDAO"  init-method="init" />
 
 public class ActivityShakeEnvelopeCfgDAO extends CfgCsvDao<ActivityShakeEnvelopeCfg> {
 	public static ActivityShakeEnvelopeCfgDAO getInstance() {
@@ -16,7 +16,7 @@ public class ActivityShakeEnvelopeCfgDAO extends CfgCsvDao<ActivityShakeEnvelope
 
 	@Override
 	public Map<String, ActivityShakeEnvelopeCfg> initJsonCfg() {
-		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityChargeRank/ActivityChargeRankCfg.csv",ActivityShakeEnvelopeCfg.class);
+		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityShakeEnvelopeCfg.csv",ActivityShakeEnvelopeCfg.class);
 		for(ActivityCfgIF cfg : cfgCacheMap.values()){
 			cfg.ExtraInitAfterLoad();
 		}

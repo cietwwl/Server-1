@@ -66,8 +66,9 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	protected List<String> haveRedPoint(Player player) {
 		List<String> redPointList = new ArrayList<String>();
 		List<T> items = getHolder().getItemList(player.getUserId());
-		if (null == items || items.isEmpty())
+		if (null == items || items.isEmpty()){
 			return redPointList;
+		}
 		for (T item : items) {
 			redPointList.addAll(checkRedPoint(player, item));
 		}
@@ -187,5 +188,9 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 		//如果有活动结束的统一处理，就需要重载这个方法
 	}
 	
+	/**
+	 * 用于和数据库交互，以及和玩家之间同步数据的holder
+	 * @return
+	 */
 	protected abstract UserActivityChecker<T> getHolder();
 }

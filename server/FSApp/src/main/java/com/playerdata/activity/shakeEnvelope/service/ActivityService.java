@@ -6,9 +6,10 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.rw.service.FsService;
-import com.rwproto.ActivityChargeRankProto.ActivityCommonReqMsg;
-import com.rwproto.ActivityChargeRankProto.ActivityCommonRspMsg;
-import com.rwproto.ActivityChargeRankProto.RequestType;
+import com.rwproto.ActivityCommonTypeProto.ActivityCommonReqMsg;
+import com.rwproto.ActivityCommonTypeProto.ActivityCommonRspMsg;
+import com.rwproto.ActivityCommonTypeProto.RequestType;
+import com.rwproto.ActivityCommonTypeProto.ResultType;
 import com.rwproto.RequestProtos.Request;
 
 
@@ -16,32 +17,28 @@ public class ActivityService implements FsService<ActivityCommonReqMsg, RequestT
 
 	@Override
 	public ByteString doTask(ActivityCommonReqMsg request, Player player) {
-		ActivityHandler handler = ActivityHandler.getInstance();
-
+		
 		ByteString byteString = null;
 		try {
 			RequestType reqType = request.getReqType();
 			switch (reqType) {
-			case ChargeRank:// 充值排行榜
-				byteString = handler.getChargeRank(player, request);
-				break;
-			case ConsumeRank:// 消费排行榜
-				byteString = handler.getConsumeRank(player, request);
+			case ShakeEnvelope:// 摇一摇红包
+				byteString = ActivityShakeEnvelopeHandler.getInstance().getEnvelopeReward(player, request);
 				break;
 			default:
-				GameLog.error(LogModule.ComActChargeRank, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
+				GameLog.error(LogModule.ComActType, player.getUserId(), "接收到了一个Unknown的消息，无法处理", null);
 				ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
 				response.setReqType(request.getReqType());
-				response.setIsSuccess(false);
+				response.setResult(ResultType.FAIL);
 				response.setTipMsg("接收到一个未知的请求");
 				break;
 			}
 		} catch (Exception e) {
-			GameLog.error(LogModule.ComActChargeRank, player.getUserId(), "出现了Exception异常", e);
+			GameLog.error(LogModule.ComActType, player.getUserId(), "出现了Exception异常", e);
 			ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
 			response.setReqType(request.getReqType());
-			response.setIsSuccess(false);
-			response.setTipMsg("获取排行榜失败");
+			response.setResult(ResultType.EXCEPTION);
+			response.setTipMsg("服务器内部错误");
 		}
 		return byteString;
 	}

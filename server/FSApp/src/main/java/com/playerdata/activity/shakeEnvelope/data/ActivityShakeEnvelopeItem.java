@@ -28,10 +28,10 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 	private int version;	//cfg的版本号
 	
 	@CombineSave
-	private boolean closed = false;
+	private int count;	//可以领取的红包数量
 	
 	@CombineSave
-	private int finishCount;	// 已经完成的数量
+	private long currentOverTime;	//当前可领取红包的失效时间
 	
 	@CombineSave
 	private boolean hasViewed;	//是否已经查看过该活动
@@ -60,12 +60,20 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 		this.cfgId = cfgId;
 	}
 
-	public boolean isClosed() {
-		return closed;
+	public int getCount() {
+		return count;
 	}
 
-	public void setClosed(boolean closed) {
-		this.closed = closed;
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public long getCurrentOverTime() {
+		return currentOverTime;
+	}
+
+	public void setCurrentOverTime(long currentOverTime) {
+		this.currentOverTime = currentOverTime;
 	}
 
 	public int getVersion() {
@@ -76,24 +84,12 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 		this.version = version;
 	}
 
-	public synchronized int getFinishCount() {
-		return finishCount;
-	}
-
-	public synchronized void setFinishCount(int finishCount) {
-		this.finishCount = finishCount;
-	}
-
 	public boolean isHasViewed() {
 		return hasViewed;
 	}
 
 	public void setHasViewed(boolean hasViewed) {
 		this.hasViewed = hasViewed;
-	}
-	
-	public synchronized void reset(){
-		finishCount = 0;
 	}
 
 	@Override
@@ -104,5 +100,10 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 	@Override
 	public List<Object> getSubItemList() {
 		return Collections.emptyList();
+	}
+
+	@Override
+	public void reset() {
+		
 	}
 }

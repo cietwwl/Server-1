@@ -177,7 +177,6 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 				activeItemMap.put(item.getId(), item);
 			}else{
 				expireActivityHandler(userId, item);
-				item.setClosed(true);
 				removeList.add(item.getId());
 			}
 		}

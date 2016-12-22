@@ -36,6 +36,7 @@ public enum LogModule {
 	ComActivityRetrieve("通用活动_Retrieve_每日找回"),
 	ComActEvilBaoArrive("通用活动_申公豹驾到"),
 	ComActChargeRank("通用活动_充值或者消费排行榜"),
+	ComActType("活动通用协议"),
 	
 	FixEquip("专属装备"),
 	GroupChamp("帮派竞技"),
