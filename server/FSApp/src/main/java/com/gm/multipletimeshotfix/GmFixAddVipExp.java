@@ -1,4 +1,4 @@
-package com.gm.task;
+package com.gm.multipletimeshotfix;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.gm.GmRequest;
 import com.gm.GmResponse;
+import com.gm.task.IGmTask;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activity.dailyCharge.ActivityDailyRechargeTypeMgr;
@@ -19,7 +20,7 @@ import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 
-public class GmAddVipExp implements IGmTask {
+public class GmFixAddVipExp implements IGmTask{
 
 	private static Logger addVipExpLogger = Logger.getLogger("checkRebateLogger");
 	
@@ -61,5 +62,4 @@ public class GmAddVipExp implements IGmTask {
 		}
 		return resp;
 	}
-
 }
