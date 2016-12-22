@@ -33,8 +33,7 @@ public class UserGroupAttributeDataDAO extends DataRdbDao<UserGroupAttributeData
 	public UserGroupAttributeData getUserGroupAttributeData(String userId) {
 		UserGroupAttributeData data = dao.getObject(userId);
 		if (data != null) {
-			boolean init = data.isInit();
-			if (!init) {
+			if (!data.isInit()) {
 				synchronized (data) {
 					if (!data.isInit()) {
 						// 设置其他内存数据
