@@ -140,11 +140,6 @@ public class FreshActivityCheckTask implements IGameTimerTask, Callable<Void> {
 
 	@Override
 	public Void call() throws Exception {
-		try {
-			ActivityDailyDiscountTypeCfgDAO.getInstance().reload();
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
 		if (!GameManager.getServerId().trim().equals("9001")) {
 			return null;
 		}
