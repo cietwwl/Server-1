@@ -40,6 +40,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
+import com.playerdata.activity.chargeRebate.dao.ActivityChargeRebateDAO;
 import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
 import com.playerdata.randomname.RandomNameMgr;
@@ -201,6 +202,9 @@ public class GameManager {
 		ServerStatusMgr.init();
 
 		NoticeMgr.getInstance().initNotice();
+		
+		//初始化充值返利的数据
+		ActivityChargeRebateDAO.getInstance().initActivityChargeRebateData();
 
 		// 帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();

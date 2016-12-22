@@ -1,4 +1,4 @@
 Key,Remarks,id,enumId,bg,activityIcon,icon2,title,bgTitle,titleBG,refreshInfo,isRefresh,refreshTime,levelLimit,startTimeStr,endTimeStr,version
-80001,,80001,80001,SmallTex/Activity/ActivityTitleText_13,huodong_018,ect_zhekou,圣诞优惠购,,,xx点刷新,,5,1,201612200500,201612280500,1
+80001,,80001,80001,SmallTex/Activity/ActivityTitleText_13,huodong_018,ect_zhekou,圣诞优惠购,,,xx点刷新,1,5,1,201612200500,201612280500,1
 80002,,80002,80001,SmallTex/Activity/ActivityTitleText_01,huodong_011,ect_zhekou,超值欢乐购,,,xx点刷新,1,5,1,0,7,1
-80003,,80003,80003,SmallTex/Activity/ActivityTitleText_14,huodong_018,ect_zhekou,圣诞优惠购,,,xx点刷新,1,5,1,201612280500,201701040500,2
+80003,,80003,80003,SmallTex/Activity/ActivityTitleText_14,huodong_018,ect_zhekou,元旦优惠购,,,xx点刷新,1,5,1,201612280500,201701040500,2

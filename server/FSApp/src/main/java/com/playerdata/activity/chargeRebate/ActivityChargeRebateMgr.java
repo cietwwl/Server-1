@@ -53,10 +53,9 @@ public class ActivityChargeRebateMgr {
 	protected ActivityChargeRebateMgr() {
 	};
 
-	public void processChargeRebate(Player player, String accountId) {
+	public void processChargeRebate(Player player, String accountId,TableAccount userAccount) {
 
 		try {
-			TableAccount userAccount = AccoutBM.getInstance().getByAccountId(accountId);
 			String openAccount = userAccount.getOpenAccount();
 			if (StringUtils.isEmpty(openAccount)) {
 				return;
@@ -109,7 +108,7 @@ public class ActivityChargeRebateMgr {
 					}
 				}
 
-				if (chargeMoney >= 1000) {
+				if (chargeMoney >= 10000) {
 					EmailUtils.sendEmail(player.getUserId(), hundredEmailId);
 				}
 			}

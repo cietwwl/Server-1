@@ -55,6 +55,7 @@ public enum LogModule {
 	robotFriend("好友机器人模块"),
 	WorldBoss("世界boss"),
 	Saloon("同屏模块"),
+	RouterServer("直通车礼包"),
 	;
 	
 	private String name;

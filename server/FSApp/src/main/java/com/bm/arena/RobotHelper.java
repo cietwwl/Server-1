@@ -27,6 +27,8 @@ import com.rwbase.dao.fetters.pojo.cfg.dao.FettersBaseCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.dao.FettersConditionCfgDAO;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersBaseTemplate;
 import com.rwbase.dao.fetters.pojo.cfg.template.FettersConditionTemplate;
+import com.rwbase.dao.item.GemCfgDAO;
+import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
 
@@ -81,6 +83,7 @@ public class RobotHelper {
 			int[] level = isMainRole ? robotCfg.getLevel() : robotCfg.getHeroLevel();
 			heroLevel = level[getRandomIndex(r, level.length)];
 			heroLevel = heroLevel > mainRoleLevel ? mainRoleLevel : heroLevel;
+			heroBaseIndo.setLevel(heroLevel);
 		}
 		heroBaseIndo.setLevel(heroLevel);
 		// 品质
@@ -214,8 +217,9 @@ public class RobotHelper {
 		// 宝石数量
 		int[] gemCountArray = isMainRole ? angelRobotCfg.getGemCount() : angelRobotCfg.getHeroGemCount();
 		int gemCount = gemCountArray[getRandomIndex(r, gemCountArray.length)];
-		// // 宝石等级
-		// int[] gemLevelArray = isMainRole ? angelRobotCfg.getGemLevel() : angelRobotCfg.getHeroGemLevel();
+		// 宝石等级
+		int[] gemLevelArray = isMainRole ? angelRobotCfg.getGemLevel() : angelRobotCfg.getHeroGemLevel();
+
 		int[] gemTypeArray = isMainRole ? angelRobotCfg.getGemType() : angelRobotCfg.getHeroGemType();
 		ArrayList<Integer> gemList = new ArrayList<Integer>();
 		for (int a : gemTypeArray) {
@@ -231,13 +235,33 @@ public class RobotHelper {
 			gemCount = gemList.size();
 		}
 
-		ArrayList<String> canGemList = new ArrayList<String>(gemCount);
+		List<String> canGemList = new ArrayList<String>(gemCount);
 		for (int i = 0; i < gemCount; i++) {
 			String gemId = String.valueOf(gemList.remove(getRandomIndex(r, gemList.size())));
 			canGemList.add(gemId);
 		}
 
-		return canGemList;
+		ArrayList<String> gemList_ = new ArrayList<String>();
+		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
+		for (int i = 0, gemSize = canGemList.size(); i < gemSize; i++) {
+			String nextGemId = canGemList.get(i).toString();
+			int gemLevel = gemLevelArray[getRandomIndex(r, gemLevelArray.length)];
+			for (int j = gemLevel; --j >= 0;) {
+				GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(nextGemId);
+				if (gemCfg == null) {
+					continue;
+				}
+
+				String n = String.valueOf(gemCfg.getComposeItemID());
+				if (!StringUtils.isEmpty(n)) {
+					nextGemId = n;
+				}
+			}
+
+			gemList_.add(nextGemId);
+		}
+
+		return gemList_;
 	}
 
 	/**
@@ -278,10 +302,6 @@ public class RobotHelper {
 	 * @return
 	 */
 	public static List<FixExpEquipDataItem> parseFixExpEquip2Info(int heroModelId, int[] fixEquip) {
-		if (fixEquip == null || fixEquip.length < 3) {
-			return Collections.emptyList();
-		}
-
 		RoleFixEquipCfg cfg = RoleFixEquipCfgDAO.getInstance().getConfig(String.valueOf(heroModelId));
 		if (cfg == null) {
 			return Collections.emptyList();
@@ -315,10 +335,6 @@ public class RobotHelper {
 	 * @return
 	 */
 	public static List<FixNormEquipDataItem> parseFixNormEquip2Info(int heroModelId, int[] fixEquip) {
-		if (fixEquip == null || fixEquip.length < 3) {
-			return Collections.emptyList();
-		}
-
 		RoleFixEquipCfg cfg = RoleFixEquipCfgDAO.getInstance().getConfig(String.valueOf(heroModelId));
 		if (cfg == null) {
 			return Collections.emptyList();

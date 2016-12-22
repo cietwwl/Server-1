@@ -1,5 +1,6 @@
 package com.rw.service.group;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -9,6 +10,7 @@ import com.bm.group.GroupBM;
 import com.bm.group.GroupBaseDataMgr;
 import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
 import com.bm.rank.groupFightOnline.GFGroupBiddingRankMgr;
+import com.common.RefInt;
 import com.common.RefParam;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
@@ -121,8 +123,16 @@ public class GroupBaseManagerHandler {
 
 		// 检查传递过来的帮派名字
 		String groupName = req.getGroupName();
+		GroupMemberManagerHandler instance = GroupMemberManagerHandler.getHandler();
+		RefInt out4BytesMark = new RefInt();
+		try {
+			groupName = instance.check4ByteString(groupName, out4BytesMark);
+		} catch (UnsupportedEncodingException e) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字出现转码错误");
+		}
+
 		if (StringUtils.isEmpty(groupName)) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字不能为空");
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, out4BytesMark.value > 0 ? "帮派名字不支持Emoji表情" : "帮派名字不能为空");
 		}
 
 		int nameLimit = gbct.getGroupNameCharLimit() * 2;
@@ -139,7 +149,7 @@ public class GroupBaseManagerHandler {
 		// TODO HC 客户端传递的帮派头像ID的时数据验证，现在先暂时不验证
 		String icon = req.getIcon();
 
-		Group group = GroupBM.getInstance().create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
+		Group group = GroupBM.create(player, groupName, icon, gbct.getDefaultValidateType(), gbct.getDefaultApplyLevel());
 		if (group == null) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在，名字为=" + groupName);
 		}
@@ -160,11 +170,11 @@ public class GroupBaseManagerHandler {
 		mgr.updateDataWhenHasGroup(player, newGroupId, groupName);// 更新数据
 
 		// 基础排行榜
-		int rankIndex = GroupRankHelper.getInstance().addOrUpdateGroup2BaseRank(group);
+		int rankIndex = GroupRankHelper.addOrUpdateGroup2BaseRank(group);
 		// 新创建榜
-		GroupRankHelper.getInstance().addGroup2CreateTimeRank(group);
+		GroupRankHelper.addGroup2CreateTimeRank(group);
 		// 人数榜
-		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 
 		player.getStoreMgr().AddStore();
 		// // 推送帮派数据
@@ -206,8 +216,16 @@ public class GroupBaseManagerHandler {
 
 		// 检查下公告的内容
 		String announcement = req.getAnnouncement();
+		GroupMemberManagerHandler instance = GroupMemberManagerHandler.getHandler();
+		RefInt out4BytesMark = new RefInt();
+		try {
+			announcement = instance.check4ByteString(announcement, out4BytesMark);
+		} catch (UnsupportedEncodingException e) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "公告出现转码错误");
+		}
+
 		if (StringUtils.isEmpty(announcement)) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "公告不能为空");
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, out4BytesMark.value > 0 ? "公告不支持Emoji表情" : "公告不能为空");
 		}
 
 		// 公告内容长度过长
@@ -224,11 +242,11 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.getInstance().groupIsExist(groupId)) {
+		if (!GroupBM.groupIsExist(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派改公告", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -292,11 +310,18 @@ public class GroupBaseManagerHandler {
 
 		int nameLimit = gbct.getGroupNameCharLimit() * 2;
 		// 检查下名字的内容
-		final String groupName = req.getGroupName();
-		if (StringUtils.isEmpty(groupName)) {
-			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "名字不能为空");
+		String groupName = req.getGroupName();
+		GroupMemberManagerHandler instance = GroupMemberManagerHandler.getHandler();
+		RefInt out4BytesMark = new RefInt();
+		try {
+			groupName = instance.check4ByteString(groupName, out4BytesMark);
+		} catch (UnsupportedEncodingException e) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字出现转码错误");
 		}
 
+		if (StringUtils.isEmpty(groupName)) {
+			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, out4BytesMark.value > 0 ? "帮派名字不支持Emoji表情" : "帮派名字不能为空");
+		}
 		// 检查名字的合法性和长度
 		int nameLength = GroupUtils.getChineseNumLimitLength(groupName);
 		if (nameLength == -1) {
@@ -315,11 +340,11 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.getInstance().groupIsExist(groupId)) {
+		if (!GroupBM.groupIsExist(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派改名", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -359,7 +384,7 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派名字是否存在
-		if (GroupBM.getInstance().hasName(groupName)) {
+		if (GroupBM.hasName(groupName)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派名字已存在");
 		}
 
@@ -384,11 +409,13 @@ public class GroupBaseManagerHandler {
 
 		groupBaseDataMgr.updateGroupName(player, groupName);
 
+		final String finalGroupName = groupName;// 最终帮派的名字
+
 		PlayerTask task = new PlayerTask() {
 
 			@Override
 			public void run(Player player) {
-				player.getUserGroupAttributeDataMgr().updateGroupName(player, groupName);
+				player.getUserGroupAttributeDataMgr().updateGroupName(player, finalGroupName);
 
 				// 通知好友修改了帮派名字
 				FriendSupportFactory.getSupport().notifyFriendInfoChanged(player);
@@ -441,11 +468,11 @@ public class GroupBaseManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		if (!GroupBM.getInstance().groupIsExist(groupId)) {
+		if (!GroupBM.groupIsExist(groupId)) {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派设置", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -487,12 +514,21 @@ public class GroupBaseManagerHandler {
 		if (req.hasDeclaration()) {
 			String declaration = req.getDeclaration();
 			if (!StringUtils.isEmpty(declaration)) {// 不是空的
+				GroupMemberManagerHandler instance = GroupMemberManagerHandler.getHandler();
+				RefInt out4BytesMark = new RefInt();
+				try {
+					declaration = instance.check4ByteString(declaration, out4BytesMark);
+				} catch (UnsupportedEncodingException e) {
+					return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "宣言出现转码错误");
+				}
+
 				// 检查长度限制
 				int declarationCharLimit = gbct.getDeclarationCharLimit() * 2;
 				int contentLength = GroupUtils.getContentLength(declaration);
 				if (contentLength > declarationCharLimit) {
 					return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "宣言长度过长");
 				}
+
 				// 替换特殊字符
 				newDeclaration = CharFilterFactory.getCharFilter().replaceDiryWords(declaration, "**", true, false);
 			}
@@ -549,7 +585,7 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("解散帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -613,7 +649,7 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("取消解散帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -674,7 +710,7 @@ public class GroupBaseManagerHandler {
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("获取帮派日志", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupBaseMgrFillFailMsg(commonRsp, "您还不是帮派成员");

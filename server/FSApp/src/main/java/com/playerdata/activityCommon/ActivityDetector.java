@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
@@ -64,8 +65,9 @@ public class ActivityDetector {
 	}
 
 	public void detectActive() {
-		if(!ActivitySpecialTimeMgr.ISINIT.get() && System.currentTimeMillis() - ActivitySpecialTimeMgr.LISTENTIME < 120000){
-			//等待登录服推送活动消息期间，不检测活动变化（限时2分钟）
+		if(ActivitySpecialTimeMgr.VERSION.get() < 0){
+			//等待登录服推送活动消息期间，不检测活动变化
+			GameLog.error("ActivityDetector", "activity", "can not get activity from Login server...");
 			return ;
 		}
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();

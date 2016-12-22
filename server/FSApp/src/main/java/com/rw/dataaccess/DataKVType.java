@@ -39,6 +39,8 @@ import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.business.SevenDayGifInfoDAO;
 import com.rwbase.dao.chat.TableUserPrivateChatDao;
 import com.rwbase.dao.chat.creator.UserChatCreator;
+import com.rwbase.dao.chat.pojo.ChatIllegalDataCreator;
+import com.rwbase.dao.chat.pojo.ChatIllegalDataDAO;
 import com.rwbase.dao.copypve.TableCopyDataDAO;
 import com.rwbase.dao.dropitem.DropRecordDAO;
 import com.rwbase.dao.email.TableEmailDAO;
@@ -103,8 +105,7 @@ public enum DataKVType {
 	USER_GFIGHT_DATA(27, UserGFightOnlineDAO.class, UserGFightDataCreator.class),
 	USER_TEAMBATTLE_DATA(28, UserTeamBattleDAO.class, UserTeamBattleDataCreator.class),
 	// 战力成长数据
-	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),	
-	
+	USER_FIGHT_GROWTH_DATA(29, FSUserFightingGrowthDataDAO.class, FSUserFightingGrowthDataCreator.class),
 
 	// 精准营销数据
 	USER_BENEFIT_SELL_DATA(30, BenefitDataDAO.class, BenefitDataCreator.class),
@@ -118,12 +119,13 @@ public enum DataKVType {
 	PRAISE_DATA(34, PraiseDAO.class, PraiseCreator.class),
 	// 个人充值数据
 	CHARGE_INFO(35, ChargeInfoDao.class, ChargeInfoCreator.class),
-	
+
 	WB_USER_DATA(36, WBUserDataDao.class, WBUserDataCreator.class),
 
 	// 个人每日重置记录
 	DAILY_RESET_RECORD(37, DailyResetReccordDao.class, DailyResetReccordCreator.class),
-	;
+	// 聊天的违规数据
+	CHAT_ILLEGAL_DATA(38, ChatIllegalDataDAO.class, ChatIllegalDataCreator.class);
 	private DataKVType(int type, Class<? extends DataKVDao<?>> clazz, Class<? extends DataCreator<?, ?>> processorClass) {
 		this.type = type;
 		this.typeValue = type;

@@ -40,7 +40,7 @@ public class GroupFightingGetOperation implements RankingGetOperation {
 	}
 
 	private RankingLevelData create(String groupId, GCompFightingComparable fightComparable) {
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return null;
 		}
@@ -70,7 +70,7 @@ public class GroupFightingGetOperation implements RankingGetOperation {
 	public RankingLevelData getRankLevelData(RankType rankType, String userId) {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		Player player = PlayerMgr.getInstance().find(userId);
-		if (player == null) {
+		if(player == null){
 			return null;
 		}
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -89,7 +89,7 @@ public class GroupFightingGetOperation implements RankingGetOperation {
 	public int getRanking(RankType rankType, String userId) {
 		Ranking<GCompFightingComparable, GCompFightingItem> ranking = RankingFactory.getRanking(RankType.GROUP_FIGHTING_RANK);
 		Player player = PlayerMgr.getInstance().find(userId);
-		if (player == null) {
+		if(player == null){
 			return -1;
 		}
 		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();

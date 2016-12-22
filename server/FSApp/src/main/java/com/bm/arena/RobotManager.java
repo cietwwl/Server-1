@@ -49,7 +49,9 @@ import com.rwbase.dao.arena.pojo.ArenaRobotCfg;
 import com.rwbase.dao.arena.pojo.ArenaRobotData;
 import com.rwbase.dao.arena.pojo.HeroFettersRobotInfo;
 import com.rwbase.dao.arena.pojo.TableArenaData;
+import com.rwbase.dao.item.GemCfgDAO;
 import com.rwbase.dao.item.HeroEquipCfgDAO;
+import com.rwbase.dao.item.pojo.GemCfg;
 import com.rwbase.dao.item.pojo.HeroEquipCfg;
 import com.rwbase.dao.item.pojo.ItemData;
 import com.rwbase.dao.role.RoleCfgDAO;
@@ -277,50 +279,36 @@ public class RobotManager {
 	}
 
 	/** 更改英雄宝石 **/
-	private static void changeGem(Player player, Hero hero, int[] gemTypeArray, int[] gemCountArray) {
+	private static void changeGem(Player player, Hero hero, int[] gemTypeArray, int[] gemCountArray, int[] gemLevelArray) {
 		// 先低效随机筛选
 		int gemCount = getRandom(gemCountArray);
-		ArrayList<Integer> gemList = new ArrayList<Integer>(gemCount);
-
-		if (gemCount > 0) {
-			for (int a : gemTypeArray) {
-				gemList.add(a);
-			}
-
-			// ==随机宝石类型==
-			int size = gemList.size();
-			if (gemCount < size) {
-				Collections.shuffle(gemList);
-				int removeCount = size - gemCount;
-				// 处理宝石
-				for (int i = 0; i < removeCount; i++) {
-					gemList.remove(i);
+		ArrayList<Integer> gemList = new ArrayList<Integer>();
+		for (int a : gemTypeArray) {
+			gemList.add(a);
+		}
+		Collections.shuffle(gemList);
+		ArrayList<Integer> gemList_ = new ArrayList<Integer>();
+		GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
+		int gemLevel = getRandom(gemLevelArray);
+		for (int i = 0; i < gemCount; i++) {
+			Integer gemId = gemList.remove(getRandom().nextInt(gemList.size()));
+			gemList_.add(gemId);
+			int nextGemId = gemId;
+			for (int j = gemLevel; --j >= 0;) {
+				GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(String.valueOf(nextGemId));
+				if (gemCfg == null) {
+					continue;
+				}
+				int n = gemCfg.getComposeItemID();
+				if (n > 0) {
+					nextGemId = n;
 				}
 			}
+			gemList_.set(i, nextGemId);
 		}
 
-		// ArrayList<Integer> gemList_ = new ArrayList<Integer>();
-		// GemCfgDAO gemCfgDAO = GemCfgDAO.getInstance();
-		// int gemLevel = getRandom(gemLevelArray);
-		// for (int i = 0; i < gemCount; i++) {
-		// Integer gemId = gemList.remove(getRandom().nextInt(gemList.size()));
-		// gemList_.add(gemId);
-		// int nextGemId = gemId;
-		// for (int j = gemLevel; --j >= 0;) {
-		// GemCfg gemCfg = (GemCfg) gemCfgDAO.getCfgById(String.valueOf(nextGemId));
-		// if (gemCfg == null) {
-		// continue;
-		// }
-		// int n = gemCfg.getComposeItemID();
-		// if (n > 0) {
-		// nextGemId = n;
-		// }
-		// }
-		// gemList_.set(i, nextGemId);
-		// }
-
 		// 新增宝石
-		hero.getInlayMgr().addRobotGem(player, hero.getUUId(), gemList);
+		hero.getInlayMgr().addRobotGem(player, hero.getUUId(), gemList_);
 	}
 
 	/** 更改技能 **/
@@ -460,15 +448,10 @@ public class RobotManager {
 	 * @return
 	 */
 	public static int[] getRobotFixInfo(RobotEntryCfg cfg) {
+		int[] fixInfo = new int[3];
 		// 神器
 		int[] fixEquipLevel = cfg.getFixEquipLevel();
-		int ranLevel = getRandom(fixEquipLevel);
-		if (ranLevel == 0) {
-			return null;
-		}
-
-		int[] fixInfo = new int[3];
-		fixInfo[0] = ranLevel;
+		fixInfo[0] = getRandom(fixEquipLevel);
 		int[] fixEquipQuality = cfg.getFixEquipQuality();
 		fixInfo[1] = getRandom(fixEquipQuality);
 		int[] fixEquipStar = cfg.getFixEquipStar();
@@ -564,6 +547,7 @@ public class RobotManager {
 			user.setUserName(userName);
 			user.setSex(sex);
 			user.setAccount(userId);
+			user.setOpenAccount(userId);
 			user.setUserId(userId);
 			user.setZoneId(1);// 这个需要更改
 			user.setLevel(level);
@@ -574,7 +558,7 @@ public class RobotManager {
 
 			String headImage = HeadCfgDAO.getInstance().getCareerHead(career, star, sex);
 			RoleCfg playerCfg = RoleCfgDAO.getInstance().GetConfigBySexCareer(sex, career, star);
-			PlayerParam param = new PlayerParam(userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
+			PlayerParam param = new PlayerParam(userId, userId, userId, userName, 1, sex, System.currentTimeMillis(), playerCfg, headImage, "");
 
 			GameOperationFactory.getCreatedOperation().execute(param);
 			GameLog.info("robot", "system", "创建机器人：" + userId + ",level = " + level, null);
@@ -601,7 +585,7 @@ public class RobotManager {
 			// 更改装备
 			changeEquips(userId, mainRoleHero, cfg.getEquipments(), quality, cfg.getEnchant());
 			// 更改宝石
-			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount());
+			changeGem(player, mainRoleHero, cfg.getGemType(), cfg.getGemCount(), cfg.getGemLevel());
 			// 更改技能
 			changeSkill(player, mainRoleHero, cfg.getFirstSkillLevel(), cfg.getSecondSkillLevel(), cfg.getThirdSkillLevel(), cfg.getFourthSkillLevel(), cfg.getFifthSkillLevel());
 
@@ -640,7 +624,7 @@ public class RobotManager {
 			int heroQuality = getRandom(cfg.getHeroQuality());
 			// 宝石部分
 			int[] heroGemType = cfg.getHeroGemType();
-			// int[] heroGemLevel = cfg.getHeroGemLevel();
+			int[] heroGemLevel = cfg.getHeroGemLevel();
 			int[] heroGemCount = cfg.getHeroGemCount();
 			// 技能部分
 			int[] heroSkill1 = cfg.getHeroFirstSkillLevel();
@@ -652,7 +636,7 @@ public class RobotManager {
 			for (Hero hero : heroList) {
 				changeHero(hero, cfg);
 				changeEquips(userId, hero, equipments, heroQuality, heroEnchant);
-				changeGem(player, hero, heroGemType, heroGemCount);
+				changeGem(player, hero, heroGemType, heroGemCount, heroGemLevel);
 				changeSkill(player, hero, heroSkill1, heroSkill2, heroSkill3, heroSkill4, heroSkill5);
 				String id = hero.getUUId();
 				arenaList.add(id);
@@ -706,7 +690,7 @@ public class RobotManager {
 				store.update(hero.getId());
 			}
 
-			AngelArrayTeamInfoHelper.getInstance().checkAndUpdateTeamInfo(player, heroModelList, fighting);
+			AngelArrayTeamInfoHelper.checkAndUpdateTeamInfo(player, heroModelList, fighting);
 			GameLog.info("robot", "system", "成功生成机器人：carerr = " + career + ",level = " + player.getLevel() + ",消耗时间:" + (System.currentTimeMillis() - start) + "ms", null);
 			return new RankingPlayer(player, arenaList, expectRanking);
 		}

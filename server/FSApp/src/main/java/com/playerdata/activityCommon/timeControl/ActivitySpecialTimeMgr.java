@@ -1,12 +1,9 @@
 package com.playerdata.activityCommon.timeControl;
 
-import io.netty.channel.ChannelHandlerContext;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import com.google.protobuf.InvalidProtocolBufferException;
 import com.log.GameLog;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
@@ -15,15 +12,11 @@ import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
-import com.rwproto.PlatformGSMsg.ActCfgInfo;
-import com.rwproto.PlatformGSMsg.ActivityTimeInfo;
-import com.rwproto.RequestProtos.Request;
 
 
 public class ActivitySpecialTimeMgr {
 	
-	public static AtomicBoolean ISINIT = new AtomicBoolean(false);
-	public static final long LISTENTIME = System.currentTimeMillis();
+	public static AtomicInteger VERSION = new AtomicInteger(-1);
 	
 	private static ActivitySpecialTimeMgr instance = new ActivitySpecialTimeMgr();
 	
@@ -36,19 +29,24 @@ public class ActivitySpecialTimeMgr {
 	 * @param request
 	 * @param ctx
 	 */
-	public void decodeActivityTimeInfo(Request request, ChannelHandlerContext ctx) {
+	public void decodeActivityTimeInfo(ActCfgInfo actTimeInfo) {
 		try {
-			ActivityTimeInfo actCfgs = ActivityTimeInfo.parseFrom(request.getBody().getSerializedContent());
-			reloadSpecialActivity(actCfgs);
-			ISINIT.set(true);
-		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
+			if(null != actTimeInfo.getActList()){
+				reloadSpecialActivity(actTimeInfo);
+			}
+			int oriVersion = VERSION.get();
+			VERSION.set(actTimeInfo.getPlatformVersion());
+			if(oriVersion != actTimeInfo.getPlatformVersion()){
+				GameLog.info("Activity", "activity", "Get activity["+ VERSION.get() + "] from Login server...");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
-	private void reloadSpecialActivity(ActivityTimeInfo specialCfgs){
+	private void reloadSpecialActivity(ActCfgInfo actTimeInfo){
 		List<Integer> modifiedCfgs = new ArrayList<Integer>();
-		for(ActCfgInfo specialTimeInfo : specialCfgs.getActInfosList()){
+		for(SingleActTime specialTimeInfo : actTimeInfo.getActList()){
 			if(dispatchTimeToActivity(specialTimeInfo)){
 				modifiedCfgs.add(specialTimeInfo.getCfgId());
 			}
@@ -59,7 +57,7 @@ public class ActivitySpecialTimeMgr {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private boolean dispatchTimeToActivity(ActCfgInfo specialTimeInfo){
+	private boolean dispatchTimeToActivity(SingleActTime specialTimeInfo){
 		ActivityType actType = ActivityTypeFactory.getByCfgId(specialTimeInfo.getCfgId());
 		if(null == actType){
 			GameLog.error("ActivitySpecialTimeMgr-DispatchTimeToActivity", "", "id[" + specialTimeInfo.getCfgId() + "]暂时不支持动态更换时间");
@@ -76,14 +74,14 @@ public class ActivitySpecialTimeMgr {
 		return false;
 	}
 	
-	private void modifyActivityCfg(ActivityCfgIF actCfg, ActCfgInfo specialTimecfg){
+	private void modifyActivityCfg(ActivityCfgIF actCfg, SingleActTime specialTimeInfo){
 		if(actCfg instanceof ActivityRangeTimeIF){
-			((ActivityRangeTimeIF) actCfg).setRangeTime(specialTimecfg.getRangeTime());
+			((ActivityRangeTimeIF) actCfg).setRangeTime(specialTimeInfo.getRangeTime());
 		}
 		if(actCfg instanceof ActivityExtendTimeIF){
-			((ActivityExtendTimeIF) actCfg).setViceStartAndEndTime(specialTimecfg.getStartViceTime(), specialTimecfg.getEndViceTime());
+			((ActivityExtendTimeIF) actCfg).setViceStartAndEndTime(specialTimeInfo.getStartViceTime(), specialTimeInfo.getEndViceTime());
 		}
-		actCfg.setStartAndEndTime(specialTimecfg.getStartTime(), specialTimecfg.getEndTime());
-		actCfg.setActDesc(specialTimecfg.getActDesc());
+		actCfg.setStartAndEndTime(specialTimeInfo.getStartTime(), specialTimeInfo.getEndTime());
+		actCfg.setActDesc(specialTimeInfo.getActDesc());
 	}
 }

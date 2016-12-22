@@ -1,4 +1,4 @@
-Key,Remarks,id,enumId,bg,icon,icon2,sort,activityType,goToType,title,bgTitle,titleBG,iconZt,zt1,zt2,timeDesc,desc,copytypeAndespecialitemidEnum,adStartTimeStr,adEndTimeStr,startTimeStr,endTimeStr,timeStr,multiple,isAutoRefresh,autoRetime,vipLimit,levelLimit,version,openDesc,closeDesc
+﻿Key,Remarks,id,enumId,bg,icon,icon2,sort,activityType,goToType,title,bgTitle,titleBG,iconZt,zt1,zt2,timeDesc,desc,copytypeAndespecialitemidEnum,adStartTimeStr,adEndTimeStr,startTimeStr,endTimeStr,timeStr,multiple,isAutoRefresh,autoRetime,vipLimit,levelLimit,version,openDesc,closeDesc
 20001,,20001,20001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,3,,2,关卡双倍,关卡双倍,活动期间，30级以上的玩家挑战普通关卡掉落翻倍！,icon_X2,ZT_diaoluoX2,,"12月24日5:00
     至
 12月26日5:00",普通关卡道具双倍,0_1#99,201612200500,201612260500,201612240500,201612260500,000000:235959,2,,0,,30,1,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
@@ -14,7 +14,7 @@ Key,Remarks,id,enumId,bg,icon,icon2,sort,activityType,goToType,title,bgTitle,tit
 晚上19:00至22:00",聚宝之地道具双倍,3_99,201608150500,201608220500,201608150500,201608220500,190000:220000,2,,0,,30,9,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
 20007,,20007,20003,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,6,,8,炼气双倍,炼气双倍,8月15日至8月22日，每晚19:00至22：00，炼气山谷掉落道具翻倍！,icon_X2,ZT_diaoluoX2,,"8月15日至8月22日每日
 晚上19:00至22:00",炼气山谷,2_99,201608150500,201608220500,201608150500,201608220500,190000:220000,2,,0,,30,9,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
-20008,,20008,20004,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,8,,4,仙阵双倍,仙阵双倍,活动期间，30级以上的玩家挑战万仙阵宝箱翻倍！,icon_X2,ZT_diaoluoX2,,"12月24日5:00
+20008,,20008,20004,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,8,,4,仙阵双倍,仙阵双倍,活动期间，29级以上的玩家挑战万仙阵宝箱翻倍！,icon_X2,ZT_diaoluoX2,,"12月24日5:00
     至
 12月26日5:00",万仙阵,5_1#99#6,201612200500,201612260500,201612240500,201612260500,000000:235959,2,,0,,29,1,翻倍活动正在开启中，赶紧去参加吧,翻倍活动未开启
 20009,,20009,20001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,5,,2,关卡双倍,关卡双倍,活动期间，30级以上的玩家挑战普通关卡掉落翻倍！,icon_X2,ZT_diaoluoX2,,"1月1日5:00
