@@ -26,6 +26,7 @@ import com.playerdata.embattle.EmBattlePositionKey;
 import com.playerdata.embattle.EmbattleHeroPosition;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositionInfo;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.PlayerIF;
@@ -155,7 +156,7 @@ public class AngelArrayMatchHelper {
 						hasTeam = !heroModelIdList.isEmpty();
 
 						// 获取到帮派等信息
-						UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+						UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(ranResult);
 						groupName = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupName();
 						headId = readOnlyPlayer.getHeadImage();
 						playerName = readOnlyPlayer.getUserName();

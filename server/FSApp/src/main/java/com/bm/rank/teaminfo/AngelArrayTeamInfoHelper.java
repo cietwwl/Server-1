@@ -34,6 +34,7 @@ import com.playerdata.fightinggrowth.calc.param.FixEquipFightingParam;
 import com.playerdata.fightinggrowth.calc.param.HeroBaseFightingParam;
 import com.playerdata.fightinggrowth.calc.param.HeroBaseFightingParam.Builder;
 import com.playerdata.fixEquip.FixEquipHelper;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.hero.core.FSHero;
 import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.hero.core.RoleBaseInfo;
@@ -553,7 +554,7 @@ public class AngelArrayTeamInfoHelper {
 	 * @param teamInfo
 	 */
 	private static void changeGroupInfo(PlayerIF p, TeamInfo teamInfo) {
-		UserGroupAttributeDataIF userGroupAttributeData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(p.getUserId());
 		if (userGroupAttributeData != null) {
 			teamInfo.setGroupName(userGroupAttributeData.getGroupName());
 			// 帮派技能

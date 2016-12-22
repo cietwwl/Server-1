@@ -8,6 +8,7 @@ import com.bm.player.ObserverFactory;
 import com.bm.player.ObserverFactory.ObserverType;
 import com.log.GameLog;
 import com.log.LogModule;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
 import com.rw.service.dailyActivity.Enum.DailyActivityType;
@@ -908,7 +909,7 @@ public class UserGameDataMgr {
 			old = this.getTowerCoin();
 			break;
 		case GuildCoin:
-			old = player.getUserGroupAttributeDataMgr().getUserGroupContribution();
+			old = UserGroupAttributeDataMgr.getMgr().getUserGroupContribution(player.getUserId());
 			break;
 		case PeakArenaCoin:
 			old = this.getPeakArenaCoin();
@@ -968,8 +969,8 @@ public class UserGameDataMgr {
 		list.add(id);
 		userGameDataHolder.update(player);
 	}
-	
-	public void addRBWithoutIncrease(String id){
+
+	public void addRBWithoutIncrease(String id) {
 		UserGameData data = userGameDataHolder.get();
 		List<String> list = data.getRandomBossIds();
 		list.add(id);

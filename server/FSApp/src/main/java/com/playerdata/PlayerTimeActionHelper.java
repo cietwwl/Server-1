@@ -7,6 +7,7 @@ import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
 import com.playerdata.activity.timeCardType.ActivityTimeCardTypeMgr;
 import com.playerdata.activityCommon.ActivityMgrHelper;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
 import com.playerdata.mgcsecret.manager.MagicSecretMgr;
 import com.playerdata.teambattle.manager.UserTeamBattleDataMgr;
@@ -203,9 +204,9 @@ public class PlayerTimeActionHelper {
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 			@Override
 			public void doTask() {
-				//个人帮派副本数据重置
+				// 个人帮派副本数据重置
 				player.getUserGroupCopyRecordMgr().resetDataInNewDay();
-				player.getUserGroupAttributeDataMgr().resetAllotGroupRewardCount();
+				UserGroupAttributeDataMgr.getMgr().resetAllotGroupRewardCount(player.getUserId());
 				TargetSellManager.getInstance().checkBenefitScoreAndSynData(player);
 			}
 		});
@@ -237,7 +238,7 @@ public class PlayerTimeActionHelper {
 				MagicSecretMgr.getInstance().resetDailyMSInfo(player);
 			}
 		});
-		
+
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 
 			@Override
@@ -245,16 +246,16 @@ public class PlayerTimeActionHelper {
 				UserTeamBattleDataMgr.getInstance().dailyReset(player);
 			}
 		});
-		
+
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 
 			@Override
 			public void doTask() {
-				//ActivityDailyRechargeTypeMgr.getInstance().dailyRefreshNewDaySubActivity(player);
+				// ActivityDailyRechargeTypeMgr.getInstance().dailyRefreshNewDaySubActivity(player);
 				ActivityMgrHelper.getInstance().dailyRefreshNewDaySubActivity(player);
 			}
 		});
-		
+
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
 
 			@Override
@@ -262,7 +263,6 @@ public class PlayerTimeActionHelper {
 				ActivityCountTypeMgr.getInstance().checkActivity(player);
 			}
 		});
-		
 
 		return onNewDay5ClockTimeAction;
 	}

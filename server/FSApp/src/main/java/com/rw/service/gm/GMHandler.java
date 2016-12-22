@@ -1407,22 +1407,15 @@ public class GMHandler {
 			tableBattleTower.setResetTimes(0);
 			TableBattleTowerDao.getDao().update(tableBattleTower);
 		} else if (functionName.equalsIgnoreCase("dt")) {
-			UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
-			UserGroupAttributeData userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+			UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+			String userId = player.getUserId();
+			UserGroupAttributeData userGroupAttributeData = userGroupAttributeDataMgr.getUserGroupAttributeData(userId);
 			String groupId = userGroupAttributeData.getGroupId();
 			if (StringUtils.isEmpty(groupId)) {
 				return false;
 			}
 
-			userGroupAttributeDataMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
-
-			// Group group = GroupBM.get(groupId);
-			// if (group == null) {
-			// return false;
-			// }
-			//
-			// GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-			// groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+			userGroupAttributeDataMgr.resetMemberDataDonateTimes(userId, System.currentTimeMillis());
 		} else if (functionName.equalsIgnoreCase("wxf")) {
 			resetWxFighting(player);
 		}
@@ -1439,8 +1432,9 @@ public class GMHandler {
 			return false;
 		}
 
-		UserGroupAttributeDataMgr userGroupAttributeDataMgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+		String userId = player.getUserId();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData(userId);
 
 		String functionName = arrCommandContents[0];
 		if (functionName.equalsIgnoreCase("cet")) {// 清除发送邮件冷却时间
@@ -1467,7 +1461,6 @@ public class GMHandler {
 			return false;
 		}
 
-		String userId = player.getUserId();
 		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(userId, false);
 		if (memberData == null) {
@@ -2415,8 +2408,9 @@ public class GMHandler {
 		Group group = GroupBM.get(GroupHelper.getGroupId(player));
 		if (group != null) {
 			int contribute = Integer.parseInt(arrCommandContents[0]);
-			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-			group.getGroupMemberMgr().updateMemberDataWhenDonate(player.getUserId(), baseData.getDonateTimes() + 1, System.currentTimeMillis(), contribute, true);
+			String userId = player.getUserId();
+			UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
+			group.getGroupMemberMgr().updateMemberDataWhenDonate(userId, baseData.getDonateTimes() + 1, System.currentTimeMillis(), contribute, true);
 		}
 		return true;
 	}

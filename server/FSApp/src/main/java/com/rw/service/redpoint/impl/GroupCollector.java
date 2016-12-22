@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupMemberMgr;
 import com.playerdata.Player;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.redpoint.RedPointType;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.cfg.GroupSkillLevelTemplate;
@@ -31,7 +32,8 @@ public class GroupCollector implements RedPointCollector {
 
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		String userId = player.getUserId();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		if (userGroupAttributeData == null) {
 			return;
 		}
@@ -52,7 +54,7 @@ public class GroupCollector implements RedPointCollector {
 		}
 
 		GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
-		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(player.getUserId(), false);
+		GroupMemberDataIF memberData = groupMemberMgr.getMemberData(userId, false);
 		if (memberData == null) {
 			return;
 		}

@@ -56,7 +56,7 @@ public class GroupSkillHandler {
 		commonRsp.setReqType(RequestType.RESEARCH_GROUP_SKILL_TYPE);
 
 		// 检查角色有没有帮派
-		UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF baseData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "您当前还没有帮派");
@@ -142,8 +142,8 @@ public class GroupSkillHandler {
 		commonRsp.setReqType(RequestType.STUDY_GROUP_SKILL_TYPE);
 
 		// 检查角色有没有帮派技能
-		UserGroupAttributeDataMgr userGroupDataMgr = player.getUserGroupAttributeDataMgr();
-		UserGroupAttributeDataIF baseData = userGroupDataMgr.getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupDataMgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeDataIF baseData = userGroupDataMgr.getUserGroupAttributeData(userId);
 		String groupId = baseData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "您当前还没有帮派");

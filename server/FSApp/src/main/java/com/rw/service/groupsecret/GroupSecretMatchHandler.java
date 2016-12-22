@@ -28,6 +28,7 @@ import com.playerdata.army.ArmyInfoHelper;
 import com.playerdata.army.CurAttrData;
 import com.playerdata.embattle.EmbattleInfoMgr;
 import com.playerdata.embattle.EmbattlePositonHelper;
+import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupsecret.GroupSecretMatchEnemyDataMgr;
 import com.playerdata.groupsecret.GroupSecretTeamDataMgr;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
@@ -106,7 +107,7 @@ public class GroupSecretMatchHandler {
 		}
 
 		// 检查个人的帮派数据
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (StringUtils.isEmpty(groupId)) {
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -600,7 +601,7 @@ public class GroupSecretMatchHandler {
 		// 后续要通知所有的相关秘境被掠夺的资源数量
 		if (isBeat) {// 打败了
 			String groupName = "";
-			UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+			UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 			Group group = GroupBM.get(userGroupAttributeData.getGroupId());
 			if (group != null) {
 				GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
@@ -617,7 +618,7 @@ public class GroupSecretMatchHandler {
 		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_BATTLE, 1);
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_SCAN, 1);
-		
+
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
@@ -659,7 +660,7 @@ public class GroupSecretMatchHandler {
 		int robRes = matchEnemyData.getAllRobResValue();
 		// 增加帮派经验物资
 		boolean hasGroupAdd = false;
-		UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
+		UserGroupAttributeDataIF userGroupAttributeData = UserGroupAttributeDataMgr.getMgr().getUserGroupAttributeData(userId);
 		String groupId = userGroupAttributeData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
 			if (groupId.equals(matchEnemyData.getGroupId())) {// 当前领取这一刻的帮派Id跟我匹配到这个秘境时的帮派Id是不是一个

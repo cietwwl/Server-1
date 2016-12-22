@@ -383,8 +383,8 @@ public class GroupMemberMgr {
 		}
 
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
-		UserGroupAttributeDataMgr userGroupAttributeDataMgr = memberPlayer.getUserGroupAttributeDataMgr();
-		UserGroupAttributeData userGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeData userGroupData = userGroupAttributeDataMgr.getUserGroupAttributeData(userId);
 		if (userGroupData == null) {
 			return;
 		}
@@ -563,7 +563,7 @@ public class GroupMemberMgr {
 		}
 
 		Player memberPlayer = PlayerMgr.getInstance().find(userId);
-		UserGroupAttributeDataMgr userGroupAttributeDataMgr = memberPlayer.getUserGroupAttributeDataMgr();
+		UserGroupAttributeDataMgr userGroupAttributeDataMgr = UserGroupAttributeDataMgr.getMgr();
 
 		int finalContribution = item.getContribution() + contribution;
 		item.setContribution(finalContribution);
