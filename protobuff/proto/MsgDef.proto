@@ -161,6 +161,7 @@ enum Command {
 	MSG_ACTIVITY_TIMECARD_TYPE = 600;//活动；月卡;不是活动的协议不要往下接啊；往上接
 	MSG_ACTIVITY_EVILBAO = 601; //申公豹驾到
 	MSG_ACTIVITY_CHARGE_RANK = 602; //充值和消费排行榜
+	MSG_ACTIVITY_COMMON_TYPE = 603;	//通用活动协议
 	
 	MSG_ACTIVITY_TIME = 994;//登陆服游戏服活动数据传输
 	MSG_FEEDBACK = 995;//客服功能
