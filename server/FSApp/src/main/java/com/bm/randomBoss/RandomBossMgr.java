@@ -137,7 +137,7 @@ public class RandomBossMgr {
 		}
 		
 		//TODO 在这里进行排序一下 ,客户端的排序逻辑也要改一下
-		Collections.sort(synList, new RandomBossComparator(player.getUserId()));
+		//Collections.sort(synList, new RandomBossComparator(player.getUserId()));
 		ClientDataSynMgr.synDataList(player, synList, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_LIST);
 		return true;
 	}
