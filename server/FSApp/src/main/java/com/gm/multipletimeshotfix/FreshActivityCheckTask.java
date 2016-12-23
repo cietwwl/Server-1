@@ -8,6 +8,8 @@ import java.util.concurrent.RejectedExecutionException;
 import com.playerdata.FresherActivityMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rwbase.common.enu.eActivityType;
@@ -138,6 +140,9 @@ public class FreshActivityCheckTask implements IGameTimerTask, Callable<Void> {
 
 	@Override
 	public Void call() throws Exception {
+		if (!GameManager.getServerId().trim().equals("9001")) {
+			return null;
+		}
 		if (!hasInit) {
 			hasInit = true;
 			FSGameTimerMgr.getInstance().submitSecondTask(this, 5);
