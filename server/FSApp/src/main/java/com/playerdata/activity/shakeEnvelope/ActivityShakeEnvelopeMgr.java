@@ -73,7 +73,8 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 				}
 				if(!subItem.isGet()){
 					haveReward = true;
-					getEnvelopeReward(player, cfg);
+					response.setEnvelopeResult(getEnvelopeReward(player, cfg));
+					response.setResult(ResultType.SUCCESS);
 					subItem.setGet(true);
 					break;
 				}
@@ -93,9 +94,8 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 	 * @param player
 	 * @param cfg
 	 */
-	private List<CommonItem> getEnvelopeReward(Player player, ActivityShakeEnvelopeCfg cfg){
+	private ResultForEnvelope.Builder getEnvelopeReward(Player player, ActivityShakeEnvelopeCfg cfg){
 		ResultForEnvelope.Builder envelopeBuilder = ResultForEnvelope.newBuilder();
-		List<CommonItem> resultItems = new ArrayList<CommonItem>();
 		List<ItemInfo> dropItems = generateDropItem(player, cfg.getDropStr());
 		try{
 			ItemBagMgr.getInstance().addItem(player, dropItems);
@@ -103,12 +103,12 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 				CommonItem.Builder comItemBuilder = CommonItem.newBuilder();
 				comItemBuilder.setItemId(String.valueOf(dropItems.get(i).getItemID()));
 				comItemBuilder.setCount(dropItems.get(i).getItemNum());
-				resultItems.add(comItemBuilder.build());
+				envelopeBuilder.addReward(comItemBuilder);
 			}
 		}catch(Exception ex){
 			GameLog.error(LogModule.ActivityShakeEnvelope.getName(), player.getUserId(), String.format("getEnvelopeReward, 添加物品：[%s]时出现异常", dropItems), ex);
 		}
-		return resultItems;
+		return envelopeBuilder;
 	}
 	
 	/**
@@ -118,7 +118,7 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 	 * @param dropStr
 	 * @return
 	 */
-	public static List<ItemInfo> generateDropItem(Player player, String dropStr) {
+	private static List<ItemInfo> generateDropItem(Player player, String dropStr) {
 		List<Integer> dropList = new ArrayList<Integer>();
 		for (String str : dropStr.split(",")) {
 			try {

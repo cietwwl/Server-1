@@ -2741,31 +2741,50 @@ public final class ActivityCommonTypeProto {
   public interface ResultForEnvelopeOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
-    // optional .activityCommonType.CommonItem reward = 1;
+    // repeated .activityCommonType.CommonItem reward = 1;
     /**
-     * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
      *
      * <pre>
      *获得的奖励
      * </pre>
      */
-    boolean hasReward();
+    java.util.List<com.rwproto.ActivityCommonTypeProto.CommonItem> 
+        getRewardList();
     /**
-     * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
      *
      * <pre>
      *获得的奖励
      * </pre>
      */
-    com.rwproto.ActivityCommonTypeProto.CommonItem getReward();
+    com.rwproto.ActivityCommonTypeProto.CommonItem getReward(int index);
     /**
-     * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
      *
      * <pre>
      *获得的奖励
      * </pre>
      */
-    com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder getRewardOrBuilder();
+    int getRewardCount();
+    /**
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+     *
+     * <pre>
+     *获得的奖励
+     * </pre>
+     */
+    java.util.List<? extends com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder> 
+        getRewardOrBuilderList();
+    /**
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+     *
+     * <pre>
+     *获得的奖励
+     * </pre>
+     */
+    com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder getRewardOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code activityCommonType.ResultForEnvelope}
@@ -2819,16 +2838,11 @@ public final class ActivityCommonTypeProto {
               break;
             }
             case 10: {
-              com.rwproto.ActivityCommonTypeProto.CommonItem.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = reward_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                reward_ = new java.util.ArrayList<com.rwproto.ActivityCommonTypeProto.CommonItem>();
+                mutable_bitField0_ |= 0x00000001;
               }
-              reward_ = input.readMessage(com.rwproto.ActivityCommonTypeProto.CommonItem.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(reward_);
-                reward_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
+              reward_.add(input.readMessage(com.rwproto.ActivityCommonTypeProto.CommonItem.PARSER, extensionRegistry));
               break;
             }
           }
@@ -2839,6 +2853,9 @@ public final class ActivityCommonTypeProto {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          reward_ = java.util.Collections.unmodifiableList(reward_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -2870,51 +2887,72 @@ public final class ActivityCommonTypeProto {
       return PARSER;
     }
 
-    private int bitField0_;
-    // optional .activityCommonType.CommonItem reward = 1;
+    // repeated .activityCommonType.CommonItem reward = 1;
     public static final int REWARD_FIELD_NUMBER = 1;
-    private com.rwproto.ActivityCommonTypeProto.CommonItem reward_;
+    private java.util.List<com.rwproto.ActivityCommonTypeProto.CommonItem> reward_;
     /**
-     * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
      *
      * <pre>
      *获得的奖励
      * </pre>
      */
-    public boolean hasReward() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>optional .activityCommonType.CommonItem reward = 1;</code>
-     *
-     * <pre>
-     *获得的奖励
-     * </pre>
-     */
-    public com.rwproto.ActivityCommonTypeProto.CommonItem getReward() {
+    public java.util.List<com.rwproto.ActivityCommonTypeProto.CommonItem> getRewardList() {
       return reward_;
     }
     /**
-     * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
      *
      * <pre>
      *获得的奖励
      * </pre>
      */
-    public com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder getRewardOrBuilder() {
+    public java.util.List<? extends com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder> 
+        getRewardOrBuilderList() {
       return reward_;
+    }
+    /**
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+     *
+     * <pre>
+     *获得的奖励
+     * </pre>
+     */
+    public int getRewardCount() {
+      return reward_.size();
+    }
+    /**
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+     *
+     * <pre>
+     *获得的奖励
+     * </pre>
+     */
+    public com.rwproto.ActivityCommonTypeProto.CommonItem getReward(int index) {
+      return reward_.get(index);
+    }
+    /**
+     * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+     *
+     * <pre>
+     *获得的奖励
+     * </pre>
+     */
+    public com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder getRewardOrBuilder(
+        int index) {
+      return reward_.get(index);
     }
 
     private void initFields() {
-      reward_ = com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance();
+      reward_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
 
-      if (hasReward()) {
-        if (!getReward().isInitialized()) {
+      for (int i = 0; i < getRewardCount(); i++) {
+        if (!getReward(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -2926,8 +2964,8 @@ public final class ActivityCommonTypeProto {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, reward_);
+      for (int i = 0; i < reward_.size(); i++) {
+        output.writeMessage(1, reward_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -2938,9 +2976,9 @@ public final class ActivityCommonTypeProto {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      for (int i = 0; i < reward_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, reward_);
+          .computeMessageSize(1, reward_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3060,11 +3098,11 @@ public final class ActivityCommonTypeProto {
       public Builder clear() {
         super.clear();
         if (rewardBuilder_ == null) {
-          reward_ = com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance();
+          reward_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           rewardBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
 
@@ -3092,16 +3130,15 @@ public final class ActivityCommonTypeProto {
       public com.rwproto.ActivityCommonTypeProto.ResultForEnvelope buildPartial() {
         com.rwproto.ActivityCommonTypeProto.ResultForEnvelope result = new com.rwproto.ActivityCommonTypeProto.ResultForEnvelope(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
         if (rewardBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            reward_ = java.util.Collections.unmodifiableList(reward_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
           result.reward_ = reward_;
         } else {
           result.reward_ = rewardBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -3117,16 +3154,39 @@ public final class ActivityCommonTypeProto {
 
       public Builder mergeFrom(com.rwproto.ActivityCommonTypeProto.ResultForEnvelope other) {
         if (other == com.rwproto.ActivityCommonTypeProto.ResultForEnvelope.getDefaultInstance()) return this;
-        if (other.hasReward()) {
-          mergeReward(other.getReward());
+        if (rewardBuilder_ == null) {
+          if (!other.reward_.isEmpty()) {
+            if (reward_.isEmpty()) {
+              reward_ = other.reward_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRewardIsMutable();
+              reward_.addAll(other.reward_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.reward_.isEmpty()) {
+            if (rewardBuilder_.isEmpty()) {
+              rewardBuilder_.dispose();
+              rewardBuilder_ = null;
+              reward_ = other.reward_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              rewardBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRewardFieldBuilder() : null;
+            } else {
+              rewardBuilder_.addAllMessages(other.reward_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
-        if (hasReward()) {
-          if (!getReward().isInitialized()) {
+        for (int i = 0; i < getRewardCount(); i++) {
+          if (!getReward(i).isInitialized()) {
             
             return false;
           }
@@ -3153,97 +3213,197 @@ public final class ActivityCommonTypeProto {
       }
       private int bitField0_;
 
-      // optional .activityCommonType.CommonItem reward = 1;
-      private com.rwproto.ActivityCommonTypeProto.CommonItem reward_ = com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
+      // repeated .activityCommonType.CommonItem reward = 1;
+      private java.util.List<com.rwproto.ActivityCommonTypeProto.CommonItem> reward_ =
+        java.util.Collections.emptyList();
+      private void ensureRewardIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          reward_ = new java.util.ArrayList<com.rwproto.ActivityCommonTypeProto.CommonItem>(reward_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
           com.rwproto.ActivityCommonTypeProto.CommonItem, com.rwproto.ActivityCommonTypeProto.CommonItem.Builder, com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder> rewardBuilder_;
+
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
-      public boolean hasReward() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
-       *
-       * <pre>
-       *获得的奖励
-       * </pre>
-       */
-      public com.rwproto.ActivityCommonTypeProto.CommonItem getReward() {
+      public java.util.List<com.rwproto.ActivityCommonTypeProto.CommonItem> getRewardList() {
         if (rewardBuilder_ == null) {
-          return reward_;
+          return java.util.Collections.unmodifiableList(reward_);
         } else {
-          return rewardBuilder_.getMessage();
+          return rewardBuilder_.getMessageList();
         }
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
-      public Builder setReward(com.rwproto.ActivityCommonTypeProto.CommonItem value) {
+      public int getRewardCount() {
         if (rewardBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          reward_ = value;
-          onChanged();
+          return reward_.size();
         } else {
-          rewardBuilder_.setMessage(value);
+          return rewardBuilder_.getCount();
         }
-        bitField0_ |= 0x00000001;
-        return this;
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public com.rwproto.ActivityCommonTypeProto.CommonItem getReward(int index) {
+        if (rewardBuilder_ == null) {
+          return reward_.get(index);
+        } else {
+          return rewardBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
       public Builder setReward(
-          com.rwproto.ActivityCommonTypeProto.CommonItem.Builder builderForValue) {
+          int index, com.rwproto.ActivityCommonTypeProto.CommonItem value) {
         if (rewardBuilder_ == null) {
-          reward_ = builderForValue.build();
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardIsMutable();
+          reward_.set(index, value);
           onChanged();
         } else {
-          rewardBuilder_.setMessage(builderForValue.build());
+          rewardBuilder_.setMessage(index, value);
         }
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
-      public Builder mergeReward(com.rwproto.ActivityCommonTypeProto.CommonItem value) {
+      public Builder setReward(
+          int index, com.rwproto.ActivityCommonTypeProto.CommonItem.Builder builderForValue) {
         if (rewardBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              reward_ != com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance()) {
-            reward_ =
-              com.rwproto.ActivityCommonTypeProto.CommonItem.newBuilder(reward_).mergeFrom(value).buildPartial();
-          } else {
-            reward_ = value;
-          }
+          ensureRewardIsMutable();
+          reward_.set(index, builderForValue.build());
           onChanged();
         } else {
-          rewardBuilder_.mergeFrom(value);
+          rewardBuilder_.setMessage(index, builderForValue.build());
         }
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public Builder addReward(com.rwproto.ActivityCommonTypeProto.CommonItem value) {
+        if (rewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardIsMutable();
+          reward_.add(value);
+          onChanged();
+        } else {
+          rewardBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public Builder addReward(
+          int index, com.rwproto.ActivityCommonTypeProto.CommonItem value) {
+        if (rewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRewardIsMutable();
+          reward_.add(index, value);
+          onChanged();
+        } else {
+          rewardBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public Builder addReward(
+          com.rwproto.ActivityCommonTypeProto.CommonItem.Builder builderForValue) {
+        if (rewardBuilder_ == null) {
+          ensureRewardIsMutable();
+          reward_.add(builderForValue.build());
+          onChanged();
+        } else {
+          rewardBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public Builder addReward(
+          int index, com.rwproto.ActivityCommonTypeProto.CommonItem.Builder builderForValue) {
+        if (rewardBuilder_ == null) {
+          ensureRewardIsMutable();
+          reward_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          rewardBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public Builder addAllReward(
+          java.lang.Iterable<? extends com.rwproto.ActivityCommonTypeProto.CommonItem> values) {
+        if (rewardBuilder_ == null) {
+          ensureRewardIsMutable();
+          super.addAll(values, reward_);
+          onChanged();
+        } else {
+          rewardBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
@@ -3251,54 +3411,113 @@ public final class ActivityCommonTypeProto {
        */
       public Builder clearReward() {
         if (rewardBuilder_ == null) {
-          reward_ = com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance();
+          reward_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           rewardBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
-      public com.rwproto.ActivityCommonTypeProto.CommonItem.Builder getRewardBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getRewardFieldBuilder().getBuilder();
+      public Builder removeReward(int index) {
+        if (rewardBuilder_ == null) {
+          ensureRewardIsMutable();
+          reward_.remove(index);
+          onChanged();
+        } else {
+          rewardBuilder_.remove(index);
+        }
+        return this;
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
-      public com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder getRewardOrBuilder() {
-        if (rewardBuilder_ != null) {
-          return rewardBuilder_.getMessageOrBuilder();
-        } else {
-          return reward_;
+      public com.rwproto.ActivityCommonTypeProto.CommonItem.Builder getRewardBuilder(
+          int index) {
+        return getRewardFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder getRewardOrBuilder(
+          int index) {
+        if (rewardBuilder_ == null) {
+          return reward_.get(index);  } else {
+          return rewardBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>optional .activityCommonType.CommonItem reward = 1;</code>
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
        *
        * <pre>
        *获得的奖励
        * </pre>
        */
-      private com.google.protobuf.SingleFieldBuilder<
+      public java.util.List<? extends com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder> 
+           getRewardOrBuilderList() {
+        if (rewardBuilder_ != null) {
+          return rewardBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(reward_);
+        }
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public com.rwproto.ActivityCommonTypeProto.CommonItem.Builder addRewardBuilder() {
+        return getRewardFieldBuilder().addBuilder(
+            com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public com.rwproto.ActivityCommonTypeProto.CommonItem.Builder addRewardBuilder(
+          int index) {
+        return getRewardFieldBuilder().addBuilder(
+            index, com.rwproto.ActivityCommonTypeProto.CommonItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .activityCommonType.CommonItem reward = 1;</code>
+       *
+       * <pre>
+       *获得的奖励
+       * </pre>
+       */
+      public java.util.List<com.rwproto.ActivityCommonTypeProto.CommonItem.Builder> 
+           getRewardBuilderList() {
+        return getRewardFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
           com.rwproto.ActivityCommonTypeProto.CommonItem, com.rwproto.ActivityCommonTypeProto.CommonItem.Builder, com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder> 
           getRewardFieldBuilder() {
         if (rewardBuilder_ == null) {
-          rewardBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          rewardBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.rwproto.ActivityCommonTypeProto.CommonItem, com.rwproto.ActivityCommonTypeProto.CommonItem.Builder, com.rwproto.ActivityCommonTypeProto.CommonItemOrBuilder>(
                   reward_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
                   isClean());
           reward_ = null;
@@ -4002,7 +4221,7 @@ public final class ActivityCommonTypeProto {
       "\t\022=\n\016envelopeResult\030\004 \001(\0132%.activityComm" +
       "onType.ResultForEnvelope\"3\n\020ParamForEnve",
       "lope\022\r\n\005cfgId\030\001 \002(\t\022\020\n\010rewardId\030\002 \001(\t\"C\n" +
-      "\021ResultForEnvelope\022.\n\006reward\030\001 \001(\0132\036.act" +
+      "\021ResultForEnvelope\022.\n\006reward\030\001 \003(\0132\036.act" +
       "ivityCommonType.CommonItem\"+\n\nCommonItem" +
       "\022\016\n\006itemId\030\001 \002(\t\022\r\n\005count\030\002 \001(\005* \n\013Reque" +
       "stType\022\021\n\rShakeEnvelope\020\001*p\n\nResultType\022" +

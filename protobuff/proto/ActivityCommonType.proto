@@ -35,7 +35,7 @@ message ParamForEnvelope{
 }
 
 message ResultForEnvelope{
-	optional CommonItem reward = 1;	//获得的奖励
+	repeated CommonItem reward = 1;	//获得的奖励
 }
 
 message CommonItem{
