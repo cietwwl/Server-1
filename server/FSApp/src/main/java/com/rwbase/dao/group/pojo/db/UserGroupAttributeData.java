@@ -54,6 +54,9 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	@CombineSave
 	@IgnoreSynField
 	private long lastPrayTime;// 上次祈福的时间
+	@CombineSave
+	@IgnoreSynField
+	private int state;// 当前状态，0：未领取到，1：完成并领了奖励了
 
 	// ---------------------------------------内存缓存
 	@NonSave
