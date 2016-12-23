@@ -1,6 +1,7 @@
 package com.playerdata.activity.shakeEnvelope;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.log.GameLog;
@@ -168,7 +169,8 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 				}
 			});
 		}
-		return redPointList;
+		//return redPointList;
+		return Collections.emptyList();
 	}
 	
 	protected UserActivityChecker<ActivityShakeEnvelopeItem> getHolder(){

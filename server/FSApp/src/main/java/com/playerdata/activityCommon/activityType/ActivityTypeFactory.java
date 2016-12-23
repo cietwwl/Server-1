@@ -68,12 +68,12 @@ import com.playerdata.activityCommon.activityType.exception.RepeatedActivityType
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class ActivityTypeFactory {
 	
-	public static final ActivityType DailyRecharge;
-	public static final ActivityType GrowthFund;
-	public static final ActivityType CountType;
-	public static final ActivityType EvilBaoArrive;
-	public static final ActivityType ChargeRank;
-	public static final ActivityType ConsumeRank;
+	public static final ActivityType DailyRecharge;	//每日充值
+	public static final ActivityType GrowthFund;	//成长基金
+	public static final ActivityType CountType;		//登录活动等基础活动
+	public static final ActivityType EvilBaoArrive;	//申公豹驾到
+	public static final ActivityType ChargeRank;	//充值排行榜
+	public static final ActivityType ConsumeRank;	//消费排行榜
 	public static final ActivityType ActRankType;	//竞技之王
 	public static final ActivityType DailyDiscount;	//折扣活动
 	public static final ActivityType FortuneCat;	//招财猫

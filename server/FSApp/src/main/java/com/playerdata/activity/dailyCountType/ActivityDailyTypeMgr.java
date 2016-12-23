@@ -18,6 +18,11 @@ import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
 
+/**
+ * 每日福利
+ * @author aken
+ *
+ */
 public class ActivityDailyTypeMgr extends AbstractActivityMgr<ActivityDailyTypeItem>{
 
 	private static final int ACTIVITY_INDEX_BEGIN = 10000;

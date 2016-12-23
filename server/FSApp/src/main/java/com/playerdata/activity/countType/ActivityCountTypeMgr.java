@@ -24,6 +24,11 @@ import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.activityCommon.UserActivityChecker;
 
+/**
+ * //登录活动等基础活动
+ * @author aken
+ *
+ */
 public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeItem> {
 	
 	private static final int ACTIVITY_INDEX_BEGIN = 0;
