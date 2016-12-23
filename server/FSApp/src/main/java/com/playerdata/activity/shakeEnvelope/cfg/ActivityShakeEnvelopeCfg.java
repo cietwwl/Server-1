@@ -1,9 +1,14 @@
 package com.playerdata.activity.shakeEnvelope.cfg;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import com.playerdata.activityCommon.ActivityTimeHelper;
 import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
 import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
+import com.rw.fsutil.util.DateUtils;
 
 public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTimeIF, ActivityRangeTimeIF{
 	
@@ -27,7 +32,7 @@ public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTi
 	
 	private long startTime;	//活动的开启时间
 	private long endTime;	//活动的结束时间
-	private long firstAfterStart;	//开始之后第一次启动的时间
+	private List<TimeSectionPair> sections = new ArrayList<TimeSectionPair>();
 
 	public int getEnumId() {
 		return enumId;
@@ -65,13 +70,13 @@ public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTi
 		return dropStr;
 	}
 
-	public long getFirstAfterStart() {
-		return firstAfterStart;
+	public List<TimeSectionPair> getSections() {
+		return sections;
 	}
 
 	@Override
 	public boolean isDailyRefresh() {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -86,6 +91,7 @@ public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTi
 		endTime = timePair.getEndMil();
 		startTimeStr = timePair.getStartTime();
 		endTimeStr = timePair.getEndTime();
+		reAnalyzeRangeTime();
  	}
 	
 	@Override
@@ -158,6 +164,40 @@ public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTi
 	@Override
 	public void setRangeTime(String rangeTime) {
 		timeStr = rangeTime;
+		reAnalyzeRangeTime();
+	}
+	
+	public void reAnalyzeRangeTime(){
+		Calendar cal = DateUtils.getCurrent();
+		List<TimeSectionPair> newSections = new ArrayList<TimeSectionPair>();
+		String[] sectionStrs = timeStr.split(",");
+		int interTime = interval * 60 * 1000;
+		int duraTime = duration * 60 * 1000;
+		for(String sectionStr : sectionStrs){
+			String[] startAndEndStr = sectionStr.split(":");
+			if(startAndEndStr.length == 2){
+				String startSt = startAndEndStr[0];
+				cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(startSt.substring(0, 2)));
+				cal.set(Calendar.MINUTE, Integer.valueOf(startSt.substring(2, 4)));
+				cal.set(Calendar.SECOND, Integer.valueOf(startSt.substring(4, 6)));
+				cal.set(Calendar.MILLISECOND, 0);
+				long startTime = cal.getTimeInMillis();
+				String endSt = startAndEndStr[1];
+				cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(endSt.substring(0, 2)));
+				cal.set(Calendar.MINUTE, Integer.valueOf(endSt.substring(2, 4)));
+				cal.set(Calendar.SECOND, Integer.valueOf(endSt.substring(4, 6)));
+				cal.set(Calendar.MILLISECOND, 0);
+				long endTime = cal.getTimeInMillis();
+				while(startTime < endTime){
+					TimeSectionPair section = new TimeSectionPair();
+					section.setStartTime(startTime);
+					section.setEndTime(startTime + duraTime);
+					newSections.add(section);
+					startTime += interTime;
+				}
+			}
+		}
+		sections = newSections;
 	}
 
 	@Override

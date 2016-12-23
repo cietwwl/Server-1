@@ -89,6 +89,7 @@
 			     <entry key="MSG_ACTIVITY_RETRIEVE" value-ref="activityRetrieveTypeService" />
 			     <entry key="MSG_ACTIVITY_EVILBAO" value-ref="activityEvilBaoArriveService" />
 			     <entry key="MSG_ACTIVITY_CHARGE_RANK" value-ref="activityChargeRankService" />
+			     <entry key="MSG_ACTIVITY_COMMON_TYPE" value-ref="activityCommonTypeService" />
 			     
 			     
 			     <entry key="MSG_CHARGE" value-ref="chargeService" />
@@ -207,6 +208,7 @@
 	<bean id="activityFortuneCatTypeService" class="com.playerdata.activity.fortuneCatType.service.ActivityFortuneCatTypeService"  />
 	<bean id="activityVitalityTypeService" class="com.playerdata.activity.VitalityType.service.ActivityVitalityTypeService"  />
 	<bean id="activityChargeRankService" class="com.playerdata.activity.chargeRank.service.ActivityChargeRankService"  />
+	<bean id="activityCommonTypeService" class="com.playerdata.activity.shakeEnvelope.service.ActivityService" />
 	
 	<bean id="chargeService" class="com.playerdata.charge.service.ChargeService"  />
 	<bean id="taoistService" class="com.rw.service.TaoistMagic.TaoistService"  />

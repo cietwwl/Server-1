@@ -217,6 +217,8 @@
 	<bean class="com.playerdata.activity.retrieve.cfg.NormalRewardsCfgDAO"  init-method="init" />
 	<bean class="com.playerdata.activity.retrieve.cfg.PerfectRewardsCfgDAO"  init-method="init" />
 	
+	<bean class="com.playerdata.activity.shakeEnvelope.cfg.ActivityShakeEnvelopeCfgDAO"  init-method="init" />
+	
 	<bean class="com.rwbase.dao.upgrade.VersionUpdateCfgDao"  init-method="init" />
 	
 	<!-- 羁绊 -->

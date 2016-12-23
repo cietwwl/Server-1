@@ -1,0 +1,10 @@
+Key,Remarks,id,enumId,bg,icon,icon2,enevlopePic,effect,sort,goToType,title,bgTitle,titleBG,rewardBG,iconZt,timeDesc,desc,adStartTimeStr,adEndTimeStr,startTimeStr,endTimeStr,timeStr,duration,interval,vipLimit,levelLimit,dropStr,version
+190001,,190001,190001,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,ect_xianshi,ect_xianshi,3,,摇一摇红包,摇一摇红包,活动期间，每隔一段时间就有红包掉落哦！,其中一个灯笼隐藏着双倍奖励哦！,icon_X2,"12月24日5:00
+    至
+12月26日5:00",定时红包掉落,201612200500,10,3,3,000000:235959,10,60,,10,10001,1
+190002,,190002,190002,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,ect_xianshi,ect_xianshi,3,,摇一摇红包,摇一摇红包,活动期间，每隔一段时间就有红包掉落哦！,其中一个灯笼隐藏着双倍奖励哦！,icon_X2,"12月24日5:00
+    至
+12月26日5:00",定时红包掉落,201612200500,201612260500,201612240500,201612260500,000000:235959,10,60,,20,10002,1
+190003,,190003,190003,SmallTex/Activity/ActivityTitleText,huodong_001,ect_xianshi,ect_xianshi,ect_xianshi,3,,摇一摇红包,摇一摇红包,活动期间，每隔一段时间就有红包掉落哦！,其中一个灯笼隐藏着双倍奖励哦！,icon_X2,"12月24日5:00
+    至
+12月26日5:00",定时红包掉落,201612200500,201612260500,201612240500,201612260500,000000:235959,10,60,,30,10003,1

@@ -1,6 +1,6 @@
 package com.playerdata.activity.shakeEnvelope.data;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Id;
@@ -8,13 +8,13 @@ import javax.persistence.Id;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
+import com.playerdata.dataSyn.annotation.IgnoreSynField;
 import com.playerdata.dataSyn.annotation.SynClass;
 import com.rw.fsutil.dao.annotation.CombineSave;
 
-
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
+public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<ActivityShakeEnvelopeSubItem> {
 
 	@Id
 	private Integer id;
@@ -28,13 +28,13 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 	private int version;	//cfg的版本号
 	
 	@CombineSave
-	private int count;	//可以领取的红包数量
-	
-	@CombineSave
-	private long currentOverTime;	//当前可领取红包的失效时间
-	
-	@CombineSave
 	private boolean hasViewed;	//是否已经查看过该活动
+	
+	@CombineSave
+	private boolean hasReward;	//当前是否有可以领取的红包
+	
+	@IgnoreSynField
+	private List<ActivityShakeEnvelopeSubItem> subItems = new ArrayList<ActivityShakeEnvelopeSubItem>();
 	
 	public Integer getId() {
 		return id;
@@ -60,22 +60,6 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 		this.cfgId = cfgId;
 	}
 
-	public int getCount() {
-		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
-	public long getCurrentOverTime() {
-		return currentOverTime;
-	}
-
-	public void setCurrentOverTime(long currentOverTime) {
-		this.currentOverTime = currentOverTime;
-	}
-
 	public int getVersion() {
 		return version;
 	}
@@ -92,18 +76,35 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<Object> {
 		this.hasViewed = hasViewed;
 	}
 
-	@Override
-	public void setSubItemList(List<Object> subItemList) {
-		
+	public boolean isHasReward() {
+		return hasReward;
+	}
+
+	public void setHasReward(boolean hasReward) {
+		this.hasReward = hasReward;
 	}
 
 	@Override
-	public List<Object> getSubItemList() {
-		return Collections.emptyList();
+	public void setSubItemList(List<ActivityShakeEnvelopeSubItem> subItemList) {
+		subItems = subItemList;
+	}
+
+	@Override
+	public List<ActivityShakeEnvelopeSubItem> getSubItemList() {
+		return subItems;
 	}
 
 	@Override
 	public void reset() {
-		
+		subItems = new ArrayList<ActivityShakeEnvelopeSubItem>();
+	}
+	
+	public ActivityShakeEnvelopeSubItem getSubItemByStartTime(long startTime){
+		for(ActivityShakeEnvelopeSubItem subItem : subItems){
+			if(startTime == subItem.getStartTime()){
+				return subItem;
+			}
+		}
+		return null;
 	}
 }

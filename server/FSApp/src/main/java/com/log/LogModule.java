@@ -57,6 +57,7 @@ public enum LogModule {
 	WorldBoss("世界boss"),
 	Saloon("同屏模块"),
 	RouterServer("直通车礼包"),
+	ActivityShakeEnvelope("摇一摇红包"),
 	;
 	
 	private String name;

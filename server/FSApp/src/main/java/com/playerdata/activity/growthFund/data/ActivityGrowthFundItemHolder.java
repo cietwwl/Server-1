@@ -48,6 +48,11 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 		}
 	}
 
+	public void updateItem(Player player, ActivityGrowthFundItem item){
+		item.setBoughtCount(_globalData.getAlreadyBoughtCount());
+		super.updateItem(player, item);
+	}
+	
 	public void synAllData(Player player) {
 		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
 		if (null != itemList && !itemList.isEmpty()) {

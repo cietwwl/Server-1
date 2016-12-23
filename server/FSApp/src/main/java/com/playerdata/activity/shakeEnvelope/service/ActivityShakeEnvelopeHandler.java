@@ -17,7 +17,7 @@ public class ActivityShakeEnvelopeHandler {
 	public ByteString getEnvelopeReward(Player player, ActivityCommonReqMsg request) {
 		ActivityCommonRspMsg.Builder response = ActivityCommonRspMsg.newBuilder();
 		response.setReqType(request.getReqType());
-		ActivityShakeEnvelopeMgr.getInstance().getEnvelopeReward(player, response);
+		ActivityShakeEnvelopeMgr.getInstance().getEnvelopeReward(player, response, request.getEnvelopeParam().getCfgId());
 		return response.build().toByteString();
 	}
 }
