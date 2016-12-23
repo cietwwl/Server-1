@@ -21,6 +21,7 @@ public class Notice {
 	private long startTime;					//开始时间
 	private long endTime;					//结束时间
 	private boolean isConfigNotice;         //是否配置公告
+	private int pushLevel = 6;              //默认推送等级为6级
 	
 	public boolean isConfigNotice() {
 		return isConfigNotice;
@@ -125,6 +126,12 @@ public class Notice {
 		this.endTime = endTime;
 	}
 	
+	public int getPushLevel() {
+		return pushLevel;
+	}
+	public void setPushLevel(int pushLevel) {
+		this.pushLevel = pushLevel;
+	}
 	public void SetNotice(AnnouncementCfg cfg){
 		this.id = cfg.getId();
 		this.sort = cfg.getSort();				
