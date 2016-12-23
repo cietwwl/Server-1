@@ -157,11 +157,11 @@ public class MagicEquipFetterLogic {
 			holder.synAllData(player, 0);
 		}
 		if (changed && updateList.size() > 0) {
-			StringBuilder sb = new StringBuilder("---------------------新增角色"+player.getUserName()+"的法宝羁绊：");
-			for (Integer id : updateList) {
-				sb.append(id).append(",");
-			}
-			System.out.println(sb.toString());
+//			StringBuilder sb = new StringBuilder("---------------------新增角色"+player.getUserName()+"的法宝羁绊：");
+//			for (Integer id : updateList) {
+//				sb.append(id).append(",");
+//			}
+//			System.out.println(sb.toString());
 			FettersBM.sendFetterNotifyMsg(player, updateList, HeroFetterType.MagicFetter);
 		}
 		return changed;
