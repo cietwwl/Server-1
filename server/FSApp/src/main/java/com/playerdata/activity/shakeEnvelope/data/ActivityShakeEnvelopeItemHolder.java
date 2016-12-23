@@ -23,10 +23,6 @@ public class ActivityShakeEnvelopeItemHolder extends UserActivityChecker<Activit
 		return new ArrayList<ActivityShakeEnvelopeSubItem>();
 	}
 	
-	public List<ActivityShakeEnvelopeItem> getItemList(String userId){
-		return refreshActivity(userId);
-	}
-	
 	@Override
 	@SuppressWarnings("rawtypes")
 	public ActivityType getActivityType() {
