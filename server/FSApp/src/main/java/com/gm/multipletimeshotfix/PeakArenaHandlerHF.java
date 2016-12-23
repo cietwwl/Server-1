@@ -30,27 +30,44 @@ import com.rwproto.PeakArenaServiceProtos.eArenaResultType;
 public class PeakArenaHandlerHF extends PeakArenaHandler {
 
 	protected static PeakArenaHandlerHF instance = new PeakArenaHandlerHF();
-	
+
 	private void synHeroInfo(Player player) {
-		EmbattlePositionInfo positionInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.PeakArenaPos_VALUE, "");
-		if (positionInfo != null) {
-			List<EmbattleHeroPosition> posList = positionInfo.getPos();
-			List<String> heroIds = new ArrayList<String>(posList.size());
-			for (EmbattleHeroPosition heroPos : posList) {
-				heroIds.add(heroPos.getId());
+		try {
+			Hero mainHero = FSHeroMgr.getInstance().getMainRoleHero(player);
+			ClientDataSynMgr.synData(player, mainHero.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, -1);
+			EmbattlePositionInfo positionInfo1 = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.PeakArenaPos_VALUE, "0");
+			if (positionInfo1 != null) {
+				synHeroInfo(player, positionInfo1);
 			}
-			List<Hero> heros = FSHeroMgr.getInstance().getHeros(player, heroIds);
-			for (Hero h : heros) {
-				ClientDataSynMgr.synData(player, h.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, -1);
+
+			EmbattlePositionInfo positionInfo2 = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.PeakArenaPos_VALUE, "1");
+			if (positionInfo2 != null) {
+				synHeroInfo(player, positionInfo2);
 			}
-		} else {
+
+			EmbattlePositionInfo positionInfo3 = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.PeakArenaPos_VALUE, "2");
+			if (positionInfo3 != null) {
+				synHeroInfo(player, positionInfo3);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			List<Hero> allHeros = FSHeroMgr.getInstance().getAllHeros(player, null);
 			for (Hero h : allHeros) {
 				ClientDataSynMgr.synData(player, h.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, -1);
 			}
 		}
-		Hero mainHero = FSHeroMgr.getInstance().getMainRoleHero(player);
-		ClientDataSynMgr.synData(player, mainHero.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, -1);
+	}
+
+	private void synHeroInfo(Player player, EmbattlePositionInfo positionInfo) {
+		List<EmbattleHeroPosition> posList = positionInfo.getPos();
+		List<String> heroIds = new ArrayList<String>(posList.size());
+		for (EmbattleHeroPosition heroPos : posList) {
+			heroIds.add(heroPos.getId());
+		}
+		List<Hero> heros = FSHeroMgr.getInstance().getHeros(player, heroIds);
+		for (Hero h : heros) {
+			ClientDataSynMgr.synData(player, h.getAttrMgr().getRoleAttrData(), eSynType.ROLE_ATTR_ITEM, eSynOpType.UPDATE_SINGLE, -1);
+		}
 	}
 
 	public ByteString fightContinue(MsgArenaRequest request, Player player) {
