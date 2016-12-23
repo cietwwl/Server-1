@@ -8,7 +8,6 @@ import java.util.concurrent.Callable;
 import com.playerdata.mgcsecret.service.MagicSecretHandler;
 import com.playerdata.mgcsecret.service.MagicSecretService;
 import com.playerdata.teambattle.service.TeamBattleHandler;
-import com.playerdata.teambattle.service.TeamBattleHandlerHF;
 import com.playerdata.teambattle.service.TeamBattleService;
 import com.rw.controler.FsNettyControler;
 import com.rw.controler.GameLogicTask;
