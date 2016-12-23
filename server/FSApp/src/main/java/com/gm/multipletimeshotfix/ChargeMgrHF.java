@@ -16,6 +16,7 @@ import com.playerdata.charge.IChargeAction;
 import com.playerdata.charge.IChargeCallbackChecker;
 import com.playerdata.charge.cfg.ChargeCfg;
 import com.playerdata.charge.cfg.ChargeCfgDao;
+import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoHolder;
 import com.playerdata.charge.dao.ChargeRecord;
@@ -45,7 +46,7 @@ public class ChargeMgrHF extends ChargeMgr {
 	public ChargeMgrHF() throws Exception {
 		Field field = ChargeMgr.class.getDeclaredField("_processOrders");
 		field.setAccessible(true);
-		_processOrders = (Map<String, Boolean>)field.get(ChargeMgr.getInstance());
+		this._processOrders = (Map<String, Boolean>)field.get(ChargeMgr.getInstance());
 		field.setAccessible(false);
 		
 		Field fChecker = ChargeMgr.class.getDeclaredField("_checker");
@@ -133,13 +134,16 @@ public class ChargeMgrHF extends ChargeMgr {
 			if (ServerSwitch.isTestCharge()) {
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 			} else {
-				int money = chargeContentPojo.getMoney();
-				if (money == -1) {
-					money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
-				}
-				if (money != target.getMoneyCount()) {
-					GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-					return false;
+				if (target.getChargeType() == ChargeTypeEnum.Normal) {
+					// 只有普通充值才进行金额校验
+					int money = chargeContentPojo.getMoney();
+					if (money == -1) {
+						money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
+					}
+					if (money != target.getMoneyCount()) {
+						GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+						return false;
+					}
 				}
 			}
 
@@ -159,10 +163,11 @@ public class ChargeMgrHF extends ChargeMgr {
 								GameLog.error("chargeMgr", player.getUserId(), "充值事件通知出错，类型：" + type, e);
 							}
 						}
+						chargeContentPojo.setMoney(target.getMoneyCount());
 						BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
 
 						// 通知要玩，充值完成了
-						YaoWanLogHandler.getHandler().sendChargeLogHandler(player, chargeParam, chargeContentPojo.getCpTradeNo(), chargeContentPojo.getMoney());
+						YaoWanLogHandler.getHandler().sendChargeLogHandler(player, chargeParam, chargeContentPojo.getCpTradeNo(), target.getMoneyCount());
 					} else {
 						GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元" + ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 					}
