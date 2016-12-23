@@ -1,6 +1,7 @@
 package com.bm.randomBoss;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +59,7 @@ public class RandomBossMgr {
 	private final int INVITED_TYPE_GROUP = 2;
 
 	private static RandomBossMgr instance = new RandomBossMgr();
+	
 
 	protected RandomBossMgr() {
 	}
@@ -133,6 +135,9 @@ public class RandomBossMgr {
 		if (level < rbServerCfg.getOpenLv()) {
 			return false;
 		}
+		
+		//TODO 在这里进行排序一下 ,客户端的排序逻辑也要改一下
+		//Collections.sort(synList, new RandomBossComparator(player.getUserId()));
 		ClientDataSynMgr.synDataList(player, synList, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_LIST);
 		return true;
 	}
