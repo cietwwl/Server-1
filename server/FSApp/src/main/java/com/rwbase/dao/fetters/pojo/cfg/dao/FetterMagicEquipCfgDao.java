@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
 import com.rwbase.common.config.CfgCsvHelper;
@@ -21,7 +22,7 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg> {
 
 	public static int TYPE_FIXEQUIP = 2;
 
-	/** key=modelID, 优化检索速度 */
+	/** key=itemModelId, 优化检索速度 */
 	private Map<Integer, List<MagicEquipConditionCfg>> modelData;
 
 	/**
@@ -35,6 +36,12 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg> {
 	private Map<Integer, IntObjectHashMap<List<MagicEquipConditionCfg>>> typeData;
 
 	private IntObjectHashMap<MagicEquipConditionCfg> cfgMap;
+	
+	/**
+	 * 法宝羁绊配置，key为法宝及英雄modelId
+	 */
+	private Map<MagicHeroModelKey, MagicEquipConditionCfg> magicHeroKeyMap = new HashMap<MagicHeroModelKey, MagicEquipConditionCfg>();
+	private Map<Integer, List<MagicEquipConditionCfg>> magicSubTypeMap = new HashMap<Integer, List<MagicEquipConditionCfg>>();
 
 	public static FetterMagicEquipCfgDao getInstance() {
 		return SpringContextUtil.getBean(FetterMagicEquipCfgDao.class);
@@ -53,6 +60,8 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg> {
 		Map<Integer, List<MagicEquipConditionCfg>> modelData = new HashMap<Integer, List<MagicEquipConditionCfg>>();
 		IntObjectHashMap<MagicEquipConditionCfg> cfgMap = new IntObjectHashMap<MagicEquipConditionCfg>();
 		HashSet<Integer> uniqueIdCheck = new HashSet<Integer>();
+		Map<MagicHeroModelKey, MagicEquipConditionCfg> mhKeyMap = new HashMap<MagicHeroModelKey, MagicEquipConditionCfg>();
+		Map<Integer, List<MagicEquipConditionCfg>> subTypeMap = new HashMap<Integer, List<MagicEquipConditionCfg>>();
 		for (MagicEquipConditionCfg cfg : list) {
 			cfg.formateData();
 			if (!uniqueIdCheck.add(cfg.getUniqueId())) {
@@ -82,6 +91,28 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg> {
 				heroModelMap.put(heroModelId, typeList);
 			}
 			typeList.add(cfg);
+			
+			
+			if(cfg.getType() == TYPE_MAGICWEAPON){
+				MagicHeroModelKey key = new MagicHeroModelKey(cfg.getModelIDList().get(0), cfg.getHeroModelID());
+				MagicEquipConditionCfg targetCfg = mhKeyMap.get(key);
+				if(targetCfg != null){
+					throw new ExceptionInInitializerError("存在重复羁绊id=" + cfg.getUniqueId() + ",ItemModelId:" + cfg.getModelIDList().get(0) + ",HeroModelID:" + cfg.getHeroModelID());
+				}
+				mhKeyMap.put(key, cfg);
+				
+				
+				List<MagicEquipConditionCfg> sbList = subTypeMap.get(cfg.getSubType());
+				if(sbList == null){
+					sbList  = new ArrayList<MagicEquipConditionCfg>();
+					subTypeMap.put(cfg.getSubType(), sbList);
+				}
+				sbList.add(cfg);
+				
+			}
+			
+			
+			
 		}
 		for (Map.Entry<Integer, IntObjectHashMap<List<MagicEquipConditionCfg>>> entry : typeData.entrySet()) {
 			for (IntObjectMap.Entry<List<MagicEquipConditionCfg>> heroModelEntry : entry.getValue().entries()) {
@@ -93,6 +124,8 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg> {
 		this.typeData = typeData;
 		this.modelData = modelData;
 		this.cfgMap = cfgMap;
+		this.magicHeroKeyMap = mhKeyMap;
+		this.magicSubTypeMap = subTypeMap;
 	}
 
 	/**
@@ -137,6 +170,20 @@ public class FetterMagicEquipCfgDao extends CfgCsvDao<MagicEquipConditionCfg> {
 	 */
 	public MagicEquipConditionCfg get(int uniqueId) {
 		return this.cfgMap.get(uniqueId);
+	}
+	
+	
+	/**
+	 * 根据法宝及英雄获取配置对象
+	 * @param key
+	 * @return
+	 */
+	public MagicEquipConditionCfg getByMagicHeroModelIDKey(MagicHeroModelKey key){
+		return this.magicHeroKeyMap.get(key);
+	}
+	
+	public List<MagicEquipConditionCfg> getCfgListByMagicSubType(int subType){
+		return magicSubTypeMap.get(subType);
 	}
 
 }
