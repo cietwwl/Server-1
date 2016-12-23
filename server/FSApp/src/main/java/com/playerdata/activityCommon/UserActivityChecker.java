@@ -118,7 +118,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		int playerLevel = player.getLevel();
 		int playerVip = player.getVip();
 		for(ActivityCfgIF cfg : activeDailyList){
-			if(playerLevel < cfg.getLevelLimit() && playerVip < cfg.getVipLimit()){
+			if(playerLevel < cfg.getLevelLimit() || playerVip < cfg.getVipLimit()){
 				continue;
 			}
 			T item = itemStore.get(cfg.getId());
