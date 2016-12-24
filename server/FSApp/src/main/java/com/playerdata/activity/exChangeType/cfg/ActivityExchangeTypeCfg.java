@@ -41,80 +41,40 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 		return String.valueOf(enumId);
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
 	public int getLevelLimit() {
 		return levelLimit;
-	}
-
-	public void setLevelLimit(int levelLimit) {
-		this.levelLimit = levelLimit;
 	}
 
 	public long getDropStartTime() {
 		return dropStartTime;
 	}
 
-	public void setDropStartTime(long dropStartTime) {
-		this.dropStartTime = dropStartTime;
-	}
-
 	public long getDropEndTime() {
 		return dropEndTime;
-	}
-
-	public void setDropEndTime(long dropEndTime) {
-		this.dropEndTime = dropEndTime;
 	}
 
 	public String getDropStartTimeStr() {
 		return dropStartTimeStr;
 	}
 
-	public void setDropStartTimeStr(String dropStartTimeStr) {
-		this.dropStartTimeStr = dropStartTimeStr;
-	}
-
 	public String getDropEndTimeStr() {
 		return dropEndTimeStr;
-	}
-
-	public void setDropEndTimeStr(String dropEndTimeStr) {
-		this.dropEndTimeStr = dropEndTimeStr;
 	}
 
 	public String getChangeStartTimeStr() {
 		return changeStartTimeStr;
 	}
 
-	public void setChangeStartTimeStr(String changeStartTimeStr) {
-		this.changeStartTimeStr = changeStartTimeStr;
-	}
-
 	public String getChangeEndTimeStr() {
 		return changeEndTimeStr;
-	}
-
-	public void setChangeEndTimeStr(String changeEndTimeStr) {
-		this.changeEndTimeStr = changeEndTimeStr;
 	}
 
 	public long getChangeStartTime() {
 		return changeStartTime;
 	}
 
-	public void setChangeStartTime(long changeStartTime) {
-		this.changeStartTime = changeStartTime;
-	}
-
 	public long getChangeEndTime() {
 		return changeEndTime;
-	}
-
-	public void setChangeEndTime(long changeEndTime) {
-		this.changeEndTime = changeEndTime;
 	}
 
 	@Override
@@ -129,7 +89,7 @@ public class ActivityExchangeTypeCfg implements ActivityCfgIF, ActivityExtendTim
 
 	@Override
 	public int getId() {
-		return id;
+		return enumId;
 	}
 
 	@Override
