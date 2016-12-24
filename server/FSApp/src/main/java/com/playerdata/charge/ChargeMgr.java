@@ -30,7 +30,6 @@ import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.dao.cache.trace.DataEventRecorder;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
-import com.rw.service.Privilege.MonthCardPrivilegeMgr;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
 import com.rw.service.yaowanlog.YaoWanLogHandler;
