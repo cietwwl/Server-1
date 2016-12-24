@@ -1,5 +1,7 @@
 package com.playerdata.charge;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +32,9 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
-import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.ChargeServiceProto;
 import com.rwproto.MsgDef;
 
@@ -128,13 +130,16 @@ public class ChargeMgr {
 			if (ServerSwitch.isTestCharge()) {
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 			} else {
-				int money = chargeContentPojo.getMoney();
-				if (money == -1) {
-					money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
-				}
-				if (money != target.getMoneyCount()) {
-					GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-					return false;
+				if (target.getChargeType() == ChargeTypeEnum.Normal) {
+					// 只有普通充值才进行金额校验
+					int money = chargeContentPojo.getMoney();
+					if (money == -1) {
+						money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
+					}
+					if (money != target.getMoneyCount()) {
+						GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+						return false;
+					}
 				}
 			}
 
@@ -155,6 +160,9 @@ public class ChargeMgr {
 							}
 						}
 						BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
+
+						// 通知要玩，充值完成了
+						YaoWanLogHandler.getHandler().sendChargeLogHandler(player, chargeParam, chargeContentPojo.getCpTradeNo(), chargeContentPojo.getMoney());
 					} else {
 						GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元" + ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 					}
@@ -390,5 +398,11 @@ public class ChargeMgr {
 			}
 		}
 
+	}
+
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		String format = sdf.format(new Date(1481689764958l));
+		System.err.println(format);
 	}
 }

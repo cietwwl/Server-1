@@ -19,6 +19,7 @@ import com.rw.service.log.infoPojo.ClientInfo;
 import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.login.game.LoginSynDataHelper;
 import com.rw.service.redpoint.RedPointManager;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.guide.PlotProgressDAO;
 import com.rwbase.dao.guide.pojo.UserPlotProgress;
@@ -101,7 +102,14 @@ public class PlayerLoginHandler {
 				FSTraceLogger.logger("displace", 0, "DISPLACE", seqID, userId, null, false);
 				UserChannelMgr.KickOffPlayer(oldSessionId, nettyControler, userId);
 			}
+
+			// 设置一下客户端的IP
+			String ip = player.getTempAttribute().getIp();
+			if (StringUtils.isEmpty(ip)) {
+				player.getTempAttribute().setIp(YaoWanLogHandler.getHandler().getClientIp(userId));
+			}
 		}
+
 		// 检查发送版本更新
 		if (clientInfo != null) {
 			player.getUpgradeMgr().doCheckUpgrade(clientInfo.getClientVersion());
@@ -185,6 +193,11 @@ public class PlayerLoginHandler {
 				FSTraceLogger.loggerSendAndSubmit("send", current - submitTime, current - executeTime, LOGIN, null, seqID, userId, null);
 			}
 		});
+
+		// 通知要玩角色登录了
+		if (clientInfo != null) {
+			YaoWanLogHandler.getHandler().sendLoginLogHandler(player, clientInfo);
+		}
 
 	}
 }
