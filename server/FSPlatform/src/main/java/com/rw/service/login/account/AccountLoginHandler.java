@@ -393,6 +393,9 @@ public class AccountLoginHandler {
 				continue;
 			}
 			zone = PlatformFactory.getPlatformService().getZoneInfo(zoneId);
+			if(zone == null){
+				continue;
+			}
 			userInfo = UserInfo.newBuilder();
 			userInfo.setZoneInfo(getZoneInfo(zone, account.isWhiteList()));
 			userInfo.setHeadImage(userZoneInfo.getHeadImage());
