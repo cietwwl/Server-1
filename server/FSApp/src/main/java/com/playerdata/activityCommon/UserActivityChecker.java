@@ -52,7 +52,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		}
 		getItemStore(player.getUserId()).updateItems(ids);
 		if(null != getSynType()){
-			ClientDataSynMgr.updateData(player, items, getSynType(), eSynOpType.UPDATE_PART_LIST);
+			ClientDataSynMgr.updateDataList(player, items, getSynType(), eSynOpType.UPDATE_PART_LIST);
 		}
 	}
 
