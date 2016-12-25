@@ -61,7 +61,8 @@ public class PVEHandler implements RandomMethodIF{
 					}
 					
 					EResultType result = rsp.getEResultType();
-					if (result == EResultType.ITEM_BACK || result == EResultType.NOT_OPEN || result == EResultType.NOT_ENOUGH_HP) {
+					if (result == EResultType.ITEM_BACK || result == EResultType.NOT_OPEN || 
+							result == EResultType.NOT_ENOUGH_HP || result == EResultType.NOT_ENOUGH_TIMES) {
 						RobotLog.info("PVEHandler[before] 成功");
 						return true;
 					}else{
