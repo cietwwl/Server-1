@@ -89,6 +89,10 @@ public class GCompMemberMgr {
 			_allMembers.put(groupId, map);
 			_sorted.put(groupId, list);
 			Group group = GroupBM.get(groupId);
+			if (group == null) {
+				GCompUtil.log("帮派：{}，不存在，可能已经解散！", groupId);
+				continue;
+			}
 			GroupBaseDataIF baseData = group.getGroupBaseDataMgr().getGroupData();
 			List<? extends GroupMemberDataIF> allMembers = group.getGroupMemberMgr().getMemberSortList(null);
 			for (GroupMemberDataIF member : allMembers) {
