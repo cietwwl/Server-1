@@ -1019,6 +1019,7 @@ public class ArenaHandler {
 			return OneKeyResultType.NO_REWARD;
 		}
 		boolean isGet = false;
+		Map<Integer, Integer> totalRewards = new HashMap<Integer, Integer>();
 		for (Integer id : scoreRewardKeys) {
 			List<Integer> rewardList = arenaData.getRewardList();
 			if (rewardList.contains(id)) {
@@ -1034,20 +1035,33 @@ public class ArenaHandler {
 			rewardList.add(id);
 			Map<Integer, Integer> rewards = template.getRewards();
 			for (Map.Entry<Integer, Integer> entry : rewards.entrySet()) {
-				Integer haveCount = rewardMap.get(entry.getKey());
+				Integer key = entry.getKey();
+				Integer value = entry.getValue();
+				Integer haveCount = rewardMap.get(key);
 				if (null == haveCount)
-					haveCount = entry.getValue();
+					haveCount = value;
 				else
-					haveCount += entry.getValue();
-				rewardMap.put(entry.getKey(), haveCount);
+					haveCount += value;
+				rewardMap.put(key, haveCount);
+				
+				if (totalRewards.containsKey(key)) {
+					Integer tempCount = totalRewards.get(key);
+					totalRewards.put(key, value + tempCount);
+				} else {
+					totalRewards.put(key, value);
+				}
+				
 			}
 			isGet = true;
-			// 日志
-			List<BilogItemInfo> list = BilogItemInfo.fromMap(rewards);
-			String rewardInfoActivity = BILogTemplateHelper.getString(list);
-			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
-			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+			
 		}
+
+		// 日志
+		List<BilogItemInfo> list = BilogItemInfo.fromMap(totalRewards);
+		String rewardInfoActivity = BILogTemplateHelper.getString(list);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
+		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+
 		if (isGet)
 			return OneKeyResultType.OneKey_SUCCESS;
 		else
