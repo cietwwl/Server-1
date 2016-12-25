@@ -5,25 +5,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.playerdata.group.UserGroupCopyMapRecordMgr;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyLevelCfgDao;
-import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
-import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecord;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyLevelRecordHolder;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyMonsterSynStruct;
 import com.groupCopy.rwbase.dao.groupCopy.db.GroupCopyProgress;
 import com.groupCopy.rwbase.dao.groupCopy.db.UserGroupCopyMapRecord;
-import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
-import com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
-import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
-import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.monster.cfg.CopyMonsterCfg;
@@ -36,6 +28,10 @@ import com.rw.service.dropitem.DropItemManager;
 import com.rwbase.dao.battle.pojo.BattleCfgDAO;
 import com.rwbase.dao.battle.pojo.cfg.CopyMonsterInfoCfg;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo;
+import com.rwproto.GroupCopyBattleProto.CopyRewardInfo.Builder;
+import com.rwproto.GroupCopyBattleProto.CopyRewardStruct;
+import com.rwproto.GroupCopyBattleProto.GroupCopyMonsterData;
 
 /**
  * 帮派副本关卡相关操作

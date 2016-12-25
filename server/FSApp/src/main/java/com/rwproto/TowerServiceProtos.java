@@ -11745,6 +11745,33 @@ public final class TowerServiceProtos {
      */
     com.google.protobuf.ByteString
         getArmyInfoBytes();
+
+    // optional string tipMsg = 8;
+    /**
+     * <code>optional string tipMsg = 8;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    boolean hasTipMsg();
+    /**
+     * <code>optional string tipMsg = 8;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    java.lang.String getTipMsg();
+    /**
+     * <code>optional string tipMsg = 8;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getTipMsgBytes();
   }
   /**
    * Protobuf type {@code TowerService.MsgTowerResponse}
@@ -11853,6 +11880,11 @@ public final class TowerServiceProtos {
             case 58: {
               bitField0_ |= 0x00000020;
               armyInfo_ = input.readBytes();
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000040;
+              tipMsg_ = input.readBytes();
               break;
             }
           }
@@ -12142,6 +12174,61 @@ public final class TowerServiceProtos {
       }
     }
 
+    // optional string tipMsg = 8;
+    public static final int TIPMSG_FIELD_NUMBER = 8;
+    private java.lang.Object tipMsg_;
+    /**
+     * <code>optional string tipMsg = 8;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    public boolean hasTipMsg() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional string tipMsg = 8;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    public java.lang.String getTipMsg() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          tipMsg_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string tipMsg = 8;</code>
+     *
+     * <pre>
+     *提示消息
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getTipMsgBytes() {
+      java.lang.Object ref = tipMsg_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        tipMsg_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private void initFields() {
       towerType_ = com.rwproto.TowerServiceProtos.eTowerType.TOWER_PANEL_INFO;
       towerResultType_ = com.rwproto.TowerServiceProtos.eTowerResultType.TOWER_SUCCESS;
@@ -12150,6 +12237,7 @@ public final class TowerServiceProtos {
       awardListStr_ = "";
       towerID_ = 0;
       armyInfo_ = "";
+      tipMsg_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -12200,6 +12288,9 @@ public final class TowerServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         output.writeBytes(7, getArmyInfoBytes());
       }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(8, getTipMsgBytes());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -12236,6 +12327,10 @@ public final class TowerServiceProtos {
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(7, getArmyInfoBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getTipMsgBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -12377,6 +12472,8 @@ public final class TowerServiceProtos {
         bitField0_ = (bitField0_ & ~0x00000020);
         armyInfo_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        tipMsg_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -12442,6 +12539,10 @@ public final class TowerServiceProtos {
           to_bitField0_ |= 0x00000020;
         }
         result.armyInfo_ = armyInfo_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.tipMsg_ = tipMsg_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -12504,6 +12605,11 @@ public final class TowerServiceProtos {
         if (other.hasArmyInfo()) {
           bitField0_ |= 0x00000040;
           armyInfo_ = other.armyInfo_;
+          onChanged();
+        }
+        if (other.hasTipMsg()) {
+          bitField0_ |= 0x00000080;
+          tipMsg_ = other.tipMsg_;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -13295,6 +13401,104 @@ public final class TowerServiceProtos {
         return this;
       }
 
+      // optional string tipMsg = 8;
+      private java.lang.Object tipMsg_ = "";
+      /**
+       * <code>optional string tipMsg = 8;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public boolean hasTipMsg() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <code>optional string tipMsg = 8;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public java.lang.String getTipMsg() {
+        java.lang.Object ref = tipMsg_;
+        if (!(ref instanceof java.lang.String)) {
+          java.lang.String s = ((com.google.protobuf.ByteString) ref)
+              .toStringUtf8();
+          tipMsg_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 8;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getTipMsgBytes() {
+        java.lang.Object ref = tipMsg_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          tipMsg_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string tipMsg = 8;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public Builder setTipMsg(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 8;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public Builder clearTipMsg() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        tipMsg_ = getDefaultInstance().getTipMsg();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string tipMsg = 8;</code>
+       *
+       * <pre>
+       *提示消息
+       * </pre>
+       */
+      public Builder setTipMsgBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        tipMsg_ = value;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:TowerService.MsgTowerResponse)
     }
 
@@ -13386,22 +13590,22 @@ public final class TowerServiceProtos {
       "werType\022-\n\ttowerData\030\002 \001(\0132\032.TowerServic" +
       "e.TagTowerData\022\013\n\003win\030\003 \001(\005\022=\n\023enemyHero" +
       "ChangeList\030\004 \003(\0132 .TowerService.TagTower" +
-      "HeroChange\022\017\n\007towerID\030\006 \001(\005\"\237\002\n\020MsgTower" +
+      "HeroChange\022\017\n\007towerID\030\006 \001(\005\"\257\002\n\020MsgTower" +
       "Response\022+\n\ttowerType\030\001 \002(\0162\030.TowerServi" +
       "ce.eTowerType\0227\n\017towerResultType\030\002 \001(\0162\036" +
       ".TowerService.eTowerResultType\022-\n\ttowerD",
       "ata\030\003 \001(\0132\032.TowerService.TagTowerData\022=\n" +
       "\023enemyHeroChangeList\030\004 \003(\0132 .TowerServic" +
       "e.TagTowerHeroChange\022\024\n\014awardListStr\030\005 \001" +
-      "(\t\022\017\n\007towerID\030\006 \001(\005\022\020\n\010armyInfo\030\007 \001(\t*\223\001" +
-      "\n\neTowerType\022\024\n\020TOWER_PANEL_INFO\020\000\022\025\n\021TO" +
-      "WER_START_FIGHT\020\001\022\023\n\017TOWER_END_FIGHT\020\002\022\024" +
-      "\n\020TOWER_GET_REWARD\020\003\022\024\n\020TOWER_RESET_DATA" +
-      "\020\004\022\027\n\023TOWER_REQUIRE_ENEMY\020\005*5\n\020eTowerRes" +
-      "ultType\022\021\n\rTOWER_SUCCESS\020\001\022\016\n\nTOWER_FAIL" +
-      "\020\002*2\n\016eTowerDeadType\022\016\n\nTOWER_DEAD\020\000\022\020\n\014",
-      "TOWER_LIVING\020\001B!\n\013com.rwprotoB\022TowerServ" +
-      "iceProtos"
+      "(\t\022\017\n\007towerID\030\006 \001(\005\022\020\n\010armyInfo\030\007 \001(\t\022\016\n" +
+      "\006tipMsg\030\010 \001(\t*\223\001\n\neTowerType\022\024\n\020TOWER_PA" +
+      "NEL_INFO\020\000\022\025\n\021TOWER_START_FIGHT\020\001\022\023\n\017TOW" +
+      "ER_END_FIGHT\020\002\022\024\n\020TOWER_GET_REWARD\020\003\022\024\n\020" +
+      "TOWER_RESET_DATA\020\004\022\027\n\023TOWER_REQUIRE_ENEM" +
+      "Y\020\005*5\n\020eTowerResultType\022\021\n\rTOWER_SUCCESS" +
+      "\020\001\022\016\n\nTOWER_FAIL\020\002*2\n\016eTowerDeadType\022\016\n\n",
+      "TOWER_DEAD\020\000\022\020\n\014TOWER_LIVING\020\001B!\n\013com.rw" +
+      "protoB\022TowerServiceProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -13449,7 +13653,7 @@ public final class TowerServiceProtos {
           internal_static_TowerService_MsgTowerResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_TowerService_MsgTowerResponse_descriptor,
-              new java.lang.String[] { "TowerType", "TowerResultType", "TowerData", "EnemyHeroChangeList", "AwardListStr", "TowerID", "ArmyInfo", });
+              new java.lang.String[] { "TowerType", "TowerResultType", "TowerData", "EnemyHeroChangeList", "AwardListStr", "TowerID", "ArmyInfo", "TipMsg", });
           return null;
         }
       };

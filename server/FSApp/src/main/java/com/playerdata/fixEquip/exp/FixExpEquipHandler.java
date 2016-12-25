@@ -3,6 +3,7 @@ package com.playerdata.fixEquip.exp;
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.protobuf.ByteString;
+import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.fixEquip.FixEquipResult;
@@ -37,6 +38,10 @@ public class FixExpEquipHandler {
 			//通知角色日常任务 by Alex
 			player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.FIXEQUIP_STRENGTH, 1);
 		}
+		if(response.getReqType().getNumber() != 6){
+			GameLog.error("fixexpequiphandler", player.getUserId(),"reqtype=" + response.getReqType().getNumber() +"  issucc = " + response.getIsSuccess() , null);
+		}
+		GameLog.info("fixexpequiphandler", player.getUserId(),"reqtype=" + response.getReqType().getNumber() +"  issucc = " + response.getIsSuccess() , null);
 		return response.build().toByteString();
 	}
 	

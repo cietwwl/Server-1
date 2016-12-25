@@ -47,10 +47,9 @@ public class DropRecordDAO extends DataKVDao<DropRecord> {
 						if (record != null) {
 							return record;
 						}
-//						GameLog.error("DropRecord", id, errorReason);
-						GameLog.error("DropRecord", "#trace", "重新创建首掉："+userId);
-						record = new DropRecord();
-						record.setUserId(userId);
+						GameLog.error("DropRecord", "#trace", "reCreate dropRecord:" + userId);
+						new RuntimeException("重复创建首掉对象：" + userId).printStackTrace();
+						record = new DropRecord(userId);
 						DropRecordDAO.this.update(record);
 						return record;
 					} finally {

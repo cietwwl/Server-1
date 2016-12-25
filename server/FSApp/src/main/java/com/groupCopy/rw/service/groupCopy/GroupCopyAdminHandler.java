@@ -2,7 +2,6 @@ package com.groupCopy.rw.service.groupCopy;
 
 import com.bm.group.GroupMemberMgr;
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.groupCopy.bm.groupCopy.GroupCopyResult;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfg;
 import com.groupCopy.rwbase.dao.groupCopy.cfg.GroupCopyMapCfgDao;
@@ -57,7 +56,7 @@ public class GroupCopyAdminHandler {
 		
 		
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		GroupCopyResult openResult;
 		String mapId = openReqMsg.getMapId();
@@ -115,7 +114,7 @@ public class GroupCopyAdminHandler {
 		commonRsp.setReqType(RequestType.RESET_COPY);
 
 		GroupCopyAdminResetCopyReqMsg openReqMsg = req.getResetReqMsg();
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
 			String mapId = openReqMsg.getMapId();
@@ -159,7 +158,7 @@ public class GroupCopyAdminHandler {
 		GroupCopyAdminComRspMsg.Builder commonRsp = GroupCopyAdminComRspMsg.newBuilder();
 		commonRsp.setReqType(RequestType.GET_APPLY_REWARD_INFO);
 
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		boolean success = false;
 		if(group!=null){
 			//检查角色的可分配次数
@@ -197,7 +196,7 @@ public class GroupCopyAdminHandler {
 		
 		commonRsp.setReqType(RequestType.GET_CHATER_DAMAGE);
 
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group!=null){
 
 			//检查角色的可分配次数
@@ -237,7 +236,7 @@ public class GroupCopyAdminHandler {
 		
 		commonRsp.setReqType(RequestType.CHOSE_DIST_ROLE);
 		commonRsp.setIsSuccess(success);
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group == null){
 			commonRsp.setTipMsg("请先加入帮派!");
 			return commonRsp.build().toByteString();
@@ -264,7 +263,7 @@ public class GroupCopyAdminHandler {
 		
 		//检查一下选择的角色是否还是帮派里
 		Player role = PlayerMgr.getInstance().find(selectRoleID);
-		Group group2 = GroupHelper.getGroup(role);
+		Group group2 = com.rw.service.group.helper.GroupHelper.getGroup(role);
 		
 		if(group2 == null || !group.getGroupBaseDataMgr().getGroupData().getGroupId().equals(group2.getGroupBaseDataMgr().getGroupData().getGroupId())){
 			commonRsp.setTipMsg("角色已经离开帮派");

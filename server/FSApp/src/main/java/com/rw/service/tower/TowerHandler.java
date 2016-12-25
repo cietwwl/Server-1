@@ -61,7 +61,17 @@ public class TowerHandler {
 
 	// 关卡的状态
 	public enum FloorState {
-		UN_PASS, UN_AWARD, FINISH;
+		UN_Battle(-2), // 还没有正式战斗
+		UN_Join(-1), // 还没有成功加入万仙阵
+		UN_PASS(0), // 未成功
+		UN_AWARD(1), // 成功未领奖
+		FINISH(2);// 整个万仙阵结束
+
+		public final int value;
+
+		private FloorState(int value) {
+			this.value = value;
+		}
 	}
 
 	/**
@@ -141,10 +151,10 @@ public class TowerHandler {
 			if (tempFloor <= curFloor) {// 层数小于等于当前层，就会开放
 				openList.add(true);
 				if (tempFloor == curFloor) {
-					if (curFloorState == FloorState.UN_PASS.ordinal()) {
+					if (curFloorState == FloorState.UN_PASS.value || curFloorState == FloorState.UN_Battle.value) {
 						beatList.add(false);// 与当前层相同，就说明还没打过，并且还没有领取奖励
 						awardList.add(false);// 未领奖
-					} else if (curFloorState == FloorState.FINISH.ordinal()) {
+					} else if (curFloorState == FloorState.FINISH.value) {
 						beatList.add(true);
 						awardList.add(true);
 					} else {
@@ -337,8 +347,13 @@ public class TowerHandler {
 				MainMsgHandler.getInstance().sendPmdWxz(player);
 			}
 
-			angleData.setCurFloorState(FloorState.UN_AWARD.ordinal());
+			angleData.setCurFloorState(FloorState.UN_AWARD.value);
 			towerMgr.saveAngleArrayData();
+		} else {
+			if (angleData.getCurFloorState() != FloorState.UN_PASS.value) {
+				angleData.setCurFloorState(FloorState.UN_PASS.value);
+				towerMgr.saveAngleArrayData();
+			}
 		}
 
 		// 己方数据变化
@@ -418,7 +433,7 @@ public class TowerHandler {
 		}
 
 		int currTowerId = request.getTowerID();
-		if (angleData.getCurFloorState() != FloorState.UN_AWARD.ordinal()) {// 如果是未通过状态不能领奖
+		if (angleData.getCurFloorState() != FloorState.UN_AWARD.value) {// 如果是未通过状态不能领奖
 			GameLog.error("万仙阵获取奖励", userId, String.format("万仙阵第[%s]层，状态是[%s]，Can't Award", currTowerId, angleData.getCurFloorState()));
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			return response.build().toByteString();
@@ -446,10 +461,10 @@ public class TowerHandler {
 		// 开放下层人物
 		int nextTowerId = currTowerId + 1;
 		if (nextTowerId >= AngelArrayConst.TOTAL_TOWER_NUM) {
-			angleData.setCurFloorState(FloorState.FINISH.ordinal());
+			angleData.setCurFloorState(FloorState.FINISH.value);
 		} else {
 			angleData.setCurFloor(nextTowerId);
-			angleData.setCurFloorState(FloorState.UN_PASS.ordinal());
+			angleData.setCurFloorState(FloorState.UN_PASS.value);
 		}
 
 		if (currTowerId > angleData.getMaxFloor()) {
@@ -498,6 +513,14 @@ public class TowerHandler {
 			return response.build().toByteString();
 		}
 
+		int curFloorState = angleArrayData.getCurFloorState();
+		if (curFloorState == FloorState.UN_Battle.value || curFloorState == FloorState.UN_Join.value) {
+			GameLog.error("万仙阵重置数据", userId, "当前万仙阵的状态是：" + curFloorState);
+			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
+			response.setTipMsg("请尝试挑战万仙阵后再重置");
+			return response.build().toByteString();
+		}
+
 		// by franky
 		int resetCount = player.getPrivilegeMgr().getIntPrivilege(PvePrivilegeNames.arrayMaxResetCnt);
 		if (resetCount - angleArrayData.getResetTimes() > 0) {
@@ -510,6 +533,7 @@ public class TowerHandler {
 		} else {
 			response.setTowerResultType(eTowerResultType.TOWER_FAIL);
 			GameLog.error("万仙阵重置数据", userId, "万仙阵个人的数据重置次数用完了。Reset Times less 1");
+			response.setTipMsg("重置次数不足");
 		}
 		return response.build().toByteString();
 	}

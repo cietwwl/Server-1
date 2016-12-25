@@ -1,28 +1,31 @@
 package com.rwbase.common.timer;
 
-/**
- * 
- * 在這裡註冊每分鐘執行的任務（整分，即11:01:00、11:02:00這種）
- * 
- * @author CHEN.P
- *
- */
+import com.rwbase.common.timer.core.FSGameTimerDataSaver;
+
 public enum FSMinuteTaskType {
 
+	TIMER_DATA_SAVE_TASK(FSGameTimerDataSaver.class, 1, false),
+	//DEMO(com.rwbase.common.timer.test.FSGameMinuteTaskDemo.class, 1, false),
 	;
-	private int _type; // 類型：必須是唯一
-	private Class<? extends IPlayerOperable> _classOfTask; // 類對象
+	private Class<? extends IGameTimerTask> _classOfTask; // 實例化的class
+	private int _intervalMinutes; // 執行的间隔（1~59）
+	private boolean _isFixded; // 是否整分任务
 	
-	private FSMinuteTaskType(int pType, Class<? extends IPlayerOperable> pClassOfTask) {
-		this._type = pType;
+	private FSMinuteTaskType(Class<? extends IGameTimerTask> pClassOfTask, int pIntervalMinutes,  boolean pIsFixed) {
 		this._classOfTask = pClassOfTask;
+		this._intervalMinutes = pIntervalMinutes;
+		this._isFixded = pIsFixed;
 	}
 	
-	public int getType() {
-		return _type;
-	}
-	
-	public Class<? extends IPlayerOperable> getClassOfTask() {
+	public Class<? extends IGameTimerTask> getClassOfTask() {
 		return _classOfTask;
+	}
+	
+	public int getIntervalMinutes() {
+		return _intervalMinutes;
+	}
+	
+	public boolean isFixed() {
+		return _isFixded;
 	}
 }

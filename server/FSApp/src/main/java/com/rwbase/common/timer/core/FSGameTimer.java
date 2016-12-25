@@ -17,6 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.common.DetectionTool;
 import com.log.GameLog;
+import com.rw.fsutil.common.SimpleThreadFactory;
 import com.rw.fsutil.shutdown.IShutdownHandler;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.common.timer.IGameTimerDelegate;
@@ -123,7 +124,7 @@ public class FSGameTimer implements IShutdownHandler {
 	public FSGameTimer(Properties config) {
 		boolean startDirectly = Boolean.parseBoolean(config.getProperty(CONFIT_KEY_NAME_START_DIRECTLY));
 		this._corePoolSize = Integer.parseInt(config.getProperty(CONFIG_KEY_NAME_CORE_POOL_SIZE));
-		this._scheduledThreadPool = Executors.newFixedThreadPool(this._corePoolSize);
+		this._scheduledThreadPool = Executors.newFixedThreadPool(this._corePoolSize, new SimpleThreadFactory("FSGameTimer"));
 		this._timeIntervalBetweenTicks = Integer.parseInt(config.getProperty(CONFIG_KEY_NAME_TIME_INTERVAL_BETWEEN_TICK));
 		int ticksPerWheel = normalizeTicksPerWheel(Integer.parseInt(config.getProperty(CONFIG_KEY_NAME_TICKS_PER_WHEEL))); // 这个时间轮上有多少刻度（确保wheel上面的刻度是2的n次方）
 		this._totalTimeOfOneRound = _timeIntervalBetweenTicks * ticksPerWheel; // 计算扫描完这个轮所需要的总耗时
@@ -246,13 +247,16 @@ public class FSGameTimer implements IShutdownHandler {
 		}
 	}
 	
+	void saveTimerGlobalData() {
+		FSGameTimerSaveData.getInstance().setServerShutdownTime(System.currentTimeMillis());
+		String attribute = JsonUtil.writeValue(FSGameTimerSaveData.getInstance());
+		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.TIMER_DATA, attribute);
+	}
+	
 	@Override
 	public void notifyShutdown() {
 		this.stop();
-		FSGameTimerSaveData.getInstance().setServerShutdownTime(System.currentTimeMillis());
-		String attribute = JsonUtil.writeValue(FSGameTimerSaveData.getInstance());
-		System.out.println(GameWorldKey.TIMER_DATA + "=" + attribute);
-		GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.TIMER_DATA, attribute);
+		this.saveTimerGlobalData();
 	}
 	
 	public void start() {
@@ -273,7 +277,7 @@ public class FSGameTimer implements IShutdownHandler {
 	 * @param unit 延迟时间的单位
 	 * @return
 	 */
-	public FSGameTimeSignal newTimeSignal(IGameTimerTask task, long delay, TimeUnit unit) {
+	public FSGameTimeSignal newTimeSignal(IGameTimerTask task, long delay, TimeUnit unit, boolean isDayTask) {
 		if (task == null) {
 			throw new NullPointerException("task不能为null");
 		}
@@ -283,21 +287,21 @@ public class FSGameTimer implements IShutdownHandler {
 		if (STANDARD_UNIT_OF_TIMER != unit) {
 			delay = STANDARD_UNIT_OF_TIMER.convert(delay, unit); // 转为毫秒（时效任务的时间单位是毫秒）
 		}
-		FSGameTimeSignal timeSignal = new FSGameTimeSignal(_delegate, task, delay); // 实例化时间信号
+		FSGameTimeSignal timeSignal = new FSGameTimeSignal(_delegate, task, delay, isDayTask); // 实例化时间信号
 		scheduleTimeSignal(timeSignal, delay); // 提交到时效任务管理器
 		return timeSignal;
 	}
 	
 	public FSGameTimeSignal newSecondTimeSignal(IGameTimerTask task, long delay) {
-		return this.newTimeSignal(task, delay, TimeUnit.SECONDS);
+		return this.newTimeSignal(task, delay, TimeUnit.SECONDS, false);
 	}
 
 	public FSGameTimeSignal newMinuteTimeSignal(IGameTimerTask task, long delay) {
-		return this.newTimeSignal(task, delay, TimeUnit.MINUTES);
+		return this.newTimeSignal(task, delay, TimeUnit.MINUTES, false);
 	}
 
 	public FSGameTimeSignal newHourTimeSignal(IGameTimerTask task, long delay) {
-		return this.newTimeSignal(task, delay, TimeUnit.HOURS);
+		return this.newTimeSignal(task, delay, TimeUnit.HOURS, false);
 	}
 	
 	/**
@@ -325,7 +329,7 @@ public class FSGameTimer implements IShutdownHandler {
 		comingTime.set(Calendar.MILLISECOND, 0);
 		comingTime.add(Calendar.HOUR_OF_DAY, intervalHours);
 		long firstDelay = comingTime.getTimeInMillis() - current; // 计算第一次偏移数值
-		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS);
+		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS, false);
 		timeSignal.updateInterval(intervalOfStandardUnit);
 		logInfo(_MODULE_NAME_FOR_LOG, "newFixedHourTimeSignal",
 				"提交整点任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
@@ -348,7 +352,7 @@ public class FSGameTimer implements IShutdownHandler {
 		comingTime.set(Calendar.MILLISECOND, 0);
 		comingTime.add(Calendar.MINUTE, intervalMinutes);
 		long firstDelay = comingTime.getTimeInMillis() - System.currentTimeMillis(); // 计算第一次偏移数值
-		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS);
+		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS, false);
 		timeSignal.updateInterval(intervalOfStandardUnit);
 		logInfo(_MODULE_NAME_FOR_LOG, "newFixedMinuteTimeSignal", "提交整分任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
 		return timeSignal;
@@ -373,7 +377,7 @@ public class FSGameTimer implements IShutdownHandler {
 			comingTimeMillis += _MILLISECONDS_OF_ONE_DAY;
 		}
 		long firstDelay = comingTimeMillis - System.currentTimeMillis(); // 计算第一次偏移数值
-		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS);
+		FSGameTimeSignal timeSignal = this.newTimeSignal(task, firstDelay, TimeUnit.MILLISECONDS, true);
 		timeSignal.updateInterval(_A_DAY_OF_STANDARD_UNIT);
 		logInfo(_MODULE_NAME_FOR_LOG, "newDayTimeSignal", "提交天任务：" + task.getName() + ", first delay : " + firstDelay + ", deadline:" + timeSignal.deadline + ", deadlineDate:" + FORMAT_DEBUG.format(new java.util.Date(timeSignal.deadline)));
 		return timeSignal;
@@ -535,11 +539,11 @@ public class FSGameTimer implements IShutdownHandler {
 		}
 
 		@Override
-		public FSGameTimeSignal submitNewTask(IGameTimerTask task, long delay, TimeUnit unit) {
+		public FSGameTimeSignal submitNewTask(IGameTimerTask task, long delay, TimeUnit unit, boolean isDayTask) {
 //			if (task.getName().contains("Hour")) {
 //				System.out.println(Thread.currentThread().getName() + ", submit again : " + task + ", delay=" + delay + ", unit=" + unit);
 //			}
-			return FSGameTimer.this.newTimeSignal(task, delay, unit);
+			return FSGameTimer.this.newTimeSignal(task, delay, unit, isDayTask);
 		}
 
 	}

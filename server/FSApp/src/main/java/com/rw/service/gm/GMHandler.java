@@ -16,7 +16,6 @@ import com.bm.group.GroupBaseDataMgr;
 import com.bm.group.GroupMemberMgr;
 import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
-import com.groupCopy.bm.GroupHelper;
 import com.log.GameLog;
 import com.playerdata.BattleTowerMgr;
 import com.playerdata.FashionMgr;
@@ -43,6 +42,7 @@ import com.rw.service.TaoistMagic.datamodel.TaoistMagicCfgHelper;
 import com.rw.service.gamble.datamodel.GambleDropCfgHelper;
 import com.rw.service.gamble.datamodel.GamblePlanCfgHelper;
 import com.rw.service.gamble.datamodel.HotGambleCfgHelper;
+import com.rw.service.gm.fixequip.GMAddFixEquip;
 import com.rw.service.gm.hero.GMHeroProcesser;
 import com.rw.service.guide.DebugNewGuideData;
 import com.rw.service.guide.datamodel.GiveItemCfgDAO;
@@ -63,7 +63,6 @@ import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
-import com.rwbase.dao.groupsecret.pojo.db.UserGroupSecretBaseData;
 import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
@@ -96,6 +95,7 @@ public class GMHandler {
 		funcCallBackMap.put("addcoin", "addCoin");
 		funcCallBackMap.put("addgold", "addGold");
 		funcCallBackMap.put("addhero", "addHero");
+		funcCallBackMap.put("addfixequipitem", "addFixEquipItem");
 		funcCallBackMap.put("clrbag", "clrBag");
 		funcCallBackMap.put("setlevel", "setLevel");
 		funcCallBackMap.put("ranksort", "rankSort");
@@ -220,7 +220,7 @@ public class GMHandler {
 	
 	public boolean SetGroupSupplier(String[] comd, Player player){
 		boolean result = true;
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group == null){
 			return false;
 		}
@@ -506,6 +506,22 @@ public class GMHandler {
 		return false;
 	}
 
+	public boolean addFixEquipItem(String[] arrCommandContents,Player player){
+		if (arrCommandContents == null || arrCommandContents.length < 1) {
+			System.out.println(" command param not right ...");
+			return false;
+		}
+		if (player != null) {
+			GMAddFixEquip.addStarUp(player);
+			GMAddFixEquip.addexp(player);
+			GMAddFixEquip.addqualityUp(player);
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
 	public boolean addCoin(String[] arrCommandContents, Player player) {
 		if (arrCommandContents == null || arrCommandContents.length < 1) {
 			System.out.println(" command param not right ...");
@@ -1344,7 +1360,7 @@ public class GMHandler {
 			return false;
 		}
 		
-		Group group = GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if(group != null){
 			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(),count, false);
 		}

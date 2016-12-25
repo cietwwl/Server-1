@@ -23,21 +23,24 @@ public class SignHandler {
 	}
 	
 	public boolean processsSign(Client client){
+		boolean result;
 		SignDataHolder signDataHolder = client.getSignDataHolder();
 		List<String> signDataList = signDataHolder.getSignDataList();
 		if (signDataList == null || signDataList.size() <= 0) {
 			MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
 			request.setRequestType(ERequestType.SIGNDATA_BACK);
-			return client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
+			result = client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到"));
 		} else {
-			return processRequestSign(client);
+			result = processRequestSign(client);
 		}
+		return result;
 	}
 	
 	public boolean processSignReward(Client client){
 		MsgSignRequest.Builder request = MsgSignRequest.newBuilder();
 		request.setRequestType(ERequestType.SIGN_REWARD);
-		return client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到领奖励"));
+		boolean result = client.getMsgHandler().sendMsg(Command.MSG_SIGN, request.build().toByteString(), new SignMsgReceier(command, functionName, "签到领奖励"));
+		return result;
 	}
 	
 	private boolean processRequestSign(Client client){
@@ -99,10 +102,10 @@ public class SignHandler {
 				switch (resultype) {
 				case INIT_DATA:
 					initSignData(client, resp.getTagSignDataList(), resp.getYear(), resp.getMonth(), resp.getReSignCount());
-					break;
+					return true;
 				case NEED_REFRESH:
 					initSignData(client, resp.getTagSignDataList(), resp.getYear(), resp.getMonth(), resp.getReSignCount());
-					break;
+					return true;
 				
 				case SUCCESS:
 					RobotLog.info(parseFunctionDesc() + "成功");

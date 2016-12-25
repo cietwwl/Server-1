@@ -120,8 +120,9 @@ public class TBTeamItemMgr{
 	
 	/**
 	 * 每日重置，清除所有的队伍数据
+	 * @param exeTime 假定的执行时间（跨多天的时候，执行的时间，和所属于的应该执行时间是不一样的）
 	 */
-	public void dailyReset(){
+	public void dailyReset(long exeTime){
 		long lastRefreshTime = 0;
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(null != scdData) lastRefreshTime = scdData.getTbLastRefreshTime();
@@ -130,7 +131,7 @@ public class TBTeamItemMgr{
 				TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
 			}
 			if(null != scdData) {
-				scdData.setTbLastRefreshTime(System.currentTimeMillis());
+				scdData.setTbLastRefreshTime(exeTime);
 				scdData.teamBattleDailyReset();
 				ServerCommonDataHolder.getInstance().update(scdData);
 			}
