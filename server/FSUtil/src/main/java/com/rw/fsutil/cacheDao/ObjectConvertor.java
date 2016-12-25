@@ -25,7 +25,7 @@ public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SignleC
 			// 没有发生变化
 			return null;
 		}
-		return new SingleChangedRecord(key, json);
+		return new SingleChangedRecord(key, json, true);
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class ObjectConvertor<T> implements CacheJsonConverter<String, T, SignleC
 		if (json == null) {
 			return null;
 		}
-		return new SingleChangedRecord(key, json);
+		return new SingleChangedRecord(key, json, false);
 	}
 
 	@Override
