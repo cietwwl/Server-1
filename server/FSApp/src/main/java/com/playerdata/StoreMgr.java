@@ -536,7 +536,11 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 			blnFree = false;
 			eSpecialItemId etype = eSpecialItemId.getDef(cfg.getCostType());
 			refreshnum = pStoreData.getRefreshNum();
-			cost = Integer.parseInt(cfg.getRefreshCost().split("_")[refreshnum]);
+			String[] split = cfg.getRefreshCost().split("_");
+			if(refreshnum >= split.length){
+				return -3;
+			}
+			cost = Integer.parseInt(split[refreshnum]);
 			if (m_pPlayer.getReward(etype) < cost) {
 				return -2;
 			}
