@@ -17,6 +17,7 @@ public class ActivityTimeHelper {
 	
 	public static TimePair transToAbsoluteTime(String startTime, String endTime){
 		long startMil = cftStartTimeToLong(startTime);
+		if(startMil <= 0) return null;
 		long endMil = cftEndTimeToLong(startMil, endTime);
 		TimePair tp = new TimePair();
 		tp.setStartMil(startMil);
