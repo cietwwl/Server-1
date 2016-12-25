@@ -1056,11 +1056,15 @@ public class ArenaHandler {
 			
 		}
 
-		// 日志
-		List<BilogItemInfo> list = BilogItemInfo.fromMap(totalRewards);
-		String rewardInfoActivity = BILogTemplateHelper.getString(list);
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
-		BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+		try {
+			// 日志
+			List<BilogItemInfo> list = BilogItemInfo.fromMap(totalRewards);
+			String rewardInfoActivity = BILogTemplateHelper.getString(list);
+			BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, 0);
+			BILogMgr.getInstance().logActivityEnd(player, null, BIActivityCode.ARENA_INTEGRAL_REWARDS, 0, true, 0, rewardInfoActivity, 0);
+		} catch (Exception ex) {
+			GameLog.info("GetAllScoreReward", player.getUserId(), "get log exception:" + ex.getMessage());
+		}
 
 		if (isGet)
 			return OneKeyResultType.OneKey_SUCCESS;
