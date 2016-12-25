@@ -1,6 +1,7 @@
 package com.playerdata;
 
 import com.bm.arena.ArenaBM;
+import com.bm.targetSell.TargetSellManager;
 import com.common.TimeAction;
 import com.common.TimeActionTask;
 import com.playerdata.activity.countType.ActivityCountTypeMgr;
@@ -205,6 +206,7 @@ public class PlayerTimeActionHelper {
 				//个人帮派副本数据重置
 				player.getUserGroupCopyRecordMgr().resetDataInNewDay();
 				player.getUserGroupAttributeDataMgr().resetAllotGroupRewardCount();
+				TargetSellManager.getInstance().checkBenefitScoreAndSynData(player);
 			}
 		});
 		onNewDay5ClockTimeAction.addTask(new TimeActionTask() {
