@@ -37,10 +37,10 @@ public class PVEHandler implements RandomMethodIF{
 	 * @param accountId
 	 */
 	public boolean before(Client client) {
-		
+		final int nextCopyId = getNextCopyId(client);
 		MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
 		req.setRequestType(ERequestType.BATTLE_ITEMS_BACK);
-		req.setLevelId(getNextCopyId(client));
+		req.setLevelId(nextCopyId);
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_CopyService, req.build().toByteString(), new MsgReciver() {
 			
@@ -65,9 +65,8 @@ public class PVEHandler implements RandomMethodIF{
 						RobotLog.info("PVEHandler[before] 成功");
 						return true;
 					}else{
-						RobotLog.fail("PVEHandler[before] 服务器处理消息失败");
+						RobotLog.fail(String.format("PVEHandler[before] 服务器处理消息失败:{CopyId:%s,%s}", nextCopyId, result));
 						return false;
-						
 					}
 					
 				} catch (InvalidProtocolBufferException e) {
