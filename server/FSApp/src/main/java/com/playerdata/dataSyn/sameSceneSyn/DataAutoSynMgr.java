@@ -117,7 +117,17 @@ public class DataAutoSynMgr {
 		long synTime = System.currentTimeMillis();
 		while(entryIterator.hasNext()){
 			Entry<String, T> entry = entryIterator.next();
-			if (!UserChannelMgr.isConnecting(entry.getKey())) {
+			boolean isConnecting = UserChannelMgr.isConnecting(entry.getKey());
+			if(entry.getValue() == null){
+				//value为null说明是给子场景中的人同步主场景中的数据
+				if(isConnecting){
+					Player player = PlayerMgr.getInstance().findPlayerFromMemory(entry.getKey());
+					if(null != player){
+						players.add(player);
+					}
+				}
+			}
+			if (!isConnecting) {
 				if(entry.getValue().isDisConn(synTime)){
 					//把玩家标记为离开
 					entry.getValue().setRemoved(true);
