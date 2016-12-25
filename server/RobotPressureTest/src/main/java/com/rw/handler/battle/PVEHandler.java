@@ -89,8 +89,8 @@ public class PVEHandler implements RandomMethodIF{
 
         MsgCopyRequest.Builder req = MsgCopyRequest.newBuilder();
         req.setRequestType(ERequestType.BATTLE_CLEARING);
-
-        Builder tagBattleData = TagBattleData.newBuilder().setLevelId(client.getCopyHolder().getFightingCopyId()).setStarLevel(new Random().nextInt(3) + 1).setBattleStatus(EBattleStatus.WIN).setBattleClearingTime(1);
+        final int copyId = client.getCopyHolder().getFightingCopyId();
+        Builder tagBattleData = TagBattleData.newBuilder().setLevelId(copyId).setStarLevel(new Random().nextInt(3) + 1).setBattleStatus(EBattleStatus.WIN).setBattleClearingTime(1);
         req.setTagBattleData(tagBattleData);
 		
 		boolean success = client.getMsgHandler().sendMsg( Command.MSG_CopyService, req.build().toByteString(), new MsgReciver() {
@@ -116,9 +116,8 @@ public class PVEHandler implements RandomMethodIF{
 						RobotLog.info("PVEHandler[after] 成功");
 						return true;
 					}else{
-						RobotLog.fail("PVEHandler[after] 服务器处理消息失败");
-						return false;
-						
+						RobotLog.fail(String.format("PVEHandler[after] 服务器处理消息失败:{CopyId:%s,%s}", copyId, result));
+						return true;
 					}
 
 				} catch (InvalidProtocolBufferException e) {
