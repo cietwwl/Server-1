@@ -15,6 +15,7 @@ import com.playerdata.Player;
 import com.playerdata.PlayerFreshHelper;
 import com.playerdata.PlayerMgr;
 import com.playerdata.TaskItemMgr;
+import com.playerdata.activity.chargeRebate.ActivityChargeRebateMgr;
 import com.playerdata.charge.dao.ChargeInfo;
 import com.playerdata.charge.dao.ChargeInfoDao;
 import com.rw.dataaccess.GameOperationFactory;
@@ -158,7 +159,9 @@ public class PlayerCreateTask implements Runnable {
 		
 		//通知精准营销
 		TargetSellManager.getInstance().notifyRoleAttrsChange(userId, ERoleAttrs.r_CreateTime.getId());
-
+		//封测充值返利
+		ActivityChargeRebateMgr.getInstance().processChargeRebate(player, accountId);
+		
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);
 
