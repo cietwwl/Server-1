@@ -22,8 +22,8 @@ import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
+import com.rwbase.dao.group.pojo.db.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
-import com.rwbase.dao.group.pojo.db.dao.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
@@ -694,5 +694,71 @@ public class GroupMemberMgr {
 		List<? extends GroupMemberDataIF> applyMemberSortList = getApplyMemberSortList(GroupMemberHelper.applyMemberComparator);
 		String userId = applyMemberSortList.get(applyMemberSortList.size() - 1).getUserId();
 		removeApplyMemberFromDB0(userId, playerTask);// 删除数据
+	}
+
+	/**
+	 * 重置祈福的数据
+	 * 
+	 * @param userId
+	 * @param prayCardId
+	 * @param bagHasNum
+	 */
+	public synchronized void resetPrayData(String userId, int prayCardId, int bagHasNum) {
+		UserGroupAttributeDataMgr.getMgr().resetPrayData(userId);// 重置自己身上要记录的数据
+
+		// 重置跟随帮派成员的数据
+		resetMemberPrayData(userId, prayCardId, bagHasNum);
+	}
+
+	/**
+	 * 重置帮派成员的祈福数据
+	 * 
+	 * @param userId
+	 * @param prayCardId
+	 * @param bagHasNum
+	 */
+	private void resetMemberPrayData(String userId, int prayCardId, int bagHasNum) {
+		GroupMemberData memberData = holder.getMemberData(userId, false);
+		if (memberData == null) {
+			return;
+		}
+
+		boolean needUpdate = false;
+		int cardId = memberData.getPrayCardId();
+		if (cardId != prayCardId) {
+			memberData.setPrayCardId(prayCardId);
+			needUpdate = true;
+		}
+
+		int prayProcess = memberData.getPrayProcess();
+		if (prayProcess > 0) {
+			memberData.setPrayProcess(0);
+			needUpdate = true;
+		}
+
+		int hasNum = memberData.getBagHasNum();
+		if (hasNum != bagHasNum) {
+			memberData.setBagHasNum(bagHasNum);
+			needUpdate = true;
+		}
+
+		if (needUpdate) {
+			holder.updateMemberData(memberData.getId());
+		}
+	}
+
+	/**
+	 * 增加进度
+	 * 
+	 * @param memberId
+	 */
+	public void addPrayProcess(String memberId) {
+		GroupMemberData memberData = holder.getMemberData(memberId, false);
+		if (memberData == null) {
+			return;
+		}
+
+		memberData.setPrayProcess(memberData.getPrayProcess() + 1);
+		holder.updateMemberData(memberData.getId());
 	}
 }

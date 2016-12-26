@@ -1,6 +1,7 @@
 package com.rwbase.dao.group.pojo.db;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,13 +51,18 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	// ---------------------------------------扩展的内容
 	@CombineSave
 	@IgnoreSynField
-	private List<String> prayList;// 已经给谁送过卡片
-	@CombineSave
-	@IgnoreSynField
 	private long lastPrayTime;// 上次祈福的时间
 	@CombineSave
 	@IgnoreSynField
 	private int state;// 当前状态，0：未领取到，1：完成并领了奖励了
+
+	// ====================================赠送的列表隔天就可以清除，因为就算自己不祈福也还是可以给别人赠送魂石
+	@CombineSave
+	@IgnoreSynField
+	private long lastResetPrayTime;// 上次重置数据的时间点
+	@CombineSave
+	@IgnoreSynField
+	private List<String> prayList;// 已经给谁送过卡片
 
 	// ---------------------------------------内存缓存
 	@NonSave
@@ -71,6 +77,7 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 	public UserGroupAttributeData() {
 		studySkill = new HashMap<Integer, GroupSkillItem>();
 		applyGroupIdList = new ArrayList<String>();
+		prayList = new ArrayList<String>();
 	}
 
 	// ///////////////////////////////////////////////GET区域
@@ -181,6 +188,33 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 		return isInit;
 	}
 
+	/**
+	 * 获取上次祈福的时间点
+	 * 
+	 * @return
+	 */
+	public long getLastPrayTime() {
+		return lastPrayTime;
+	}
+
+	/**
+	 * 获取当前祈福的状态
+	 * 
+	 * @return
+	 */
+	public int getState() {
+		return state;
+	}
+
+	/**
+	 * 上次重置的时间点
+	 * 
+	 * @return
+	 */
+	public long getLastResetPrayTime() {
+		return lastResetPrayTime;
+	}
+
 	// ///////////////////////////////////////////////SET区域
 	/**
 	 * 设置角色Id
@@ -281,6 +315,33 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 
 	public void setInit(boolean isInit) {
 		this.isInit = isInit;
+	}
+
+	/**
+	 * 设置祈福的时间点
+	 * 
+	 * @param lastPrayTime
+	 */
+	public void setLastPrayTime(long lastPrayTime) {
+		this.lastPrayTime = lastPrayTime;
+	}
+
+	/**
+	 * 设置祈福的状态
+	 * 
+	 * @param state
+	 */
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	/**
+	 * 设置上次重置祈福人列表的时间点
+	 * 
+	 * @param lastResetPrayTime
+	 */
+	public void setLastResetPrayTime(long lastResetPrayTime) {
+		this.lastResetPrayTime = lastResetPrayTime;
 	}
 
 	// ///////////////////////////////////////////////逻辑处理区域
@@ -420,5 +481,42 @@ public class UserGroupAttributeData implements UserGroupAttributeDataIF, IMapIte
 
 	public void setLastDonateTime(long lastDonateTime) {
 		this.lastDonateTime = lastDonateTime;
+	}
+
+	/**
+	 * 清除祈祷的列表
+	 */
+	public void clearPrayList() {
+		if (prayList == null || prayList.isEmpty()) {
+			return;
+		}
+
+		prayList.clear();
+	}
+
+	/**
+	 * 获取当前已经给那个人赠送过魂石卡了
+	 * 
+	 * @return
+	 */
+	List<String> getPrayList() {
+		if (prayList.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		return Collections.unmodifiableList(prayList);
+	}
+
+	/**
+	 * 增加祈福的人到列表里
+	 * 
+	 * @param userId
+	 */
+	public void addPrayUserId(String userId) {
+		if (prayList.contains(userId)) {
+			return;
+		}
+
+		prayList.add(userId);
 	}
 }

@@ -2,6 +2,7 @@ package com.playerdata.group;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -16,6 +17,7 @@ import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.common.PlayerEventListener;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.support.FriendSupportFactory;
 import com.rwbase.common.attribute.AttributeItem;
 import com.rwbase.common.attribute.AttributeUtils;
@@ -27,8 +29,8 @@ import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillAttributeCfgDAO;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupSkillLevelCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupSkillItem;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
+import com.rwbase.dao.group.pojo.db.UserGroupAttributeDataHolder;
 import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
-import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataHolder;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.GroupCommonProto.GroupPost;
@@ -452,5 +454,68 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 		userGroupData.setLastDonateTime(lastDonateTime);
 		holder.flush(userId);
 		holder.synData(PlayerMgr.getInstance().find(userId));
+	}
+
+	/**
+	 * 检查并且清除已经申请的人的列表
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public UserGroupAttributeData resetPrayData(String userId) {
+		UserGroupAttributeData userGroupData = getUserGroupAttributeData(userId);
+		if (userGroupData == null) {
+			return userGroupData;
+		}
+
+		userGroupData.setState(0);// 设置成未领取状态
+		userGroupData.clearPrayList();// 清除
+		userGroupData.setLastPrayTime(DateUtils.getSecondLevelMillis());// 设置当前祈福的时间点
+		holder.flush(userId);
+
+		return userGroupData;
+	}
+
+	/**
+	 * 获取已经赠送过魂石卡片的人列表
+	 * 
+	 * @param userId
+	 * @return
+	 */
+	public List<String> getPrayList(String userId) {
+		return holder.getPrayList(userId);
+	}
+
+	/**
+	 * 添加userId到祈福赠送的列表中
+	 * 
+	 * @param userId
+	 */
+	public void addPrayUserId2List(String userId) {
+		UserGroupAttributeData userGroupData = getUserGroupAttributeData(userId);
+		if (userGroupData == null) {
+			return;
+		}
+
+		userGroupData.addPrayUserId(userId);
+		holder.flush(userId);
+	}
+
+	/**
+	 * 更新领取的状态
+	 * 
+	 * @param userId
+	 */
+	public void updatePrayGetState(String userId) {
+		UserGroupAttributeData userGroupData = getUserGroupAttributeData(userId);
+		if (userGroupData == null) {
+			return;
+		}
+
+		int state = userGroupData.getState();
+		if (state <= 0) {
+			userGroupData.setState(1);
+			holder.flush(userId);
+		}
 	}
 }

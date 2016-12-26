@@ -58,6 +58,9 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@CombineSave
 	@IgnoreSynField
 	private int prayCardId;// 祈福的卡Id
+	@CombineSave
+	@IgnoreSynField
+	private int bagHasNum;// 当前背包里的数量
 
 	// ////////////////////////////////////////////GET区域
 	/**
@@ -216,7 +219,7 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 * 
 	 * @return
 	 */
-	public int getPrayProcess() {
+	public synchronized int getPrayProcess() {
 		return prayProcess;
 	}
 
@@ -227,6 +230,15 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public int getPrayCardId() {
 		return prayCardId;
+	}
+
+	/**
+	 * 获取背包中当前的数量
+	 * 
+	 * @return
+	 */
+	public int getBagHasNum() {
+		return bagHasNum;
 	}
 
 	// ////////////////////////////////////////////SET区域
@@ -404,20 +416,30 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	}
 
 	/**
-	 * 设置祈福的进度
-	 * 
-	 * @param prayProcess
-	 */
-	public void setPrayProcess(int prayProcess) {
-		this.prayProcess = prayProcess;
-	}
-
-	/**
 	 * 设置祈福的卡Id
 	 * 
 	 * @param prayCardId
 	 */
 	public void setPrayCardId(int prayCardId) {
 		this.prayCardId = prayCardId;
+	}
+
+	/**
+	 * 把背包里当前有的数量缓存一下
+	 * 
+	 * @param bagHasNum
+	 */
+	public void setBagHasNum(int bagHasNum) {
+		this.bagHasNum = bagHasNum;
+	}
+
+	// ===========================================逻辑区
+	/**
+	 * 设置祈福的进度
+	 * 
+	 * @param prayProcess
+	 */
+	public synchronized void setPrayProcess(int process) {
+		this.prayProcess = process;
 	}
 }
