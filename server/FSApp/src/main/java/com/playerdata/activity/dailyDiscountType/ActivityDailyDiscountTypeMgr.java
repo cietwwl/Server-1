@@ -22,8 +22,8 @@ import com.rwbase.common.enu.eSpecialItemId;
 
 public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDailyDiscountTypeItem> {
 	
-	private static final int ACTIVITY_INDEX_BEGIN = 110000;
-	private static final int ACTIVITY_INDEX_END = 120000;
+	private static final int ACTIVITY_INDEX_BEGIN = 80000;
+	private static final int ACTIVITY_INDEX_END = 90000;
 
 	private static ActivityDailyDiscountTypeMgr instance = new ActivityDailyDiscountTypeMgr();
 
@@ -67,12 +67,12 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 				return result;
 			}
 			if (!isLevelEnough(player, cfg)) {
-				result.setReason("等级不足");
+				result.setReason("您的等级不足哦");
 				result.setSuccess(false);
 				return result;
 			}
 			if (!isVipEnough(player, itemCfg)) {
-				result.setReason("贵族等级不足");
+				result.setReason("您的贵族等级不足哦");
 				result.setSuccess(false);
 				return result;
 			}
@@ -82,7 +82,7 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 				return result;
 			}
 			if (!isGoldEnough(player, itemCfg)) {
-				result.setReason("钻石不足");
+				result.setReason("您的钻石不足哦");
 				result.setSuccess(false);
 				return result;
 			} else {
@@ -98,20 +98,32 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 		return result;
 	}
 
+	/**
+	 * 购买次数是否充足
+	 * @param count
+	 * @param cfg
+	 * @return
+	 */
 	private boolean isCountEnough(int count, ActivityDailyDiscountItemCfg cfg) {
-		if (count < cfg.getCountLimit()) {
-			return true;
-		}
-		return false;
+		return count < cfg.getCountLimit();
 	}
 
+	/**
+	 * 钻石是否充足
+	 * @param player
+	 * @param itemCfg
+	 * @return
+	 */
 	private boolean isGoldEnough(Player player, ActivityDailyDiscountItemCfg itemCfg) {
-		if (player.getUserGameDataMgr().isEnoughCurrency(eSpecialItemId.Gold, itemCfg.getPriceAfterDiscount())) {
-			return true;
-		}
-		return false;
+		return player.getUserGameDataMgr().isEnoughCurrency(eSpecialItemId.Gold, itemCfg.getPriceAfterDiscount());
 	}
 	
+	/**
+	 * vip等级是否达到
+	 * @param player
+	 * @param itemCfg
+	 * @return
+	 */
 	private boolean isVipEnough(Player player, ActivityDailyDiscountItemCfg itemCfg){
 		return player.getVip() >= itemCfg.getVipLimit();
 	}
@@ -136,7 +148,20 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 	 */
 	protected void dailyCheck(Player player, ActivityDailyDiscountTypeItem item){
 		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
-		
+		List<ActivityDailyDiscountTypeSubItem> subItemList = item.getSubItemList();	
+		ActivityDailyDiscountTypeItemHolder itemHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+		ActivityDailyDiscountTypeCfg discountCfg = ActivityDailyDiscountTypeCfgDAO.getInstance().getCfgById(item.getCfgId());
+		List<ActivityDailyDiscountTypeSubItem> newSubs = itemHolder.newSubItemList(discountCfg);
+		for(ActivityDailyDiscountTypeSubItem newSub : newSubs){
+			for(ActivityDailyDiscountTypeSubItem oldSub : subItemList){
+				if(StringUtils.equals(newSub.getCfgId(), oldSub.getCfgId())
+						&& newSub.getItemId() == oldSub.getItemId()){
+					newSub.setCount(oldSub.getCount());
+				}
+			}
+		}
+		item.setSubItemList(newSubs);
+		getHolder().updateItem(player, item);
 	}
 
 	protected UserActivityChecker<ActivityDailyDiscountTypeItem> getHolder(){

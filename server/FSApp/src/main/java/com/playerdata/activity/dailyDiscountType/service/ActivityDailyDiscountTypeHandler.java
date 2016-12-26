@@ -28,7 +28,7 @@ public class ActivityDailyDiscountTypeHandler {
 		if(cfg!=null){
 			ActivityComResult result = ActivityDailyDiscountTypeMgr.getInstance().buyItem(player, cfg, subItemId);
 			success = result.isSuccess();
-			tips = result.getReason()+"";
+			tips = result.getReason();
 		}
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);
