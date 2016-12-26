@@ -76,15 +76,18 @@ public class EmailHandler {
 
 		});
 		if(success){
-			openAllEmail(client, emailList);
+			success = openAllEmail(client, emailList);
 		}
 		return success;
 	}
 
-	private void openAllEmail(Client client, List<EmailInfo> emailList) {
+	private boolean openAllEmail(Client client, List<EmailInfo> emailList) {
 		for (EmailInfo emailInfo : emailList) {
-			openEmail(client, emailInfo.getEmailId());
+			if (!emailInfo.getIsChecked()) {
+				return openEmail(client, emailInfo.getEmailId());
+			}
 		}
+		return true;
 		
 	}
 
@@ -117,7 +120,7 @@ public class EmailHandler {
 					EmailResultType result = rsp.getResultType();
 					if (result != EmailResultType.SUCCESS) {						
 						RobotLog.fail("EmailHandler[openEmail] 服务器处理消息失败");
-						return false;
+						return true;
 					}
 
 				} catch (InvalidProtocolBufferException e) {

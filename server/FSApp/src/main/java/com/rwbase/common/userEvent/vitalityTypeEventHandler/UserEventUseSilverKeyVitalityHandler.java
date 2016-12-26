@@ -26,16 +26,15 @@ public class UserEventUseSilverKeyVitalityHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.UseSilverKeyVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
-				if(subCfg!=null&&isLevelEnough){
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.UseSilverKeyVitality,subCfg, Integer.parseInt(params.toString()));
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
+				boolean isLevelEnoughAndOpen = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
+				if(subCfg!=null&&isLevelEnoughAndOpen){
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.Vitality,subCfg, Integer.parseInt(params.toString()));
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.UseSilverKeyVitality.toString()).append(" error");				
-				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
+				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
 		

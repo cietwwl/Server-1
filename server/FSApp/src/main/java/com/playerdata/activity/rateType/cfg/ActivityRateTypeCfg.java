@@ -33,8 +33,16 @@ public class ActivityRateTypeCfg {
 	
 	private Map<Integer, List<Integer>> copyTypeMap = new HashMap<Integer, List<Integer>>();
 	
+	private String enumId;	
 	
-	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public Map<Integer, List<Integer>> getCopyTypeMap() {
 		return copyTypeMap;
 	}

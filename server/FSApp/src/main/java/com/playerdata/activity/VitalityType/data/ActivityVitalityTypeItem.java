@@ -63,6 +63,17 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 	@CombineSave
 	private long redPointLastTime;	
 	
+	@CombineSave
+	private String enumId;	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public long getRedPointLastTime() {
 		return redPointLastTime;
 	}
@@ -82,12 +93,13 @@ public class ActivityVitalityTypeItem implements  IMapItem {
 		this.isTouchRedPoint = isTouchRedPoint;
 	}
 	
-	public void reset(ActivityVitalityCfg cfg,ActivityVitalityTypeEnum eNum){
+	public void reset(ActivityVitalityCfg cfg){
+		this.cfgId = cfg.getId();
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday() ,eNum));
-		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday() ,eNum);
-		if(boxlist != null){
+		setSubItemList(ActivityVitalityCfgDAO.getInstance().newItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg));
+		List<ActivityVitalityTypeSubBoxItem> boxlist = ActivityVitalityCfgDAO.getInstance().newBoxItemList(ActivityVitalityCfgDAO.getInstance().getday(cfg) ,cfg);
+		if(boxlist != null&&!boxlist.isEmpty()){
 			setSubBoxItemList(boxlist);
 		}
 		lastTime = System.currentTimeMillis();

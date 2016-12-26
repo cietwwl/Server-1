@@ -12,8 +12,18 @@ public class ActivityRedEnvelopeTypeSubCfg {
 	
 	private int discount;
 	
+	private String parantid;
 	
 	
+	
+	public String getParantid() {
+		return parantid;
+	}
+
+	public void setParantid(String parantid) {
+		this.parantid = parantid;
+	}
+
 	public int getDiscount() {
 		return discount;
 	}

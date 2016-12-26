@@ -28,7 +28,9 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 	
 	private String userId;// 对应的角色Id
 
-
+	@CombineSave
+	private String enumId;
+	
 	@CombineSave
 	private String cfgId;
 	
@@ -56,6 +58,14 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 	
 	
 	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
 	public List<String> getHistoryRedPoint() {
 		return historyRedPoint;
 	}
@@ -86,6 +96,7 @@ public class ActivityExchangeTypeItem implements  IMapItem {
 	
 	/**版本刷新*/
 	public void reset(ActivityExchangeTypeCfg targetCfg,List<ActivityExchangeTypeSubItem> list){
+		this.cfgId = targetCfg.getId();
 		this.closed = false;
 		this.version = targetCfg.getVersion();
 		subItemList = list;

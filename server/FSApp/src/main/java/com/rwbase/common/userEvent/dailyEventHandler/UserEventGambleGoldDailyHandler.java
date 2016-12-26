@@ -34,7 +34,7 @@ public class UserEventGambleGoldDailyHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyTypeMgr.getInstance().isOpen(ActivityDailyTypeSubCfgDAO
-							.getInstance().getById(ActivityDailyTypeEnum.GambleGoldDaily.getCfgId()));
+							.getInstance().getListByEnumId(ActivityDailyTypeEnum.GambleGoldDaily.getCfgId()));
 					boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
 					if(isBetweendays&&isLevelEnough){
 						ActivityDailyTypeMgr.getInstance().addCount(player, ActivityDailyTypeEnum.GambleGoldDaily,Integer.parseInt(params.toString()));							

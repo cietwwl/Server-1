@@ -46,11 +46,11 @@ public final class ActivityDailyDiscountTypeSubCfgDAO extends CfgCsvDao<Activity
 	}
 
 
-	public List<ActivityDailyDiscountTypeSubCfg> getCfgListByParentId(ActivityDailyDiscountTypeEnum countTypeEnum) {
+	public List<ActivityDailyDiscountTypeSubCfg> getCfgListByParentId(String parantId) {
 		List<ActivityDailyDiscountTypeSubCfg> subCfgList = getAllCfg();
 		List<ActivityDailyDiscountTypeSubCfg> subCfgListByEnumID = new ArrayList<ActivityDailyDiscountTypeSubCfg>();
 		for(ActivityDailyDiscountTypeSubCfg subCfg :subCfgList){
-			if(StringUtils.equals(subCfg.getParentId(), countTypeEnum.getCfgId())){
+			if(StringUtils.equals(subCfg.getParentId(), parantId)){
 				subCfgListByEnumID.add(subCfg);
 			}			
 		}		

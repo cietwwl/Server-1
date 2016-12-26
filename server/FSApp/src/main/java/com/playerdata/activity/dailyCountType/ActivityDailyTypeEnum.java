@@ -4,20 +4,20 @@ import org.apache.commons.lang3.StringUtils;
 
 public enum ActivityDailyTypeEnum{	// implements TypeIdentification
 
-	Daily("201"),
+	Daily("19999"),
 	
 	
-	LoginDaily("20101"),
-	TreasureLandDaily("20102"),//聚宝之地
-	UpGradeStarDaily("20105"),//升星
-	AdvanceDaily("20106"),//进阶
-	BattleTowerDaily("20103"),//封神台
-	ArenaDaily("20107"),//竞技场
-	CoinSpendDaily("20108"),//花金币
-	ChargeDaily("20110"),//充值
-	GambleGoldDaily("20109"),//钻石钓鱼次数 
-	AttachDaily("20104"),//附灵
-	GoldSpendDaily("20111");//花钻石 
+	LoginDaily("10001"),
+	TreasureLandDaily("10002"),//聚宝之地
+	BattleTowerDaily("10003"),//封神台
+	AttachDaily("10004"),//附灵
+	UpGradeStarDaily("10005"),//升星
+	AdvanceDaily("10006"),//进阶
+	ArenaDaily("10007"),//竞技场
+	CoinSpendDaily("10008"),//花金币
+	GambleGoldDaily("10009"),//钻石钓鱼次数 
+	ChargeDaily("10010"),//充值
+	GoldSpendDaily("10011");//花钻石 
 	
 	
 	
