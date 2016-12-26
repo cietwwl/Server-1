@@ -1,11 +1,21 @@
 package com.rw.service.gm;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.HttpURLConnection;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -40,15 +50,25 @@ import com.playerdata.PlayerMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.playerdata.charge.ChargeMgr;
+import com.playerdata.charge.cfg.ChargeCfg;
+import com.playerdata.charge.cfg.ChargeCfgDao;
+import com.playerdata.charge.checker.YinHanChargeCallbackChecker;
+import com.playerdata.charge.data.ChargeOrderInfo;
+import com.playerdata.charge.data.ChargeParam;
+import com.playerdata.charge.util.MD5Encrypt;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.state.GFightStateTransfer;
 import com.playerdata.groupsecret.UserCreateGroupSecretDataMgr;
 import com.playerdata.groupsecret.UserGroupSecretBaseDataMgr;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.CopyInfoCfgIF;
+import com.rw.chargeServer.ChargeContentPojo;
 import com.rw.fsutil.cacheDao.CfgCsvReloader;
 import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.fsutil.ranking.RankingFactory;
+import com.rw.fsutil.util.jackson.JsonUtil;
+import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.Email.EmailUtils;
@@ -79,7 +99,9 @@ import com.rw.service.role.MainMsgHandler;
 import com.rwbase.common.enu.ECommonMsgTypeDef;
 import com.rwbase.common.enu.eStoreConditionType;
 import com.rwbase.common.userEvent.UserEventMgr;
+import com.rwbase.dao.angelarray.AngelArrayConst;
 import com.rwbase.dao.angelarray.pojo.db.TableAngelArrayData;
+import com.rwbase.dao.angelarray.pojo.db.dao.AngelArrayDataDao;
 import com.rwbase.dao.battletower.pojo.db.TableBattleTower;
 import com.rwbase.dao.battletower.pojo.db.dao.TableBattleTowerDao;
 import com.rwbase.dao.copy.pojo.ItemInfo;
@@ -111,6 +133,7 @@ import com.rwbase.dao.item.pojo.itembase.INewItem;
 import com.rwbase.dao.item.pojo.itembase.IUseItem;
 import com.rwbase.dao.item.pojo.itembase.NewItem;
 import com.rwbase.dao.item.pojo.itembase.UseItem;
+import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleQualityCfgDAO;
 import com.rwbase.dao.setting.HeadBoxCfgDAO;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -300,8 +323,16 @@ public class GMHandler {
 		funcCallBackMap.put("exchangeSoul".toLowerCase(), "exchangeSoul");
 		funcCallBackMap.put("resetJBZD".toLowerCase(), "resetJBZD");
 		funcCallBackMap.put("resetLQSG".toLowerCase(), "resetLQSG");
+		funcCallBackMap.put("resetQKHJ".toLowerCase(), "resetQKHJ");
 		funcCallBackMap.put("resetJBZDCD".toLowerCase(), "resetJBZDCD");
 		funcCallBackMap.put("resetLQSGCD".toLowerCase(), "resetLQSGCD");
+		funcCallBackMap.put("resetQKHJCD".toLowerCase(), "resetQKHJCD");
+		funcCallBackMap.put("resetSCLJ".toLowerCase(), "resetSCLJ");
+		funcCallBackMap.put("resetSCLJCD".toLowerCase(), "resetSCLJCD");
+		funcCallBackMap.put("resetWXZ".toLowerCase(), "resetWXZ");
+		funcCallBackMap.put("resetWXZCD".toLowerCase(), "resetWXZCD");
+		funcCallBackMap.put("resetFST".toLowerCase(), "resetFST");
+		funcCallBackMap.put("resetFSTCD".toLowerCase(), "resetFSTCD");
 		funcCallBackMap.put("sendWorldChat".toLowerCase(), "sendWorldChat");
 
 		funcCallBackMap.put("sendOneHundredEmails".toLowerCase(), "sendOneHundredEmails");
@@ -316,6 +347,9 @@ public class GMHandler {
 		funcCallBackMap.put("openwb", "openWorldBoss");// 开启/关闭世界boss状态 openwb num(0=关闭，1=开启)
 		funcCallBackMap.put("addGroupDonateAndExp".toLowerCase(), "addGroupDonateAndExp");
 		funcCallBackMap.put("addPersonalContribute".toLowerCase(), "addPersonalContribute");
+		funcCallBackMap.put("recal", "reCal");
+		// 充值测试
+		funcCallBackMap.put("charge", "charge");
 	}
 
 	public boolean isActive() {
@@ -353,7 +387,7 @@ public class GMHandler {
 
 	public boolean SetGroupSupplier(String[] comd, Player player) {
 		boolean result = true;
-		Group group = com.rw.service.group.helper.GroupHelper.getInstance().getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if (group == null) {
 			return false;
 		}
@@ -714,7 +748,6 @@ public class GMHandler {
 		int addNum = Integer.parseInt(arrCommandContents[0]);
 		if (player != null) {
 			player.getUserGameDataMgr().addCoin(addNum);
-			// loadSkillData();
 			return true;
 		}
 		// String [] strs = {"901","90001"};
@@ -1410,6 +1443,8 @@ public class GMHandler {
 			//
 			// GroupMemberMgr groupMemberMgr = group.getGroupMemberMgr();
 			// groupMemberMgr.resetMemberDataDonateTimes(player.getUserId(), System.currentTimeMillis());
+		} else if (functionName.equalsIgnoreCase("wxf")) {
+			resetWxFighting(player);
 		}
 
 		return true;
@@ -1441,7 +1476,7 @@ public class GMHandler {
 			return false;
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return false;
 		}
@@ -1487,7 +1522,12 @@ public class GMHandler {
 				return false;
 			}
 
-			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, value, 0, true);
+			if (groupData instanceof GroupBaseData) {
+				groupBaseDataMgr.addGroupExp(player, (GroupBaseData) groupData, group.getGroupLogMgr(), value);
+				groupBaseDataMgr.updateAndSynGroupData(player);
+			} else {
+				return false;
+			}
 		} else if (functionName.equalsIgnoreCase("token")) {// 增加帮派令牌
 			if (value == 0) {
 				return false;
@@ -1612,7 +1652,7 @@ public class GMHandler {
 			return false;
 		}
 
-		Group group = com.rw.service.group.helper.GroupHelper.getInstance().getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		if (group != null) {
 			group.getGroupMemberMgr().resetAllotGroupRewardCount(player.getUserId(), count, false);
 		}
@@ -2078,7 +2118,7 @@ public class GMHandler {
 			return true;
 		}
 		String groupName = arrCommandContents[0];
-		String groupId = GroupBM.getInstance().getGroupId(groupName);
+		String groupId = GroupBM.getGroupId(groupName);
 		if (groupId != null) {
 			return GCGMHandler.getHandler().joinGroup(arrCommandContents, player);
 		} else {
@@ -2243,6 +2283,38 @@ public class GMHandler {
 		return this.resetCopyCd(player, CopyType.COPY_TYPE_TRIAL_LQSG);
 	}
 
+	public boolean resetQKHJ(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_WARFARE);
+	}
+
+	public boolean resetQKHJCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_WARFARE);
+	}
+
+	public boolean resetSCLJ(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_CELESTIAL);
+	}
+
+	public boolean resetSCLJCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_CELESTIAL);
+	}
+
+	public boolean resetWXZ(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_TOWER);
+	}
+
+	public boolean resetWXZCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_TOWER);
+	}
+
+	public boolean resetFST(String[] arrCommandContents, Player player) {
+		return this.resetCopy(player, CopyType.COPY_TYPE_BATTLETOWER);
+	}
+
+	public boolean resetFSTCD(String[] arrCommandContents, Player player) {
+		return this.resetCopyCd(player, CopyType.COPY_TYPE_BATTLETOWER);
+	}
+
 	public boolean sendWorldChat(String[] arrCommandContents, Player player) {
 		String targetUserId = arrCommandContents[0];
 		Player target = PlayerMgr.getInstance().find(targetUserId);
@@ -2341,7 +2413,7 @@ public class GMHandler {
 		if (arrCommandContents.length > 1) {
 			groupExp = Integer.parseInt(arrCommandContents[1]);
 		}
-		Group group = GroupBM.getInstance().get(GroupHelper.getInstance().getGroupId(player));
+		Group group = GroupBM.get(GroupHelper.getGroupId(player));
 		if (group != null) {
 			GroupBaseData groupBaseData = (GroupBaseData) group.getGroupBaseDataMgr().getGroupData();
 			groupBaseData.setSupplies(groupBaseData.getSupplies() + groupSupply);
@@ -2352,7 +2424,7 @@ public class GMHandler {
 			}
 			group.getGroupBaseDataMgr().updateAndSynGroupData(player);
 			// 更新帮派排行榜属性
-			GroupRankHelper.getInstance().addOrUpdateGroup2BaseRank(group);
+			GroupRankHelper.addOrUpdateGroup2BaseRank(group);
 			return true;
 		} else {
 			return false;
@@ -2360,7 +2432,7 @@ public class GMHandler {
 	}
 
 	public boolean addPersonalContribute(String[] arrCommandContents, Player player) {
-		Group group = GroupBM.getInstance().get(GroupHelper.getInstance().getGroupId(player));
+		Group group = GroupBM.get(GroupHelper.getGroupId(player));
 		if (group != null) {
 			int contribute = Integer.parseInt(arrCommandContents[0]);
 			UserGroupAttributeDataIF baseData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
@@ -2369,24 +2441,213 @@ public class GMHandler {
 		return true;
 	}
 
-	// /**
-	// * 加载人数据的测试
-	// */
-	// private void loadSkillData() {
-	// // 要加载测试人的数据,多加载几个人,把某些需要的数据提出内存
-	// String[] heroIdArr = { "01696467-34a9-4ca3-b871-60dbcec9b1cb", "0a45b192-c426-4850-b178-26ae4c0ee2a7", "0fec1a57-4553-4ee7-8cbc-03f7a9e74e0a", "162f744d-e61f-4846-9108-1005f06d2fe7",
-	// "17630f4e-23f2-4328-9de6-f30a0d2bbfac", "1caf2b1a-7644-4610-aad8-64070e48a200",
-	// "2c3a7613-e670-4393-b802-8b61cef7e655", "2fd29b7a-a029-4e54-bbf3-3ea688114e22", "3a73bca4-4f9f-41dc-bd4b-dfd5b5ca0591", "3d902135-1c4e-4978-8435-275e014fc838" };
-	//
-	// RoleExtPropertyStoreCache<SkillItem> heroExtCache = RoleExtPropertyFactory.getHeroExtCache(HeroExtPropertyType.SKILL_ITEM, SkillItem.class);
-	// for (int i = 0, len = heroIdArr.length; i < len; i++) {
-	// try {
-	// heroExtCache.getStore(heroIdArr[i]);
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// } catch (Throwable e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
+	public boolean reCal(String[] arrCommandContents, Player player) {
+		List<Hero> heros = FSHeroMgr.getInstance().getAllHeros(player, null);
+		for (Hero h : heros) {
+			h.getAttrMgr().reCal();
+		}
+		return true;
+	}
+
+	/**
+	 * 重置万仙阵战力
+	 * 
+	 * @param arrCommandContents
+	 * @param player
+	 * @return
+	 */
+	private boolean resetWxFighting(Player player) {
+		TableAngelArrayData angleArrayData = player.getTowerMgr().getAngleArrayData();
+
+		angleArrayData.setResetTime(System.currentTimeMillis());// 设置重置个人数据的时间
+		// 从昨日竞技排行榜拿数据
+		angleArrayData.setResetLevel(player.getLevel());// 竞技阵容出现的最高等级
+		angleArrayData.setResetRankIndex(0);// 竞技排名
+		// 从昨日榜中获取自己的战力
+		Ranking rank = RankingFactory.getRanking(RankType.TEAM_FIGHTING_DAILY);
+		// 获取到佣兵要用于匹配的总战力
+		int totalFighting = -1;
+		if (rank != null) {
+			RankingEntry rankingEntry = rank.getRankingEntry(player.getUserId());
+			if (rankingEntry != null) {
+				RankingLevelData att = (RankingLevelData) rankingEntry.getExtendedAttribute();
+				if (att != null) {
+					totalFighting = att.getFightingTeam();
+				}
+			}
+		}
+
+		if (totalFighting == -1) {
+			List<Hero> allHeros = player.getHeroMgr().getAllHeros(player, comparator);
+
+			// 要看一下总共要获取多少个佣兵的战力
+			int maxSize = AngelArrayConst.MAX_HERO_FIGHTING_SIZE + 1;// 包括主要角色在内的佣兵数据
+			maxSize = maxSize > allHeros.size() ? allHeros.size() : maxSize;
+
+			// 获取到佣兵要用于匹配的总战力
+			for (int i = 0; i < maxSize; i++) {
+				totalFighting += allHeros.get(i).getFighting();
+			}
+		}
+
+		angleArrayData.setResetFighting(totalFighting);
+		AngelArrayDataDao.getDao().update(player.getUserId());
+
+		return true;
+	}
+
+	/**
+	 * 获取英雄的排序方法
+	 */
+	private static final Comparator<Hero> comparator = new Comparator<Hero>() {
+
+		@Override
+		public int compare(Hero h1, Hero h2) {
+			// 主角始终是排在最前边的
+			int rType1 = h1.getRoleType().ordinal();
+			int rType2 = h2.getRoleType().ordinal();
+			if (rType1 < rType2) {
+				return -1;
+			} else if (rType1 > rType2) {
+				return 1;
+			}
+			// 佣兵的个人战力，谁大谁在前
+			int f1 = h1.getFighting();
+			int f2 = h2.getFighting();
+			return f2 - f1;
+		}
+	};
+
+	/**
+	 * 测试作弊
+	 * 
+	 * @param player
+	 * @return
+	 */
+	public boolean charge(String[] arrCommandContents, Player player) {
+		if (arrCommandContents == null || arrCommandContents.length < 3) {
+			return false;
+		}
+
+		int index = Integer.parseInt(arrCommandContents[0]);
+		ChargeCfgDao cfgDAO = ChargeCfgDao.getInstance();
+		List<ChargeCfg> readOnlyAllCfg = cfgDAO.getReadOnlyAllCfg();
+		int size = readOnlyAllCfg.size();
+		if (index < 0 || index >= size) {
+			return false;
+		}
+
+		ChargeCfg chargeCfg = readOnlyAllCfg.get(index);
+		if (chargeCfg == null) {
+			System.out.println("charge fail! can not find charge id");
+			return false;
+		}
+		String chargeId = chargeCfg.getId();
+
+		System.out.println("-------------charge id:" + chargeId);
+		System.out.println("-------------chargeCfg.getMoney():" + chargeCfg.getMoneyCount());
+
+		SimpleDateFormat sdf = new SimpleDateFormat("MMdd_HHmmssSS");
+		String cpTradeNo = "YINHAN" + sdf.format(new Date(System.currentTimeMillis()));
+
+		String userId = player.getUserId();
+
+		ChargeContentPojo content = new ChargeContentPojo();
+		content.setCpTradeNo(cpTradeNo);
+		content.setGameId(1);
+		content.setUserId(userId);
+		content.setRoleId(userId);
+
+		content.setServerId(GameManager.getZoneId());
+		content.setChannelId("0");
+
+		ChargeParam para = new ChargeParam();
+		ChargeOrderInfo info = new ChargeOrderInfo();
+		para.setProductId(chargeId);
+		para.setChargeEntrance("1");
+		para.setFriendId(null);
+		info.setOrderId("182FA1C42A2468F8488E6DCF75A81B81");
+		para.setOrderInfo(info);
+		para.setImei(arrCommandContents[1]);
+		para.setSysVer(arrCommandContents[2]);
+
+		content.setItemId(chargeId);
+		content.setItemAmount(1);
+		content.setPrivateField(JsonUtil.writeValue(para));
+		content.setMoney(chargeCfg.getMoneyCount());
+		content.setCurrencyType("CNY");
+		content.setFee(chargeCfg.getMoneyYuan());
+		content.setStatus("0");
+		content.setGiftId(String.valueOf(chargeCfg.getExtraGiftId()));
+		content.setSign(getChargeSign(content));
+
+		String json = JsonUtil.writeValue(content);
+		try {
+			InetAddress localHost = Inet4Address.getLocalHost();
+			sendPost(localHost.getHostAddress(), "10000", json);
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
+	private void appendField(StringBuilder strBld, String value) {
+		if (value == null || value.length() == 0) {
+			value = "";
+		}
+		strBld.append(value).append("|");
+	}
+
+	/**
+	 * 充值的Sign
+	 * 
+	 * @param content
+	 * @return
+	 */
+	private String getChargeSign(ChargeContentPojo content) {
+		/*
+		 * sign=md5(cpTradeNo|gameId|userId|roleId|serverId|channelId|itemId|itemAmount|privateField|money|status|privateKey) 字段如果为null则用空的字符串代替
+		 */
+		StringBuilder strBld = new StringBuilder();
+		this.appendField(strBld, content.getCpTradeNo());
+		this.appendField(strBld, YinHanChargeCallbackChecker.appID);
+		this.appendField(strBld, content.getUserId());
+		this.appendField(strBld, content.getRoleId());
+		this.appendField(strBld, String.valueOf(content.getServerId()));
+		this.appendField(strBld, content.getChannelId());
+		this.appendField(strBld, content.getItemId());
+		this.appendField(strBld, String.valueOf(content.getItemAmount()));
+		this.appendField(strBld, content.getPrivateField());
+		this.appendField(strBld, String.valueOf(content.getMoney()));
+		this.appendField(strBld, content.getStatus());
+		strBld.append(YinHanChargeCallbackChecker.appKey);
+		return MD5Encrypt.MD5Encode(strBld.toString()).toLowerCase();
+	}
+
+	private void sendPost(String ip, String host, String param) {
+		try {
+			// URL url = new URL("http://" + ip + ":" + host + "/Charge/charge");
+			URL url = new URL("http://192.168.2.98:10000/Charge/charge");
+			HttpURLConnection openConnection = (HttpURLConnection) url.openConnection();
+			openConnection.setDoInput(true);
+			openConnection.setDoOutput(true);
+
+			openConnection.setRequestMethod("POST");
+			openConnection.setRequestProperty("Content-type", "application/json;charset-UTF8");
+
+			openConnection.connect();
+
+			PrintWriter pw = new PrintWriter(openConnection.getOutputStream());
+			System.err.println(param);
+			pw.write(param);
+			pw.flush();
+			pw.close();
+
+			System.err.println(openConnection.getResponseCode());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

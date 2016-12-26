@@ -30,4 +30,5 @@
 	</bean>
 	
 	<bean id="platformgsService" class="com.rw.service.platformgs.PlatformGSService" />
+	<!-- <bean id="RouterHttpServer" class="com.rw.routerServer.RouterHttpServer"/> -->
 </beans>  

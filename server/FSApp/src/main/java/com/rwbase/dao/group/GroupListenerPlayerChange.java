@@ -100,8 +100,8 @@ public class GroupListenerPlayerChange extends PlayerChangePopertySubscribe {
 
 		String userId = p.getUserId();
 		UserGroupAttributeDataIF baseData = p.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-		// 角色如果没有帮派，这里会没有数据,所以要在这里加多个判断 ---------by Alex
-		if (baseData == null) {
+		//角色如果没有帮派，这里会没有数据,所以要在这里加多个判断  ---------by Alex
+		if(baseData == null){
 			return;
 		}
 		String groupId = baseData.getGroupId();
@@ -109,7 +109,7 @@ public class GroupListenerPlayerChange extends PlayerChangePopertySubscribe {
 			return;
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return;
 		}

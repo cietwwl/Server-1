@@ -115,13 +115,13 @@ public class JsonValueWriter {
 
 	private Map<Object, Object> createMap(Class<?> clazz, int size) {
 		if (clazz == ConcurrentHashMap.class) {
-			return new ConcurrentHashMap<Object, Object>(size);
+			return new ConcurrentHashMap<Object, Object>(size, 1.0f, 1);
 		} else if (clazz == LinkedHashMap.class) {
-			return new LinkedHashMap<Object, Object>(size);
+			return new LinkedHashMap<Object, Object>(size, 1.0f);
 		} else if (clazz == TreeMap.class) {
 			return new TreeMap<Object, Object>();
 		} else {
-			return new HashMap<Object, Object>(size);
+			return new HashMap<Object, Object>(size, 1.0f);
 		}
 	}
 
@@ -313,7 +313,7 @@ public class JsonValueWriter {
 				array.add(null);
 				oldRecord_.set(i, null);
 				continue;
-			}  else {
+			} else {
 				Class<?> oldValueClass = oldValue.getClass();
 				Class<?> newValueClass = newValue.getClass();
 				// 先判断类型是否一致

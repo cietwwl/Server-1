@@ -32,16 +32,6 @@ public class FSGetGemCurrentFightingOfSingleFunc implements IFunction<Hero, Inte
 		GemBuilder gb = new GemBuilder();
 		gb.setHeroId(hero.getTemplateId());
 		gb.setGemList(gemIdList);
-
 		return FightingCalcComponentType.GEM.calc.calc(gb.build());
-		// GemCfg gemCfg;
-		// OneToOneTypeFightingCfg gemFightingCfg;
-		// int fighting = 0;
-		// for (String cfgId : gemIdList) {
-		// gemCfg = GemCfgDAO.getInstance().getCfgById(cfgId);
-		// gemFightingCfg = gemFightingCfgDAO.getCfgById(String.valueOf(gemCfg.getGemLevel()));
-		// fighting += gemFightingCfg.getFighting();
-		// }
-		// return fighting;
 	}
 }

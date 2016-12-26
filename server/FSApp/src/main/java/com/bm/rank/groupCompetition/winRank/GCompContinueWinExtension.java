@@ -5,7 +5,7 @@ import com.playerdata.Player;
 import com.rw.fsutil.ranking.RankingEntry;
 import com.rw.service.group.helper.GroupHelper;
 
-public class GCompContinueWinExtension extends RankingJacksonExtension<GCompContinueWinComparable, GCompContinueWinItem> {
+public class GCompContinueWinExtension extends RankingJacksonExtension<GCompContinueWinComparable, GCompContinueWinItem>{
 
 	public GCompContinueWinExtension() {
 		super(GCompContinueWinComparable.class, GCompContinueWinItem.class);
@@ -17,13 +17,13 @@ public class GCompContinueWinExtension extends RankingJacksonExtension<GCompCont
 
 	@Override
 	public <P> GCompContinueWinItem newEntryExtension(String key, P param) {
-		if (param instanceof GCompContinueWinItem) {
-			return (GCompContinueWinItem) param;
+		if(param instanceof GCompContinueWinItem){
+			return (GCompContinueWinItem)param;
 		}
-		Player player = (Player) param;
+		Player player = (Player)param;
 		GCompContinueWinItem toData = new GCompContinueWinItem();
 		toData.setUserId(player.getUserId());
-		toData.setGroupName(GroupHelper.getInstance().getGroupName(player.getUserId()));
+		toData.setGroupName(GroupHelper.getGroupName(player.getUserId()));
 		toData.setUserName(player.getUserName());
 		toData.setHeadImage(player.getHeadImage());
 		return toData;

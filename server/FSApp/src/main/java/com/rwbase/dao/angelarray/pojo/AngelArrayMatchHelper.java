@@ -22,6 +22,12 @@ import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.HeroMgr;
 import com.playerdata.PlayerMgr;
+import com.playerdata.embattle.EmBattlePositionKey;
+import com.playerdata.embattle.EmbattleHeroPosition;
+import com.playerdata.embattle.EmbattleInfoMgr;
+import com.playerdata.embattle.EmbattlePositionInfo;
+import com.playerdata.hero.core.FSHero;
+import com.playerdata.hero.core.FSHeroMgr;
 import com.playerdata.readonly.PlayerIF;
 import com.playerdata.team.HeroInfo;
 import com.playerdata.team.TeamInfo;
@@ -38,20 +44,23 @@ import com.rwbase.dao.group.pojo.readonly.UserGroupAttributeDataIF;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.role.RoleCfgDAO;
 import com.rwbase.dao.role.pojo.RoleCfg;
+import com.rwproto.BattleCommon.eBattlePositionType;
 
 /*
  * @author HC
  * @date 2015年11月13日 下午3:47:37
  * @Description 万仙阵匹配的处理
  */
-public final class AngelArrayMatchHelper {
+public class AngelArrayMatchHelper {
 
-	private static final Comparator<MatchUserInfo> COMPARATOR = new Comparator<MatchUserInfo>() {
+	private static RankType SECOND_MATCH_RANK_TYPE = RankType.TEAM_FIGHTING;// 第二层随机的榜
+
+	private static Comparator<MatchUserInfo> COMPARATOR = new Comparator<MatchUserInfo>() {
 
 		@Override
 		public int compare(MatchUserInfo o1, MatchUserInfo o2) {
-			int rankIndex1 = getArenaRankIndex(o1);
-			int rankIndex2 = getArenaRankIndex(o2);
+			int rankIndex1 = AngelArrayMatchHelper.getInstance().getArenaRankIndex(o1);
+			int rankIndex2 = AngelArrayMatchHelper.getInstance().getArenaRankIndex(o2);
 			if (rankIndex1 == rankIndex2) {
 				return 0;
 			}
@@ -68,6 +77,15 @@ public final class AngelArrayMatchHelper {
 		}
 	};
 
+	private static AngelArrayMatchHelper instance = new AngelArrayMatchHelper();
+
+	public static AngelArrayMatchHelper getInstance() {
+		return instance;
+	}
+
+	protected AngelArrayMatchHelper() {
+	}
+
 	/**
 	 * 获取匹配到的阵容信息
 	 * 
@@ -81,7 +99,7 @@ public final class AngelArrayMatchHelper {
 	 * @param robotId
 	 * @return
 	 */
-	public static AngelArrayTeamInfoData getMatchAngelArrayTeamInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, int robotId) {
+	public AngelArrayTeamInfoData getMatchAngelArrayTeamInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, int robotId) {
 		// 第一步等级匹配 && 第二步战力匹配
 		Map<String, MatchUserInfo> matchUserInfo = getMatchUserInfo(userId, level, maxLevel, minFighting, maxFighting, enemyIdList, hasUserIdList, RankType.ANGEL_TEAM_INFO_RANK);
 
@@ -102,49 +120,16 @@ public final class AngelArrayMatchHelper {
 		RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> matchRankingEntry = null;
 		String ranResult = null;
 
+		// StringBuilder sb = new StringBuilder();
+		// sb.append(String.format("等级区间[%s,%s]，战力区间[%s,%s]，检查机器人区间[%s,%s]", level, maxLevel, minFighting, maxFighting, lowFighting, highFighting)).append("\n");
+
 		boolean isRobot = true;// 是否是随机出来的机器人
 		// 排行榜
 		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(RankType.ANGEL_TEAM_INFO_RANK);
 		if (!matchUserInfo.isEmpty()) {
-			// 对随机到的人进行一次优先级排序
-			ArrayList<MatchUserInfo> list = new ArrayList<MatchUserInfo>(matchUserInfo.values());
-			Collections.sort(list, COMPARATOR);
-			// 第三步找出来的人进行排名权重
-			// 第四步竞技活跃权重
-
-			long now = System.currentTimeMillis();
-			// 登陆时间
-			Map<String, Integer> proMap = new HashMap<String, Integer>();
-			for (int i = 0, size = list.size(); i < size; i++) {
-				MatchUserInfo matchUser = list.get(i);
-				if (matchUser == null) {
-					continue;
-				}
-
-				String matchUserId = matchUser.getUserId();
-
-				double pro = AngelArrayConst.ARENA_RANK_INDEX_RATE / (i + 1);
-
-				// TODO HC 竞技场上次打的时间
-				RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(matchUserId);
-				int dayDistance = AngelArrayConst.DEFAULT_LOGOUT_DAYS;
-				if (rankingEntry != null) {
-					AngelArrayTeamInfoAttribute extendedAttribute = rankingEntry.getExtendedAttribute();
-					if (extendedAttribute != null) {
-						long lastArenaTime = extendedAttribute.getTime();
-						if (lastArenaTime > 0) {
-							dayDistance = DateUtils.getDayDistance(lastArenaTime, now);
-						}
-					}
-				}
-				pro += AngelArrayConst.ARENA_FIGHT_TIME_RATE / (dayDistance + 1);
-				int finalPro = (int) pro;
-				proMap.put(matchUserId, finalPro);
-			}
-
-			Weight<String> weight = new Weight<String>(proMap);
-			ranResult = weight.getRanResult();
-			if (ranResult != null) {
+			MatchUserInfo matchUser = getMatchUser(matchUserInfo, ranking);
+			if (matchUser != null) {
+				ranResult = matchUser.getUserId();
 				enemyIdList.add(ranResult);// 增加一个新的成员Id
 
 				// 查找到阵容信息
@@ -164,75 +149,49 @@ public final class AngelArrayMatchHelper {
 				List<Integer> heroModelIdList = new ArrayList<Integer>();
 				PlayerIF readOnlyPlayer = null;
 				if (teamInfo == null) {// 阵容信息为空
-					TableArenaData arenaData = ArenaBM.getInstance().getArenaData(ranResult);
 					readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
-					if (arenaData != null) {
-						// 先找攻击阵容<模版Id>
-						List<String> atkHeroList = arenaData.getAtkList();// 阵容信息
-						if (atkHeroList != null && !atkHeroList.isEmpty() && readOnlyPlayer != null) {
-							if (atkHeroList.contains(ranResult)) {
-								atkHeroList.remove(ranResult);
-							}
-							teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListById(readOnlyPlayer, atkHeroList, heroModelIdList);
-							hasTeam = true;
-						} else {
-							// 再找防守阵容
-							List<String> heroIdList = arenaData.getHeroIdList();// 防守阵容信息
-							if (heroIdList != null && !heroIdList.isEmpty() && readOnlyPlayer != null) {
-								if (atkHeroList.contains(ranResult)) {
-									atkHeroList.remove(ranResult);
-								}
-								teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListByUUIDList(readOnlyPlayer, heroIdList, heroModelIdList);
-								hasTeam = true;
-							}
-						}
-					}
+					if (readOnlyPlayer != null) {
+						teamFighting = getRealPlayerEmbattleInfoFighting(readOnlyPlayer, matchUser.getRankType(), heroModelIdList);
+						hasTeam = !heroModelIdList.isEmpty();
 
-					if (readOnlyPlayer != null) {// 从角色身上取阵容
-						if (!hasTeam) {
-							HeroMgr heroMgr = readOnlyPlayer.getHeroMgr();
-
-							int mainRoleModelId = readOnlyPlayer.getModelId();
-
-							heroModelIdList.add(mainRoleModelId);
-							teamFighting += readOnlyPlayer.getMainRoleHero().getFighting();
-
-							List<Hero> maxFightingHeros = heroMgr.getMaxFightingHeros(readOnlyPlayer);
-							for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
-								Hero hero = maxFightingHeros.get(i);
-								if (hero == null) {
-									continue;
-								}
-
-								int modelId = hero.getModeId();
-								if (mainRoleModelId == modelId) {
-									continue;
-								}
-
-								teamFighting += hero.getFighting();
-								if (!heroModelIdList.contains(modelId)) {
-									heroModelIdList.add(modelId);
-								}
-							}
-						}
-
+						// 获取到帮派等信息
 						UserGroupAttributeDataIF userGroupAttributeData = readOnlyPlayer.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
 						groupName = userGroupAttributeData == null ? "" : userGroupAttributeData.getGroupName();
 						headId = readOnlyPlayer.getHeadImage();
 						playerName = readOnlyPlayer.getUserName();
 						career = readOnlyPlayer.getMainRoleHero().getCareerType();
-
-						hasTeam = true;
 					}
 				} else {
-					teamFighting = teamInfo.getTeamFighting();
-					heroModelIdList = getHeroModelIdList(teamInfo.getHero());
+					int fighting = teamInfo.getTeamFighting();
+					// int logFighting = fighting;
+					boolean canUseRanking = true;
+					if (matchUser.getRankType() == SECOND_MATCH_RANK_TYPE && fighting != matchUser.getFighting()) {
+						readOnlyPlayer = PlayerMgr.getInstance().getReadOnlyPlayer(ranResult);
+						if (readOnlyPlayer != null) {
+							teamFighting = getCopyEmbattleTeamFighting(readOnlyPlayer, heroModelIdList);
+							teamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
+							canUseRanking = false;
 
-					hasTeam = true;
+							// logFighting = teamFighting;
+							// sb.append("取自玩家身上真实的副本阵容：");
+						}
+					}
+
+					if (canUseRanking) {
+						teamFighting = fighting;
+						heroModelIdList = getHeroModelIdList(teamInfo.getHero());
+						// logFighting = matchRankingEntry == null ? teamFighting : matchRankingEntry.getComparable().getFighting();
+						// sb.append("取自玩家万仙阵排行中的阵容：");
+					}
+
+					hasTeam = !heroModelIdList.isEmpty();
+
 					groupName = teamInfo.getGroupName();
 					headId = teamInfo.getHeadId();
 					playerName = teamInfo.getName();
 					career = teamInfo.getCareer();
+
+					// sb.append(ranResult).append(",战斗力：").append(logFighting).append("\n");
 				}
 
 				boolean fit = false;
@@ -244,31 +203,37 @@ public final class AngelArrayMatchHelper {
 					if (teamInfo != null) {
 						finalTeamInfo = teamInfo;
 						isRobot = false;
+						// sb.append("阵容正好合适，并且teamInfo不是空：").append(ranResult).append(",战斗力：").append(teamFighting).append("\n");
 					} else {
 						if (!hasTeam) {
 							finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
+							// sb.append("阵容正好合适，并且玩家没有阵容，要用纯机器人：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 						} else {
 							finalTeamInfo = AngelArrayTeamInfoHelper.parsePlayer2TeamInfo(readOnlyPlayer, heroModelIdList);
 							isRobot = false;
+							// sb.append("阵容正好合适，玩家有阵容，用机器人数据填充：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 						}
 					}
 				} else {
 					if (!hasTeam) {
 						finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
+						// sb.append("阵容不合适，并且玩家没有阵容，要用纯机器人：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 					} else {
 						finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId, new BuildRoleInfo(ranResult, playerName, headId, groupName, career, heroModelIdList), true);
 						isRobot = false;
+						// sb.append("阵容不合适，玩家有阵容，用机器人数据填充：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 					}
 				}
-
-				System.err.println(String.format("匹配到的成员的是否合适【%s】，【%s】，默认的阵容战力【%s】", fit, hasTeam, teamFighting));
 			} else {
 				finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 				ranResult = finalTeamInfo.getUuid();
+				// sb.append("没有匹配到任何数据，用纯机器人：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 			}
 		} else {
 			finalTeamInfo = RobotHeroBuilder.getRobotTeamInfo(robotId);
 			ranResult = finalTeamInfo.getUuid();
+
+			// sb.append("数据完全没有。只能用纯机器人：").append(ranResult).append(",战斗力：").append(finalTeamInfo.getTeamFighting()).append(",机器人Id:").append(robotId).append("\n");
 		}
 
 		int matchFighting = finalTeamInfo.getTeamFighting();
@@ -288,8 +253,11 @@ public final class AngelArrayMatchHelper {
 			ranking.addOrUpdateRankingEntry(ranResult, comparable, attribute);
 		}
 
-		GameLog.info("万仙阵匹配的数据", userId,
-				String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting, (finalTeamInfo != null ? matchFighting : 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
+		// GameLog.info("万仙阵匹配的数据", userId,
+		// String.format("匹配最低战力【%s】，最高战力【%s】，等级【%s】，浮动下限【%s】，浮动上限【%s】，匹配之后的战力【%s】，名字【%s】，ID【%s】", minFighting, maxFighting, level, lowFighting, highFighting, (finalTeamInfo != null ? matchFighting :
+		// 0), (finalTeamInfo != null ? finalTeamInfo.getName() : ""), ranResult));
+
+		// System.err.println(sb.toString());
 
 		AngelArrayTeamInfoData angelArrayTeamInfoData = new AngelArrayTeamInfoData();
 		int saveMinFighting = (int) (minFighting * (1 - AngelArrayConst.SAVE_TEAM_INFO_FIGHTING_LOW_RATE));
@@ -314,12 +282,207 @@ public final class AngelArrayMatchHelper {
 	}
 
 	/**
+	 * 随机一个成员出来
+	 * 
+	 * @param matchUserInfo
+	 * @param ranking
+	 * @return
+	 */
+	private MatchUserInfo getMatchUser(Map<String, MatchUserInfo> matchUserInfo, Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking) {
+		// 对随机到的人进行一次优先级排序
+		ArrayList<MatchUserInfo> list = new ArrayList<MatchUserInfo>(matchUserInfo.values());
+		Collections.sort(list, COMPARATOR);
+		// 第三步找出来的人进行排名权重
+		// 第四步竞技活跃权重
+
+		long now = System.currentTimeMillis();
+		// 登陆时间
+		Map<MatchUserInfo, Integer> proMap = new HashMap<MatchUserInfo, Integer>();
+		for (int i = 0, size = list.size(); i < size; i++) {
+			MatchUserInfo matchUser = list.get(i);
+			if (matchUser == null) {
+				continue;
+			}
+
+			String matchUserId = matchUser.getUserId();
+
+			double pro = AngelArrayConst.ARENA_RANK_INDEX_RATE / (i + 1);
+
+			RankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> rankingEntry = ranking.getRankingEntry(matchUserId);
+			int dayDistance = AngelArrayConst.DEFAULT_LOGOUT_DAYS;
+			if (rankingEntry != null) {
+				AngelArrayTeamInfoAttribute extendedAttribute = rankingEntry.getExtendedAttribute();
+				if (extendedAttribute != null) {
+					long lastArenaTime = extendedAttribute.getTime();
+					if (lastArenaTime > 0) {
+						dayDistance = DateUtils.getDayDistance(lastArenaTime, now);
+					}
+				}
+			}
+			pro += AngelArrayConst.ARENA_FIGHT_TIME_RATE / (dayDistance + 1);
+			int finalPro = (int) pro;
+			proMap.put(matchUser, finalPro);
+		}
+
+		Weight<MatchUserInfo> weight = new Weight<MatchUserInfo>(proMap);
+		return weight.getRanResult();
+	}
+
+	/**
+	 * 当数据中没有任何阵容信息的时候，从这个几个途径拿取阵容信息
+	 * 
+	 * @param player
+	 * @param matchSource 匹配到的人的来源
+	 * @param heroModelIdList
+	 * @return
+	 */
+	private int getRealPlayerEmbattleInfoFighting(PlayerIF player, RankType matchSource, List<Integer> heroModelIdList) {
+		int teamFighting = 0;
+		if (matchSource == RankType.ANGEL_TEAM_INFO_RANK) {// 来源万仙阵榜
+			teamFighting = getArenaTeamFighting(player, heroModelIdList);
+			if (teamFighting > 0) {
+				return teamFighting;
+			}
+		} else if (matchSource == SECOND_MATCH_RANK_TYPE) {// 来源战力榜
+			teamFighting = getCopyEmbattleTeamFighting(player, heroModelIdList);
+			if (teamFighting > 0) {
+				return teamFighting;
+			}
+		}
+
+		// 3：然后采用身上最高战力的五人
+		return getStrongestHeroTeamFighting(player, heroModelIdList);
+	}
+
+	/**
+	 * 获取竞技场中的阵容和战斗力
+	 * 
+	 * @param player
+	 * @param heroModelIdList
+	 * @return
+	 */
+	private int getArenaTeamFighting(PlayerIF player, List<Integer> heroModelIdList) {
+		if (player == null) {
+			return 0;
+		}
+
+		String userId = player.getUserId();
+		TableArenaData arenaData = ArenaBM.getInstance().getArenaData(userId);
+		if (arenaData == null) {
+			return 0;
+		}
+
+		// StringBuilder sb = new StringBuilder();
+
+		int teamFighting = 0;
+		// 先找攻击阵容<模版Id>
+		List<String> atkHeroList = arenaData.getAtkList();// 阵容信息
+		if (atkHeroList != null && !atkHeroList.isEmpty()) {
+			if (atkHeroList.contains(userId)) {
+				atkHeroList.remove(userId);
+			}
+
+			teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListById(player, atkHeroList, heroModelIdList);
+			// sb.append("取自竞技场排行攻击阵容：").append(userId).append(",战斗力：").append(teamFighting).append("\n");
+		} else {
+			// 再找防守阵容
+			List<String> heroIdList = arenaData.getHeroIdList();// 防守阵容信息
+			if (heroIdList != null && !heroIdList.isEmpty()) {
+				if (atkHeroList.contains(userId)) {
+					atkHeroList.remove(userId);
+				}
+				teamFighting = AngelArrayTeamInfoHelper.getTeamInfoHeroModelListByUUIDList(player, heroIdList, heroModelIdList);
+
+				// sb.append("取自竞技场排行防守阵容：").append(userId).append(",战斗力：").append(teamFighting).append("\n");
+			}
+		}
+
+		// System.err.println(sb.toString());
+
+		return teamFighting;
+	}
+
+	/**
+	 * 获取最强无人的数据
+	 * 
+	 * @param player
+	 * @param heroModelIdList
+	 * @return
+	 */
+	private int getStrongestHeroTeamFighting(PlayerIF player, List<Integer> heroModelIdList) {
+		int teamFighting = 0;
+
+		HeroMgr heroMgr = player.getHeroMgr();
+		int mainRoleModelId = player.getModelId();
+
+		heroModelIdList.add(mainRoleModelId);
+		teamFighting += player.getMainRoleHero().getFighting();
+
+		List<Hero> maxFightingHeros = heroMgr.getMaxFightingHeros(player);
+		for (int i = 0, size = maxFightingHeros.size(); i < size; i++) {
+			Hero hero = maxFightingHeros.get(i);
+			if (hero == null) {
+				continue;
+			}
+
+			int modelId = hero.getModeId();
+			if (mainRoleModelId == modelId) {
+				continue;
+			}
+
+			teamFighting += hero.getFighting();
+			if (!heroModelIdList.contains(modelId)) {
+				heroModelIdList.add(modelId);
+			}
+		}
+
+		// System.err.println(new StrBuilder().append("没有任何自发阵容--最强五人：").append(player.getUserId()).append(",战斗力：").append(teamFighting).toString());
+		return teamFighting;
+	}
+
+	/**
+	 * 获取副本阵容中的战斗力
+	 * 
+	 * @param player
+	 * @param heroModelIdList
+	 * @return
+	 */
+	private int getCopyEmbattleTeamFighting(PlayerIF player, List<Integer> heroModelIdList) {
+		EmbattlePositionInfo embattleInfo = EmbattleInfoMgr.getMgr().getEmbattlePositionInfo(player.getUserId(), eBattlePositionType.Normal_VALUE, EmBattlePositionKey.posCopy.getKey());
+		if (embattleInfo == null) {
+			return 0;
+		}
+
+		List<EmbattleHeroPosition> normalPosList = embattleInfo.getPos();
+		if (normalPosList == null || normalPosList.isEmpty()) {
+			return 0;
+		}
+
+		int teamFighting = 0;
+		FSHeroMgr heroMgr = FSHeroMgr.getInstance();
+		for (int i = 0, size = normalPosList.size(); i < size; i++) {
+			EmbattleHeroPosition heroPos = normalPosList.get(i);
+			FSHero hero = heroMgr.getHeroById(player, heroPos.getId());
+			if (hero == null) {
+				continue;
+			}
+
+			teamFighting += hero.getFighting();
+			heroModelIdList.add(hero.getModeId());
+		}
+
+		// System.err.println(new StrBuilder().append("没有任何自发阵容--副本：").append(player.getUserId()).append(",战斗力：").append(teamFighting).toString());
+
+		return teamFighting;
+	}
+
+	/**
 	 * 获取所有的英雄Id列表
 	 * 
 	 * @param hero
 	 * @return
 	 */
-	private static List<Integer> getHeroModelIdList(List<HeroInfo> hero) {
+	private List<Integer> getHeroModelIdList(List<HeroInfo> hero) {
 		RoleCfgDAO roleCfgDAO = RoleCfgDAO.getInstance();
 		List<Integer> heroModelIdList = new ArrayList<Integer>();
 		if (hero == null || hero.isEmpty()) {
@@ -355,7 +518,7 @@ public final class AngelArrayMatchHelper {
 	 * @param enemyIdList 已经匹配到的数据
 	 * @return
 	 */
-	private static Map<String, MatchUserInfo> getMatchUserInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, RankType rankType) {
+	private Map<String, MatchUserInfo> getMatchUserInfo(String userId, int level, int maxLevel, int minFighting, int maxFighting, List<String> enemyIdList, List<String> hasUserIdList, RankType rankType) {
 		Map<String, MatchUserInfo> matchUserInfo = new HashMap<String, MatchUserInfo>(AngelArrayConst.MIN_MATCH_SIZE);
 
 		Ranking<AngelArrayComparable, AngelArrayTeamInfoAttribute> ranking = RankingFactory.getRanking(rankType);
@@ -379,6 +542,8 @@ public final class AngelArrayMatchHelper {
 			return matchUserInfo;
 		}
 
+		// StringBuilder sb = new StringBuilder();
+
 		for (int i = 0; i < refSize; i++) {
 			MomentRankingEntry<AngelArrayComparable, AngelArrayTeamInfoAttribute> momentRankingEntry = segmentList.get(i);
 			if (momentRankingEntry == null) {
@@ -392,16 +557,25 @@ public final class AngelArrayMatchHelper {
 			}
 
 			TeamInfo teamInfo = extendedAttribute.getTeamInfo();
-			matchUserInfo.put(id, new MatchUserInfo(id, teamInfo == null ? -1 : teamInfo.getCareer()));
+			if (teamInfo == null) {
+				GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("id为[%s]的用户在万仙阵匹配榜[%s]找不到对应的TeamInfo", id, rankType));
+				continue;
+			}
 
-			if (matchUserInfo.size() >= AngelArrayConst.MAX_MATCH_SIZE) {
+			matchUserInfo.put(id, new MatchUserInfo(id, teamInfo == null ? -1 : teamInfo.getCareer(), rankType, teamInfo.getTeamFighting()));
+
+			if (matchUserInfo.size() >= AngelArrayConst.MIN_MATCH_SIZE) {
 				break;
 			}
+
+			// sb.append("人Id：").append(id).append(",战力：").append(momentRankingEntry.getComparable().getFighting()).append("\n");
 		}
 
 		if (matchUserInfo.isEmpty()) {
 			GameLog.error("从万仙阵阵容榜中匹配", userId, String.format("需要匹配的战力上下限是[%s,%s]不能从类型为[%s]榜中匹配到任何玩家数据", minFighting, maxFighting, rankType));
 		}
+
+		// System.err.println("第一步根据竞技场阵容随机到的人信息：" + sb.toString());
 		return matchUserInfo;
 	}
 
@@ -413,10 +587,10 @@ public final class AngelArrayMatchHelper {
 	 * @param hasMatchList 已经匹配到的数据
 	 * @return
 	 */
-	private static void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, Map<String, MatchUserInfo> matchUserInfo, List<String> enemyIdList, List<String> hasUserIdList) {
-		Ranking<FightingComparable, RankingLevelData> rank = RankingFactory.getRanking(RankType.FIGHTING_ALL_DAILY);
+	private void getFightingRankMatch(String userId, int rankCount, int minFighting, int maxFighting, Map<String, MatchUserInfo> matchUserInfo, List<String> enemyIdList, List<String> hasUserIdList) {
+		Ranking<FightingComparable, RankingLevelData> rank = RankingFactory.getRanking(SECOND_MATCH_RANK_TYPE);
 		if (rank == null) {
-			GameLog.error("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), "获取不到对应某个排行榜的数据");
+			GameLog.error("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), "获取不到对应某个排行榜的数据");
 			return;
 		}
 
@@ -433,8 +607,10 @@ public final class AngelArrayMatchHelper {
 		boolean nonPerson = true;// 是否有匹配到人
 
 		if (refSize <= 0) {
-			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), String.format("匹配区间[%s,%s]中没有在排行榜中截取到数据", minFighting, maxFighting));
+			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), String.format("匹配区间[%s,%s]中没有在排行榜中截取到数据", minFighting, maxFighting));
 		}
+
+		// StringBuilder sb = new StringBuilder();
 
 		int matchCount = 0;
 		for (int i = 0; i < refSize; i++) {
@@ -453,17 +629,20 @@ public final class AngelArrayMatchHelper {
 				continue;
 			}
 
-			matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel()));
+			matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel(), SECOND_MATCH_RANK_TYPE, rankingLevelData.getFightingTeam()));
 			matchCount++;
 			nonPerson = false;
 
 			if (matchCount >= rankCount) {
 				break;
 			}
+
+			// sb.append("人Id：").append(id).append(",战力：").append(momentRankingEntry.getComparable().getFighting()).append("\n");
 		}
 
 		int offCount = rankCount - matchCount;
 		if (offCount <= 0) {
+			// System.err.println(String.format("第二步-全部人够了：%s", sb.toString()));
 			return;
 		}
 
@@ -487,20 +666,23 @@ public final class AngelArrayMatchHelper {
 					continue;
 				}
 
-				matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel()));
+				matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel(), SECOND_MATCH_RANK_TYPE, rankingLevelData.getFightingTeam()));
 				offCount--;
 				nonPerson = false;
 
 				if (offCount <= 0) {
 					break;
 				}
+
+				// sb.append("向上浮动人Id：").append(id).append(",战力：").append(rankingEntry.getComparable().getFighting()).append("\n");
 			}
 		} else {
-			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), String.format("战力[%s]上浮不到任何人", maxFighting));
+			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), String.format("战力[%s]上浮不到任何人", maxFighting));
 		}
 
 		// 已经够了
 		if (offCount <= 0) {
+			// System.err.println(String.format("第二步-上浮全部人够了：%s", sb.toString()));
 			return;
 		}
 
@@ -523,22 +705,26 @@ public final class AngelArrayMatchHelper {
 					continue;
 				}
 
-				matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel()));
+				matchUserInfo.put(id, new MatchUserInfo(id, rankingLevelData.getCareerLevel(), SECOND_MATCH_RANK_TYPE, rankingLevelData.getFightingTeam()));
 				offCount--;
 				nonPerson = false;
 
 				if (offCount <= 0) {
 					break;
 				}
+
+				// sb.append("向下浮动人Id：").append(id).append(",战力：").append(rankingEntry.getComparable().getFighting()).append("\n");
 			}
 		} else {
-			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), String.format("战力[%s]下浮不到任何人", minFighting));
+			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), String.format("战力[%s]下浮不到任何人", minFighting));
 		}
 
 		// 匹配到最后都没从战力榜获取到人
 		if (nonPerson) {
-			GameLog.info("通过战力榜匹配数据", RankType.FIGHTING_ALL_DAILY.getName(), "从战力榜中没有上下浮动到任何人");
+			GameLog.info("通过战力榜匹配数据", SECOND_MATCH_RANK_TYPE.getName(), "从战力榜中没有上下浮动到任何人");
 		}
+
+		// System.err.println(String.format("第二步-随机结尾：%s", sb.toString()));
 	}
 
 	/**
@@ -547,7 +733,7 @@ public final class AngelArrayMatchHelper {
 	 * @param userId
 	 * @return
 	 */
-	private static int getArenaRankIndex(MatchUserInfo userInfo) {
+	private int getArenaRankIndex(MatchUserInfo userInfo) {
 		String userId = userInfo.getUserId();
 		Ranking ranking = RankingFactory.getRanking(RankType.ARENA);
 		if (ranking == null) {
@@ -560,10 +746,14 @@ public final class AngelArrayMatchHelper {
 class MatchUserInfo {
 	private final String userId;
 	private final int career;
+	private final RankType rankType;// 数据来源的排行榜
+	private final int fighting;// 匹配到的时候的战斗力
 
-	public MatchUserInfo(String userId, int career) {
+	public MatchUserInfo(String userId, int career, RankType rankType, int fighting) {
 		this.userId = userId;
 		this.career = career;
+		this.rankType = rankType;
+		this.fighting = fighting;
 	}
 
 	public String getUserId() {
@@ -572,5 +762,13 @@ class MatchUserInfo {
 
 	public int getCareer() {
 		return career;
+	}
+
+	public RankType getRankType() {
+		return rankType;
+	}
+
+	public int getFighting() {
+		return fighting;
 	}
 }

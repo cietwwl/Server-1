@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
 import com.rw.netty.ServerConfig;
@@ -15,6 +17,7 @@ import com.rwbase.dao.zone.TableZoneInfo;
  * @author Allen
  *
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ZoneLoginInfo {
 
 	

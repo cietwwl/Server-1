@@ -89,6 +89,8 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		
 		PlayerQuestionService.getInstance().submitRequest(content, QuestionOpType.Question_Submit.getOpType(), userId, false, QuestionSubmitResponse.class);
 		result.setResultType(eSubmitResultType.SUCCESS);
+		//同步最新反馈列表给客户端
+		questionListDataHolder.syn(mPlayer, -1);
 		return result;
 	}
 	
@@ -118,9 +120,11 @@ public class PlayerQuestionMgr implements PlayerEventListener{
 		Player targetPlayer = PlayerMgr.getInstance().find(targetUserId);
 		UserDataMgr userDataMgr = targetPlayer.getUserDataMgr();
 		ZoneRegInfo zoneRegInfo = userDataMgr.getZoneRegInfo();
+		channel = zoneRegInfo.getRegChannelId();
 		Map<String, Object> contentMap = new HashMap<String, Object>();
 		contentMap.put("channel", channel);
 		contentMap.put("type", type);
+		contentMap.put("serverId", GameManager.getZoneId());
 		contentMap.put("reportChannel", reportChannel);
 		contentMap.put("byReportAccount", zoneRegInfo.getRegChannelId() + "_" + userDataMgr.getAccount());
 		contentMap.put("byReportId", targetUserId);

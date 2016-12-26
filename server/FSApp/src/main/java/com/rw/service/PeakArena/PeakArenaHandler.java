@@ -865,7 +865,7 @@ public class PeakArenaHandler {
 			data.setFashionUsed(usingFashion);
 		}
 
-		String groupName = GroupHelper.getInstance().getGroupName(userId);
+		String groupName = GroupHelper.getGroupName(userId);
 		if (StringUtils.isNotBlank(groupName))
 			data.setGroupName(groupName);
 

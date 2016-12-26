@@ -2,6 +2,9 @@ package com.rwbase.common.playerext;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.rw.service.guide.datamodel.NewGuideClosure;
+import com.rwbase.dao.chat.pojo.ChatTempAttribute;
+
 /**
  * <pre>
  * 存储玩家临时属性
@@ -20,6 +23,9 @@ public class PlayerTempAttribute {
 	private boolean recordChanged; // 竞技场日志变动
 	private boolean refreshStore;
 	private final PlayerMemoryMark arenaChanged;
+	private volatile NewGuideClosure lastClosure;
+	private ChatTempAttribute chatTempAttribute;// 聊天临时存储数据
+	private volatile String ip;// 用户的IP
 
 	public PlayerTempAttribute() {
 		this.expChanged = new AtomicBoolean();
@@ -27,6 +33,7 @@ public class PlayerTempAttribute {
 		this.heroFightingChanged = new AtomicBoolean();
 		this.checkRedPoint = new AtomicBoolean();
 		this.arenaChanged = new PlayerMemoryMark();
+		this.chatTempAttribute = new ChatTempAttribute();
 	}
 
 	public void setExpChanged() {
@@ -103,5 +110,30 @@ public class PlayerTempAttribute {
 	public boolean checkAndResetArenaChanged() {
 		return this.arenaChanged.checkAndResetChanged();
 	}
-	
+
+	public NewGuideClosure getLastClosure() {
+		return lastClosure;
+	}
+
+	public void setLastClosure(NewGuideClosure lastClosure) {
+		this.lastClosure = lastClosure;
+	}
+
+	/**
+	 * 获取聊天的临时数据
+	 * 
+	 * @return
+	 */
+	public ChatTempAttribute getChatTempAttribute() {
+		return chatTempAttribute;
+	}
+
+	// ===================获取IP
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 }

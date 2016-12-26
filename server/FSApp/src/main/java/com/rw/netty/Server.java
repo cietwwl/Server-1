@@ -22,10 +22,12 @@ import com.common.refOpt.RefOptClassGener;
 import com.gm.GmHotFixManager;
 import com.log.GameLog;
 import com.playerdata.GambleMgr;
+import com.playerdata.activityCommon.ActivityMgrHelper;
 import com.playerdata.activityCommon.modifiedActivity.ActivityModifyMgr;
 import com.rw.manager.DataCacheInitialization;
 import com.rw.manager.GameManager;
 import com.rw.manager.ServerSwitch;
+import com.rw.service.platformgs.PlatformGSService;
 import com.rwbase.common.attribute.AttributeBM;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.RequestProtos.Request;
@@ -36,7 +38,7 @@ public class Server {
 	// public static final boolean isDebug=false;
 	@SuppressWarnings("resource")
 	public static void main(String[] args) throws Exception {
-		GameWorldFactory.init(64, 16);
+		GameWorldFactory.init(64, 32, 16);
 		// 预加载需要反射优化的类，如果出错则启动失败
 		RefOptClassGener.getInstance().setOpen(true).preLoadClassList();
 
@@ -64,13 +66,16 @@ public class Server {
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().init();
 			// 初始化所有后台服务
 			GameManager.initServiceAndCrontab();
-
 			// 初始化每日热点数据
 			GambleMgr.resetWhenStart();
 			// GambleTest.Test();
 			
 			//每次启服的时候，检查是否有GM修改过的活动配置（启服最后检查）
 			ActivityModifyMgr.getInstance().checkModifiedActivity();
+			//每次启服的时候，初始化活动配置表的时间
+			ActivityMgrHelper.getInstance().initActivityTime();
+			//从登录服同步活动的时间数据
+			PlatformGSService.notifyServerStatusToPlatform(false);
 			com.rwbase.common.timer.core.FSGameTimerMgr.getInstance().serverStartComplete(); // 初始化完畢
 			GmHotFixManager.serverStartComplete(); // 自动执行hot fix
 

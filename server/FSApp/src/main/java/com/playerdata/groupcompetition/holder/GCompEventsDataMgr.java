@@ -44,13 +44,13 @@ public class GCompEventsDataMgr {
 		synData.setSession(GroupCompetitionMgr.getInstance().getCurrentSessionId());
 		return synData;
 	}
-
+	
 	public void onEventStageStart(GCEventsType startEventsType) {
 		GCompEventsGlobalData globalData = _dataHolder.get();
 		globalData.clear();
 		globalData.setMatchNumType(startEventsType);
 	}
-
+	
 	public void loadEventsGlobalData() {
 		_dataHolder.loadEventsGlobalData();
 	}
@@ -67,7 +67,7 @@ public class GCompEventsDataMgr {
 		globalData.add(eventsType, eventsData);
 		_dataHolder.update();
 	}
-
+	
 	/**
 	 * 
 	 * @param list
@@ -85,7 +85,7 @@ public class GCompEventsDataMgr {
 	public GCompEventsData getEventsData(GCEventsType eventType) {
 		return _dataHolder.get().getEventsData(eventType);
 	}
-
+	
 	/**
 	 * 保存数据
 	 */
@@ -101,7 +101,7 @@ public class GCompEventsDataMgr {
 	 */
 	public void sendMatchData(Player player) {
 		GCompEventsSynData synData = this.createSynData();
-		String groupId = GroupHelper.getInstance().getGroupId(player);
+		String groupId = GroupHelper.getGroupId(player);
 		if (groupId != null) {
 			int matchId = getGroupMatchIdOfCurrent(groupId);
 			synData.setMatchId(matchId);
@@ -112,7 +112,6 @@ public class GCompEventsDataMgr {
 	public int getGroupMatchIdOfCurrent(String groupId) {
 		return this.getMatchIdOfGroup(groupId, GroupCompetitionMgr.getInstance().getCurrentEventsType());
 	}
-
 	/**
 	 * 
 	 * 获取比赛的id
@@ -155,7 +154,7 @@ public class GCompEventsDataMgr {
 
 		return null;
 	}
-
+	
 	public boolean isEnemyEmpty(String groupId, GCEventsType eventsType) {
 		IGCAgainst agaist = this.getGCAgainstOfGroup(groupId, eventsType);
 		if (agaist == null) {
@@ -164,7 +163,7 @@ public class GCompEventsDataMgr {
 			return agaist.getGroupA().getGroupId().length() == 0 || agaist.getGroupB().getGroupId().length() == 0;
 		}
 	}
-
+	
 	public GCGroup getGCGroupOfCurrentEvents(String groupId) {
 		GCEventsType type = GroupCompetitionMgr.getInstance().getCurrentEventsType();
 		GCompEventsData eventsData = _dataHolder.get().getEventsData(type);
@@ -181,17 +180,17 @@ public class GCompEventsDataMgr {
 
 		return null;
 	}
-
+	
 	public void notifyGroupInfoChange(final Group group) {
 		List<GCompAgainst> list = _dataHolder.get().getMatches();
 		GCompUtil.updateGroupInfo(list, group);
 		_dataHolder.update();
 	}
-
+	
 	public List<GCompAgainst> getAllAgainsts() {
 		return new ArrayList<GCompAgainst>(_dataHolder.get().getMatches());
 	}
-
+	
 	public void notifyAllEventsFinished() {
 		GCompHistoryData historyData = GCompHistoryDataDAO.getInstance().get();
 		IReadOnlyPair<Long, Long> pair = GroupCompetitionMgr.getInstance().getCurrentSessionTimeInfo();

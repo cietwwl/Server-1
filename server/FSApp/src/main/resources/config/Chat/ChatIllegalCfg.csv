@@ -1,0 +1,4 @@
+key,remarks,level,vipLevel,interval,illegalInterval,repeatedTimes
+1,,6,,9,12,1
+2,,6,1,8,,20
+7,,19,,8,,20

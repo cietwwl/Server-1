@@ -605,7 +605,7 @@ public class RankingMgr {
 			return;
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			return;
 		}

@@ -26,17 +26,17 @@ import com.rwproto.GroupPersonalProto.GroupPersonalCommonRspMsg;
  *
  */
 public class GCGMHandler {
-
+	
 	private static GCGMHandler _instance = new GCGMHandler();
 
 	public static GCGMHandler getHandler() {
 		return _instance;
 	}
-
+	
 	private final Map<String, AtomicBoolean> groupNameMap = new HashMap<String, AtomicBoolean>();
-
+	
 	private final AtomicInteger _checkTimes = new AtomicInteger();
-
+	
 	protected GCGMHandler() {
 		groupNameMap.put("亞洲", new AtomicBoolean());
 		groupNameMap.put("北美洲", new AtomicBoolean());
@@ -68,10 +68,10 @@ public class GCGMHandler {
 		}
 		return false;
 	}
-
+	
 	public boolean joinGroup(String[] arrCommandContents, Player player) {
 		String groupName = arrCommandContents[0];
-		String groupId = GroupBM.getInstance().getGroupId(groupName);
+		String groupId = GroupBM.getGroupId(groupName);
 		if (groupId != null && groupId.length() > 0) {
 			ApplyJoinGroupReqMsg.Builder reqBuilder = ApplyJoinGroupReqMsg.newBuilder();
 			reqBuilder.setGroupId(groupId);
@@ -85,18 +85,18 @@ public class GCGMHandler {
 		}
 		return false;
 	}
-
+	
 	public boolean checkIfLeader(String[] arrCommandContents, Player player) {
 		String groupName = arrCommandContents[0];
-		String groupId = GroupBM.getInstance().getGroupId(groupName);
-		if (groupId != null && groupId.length() > 0) {
-			Group group = GroupBM.getInstance().get(groupId);
+		String groupId = GroupBM.getGroupId(groupName);
+		if(groupId != null && groupId.length() > 0) {
+			Group group = GroupBM.get(groupId);
 			boolean result = group.getGroupMemberMgr().getGroupLeader().getUserId().equals(player.getUserId());
 			return result;
 		}
 		return false;
 	}
-
+	
 	public boolean isCheckTimesMatch(String[] arrCommandContents, Player player) {
 		int checkTimes = Integer.parseInt(arrCommandContents[0]);
 		if (_checkTimes.incrementAndGet() < checkTimes) {

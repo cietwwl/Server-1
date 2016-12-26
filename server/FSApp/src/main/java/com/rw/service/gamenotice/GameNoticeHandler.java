@@ -30,10 +30,14 @@ public class GameNoticeHandler {
 		NoticeResponse.Builder response = NoticeResponse.newBuilder();
 
 		List<Notice> noticeList = NoticeMgr.getInstance().getNoticeList();
-
+		int level = player.getLevel();
 		if (noticeList.size() > 0) {
 			long currentTimeMillis = System.currentTimeMillis();
 			for (Notice notice : noticeList) {
+				if(notice.getPushLevel() > level){
+					continue;
+				}
+				
 				if (notice.getStartTime() <= currentTimeMillis && notice.getEndTime() >= currentTimeMillis) {
 					tagNoticeInfo.Builder noticeInfo = tagNoticeInfo.newBuilder();
 					noticeInfo.setNoticeId(notice.getId());

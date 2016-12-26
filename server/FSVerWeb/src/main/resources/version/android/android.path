@@ -1,0 +1,4 @@
+loginServerDomain=119.29.157.158:9090
+cdnDomain=http://119.29.157.158:10005/download
+cdnBackUpDomain=http://119.29.157.158:10005/download
+logServerAddress=http://119.29.163.123:7778

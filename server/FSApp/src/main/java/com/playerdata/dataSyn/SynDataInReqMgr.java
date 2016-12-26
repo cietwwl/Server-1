@@ -2,11 +2,9 @@ package com.playerdata.dataSyn;
 
 import io.netty.channel.ChannelHandlerContext;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.google.protobuf.ByteString;
@@ -14,17 +12,17 @@ import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
+import com.rw.fsutil.common.PairKey;
 import com.rw.trace.stat.MsgStatCollector;
 import com.rw.trace.stat.MsgStatFactory;
 import com.rwproto.DataSynProtos.MsgDataSyn;
 import com.rwproto.DataSynProtos.MsgDataSynList;
-import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class SynDataInReqMgr {
 
-	private Map<Object, SynDataInfo> synDataMap = new ConcurrentHashMap<Object, SynDataInfo>();
-	private List<Object> orderList = new ArrayList<Object>();
+	private ConcurrentHashMap<PairKey<eSynType, Object>, SynDataInfo> synDataMap = new ConcurrentHashMap<PairKey<eSynType, Object>, SynDataInfo>(64, 0.75f, 1);
+	private ConcurrentLinkedQueue<PairKey<eSynType, Object>> orderList = new ConcurrentLinkedQueue<PairKey<eSynType, Object>>();
 	private AtomicLong threadId = new AtomicLong();
 
 	public boolean setInReq() {
@@ -39,11 +37,20 @@ public class SynDataInReqMgr {
 		if (!checkInSynThread(synType)) {
 			return false;
 		}
+		PairKey<eSynType, Object> key = new PairKey<eSynType, Object>(synType, serverData);
 		SynDataInfo synData = new SynDataInfo(synType, msgDataSyn);
-		synDataMap.put(serverData, synData);
-		if (!orderList.contains(serverData)) {
-			orderList.add(serverData);
+//		if (synDataMap.put(key, synData) != null) {
+//			orderList.remove(key);
+//		}
+//		orderList.add(key);
+		
+		if (synDataMap.put(key, synData) == null) {
+			orderList.add(key);
 		}
+		
+		// if (!orderList.contains(serverData)) {
+		// orderList.add(serverData);
+		// }
 		return true;
 	}
 
@@ -58,15 +65,6 @@ public class SynDataInReqMgr {
 		}
 		return true;
 	}
-
-	//
-	// public boolean doSyn(ChannelHandlerContext ctx, String userId) {
-	// ByteString synData = getSynData(ctx, userId);
-	// if(synData!=null){
-	// nettyControler.sendAyncResponse(userId, ctx, Command.MSG_DATA_SYN, synData);
-	// }
-	// return true;
-	// }
 
 	public ByteString getSynData(ChannelHandlerContext ctx, String userId, Object recordKey) {
 		ByteString syndata = null;
@@ -85,7 +83,7 @@ public class SynDataInReqMgr {
 			Collection<SynDataInfo> values = synDataMap.values();
 			if (!values.isEmpty()) {
 				MsgDataSynList.Builder msgDataSynList = MsgDataSynList.newBuilder();
-				for (Object keyObject : orderList) {
+				for (PairKey<eSynType, Object> keyObject : orderList) {
 					SynDataInfo synData = synDataMap.get(keyObject);
 					if (synData != null) {
 						msgDataSynList.addMsgDataSyn(synData.getContent());

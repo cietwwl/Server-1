@@ -17,7 +17,6 @@ import com.rwbase.dao.friend.vo.FriendGiveState;
 import com.rwbase.dao.friend.vo.FriendItem;
 import com.rwbase.dao.friend.vo.FriendVo;
 import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceItem;
-import com.rwbase.dao.openLevelTiggerService.pojo.OpenLevelTiggerServiceSubItem;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "mt_table_friend")
@@ -42,7 +41,7 @@ public class TableFriend implements TableFriendIF {
 		this.userId = userId;
 	}
 
-	public Map<String, FriendItem> getFriendList() {
+	public ConcurrentHashMap<String, FriendItem> getFriendList() {
 		return friendList;
 	}
 
@@ -50,7 +49,7 @@ public class TableFriend implements TableFriendIF {
 		this.friendList = friendList;
 	}
 
-	public Map<String, FriendItem> getRequestList() {
+	public ConcurrentHashMap<String, FriendItem> getRequestList() {
 		return requestList;
 	}
 
@@ -66,7 +65,7 @@ public class TableFriend implements TableFriendIF {
 		this.blackList = blackList;
 	}
 
-	public Map<String, FriendGiveState> getFriendGiveList() {
+	public ConcurrentHashMap<String, FriendGiveState> getFriendGiveList() {
 		return friendGiveList;
 	}
 

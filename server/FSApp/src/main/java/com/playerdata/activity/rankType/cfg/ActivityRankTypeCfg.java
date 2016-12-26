@@ -1,6 +1,7 @@
 package com.playerdata.activity.rankType.cfg;
 
 import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 
@@ -27,6 +28,9 @@ public class ActivityRankTypeCfg implements ActivityCfgIF{
 	private int rewardNum;
 	
 	private int enumId;
+	
+	private String titleBG;		//活动的描述
+	private int isSynDesc = 0;	//是否服务端同步描述
 
 	public int getId() {
 		return enumId;
@@ -100,16 +104,38 @@ public class ActivityRankTypeCfg implements ActivityCfgIF{
 	public boolean isDailyRefresh() {
 		return false;
 	}
-
+	
 	@Override
-	public void setStartTime(String startTimeStr) {
-		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
-		this.startTimeStr = startTimeStr;
+	public boolean isEveryDaySame() {
+		return false;
 	}
 
+	public void ExtraInitAfterLoad() {
+		TimePair timePair = ActivityTimeHelper.transToAbsoluteTime(startTimeStr, endTimeStr);
+		if(null == timePair) return;
+		startTime = timePair.getStartMil();
+		endTime = timePair.getEndMil();
+		startTimeStr = timePair.getStartTime();
+		endTimeStr = timePair.getEndTime();
+ 	}
+	
 	@Override
-	public void setEndTime(String endTimeStr) {
-		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+	public void setStartAndEndTime(String startTimeStr, String endTimeStr) {
+		this.startTimeStr = startTimeStr;
 		this.endTimeStr = endTimeStr;
+		ExtraInitAfterLoad();
+	}
+	
+	@Override
+	public String getActDesc() {
+		if(0 != isSynDesc){
+			return titleBG;
+		}
+		return null;
+	}
+	
+	@Override
+	public void setActDesc(String actDesc) {
+		titleBG = actDesc;
 	}
 }

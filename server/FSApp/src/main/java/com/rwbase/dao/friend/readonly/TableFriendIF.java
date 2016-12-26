@@ -13,7 +13,7 @@ public interface TableFriendIF {
 	
 	public FriendItemIF getFriendItem(String key);
 	
-	public Enumeration<? extends FriendItemIF> getRequestMap();
+//	public Enumeration<? extends FriendItemIF> getRequestMap();
 	
 	public FriendItemIF getRequestItem(String key);
 	

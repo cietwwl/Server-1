@@ -7,12 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
+import com.playerdata.activityCommon.timeControl.ActivitySpecialTimeMgr;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rwbase.gameworld.GameWorldFactory;
@@ -63,11 +65,19 @@ public class ActivityDetector {
 	}
 
 	public void detectActive() {
+		if(ActivitySpecialTimeMgr.VERSION.get() < 0){
+			//等待登录服推送活动消息期间，不检测活动变化
+			GameLog.error("ActivityDetector", "activity", "can not get activity from Login server...");
+			return ;
+		}
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
 		List<ActivityType> types = ActivityTypeFactory.getAllTypes();
 		boolean changed = false;
 		List<Player> players = PlayerMgr.getInstance().getOnlinePlayers();
 		for(final ActivityType activityType : types){
+			if(null == activityType.getActivityMgr()){
+				continue;
+			}
 			HashMap<String, ActivityCfgIF> currentSubMap = new HashMap<String, ActivityCfgIF>();
 			List<? extends ActivityCfgIF> actCfgs = activityType.getActivityDao().getAllCfg();
 			if (null != actCfgs && !actCfgs.isEmpty()) {

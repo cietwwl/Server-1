@@ -11,20 +11,22 @@ import com.bm.serverStatus.ServerStatusMgr;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.playerdata.PlayerMgr;
+import com.playerdata.activityCommon.timeControl.ActivitySpecialTimeMgr;
 import com.rw.fsutil.shutdown.IShutdownHandler;
 import com.rw.fsutil.shutdown.ShutdownService;
 import com.rw.manager.GameManager;
 import com.rw.netty.UserChannelMgr;
-import com.rw.service.http.GSRequestAction;
 import com.rw.service.http.platformResponse.ServerBaseDataResponse;
 import com.rw.service.platformService.PlatformService;
 import com.rwbase.common.enu.EServerStatus;
 import com.rwproto.PlatformGSMsg.UserInfoRequest;
 import com.rwproto.PlatformGSMsg.ePlatformGSMsgType;
-import com.rwproto.PlatformGSMsg.eServerStatusType;
 import com.rwproto.RequestProtos.Request;
 
 public class PlatformGSService implements IShutdownHandler {
+	
+	//private static boolean IS_FIRST_INFORM = true;
+	
 	private static PlatformGSHandler platformGSHandler = PlatformGSHandler
 			.getInstance();
 
@@ -51,9 +53,9 @@ public class PlatformGSService implements IShutdownHandler {
 			ServerBaseDataResponse serverBaseDataResponse = new ServerBaseDataResponse();
 			serverBaseDataResponse.setZoneId(GameManager.getZoneId());
 			serverBaseDataResponse.setOnlineNum(size);
+			serverBaseDataResponse.setActivityTimeVersion(ActivitySpecialTimeMgr.VERSION.get());
 			serverBaseDataResponse.setStatus(blnShutdown ? EServerStatus.CLOSE.getStatusId() : getStatus());
 			PlatformService.SendResponse("com.rw.netty.http.requestHandler.ServerStatusHandler", "notifyServerData", serverBaseDataResponse, ServerBaseDataResponse.class);
-
 		} catch (Exception ex) {
 
 		}

@@ -1,13 +1,11 @@
 package com.playerdata;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.readonly.FresherActivityMgrIF;
-import com.rw.manager.GameManager;
 import com.rw.service.FresherActivity.FresherActivityChecker;
 import com.rw.service.FresherActivity.FresherActivityCheckerResult;
 import com.rw.service.log.BILogMgr;
@@ -28,7 +26,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 
 	public boolean init(Player pOwner) {
 		// 临时判断是否是机器人
-		if (!pOwner.getUserId().contains(GameManager.getServerId())) {
+		if (pOwner.isRobot()) {
 			return true;
 		}
 		this.m_Player = pOwner;
@@ -45,9 +43,10 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 	}
 
 	public void doCheck(eActivityType type) {
-		if (m_Player == null || !m_Player.getUserId().contains(GameManager.getServerId())) {
+		if (m_Player == null || m_Player.isRobot()) {// 是机器人的情况下就不用检查开服活动
 			return;
 		}
+
 		FresherActivityCheckerResult returnResult = fresherActivityChecker.checkActivityCondition(m_Player, type);
 		if (returnResult == null) {
 			return;
@@ -82,10 +81,9 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 		if (item.isGiftTaken() || item.isClosed()) {
 			return "当前活动已经领取奖励并结束!";
 		}
-		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE,0,cfgId);
+		BILogMgr.getInstance().logActivityBegin(player, null, BIActivityCode.SEVER_BEGIN_ACTIVITY_ONE, 0, cfgId);
 		fresherActivityChecker.achieveActivityReward(player, cfgId, fresherActivityCfg.geteType(), fresherActivityItemHolder);
-		
-		
+
 		return null;
 	}
 
@@ -103,7 +101,7 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 
 		long now = System.currentTimeMillis();
 		for (FresherActivityItem item : fresherActivityItemList) {
-			
+
 			if (item.getType() == eActivityType.A_Final) {
 				finalActItem = item;
 			}
@@ -133,13 +131,12 @@ public class FresherActivityMgr implements FresherActivityMgrIF {
 			int achieveId = StringUtils.isEmpty(finalActItem.getCurrentValue()) ? -1 : Integer.parseInt(finalActItem.getCurrentValue());
 			List<FresherActivityFinalRewardCfg> allCfg = FresherActivityFinalRewardCfgDao.getInstance().getAllCfg();
 			for (FresherActivityFinalRewardCfg fresherActivityFinalRewardCfg : allCfg) {
-				if(fresherActivityFinalRewardCfg.getId() > achieveId){
-					if(result >= fresherActivityFinalRewardCfg.getProgress()){
+				if (fresherActivityFinalRewardCfg.getId() > achieveId) {
+					if (result >= fresherActivityFinalRewardCfg.getProgress()) {
 						canAchieve = true;
 					}
 				}
 			}
-
 
 			if (canAchieve) {
 				configList.add(String.valueOf(finalActItem.getCfgId()));

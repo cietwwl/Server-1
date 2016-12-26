@@ -1,17 +1,24 @@
 package com.playerdata.charge.data;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 import com.playerdata.dataSyn.annotation.SynClass;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SynClass
 public class ChargeParam {
-	
+
 	private String productId;
-	
-	private String chargeEntrance;      //充值入口
+
+	private String chargeEntrance; // 充值入口
 
 	private String friendId;
-	
+
 	private ChargeOrderInfo orderInfo;
+
+	private String imei;// 用户的IMEI码
+
+	private String sysVer;// 用户的系统版本号
 
 	public String getProductId() {
 		return productId;
@@ -43,5 +50,21 @@ public class ChargeParam {
 
 	public void setOrderInfo(ChargeOrderInfo orderInfo) {
 		this.orderInfo = orderInfo;
+	}
+
+	public String getImei() {
+		return imei;
+	}
+
+	public String getSysVer() {
+		return sysVer;
+	}
+
+	public void setImei(String imei) {
+		this.imei = imei;
+	}
+
+	public void setSysVer(String sysVer) {
+		this.sysVer = sysVer;
 	}
 }

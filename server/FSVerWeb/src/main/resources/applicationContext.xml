@@ -10,7 +10,6 @@
 		<property name="locations">
 			<list>
 				<value>classpath:config.properties</value>
-				<value>classpath:path.properties</value>
 			</list>
 		</property>
 		<property name="ignoreResourceNotFound" value="false" />
@@ -33,12 +32,6 @@
 
 	<bean id="luaService" class="com.fy.LuaService">
 	    <property name="luaMgr" ref="luaMgr"></property>
-	</bean>
-
-	<bean id="addressInfo" class="com.fy.address.AddressInfo">
-		<property name="loginServerDomain" value="${loginServerDomain}"></property>
-		<property name="cdnDomain" value="${cdnDomain}"></property>
-		<property name="cdnBackUpDomain" value="${cdnBackUpDomain}"></property>
 	</bean>
 
 	<bean id="luaDao" class="com.fy.lua.LuaDao">

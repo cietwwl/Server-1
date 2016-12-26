@@ -3,6 +3,7 @@ package com.rw.platform;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ import com.rw.platform.data.PlatformNoticeDataHolder;
 import com.rw.platform.data.ZoneDataHolder;
 import com.rw.service.PlatformService.PlatformServer;
 import com.rwbase.dao.platformNotice.TablePlatformNotice;
+import com.rwbase.dao.serverPage.TableServerPage;
+import com.rwbase.dao.serverPage.TableServerPageDAO;
 import com.rwbase.dao.zone.TableZoneInfo;
 import com.rwbase.dao.zone.TableZoneInfoDAO;
 
@@ -49,6 +52,8 @@ public class PlatformService {
 	 * 推荐的服务器
 	 */
 	private final static ArrayList<ZoneInfoCache> RecommandZoneMap = new ArrayList<ZoneInfoCache>();
+	
+	private static ConcurrentHashMap<Integer, TableServerPage> ServerPageMap = new  ConcurrentHashMap<Integer, TableServerPage>();
 	
 	private static List<TableZoneInfo> allZoneList = new ArrayList<TableZoneInfo>();
 
@@ -95,16 +100,17 @@ public class PlatformService {
 		this.logger = logger;
 		this.executor = new ThreadPoolExecutor(threadSize, threadSize, 120, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 		init();
+		initServerPageMap();
 	}
 
 	public void refresh() {
 		refreshZoneStatus();
 		initZoneCache();
+		initServerPageMap();
 	}
 
 	public void initZoneCache() {
 		allZoneList = zoneDataHolder.getZoneList();
-		RecommandZoneMap.clear();
 		for (TableZoneInfo tableZoneInfo : allZoneList) {
 			int subZoneId = tableZoneInfo.getSubZone();
 			int zoneId = tableZoneInfo.getZoneId();
@@ -126,9 +132,33 @@ public class PlatformService {
 				map.put(zoneId, zoneInfoCache);
 				SubZoneMap.put(subZoneId, map);
 			}
-			
-			if (tableZoneInfo.getRecommand() == PlatformService.SERVER_RECOMMAND) {
-				RecommandZoneMap.add(zoneInfoCache);
+		}
+	}
+	
+	public void initServerPageMap(){
+		List<TableServerPage> all = TableServerPageDAO.getInstance().getAll();
+		List<Integer> tempList =new ArrayList<Integer>();
+		for (TableServerPage tableServerPage : all) {
+			int pageId = tableServerPage.getPageId();
+			ServerPageMap.put(pageId, tableServerPage);
+			 if(pageId == TableServerPageDAO.COMMAND_PAGE){
+				 String pageServers = tableServerPage.getPageServers();
+				 String[] split = pageServers.split(",");
+				 for (String tempId : split) {
+					int tempZoneId = Integer.parseInt(tempId);
+					if(ZoneMap.containsKey(tempZoneId)){
+						ZoneInfoCache zoneInfoCache = ZoneMap.get(tempZoneId);
+						RecommandZoneMap.add(zoneInfoCache);
+					}
+				}
+			 }
+			tempList.add(tableServerPage.getPageId());
+		}
+		for (Iterator<Entry<Integer, TableServerPage>> iterator = ServerPageMap.entrySet().iterator(); iterator.hasNext();) {
+			Entry<Integer, TableServerPage> entry = iterator.next();
+			Integer id = entry.getKey();
+			if(!tempList.contains(id)){
+				iterator.remove();
 			}
 		}
 	}
@@ -161,9 +191,6 @@ public class PlatformService {
 		ZoneInfoCache zoneCache = null;
 		if (RecommandZoneMap.size() > 0) {
 			for (ZoneInfoCache zoneInfoCache : RecommandZoneMap) {
-				if(zoneInfoCache.getEnabled() == 0 && !isWhite){
-					continue;
-				}
 				if(zoneCache == null){
 					zoneCache = zoneInfoCache;
 					continue;
@@ -177,9 +204,6 @@ public class PlatformService {
 			for (Iterator<Entry<Integer, ZoneInfoCache>> iterator = ZoneMap.entrySet().iterator(); iterator.hasNext();) {
 				Entry<Integer, ZoneInfoCache> entry = iterator.next();
 				ZoneInfoCache zoneInfoCache = entry.getValue();
-				if(zoneInfoCache.getEnabled() == 0){
-					continue;
-				}
 				if(zoneCache == null){
 					zoneCache = zoneInfoCache;
 					continue;
@@ -197,6 +221,10 @@ public class PlatformService {
 		list.addAll(ZoneMap.values());
 		Collections.sort(list, ZoneComparator);
 		return list;
+	}
+	
+	public Collection<TableServerPage> getAllServerPage(){
+		return ServerPageMap.values();
 	}
 
 	/**

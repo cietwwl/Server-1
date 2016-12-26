@@ -78,7 +78,7 @@ public class NormalCopyHandler {
 		}
 		List<BilogItemInfo> list = BilogItemInfo.fromItemList(dropItems);
 		rewardInfoActivity = BILogTemplateHelper.getString(list);
-		GameBehaviorMgr.getInstance().setMapId(player, copyCfg.getLevelID());
+		GameBehaviorMgr.getInstance().setMapId(player.getUserId(), copyCfg.getLevelID());
 
 		// 合法性检查
 		EResultType type = PvECommonHelper.checkLimit(player, copyRecord, copyCfg, 1);
@@ -105,7 +105,7 @@ public class NormalCopyHandler {
 
 		}
 		copyResponse.addTagCopyLevelRecord(levelRecord4Client);
-		
+
 		player.getDailyActivityMgr().getTaskList();
 		// 任务数量 日常
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, 1);
@@ -117,8 +117,8 @@ public class NormalCopyHandler {
 		// 任务--完成副本--章节星数--完成章节
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Section_Star);
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Section);
-		
-		//随机boss
+
+		// 随机boss
 		RandomBossMgr.getInstance().findBossBorn(player, true);
 
 		TagBattleClearingResult.Builder tagBattleClearingResult = TagBattleClearingResult.newBuilder(); // 战斗结算返回的信息...
@@ -133,7 +133,7 @@ public class NormalCopyHandler {
 	}
 
 	/*
-	 * 扫荡关卡... 掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}] 副本扫荡经验双倍预计掉落
+	 * 扫荡关卡...掉落------>[{"itemID":700108,"itemNum":1},{"itemID":803002,"itemNum":1}]副本扫荡经验双倍预计掉落
 	 */
 	public ByteString copySweep(Player player, MsgCopyRequest copyRequest) {
 		MsgCopyResponse.Builder copyResponse = MsgCopyResponse.newBuilder();

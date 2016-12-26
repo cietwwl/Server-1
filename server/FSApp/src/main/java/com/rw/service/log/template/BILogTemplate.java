@@ -20,7 +20,7 @@ public abstract class BILogTemplate {
 		try {
 			Map<String, String> infoMap = null;
 			if(zoneRegInfo!=null){
-				infoMap = zoneRegInfo.getInfoMap();
+				infoMap = zoneRegInfo.achieveInfoMap();
 			}else{
 				infoMap = new HashMap<String, String>();
 				

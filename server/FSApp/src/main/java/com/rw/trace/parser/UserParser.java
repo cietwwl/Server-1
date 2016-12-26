@@ -3,6 +3,7 @@ package com.rw.trace.parser;
 import com.rwbase.dao.user.UserExtendInfo;
 import com.rw.fsutil.dao.cache.record.JsonValueWriter;
 import com.rw.fsutil.dao.cache.trace.DataValueParser;
+import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rwbase.dao.user.User;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rw.fsutil.common.Pair;
@@ -23,10 +24,12 @@ public class UserParser implements DataValueParser<User> {
         userCopy.setUserName(entity.getUserName());
         userCopy.setHeadImage(entity.getHeadImage());
         userCopy.setCreateTime(entity.getCreateTime());
+        userCopy.setOpenAccount(entity.getOpenAccount());
         userCopy.setLastLoginTime(entity.getLastLoginTime());
         userCopy.setKickOffCoolTime(entity.getKickOffCoolTime());
         userCopy.setZoneRegInfo(writer.copyObject(entity.getZoneRegInfo()));
         userCopy.setExtendInfo(writer.copyObject(entity.getExtendInfo()));
+        userCopy.setZoneLoginInfo(writer.copyObject(entity.getZoneLoginInfo()));
         userCopy.setExp(entity.getExp());
         userCopy.setLevel(entity.getLevel());
         return userCopy;
@@ -83,6 +86,12 @@ public class UserParser implements DataValueParser<User> {
             entity1.setCreateTime(createTime2);
             jsonMap = writer.write(jsonMap, "createTime", createTime2);
         }
+        String openAccount1 = entity1.getOpenAccount();
+        String openAccount2 = entity2.getOpenAccount();
+        if (!writer.equals(openAccount1, openAccount2)) {
+            entity1.setOpenAccount(openAccount2);
+            jsonMap = writer.write(jsonMap, "openAccount", openAccount2);
+        }
         long lastLoginTime1 = entity1.getLastLoginTime();
         long lastLoginTime2 = entity2.getLastLoginTime();
         if (lastLoginTime1 != lastLoginTime2) {
@@ -115,6 +124,17 @@ public class UserParser implements DataValueParser<User> {
             jsonMap = extendInfoPair.getT2();
         } else {
             jsonMap = writer.compareSetDiff(jsonMap, "extendInfo", extendInfo1, extendInfo2);
+        }
+
+        ZoneLoginInfo zoneLoginInfo1 = entity1.getZoneLoginInfo();
+        ZoneLoginInfo zoneLoginInfo2 = entity2.getZoneLoginInfo();
+        Pair<ZoneLoginInfo, JSONObject> zoneLoginInfoPair = writer.checkObject(jsonMap, "zoneLoginInfo", zoneLoginInfo1, zoneLoginInfo2);
+        if (zoneLoginInfoPair != null) {
+            zoneLoginInfo1 = zoneLoginInfoPair.getT1();
+            entity1.setZoneLoginInfo(zoneLoginInfo1);
+            jsonMap = zoneLoginInfoPair.getT2();
+        } else {
+            jsonMap = writer.compareSetDiff(jsonMap, "zoneLoginInfo", zoneLoginInfo1, zoneLoginInfo2);
         }
 
         long exp1 = entity1.getExp();
@@ -158,6 +178,9 @@ public class UserParser implements DataValueParser<User> {
         if (entity1.getCreateTime() != entity2.getCreateTime()) {
             return true;
         }
+        if (!writer.equals(entity1.getOpenAccount(), entity2.getOpenAccount())) {
+            return true;
+        }
         if (entity1.getLastLoginTime() != entity2.getLastLoginTime()) {
             return true;
         }
@@ -168,6 +191,9 @@ public class UserParser implements DataValueParser<User> {
             return true;
         }
         if (writer.hasChanged(entity1.getExtendInfo(), entity2.getExtendInfo())) {
+            return true;
+        }
+        if (writer.hasChanged(entity1.getZoneLoginInfo(), entity2.getZoneLoginInfo())) {
             return true;
         }
         if (entity1.getExp() != entity2.getExp()) {
@@ -181,7 +207,7 @@ public class UserParser implements DataValueParser<User> {
 
     @Override
     public JSONObject toJson(User entity) {
-        JSONObject json = new JSONObject(19);
+        JSONObject json = new JSONObject(22);
         json.put("userId", entity.getUserId());
         json.put("zoneId", entity.getZoneId());
         json.put("vip", entity.getVip());
@@ -190,6 +216,7 @@ public class UserParser implements DataValueParser<User> {
         json.put("userName", entity.getUserName());
         json.put("headImage", entity.getHeadImage());
         json.put("createTime", entity.getCreateTime());
+        json.put("openAccount", entity.getOpenAccount());
         json.put("lastLoginTime", entity.getLastLoginTime());
         json.put("kickOffCoolTime", entity.getKickOffCoolTime());
         Object zoneRegInfoJson = writer.toJSON(entity.getZoneRegInfo());
@@ -199,6 +226,10 @@ public class UserParser implements DataValueParser<User> {
         Object extendInfoJson = writer.toJSON(entity.getExtendInfo());
         if (extendInfoJson != null) {
             json.put("extendInfo", extendInfoJson);
+        }
+        Object zoneLoginInfoJson = writer.toJSON(entity.getZoneLoginInfo());
+        if (zoneLoginInfoJson != null) {
+            json.put("zoneLoginInfo", zoneLoginInfoJson);
         }
         json.put("exp", entity.getExp());
         json.put("level", entity.getLevel());

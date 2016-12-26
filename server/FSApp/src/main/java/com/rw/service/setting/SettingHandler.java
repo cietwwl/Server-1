@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.protobuf.ByteString;
 import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
+import com.rw.controler.PlayerCreateHandler;
 import com.rw.fsutil.util.DateUtils;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.eSpecialItemId;
@@ -59,7 +60,7 @@ public class SettingHandler {
 			msgResponse.setResultType(eSettingResultType.FAIL);
 			msgResponse.setInfo("钻石不足");
 			return msgResponse.build().toByteString();
-		} else if (CharFilterFactory.getCharFilter().checkWords(name, true, true, true, true)) {
+		} else if (!PlayerCreateHandler.getInstance().checkNameLength(name) || CharFilterFactory.getCharFilter().checkWords(name, true, true, true, true)) {
 			// player.NotifyCommonMsg(ECommonMsgTypeDef.MsgTips, "昵称不能包含非法字符");
 			msgResponse.setInfo("昵称不能包含非法字符");
 			msgResponse.setResultType(eSettingResultType.FAIL);

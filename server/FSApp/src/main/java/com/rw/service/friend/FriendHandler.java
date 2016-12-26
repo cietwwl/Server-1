@@ -575,33 +575,32 @@ public class FriendHandler {
 	}
 
 	/** 推送请求添加好友 */
-	public void pushRequestAddFriend(Player player, FriendItem friendItem) {
-		if (player == null) {
-			return;
-		}
+	public void pushRequestAddFriend(String userId, FriendItem friendItem) {
 		FriendResponse.Builder response = FriendResponse.newBuilder();
 		EFriendRequestType requestType = EFriendRequestType.REQUEST_ADD_FRIEND;
 		response.setRequestType(requestType);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
-		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-		// PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
+		
+		ArrayList<FriendInfo> list = new ArrayList<FriendInfo>(1);
+		list.add(FriendHandler.getInstance().friendItemToInfo(userId, friendItem, false));
+		
+		response.addAllUpdateList(list);
+		
+		UserChannelMgr.sendAyncResponse(userId, Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 
 	/** 推送同意添加的好友 */
-	public void pushConsentAddFriend(Player player, FriendItem friendItem) {
-		if (player == null) {
-			return;
-		}
+	public void pushConsentAddFriend(String userId, FriendItem friendItem) {
 		FriendResponse.Builder response = FriendResponse.newBuilder();
 		EFriendRequestType requestType = EFriendRequestType.CONSENT_ADD_FRIEND;
 		response.setRequestType(requestType);
 		response.setResultType(EFriendResultType.SUCCESS);
 		response.setOtherUserId(friendItem.getUserId());
-		response.addAllUpdateList(player.getFriendMgr().friendItemToInfoList(friendItem));
-		// PlayerMgr.getInstance().SendToPlayer(Command.MSG_FRIEND, response.build().toByteString(), player);
-		UserChannelMgr.sendAyncResponse(player.getUserId(), Command.MSG_FRIEND, requestType, response.build().toByteString());
+		
+		ArrayList<FriendInfo> list = new ArrayList<FriendInfo>(1);
+		list.add(FriendHandler.getInstance().friendItemToInfo(userId, friendItem, false));
+		UserChannelMgr.sendAyncResponse(userId, Command.MSG_FRIEND, requestType, response.build().toByteString());
 	}
 
 	/** 推送移除好友 */
@@ -684,7 +683,7 @@ public class FriendHandler {
 		newItem.setLastLoginTime(tableUser.getLastLoginTime());
 		newItem.setHeadFrame(player.getUserGameDataMgr().getHeadBox());
 		// TODO 帮派获取名字后再提供
-		newItem.setUnionName(GroupMemberHelper.getInstance().getGroupName(player));
+		newItem.setUnionName(GroupMemberHelper.getGroupName(player));
 		newItem.setFighting(player.getHeroMgr().getFightingTeam(player));
 		newItem.setVip(player.getVip());
 		newItem.setSex(player.getSex());
@@ -707,8 +706,8 @@ public class FriendHandler {
 			friendInfo.setLastLoginTip("当前在线");
 		}
 		friendInfo.setLevel(item.getLevel());
-		friendInfo.setGroupId(GroupHelper.getInstance().getUserGroupId(itemUserId));
-		friendInfo.setGroupName(GroupHelper.getInstance().getGroupName(itemUserId));
+		friendInfo.setGroupId(GroupHelper.getUserGroupId(itemUserId));
+		friendInfo.setGroupName(GroupHelper.getGroupName(itemUserId));
 		friendInfo.setVip(item.getVip());
 		friendInfo.setSex(item.getSex());
 		FashionUsed.Builder usingFashion = FashionHandle.getInstance().getFashionUsedProto(itemUserId);
@@ -736,5 +735,9 @@ public class FriendHandler {
 			friendInfo.setFighting(item.getFighting());
 		}
 		return friendInfo.build();
+	}
+
+	public void checkRequestAfterAdd() {
+
 	}
 }

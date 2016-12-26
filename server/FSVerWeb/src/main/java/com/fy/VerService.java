@@ -61,14 +61,18 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			String deviceModel = clientVersion.getDeviceModel();
 			System.out.println("------------cpuType:" + cpuType + "deviceModel:" + deviceModel);
 			String luaChannel = clientVersion.getChannel();
+			String newLuaChannel = "";
 			if (!StringUtils.isBlank(clientVersion.getCpuType()) && !StringUtils.isBlank(clientVersion.getDeviceModel())) {
 				boolean bln64 = DeviceUtil.checkIos32Or64(deviceModel, cpuType);
 				if (!bln64) {
-					luaChannel += "32";
+					newLuaChannel = luaChannel + "32";
 				}
 			}
-			System.out.println("-----------------------luaChannel"+luaChannel);
-			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(luaChannel);			
+			System.out.println("-----------------------luaChannel" + luaChannel);
+			LuaInfo channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(newLuaChannel);
+			if (channelLuaInfo == null) {
+				channelLuaInfo = LuaMgr.getInstance().getChannelLuaInfo(luaChannel);
+			}
 			List<Version> updateVersionList = versionMgr.getUpdateVersion(clientVersion);
 			VersionMgr.logger.error("-------------updateVersion is null:" + updateVersionList.isEmpty());
 			if(updateVersionList.isEmpty()){
@@ -76,6 +80,10 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				Version updateVersion = new Version();
 				updateVersion.setLoginServerDomain(maxVersion.getLoginServerDomain());
 				updateVersion.setLogServerAddress(maxVersion.getLogServerAddress());
+				updateVersion.setCheckServerURL(maxVersion.getCheckServerURL());
+				updateVersion.setCheckServerPayURL(maxVersion.getCheckServerPayURL());
+				updateVersion.setBackUrl(maxVersion.getBackUrl());
+				updateVersion.setPackageName(clientVersion.getPackageName());
 				updateVersionList.add(updateVersion);
 			}
 			for(Version updateVersion : updateVersionList){
@@ -86,7 +94,7 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 				updateVersion.setLuaVerifySwitch(true);
 			}
 			System.out.println("---------------channelLuaInfo.getFilesmd5()" + channelLuaInfo.getFilesmd5());
-			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList);
+			String verifyUpdateResult = packVerifyVersionResult2(updateVersionList, clientVersion);
 			ServletOutputStream out = response.getOutputStream();
 			out.write(verifyUpdateResult.getBytes("UTF-8"));
 			out.flush();
@@ -103,22 +111,25 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		}
 		Version version = null;
 		try {
-			version = JSONUtil.readValue(jsonVersion, Version.class);
-//			version = new Version();
-//			JSONObject json = new JSONObject(jsonVersion);
-//			String channel = json.get("channel").toString();
-//			int main = Integer.parseInt(json.get("main").toString());
-//			int sub = Integer.parseInt(json.get("sub").toString());
-//			int third = Integer.parseInt(json.get("third").toString());
-//			int patch = Integer.parseInt(json.get("patch").toString());
-//			version = new Version();
-//			version.setChannel(channel);
-//			version.setMain(main);
-//			version.setSub(sub);
-//			version.setThird(third);
-//			version.setPatch(patch);
-//			String packageName = getJsonValue("package", json);
-//			version.setPackageName(packageName);
+			version = new Version();
+			JSONObject json = new JSONObject(jsonVersion);
+			String channel = json.get("channel").toString();
+			int main = Integer.parseInt(json.get("main").toString());
+			int sub = Integer.parseInt(json.get("sub").toString());
+			int third = Integer.parseInt(json.get("third").toString());
+			int patch = Integer.parseInt(json.get("patch").toString());
+			String cpuType = json.get("cpuType").toString();
+			String deviceModel = json.get("deviceModel").toString();
+			version = new Version();
+			version.setChannel(channel);
+			version.setMain(main);
+			version.setSub(sub);
+			version.setThird(third);
+			version.setPatch(patch);
+			version.setCpuType(cpuType);
+			version.setDeviceModel(deviceModel);
+			String packageName = getJsonValue("package", json);
+			version.setPackageName(packageName);
 			return version;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -136,12 +147,12 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		return result;
 	}
 
-	private String packVerifyVersionResult(Version updateVersion) {
+	private String packVerifyVersionResult(Version updateVersion, Version currentVersion) {
 		JSONObject json = new JSONObject();
 		try {
 			if (!(updateVersion.getChannel() == null ||  updateVersion.getChannel().equals(""))) {
 				if (updateVersion.getPatchInstall().equals(Constant.PATCH_LINK)) {
-					packageBrowserLink(updateVersion, json);
+					packageBrowserLink(updateVersion, json, currentVersion);
 				} else {
 					packageDownloadInfo(updateVersion, json);
 				}
@@ -153,6 +164,9 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			json.put("logServerAddress", updateVersion.getLogServerAddress());
 			json.put("luaFileMd5", updateVersion.getLuaFileMd5());
 			json.put("luaAction", updateVersion.getLuaAction());
+			json.put("checkServerURL", updateVersion.getCheckServerURL());
+			json.put("checkServerPayURL", updateVersion.getCheckServerPayURL());
+			json.put("backUrl", updateVersion.getBackUrl());
 			json.put("luaVerifySwitch", updateVersion.isLuaVerifySwitch());
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -160,18 +174,19 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 		return json.toString();
 	}
 	
-	private String packVerifyVersionResult2(List<Version> updateVersions) {
+	private String packVerifyVersionResult2(List<Version> updateVersions, Version currentVersion) {
 		StringBuffer buff = new StringBuffer();
 		for(int i = 0; i < updateVersions.size(); i++){
-			buff.append(packVerifyVersionResult(updateVersions.get(i)));
+			buff.append(packVerifyVersionResult(updateVersions.get(i), currentVersion));
 			if(i != updateVersions.size() -1) buff.append("@");
 		}
 		return buff.toString();
 	}
 
-	private void packageBrowserLink(Version updateVersion, JSONObject json)
+	private void packageBrowserLink(Version updateVersion, JSONObject json, Version currentVersion)
 			throws JSONException {
 		String currentVersionNo = updateVersion.getCurrentVersionNo();
+		String packageName = currentVersion.getPackageName();
 		VersionUpdateCfg cfg = VersionUpdateCfgDao.getInstance().getCfgByKey(currentVersionNo);
 		if (cfg == null) {
 			json.put("update", 0);
@@ -189,8 +204,8 @@ public class VerService extends ActionSupport implements ServletRequestAware,
 			}
 			json.put("tips", tips);
 			json.put("force", force);
-			System.out.println("package name:" + updateVersion.getPackageName());
-			ChannelAddressCfg channelAddressCfg = ChannelAddressCfgDao.getInstance().getCfgByKey(updateVersion.getPackageName());
+			System.out.println("package name:" + packageName);
+			ChannelAddressCfg channelAddressCfg = ChannelAddressCfgDao.getInstance().getCfgByKey(packageName);
 			String downloadAddress = channelAddressCfg.getDownloadAddress();
 			json.put("url", downloadAddress);
 			json.put("reward", cfg.getRewards() == null ? "" : cfg.getRewards());

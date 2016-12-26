@@ -61,17 +61,17 @@ public class RankingActivity {
 			GameLog.error("RankingActivity", "#notifyRecord()", "排行榜活动记录异常:" + type, e);
 		}
 	}
-
-	private void updateDBString(GameWorldKey key, String dbString) {
-		if (dbString == null) {
-			GameLog.error("RankingActivity", "#updateDBString()", "更新dbString为null：" + key);
+	
+	private void updateDBString(GameWorldKey key,String dbString){
+		if(dbString == null){
+			GameLog.error("RankingActivity", "#updateDBString()", "更新dbString为null："+key);
 		}
 		GameWorldFactory.getGameWorld().updateAttribute(key, dbString);
 	}
-
+	
 	@SuppressWarnings("rawtypes")
 	private String getGroupList() {
-		// ArrayList<String> leaderIdList = new ArrayList<String>();
+//		ArrayList<String> leaderIdList = new ArrayList<String>();
 		JSONArray array = new JSONArray();
 		ArrayList<String> groupList = new ArrayList<String>();
 		Ranking<GroupBaseRankComparable, GroupBaseRankExtAttribute> ranking = RankingFactory.getRanking(RankType.GROUP_BASE_RANK);
@@ -82,7 +82,7 @@ public class RankingActivity {
 		}
 
 		for (String groupId : groupList) {
-			Group group = GroupBM.getInstance().get(groupId);
+			Group group = GroupBM.get(groupId);
 			if (group != null) {
 				GroupMemberDataIF groupLeader = group.getGroupMemberMgr().getGroupLeader();
 				if (groupLeader != null) {
@@ -90,7 +90,7 @@ public class RankingActivity {
 				}
 			}
 		}
-
+		
 		return array.toString();
 	}
 

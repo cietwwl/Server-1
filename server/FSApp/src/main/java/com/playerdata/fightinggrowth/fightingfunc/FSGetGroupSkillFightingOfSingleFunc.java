@@ -28,7 +28,7 @@ public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Inte
 
 	@Override
 	public Integer apply(Hero hero) {
-		if (!GroupHelper.getInstance().hasGroup(hero.getOwnerUserId())) {
+		if (!GroupHelper.hasGroup(hero.getOwnerUserId())) {
 			return 0;
 		}
 
@@ -48,19 +48,7 @@ public class FSGetGroupSkillFightingOfSingleFunc implements IFunction<Hero, Inte
 		GroupSkillBuilder gsb = new GroupSkillBuilder();
 		gsb.setHeroId(hero.getTemplateId());
 		gsb.setGroupSkillMap(groupSkillMap);
-
 		return FightingCalcComponentType.GROUP_SKILL.calc.calc(gsb.build());
-
-		// GroupSkillItem groupSkillItem;
-		// OneToOneTypeFightingCfg fightingCfg;
-		// for (int i = 0; i < groupSkillItemList.size(); i++) {
-		// groupSkillItem = groupSkillItemList.get(i);
-		// if (groupSkillItem.getLevel() > 0) {
-		// fightingCfg = groupSkillFightingCfgDAO.getCfgById(groupSkillItem.getId());
-		// fighting += fightingCfg.getFighting() * groupSkillItem.getLevel();
-		// }
-		// }
-		// return fighting;
 	}
 
 }

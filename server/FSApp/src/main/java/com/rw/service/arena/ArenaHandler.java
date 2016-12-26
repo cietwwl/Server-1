@@ -89,7 +89,7 @@ public class ArenaHandler {
 
 	private static ArenaHandler instance = new ArenaHandler();
 	private static int addScore = 2;
-
+	
 	protected ArenaHandler() {
 	}
 
@@ -880,7 +880,7 @@ public class ArenaHandler {
 		for (SkillItem skill : skills) {
 			data.addRoleSkill(transfrom(skill));
 		}
-		String gName = GroupHelper.getInstance().getGroupName(enemyId);
+		String gName = GroupHelper.getGroupName(enemyId);
 		if (StringUtils.isNotBlank(gName)) {
 			data.setGroupName(gName);
 		}

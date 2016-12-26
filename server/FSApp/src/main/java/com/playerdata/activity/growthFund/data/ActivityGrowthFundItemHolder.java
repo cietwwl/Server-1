@@ -55,6 +55,14 @@ public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGr
 			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
 		}
 	}
+	
+	public void synAllDataWithoutEmpty(Player player){
+		List<ActivityGrowthFundItem> itemList = getItemList(player.getUserId());
+		if(null != itemList && !itemList.isEmpty() && null != getSynType()){
+			checkGrowthFundItemData(itemList);
+			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
+		}
+	}
 
 	@Override
 	@SuppressWarnings("rawtypes")

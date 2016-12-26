@@ -62,7 +62,7 @@ public class GroupSkillHandler {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("研发帮派技能", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -149,7 +149,7 @@ public class GroupSkillHandler {
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("学习帮派技能", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupSkillFillFailMsg(commonRsp, "您还不是帮派成员");

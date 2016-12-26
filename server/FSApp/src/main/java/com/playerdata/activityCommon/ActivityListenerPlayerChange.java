@@ -1,8 +1,11 @@
 package com.playerdata.activityCommon;
 
+import java.util.Collections;
+
 import com.bm.player.PlayerChangePopertyObserver;
 import com.bm.player.PlayerChangePopertySubscribe;
 import com.playerdata.Player;
+import com.playerdata.activityCommon.modifiedActivity.ActivityModifyItem;
 
 public class ActivityListenerPlayerChange extends PlayerChangePopertySubscribe {
 
@@ -17,12 +20,12 @@ public class ActivityListenerPlayerChange extends PlayerChangePopertySubscribe {
 
 	@Override
 	public void playerChangeLevel(Player p) {
-		ActivityMgrHelper.getInstance().synActivityData(p);
+		ActivityMgrHelper.getInstance().synActivityData(p, Collections.<ActivityModifyItem> emptyList());
 	}
 
 	@Override
 	public void playerChangeVipLevel(Player p) {
-		ActivityMgrHelper.getInstance().synActivityData(p);
+		ActivityMgrHelper.getInstance().synActivityData(p, Collections.<ActivityModifyItem> emptyList());
 	}
 
 	@Override

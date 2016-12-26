@@ -6,17 +6,18 @@ import java.util.Map.Entry;
 
 import com.rw.account.ZoneInfoCache;
 import com.rw.platform.PlatformFactory;
-import com.rw.platform.PlatformService;
 import com.rw.service.http.platformResponse.ServerBaseDataResponse;
 import com.rw.service.http.request.ResponseObject;
-import com.rwproto.PlatformGSMsg.eServerStatusType;
+import com.rwbase.dao.activityTime.ActivitySpecialTimeCfgDAO;
 
 public class ServerStatusHandler {
+	
 	public static ResponseObject notifyServerData(ServerBaseDataResponse serverBaseDataResponse){
 		
 		int zoneId = serverBaseDataResponse.getZoneId();
 		int onlineNum = serverBaseDataResponse.getOnlineNum();
 		int status = serverBaseDataResponse.getStatus();
+		int actTimeVersion = serverBaseDataResponse.getActivityTimeVersion();
 		
 		ResponseObject result = new ResponseObject();
 		
@@ -26,13 +27,13 @@ public class ServerStatusHandler {
 			result.setSuccess(false);
 			return result;
 		}
-		
+		//检查活动时间的变化
+		result.setActTimeInfo(ActivitySpecialTimeCfgDAO.getInstance().getZoneAct(zoneId, actTimeVersion));
 		for (Iterator<Entry<Integer, ZoneInfoCache>> iterator = map.entrySet().iterator(); iterator.hasNext();) {
 			Entry<Integer, ZoneInfoCache> entry = iterator.next();
 			ZoneInfoCache zoneInfo = entry.getValue();
 			refreshZoneInfo(zoneInfo, onlineNum, status);
 		}
-		
 		result.setSuccess(true);
 		return result;
 	}

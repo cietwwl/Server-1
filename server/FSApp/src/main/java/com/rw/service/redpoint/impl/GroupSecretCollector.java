@@ -25,7 +25,6 @@ import com.rwproto.PrivilegeProtos.GroupPrivilegeNames;
 public class GroupSecretCollector implements RedPointCollector {
 
 	private List<String> _canRobRedPointList = Arrays.asList("1");
-
 	private void checkDefendRedPoint(Player player, Map<RedPointType, List<String>> map) {
 		GroupSecretDefendRecordDataMgr mgr = GroupSecretDefendRecordDataMgr.getMgr();
 		List<DefendRecord> defendRecordList = mgr.getSortDefendRecordList(player.getUserId());
@@ -39,11 +38,11 @@ public class GroupSecretCollector implements RedPointCollector {
 				}
 			}
 		}
-		if (list != null && list.size() > 0) {
+		if(list != null && list.size() > 0) {
 			map.put(RedPointType.GROUP_SECRET_RECORD_KEY, list);
 		}
 	}
-
+	
 	private void checkAdventureList(Player player, UserGroupSecretBaseData userGroupSecretBaseData, Map<RedPointType, List<String>> map) {
 		// 红点的内容是可探索的内容
 		int intPrivilege = player.getPrivilegeMgr().getIntPrivilege(GroupPrivilegeNames.mysteryChallengeCount);
@@ -59,7 +58,7 @@ public class GroupSecretCollector implements RedPointCollector {
 			map.put(RedPointType.GROUP_SECRET_ADVENTURE, list);
 		}
 	}
-
+	
 	private void checkRewards(Player player, UserGroupSecretBaseData userGroupSecretBaseData, Map<RedPointType, List<String>> map) {
 		UserCreateGroupSecretDataMgr mgr = UserCreateGroupSecretDataMgr.getMgr();
 		UserCreateGroupSecretData userCreateGroupSecretData = mgr.get(player.getUserId());
@@ -86,29 +85,30 @@ public class GroupSecretCollector implements RedPointCollector {
 			map.put(RedPointType.GROUP_SECRET_RES_REWARD, list);
 		}
 	}
-
+	
 	private void checkRob(Player player, String groupId, UserGroupSecretBaseData userGroupSecretBaseData, Map<RedPointType, List<String>> map) {
 		if (userGroupSecretBaseData.getKeyCount() >= 2) {
-			// String matchSecretId = userGroupSecretBaseData.getMatchSecretId();
-			// List<String> list = null;
-			// if (matchSecretId != null && matchSecretId.length() > 0) {
-			// list = Arrays.asList(matchSecretId);
-			// } else {
-			// if (!userGroupSecretBaseData.isHasSearched()) {
-			// list = Arrays.asList("1");
-			// }
-			// }
-			// if (list != null) {
-			// map.put(RedPointType.GROUP_SECRET_ROB, list);
-			// }
+//			String matchSecretId = userGroupSecretBaseData.getMatchSecretId();
+//			List<String> list = null;
+//			if (matchSecretId != null && matchSecretId.length() > 0) {
+//				list = Arrays.asList(matchSecretId);
+//			} else {
+//				if (!userGroupSecretBaseData.isHasSearched()) {
+//					list = Arrays.asList("1");
+//				}
+//			}
+//			if (list != null) {
+//				map.put(RedPointType.GROUP_SECRET_ROB, list);
+//			}
 			map.put(RedPointType.GROUP_SECRET_ROB, _canRobRedPointList);
 		}
 	}
-
+	
+	
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map, int level) {
-		String groupId = GroupHelper.getInstance().getGroupId(player);
-		if (groupId != null && groupId.length() > 0) {
+		String groupId = GroupHelper.getGroupId(player);
+		if(groupId != null && groupId.length() > 0) {
 			checkDefendRedPoint(player, map);
 			UserGroupSecretBaseDataMgr baseDataMgr = UserGroupSecretBaseDataMgr.getMgr();
 			UserGroupSecretBaseData userGroupSecretBaseData = baseDataMgr.get(player.getUserId());

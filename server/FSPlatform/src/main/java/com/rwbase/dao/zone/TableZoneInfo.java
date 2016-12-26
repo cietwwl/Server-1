@@ -1,11 +1,7 @@
 package com.rwbase.dao.zone;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -22,7 +18,6 @@ public class TableZoneInfo {
 	//subzone 是用户注册的时候分配的，一个zone有一个或椟个subZone组成
 	private String channelId; //渠道id
 	private int subZone;
-	private int enabled;  //分区是否已开启. 0 否 1 是
 	private int status;  //状态  参考 LoginServiceProtos.java ZoneStatusType  0 hot 1 recommanded 2 new
 	private int recommand;  //是否推荐  1是0否
 //	private int chargeOpen;  //充值是否开放0 关闭 1 开放
@@ -33,6 +28,7 @@ public class TableZoneInfo {
 	private String openTime;       //开服时间
 	private String gmPort;         //gm开放端口
 	private String closeTips;      //关闭提示语
+	private int ucGiftRounterPort; //阿里直通车服监听端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -53,12 +49,6 @@ public class TableZoneInfo {
 	}
 	public void setSubZone(int subZone) {
 		this.subZone = subZone;
-	}
-	public int getEnabled() {
-		return enabled;
-	}
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
 	}
 
 	public String getChannelId() {
@@ -133,5 +123,11 @@ public class TableZoneInfo {
 	}
 	public void setCloseTips(String closeTips) {
 		this.closeTips = closeTips;
+	}
+	public int getUcGiftRounterPort() {
+		return ucGiftRounterPort;
+	}
+	public void setUcGiftRounterPort(int ucGiftRounterPort) {
+		this.ucGiftRounterPort = ucGiftRounterPort;
 	}
 }

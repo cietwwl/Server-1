@@ -7,6 +7,7 @@ public class ServerBaseDataResponse  implements Serializable{
 	private int zoneId;
 	private int onlineNum;
 	private int status;
+	private int activityTimeVersion;
 	
 	public int getZoneId() {
 		return zoneId;
@@ -25,5 +26,11 @@ public class ServerBaseDataResponse  implements Serializable{
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+	public int getActivityTimeVersion() {
+		return activityTimeVersion;
+	}
+	public void setActivityTimeVersion(int activityTimeVersion) {
+		this.activityTimeVersion = activityTimeVersion;
 	}
 }

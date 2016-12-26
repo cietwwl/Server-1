@@ -68,7 +68,7 @@ public class GroupCheckDismissTask {
 			// 超出了冷却时间，就要解散帮派
 			if (now - dismissTime >= dismissCoolingTime) {
 				GameLog.info("帮派解散的时效", groupId, "已经完成了解散工作", null);
-				GroupBM.getInstance().dismiss(groupId);
+				GroupBM.dismiss(groupId);
 				// 移除内存数据
 				dismissGroupMap.remove(groupId);
 				hasRemove = true;

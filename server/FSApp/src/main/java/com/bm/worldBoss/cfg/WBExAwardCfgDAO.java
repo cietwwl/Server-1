@@ -30,9 +30,6 @@ public final class WBExAwardCfgDAO extends CfgCsvDao<WBExAwardCfg> {
 		int curIndex = 0, nextIndex = 0;
 		for (int i = 0; i < key.length; i++) {
 			curCfg = cfgCacheMap.get(key[i]);
-			if(i == 20){
-				System.out.println();
-			}
 			if (i >= key.length - 1) {
 				nextCfg = null;
 			} else {

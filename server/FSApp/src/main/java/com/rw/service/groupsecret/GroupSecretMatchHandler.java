@@ -113,7 +113,7 @@ public class GroupSecretMatchHandler {
 			return rsp.build().toByteString();
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("搜索秘境敌人", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			GroupSecretHelper.fillMatchRspInfo(rsp, false, "加入帮派才能进行该操作");
@@ -601,7 +601,7 @@ public class GroupSecretMatchHandler {
 		if (isBeat) {// 打败了
 			String groupName = "";
 			UserGroupAttributeDataIF userGroupAttributeData = player.getUserGroupAttributeDataMgr().getUserGroupAttributeData();
-			Group group = GroupBM.getInstance().get(userGroupAttributeData.getGroupId());
+			Group group = GroupBM.get(userGroupAttributeData.getGroupId());
 			if (group != null) {
 				GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
 				if (groupData != null) {
@@ -617,7 +617,7 @@ public class GroupSecretMatchHandler {
 		// 通知角色日常任务 by Alex
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_BATTLE, 1);
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.GROUPSERCET_SCAN, 1);
-
+		
 		rsp.setIsSuccess(true);
 		return rsp.build().toByteString();
 	}
@@ -663,7 +663,7 @@ public class GroupSecretMatchHandler {
 		String groupId = userGroupAttributeData.getGroupId();
 		if (!StringUtils.isEmpty(groupId)) {
 			if (groupId.equals(matchEnemyData.getGroupId())) {// 当前领取这一刻的帮派Id跟我匹配到这个秘境时的帮派Id是不是一个
-				Group group = GroupBM.getInstance().get(groupId);
+				Group group = GroupBM.get(groupId);
 				if (group != null) {
 					hasGroupAdd = true;
 					group.getGroupBaseDataMgr().updateGroupDonate(player, null, matchEnemyData.getAllRobGSValue(), matchEnemyData.getAllRobGEValue(), 0, true);

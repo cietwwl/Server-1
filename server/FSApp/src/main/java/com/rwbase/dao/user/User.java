@@ -13,6 +13,7 @@ import com.rw.fsutil.dao.annotation.NonSave;
 import com.rw.fsutil.dao.annotation.SaveAsJson;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.manager.GameManager;
+import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.user.readonly.TableUserIF;
@@ -35,6 +36,9 @@ public class User implements TableUserIF {
 	private String headImage;
 	@IgnoreUpdate
 	private long createTime; // 创建的时间
+	@IgnoreUpdate
+	private String openAccount;//
+
 	private long lastLoginTime; // 上次登录时间
 
 	// 踢出的用户冷却时间
@@ -45,6 +49,9 @@ public class User implements TableUserIF {
 
 	@SaveAsJson
 	private UserExtendInfo extendInfo;
+
+	@SaveAsJson
+	private ZoneLoginInfo zoneLoginInfo;
 
 	// 冗余，和mainRoleHero的exp对齐
 	private long exp;
@@ -73,14 +80,6 @@ public class User implements TableUserIF {
 	public void setZoneId(int zoneId) {
 		this.zoneId = zoneId;
 	}
-
-	// public int getMapId() {
-	// return mapId;
-	// }
-	//
-	// public void setMapId(int mapId) {
-	// this.mapId = mapId;
-	// }
 
 	public int getVip() {
 		return vip;
@@ -183,6 +182,14 @@ public class User implements TableUserIF {
 		this.zoneRegInfo = zoneRegInfo;
 	}
 
+	public ZoneLoginInfo getZoneLoginInfo() {
+		return zoneLoginInfo;
+	}
+
+	public void setZoneLoginInfo(ZoneLoginInfo zoneLoginInfo) {
+		this.zoneLoginInfo = zoneLoginInfo;
+	}
+
 	public boolean isInKickOffCoolTime() {
 		return getKickOffCoolTime() > 0 && getKickOffCoolTime() > System.currentTimeMillis();
 	}
@@ -267,6 +274,14 @@ public class User implements TableUserIF {
 		this.isRobot = isRobot;
 	}
 
+	public String getOpenAccount() {
+		return openAccount;
+	}
+
+	public void setOpenAccount(String openAccount) {
+		this.openAccount = openAccount;
+	}
+	
 	public long getOpenTime() {
 		return openTime;
 	}
@@ -274,6 +289,7 @@ public class User implements TableUserIF {
 	public void setOpenTime(long openTime) {
 		this.openTime = openTime;
 	}
+	
 	public void initOpenTime(){
 		if (openTime == 0) {
 			try {

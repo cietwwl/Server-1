@@ -1,0 +1,10 @@
+Key,Remarks,id,chargeType,slotWithCard,slotWithoutCard,icon,title,productName,desc,productDesc,recommend,goldCount,vipExp,moneyCount,extraGive,giveCount,daysDraw,extraGift
+cn.dzfs.002,,cn.dzfs.002,1,3,2,SmallTex/Recharge/icon_Diamonds_01,60钻石,钻石,另赠送60钻石(仅1次),60钻石,1,60,60,600,60,1,,800701
+cn.dzfs.003,,cn.dzfs.003,1,9,3,SmallTex/Recharge/icon_Diamonds_02,120钻石,钻石,另赠送120钻石(仅1次),120钻石,1,120,120,1200,120,1,,800701
+cn.dzfs.004,,cn.dzfs.004,1,4,4,SmallTex/Recharge/icon_Diamonds_03,300钻石,钻石,另赠送300钻石(仅1次),300钻石,1,300,300,3000,300,1,,800701
+cn.dzfs.007,,cn.dzfs.007,1,5,5,SmallTex/Recharge/icon_Diamonds_04,980钻石,钻石,另赠送980钻石(仅1次),980钻石,1,980,980,9800,980,1,,800701
+cn.dzfs.008,,cn.dzfs.008,1,6,6,SmallTex/Recharge/icon_Diamonds_05,1980钻石,钻石,另赠送1980钻石(仅1次),1980钻石,1,1980,1980,19800,1980,1,,800701
+cn.dzfs.009,,cn.dzfs.009,1,7,7,SmallTex/Recharge/icon_Diamonds_06,3280钻石,钻石,另赠送3280钻石(仅1次),3280钻石,1,3280,3280,32800,3280,1,,800701
+cn.dzfs.010,,cn.dzfs.010,1,8,8,SmallTex/Recharge/icon_Diamonds_07,6480钻石,钻石,另赠送6480钻石(仅1次),6480钻石,1,6480,6480,64800,6480,1,,800701
+cn.dzfs.005,,cn.dzfs.005,2,1,1,SmallTex/Recharge/icon_MonthCard_01,普通月卡,普通月卡,每天领取150钻石加5项月卡特权,普通月卡,1,,300,3000,,,,
+cn.dzfs.006,,cn.dzfs.006,3,2,9,SmallTex/Recharge/icon_MonthCard_02,至尊终身卡,至尊终身卡,每天领取450钻石加9项月卡特权,至尊终身卡,1,,880,8800,,,,

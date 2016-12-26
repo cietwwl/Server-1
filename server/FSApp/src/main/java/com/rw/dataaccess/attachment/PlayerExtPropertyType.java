@@ -36,10 +36,12 @@ import com.rw.dataaccess.attachment.creator.ActivityTimeCardCreator;
 import com.rw.dataaccess.attachment.creator.ActivityTimeCountCreator;
 import com.rw.dataaccess.attachment.creator.ActivityVitalityCreator;
 import com.rw.dataaccess.attachment.creator.EvilBaoArriveCreator;
+import com.rw.dataaccess.attachment.creator.RouterGiftDataCreator;
 import com.rw.dataaccess.hero.FashionCreator;
 import com.rw.dataaccess.hero.GiveItemHistoryCreator;
 import com.rw.fsutil.cacheDao.attachment.RoleExtProperty;
 import com.rw.fsutil.dao.cache.CacheKey;
+import com.rw.routerServer.giftManger.RouterGiftDataItem;
 import com.rw.service.PeakArena.PeakRecordCreator;
 import com.rw.service.PeakArena.datamodel.PeakRecordInfo;
 import com.rw.service.guide.datamodel.GiveItemHistory;
@@ -98,7 +100,8 @@ public enum PlayerExtPropertyType implements RoleExtPropertyType{
 	ACTIVITY_CHARGE_RANK(21, ActivityChargeRankItem.class, ActivityChargeRankCreator.class),
 	/**通用活动，消费排行榜；不一定触发，但为了达到优化效果又不大概逻辑流程，创建即生成空数据*/
 	ACTIVITY_CONSUME_RANK(22, ActivityConsumeRankItem.class, ActivityConsumeRankCreator.class),
-	
+	/**直通车礼包*/
+	ROUTER_GIFT(23, RouterGiftDataItem.class, RouterGiftDataCreator.class),
 	;
 
 	private final Class<? extends RoleExtProperty> propertyClass;

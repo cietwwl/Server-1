@@ -9,10 +9,12 @@ import com.config.PlatformConfig;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.rw.Client;
+import com.rw.ClientInfo;
 //import com.rw.ClientPool;
 import com.rw.account.ServerInfo;
 import com.rw.common.MsgReciver;
 import com.rw.common.RobotLog;
+import com.rw.dataSyn.JsonUtil;
 import com.rwproto.AccountLoginProtos.AccountInfo;
 import com.rwproto.AccountLoginProtos.AccountLoginRequest;
 import com.rwproto.AccountLoginProtos.AccountLoginResponse;
@@ -42,6 +44,9 @@ public class PlatformHandler {
 		AccountInfo.Builder accountInfo = AccountInfo.newBuilder();
 		accountInfo.setAccountId(client.getAccountId());
 		accountInfo.setPassword(client.getPassword());
+		ClientInfo clientInfo = new ClientInfo();
+		clientInfo.setAccountId(accountId);
+		accountInfo.setClientInfoJson(JsonUtil.writeValue(clientInfo));
 		loginReq.setAccount(accountInfo);
 		
 		

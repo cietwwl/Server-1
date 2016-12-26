@@ -1,5 +1,6 @@
 package com.rw.service.group;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -8,6 +9,7 @@ import org.springframework.util.StringUtils;
 import com.bm.group.GroupBM;
 import com.bm.group.GroupLogMgr;
 import com.bm.group.GroupMemberMgr;
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.playerdata.Player;
@@ -85,7 +87,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("获取帮派申请列表", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -151,7 +153,7 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 检查帮派是否存在
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派成员接收", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -209,7 +211,7 @@ public class GroupMemberManagerHandler {
 					String groupName = groupData.getGroupName();
 					player.getUserGroupAttributeDataMgr().updateDataWhenHasGroup(player, groupId, groupName);
 					// 发送邮件
-					GroupHelper.getInstance().sendJoinGroupMail(player.getUserId(), groupName);
+					GroupHelper.sendJoinGroupMail(player.getUserId(), groupName);
 				}
 			};
 
@@ -342,9 +344,9 @@ public class GroupMemberManagerHandler {
 		}
 
 		// 通知排行榜
-		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
-		GroupRankHelper.getInstance().updateBaseRankExtension(groupData, memberMgr);
+		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
 		// 帮派信息发生改变
 		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 
@@ -375,7 +377,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派官员任命", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -499,7 +501,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派取消任命", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "帮派不存在");
@@ -603,7 +605,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "发送全员邮件冷却中");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("帮派全员邮件", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -642,8 +644,23 @@ public class GroupMemberManagerHandler {
 		// 检查邮件标题
 		String emailTitle = req.getEmailTitle();
 		String emailContent = req.getEmailContent();
-		if (StringUtils.isEmpty(emailTitle) || StringUtils.isEmpty(emailContent)) {
-			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "邮件标题或内容不能为空");
+
+		// 检查Emoji4字节
+		RefInt outTitle4Bytes = new RefInt();
+		RefInt outContent4Bytes = new RefInt();
+		try {
+			emailTitle = check4ByteString(emailTitle, outTitle4Bytes);
+			emailContent = check4ByteString(emailContent, outContent4Bytes);
+		} catch (UnsupportedEncodingException e) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "邮件标题或内容出现转码错误");
+		}
+
+		if (StringUtils.isEmpty(emailTitle)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, outTitle4Bytes.value > 0 ? "邮件标题不支持Emoji表情" : "邮件标题不能为空");
+		}
+
+		if (StringUtils.isEmpty(emailContent)) {
+			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, outContent4Bytes.value > 0 ? "邮件内容不支持Emoji表情" : "邮件内容不能为空");
 		}
 
 		int titleLen = GroupUtils.getChineseNumLimitLength(emailTitle);
@@ -726,7 +743,7 @@ public class GroupMemberManagerHandler {
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您当前还没有帮派");
 		}
 
-		Group group = GroupBM.getInstance().get(groupId);
+		Group group = GroupBM.get(groupId);
 		if (group == null) {
 			GameLog.error("踢出帮派", playerId, String.format("帮派Id[%s]没有找到Group数据", groupId));
 			return GroupCmdHelper.groupMemberMgrFillFailMsg(commonRsp, "您还不是帮派成员");
@@ -797,7 +814,7 @@ public class GroupMemberManagerHandler {
 		// 设置踢出成员的个人数据
 		GameWorldFactory.getGameWorld().asyncExecute(kickMemberId, GroupMemberHelper.quitGroupTask);
 		// 发送邮件
-		GroupHelper.getInstance().sendQuitGroupMail(kickMemberId, groupData.getGroupName());
+		GroupHelper.sendQuitGroupMail(kickMemberId, groupData.getGroupName());
 
 		// 记录一个帮派日志
 		GroupLog log = new GroupLog();
@@ -808,9 +825,9 @@ public class GroupMemberManagerHandler {
 		group.getGroupLogMgr().addLog(player, log);
 
 		// 更新下排行榜数据
-		GroupRankHelper.getInstance().addOrUpdateGroup2MemberNumRank(group);
+		GroupRankHelper.addOrUpdateGroup2MemberNumRank(group);
 		// 更新下基础排行榜中记录的数据
-		GroupRankHelper.getInstance().updateBaseRankExtension(groupData, memberMgr);
+		GroupRankHelper.updateBaseRankExtension(groupData, memberMgr);
 
 		// 清理一下帮派成员申请奖励品的数据
 		group.getGroupCopyMgr().nofityCreateRoleLeaveTask(kickMemberId);
@@ -819,5 +836,105 @@ public class GroupMemberManagerHandler {
 		GroupCompetitionMgr.getInstance().notifyGroupInfoChange(group);
 		GroupCompetitionMgr.getInstance().notifyGroupMemberLeave(group, playerId);
 		return commonRsp.build().toByteString();
+	}
+
+	/**
+	 * 解析字符串是否包含4字节字符
+	 * 
+	 * @param source
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	public String check4ByteString(String source, RefInt out4BytesMark) throws UnsupportedEncodingException {
+		out4BytesMark = out4BytesMark == null ? new RefInt() : out4BytesMark;
+		String hexString = toHexString(source, out4BytesMark);// 16进制
+		if (out4BytesMark.value > 0) {
+			return hexToSaveString(hexString);
+		} else {
+			return source;
+		}
+	}
+
+	/**
+	 * <pre>
+	 * 这里与0xff原因是因为，bs[i]原本也可以强转到int，
+	 * 但是存储负数用的是补码<font color="ff0000"><b>-1</b></font>的原码是1000 0001
+	 * 反码是：原码除符号位外取反，变成1111 1110 
+	 * 补码是：反码+1，变成1111 1111 所以如果强转到int就变成了32位都是1
+	 * 那么输出来16进制就变成了ff ff ff ff
+	 * 实际上只想取得两位16进制，即为ff才对
+	 * </pre>
+	 * 
+	 * @param str
+	 * @param 返回包含4字节的字符的数量。如果是0就不用再把hex转码到byte，重新new String了
+	 * @return
+	 */
+	private String toHexString(String str, RefInt out4BytesMark) {
+		if (StringUtils.isEmpty(str)) {
+			return "";
+		}
+
+		byte[] bs;
+		try {
+			bs = str.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return "";
+		}
+
+		if (bs == null || bs.length <= 0) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0, len = bs.length; i < len;) {
+			String hexString = Integer.toHexString(bs[i] & 0xff);// 转换成16进制
+			int hexLen = hexString.length();
+			if (hexLen >= 2 && "f".equalsIgnoreCase(hexString.substring(0, 1))) {// 看下开头第一个是不是f，是就说明下边4个字节是关联的，是属于4字节的emoji直接跳过4个自己
+				i += 4;
+				out4BytesMark.value++;
+				continue;
+			}
+
+			if (hexLen < 2) {
+				sb.append('0');
+			}
+			sb.append(hexString.toLowerCase());
+			i++;
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * 把16进制字符转到String
+	 * 
+	 * @param hexString
+	 * @return
+	 * @throws UnsupportedEncodingException
+	 */
+	private String hexToSaveString(String hexString) throws UnsupportedEncodingException {
+		if (StringUtils.isEmpty(hexString)) {
+			return "";
+		}
+
+		char[] charArray = hexString.toCharArray();
+		int len = charArray.length / 2;
+		byte[] bs = new byte[len];
+		for (int i = 0; i < len; i++) {
+			bs[i] = (byte) (getHexString2Byte(charArray[i * 2]) << 4 | getHexString2Byte(charArray[i * 2 + 1]));
+		}
+
+		return new String(bs, "UTF-8");
+	}
+
+	/**
+	 * 获取16进制对应的值
+	 * 
+	 * @param c
+	 * @return
+	 */
+	private byte getHexString2Byte(char c) {
+		return (byte) "0123456789abcdef".indexOf(c);
 	}
 }

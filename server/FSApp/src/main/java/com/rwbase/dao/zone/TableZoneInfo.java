@@ -22,7 +22,6 @@ public class TableZoneInfo {
 	//subzone 是用户注册的时候分配的，一个zone有一个或椟个subZone组成
 	private String channelId; //渠道id
 	private int subZone;
-	private int enabled;  //分区是否已开启. 0 否 1 是
 	private int status;  //状态  参考 LoginServiceProtos.java ZoneStatusType  0 hot 1 recommanded 2 new
 	private int recommand;  //是否推荐  1是0否
 	private int isOpen;  //是否对外开放0 关闭 1 开放
@@ -39,6 +38,7 @@ public class TableZoneInfo {
 	private String benefitServerIp;//精准营销服ip
 	private int benefitServerPort;//精准营销服端口
 	private int benefitLocalPort;//本地绑定端口
+	private int ucGiftRounterPort;//阿里直通车监听端口
 
 	public int getZoneId() {
 		return zoneId;
@@ -59,12 +59,6 @@ public class TableZoneInfo {
 	}
 	public void setSubZone(int subZone) {
 		this.subZone = subZone;
-	}
-	public int getEnabled() {
-		return enabled;
-	}
-	public void setEnabled(int enabled) {
-		this.enabled = enabled;
 	}
 
 	public String getChannelId() {
@@ -184,6 +178,12 @@ public class TableZoneInfo {
 	}
 	public void setBenefitLocalPort(int benefitLocalPort) {
 		this.benefitLocalPort = benefitLocalPort;
+	}
+	public int getUcGiftRounterPort() {
+		return ucGiftRounterPort;
+	}
+	public void setUcGiftRounterPort(int ucGiftRounterPort) {
+		this.ucGiftRounterPort = ucGiftRounterPort;
 	}
 	
 	

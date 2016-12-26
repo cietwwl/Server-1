@@ -14,6 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,9 +40,12 @@ import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
 import com.playerdata.WorshipMgr;
+import com.playerdata.activity.chargeRebate.dao.ActivityChargeRebateDAO;
 import com.playerdata.activityCommon.ActivityDetector;
 import com.playerdata.groupcompetition.battle.EventsStatusForBattleCenter;
+import com.playerdata.randomname.RandomNameMgr;
 import com.playerdata.teambattle.manager.TBTeamItemMgr;
+import com.rw.config.YaoWanLogConfig;
 import com.rw.dataaccess.GameOperationFactory;
 import com.rw.dataaccess.ServerInitialLoading;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
@@ -58,12 +62,15 @@ import com.rw.fsutil.util.DateUtils;
 import com.rw.netty.ServerConfig;
 import com.rw.netty.UserChannelMgr;
 import com.rw.service.FresherActivity.FresherActivityChecker;
+import com.rw.service.guide.NewGuideListener;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.LogService;
 import com.rw.service.platformService.PlatformInfo;
 import com.rw.service.platformService.PlatformService;
 import com.rw.service.platformgs.PlatformGSService;
 import com.rw.trace.HeroPropertyMigration;
+import com.rwbase.ServerType;
+import com.rwbase.ServerTypeMgr;
 import com.rwbase.common.MapItemStoreFactory;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.playerext.PlayerAttrChecker;
@@ -108,9 +115,17 @@ public class GameManager {
 
 		GameLog.debug("初始化后台服务");
 		// TODO 游戏逻辑处理线程数，需要在配置里面统一配置
+		
+		try {
+			ServerTypeMgr.getInstance().loadServerType();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		initServerPerformanceConfig();
 		GameWorldFactory.getGameWorld().registerPlayerDataListener(new PlayerAttrChecker());
+		GameWorldFactory.getGameWorld().registerPlayerDataListener(new NewGuideListener());
 		tempTimers = System.currentTimeMillis();
 
 		// 初始化MapItemStoreFactory
@@ -197,6 +212,9 @@ public class GameManager {
 		ServerStatusMgr.init();
 
 		NoticeMgr.getInstance().initNotice();
+		
+		//初始化充值返利的数据
+		ActivityChargeRebateDAO.getInstance().initActivityChargeRebateData();
 
 		// 帮派副本奖励分发数据初始化
 		GroupCopyDistIDManager.getInstance().InitDistIDInfo();
@@ -206,11 +224,17 @@ public class GameManager {
 		com.playerdata.activity.growthFund.ActivityGrowthFundMgr.getInstance().serverStartComplete();
 
 		EventsStatusForBattleCenter.getInstance().start();// 启动一个帮派争霸战斗结果的时效
+		RandomNameMgr.getInstance().init();
 		System.err.println("初始化后台完成,共用时:" + (System.currentTimeMillis() - timers) + "毫秒");
 		ServerInitialLoading.preLoadPlayers();
 
 		// 世界boss 初始化
 		WBStateFSM.getInstance().init();
+
+		// 启用要玩的日志发送配置
+		if (ServerTypeMgr.getInstance().getServerType() == ServerType.IOS_YAOWAN) {
+			YaoWanLogConfig.init();
+		}
 	}
 
 	public static void initServerProperties() {
@@ -308,17 +332,23 @@ public class GameManager {
 		List<Player> list = new ArrayList<Player>();
 		list.addAll(PlayerMgr.getInstance().getAllPlayer().values());
 		/**** 保存在线玩家 *******/
-		// PlayerMgr.getInstance().saveAllPlayer();
-		// PlayerMgr.getInstance().kickOffAllPlayer();
-
+		try {
+			ShutdownService.notifyShutdown();
+			TimeUnit.SECONDS.sleep(10);
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 		shutDownService();
-		ShutdownService.notifyShutdown();
+		try {
+			TimeUnit.SECONDS.sleep(10);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		GameLog.debug("服务器关闭完成...");
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private static void shutDownService() {
-
 		// flush 排名数据
 		RankDataMgr.getInstance().flushData();
 		ExecutorService executor = Executors.newFixedThreadPool(50);
@@ -326,8 +356,8 @@ public class GameManager {
 		for (final DataCache dao : DataCacheFactory.getAllCaches()) {
 			final String name = dao.getName();
 			List<Runnable> tasks = dao.createUpdateTask();
-			int size = tasks.size();
-			GameLog.error(name + " 保存数据：" + size);
+			final int size = tasks.size();
+			GameLog.error("ShutDown", "", name + " 保存数据：" + size);
 			final AtomicInteger taskCount = new AtomicInteger(size);
 			for (int i = 0; i < size; i++) {
 				final Runnable task = tasks.get(i);
@@ -337,8 +367,7 @@ public class GameManager {
 					public Object call() throws Exception {
 						task.run();
 						if (taskCount.decrementAndGet() == 0) {
-							GameLog.error(name + " 保存数据完毕");
-							// System.err.println(name + " 保存数据完毕");
+							GameLog.error("", "", name + " 保存数据完毕:" + size);
 						}
 						return name;
 					}
@@ -351,25 +380,22 @@ public class GameManager {
 			interrupted = true;
 		}
 		int size = allTasks.size();
-		GameLog.error("保存数据总量：" + size);
-		// System.err.println("保存数据总量：" + size);
+		GameLog.error("ShutDown", "", "保存数据总量：" + size);
 		for (int i = 0; i < size; i++) {
 			NameFuture nameFuture = allTasks.get(i);
 			try {
 				nameFuture.future.get();
 			} catch (InterruptedException e) {
-				GameLog.error("保存数据时接收到inerruptException：" + nameFuture.name);
+				GameLog.error("ShutDown", "", "保存数据时接收到inerruptException：" + nameFuture.name);
 				interrupted = true;
 			} catch (ExecutionException e) {
-				GameLog.error("保存数据ExecutionException：" + nameFuture.name + "," + e);
+				GameLog.error("ShutDown", "", "保存数据ExecutionException：" + nameFuture.name + "," + e);
 			}
 		}
-		GameLog.error("停服保存数据完毕：" + size);
-		// System.err.println("停服保存数据完毕：" + size);
+		GameLog.error("ShutDown", "", "停服保存数据完毕：" + size);
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

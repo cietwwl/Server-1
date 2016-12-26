@@ -1,5 +1,5 @@
 Key,Remarks,id,enumId,bg,icon,icon2,dailyOrRealtime,rewardNum,sort,goToType,title,bgTitle,subRankType,subTitle,titleBG,startTimeStr,endTimeStr,levelLimit,version
-70001,,70001,70001,SmallTex/Activity/ActivityTitleText_06,huodong_004,,,800,1,,战力大比拼,,,,,201610070500,201610140500,6,10
-70002,,70002,70002,SmallTex/Activity/ActivityTitleText_03,huodong_004,,,800,2,,竞技之王,,1,,,201610070500,201610140500,6,10
-70003,,70003,70001,SmallTex/Activity/ActivityTitleText_06,huodong_019,,,800,1,,战力大比拼,,,,,201612200500,201701030500,6,1
-70004,,70004,70002,SmallTex/Activity/ActivityTitleText_03,huodong_015,,,800,2,,竞技之王,,1,,,201612200500,201612280500,6,1
+70001,,70001,70001,SmallTex/Activity/ActivityTitleText_06,huodong_004,,,1000,1,,战力大比拼,,,,,201610070500,201610140500,6,10
+70002,,70002,70002,SmallTex/Activity/ActivityTitleText_03,huodong_004,,,1000,2,,竞技之王,,1,,,201610070500,201610140500,6,10
+70003,,70003,70001,SmallTex/Activity/ActivityTitleText_06,huodong_019,,,1000,1,,战力大比拼,,,,,0,14,6,1
+70004,,70004,70002,SmallTex/Activity/ActivityTitleText_03,huodong_015,,,1000,2,,竞技之王,,1,,,0,7,6,1

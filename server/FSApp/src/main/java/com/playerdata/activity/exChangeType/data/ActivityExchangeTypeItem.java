@@ -90,9 +90,9 @@ public class ActivityExchangeTypeItem implements  RoleExtProperty {
 	
 	/**版本刷新*/
 	public void reset(ActivityExchangeTypeCfg targetCfg,List<ActivityExchangeTypeSubItem> list){
-		this.cfgId = targetCfg.getId();
+		this.cfgId = String.valueOf(targetCfg.getId());
 		this.closed = false;
-		this.version = targetCfg.getVersion();
+		this.version = String.valueOf(targetCfg.getVersion());
 		subItemList = list;
 		isTouchRedPoint = false;
 		historyRedPoint = new ArrayList<String>();

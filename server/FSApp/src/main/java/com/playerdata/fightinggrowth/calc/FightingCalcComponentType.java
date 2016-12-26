@@ -18,6 +18,7 @@ public enum FightingCalcComponentType {
 	MAGIC("法宝", new FSGetMagicFightingCalc()), // 法宝战力
 	SKILL("英雄技能", new FSGetSkillFightingCalc()), // 技能战力
 	TAOIST("道术", new FSGetTaoistFightingCalc()), // 道术战力
+	SPRITE_ATTACH("附灵", new FSGetSpriteAttachFightingCalc()), // 附灵战力
 	;
 
 	public final String desc;

@@ -18,6 +18,7 @@ public class AnnouncementCfg {
 	private int gotoTypeId;					//跳转界面
 	private long startTime;
 	private long endTime;
+	private int pushLevel;                  //推送等级
 	
 	public long getStartTime() {
 		return startTime;
@@ -120,5 +121,11 @@ public class AnnouncementCfg {
 	}
 	public void setGotoTypeId(int gotoTypeId) {
 		this.gotoTypeId = gotoTypeId;
+	}
+	public int getPushLevel() {
+		return pushLevel;
+	}
+	public void setPushLevel(int pushLevel) {
+		this.pushLevel = pushLevel;
 	}
 }

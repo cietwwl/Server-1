@@ -9,6 +9,7 @@ import com.playerdata.SignMgr;
 import com.playerdata.TowerMgr;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.rw.service.TaoistMagic.ITaoistMgr;
+import com.rw.service.magicEquipFetter.MagicEquipFetterMgr;
 import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.dao.fetters.pojo.SynFettersData;
 import com.rwbase.dao.user.readonly.TableUserIF;
@@ -104,4 +105,6 @@ public interface PlayerIF {
 	 * @return
 	 */
 	public long getLastLoginTime();
+
+	public MagicEquipFetterMgr getMe_FetterMgr();
 }
