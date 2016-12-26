@@ -1,7 +1,9 @@
 package com.rw.dataaccess.attachment.creator;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.playerdata.activity.evilBaoArrive.data.EvilBaoArriveItem;
 import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.rw.dataaccess.attachment.PlayerExtPropertyCreator;
@@ -17,12 +19,10 @@ public class ActivityRankTypeCreator implements PlayerExtPropertyCreator<Activit
 		return null;
 	}
 
-
-
 	@Override
 	public List<ActivityRankTypeItem> firstCreate(PlayerPropertyParams params) {
-		// TODO Auto-generated method stub
-		return ActivityRankTypeMgr.getInstance().creatItems(params.getUserId(), false);
+		return new ArrayList<ActivityRankTypeItem>();
+		//return ActivityRankTypeMgr.getInstance().creatItems(params.getUserId(), false);
 	}
 
 	@Override
@@ -36,7 +36,8 @@ public class ActivityRankTypeCreator implements PlayerExtPropertyCreator<Activit
 	@Override
 	public boolean requiredToPreload(PlayerPropertyParams params) {
 		// TODO Auto-generated method stub
-		return ActivityRankTypeMgr.getInstance().isOpen(params.getCreateTime());
+		return true;
+		//return ActivityRankTypeMgr.getInstance().isOpen(params.getCreateTime());
 	}
 
 }
