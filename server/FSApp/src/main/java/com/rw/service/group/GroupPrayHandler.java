@@ -227,6 +227,7 @@ public class GroupPrayHandler {
 		// 重置数据
 		memberMgr.resetPrayData(userId, soulId, ItemBagMgr.getInstance().getItemCountByModelId(userId, soulId));
 
+		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
 	}
 
@@ -321,10 +322,11 @@ public class GroupPrayHandler {
 			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您背包里暂无祈福的魂石");
 		}
 
-		mgr.addPrayUserId2List(memberId);// 增加赠送的人
+		mgr.addPrayUserId2List(userId, memberId);// 增加赠送的人
 		// 增加对方的魂石数量
 		memberMgr.addPrayProcess(memberId);// 增加自己的魂石数量
 
+		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
 	}
 
@@ -387,7 +389,6 @@ public class GroupPrayHandler {
 		int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
 		int prayProcess = memberData.getPrayProcess();
 		if (prayProcess < soulLimit) {// 还没完成
-			GameLog.error("领取完成的祈福卡", userId, String.format("角色[%s]昨日祈福的卡已经足够了，但是还没领取", userId));
 			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福尚未完成，暂不能领取");
 		}
 
@@ -402,6 +403,7 @@ public class GroupPrayHandler {
 
 		mgr.updatePrayGetState(userId);// 更新状态
 
+		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
 	}
 }

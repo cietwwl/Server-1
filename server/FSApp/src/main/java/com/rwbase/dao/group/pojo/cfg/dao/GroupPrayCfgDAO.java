@@ -25,7 +25,7 @@ public class GroupPrayCfgDAO extends CfgCsvDao<GroupPrayCfg> {
 
 	@Override
 	protected Map<String, GroupPrayCfg> initJsonCfg() {
-		Map<String, GroupPrayCfg> map = CfgCsvHelper.readCsv2Map("GroupPray/PraySoulLimitCfg.csv", GroupPrayCfg.class);
+		Map<String, GroupPrayCfg> map = CfgCsvHelper.readCsv2Map("GroupPray/GroupPrayLimitCfg.csv", GroupPrayCfg.class);
 
 		if (map != null && !map.isEmpty()) {
 			HashMap<Integer, Integer> getSoulLimitMap = new HashMap<Integer, Integer>(map.size());
@@ -35,10 +35,10 @@ public class GroupPrayCfgDAO extends CfgCsvDao<GroupPrayCfg> {
 					continue;
 				}
 
-				int soulModelId = cfg.getSoulModelId();
+				int soulModelId = cfg.getTargetSoulItemId();
 				Integer hasValue = getSoulLimitMap.get(soulModelId);
 				if (hasValue == null) {
-					getSoulLimitMap.put(soulModelId, cfg.getGetCount());
+					getSoulLimitMap.put(soulModelId, cfg.getExchangeLimit());
 				}
 			}
 

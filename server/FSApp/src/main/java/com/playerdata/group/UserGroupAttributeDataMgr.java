@@ -490,14 +490,15 @@ public class UserGroupAttributeDataMgr implements PlayerEventListener {
 	 * 添加userId到祈福赠送的列表中
 	 * 
 	 * @param userId
+	 * @param addPrayId
 	 */
-	public void addPrayUserId2List(String userId) {
+	public void addPrayUserId2List(String userId, String addPrayId) {
 		UserGroupAttributeData userGroupData = getUserGroupAttributeData(userId);
 		if (userGroupData == null) {
 			return;
 		}
 
-		userGroupData.addPrayUserId(userId);
+		userGroupData.addPrayUserId(addPrayId);
 		holder.flush(userId);
 	}
 

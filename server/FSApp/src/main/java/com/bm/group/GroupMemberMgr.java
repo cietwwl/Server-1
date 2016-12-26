@@ -15,12 +15,19 @@ import com.playerdata.army.ArmyFashion;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.rw.fsutil.util.DateUtils;
+import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
+import com.rwbase.dao.email.EEmailDeleteType;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
+import com.rwbase.dao.email.EmailData;
 import com.rwbase.dao.fashion.FashionBeingUsed;
 import com.rwbase.dao.fashion.FashionBeingUsedHolder;
 import com.rwbase.dao.group.pojo.cfg.GroupBaseConfigTemplate;
 import com.rwbase.dao.group.pojo.cfg.dao.GroupConfigCfgDAO;
+import com.rwbase.dao.group.pojo.cfg.dao.GroupPrayCfgDAO;
 import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.group.pojo.db.GroupMemberDataHolder;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
@@ -306,6 +313,17 @@ public class GroupMemberMgr {
 	 * @param memberPlayerTask 正式成员的移除任务
 	 */
 	public synchronized void removeAllMember(PlayerTask applyPlayerTask, PlayerTask memberPlayerTask) {
+		// 先检查并发送帮派祈福获取的物品
+		List<GroupMemberData> memberSortList = holder.getMemberSortList(null);
+		for (int i = 0, size = memberSortList.size(); i < size; i++) {
+			GroupMemberData groupMemberData = memberSortList.get(i);
+			if (groupMemberData == null) {
+				continue;
+			}
+
+			clearGroupPrayDataWhenKickOrQuit(groupMemberData.getUserId());
+		}
+
 		// 删除所有的申请成员信息
 		holder.clearAllApplyMemberData(applyPlayerTask);
 		// 删除所有的成员信息
@@ -363,6 +381,9 @@ public class GroupMemberMgr {
 		String groupID;
 		synchronized (this) {
 			groupID = GroupHelper.getUserGroupId(kickUserId);
+
+			clearGroupPrayDataWhenKickOrQuit(kickUserId);
+
 			holder.removeMemberData(kickUserId, false);
 			GFOnlineListenerPlayerChange.userLeaveGroupHandler(kickUserId, groupID);
 		}
@@ -754,5 +775,58 @@ public class GroupMemberMgr {
 
 		memberData.setPrayProcess(memberData.getPrayProcess() + 1);
 		holder.updateMemberData(memberData.getId());
+	}
+
+	/**
+	 * 当退出或者被踢出帮派的时候清除祈福数据
+	 * 
+	 * @param userId
+	 */
+	public void clearGroupPrayDataWhenKickOrQuit(String userId) {
+		UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeData baseData = mgr.getUserGroupAttributeData(userId);
+		// 检查自己当前的祈福状态
+		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
+		if (resetTime) {
+			return;
+		}
+
+		GroupMemberDataIF memberData = getMemberData(userId, false);
+		int prayCardId = memberData.getPrayCardId();
+		if (prayCardId <= 0) {// 祈福过
+			return;
+		}
+
+		// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
+		int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
+		int prayProcess = memberData.getPrayProcess();
+		if (prayProcess < soulLimit) {// 还没完成
+			return;
+		}
+
+		if (baseData.getState() > 0) {// 是否领取过
+			return;
+		}
+
+		// 发送邮件
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.PRAY_MAIL_ID);
+		if (emailCfg == null) {
+			return;
+		}
+
+		EmailData emailData = new EmailData();
+		emailData.setTitle(emailCfg.getTitle());
+		emailData.setContent(emailCfg.getContent());
+		emailData.setDeleteType(EEmailDeleteType.valueOf(emailCfg.getDeleteType()));
+		emailData.setSender(emailCfg.getSender());
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(prayCardId).append("~").append(prayProcess);
+
+		emailData.setEmailAttachment(sb.toString());
+
+		EmailUtils.sendEmail(userId, emailData);
+
+		mgr.updatePrayGetState(userId);// 更新领取状态
 	}
 }

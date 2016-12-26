@@ -7,16 +7,16 @@ package com.rwbase.dao.group.pojo.cfg;
  **/
 
 public class GroupPrayCfg {
-	private int soulModelId;// 魂石的Id
-	private int getCount;// 每天可以获取的上限
+	private int targetSoulItemId;// 魂石的Id
+	private int exchangeLimit;// 每天可以获取的上限
 
 	/**
 	 * 获取魂石的模板Id
 	 * 
 	 * @return
 	 */
-	public int getSoulModelId() {
-		return soulModelId;
+	public int getTargetSoulItemId() {
+		return targetSoulItemId;
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class GroupPrayCfg {
 	 * 
 	 * @return
 	 */
-	public int getGetCount() {
-		return getCount;
+	public int getExchangeLimit() {
+		return exchangeLimit;
 	}
 }
