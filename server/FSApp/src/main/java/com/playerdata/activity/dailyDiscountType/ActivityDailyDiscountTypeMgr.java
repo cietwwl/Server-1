@@ -1,5 +1,6 @@
 package com.playerdata.activity.dailyDiscountType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +91,7 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 				map.put(eSpecialItemId.Gold.getValue(), -itemCfg.getPriceAfterDiscount());
 				ItemBagMgr.getInstance().useLikeBoxItem(player, null, null, map);
 			}
+			targetItem.setCount(targetItem.getCount() + 1);
 			dataHolder.updateItem(player, dataItem);
 			result.setReason("购买成功");
 			result.setSuccess(true);
@@ -162,6 +164,15 @@ public class ActivityDailyDiscountTypeMgr extends AbstractActivityMgr<ActivityDa
 		}
 		item.setSubItemList(newSubs);
 		getHolder().updateItem(player, item);
+	}
+	
+	@Override
+	protected List<String> checkRedPoint(Player player, ActivityDailyDiscountTypeItem item) {
+		List<String> redPointList = new ArrayList<String>();
+		if (!item.isHasViewed()) {
+			redPointList.add(String.valueOf(item.getCfgId()));
+		}
+		return redPointList;
 	}
 
 	protected UserActivityChecker<ActivityDailyDiscountTypeItem> getHolder(){
