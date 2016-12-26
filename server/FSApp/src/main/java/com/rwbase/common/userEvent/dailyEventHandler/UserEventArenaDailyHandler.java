@@ -39,7 +39,7 @@ public class UserEventArenaDailyHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 					/**活动是否开启*/
 					boolean isBetweendays = ActivityDailyTypeMgr.getInstance().isOpen(ActivityDailyTypeSubCfgDAO
-							.getInstance().getById(ActivityDailyTypeEnum.ArenaDaily.getCfgId()));
+							.getInstance().getListByEnumId(ActivityDailyTypeEnum.ArenaDaily.getCfgId()));
 					boolean isLevelEnough = ActivityDailyTypeMgr.getInstance().isLevelEnough(player);
 //					ActivityDailyCountTypeItemHolder dataHolder = ActivityDailyCountTypeItemHolder.getInstance();					
 //					ActivityDailyCountTypeItem dataItem = dataHolder.getItem(player.getUserId());

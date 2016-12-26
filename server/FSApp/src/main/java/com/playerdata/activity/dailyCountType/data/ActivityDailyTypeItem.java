@@ -28,6 +28,11 @@ public class ActivityDailyTypeItem implements  IMapItem {
 	@CombineSave
     private String cfgid;
 	
+
+	
+	
+
+
 	public String getCfgid() {
 		return cfgid;
 	}
@@ -72,9 +77,10 @@ public class ActivityDailyTypeItem implements  IMapItem {
 	}
 	
 	public void reset(ActivityDailyTypeCfg cfg){
+		cfgid = cfg.getId();
 		closed = false;
 		version = cfg.getVersion();
-		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList());
+		setSubItemList(ActivityDailyTypeCfgDAO.getInstance().newItemList(cfg.getId()));
 		lastTime = System.currentTimeMillis();
 		isTouchRedPoint = false;
 	}

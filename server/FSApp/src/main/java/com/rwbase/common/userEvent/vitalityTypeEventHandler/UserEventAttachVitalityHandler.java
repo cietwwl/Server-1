@@ -29,8 +29,8 @@ public class UserEventAttachVitalityHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 				ActivityVitalitySubCfg subCfg = ActivityVitalitySubCfgDAO.getInstance().getByTypeAndActiveType(ActivityVitalityTypeEnum.Vitality,ActivityVitalityTypeEnum.AttachVitality.getCfgId());
 				
-				boolean isLevelEnough = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
-				if(subCfg!=null&&isLevelEnough){
+				boolean isLevelEnoughAndOpen = ActivityVitalityTypeMgr.getInstance().isLevelEnough(ActivityVitalityTypeEnum.Vitality,player);
+				if(subCfg!=null&&isLevelEnoughAndOpen){
 //					if(Integer.parseInt(params.toString())<subCfg.getCount()){//除去等级-存在之外的额外判断
 //						//等级不够
 //						return;
@@ -42,14 +42,13 @@ public class UserEventAttachVitalityHandler implements IUserEventHandler{
 					if(activityVitalityTypeSubItem.getCount() > 0){
 						add = add - activityVitalityTypeSubItem.getCount()>0?add - activityVitalityTypeSubItem.getCount() : 0;
 					}					
-					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.AttachVitality,subCfg, add);
-					GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~活动之王-送体开启",null);
+					ActivityVitalityTypeMgr.getInstance().addCount(player, ActivityVitalityTypeEnum.Vitality,subCfg, add);
 					}
 				}
 			@Override
 			public void logError(Player player,Throwable ex) {
 				StringBuilder reason = new StringBuilder(ActivityVitalityTypeEnum.AttachVitality.toString()).append(" error");				
-				GameLog.error(LogModule.ComActivityVitality, "userId:"+player.getUserId(), reason.toString(),ex);
+				GameLog.error(LogModule.UserEvent, "userId:"+player.getUserId(), reason.toString(),ex);
 			}						
 		});
 		

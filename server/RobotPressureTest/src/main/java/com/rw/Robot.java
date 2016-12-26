@@ -158,7 +158,7 @@ public class Robot {
 		}
 		client.closeConnect();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(1000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -171,7 +171,12 @@ public class Robot {
 		} catch (Exception e) {
 			RobotLog.fail("loginGame error", e);
 		}
-
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		return createSuccess;
 	}
 

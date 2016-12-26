@@ -5,6 +5,8 @@ import com.playerdata.Player;
 import com.playerdata.activity.ActivityComResult;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfg;
+import com.playerdata.activity.dailyCountType.cfg.ActivityDailyTypeCfgDAO;
 import com.rwproto.ActivityDailyTypeProto.ActivityCommonReqMsg;
 import com.rwproto.ActivityDailyTypeProto.ActivityCommonRspMsg;
 
@@ -21,8 +23,12 @@ public class ActivityDailyTypeHandler {
 		response.setReqType(commonReq.getReqType());
 		String activityId = commonReq.getActivityId();
 		String subItemId =  commonReq.getSubItemId();
-	
-		ActivityDailyTypeEnum countType = ActivityDailyTypeEnum.getById(activityId);
+		ActivityDailyTypeCfg cfg = ActivityDailyTypeCfgDAO.getInstance().getCfgById(activityId);
+		ActivityDailyTypeEnum countType = null;
+		if(cfg != null){
+			countType = ActivityDailyTypeEnum.getById(cfg.getEnumId());
+		}
+		
 		
 		boolean success = false;
 		String tips = null;
@@ -31,9 +37,10 @@ public class ActivityDailyTypeHandler {
 			ActivityComResult result = ActivityDailyTypeMgr.getInstance().takeGift(player, countType, subItemId);
 			success = result.isSuccess();
 			tips = result.getReason()+"";
+			response.setIsSuccess(success);
+			response.setTipMsg(tips);
 		}
-		response.setIsSuccess(success);
-		response.setTipMsg(tips);
+		
 		return response.build().toByteString();
 	}
 

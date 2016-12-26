@@ -5,6 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 
+
+
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeEnum;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
@@ -65,16 +72,15 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 	 * @param subdaysNum  每日重置类型的活动,第几天
 	 * @return
 	 */
-	public ActivityDailyTypeItem newItem(Player player){
-		ActivityDailyTypeCfg cfgById = getConfig(ActivityDailyTypeEnum.Daily.getCfgId());
-		if(cfgById!=null){			
+	public ActivityDailyTypeItem newItem(Player player,ActivityDailyTypeCfg cfg){
+		if(cfg!=null){			
 			ActivityDailyTypeItem item = new ActivityDailyTypeItem();
 			
 			item.setId(player.getUserId());
 			item.setUserId(player.getUserId());
-			item.setCfgid(cfgById.getId());
-			item.setVersion(cfgById.getVersion());
-			item.setSubItemList(newItemList());
+			item.setCfgid(cfg.getId());
+			item.setVersion(cfg.getVersion());
+			item.setSubItemList(newItemList(cfg.getId()));
 			item.setLastTime(System.currentTimeMillis());
 			return item;
 		}else{
@@ -83,7 +89,7 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 	}
 
 
-	public List<ActivityDailyTypeSubItem> newItemList() {
+	public List<ActivityDailyTypeSubItem> newItemList(String cfgId) {
 		List<ActivityDailyTypeSubItem> subItemList = new ArrayList<ActivityDailyTypeSubItem>();
 		List<ActivityDailyTypeSubCfg> allsubCfgList = ActivityDailyTypeSubCfgDAO.getInstance().getAllCfg();	
 		for(ActivityDailyTypeSubCfg activityDailyCountTypeSubCfg : allsubCfgList){
@@ -91,6 +97,11 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 				//该子类型活动当天没开启
 				continue;					
 			}
+			if(!StringUtils.equals(activityDailyCountTypeSubCfg.getParentId(), cfgId)){
+				//防止上一期的子活动有误填导致时间超出到这一期
+				continue;
+			}
+			
 			ActivityDailyTypeSubItem subitem = new ActivityDailyTypeSubItem();
 			subitem.setCfgId(activityDailyCountTypeSubCfg.getId());
 			subitem.setCount(0);
@@ -99,6 +110,30 @@ public final class ActivityDailyTypeCfgDAO extends CfgCsvDao<ActivityDailyTypeCf
 			subItemList.add(subitem);
 		}		
 		return subItemList;
+	}
+
+	/**
+	 * 
+	 * @param targetItem
+	 * @return 根据传入的item，获取同类型的，不同id的，激活的，唯一的下期配置
+	 */
+	public ActivityDailyTypeCfg getCfgByItemOfEnumId(ActivityDailyTypeItem targetItem) {
+		String id = targetItem.getId();
+		List<ActivityDailyTypeCfg>  cfgListIsOpen = new ArrayList<ActivityDailyTypeCfg>();
+		List<ActivityDailyTypeCfg>  cfgList = getAllCfg();
+		for(ActivityDailyTypeCfg cfg : cfgList){
+			if(!StringUtils.equals(cfg.getId(), id)&&ActivityDailyTypeMgr.getInstance().isOpen(cfg)){
+				cfgListIsOpen.add(cfg);
+			}		
+		}
+		if(cfgListIsOpen.size() > 1){
+			GameLog.error(LogModule.ComActivityDailyCount, null, "更换版本号时发现同时有多个开启", null);
+			return null;
+		}else if(cfgListIsOpen.size() == 1){
+			return cfgListIsOpen.get(0);
+		}
+		
+		return null;
 	}
 	
 	

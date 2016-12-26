@@ -4,9 +4,19 @@ public class SendRewardRecord {
 	private String id;
 	private String version;
 	private boolean isSend;
+	private String enumId;
+	
+	
 	/**生成奖励的时间*/
 	private long lasttime;
 	
+	
+	public String getEnumId() {
+		return enumId;
+	}
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
 	public boolean isSend() {
 		return isSend;
 	}

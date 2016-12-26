@@ -20,7 +20,7 @@ public class ActivityVitalityCfg {
 	// 活跃度能否领奖，0=可以，1=不可以
 	private boolean isCanGetReward;
 	
-	
+	private String enumID;
 	
 
 
@@ -29,6 +29,15 @@ public class ActivityVitalityCfg {
 	private int levelLimit;
 
 	
+
+
+	public String getEnumID() {
+		return enumID;
+	}
+
+	public void setEnumID(String enumID) {
+		this.enumID = enumID;
+	}
 
 	public boolean isCanGetReward() {
 		return isCanGetReward;

@@ -528,6 +528,9 @@ public class StoreMgr implements StoreMgrIF, PlayerEventListener {
 		int freeRefreshCount = pname != null ? m_pPlayer.getPrivilegeMgr().getIntPrivilege(pname) : 0;
 
 		StoreData pStoreData = getStore(storeType);
+		if(pStoreData == null){
+			return -1;
+		}
 		boolean blnFree = false;
 		int cost = 0;
 		int refreshnum = 0;

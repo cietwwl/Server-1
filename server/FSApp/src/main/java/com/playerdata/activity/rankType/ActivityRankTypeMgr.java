@@ -14,11 +14,9 @@ import com.playerdata.ComGiftMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.RankingMgr;
-import com.playerdata.activity.ActivityRedPointEnum;
 import com.playerdata.activity.ActivityRedPointUpdate;
-import com.playerdata.activity.countType.ActivityCountTypeEnum;
-import com.playerdata.activity.countType.data.ActivityCountTypeItem;
-import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfg;
+import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
@@ -61,26 +59,39 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
 		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityRankTypeCfg activityRankTypeCfg : allCfgList) {//遍历种类*各类奖励数次数,生成开启的种类个数空数据
-			if(isOpen(activityRankTypeCfg)){
-				ActivityRankTypeEnum RankTypeEnum = ActivityRankTypeEnum.getById(activityRankTypeCfg.getId());
-				if(RankTypeEnum != null){
-					ActivityRankTypeItem targetItem = dataHolder.getItem(player.getUserId(), RankTypeEnum);//已在之前生成数据的活动
-					if(targetItem == null){
-						targetItem = ActivityRankTypeCfgDAO.getInstance().newItem(player, RankTypeEnum);//生成新开启活动的数据
-						if(targetItem!=null){
-							dataHolder.addItem(player, targetItem);
-						}
-					}
-				}				
+			if(!isOpen(activityRankTypeCfg)){
+				continue;
+			}
+			ActivityRankTypeEnum RankTypeEnum = ActivityRankTypeEnum.getById(activityRankTypeCfg.getEnumId());	
+			if(RankTypeEnum == null){
+				
+				continue;
+			}
+			ActivityRankTypeItem targetItem = dataHolder.getItem(player.getUserId(), RankTypeEnum);//已在之前生成数据的活动
+			if(targetItem != null){
+				continue;
+			}
+			targetItem = ActivityRankTypeCfgDAO.getInstance().newItem(player, activityRankTypeCfg);//生成新开启活动的数据
+			if(targetItem!=null){
+				dataHolder.addItem(player, targetItem);
 			}
 		}
 	}
 	
+	public boolean isOpen(ActivityRankTypeCfg activityRankTypeCfg) {
+		
+		long startTime = activityRankTypeCfg.getStartTime();
+		long endTime = activityRankTypeCfg.getEndTime();		
+		long currentTime = System.currentTimeMillis();
+		
+		return currentTime < endTime && currentTime >= startTime;
+	}
+
 	private void checkCfgVersion(Player player) {
 		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
 		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		for (ActivityRankTypeItem targetItem : itemList) {			
-			ActivityRankTypeCfg targetCfg = ActivityRankTypeCfgDAO.getInstance().getCfgById(targetItem.getCfgId());
+			ActivityRankTypeCfg targetCfg = ActivityRankTypeCfgDAO.getInstance().getCfgById(targetItem);
 			if(targetCfg == null){
 				GameLog.error("activitycounttypemgr", "uid=" + player.getUserId(), "数据库有活动id，但当前配置无该类型");
 				continue;
@@ -97,47 +108,53 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		List<ActivityRankTypeItem> itemList = dataHolder.getItemList(player.getUserId());
 		
 		for (ActivityRankTypeItem activityRankTypeItem : itemList) {//每种活动
-			if(isClose(activityRankTypeItem)){
-				if(!activityRankTypeItem.isClosed()&&activityRankTypeItem.getReward()!=null){
-					//派发；结算时没入榜，结算后不登陆更不会入榜，所以会在此处排除
-					activityRankTypeItem.setTaken(true);
-					activityRankTypeItem.setClosed(true);
-					dataHolder.updateItem(player, activityRankTypeItem);
-					ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
-					if(!StringUtils.isBlank(activityRankTypeItem.getFashionReward())){
-//						ComGiftMgr.getInstance().addtagoffathionInfoTOEmail(player, activityRankTypeItem.getFashionReward(), activityRankTypeItem.getEmailId(), null);
-					}
-				}
-				SendRewardRecord record = sendMap.get(activityRankTypeItem.getCfgId());
-				if(record == null){
-					GameLog.error(LogModule.ComActivityRank, player.getUserId(), "数据库数据的id找不到对应的cfg生成的record", null);
-					return;					
-				}
-				long sendtime = record.getLasttime();
-				
-				if(sendtime ==0){					
-					continue;
-				}
-				long nowtime = System.currentTimeMillis();
-				if(sendtime > nowtime){
-					long tmp = sendtime;
-					sendtime = nowtime;
-					nowtime = tmp;					
-				}
-				if(DateUtils.getAbsoluteHourDistance(sendtime, nowtime)>1&&!activityRankTypeItem.isClosed()){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
-					activityRankTypeItem.setClosed(true);
-					dataHolder.updateItem(player, activityRankTypeItem);
-				}				
+			ActivityRankTypeCfg cfgById = ActivityRankTypeCfgDAO.getInstance().getCfgById(activityRankTypeItem.getCfgId());
+			if(cfgById == null){
+				continue;
 			}
+			if(!isClose(activityRankTypeItem)){
+				continue;			
+			}
+			if(activityRankTypeItem.isClosed()){
+				continue;
+			}			
+			if(activityRankTypeItem.getReward()!=null){//有奖励的进这里
+				//派发；结算时没入榜，结算后不登陆更不会入榜，所以会在此处排除
+				activityRankTypeItem.setTaken(true);
+				activityRankTypeItem.setClosed(true);					
+				dataHolder.updateItem(player, activityRankTypeItem);
+				ComGiftMgr.getInstance().addtagInfoTOEmail(player, activityRankTypeItem.getReward(), activityRankTypeItem.getEmailId(), null);
+				continue;
+			}			
+			//没奖的酱油进下边设置关闭
+			SendRewardRecord record = sendMap.get(activityRankTypeItem.getEnumId());
+			if(record == null){
+				GameLog.error(LogModule.ComActivityRank, player.getUserId(), "数据库数据的id找不到对应的cfg生成的record", null);
+				continue;					
+			}
+			long sendtime = record.getLasttime();				
+			if(sendtime ==0){
+				continue;
+			}
+			long nowtime = System.currentTimeMillis();
+			if(sendtime > nowtime){
+				long tmp = sendtime;
+				sendtime = nowtime;
+				nowtime = tmp;					
+			}
+			if(DateUtils.getAbsoluteHourDistance(sendtime, nowtime)>1){//设置固定时间后，再生成的奖励也不触发，防止当机；此限制应加在服务器数据表里，现在临时加在内存的静态变量中；
+				activityRankTypeItem.setClosed(true);
+				dataHolder.updateItem(player, activityRankTypeItem);
+			}
+			
+			
 		}	
 	}
 
 	
-	public boolean isClose(ActivityRankTypeItem activityRankTypeItem) {
-		
+	public boolean isClose(ActivityRankTypeItem activityRankTypeItem) {		
 		ActivityRankTypeCfg cfgById = ActivityRankTypeCfgDAO.getInstance().getCfgById(activityRankTypeItem.getCfgId());
 		boolean isclose = isClose(cfgById);
-
 		return isclose;
 	}
 	
@@ -147,16 +164,16 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		return currentTime > endTime;
 	}
 	
-	
-	
-	public boolean isOpen(ActivityRankTypeCfg activityRankTypeCfg) {
-		
-		long startTime = activityRankTypeCfg.getStartTime();
-		long endTime = activityRankTypeCfg.getEndTime();		
-		long currentTime = System.currentTimeMillis();
-		
-		return currentTime < endTime && currentTime > startTime;
+	public boolean isCanGift(ActivityRankTypeCfg cfg,SendRewardRecord record){
+		if(isOpen(cfg)){
+			return false;
+		}
+		if(!StringUtils.equals(record.getId(), cfg.getId())){
+			return false;
+		}		
+		return true;
 	}
+	
 	
 	public List<ActivityRankTypeEntry> getRankList(ActivityRankTypeEnum rankType, int offset, int limit){		
 		return new ArrayList<ActivityRankTypeEntry>();
@@ -174,20 +191,21 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 		
 		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRankTypeCfg cfg:cfgList){//所有的配表活动
-			ActivityRankTypeEnum activityRankTypeEnum = ActivityRankTypeEnum.getById(cfg.getId());
+			ActivityRankTypeEnum activityRankTypeEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());
 			if(activityRankTypeEnum==null){
 				GameLog.error(LogModule.ComActivityRank, null, "配置文件有配，但枚举不存在", null);
 				continue;
 			}
-			if(!isClose(cfg)){
-				//活动要等过期后才派发奖励 
-//				System.out.println("activityrank.活动还未结束。。。。。。。。。。。。。。。。");
-				continue;
-			}
-			SendRewardRecord record = sendMap.get(cfg.getId());
+			
+			SendRewardRecord record = sendMap.get(cfg.getEnumId());
 			if(record.isSend()){
 				//已经派发过，避免多次触发
 //				System.out.println("activityrank.已经拍法过奖励。。。。。。。。。。。。。。。。"+ cfg.getId());
+				continue;
+			}
+			if(!isCanGift(cfg,record)){
+				//是否为同类型活动里处于激活派发状态的一个
+//				System.out.println("activityrank.活动还未结束。。。。。。。。。。。。。。。。");
 				continue;
 			}
 			record.setLasttime(System.currentTimeMillis());
@@ -236,19 +254,14 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 					List<ActivityRankTypeSubCfg> subCfgList = ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(cfg.getId());
 					String tmpReward= null;
 					String emaiId = null;
-					String tmpfathionReward =null;
 					for(ActivityRankTypeSubCfg subCfg:subCfgList){
 						if(rankInfo.getRankingLevel()>=subCfg.getRankRanges()[0]&&rankInfo.getRankingLevel()<=subCfg.getRankRanges()[1]){
 							tmpReward = subCfg.getReward();
 							emaiId = subCfg.getEmailId();
-							tmpfathionReward = subCfg.getFashionReward();
 							break;
 						}						
 					}
 					if(tmpReward !=null){
-						if(tmpfathionReward != null){
-							targetItem.setFashionReward(tmpfathionReward);
-						}
 						targetItem.setReward(tmpReward);
 						targetItem.setEmailId(emaiId);
 						dataHolder.updateItem(player, targetItem);
@@ -266,38 +279,53 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate{
 	public void creatMap() {
 		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRankTypeCfg cfg:cfgList){
+			if(sendMap.get(cfg.getEnumId()) != null){
+				continue;
+			}
+			ActivityRankTypeCfg modelCfg = ActivityRankTypeCfgDAO.getInstance().getCfgByModleCfgEnumId(cfg.getEnumId());
+			
+			
 			SendRewardRecord record = new SendRewardRecord();
-			record.setId(cfg.getId());
-			record.setVersion(cfg.getVersion());
+			record.setId(modelCfg.getId());
+			record.setVersion(modelCfg.getVersion());
 			record.setSend(false);
-			sendMap.put(cfg.getId(), record);
-		}		
+			record.setEnumId(modelCfg.getEnumId());
+			sendMap.put(cfg.getEnumId(), record);
+		}
 	}
 	
 	/**每一个小时检查一遍配置文件对应的cfglist；如果有新增id或者更高的活动版本号，推进map;此方法可支持热更新，暂时不用*/
-	private void changeMap() {
+	public void changeMap() {
 		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for(ActivityRankTypeCfg cfg:cfgList){
-			SendRewardRecord record = new SendRewardRecord();
-			record.setId(cfg.getId());
-			record.setVersion(cfg.getVersion());
-			record.setSend(false);
-			if(sendMap.get(record.getId()) == null){
-				sendMap.put(cfg.getId(), record);//新增
+			if(sendMap.get(cfg.getEnumId()) == null){
 				continue;
-			}				
-			if(!StringUtils.equals(sendMap.get(record.getId()).getVersion(), cfg.getVersion())){				
-				sendMap.put(cfg.getId(), record);//替换
-			}			
+			}
+			if(!isOpen(cfg)){
+				continue;
+			}
+			if(!StringUtils.equals(sendMap.get(cfg.getEnumId()).getVersion(), cfg.getVersion())){
+				SendRewardRecord record = new SendRewardRecord();
+				record.setId(cfg.getId());
+				record.setVersion(cfg.getVersion());
+				record.setSend(false);
+				record.setEnumId(cfg.getEnumId());
+				sendMap.put(cfg.getEnumId(),record );				
+			}		
 		}		
 	}
 
 
 
 	@Override
-	public void updateRedPoint(Player player, ActivityRedPointEnum eNum) {
+	public void updateRedPoint(Player player, String eNum) {
 		ActivityRankTypeItemHolder activityCountTypeItemHolder = new ActivityRankTypeItemHolder();
-		ActivityRankTypeEnum rankEnum = ActivityRankTypeEnum.getById(eNum.getCfgId());
+		
+		ActivityRankTypeCfg cfg = ActivityRankTypeCfgDAO.getInstance().getCfgById(eNum);
+		if(cfg == null ){
+			return;
+		}
+		ActivityRankTypeEnum rankEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());
 		if(rankEnum == null){
 			GameLog.error(LogModule.ComActivityRank, player.getUserId(), "心跳传入id获得的页签枚举无法找到活动枚举", null);
 			return;

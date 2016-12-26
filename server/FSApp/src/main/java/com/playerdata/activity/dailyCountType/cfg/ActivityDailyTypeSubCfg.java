@@ -5,6 +5,9 @@ public class ActivityDailyTypeSubCfg {
 
 	private String id;
 	
+	private String parentId;
+	
+	private String enumId;
 	
 	//计数
 	private int count;
@@ -19,8 +22,24 @@ public class ActivityDailyTypeSubCfg {
 	
 	private String startTimeStr;
 	
-	private String endTimeStr;
+	private String endTimeStr;	
 	
+	public String getEnumId() {
+		return enumId;
+	}
+
+	public void setEnumId(String enumId) {
+		this.enumId = enumId;
+	}
+
+	public String getParentId() {
+		return parentId;
+	}
+
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+
 	public int getCount() {
 		return count;
 	}

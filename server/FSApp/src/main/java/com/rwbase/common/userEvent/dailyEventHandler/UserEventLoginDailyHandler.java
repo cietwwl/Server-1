@@ -36,10 +36,10 @@ public class UserEventLoginDailyHandler implements IUserEventHandler{
 			public void doAction(Player player, Object params) {
 				/** 活动是否开启 */
 				String id = ActivityDailyTypeEnum.LoginDaily.getCfgId();
-				ActivityDailyTypeSubCfg cfg = ActivityDailyTypeSubCfgDAO
-						.getInstance().getById(id);
+				List<ActivityDailyTypeSubCfg> cfgList = ActivityDailyTypeSubCfgDAO
+						.getInstance().getListByEnumId(id);
 				boolean isBetweendays = ActivityDailyTypeMgr.getInstance()
-						.isOpen(cfg);
+						.isOpen(cfgList);
 				if (isBetweendays) {// 每日福利任务的登陆类型子任务在此触发,策划特殊需求，级别达到即完成，不需要重新登录触发&&isLevelEnough
 					ActivityDailyTypeMgr.getInstance().addCount(player,
 							ActivityDailyTypeEnum.LoginDaily, 1);
