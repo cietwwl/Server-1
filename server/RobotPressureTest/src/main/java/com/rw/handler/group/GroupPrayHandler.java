@@ -1,10 +1,13 @@
 package com.rw.handler.group;
 
 import com.rw.Client;
+import com.rw.common.RobotLog;
 import com.rw.handler.RandomMethodIF;
+import com.rw.handler.group.msg.GroupPrayCommonMsgReceiver;
 import com.rw.handler.group.msg.GroupPrayOpenMainViewMsgReceiver;
 import com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg;
 import com.rwproto.GroupPrayProto.ReqType;
+import com.rwproto.GroupPrayProto.SendPrayReqMsg;
 import com.rwproto.MsgDef.Command;
 
 /**
@@ -22,6 +25,7 @@ public class GroupPrayHandler implements RandomMethodIF {
 	}
 
 	private GroupPrayOpenMainViewMsgReceiver openMainViewMsgReceiver = new GroupPrayOpenMainViewMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "打开主界面");
+	private GroupPrayCommonMsgReceiver commonMsgReceiver = new GroupPrayCommonMsgReceiver(Command.MSG_GROUP_PRAY, "帮派祈福", "");
 
 	private GroupPrayHandler() {
 	}
@@ -49,7 +53,30 @@ public class GroupPrayHandler implements RandomMethodIF {
 		GroupPrayCommonReqMsg.Builder req = GroupPrayCommonReqMsg.newBuilder();
 		req.setReqType(ReqType.NEED_PRAY);
 
-		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), null);
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), commonMsgReceiver);
+	}
+
+	/**
+	 * 发起祈福的请求
+	 * 
+	 * @param client
+	 * @return
+	 */
+	public boolean sendGroupPrayHandler(Client client) {
+		String randomPrayUserId = client.getGroupPrayData().randomPrayUserId();
+		if (randomPrayUserId == null || randomPrayUserId.isEmpty()) {
+			RobotLog.info("当前所处的帮派无帮派成员可以祈福");
+			return true;
+		}
+
+		GroupPrayCommonReqMsg.Builder req = GroupPrayCommonReqMsg.newBuilder();
+		req.setReqType(ReqType.SEND_PRAY);
+
+		SendPrayReqMsg.Builder sendPrayReq = SendPrayReqMsg.newBuilder();
+		sendPrayReq.setMemberId(randomPrayUserId);
+		req.setSendPrayReq(sendPrayReq);
+
+		return client.getMsgHandler().sendMsg(Command.MSG_GROUP_PRAY, req.build().toByteString(), commonMsgReceiver);
 	}
 
 	@Override

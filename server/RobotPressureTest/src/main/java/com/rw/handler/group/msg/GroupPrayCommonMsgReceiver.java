@@ -29,6 +29,7 @@ public class GroupPrayCommonMsgReceiver extends PrintMsgReciver {
 				return true;
 			}
 
+			return true;
 		} catch (InvalidProtocolBufferException e) {
 			RobotLog.fail("解析帮派祈福的响应消息出现了异常", e);
 		}
