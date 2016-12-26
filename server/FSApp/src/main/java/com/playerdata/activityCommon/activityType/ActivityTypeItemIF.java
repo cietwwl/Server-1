@@ -26,5 +26,8 @@ public interface ActivityTypeItemIF<T> extends RoleExtProperty{
 	
 	public void setHasViewed(boolean hasViewed);
 	
+	/**
+	 * 做重置
+	 */
 	public void reset();
 }

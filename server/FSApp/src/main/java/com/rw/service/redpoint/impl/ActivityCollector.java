@@ -23,7 +23,6 @@ import com.playerdata.activity.exChangeType.cfg.ActivityExchangeTypeCfgDAO;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItem;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeItemHolder;
 import com.playerdata.activity.exChangeType.data.ActivityExchangeTypeSubItem;
-import com.playerdata.activity.rankType.ActivityRankTypeMgr;
 import com.playerdata.activity.rateType.ActivityRateTypeEnum;
 import com.playerdata.activity.rateType.ActivityRateTypeMgr;
 import com.playerdata.activity.rateType.cfg.ActivityRateTypeCfg;
@@ -173,14 +172,12 @@ public class ActivityCollector implements RedPointCollector {
 			}
 		}
 
-		List<String> ranklist = ActivityRankTypeMgr.getInstance().haveRedPoint(player);
-		activityList.addAll(ranklist);
+//		List<String> ranklist = ActivityRankTypeMgr.getInstance().haveRedPoint(player);
+//		activityList.addAll(ranklist);
 
 		List<String> redEnvelopeList = ActivityRedEnvelopeTypeMgr.getInstance().haveRedPoint(player);
 		activityList.addAll(redEnvelopeList);
 
-//		List<String> dailyChargeList = ActivityDailyRechargeTypeMgr.getInstance().haveRedPoint(player);
-//		activityList.addAll(dailyChargeList);
 		List<String> subList = ActivityMgrHelper.getInstance().haveRedPoint(player);
 		activityList.addAll(subList);
 

@@ -1,9 +1,12 @@
 package com.playerdata.activity.rankType.cfg;
 
+import com.playerdata.activityCommon.ActivityTimeHelper;
+import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
-public class ActivityRankTypeCfg {
 
-	private String id;
+public class ActivityRankTypeCfg implements ActivityCfgIF{
+
+	private int id;
 
 	private long startTime;
 
@@ -15,7 +18,7 @@ public class ActivityRankTypeCfg {
 
 	private int levelLimit;
 
-	private String version;
+	private int version;
 	
 	private int dailyOrRealtime;
 	
@@ -23,74 +26,18 @@ public class ActivityRankTypeCfg {
 	
 	private int rewardNum;
 	
-	private String enumId;	
-	
-	public String getEnumId() {
+	private int enumId;
+
+	public int getId() {
 		return enumId;
 	}
 
-	public void setEnumId(String enumId) {
-		this.enumId = enumId;
+	public long getStartTime() {
+		return startTime;
 	}
 
-	public int getRewardNum() {
-		return rewardNum;
-	}
-
-	public void setRewardNum(int rewardNum) {
-		this.rewardNum = rewardNum;
-	}
-
-	public String getRankRange() {
-		return rankRange;
-	}
-
-	public void setRankRange(String rankRange) {
-		this.rankRange = rankRange;
-	}
-
-
-
-	public String getId() {
-		return id;
-	}
-
-	public int getLevelLimit() {
-		return levelLimit;
-	}
-
-	public void setLevelLimit(int levelLimit) {
-		this.levelLimit = levelLimit;
-	}
-
-	
-
-	public int getDailyOrRealtime() {
-		return dailyOrRealtime;
-	}
-
-	public void setDailyOrRealtime(int dailyOrRealtime) {
-		this.dailyOrRealtime = dailyOrRealtime;
-	}
-
-	public String getVersion() {
-		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setStartTimeStr(String startTimeStr) {
-		this.startTimeStr = startTimeStr;
-	}
-
-	public void setEndTimeStr(String endTimeStr) {
-		this.endTimeStr = endTimeStr;
+	public long getEndTime() {
+		return endTime;
 	}
 
 	public String getStartTimeStr() {
@@ -101,20 +48,62 @@ public class ActivityRankTypeCfg {
 		return endTimeStr;
 	}
 
-	public long getStartTime() {
-		return startTime;
+	public int getLevelLimit() {
+		return levelLimit;
+	}
+
+	public int getVersion() {
+		return version;
+	}
+
+	public int getDailyOrRealtime() {
+		return dailyOrRealtime;
+	}
+
+	public String getRankRange() {
+		return rankRange;
+	}
+
+	public int getRewardNum() {
+		return rewardNum;
+	}
+
+	public int getEnumId() {
+		return enumId;
 	}
 
 	public void setStartTime(long startTime) {
 		this.startTime = startTime;
 	}
 
-	public long getEndTime() {
-		return endTime;
-	}
-
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
 
+	@Override
+	public int getCfgId() {
+		return id;
+	}
+
+	@Override
+	public int getVipLimit() {
+		return 0;
+	}
+
+	@Override
+	public boolean isDailyRefresh() {
+		return false;
+	}
+
+	@Override
+	public void setStartTime(String startTimeStr) {
+		this.startTime = ActivityTimeHelper.cftStartTimeToLong(startTimeStr);
+		this.startTimeStr = startTimeStr;
+	}
+
+	@Override
+	public void setEndTime(String endTimeStr) {
+		this.endTime = ActivityTimeHelper.cftEndTimeToLong(this.startTime, endTimeStr);
+		this.endTimeStr = endTimeStr;
+	}
 }

@@ -16,7 +16,11 @@ import com.rwproto.DataSynProtos.eSynType;
 
 
 public class ActivityChargeRankItemHolder extends UserActivityChecker<ActivityChargeRankItem>{
-	
+		
+	protected ActivityChargeRankItemHolder(){
+		super(ActivityChargeRankItem.class);
+	}
+
 	private static ActivityChargeRankItemHolder instance = new ActivityChargeRankItemHolder();
 	
 	public static ActivityChargeRankItemHolder getInstance(){
@@ -53,5 +57,10 @@ public class ActivityChargeRankItemHolder extends UserActivityChecker<ActivityCh
 	@SuppressWarnings("rawtypes")
 	public ActivityType getActivityType() {
 		return ActivityTypeFactory.ChargeRank;
+	}
+
+	@Override
+	public PlayerExtPropertyType getExtPropertyType() {
+		return PlayerExtPropertyType.ACTIVITY_CHARGE_RANK;
 	}
 }

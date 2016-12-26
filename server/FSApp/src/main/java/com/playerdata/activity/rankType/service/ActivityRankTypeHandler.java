@@ -29,11 +29,10 @@ public class ActivityRankTypeHandler {
 		int offset = commonReq.getOffset();
 		int limit =  commonReq.getLimit();
 	
-		ActivityRankTypeEnum rankType = ActivityRankTypeEnum.getById(activityId);
+		ActivityRankTypeEnum rankType = ActivityRankTypeEnum.getById(Integer.valueOf(activityId));
 		
 		boolean success = false;
 		String tips = null;
-		
 		
 		ActivityRankTypeUserInfo rankUserInfo = ActivityRankTypeMgr.getInstance().getUserInfo(player, rankType);
 		if(rankUserInfo!=null){
@@ -51,14 +50,10 @@ public class ActivityRankTypeHandler {
 					response.addRankEntryJson(entryJson);
 				}
 			}
-			
 		}	
 		
 		response.setIsSuccess(success);
 		response.setTipMsg(tips);
 		return response.build().toByteString();
 	}
-	
-
-
 }
