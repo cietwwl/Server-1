@@ -736,12 +736,6 @@ public class GroupMemberMgr {
 			needUpdate = true;
 		}
 
-		int hasNum = memberData.getBagHasNum();
-		if (hasNum != bagHasNum) {
-			memberData.setBagHasNum(bagHasNum);
-			needUpdate = true;
-		}
-
 		if (needUpdate) {
 			holder.updateMemberData(memberData.getId());
 		}

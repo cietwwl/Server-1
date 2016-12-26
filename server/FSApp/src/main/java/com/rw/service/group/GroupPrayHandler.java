@@ -117,7 +117,6 @@ public class GroupPrayHandler {
 
 			PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
 			prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
-			prayEntry.setHasNum(member.getBagHasNum());// 当前背包中的数量
 			prayEntry.setMemberId(id);// 设置成员的Id
 			prayEntry.setProcess(member.getPrayProcess());// 设置当前的数量
 			prayEntry.setHasSend(prayList != null && prayList.contains(userId));// 检查是否赠送过某个人的
@@ -136,7 +135,6 @@ public class GroupPrayHandler {
 				if (soulLimit > 0 && prayProcess >= soulLimit && baseData.getState() <= 0) {// 还没领取过
 					PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
 					prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
-					prayEntry.setHasNum(memberData.getBagHasNum());// 当前背包中的数量
 					prayEntry.setMemberId(userId);// 设置成员的Id
 					prayEntry.setProcess(prayProcess);// 设置当前的数量
 					prayEntry.setHasSend(false);// 检查是否赠送过某个人的

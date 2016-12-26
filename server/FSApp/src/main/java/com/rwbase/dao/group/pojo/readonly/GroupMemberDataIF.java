@@ -150,11 +150,4 @@ public interface GroupMemberDataIF {
 	 * @return
 	 */
 	public int getPrayCardId();
-
-	/**
-	 * 获取背包中当前的数量
-	 * 
-	 * @return
-	 */
-	public int getBagHasNum();
 }

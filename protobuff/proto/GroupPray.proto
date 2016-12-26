@@ -16,8 +16,7 @@ message PrayEntry{
 	required string memberId = 1;//成员的Id
 	required int32 soulId = 2;//魂石的Id
 	required int32 process = 3;//进度
-	required int32 hasNum = 4;//拥有的数量
-	required bool hasSend = 5;//是否赠送过这个人
+	required bool hasSend = 4;//是否赠送过这个人
 }
 
 //请求打开祈福界面

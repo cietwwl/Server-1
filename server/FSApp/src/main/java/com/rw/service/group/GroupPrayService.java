@@ -2,6 +2,7 @@ package com.rw.service.group;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.log.GameLog;
 import com.playerdata.Player;
 import com.rw.service.FsService;
 import com.rwproto.GroupPrayProto.GroupPrayCommonReqMsg;
@@ -21,15 +22,17 @@ public class GroupPrayService implements FsService<GroupPrayCommonReqMsg, ReqTyp
 		ReqType reqType = request.getReqType();
 		switch (reqType) {
 		case OPEN_MAIN_VIEW:// 打开界面
-			break;
+			return GroupPrayHandler.getHandler().openPrayMainViewHandler(player);
 		case NEED_PRAY:// 请求祈福
-			break;
+			return GroupPrayHandler.getHandler().needPrayHandler(player, request);
 		case SEND_PRAY:// 赠送给某个成员某张卡
-			break;
+			return GroupPrayHandler.getHandler().sendPrayHandler(player, request);
 		case GET_PRAY_REWARD:// 领取祈福的奖励
-			break;
+			return GroupPrayHandler.getHandler().getPrayRewardHandler(player);
+		default:// 没有找到协议号
+			GameLog.error("帮派祈福分发协议", player.getUserId(), "出现了Unkown的协议号Id，不能处理");
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -39,6 +42,6 @@ public class GroupPrayService implements FsService<GroupPrayCommonReqMsg, ReqTyp
 
 	@Override
 	public ReqType getMsgType(GroupPrayCommonReqMsg request) {
-		return null;
+		return request.getReqType();
 	}
 }

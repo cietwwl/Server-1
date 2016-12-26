@@ -155,6 +155,8 @@ enum Command {
 	
 	MSG_RANDOM_NAME = 240; // 请求随机名字
 	
+	MSG_GROUP_PRAY = 241;//帮派祈福
+	
 	
 	
 	

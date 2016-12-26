@@ -206,27 +206,9 @@ public final class GroupPrayProto {
      */
     int getProcess();
 
-    // required int32 hasNum = 4;
+    // required bool hasSend = 4;
     /**
-     * <code>required int32 hasNum = 4;</code>
-     *
-     * <pre>
-     *拥有的数量
-     * </pre>
-     */
-    boolean hasHasNum();
-    /**
-     * <code>required int32 hasNum = 4;</code>
-     *
-     * <pre>
-     *拥有的数量
-     * </pre>
-     */
-    int getHasNum();
-
-    // required bool hasSend = 5;
-    /**
-     * <code>required bool hasSend = 5;</code>
+     * <code>required bool hasSend = 4;</code>
      *
      * <pre>
      *是否赠送过这个人
@@ -234,7 +216,7 @@ public final class GroupPrayProto {
      */
     boolean hasHasSend();
     /**
-     * <code>required bool hasSend = 5;</code>
+     * <code>required bool hasSend = 4;</code>
      *
      * <pre>
      *是否赠送过这个人
@@ -314,11 +296,6 @@ public final class GroupPrayProto {
             }
             case 32: {
               bitField0_ |= 0x00000008;
-              hasNum_ = input.readInt32();
-              break;
-            }
-            case 40: {
-              bitField0_ |= 0x00000010;
               hasSend_ = input.readBool();
               break;
             }
@@ -465,45 +442,21 @@ public final class GroupPrayProto {
       return process_;
     }
 
-    // required int32 hasNum = 4;
-    public static final int HASNUM_FIELD_NUMBER = 4;
-    private int hasNum_;
-    /**
-     * <code>required int32 hasNum = 4;</code>
-     *
-     * <pre>
-     *拥有的数量
-     * </pre>
-     */
-    public boolean hasHasNum() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
-    }
-    /**
-     * <code>required int32 hasNum = 4;</code>
-     *
-     * <pre>
-     *拥有的数量
-     * </pre>
-     */
-    public int getHasNum() {
-      return hasNum_;
-    }
-
-    // required bool hasSend = 5;
-    public static final int HASSEND_FIELD_NUMBER = 5;
+    // required bool hasSend = 4;
+    public static final int HASSEND_FIELD_NUMBER = 4;
     private boolean hasSend_;
     /**
-     * <code>required bool hasSend = 5;</code>
+     * <code>required bool hasSend = 4;</code>
      *
      * <pre>
      *是否赠送过这个人
      * </pre>
      */
     public boolean hasHasSend() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>required bool hasSend = 5;</code>
+     * <code>required bool hasSend = 4;</code>
      *
      * <pre>
      *是否赠送过这个人
@@ -517,7 +470,6 @@ public final class GroupPrayProto {
       memberId_ = "";
       soulId_ = 0;
       process_ = 0;
-      hasNum_ = 0;
       hasSend_ = false;
     }
     private byte memoizedIsInitialized = -1;
@@ -534,10 +486,6 @@ public final class GroupPrayProto {
         return false;
       }
       if (!hasProcess()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasHasNum()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -562,10 +510,7 @@ public final class GroupPrayProto {
         output.writeInt32(3, process_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(4, hasNum_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeBool(5, hasSend_);
+        output.writeBool(4, hasSend_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -590,11 +535,7 @@ public final class GroupPrayProto {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(4, hasNum_);
-      }
-      if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(5, hasSend_);
+          .computeBoolSize(4, hasSend_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -722,10 +663,8 @@ public final class GroupPrayProto {
         bitField0_ = (bitField0_ & ~0x00000002);
         process_ = 0;
         bitField0_ = (bitField0_ & ~0x00000004);
-        hasNum_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000008);
         hasSend_ = false;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -769,10 +708,6 @@ public final class GroupPrayProto {
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.hasNum_ = hasNum_;
-        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-          to_bitField0_ |= 0x00000010;
-        }
         result.hasSend_ = hasSend_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -801,9 +736,6 @@ public final class GroupPrayProto {
         if (other.hasProcess()) {
           setProcess(other.getProcess());
         }
-        if (other.hasHasNum()) {
-          setHasNum(other.getHasNum());
-        }
         if (other.hasHasSend()) {
           setHasSend(other.getHasSend());
         }
@@ -821,10 +753,6 @@ public final class GroupPrayProto {
           return false;
         }
         if (!hasProcess()) {
-          
-          return false;
-        }
-        if (!hasHasNum()) {
           
           return false;
         }
@@ -1050,69 +978,20 @@ public final class GroupPrayProto {
         return this;
       }
 
-      // required int32 hasNum = 4;
-      private int hasNum_ ;
-      /**
-       * <code>required int32 hasNum = 4;</code>
-       *
-       * <pre>
-       *拥有的数量
-       * </pre>
-       */
-      public boolean hasHasNum() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 hasNum = 4;</code>
-       *
-       * <pre>
-       *拥有的数量
-       * </pre>
-       */
-      public int getHasNum() {
-        return hasNum_;
-      }
-      /**
-       * <code>required int32 hasNum = 4;</code>
-       *
-       * <pre>
-       *拥有的数量
-       * </pre>
-       */
-      public Builder setHasNum(int value) {
-        bitField0_ |= 0x00000008;
-        hasNum_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 hasNum = 4;</code>
-       *
-       * <pre>
-       *拥有的数量
-       * </pre>
-       */
-      public Builder clearHasNum() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        hasNum_ = 0;
-        onChanged();
-        return this;
-      }
-
-      // required bool hasSend = 5;
+      // required bool hasSend = 4;
       private boolean hasSend_ ;
       /**
-       * <code>required bool hasSend = 5;</code>
+       * <code>required bool hasSend = 4;</code>
        *
        * <pre>
        *是否赠送过这个人
        * </pre>
        */
       public boolean hasHasSend() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
+        return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>required bool hasSend = 5;</code>
+       * <code>required bool hasSend = 4;</code>
        *
        * <pre>
        *是否赠送过这个人
@@ -1122,27 +1001,27 @@ public final class GroupPrayProto {
         return hasSend_;
       }
       /**
-       * <code>required bool hasSend = 5;</code>
+       * <code>required bool hasSend = 4;</code>
        *
        * <pre>
        *是否赠送过这个人
        * </pre>
        */
       public Builder setHasSend(boolean value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000008;
         hasSend_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>required bool hasSend = 5;</code>
+       * <code>required bool hasSend = 4;</code>
        *
        * <pre>
        *是否赠送过这个人
        * </pre>
        */
       public Builder clearHasSend() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         hasSend_ = false;
         onChanged();
         return this;
@@ -5130,24 +5009,24 @@ public final class GroupPrayProto {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\017GroupPray.proto\022\ngroupproto\"_\n\tPrayEnt" +
+      "\n\017GroupPray.proto\022\ngroupproto\"O\n\tPrayEnt" +
       "ry\022\020\n\010memberId\030\001 \002(\t\022\016\n\006soulId\030\002 \002(\005\022\017\n\007" +
-      "process\030\003 \002(\005\022\016\n\006hasNum\030\004 \002(\005\022\017\n\007hasSend" +
-      "\030\005 \002(\010\"O\n\026OpenPrayMainViewRspMsg\022$\n\005entr" +
-      "y\030\001 \003(\0132\025.groupproto.PrayEntry\022\017\n\007hasPra" +
-      "y\030\002 \002(\010\" \n\016NeedPrayReqMsg\022\016\n\006soulId\030\001 \002(" +
-      "\005\"\"\n\016SendPrayReqMsg\022\020\n\010memberId\030\001 \002(\t\"\237\001" +
-      "\n\025GroupPrayCommonReqMsg\022$\n\007reqType\030\001 \002(\016" +
-      "2\023.groupproto.ReqType\022/\n\013needPrayReq\030\002 \001" +
-      "(\0132\032.groupproto.NeedPrayReqMsg\022/\n\013sendPr",
-      "ayReq\030\003 \001(\0132\032.groupproto.SendPrayReqMsg\"" +
-      "\241\001\n\025GroupPrayCommonRspMsg\022$\n\007reqType\030\001 \002" +
-      "(\0162\023.groupproto.ReqType\022\021\n\tisSuccess\030\002 \002" +
-      "(\010\022\016\n\006tipMsg\030\003 \001(\t\022?\n\023openPrayMainViewRs" +
-      "p\030\004 \001(\0132\".groupproto.OpenPrayMainViewRsp" +
-      "Msg*P\n\007ReqType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\r\n\tNE" +
-      "ED_PRAY\020\002\022\r\n\tSEND_PRAY\020\003\022\023\n\017GET_PRAY_REW" +
-      "ARD\020\004B\035\n\013com.rwprotoB\016GroupPrayProto"
+      "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"O\n\026OpenPr" +
+      "ayMainViewRspMsg\022$\n\005entry\030\001 \003(\0132\025.groupp" +
+      "roto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010\" \n\016NeedP" +
+      "rayReqMsg\022\016\n\006soulId\030\001 \002(\005\"\"\n\016SendPrayReq" +
+      "Msg\022\020\n\010memberId\030\001 \002(\t\"\237\001\n\025GroupPrayCommo" +
+      "nReqMsg\022$\n\007reqType\030\001 \002(\0162\023.groupproto.Re" +
+      "qType\022/\n\013needPrayReq\030\002 \001(\0132\032.groupproto." +
+      "NeedPrayReqMsg\022/\n\013sendPrayReq\030\003 \001(\0132\032.gr",
+      "oupproto.SendPrayReqMsg\"\241\001\n\025GroupPrayCom" +
+      "monRspMsg\022$\n\007reqType\030\001 \002(\0162\023.groupproto." +
+      "ReqType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001" +
+      "(\t\022?\n\023openPrayMainViewRsp\030\004 \001(\0132\".groupp" +
+      "roto.OpenPrayMainViewRspMsg*P\n\007ReqType\022\022" +
+      "\n\016OPEN_MAIN_VIEW\020\001\022\r\n\tNEED_PRAY\020\002\022\r\n\tSEN" +
+      "D_PRAY\020\003\022\023\n\017GET_PRAY_REWARD\020\004B\035\n\013com.rwp" +
+      "rotoB\016GroupPrayProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5159,7 +5038,7 @@ public final class GroupPrayProto {
           internal_static_groupproto_PrayEntry_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_PrayEntry_descriptor,
-              new java.lang.String[] { "MemberId", "SoulId", "Process", "HasNum", "HasSend", });
+              new java.lang.String[] { "MemberId", "SoulId", "Process", "HasSend", });
           internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor =
             getDescriptor().getMessageTypes().get(1);
           internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable = new
