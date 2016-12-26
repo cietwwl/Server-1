@@ -113,6 +113,7 @@ public class ActivityRankTypeItem  implements ActivityTypeItemIF<Object> {
 
 	public void setId(int id) {
 		this.id = id;
+		this.enumId = String.valueOf(id);
 	}
 
 

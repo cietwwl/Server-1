@@ -2,15 +2,17 @@ package com.playerdata.activity.rankType;
 
 import java.util.HashMap;
 
+import com.bm.rank.RankType;
+
 public enum ActivityRankTypeEnum{
 	
-	FIGHTING(70001, 203),//战力大比拼
-	ARENA(70002 , 105);//竞技之王
+	FIGHTING(70001, RankType.TEAM_FIGHTING),//战力大比拼
+	ARENA(70002 , RankType.ARENA);//竞技之王
 	
 	private int cfgId;
-	private int rankType;
+	private RankType rankType;
 	
-	private ActivityRankTypeEnum(int cfgId, int rankType){
+	private ActivityRankTypeEnum(int cfgId, RankType rankType){
 		this.cfgId = cfgId;
 		this.rankType = rankType;
 	} 
@@ -32,11 +34,11 @@ public enum ActivityRankTypeEnum{
 		this.cfgId = cfgId;
 	}
 
-	public void setRankTypes(int rankType) {
+	public void setRankTypes(RankType rankType) {
 		this.rankType = rankType;
 	}
 
-	public int getRankType() {
+	public RankType getRankType() {
 		return rankType;
 	}
 	

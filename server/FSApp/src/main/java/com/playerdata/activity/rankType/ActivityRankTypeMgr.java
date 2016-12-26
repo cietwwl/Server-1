@@ -50,9 +50,8 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	private List<String> getRankListByRankTypeAndsubCfgNum(int levelLimit, Integer ranktype) {
+	private List<String> getRankListByRankTypeAndsubCfgNum(int levelLimit, RankType rankEnum){
 		List<String> rankList = new ArrayList<String>();
-		RankType rankEnum = RankType.getRankType(ranktype, 1);
 		ListRankingType sType = ListRankingType.getListRankingType(rankEnum);
 		ListRanking<String, ArenaExtAttribute> sr = RankingFactory.getSRanking(sType);
 		if(null == sr){
@@ -90,16 +89,16 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 	 * @param userId
 	 * @param activityRankTypeItemHolder
 	 * @param subCfg
+	 * @param enumId 活动的类型id(不是配置id)
 	 * @param rank
 	 */
-	private void sendGifgSingel(String userId, ActivityRankTypeItemHolder activityRankTypeItemHolder, ActivityRankTypeSubCfg subCfg, int rank) {
+	private void sendGifgSingel(String userId, ActivityRankTypeItemHolder activityRankTypeItemHolder, ActivityRankTypeSubCfg subCfg, int enumId, int rank) {
 		RoleExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder.getItemStore(userId);
 		if (itemStore == null) {
 			GameLog.error("ActivityRankTypeMgr, sendGifgSingel", userId, String.format("玩家的%s的%s活动数据为空", userId, subCfg.getParentCfgId()));
 			return;
 		}
-		ActivityRankTypeItem targetItem = null;
-		targetItem = itemStore.get(Integer.parseInt(subCfg.getParentCfgId()));
+		ActivityRankTypeItem targetItem = itemStore.get(enumId);
 		if (targetItem == null) {
 			// 有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
 			GameLog.error("ActivityRankTypeMgr, sendGifgSingel", userId, String.format("玩家%s%s活动期间没有登录过，数据为空，不发放奖励", userId, subCfg.getParentCfgId()));
@@ -116,7 +115,7 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 	}
 	
 	@Override
-	public void activityEndHandler(ActivityCfgIF cfg){
+	public void activityEndHandler(final ActivityCfgIF cfg){
 		final ActivityRankTypeItemHolder activityRankTypeItemHolder = ActivityRankTypeItemHolder.getInstance();
 		List<ActivityRankTypeSubCfg> subCfgList =  ActivityRankTypeSubCfgDAO.getInstance().getByParentCfgId(String.valueOf(cfg.getCfgId()));
 		ActivityRankTypeEnum typeEnum = ActivityRankTypeEnum.getById(cfg.getId());
@@ -125,9 +124,8 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 			GameLog.error("ActivityRankTypeMgr, sendGift", String.valueOf(cfg.getId()), String.format("要发放奖励的类型[%s]不存在", cfg.getId()));
 			return;
 		}
-		int ranktype = typeEnum.getRankType();
 		// 该配表对应的所有排行榜
-		List<String> rankList = getRankListByRankTypeAndsubCfgNum(cfg.getLevelLimit(), ranktype);
+		List<String> rankList = getRankListByRankTypeAndsubCfgNum(cfg.getLevelLimit(), typeEnum.getRankType());
 		for(final ActivityRankTypeSubCfg subCfg : subCfgList){
 			//根据配置表的名次发放奖励
 			int size = rankList.size();
@@ -145,11 +143,11 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 						continue;
 					}
 					final int rank = i;
-					GameLog.info("ActivityRankTypeMgr, sendGift", userId, String.format("发放玩家的%s奖励，排名[%s]", typeEnum, rank));
+					GameLog.info("ActivityRankTypeMgr, sendGift", userId, String.format("发放玩家的%s奖励，排名[%s]", typeEnum.getRankType(), rank));
 					GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerPredecessor() {
 						@Override
 						public void run(String e) {
-							sendGifgSingel(userId, activityRankTypeItemHolder, subCfg, rank);
+							sendGifgSingel(userId, activityRankTypeItemHolder, subCfg, cfg.getId(), rank);
 						}
 					});
 				}

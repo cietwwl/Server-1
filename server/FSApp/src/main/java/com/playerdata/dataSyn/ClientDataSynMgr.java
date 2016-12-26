@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.log.GameLog;
 import com.log.LogModule;
 import com.playerdata.Player;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeItem;
-import com.playerdata.activity.dailyCountType.data.ActivityDailyTypeSubItem;
 import com.playerdata.dataSyn.json.JsonOpt;
 import com.rw.netty.UserChannelMgr;
 import com.rwproto.DataSynProtos.MsgDataSyn;
