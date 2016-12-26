@@ -211,7 +211,9 @@ public class TaskItemMgr implements TaskMgrIF {
 					} else {
 						// task.setDrawState(0);
 						task.setDrawState(TASK_STATE_NOT_DONE);
-						BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
+						if (taskType != eTaskFinishDef.Add_Friend) {
+							BILogMgr.getInstance().logTaskEnd(m_pPlayer, task.getTaskId(), BITaskType.Main, false, BILogTemplateHelper.getString(BilogItemInfo.fromStr(cfg.getReward())));
+						}
 					}
 				}
 				taskItemHolder.updateItem(m_pPlayer, task);
