@@ -117,6 +117,10 @@ public enum GameWorldKey {
 	 * 活动:申公豹驾到
 	 */
 	ACTIVITY_EVILBAOARRIVE("ACTIVITY_EVILBAOARRIVE"),
+	/**
+	 * 活动:竞技之王
+	 */
+	ACTIVITY_RANK_TYPE("ACTIVITY_RANK_TYPE"),
 	;
 	
 

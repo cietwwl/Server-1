@@ -4,15 +4,15 @@ import java.util.HashMap;
 
 public enum ActivityRankTypeEnum{
 	
-	FIGHTING(70001, new int[]{203}),//战力大比拼
-	ARENA(70002 ,new int[]{101,102,103,104});//竞技之王
+	FIGHTING(70001, 203),//战力大比拼
+	ARENA(70002 , 105);//竞技之王
 	
 	private int cfgId;
-	private int[] rankTypes ;
+	private int rankType;
 	
-	private ActivityRankTypeEnum(int cfgId, int[] rankTypes){
+	private ActivityRankTypeEnum(int cfgId, int rankType){
 		this.cfgId = cfgId;
-		this.rankTypes = rankTypes;
+		this.rankType = rankType;
 	} 
 	
 	public int getCfgId(){
@@ -32,12 +32,12 @@ public enum ActivityRankTypeEnum{
 		this.cfgId = cfgId;
 	}
 
-	public void setRankTypes(int[] rankTypes) {
-		this.rankTypes = rankTypes;
+	public void setRankTypes(int rankType) {
+		this.rankType = rankType;
 	}
 
-	public int[] getRankTypes() {
-		return rankTypes;
+	public int getRankType() {
+		return rankType;
 	}
 	
 	private static HashMap<Integer, ActivityRankTypeEnum> map;

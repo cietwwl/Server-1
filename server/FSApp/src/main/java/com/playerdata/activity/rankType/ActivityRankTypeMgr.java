@@ -13,10 +13,8 @@ import com.log.GameLog;
 import com.playerdata.Player;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeSubCfgDAO;
-import com.playerdata.activity.rankType.data.ActivityRankTypeEntry;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItem;
 import com.playerdata.activity.rankType.data.ActivityRankTypeItemHolder;
-import com.playerdata.activity.rankType.data.ActivityRankTypeUserInfo;
 import com.playerdata.activityCommon.AbstractActivityMgr;
 import com.playerdata.activityCommon.UserActivityChecker;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
@@ -127,34 +125,33 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 			GameLog.error("ActivityRankTypeMgr, sendGift", String.valueOf(cfg.getId()), String.format("要发放奖励的类型[%s]不存在", cfg.getId()));
 			return;
 		}
-		for (Integer ranktype : typeEnum.getRankTypes()) {
-			// 该配表对应的所有排行榜，比如竞技场就分4个职业（该层循环是因为一个活动需要依赖多个排行榜，后边排行榜合并成一个之后，这一层可以去掉）
-			List<String> rankList = getRankListByRankTypeAndsubCfgNum(cfg.getLevelLimit(), ranktype);
-			for(final ActivityRankTypeSubCfg subCfg : subCfgList){
-				//根据配置表的名次发放奖励
-				int size = rankList.size();
-				for(int i = subCfg.getRankRanges()[0]; i <= subCfg.getRankRanges()[1] && i > 0 && i <= size; i++){
-					final String userId = rankList.get(i-1);
-					if(StringUtils.isBlank(userId)){
+		int ranktype = typeEnum.getRankType();
+		// 该配表对应的所有排行榜
+		List<String> rankList = getRankListByRankTypeAndsubCfgNum(cfg.getLevelLimit(), ranktype);
+		for(final ActivityRankTypeSubCfg subCfg : subCfgList){
+			//根据配置表的名次发放奖励
+			int size = rankList.size();
+			for(int i = subCfg.getRankRanges()[0]; i <= subCfg.getRankRanges()[1] && i > 0 && i <= size; i++){
+				final String userId = rankList.get(i-1);
+				if(StringUtils.isBlank(userId)){
+					continue;
+				}
+				User user = UserDataDao.getInstance().getByUserId(userId);
+				if (user == null) {
+					GameLog.error("ActivityRankTypeMgr, sendGift", userId, "找不到玩家信息id:" + userId);
+				} else {
+					if (user.isRobot() || user.getLastLoginTime() < cfg.getStartTime()) {
+						// 机器人，或者最后次登陆时间不在活动时间内；
 						continue;
 					}
-					User user = UserDataDao.getInstance().getByUserId(userId);
-					if (user == null) {
-						GameLog.error("ActivityRankTypeMgr, sendGift", userId, "找不到玩家信息id:" + userId);
-					} else {
-						if (user.isRobot() || user.getLastLoginTime() < cfg.getStartTime()) {
-							// 机器人，或者最后次登陆时间不在活动时间内；
-							continue;
+					final int rank = i;
+					GameLog.info("ActivityRankTypeMgr, sendGift", userId, String.format("发放玩家的%s奖励，排名[%s]", typeEnum, rank));
+					GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerPredecessor() {
+						@Override
+						public void run(String e) {
+							sendGifgSingel(userId, activityRankTypeItemHolder, subCfg, rank);
 						}
-						final int rank = i;
-						GameLog.info("ActivityRankTypeMgr, sendGift", userId, String.format("发放玩家的%s奖励，排名[%s]", typeEnum, rank));
-						GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerPredecessor() {
-							@Override
-							public void run(String e) {
-								sendGifgSingel(userId, activityRankTypeItemHolder, subCfg, rank);
-							}
-						});
-					}
+					});
 				}
 			}
 		}
@@ -177,13 +174,5 @@ public class ActivityRankTypeMgr extends AbstractActivityMgr<ActivityRankTypeIte
 	@Override
 	public boolean isThisActivityIndex(int index) {
 		return index < ACTIVITY_INDEX_END && index > ACTIVITY_INDEX_BEGIN;
-	}
-	
-	public List<ActivityRankTypeEntry> getRankList(ActivityRankTypeEnum rankType, int offset, int limit) {
-		return new ArrayList<ActivityRankTypeEntry>();
-	}
-
-	public ActivityRankTypeUserInfo getUserInfo(Player player, ActivityRankTypeEnum rankType) {
-		return null;
 	}
 }
