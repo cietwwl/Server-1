@@ -60,6 +60,8 @@ import com.rw.handler.taoist.TaoistDataHolder;
 import com.rw.handler.task.TaskItemHolder;
 import com.rw.handler.teamBattle.data.TBTeamItemHolder;
 import com.rw.handler.teamBattle.data.UserTeamBattleDataHolder;
+import com.rw.handler.worldboss.data.WBData;
+import com.rw.handler.worldboss.data.WBDataHolder;
 
 /*
  * 角色信息
@@ -162,6 +164,9 @@ public class Client {
 	private RoleBaseInfoHolder roleBaseInfoHolder = new RoleBaseInfoHolder();
 
 	private PeakArenaDataHolder peakArenaDataHolder = new PeakArenaDataHolder();
+	
+	//世界boss
+	private WBDataHolder wbDataHolder = new WBDataHolder();
 	
 	
 	
@@ -564,6 +569,13 @@ public class Client {
 		return gCompMatchBattleSynDataHolder;
 	}
 	
+	
+	
+	
+	public WBDataHolder getWbDataHolder() {
+		return wbDataHolder;
+	}
+
 	/**
 	 * 
 	 * @return
