@@ -167,7 +167,7 @@ public class GroupCompetitionRewardCenter {
 		Comparator<IGCGroup> cmp = new GCompScoreComparator();
 		GCompEventsData data;
 		IGCGroup loseGroup;
-		while (type != GCEventsType.FINAL) {
+		while (type != GCEventsType.QUATER) { // 半决赛的四队都会在决赛重新分配
 			data = GCompEventsDataMgr.getInstance().getEventsData(type);
 			List<GCompAgainst> againstList = data.getAgainsts();
 			List<IGCGroup> groups = new ArrayList<IGCGroup>();

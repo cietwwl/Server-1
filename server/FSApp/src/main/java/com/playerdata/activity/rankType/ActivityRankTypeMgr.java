@@ -14,7 +14,6 @@ import com.bm.rank.arena.ArenaExtAttribute;
 import com.common.RefParam;
 import com.log.GameLog;
 import com.playerdata.Player;
-import com.playerdata.RankingMgr;
 import com.playerdata.activity.ActivityRedPointUpdate;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfg;
 import com.playerdata.activity.rankType.cfg.ActivityRankTypeCfgDAO;
@@ -38,13 +37,11 @@ import com.rw.fsutil.ranking.Ranking;
 import com.rw.fsutil.ranking.RankingFactory;
 import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
-import com.rwbase.dao.ranking.RankingUtils;
 import com.rwbase.dao.ranking.pojo.RankingLevelData;
 import com.rwbase.dao.user.User;
 import com.rwbase.dao.user.UserDataDao;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerPredecessor;
-import com.rwproto.RankServiceProtos.RankInfo;
 
 public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 
@@ -68,27 +65,21 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	private void checkNewOpen(Player player) {
 		String userId = player.getUserId();
 		creatItems(userId, true);
-			
 	}
 
 	public List<ActivityRankTypeItem> creatItems(String userId,boolean isHasPlayer) {
 		RoleExtPropertyStoreCache<ActivityRankTypeItem> storeCach = RoleExtPropertyFactory.getPlayerExtCache(PlayerExtPropertyType.ACTIVITY_RANK, ActivityRankTypeItem.class);
 		RoleExtPropertyStore<ActivityRankTypeItem> store = null;
-		
 		List<ActivityRankTypeItem> addItemList = null;
-		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO
-				.getInstance().getAllCfg();
+		List<ActivityRankTypeCfg> allCfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
 		for (ActivityRankTypeCfg cfg : allCfgList) {// 遍历种类*各类奖励数次数,生成开启的种类个数空数据
 			if (!isOpen(cfg)) {
 				continue;
 			}
-			ActivityRankTypeEnum RankTypeEnum = ActivityRankTypeEnum
-					.getById(cfg.getEnumId());
+			ActivityRankTypeEnum RankTypeEnum = ActivityRankTypeEnum.getById(cfg.getEnumId());
 			if (RankTypeEnum == null) {
 				continue;
 			}
-//			String itemId = ActivityRankTypeHelper.getItemId(userId,
-//					RankTypeEnum);
 			int id = Integer.parseInt(RankTypeEnum.getCfgId());
 			if(isHasPlayer){
 				try {
@@ -100,7 +91,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 				if (store != null) {
 					if (store.get(id) != null) {
 						continue;
@@ -139,10 +129,9 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	}
 
 	private void checkCfgVersion(Player player) {
-		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder
-				.getInstance();
+		ActivityRankTypeItemHolder dataHolder = ActivityRankTypeItemHolder.getInstance();
 		ActivityRankTypeCfgDAO dao = ActivityRankTypeCfgDAO.getInstance();
-		List<ActivityRankTypeItem> itemList = null;//dataHolder.getItemList(player.getUserId());
+		List<ActivityRankTypeItem> itemList = null;
 		List<ActivityRankTypeCfg> cfgList = dao.getAllCfg();
 		for(ActivityRankTypeCfg cfg : cfgList){
 			if(!isOpen(cfg)){
@@ -196,15 +185,6 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 			if(closeItem == null||closeItem.isTaken()||closeItem.isClosed()){
 				continue;
 			}
-//			if (closeItem.getReward() != null) {// 有奖励的进这里
-//				// 派发；结算时没入榜，结算后不登陆更不会入榜，所以会在此处排除
-//				closeItem.setTaken(true);
-//				closeItem.setClosed(true);
-//				dataHolder.updateItem(player, closeItem);
-//				comGiftMgr.addtagInfoTOEmail(player,closeItem.getReward(),
-//				closeItem.getEmailId(), null);
-//				continue;
-//			}
 			// 没奖的酱油进下边设置关闭
 			SendRewardRecord record = sendMap.get(closeItem.getEnumId());
 			if (record == null) {
@@ -258,60 +238,57 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		return null;
 	}
 	
-	/** 定时核查一遍，将排行奖励派发到用户数据库 */
+	/** 定时核查一遍，将排行奖励派发到用户邮箱 */
 	public void sendGift() {
 		if (sendMap.size() == 0) {
 			creatMap();//
 		}
-		RankingMgr rankingMgr = RankingMgr.getInstance();
 		final ActivityRankTypeItemHolder activityRankTypeItemHolder = ActivityRankTypeItemHolder.getInstance();
 		ActivityRankTypeSubCfgDAO activityRankTypeSubCfgDAO = ActivityRankTypeSubCfgDAO.getInstance();
 		List<ActivityRankTypeCfg> cfgList = ActivityRankTypeCfgDAO.getInstance().getAllCfg();
-		for (ActivityRankTypeCfg cfg : cfgList) {// 所有的配表活动
+		for (ActivityRankTypeCfg cfg : cfgList) {
+			// 这一层循环，是因为该活动有多个子活动（战力大比拼，竞技之王）
 			RefParam<ActivityRankTypeEnum> enumValue = new RefParam<ActivityRankTypeEnum>();
 			List<ActivityRankTypeSubCfg> subCfgList = new ArrayList<ActivityRankTypeSubCfg>();
-			boolean isCan = checkCfgIsCanSend(cfg, activityRankTypeSubCfgDAO, enumValue, subCfgList);
-			if(!isCan){
+			if(!checkCfgIsCanSend(cfg, activityRankTypeSubCfgDAO, enumValue, subCfgList)){
+				//多数时候，循环到这里就终止了，只有活动结束，需要发奖励的时候，才会继续
 				continue;
 			}
 			final ActivityRankTypeEnum activityRankTypeEnum = enumValue.value;
-			for (Integer ranktype : activityRankTypeEnum.getRankTypes()) {// 该配表对应的所有排行榜，比如竞技场就分4个职业		
-				for(final ActivityRankTypeSubCfg subCfg : subCfgList){//根据子表去除对应的排行榜数据
-					List<RankInfo> rankList = new ArrayList<RankInfo>();
-					getRankListByRankTypeAndsubCfgNum(subCfg, ranktype, rankList, rankingMgr, activityRankTypeEnum);
-					for (final RankInfo rankInfo : rankList) {// 所有的该段榜上榜名单对应匹配用户数据
-						if (rankInfo.getLevel() < cfg.getLevelLimit()) {
-							// 虽让上了榜，但级别不够不能触发榜对应的活动
+			for (Integer ranktype : activityRankTypeEnum.getRankTypes()) {
+				// 该配表对应的所有排行榜，比如竞技场就分4个职业（该层循环是因为一个活动需要依赖多个排行榜，后边排行榜合并成一个之后，这一层可以去掉）
+				List<String> rankList = getRankListByRankTypeAndsubCfgNum(cfg.getLevelLimit(), ranktype);
+				for(final ActivityRankTypeSubCfg subCfg : subCfgList){
+					//根据配置表的名次发放奖励
+					int size = rankList.size();
+					for(int i = subCfg.getRankRanges()[0]; i <= subCfg.getRankRanges()[1] && i > 0 && i <= size; i++){
+						final String userId = rankList.get(i-1);
+						if(StringUtils.isBlank(userId)){
 							continue;
 						}
-						if (rankInfo.getRankingLevel() > subCfg.getRankRanges()[1]) {
-							// 奖励活动有效位数小于当前榜上用户的排名
-							continue;
-						}
-						if(rankInfo.getRankingLevel() < subCfg.getRankRanges()[0]){
-							continue;
-						}
-						User user = UserDataDao.getInstance().getByUserId(rankInfo.getHeroUUID());
-						//Player player = PlayerMgr.getInstance().find(rankInfo.getHeroUUID());
+						User user = UserDataDao.getInstance().getByUserId(userId);
 						if (user == null) {
-							GameLog.error("ActivityRankTypeMgr", "rankInfo.getHeroUUID():" + rankInfo.getHeroUUID(), "找不到玩家信息id:" + rankInfo.getHeroUUID());
+							GameLog.error("ActivityRankTypeMgr, sendGift", userId, "找不到玩家信息id:" + userId);
 						} else {
-							if (user.getLastLoginTime() < cfg.getStartTime()) {
-								continue;// 最后次登陆时间不在活动时间内；
+							if (user.isRobot() || user.getLastLoginTime() < cfg.getStartTime()) {
+								// 机器人，或者最后次登陆时间不在活动时间内；
+								continue;
 							}
-							GameWorldFactory.getGameWorld().asyncExecute(rankInfo.getHeroUUID(), new PlayerPredecessor() {
+							final int rank = i;
+							GameLog.info("ActivityRankTypeMgr, sendGift", userId, String.format("发放玩家的%s奖励，排名[%s]", activityRankTypeEnum, rank));
+							GameWorldFactory.getGameWorld().asyncExecute(userId, new PlayerPredecessor() {
 								@Override
 								public void run(String e) {
-									sendGifgSingel(rankInfo, activityRankTypeItemHolder, activityRankTypeEnum, subCfg);
+									sendGifgSingel(userId, activityRankTypeItemHolder, activityRankTypeEnum, subCfg, rank);
 								}
 							});
 						}
-					}						
+					}		
 				}			
 			}
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param cfg
@@ -349,7 +326,7 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 		record.setSend(true);
 		return true;
 	}
-
+	
 	/**
 	 * 
 	 * @param subCfg
@@ -357,66 +334,69 @@ public class ActivityRankTypeMgr implements ActivityRedPointUpdate {
 	 * @param rankList   根据子表，传入子表偏移和数量，获取对应排行榜数据
 	 */
 	@SuppressWarnings("unchecked")
-	private void getRankListByRankTypeAndsubCfgNum( ActivityRankTypeSubCfg subCfg, Integer ranktype,
-			List<RankInfo> rankList, RankingMgr rankingMgr, ActivityRankTypeEnum enumType) {
-		int size = subCfg.getRankRanges()[1];
-		int offset = subCfg.getRankRanges()[0];
+	private List<String> getRankListByRankTypeAndsubCfgNum(int levelLimit, Integer ranktype) {
+		List<String> rankList = new ArrayList<String>();
 		RankType rankEnum = RankType.getRankType(ranktype, 1);
 		ListRankingType sType = ListRankingType.getListRankingType(rankEnum);
 		ListRanking<String, ArenaExtAttribute> sr = RankingFactory.getSRanking(sType);
 		if(null == sr){
 			Ranking<?, RankingLevelData> ranking = RankingFactory.getRanking(rankEnum);
 			if(null == ranking){
-				return;
+				return rankList;
 			}
-			EnumerateList<? extends MomentRankingEntry<?, RankingLevelData>> enumList = ranking.getEntriesEnumeration(offset, size);
+			EnumerateList<? extends MomentRankingEntry<?, RankingLevelData>> enumList = ranking.getEntriesEnumeration();
 			for (; enumList.hasMoreElements();) {
 				MomentRankingEntry<?, RankingLevelData> entry = enumList.nextElement();
-				int ranklevel = entry.getRanking();
-				if(ranklevel > size || ranklevel < offset){//因为方法没有提供截取；只提供了排序；此处忽略多余部分
-					continue;
+				RankingLevelData data = entry.getExtendedAttribute();
+				if(data.getLevel() < levelLimit){
+					rankList.add(null);
+				}else{
+					rankList.add(data.getUserId());
 				}
-				RankInfo rankInfo = RankingUtils.createOneRankInfo(entry.getExtendedAttribute(), ranklevel);
-				rankList.add(rankInfo);
 			}
 		}else{
-			Iterator<? extends ListRankingEntry<String, ArenaExtAttribute>> it = sr.getRankingEntries(offset, size).iterator();
+			Iterator<? extends ListRankingEntry<String, ArenaExtAttribute>> it = sr.getEntrysCopy().iterator();
 			for (; it.hasNext();) {
 				ListRankingEntry<String, ArenaExtAttribute> entry = it.next();
-				int ranklevel = entry.getRanking();
-				if(ranklevel > size || ranklevel < offset){//因为方法没有提供截取；只提供了排序；此处忽略多余部分
-					continue;
+				ArenaExtAttribute data = entry.getExtension();
+				if(data.getLevel() < levelLimit){
+					rankList.add(null);
+				}else{
+					rankList.add(entry.getKey());
 				}
-				RankInfo rankInfo = RankingUtils.createOneRankInfo(entry, ranklevel);
-				rankList.add(rankInfo);
 			}
 		}
+		return rankList;
 	}
 	
 	/**
 	 * 挨个派发奖励
-	 * @param rankInfo
+	 * @param userId
 	 * @param activityRankTypeItemHolder
 	 * @param activityRankTypeEnum
 	 * @param subCfg
 	 */
-	private void sendGifgSingel(RankInfo rankInfo, ActivityRankTypeItemHolder activityRankTypeItemHolder,
-			ActivityRankTypeEnum activityRankTypeEnum, ActivityRankTypeSubCfg subCfg) {		
-		String userId = rankInfo.getHeroUUID();
+	private void sendGifgSingel(String userId, ActivityRankTypeItemHolder activityRankTypeItemHolder,
+			ActivityRankTypeEnum activityRankTypeEnum, ActivityRankTypeSubCfg subCfg, int rank) {
 		RoleExtPropertyStore<ActivityRankTypeItem> itemStore = activityRankTypeItemHolder.getItemStore(userId);
 		if (itemStore == null) {
+			GameLog.error("ActivityRankTypeMgr, sendGifgSingel", userId, String.format("玩家的%s的%s活动数据为空", userId, activityRankTypeEnum));
 			return;
 		}
-		ActivityRankTypeItem targetItem = null;//activityRankTypeItemHolder.getItem(userId,activityRankTypeEnum);
+		ActivityRankTypeItem targetItem = null;
 		targetItem = itemStore.get(Integer.parseInt(activityRankTypeEnum.getCfgId()));
 		if (targetItem == null) {
 			// 有排行无登录时生成的排行榜活动奖励数据，说明是机器人或活动期间没登陆过
+			GameLog.error("ActivityRankTypeMgr, sendGifgSingel", userId, String.format("玩家%s%s活动期间没有登录过，数据为空，不发放奖励", userId, activityRankTypeEnum));
 			return;
 		}
 		if(!targetItem.isTaken()){
+			GameLog.info("ActivityRankTypeMgr, sendGift", userId, String.format("发放玩家的%s奖励，排名[%s]，邮件id[%s]，物品[%s]", activityRankTypeEnum, rank, subCfg.getEmailId(), subCfg.getReward()));
 			EmailUtils.sendEmail(userId, subCfg.getEmailId(), subCfg.getReward());
 			targetItem.setTaken(true);
 			itemStore.update(targetItem.getId());
+		}else{
+			GameLog.info("ActivityRankTypeMgr, sendGifgSingel", userId, String.format("玩家%s%s活动的奖励已经发放过，不能重复发放", userId, activityRankTypeEnum));
 		}
 	}
 	
