@@ -97,7 +97,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param player
 	 * @param item
 	 */
-	private void dailyRefresh(Player player, T item){
+	protected void dailyRefresh(Player player, T item){
 		List<ActivityTypeSubItemIF> subItemList = new ArrayList<ActivityTypeSubItemIF>();
 		List<String> todaySubs = getHolder().getTodaySubActivity(item.getCfgId());
 		ActivityType activityType = getHolder().getActivityType();
@@ -116,7 +116,7 @@ public abstract class AbstractActivityMgr<T extends ActivityTypeItemIF> implemen
 	 * @param player
 	 * @param item
 	 */
-	private void dailyCheck(Player player, T item){
+	protected void dailyCheck(Player player, T item){
 		//不需要每日刷新的活动，检查新的子项，删除不存在的子项
 		List<ActivityTypeSubItemIF> subItemList = item.getSubItemList();
 		HashSet<String> subIDList = new HashSet<String>();

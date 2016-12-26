@@ -15,7 +15,6 @@ import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.countType.data.ActivityCountTypeItemHolder;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
 import com.playerdata.activity.fortuneCatType.ActivityFortuneCatTypeMgr;
 import com.playerdata.activity.limitHeroType.ActivityLimitHeroTypeMgr;
@@ -53,7 +52,6 @@ public class ActivityCountTypeMgr extends AbstractActivityMgr<ActivityCountTypeI
 		ActivityDailyTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityExchangeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityVitalityTypeMgr.getInstance().checkActivityOpen(player);
-		ActivityDailyDiscountTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityRedEnvelopeTypeMgr.getInstance().checkActivityOpen(player);
 		ActivityFortuneCatTypeMgr.getInstance().checkActivityOpen(player);
 		//ActivityDailyRechargeTypeMgr.getInstance().checkActivityOpen(player);

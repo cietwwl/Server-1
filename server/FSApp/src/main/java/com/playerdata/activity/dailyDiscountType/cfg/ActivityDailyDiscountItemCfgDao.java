@@ -11,7 +11,6 @@ public class ActivityDailyDiscountItemCfgDao extends CfgCsvDao<ActivityDailyDisc
 		return SpringContextUtil.getBean(ActivityDailyDiscountItemCfgDao.class);
 	}
 
-	
 	@Override
 	public Map<String, ActivityDailyDiscountItemCfg> initJsonCfg() {
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityDailyDiscountItemCfg.csv", ActivityDailyDiscountItemCfg.class);	
@@ -20,7 +19,6 @@ public class ActivityDailyDiscountItemCfgDao extends CfgCsvDao<ActivityDailyDisc
 		}		
 		return cfgCacheMap;
 	}
-
 
 	private void prase(ActivityDailyDiscountItemCfg itemCfg) {
 		String idAndNum = itemCfg.getItemIdAndNum();

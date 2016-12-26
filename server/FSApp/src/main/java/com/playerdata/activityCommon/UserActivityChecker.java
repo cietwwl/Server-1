@@ -64,7 +64,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 * @return 新添加的活动
 	 */
 	@SuppressWarnings("unchecked")
-	private List<T> addNewActivity(String userId){
+	protected List<T> addNewActivity(String userId){
 		List<? extends ActivityCfgIF> activeDailyList = ActivityDetector.getInstance().getAllActivityOfType(getActivityType());
 		List<T> newAddItems = new ArrayList<T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);

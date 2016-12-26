@@ -9,12 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.playerdata.Player;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeMgr;
 import com.playerdata.activity.dailyCountType.ActivityDailyTypeMgr;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
-import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfg;
-import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
-import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItemHolder;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.activity.exChangeType.ActivityExChangeTypeEnum;
 import com.playerdata.activity.exChangeType.ActivityExchangeTypeMgr;
@@ -148,29 +142,29 @@ public class ActivityCollector implements RedPointCollector {
 
 		}
 		// ----------------------------------
-		ActivityDailyDiscountTypeItemHolder dailyDiscountDataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
-		List<ActivityDailyDiscountTypeCfg> dailyDiscountAllCfgList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
-		ActivityDailyDiscountTypeMgr activityDailyDiscountTypeMgr = ActivityDailyDiscountTypeMgr.getInstance();
-		for (ActivityDailyDiscountTypeCfg cfg : dailyDiscountAllCfgList) {
-			if (!activityDailyDiscountTypeMgr.isOpen(cfg)) {
-				continue;
-			}
-			if (cfg.getLevelLimit() > level) {
-				continue;
-			}
-			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
-			if (dailyDiscountEnum == null) {
-				continue;
-			}
-			ActivityDailyDiscountTypeItem targetItem = dailyDiscountDataHolder.getItem(player.getUserId(), dailyDiscountEnum);
-			if (targetItem == null) {
-				continue;
-			}
-			if (!targetItem.isTouchRedPoint()) {
-				activityList.add(targetItem.getCfgId());
-				continue;
-			}
-		}
+//		ActivityDailyDiscountTypeItemHolder dailyDiscountDataHolder = ActivityDailyDiscountTypeItemHolder.getInstance();
+//		List<ActivityDailyDiscountTypeCfg> dailyDiscountAllCfgList = ActivityDailyDiscountTypeCfgDAO.getInstance().getAllCfg();
+//		ActivityDailyDiscountTypeMgr activityDailyDiscountTypeMgr = ActivityDailyDiscountTypeMgr.getInstance();
+//		for (ActivityDailyDiscountTypeCfg cfg : dailyDiscountAllCfgList) {
+//			if (!activityDailyDiscountTypeMgr.isOpen(cfg)) {
+//				continue;
+//			}
+//			if (cfg.getLevelLimit() > level) {
+//				continue;
+//			}
+//			ActivityDailyDiscountTypeEnum dailyDiscountEnum = ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId());
+//			if (dailyDiscountEnum == null) {
+//				continue;
+//			}
+//			ActivityDailyDiscountTypeItem targetItem = dailyDiscountDataHolder.getItem(player.getUserId(), dailyDiscountEnum);
+//			if (targetItem == null) {
+//				continue;
+//			}
+//			if (!targetItem.isTouchRedPoint()) {
+//				activityList.add(targetItem.getCfgId());
+//				continue;
+//			}
+//		}
 
 //		List<String> ranklist = ActivityRankTypeMgr.getInstance().haveRedPoint(player);
 //		activityList.addAll(ranklist);
