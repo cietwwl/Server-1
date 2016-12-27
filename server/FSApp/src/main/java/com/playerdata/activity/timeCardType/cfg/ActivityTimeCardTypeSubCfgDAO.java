@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import com.playerdata.activity.ActivityTypeHelper;
+import com.playerdata.charge.cfg.ChargeCfg;
+import com.playerdata.charge.cfg.ChargeCfgDao;
 import com.playerdata.charge.cfg.ChargeTypeEnum;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.util.SpringContextUtil;
@@ -31,6 +33,8 @@ public final class ActivityTimeCardTypeSubCfgDAO extends CfgCsvDao<ActivityTimeC
 		cfgCacheMap = CfgCsvHelper.readCsv2Map("Activity/ActivityTimeCardTypeSubCfg.csv", ActivityTimeCardTypeSubCfg.class);
 		HashMap<String, List<ActivityTimeCardTypeSubCfg>> subCfgListMapTmp = new HashMap<String, List<ActivityTimeCardTypeSubCfg>>();
 		for(ActivityTimeCardTypeSubCfg subCfg : cfgCacheMap.values()){
+			ChargeCfg cfg = ChargeCfgDao.getInstance().getCfgById(subCfg.getChargeId());
+			subCfg.setChargeType(cfg.getChargeType());
 			ActivityTypeHelper.add(subCfg, subCfg.getParentCfgId(), subCfgListMapTmp);
 		}
 		

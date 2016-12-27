@@ -9,6 +9,7 @@ import com.playerdata.fixEquip.norm.data.FixNormEquipDataItem;
 import com.rw.fsutil.common.Pair;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedEvent;
 import com.rw.fsutil.dao.cache.trace.RoleExtChangedListener;
+import com.rw.manager.ServerSwitch;
 
 /**
  * 普通神器数据监听器
@@ -22,6 +23,9 @@ public class FixNorEquipDataListener implements RoleExtChangedListener<FixNormEq
 
 	@Override
 	public void notifyDataChanged(RoleExtChangedEvent<FixNormEquipDataItem> event) {
+		if(!ServerSwitch.isOpenTargetSell()){
+			return;
+		}
 		List<Pair<Integer,FixNormEquipDataItem>> addList = event.getAddList();
 		if(addList != null && !addList.isEmpty()){
 			Pair<Integer, FixNormEquipDataItem> pair = addList.get(0);
