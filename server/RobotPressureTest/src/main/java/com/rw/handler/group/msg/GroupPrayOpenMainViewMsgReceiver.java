@@ -30,7 +30,7 @@ public class GroupPrayOpenMainViewMsgReceiver extends PrintMsgReciver {
 		try {
 			GroupPrayCommonRspMsg rsp = GroupPrayCommonRspMsg.parseFrom(response.getSerializedContent());
 			if (!rsp.getIsSuccess()) {// 失败了
-				RobotLog.fail(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " client.账号=" + client.getAccountId());
+				RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " client.账号=" + client.getAccountId());
 				return true;
 			}
 
@@ -53,6 +53,8 @@ public class GroupPrayOpenMainViewMsgReceiver extends PrintMsgReciver {
 
 				client.getGroupPrayData().setEntryList(saveEntryList);
 			}
+
+			System.err.println(rsp);
 		} catch (InvalidProtocolBufferException e) {
 			RobotLog.fail("解析帮派祈福的响应消息出现了异常", e);
 		}

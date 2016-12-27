@@ -25,7 +25,7 @@ public class GroupPrayCommonMsgReceiver extends PrintMsgReciver {
 		try {
 			GroupPrayCommonRspMsg rsp = GroupPrayCommonRspMsg.parseFrom(response.getSerializedContent());
 			if (!rsp.getIsSuccess()) {// 失败了
-				RobotLog.fail(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " client.账号=" + client.getAccountId());
+				RobotLog.info(parseFunctionDesc() + "失败" + (rsp.getTipMsg() != null ? ("。原因是：" + rsp.getTipMsg()) : "") + " client.账号=" + client.getAccountId());
 				return true;
 			}
 
