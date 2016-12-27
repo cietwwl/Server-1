@@ -31,6 +31,7 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 @SuppressWarnings("rawtypes")
 public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
+	private final static long ONE_DAY_MS = 24 * 60 * 60 * 1000L;
 	private Class<T> clazz;
 	
 	protected UserActivityChecker(Class<T> clazz){
@@ -140,7 +141,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 */
 	private int getCurrentDay(ActivityCfgIF cfg) {
 		if(!cfg.isDailyRefresh()) return 1;
-		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / (24 * 60 * 60 * 1000)) + 1;
+		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / ONE_DAY_MS) + 1;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -180,10 +181,8 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		try {
 			return cache.getStore(userId);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
