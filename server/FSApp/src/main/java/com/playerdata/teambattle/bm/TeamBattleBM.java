@@ -572,6 +572,7 @@ public class TeamBattleBM {
 			teamMember.setLastFinishBattle(battleTime);
 			utbData.setScore(utbData.getScore() + cfg.getScoreGain());
 			utbData.getFinishedLoops().add(battleTime);
+			utbData.clearCurrentTeam();
 			if(!TBTeamItemMgr.getInstance().removeTeam(teamItem)){
 				TBTeamItemMgr.getInstance().synData(teamItem.getTeamID());
 			}
