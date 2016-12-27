@@ -16,12 +16,15 @@ import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 
 /**
@@ -34,6 +37,20 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
 	private Class<T> clazz;
 	private final static long ONE_DAY_MS = 24 * 60 * 60 * 1000L;
+	
+	public void updateItem(Player player, T item){
+		getItemStore(player.getUserId()).update(item.getId());
+		if(null != getSynType()){
+			ClientDataSynMgr.updateData(player, item, getSynType(), eSynOpType.UPDATE_SINGLE);
+		}
+	}
+
+	public void synAllData(Player player){
+		List<T> itemList = getItemList(player.getUserId());
+		if(null != itemList && !itemList.isEmpty() && null != getSynType()){
+			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
+		}
+	}
 	
 	public List<T> getItemList(String userId){
 		return refreshActivity(userId);
@@ -195,9 +212,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
 	public abstract ActivityType getActivityType();
 	
-	public abstract PlayerExtPropertyType getExtPropertyType();
+	protected abstract PlayerExtPropertyType getExtPropertyType();
 	
-	public abstract void updateItem(Player player, T item);
-	
-	public abstract void synAllData(Player player);
+	protected abstract eSynType getSynType();
 }

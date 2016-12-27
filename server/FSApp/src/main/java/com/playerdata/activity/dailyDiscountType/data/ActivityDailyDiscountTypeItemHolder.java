@@ -15,11 +15,9 @@ import com.playerdata.activityCommon.UserActivityChecker;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeFactory;
-import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
-import com.rwproto.DataSynProtos.eSynOpType;
 import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityDailyDiscountTypeItemHolder extends UserActivityChecker<ActivityDailyDiscountTypeItem>{
@@ -28,20 +26,6 @@ public class ActivityDailyDiscountTypeItemHolder extends UserActivityChecker<Act
 	
 	public static ActivityDailyDiscountTypeItemHolder getInstance(){
 		return instance;
-	}
-
-	final private eSynType synType = eSynType.ActivityDailyDiscountType;
-	
-	public void updateItem(Player player, ActivityDailyDiscountTypeItem item){
-		getItemStore(player.getUserId()).update(item.getId());
-		ClientDataSynMgr.updateData(player, item, synType, eSynOpType.UPDATE_SINGLE);
-	}
-
-	public void synAllData(Player player){
-		List<ActivityDailyDiscountTypeItem> itemList = getItemList(player.getUserId());
-		if(null != itemList && !itemList.isEmpty()){
-			ClientDataSynMgr.synDataList(player, itemList, synType, eSynOpType.UPDATE_LIST);
-		}
 	}
 	
 	/**
@@ -118,7 +102,12 @@ public class ActivityDailyDiscountTypeItemHolder extends UserActivityChecker<Act
 	}
 
 	@Override
-	public PlayerExtPropertyType getExtPropertyType() {
+	protected PlayerExtPropertyType getExtPropertyType() {
 		return PlayerExtPropertyType.ACTIVITY_DAILYDISCOUNT;
+	}
+	
+	@Override
+	protected eSynType getSynType() {
+		return eSynType.ActivityDailyDiscountType;
 	}
 }
