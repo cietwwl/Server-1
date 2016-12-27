@@ -1,7 +1,6 @@
 package com.playerdata.teambattle.manager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.common.serverdata.ServerCommonData;
 import com.common.serverdata.ServerCommonDataHolder;
-import com.log.GameLog;
 import com.playerdata.Hero;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
@@ -25,6 +23,7 @@ import com.playerdata.teambattle.data.TeamMember;
 import com.playerdata.teambattle.data.UserTeamBattleData;
 import com.playerdata.teambattle.data.UserTeamBattleDataHolder;
 import com.playerdata.teambattle.dataForClient.StaticMemberTeamInfo;
+import com.rw.fsutil.util.DateUtils;
 
 public class TBTeamItemMgr{
 	
@@ -121,26 +120,18 @@ public class TBTeamItemMgr{
 	
 	/**
 	 * 每日重置，清除所有的队伍数据
+	 * @param exeTime 假定的执行时间（跨多天的时候，执行的时间，和所属于的应该执行时间是不一样的）
 	 */
-	public void dailyReset(){
+	public void dailyReset(long exeTime){
 		long lastRefreshTime = 0;
 		ServerCommonData scdData = ServerCommonDataHolder.getInstance().get();
 		if(null != scdData) lastRefreshTime = scdData.getTbLastRefreshTime();
-		
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.HOUR, TeamBattleConst.DAILY_REFRESH_HOUR);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		GameLog.error(cal.getTime().toGMTString());
-		GameLog.error("last:" + lastRefreshTime);
-		GameLog.error("now:" + cal.getTimeInMillis());
-		if(lastRefreshTime < cal.getTimeInMillis()){
-			GameLog.error("刷新了组队...@@@@@@@@@@@@");
+		if(DateUtils.isResetTime(TeamBattleConst.DAILY_REFRESH_HOUR, 0, 0, lastRefreshTime)){
 			for(TeamCfg cfg : TeamCfgDAO.getInstance().getAllCfg()){
 				TBTeamItemHolder.getInstance().getItemStore(cfg.getId()).clearAllRecords();
 			}
 			if(null != scdData) {
-				scdData.setTbLastRefreshTime(System.currentTimeMillis());
+				scdData.setTbLastRefreshTime(exeTime);
 				scdData.teamBattleDailyReset();
 				ServerCommonDataHolder.getInstance().update(scdData);
 			}

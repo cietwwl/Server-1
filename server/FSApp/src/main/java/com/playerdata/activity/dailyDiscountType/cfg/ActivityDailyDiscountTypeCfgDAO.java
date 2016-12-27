@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.Player;
 import com.playerdata.activity.ActivityTypeHelper;
 import com.playerdata.activity.VitalityType.ActivityVitalityTypeEnum;
@@ -17,6 +19,7 @@ import com.playerdata.activity.countType.cfg.ActivityCountTypeCfg;
 import com.playerdata.activity.countType.data.ActivityCountTypeItem;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeEnum;
 import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeHelper;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
 import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
@@ -51,36 +54,34 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 		cfgItem.setEndTime(endTime);	
 	}
 
-	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeEnum countTypeEnum) {
-		String cfgId = countTypeEnum.getCfgId();
-		ActivityDailyDiscountTypeCfg cfgById = getCfgById(cfgId);
-		if(cfgById!=null){
+	public ActivityDailyDiscountTypeItem newItem(Player player, ActivityDailyDiscountTypeCfg cfg) {
+		if(cfg!=null){
 			ActivityDailyDiscountTypeItem item = new ActivityDailyDiscountTypeItem();
-			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), countTypeEnum);
+			String itemId = ActivityDailyDiscountTypeHelper.getItemId(player.getUserId(), ActivityDailyDiscountTypeEnum.getById(cfg.getEnumId()));
 			item.setId(itemId);
+			item.setEnumId(cfg.getEnumId());
 			item.setUserId(player.getUserId());
-			item.setCfgId(cfgById.getId());
-			item.setVersion(cfgById.getVersion());
+			item.setCfgId(cfg.getId());
+			item.setVersion(cfg.getVersion());
 			item.setLastTime(System.currentTimeMillis());
-			item.setSubItemList(newSubItemList(countTypeEnum));
+			item.setSubItemList(newSubItemList(cfg));
 			return item;
 		}else{
 			return null;
 		}	
 	}
 	
-	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeEnum countTypeEnum) {
+	public List<ActivityDailyDiscountTypeSubItem> newSubItemList(ActivityDailyDiscountTypeCfg cfg) {
 		int day ;
-		ActivityDailyDiscountTypeCfg cfgByEnumId = getCfgById(countTypeEnum.getCfgId());
-		if(cfgByEnumId == null){
+		if(cfg == null){
 			day = 0;
 		}else{
-			day = ActivityTypeHelper.getDayBy5Am(cfgByEnumId.getStartTime());
+			day = ActivityTypeHelper.getDayBy5Am(cfg.getStartTime());
 		}
 		
 		
 		List<ActivityDailyDiscountTypeSubItem> subItemList = new ArrayList<ActivityDailyDiscountTypeSubItem>();
-		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(countTypeEnum);
+		List<ActivityDailyDiscountTypeSubCfg> subCfgList = ActivityDailyDiscountTypeSubCfgDAO.getInstance().getCfgListByParentId(cfg.getId());
 		for(ActivityDailyDiscountTypeSubCfg activityVitalitySubCfg : subCfgList){
 			if(activityVitalitySubCfg.getAfterSomeDays() != day){
 				continue;
@@ -105,13 +106,24 @@ public final class ActivityDailyDiscountTypeCfgDAO extends
 	}
 	
 
-
-	public ActivityDailyDiscountTypeCfg getConfig(String cfgId) {
+	/**
+	 *获取和传入数据同类型的，不同id的，处于激活状态的，单一新活动 
+	 */
+	public ActivityDailyDiscountTypeCfg getCfgByItem(ActivityDailyDiscountTypeItem item) {
+		String id = item.getCfgId();
+		String enumId = item.getEnumId();
 		List<ActivityDailyDiscountTypeCfg> cfglist = getAllCfg();
+		List<ActivityDailyDiscountTypeCfg> cfgListByItem = new ArrayList<ActivityDailyDiscountTypeCfg>();
 		for(ActivityDailyDiscountTypeCfg cfg : cfglist){
-			if(StringUtils.equals(cfg.getId(),cfgId)){
-				return cfg;
+			if(!StringUtils.equals(cfg.getId(),id)&&StringUtils.equals(enumId, cfg.getEnumId())&&ActivityDailyDiscountTypeMgr.getInstance().isOpen(cfg)){
+				cfgListByItem.add(cfg);
 			}			
+		}
+		if(cfgListByItem.size() > 1){
+			GameLog.error(LogModule.ComActivityDailyDisCount, null, "发现了两个以上开放的活动,活动枚举为="+ enumId, null);
+			return null;
+		}else if(cfgListByItem.size() == 1){
+			return cfgListByItem.get(0);
 		}		
 		return null;
 	}

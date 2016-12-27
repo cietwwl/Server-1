@@ -15,12 +15,15 @@ public class FSGameTimerSaveData {
 
 	private static final String _KEY_LAST_SERVER_SHUTDOWN_TIME_MILLIS = "1";
 	private static final String _KEY_LAST_EXECUTE_TIME_OF_DAILY_TASK = "2";
+	private static final String _KEY_LAST_EXECUTE_TIME_OF_PLAYER_DAILY_TASK = "3";
 	
 	@JsonProperty(_KEY_LAST_SERVER_SHUTDOWN_TIME_MILLIS)
 	private long _lastServerShutdownTimeMillis; // 最後一次停服時間
 	
 	@JsonProperty(_KEY_LAST_EXECUTE_TIME_OF_DAILY_TASK)
-	private Map<Integer, Long> _lastExecuteTimeOfDailyTask = new HashMap<Integer, Long>(); // 每日任務最後一次執行的時間
+	private Map<Integer, Long> _lastExecuteTimeOfDailyTask = new HashMap<Integer, Long>(); // 玩家每日任務最後一次執行的時間
+	@JsonProperty(_KEY_LAST_EXECUTE_TIME_OF_PLAYER_DAILY_TASK)
+	private Map<Integer, Long> _lastExecuteTimeOfPlayerDailyTask = new HashMap<Integer, Long>(); // 普通每日任务最后一次的执行时间
 	
 	public static FSGameTimerSaveData getInstance() {
 		return _INSTANCE;
@@ -38,6 +41,14 @@ public class FSGameTimerSaveData {
 				tempField.set(_INSTANCE, value);
 			}
 		}
+	}
+	
+	private long getLastExecuteTimeSafely(Map<Integer, Long> map, int type) {
+		Long time = map.get(type);
+		if(time == null) {
+			return 0;
+		}
+		return time;
 	}
 	
 	/**
@@ -58,12 +69,19 @@ public class FSGameTimerSaveData {
 	 * @param type
 	 * @return
 	 */
-	public long getLastExecuteTime(int type) {
-		Long time = _lastExecuteTimeOfDailyTask.get(type);
-		if(time == null) {
-			return 0;
-		}
-		return time;
+	@JsonIgnore
+	public long getLastExecuteTimeOfPlayerTask(int type) {
+		return this.getLastExecuteTimeSafely(_lastExecuteTimeOfPlayerDailyTask, type);
+	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @return
+	 */
+	@JsonIgnore
+	public long getLastExecuteTimeOfDailyTask(int type) {
+		return this.getLastExecuteTimeSafely(_lastExecuteTimeOfDailyTask, type);
 	}
 	
 	/**
@@ -79,12 +97,23 @@ public class FSGameTimerSaveData {
 	
 	/**
 	 * 
-	 * 更新任務的最後一次執行時間
+	 * 更新玩家任務的最後一次執行時間
 	 * 
 	 * @param type
 	 * @param timeMillis
 	 */
-	public void updateLastExecuteTimeOfTask(int type, long timeMillis) {
+	public void updateLastExecuteTimeOfPlayerTask(int type, long timeMillis) {
+		this._lastExecuteTimeOfPlayerDailyTask.put(type, timeMillis);
+	}
+	
+	/**
+	 * 
+	 * 更新日常任务的最后一次执行时间
+	 * 
+	 * @param type
+	 * @param timeMillis
+	 */
+	public void updateLastExecuteTimeOfDailyTask(int type, long timeMillis) {
 		this._lastExecuteTimeOfDailyTask.put(type, timeMillis);
 	}
 }

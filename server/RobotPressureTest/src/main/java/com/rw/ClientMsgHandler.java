@@ -195,6 +195,9 @@ public abstract class ClientMsgHandler {
 					case GROUP_ITEM_DROP_APPLY:
 						getClient().getGroupCopyHolder().syn(msgDataSyn);
 						break;
+					case USE_GROUP_COPY_DATA:
+						getClient().getGroupCopyUserData().syn(msgDataSyn);
+						break;
 					default:
 					}
 				}
@@ -283,6 +286,7 @@ public abstract class ClientMsgHandler {
 					}
 				}
 			});
+			Thread.sleep(300);
 			f.get(10, TimeUnit.SECONDS);
 			if (!f.isSuccess()) {
 				return true;
@@ -306,7 +310,7 @@ public abstract class ClientMsgHandler {
 		boolean success = true;
 		Response rsp = getResp(seqId);
 		if (rsp == null) {
-			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, account:" + client.getAccountId() + " cmd:" + msgReciverP.getCmd());
+			RobotLog.fail("ClientMsgHandler[handleResp]业务模块收到的响应超时, cmd:" + msgReciverP.getCmd() + "account :" + client.getAccountId());
 			success = false;
 		} else {
 

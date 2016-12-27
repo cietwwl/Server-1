@@ -69,7 +69,6 @@ import com.rwproto.GroupCopyCmdProto.GroupCopyCmdReqMsg;
 import com.rwproto.GroupCopyCmdProto.GroupCopyDonateData;
 import com.rwproto.GroupCopyCmdProto.GroupCopyHurtRank;
 import com.rwproto.GroupCopyCmdProto.GroupCopyMapStatus;
-import com.sun.tools.javac.code.Types.MapVisitor;
 
 /**
  * 
@@ -261,7 +260,7 @@ public class GroupCopyMgr {
 
 		GroupCopyLevelCfg cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(levelId);
 		//发放帮派经验
-		Group group = com.groupCopy.bm.GroupHelper.getGroup(player);
+		Group group = com.rw.service.group.helper.GroupHelper.getGroup(player);
 		group.getGroupBaseDataMgr().updateGroupDonate(player, null, 0, cfg.getGroupExp(), 0, true);
 		
 		
@@ -647,8 +646,6 @@ public class GroupCopyMgr {
 	 * @return
 	 */
 	private void clearBeforeApplyRecord(String userID, CopyItemDropAndApplyRecord record){
-		List<Integer> List = new ArrayList<Integer>();
-		//TODO 这样做并不安全，因为可能会有其他线程正在遍历这个map，而这里直接进行删除，可以会导致另一个线程出错 ---Alex
 		Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 		ApplyInfo beforeApply = null;
 		ItemDropAndApplyTemplate target = null;
@@ -1032,11 +1029,14 @@ public class GroupCopyMgr {
 			public void run() {
 				//clear role apply war price data
 				List<CopyItemDropAndApplyRecord> daList = dropHolder.getItemList();
+				List<ApplyInfo> tempData = new ArrayList<ApplyInfo>();
 				for (CopyItemDropAndApplyRecord record : daList) {
 					Map<String, ItemDropAndApplyTemplate> map = record.getDaMap();
 					boolean remove = false;
 					for (ItemDropAndApplyTemplate item : map.values()) {
-						for (ApplyInfo d : item.getApplyData()) {
+						tempData.clear();
+						tempData.addAll(item.getApplyData());
+						for (ApplyInfo d : tempData) {
 							if(d.getRoleID().equals(kickMemberId)){
 								remove = item.deleteApplyData(d);
 							}
