@@ -724,11 +724,11 @@ public class GroupMemberMgr {
 	 * @param prayCardId
 	 * @param bagHasNum
 	 */
-	public synchronized void resetPrayData(String userId, int prayCardId, int bagHasNum) {
+	public synchronized void resetPrayData(String userId, int prayCardId) {
 		UserGroupAttributeDataMgr.getMgr().resetPrayData(userId);// 重置自己身上要记录的数据
 
 		// 重置跟随帮派成员的数据
-		resetMemberPrayData(userId, prayCardId, bagHasNum);
+		resetMemberPrayData(userId, prayCardId);
 	}
 
 	/**
@@ -736,9 +736,8 @@ public class GroupMemberMgr {
 	 * 
 	 * @param userId
 	 * @param prayCardId
-	 * @param bagHasNum
 	 */
-	private void resetMemberPrayData(String userId, int prayCardId, int bagHasNum) {
+	private void resetMemberPrayData(String userId, int prayCardId) {
 		GroupMemberData memberData = holder.getMemberData(userId, false);
 		if (memberData == null) {
 			return;

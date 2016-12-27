@@ -1,5 +1,7 @@
 package com.rw.service.group;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.util.StringUtils;
@@ -119,7 +121,7 @@ public class GroupPrayHandler {
 			prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
 			prayEntry.setMemberId(id);// 设置成员的Id
 			prayEntry.setProcess(member.getPrayProcess());// 设置当前的数量
-			prayEntry.setHasSend(prayList != null && prayList.contains(userId));// 检查是否赠送过某个人的
+			prayEntry.setHasSend(prayList != null && prayList.contains(id));// 检查是否赠送过某个人的
 
 			openMainViewRsp.addEntry(prayEntry);
 		}
@@ -127,24 +129,25 @@ public class GroupPrayHandler {
 		// 检查自己当前的祈福状态
 		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
 		int prayCardId = memberData.getPrayCardId();
+		boolean hasGetReward = false;
 		if (prayCardId > 0) {// 祈福过
-			if (resetTime) {// 重置时间
-				// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-				int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
-				int prayProcess = memberData.getPrayProcess();
-				if (soulLimit > 0 && prayProcess >= soulLimit && baseData.getState() <= 0) {// 还没领取过
-					PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
-					prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
-					prayEntry.setMemberId(userId);// 设置成员的Id
-					prayEntry.setProcess(prayProcess);// 设置当前的数量
-					prayEntry.setHasSend(false);// 检查是否赠送过某个人的
+			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
+			int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
+			int prayProcess = memberData.getPrayProcess();
+			if (!resetTime || soulLimit > 0 && prayProcess >= soulLimit && baseData.getState() <= 0) {// 不是重置点或者进度满了还没领取过奖励
+				PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
+				prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
+				prayEntry.setMemberId(userId);// 设置成员的Id
+				prayEntry.setProcess(prayProcess);// 设置当前的数量
+				prayEntry.setHasSend(false);// 检查是否赠送过某个人的
+				openMainViewRsp.addEntry(prayEntry);
 
-					openMainViewRsp.addEntry(prayEntry);
-				}
+				hasGetReward = baseData.getState() > 0;
 			}
 		}
 
 		openMainViewRsp.setHasPray(!resetTime);// 是否已经祈福过了
+		openMainViewRsp.setHasGetPrayReward(hasGetReward);// 是否已经获取了奖励
 
 		commonRsp.setOpenPrayMainViewRsp(openMainViewRsp);
 		commonRsp.setIsSuccess(true);
@@ -225,7 +228,7 @@ public class GroupPrayHandler {
 		}
 
 		// 重置数据
-		memberMgr.resetPrayData(userId, soulId, ItemBagMgr.getInstance().getItemCountByModelId(userId, soulId));
+		memberMgr.resetPrayData(userId, soulId);
 
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
@@ -405,5 +408,11 @@ public class GroupPrayHandler {
 
 		commonRsp.setIsSuccess(true);
 		return commonRsp.build().toByteString();
+	}
+
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String format = sdf.format(new Date(1482786015153l));
+		System.err.println(format);
 	}
 }

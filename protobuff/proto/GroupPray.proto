@@ -23,6 +23,7 @@ message PrayEntry{
 message OpenPrayMainViewRspMsg{
 	repeated PrayEntry entry = 1;//所有成员祈福数据
 	required bool hasPray = 2;//自己是否祈福过
+	required bool hasGetPrayReward = 3;//是否已经领取了奖励
 }
 
 //请求祈福的消息

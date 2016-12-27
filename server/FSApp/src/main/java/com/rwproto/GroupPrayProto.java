@@ -1103,6 +1103,24 @@ public final class GroupPrayProto {
      * </pre>
      */
     boolean getHasPray();
+
+    // required bool hasGetPrayReward = 3;
+    /**
+     * <code>required bool hasGetPrayReward = 3;</code>
+     *
+     * <pre>
+     *是否已经领取了奖励
+     * </pre>
+     */
+    boolean hasHasGetPrayReward();
+    /**
+     * <code>required bool hasGetPrayReward = 3;</code>
+     *
+     * <pre>
+     *是否已经领取了奖励
+     * </pre>
+     */
+    boolean getHasGetPrayReward();
   }
   /**
    * Protobuf type {@code groupproto.OpenPrayMainViewRspMsg}
@@ -1170,6 +1188,11 @@ public final class GroupPrayProto {
             case 16: {
               bitField0_ |= 0x00000001;
               hasPray_ = input.readBool();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000002;
+              hasGetPrayReward_ = input.readBool();
               break;
             }
           }
@@ -1295,9 +1318,34 @@ public final class GroupPrayProto {
       return hasPray_;
     }
 
+    // required bool hasGetPrayReward = 3;
+    public static final int HASGETPRAYREWARD_FIELD_NUMBER = 3;
+    private boolean hasGetPrayReward_;
+    /**
+     * <code>required bool hasGetPrayReward = 3;</code>
+     *
+     * <pre>
+     *是否已经领取了奖励
+     * </pre>
+     */
+    public boolean hasHasGetPrayReward() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required bool hasGetPrayReward = 3;</code>
+     *
+     * <pre>
+     *是否已经领取了奖励
+     * </pre>
+     */
+    public boolean getHasGetPrayReward() {
+      return hasGetPrayReward_;
+    }
+
     private void initFields() {
       entry_ = java.util.Collections.emptyList();
       hasPray_ = false;
+      hasGetPrayReward_ = false;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1305,6 +1353,10 @@ public final class GroupPrayProto {
       if (isInitialized != -1) return isInitialized == 1;
 
       if (!hasHasPray()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHasGetPrayReward()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1327,6 +1379,9 @@ public final class GroupPrayProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBool(2, hasPray_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBool(3, hasGetPrayReward_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -1343,6 +1398,10 @@ public final class GroupPrayProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, hasPray_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(3, hasGetPrayReward_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1473,6 +1532,8 @@ public final class GroupPrayProto {
         }
         hasPray_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
+        hasGetPrayReward_ = false;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -1514,6 +1575,10 @@ public final class GroupPrayProto {
           to_bitField0_ |= 0x00000001;
         }
         result.hasPray_ = hasPray_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.hasGetPrayReward_ = hasGetPrayReward_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1559,12 +1624,19 @@ public final class GroupPrayProto {
         if (other.hasHasPray()) {
           setHasPray(other.getHasPray());
         }
+        if (other.hasHasGetPrayReward()) {
+          setHasGetPrayReward(other.getHasGetPrayReward());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
 
       public final boolean isInitialized() {
         if (!hasHasPray()) {
+          
+          return false;
+        }
+        if (!hasHasGetPrayReward()) {
           
           return false;
         }
@@ -1953,6 +2025,55 @@ public final class GroupPrayProto {
       public Builder clearHasPray() {
         bitField0_ = (bitField0_ & ~0x00000002);
         hasPray_ = false;
+        onChanged();
+        return this;
+      }
+
+      // required bool hasGetPrayReward = 3;
+      private boolean hasGetPrayReward_ ;
+      /**
+       * <code>required bool hasGetPrayReward = 3;</code>
+       *
+       * <pre>
+       *是否已经领取了奖励
+       * </pre>
+       */
+      public boolean hasHasGetPrayReward() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required bool hasGetPrayReward = 3;</code>
+       *
+       * <pre>
+       *是否已经领取了奖励
+       * </pre>
+       */
+      public boolean getHasGetPrayReward() {
+        return hasGetPrayReward_;
+      }
+      /**
+       * <code>required bool hasGetPrayReward = 3;</code>
+       *
+       * <pre>
+       *是否已经领取了奖励
+       * </pre>
+       */
+      public Builder setHasGetPrayReward(boolean value) {
+        bitField0_ |= 0x00000004;
+        hasGetPrayReward_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bool hasGetPrayReward = 3;</code>
+       *
+       * <pre>
+       *是否已经领取了奖励
+       * </pre>
+       */
+      public Builder clearHasGetPrayReward() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        hasGetPrayReward_ = false;
         onChanged();
         return this;
       }
@@ -5011,22 +5132,23 @@ public final class GroupPrayProto {
     java.lang.String[] descriptorData = {
       "\n\017GroupPray.proto\022\ngroupproto\"O\n\tPrayEnt" +
       "ry\022\020\n\010memberId\030\001 \002(\t\022\016\n\006soulId\030\002 \002(\005\022\017\n\007" +
-      "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"O\n\026OpenPr" +
+      "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"i\n\026OpenPr" +
       "ayMainViewRspMsg\022$\n\005entry\030\001 \003(\0132\025.groupp" +
-      "roto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010\" \n\016NeedP" +
-      "rayReqMsg\022\016\n\006soulId\030\001 \002(\005\"\"\n\016SendPrayReq" +
-      "Msg\022\020\n\010memberId\030\001 \002(\t\"\237\001\n\025GroupPrayCommo" +
-      "nReqMsg\022$\n\007reqType\030\001 \002(\0162\023.groupproto.Re" +
-      "qType\022/\n\013needPrayReq\030\002 \001(\0132\032.groupproto." +
-      "NeedPrayReqMsg\022/\n\013sendPrayReq\030\003 \001(\0132\032.gr",
-      "oupproto.SendPrayReqMsg\"\241\001\n\025GroupPrayCom" +
-      "monRspMsg\022$\n\007reqType\030\001 \002(\0162\023.groupproto." +
-      "ReqType\022\021\n\tisSuccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001" +
-      "(\t\022?\n\023openPrayMainViewRsp\030\004 \001(\0132\".groupp" +
-      "roto.OpenPrayMainViewRspMsg*P\n\007ReqType\022\022" +
-      "\n\016OPEN_MAIN_VIEW\020\001\022\r\n\tNEED_PRAY\020\002\022\r\n\tSEN" +
-      "D_PRAY\020\003\022\023\n\017GET_PRAY_REWARD\020\004B\035\n\013com.rwp" +
-      "rotoB\016GroupPrayProto"
+      "roto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010\022\030\n\020hasGe" +
+      "tPrayReward\030\003 \002(\010\" \n\016NeedPrayReqMsg\022\016\n\006s" +
+      "oulId\030\001 \002(\005\"\"\n\016SendPrayReqMsg\022\020\n\010memberI" +
+      "d\030\001 \002(\t\"\237\001\n\025GroupPrayCommonReqMsg\022$\n\007req" +
+      "Type\030\001 \002(\0162\023.groupproto.ReqType\022/\n\013needP" +
+      "rayReq\030\002 \001(\0132\032.groupproto.NeedPrayReqMsg",
+      "\022/\n\013sendPrayReq\030\003 \001(\0132\032.groupproto.SendP" +
+      "rayReqMsg\"\241\001\n\025GroupPrayCommonRspMsg\022$\n\007r" +
+      "eqType\030\001 \002(\0162\023.groupproto.ReqType\022\021\n\tisS" +
+      "uccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022?\n\023openPray" +
+      "MainViewRsp\030\004 \001(\0132\".groupproto.OpenPrayM" +
+      "ainViewRspMsg*P\n\007ReqType\022\022\n\016OPEN_MAIN_VI" +
+      "EW\020\001\022\r\n\tNEED_PRAY\020\002\022\r\n\tSEND_PRAY\020\003\022\023\n\017GE" +
+      "T_PRAY_REWARD\020\004B\035\n\013com.rwprotoB\016GroupPra" +
+      "yProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5044,7 +5166,7 @@ public final class GroupPrayProto {
           internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor,
-              new java.lang.String[] { "Entry", "HasPray", });
+              new java.lang.String[] { "Entry", "HasPray", "HasGetPrayReward", });
           internal_static_groupproto_NeedPrayReqMsg_descriptor =
             getDescriptor().getMessageTypes().get(2);
           internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable = new

@@ -99,6 +99,7 @@ import com.rwbase.dao.fashion.FashionEffectCfgDao;
 import com.rwbase.dao.fashion.FashionQuantityEffectCfgDao;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.db.GroupBaseData;
+import com.rwbase.dao.group.pojo.db.GroupMemberData;
 import com.rwbase.dao.group.pojo.db.UserGroupAttributeData;
 import com.rwbase.dao.group.pojo.db.dao.UserGroupAttributeDataDAO;
 import com.rwbase.dao.group.pojo.readonly.GroupBaseDataIF;
@@ -1507,6 +1508,24 @@ public class GMHandler {
 			}
 
 			groupBaseDataMgr.updateGroupDonate(player, group.getGroupLogMgr(), 0, 0, value, true);
+		} else if (functionName.equalsIgnoreCase("cpd")) {// 清除祈福的数据
+			boolean b = memberData instanceof GroupMemberData;
+			boolean b1 = baseGroupData instanceof UserGroupAttributeData;
+			if (!b || !b1) {
+				return false;
+			}
+
+			GroupMemberData member = (GroupMemberData) memberData;
+			member.setPrayCardId(0);
+			member.setPrayProcess(0);
+			groupMemberMgr.flush();
+
+			UserGroupAttributeData userGroupData = (UserGroupAttributeData) baseGroupData;
+			userGroupData.clearPrayList();
+			userGroupData.setLastPrayTime(0);
+			userGroupData.setLastResetPrayTime(0);
+			userGroupData.setState(0);
+			UserGroupAttributeDataDAO.getDAO().update(userId);
 		}
 
 		return true;
