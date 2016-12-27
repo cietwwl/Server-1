@@ -12,9 +12,9 @@ import com.rounter.client.node.ServerInfo;
 import com.rounter.controller.ucParam.cfg.UCGiftCfg;
 import com.rounter.controller.ucParam.cfg.UCGiftCfgDAO;
 import com.rounter.innerParam.ReqType;
+import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.RouterReqestObject;
 import com.rounter.innerParam.RouterRespObject;
-import com.rounter.innerParam.ResultState;
 import com.rounter.innerParam.jsonParam.AllRolesInfo;
 import com.rounter.innerParam.jsonParam.ReqestParams;
 import com.rounter.innerParam.jsonParam.UserZoneInfo;
@@ -46,28 +46,28 @@ public class UIServiceImpl implements IUCService{
 				if(resObject.getResult() == ResultState.SUCCESS){
 					AllRolesInfo roles = JsonUtil.readValue((String)resObject.getContent(), AllRolesInfo.class);
 					JSONObject jsObj = new JSONObject();
-					if(null != roles){
+					if(null != roles && null != roles.getRoles() && !roles.getRoles().isEmpty()){
 						jsObj.put("accountId", accountId);
 						JSONArray jsArray = new JSONArray();
 						jsObj.put("roleInfos", jsArray);
-						if(null != roles.getRoles()){
-							for(UserZoneInfo zoneInfo : roles.getRoles()){
-								JSONObject jsRole = new JSONObject();
-								jsRole.put("serverId", zoneInfo.getZoneId());
-								ServerInfo serverInfo = ServerChannelManager.getInstance().getAreaInfo(platformId, String.valueOf(zoneInfo.getZoneId()));
-								if(null != serverInfo){
-									jsRole.put("serverName", serverInfo.getName());
-								}else{
-									jsRole.put("serverName", "");
-								}
-								jsRole.put("roleId", zoneInfo.getUserId());
-								jsRole.put("roleName", zoneInfo.getUserName());
-								jsRole.put("roleLevel", zoneInfo.getLevel());
-								jsArray.add(jsRole);
+						for(UserZoneInfo zoneInfo : roles.getRoles()){
+							JSONObject jsRole = new JSONObject();
+							jsRole.put("serverId", zoneInfo.getZoneId());
+							ServerInfo serverInfo = ServerChannelManager.getInstance().getAreaInfo(platformId, String.valueOf(zoneInfo.getZoneId()));
+							if(null != serverInfo){
+								jsRole.put("serverName", serverInfo.getName());
+							}else{
+								jsRole.put("serverName", "");
 							}
+							jsRole.put("roleId", zoneInfo.getUserId());
+							jsRole.put("roleName", zoneInfo.getUserName());
+							jsRole.put("roleLevel", zoneInfo.getLevel());
+							jsArray.add(jsRole);
 						}
+						response.setStateCode(UCStateCode.STATE_OK.getId());
+					}else{
+						response.setStateCode(UCStateCode.STATE_ROLE_NOT_EXIST.getId());
 					}
-					response.setStateCode(UCStateCode.STATE_OK.getId());
 					response.setData(jsObj);
 				}else{
 					response.setStateCode(resObject.getResult().getUCStateCode().getId());
