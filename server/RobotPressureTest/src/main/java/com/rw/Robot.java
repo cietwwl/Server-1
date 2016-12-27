@@ -123,7 +123,11 @@ public class Robot {
 		try {
 			if (client == null) {
 				client = PlatformHandler.instance().login(accountId);
-				Thread.sleep(1000);
+				try{
+					Thread.sleep(1000);
+				}catch(Exception ex){
+					
+				}
 				if (client != null) {
 					loadZoneListSuccess = PlatformHandler.instance().loadZoneAndRoleList(client);
 				}
