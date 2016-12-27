@@ -32,6 +32,7 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
 @SuppressWarnings("rawtypes")
 public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
+	private Class<T> clazz;
 	private final static long ONE_DAY_MS = 24 * 60 * 60 * 1000L;
 	
 	public List<T> getItemList(String userId){
@@ -186,8 +187,10 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
 	@SuppressWarnings("unchecked")
 	private Class<T> getGenericClazz(){
+		if(null != clazz) return clazz;
 		ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
-		return (Class<T>)type.getActualTypeArguments()[0];
+		clazz = (Class<T>)type.getActualTypeArguments()[0];
+		return clazz;
 	}
 	
 	public abstract ActivityType getActivityType();
