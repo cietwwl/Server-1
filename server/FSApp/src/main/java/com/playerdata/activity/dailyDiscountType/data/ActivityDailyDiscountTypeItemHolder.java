@@ -66,6 +66,9 @@ public class ActivityDailyDiscountTypeItemHolder extends UserActivityChecker<Act
 			}
 			ActivityDailyDiscountTypeItem item = itemStore.get(cfg.getId());
 			if(null == item || Integer.parseInt(item.getCfgId()) != cfg.getCfgId()){
+				if(null != item){
+					itemStore.removeItem(cfg.getId());
+				}
 				// 有新增的活动
 				item = new ActivityDailyDiscountTypeItem();
 				if(null != item){

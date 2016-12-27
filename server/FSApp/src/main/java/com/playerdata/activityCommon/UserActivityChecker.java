@@ -75,6 +75,9 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			}
 			T item = itemStore.get(cfg.getId());
 			if(null == item || Integer.parseInt(item.getCfgId()) != cfg.getCfgId()){
+				if(null != item){
+					itemStore.removeItem(cfg.getId());
+				}
 				// 有新增的活动
 				item = (T) getActivityType().getNewActivityTypeItem();
 				if(null != item){

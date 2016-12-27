@@ -121,6 +121,10 @@ public enum GameWorldKey {
 	 * 活动:竞技之王
 	 */
 	ACTIVITY_RANK_TYPE("ACTIVITY_RANK_TYPE"),
+	/**
+	 * 活动:超值欢乐购
+	 */
+	ACTIVITY_DISCOUNT("ACTIVITY_DISCOUNT"),
 	;
 	
 
