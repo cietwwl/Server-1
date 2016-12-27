@@ -76,7 +76,7 @@ public class WBAwardServer {
 		boolean killBoss = data.isKilled();
 		if(killBoss){
 			WBExAwardCfg cfg = WBExAwardCfgDAO.getInstance().getCfg(data.getSurvivalCount());
-			if(cfg == null){
+			if(cfg == null && data.getSurvivalCount() != 0){
 				GameLog.error(LogModule.WorldBoss.getName(), "WBAwardServer[sendKillBossAward]", "Can not find the WBExAwardCfg, the key is:" + data.getSurvivalCount(), null);
 				return;
 			}
@@ -101,7 +101,7 @@ public class WBAwardServer {
 //		boolean isBossKilled = wbData.isKilled();
 		List<WBRankAwardCfg> allCfg = WBRankAwardCfgDAO.getInstance().getAllCfg();
 		for (WBRankAwardCfg wbRankAwardCfg : allCfg) {
-			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, wbRankAwardCfgId: " + wbRankAwardCfg.getId());
+//			GameLog.info(LogModule.WorldBoss.getName(), "WBAwardServer[sendRankAwards]", "world boss sendAward start, wbRankAwardCfgId: " + wbRankAwardCfg.getId());
 			
 			String awardId = wbRankAwardCfg.getAwardId();
 			String award = wbRankAwardCfg.getAward();
