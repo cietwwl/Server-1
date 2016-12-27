@@ -1,5 +1,11 @@
 package com.playerdata.activity.shakeEnvelope.cfg;
 
+/**
+ * 每天的时间片
+ * 取的是基于当天开始0点的相对时间
+ * @author aken
+ *
+ */
 public class TimeSectionPair {
 	
 	private long startTime;
@@ -21,5 +27,4 @@ public class TimeSectionPair {
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
-	
 }

@@ -40,7 +40,7 @@ public class ActivityShakeEnvelopeItemHolder extends UserActivityChecker<Activit
 
 	@Override
 	protected eSynType getSynType() {
-		//return eSynType.ActivityShakeEnvelope;
-		return null;
+		return eSynType.ActivityShakeEnvelope;
+		//return null;
 	}
 }

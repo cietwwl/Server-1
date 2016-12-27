@@ -30,12 +30,13 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 
 	@Override
 	public Map<String, ActivitySpecialTimeCfg> initJsonCfg() {
+		int tmpVersion = -1;
 		Map<String, ActivitySpecialTimeCfg> tmpMap = CfgCsvHelper.readCsv2Map("Activity/ActivitySpecialTimeCfg.csv",ActivitySpecialTimeCfg.class);
 		actCfgTmpMap = new HashMap<Integer, List<SingleActTime>>();
 		for(ActivitySpecialTimeCfg cfgTmp : tmpMap.values()){
 			decodeActivityZone(cfgTmp);
 			if(cfgTmp.getId() == 1) {
-				platformVersion.set(cfgTmp.getVersion());
+				tmpVersion = cfgTmp.getVersion();
 			}
 		}
 		if(!OPENED_TIMER){
@@ -57,6 +58,9 @@ public class ActivitySpecialTimeCfgDAO extends CfgCsvDao<ActivitySpecialTimeCfg>
 		}
 		cfgCacheMap = tmpMap;
 		actCfgMap = actCfgTmpMap;
+		if(-1 != tmpVersion){
+			platformVersion.set(tmpVersion);
+		}
 		return cfgCacheMap;
 	}
 	

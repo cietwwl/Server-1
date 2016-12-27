@@ -34,6 +34,7 @@ public class ActivityShakeEnvelopeItem implements ActivityTypeItemIF<ActivitySha
 	private boolean hasReward;	//当前是否有可以领取的红包
 	
 	@IgnoreSynField
+	@CombineSave
 	private List<ActivityShakeEnvelopeSubItem> subItems = new ArrayList<ActivityShakeEnvelopeSubItem>();
 	
 	public Integer getId() {

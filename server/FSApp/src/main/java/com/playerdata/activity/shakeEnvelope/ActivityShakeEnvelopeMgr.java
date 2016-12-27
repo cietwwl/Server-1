@@ -62,9 +62,10 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 			return;
 		}
 		long currentTime = DateUtils.getSecondLevelMillis();
+		long currentRelativeTime = currentTime - DateUtils.getDayZeroTime(currentTime);
 		boolean haveReward = false;
 		for(TimeSectionPair section : cfg.getSections()){
-			if(section.getStartTime() < currentTime && currentTime < section.getEndTime()){
+			if(section.getStartTime() < currentRelativeTime && currentRelativeTime < section.getEndTime()){
 				ActivityShakeEnvelopeSubItem subItem = item.getSubItemByStartTime(section.getStartTime());
 				if(null == subItem){
 					subItem = new ActivityShakeEnvelopeSubItem();
@@ -145,10 +146,11 @@ public class ActivityShakeEnvelopeMgr extends AbstractActivityMgr<ActivityShakeE
 			redPointList.add(String.valueOf(item.getCfgId()));
 		}
 		long currentTime = DateUtils.getSecondLevelMillis();
+		long currentRelativeTime = currentTime - DateUtils.getDayZeroTime(currentTime);
 		ActivityShakeEnvelopeCfg cfg = ActivityShakeEnvelopeCfgDAO.getInstance().getCfgById(item.getCfgId());
 		boolean hasReward = false;
 		for(TimeSectionPair section : cfg.getSections()){
-			if(section.getStartTime() < currentTime && currentTime < section.getEndTime()){
+			if(section.getStartTime() < currentRelativeTime && currentRelativeTime < section.getEndTime()){
 				ActivityShakeEnvelopeSubItem subItem = item.getSubItemByStartTime(section.getStartTime());
 				if(null == subItem || !subItem.isGet()){
 					//这里添加到红点列表，防止和上面的浏览加重复

@@ -1,6 +1,5 @@
 package com.playerdata.activity.shakeEnvelope.cfg;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import com.playerdata.activityCommon.ActivityTimeHelper;
@@ -8,7 +7,6 @@ import com.playerdata.activityCommon.ActivityTimeHelper.TimePair;
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityExtendTimeIF;
 import com.playerdata.activityCommon.activityType.ActivityRangeTimeIF;
-import com.rw.fsutil.util.DateUtils;
 
 public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTimeIF, ActivityRangeTimeIF{
 	
@@ -168,7 +166,6 @@ public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTi
 	}
 	
 	public void reAnalyzeRangeTime(){
-		Calendar cal = DateUtils.getCurrent();
 		List<TimeSectionPair> newSections = new ArrayList<TimeSectionPair>();
 		String[] sectionStrs = timeStr.split(",");
 		int interTime = interval * 60 * 1000;
@@ -177,17 +174,13 @@ public class ActivityShakeEnvelopeCfg implements ActivityCfgIF, ActivityExtendTi
 			String[] startAndEndStr = sectionStr.split(":");
 			if(startAndEndStr.length == 2){
 				String startSt = startAndEndStr[0];
-				cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(startSt.substring(0, 2)));
-				cal.set(Calendar.MINUTE, Integer.valueOf(startSt.substring(2, 4)));
-				cal.set(Calendar.SECOND, Integer.valueOf(startSt.substring(4, 6)));
-				cal.set(Calendar.MILLISECOND, 0);
-				long startTime = cal.getTimeInMillis();
+				long startTime = Integer.valueOf(startSt.substring(0, 2)) * 60 * 60 * 1000;
+				startTime += Integer.valueOf(startSt.substring(2, 4)) * 60 * 1000;
+				startTime += Integer.valueOf(startSt.substring(4, 6)) * 1000;
 				String endSt = startAndEndStr[1];
-				cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(endSt.substring(0, 2)));
-				cal.set(Calendar.MINUTE, Integer.valueOf(endSt.substring(2, 4)));
-				cal.set(Calendar.SECOND, Integer.valueOf(endSt.substring(4, 6)));
-				cal.set(Calendar.MILLISECOND, 0);
-				long endTime = cal.getTimeInMillis();
+				long endTime = Integer.valueOf(endSt.substring(0, 2)) * 60 * 60 * 1000;
+				endTime += Integer.valueOf(endSt.substring(2, 4)) * 60 * 1000;
+				endTime += Integer.valueOf(endSt.substring(4, 6)) * 1000;
 				while(startTime < endTime){
 					TimeSectionPair section = new TimeSectionPair();
 					section.setStartTime(startTime);
