@@ -13,7 +13,7 @@ public class TeamBattleFullCollector implements RedPointCollector{
 	@Override
 	public void fillRedPoints(Player player, Map<RedPointType, List<String>> map) {
 		if (UserTeamBattleDataMgr.getInstance().isTeamFull(player)) {
-			map.put(RedPointType.TEAM_BATTLE_TEAM_FULL, Collections.EMPTY_LIST);
+			map.put(RedPointType.TEAMBATTLE_FULL_MEMBER, Collections.EMPTY_LIST);
 		}
 	}
 }
