@@ -22,10 +22,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityGrowthFundItemHolder extends UserActivityChecker<ActivityGrowthFundItem>{
 	
-	protected ActivityGrowthFundItemHolder(){
-		super(ActivityGrowthFundItem.class);
-	}
-	
 	private static ActivityGrowthFundItemHolder instance = new ActivityGrowthFundItemHolder();
 	private static GrowthFundSubItemComparator _comparator = new GrowthFundSubItemComparator();
 	

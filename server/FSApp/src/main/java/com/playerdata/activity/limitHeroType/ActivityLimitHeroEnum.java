@@ -1,6 +1,5 @@
 package com.playerdata.activity.limitHeroType;
 
-import com.playerdata.activity.fortuneCatType.ActivityFortuneTypeEnum;
 
 public enum ActivityLimitHeroEnum {
 	LimitHero("120001");// 超值欢乐购

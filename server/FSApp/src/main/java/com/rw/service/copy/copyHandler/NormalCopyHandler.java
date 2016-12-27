@@ -105,6 +105,8 @@ public class NormalCopyHandler {
 
 		}
 		copyResponse.addTagCopyLevelRecord(levelRecord4Client);
+		
+		player.getDailyActivityMgr().getTaskList();
 		// 任务数量 日常
 		player.getDailyActivityMgr().AddTaskTimesByType(DailyActivityType.Dup_Normal, 1);
 		player.getTaskMgr().AddTaskTimes(eTaskFinishDef.Finish_Copy_Normal);

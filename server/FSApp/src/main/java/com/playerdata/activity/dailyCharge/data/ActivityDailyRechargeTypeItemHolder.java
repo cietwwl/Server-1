@@ -14,10 +14,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityDailyRechargeTypeItemHolder extends UserActivityChecker<ActivityDailyRechargeTypeItem>{
 	
-	protected ActivityDailyRechargeTypeItemHolder(){
-		super(ActivityDailyRechargeTypeItem.class);
-	}
-	
 	private static ActivityDailyRechargeTypeItemHolder instance = new ActivityDailyRechargeTypeItemHolder();
 	
 	public static ActivityDailyRechargeTypeItemHolder getInstance(){

@@ -30,6 +30,7 @@
 	<bean class="com.rwbase.dao.business.SevenDayGifCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.copy.cfg.BuyLevelCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.copy.cfg.CopyCfgDAO"  init-method="init" />
+	<bean class="com.rwbase.dao.copy.cfg.FortuneResultCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.copy.cfg.DropItemCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.copy.cfg.GiftCfgDAO"  init-method="init" />
 	<bean class="com.rwbase.dao.copy.cfg.ItemProbabilityCfgDAO"  init-method="init" />

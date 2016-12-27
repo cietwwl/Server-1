@@ -13,10 +13,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityRankTypeItemHolder extends UserActivityChecker<ActivityRankTypeItem>{
 	
-	protected ActivityRankTypeItemHolder(){
-		super(ActivityRankTypeItem.class);
-	}
-	
 	private static ActivityRankTypeItemHolder instance = new ActivityRankTypeItemHolder();
 	
 	public static ActivityRankTypeItemHolder getInstance(){
