@@ -19,6 +19,11 @@ import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeCfgDAO;
 import com.playerdata.activity.dailyCharge.cfg.ActivityDailyChargeSubCfgDAO;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeItem;
 import com.playerdata.activity.dailyCharge.data.ActivityDailyRechargeTypeSubItem;
+import com.playerdata.activity.dailyDiscountType.ActivityDailyDiscountTypeMgr;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeCfgDAO;
+import com.playerdata.activity.dailyDiscountType.cfg.ActivityDailyDiscountTypeSubCfgDAO;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeItem;
+import com.playerdata.activity.dailyDiscountType.data.ActivityDailyDiscountTypeSubItem;
 import com.playerdata.activity.evilBaoArrive.EvilBaoArriveMgr;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveCfgDAO;
 import com.playerdata.activity.evilBaoArrive.cfg.EvilBaoArriveSubCfgDAO;
@@ -44,6 +49,7 @@ public class ActivityTypeFactory {
 	public static final ActivityType ChargeRank;
 	public static final ActivityType ConsumeRank;
 	public static final ActivityType ActRankType;	//竞技之王
+	public static final ActivityType DailyDiscount;	//折扣活动
 	private static List<ActivityType> typeList;
 	
 	static{
@@ -61,6 +67,8 @@ public class ActivityTypeFactory {
 				null, null, ActivityConsumeRankMgr.getInstance());
 		ActRankType = new ActivityType(1007, ActivityRankTypeCfgDAO.class, ActivityRankTypeItem.class,
 				null, null, ActivityRankTypeMgr.getInstance());
+		DailyDiscount = new ActivityType(1008, ActivityDailyDiscountTypeCfgDAO.class, ActivityDailyDiscountTypeItem.class,
+				ActivityDailyDiscountTypeSubCfgDAO.class, ActivityDailyDiscountTypeSubItem.class, ActivityDailyDiscountTypeMgr.getInstance());
 		
 		typeList = new ArrayList<ActivityType>();
 		addType(DailyRecharge);
@@ -70,6 +78,7 @@ public class ActivityTypeFactory {
 		addType(ChargeRank);
 		addType(ConsumeRank);
 		addType(ActRankType);
+		addType(DailyDiscount);
 	}
 	
 	public static List<ActivityType> getAllTypes(){

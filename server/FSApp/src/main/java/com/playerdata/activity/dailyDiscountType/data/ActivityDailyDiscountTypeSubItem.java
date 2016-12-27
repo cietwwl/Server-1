@@ -2,11 +2,12 @@ package com.playerdata.activity.dailyDiscountType.data;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
+import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
 import com.playerdata.dataSyn.annotation.SynClass;
 
 @SynClass
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ActivityDailyDiscountTypeSubItem {
+public class ActivityDailyDiscountTypeSubItem implements ActivityTypeSubItemIF{
 	
 	private String cfgId;
 	
@@ -15,6 +16,7 @@ public class ActivityDailyDiscountTypeSubItem {
 	private int itemId ;
 
 	private int itemNum;
+	
 	public String getCfgId() {
 		return cfgId;
 	}
@@ -46,8 +48,4 @@ public class ActivityDailyDiscountTypeSubItem {
 	public void setItemNum(int itemNum) {
 		this.itemNum = itemNum;
 	}
-
-
-	
-	
 }

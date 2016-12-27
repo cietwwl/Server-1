@@ -16,12 +16,15 @@ import com.playerdata.activityCommon.activityType.ActivitySubCfgIF;
 import com.playerdata.activityCommon.activityType.ActivityType;
 import com.playerdata.activityCommon.activityType.ActivityTypeItemIF;
 import com.playerdata.activityCommon.activityType.ActivityTypeSubItemIF;
+import com.playerdata.dataSyn.ClientDataSynMgr;
 import com.rw.dataaccess.attachment.PlayerExtPropertyType;
 import com.rw.dataaccess.attachment.RoleExtPropertyFactory;
 import com.rw.fsutil.cacheDao.CfgCsvDao;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStore;
 import com.rw.fsutil.cacheDao.attachment.RoleExtPropertyStoreCache;
 import com.rw.fsutil.dao.cache.DuplicatedKeyException;
+import com.rwproto.DataSynProtos.eSynOpType;
+import com.rwproto.DataSynProtos.eSynType;
 
 
 /**
@@ -31,6 +34,23 @@ import com.rw.fsutil.dao.cache.DuplicatedKeyException;
  */
 @SuppressWarnings("rawtypes")
 public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
+	
+	private Class<T> clazz;
+	private final static long ONE_DAY_MS = 24 * 60 * 60 * 1000L;
+	
+	public void updateItem(Player player, T item){
+		getItemStore(player.getUserId()).update(item.getId());
+		if(null != getSynType()){
+			ClientDataSynMgr.updateData(player, item, getSynType(), eSynOpType.UPDATE_SINGLE);
+		}
+	}
+
+	public void synAllData(Player player){
+		List<T> itemList = getItemList(player.getUserId());
+		if(null != itemList && !itemList.isEmpty() && null != getSynType()){
+			ClientDataSynMgr.synDataList(player, itemList, getSynType(), eSynOpType.UPDATE_LIST);
+		}
+	}
 	
 	public List<T> getItemList(String userId){
 		return refreshActivity(userId);
@@ -59,7 +79,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 * @return 新添加的活动
 	 */
 	@SuppressWarnings("unchecked")
-	private List<T> addNewActivity(String userId){
+	protected List<T> addNewActivity(String userId){
 		List<? extends ActivityCfgIF> activeDailyList = ActivityDetector.getInstance().getAllActivityOfType(getActivityType());
 		List<T> newAddItems = new ArrayList<T>();
 		RoleExtPropertyStore<T> itemStore = getItemStore(userId);
@@ -70,6 +90,9 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 			}
 			T item = itemStore.get(cfg.getId());
 			if(null == item || Integer.parseInt(item.getCfgId()) != cfg.getCfgId()){
+				if(null != item){
+					itemStore.removeItem(cfg.getId());
+				}
 				// 有新增的活动
 				item = (T) getActivityType().getNewActivityTypeItem();
 				if(null != item){
@@ -132,7 +155,7 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	 */
 	private int getCurrentDay(ActivityCfgIF cfg) {
 		if(!cfg.isDailyRefresh()) return 1;
-		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / (24 * 60 * 60 * 1000)) + 1;
+		return (int) ((System.currentTimeMillis() - cfg.getStartTime()) / ONE_DAY_MS) + 1;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -172,10 +195,8 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 		try {
 			return cache.getStore(userId);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -183,15 +204,15 @@ public abstract class UserActivityChecker<T extends ActivityTypeItemIF> {
 	
 	@SuppressWarnings("unchecked")
 	private Class<T> getGenericClazz(){
+		if(null != clazz) return clazz;
 		ParameterizedType type = (ParameterizedType)getClass().getGenericSuperclass();
-		return (Class<T>)type.getActualTypeArguments()[0];
+		clazz = (Class<T>)type.getActualTypeArguments()[0];
+		return clazz;
 	}
 	
 	public abstract ActivityType getActivityType();
 	
-	public abstract PlayerExtPropertyType getExtPropertyType();
+	protected abstract PlayerExtPropertyType getExtPropertyType();
 	
-	public abstract void updateItem(Player player, T item);
-	
-	public abstract void synAllData(Player player);
+	protected abstract eSynType getSynType();
 }

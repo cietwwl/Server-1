@@ -30,6 +30,8 @@ public enum ActivityKey {
 	ACTIVITY_EVILBAOARRIVE(6, GameWorldKey.ACTIVITY_EVILBAOARRIVE, ActivityTypeFactory.EvilBaoArrive),
 	/**--	申公豹驾到	--*/
 	ACTIVITY_RANK_TYPE(7, GameWorldKey.ACTIVITY_RANK_TYPE, ActivityTypeFactory.ActRankType),
+	/**--	超值欢乐购	--*/
+	ACTIVITY_DISCOUNT(8, GameWorldKey.ACTIVITY_DISCOUNT, ActivityTypeFactory.DailyDiscount),
 	;
 	
 	@SuppressWarnings("rawtypes")
