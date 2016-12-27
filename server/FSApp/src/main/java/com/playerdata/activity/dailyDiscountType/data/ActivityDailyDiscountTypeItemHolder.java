@@ -24,10 +24,6 @@ import com.rwproto.DataSynProtos.eSynType;
 
 public class ActivityDailyDiscountTypeItemHolder extends UserActivityChecker<ActivityDailyDiscountTypeItem>{
 	
-	protected ActivityDailyDiscountTypeItemHolder(){
-		super(ActivityDailyDiscountTypeItem.class);
-	}
-	
 	private static ActivityDailyDiscountTypeItemHolder instance = new ActivityDailyDiscountTypeItemHolder();
 	
 	public static ActivityDailyDiscountTypeItemHolder getInstance(){
