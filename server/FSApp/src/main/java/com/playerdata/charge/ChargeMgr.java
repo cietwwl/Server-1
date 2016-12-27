@@ -15,6 +15,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.ProtocolMessageEnum;
 import com.log.GameLog;
 import com.playerdata.ComGiftMgr;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.VipMgr;
@@ -505,7 +506,7 @@ public class ChargeMgr {
 			itemList.add(new ItemInfo(Integer.parseInt(strItemId), map.get(strItemId).intValue()));
 		}
 		List<Integer> list = new ArrayList<Integer>(end - begin);
-		if (player.getItemBagMgr().addItem(itemList)) {
+		if (ItemBagMgr.getInstance().addItem(player, itemList)) {
 			VipMgr vipMgr = player.getVipMgr();
 			for (int i = begin; i < end; i++) {
 				vipMgr.setVipGiftTaken(i);
