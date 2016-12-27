@@ -32,7 +32,6 @@ public class PrivilegeCfg extends BaseConfig {
   private int fashionBuyOpen; //时装购买
   private int resignOpen; //补签开启
   private int battleRate; //战斗加速
-  private int teamBattleTimes; //购买心魔录次数
   private String desc; //描述
   private String colorPattern1; //颜色模板1
   private String colorPattern2; //颜色模板2
@@ -126,9 +125,6 @@ public class PrivilegeCfg extends BaseConfig {
   }
   public int getBattleRate() {
     return battleRate;
-  }
-  public int getTeamBattleTimes() {
-    return teamBattleTimes;
   }
   public String getDesc() {
     return desc;

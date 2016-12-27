@@ -2,8 +2,6 @@ package com.rwbase.dao.email;
 
 import java.util.List;
 
-import javax.persistence.Id;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

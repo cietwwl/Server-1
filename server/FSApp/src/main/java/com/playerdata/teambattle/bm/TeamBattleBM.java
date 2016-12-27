@@ -45,6 +45,8 @@ import com.rw.service.Email.EmailUtils;
 import com.rw.service.Privilege.IPrivilegeManager;
 import com.rw.service.group.helper.GroupHelper;
 import com.rwbase.dao.copy.pojo.ItemInfo;
+import com.rwbase.dao.email.EmailCfg;
+import com.rwbase.dao.email.EmailCfgDAO;
 import com.rwbase.dao.group.pojo.Group;
 import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwproto.PrivilegeProtos.PvePrivilegeNames;
@@ -172,6 +174,7 @@ public class TeamBattleBM {
 		UserTeamBattleDataMgr.getInstance().leaveTeam(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
+		tMem.setUserName(player.getUserName());
 		tMem.setState(TBMemberState.Ready);
 		String teamID = hardID + "_" + getNewTeamID();
 		TBTeamItem teamItem = new TBTeamItem();
@@ -573,8 +576,13 @@ public class TeamBattleBM {
 				if(cfg.getMail() != 0){
 					for(TeamMember mem : teamItem.getMembers()){
 						if(mem.getState().equals(TBMemberState.Finish) && !StringUtils.equals(mem.getUserID(), player.getUserId())){
-							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()));
-							EmailUtils.sendEmail(mem.getUserID(), String.valueOf(cfg.getMail()));
+							EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(String.valueOf(cfg.getMail()));
+							if(null == emailCfg) {
+								GameLog.info(LogModule.TeamBattle.getName(), player.getUserId(), String.format("informFightResult, 不存在id为[%s]的邮件", cfg.getMail()), null);
+								continue;
+							}
+							EmailUtils.sendEmail(player.getUserId(), String.valueOf(cfg.getMail()), "", String.format(emailCfg.getContent(), mem.getUserName()));
+							EmailUtils.sendEmail(mem.getUserID(), String.valueOf(cfg.getMail()), "", String.format(emailCfg.getContent(), player.getUserName()));
 						}
 					}
 				}
@@ -662,6 +670,7 @@ public class TeamBattleBM {
 		UserTeamBattleData utbData = UserTeamBattleDataHolder.getInstance().get(player.getUserId());
 		TeamMember tMem = new TeamMember();
 		tMem.setUserID(player.getUserId());
+		tMem.setUserName(player.getUserName());
 		tMem.setState(TBMemberState.Ready);
 		if(!canJionTeam.addMember(tMem)){
 			throw new JoinTeamException("加入失败");

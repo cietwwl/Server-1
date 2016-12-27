@@ -15,6 +15,9 @@ public class TeamMember {
 	
 	@IgnoreSynField
 	private long fightStartTime = 0;
+	
+	@IgnoreSynField
+	private String userName;
 
 	public String getUserID() {
 		return userID;
@@ -46,5 +49,13 @@ public class TeamMember {
 
 	public void setFightStartTime(long fightStartTime) {
 		this.fightStartTime = fightStartTime;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 }
