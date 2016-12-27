@@ -6,6 +6,8 @@ import java.util.Set;
 import org.apache.tools.ant.taskdefs.Replace;
 
 import com.alibaba.druid.util.StringUtils;
+import com.log.GameLog;
+import com.log.LogModule;
 import com.playerdata.activity.countType.data.ActivityCountTypeSubItem;
 import com.rw.fsutil.util.StringUtil;
 import com.rw.service.Email.EmailUtils;
@@ -54,7 +56,11 @@ public class ComGiftMgr {
 	 */
 	public boolean addGiftTOEmailById(Player player, String giftid  ,String emailid ,String mark){
 		boolean isadd = false;		
-		String sb = makegiftToMailStr(giftid);		
+		String sb = makegiftToMailStr(giftid);	
+		if(sb == null||StringUtils.isEmpty(sb)){
+			GameLog.error("comgiftmgr-邮件", player.getUserId(), "没有传入奖励", null);
+			return false;
+		}
 		isadd = addRewardToEmail(player,sb,emailid,mark);
 		return isadd;
 	}
@@ -68,7 +74,11 @@ public class ComGiftMgr {
 	 */
 	public boolean addtagInfoTOEmail(Player player, String tagInfo  ,String emailid ,String mark){
 		boolean isadd = false;		
-		String sb = makeTagInfoToMailStr(tagInfo);	
+		String sb = makeTagInfoToMailStr(tagInfo);
+		if(sb == null||StringUtils.isEmpty(sb)){
+			GameLog.error("comgiftmgr-邮件", player.getUserId(), "没有传入奖励", null);
+			return false;
+		}
 		isadd = addRewardToEmail(player,sb,emailid,mark);
 		return isadd;
 	}
@@ -100,7 +110,11 @@ public class ComGiftMgr {
 			}			
 		}
 		
-		String sb = makeTagInfoToMailStr(newTmp.toString());			
+		String sb = makeTagInfoToMailStr(newTmp.toString());	
+		if(sb == null||StringUtils.isEmpty(sb)){
+			GameLog.error("comgiftmgr-邮件", player.getUserId(), "没有传入奖励", null);
+			return false;
+		}
 		isadd = addRewardToEmail(player,sb,emailid,mark);
 		return isadd;
 	}
