@@ -22,6 +22,8 @@ import com.rwbase.common.enu.eSpecialItemId;
 import com.rwbase.common.userEvent.UserEventMgr;
 import com.rwbase.dao.copy.cfg.CopyCfg;
 import com.rwbase.dao.copy.cfg.CopyCfgDAO;
+import com.rwbase.dao.copy.cfg.FortuneResultCfg;
+import com.rwbase.dao.copy.cfg.FortuneResultCfgDAO;
 import com.rwbase.dao.copy.pojo.ItemInfo;
 import com.rwproto.CopyServiceProtos.EBattleStatus;
 import com.rwproto.CopyServiceProtos.EResultType;
@@ -95,6 +97,10 @@ public class JBZDHandler {
 		// 增加聚宝之地的金币
 		int addCoin = copyRequest.getTagBattleData().getFortuneResult().getGainGoldCount();
 		if (addCoin > 0) {
+			FortuneResultCfg cfg = FortuneResultCfgDAO.getInstance().getCfgById(String.valueOf(levelId));
+			if(null != cfg && cfg.getUpLimit() < addCoin){
+				addCoin = cfg.getUpLimit();
+			}
 			ItemBagMgr.getInstance().addItem(player, eSpecialItemId.Coin.getValue(), addCoin);
 		}
 		// 聚宝之地
