@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import com.playerdata.activityCommon.activityType.ActivityCfgIF;
 
 public class ActivityAliveGlobleData {
 	
+	@JsonProperty
 	private HashMap<Integer, ArrayList<String>> activityMap;
 
 	public HashMap<Integer, ArrayList<String>> getActivityMap() {
@@ -19,7 +22,7 @@ public class ActivityAliveGlobleData {
 		this.activityMap = activityMap;
 	}
 	
-	public void setActivityMap(Map<Integer, HashMap<String, ? extends ActivityCfgIF>> activityMapDetail) {
+	public void setActivityToGlobleMap(Map<Integer, HashMap<String, ? extends ActivityCfgIF>> activityMapDetail) {
 		this.activityMap = new HashMap<Integer, ArrayList<String>>();
 		if(null != activityMapDetail){
 			for(Entry<Integer, HashMap<String, ? extends ActivityCfgIF>> entry : activityMapDetail.entrySet()){
@@ -27,5 +30,4 @@ public class ActivityAliveGlobleData {
 			}
 		}
 	}
-	
 }

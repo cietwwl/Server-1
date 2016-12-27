@@ -85,7 +85,7 @@ public class ActivityDetector {
 		if(changed){
 			//活动有变化时，保存一下数据库
 			ActivityAliveGlobleData _globalData = new ActivityAliveGlobleData();
-			_globalData.setActivityMap(activityMap);
+			_globalData.setActivityToGlobleMap(activityMap);
 			GameWorldFactory.getGameWorld().updateAttribute(GameWorldKey.ALIVE_ACTIVITY, JsonUtil.writeValue(_globalData));
 		}
 	}
