@@ -31,7 +31,7 @@ public class ActivityDetector {
 		return instance;
 	}
 	
-	private ActivityDetector(){
+	protected ActivityDetector(){
 		// 读取数据库中停服前保存的活动数据（单例，只会加载一次）
 		String attribute = GameWorldFactory.getGameWorld().getAttribute(GameWorldKey.ALIVE_ACTIVITY);
 		if (attribute != null && (attribute = attribute.trim()).length() > 0) {
