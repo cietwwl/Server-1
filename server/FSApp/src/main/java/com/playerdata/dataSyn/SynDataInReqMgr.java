@@ -39,10 +39,15 @@ public class SynDataInReqMgr {
 		}
 		PairKey<eSynType, Object> key = new PairKey<eSynType, Object>(synType, serverData);
 		SynDataInfo synData = new SynDataInfo(synType, msgDataSyn);
-		if (synDataMap.put(key, synData) != null) {
-			orderList.remove(key);
+//		if (synDataMap.put(key, synData) != null) {
+//			orderList.remove(key);
+//		}
+//		orderList.add(key);
+		
+		if (synDataMap.put(key, synData) == null) {
+			orderList.add(key);
 		}
-		orderList.add(key);
+		
 		// if (!orderList.contains(serverData)) {
 		// orderList.add(serverData);
 		// }

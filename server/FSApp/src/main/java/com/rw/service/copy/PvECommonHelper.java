@@ -1,9 +1,13 @@
 package com.rw.service.copy;
 
+import io.netty.util.collection.IntObjectHashMap;
+import io.netty.util.collection.IntObjectMap.Entry;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.common.RefInt;
 import com.google.protobuf.ByteString;
 import com.log.GameLog;
 import com.log.LogModule;
@@ -176,11 +180,9 @@ public class PvECommonHelper {
 
 	public static List<TagSweepInfo> gainSweepRewards(Player player, int times, CopyCfg copyCfg) {
 		List<TagSweepInfo> listSweepInfo = new ArrayList<TagSweepInfo>();
-
+		IntObjectHashMap<RefInt> results = new IntObjectHashMap<RefInt>(23);
 		// 物品掉落
 		for (int i = 0; i < times; i++) {
-			String pItemsID = copyCfg.getItems(); // 地图配置里所写的物品掉落组ID...
-			// List<Integer> list = CopyHandler.convertToIntList(pItemsID);
 			List<ItemInfo> dropItems = null;
 			try {
 				// 预生成奖励
@@ -196,15 +198,22 @@ public class PvECommonHelper {
 				tagsweepInfo.setTimes(i + 1);
 				List<String> listItem = new ArrayList<String>();
 				// TODO 这种拼接的方式浪费性能+不好维护，客户端配合一起改
-				for (ItemInfoIF item : dropItems) {
+				for (ItemInfo item : dropItems) {
 					// 将奖励放入协议中，发送给客户端
 					int itemId = item.getItemID();
 					int itemNum = item.getItemNum();
 					listItem.add(itemId + "," + itemNum);
+
+					RefInt refInt = results.get(itemId);
+					if (refInt == null) {
+						results.put(itemId, new RefInt(itemNum));
+					} else {
+						refInt.value += itemNum;
+					}
 					// 将奖励放入背包
 					// player.getItemBagMgr().addItem(item.getItemID(), item.getItemNum());
 				}
-				ItemBagMgr.getInstance().addItem(player, dropItems);
+
 				// Map<Integer, Integer> map = ActivityExchangeTypeMgr.getInstance().AddItemOfExchangeActivity(player,copyCfg);
 				// for(Map.Entry<Integer, Integer> entry:map.entrySet()){
 				// listItem.add(entry.getKey()+","+entry.getValue());
@@ -214,6 +223,14 @@ public class PvECommonHelper {
 				listSweepInfo.add(tagsweepInfo.build());
 
 			}
+		}
+		ArrayList<ItemInfo> infos = new ArrayList<ItemInfo>(results.size());
+		for (Entry<RefInt> entry : results.entries()) {
+			ItemInfo info = new ItemInfo(entry.key(), entry.value().value);
+			infos.add(info);
+		}
+		if (!ItemBagMgr.getInstance().addItem(player, infos)) {
+			GameLog.error("PvECommonHelper", "", "扫荡十次掉落失败：" + player.getUserId() + "," + infos);
 		}
 
 		String extraRewards = copyCfg.getExtraRewards();
