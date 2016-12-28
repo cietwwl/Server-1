@@ -29,26 +29,25 @@ public class RouterGiftMgr {
 		//TODO 判断时间的合法性，以及id的合法性
 		UCGiftCfg cfg = UCGiftCfgDAO.getInstance().getCfgById(giftId);
 		if(cfg == null){
-			//System.out.println("------------------无法找到配置表~");
 			GameLog.error(LogModule.RouterServer, "RounterGiftMgr[addGift]", "无法找到目标配置表，配置表id:" + giftId, null);
 			return ResultState.GIFT_ID_ERROR;
 		}
 		RouterGiftDataHolder giftDataHolder = RouterGiftDataHolder.getInstance();
 		RouterGiftDataItem giftItem = giftDataHolder.getItem(userId, Integer.valueOf(giftId));
-		if(null == giftItem){	// || !StringUtils.equals(giftItem.getBelongTime(), date)){
+		if(null == giftItem){	
 			giftItem = new RouterGiftDataItem();
 			giftItem.setUserId(userId);
 			giftItem.setId(Integer.valueOf(giftId));
 			giftItem.setBelongTime(date);
 			giftItem.setCount(1);
 			giftDataHolder.addItem(userId, giftItem);
-			//System.out.println("--------------添加成功~");
 		}else {
 			//已经有的记录，要判断一下类型
 			ResultState state = checkGiftType(giftItem, cfg, date);
 			if(state != ResultState.SUCCESS){
 				return state;
 			}
+			giftDataHolder.updateItem(userId, giftItem);
 
 		}
 		takeGift(userId);
@@ -61,13 +60,8 @@ public class RouterGiftMgr {
 	 * @param cfg
 	 */
 	private ResultState checkGiftType(RouterGiftDataItem giftItem, UCGiftCfg cfg, String date) {
-		if(cfg.getType() == RounterGiftType.TYPE_DAILY.getType()){
-			if(StringUtils.equals(giftItem.getBelongTime(), date)){
-				return ResultState.REPEAT_GET;
-			}else{
-				giftItem.setBelongTime(date);
-				giftItem.setCount(giftItem.getCount() + 1);
-			}
+		if(cfg.getType() == RounterGiftType.TYPE_DAILY.getType() && StringUtils.equals(giftItem.getBelongTime(), date)){
+			return ResultState.REPEAT_GET;
 		}else if(cfg.getType() == RounterGiftType.TYPE_CHARGE.getType() ||
 				cfg.getType() == RounterGiftType.TYPE_LEVEL.getType()){
 			return ResultState.REPEAT_GET;
@@ -80,14 +74,11 @@ public class RouterGiftMgr {
 			int w2 = calendar.get(Calendar.WEEK_OF_YEAR);
 			if(w == w2){
 				return ResultState.REPEAT_GET;
-			}else{
-				giftItem.setBelongTime(date);
-				giftItem.setCount(giftItem.getCount() + 1);
 			}
-		}else{
-			giftItem.setBelongTime(date);
-			giftItem.setCount(giftItem.getCount() + 1);
 		}
+		//其他情况直接加1
+		giftItem.setBelongTime(date);
+		giftItem.setCount(giftItem.getCount() + 1);
 		return ResultState.SUCCESS;
 	}
 
@@ -95,7 +86,6 @@ public class RouterGiftMgr {
 		try {
 			
 			if(null == PlayerMgr.getInstance().findPlayerFromMemory(userId)){
-				//System.out.println("------role off line!!");
 				return ;
 			}
 			RouterGiftDataHolder giftDataHolder = RouterGiftDataHolder.getInstance();
@@ -113,8 +103,6 @@ public class RouterGiftMgr {
 						giftDataHolder.updateItem(userId, routerGiftDataItem);
 					}
 				}
-			}else{
-				//System.out.println("role gift data is null ~");
 			}
 			
 		} catch (Exception e) {
@@ -130,7 +118,9 @@ public class RouterGiftMgr {
 			return;
 		}
 		boolean sendEmail = EmailUtils.sendEmail(userId, cfg.getMailId(), cfg.getContent());
-		//System.out.println("send uc gift ,id:" + giftId + ",context:" + cfg.getCondition()+",send suc:" + sendEmail);
-		
+		if(!sendEmail){
+			GameLog.error(LogModule.RouterServer.getName(), "RounterGiftMgr[sendGift]", "发送直通车礼包不成功，角色id:"
+					+userId + ",礼包id:" + giftId);
+		}
 	}
 }
