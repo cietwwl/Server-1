@@ -193,6 +193,7 @@ public class MonthCardChargeAction implements IChargeAction {
 						MonthCardPrivilegeMgr.getShareInstance().signalMonthCardChange(player, type, true);
 					}
 				}
+				player.getUserGameDataMgr().addReCharge(target.getGoldCount());
 			} catch (Exception e) {
 				GameLog.info("特权", player.getUserId(), "无法获取充值类型:" + orderStr, e);
 			}
@@ -207,11 +208,15 @@ public class MonthCardChargeAction implements IChargeAction {
 		for (ActivityTimeCardTypeSubCfg timecardcfg : timeCardList) {
 			if (timecardcfg.getChargeType() == target.getChargeType()) {
 				Player friendPlayer = null;
+				if(friendId != null) {
+					friendId = friendId.trim();
+				}
 				if (StringUtils.isNotBlank(friendId)) {
 					friendPlayer = PlayerMgr.getInstance().find(friendId);
 					// 找不到要赠送的好友
 					if (null == friendPlayer) {
 						onPresentMonthCardFail(player, target);
+						return true;
 					}
 				}
 				if (null != friendPlayer) {

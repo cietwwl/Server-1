@@ -5,8 +5,8 @@ key,remarks,copyType,sortNum,name,titleIcon,icon,intro,des,cdSeconds,consume
 4,,4,6,生存炼境,,bg_ShengCunHuanJing,击败敌人获得英雄装备,可获得装备,300,"100,150,200,250"
 5,,5,5,万仙阵,,bg_WanXianZhen,击败实力相当的玩家获得大量金钱与装备,可获得随机道具,,"100,200,300,400"
 7,,7,7,封神台,,bg_FengShenTai,击败敌人获得宝石,可获得宝石,,"100,200,300,400"
-8,,8,2,组队,,bg_XinMoLu,击败敌人获得英雄魂石,可获得英雄魂石,,
-9,,9,8,世界Boss,,bg_ChuMoZhengZhan,获取排名奖励,获取排名奖励,,"100,200,300,400"
-21,,21,,职业竞技,ZT_ZhiYe,bg_ZhiYe,主角14级开启,,,
+8,,8,2,心魔录,,bg_XinMoLu,击败敌人获得英雄魂石,可获得英雄魂石,,
+9,,9,8,除魔征战,,bg_ChuMoZhengZhan,获取排名奖励,获取排名奖励,,"100,200,300,400"
+21,,21,,论道场,ZT_ZhiYe,bg_ZhiYe,主角14级开启,,,
 22,,22,,巅峰竞技,ZT_DianFeng,bg_DianFeng,主角42级开启,,,"100,150,200,250"
 23,,23,,荣耀山谷,ZT_RongYao,bg_RongYao,主角40级开启,,,"100,150,200,250"

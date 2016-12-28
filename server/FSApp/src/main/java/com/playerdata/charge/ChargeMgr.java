@@ -1,5 +1,7 @@
 package com.playerdata.charge;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +32,10 @@ import com.rw.fsutil.util.jackson.JsonUtil;
 import com.rw.manager.ServerSwitch;
 import com.rw.service.log.BILogMgr;
 import com.rw.service.log.behavior.GameBehaviorMgr;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
+import com.rwbase.ServerTypeMgr;
 import com.rwbase.dao.vip.PrivilegeCfgDAO;
 import com.rwbase.dao.vip.pojo.PrivilegeCfg;
-import com.rwbase.gameworld.GameWorldFactory;
 import com.rwproto.ChargeServiceProto;
 import com.rwproto.MsgDef;
 
@@ -50,6 +53,25 @@ public class ChargeMgr {
 
 	protected ChargeMgr() {
 		_checker = new YinHanChargeCallbackChecker();
+	}
+	
+	private void checkVipMonthCardExists(Player player) {
+		if (isValid(player, ChargeTypeEnum.VipMonthCard)) {
+			ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+			if (chargeInfo != null) {
+				List<ChargeCfg> allCfg = ChargeCfgDao.getInstance().getAllCfg();
+				for (int i = 0; i < allCfg.size(); i++) {
+					ChargeCfg cfg = allCfg.get(i);
+					if (cfg.getChargeType() == ChargeTypeEnum.VipMonthCard) {
+						if (!chargeInfo.isContainsId(cfg.getId())) {
+							chargeInfo.addChargeCfgId(cfg.getId());
+							ChargeInfoHolder.getInstance().updateToDB(chargeInfo);
+							break;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public boolean isValid(Player player, ChargeTypeEnum monthCardType) {
@@ -74,6 +96,7 @@ public class ChargeMgr {
 	}
 
 	public void syn(Player player, int version) {
+		checkVipMonthCardExists(player);
 		ChargeInfoHolder.getInstance().syn(player, version);
 	}
 
@@ -128,13 +151,21 @@ public class ChargeMgr {
 			if (ServerSwitch.isTestCharge()) {
 				GameLog.error("chargemgr", "sdk-充值", "充值测试,价格为1分； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + chargeContentPojo.getMoney() + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
 			} else {
-				int money = chargeContentPojo.getMoney();
-				if (money == -1) {
-					money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
+				boolean checkMonneyMatch = true;
+				if (ServerTypeMgr.getInstance().getServerType().isIos()) {
+					// 苹果版本只检查普通重充值是否金额匹配
+					checkMonneyMatch = target.getChargeType() == ChargeTypeEnum.Normal; 
 				}
-				if (money != target.getMoneyCount()) {
-					GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
-					return false;
+				if (checkMonneyMatch) {
+					// 只有普通充值才进行金额校验
+					int money = chargeContentPojo.getMoney();
+					if (money == -1) {
+						money = chargeContentPojo.getItemAmount() * 10; // itemAmount是钻石数量，商品的价格是分，所以要乘上10
+					}
+					if (money != target.getMoneyCount()) {
+						GameLog.error("chargemgr", "sdk-充值", "充值失败,价格不匹配； 商品价格 =" + target.getMoneyCount() + " 订单金额 =" + money + " 商品id=" + chargeContentPojo.getItemId() + " 订单号=" + chargeContentPojo.getCpTradeNo());
+						return false;
+					}
 				}
 			}
 
@@ -144,7 +175,7 @@ public class ChargeMgr {
 				try {
 					success = action.doCharge(player, target, chargeParam);
 					if (success) {
-						updateChargeInfoAndAddVipExp(player, target); // 更新ChargeInfo数据和vip经验
+						updateChargeInfoAndAddVipExp(player, target, chargeParam.getFriendId()); // 更新ChargeInfo数据和vip经验
 						EnumSet<ChargeEventListenerType> allListenerType = EnumSet.allOf(ChargeEventListenerType.class);
 						for (ChargeEventListenerType type : allListenerType) {
 							try {
@@ -154,7 +185,11 @@ public class ChargeMgr {
 								GameLog.error("chargeMgr", player.getUserId(), "充值事件通知出错，类型：" + type, e);
 							}
 						}
+						chargeContentPojo.setMoney(target.getMoneyCount());
 						BILogMgr.getInstance().logPayFinish(player, chargeContentPojo, vipBefore, target, entranceId);
+
+						// 通知要玩，充值完成了
+						YaoWanLogHandler.getHandler().sendChargeLogHandler(player, chargeParam, chargeContentPojo.getCpTradeNo(), chargeContentPojo.getMoney());
 					} else {
 						GameLog.error("chargemgr", "sdk-充值", "充值失败,商品价值;  " + chargeContentPojo.getMoney() + "元" + ",充值类型 =" + target.getChargeType() + " 商品id =" + chargeContentPojo.getItemId() + " 订单号 =" + chargeContentPojo.getCpTradeNo());
 					}
@@ -196,11 +231,24 @@ public class ChargeMgr {
 	 * @param player
 	 * @param target
 	 */
-	private void updateChargeInfoAndAddVipExp(Player player, ChargeCfg target) {
+	private void updateChargeInfoAndAddVipExp(Player player, ChargeCfg target, String friendId) {
 		ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
 		chargeInfo.addTotalChargeGold(target.getVipExp()).addTotalChargeMoney(target.getMoneyCount()).addCount(1);
-		if (!chargeInfo.isContainsId(target.getId())) {
-			chargeInfo.addChargeCfgId(target.getId());
+		if (target.getChargeType() == ChargeTypeEnum.VipMonthCard && friendId != null && (friendId = friendId.trim()).length() > 0) {
+			ChargeInfo friendChargeInfo = ChargeInfoHolder.getInstance().get(friendId);
+			if (!friendChargeInfo.isContainsId(target.getId())) {
+				friendChargeInfo.addChargeCfgId(target.getId());
+			}
+			Player friend = PlayerMgr.getInstance().findPlayerFromMemory(friendId);
+			if(friend != null) {
+				ChargeInfoHolder.getInstance().update(friend);
+			} else {
+				ChargeInfoHolder.getInstance().updateToDB(friendChargeInfo);
+			}
+		} else {
+			if (!chargeInfo.isContainsId(target.getId())) {
+				chargeInfo.addChargeCfgId(target.getId());
+			}
 		}
 		ChargeInfoHolder.getInstance().update(player);
 
@@ -261,7 +309,7 @@ public class ChargeMgr {
 		if (target != null) {
 			boolean success = target.getChargeType().getAction().doCharge(player, target, new ChargeParam());
 			if (success) {
-				updateChargeInfoAndAddVipExp(player, target);
+				updateChargeInfoAndAddVipExp(player, target, null);
 			}
 			result.setSuccess(success);
 			result.setTips("充值成功.");
@@ -306,6 +354,10 @@ public class ChargeMgr {
 					ChargeParam chargeParam = new ChargeParam();
 					for (int i = 0; i < count; i++) {
 						monthCardType.getAction().doCharge(player, cfg, chargeParam);
+					}
+					ChargeInfo chargeInfo = ChargeInfoHolder.getInstance().get(player.getUserId());
+					if (!chargeInfo.isContainsId(cfg.getId())) {
+						chargeInfo.addChargeCfgId(cfg.getId());
 					}
 					break;
 				}
@@ -390,5 +442,11 @@ public class ChargeMgr {
 			}
 		}
 
+	}
+
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		String format = sdf.format(new Date(1481689764958l));
+		System.err.println(format);
 	}
 }

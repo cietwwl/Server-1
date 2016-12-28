@@ -1,9 +1,7 @@
 package com.rw.controler;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.bm.login.AccoutBM;
 import com.bm.targetSell.TargetSellManager;
 import com.bm.targetSell.param.ERoleAttrs;
@@ -30,6 +28,7 @@ import com.rw.service.log.infoPojo.ZoneLoginInfo;
 import com.rw.service.log.infoPojo.ZoneRegInfo;
 import com.rw.service.log.template.BIActivityCode;
 import com.rw.service.log.template.BITaskType;
+import com.rw.service.yaowanlog.YaoWanLogHandler;
 import com.rwbase.common.dirtyword.CharFilterFactory;
 import com.rwbase.common.enu.ESex;
 import com.rwbase.dao.fashion.FashionBeingUsed;
@@ -136,7 +135,7 @@ public class PlayerCreateHandler {
 		}
 
 		RoleCfg playerCfg = RoleCfgDAO.getInstance().getConfig(roleId);
-		PlayerParam param = new PlayerParam(accountId, openAccount,userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
+		PlayerParam param = new PlayerParam(accountId, openAccount, userId, nick, zoneId, sex, System.currentTimeMillis(), playerCfg, headImage, clientInfoJson);
 		GameOperationFactory.getCreatedOperation().execute(param);
 
 		// 提前创建Major need trx
@@ -157,8 +156,8 @@ public class PlayerCreateHandler {
 		final Player player = PlayerMgr.getInstance().newFreshPlayer(userId, zoneLoginInfo);
 		User user = player.getUserDataMgr().getUser();
 		user.setZoneLoginInfo(zoneLoginInfo);
-		
-		//回写登录服
+
+		// 回写登录服
 		writeBackHandler.addWriteBackTask(userId, accountId, openAccount, zoneId);
 		// 封测充值返利
 		ActivityChargeRebateMgr.getInstance().processChargeRebate(player, accountId, userAccount);
@@ -167,6 +166,11 @@ public class PlayerCreateHandler {
 
 		// 不知道为何，奖励这里也依赖到了任务的TaskMgr,只能初始化完之后再初始化奖励物品
 		PlayerFreshHelper.initCreateItem(player);
+
+		// 发送日志到要玩的后台
+		if (clientInfo != null) {
+			YaoWanLogHandler.getHandler().sendRegisterLogHandler(player, clientInfo);
+		}
 
 		// 记录任务日志
 		TaskItemMgr taskMgr = player.getTaskMgr();

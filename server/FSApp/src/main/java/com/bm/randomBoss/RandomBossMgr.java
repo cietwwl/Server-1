@@ -1,6 +1,7 @@
 package com.bm.randomBoss;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -58,6 +59,7 @@ public class RandomBossMgr {
 	private final int INVITED_TYPE_GROUP = 2;
 
 	private static RandomBossMgr instance = new RandomBossMgr();
+	
 
 	protected RandomBossMgr() {
 	}
@@ -82,7 +84,7 @@ public class RandomBossMgr {
 		// 先同步一下次数
 		long nowTime = System.currentTimeMillis();
 		synBattleCount(player);
-		long resetTime = DateUtils.getCurrentDayResetTime();
+//		long resetTime = DateUtils.getCurrentDayResetTime();
 		List<String> bossIDs = player.getUserGameDataMgr().getRandomBossIDs();
 		List<String> removeList = new ArrayList<String>();
 		Map<String, RandomBossCfg> map = RandomBossCfgDao.getInstance().getMaps();
@@ -107,12 +109,19 @@ public class RandomBossMgr {
 			}
 
 			// 如果已经超过了早上5点，把之前的击杀boss删除
-			long bornTimeMs = record.getExcapeTime() - (cfg.getExistTime() * 1000);
-			if (bornTimeMs < resetTime && record.getLeftHp() <= 0) {
+//			long bornTimeMs = record.getExcapeTime() - (cfg.getExistTime() * 1000);
+//			if (bornTimeMs < resetTime && record.getLeftHp() <= 0) {
+//				removeList.add(id);
+//				rbDao.delete(id);
+//				continue;
+//			}
+			//按策划要求，修改为只要死了就不要再发送给客户端了    ------by Alex 2016.12.23
+			if(record.getLeftHp() <= 0){
 				removeList.add(id);
 				rbDao.delete(id);
 				continue;
 			}
+			
 
 			int count = record.roleFightBossCount(player.getUserId());
 			RandomBossRecord clone = record.clone();
@@ -133,6 +142,9 @@ public class RandomBossMgr {
 		if (level < rbServerCfg.getOpenLv()) {
 			return false;
 		}
+		
+		//TODO 在这里进行排序一下 ,客户端的排序逻辑也要改一下
+		//Collections.sort(synList, new RandomBossComparator(player.getUserId()));
 		ClientDataSynMgr.synDataList(player, synList, eSynType.RANDOM_BOSS_DATA, eSynOpType.UPDATE_LIST);
 		return true;
 	}
