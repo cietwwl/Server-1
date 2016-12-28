@@ -136,11 +136,14 @@ public class GroupCopyMgr {
 		
 		//找到章节内第一个进度不为1的关卡id
 		levelRecord = lvRecordHolder.getByLevel(id);
-		while (levelRecord.getProgress().getProgress() == 1) {
+		int checkCount = 0;//控制检查次数
+		while (levelRecord.getProgress().getProgress() == 1 && checkCount <= 50) {
 			if(lvList.contains(cfg.getNextLevelID())){
 				id = cfg.getNextLevelID();
 				cfg = GroupCopyLevelCfgDao.getInstance().getCfgById(id);
 				levelRecord = lvRecordHolder.getByLevel(id);
+			}else{
+				break;
 			}
 		}
 		
