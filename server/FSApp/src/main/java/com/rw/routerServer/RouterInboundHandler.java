@@ -48,5 +48,6 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			throws Exception {
 		System.out.println("exceptionCaught");
 		super.exceptionCaught(ctx, cause);
+		ctx.close();
 	}
 }

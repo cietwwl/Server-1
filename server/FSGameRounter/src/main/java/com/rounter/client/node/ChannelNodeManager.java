@@ -37,9 +37,12 @@ public class ChannelNodeManager {
 			try {
 				if(node.connectOrReconnectChannel()){
 					result = true;
+				}else{
+					node.setActiveState(false);
 				}
 			} catch (Exception ex) {
 				System.out.println("init-Node建立连接失败..." + ex.toString());
+				node.setActiveState(false);
 			}
 		}
 		return result;

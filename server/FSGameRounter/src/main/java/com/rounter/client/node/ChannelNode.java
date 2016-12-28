@@ -60,7 +60,7 @@ public final class ChannelNode {
 	
 	private final String TARGET_ADDR;
 	private final int TARGET_PORT;
-	private AtomicBoolean isActive = new AtomicBoolean(true);
+	private AtomicBoolean isActive = new AtomicBoolean(false);
 
 	public void setActiveState(boolean isActive){
 		if(!this.isActive.get() && isActive){
@@ -71,7 +71,7 @@ public final class ChannelNode {
 	}
 	
 	public void closeNode(){
-		this.isActive.set(false);
+		this.isActive.compareAndSet(true, false);
 		cf.channel().close();
 	}
 	
