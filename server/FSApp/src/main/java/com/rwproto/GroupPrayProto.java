@@ -37,14 +37,6 @@ public final class GroupPrayProto {
      * </pre>
      */
     SEND_PRAY(2, 3),
-    /**
-     * <code>GET_PRAY_REWARD = 4;</code>
-     *
-     * <pre>
-     *获取祈福的奖励
-     * </pre>
-     */
-    GET_PRAY_REWARD(3, 4),
     ;
 
     /**
@@ -71,14 +63,6 @@ public final class GroupPrayProto {
      * </pre>
      */
     public static final int SEND_PRAY_VALUE = 3;
-    /**
-     * <code>GET_PRAY_REWARD = 4;</code>
-     *
-     * <pre>
-     *获取祈福的奖励
-     * </pre>
-     */
-    public static final int GET_PRAY_REWARD_VALUE = 4;
 
 
     public final int getNumber() { return value; }
@@ -88,7 +72,6 @@ public final class GroupPrayProto {
         case 1: return OPEN_MAIN_VIEW;
         case 2: return NEED_PRAY;
         case 3: return SEND_PRAY;
-        case 4: return GET_PRAY_REWARD;
         default: return null;
       }
     }
@@ -1038,6 +1021,571 @@ public final class GroupPrayProto {
     // @@protoc_insertion_point(class_scope:groupproto.PrayEntry)
   }
 
+  public interface PrayRewardInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+
+    // required int32 soulId = 1;
+    /**
+     * <code>required int32 soulId = 1;</code>
+     *
+     * <pre>
+     *奖励的魂石Id
+     * </pre>
+     */
+    boolean hasSoulId();
+    /**
+     * <code>required int32 soulId = 1;</code>
+     *
+     * <pre>
+     *奖励的魂石Id
+     * </pre>
+     */
+    int getSoulId();
+
+    // required int32 count = 2;
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *获取的魂石奖励
+     * </pre>
+     */
+    boolean hasCount();
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *获取的魂石奖励
+     * </pre>
+     */
+    int getCount();
+  }
+  /**
+   * Protobuf type {@code groupproto.PrayRewardInfo}
+   *
+   * <pre>
+   *祈福的奖励
+   * </pre>
+   */
+  public static final class PrayRewardInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements PrayRewardInfoOrBuilder {
+    // Use PrayRewardInfo.newBuilder() to construct.
+    private PrayRewardInfo(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private PrayRewardInfo(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final PrayRewardInfo defaultInstance;
+    public static PrayRewardInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public PrayRewardInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private PrayRewardInfo(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              soulId_ = input.readInt32();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              count_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.rwproto.GroupPrayProto.PrayRewardInfo.class, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<PrayRewardInfo> PARSER =
+        new com.google.protobuf.AbstractParser<PrayRewardInfo>() {
+      public PrayRewardInfo parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new PrayRewardInfo(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<PrayRewardInfo> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    // required int32 soulId = 1;
+    public static final int SOULID_FIELD_NUMBER = 1;
+    private int soulId_;
+    /**
+     * <code>required int32 soulId = 1;</code>
+     *
+     * <pre>
+     *奖励的魂石Id
+     * </pre>
+     */
+    public boolean hasSoulId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 soulId = 1;</code>
+     *
+     * <pre>
+     *奖励的魂石Id
+     * </pre>
+     */
+    public int getSoulId() {
+      return soulId_;
+    }
+
+    // required int32 count = 2;
+    public static final int COUNT_FIELD_NUMBER = 2;
+    private int count_;
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *获取的魂石奖励
+     * </pre>
+     */
+    public boolean hasCount() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int32 count = 2;</code>
+     *
+     * <pre>
+     *获取的魂石奖励
+     * </pre>
+     */
+    public int getCount() {
+      return count_;
+    }
+
+    private void initFields() {
+      soulId_ = 0;
+      count_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+
+      if (!hasSoulId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasCount()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, soulId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, count_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, soulId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, count_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.rwproto.GroupPrayProto.PrayRewardInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.rwproto.GroupPrayProto.PrayRewardInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code groupproto.PrayRewardInfo}
+     *
+     * <pre>
+     *祈福的奖励
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.rwproto.GroupPrayProto.PrayRewardInfo.class, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder.class);
+      }
+
+      // Construct using com.rwproto.GroupPrayProto.PrayRewardInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        soulId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        count_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.rwproto.GroupPrayProto.internal_static_groupproto_PrayRewardInfo_descriptor;
+      }
+
+      public com.rwproto.GroupPrayProto.PrayRewardInfo getDefaultInstanceForType() {
+        return com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+      }
+
+      public com.rwproto.GroupPrayProto.PrayRewardInfo build() {
+        com.rwproto.GroupPrayProto.PrayRewardInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.rwproto.GroupPrayProto.PrayRewardInfo buildPartial() {
+        com.rwproto.GroupPrayProto.PrayRewardInfo result = new com.rwproto.GroupPrayProto.PrayRewardInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.soulId_ = soulId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.count_ = count_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.rwproto.GroupPrayProto.PrayRewardInfo) {
+          return mergeFrom((com.rwproto.GroupPrayProto.PrayRewardInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.rwproto.GroupPrayProto.PrayRewardInfo other) {
+        if (other == com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance()) return this;
+        if (other.hasSoulId()) {
+          setSoulId(other.getSoulId());
+        }
+        if (other.hasCount()) {
+          setCount(other.getCount());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasSoulId()) {
+          
+          return false;
+        }
+        if (!hasCount()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.rwproto.GroupPrayProto.PrayRewardInfo parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.rwproto.GroupPrayProto.PrayRewardInfo) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      // required int32 soulId = 1;
+      private int soulId_ ;
+      /**
+       * <code>required int32 soulId = 1;</code>
+       *
+       * <pre>
+       *奖励的魂石Id
+       * </pre>
+       */
+      public boolean hasSoulId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 soulId = 1;</code>
+       *
+       * <pre>
+       *奖励的魂石Id
+       * </pre>
+       */
+      public int getSoulId() {
+        return soulId_;
+      }
+      /**
+       * <code>required int32 soulId = 1;</code>
+       *
+       * <pre>
+       *奖励的魂石Id
+       * </pre>
+       */
+      public Builder setSoulId(int value) {
+        bitField0_ |= 0x00000001;
+        soulId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 soulId = 1;</code>
+       *
+       * <pre>
+       *奖励的魂石Id
+       * </pre>
+       */
+      public Builder clearSoulId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        soulId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // required int32 count = 2;
+      private int count_ ;
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *获取的魂石奖励
+       * </pre>
+       */
+      public boolean hasCount() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *获取的魂石奖励
+       * </pre>
+       */
+      public int getCount() {
+        return count_;
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *获取的魂石奖励
+       * </pre>
+       */
+      public Builder setCount(int value) {
+        bitField0_ |= 0x00000002;
+        count_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 count = 2;</code>
+       *
+       * <pre>
+       *获取的魂石奖励
+       * </pre>
+       */
+      public Builder clearCount() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        count_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:groupproto.PrayRewardInfo)
+    }
+
+    static {
+      defaultInstance = new PrayRewardInfo(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:groupproto.PrayRewardInfo)
+  }
+
   public interface OpenPrayMainViewRspMsgOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
 
@@ -1104,23 +1652,31 @@ public final class GroupPrayProto {
      */
     boolean getHasPray();
 
-    // required bool hasGetPrayReward = 3;
+    // optional .groupproto.PrayRewardInfo prayReward = 3;
     /**
-     * <code>required bool hasGetPrayReward = 3;</code>
+     * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
      *
      * <pre>
-     *是否已经领取了奖励
+     *祈福的奖励
      * </pre>
      */
-    boolean hasHasGetPrayReward();
+    boolean hasPrayReward();
     /**
-     * <code>required bool hasGetPrayReward = 3;</code>
+     * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
      *
      * <pre>
-     *是否已经领取了奖励
+     *祈福的奖励
      * </pre>
      */
-    boolean getHasGetPrayReward();
+    com.rwproto.GroupPrayProto.PrayRewardInfo getPrayReward();
+    /**
+     * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+     *
+     * <pre>
+     *祈福的奖励
+     * </pre>
+     */
+    com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder getPrayRewardOrBuilder();
   }
   /**
    * Protobuf type {@code groupproto.OpenPrayMainViewRspMsg}
@@ -1190,9 +1746,17 @@ public final class GroupPrayProto {
               hasPray_ = input.readBool();
               break;
             }
-            case 24: {
+            case 26: {
+              com.rwproto.GroupPrayProto.PrayRewardInfo.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000002) == 0x00000002)) {
+                subBuilder = prayReward_.toBuilder();
+              }
+              prayReward_ = input.readMessage(com.rwproto.GroupPrayProto.PrayRewardInfo.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(prayReward_);
+                prayReward_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000002;
-              hasGetPrayReward_ = input.readBool();
               break;
             }
           }
@@ -1318,34 +1882,44 @@ public final class GroupPrayProto {
       return hasPray_;
     }
 
-    // required bool hasGetPrayReward = 3;
-    public static final int HASGETPRAYREWARD_FIELD_NUMBER = 3;
-    private boolean hasGetPrayReward_;
+    // optional .groupproto.PrayRewardInfo prayReward = 3;
+    public static final int PRAYREWARD_FIELD_NUMBER = 3;
+    private com.rwproto.GroupPrayProto.PrayRewardInfo prayReward_;
     /**
-     * <code>required bool hasGetPrayReward = 3;</code>
+     * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
      *
      * <pre>
-     *是否已经领取了奖励
+     *祈福的奖励
      * </pre>
      */
-    public boolean hasHasGetPrayReward() {
+    public boolean hasPrayReward() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>required bool hasGetPrayReward = 3;</code>
+     * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
      *
      * <pre>
-     *是否已经领取了奖励
+     *祈福的奖励
      * </pre>
      */
-    public boolean getHasGetPrayReward() {
-      return hasGetPrayReward_;
+    public com.rwproto.GroupPrayProto.PrayRewardInfo getPrayReward() {
+      return prayReward_;
+    }
+    /**
+     * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+     *
+     * <pre>
+     *祈福的奖励
+     * </pre>
+     */
+    public com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder getPrayRewardOrBuilder() {
+      return prayReward_;
     }
 
     private void initFields() {
       entry_ = java.util.Collections.emptyList();
       hasPray_ = false;
-      hasGetPrayReward_ = false;
+      prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -1356,12 +1930,14 @@ public final class GroupPrayProto {
         memoizedIsInitialized = 0;
         return false;
       }
-      if (!hasHasGetPrayReward()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
       for (int i = 0; i < getEntryCount(); i++) {
         if (!getEntry(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasPrayReward()) {
+        if (!getPrayReward().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -1380,7 +1956,7 @@ public final class GroupPrayProto {
         output.writeBool(2, hasPray_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBool(3, hasGetPrayReward_);
+        output.writeMessage(3, prayReward_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1401,7 +1977,7 @@ public final class GroupPrayProto {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(3, hasGetPrayReward_);
+          .computeMessageSize(3, prayReward_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1516,6 +2092,7 @@ public final class GroupPrayProto {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getEntryFieldBuilder();
+          getPrayRewardFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1532,7 +2109,11 @@ public final class GroupPrayProto {
         }
         hasPray_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
-        hasGetPrayReward_ = false;
+        if (prayRewardBuilder_ == null) {
+          prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+        } else {
+          prayRewardBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -1578,7 +2159,11 @@ public final class GroupPrayProto {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.hasGetPrayReward_ = hasGetPrayReward_;
+        if (prayRewardBuilder_ == null) {
+          result.prayReward_ = prayReward_;
+        } else {
+          result.prayReward_ = prayRewardBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1624,8 +2209,8 @@ public final class GroupPrayProto {
         if (other.hasHasPray()) {
           setHasPray(other.getHasPray());
         }
-        if (other.hasHasGetPrayReward()) {
-          setHasGetPrayReward(other.getHasGetPrayReward());
+        if (other.hasPrayReward()) {
+          mergePrayReward(other.getPrayReward());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1636,12 +2221,14 @@ public final class GroupPrayProto {
           
           return false;
         }
-        if (!hasHasGetPrayReward()) {
-          
-          return false;
-        }
         for (int i = 0; i < getEntryCount(); i++) {
           if (!getEntry(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasPrayReward()) {
+          if (!getPrayReward().isInitialized()) {
             
             return false;
           }
@@ -2029,53 +2616,157 @@ public final class GroupPrayProto {
         return this;
       }
 
-      // required bool hasGetPrayReward = 3;
-      private boolean hasGetPrayReward_ ;
+      // optional .groupproto.PrayRewardInfo prayReward = 3;
+      private com.rwproto.GroupPrayProto.PrayRewardInfo prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupPrayProto.PrayRewardInfo, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder, com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder> prayRewardBuilder_;
       /**
-       * <code>required bool hasGetPrayReward = 3;</code>
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
        *
        * <pre>
-       *是否已经领取了奖励
+       *祈福的奖励
        * </pre>
        */
-      public boolean hasHasGetPrayReward() {
+      public boolean hasPrayReward() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>required bool hasGetPrayReward = 3;</code>
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
        *
        * <pre>
-       *是否已经领取了奖励
+       *祈福的奖励
        * </pre>
        */
-      public boolean getHasGetPrayReward() {
-        return hasGetPrayReward_;
+      public com.rwproto.GroupPrayProto.PrayRewardInfo getPrayReward() {
+        if (prayRewardBuilder_ == null) {
+          return prayReward_;
+        } else {
+          return prayRewardBuilder_.getMessage();
+        }
       }
       /**
-       * <code>required bool hasGetPrayReward = 3;</code>
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
        *
        * <pre>
-       *是否已经领取了奖励
+       *祈福的奖励
        * </pre>
        */
-      public Builder setHasGetPrayReward(boolean value) {
+      public Builder setPrayReward(com.rwproto.GroupPrayProto.PrayRewardInfo value) {
+        if (prayRewardBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          prayReward_ = value;
+          onChanged();
+        } else {
+          prayRewardBuilder_.setMessage(value);
+        }
         bitField0_ |= 0x00000004;
-        hasGetPrayReward_ = value;
-        onChanged();
         return this;
       }
       /**
-       * <code>required bool hasGetPrayReward = 3;</code>
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
        *
        * <pre>
-       *是否已经领取了奖励
+       *祈福的奖励
        * </pre>
        */
-      public Builder clearHasGetPrayReward() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        hasGetPrayReward_ = false;
-        onChanged();
+      public Builder setPrayReward(
+          com.rwproto.GroupPrayProto.PrayRewardInfo.Builder builderForValue) {
+        if (prayRewardBuilder_ == null) {
+          prayReward_ = builderForValue.build();
+          onChanged();
+        } else {
+          prayRewardBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000004;
         return this;
+      }
+      /**
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+       *
+       * <pre>
+       *祈福的奖励
+       * </pre>
+       */
+      public Builder mergePrayReward(com.rwproto.GroupPrayProto.PrayRewardInfo value) {
+        if (prayRewardBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004) &&
+              prayReward_ != com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance()) {
+            prayReward_ =
+              com.rwproto.GroupPrayProto.PrayRewardInfo.newBuilder(prayReward_).mergeFrom(value).buildPartial();
+          } else {
+            prayReward_ = value;
+          }
+          onChanged();
+        } else {
+          prayRewardBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000004;
+        return this;
+      }
+      /**
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+       *
+       * <pre>
+       *祈福的奖励
+       * </pre>
+       */
+      public Builder clearPrayReward() {
+        if (prayRewardBuilder_ == null) {
+          prayReward_ = com.rwproto.GroupPrayProto.PrayRewardInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          prayRewardBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      /**
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+       *
+       * <pre>
+       *祈福的奖励
+       * </pre>
+       */
+      public com.rwproto.GroupPrayProto.PrayRewardInfo.Builder getPrayRewardBuilder() {
+        bitField0_ |= 0x00000004;
+        onChanged();
+        return getPrayRewardFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+       *
+       * <pre>
+       *祈福的奖励
+       * </pre>
+       */
+      public com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder getPrayRewardOrBuilder() {
+        if (prayRewardBuilder_ != null) {
+          return prayRewardBuilder_.getMessageOrBuilder();
+        } else {
+          return prayReward_;
+        }
+      }
+      /**
+       * <code>optional .groupproto.PrayRewardInfo prayReward = 3;</code>
+       *
+       * <pre>
+       *祈福的奖励
+       * </pre>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          com.rwproto.GroupPrayProto.PrayRewardInfo, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder, com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder> 
+          getPrayRewardFieldBuilder() {
+        if (prayRewardBuilder_ == null) {
+          prayRewardBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.rwproto.GroupPrayProto.PrayRewardInfo, com.rwproto.GroupPrayProto.PrayRewardInfo.Builder, com.rwproto.GroupPrayProto.PrayRewardInfoOrBuilder>(
+                  prayReward_,
+                  getParentForChildren(),
+                  isClean());
+          prayReward_ = null;
+        }
+        return prayRewardBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:groupproto.OpenPrayMainViewRspMsg)
@@ -5097,6 +5788,11 @@ public final class GroupPrayProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_groupproto_PrayEntry_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_groupproto_PrayRewardInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_groupproto_PrayRewardInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -5132,23 +5828,24 @@ public final class GroupPrayProto {
     java.lang.String[] descriptorData = {
       "\n\017GroupPray.proto\022\ngroupproto\"O\n\tPrayEnt" +
       "ry\022\020\n\010memberId\030\001 \002(\t\022\016\n\006soulId\030\002 \002(\005\022\017\n\007" +
-      "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"i\n\026OpenPr" +
-      "ayMainViewRspMsg\022$\n\005entry\030\001 \003(\0132\025.groupp" +
-      "roto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010\022\030\n\020hasGe" +
-      "tPrayReward\030\003 \002(\010\" \n\016NeedPrayReqMsg\022\016\n\006s" +
-      "oulId\030\001 \002(\005\"\"\n\016SendPrayReqMsg\022\020\n\010memberI" +
-      "d\030\001 \002(\t\"\237\001\n\025GroupPrayCommonReqMsg\022$\n\007req" +
-      "Type\030\001 \002(\0162\023.groupproto.ReqType\022/\n\013needP" +
-      "rayReq\030\002 \001(\0132\032.groupproto.NeedPrayReqMsg",
-      "\022/\n\013sendPrayReq\030\003 \001(\0132\032.groupproto.SendP" +
-      "rayReqMsg\"\241\001\n\025GroupPrayCommonRspMsg\022$\n\007r" +
-      "eqType\030\001 \002(\0162\023.groupproto.ReqType\022\021\n\tisS" +
-      "uccess\030\002 \002(\010\022\016\n\006tipMsg\030\003 \001(\t\022?\n\023openPray" +
-      "MainViewRsp\030\004 \001(\0132\".groupproto.OpenPrayM" +
-      "ainViewRspMsg*P\n\007ReqType\022\022\n\016OPEN_MAIN_VI" +
-      "EW\020\001\022\r\n\tNEED_PRAY\020\002\022\r\n\tSEND_PRAY\020\003\022\023\n\017GE" +
-      "T_PRAY_REWARD\020\004B\035\n\013com.rwprotoB\016GroupPra" +
-      "yProto"
+      "process\030\003 \002(\005\022\017\n\007hasSend\030\004 \002(\010\"/\n\016PrayRe" +
+      "wardInfo\022\016\n\006soulId\030\001 \002(\005\022\r\n\005count\030\002 \002(\005\"" +
+      "\177\n\026OpenPrayMainViewRspMsg\022$\n\005entry\030\001 \003(\013" +
+      "2\025.groupproto.PrayEntry\022\017\n\007hasPray\030\002 \002(\010" +
+      "\022.\n\nprayReward\030\003 \001(\0132\032.groupproto.PrayRe" +
+      "wardInfo\" \n\016NeedPrayReqMsg\022\016\n\006soulId\030\001 \002" +
+      "(\005\"\"\n\016SendPrayReqMsg\022\020\n\010memberId\030\001 \002(\t\"\237" +
+      "\001\n\025GroupPrayCommonReqMsg\022$\n\007reqType\030\001 \002(",
+      "\0162\023.groupproto.ReqType\022/\n\013needPrayReq\030\002 " +
+      "\001(\0132\032.groupproto.NeedPrayReqMsg\022/\n\013sendP" +
+      "rayReq\030\003 \001(\0132\032.groupproto.SendPrayReqMsg" +
+      "\"\241\001\n\025GroupPrayCommonRspMsg\022$\n\007reqType\030\001 " +
+      "\002(\0162\023.groupproto.ReqType\022\021\n\tisSuccess\030\002 " +
+      "\002(\010\022\016\n\006tipMsg\030\003 \001(\t\022?\n\023openPrayMainViewR" +
+      "sp\030\004 \001(\0132\".groupproto.OpenPrayMainViewRs" +
+      "pMsg*;\n\007ReqType\022\022\n\016OPEN_MAIN_VIEW\020\001\022\r\n\tN" +
+      "EED_PRAY\020\002\022\r\n\tSEND_PRAY\020\003B\035\n\013com.rwproto" +
+      "B\016GroupPrayProto"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -5161,32 +5858,38 @@ public final class GroupPrayProto {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_PrayEntry_descriptor,
               new java.lang.String[] { "MemberId", "SoulId", "Process", "HasSend", });
-          internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor =
+          internal_static_groupproto_PrayRewardInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_groupproto_PrayRewardInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_groupproto_PrayRewardInfo_descriptor,
+              new java.lang.String[] { "SoulId", "Count", });
+          internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_groupproto_OpenPrayMainViewRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_OpenPrayMainViewRspMsg_descriptor,
-              new java.lang.String[] { "Entry", "HasPray", "HasGetPrayReward", });
+              new java.lang.String[] { "Entry", "HasPray", "PrayReward", });
           internal_static_groupproto_NeedPrayReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_groupproto_NeedPrayReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_NeedPrayReqMsg_descriptor,
               new java.lang.String[] { "SoulId", });
           internal_static_groupproto_SendPrayReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_groupproto_SendPrayReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_SendPrayReqMsg_descriptor,
               new java.lang.String[] { "MemberId", });
           internal_static_groupproto_GroupPrayCommonReqMsg_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_groupproto_GroupPrayCommonReqMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_GroupPrayCommonReqMsg_descriptor,
               new java.lang.String[] { "ReqType", "NeedPrayReq", "SendPrayReq", });
           internal_static_groupproto_GroupPrayCommonRspMsg_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_groupproto_GroupPrayCommonRspMsg_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_groupproto_GroupPrayCommonRspMsg_descriptor,

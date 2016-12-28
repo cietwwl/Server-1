@@ -58,6 +58,9 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	@CombineSave
 	@IgnoreSynField
 	private int prayCardId;// 祈福的卡Id
+	@CombineSave
+	@IgnoreSynField
+	private int lastGetPrayCount;// 之前获取奖励的数量
 
 	// ////////////////////////////////////////////GET区域
 	/**
@@ -227,6 +230,15 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public int getPrayCardId() {
 		return prayCardId;
+	}
+
+	/**
+	 * 获取上次领取的数量
+	 * 
+	 * @return
+	 */
+	public int getLastGetPrayCount() {
+		return lastGetPrayCount;
 	}
 
 	// ////////////////////////////////////////////SET区域
@@ -410,6 +422,15 @@ public class GroupMemberData implements GroupMemberDataIF, IMapItem {
 	 */
 	public void setPrayCardId(int prayCardId) {
 		this.prayCardId = prayCardId;
+	}
+
+	/**
+	 * 设置上一次领取的数量
+	 * 
+	 * @param lastGetPrayCount
+	 */
+	public void setLastGetPrayCount(int lastGetPrayCount) {
+		this.lastGetPrayCount = lastGetPrayCount;
 	}
 
 	// ===========================================逻辑区

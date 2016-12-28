@@ -150,4 +150,11 @@ public interface GroupMemberDataIF {
 	 * @return
 	 */
 	public int getPrayCardId();
+
+	/**
+	 * 获取上次领取的数量
+	 * 
+	 * @return
+	 */
+	public int getLastGetPrayCount();
 }

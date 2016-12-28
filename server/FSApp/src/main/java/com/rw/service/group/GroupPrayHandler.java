@@ -24,6 +24,7 @@ import com.rwproto.GroupPrayProto.GroupPrayCommonRspMsg;
 import com.rwproto.GroupPrayProto.NeedPrayReqMsg;
 import com.rwproto.GroupPrayProto.OpenPrayMainViewRspMsg;
 import com.rwproto.GroupPrayProto.PrayEntry;
+import com.rwproto.GroupPrayProto.PrayRewardInfo;
 import com.rwproto.GroupPrayProto.ReqType;
 import com.rwproto.GroupPrayProto.SendPrayReqMsg;
 
@@ -110,12 +111,12 @@ public class GroupPrayHandler {
 			}
 
 			// 检查是否是今天祈福的，不是今天的或者上次的时间是0，辣么就直接不用发送到客户端
-			int prayProcess = member.getPrayProcess();
 			long lastPrayTime = groupAttrData.getLastPrayTime();
-			if (lastPrayTime <= 0 || prayProcess <= 0 || groupAttrData.getState() > 0) {
+			if (DateUtils.isResetTime(5, 0, 0, lastPrayTime)) {
 				continue;
 			}
 
+			int prayProcess = member.getPrayProcess();
 			PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
 			prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
 			prayEntry.setMemberId(id);// 设置成员的Id
@@ -129,10 +130,8 @@ public class GroupPrayHandler {
 		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
 		int prayCardId = memberData.getPrayCardId();
 		if (prayCardId > 0) {// 祈福过
-			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-			// int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
 			int prayProcess = memberData.getPrayProcess();
-			if (!resetTime || prayProcess > 0 && baseData.getState() <= 0) {// 不是重置点或者进度满了还没领取过奖励
+			if (!resetTime) {// 不是重置点或者进度满了还没领取过奖励
 				PrayEntry.Builder prayEntry = PrayEntry.newBuilder();
 				prayEntry.setSoulId(prayCardId);// 当前祈福的魂石Id
 				prayEntry.setMemberId(userId);// 设置成员的Id
@@ -143,7 +142,11 @@ public class GroupPrayHandler {
 		}
 
 		openMainViewRsp.setHasPray(!resetTime);// 是否已经祈福过了
-		openMainViewRsp.setHasGetPrayReward(baseData.getState() > 0);// 是否已经获取了奖励
+		PrayRewardInfo rewardInfo = memberMgr.checkPrayCanGetReward(userId);
+		if (rewardInfo != null) {
+			System.err.println("获取到的奖励信息----->" + rewardInfo);
+			openMainViewRsp.setPrayReward(rewardInfo);
+		}
 
 		commonRsp.setOpenPrayMainViewRsp(openMainViewRsp);
 		commonRsp.setIsSuccess(true);
@@ -213,15 +216,15 @@ public class GroupPrayHandler {
 			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "此魂石不能祈福");
 		}
 
-		int prayCardId = memberData.getPrayCardId();
-		if (prayCardId > 0) {// 祈福过
-			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-			int prayProcess = memberData.getPrayProcess();
-			if (prayProcess > 0 && baseData.getState() <= 0) {// 还没领取过
-				GameLog.error("请求祈福", userId, String.format("角色[%s]昨日祈福的卡已经足够了，但是还没领取", userId));
-				return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "请先领取已经完成的祈福奖励");
-			}
-		}
+		// int prayCardId = memberData.getPrayCardId();
+		// if (prayCardId > 0) {// 祈福过
+		// // 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
+		// int prayProcess = memberData.getPrayProcess();
+		// if (prayProcess > 0 && baseData.getState() <= 0) {// 还没领取过
+		// GameLog.error("请求祈福", userId, String.format("角色[%s]昨日祈福的卡已经足够了，但是还没领取", userId));
+		// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "请先领取已经完成的祈福奖励");
+		// }
+		// }
 
 		// 重置数据
 		memberMgr.resetPrayData(userId, soulId);
@@ -329,82 +332,82 @@ public class GroupPrayHandler {
 		return commonRsp.build().toByteString();
 	}
 
-	/**
-	 * 获取祈福的奖励
-	 * 
-	 * @param player
-	 * @return
-	 */
-	public ByteString getPrayRewardHandler(Player player) {
-		GroupPrayCommonRspMsg.Builder commonRsp = GroupPrayCommonRspMsg.newBuilder();
-		commonRsp.setReqType(ReqType.GET_PRAY_REWARD);
-
-		String userId = player.getUserId();
-		// 检查个人的帮派数据
-		UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
-		UserGroupAttributeData baseData = mgr.getUserGroupAttributeData(userId);
-		String groupId = baseData.getGroupId();
-		if (StringUtils.isEmpty(groupId)) {
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您当前还没有帮派");
-		}
-
-		Group group = GroupBM.get(groupId);
-		if (group == null) {
-			GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
-		}
-
-		GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
-		if (groupData == null) {
-			GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
-		}
-
-		if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "帮派已经是解散状态");
-		}
-
-		GroupMemberMgr memberMgr = group.getGroupMemberMgr();
-		// 检查自己是否是帮派成员
-		GroupMemberDataIF memberData = memberMgr.getMemberData(userId, false);
-		if (memberData == null) {
-			GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
-		}
-
-		int prayCardId = memberData.getPrayCardId();
-		if (prayCardId <= 0) {// 祈福过
-			GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]中角色[%s]当前祈福卡的Id是[%s]不存在不能领取奖励", groupId, userId, prayCardId));
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
-		}
-
-		int prayProcess = memberData.getPrayProcess();// 当前的进度
-		// 检查自己当前的祈福状态
-		boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
-		if (resetTime) {// 可以重置
-			if (prayProcess <= 0) {
-				return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
-			}
-		} else {
-			// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-			int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
-			if (prayProcess < soulLimit) {// 还没完成
-				return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福尚未完成，暂不能领取");
-			}
-		}
-
-		if (baseData.getState() > 0) {// 是否领取过
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福奖励不能重复领取");
-		}
-
-		// 领取魂石
-		if (!ItemBagMgr.getInstance().addItem(player, prayCardId, prayProcess)) {
-			return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福奖励领取失败");
-		}
-
-		mgr.updatePrayGetState(userId);// 更新状态
-
-		commonRsp.setIsSuccess(true);
-		return commonRsp.build().toByteString();
-	}
+	// /**
+	// * 获取祈福的奖励
+	// *
+	// * @param player
+	// * @return
+	// */
+	// public ByteString getPrayRewardHandler(Player player) {
+	// GroupPrayCommonRspMsg.Builder commonRsp = GroupPrayCommonRspMsg.newBuilder();
+	// commonRsp.setReqType(ReqType.GET_PRAY_REWARD);
+	//
+	// String userId = player.getUserId();
+	// // 检查个人的帮派数据
+	// UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
+	// UserGroupAttributeData baseData = mgr.getUserGroupAttributeData(userId);
+	// String groupId = baseData.getGroupId();
+	// if (StringUtils.isEmpty(groupId)) {
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您当前还没有帮派");
+	// }
+	//
+	// Group group = GroupBM.get(groupId);
+	// if (group == null) {
+	// GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]没有找到Group数据", groupId));
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
+	// }
+	//
+	// GroupBaseDataIF groupData = group.getGroupBaseDataMgr().getGroupData();
+	// if (groupData == null) {
+	// GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]没有找到基础数据", groupId));
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
+	// }
+	//
+	// if (groupData.getGroupState() == GroupState.DISOLUTION_VALUE) {
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "帮派已经是解散状态");
+	// }
+	//
+	// GroupMemberMgr memberMgr = group.getGroupMemberMgr();
+	// // 检查自己是否是帮派成员
+	// GroupMemberDataIF memberData = memberMgr.getMemberData(userId, false);
+	// if (memberData == null) {
+	// GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]没有找到角色[%s]对应的MemberData的记录", groupId, userId));
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "您还不是帮派成员");
+	// }
+	//
+	// int prayCardId = memberData.getPrayCardId();
+	// if (prayCardId <= 0) {// 祈福过
+	// GameLog.error("领取完成的祈福卡", userId, String.format("帮派Id[%s]中角色[%s]当前祈福卡的Id是[%s]不存在不能领取奖励", groupId, userId, prayCardId));
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
+	// }
+	//
+	// int prayProcess = memberData.getPrayProcess();// 当前的进度
+	// // 检查自己当前的祈福状态
+	// boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
+	// if (resetTime) {// 可以重置
+	// if (prayProcess <= 0) {
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "今天暂未祈福");
+	// }
+	// } else {
+	// // 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
+	// int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
+	// if (prayProcess < soulLimit) {// 还没完成
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福尚未完成，暂不能领取");
+	// }
+	// }
+	//
+	// if (baseData.getState() > 0) {// 是否领取过
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福奖励不能重复领取");
+	// }
+	//
+	// // 领取魂石
+	// if (!ItemBagMgr.getInstance().addItem(player, prayCardId, prayProcess)) {
+	// return GroupCmdHelper.groupPrayFillFailMsg(commonRsp, "祈福奖励领取失败");
+	// }
+	//
+	// mgr.updatePrayGetState(userId);// 更新状态
+	//
+	// commonRsp.setIsSuccess(true);
+	// return commonRsp.build().toByteString();
+	// }
 }

@@ -27,8 +27,8 @@ public class GroupPrayService implements FsService<GroupPrayCommonReqMsg, ReqTyp
 			return GroupPrayHandler.getHandler().needPrayHandler(player, request);
 		case SEND_PRAY:// 赠送给某个成员某张卡
 			return GroupPrayHandler.getHandler().sendPrayHandler(player, request);
-		case GET_PRAY_REWARD:// 领取祈福的奖励
-			return GroupPrayHandler.getHandler().getPrayRewardHandler(player);
+			// case GET_PRAY_REWARD:// 领取祈福的奖励
+			// return GroupPrayHandler.getHandler().getPrayRewardHandler(player);
 		default:// 没有找到协议号
 			GameLog.error("帮派祈福分发协议", player.getUserId(), "出现了Unkown的协议号Id，不能处理");
 			return null;

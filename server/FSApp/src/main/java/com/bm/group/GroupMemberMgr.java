@@ -9,12 +9,14 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import com.bm.rank.groupCompetition.groupRank.GroupFightingRefreshTask;
+import com.playerdata.ItemBagMgr;
 import com.playerdata.Player;
 import com.playerdata.PlayerMgr;
 import com.playerdata.army.ArmyFashion;
 import com.playerdata.group.GroupMemberJoinCallback;
 import com.playerdata.group.UserGroupAttributeDataMgr;
 import com.playerdata.groupFightOnline.bm.GFOnlineListenerPlayerChange;
+import com.rw.fsutil.util.DateUtils;
 import com.rw.service.Email.EmailUtils;
 import com.rw.service.group.helper.GroupHelper;
 import com.rw.service.group.helper.GroupMemberHelper;
@@ -33,6 +35,7 @@ import com.rwbase.dao.group.pojo.readonly.GroupMemberDataIF;
 import com.rwbase.gameworld.GameWorldFactory;
 import com.rwbase.gameworld.PlayerTask;
 import com.rwproto.GroupCommonProto.GroupPost;
+import com.rwproto.GroupPrayProto.PrayRewardInfo;
 
 /**
  * 帮派成员管理类
@@ -754,6 +757,12 @@ public class GroupMemberMgr {
 			needUpdate = true;
 		}
 
+		int lastGetPrayCount = memberData.getLastGetPrayCount();
+		if (lastGetPrayCount > 0) {
+			memberData.setLastGetPrayCount(0);
+			needUpdate = true;
+		}
+
 		if (needUpdate) {
 			holder.updateMemberData(memberData.getId());
 		}
@@ -775,38 +784,109 @@ public class GroupMemberMgr {
 	}
 
 	/**
+	 * 更新已经领取的数量
+	 * 
+	 * @param memberId
+	 */
+	public void updateLastGetPrayRewardCount(String memberId) {
+		GroupMemberData memberData = holder.getMemberData(memberId, false);
+		if (memberData == null) {
+			return;
+		}
+
+		memberData.setLastGetPrayCount(memberData.getPrayProcess());
+		holder.updateMemberData(memberData.getId());
+	}
+
+	/**
 	 * 当退出或者被踢出帮派的时候清除祈福数据
 	 * 
 	 * @param userId
 	 */
 	public void clearGroupPrayDataWhenKickOrQuit(String userId) {
-		UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
-		UserGroupAttributeData baseData = mgr.getUserGroupAttributeData(userId);
-		// 检查自己当前的祈福状态
-		// boolean resetTime = DateUtils.isResetTime(5, 0, 0, baseData.getLastPrayTime());// 是否是可以重置
-		// if (resetTime) {
-		// return;
-		// }
-
 		GroupMemberDataIF memberData = getMemberData(userId, false);
-		int prayCardId = memberData.getPrayCardId();
+
+		int prayCardId = memberData.getPrayCardId();// 祈福卡的Id
 		if (prayCardId <= 0) {// 祈福过
 			return;
 		}
 
-		// 检查别人赠送给自己的魂石卡是否满了，满了就只能领取了之后才能重置
-		// int soulLimit = GroupPrayCfgDAO.getCfgDAO().getSoulLimit(prayCardId);
-		int prayProcess = memberData.getPrayProcess();
+		int prayProcess = memberData.getPrayProcess();// 祈福的进度
 		if (prayProcess <= 0) {// 还没完成
 			return;
 		}
 
-		if (baseData.getState() > 0) {// 是否领取过
+		// 检查自己当前的祈福状态
+		int lastGetPrayCount = memberData.getLastGetPrayCount();// 之前的获取的魂石数量
+		int rewardCount = prayProcess - lastGetPrayCount;
+		if (rewardCount <= 0) {
 			return;
 		}
 
 		// 发送邮件
-		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(GroupConst.PRAY_MAIL_ID);
+		sendEmail(userId, GroupConst.PRAY_MAIL_ID, prayCardId, rewardCount);
+	}
+
+	/**
+	 * 当退出或者被踢出帮派的时候清除祈福数据
+	 * 
+	 * @param userId
+	 * @return 返回获取奖励的信息
+	 */
+	public PrayRewardInfo checkPrayCanGetReward(String userId) {
+		UserGroupAttributeDataMgr mgr = UserGroupAttributeDataMgr.getMgr();
+		UserGroupAttributeData userGroupAttributeData = mgr.getUserGroupAttributeData(userId);
+
+		GroupMemberDataIF memberData = getMemberData(userId, false);
+
+		int prayCardId = memberData.getPrayCardId();// 祈福卡的Id
+		if (prayCardId <= 0) {// 祈福过
+			return null;
+		}
+
+		int prayProcess = memberData.getPrayProcess();// 祈福的进度
+		if (prayProcess <= 0) {// 还没完成
+			return null;
+		}
+
+		// 检查自己当前的祈福状态
+		int lastGetPrayCount = memberData.getLastGetPrayCount();// 之前的获取的魂石数量
+		int rewardCount = prayProcess - lastGetPrayCount;
+		if (rewardCount <= 0) {
+			return null;
+		}
+
+		PrayRewardInfo rewardInfo = null;
+		if (DateUtils.isResetTime(5, 0, 0, userGroupAttributeData.getLastPrayTime())) {
+			// 发送邮件
+			sendEmail(userId, GroupConst.PRAY_RESET_REWARD_MAIL_ID, prayCardId, rewardCount);
+		} else {
+			Player p = PlayerMgr.getInstance().find(userId);
+			if (p != null) {
+				ItemBagMgr.getInstance().addItem(p, prayCardId, rewardCount);
+
+				PrayRewardInfo.Builder rewardInfoBuilder = PrayRewardInfo.newBuilder();
+				rewardInfoBuilder.setSoulId(prayCardId);
+				rewardInfoBuilder.setCount(rewardCount);
+
+				rewardInfo = rewardInfoBuilder.build();
+			}
+		}
+
+		updateLastGetPrayRewardCount(userId);
+		return rewardInfo;
+	}
+
+	/**
+	 * 发送邮件
+	 * 
+	 * @param userId
+	 * @param mailId
+	 * @param prayCardId
+	 * @param rewardCount
+	 */
+	private void sendEmail(String userId, String mailId, int prayCardId, int rewardCount) {
+		EmailCfg emailCfg = EmailCfgDAO.getInstance().getEmailCfg(mailId);
 		if (emailCfg == null) {
 			return;
 		}
@@ -818,12 +898,10 @@ public class GroupMemberMgr {
 		emailData.setSender(emailCfg.getSender());
 
 		StringBuilder sb = new StringBuilder();
-		sb.append(prayCardId).append("~").append(prayProcess);
+		sb.append(prayCardId).append("~").append(rewardCount);
 
 		emailData.setEmailAttachment(sb.toString());
 
 		EmailUtils.sendEmail(userId, emailData);
-
-		mgr.updatePrayGetState(userId);// 更新领取状态
 	}
 }
