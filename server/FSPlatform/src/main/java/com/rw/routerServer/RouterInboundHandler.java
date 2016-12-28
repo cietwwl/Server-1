@@ -41,7 +41,6 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			obj.setResult(ResultState.EXCEPTION);
 			result = JsonUtil.writeValue(obj);
 		}
-		//System.out.println("response msg:" +result);
 		ByteBuf buf = Unpooled.copiedBuffer(((String)result + System.getProperty("line.separator")).getBytes("UTF-8"));
         ctx.writeAndFlush(buf);
 	}
@@ -57,5 +56,6 @@ public class RouterInboundHandler extends ChannelInboundHandlerAdapter {
 			throws Exception {
 		System.out.println("exceptionCaught");
 		super.exceptionCaught(ctx, cause);
+		ctx.close();
 	}
 }

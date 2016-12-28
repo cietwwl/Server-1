@@ -2,7 +2,7 @@ package com.rounter.client.config;
 
 public class RouterConst {
 	
-	public final static int MAX_CHANNEL_COUNT = 1;	// 处理的连接数
+	public final static int MAX_CHANNEL_COUNT = 2;	// 处理的连接数
 	public final static int MAX_THREAD_COUNT = 16;	// 处理的线程数
 	
 	public final static long MAX_OVER_TIME = 1000L;	// 单次最大超时毫秒数
