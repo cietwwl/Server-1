@@ -64,8 +64,8 @@ public class ActivityDetector {
 	}
 
 	public void detectActive() {
-		if(!ActivitySpecialTimeMgr.ISINIT.get()){
-			//等待登录服推送活动消息期间，不检测活动变化
+		if(!ActivitySpecialTimeMgr.ISINIT.get() && System.currentTimeMillis() - ActivitySpecialTimeMgr.LISTENTIME < 120000){
+			//等待登录服推送活动消息期间，不检测活动变化（限时2分钟）
 			return ;
 		}
 		Map<Integer, HashMap<String, ? extends ActivityCfgIF>> currentTotalMap = new HashMap<Integer, HashMap<String, ? extends ActivityCfgIF>>();
